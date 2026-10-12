@@ -4,7 +4,20 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- Shimadzu UVProbe `.spc` reader (`shimadzu-uvprobe`): UV-Vis and UV-Vis-NIR spectra (absorbance, reflectance) from the compound file, with the instrument model, serial number, software version and the data set's date. Galactic SPC keeps the extension for its own files. Checked against UVProbe's text exports on 3 files and read on 5 files from 3 public records.
+- ABF 1 command waveforms: trace 1 now holds the synthesized DAC command for ABF 1.6 and later episodic files with an epoch table on one DAC, as for ABF 2. Checked against pyABF inside the epochs and against recorded command monitors over whole sweeps.
+
 ### Fixed
+
+- FCS: `check` reported `crc_mismatch` on every file that stores a CRC. Writers store CRC-16/CCITT computed from 0x1D0F, not the bit-reflected form the standard describes; both are now accepted and `crc_ok` names the one that matched (14 files from 8 records).
+- FCS: acquisition times for `$DATE` written as `13 Mar 2014` (MoFlo), with Chinese month names (Accuri on a Chinese-language PC), as `dd-mm-yyyy` when the day is above 12 (partec), and for BeamCyte files that keep the date in `$BTIM`.
+- FCS: the instrument manufacturer is named for Gallios, Navios, Cytomics, DxFLEX, MoFlo, Accuri, FACSVerse, FACSLyric, Attune, NovoCyte, MACSQuant, Guava, partec and Apogee files, and Sony models written with an `LE-` prefix are recognised.
+- FCS: `table --compensate` failed on BD Accuri and Apogee files whose `$SPILLOVER` names parameters by number. A matrix that names parameters a file does not have now exits 6 with a hint instead of 2.
+- FlowJo: a non-XML file with the `.wsp` extension (CytExpert) is refused with a plain message instead of binary text.
+- Open Ephys GUI 0.6 legacy-format recording directories (with a `.timestamps` file) were refused as an unknown format.
+- Renishaw WiRE photoluminescence files: the x axis is wavelength in nm, not an unnamed `x`.
 
 - `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.
 - BMG SMART Control workbooks of kinetic runs: each cycle is now its own time point. `check` used to report the whole run as one time point with many values per well.

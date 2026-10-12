@@ -73667,3 +73667,131 @@ attribution = "4TU.ResearchData fb2b2d59 depositors"
 notes = "WiRE photoluminescence map (1085 spectra, 35 x 31), x list in nm (unit code 3) and a white-light JPEG (decoders differ by a level on some pixels); upstream mapping1.wdf"
 lossy = true
 
+
+[[file]]
+id = "figshare29858651-uvprobe-substrate"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare29858651-uvprobe-substrate.spc"
+url = "https://ndownloader.figshare.com/files/57029894"
+sha256 = "4e89c64b5ec5b15c3acbea541e5fd24b9caa052a1811415a9345236e3abacce6"
+size = 22528
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29858651 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 29858651 'Tailored nanosized AgInS<sub>2</sub>-ZnS Heterostructures via Substituted Thioureas: From Growth Dynamics to Optical Performance'"
+attribution = "Liudmila Loghina"
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance 190-850 nm, 661 points; upstream substrate.spc"
+
+[[file]]
+id = "figshare29858651-uvprobe-substrate-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare29858651-uvprobe-substrate-txt.txt"
+url = "https://ndownloader.figshare.com/files/57029897"
+sha256 = "d69d52655d8f9530219771b045f3044b432888e174b0ad02b411346f4233a081"
+size = 8969
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29858651 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 29858651 'Tailored nanosized AgInS<sub>2</sub>-ZnS Heterostructures via Substituted Thioureas: From Growth Dynamics to Optical Performance'"
+attribution = "Liudmila Loghina"
+notes = "UVProbe text export (wavelength, Abs., three decimals) of the .spc with the same stem; upstream substrate.txt"
+
+[[file]]
+id = "figshare29858651-uvprobe-baseline-air"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare29858651-uvprobe-baseline-air.spc"
+url = "https://ndownloader.figshare.com/files/57029888"
+sha256 = "822538b1dadfbddca952fe32871333d476b0bd6ce4860329104ca83de0df8c82"
+size = 22528
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29858651 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 29858651 'Tailored nanosized AgInS<sub>2</sub>-ZnS Heterostructures via Substituted Thioureas: From Growth Dynamics to Optical Performance'"
+attribution = "Liudmila Loghina"
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance baseline (air); upstream baseline=air.spc"
+
+[[file]]
+id = "figshare29858651-uvprobe-baseline-air-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare29858651-uvprobe-baseline-air-txt.txt"
+url = "https://ndownloader.figshare.com/files/57029891"
+sha256 = "ca86615cca19939ab17e73afc6f1dc8810179e5c5190adfef62be74fc73ffa1a"
+size = 8825
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29858651 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 29858651 'Tailored nanosized AgInS<sub>2</sub>-ZnS Heterostructures via Substituted Thioureas: From Growth Dynamics to Optical Performance'"
+attribution = "Liudmila Loghina"
+notes = "UVProbe text export of the .spc with the same stem; upstream baseline=air.txt"
+
+[[file]]
+id = "figshare29858651-uvprobe-usl18-52-1"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare29858651-uvprobe-usl18-52-1.spc"
+url = "https://ndownloader.figshare.com/files/57029906"
+sha256 = "4519189dedf203c2ba564e3520a609364bd9a00c70665a0efa4802315363a358"
+size = 22528
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29858651 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 29858651 'Tailored nanosized AgInS<sub>2</sub>-ZnS Heterostructures via Substituted Thioureas: From Growth Dynamics to Optical Performance'"
+attribution = "Liudmila Loghina"
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance of a nanocrystal sample; upstream USL18-52_1.spc"
+
+[[file]]
+id = "figshare29858651-uvprobe-usl18-52-1-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare29858651-uvprobe-usl18-52-1-txt.txt"
+url = "https://ndownloader.figshare.com/files/57029909"
+sha256 = "f3d46c64a6addfe3bb0a8d7143a0cbd0cb6963484a058ded2dcaf28813fbde2b"
+size = 8647
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29858651 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 29858651 'Tailored nanosized AgInS<sub>2</sub>-ZnS Heterostructures via Substituted Thioureas: From Growth Dynamics to Optical Performance'"
+attribution = "Liudmila Loghina"
+notes = "UVProbe text export of the .spc with the same stem; upstream USL18-52_1.txt"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69.spc"
+url = "https://ndownloader.figshare.com/files/62636680"
+sha256 = "43197a1c38b1538b1b4ae5bcb4e41c5135c69789fc00c25d2ae8262153989cb1"
+size = 21504
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance 200-800 nm, 601 points (another study); upstream USL19-69.spc"
+
+[[file]]
+id = "figshare30231052-uvprobe-dpvc"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare30231052-uvprobe-dpvc.spc"
+url = "https://ndownloader.figshare.com/files/58350172"
+sha256 = "6971977fff4ff2a0aee60e30e9af5803417ecefb95c4c16bb134ff12f4861384"
+size = 48128
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/30231052 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 30231052 'Recycling of Polyolefins Using Recycled PVC under Sunlight'"
+attribution = "Heng Liu, Ding-Wei Ji, Su-Yang Xu et al."
+notes = "UV-3600 Plus, UVProbe 2.71 on a Chinese-language PC, reflectance 200-2500 nm, 2301 points (value code 4); no export; upstream UV-Vis-NIR dPVC.spc"

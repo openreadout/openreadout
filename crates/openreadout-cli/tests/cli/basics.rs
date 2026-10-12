@@ -88,6 +88,7 @@ fn formats_lists_all_readers() {
             "agilent-fpa",
             "perkinelmer-fsm",
             "agilent-cary",
+            "shimadzu-uvprobe",
             "microcal-itc",
             "cytiva-biacore-blr",
             "cytiva-biacore-bme",

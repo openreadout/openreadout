@@ -65,6 +65,14 @@ pub(crate) static WITEC_PROJECT: AssuranceProfile = AssuranceProfile {
     basis: Basis::PriorArt,
 };
 
+pub(crate) static SHIMADZU_UVPROBE: AssuranceProfile = AssuranceProfile {
+    format_id: "shimadzu-uvprobe",
+    observe: observe_uvprobe,
+    validated: SHIMADZU_UVPROBE_VALIDATED,
+    confidence: SHIMADZU_UVPROBE_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
 pub(crate) static PERKINELMER_FSM: AssuranceProfile = AssuranceProfile {
     format_id: "perkinelmer-fsm",
     observe: observe_fsm,
@@ -410,6 +418,31 @@ fn observe_fsm(info: &FileInfo) -> Observations {
     }
     o
 }
+
+fn observe_uvprobe(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &[Scope::Metadata, Scope::Traces]);
+    }
+    common(&mut o, info);
+    for t in &info.traces {
+        if let Some(c) = t
+            .extra
+            .get("value_code")
+            .and_then(serde_json::Value::as_u64)
+        {
+            o.feature(K::Record, format!("value code {c}"), &[Scope::Traces]);
+        }
+    }
+    o
+}
+
+// BEGIN GENERATED shimadzu-uvprobe (cargo xtask assurance-audit --write; do not edit)
+const SHIMADZU_UVPROBE_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const SHIMADZU_UVPROBE_VALIDATED: &[Validated] = &[
+];
+// END GENERATED shimadzu-uvprobe
 
 // BEGIN GENERATED perkinelmer-fsm (cargo xtask assurance-audit --write; do not edit)
 const PERKINELMER_FSM_CONFIDENCE: Confidence = Confidence::Low;
