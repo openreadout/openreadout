@@ -1,0 +1,33 @@
+{
+ "id": "figshare29966063-overview-2-scenes",
+ "file": "figshare29966063-overview-2-scenes.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 7782,
+   "size_y": 5715,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "05e89f0be6f7c93afa5eb2512f3e903a"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 7783,
+   "size_y": 5715,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eb60cfb517d20888d161e40d5fe8afa1"
+    }
+   ]
+  }
+ ]
+}

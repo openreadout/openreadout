@@ -1,0 +1,26 @@
+{
+ "id": "figshare28745828-Supp-Fig-3-WT-iSMC-B-nls-Flag-594-dapi-1",
+ "file": "figshare28745828-Supp-Fig-3-WT-iSMC-B-nls-Flag-594-dapi-1.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "939b021e349a381d6d43f9cb40826573"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eb403a4c28704d3fb1ae19b7429a9817"
+    }
+   ]
+  }
+ ]
+}

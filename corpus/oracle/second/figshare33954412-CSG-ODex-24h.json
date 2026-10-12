@@ -1,0 +1,26 @@
+{
+ "id": "figshare33954412-CSG-ODex-24h",
+ "file": "figshare33954412-CSG-ODex-24h.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8d6d81573e2ac22342c9bf3de9400d8e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7b3e6abe1456fd0094e26d8e04364852"
+    }
+   ]
+  }
+ ]
+}

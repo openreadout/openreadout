@@ -1,0 +1,38 @@
+{
+ "id": "zenodo8367352-FigureS3-GFP-LRRK2-wt-HA-empty",
+ "file": "zenodo8367352-FigureS3-GFP-LRRK2-wt-HA-empty.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1912,
+   "size_y": 1912,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9fc74e2fb72d278db66e3d9f7a510895"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2276d5088237e08c76dfb2797ffe804c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a03502f8e74329c61e5f692bff213449"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5bf1ef1df9fb888eb43c1cfbb61ac4e2"
+    }
+   ]
+  }
+ ]
+}

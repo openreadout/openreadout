@@ -1,0 +1,20 @@
+{
+ "id": "figshare22922456-E3-6-testes",
+ "file": "figshare22922456-E3-6-testes.oir",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ae1a2f4a496e4c0b74ff9939b4dea0e6"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "id": "figshare32174592-Mock-transfected-DMSO-treatment-IR1-TR2",
+ "file": "figshare32174592-Mock-transfected-DMSO-treatment-IR1-TR2.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 476,
+   "size_y": 476,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "59971b9689e557a69053bf2676097082"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fc980221c054407f05c08ceffdaa9806"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "499f1b2d877bd7bd9cd91778cb69784a"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "80acd139bdca31f9dab928f68a881874"
+    }
+   ]
+  }
+ ]
+}

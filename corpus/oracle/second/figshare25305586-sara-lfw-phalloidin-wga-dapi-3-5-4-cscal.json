@@ -1,0 +1,32 @@
+{
+ "id": "figshare25305586-sara-lfw-phalloidin-wga-dapi-3-5-4-cscal",
+ "file": "figshare25305586-sara-lfw-phalloidin-wga-dapi-3-5-4-cscal.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "633d7beca0fc02d33a01eb6c87684391"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d193a7161638aa263cff79bcff5109f1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "482d5b39c391edce9396f4c0aed1c452"
+    }
+   ]
+  }
+ ]
+}

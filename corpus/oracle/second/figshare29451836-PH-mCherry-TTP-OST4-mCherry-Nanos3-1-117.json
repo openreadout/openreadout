@@ -1,0 +1,32 @@
+{
+ "id": "figshare29451836-PH-mCherry-TTP-OST4-mCherry-Nanos3-1-117",
+ "file": "figshare29451836-PH-mCherry-TTP-OST4-mCherry-Nanos3-1-117.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66a73bc53fab404bf5b64b7934b55c97"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ac6fd809dca42d877318aac3e4fd7b9d"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c3b8c95e73ed9078216709078d6347aa"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "id": "figshare29052365-2019-11-15-Ng2-DsRed-Ret-RFPgr-DSREDrd-L",
+ "file": "figshare29052365-2019-11-15-Ng2-DsRed-Ret-RFPgr-DSREDrd-L.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "aab1771cb510ac999468fa2f8554167b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0d5bbd060ac8b43ff3f91efbe23f445"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ce15a74f12fd1414fe053a41a83cd4c6"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b857edf7639bd0a7c6252fea2b2328fa"
+    }
+   ]
+  }
+ ]
+}

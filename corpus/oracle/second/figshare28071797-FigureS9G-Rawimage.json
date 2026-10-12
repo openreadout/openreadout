@@ -1,0 +1,26 @@
+{
+ "id": "figshare28071797-FigureS9G-Rawimage",
+ "file": "figshare28071797-FigureS9G-Rawimage.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "60c6b42e0c09ec2d4e119c88e2261c9d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "79f2fd16001a5c1b8f7a8fb56960b552"
+    }
+   ]
+  }
+ ]
+}

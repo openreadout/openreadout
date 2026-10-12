@@ -1,0 +1,32 @@
+{
+ "id": "zenodo23222328-Test-exmaple",
+ "file": "zenodo23222328-Test-exmaple.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2df5949f45b52cb30afb8f3d397ff16b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fa28ed94f1e783e06a9d6eba6e1b97c0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7dc6a226c72a7da082f90b3333d48cc3"
+    }
+   ]
+  }
+ ]
+}

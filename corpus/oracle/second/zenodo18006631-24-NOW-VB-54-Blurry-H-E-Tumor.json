@@ -1,0 +1,14 @@
+{
+ "id": "zenodo18006631-24-NOW-VB-54-Blurry-H-E-Tumor",
+ "file": "zenodo18006631-24-NOW-VB-54-Blurry-H-E-Tumor.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 15992,
+   "size_y": 16310,
+   "planes": [],
+   "skip": "larger than ORACLE_MAX_PIXELS"
+  }
+ ]
+}

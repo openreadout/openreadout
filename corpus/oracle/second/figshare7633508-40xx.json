@@ -1,0 +1,32 @@
+{
+ "id": "figshare7633508-40xx",
+ "file": "figshare7633508-40xx.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1280,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f19d8aeeae3aad2495cee8d460b6d38e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eb5c5912a2176be1710be90c4934acbb"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0661f1f9a726f7ad7d51c4661333dd32"
+    }
+   ]
+  }
+ ]
+}

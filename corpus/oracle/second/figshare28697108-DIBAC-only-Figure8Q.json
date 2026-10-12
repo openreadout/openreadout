@@ -1,0 +1,26 @@
+{
+ "id": "figshare28697108-DIBAC-only-Figure8Q",
+ "file": "figshare28697108-DIBAC-only-Figure8Q.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "063adc4396a8e6c8e4e5ec62fb1f7a65"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87d0ba4edbd0689421aba5373c022a7d"
+    }
+   ]
+  }
+ ]
+}

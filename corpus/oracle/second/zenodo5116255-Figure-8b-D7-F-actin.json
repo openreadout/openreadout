@@ -1,0 +1,20 @@
+{
+ "id": "zenodo5116255-Figure-8b-D7-F-actin",
+ "file": "zenodo5116255-Figure-8b-D7-F-actin.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2752,
+   "size_y": 2208,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d272ce107e4a7610fcb367a258fc1543"
+    }
+   ]
+  }
+ ]
+}

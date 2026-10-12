@@ -1,0 +1,38 @@
+{
+ "id": "figshare30225319-ROXY10",
+ "file": "figshare30225319-ROXY10.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "12091ea814caea29ec6db99f8434cf5b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0a4bc8c0e20b841309349acd3ef5f605"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0dcb58e66034349d840af0008c2d3f02"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "18013e745ec9d95636e57d9d3745aa12"
+    }
+   ]
+  }
+ ]
+}

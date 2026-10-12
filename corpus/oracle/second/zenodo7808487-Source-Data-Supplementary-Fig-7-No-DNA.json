@@ -1,0 +1,163 @@
+{
+ "id": "zenodo7808487-Source-Data-Supplementary-Fig-7-No-DNA",
+ "file": "zenodo7808487-Source-Data-Supplementary-Fig-7-No-DNA.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Image001",
+   "size_x": 1920,
+   "size_y": 1440,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe7df34edf767bd6188dd44d570502da"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "48306bed9e2f620823337ebe6bf1ea6e"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "110110163c6ec5588bd067d2c70ec6d7"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Image002",
+   "size_x": 1920,
+   "size_y": 1440,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "11510ec2c2d8d7045394321963a4db33"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7255f394c644cf44319657fb917e3edf"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0df8e91fbb2c47bf7131cc900b7c340c"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Image003",
+   "size_x": 1920,
+   "size_y": 1440,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f06cb515703a773b23e2e7dbaa8cdb3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "70454797ef2426af6090be0d743a7eca"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "370fc04313e12155368e36e9ebc64871"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Image004",
+   "size_x": 1920,
+   "size_y": 1440,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31002ca2b175511560997a6293565717"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2531d42dd22d9e0233d4f034e1ea3147"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "15f78b6eb6e5c4ddb554855b7d9ec34d"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "Image005",
+   "size_x": 1920,
+   "size_y": 1440,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "27ffb14559a7a56ab3de523a7db14d55"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dbccacecd6531934d8a27ba927cc6275"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8ba9a892e1000b3e80e960fa8d745c60"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "Image006",
+   "size_x": 1920,
+   "size_y": 1440,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "df97357397e16531a6a1e1bb1dfb06e3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "839cbac011a5d3cf12d0438541548680"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a44acd99f585918b850351cbd4f679bb"
+    }
+   ]
+  }
+ ]
+}

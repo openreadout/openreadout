@@ -1,0 +1,20 @@
+{
+ "id": "figshare31151524-PBS",
+ "file": "figshare31151524-PBS.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2304,
+   "size_y": 2304,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4d9fee65f69f8662fea84423a072c0e"
+    }
+   ]
+  }
+ ]
+}

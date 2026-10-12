@@ -1,0 +1,20 @@
+{
+ "id": "figshare33945238-Figure-1A-WT-1h-czi",
+ "file": "figshare33945238-Figure-1A-WT-1h-czi.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2752,
+   "size_y": 2208,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f551115b69a3dcd6fc6ece5facf561a7"
+    }
+   ]
+  }
+ ]
+}

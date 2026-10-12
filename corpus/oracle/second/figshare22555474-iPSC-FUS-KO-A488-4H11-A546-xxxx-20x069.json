@@ -1,0 +1,26 @@
+{
+ "id": "figshare22555474-iPSC-FUS-KO-A488-4H11-A546-xxxx-20x069",
+ "file": "figshare22555474-iPSC-FUS-KO-A488-4H11-A546-xxxx-20x069.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1080,
+   "size_y": 1280,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b95dd421fd3a679e9dd6323bf511b58a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fa9d8c367c06979ac32707d1e92a811e"
+    }
+   ]
+  }
+ ]
+}

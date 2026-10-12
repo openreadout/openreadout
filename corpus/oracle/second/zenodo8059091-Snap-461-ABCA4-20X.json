@@ -1,0 +1,26 @@
+{
+ "id": "zenodo8059091-Snap-461-ABCA4-20X",
+ "file": "zenodo8059091-Snap-461-ABCA4-20X.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c5b819dd41abc8a683a514f7f76b6961"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0b8ba7def58f34709b6154b9ec1933c"
+    }
+   ]
+  }
+ ]
+}

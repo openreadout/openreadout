@@ -1,0 +1,26 @@
+{
+ "id": "figshare29318432-WT-20x-z-Maximum-intensity-projection",
+ "file": "figshare29318432-WT-20x-z-Maximum-intensity-projection.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "64700aafd487a281f2472d9aeb47e1df"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8d34db154af8837e44417c4f8368cb63"
+    }
+   ]
+  }
+ ]
+}
