@@ -298,3 +298,9 @@ Search method for the non-MTBLS404 files: PRIDE v3 API listings (`/pride/ws/arch
 
 **Corpus files:** `msv94528-idx-msnlib-peptide01-b18`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls14308-mwy251008a-mix01`, `mtbls14508-mh-b4-c18-pos-dda-r01`, `pxd059315-ascend-etd-wkl-1` (development inputs, file version 66) and their depositor mzMLs, which hold `Pump Pressure N` chromatograms (MS:1003019). **Prior art consulted:** none.
 **What was found.** Each of the seven exported chromatograms equals one of our analog traces point for point: same times, values × 10⁵ (bar stored, pascal exported). No parsing changed. The corpus test `thermo_detectors` now checks this and writes results lines that confirm the files' traces.
+
+## 2026-10-12 — file version 60 (Richard Zimring with Claude as assistant)
+
+**Search.** The version bytes of one to three `.raw` files in about 1,100 PRIDE LTQ-era projects, about 300 MetaboLights Thermo studies and about 650 runs of the PNNL Biodiversity Library (MassIVE MSV000079053) showed versions 57 and 60–66, none of 58, 59 or 65.
+**Corpus files:** `msv79053-ltqorbi-v60-saltyph-76` (LTQ Orbitrap, Xcalibur 2.0 Beta 3, 2006) and `msv79053-ltq-v60-rpick-150` (LTQ, Xcalibur 2.0, 2006), both version 60, from MassIVE MSV000079053 (CC0), each with the ProteoWizard 3.0.6721 conversion MassIVE made of it (sourceFile SHA-1 equal to the `.raw`'s). **Prior art consulted:** none new.
+**Observed.** The prior-art layouts read both files unchanged: all 438 and 8,678 spectra equal the conversions' peak lists exactly, with no metadata mismatch once the converter's precursor convention is applied (it names the isolation target, with the filter's two decimals, where the monoisotopic m/z lies 1.5 or more away, as ProteoWizard 3.0.4337 does; manifest `export_monoisotopic_max_shift`). **Changed:** version 60 joins `SUPPORTED_VERSIONS`.

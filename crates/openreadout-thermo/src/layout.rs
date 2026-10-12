@@ -16,7 +16,7 @@ pub const CHECKSUM_OFFSET: u64 = 148;
 /// Number of leading bytes covered by the header checksum.
 pub const CHECKSUM_SPAN: u64 = 10 * 1024 * 1024;
 /// File versions whose layout we decode and have validated on corpus files.
-pub const SUPPORTED_VERSIONS: [u32; 6] = [57, 61, 62, 63, 64, 66];
+pub const SUPPORTED_VERSIONS: [u32; 7] = [57, 60, 61, 62, 63, 64, 66];
 
 /// One of the two time stamps in the file header.
 #[derive(Debug, Clone, Default)]

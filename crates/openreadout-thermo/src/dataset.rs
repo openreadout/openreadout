@@ -235,7 +235,7 @@ impl ThermoDataset {
             return Err(Error::unsupported(
                 FORMAT_ID,
                 format!("file version {version}"),
-                "Versions 57, 61, 62, 63, 64 and 66 are validated; 58-60 and 65 are attempted. Older (LCQ-era) and newer layouts are not decoded.",
+                "Versions 57, 60, 61, 62, 63, 64 and 66 are validated; 58, 59 and 65 are attempted. Older (LCQ-era) and newer layouts are not decoded.",
             ));
         }
         c.seek_to(FILE_HEADER_LEN as usize)?;
