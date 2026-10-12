@@ -601,11 +601,14 @@ const THERMO_OMNIC_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const THERMO_OMNIC_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "INFRARED INTERFEROGRAM", 22, 12, 22),
-    a::row(K::Acquisition, "INFRARED SPECTRUM", 30, 14, 30),
+    a::row(K::Acquisition, "INFRARED SPECTRUM", 30, 14, 32),
+    a::row(K::Acquisition, "RAMAN SPECTRUM", 0, 0, 1),
     a::row(K::Acquisition, "final format %Transmittance", 5, 4, 5),
     a::row(K::Acquisition, "final format Absorbance", 11, 3, 11),
     a::row(K::Acquisition, "final format Volts", 1, 1, 1),
     a::row(K::Field, "experiment.acquisition.started_at", 21, 9, 30),
+    a::row(K::Layout, "map, series layout", 0, 0, 1),
+    a::row(K::Layout, "map, spa layout", 0, 0, 2),
     a::row(K::Layout, "spa", 22, 13, 22),
     a::row(K::Layout, "spg", 4, 2, 4),
     a::row(K::Layout, "srs", 6, 1, 6),

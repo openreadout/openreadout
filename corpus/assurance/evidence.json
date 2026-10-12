@@ -137638,6 +137638,56 @@
       ]
     },
     {
+      "id": "figshare29920622-trios-sdt650-no-points",
+      "format": "ta-trios",
+      "source": "figshare 29920622 'dataset of solvent-free crosslinking of hydroxypropyl cellulose via esterification",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "generation 14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TRIOS 5.0",
+          []
+        ],
+        [
+          "instrument",
+          "SDT650",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
       "id": "trios-zenodo14587622-tga-plasticized",
       "format": "ta-trios",
       "source": "zenodo:14587622",
@@ -140271,6 +140321,70 @@
       ]
     },
     {
+      "id": "figshare32180061-omnic-map-mp2",
+      "format": "thermo-omnic",
+      "source": "figshare 32180061 'ftir analysis",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "layout",
+          "map, spa layout",
+          [
+            "metadata",
+            "pixels",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "INFRARED SPECTRUM",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        13
+      ]
+    },
+    {
+      "id": "figshare32180061-omnic-map-mp6",
+      "format": "thermo-omnic",
+      "source": "figshare 32180061 'ftir analysis",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "layout",
+          "map, spa layout",
+          [
+            "metadata",
+            "pixels",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "INFRARED SPECTRUM",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        13
+      ]
+    },
+    {
       "id": "figshare91210-ddw",
       "format": "thermo-omnic",
       "source": "figshare 91210 'ftir spectra ddw",
@@ -141224,6 +141338,38 @@
       "inferred": [
         3,
         12
+      ]
+    },
+    {
+      "id": "zenodo10598031-omnic-map-hela-raman",
+      "format": "thermo-omnic",
+      "source": "zenodo:10598031",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "layout",
+          "map, series layout",
+          [
+            "metadata",
+            "pixels",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "RAMAN SPECTRUM",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        5
       ]
     },
     {
