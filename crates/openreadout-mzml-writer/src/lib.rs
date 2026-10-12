@@ -1779,7 +1779,7 @@ impl DerivedChromatograms {
 /// `132.02499389648438`).
 fn id_mz(v: f64) -> String {
     let f = v as f32;
-    if f64::from(f) == v {
+    if f64::from(f).to_bits() == v.to_bits() {
         format!("{f}")
     } else {
         format!("{v}")

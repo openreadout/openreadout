@@ -140,10 +140,10 @@ fn observe(info: &FileInfo) -> Observations {
         }
         // Bare peak lists (ITQ 900) have their own packet layout, and their events leave the
         // data kind, MS level and scan range unstated (filled in as the format note says).
-        if s.extra.get("peak_list_scans").is_some() {
+        if s.extra.contains_key("peak_list_scans") {
             o.feature(K::Acquisition, "peak-list spectra", &[Scope::Spectra]);
         }
-        if s.extra.get("events_completed").is_some() {
+        if s.extra.contains_key("events_completed") {
             o.derived(
                 format!("spectra[{}].ms_levels", s.index),
                 "an event with no MS level and no reaction is a full scan",
