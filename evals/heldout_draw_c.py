@@ -733,6 +733,8 @@ def specs(spec, fact, g, H) -> list:
             lambda o, m: g.number(o_um(o) * 1000.0, "nm", rel=0.01),
             "oracle: /images/0/physical_size_um/x (ncempy, black box), in nm",
             answer_hint=unit_hint,
+            stage_as="sample_1.ser",
+            extra=[("ho-zenodo4321274-emi-tem", "sample.emi")],
         ),
         spec(
             "ho-c-em-velox-pixel",
