@@ -477,7 +477,7 @@ def mentions_openreadout(value: Any) -> bool:
 def used_openreadout(tool_inputs: list[dict]) -> bool:
     for call in tool_inputs:
         name = call.get("name") or ""
-        if name.startswith("mcp__openreadout"):
+        if name.startswith("mcp__") and "openreadout" in name:
             return True
         if name in ("Bash", "Skill") and mentions_openreadout(call.get("input")):
             return True

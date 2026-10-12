@@ -100,6 +100,7 @@ def test_an_integer_count_is_not_matched_by_rounding():
         ([{"name": "Bash", "input": {"command": "openreadout info sample.czi"}}], True),
         ([{"name": "Skill", "input": {"skill": "openreadout:openreadout"}}], True),
         ([{"name": "mcp__openreadout__openreadout_info", "input": {}}], True),
+        ([{"name": "mcp__plugin_openreadout_openreadout__openreadout_info", "input": {}}], True),
         ([{"name": "Read", "input": {"file_path": "/tmp/openreadout-eval-ab12/q/sample.txt"}}], False),
         ([], False),
     ],
