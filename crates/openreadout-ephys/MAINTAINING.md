@@ -58,6 +58,9 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | `heka-patchmaster` | [format note](../../docs/formats/heka-patchmaster.md), [provenance log](../../docs/provenance/heka-patchmaster.md) | high | vendor docs | 10 / 10 | 6 | - |
 | `ced-spike2` | [format note](../../docs/formats/ced-spike2.md), [provenance log](../../docs/provenance/ced-spike2.md) | high | prior art | 24 / 22 | 11 | - |
 | `winwcp` | [format note](../../docs/formats/winwcp.md), [provenance log](../../docs/provenance/winwcp.md) | medium | prior art | 4 / 4 | 3 | - |
+| `tdt-tank` | [format note](../../docs/formats/tdt-tank.md), [provenance log](../../docs/provenance/tdt-tank.md) | low | prior art | 6 / 6 | 1 | - |
+| `axona-dacqusb` | [format note](../../docs/formats/axona-dacqusb.md), [provenance log](../../docs/provenance/axona-dacqusb.md) | low | prior art | 3 / 3 | 1 | - |
+| `mcs-raw` | [format note](../../docs/formats/mcs-raw.md), [provenance log](../../docs/provenance/mcs-raw.md) | low | prior art | 1 / 1 | 1 | - |
 | `open-ephys` | [format note](../../docs/formats/open-ephys.md), [provenance log](../../docs/provenance/open-ephys.md) | high | vendor docs | 17 / 17 | 3 | - |
 
 ### Source map
@@ -65,11 +68,15 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | file | what it does (its module documentation) |
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the readers in this crate: the variant features of a file and the feature values the development corpus validates |
+| [`src/axona/mod.rs`](src/axona/mod.rs) | Axona DacqUSB recordings: a `.set` file of `key value` lines, the raw `.bin` (432-byte packets of 3 samples × 64 int16 channels) and tetrode spike files `.1` … `.32`, all sharing… |
+| [`src/axona/tests.rs`](src/axona/tests.rs) | Synthetic-session tests of the Axona reader |
 | [`src/heka/bundle.rs`](src/heka/bundle.rs) | The PatchMaster "bundle" header: a signature, the writing program's version, and up to twelve items, each the start, length and extension of an embedded file (`.dat` samples… |
 | [`src/heka/dataset.rs`](src/heka/dataset.rs) | `Dataset` for a PatchMaster bundle: every series is a trace (sweeps × channels); channels of a series whose sample interval or point counts differ form further traces of that… |
 | [`src/heka/mod.rs`](src/heka/mod.rs) | HEKA PatchMaster bundle files (`.dat`): a bundle header, the samples, and the pulsed tree (Root → Group → Series → Sweep → Trace) |
 | [`src/heka/tree.rs`](src/heka/tree.rs) | HEKA's "Tree" container and the pulsed tree (`.pul`) inside a bundle: Root → Group → Series → Sweep → Trace records, each followed by its child count |
 | [`src/lib.rs`](src/lib.rs) | Readers for electrophysiology recordings that have no other home in OpenReadout: HEKA PatchMaster bundles (`heka-patchmaster`), CED Spike2 `.smr`/`.smrx` files (`ced-spike2`), |
+| [`src/mcsraw/mod.rs`](src/mcsraw/mod.rs) | Multi Channel Systems MC_DataTool binary exports (`.raw` written with the header option): a text header ending at `EOH`, then interleaved uint16 frames of every stream |
+| [`src/mcsraw/tests.rs`](src/mcsraw/tests.rs) | Synthetic-file tests of the MC_DataTool reader |
 | [`src/openephys/binary.rs`](src/openephys/binary.rs) | Open Ephys binary format: `[Record Node N/]experimentE/recordingR/` directories, each with a `structure.oebin` (JSON), `continuous/<stream>/continuous.dat` (interleaved int16) with |
 | [`src/openephys/dataset.rs`](src/openephys/dataset.rs) | `Dataset` for Open Ephys recordings (binary and legacy formats) |
 | [`src/openephys/legacy.rs`](src/openephys/legacy.rs) | The legacy "Open Ephys format": one `.continuous` file per channel (1024-byte text header, then 2070-byte records of 1024 big-endian int16 samples), `.events` and `.spikes` files; |
@@ -81,6 +88,10 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | [`src/spike2/file64.rs`](src/spike2/file64.rs) | The 64-bit Spike2 `.smrx` layout, derived from the files and the Spike2 software's own exports of them (no CED documentation or library; `docs/provenance/ced-spike2.md`): a header… |
 | [`src/spike2/mod.rs`](src/spike2/mod.rs) | CED Spike2 data files: 32-bit `.smr` and 64-bit `.smrx` |
 | [`src/spike2/tests.rs`](src/spike2/tests.rs) | Synthetic-file tests of the Spike2 reader |
+| [`src/tdt/dataset.rs`](src/tdt/dataset.rs) | `Dataset` for a TDT block or tank: one trace per stream store (channels are the store's channels; blocks are sweeps), a `spikes` table of snippets and an `epocs` table of strobe |
+| [`src/tdt/mod.rs`](src/tdt/mod.rs) | Tucker-Davis Technologies (TDT) tanks and blocks: a block is a directory of files sharing a stem (`.tsq` index, `.tev` data, `.Tbk` store headers, `.Tdx`, `.tin`, `.tnt`… |
+| [`src/tdt/tests.rs`](src/tdt/tests.rs) | Synthetic-block tests of the TDT reader |
+| [`src/tdt/tsq.rs`](src/tdt/tsq.rs) | The `.tsq` index of a TDT block: a run of 40-byte records (size in 4-byte words, event type, four-character store name, channel, sort code, float64 time stamp in seconds since… |
 | [`src/winwcp/mod.rs`](src/winwcp/mod.rs) | WinWCP `.wcp` files (Strathclyde Electrophysiology Software): a 1024-byte `KEY=value` text header, then `NR` records of an analysis header and interleaved int16 samples |
 | [`src/winwcp/tests.rs`](src/winwcp/tests.rs) | Synthetic-file tests of the WinWCP reader |
 
@@ -90,6 +101,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature format_version `v`
 - feature layout `format!("{} channels", t.channels.len())`
+- feature layout `"tank", &all`
+- feature layout `"block", &all`
+- feature record `"stream"`
+- feature sample_layout `f`
+- feature record `"snippet"`
+- feature record `"strobe"`
+- feature record `"strobe-off"`
+- feature layout `"raw packets"`
+- feature record `"tetrode spikes"`
+- feature writer_version `v`
 - feature record `k`
 - feature layout `"binary"`
 - feature format_version `format!("GUI {p}")`
@@ -102,6 +123,11 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `"several sweeps"` (descriptive)
 - feature acquisition `m` (descriptive)
 - feature layout `"series split by sample grid"` (descriptive)
+- undecoded "unread stores"
+- undecoded "scalar records"
+- undecoded "data past the end of the .tev"
+- undecoded "EEG, position and other session files"
+- undecoded "cut-short files"
 - undecoded "damaged blocks"
 - undecoded "irregular channel files"
 - undecoded "binary event streams"
@@ -112,12 +138,17 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - assumed "channel units"
 - assumed "zero subtraction"
 - calibration "ADC counts to channel units"
+- calibration "ADC counts to µV"
 - calibration "ADC counts to amperes and volts"
 
 ### Validated variants and the corpus files that pin them
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
+| `axona-dacqusb` | field | `experiment.acquisition.started_at` | descriptive | 3 | 3 | `gin-axona-multi-modal`, `gin-axona-raw`, `gin-axona-unit-spikes` |
+| `axona-dacqusb` | layout | `raw packets` | traces | 2 | 2 | `gin-axona-multi-modal`, `gin-axona-raw` |
+| `axona-dacqusb` | record | `tetrode spikes` | tables | 2 | 2 | `gin-axona-multi-modal`, `gin-axona-unit-spikes` |
+| `axona-dacqusb` | writer_version | `1.2.2.16` | descriptive | 3 | 3 | `gin-axona-multi-modal`, `gin-axona-raw`, `gin-axona-unit-spikes` |
 | `ced-spike2` | field | `experiment.acquisition.started_at` | descriptive | 21 | 23 | `figshare25112837-fig2-aud-smrx`, `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx` |
 | `ced-spike2` | format_version | `3` | metadata, tables, traces | 2 | 2 | `spike2-file-spike2-3-smr`, `zenodo4985334-aa-mvc-smr` |
 | `ced-spike2` | format_version | `4` | metadata, tables, traces | 1 | 1 | `spike2-file-spike2-1-smr` |
@@ -164,6 +195,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `heka-patchmaster` | record | `virtual traces` | traces | 1 | 1 | `zenodo4992914-04-11-12-hek-prestin` |
 | `heka-patchmaster` | sample_layout | `float32` | traces | 1 | 1 | `zenodo4992914-04-11-12-hek-prestin` |
 | `heka-patchmaster` | sample_layout | `int16` | traces | 10 | 10 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages` |
+| `mcs-raw` | writer_version | `2.6.10` | metadata, traces | 1 | 1 | `gin-rawmcs-raw-mcs-with-header-1` |
 | `open-ephys` | format_version | `GUI 0.4` | metadata, tables, traces | 3 | 3 | `oe-bin-neural-and-non-neural-data-mixed`, `oe-bin-v0-4-4-1-with-spikes`, `oe-bin-v0-4-4-1-with-video-tracking` |
 | `open-ephys` | format_version | `GUI 0.5` | metadata, tables, traces | 2 | 2 | `oe-bin-v0-5-3-two-neuropixels-stream`, `oe-bin-v0-5-x-two-nodes` |
 | `open-ephys` | format_version | `GUI 0.6` | metadata, tables, traces | 5 | 5 | `oe-bin-v0-6-x-neuropixels-missing-folders`, `oe-bin-v0-6-x-neuropixels-multiexp-multistream`, `oe-bin-v0-6-x-neuropixels-with-sync` |
@@ -173,6 +205,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `open-ephys` | layout | `binary` | metadata, tables, traces | 11 | 11 | `oe-bin-neural-and-non-neural-data-mixed`, `oe-bin-v0-4-4-1-with-spikes`, `oe-bin-v0-4-4-1-with-video-tracking` |
 | `open-ephys` | layout | `legacy` | metadata, tables, traces | 6 | 6 | `oe-legacy-rhythmdata-test-nodes`, `oe-legacy-sampledata-1`, `oe-legacy-sampledata-2-multiple-starts` |
 | `open-ephys` | layout | `several sweeps` | descriptive | 2 | 2 | `oe-bin-v0-5-x-two-nodes`, `oe-legacy-sampledata-2-multiple-starts` |
+| `tdt-tank` | field | `experiment.acquisition.started_at` | descriptive | 3 | 3 | `gin-tdt-aep-05`, `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block` |
+| `tdt-tank` | layout | `block` | metadata, tables, traces | 5 | 5 | `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block`, `gin-tdt-epocs-with-offsets-1` |
+| `tdt-tank` | layout | `tank` | metadata, tables, traces | 1 | 1 | `gin-tdt-aep-05` |
+| `tdt-tank` | record | `snippet` | tables | 1 | 1 | `gin-tdt-aep-05` |
+| `tdt-tank` | record | `stream` | traces | 3 | 3 | `gin-tdt-aep-05`, `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block` |
+| `tdt-tank` | record | `strobe` | tables | 4 | 4 | `gin-tdt-aep-05`, `gin-tdt-epocs-with-offsets-1`, `gin-tdt-epocs-with-offsets-2` |
+| `tdt-tank` | record | `strobe-off` | tables | 2 | 2 | `gin-tdt-epocs-with-offsets-1`, `gin-tdt-epocs-with-offsets-2` |
+| `tdt-tank` | sample_layout | `float32` | traces | 2 | 2 | `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block` |
+| `tdt-tank` | sample_layout | `int16` | traces | 1 | 1 | `gin-tdt-aep-05` |
 | `winwcp` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file` |
 | `winwcp` | format_version | `8` | metadata, traces | 1 | 1 | `winwcp-file-winwcp-1` |
 | `winwcp` | format_version | `9` | metadata, traces | 3 | 3 | `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file`, `winwcp-xarray-graph-example` |
@@ -183,9 +224,10 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_heka`, `whole_openephys`, `whole_spike2`, `whole_winwcp`
-- corpus inputs by tier: full 1, heldout 5, smoke 25, standard 29
-- golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
+- committed fixtures: 2 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_heka`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
+- corpus inputs by tier: full 1, heldout 5, smoke 34, standard 30
+- golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/tdt-tank.jsonl`](../../corpus/snapshots/tdt-tank.jsonl), [`corpus/snapshots/axona-dacqusb.jsonl`](../../corpus/snapshots/axona-dacqusb.jsonl), [`corpus/snapshots/mcs-raw.jsonl`](../../corpus/snapshots/mcs-raw.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
 
 ### Open new-variant intakes
 
