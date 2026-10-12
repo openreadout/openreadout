@@ -1259,9 +1259,19 @@ impl ShimadzuDataset {
         self.cfb
             .entries
             .iter()
-            .filter(|e| !e.is_stream && e.path.ends_with("Raw Data"))
+            .filter(|e| {
+                !e.is_stream && (e.path.ends_with("Raw Data") || e.path.ends_with("RawData"))
+            })
             .map(|e| e.path.clone())
             .collect()
+    }
+
+    /// Records of LCMS-9030 Q-TOF data (`QTFL RawData`), which the reader does not decode.
+    fn qtof_records(&self) -> Option<u64> {
+        self.cfb
+            .stream("QTFL RawData/Centroid TIC")
+            .or_else(|| self.cfb.stream("QTFL RawData/Profile TIC"))
+            .map(|e| e.size / 8)
     }
 }
 
@@ -1274,6 +1284,11 @@ impl Dataset for ShimadzuDataset {
         )];
         if self.signals.is_empty() && self.tlm.is_none() {
             notes.push("no decodable signal stream (no `Chromatogram ChN`, PDA 3-D or LC-MS data); see `info --view structure`".into());
+        }
+        if let Some(n) = self.qtof_records() {
+            notes.push(format!(
+                "LC-MS Q-TOF data (QTFL RawData, {n} scans) are not read: their m/z are flight times that need the instrument's calibration, which is not decoded; export them with LabSolutions or ProteoWizard msconvert and read the mzML"
+            ));
         }
         if let Some(t) = &self.tlm {
             let profile = t

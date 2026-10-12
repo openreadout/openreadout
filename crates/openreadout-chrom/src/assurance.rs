@@ -389,6 +389,9 @@ fn observe_shimadzu(info: &FileInfo) -> Observations {
             n.to_string(),
         );
     }
+    if let Some(n) = a::note_with(info, "LC-MS Q-TOF data (QTFL RawData") {
+        o.undecoded("LC-MS Q-TOF spectra", &[], n.to_string());
+    }
     if let Some(n) = a::note_with(info, "values are the detector's stored integers") {
         o.calibration(
             "detector integers to signal units",
