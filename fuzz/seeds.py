@@ -126,6 +126,7 @@ COMMITTED_CUTS = [
     ("whole_cary", "cary-z14894113-a2.dsw", 64 * 1024),  # CC-BY-4.0
     ("whole_cary", "cary-pyspecdata-ras-stability4.bsk", 128 * 1024),  # CC0-1.0
     ("whole_itc", "itc-zenodo6608282-d25-50um.itc", 16 * 1024),  # CC0-1.0
+    ("whole_uvprobe", "figshare29858651-uvprobe-substrate.spc", 32 * 1024),  # CC-BY-4.0
 ]
 # (target, [(corpus file, bytes to keep), ...]) joined by BUNDLE_SEP in the target's order
 OIF = "olympus-fv/zenodo4421962-oif/Bead12/"

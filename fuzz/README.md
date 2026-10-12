@@ -51,7 +51,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_empower_arw` | Waters Empower ASCII export `.arw` (a small synthetic export) |
 | `whole_fcs`; `whole_plate`, `whole_plate_xlsx`; `assay_input` | flow cytometry; plate-reader text/CSV and XLSX exports; plate-analysis layouts, well lists and long plate CSVs run through every `analyze assay` analysis |
 | `batch_sheet` | sample sheets and plate layouts (CSV, TSV, text, XLSX) read by `--sample-sheet`. No-op on macOS (the batch crate links `zarrs`, see `whole_zarr`); runs on Linux |
-| `whole_opus`, `whole_omnic`, `whole_wdf`, `whole_pesp`, `whole_spc`, `whole_witec`, `whole_agilent_fpa`, `whole_fsm` | vibrational spectroscopy: Bruker OPUS, Thermo OMNIC `.spa`/`.spg`, Renishaw WiRE `.wdf`, PerkinElmer `.sp`, Galactic `.spc`, WITec `.wip`/`.wid`, Agilent FT-IR imaging, PerkinElmer `.fsm` |
+| `whole_opus`, `whole_omnic`, `whole_wdf`, `whole_pesp`, `whole_spc`, `whole_witec`, `whole_agilent_fpa`, `whole_fsm`, `whole_uvprobe` | vibrational and UV-Vis spectroscopy: Bruker OPUS, Thermo OMNIC `.spa`/`.spg`, Renishaw WiRE `.wdf`, PerkinElmer `.sp`, Galactic `.spc`, WITec `.wip`/`.wid`, Agilent FT-IR imaging, PerkinElmer `.fsm`, Shimadzu UVProbe `.spc` |
 | `whole_biacore` | Cytiva Biacore `.blr` compound file: text streams, curve headers, segments and XY data |
 | `whole_jws` | JASCO `.jws`: compound-file streams and records, the flat `L~S ` header and data |
 | `whole_cary` | Agilent (Varian) Cary `.dsw`/`.bsw`/`.bsk`: the store chain, spectrum and baseline stores and their texts |
