@@ -1006,7 +1006,7 @@ impl ThermoDataset {
                 let row = rows.entry(key).or_insert_with(|| Transition {
                     id: Some(self.scan_number(i) as i64),
                     precursor_mz: Some(r.precursor_mz),
-                    product_mz: Some((w[0] + w[1]) / 2.0),
+                    product_mz: Some(f64::midpoint(w[0], w[1])),
                     products: 1,
                     collision_energy: Some(r.energy),
                     polarity: pol.word(),

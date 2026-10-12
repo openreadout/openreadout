@@ -102,7 +102,11 @@ pub fn transition_table_info(rows: &[Transition], index: u32, id_name: &str) -> 
     let mut columns = vec![
         col(0, id_name, None),
         col(1, "precursor (Q1) m/z", Some("m/z")),
-        col(2, "product (Q3) m/z; empty when the row holds several products", Some("m/z")),
+        col(
+            2,
+            "product (Q3) m/z; empty when the row holds several products",
+            Some("m/z"),
+        ),
         col(3, "products measured under this id", None),
         col(4, "collision energy", Some("V")),
         col(5, "polarity (index into categories)", None),

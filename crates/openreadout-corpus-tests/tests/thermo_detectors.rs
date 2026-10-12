@@ -418,7 +418,10 @@ fn analog_pressure_matches_the_exported_chromatograms() {
             .iter()
             .filter(|t| t.name.as_deref().is_some_and(|n| n.contains("Pressure")))
         {
-            let theirs = ex.read_trace(t.index, 0, 0, t.sample_count).unwrap().channels;
+            let theirs = ex
+                .read_trace(t.index, 0, 0, t.sample_count)
+                .unwrap()
+                .channels;
             let (times, values) = (&theirs[0], &theirs[1]);
             // the analog trace whose samples hold every exported point
             let found = ours.iter().find(|(_, ch)| {
@@ -444,7 +447,10 @@ fn analog_pressure_matches_the_exported_chromatograms() {
             );
             checked += 1;
         }
-        assert!(checked > 0, "{id}: the export holds a pressure chromatogram");
+        assert!(
+            checked > 0,
+            "{id}: the export holds a pressure chromatogram"
+        );
         lines.push(serde_json::json!({
             "id": id, "format": "thermo-raw", "status": "pass", "independent": true,
             "compared": ["traces"],
