@@ -240,6 +240,28 @@
    "field": "Mass spectrometry"
   },
   {
+   "id": "bruker-baf",
+   "name": "Bruker BAF (.d)",
+   "vendor": "Bruker",
+   "extensions": [
+    "d",
+    "baf"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "No specification: the layout was derived from public files and checked against the depositors' vendor-library conversions",
+    "m/z use the recalibration in Calibrator.ami when the directory holds one, found by scanning that file for a payload like the spectra's (its container is not decoded); without it, the acquisition calibration, which can differ from vendor exports of recalibrated runs by a few ppm",
+    "Calibration kinds other than time of flight 3 and 10 and the FT-ICR form, and profile codings other than plain float32 and the packed delta coding, are refused (exit 6)",
+    "Spectra are returned one by one as stored; vendor converters may combine repeated MS/MS of one precursor",
+    "The third centroid array (read as peak widths), several list records and analysis.baf_xtr are not decoded"
+   ],
+   "page": "bruker-baf",
+   "field": "Mass spectrometry"
+  },
+  {
    "id": "oir",
    "name": "Olympus/Evident OIR",
    "vendor": "Evident (Olympus)",

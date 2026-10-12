@@ -39,16 +39,22 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-tdf` | [format note](../../docs/formats/bruker-tdf.md), [provenance log](../../docs/provenance/bruker-tdf.md) | high | prior art | 13 / 13 | 7 | - |
+| `bruker-baf` | [format note](../../docs/formats/bruker-baf.md), [provenance log](../../docs/provenance/bruker-baf.md) | medium | reverse engineered | 7 / 7 | 7 | - |
 
 ### Source map
 
 | file | what it does (its module documentation) |
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of a Bruker timsTOF `.d` directory (TDF/TSF) and the feature values the development corpus validates, with the |
+| [`src/baf/calibration.rs`](src/baf/calibration.rs) | Sample index to m/z for BAF spectra: the time-of-flight calibrations (kinds 3 and 10) with their temperature drift compensation, the FT-ICR calibration, and the recalibration… |
+| [`src/baf/dataset.rs`](src/baf/dataset.rs) | `Dataset` for a BAF `.d` directory: one run of spectra (profile and centroid views), m/z from the spectrum's calibration with temperature drift compensation, or from the… |
+| [`src/baf/mod.rs`](src/baf/mod.rs) | Bruker BAF (`analysis.baf` in a `.d` directory, written by otofControl, micrOTOFcontrol and the FT-ICR control software): a chain of tagged records with per-spectrum headers, |
+| [`src/baf/records.rs`](src/baf/records.rs) | The record chain of `analysis.baf`: every record is a u32 length (the whole record), a u32 tag `0xBFA0xxxx` and a payload; several records hold a header and a chain of sub-records |
+| [`src/baf/spectrum.rs`](src/baf/spectrum.rs) | A BAF spectrum's records: the spectrum header (`0xBFA02002`), its centroid block (`0xBFA01002`) and its profile block (`0xBFA01001`), plain or packed |
 | [`src/calibration.rs`](src/calibration.rs) | The m/z (`MzCalibration`) and 1/K0 (`TimsCalibration`) models stored in a timsTOF database, applied per frame |
 | [`src/dataset.rs`](src/dataset.rs) | The `.d` dataset: SQLite metadata, frame blobs, spectra, chromatograms |
 | [`src/frame.rs`](src/frame.rs) | Frame blobs of `analysis.tdf_bin` (TDF) and `analysis.tsf_bin` (TSF) |
-| [`src/lib.rs`](src/lib.rs) | Clean-room reader for Bruker timsTOF acquisitions (`.d` directories) |
+| [`src/lib.rs`](src/lib.rs) | Clean-room readers for Bruker `.d` directories: timsTOF acquisitions (TDF/TSF, format id `bruker-tdf`) and BAF acquisitions of the other TOF and FT-ICR instruments (module `baf`, |
 | [`src/sqlite.rs`](src/sqlite.rs) | A minimal, read-only reader of SQLite database files: enough to read whole ordinary (rowid) tables, including a write-ahead log left next to the database |
 
 ### Where variants branch
@@ -63,18 +69,58 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `format!("{name} model {t}")`
 - feature layout `"not closed properly"`
 - feature layout `"uncheckpointed WAL"`
+- feature format_version `family`
+- feature codec `format!("{c} profile")`
+- feature layout `format!("centroid element code {c}")`
+- feature layout `format!("calibration {c}")`
+- feature layout `src`
+- feature acquisition `format!("{p} ions")`
+- feature acquisition `"MS/MS"`
+- feature layout `"m/z from a Calibrator.ami payload found by scanning"`
 - feature instrument `m` (descriptive)
 - feature writer_version `format!("timsControl {v}")` (descriptive)
+- feature writer_version `format!("{} {v}", i.software.as_deref().unwrap_or("software")),` (descriptive)
 - undecoded "frames of an unsupported compression type"
 - undecoded "m/z conversion parameters"
 - undecoded "orphan PASEF selections"
 - calibration what, CalibrationStatus::Applied, &[Scope::Spectra]…
 - calibration "{c}: values differ from Bruker's calibrated values, typically by tens of ppm (the calibration table is in `info --view full`)"
+- calibration "m/z (Calibrator.ami recalibration)"
+- calibration "m/z (acquisition calibration)"
 
 ### Validated variants and the corpus files that pin them
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
+| `bruker-baf` | acquisition | `MS/MS` | spectra | 4 | 4 | `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd`, `mtbls4823-baf-microtofq` |
+| `bruker-baf` | acquisition | `negative ions` | spectra | 3 | 3 | `msv000088109-baf-solarix`, `mtbls4823-baf-microtofq`, `mtbls6740-baf-methanolneg-4` |
+| `bruker-baf` | acquisition | `positive ions` | spectra | 4 | 4 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
+| `bruker-baf` | codec | `float32 profile` | spectra | 2 | 2 | `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
+| `bruker-baf` | codec | `packed profile` | spectra | 5 | 5 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
+| `bruker-baf` | field | `experiment.instrument.model` | descriptive | 7 | 7 | `msv000080036-baf-maxis`, `msv000088109-baf-solarix`, `msv000094648-baf-impact2` |
+| `bruker-baf` | format_version | `AIDA4` | metadata, spectra | 3 | 3 | `msv000080036-baf-maxis`, `msv000088109-baf-solarix`, `mtbls4823-baf-microtofq` |
+| `bruker-baf` | format_version | `AIDA5` | metadata, spectra | 2 | 2 | `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
+| `bruker-baf` | format_version | `AIDA6` | metadata, spectra | 1 | 1 | `mtbls6740-baf-methanolneg-4` |
+| `bruker-baf` | format_version | `BCC4_3_72_0` | metadata, spectra | 1 | 1 | `pwiz-bruker-csi-apexqe` |
+| `bruker-baf` | instrument | `apex-Qe` | descriptive | 1 | 1 | `pwiz-bruker-csi-apexqe` |
+| `bruker-baf` | instrument | `impact HD` | descriptive | 1 | 1 | `mtbls14117-baf-impacthd` |
+| `bruker-baf` | instrument | `impact II` | descriptive | 1 | 1 | `msv000094648-baf-impact2` |
+| `bruker-baf` | instrument | `maXis` | descriptive | 1 | 1 | `msv000080036-baf-maxis` |
+| `bruker-baf` | instrument | `micrOTOF-Q` | descriptive | 1 | 1 | `mtbls4823-baf-microtofq` |
+| `bruker-baf` | instrument | `solariX` | descriptive | 1 | 1 | `msv000088109-baf-solarix` |
+| `bruker-baf` | instrument | `timsTOF Pro` | descriptive | 1 | 1 | `mtbls6740-baf-methanolneg-4` |
+| `bruker-baf` | layout | `calibration FT-ICR` | spectra | 2 | 2 | `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
+| `bruker-baf` | layout | `calibration time of flight, kind 10` | spectra | 1 | 1 | `msv000080036-baf-maxis` |
+| `bruker-baf` | layout | `calibration time of flight, kind 3` | spectra | 4 | 4 | `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd`, `mtbls4823-baf-microtofq` |
+| `bruker-baf` | layout | `centroid element code 1` | spectra | 1 | 1 | `mtbls4823-baf-microtofq` |
+| `bruker-baf` | layout | `centroid element code 2` | spectra | 2 | 2 | `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
+| `bruker-baf` | layout | `centroid element code 3` | spectra | 4 | 4 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
+| `bruker-baf` | layout | `m/z from a Calibrator.ami payload found by scanning` | spectra | 5 | 5 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
+| `bruker-baf` | layout | `trailer index` | spectra | 7 | 7 | `msv000080036-baf-maxis`, `msv000088109-baf-solarix`, `msv000094648-baf-impact2` |
+| `bruker-baf` | writer_version | `Bruker otofControl 4` | descriptive | 1 | 1 | `msv000094648-baf-impact2` |
+| `bruker-baf` | writer_version | `Bruker otofControl 5` | descriptive | 1 | 1 | `mtbls14117-baf-impacthd` |
+| `bruker-baf` | writer_version | `Bruker otofControl 6` | descriptive | 1 | 1 | `mtbls6740-baf-methanolneg-4` |
+| `bruker-baf` | writer_version | `otofControl 3` | descriptive | 2 | 2 | `msv000080036-baf-maxis`, `mtbls4823-baf-microtofq` |
 | `bruker-tdf` | acquisition | `DDA-PASEF` | spectra | 7 | 7 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | acquisition | `DIA-PASEF` | spectra | 3 | 3 | `pwiz-bruker-diapasef`, `pxd074950-b1-diapasef`, `timsrust-test-dia` |
 | `bruker-tdf` | acquisition | `line spectra (TSF)` | spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
@@ -117,11 +163,11 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 ### Tests, fixtures, fuzz targets, snapshots
 
-- integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
-- committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `tims_frame`, `tims_sqlite`, `whole_tims`
-- corpus inputs by tier: heldout 2, smoke 7, standard 6
-- golden snapshots: [`corpus/snapshots/bruker-tdf.jsonl`](../../corpus/snapshots/bruker-tdf.jsonl)
+- integration tests: [`tests/baf_synthetic.rs`](tests/baf_synthetic.rs), [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
+- committed fixtures: 6 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- fuzz targets (`fuzz/fuzz_targets/`): `tims_frame`, `tims_sqlite`, `whole_baf`, `whole_tims`
+- corpus inputs by tier: full 5, heldout 2, smoke 7, standard 8
+- golden snapshots: [`corpus/snapshots/bruker-tdf.jsonl`](../../corpus/snapshots/bruker-tdf.jsonl), [`corpus/snapshots/bruker-baf.jsonl`](../../corpus/snapshots/bruker-baf.jsonl)
 
 ### Open new-variant intakes
 
