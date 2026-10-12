@@ -370,24 +370,48 @@ impl std::io::Write for LimitedWriter {
 /// come back as little-endian u16. Progressive or subsampled 12-bit streams and CMYK are
 /// rejected with an error.
 pub fn jpeg_decode(data: &[u8]) -> Result<Raster> {
-    jpeg_decode_with(data, None, MAX_UNSIZED_OUTPUT)
+    jpeg_decode_with(data, None, MAX_UNSIZED_OUTPUT, 0)
 }
 
 /// [`jpeg_decode`], refusing (before decoding anything) a frame whose decoded size would
 /// exceed `max_bytes`. Callers that know the tile or plane size pass a bound derived from it,
 /// so a few-byte stream declaring 60000 x 15000 pixels costs nothing.
 pub fn jpeg_decode_limited(data: &[u8], max_bytes: usize) -> Result<Raster> {
-    jpeg_decode_with(data, None, max_bytes.min(MAX_UNSIZED_OUTPUT))
+    jpeg_decode_with(data, None, max_bytes.min(MAX_UNSIZED_OUTPUT), 0)
+}
+
+/// [`jpeg_decode_limited`] at a reduced size: `shift` 1, 2 or 3 decodes at 1/2, 1/4 or 1/8 of
+/// the width and height (rounded up) with jpeg-decoder's reduced inverse DCT, as slide readers
+/// do for levels the file does not store. 8-bit streams only.
+pub fn jpeg_decode_reduced(data: &[u8], shift: u32, max_bytes: usize) -> Result<Raster> {
+    jpeg_decode_with(data, None, max_bytes.min(MAX_UNSIZED_OUTPUT), shift)
 }
 
 /// `color`: `None` keeps the decoder's default (Adobe/JFIF markers, else YCbCr for three
 /// components); `Some` forces the transform. `max_bytes`: largest decoded frame accepted.
-fn jpeg_decode_with(data: &[u8], color: Option<JpegColor>, max_bytes: usize) -> Result<Raster> {
+fn jpeg_decode_with(
+    data: &[u8],
+    color: Option<JpegColor>,
+    max_bytes: usize,
+    shift: u32,
+) -> Result<Raster> {
     #[cfg(feature = "jpeg")]
     {
+        if shift > 3 {
+            return Err(CodecError::Decode {
+                codec: "jpeg",
+                detail: format!("reduction 1/{} (at most 1/8)", 1u64 << shift.min(63)),
+            });
+        }
         // jpeg-decoder stops at 8-bit DCT samples; 12-bit sequential streams have their own
         // decoder (`jpeg12`).
         if jpeg12::frame_precision(data) == Some(12) {
+            if shift > 0 {
+                return Err(CodecError::Decode {
+                    codec: "jpeg",
+                    detail: "reduced-size decoding of a 12-bit stream".into(),
+                });
+            }
             return jpeg12::decode(data, color, max_bytes);
         }
         let mut dec = jpeg_decoder::Decoder::new(data);
@@ -411,6 +435,15 @@ fn jpeg_decode_with(data: &[u8], color: Option<JpegColor>, max_bytes: usize) -> 
                     ),
                 });
             }
+        }
+        if shift > 0
+            && let Some(i) = dec.info()
+        {
+            let (w, h) = (i.width.div_ceil(1 << shift), i.height.div_ceil(1 << shift));
+            dec.scale(w, h).map_err(|e| CodecError::Decode {
+                codec: "jpeg",
+                detail: e.to_string(),
+            })?;
         }
         if let Some(color) = color {
             // Only three-component streams have a colour transform to choose.
@@ -475,7 +508,7 @@ fn jpeg_decode_with(data: &[u8], color: Option<JpegColor>, max_bytes: usize) -> 
     }
     #[cfg(not(feature = "jpeg"))]
     {
-        let _ = (data, color);
+        let _ = (data, color, max_bytes, shift);
         Err(CodecError::NotCompiled {
             codec: "jpeg",
             feature: "jpeg",
@@ -826,7 +859,7 @@ pub fn jpeg_decode_tiff_limited(
         }
         _ => std::borrow::Cow::Borrowed(data),
     };
-    jpeg_decode_with(&stream, Some(color), max_bytes.min(MAX_UNSIZED_OUTPUT))
+    jpeg_decode_with(&stream, Some(color), max_bytes.min(MAX_UNSIZED_OUTPUT), 0)
 }
 
 /// Apple/TIFF PackBits run-length decoding (TIFF compression 32773). Stops when

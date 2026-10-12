@@ -173,6 +173,53 @@ fn observe_isyntax(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static VMS: AssuranceProfile = AssuranceProfile {
+    format_id: "hamamatsu-vms",
+    observe: observe_vms,
+    validated: VMS_VALIDATED,
+    confidence: VMS_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_vms(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    a::image_basics(&mut o, info);
+    for im in &info.images {
+        let Some(m) = im.extra.get("vms") else {
+            continue;
+        };
+        o.feature(K::Codec, "jpeg restart intervals", &[Scope::Pixels]);
+        if let Some(g) = m.get("image_grid").and_then(serde_json::Value::as_array) {
+            let n = |i: usize| g.get(i).and_then(serde_json::Value::as_u64).unwrap_or(0);
+            let kind = if n(0) * n(1) > 1 {
+                "grid of slide images"
+            } else {
+                "single slide image"
+            };
+            o.feature(K::Layout, kind, &[Scope::Pixels]);
+        }
+        match m.get("map_downsample").and_then(serde_json::Value::as_u64) {
+            Some(d) => o.feature(
+                K::Layout,
+                format!("map at 1/{d}"),
+                &[Scope::Metadata, Scope::Pixels],
+            ),
+            None => o.feature(K::Layout, "no usable map", &[Scope::Metadata]),
+        }
+        if m.get("optimisation_file").and_then(serde_json::Value::as_bool) == Some(true) {
+            o.feature(K::Layout, "optimisation file", &[Scope::Pixels]);
+        }
+    }
+    o
+}
+
+// BEGIN GENERATED hamamatsu-vms (cargo xtask assurance-audit --write; do not edit)
+const VMS_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const VMS_VALIDATED: &[Validated] = &[
+];
+// END GENERATED hamamatsu-vms
+
 // BEGIN GENERATED philips-isyntax (cargo xtask assurance-audit --write; do not edit)
 const ISYNTAX_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]

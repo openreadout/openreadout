@@ -51735,6 +51735,59 @@ notes = "brightfield, CURRENT_SLIDE_VERSION 2.2, PNG images (lossless: level 0 e
 lossy = true
 
 # ---------------------------------------------------------------------------------------------
+# Hamamatsu VMS: OpenSlide test data, Hamamatsu-vms/CMU-1.zip (index.json: license CC0-1.0,
+# checked 2026-10-12), unpacked into <corpus>/<bundle id>/.
+# ---------------------------------------------------------------------------------------------
+
+[[file]]
+id = "openslide-vms-cmu-1-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-vms-CMU-1.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Hamamatsu-vms/CMU-1.zip"
+sha256 = "bc63f85e3de63711fd649e70ab605ef1bf81bc2e2ca2ae82e295dfaa19fddfcd"
+size = 646851266
+license = "CC0-1.0"
+source = "OpenSlide test data (Hamamatsu-vms/index.json: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "VMS slide zip: the .vms settings file, four slide JPEGs, the map, the macro and the optimisation file"
+
+[[file]]
+id = "openslide-vms-cmu-1"
+format = "hamamatsu-vms"
+role = "input"
+tier = "full"
+bundle = "openslide-vms-cmu-1-zip"
+filename = "openslide-vms-cmu-1-zip/CMU-1-40x - 2010-01-12 13.24.05.vms"
+license = "CC0-1.0"
+source = "OpenSlide test data (Hamamatsu-vms/index.json: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "NanoZoomer brightfield 40x (2010): 2 x 2 grid of baseline JPEGs (102400 x 76288), restart intervals of 512 MCUs, map at 1/8, optimisation file. Levels decoded at reduced DCT size differ from OpenSlide's by up to 3 grey levels at 1/8 (sidecars) and are compared by mean at 1/2 and 1/4"
+pixel_tolerance = 4
+lossy = true
+
+# ---------------------------------------------------------------------------------------------
+# Philips iSyntax: Zenodo 5037046 ("Testing whole slide image for OpenPhi", licence mit-license on
+# the record, checked 2026-10-12).
+# ---------------------------------------------------------------------------------------------
+
+[[file]]
+id = "zenodo5037046-isyntax-testslide"
+format = "philips-isyntax"
+role = "input"
+tier = "standard"
+filename = "zenodo5037046-isyntax/testslide.isyntax"
+url = "https://zenodo.org/records/5037046/files/testslide.isyntax?download=1"
+sha256 = "38e65f4ddd2001f18135a1835807cb5b2303d012a2a63d63cdfa08a9673c849d"
+size = 495125898
+license = "MIT"
+source = "Zenodo 5037046 (OpenPhi test slide; record licence mit-license)"
+attribution = "BioimageInformaticsGroup, OpenPhi (Tampere University)"
+notes = "Philips UFS scanner (software 1.8.6824), data model 5.0, compression method 16, 8 scales of 128 x 128 code blocks, 37382 x 73222 at 0.25 um; label and macro JPEGs and ICC profiles"
+
+
+# ---------------------------------------------------------------------------------------------
 # Imaris .ims with Scene8 objects (filament tracings with statistics): Zenodo 20758452
 # (Thabault et al., Cntnap2 knockout mice, neuronal morphology), licence cc-by-4.0 on the record
 # (checked 2026-09-26), with the depositor's statistics exports. ImarisWriter's minimal file
