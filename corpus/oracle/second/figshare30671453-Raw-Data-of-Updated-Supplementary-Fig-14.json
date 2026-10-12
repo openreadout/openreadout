@@ -1,0 +1,111 @@
+{
+ "id": "figshare30671453-Raw-Data-of-Updated-Supplementary-Fig-14",
+ "file": "figshare30671453-Raw-Data-of-Updated-Supplementary-Fig-14.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "COS-7-PBS",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "00f7f892043b8f5c7b232bda0d8725a9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56554ed6d93130c9a47466a846c1c1ea"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dda15043dcac393ed718dca512f856cb"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "COS-7-GP-dAuNPs@Ce6",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bc8d4b23e6e199972593140d95627152"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "94bda2068e9e602f5ad1044fba59207d"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e03ef2ed0ba8b86debcce44233d394b8"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "U87MG-PBS",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b7fbe6292b8fb55db6227d699e8dde11"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6fd6c07985faa66937764082b48e45f4"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e60adde5dd0a5218c8f23c2926454cb2"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "U87MG-GP-dAuNPs@Ce6",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fd7fee62500ae8ff192e33144128b864"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23a143c07e1498d50c65827b4bed638f"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a6d0a52668ac62bb4cf6fd84c128b438"
+    }
+   ]
+  }
+ ]
+}

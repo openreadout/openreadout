@@ -1,0 +1,68 @@
+{
+ "id": "figshare4986389-24hr-2-POM",
+ "file": "figshare4986389-24hr-2-POM.nd2",
+ "size": 3108864,
+ "sha256": "17e2cac0d313bc77a62e9fdafcb4666e60d431990a5080dde37c8e3a1008b066",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1280,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "sizes": "{'Y': 1024, 'X': 1280, 'S': 3}",
+   "physical_size_um": {
+    "x": 3.2061298076923075,
+    "y": 3.2061298076923075,
+    "z": null
+   },
+   "channel_names": [
+    "Brightfield"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "36dfecdbe79d41eb25c9feb45ee98de4"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Brightfield",
+    "color": "#FFFFFF",
+    "excitation_nm": 420.0,
+    "emission_nm": 420.0,
+    "component_count": 3,
+    "modality": [
+     "brightfield"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 391421.29377525765,
+    "tags": {
+     "CameraTemp1": -5.0,
+     "Camera_ExposureTime1": 13.0
+    }
+   }
+  ],
+  "acquired_at": "2017-07-31T06:44:34.647Z",
+  "acquired_at_unix_ms": 1501483474647
+ },
+ "text_info": {},
+ "attributes": "Attributes(bitsPerComponentInMemory=8, bitsPerComponentSignificant=8, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=3840, widthPx=1280, compressionLevel=4.0, compressionType='lossless', tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

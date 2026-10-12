@@ -233,3 +233,19 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 ## 2026-10-06 — Remote survey of compression ids in public CZIs
 
 **What.** The subblock directories of 892 CZI files in 53 public Zenodo records not used by the corpus (and not held out) were read by HTTP range requests (file header, then the directory segment; no pixel data). Compression ids: 0 (uncompressed) in 764 files, 4 (JPEG XR) in 111, 6 (zstd1) in 16; no file used 1 (JPEG), 3, 7 or a raw id. Pixel types: gray16 in 554 files, gray8 in 219, bgr24 in 118. Nothing about the format was inferred from it; it set the order of the work above (12-bit JPEG and chunked compression are kept for files this survey did not reach, and are validated on synthetic files).
+
+## 2026-10-12 — attachment and subblock entries that name a part the document does not have
+
+**Why.** The imaging sweep met `1.0PE+0.14EDTA_1430_p(12).czi` (figshare 31165393, CC-BY-4.0, an Elyra 7 time series written by ZEN black): `check` failed with "file part 12 is missing" and the time stamps and event list were not read. czifile reads the file without complaint.
+
+**Inferred from the file** (czifile 2026.8.16, BSD-3-Clause, read as documentation and run; hex dump): the file header says part 0 and its file GUID equals the primary GUID, every subblock entry says part 0, but all four attachment entries say `file_part` 12. Each attachment position in this file holds a `ZISRAWATTACH` segment, and no file named as part 12 exists. The subblocks carry scene index 12 (S=12, the file's only scene: one position saved out of a larger acquisition), so the attachment entries seem to hold the scene index where the part number belongs.
+
+**Rule implemented:** an attachment or subblock entry whose `file_part` names a part that is not next to the master, and whose position in the master holds a segment of the kind the entry needs (`ZISRAWATTACH` or `ZISRAWSUBBLOCK`), is read from the master. Entries whose part is on disk still read from that part, so real multi-file documents are unchanged (the synthetic multi-file fixtures pass as before).
+
+## 2026-10-12 — placeholder subblock times and positions
+
+**Why.** The corpus metadata test failed on `zenodo11039334-prophage-termL-host-association-fov-01-m` (a stitched Airyscan Processing output, Zenodo 11039334, CC-BY-4.0): its per-frame records said `acquired_at` "0001-01-01T00:00:00.0000000" and `stage_z_um` null.
+
+**Inferred from the file** (`strings`): every subblock's `<METADATA>` holds `<AcquisitionTime>0001-01-01T00:00:00.0000000</AcquisitionTime><FocusPosition>NaN</FocusPosition>`. The first is the smallest date the writer can store, the second is not a number; both mean the value was not recorded.
+
+**Rule implemented:** a subblock acquisition time that starts with 0001-01-01 and a stage or focus position that is not a finite number are left out.

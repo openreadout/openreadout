@@ -67,7 +67,16 @@ def _folder_index(p: Path):
         if q.is_file():
             return q
     htd = sorted(q for q in p.iterdir() if q.suffix.lower() == ".htd")
-    return htd[0] if htd else None
+    if htd:
+        return htd[0]
+    # Harmony archive (`hs` folder marked by _hs.txt) holding one measurement folder, whose
+    # index is images/index.xml (lower case)
+    if (p / "_hs.txt").is_file():
+        found = [q / "images" / "index.xml" for q in sorted(p.iterdir())
+                 if q.is_dir() and (q / "images" / "index.xml").is_file()]
+        if len(found) == 1:
+            return found[0]
+    return None
 
 
 def row_name(r: int) -> str:
@@ -89,6 +98,18 @@ def well_name(r: int, c: int) -> str:
 #   {"row": r0, "col": c0, "field": f, "channel": key, "z": zkey, "t": tkey, "file": name or ""}
 # and plate has "channels": [(key, name)], "pixel_size_um": [x, y], "id", "rows", "columns".
 # --------------------------------------------------------------------------------------------
+
+def _plane_file(index: Path, url: str) -> str:
+    """The plane file a Harmony/Columbus URL names: a relative path to a file under the
+    index's folder is kept (Harmony archives: r04c05/r04c05f01p01-ch01t01.tiff); otherwise the
+    file name alone, looked up next to the index."""
+    if not url:
+        return ""
+    rel = url.replace("\\", "/")
+    if "/" in rel and not rel.startswith("/") and ":" not in rel and (index.parent / rel).is_file():
+        return rel
+    return rel.rsplit("/", 1)[-1]
+
 
 def harmony_index(p: Path):
     """Harmony / Columbus index. Harmony 6 and 7 write the channel description (ChannelName,
@@ -122,7 +143,7 @@ def harmony_index(p: Path):
             page = int(url_el.get("BufferNo") or 0)  # Columbus: the page of a multi-page file
             recs.append({"page": page, "row": int(d["Row"]) - 1, "col": int(d["Col"]) - 1, "field": int(d.get("FieldID") or 1),
                          "channel": ch, "z": int(d.get("PlaneID") or 1), "t": int(d.get("TimepointID") or 0),
-                         "file": url.rsplit("/", 1)[-1].rsplit("\\", 1)[-1] if url else ""})
+                         "file": _plane_file(p, url)})
             el.clear()
         elif t == "PlateID":
             plate["id"] = (el.text or "").strip()
@@ -410,7 +431,8 @@ def hcs_plate(p: Path) -> dict:
                         state = "not_acquired"
                     elif name == "":
                         state = "not_recorded"
-                    elif name in present:
+                    elif name in present or ("/" in name and (root / name).is_file()):
+                        # Harmony archives name planes in per-well folders (r04c05/...).
                         state = "present"
                     else:
                         state = "missing"

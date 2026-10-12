@@ -1,0 +1,225 @@
+{
+ "id": "figshare30273178-guava",
+ "file": "figshare30273178-guava.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 17759,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 14,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FSC-ALin",
+    "SSC-ALin",
+    "GRN-B-ALin",
+    "YEL-B-ALin",
+    "RED-B-ALin",
+    "FSC-HLin",
+    "GRN-B-W",
+    "FSC-ALog",
+    "SSC-ALog",
+    "GRN-B-ALog",
+    "YEL-B-ALog",
+    "RED-B-ALog",
+    "FSC-HLog",
+    "GRN-B-WLog"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-ALin": 1024.0,
+    "SSC-ALin": 1024.0,
+    "GRN-B-ALin": 1024.0,
+    "YEL-B-ALin": 1024.0,
+    "RED-B-ALin": 1024.0,
+    "FSC-HLin": 1024.0,
+    "GRN-B-W": 1024.0,
+    "FSC-ALog": 1024.0,
+    "SSC-ALog": 1024.0,
+    "GRN-B-ALog": 1024.0,
+    "YEL-B-ALog": 1024.0,
+    "RED-B-ALog": 1024.0,
+    "FSC-HLog": 1024.0,
+    "GRN-B-WLog": 1024.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-ALin": 16,
+    "SSC-ALin": 16,
+    "GRN-B-ALin": 16,
+    "YEL-B-ALin": 16,
+    "RED-B-ALin": 16,
+    "FSC-HLin": 16,
+    "GRN-B-W": 16,
+    "FSC-ALog": 16,
+    "SSC-ALog": 16,
+    "GRN-B-ALog": 16,
+    "YEL-B-ALog": 16,
+    "RED-B-ALog": 16,
+    "FSC-HLog": 16,
+    "GRN-B-WLog": 16
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "I",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "big-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS2.0",
+   "cmp": "text"
+  },
+  {
+   "field": "time step ($TIMESTEP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/timestep_s",
+   "theirs": 1.7e-05,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "C:\\Users\\FRSC_ehrhardtlab\\Desktop\\Alysia Townsley\\Dog Blood TSD 90 Day Samples.fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "Microsoft Windows NT x86",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Guava Mini2, InCyte 3.4",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer serial ($CYTSN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "8472050159",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-12-03T14:21:15.000",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2024-12-03T14:24:23.000",
+   "cmp": "time",
+   "abs": 0.02
+  }
+ ]
+}

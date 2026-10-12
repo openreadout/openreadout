@@ -1,0 +1,42 @@
+{
+ "id": "zenodo46395-P-oceanica-HE1-2015-07-09-12-07-23",
+ "file": "zenodo46395-P-oceanica-HE1-2015-07-09-12-07-23.ndpi",
+ "size": 153940941,
+ "sha256": "c974ebca3c34f762943fd70dd3877cd8f050a24587bee108ace6e80102de1123",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 6,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "P. oceanica HE1",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    39936,
+    53760,
+    3
+   ],
+   "size_x": 53760,
+   "size_y": 39936,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 4,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.45298061242978793,
+    "y": 0.45545636728001454
+   },
+   "planes_skipped": "series is 6440878080 bytes (> ORACLE_TIFF_MAX_BYTES)",
+   "planes": []
+  }
+ ]
+}

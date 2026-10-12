@@ -1,4 +1,6 @@
-//! Clean-room reader for Bruker timsTOF acquisitions (`.d` directories).
+//! Clean-room readers for Bruker `.d` directories: timsTOF acquisitions (TDF/TSF, format id
+//! `bruker-tdf`) and BAF acquisitions of the other TOF and FT-ICR instruments (module `baf`,
+//! [`BrukerBafReader`], format id `bruker-baf`; `docs/formats/bruker-baf.md`).
 //!
 //! A TDF dataset (`analysis.tdf` + `analysis.tdf_bin`) stores frames of trapped-ion-mobility
 //! scans; a TSF dataset (`analysis.tsf` + `analysis.tsf_bin`) one line spectrum per frame. The
@@ -55,6 +57,8 @@
 
 mod assurance;
 #[doc(hidden)]
+pub mod baf;
+#[doc(hidden)]
 pub mod calibration;
 #[doc(hidden)]
 pub mod dataset;
@@ -84,6 +88,8 @@ pub use frame::{
 };
 #[doc(hidden)]
 pub use sqlite::{SqlTable, SqlValue, SqliteDb, SqliteError};
+
+pub use baf::BrukerBafReader;
 
 /// Format id on the command line and in JSON.
 pub const FORMAT_ID: &str = "bruker-tdf";

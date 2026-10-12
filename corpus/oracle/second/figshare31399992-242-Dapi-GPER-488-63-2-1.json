@@ -1,0 +1,26 @@
+{
+ "id": "figshare31399992-242-Dapi-GPER-488-63-2-1",
+ "file": "figshare31399992-242-Dapi-GPER-488-63-2-1.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2575,
+   "size_y": 2497,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8585ba2b7715d61ee35433c441daf027"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dfcfc92edab520f5e7d19e647960aea7"
+    }
+   ]
+  }
+ ]
+}

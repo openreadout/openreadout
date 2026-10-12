@@ -380,12 +380,18 @@ pub fn read_gating_file(path: &Path) -> openreadout_core::Result<GatingFile> {
     if root_name == "Gating-ML" {
         return Ok(GatingFile::GatingMl(parse_gating_ml(&text)?));
     }
+    let xml_name = !root_name.is_empty()
+        && root_name
+            .chars()
+            .all(|c| c.is_ascii_alphanumeric() || matches!(c, '-' | '_' | '.' | ':'));
+    let what = if xml_name {
+        format!("root element <{root_name}> is neither a FlowJo <Workspace> nor <Gating-ML>")
+    } else {
+        "the file is not an XML document (other programs, CytExpert for one, also use the .wsp extension)".to_string()
+    };
     Err(openreadout_core::Error::unsupported(
         WSP_FORMAT_ID,
-        format!(
-            "{}: root element <{root_name}> is neither a FlowJo <Workspace> nor <Gating-ML>",
-            path.display()
-        ),
+        format!("{}: {what}", path.display()),
         "Pass a FlowJo 10 workspace (.wsp) with --workspace or a Gating-ML 2.0 file with --gatingml.",
     ))
 }

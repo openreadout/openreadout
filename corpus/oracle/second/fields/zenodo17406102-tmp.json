@@ -1,0 +1,22 @@
+{
+ "id": "zenodo17406102-tmp",
+ "file": "zenodo17406102-tmp.ims",
+ "format": "ims",
+ "family": "imaging",
+ "readers": [
+  "h5py 3.16.0 (BSD-3): DataSetInfo/Image RecordingDate"
+ ],
+ "checks": [
+  {
+   "field": "RecordingDate",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-04-02T08:03:11.546",
+   "cmp": "time",
+   "abs": 0.001
+  }
+ ]
+}

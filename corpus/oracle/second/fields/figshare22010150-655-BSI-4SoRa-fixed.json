@@ -1,0 +1,45 @@
+{
+ "id": "figshare22010150-655-BSI-4SoRa-fixed",
+ "file": "figshare22010150-655-BSI-4SoRa-fixed.nd2",
+ "format": "nd2",
+ "family": "imaging",
+ "readers": [
+  "nd2 0.11.3 (BSD-3) text_info date",
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "text info date (local clock)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-05-20T14:45:49",
+   "cmp": "time_mod_zone",
+   "abs": 180.0
+  },
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 2048,
+   "cmp": "exact",
+   "reader": 1
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 2048,
+   "cmp": "exact",
+   "reader": 1
+  }
+ ]
+}

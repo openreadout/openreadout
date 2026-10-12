@@ -1,0 +1,26 @@
+{
+ "id": "figshare26045854-221011-C3",
+ "file": "figshare26045854-221011-C3.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 700,
+   "size_y": 700,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e398e715f19563a67ab2d1afe5c86c4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a418c06d168095d23158f5a742ed52e7"
+    }
+   ]
+  }
+ ]
+}

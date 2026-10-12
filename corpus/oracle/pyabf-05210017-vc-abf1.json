@@ -349,6 +349,136 @@
      ]
     }
    ]
+  },
+  {
+   "index": 1,
+   "name": "command",
+   "sweep_count": 6,
+   "channel_count": 1,
+   "channel_names": [
+    "Cmd 0"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 20000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 60000,
+     "channels": [
+      {
+       "xxh3": "21d04be6614fc7bd3223c43daabb36d1",
+       "first": [
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 60000,
+     "channels": [
+      {
+       "xxh3": "21d04be6614fc7bd3223c43daabb36d1",
+       "first": [
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 2,
+     "sample_count": 60000,
+     "channels": [
+      {
+       "xxh3": "21d04be6614fc7bd3223c43daabb36d1",
+       "first": [
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 3,
+     "sample_count": 60000,
+     "channels": [
+      {
+       "xxh3": "21d04be6614fc7bd3223c43daabb36d1",
+       "first": [
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 4,
+     "sample_count": 60000,
+     "channels": [
+      {
+       "xxh3": "21d04be6614fc7bd3223c43daabb36d1",
+       "first": [
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 5,
+     "sample_count": 60000,
+     "channels": [
+      {
+       "xxh3": "21d04be6614fc7bd3223c43daabb36d1",
+       "first": [
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0,
+        -70.0
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }

@@ -1,0 +1,74 @@
+{
+ "id": "figshare17430695-tracks-after-30-mins-no-inv-strand",
+ "file": "figshare17430695-tracks-after-30-mins-no-inv-strand.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1608,
+   "size_y": 1608,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bb4a5a37d26bca186e65fb477f312111"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b4077bb6dd2112bb8df4f55bcf7069e1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "338e8e824b199f62b1757dad66e72c05"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5bec31d36f959d9b3ab433bbabdefabf"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8ac986d44ae6f1aad0a5e95a1dfd82ef"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9fb506417b1ba188884b1ab44787682d"
+    },
+    {
+     "c": 6,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cc5ce957d0d46ae126c70fe4a1b2c2ec"
+    },
+    {
+     "c": 7,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ab923774016713fbc0bd1cf62cb41e15"
+    },
+    {
+     "c": 8,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7f10c2210130ef807251a4cfbfbe6e74"
+    },
+    {
+     "c": 9,
+     "z": 0,
+     "t": 0,
+     "xxh3": "165a8c70873c1cd5adb125207264526f"
+    }
+   ]
+  }
+ ]
+}

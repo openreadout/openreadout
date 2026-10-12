@@ -1,0 +1,87 @@
+{
+ "id": "figshare31440160-Project",
+ "file": "figshare31440160-Project.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "\u4f4e\u500d\u566a\u58f0",
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87aefafb4812b66331923336b4a9b888"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a80caf4db7cadb9e9c38f3b95943fdce"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "\u4f4e\u500d\u6e05\u6670",
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "341ea0f7a163bbcb74bbc2c81313a8de"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5fc40cc0e05b694eea694dd9042f97e8"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "\u9ad8\u500d\u566a\u58f0",
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4bfd8546f7fafa9e00ccb553c5620709"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "255af3c42e61a296c0b0bca47fb0c810"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "\u9ad8\u500d\u6e05\u6670",
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9f2ddbb2509cd9445b7a89a608cd5ff9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b430d3614aa6f973b2433d8a29129689"
+    }
+   ]
+  }
+ ]
+}

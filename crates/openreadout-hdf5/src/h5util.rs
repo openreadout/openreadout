@@ -395,6 +395,14 @@ pub struct PlaneDataset {
 }
 
 impl PlaneDataset {
+    /// Z planes per stored chunk (1 for contiguous data and plane-deep chunks).
+    pub fn chunk_depth(&self) -> u64 {
+        match &self.storage {
+            Storage::Chunked { chunk, .. } => chunk[0].max(1),
+            _ => 1,
+        }
+    }
+
     /// Describe `path` (a rank-3 numeric dataset).
     pub fn open(file: &hdf5_pure::File, path: &str, format: &'static str) -> Result<Self> {
         let err = |e: hdf5_pure::Error| Error::corrupt(format, format!("{path}: {e}"));

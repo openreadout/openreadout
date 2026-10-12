@@ -248,6 +248,7 @@ fn plans<'a>(
     info: &'a FileInfo,
     opts: &ZarrExportOptions,
     layout: Option<&PlateSummary>,
+    refused: &[u32],
 ) -> Result<(Vec<Plan<'a>>, Vec<u32>)> {
     let sel = Selection::parse(&opts.select)?;
     // images of the requested wells, and each image's well
@@ -276,7 +277,7 @@ fn plans<'a>(
     let mut skipped = Vec::new();
     let mut incomplete = Vec::new();
     for im in &info.images {
-        if opts.image.is_some_and(|i| i != im.index) {
+        if opts.image.is_some_and(|i| i != im.index) || refused.contains(&im.index) {
             continue;
         }
         if !opts.wells.is_empty() && !wanted_wells.contains(&im.index) {
@@ -474,7 +475,10 @@ pub fn export_ome_zarr_with(
         ));
     }
     let layout = openreadout_core::plate::plate_layout(ds, &info);
-    let (plans, images_skipped) = plans(&info, opts, layout.as_ref())?;
+    let refused = openreadout_ometiff::refused_images(ds, &info, opts.image);
+    let (plans, mut images_skipped) = plans(&info, opts, layout.as_ref(), &refused)?;
+    images_skipped.extend(refused);
+    images_skipped.sort_unstable();
 
     let tmp = output.with_file_name(format!(
         ".{}.partial-{}",
@@ -964,7 +968,7 @@ mod tests {
             codec: Codec::None,
             ..Default::default()
         };
-        let (plans, _) = plans(&info, &opts, None).unwrap();
+        let (plans, _) = plans(&info, &opts, None, &[]).unwrap();
         let (n, records, _) = write_store(
             &mut ds,
             &info,

@@ -557,6 +557,212 @@
      ]
     }
    ]
+  },
+  {
+   "index": 1,
+   "name": "command",
+   "sweep_count": 10,
+   "channel_count": 1,
+   "channel_names": [
+    "Cmd 0"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 10000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "c22a18012b20f0c4762437ac577997b5",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "14d39358c6d6c9b81397f569588e1f45",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 2,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "901053dbe48a667209cdaa0d1b4a92c9",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 3,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "d4b499359f6c251c2924e25d17a61fdd",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 4,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "763da9f3c5e4681b57b859a2b613f17f",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 5,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "cf1bc9c1c067f03e6b7bfe93a83034c2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 6,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "7fcfbd3ce5afebf15205a46a0e17be59",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 7,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "d0979c365d726ddce06767170968b9ff",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 8,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "18cd01977a2629bc9e3cc540262558f0",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 9,
+     "sample_count": 20000,
+     "channels": [
+      {
+       "xxh3": "3f3afc15bd87e0f8a5ab2f9e9930e781",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }

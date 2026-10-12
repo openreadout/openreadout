@@ -1,0 +1,26 @@
+{
+ "id": "figshare29204072-mt-opto-con-raw",
+ "file": "figshare29204072-mt-opto-con-raw.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 426,
+   "size_y": 426,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "390b7dbbd8842ff941168d2d97a6065a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c1d2a381746e500554c9485ea6c46931"
+    }
+   ]
+  }
+ ]
+}

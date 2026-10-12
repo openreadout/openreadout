@@ -126,6 +126,7 @@ COMMITTED_CUTS = [
     ("whole_cary", "cary-z14894113-a2.dsw", 64 * 1024),  # CC-BY-4.0
     ("whole_cary", "cary-pyspecdata-ras-stability4.bsk", 128 * 1024),  # CC0-1.0
     ("whole_itc", "itc-zenodo6608282-d25-50um.itc", 16 * 1024),  # CC0-1.0
+    ("whole_uvprobe", "figshare29858651-uvprobe-substrate.spc", 32 * 1024),  # CC-BY-4.0
 ]
 # (target, [(corpus file, bytes to keep), ...]) joined by BUNDLE_SEP in the target's order
 OIF = "olympus-fv/zenodo4421962-oif/Bead12/"
@@ -594,6 +595,44 @@ def new_format_seeds() -> None:
         print("pynumpress not installed: MS-Numpress seeds skipped", file=sys.stderr)
 
 
+VMS_NAMES = ["s.vms", "s.jpg", "s(1,0).jpg", "s(0,1).jpg", "s(1,1).jpg", "s_map2.jpg", "s.opt", "s_macro.jpg"]
+
+
+def synthetic_fixture_seeds() -> None:
+    """Seeds from the committed synthetic fixtures (our own writers: oracle/make_isyntax_fixtures.py,
+    oracle/make_vms_fixtures.py, oracle/make_baf_fixtures.py)."""
+    fx = ROOT.parent / "crates" / "openreadout-wsi" / "tests" / "fixtures"
+    put("whole_isyntax", "synthetic.isyntax", (fx / "isyntax-synthetic.isyntax").read_bytes())
+    d = fx / "vms-synthetic"
+    vms = (d / "synthetic.vms").read_text().replace("synthetic", "s").replace("Reference=s", "Reference=synthetic")
+    files = ["synthetic.jpg", "synthetic(1,0).jpg", "synthetic(0,1).jpg", "synthetic(1,1).jpg", "synthetic_map2.jpg",
+             "synthetic.opt", "synthetic_macro.jpg"]
+    put("whole_vms", "synthetic.bundle", BUNDLE_SEP.join([vms.encode()] + [(d / f).read_bytes() for f in files]))
+    b = ROOT.parent / "crates" / "openreadout-bruker-tims" / "tests" / "fixtures" / "baf-synthetic.d"
+    put("whole_baf", "synthetic.bundle", BUNDLE_SEP.join([(b / "analysis.baf").read_bytes(), (b / "Calibrator.ami").read_bytes()]))
+
+
+def ephys_new_seeds() -> None:
+    """TDT, Axona and MC_DataTool seeds: the committed synthetic TDT block
+    (oracle/make_tdt_fixtures.py) and minimal sessions written here (the corpus files of these
+    formats are share-alike and seed local-seeds/ only)."""
+    fx = ROOT.parent / "crates" / "openreadout-ephys" / "tests" / "fixtures" / "tdt-synthetic"
+    put("whole_tdt", "synthetic.bundle",
+        BUNDLE_SEP.join([(fx / "synthetic_B1.tsq").read_bytes(), (fx / "synthetic_B1.tev").read_bytes()]))
+    setf = ("trial_date Sunday, 4 Oct 2020\r\ntrial_time 11:07:07\r\nsw_version 1.2.2.16\r\nADC_fullscale_mv 1500\r\n"
+            + "".join(f"gain_ch_{i} 10000\r\n" for i in range(64))
+            + "".join(f"collectMask_{t} {int(t == 1)}\r\n" for t in range(1, 17)) + "rawRate 48000\r\n").encode()
+    packets = b"".join(b"ADU1" + struct.pack("<I", p) + bytes(24) + struct.pack("<192h", *range(p, p + 192)) + bytes(16)
+                       for p in range(2))
+    spikes = (b"trial_date Sunday, 4 Oct 2020\r\nnum_chans 4\r\ntimebase 96000 hz\r\nbytes_per_timestamp 4\r\n"
+              b"samples_per_spike 50\r\nbytes_per_sample 1\r\nnum_spikes 1\r\ndata_start"
+              + (struct.pack(">i", 960) + bytes(range(50))) * 4 + b"\r\ndata_end\r\n")
+    put("whole_axona", "mini.bundle", BUNDLE_SEP.join([setf, packets, spikes]))
+    put("whole_mcs_raw", "mini.raw",
+        b"MC_DataTool binary conversion\r\nVersion 2.6.10\r\nSample rate = 20000\r\nADC zero = 32768\r\n"
+        b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
+
+
 def main() -> None:
     try:
         import numpy as np
@@ -740,6 +779,8 @@ def main() -> None:
     put("whole_openephys", "mini.continuous", b"header.format = 'Open Ephys Data Format';\nheader.sampleRate = 30000;\nheader.bitVolts = 0.195;\n".ljust(1024, b" ") + struct.pack("<qHH", 0, 1024, 0) + bytes(2048) + bytes([0, 1, 2, 3, 4, 5, 6, 7, 8, 255]))
     put("whole_spike2", "magic.smr", struct.pack("<h", 6) + b"(C) CED 87" + bytes(500))
     new_format_seeds()
+    synthetic_fixture_seeds()
+    ephys_new_seeds()
     put("codec_packbits", "runs.bin", struct.pack("<I", 64)[:3] + bytes([0xFD, 7, 2, 1, 2, 3, 0x81, 9]))
     # LZMA2 of b"hello hello hello hello, lzma2!" (CPython lzma, FORMAT_RAW, preset 6)
     put("codec_lzma2", "hello.bin", struct.pack("<I", 31)[:3] + bytes.fromhex("e0001e00145d00341949ee8de9560ae7799a19124543a9df4c4c4000"))

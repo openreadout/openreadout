@@ -1,0 +1,26 @@
+{
+ "id": "figshare33425479-Snap-29835",
+ "file": "figshare33425479-Snap-29835.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1920,
+   "size_y": 1216,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "270cc57e58a9229d3b0d8b7f8830d058"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b79b83423155d66eee1491408287bb2b"
+    }
+   ]
+  }
+ ]
+}

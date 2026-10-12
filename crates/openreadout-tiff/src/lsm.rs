@@ -3,7 +3,9 @@
 //! `docs/formats/tiff.md` § Zeiss LSM and `docs/provenance/tiff.md`.
 
 use openreadout_core::bytes::{le_f64, le_u16, le_u32, until_nul};
-use openreadout_core::model::{ChannelInfo, ImageInfo, InstrumentInfo, PhysicalSize};
+use openreadout_core::model::{
+    ChannelInfo, ImageInfo, InstrumentInfo, ObjectiveInfo, PhysicalSize,
+};
 use openreadout_core::provenance::Source;
 use openreadout_core::{Error, PixelType, Result};
 use serde_json::json;
@@ -46,6 +48,123 @@ pub struct LsmInfo {
     pub time_stamps: Vec<f64>,
     /// `[start, end]` in metres per channel, for spectral scans.
     pub channel_wavelengths_m: Vec<[f64; 2]>,
+    /// Recording-level entries of the scan information (offset at byte 124).
+    pub scan: LsmScanInfo,
+}
+
+/// The recording-level values of the LSM scan information that we report.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct LsmScanInfo {
+    /// The recording's name as the user typed it.
+    pub recording_name: Option<String>,
+    /// Objective text, e.g. `Plan-Apochromat 63x/1.40 Oil DIC M27`.
+    pub objective: Option<String>,
+    /// Time of the first sample as an OLE Automation date (days since 1899-12-30, local time).
+    pub sample0_time_days: Option<f64>,
+}
+
+/// Entry codes that open a list or an entry of the scan information tree; 0xFFFFFFFF closes one.
+const SCAN_OPENERS: [u32; 16] = [
+    0x2000_0000,
+    0x3000_0000,
+    0x6000_0000,
+    0x8000_0000,
+    0xA000_0000,
+    0xC000_0000,
+    0x1100_0000,
+    0x1300_0000,
+    0x4000_0000,
+    0x5000_0000,
+    0x7000_0000,
+    0x9000_0000,
+    0xB000_0000,
+    0xD000_0000,
+    0x1200_0000,
+    0x1400_0000,
+];
+
+/// Walk the scan information at `off` and keep the recording-level values we report. Each
+/// entry is a u32 code, a u32 type (2 text, 4 i32, 5 f64) and a u32 size, then the value.
+/// A malformed tree yields what was read before it.
+pub fn parse_scan_info(src: &mut ByteSource, off: u64) -> LsmScanInfo {
+    let mut out = LsmScanInfo::default();
+    let Ok(h) = src.read_at(off, 12) else {
+        return out;
+    };
+    if le_u32(&h, 0) != Some(0x1000_0000) {
+        return out;
+    }
+    let mut at = off + 12;
+    let mut depth = 1u32;
+    for _ in 0..100_000 {
+        let Ok(e) = src.read_at(at, 12) else { break };
+        let (Some(code), Some(kind), Some(size)) = (le_u32(&e, 0), le_u32(&e, 4), le_u32(&e, 8))
+        else {
+            break;
+        };
+        at += 12;
+        if code == 0xFFFF_FFFF {
+            depth -= 1;
+            if depth == 0 {
+                break;
+            }
+        } else if SCAN_OPENERS.contains(&code) {
+            depth += 1;
+        }
+        // Values are short; a large size means we are no longer on an entry.
+        if size > 1 << 20 {
+            break;
+        }
+        if depth == 1 && matches!(code, 0x1000_0001 | 0x1000_0004 | 0x1000_0036) {
+            let Ok(v) = src.read_at(at, u64::from(size)) else {
+                break;
+            };
+            match (code, kind) {
+                (0x1000_0001, 2) => out.recording_name = text_value(&v),
+                (0x1000_0004, 2) => out.objective = text_value(&v),
+                (0x1000_0036, 5) => out.sample0_time_days = le_f64(&v, 0),
+                _ => {}
+            }
+        }
+        at += u64::from(size);
+    }
+    out
+}
+
+fn text_value(v: &[u8]) -> Option<String> {
+    let t = String::from_utf8_lossy(until_nul(v)).trim().to_string();
+    (!t.is_empty()).then_some(t)
+}
+
+/// Magnification, NA and immersion from a Zeiss objective text: the `<mag>x/<NA>` token
+/// (`63x/1.40`) and an immersion word (`Oil`, `W` or `Water`, `Glyc`, `Imm`).
+pub fn objective_from_text(text: &str) -> ObjectiveInfo {
+    let mut o = ObjectiveInfo {
+        model: Some(text.trim().to_string()).filter(|s| !s.is_empty()),
+        ..ObjectiveInfo::default()
+    };
+    for tok in text.split_whitespace() {
+        if let Some((m, na)) = tok.split_once("x/").or_else(|| tok.split_once("X/")) {
+            if let (Ok(m), Ok(na)) = (m.parse::<f64>(), na.parse::<f64>())
+                && m > 0.0
+                && na > 0.0
+                && na < 2.0
+            {
+                o.nominal_magnification = Some(m);
+                o.lens_na = Some(na);
+            }
+            continue;
+        }
+        let imm = match tok.to_ascii_lowercase().as_str() {
+            "oil" => "Oil",
+            "w" | "water" => "Water",
+            "glyc" | "glycerol" => "Glycerol",
+            "imm" => "Multi",
+            _ => continue,
+        };
+        o.immersion.get_or_insert_with(|| imm.to_string());
+    }
+    o
 }
 
 /// Parse the record (the raw bytes of tag 34412, or the bytes at its offset). Sub-records
@@ -88,6 +207,9 @@ pub fn parse(record: &[u8], src: &mut ByteSource) -> Option<LsmInfo> {
     };
     if let Some(off) = offset(108) {
         read_channel_colors(src, off, &mut info);
+    }
+    if let Some(off) = offset(124) {
+        info.scan = parse_scan_info(src, off);
     }
     if let Some(off) = offset(132)
         && let Ok(h) = src.read_at(off, 8)
@@ -360,6 +482,19 @@ fn lsm_image_info(lsm: &LsmInfo, stack: &LsmStack, pos: u32, mut info: ImageInfo
     .into();
     if stack.positions > 1 {
         info.name = Some(format!("position {pos}"));
+    } else if let Some(n) = &lsm.scan.recording_name {
+        info.name = Some(n.clone());
+    }
+    if let Some(t) = &lsm.scan.objective {
+        info.objective = Some(objective_from_text(t));
+    }
+    // OLE dates of 1990 to 2100; 0 means the instrument did not record one.
+    if let Some(d) = lsm
+        .scan
+        .sample0_time_days
+        .filter(|d| (32_874.0..73_051.0).contains(d))
+    {
+        info.acquired_at = openreadout_core::jet::ole_date_iso(d);
     }
     let um = |m: f64| (m.is_finite() && m > 0.0).then_some(m * 1e6);
     info.physical_size = PhysicalSize::micrometres(
@@ -469,4 +604,72 @@ pub(crate) fn lsm_record(member: &mut FileSetMember, page0: &Ifd) -> Option<LsmI
         record
     };
     parse(&record, src)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::Path;
+
+    fn entry(code: u32, kind: u32, value: &[u8]) -> Vec<u8> {
+        let mut b = Vec::new();
+        b.extend_from_slice(&code.to_le_bytes());
+        b.extend_from_slice(&kind.to_le_bytes());
+        b.extend_from_slice(&u32::try_from(value.len()).unwrap().to_le_bytes());
+        b.extend_from_slice(value);
+        b
+    }
+
+    #[test]
+    fn scan_information_recording_level() {
+        // Recording, its name, a track list holding a track with an objective of its own (not
+        // recording level), the objective and the sample 0 time, then the closing entries.
+        let mut b = vec![0u8; 8];
+        b.extend(entry(0x1000_0000, 0, &[]));
+        b.extend(entry(0x1000_0001, 2, b"Run 1\0"));
+        b.extend(entry(0x2000_0000, 0, &[]));
+        b.extend(entry(0x4000_0000, 0, &[]));
+        b.extend(entry(0x1000_0004, 2, b"not this one\0"));
+        b.extend(entry(0xFFFF_FFFF, 0, &[]));
+        b.extend(entry(0xFFFF_FFFF, 0, &[]));
+        b.extend(entry(0x1000_0004, 2, b"C-Apochromat 63x/1.20 W Korr M27\0"));
+        b.extend(entry(
+            0x1000_0036,
+            5,
+            &41_388.724_641_203_706_f64.to_le_bytes(),
+        ));
+        b.extend(entry(0xFFFF_FFFF, 0, &[]));
+        b.extend(entry(0x1000_0001, 2, b"after the end\0"));
+        let mut src = ByteSource::from_bytes(Path::new("t.lsm"), b);
+        let s = parse_scan_info(&mut src, 8);
+        assert_eq!(s.recording_name.as_deref(), Some("Run 1"));
+        assert_eq!(
+            s.objective.as_deref(),
+            Some("C-Apochromat 63x/1.20 W Korr M27")
+        );
+        assert_eq!(
+            openreadout_core::jet::ole_date_iso(s.sample0_time_days.unwrap()).as_deref(),
+            Some("2013-04-24T17:23:29")
+        );
+        // Not the start of a recording: nothing.
+        let mut src = ByteSource::from_bytes(Path::new("t.lsm"), vec![0u8; 64]);
+        assert_eq!(parse_scan_info(&mut src, 8), LsmScanInfo::default());
+    }
+
+    #[test]
+    fn objective_text() {
+        let o = objective_from_text("C-Apochromat 63x/1.20 W Korr M27");
+        assert_eq!(o.nominal_magnification, Some(63.0));
+        assert_eq!(o.lens_na, Some(1.2));
+        assert_eq!(o.immersion.as_deref(), Some("Water"));
+        let o = objective_from_text("Plan-Apochromat 20x/0.8 M27");
+        assert_eq!(
+            (o.nominal_magnification, o.lens_na),
+            (Some(20.0), Some(0.8))
+        );
+        assert_eq!(o.immersion, None);
+        let o = objective_from_text("EC Plan-Neofluar 40x/1.30 Oil DIC M27");
+        assert_eq!(o.immersion.as_deref(), Some("Oil"));
+        assert_eq!(objective_from_text("Unknown").nominal_magnification, None);
+    }
 }

@@ -1,0 +1,32 @@
+{
+ "id": "figshare31440160-Captured-01",
+ "file": "figshare31440160-Captured-01.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "80084d70bc366b7a537008dba578dd9d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "861cd5cd561e0f8b1f8a99d02f23b983"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cb1aa8bd11a445dd2d1a72bd9ef897e2"
+    }
+   ]
+  }
+ ]
+}

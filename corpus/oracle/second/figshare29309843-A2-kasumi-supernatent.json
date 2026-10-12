@@ -1,0 +1,26 @@
+{
+ "id": "figshare29309843-A2-kasumi-supernatent",
+ "file": "figshare29309843-A2-kasumi-supernatent.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2942,
+   "size_y": 1484,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "74174be31eebdc496f080d87b6b5dfdf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4da1343dec76c3303785e614568d4a9f"
+    }
+   ]
+  }
+ ]
+}

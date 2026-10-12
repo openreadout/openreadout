@@ -38,7 +38,7 @@ Flow Cytometry Standard files, versions 2.0, 3.0, 3.1 and 3.2 (`fcs`), plus flow
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `fcs` | [format note](../../docs/formats/fcs.md), [provenance log](../../docs/provenance/fcs.md) | high | open spec | 58 / 58 | 23 | 4 / 0 |
+| `fcs` | [format note](../../docs/formats/fcs.md), [provenance log](../../docs/provenance/fcs.md) | high | open spec | 71 / 71 | 36 | 4 / 0 |
 
 ### Source map
 
@@ -46,7 +46,7 @@ Flow Cytometry Standard files, versions 2.0, 3.0, 3.1 and 3.2 (`fcs`), plus flow
 | --- | --- |
 | [`src/analysis.rs`](src/analysis.rs) | What `openreadout analyze gate` and `table --compensate/--transform/--workspace/--gatingml` do: read a gating file, bind it to an FCS data set, stream the events through the… |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`): the variant features of an FCS file (version, data type and byte order, acquisition platform) and the feature values the development |
-| [`src/crc.rs`](src/crc.rs) | The optional data-set CRC (FCS 3.1 §3.5): 16-bit CCITT polynomial (x^16 + x^12 + x^5 + 1), each input byte bit-reversed, initial value 0 — i.e |
+| [`src/crc.rs`](src/crc.rs) | The optional data-set CRC (FCS 3.1 §3.5): 16-bit CCITT polynomial (x^16 + x^12 + x^5 + 1) |
 | [`src/dataset.rs`](src/dataset.rs) | `Dataset` implementation: normalized tables, vendor keywords, listing, event reads, checks |
 | [`src/datetime.rs`](src/datetime.rs) | `$DATE`, `$BTIM`, `$ETIM`, `$LAST_MODIFIED` to ISO-8601 (no time zone: FCS records none) |
 | [`src/events.rs`](src/events.rs) | From raw DATA values to the values analysis works on: scale values (FCS 3.1 §3.2.19–20), the file's own compensation matrix, and parameter roles |
@@ -86,61 +86,73 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `fcs` | format_version | `2.0` | metadata, tables | 8 | 8 | `fcsparser-facscalibur-hts-a02`, `fcsparser-fake-bitmask`, `fcsparser-miltenyi-fcs20` |
-| `fcs` | format_version | `3.0` | metadata, tables | 30 | 30 | `fcsparser-cyflow-cube-8`, `fcsparser-cytek-xp5`, `fcsparser-facs-diva` |
-| `fcs` | format_version | `3.1` | metadata, tables | 19 | 19 | `fcsparser-miltenyi-duplicate-names`, `fcsparser-miltenyi-fcs31`, `fcsparser-miltenyi-fcs31-add` |
+| `fcs` | format_version | `2.0` | metadata, tables | 10 | 10 | `fcsparser-facscalibur-hts-a02`, `fcsparser-fake-bitmask`, `fcsparser-miltenyi-fcs20` |
+| `fcs` | format_version | `3.0` | metadata, tables | 39 | 39 | `fcsparser-cyflow-cube-8`, `fcsparser-cytek-xp5`, `fcsparser-facs-diva` |
+| `fcs` | format_version | `3.1` | metadata, tables | 21 | 21 | `fcsparser-miltenyi-duplicate-names`, `fcsparser-miltenyi-fcs31`, `fcsparser-miltenyi-fcs31-add` |
 | `fcs` | format_version | `3.2` | metadata, tables | 1 | 1 | `zenodo19221995-facsdiscover-zam36` |
 | `fcs` | instrument | `4486520 Attune NxT Acoustic Focusing Cytometer (Lasers…` | descriptive | 2 | 2 | `zenodo14008351-attune-hela`, `zenodo7390697-attune-males` |
 | `fcs` | instrument | `4486521 Attune NxT Acoustic Focusing Cytometer (Lasers…` | descriptive | 1 | 1 | `flowio-g11` |
+| `fcs` | instrument | `Apogee A60-Micro` | descriptive | 1 | 1 | `figshare22210837-apogee` |
 | `fcs` | instrument | `Aurora` | descriptive | 3 | 3 | `zenodo17457137-aurora-beads`, `zenodo20627793-aurora-brain-unstained`, `zenodo20627793-aurora-spleen-fmo` |
+| `fcs` | instrument | `BD Accuri C6` | descriptive | 1 | 1 | `figshare32906771-accuri-gbk` |
 | `fcs` | instrument | `BD Accuri C6 Plus` | descriptive | 1 | 1 | `flowio-b01-kc-a-w-91-us` |
+| `fcs` | instrument | `BD FACSLyric` | descriptive | 1 | 1 | `zenodo17222100-facslyric` |
 | `fcs` | instrument | `BD FACSVerse` | descriptive | 1 | 1 | `zenodo20785964-gs5-cfse-day1` |
+| `fcs` | instrument | `BeamCyte` | descriptive | 1 | 1 | `figshare19808482-beamcyte` |
 | `fcs` | instrument | `Cube_15` | descriptive | 1 | 1 | `fcsparser-cyflow-cube-8` |
 | `fcs` | instrument | `Cytek xP5: NCSU CORE  xP5 Facscan` | descriptive | 1 | 1 | `fcsparser-cytek-xp5` |
-| `fcs` | instrument | `CytoFLEX` | descriptive | 2 | 2 | `zenodo14018551-cytoflex-pi-rho`, `zenodo18439538-cytoflex` |
+| `fcs` | instrument | `CytoFLEX` | descriptive | 4 | 4 | `zenodo14018551-cytoflex-pi-rho`, `zenodo16309593-cytoflex-ams`, `zenodo18439538-cytoflex` |
 | `fcs` | instrument | `Cytomics FC 500` | descriptive | 1 | 1 | `flowio-coulter-lmd` |
 | `fcs` | instrument | `DVSSCIENCES-FLUIDIGM-CYTOF-7.0.8493` | descriptive | 1 | 1 | `zenodo10510047-cytof-mouse` |
 | `fcs` | instrument | `FACSAriaII` | descriptive | 2 | 2 | `zenodo13976956-facsaria2-ly6c`, `zenodo14537941-tomato-1-003-fcs` |
 | `fcs` | instrument | `FACSAriaIII` | descriptive | 1 | 1 | `zenodo17897897-ariaiii-pax7gfp` |
 | `fcs` | instrument | `FACSCalibur` | descriptive | 3 | 3 | `fcsparser-facscalibur-hts-a02`, `flowio-data1`, `flowkit-gml-events` |
 | `fcs` | instrument | `FACSCantoII` | descriptive | 2 | 2 | `zenodo14780093-msc-kit-90-fcs`, `zenodo14780093-msc-kit-nm-fcs` |
+| `fcs` | instrument | `FACSCelesta` | descriptive | 1 | 1 | `figshare33265719-facscelesta` |
 | `fcs` | instrument | `FACSDiscover S8` | descriptive | 1 | 1 | `zenodo19221995-facsdiscover-zam36` |
 | `fcs` | instrument | `FACScan` | descriptive | 1 | 1 | `flowio-3fitc-4pe-004` |
+| `fcs` | instrument | `Gallios` | descriptive | 1 | 1 | `zenodo20040545-gallios` |
+| `fcs` | instrument | `Guava Mini2, InCyte 3.4` | descriptive | 1 | 1 | `figshare30273178-guava` |
 | `fcs` | instrument | `Guava Muse, Viacount 1.8` | descriptive | 1 | 1 | `fcsparser-guava-muse` |
+| `fcs` | instrument | `LE-ID7000C` | descriptive | 1 | 1 | `figshare30376627-id7000` |
 | `fcs` | instrument | `LE-MA900FP` | descriptive | 1 | 1 | `zenodo21824329-ma900-control-us` |
+| `fcs` | instrument | `LE-SH800SZFCPL` | descriptive | 1 | 1 | `zenodo18924843-sh800` |
 | `fcs` | instrument | `LSRFortessa` | descriptive | 4 | 4 | `zenodo15023230-combo-only-049-fcs`, `zenodo15023230-media-059-fcs`, `zenodo21982816-cap1-5min` |
 | `fcs` | instrument | `LSRII` | descriptive | 9 | 9 | `fcsparser-fake-large`, `fcsparser-fortessa-a01`, `fcsparser-hts-lsr-ii-d06` |
 | `fcs` | instrument | `MACSQuant` | descriptive | 5 | 5 | `fcsparser-miltenyi-fcs20`, `fcsparser-miltenyi-fcs30`, `fcsparser-miltenyi-fcs31` |
 | `fcs` | instrument | `MACSQuant VYB,2.5.1345.9863` | descriptive | 1 | 1 | `fcsparser-miltenyi-duplicate-names` |
 | `fcs` | instrument | `Main Aria (FACSAria)` | descriptive | 1 | 1 | `flowio-100715` |
+| `fcs` | instrument | `MoFlo` | descriptive | 1 | 1 | `zenodo20427837-moflo` |
 | `fcs` | instrument | `Navios` | descriptive | 2 | 2 | `fcsparser-fake-bitmask`, `flowio-ki67-117-tube-1-empty-timestep` |
 | `fcs` | instrument | `NovoCyte` | descriptive | 1 | 1 | `zenodo22029676-novocyte-xylose` |
 | `fcs` | instrument | `S1400EXi` | descriptive | 3 | 3 | `flowio-data-start-offset-discrepancy`, `flowio-data-stop-offset-discrepancy`, `flowio-variable-int` |
 | `fcs` | instrument | `S3` | descriptive | 1 | 1 | `flowio-m0-wm278-s1-zero-gain` |
 | `fcs` | instrument | `SA3800` | descriptive | 1 | 1 | `zenodo7971252-sony-sa3800` |
-| `fcs` | layout | `$MODE L` | tables | 58 | 58 | `fcsparser-cyflow-cube-8`, `fcsparser-cytek-xp5`, `fcsparser-facs-diva` |
-| `fcs` | layout | `chained data sets ($NEXTDATA)` | tables | 2 | 2 | `fcsparser-guava-muse`, `flowio-coulter-lmd` |
-| `fcs` | sample_layout | `$DATATYPE F` | tables | 45 | 45 | `fcsparser-facs-diva`, `fcsparser-fake-large`, `fcsparser-fortessa-a01` |
-| `fcs` | sample_layout | `$DATATYPE I` | tables | 13 | 13 | `fcsparser-cyflow-cube-8`, `fcsparser-cytek-xp5`, `fcsparser-facscalibur-hts-a02` |
-| `fcs` | sample_layout | `big-endian` | tables | 24 | 24 | `fcsparser-cytek-xp5`, `fcsparser-facs-diva`, `fcsparser-facscalibur-hts-a02` |
-| `fcs` | sample_layout | `little-endian` | tables | 34 | 34 | `fcsparser-cyflow-cube-8`, `fcsparser-fake-bitmask`, `fcsparser-guava-muse` |
-| `fcs` | writer | `BD FACSuite` | descriptive | 1 | 1 | `zenodo20785964-gs5-cfse-day1` |
+| `fcs` | instrument | `partec PAS` | descriptive | 1 | 1 | `figshare30600737-partec` |
+| `fcs` | layout | `$MODE L` | tables | 71 | 71 | `fcsparser-cyflow-cube-8`, `fcsparser-cytek-xp5`, `fcsparser-facs-diva` |
+| `fcs` | layout | `chained data sets ($NEXTDATA)` | tables | 3 | 3 | `fcsparser-guava-muse`, `flowio-coulter-lmd`, `zenodo20040545-gallios` |
+| `fcs` | sample_layout | `$DATATYPE F` | tables | 53 | 53 | `fcsparser-facs-diva`, `fcsparser-fake-large`, `fcsparser-fortessa-a01` |
+| `fcs` | sample_layout | `$DATATYPE I` | tables | 18 | 18 | `fcsparser-cyflow-cube-8`, `fcsparser-cytek-xp5`, `fcsparser-facscalibur-hts-a02` |
+| `fcs` | sample_layout | `big-endian` | tables | 30 | 30 | `fcsparser-cytek-xp5`, `fcsparser-facs-diva`, `fcsparser-facscalibur-hts-a02` |
+| `fcs` | sample_layout | `little-endian` | tables | 41 | 41 | `fcsparser-cyflow-cube-8`, `fcsparser-fake-bitmask`, `fcsparser-guava-muse` |
+| `fcs` | writer | `BD FACSuite` | descriptive | 2 | 2 | `zenodo17222100-facslyric`, `zenodo20785964-gs5-cfse-day1` |
 | `fcs` | writer | `CELLQuestª` | descriptive | 3 | 3 | `flowio-3fitc-4pe-004`, `flowio-data1`, `flowkit-gml-events` |
 | `fcs` | writer | `CellQuest Proª` | descriptive | 1 | 1 | `fcsparser-facscalibur-hts-a02` |
 | `fcs` | writer | `FlowJoCollectorsEdition` | descriptive | 1 | 1 | `fcsparser-cytek-xp5` |
 | `fcs` | writer | `LYSYS` | descriptive | 1 | 1 | `flowio-100715` |
-| `fcs` | writer | `bd-facsdiva` | metadata, tables | 17 | 17 | `fcsparser-facs-diva`, `fcsparser-fake-large`, `fcsparser-fortessa-a01` |
+| `fcs` | writer | `bd-facsdiva` | metadata, tables | 18 | 18 | `fcsparser-facs-diva`, `fcsparser-fake-large`, `fcsparser-fortessa-a01` |
 | `fcs` | writer | `bd-spectral` | metadata, tables | 1 | 1 | `zenodo19221995-facsdiscover-zam36` |
-| `fcs` | writer | `beckman-cytoflex` | metadata, tables | 2 | 2 | `zenodo14018551-cytoflex-pi-rho`, `zenodo18439538-cytoflex` |
+| `fcs` | writer | `beckman-cytoflex` | metadata, tables | 4 | 4 | `zenodo14018551-cytoflex-pi-rho`, `zenodo16309593-cytoflex-ams`, `zenodo18439538-cytoflex` |
 | `fcs` | writer | `cytek-spectral` | metadata, tables | 3 | 3 | `zenodo17457137-aurora-beads`, `zenodo20627793-aurora-brain-unstained`, `zenodo20627793-aurora-spleen-fmo` |
 | `fcs` | writer | `mass-cytometry` | metadata, tables | 1 | 1 | `zenodo10510047-cytof-mouse` |
-| `fcs` | writer | `sony-spectral` | metadata, tables | 1 | 1 | `zenodo7971252-sony-sa3800` |
+| `fcs` | writer | `sony-sorter` | metadata, tables | 2 | 2 | `zenodo18924843-sh800`, `zenodo21824329-ma900-control-us` |
+| `fcs` | writer | `sony-spectral` | metadata, tables | 2 | 2 | `figshare30376627-id7000`, `zenodo7971252-sony-sa3800` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/fcs32.rs`](tests/fcs32.rs), [`tests/gating.rs`](tests/gating.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_fcs`
-- corpus inputs by tier: heldout 12, hold 2, smoke 45, standard 11
+- corpus inputs by tier: heldout 12, hold 2, smoke 45, standard 24
 - golden snapshots: [`corpus/snapshots/fcs.jsonl`](../../corpus/snapshots/fcs.jsonl)
 
 ### Open new-variant intakes

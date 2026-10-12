@@ -1,0 +1,38 @@
+{
+ "id": "figshare23623245-Adcy3-AT-soni10-CN013",
+ "file": "figshare23623245-Adcy3-AT-soni10-CN013.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "734490a7510cae7f384c422c7f164f83"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d4b9394f96fc06e1c797fc835f88215a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "77e355bc7dd05a2d0b3299d378e9125d"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d254d32a6e8edc8f237d4416b859119"
+    }
+   ]
+  }
+ ]
+}

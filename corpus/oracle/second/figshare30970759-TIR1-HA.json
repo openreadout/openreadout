@@ -1,0 +1,32 @@
+{
+ "id": "figshare30970759-TIR1-HA",
+ "file": "figshare30970759-TIR1-HA.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4f0b575920a506de20694be09bfbf4d3"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0aae4fe5bc3896bac08025f431d0e727"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "803fe6f59aa3179ea4f453c0f29fc57a"
+    }
+   ]
+  }
+ ]
+}

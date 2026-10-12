@@ -1,0 +1,42 @@
+{
+ "id": "figshare29858651-uvprobe-usl18-52-1",
+ "file": "figshare29858651-uvprobe-usl18-52-1.spc",
+ "size": 22528,
+ "sha256": "4519189dedf203c2ba564e3520a609364bd9a00c70665a0efa4802315363a358",
+ "max_planes_hashed": 64,
+ "reader": "second implementation (UVProbe X/Y Data streams read with olefile); not an independent oracle",
+ "independent": false,
+ "traces": [
+  {
+   "index": 0,
+   "reader": "olefile",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 661,
+   "x_first": 850.0,
+   "x_last": 190.0,
+   "x_quantity": "wavelength",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 661,
+     "channels": [
+      {
+       "xxh3": "8a992f026aa835f61932c6b7f0b65bce",
+       "first": [
+        0.00036128537612967193,
+        4.053931843372993e-05,
+        -0.00017867996939457953,
+        7.618908421136439e-05,
+        0.0007348768995143473,
+        0.0012302889954298735,
+        0.0006612165598198771,
+        0.00034359091660007834
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

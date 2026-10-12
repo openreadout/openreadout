@@ -2888,10 +2888,12 @@ dependencies = [
 name = "openreadout-wsi"
 version = "0.2.0"
 dependencies = [
+ "base64 0.23.1",
  "openreadout-codecs",
  "openreadout-core",
  "png",
  "rayon",
+ "roxmltree",
  "serde_json",
 ]
 

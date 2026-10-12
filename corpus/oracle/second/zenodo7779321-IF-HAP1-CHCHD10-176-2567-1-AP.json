@@ -1,0 +1,26 @@
+{
+ "id": "zenodo7779321-IF-HAP1-CHCHD10-176-2567-1-AP",
+ "file": "zenodo7779321-IF-HAP1-CHCHD10-176-2567-1-AP.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "77ca47f13ae92b1765dfeb20df471523"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d2d8ec795f8bbb01efc8408b401ff152"
+    }
+   ]
+  }
+ ]
+}

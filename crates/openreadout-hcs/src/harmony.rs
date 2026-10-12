@@ -43,8 +43,34 @@ pub fn looks_like_harmony(head: &[u8]) -> bool {
             || s.contains("/HarmonyV"))
 }
 
-/// The index file of a Harmony folder: the folder itself, or its `Images` sub-folder.
+/// The index file of a Harmony folder: the folder itself, or its `Images` sub-folder. Names
+/// match without regard to case (Harmony archives write `images/index.xml`). In a Harmony
+/// archive folder (`hs`, marked by `_hs.txt`) that holds one measurement, that measurement's
+/// index.
 pub fn find_index(fs: &Fs, dir: &Path) -> Option<PathBuf> {
+    if let Some(p) = index_in_measurement(fs, dir) {
+        return Some(p);
+    }
+    let entries = entries_of(fs, dir);
+    if entries
+        .iter()
+        .any(|p| name_is(p, "_hs.txt") && fs.is_file(p))
+    {
+        let found: Vec<PathBuf> = entries
+            .iter()
+            .filter(|p| fs.is_dir(p))
+            .filter_map(|m| index_in_measurement(fs, m))
+            .collect();
+        if let [one] = found.as_slice() {
+            return Some(one.clone());
+        }
+    }
+    None
+}
+
+/// The index in `dir` or in its `Images` sub-folder. The usual spellings are tried first, so
+/// a folder of many plane files is listed only when they are absent.
+fn index_in_measurement(fs: &Fs, dir: &Path) -> Option<PathBuf> {
     for d in [dir.to_path_buf(), dir.join("Images")] {
         for n in HARMONY_INDEX_NAMES {
             let p = d.join(n);
@@ -53,7 +79,43 @@ pub fn find_index(fs: &Fs, dir: &Path) -> Option<PathBuf> {
             }
         }
     }
+    let entries = entries_of(fs, dir);
+    let images = entries
+        .iter()
+        .find(|p| name_is(p, "Images") && fs.is_dir(p))
+        .cloned();
+    for d in std::iter::once(dir.to_path_buf()).chain(images) {
+        let files = if d == dir {
+            entries.clone()
+        } else {
+            entries_of(fs, &d)
+        };
+        for n in HARMONY_INDEX_NAMES {
+            if let Some(p) = files.iter().find(|p| name_is(p, n) && fs.is_file(p)) {
+                return Some(p.clone());
+            }
+        }
+    }
     None
+}
+
+fn entries_of(fs: &Fs, dir: &Path) -> Vec<PathBuf> {
+    let mut v: Vec<PathBuf> = fs
+        .read_dir(dir)
+        .map(|rd| {
+            rd.filter_map(std::result::Result::ok)
+                .map(|e| e.path())
+                .collect()
+        })
+        .unwrap_or_default();
+    v.sort();
+    v
+}
+
+fn name_is(p: &Path, name: &str) -> bool {
+    p.file_name()
+        .and_then(|n| n.to_str())
+        .is_some_and(|n| n.eq_ignore_ascii_case(name))
 }
 
 /// One `Image` element of the index (a plane).
@@ -826,6 +888,32 @@ mod tests {
             "p/Index.idx.xml",
             Arc::new(MemSource::new("i", text.as_bytes().to_vec())),
         )))
+    }
+
+    #[test]
+    fn finds_the_index_of_an_archive_whatever_the_case() {
+        let src = || Arc::new(MemSource::new("i", INDEX.as_bytes().to_vec()));
+        let fs = Fs::new(Arc::new(
+            MemFs::new()
+                .with(
+                    "hs/_hs.txt",
+                    Arc::new(MemSource::new("h", b"Version\t1.0.2".to_vec())),
+                )
+                .with("hs/3a1d/images/index.xml", src())
+                .with("hs/3a1d/images/r01c02/r01c02f01p01-ch01t01.tiff", src()),
+        ));
+        let want = Some(PathBuf::from("hs/3a1d/images/index.xml"));
+        assert_eq!(find_index(&fs, Path::new("hs/3a1d")), want);
+        assert_eq!(find_index(&fs, Path::new("hs")), want);
+        assert_eq!(find_index(&fs, Path::new("hs/3a1d/images")), want);
+        // Two measurements in one archive: which one is meant is not ours to guess.
+        let fs2 = Fs::new(Arc::new(
+            MemFs::new()
+                .with("hs/_hs.txt", Arc::new(MemSource::new("h", b"x".to_vec())))
+                .with("hs/a/images/index.xml", src())
+                .with("hs/b/images/index.xml", src()),
+        ));
+        assert_eq!(find_index(&fs2, Path::new("hs")), None);
     }
 
     #[test]

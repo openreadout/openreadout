@@ -1,0 +1,20 @@
+{
+ "id": "figshare30207526-544-545No8RFP",
+ "file": "figshare30207526-544-545No8RFP.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8bdf9449739cdf21b0a5705070f28fb1"
+    }
+   ]
+  }
+ ]
+}

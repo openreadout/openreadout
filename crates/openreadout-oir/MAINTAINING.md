@@ -38,7 +38,7 @@ Olympus/Evident FluoView OIR files, including multi-file series whose pixel bloc
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `oir` | [format note](../../docs/formats/oir.md), [provenance log](../../docs/provenance/oir.md) | high | prior art | 16 / 16 | 8 | 1 / 0 |
+| `oir` | [format note](../../docs/formats/oir.md), [provenance log](../../docs/provenance/oir.md) | high | prior art | 20 / 20 | 12 | 1 / 0 |
 
 ### Source map
 
@@ -70,21 +70,22 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
 | `oir` | acquisition | `lambda_scan` | metadata, pixels | 3 | 3 | `zenodo12773657-dapi-mcherry-22lambda`, `zenodo12773657-dapi-mcherry-3t-4z-5lambda`, `zenodo12773657-dapi-mcherry-4z-5lambda` |
-| `oir` | field | `experiment.acquisition.started_at` | descriptive | 15 | 15 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018` |
-| `oir` | field | `experiment.instrument.model` | descriptive | 15 | 15 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018` |
+| `oir` | field | `experiment.acquisition.started_at` | descriptive | 19 | 19 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare22922456-E3-6-testes` |
+| `oir` | field | `experiment.instrument.model` | descriptive | 19 | 19 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare22922456-E3-6-testes` |
 | `oir` | format_version | `2.1.2.1` | metadata, pixels | 4 | 4 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `ome-etienne-amy-slice-z-stack-0001`, `ome-etienne-coupe-shg-stack-0001` |
-| `oir` | format_version | `2.1.2.3` | metadata, pixels | 12 | 12 | `figshare22822184-oir-e1-7-egg-3`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018`, `ome-imagesc105684-interval-30sec` |
-| `oir` | instrument | `FV3000` | descriptive | 3 | 3 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018` |
+| `oir` | format_version | `2.1.2.3` | metadata, pixels | 16 | 16 | `figshare22822184-oir-e1-7-egg-3`, `figshare22922456-E3-6-testes`, `figshare28684610-GfaBC1d-null-mutant-3h-after-ablation` |
+| `oir` | instrument | `FV3000` | descriptive | 6 | 6 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare22922456-E3-6-testes` |
 | `oir` | instrument | `FV4000` | descriptive | 8 | 8 | `ome-imagesc105684-interval-30sec`, `ome-imagesc105684-interval-30sec-z-stack`, `ome-imagesc105684-interval-freerun` |
 | `oir` | instrument | `FV4000 (Modified)` | descriptive | 1 | 1 | `zenodo13680725-stitch-a01-g001` |
+| `oir` | instrument | `FVMPE-RS` | descriptive | 1 | 1 | `figshare28684610-GfaBC1d-null-mutant-3h-after-ablation` |
 | `oir` | instrument | `FluoView Software` | descriptive | 3 | 3 | `ome-etienne-amy-slice-z-stack-0001`, `ome-etienne-coupe-shg-stack-0001`, `ome-etienne-venus-stack` |
 | `oir` | layout | `continuation_files` | pixels | 1 | 1 | `zenodo13680725-stitch-a01-g001` |
 | `oir` | layout | `metadata_only` | metadata | 1 | 1 | `zenodo13680725-map-a01` |
-| `oir` | layout | `reference_image` | pixels | 13 | 13 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018`, `ome-etienne-amy-slice-z-stack-0001` |
-| `oir` | sample_layout | `color_type GlayScale` | pixels | 15 | 15 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018` |
-| `oir` | sample_layout | `uint16` | pixels | 15 | 15 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018` |
+| `oir` | layout | `reference_image` | pixels | 16 | 16 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare28684610-GfaBC1d-null-mutant-3h-after-ablation`, `figshare31990119-0008` |
+| `oir` | sample_layout | `color_type GlayScale` | pixels | 19 | 19 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare22922456-E3-6-testes` |
+| `oir` | sample_layout | `uint16` | pixels | 19 | 19 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare22922456-E3-6-testes` |
 | `oir` | writer_version | `FLUOVIEW 1` | metadata | 3 | 3 | `ome-etienne-amy-slice-z-stack-0001`, `ome-etienne-coupe-shg-stack-0001`, `ome-etienne-venus-stack` |
-| `oir` | writer_version | `FLUOVIEW 2` | metadata | 3 | 3 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare33412420-oir-50-fold-bovine-milk-supernatant-0018` |
+| `oir` | writer_version | `FLUOVIEW 2` | metadata | 7 | 7 | `figshare11586930-oir-20x-dm123-0-degrees-rotation-zoom2`, `figshare22822184-oir-e1-7-egg-3`, `figshare22922456-E3-6-testes` |
 | `oir` | writer_version | `FLUOVIEW 3` | metadata | 9 | 9 | `ome-imagesc105684-interval-30sec`, `ome-imagesc105684-interval-30sec-z-stack`, `ome-imagesc105684-interval-freerun` |
 
 ### Tests, fixtures, fuzz targets, snapshots
@@ -92,7 +93,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_oir`
-- corpus inputs by tier: full 1, heldout 3, smoke 2, standard 13
+- corpus inputs by tier: full 1, heldout 3, smoke 2, standard 17
 - golden snapshots: [`corpus/snapshots/oir.jsonl`](../../corpus/snapshots/oir.jsonl)
 
 ### Open new-variant intakes

@@ -1,6 +1,6 @@
 [package]
 name = "openreadout-wsi"
-description = "Readers for multi-file whole-slide formats such as 3DHISTECH MIRAX, part of OpenReadout"
+description = "Readers for whole-slide formats outside TIFF (3DHISTECH MIRAX, Philips iSyntax), part of OpenReadout"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -12,8 +12,9 @@ keywords.workspace = true
 categories.workspace = true
 readme = "README.md"
 documentation = "https://docs.rs/openreadout-wsi"
-# Only sources, README and licenses are packaged (no tests, fixtures or corpus).
-include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+# Only sources, README and licenses are packaged (no tests, fixtures or corpus). The iSyntax
+# decoder is a port of libisyntax and keeps its licence (LICENSE-libisyntax).
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE", "/LICENSE-libisyntax"]
 
 [dependencies]
 openreadout-core = { workspace = true }
@@ -21,6 +22,8 @@ openreadout-codecs = { workspace = true }
 serde_json = { workspace = true }
 rayon = { workspace = true }
 png = { workspace = true }
+base64 = { workspace = true }
+roxmltree = { workspace = true }
 
 [lints]
 workspace = true

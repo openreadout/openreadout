@@ -1,0 +1,38 @@
+{
+ "id": "figshare19723189-Fig-4e-4-1-G-Gata4-R-Wnt2-P-Nkx6-1-B-DAP",
+ "file": "figshare19723189-Fig-4e-4-1-G-Gata4-R-Wnt2-P-Nkx6-1-B-DAP.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 948,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "836161419ae05d9b5ef7708405c6b334"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2bf7561311b988fe633a72563fbfe227"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6f3ead33cce92361b76b20de41771762"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "91e50630e52280f59220ccb1b3a0ed46"
+    }
+   ]
+  }
+ ]
+}

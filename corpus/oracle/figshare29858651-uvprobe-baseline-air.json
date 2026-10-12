@@ -1,0 +1,42 @@
+{
+ "id": "figshare29858651-uvprobe-baseline-air",
+ "file": "figshare29858651-uvprobe-baseline-air.spc",
+ "size": 22528,
+ "sha256": "822538b1dadfbddca952fe32871333d476b0bd6ce4860329104ca83de0df8c82",
+ "max_planes_hashed": 64,
+ "reader": "second implementation (UVProbe X/Y Data streams read with olefile); not an independent oracle",
+ "independent": false,
+ "traces": [
+  {
+   "index": 0,
+   "reader": "olefile",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 661,
+   "x_first": 850.0,
+   "x_last": 190.0,
+   "x_quantity": "wavelength",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 661,
+     "channels": [
+      {
+       "xxh3": "0daa55356e3c465b3b2e8c4b4e6cdb87",
+       "first": [
+        0.0008912617922760546,
+        0.0013703625882044435,
+        0.0012739809462800622,
+        0.0008781886426731944,
+        0.0006457393756136298,
+        0.0007516019395552576,
+        0.0009044131147675216,
+        0.0006385323940776289
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

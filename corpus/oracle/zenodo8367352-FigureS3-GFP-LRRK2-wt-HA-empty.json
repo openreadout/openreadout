@@ -1,0 +1,69 @@
+{
+ "id": "zenodo8367352-FigureS3-GFP-LRRK2-wt-HA-empty",
+ "file": "zenodo8367352-FigureS3-GFP-LRRK2-wt-HA-empty.lsm",
+ "size": 29495249,
+ "sha256": "9e9f30ca3d58372692624b068a0992e47dcc84072ffc2210e0af7e1c1f3bf017",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    4,
+    1912,
+    1912
+   ],
+   "size_x": 1912,
+   "size_y": 1912,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.07058114171705612,
+    "y": 0.07058114171705612
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9fc74e2fb72d278db66e3d9f7a510895"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2276d5088237e08c76dfb2797ffe804c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a03502f8e74329c61e5f692bff213449"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5bf1ef1df9fb888eb43c1cfbb61ac4e2"
+    }
+   ],
+   "check_objective": "Plan-Apochromat 63x/1.4 Oil DIC M27",
+   "check_acquired_at": "2022-04-26T14:34:34"
+  }
+ ]
+}

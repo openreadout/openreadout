@@ -212,6 +212,23 @@ pub trait Dataset: Send {
         }
         Ok(())
     }
+    /// How many consecutive z planes of `image` at `level` share one stored chunk, so that
+    /// reading them on one handle decodes each chunk once (HDF5 and Zarr chunks deeper than
+    /// one plane). Parallel reads give such runs to one worker. 1 (the default) means planes
+    /// are stored apart.
+    fn z_planes_per_chunk(&self, image: u32, level: u32) -> u32 {
+        let _ = (image, level);
+        1
+    }
+    /// Why the reader refuses every plane of `image` (exit 6), when it knows that without
+    /// reading: raw data it recognises but does not decode, such as Leica FALCON photon
+    /// histograms. `None` (the default) means the planes are read. Whole-file `stats` and
+    /// `export` leave such images out and list them; asking for one by `--image` still
+    /// fails with the reader's error.
+    fn pixels_refused(&self, image: u32) -> Option<String> {
+        let _ = image;
+        None
+    }
     /// Files embedded in the container (thumbnails, label images, time stamps, ...).
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         Ok(Vec::new())

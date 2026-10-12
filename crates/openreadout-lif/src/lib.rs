@@ -124,7 +124,7 @@ impl FormatReader for LifReader {
             can_write: false,
             confidence: assurance::LIF.confidence,
             known_gaps: vec![
-                "FLIM/TCSPC raw photon data (FALCON) is detected and described but not decoded; reading those planes exits 6".into(),
+                "FLIM/TCSPC raw photon data (FALCON) is detected and described but not decoded; reading those planes exits 6, and `stats` and `export` without `--image` leave those images out".into(),
                 "XLIF frames stored as single-page TIFF files are read (validated on two LAS X exports); JPEG and PNG frames follow the same rule unvalidated (a note says so); BMP and multi-page OME/Aivia TIFF frames are not read (exit 6)".into(),
                 "LOF, XLEF and XLCF are implemented from liffile's documentation and synthetic test files only; XLLF folder lists and XLIF files with TIFF frames are validated on real LAS X 3.7 exports (two depositors)".into(),
                 "Tile scans are stitched from stage positions without registration or blending; LAS X 'Merged' images may differ where it registered overlapping tiles".into(),

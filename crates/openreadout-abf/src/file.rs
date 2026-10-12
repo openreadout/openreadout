@@ -331,7 +331,8 @@ pub struct AbfFile {
     pub sections: Vec<SectionEntry>,
     /// ABF 2 string table (index 0 = empty).
     pub strings: Vec<String>,
-    /// ABF 2: a user list entry varies a protocol parameter from sweep to sweep.
+    /// A user list varies a protocol parameter from sweep to sweep (ABF 1: the user-list block
+    /// is not empty).
     pub user_list_active: bool,
     /// ABF 2: DAC outputs alternate between sweeps.
     pub alternate_dac_output: bool,
@@ -845,7 +846,8 @@ fn parse_abf1(f: &mut SourceFile, path: &Path, head: Block, file_len: u64) -> Re
             stimulus_file: stimulus,
             epochs,
             inter_episode_last: extended && d < 2 && arr_i16(2304, d).is_some_and(|v| v != 0),
-            conditioning: false,
+            // the conditioning-train enable flags, two i16 at 3260 (docs/provenance/abf.md)
+            conditioning: extended && d < 2 && arr_i16(3260, d).is_some_and(|v| v != 0),
         });
     }
     let digital = if h.i16_at(1436) == Some(1) {
@@ -1021,10 +1023,20 @@ fn parse_abf1(f: &mut SourceFile, path: &Path, head: Block, file_len: u64) -> Re
         synch,
         sections,
         strings: Vec::new(),
-        user_list_active: false,
+        user_list_active: extended && abf1_user_list_active(h),
         alternate_dac_output: false,
         findings,
     })
+}
+
+/// ABF 1 extended header: the user-list block at 3360 holds 16 bytes of flags and four
+/// 256-byte value lists. Any non-zero flag byte or non-blank list counts as an active user list
+/// (docs/provenance/abf.md, 2026-10-12). A block the header does not reach counts as active.
+fn abf1_user_list_active(h: &Block) -> bool {
+    let (Some(flags), Some(lists)) = (h.slice(3360, 16), h.slice(3376, 1024)) else {
+        return true;
+    };
+    flags.iter().any(|&b| b != 0) || lists.iter().any(|&b| b != 0 && b != b' ')
 }
 
 // ---------------------------------------------------------------- ABF 2

@@ -47,3 +47,13 @@ Bio-Formats 8.5.0 `showinf` was run as a black box to compare image geometry (`o
 - Record datasets: 1-D compound datasets of numbers and fixed-length strings (`Vertex`: `PositionX/Y/Z`, `Radius` f32; `Edge`: `VertexA`, `VertexB`; `Filament`, `DendriteSegment`, `Spine` with index ranges; `Points/Point`; `Time`, `TimeBegin`, `TrackSegment*`).
 
 **Inferred (ours):** the pivot into one table per category: rows are (time, object) pairs; a factor with several levels for one object and name splits the statistic into columns (`Name [Factor=level]`), a factor with one level per object but several across objects is an object attribute (a column of its own: `Depth`, `Level`), a factor with one level for every type of a name describes the name (`Collection`) and is dropped. Record datasets become tables of their numeric fields; text fields are left out and named in the table's `extra`.
+
+## 2026-10-12 — scene-only Imaris files are refused as unsupported, not corrupt
+
+**Why.** The imaging sweep met `Figure 4+Supp Video 3_h_hCD8-SHG_scene.ims` (Zenodo 3843094, CC-BY-4.0): an HDF5 file with `Scene` and `Scene8` groups (one `Points0` spots object) and no `DataSet` group or root attributes. `info` called it corrupt (exit 4), which tells the user the file is damaged.
+
+**Inferred from the file** (h5py listing): Imaris saves objects without an image this way. **Rule implemented:** a file without `DataSet` that has `Scene8` or `Scene` exits 6 (`unsupported_feature`) with a hint to open the image the objects were made on. Reading the objects of such a file is not implemented.
+
+## 2026-10-12 — parallel reads keep z planes that share a chunk on one handle
+
+Not a decoding change. The imaging sweep measured `stats` on Imaris files whose chunks hold 16 or 32 z planes (`performanceTestImage.ims`, Zenodo 14235726; `tmp.ims`, Zenodo 17406102): with 8 worker threads each worker decoded the same chunks again and kept its own 64 MiB chunk cache, so peak memory grew with the thread count (832 MB for a 205 MB image, 124 MB with one thread) and the run was no faster. The reader now tells the parallel reader how many z planes share a chunk (`z_planes_per_chunk`), and runs of such planes go to one handle: 313 MB with 8 threads, the same output.

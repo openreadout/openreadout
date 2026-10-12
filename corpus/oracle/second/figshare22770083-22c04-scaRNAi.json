@@ -1,0 +1,77 @@
+{
+ "id": "figshare22770083-22c04-scaRNAi",
+ "file": "figshare22770083-22c04-scaRNAi.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "NsfGFPpnrG_scaRNAi_still",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2403cf2c858b4ac26f1e8698715c9280"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "NsfGFPpnrG_scaRNAi_001",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d0537bfb1044ff2f0b3f1f195e891b80"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "7306c02b0d7f231510247d5b886546de"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "b8d0da287ca5b59ec0ed65d4b96f94a1"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "2d003462e371b354a39e54c853f0ae87"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "4f66fb0576f418f5964d1521b8a1e458"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "cb47f2aef58db0e170bbd125dd1e8eec"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "23e2cf15f051a31aee5bb80507c63553"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "a164b6e6d5bca84e61a4ff96d047eb7c"
+    }
+   ]
+  }
+ ]
+}

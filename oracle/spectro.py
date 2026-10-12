@@ -62,6 +62,8 @@ def kind(p: Path):
         return "pesp_ascii"
     if _is_galactic_spc(head, p.name):
         return "spc"
+    if head[:8] == bytes.fromhex("d0cf11e0a1b11ae1") and p.name.lower().endswith(".spc"):
+        return "uvprobe"
     return None
 
 
@@ -408,6 +410,28 @@ def pesp_ascii(p: Path, max_sweeps=1000) -> dict:
          "sweeps": _sweeps([[y]], max_sweeps)}
     return {"reader": "second implementation (#DATA pairs read with the standard library); not an independent oracle",
             "independent": False, "traces": [t]}
+
+
+def uvprobe(p: Path, max_sweeps=1000) -> dict:
+    """Shimadzu UVProbe `.spc`: the `X Data.1` and `Y Data.1` float64 arrays of each data set,
+    read from the compound file with olefile (BSD-2-Clause, black box). The stream layout is our
+    format note's (no independent reader of UVProbe files exists), so this is a second
+    implementation (`independent: false`); the depositors' UVProbe text exports are the
+    independent check (`role = "oracle-export"`, tests/spectro.rs)."""
+    import olefile
+    o = olefile.OleFileIO(str(p))
+    traces = []
+    n = 1
+    while o.exists(f"DataStorage1/DataSetGroup/DataSet{n}/DataSpectrumStorage/Data/X Data.1"):
+        d = f"DataStorage1/DataSetGroup/DataSet{n}/DataSpectrumStorage/Data/"
+        x = np.frombuffer(o.openstream(d + "X Data.1").read(), "<f8")
+        y = np.frombuffer(o.openstream(d + "Y Data.1").read(), "<f8")
+        traces.append({"index": n - 1, "reader": "olefile", "sweep_count": 1, "channel_count": 1,
+                       "sample_count": int(len(y)), "x_first": float(x[0]), "x_last": float(x[-1]),
+                       "x_quantity": "wavelength", "sweeps": _sweeps([[y]], max_sweeps)})
+        n += 1
+    return {"reader": "second implementation (UVProbe X/Y Data streams read with olefile); not an independent oracle",
+            "independent": False, "traces": traces}
 
 
 def is_wdf(p: Path) -> bool:

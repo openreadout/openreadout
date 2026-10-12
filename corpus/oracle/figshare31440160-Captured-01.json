@@ -1,0 +1,127 @@
+{
+ "id": "figshare31440160-Captured-01",
+ "file": "figshare31440160-Captured-01.nd2",
+ "size": 6512640,
+ "sha256": "009a200e48c82757e05ab0023c9245d5ddeebeba572f0339dcc8b0b3a97a36f2",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 3, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.43134837134777476,
+    "y": 0.43134837134777476,
+    "z": null
+   },
+   "channel_names": [
+    "DAPI",
+    "EGFP",
+    "RFP"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "80084d70bc366b7a537008dba578dd9d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "861cd5cd561e0f8b1f8a99d02f23b983"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cb1aa8bd11a445dd2d1a72bd9ef897e2"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DAPI",
+    "color": "#0000FF",
+    "excitation_nm": 405.0,
+    "emission_nm": 451.5,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   },
+   {
+    "name": "EGFP",
+    "color": "#00FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   },
+   {
+    "name": "RFP",
+    "color": "#FF0000",
+    "excitation_nm": 561.0,
+    "emission_nm": 598.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ],
+    "emission_note": "band centre (adjudicated; nd2 reports the rising edge)"
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 29663521.397,
+    "tags": {
+     "Camera_000_DAPI_Gain": 52.55503876451739,
+     "Camera_001_DAPI_LP": 0.17046474116448374,
+     "Camera_002_EGFP_Gain": 32.088768125566475,
+     "Camera_003_EGFP_LP": 0.10307405623585802,
+     "Camera_004_RFP_Gain": 38.81113414484085,
+     "Camera_005_RFP_LP": 0.22267610738539476,
+     "PFS_OFFSET": 9183,
+     "PFS_STATUS": 0,
+     "X": 9818.0,
+     "Y": -1099.5,
+     "Z": 1619.92,
+     "Z1": 1619.92
+    }
+   }
+  ],
+  "acquired_at": "2026-01-09T08:59:20.280Z",
+  "acquired_at_unix_ms": 1767949160280
+ },
+ "text_info": {
+  "description": "Camera Name: AX\r\nNumerical Aperture: 0.8\r\nRefractive Index: 1\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: DAPI\r\n Component Count: 1\r\n Relay Lens Magnification: 1x\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tResolution: 1024 x 1024\r\n  \tDwell Time: 1.0 usec\r\n  \tChannel Series: Minimal Crosstalk\r\n  \tSeries Mode: Line Series\r\n  \t\tChannel Series Pass 1:\r\n  \t\t\t[]\r\n  \t\tChannel Series Pass 2:\r\n  \t\t\t[RFP]\r\n  \t\tChannel Series Pass 3:\r\n  \t\t\t[EGFP]\r\n  \t\tChannel Series Pass 4:\r\n  \t\t\t[DAPI]\r\n  \r\n  Components:\r\n  Component DAPI:\r\n  \tDetector: 1\r\n  \tEmission Range: 429 nm - 474 nm\r\n  \tGain: 52.6\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 405 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.2\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component EGFP:\r\n  \tDetector: 2\r\n  \tEmission Range: 499 nm - 551 nm\r\n  \tGain: 32.1\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.1\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component RFP:\r\n  \tDetector: 4\r\n  \tEmission Range: 571 nm - 625 nm\r\n  \tGain: 38.8\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 561 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.2\r\n  \t\tLaser Port: Standard\r\n  \r\n  Scan Area:\r\n  \tZoom: 2.00\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  LightPath: L100\r\n  Condenser: 7 (Shutter)\r\n  PFS, offset: 9183\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: EGFP\r\n Component Count: 1\r\n Relay Lens Magnification: 1x\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tResolution: 1024 x 1024\r\n  \tDwell Time: 1.0 usec\r\n  \tChannel Series: Minimal Crosstalk\r\n  \tSeries Mode: Line Series\r\n  \t\tChannel Series Pass 1:\r\n  \t\t\t[]\r\n  \t\tChannel Series Pass 2:\r\n  \t\t\t[RFP]\r\n  \t\tChannel Series Pass 3:\r\n  \t\t\t[EGFP]\r\n  \t\tChannel Series Pass 4:\r\n  \t\t\t[DAPI]\r\n  \r\n  Components:\r\n  Component DAPI:\r\n  \tDetector: 1\r\n  \tEmission Range: 429 nm - 474 nm\r\n  \tGain: 52.6\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 405 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.2\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component EGFP:\r\n  \tDetector: 2\r\n  \tEmission Range: 499 nm - 551 nm\r\n  \tGain: 32.1\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.1\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component RFP:\r\n  \tDetector: 4\r\n  \tEmission Range: 571 nm - 625 nm\r\n  \tGain: 38.8\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 561 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.2\r\n  \t\tLaser Port: Standard\r\n  \r\n  Scan Area:\r\n  \tZoom: 2.00\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  LightPath: L100\r\n  Condenser: 7 (Shutter)\r\n  PFS, offset: 9183\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\nPlane #3:\r\n Name: RFP\r\n Component Count: 1\r\n Relay Lens Magnification: 1x\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:   Configuration:\r\n  \tDetector mode: Multi-Channel\r\n  \tScanner: Galvano Unidirectional\r\n  \tScan Mode: Band\r\n  \tResolution: 1024 x 1024\r\n  \tDwell Time: 1.0 usec\r\n  \tChannel Series: Minimal Crosstalk\r\n  \tSeries Mode: Line Series\r\n  \t\tChannel Series Pass 1:\r\n  \t\t\t[]\r\n  \t\tChannel Series Pass 2:\r\n  \t\t\t[RFP]\r\n  \t\tChannel Series Pass 3:\r\n  \t\t\t[EGFP]\r\n  \t\tChannel Series Pass 4:\r\n  \t\t\t[DAPI]\r\n  \r\n  Components:\r\n  Component DAPI:\r\n  \tDetector: 1\r\n  \tEmission Range: 429 nm - 474 nm\r\n  \tGain: 52.6\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 405 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.2\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component EGFP:\r\n  \tDetector: 2\r\n  \tEmission Range: 499 nm - 551 nm\r\n  \tGain: 32.1\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 488 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.1\r\n  \t\tLaser Port: Standard\r\n  \r\n  Component RFP:\r\n  \tDetector: 4\r\n  \tEmission Range: 571 nm - 625 nm\r\n  \tGain: 38.8\r\n  \tOffset: 0\r\n  \tPinhole Size: 32.6 \u00b5m\r\n  \tFirst DM: 405/488/561/640 (Position 1)\r\n  \tLaser 561 nm:\r\n  \t\tEnabled\r\n  \t\tPower: 0.2\r\n  \t\tLaser Port: Standard\r\n  \r\n  Scan Area:\r\n  \tZoom: 2.00\r\n  \tOffset X: 0.00\r\n  \tOffset Y: 0.00\r\n  \tRotation: 0.00\r\n  \r\n  Misc:\r\n  \tDetector Port: Standard\r\n  \tImage Mode: Normal\r\n  \tIR Filter Position: Out\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Polarizer, position: In\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  LightPath: L100\r\n  Condenser: 7 (Shutter)\r\n  PFS, offset: 9183\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n",
+  "capturing": "AX\r\nConfiguration:\r\n\tDetector mode: Multi-Channel\r\n\tScanner: Galvano Unidirectional\r\n\tScan Mode: Band\r\n\tResolution: 1024 x 1024\r\n\tDwell Time: 1.0 usec\r\n\tChannel Series: Minimal Crosstalk\r\n\tSeries Mode: Line Series\r\n\t\tChannel Series Pass 1:\r\n\t\t\t[]\r\n\t\tChannel Series Pass 2:\r\n\t\t\t[RFP]\r\n\t\tChannel Series Pass 3:\r\n\t\t\t[EGFP]\r\n\t\tChannel Series Pass 4:\r\n\t\t\t[DAPI]\r\n\r\nComponents:\r\nComponent DAPI:\r\n\tDetector: 1\r\n\tEmission Range: 429 nm - 474 nm\r\n\tGain: 52.6\r\n\tOffset: 0\r\n\tPinhole Size: 32.6 \u00b5m\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 405 nm:\r\n\t\tEnabled\r\n\t\tPower: 0.2\r\n\t\tLaser Port: Standard\r\n\r\nComponent EGFP:\r\n\tDetector: 2\r\n\tEmission Range: 499 nm - 551 nm\r\n\tGain: 32.1\r\n\tOffset: 0\r\n\tPinhole Size: 32.6 \u00b5m\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 488 nm:\r\n\t\tEnabled\r\n\t\tPower: 0.1\r\n\t\tLaser Port: Standard\r\n\r\nComponent RFP:\r\n\tDetector: 4\r\n\tEmission Range: 571 nm - 625 nm\r\n\tGain: 38.8\r\n\tOffset: 0\r\n\tPinhole Size: 32.6 \u00b5m\r\n\tFirst DM: 405/488/561/640 (Position 1)\r\n\tLaser 561 nm:\r\n\t\tEnabled\r\n\t\tPower: 0.2\r\n\t\tLaser Port: Standard\r\n\r\nScan Area:\r\n\tZoom: 2.00\r\n\tOffset X: 0.00\r\n\tOffset Y: 0.00\r\n\tRotation: 0.00\r\n\r\nMisc:\r\n\tDetector Port: Standard\r\n\tImage Mode: Normal\r\n\tIR Filter Position: Out\r\n",
+  "sampling": "MaxIP",
+  "date": "1/9/2026  4:59:20 PM",
+  "optics": "PLAN APO \u03bbD 20x OFN25 DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=6144, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

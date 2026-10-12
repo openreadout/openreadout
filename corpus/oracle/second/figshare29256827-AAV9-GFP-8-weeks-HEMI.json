@@ -1,0 +1,32 @@
+{
+ "id": "figshare29256827-AAV9-GFP-8-weeks-HEMI",
+ "file": "figshare29256827-AAV9-GFP-8-weeks-HEMI.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1000,
+   "size_y": 1000,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a20347e98961f1ea74662aa8c4c12af4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a6db0502affe8a8c82deed0130ba0597"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c31121c0cc50760c6c0e91e5c736e9b9"
+    }
+   ]
+  }
+ ]
+}

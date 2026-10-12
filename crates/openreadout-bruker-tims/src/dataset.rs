@@ -359,7 +359,7 @@ impl TimsDataset {
             Error::unsupported(
                 FORMAT_ID,
                 "a .d directory without analysis.tdf or analysis.tsf",
-                "Only timsTOF TDF/TSF acquisitions are read; other Bruker .d data (BAF, YEP, FID) are not supported.",
+                "Only timsTOF TDF/TSF acquisitions are read by this reader; BAF directories are read as format bruker-baf, YEP and FID data are not supported.",
             )
         })?;
         let (db_name, bin_name) = match kind {

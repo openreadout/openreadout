@@ -1,0 +1,20 @@
+{
+ "id": "zenodo4434539-LSM-image-of-collagen-between-layers",
+ "file": "zenodo4434539-LSM-image-of-collagen-between-layers.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ec3383d987803a505574870879eb060f"
+    }
+   ]
+  }
+ ]
+}

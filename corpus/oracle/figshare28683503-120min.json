@@ -1,0 +1,97 @@
+{
+ "id": "figshare28683503-120min",
+ "file": "figshare28683503-120min.nd2",
+ "size": 2478080,
+ "sha256": "ecfbd0f76e761a8a8f70e25101e55281bf96e96ce376389352fcd1b615d156a3",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 750,
+   "size_y": 750,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 750, 'X': 750}",
+   "physical_size_um": {
+    "x": 0.1625,
+    "y": 0.1625,
+    "z": null
+   },
+   "channel_names": [
+    "DM1-561",
+    "DM1-488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0031bf3a63487359fca35d6dd9be8ea"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66992bdc51c04e41915f9d72e0e4a5f5"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DM1-561",
+    "color": "#FF0000",
+    "excitation_nm": null,
+    "emission_nm": 617.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "DM1-488",
+    "color": "#36FF00",
+    "excitation_nm": null,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 9066.547086723149,
+    "tags": {
+     "Camera_ExposureTime1": 400.0,
+     "PFS_OFFSET": 7676,
+     "PFS_STATUS": 0,
+     "X": 32225.100000000002,
+     "Y": 4089.8,
+     "Z": 7142.22,
+     "Z1": 7142.22
+    }
+   }
+  ],
+  "acquired_at": "2023-05-31T06:28:20.546Z",
+  "acquired_at_unix_ms": 1685514500546
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: T'(1) x XY(9) x \u03bb(2)\r\nCamera Name: Fusion, SN:501495\r\nNumerical Aperture: 1.15\r\nRefractive Index: 1.333\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: DM1-561\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 400 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:3; ExW:561; Power: 10.0; On\r\n  \r\n  CSU-W1, FilterChanger(Light Path Changer): 3 (Open)\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (SIM 405/488/561/640)\r\n  CSU-W1, FilterChanger(EM1 Wheel): 3 (EM B617/73)\r\n  CSU-W1, FilterChanger(EM2 Wheel): 1 (EM B447/60)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n  \r\n  CSU-W1 Pinhole:\r\n     Port 1: On \r\n  \r\n  CSU-W1 SoRa Magnification:\r\n     Port 2: On \r\n\r\nPlane #2:\r\n Name: DM1-488\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: In\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:2; ExW:488; Power: 10.0; On\r\n  \r\n  CSU-W1, FilterChanger(Light Path Changer): 3 (Open)\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (SIM 405/488/561/640)\r\n  CSU-W1, FilterChanger(EM1 Wheel): 2 (EM B525/50)\r\n  CSU-W1, FilterChanger(EM2 Wheel): 1 (EM B447/60)\r\n  CSU-W1, Shutter(CSU): Open\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n  \r\n  CSU-W1 Pinhole:\r\n     Port 1: On \r\n  \r\n  CSU-W1 SoRa Magnification:\r\n     Port 2: On \r\n\r\nTime Loop: 1\r\n- Nonequidistant",
+  "capturing": "Fusion, SN:501495\r\nSample 1:\r\n  Exposure: 400 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\nSample 2:\r\n  Exposure: 200 ms\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n  Temperature: -8.0\u00b0C\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF",
+  "date": "5/31/2023  2:28:20 PM",
+  "optics": "Apo LWD 40x WI \u03bbS DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=750, pixelDataType='unsigned', sequenceCount=1, widthBytes=3000, widthPx=750, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

@@ -1,0 +1,105 @@
+{
+ "id": "zenodo18006631-24-NOW-VB-54-Blurry-H-E-Tumor",
+ "file": "zenodo18006631-24-NOW-VB-54-Blurry-H-E-Tumor.czi",
+ "size": 22733920,
+ "sha256": "10206a41ecf10a2cce7fe79de2d3a99c05cee5699d907336ea185de42774e953",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 15992,
+   "size_y": 16310,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "dims": "YXS",
+   "shape": [
+    16310,
+    15992,
+    3
+   ],
+   "other_dims": {},
+   "pyramid_levels": 5,
+   "physical_size_um": {
+    "x": 0.21999999999999997,
+    "y": 0.21999999999999997,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5a67d49977a0bec6af22172a1d406f62"
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 7996,
+     "size_y": 8155,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "0316a43cea1a559843b8cb1ad3b0c2f0"
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 3998,
+     "size_y": 4077,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "f748847e8693a6fec0f1c4bbba981f30"
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 1999,
+     "size_y": 2038,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "b158e8ccf5598bf5322f1ec6a06e07ca"
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 999,
+     "size_y": 1019,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "2eda9af23f5c66c482e3a171cb25f582"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.21999999999999997,
+  "y": 0.21999999999999997,
+  "z": null
+ },
+ "subblock_count": 227,
+ "compression_ids": [
+  4
+ ]
+}

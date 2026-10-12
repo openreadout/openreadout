@@ -42,7 +42,9 @@
      "t": 0,
      "xxh3": "b902febba13d9c444a4f15cc1ddd4c46"
     }
-   ]
+   ],
+   "check_objective": "C-Apochromat 40x/1.2 W corr",
+   "check_acquired_at": "2018-08-29T13:21:04"
   }
  ]
 }

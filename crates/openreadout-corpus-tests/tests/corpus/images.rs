@@ -210,6 +210,28 @@ pub(crate) fn compare_images(
                 ));
             }
         }
+        if let Some(t) = &o.check_acquired_at {
+            covered("experiment.acquisition.started_at");
+            if im.acquired_at.as_deref() == Some(t.as_str()) {
+                names_ok += 1;
+            } else {
+                problems.push(format!(
+                    "image {}: acquired_at {:?} != oracle {t:?}",
+                    o.index, im.acquired_at
+                ));
+            }
+        }
+        if let Some(t) = &o.check_objective {
+            let ours = im.objective.as_ref().and_then(|ob| ob.model.as_deref());
+            if ours == Some(t.as_str()) {
+                names_ok += 1;
+            } else {
+                problems.push(format!(
+                    "image {}: objective {ours:?} != oracle {t:?}",
+                    o.index
+                ));
+            }
+        }
         if let Some(names) = &o.check_channel_names {
             let ours: Vec<String> = im
                 .channels
@@ -448,7 +470,9 @@ pub(crate) fn check_nd2_meta(
                 ("emission", ours.emission_nm, theirs.emission_nm),
             ] {
                 // nd2 ignores the integral `uiWavelength` of older files and all legacy
-                // wavelengths: None there is not a disagreement.
+                // wavelengths: None there is not a disagreement. nd2 passes the file's -1
+                // through for a wavelength the file leaves unset, which we report as None.
+                let b = b.filter(|v| *v > 0.0);
                 if close(a, b) || (b.is_none() && a.is_some()) {
                     ok += 1;
                 } else {

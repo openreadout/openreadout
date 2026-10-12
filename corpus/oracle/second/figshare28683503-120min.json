@@ -1,0 +1,26 @@
+{
+ "id": "figshare28683503-120min",
+ "file": "figshare28683503-120min.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 750,
+   "size_y": 750,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b0031bf3a63487359fca35d6dd9be8ea"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "66992bdc51c04e41915f9d72e0e4a5f5"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "id": "figshare22565206-1-noFISH-na-noConnector-0011",
+ "file": "figshare22565206-1-noFISH-na-noConnector-0011.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e1af5c045b831bf0084acc9a8675d91"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8ca78bebe62126385363be4a6af00a3a"
+    }
+   ]
+  }
+ ]
+}

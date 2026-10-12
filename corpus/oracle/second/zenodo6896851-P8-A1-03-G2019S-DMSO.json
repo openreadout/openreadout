@@ -1,0 +1,32 @@
+{
+ "id": "zenodo6896851-P8-A1-03-G2019S-DMSO",
+ "file": "zenodo6896851-P8-A1-03-G2019S-DMSO.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "32ac77bf1c67efb4e61b86fca22e9cc7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dc046637d9f4b7e0e1abce9d4f4cbd5c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ea6df88f0a804394fb835cf1e34bf25e"
+    }
+   ]
+  }
+ ]
+}

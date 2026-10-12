@@ -1,0 +1,21 @@
+[Virtual Microscope Specimen]
+NoLayers=1
+NoJpegColumns=2
+NoJpegRows=2
+ImageFile=synthetic.jpg
+ImageFile(0,1)=synthetic(0,1).jpg
+ImageFile(1,0)=synthetic(1,0).jpg
+ImageFile(1,1)=synthetic(1,1).jpg
+MapFile=synthetic_map2.jpg
+OptimisationFile=synthetic.opt
+AuthCode=0
+SourceLens=20.000000
+PhysicalWidth=48000
+PhysicalHeight=20000
+LayerSpacing=0
+MacroImage=synthetic_macro.jpg
+PhysicalMacroWidth=76000000
+PhysicalMacroHeight=26000000
+XOffsetFromSlideCentre=1000
+YOffsetFromSlideCentre=-2000
+Reference=synthetic

@@ -1,0 +1,32 @@
+{
+ "id": "zenodo3949894-Fig-2c-OvC4-GLCM",
+ "file": "zenodo3949894-Fig-2c-OvC4-GLCM.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "917689f95a9d7b7dc4c3817092eeab8a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d36f5e5287c6ec5212d03c7f996cb7b5"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7769faf4dbeff7c8bd2f2f9a5c67a26c"
+    }
+   ]
+  }
+ ]
+}

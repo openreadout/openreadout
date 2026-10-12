@@ -1,0 +1,29 @@
+{
+ "id": "gin-tdt-epocs-with-offsets-2",
+ "file": "epocs_with_offsets_2",
+ "size": 4629,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 TdtRawIO",
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 36,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "time_s",
+      "block",
+      "value"
+     ],
+     "count": 36,
+     "xxh3": "c957c5c508eb2ed48e0a3cdc0f9781c3"
+    }
+   ]
+  }
+ ],
+ "oracle_note": "Neo's .Tbk parse lists 0 of the 2 strobe stores; strobe-on records read with Neo's .tsq record layout"
+}

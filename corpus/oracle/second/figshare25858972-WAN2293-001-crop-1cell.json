@@ -1,0 +1,68 @@
+{
+ "id": "figshare25858972-WAN2293-001-crop-1cell",
+ "file": "figshare25858972-WAN2293-001-crop-1cell.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 55,
+   "size_y": 55,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "93b7daa7fb4fe10807a718f3da466def"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "625a50e02b3a65dc2d053b11619628ca"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "c0c3269b563c6a774e0add8035690173"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0077517f182f5d1299394561779fd753"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "9bf889bce1f985e903a78b573c949ac9"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "eb6dee7f85ce4ae3d9c145f2886b8de0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7ca66d39aa219e7653cce3e26d5466fc"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "00ff01987beb8eb4f4f678913746a935"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1c8178f8328bcafdd05d9ab4a43aef1a"
+    }
+   ]
+  }
+ ]
+}

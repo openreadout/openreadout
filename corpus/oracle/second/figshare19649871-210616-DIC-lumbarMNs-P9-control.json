@@ -1,0 +1,32 @@
+{
+ "id": "figshare19649871-210616-DIC-lumbarMNs-P9-control",
+ "file": "figshare19649871-210616-DIC-lumbarMNs-P9-control.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1280,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3017e922a1f9d2fdb87f6409b9aa172c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "02386f8ede5b2e88131a64513b8d162f"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "21cfd41bf5044bcb54e6ee0481c74410"
+    }
+   ]
+  }
+ ]
+}

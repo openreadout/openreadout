@@ -1,0 +1,20 @@
+{
+ "id": "figshare28691048-MG1655-530pha-DAPI-2",
+ "file": "figshare28691048-MG1655-530pha-DAPI-2.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1608,
+   "size_y": 1608,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "72723b27857234aba322b422c20e754e"
+    }
+   ]
+  }
+ ]
+}

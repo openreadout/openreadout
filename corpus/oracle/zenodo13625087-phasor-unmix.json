@@ -205,7 +205,9 @@
      "t": 0,
      "xxh3": "85d9a89e0988b72198cdd262d8992289"
     }
-   ]
+   ],
+   "check_objective": "Plan-Apochromat 63x/1.4 Oil DIC M27",
+   "check_acquired_at": "2022-03-28T13:18:50"
   }
  ]
 }

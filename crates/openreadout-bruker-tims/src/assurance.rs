@@ -153,6 +153,126 @@ fn observe(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static BRUKER_BAF: AssuranceProfile = AssuranceProfile {
+    format_id: "bruker-baf",
+    observe: observe_baf,
+    validated: BRUKER_BAF_VALIDATED,
+    confidence: BRUKER_BAF_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
+fn observe_baf(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    for s in &info.spectra {
+        if let Some(w) = a::extra_str(&s.extra, "writer") {
+            let family = w.split('.').next().unwrap_or(w);
+            o.feature(K::FormatVersion, family, &[Scope::Metadata, Scope::Spectra]);
+        }
+        if let Some(c) = a::extra_str(&s.extra, "profile_coding") {
+            o.feature(K::Codec, format!("{c} profile"), &[Scope::Spectra]);
+        }
+        if let Some(c) = s
+            .extra
+            .get("centroid_element_code")
+            .and_then(serde_json::Value::as_u64)
+        {
+            o.feature(
+                K::Layout,
+                format!("centroid element code {c}"),
+                &[Scope::Spectra],
+            );
+        }
+        if let Some(c) = a::extra_str(&s.extra, "calibration") {
+            o.feature(K::Layout, format!("calibration {c}"), &[Scope::Spectra]);
+        }
+        if let Some(src) = a::extra_str(&s.extra, "index_source") {
+            o.feature(K::Layout, src, &[Scope::Spectra]);
+        }
+        for p in a::extra_values_in(&s.extra, "polarities") {
+            o.feature(K::Acquisition, format!("{p} ions"), &[Scope::Spectra]);
+        }
+        if s.ms_levels.iter().any(|&l| l > 1) {
+            o.feature(K::Acquisition, "MS/MS", &[Scope::Spectra]);
+        }
+        match a::extra_str(&s.extra, "mz_calibration_source") {
+            Some("Calibrator.ami") => {
+                o.calibration(
+                    "m/z (Calibrator.ami recalibration)",
+                    CalibrationStatus::Applied,
+                    &[Scope::Spectra],
+                    "the recalibration the vendor's processing software stored next to the run",
+                );
+                // The payload is found by scanning Calibrator.ami (its container is not
+                // decoded): a variant that only spectra compared with vendor exports validate.
+                o.feature(
+                    K::Layout,
+                    "m/z from a Calibrator.ami payload found by scanning",
+                    &[Scope::Spectra],
+                );
+            }
+            Some(_) => o.calibration(
+                "m/z (acquisition calibration)",
+                CalibrationStatus::Applied,
+                &[Scope::Spectra],
+                "each spectrum's calibration with temperature drift compensation",
+            ),
+            None => {}
+        }
+        if let Some(i) = &s.instrument {
+            if let Some(m) = &i.model {
+                o.context(K::Instrument, m);
+            }
+            if let Some(v) = i
+                .software_version
+                .as_deref()
+                .and_then(|v| a::version_prefix(v, 1))
+            {
+                o.context(
+                    K::WriterVersion,
+                    format!("{} {v}", i.software.as_deref().unwrap_or("software")),
+                );
+            }
+        }
+    }
+    o
+}
+
+// BEGIN GENERATED bruker-baf (cargo xtask assurance-audit --write; do not edit)
+const BRUKER_BAF_CONFIDENCE: Confidence = Confidence::Medium;
+#[rustfmt::skip]
+const BRUKER_BAF_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "MS/MS", 4, 4, 4),
+    a::row(K::Acquisition, "negative ions", 3, 3, 3),
+    a::row(K::Acquisition, "positive ions", 4, 4, 4),
+    a::row(K::Codec, "float32 profile", 2, 2, 2),
+    a::row(K::Codec, "packed profile", 5, 5, 5),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 7),
+    a::row(K::FormatVersion, "AIDA4", 3, 3, 3),
+    a::row(K::FormatVersion, "AIDA5", 2, 2, 2),
+    a::row(K::FormatVersion, "AIDA6", 1, 1, 1),
+    a::row(K::FormatVersion, "BCC4_3_72_0", 1, 1, 1),
+    a::row(K::Instrument, "apex-Qe", 1, 1, 1),
+    a::row(K::Instrument, "impact HD", 1, 1, 1),
+    a::row(K::Instrument, "impact II", 1, 1, 1),
+    a::row(K::Instrument, "maXis", 1, 1, 1),
+    a::row(K::Instrument, "micrOTOF-Q", 1, 1, 1),
+    a::row(K::Instrument, "solariX", 1, 1, 1),
+    a::row(K::Instrument, "timsTOF Pro", 1, 1, 1),
+    a::row(K::Layout, "calibration FT-ICR", 2, 2, 2),
+    a::row(K::Layout, "calibration time of flight, kind 10", 1, 1, 1),
+    a::row(K::Layout, "calibration time of flight, kind 3", 4, 4, 4),
+    a::row(K::Layout, "centroid element code 1", 1, 1, 1),
+    a::row(K::Layout, "centroid element code 2", 2, 2, 2),
+    a::row(K::Layout, "centroid element code 3", 4, 4, 4),
+    a::row(K::Layout, "m/z from a Calibrator.ami payload found by scanning", 5, 5, 5),
+    a::row(K::Layout, "trailer index", 7, 7, 7),
+    a::row(K::WriterVersion, "Bruker otofControl 4", 1, 1, 1),
+    a::row(K::WriterVersion, "Bruker otofControl 5", 1, 1, 1),
+    a::row(K::WriterVersion, "Bruker otofControl 6", 1, 1, 1),
+    a::row(K::WriterVersion, "otofControl 3", 2, 2, 2),
+];
+// END GENERATED bruker-baf
+
 // BEGIN GENERATED bruker-tdf (cargo xtask assurance-audit --write; do not edit)
 const BRUKER_TDF_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]

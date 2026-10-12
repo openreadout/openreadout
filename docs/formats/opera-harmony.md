@@ -4,7 +4,7 @@ Harmony, the software of the Opera Phenix and Operetta high-content screening sy
 
 Derived from three public Harmony indexes (V4 from an Operetta, V5 from a Phenix and a Sonata). The results were checked against the same indexes parsed with the Python standard library, against tifffile on every plane file and against Bio-Formats 8.5.0 run as a black box. No Revvity/PerkinElmer document, schema or software was used; every name below is ours. Format id `opera-harmony`, crate `openreadout-hcs` (module `harmony`). Provenance: `docs/provenance/opera-harmony.md`.
 
-A Harmony export is a measurement folder (`<plate>__<date>-Measurement<n>/`) whose `Images/` folder holds `Index.idx.xml` (Harmony 6 and 7: `Index.xml`) and one TIFF per plane; some exports put the index and the TIFFs directly in the plate folder. Open the measurement folder, the `Images` folder or the index (`Index.idx.xml`; `Index.xml` and `Index.ref.xml` with the same root element are accepted).
+A Harmony export is a measurement folder (`<plate>__<date>-Measurement<n>/`) whose `Images/` folder holds `Index.idx.xml` (Harmony 6 and 7: `Index.xml`) and one TIFF per plane; some exports put the index and the TIFFs directly in the plate folder. Open the measurement folder, the `Images` folder or the index (`Index.idx.xml`; `Index.xml` and `Index.ref.xml` with the same root element are accepted). A Harmony archive ("export as archive") is an `hs` folder holding `_hs.txt` and one folder per measurement, named by its id, whose `images/index.xml` (lower case) names plane files in per-well folders (`r04c05/r04c05f01p01-ch01t01.tiff`); open the `hs` folder (when it holds one measurement), the measurement folder or the index. Index and folder names match without regard to case.
 
 **Columbus exports** use the same index structure in the namespace `http://www.perkinelmer.com/Columbus` (`ImageIndex.ColumbusIDX.xml`, next to `MeasurementIndex.ColumbusIDX.xml`): the reader handles them too, with three differences: `URL` has an attribute `BufferNo`, the zero-based **page** of a multi-page TIFF or Opera `.flex` file that holds several planes (`PlaneFile.page`); `ChannelColor` is a 32-bit ARGB number (`channels[].color` `#RRGGBB`); `Well id` is an internal number, not `RRCC`. `format_version` and `instrument.software` are `Columbus`.
 
@@ -61,7 +61,7 @@ Plane files are named `r<RR>c<CC>f<FF>p<PP>-ch<C>sk<T>fk1fl1.tiff`; files of tha
 | `HARMONY_FORMAT_ID` | `opera-harmony` |
 | `HARMONY_INDEX_NAMES` | `Index.idx.xml`, `Index.xml`, `Index.ref.xml`, `ImageIndex.ColumbusIDX.xml` (search order in a folder) |
 | `looks_like_harmony` | detection on the first bytes |
-| `find_index` | the index of a measurement folder (itself or its `Images/`) |
+| `find_index` | the index of a measurement folder (itself or its `Images/`), or of the one measurement in a Harmony archive's `hs` folder |
 | `parse` | stream the index into an `HcsPlate` |
 | `is_plane_name` | the `r..c..f..p..-ch..` file-name shape |
 | `TAG_FLEX_XML`, `is_flex_name`, `flex_files`, `flex_xml` (module `flex`) | tag 65200; a `.flex` file name; the `.flex` files of a folder; the XML of a file |

@@ -1,0 +1,58 @@
+{
+ "id": "zenodo8325317-CMET-M418-D10-10X-2",
+ "file": "zenodo8325317-CMET-M418-D10-10X-2.czi",
+ "size": 24790208,
+ "sha256": "b3d31cbdcd588cb161667d7f1164a9792d2417e69f93e5493558b4f49efe95ec",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2752,
+   "size_y": 2208,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "CYX",
+   "shape": [
+    2,
+    2208,
+    2752
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.7206349206349207,
+    "y": 0.7206349206349207,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e6bea12af2e5882e801ec138e66d143"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1b95cc2211b2e4126f13fd5b75d9608a"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.7206349206349207,
+  "y": 0.7206349206349207,
+  "z": null
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

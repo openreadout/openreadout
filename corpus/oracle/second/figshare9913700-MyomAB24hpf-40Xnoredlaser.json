@@ -1,0 +1,20 @@
+{
+ "id": "figshare9913700-MyomAB24hpf-40Xnoredlaser",
+ "file": "figshare9913700-MyomAB24hpf-40Xnoredlaser.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "25913f53ea3de099850187431ba4fde2"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "id": "figshare33945238-Figure-1A-WT-1h-czi",
+ "file": "figshare33945238-Figure-1A-WT-1h-czi.czi",
+ "size": 12251840,
+ "sha256": "960bc68326bc4fd684c7d4d52766f4217353cdd88c17c3cab5dd0ae16dc42ed3",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 2752,
+   "size_y": 2208,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    2208,
+    2752
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.045399999999999996,
+    "y": 0.045399999999999996,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f551115b69a3dcd6fc6ece5facf561a7"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.045399999999999996,
+  "y": 0.045399999999999996,
+  "z": null
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

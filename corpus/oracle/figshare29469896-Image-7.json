@@ -1,0 +1,63 @@
+{
+ "id": "figshare29469896-Image-7",
+ "file": "figshare29469896-Image-7.lsm",
+ "size": 6494699,
+ "sha256": "1535c1461080051850300e8125c2399aa6f5699fff30db30ae5ba1f30ebaee2a",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.0830265820963839,
+    "y": 0.0830265820963839
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f0eec5b29a68e1f27bdddaede447eac8"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56d10fe701f61a00f8c53ebece4e2b8a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4d1f0e9e0d85ac1f1118bf7b97084b60"
+    }
+   ],
+   "check_objective": "EC Plan-Neofluar 100x/1.3 Oil M27",
+   "check_acquired_at": "2019-09-17T19:29:44"
+  }
+ ]
+}

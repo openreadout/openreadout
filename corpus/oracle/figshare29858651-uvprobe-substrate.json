@@ -1,0 +1,42 @@
+{
+ "id": "figshare29858651-uvprobe-substrate",
+ "file": "figshare29858651-uvprobe-substrate.spc",
+ "size": 22528,
+ "sha256": "4e89c64b5ec5b15c3acbea541e5fd24b9caa052a1811415a9345236e3abacce6",
+ "max_planes_hashed": 64,
+ "reader": "second implementation (UVProbe X/Y Data streams read with olefile); not an independent oracle",
+ "independent": false,
+ "traces": [
+  {
+   "index": 0,
+   "reader": "olefile",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "sample_count": 661,
+   "x_first": 850.0,
+   "x_last": 190.0,
+   "x_quantity": "wavelength",
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 661,
+     "channels": [
+      {
+       "xxh3": "8bdc18b73287915015f3d8e9f62b957d",
+       "first": [
+        -0.00016310274077113718,
+        -0.0009481509332545102,
+        -0.0010156123898923397,
+        -0.000761363364290446,
+        -0.00034719909308478236,
+        -0.0009202025248669088,
+        -0.0009146746015176177,
+        -0.001331137027591467
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

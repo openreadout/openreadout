@@ -58,7 +58,7 @@
    "can_write": false,
    "confidence": "high",
    "known_gaps": [
-    "FLIM/TCSPC raw photon data (FALCON) is detected and described but not decoded; reading those planes exits 6",
+    "FLIM/TCSPC raw photon data (FALCON) is detected and described but not decoded; reading those planes exits 6, and `stats` and `export` without `--image` leave those images out",
     "XLIF frames stored as single-page TIFF files are read (validated on two LAS X exports); JPEG and PNG frames follow the same rule unvalidated (a note says so); BMP and multi-page OME/Aivia TIFF frames are not read (exit 6)",
     "LOF, XLEF and XLCF are implemented from liffile's documentation and synthetic test files only; XLLF folder lists and XLIF files with TIFF frames are validated on real LAS X 3.7 exports (two depositors)",
     "Tile scans are stitched from stage positions without registration or blending; LAS X 'Merged' images may differ where it registered overlapping tiles",
@@ -240,6 +240,28 @@
    "field": "Mass spectrometry"
   },
   {
+   "id": "bruker-baf",
+   "name": "Bruker BAF (.d)",
+   "vendor": "Bruker",
+   "extensions": [
+    "d",
+    "baf"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "No specification: the layout was derived from public files and checked against the depositors' vendor-library conversions",
+    "m/z use the recalibration in Calibrator.ami when the directory holds one, found by scanning that file for a payload like the spectra's (its container is not decoded); without it, the acquisition calibration, which can differ from vendor exports of recalibrated runs by a few ppm",
+    "Calibration kinds other than time of flight 3 and 10 and the FT-ICR form, and profile codings other than plain float32 and the packed delta coding, are refused (exit 6)",
+    "Spectra are returned one by one as stored; vendor converters may combine repeated MS/MS of one precursor",
+    "The third centroid array (read as peak widths), several list records and analysis.baf_xtr are not decoded"
+   ],
+   "page": "bruker-baf",
+   "field": "Mass spectrometry"
+  },
+  {
    "id": "oir",
    "name": "Olympus/Evident OIR",
    "vendor": "Evident (Olympus)",
@@ -305,6 +327,48 @@
     "The scan-information records (focus, motor positions) and stitching records are listed as attachments, not decoded"
    ],
    "page": "mirax",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "philips-isyntax",
+   "name": "Philips iSyntax slide",
+   "vendor": "Philips",
+   "extensions": [
+    "isyntax"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "No public specification: the decoder is a port of libisyntax (BSD-2-Clause) and was validated against it on one public slide",
+    "Only data model 5 with compression method 16 is read; data model 100 and later (cluster headers) and compression method 19 are refused (exit 6) until a public sample exists",
+    "Pixel coordinates follow libisyntax: level L starts (3·2^levels − 3) >> L pixels into the tile grid; the scanner's own origin is not documented",
+    "Pixels are the decoded YCoCg wavelet data converted to RGB; the stored post-processing settings (sharpness, CLAHE) and the ICC profile are not applied",
+    "Level 0 is too large to read whole: read a region (`--region`) or a coarser level (`--level`)"
+   ],
+   "page": "philips-isyntax",
+   "field": "Light microscopy"
+  },
+  {
+   "id": "hamamatsu-vms",
+   "name": "Hamamatsu VMS slide",
+   "vendor": "Hamamatsu",
+   "extensions": [
+    "vms",
+    "vmu"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "No specification: the layout comes from OpenSlide's public format page and one public slide, checked against OpenSlide run as a black box",
+    "Levels the file does not store (1/2 and 1/4 of the slide images, 1/2 to 1/8 of the map) are decoded at reduced DCT size, as OpenSlide does; their values are close to OpenSlide's, not identical",
+    "VMU files (uncompressed NGR images) and slides with more than one focal layer are refused (exit 6): no public sample",
+    "Level 0 is too large to read whole: read a region (`--region`) or a coarser level (`--level`)"
+   ],
+   "page": "hamamatsu-vms",
    "field": "Light microscopy"
   },
   {
@@ -526,7 +590,7 @@
    "can_write": false,
    "confidence": "high",
    "known_gaps": [
-    "Command (DAC) waveforms are synthesized (trace 1) for ABF 2 episodic files with step, ramp and pulse-train epochs only; stimulus files, user lists, alternating outputs, conditioning trains, triangle/cosine/biphasic epochs and ABF 1 files keep the epoch table only",
+    "Command (DAC) waveforms are synthesized (trace 1) for episodic files with step, ramp and pulse-train epochs only; stimulus files, user lists, alternating outputs, conditioning trains, triangle/cosine/biphasic epochs, ABF 1 files before 1.6 and ABF 1 files with epoch tables on both DACs keep the epoch table only",
     "User lists, statistics, math, scope and voice-tag sections are listed but not decoded",
     "Pre-1.6 ABF 1 files: telegraph, protocol path and 20-entry epoch tables are not in the header and are not reported",
     "Old pCLAMP/Axotape files without an `ABF ` signature (CLPX, FTCX) are not read"
@@ -721,6 +785,69 @@
     "Stimulus protocols (.vpr) and analysis results are not read"
    ],
    "page": "winwcp",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "tdt-tank",
+   "name": "Tucker-Davis Technologies tank or block (.tsq/.tev)",
+   "vendor": "Tucker-Davis Technologies (OpenEx, Synapse)",
+   "extensions": [
+    "tsq",
+    "tev",
+    "tbk",
+    "tdx",
+    "tin",
+    "tnt",
+    "sev"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Input is a block directory, one of its files, or a tank directory (blocks become sweeps)",
+    "Stream and snippet values are returned as stored, without units: TDT files record no unit or gain",
+    "Stores whose samples are in .sev files are listed, not read; scalar records are counted, not decoded",
+    "Samples indexed past the end of a cut-short .tev are not returned (the trace ends at the last whole chunk)"
+   ],
+   "page": "tdt-tank",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "axona-dacqusb",
+   "name": "Axona DacqUSB recording (.set + .bin, tetrode files)",
+   "vendor": "Axona (DacqUSB)",
+   "extensions": [
+    "set"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Input is the .set file (or another file of the session); the raw .bin and the tetrode files .1 … .32 are read",
+    "EEG (.eeg, .egf), position (.pos) and other session files are listed, not read",
+    "Tetrode waveforms are returned as stored (int8 counts); raw .bin samples are scaled to µV with the .set gains"
+   ],
+   "page": "axona-dacqusb",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "mcs-raw",
+   "name": "Multi Channel Systems MC_DataTool binary export (.raw with header)",
+   "vendor": "Multi Channel Systems (MC_DataTool)",
+   "extensions": [
+    "raw"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Only exports written with the header option are read; electrode (El_) streams only, other stream kinds are refused",
+    "MC_Rack .mcd recordings are not read (no public specification)"
+   ],
+   "page": "mcs-raw",
    "field": "Electrophysiology"
   },
   {
@@ -1185,6 +1312,7 @@
     "Imaris 3 (`.ims` TIFF-based files) is not this format; those files go to the TIFF reader",
     "Scene8 objects: their statistics and numeric record datasets are tables; surface meshes (`SurfaceModel`, `BlockData`), text fields and the legacy `Scene` group are not decoded",
     "Only the first data set is read when a file declares several (NumberOfDataSets > 1)",
+    "Scene files saved without an image (Scene groups, no DataSet) exit 6",
     "Chunks compressed with filters other than deflate, shuffle, fletcher32 and LZ4 exit 6"
    ],
    "page": "ims",
@@ -1434,7 +1562,7 @@
     "Big-endian (0x4C) files, per-subfile x arrays (TXYXYS, mass spectra) and old-format (0x4D) multifiles are refused",
     "16-bit fixed-point values follow the documented rule but no development file has them",
     "Multifile maps are returned as spectrum series with a subfile table (z, W); the map grid is not rebuilt",
-    "Other programs' .spc files (Bruker EPR, Becker & Hickl, EDAX, Shimadzu UV) are not Galactic SPC and are not read by this reader"
+    "Other programs' .spc files (Bruker EPR, Becker & Hickl, EDAX) are not Galactic SPC and are not read by this reader; Shimadzu UVProbe .spc files are read by shimadzu-uvprobe"
    ],
    "page": "galactic-spc",
    "field": "IR, Raman and UV-Vis"
@@ -1503,6 +1631,25 @@
     "Instrument settings are named as in the .sp reader (the same member ids); other settings are in the vendor tree"
    ],
    "page": "perkinelmer-fsm",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "shimadzu-uvprobe",
+   "name": "Shimadzu UVProbe (.spc)",
+   "vendor": "Shimadzu UVProbe",
+   "extensions": [
+    "spc"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Validated on UV-3600 Plus files (UVProbe 2.43 and 2.71, absorbance and reflectance scans) against the software's text exports; transmittance, photometric and kinetics files have no development file, and value codes not seen are returned unnamed",
+    "Files with several spectra per data set (`.2` arrays) read the first only",
+    "Text in a non-UTF-8 code page (GBK on Chinese-language PCs) is shown as Latin-1; the method pages are kept as text, not named"
+   ],
+   "page": "shimadzu-uvprobe",
    "field": "IR, Raman and UV-Vis"
   },
   {
