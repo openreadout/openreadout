@@ -75635,3 +75635,33 @@ license_checked = "https://zenodo.org/records/10776785 (cc-by-4.0), 2026-10-12"
 source = "Zenodo 10776785: Example HarmonyV6 hs archive from Opera Phenix Plus"
 attribution = "Naylor, Huw"
 notes = "the same archive opened at its hs folder"
+
+[[file]]
+id = "zenodo15545732-bmp-tg-fast-20percent-4hpf-movie-5-Latti"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo15545732-bmp-tg-fast-20percent-4hpf-movie-5-Latti.czi"
+url = "https://zenodo.org/api/records/15545732/files/bmp%20tg%20fast%2020percent-4hpf-movie%205-Lattice%20Lightsheet%20CGT-Extended%20Depth%20of%20Focus-11.czi/content"
+sha256 = "acbc357c64a35ff67eb5f2e29ea4ad411a6f8d3b885979eef0082d850bd915f7"
+size = 158024960
+md5 = "77f6353282fcb55db3b0a4a82612cd1e"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/15545732 (cc-by-4.0), 2026-10-12"
+source = "Zenodo 15545732: Tg bmp2b-ALFA_array LLS MIP, bmp tg fast 20percent-4hpf-movie 5-Lattice Lightsheet CGT-Extended Depth of Focus-11.czi"
+attribution = "Bellec, Maelle"
+
+[[file]]
+id = "zenodo7254229-P1"
+format = "czi"
+role = "input"
+tier = "standard"
+filename = "zenodo7254229-P1.czi"
+url = "https://zenodo.org/api/records/7254229/files/P1.czi/content"
+sha256 = "660a7eb21ee4b22abdec1f01d8c7bd94703642b06144fb4f7f5dda848caacc2d"
+size = 125003232
+md5 = "35a56909016d5263c0b50bce645f6420"
+license = "CC-BY-3.0-US"
+license_checked = "https://zenodo.org/records/7254229 (cc-by-3.0-us), 2026-10-12"
+source = "Zenodo 7254229: Cytoskeleton stack image, P1.czi"
+attribution = "Haque, Abid"
