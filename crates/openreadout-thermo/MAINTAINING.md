@@ -27,7 +27,7 @@ Thermo Fisher `.raw` mass-spectrometry files (`thermo-raw`): Orbitrap, ion trap,
 - File versions 58–60 and 65 have no corpus file and may misparse; version gates are scattered through `layout.rs`, `detectors.rs` and `dataset.rs`.
 - An event's counted tail items are the values of the options its preamble turns on (byte 8: in-source CID energy, byte 122: FAIMS compensation voltage). No corpus file has both on, so their order is assumed; `scan_options` names such files and the assurance profile leaves them unvalidated.
 - SRM scans (TSQ Vantage, TSQ Altis Plus) are validated through the chromatograms the depositors exported, rebuilt from our spectra; the TSQ 9610 and ISQ full scans (window records with one window) against their exported spectra. Q1MS/Q3MS scans of an LC triple quadrupole have no corpus file.
-- Detector units are inferred (mAU) or taken from the method text; Vanquish DAD/CAD and analog channels are validated by internal consistency only.
+- Detector units are inferred (mAU) or taken from the method text; Vanquish DAD/CAD channels are validated by internal consistency only; analog pressure channels against five depositor exports (`analog_pressure_matches_the_exported_chromatograms`).
 - Flagged (reference/background) peaks: whether exports keep them depends on the ProteoWizard build (`openreadout-corpus-tests` `export_excludes_flagged_peaks`).
 
 <!-- BEGIN GENERATED guide -->

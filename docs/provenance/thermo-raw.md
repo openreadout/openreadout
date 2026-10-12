@@ -293,3 +293,8 @@ Search method for the non-MTBLS404 files: PRIDE v3 API listings (`/pride/ws/arch
 
 **Corpus files:** `mtbls6991-tsq-altis-plus-sar11-40`, `mtbls1822-tsq-74`, `mtbls5747-vantage-sponge-35` and their depositor mzMLs. **Prior art consulted:** none.
 **What was inferred from what.** Distinct (polarity, precursor, product window, collision energy) over the SRM scan events give 291, 110 and 193 transitions; the exports hold 291, 109 and 193 SRM chromatograms. The one missing from the `mtbls1822` export, 129.063→85.051, has its own scan event and scans in the file. No parsing changed: `info` states the count (`mrm_transitions`) and `table` lists the transitions.
+
+## 2026-10-11 — analog controllers against exported pressure chromatograms (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `msv94528-idx-msnlib-peptide01-b18`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls14308-mwy251008a-mix01`, `mtbls14508-mh-b4-c18-pos-dda-r01`, `pxd059315-ascend-etd-wkl-1` (development inputs, file version 66) and their depositor mzMLs, which hold `Pump Pressure N` chromatograms (MS:1003019). **Prior art consulted:** none.
+**What was found.** Each of the seven exported chromatograms equals one of our analog traces point for point: same times, values × 10⁵ (bar stored, pascal exported). No parsing changed. The corpus test `thermo_detectors` now checks this and writes results lines that confirm the files' traces.
