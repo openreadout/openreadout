@@ -79,3 +79,14 @@ DIGMOD 1 and 3, FCOR 0/0.5/1, forward and backward linear prediction.
 **Prior art consulted:** nmrglue 0.12 `fileio/spinsolve.py` (BSD-3-Clause): spectral width, observe frequency and carrier from `acqu.par`. Nothing else; no Magritek software or documentation.
 
 **What was inferred from what:** fitting each FID row's transform to the plotted spectrum (a least-squares complex scale over the conjugated/non-conjugated, reversed/shifted variants): the plotted spectrum at ascending ppm point k equals the FFT of the conjugated FID (first point × 0.5, no apodization when `filter = "no"`) at frequency index k − n/2 times e^{+i·p0}, with p0 the first argument of `Phase(p0, p1)` in `processing.script` (= −`p0Phase` of `proc.par`), relative residual 2·10⁻⁷ on the 1D proton spectrum; `b1Freq` is the 0 ppm frequency. Hence `conjugate` = yes, stored φ0 = −p0, reference = `b1Freq`, no group delay. Unverified (no public example): a non-zero first-order phase, `filter = "yes"` apodization, `zf` > 1.
+
+## 2026-10-11 — peak picking on water-suppressed metabolomics spectra
+
+**Corpus files used:** `zenodo20308061-andrographis-mac50-3`, `zenodo20308061-andrographis-ult100-2` (Zenodo 20308061, CC-BY-4.0; all 27 experiments of the record were compared), `zenodo22712212-aiw-61` (Zenodo 22712212, CC-BY-4.0; 61 experiments compared), and the 1H experiments already in the corpus. **Prior art consulted:** none new.
+
+**What was measured:** the highest point of TopSpin's `1r` in five windows against `analyze nmr-peaks --range-ppm` (`main_peak`), on the stored spectrum and on the FID processed here. The stored spectrum agrees everywhere except where two lines differ by less than 0.5 % in height (parabolic interpolation reorders them) and where the window cuts a line: a line just outside the window was reported because the index window was rounded outwards. Peaks are now kept only when their interpolated shift is inside the window. The FID processed here matches `1r` at correlation 0.99999 but sits on a baseline about 0.3 % of the tallest line lower than TopSpin's in these DIGMOD 3 data sets (the difference is in the first time-domain point, and no single first-point factor explains all files). This reorders weak lines of nearly equal height in 4 of 27 windows; it is listed as a known gap.
+
+## 2026-10-11 — FIDs without stored referencing
+
+**Corpus files used:** every Bruker experiment on disk with `pdata/1/procs` (nmrXiv and the two Zenodo bundles, about 290), comparing `procs` SF with `acqus` BF1. **Prior art consulted:** none.
+**What was measured:** the referencing correction (SF − BF1)/SF is within 0.2 ppm of 0 in most experiments and 0.44 to 1.41 ppm (either sign) in 20. An FID processed without `procs` can only take BF1 as 0 ppm, so its shifts are off by that much. The FID processing now says so in a note when no `procs` gives SF.

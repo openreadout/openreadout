@@ -53,10 +53,11 @@
      "nucleus": "1H",
      "spectrometer_frequency_mhz": 599.8309405,
      "spectral_width_hz": 10000.0,
-     "scans": 512,
+     "requested_scans": 512,
      "time_domain_size": 20000,
      "pulse_program": "press",
-     "solvent": "none"
+     "solvent": "none",
+     "scans": 512
     }
    }
   }

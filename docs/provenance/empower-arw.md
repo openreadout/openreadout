@@ -34,3 +34,9 @@ Held-out draw D reported an `.arw` export without header rows, with CR line endi
 
 **Inferred, and decided:** an export whose header lines (the lines before the first row of two numbers) are each exactly two cells with a quoted name first is read as one field per line, when there are more than two such lines or when the first line's value is not quoted. Two quoted lines stay the names-row-and-values-row layout, as before, because both layouts could produce them; every development file with two header lines is of that layout. A first line of one quoted name and an unquoted number is claimed only for a file named `.arw`. The layout is reported in `extra.one_field_per_line` and as the assurance layout `one field per line`.
 The channel name is now `Channel` without its surrounding spaces: GPCreader's exports write `"SATIN-2 "`, and the corpus comparison, like the other readers, takes names without them.
+
+## 2026-10-11 — comma-separated CSVs mistaken for exports
+
+**Corpus files used:** the development `.arw` inputs (unchanged results). **Prior art consulted:** none.
+**Observed:** running `check` over public CSV files that mention plate readers found ordinary comma-separated tables with a quoted header (`"iata","airport",…`) and text files whose first line is quoted detected as Empower exports and reported corrupt (exit 4). The first line has no tab, so it was one cell that starts and ends with a quote.
+**Decided:** the first line must hold at least two tab-separated cells, each one quoted name with no quote inside it (every development export has two or more). Such files are now unknown (exit 3).

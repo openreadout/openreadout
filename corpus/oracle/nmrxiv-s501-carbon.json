@@ -53,10 +53,11 @@
      "nucleus": "13C",
      "spectrometer_frequency_mhz": 150.8082169,
      "spectral_width_hz": 37878.7878788,
-     "scans": 3000,
+     "requested_scans": 3000,
      "time_domain_size": 65536,
      "pulse_program": "s2pul",
-     "solvent": "cdcl3"
+     "solvent": "cdcl3",
+     "scans": 1776
     }
    }
   }

@@ -6421,10 +6421,11 @@
      "nucleus": "1H",
      "spectrometer_frequency_mhz": 599.6920477,
      "spectral_width_hz": 10775.862069,
-     "scans": 24,
+     "requested_scans": 24,
      "time_domain_size": 3232,
      "pulse_program": "gHSQCAD",
-     "solvent": "cdcl3"
+     "solvent": "cdcl3",
+     "scans": 24
     }
    }
   }

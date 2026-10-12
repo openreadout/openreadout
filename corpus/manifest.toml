@@ -42657,6 +42657,7 @@ license_checked = "https://github.com/LennonLab/residence-time-test/blob/9dc0ce7
 source = "GitHub LennonLab/residence-time-test (commit 9dc0ce7)"
 attribution = "LennonLab"
 notes = "Gen5 3.03 text export of a Synergy H1 absorbance endpoint (Biolog EcoPlate, 590 nm), 2021. Draw C (2026-09-26): a source record no development or earlier held-out file uses. Ground truth: oracle/plate.py independent text reader (allotropy cannot parse it)."
+exposed = "2026-10-11: a search of public Gen5 exports (fix/analysis-gaps) downloaded another file of this record (0_RTLC_S3_3.875.txt) and ran `check` on it, which reported nothing; this file was not opened and nothing was inferred"
 
 [[file]]
 id = "ho-gh-maxlindberg-clariostar-scan"
@@ -42676,6 +42677,7 @@ license_checked = "https://github.com/MaxLindberg/SolubilityAssayPaper2023/blob/
 source = "GitHub MaxLindberg/SolubilityAssayPaper2023 (commit 3052a5f)"
 attribution = "MaxLindberg"
 notes = "BMG CLARIOstar semicolon CSV of a fluorescence excitation scan (320-400 nm), 2023. Draw C (2026-09-26): a source record no development or earlier held-out file uses. Ground truth: oracle/plate.py independent text reader (allotropy cannot parse it)."
+exposed = "2026-10-11: a search of public BMG exports for held-out finding D-H3 (fix/analysis-gaps) fetched every file of this record, this one included, and ran `check` on them before the reservation was noticed; a BMG table-view change was derived from two other files of the record (ABm1-40 tube adsorption.txt, filter ads test AB1-40.txt) and then reverted with those files; nothing from it remains in the reader"
 
 [[file]]
 id = "ho-gh-cellhts2-envision"
@@ -73191,3 +73193,77 @@ license_checked = "https://figshare.com/articles/dataset/13601282 (licence CC BY
 source = "Figshare 13601282 'peptides_CD and FRET', DK_27xi20.txt"
 attribution = "Laurents, Douglas V."
 notes = "JASCO Spectra Manager text export of the same measurement: CD[mdeg] and HT[V] columns."
+
+[[file]]
+id = "zenodo20308061-andrographis-bundle"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "zenodo20308061-andrographis-bundle.zip"
+url = "https://zenodo.org/api/records/20308061/files/NMR_data.zip/content"
+sha256 = "a4b8d3ccdabfad79f010e7d1ff0937caee31fdb75c8421fe94c47d2d2ed947a0"
+size = 8902702
+md5 = "9f1aec7dc8f60f325272f29d6f0baac9"
+license = "CC-BY-4.0"
+license_checked = "Zenodo record licence cc-by-4.0 (API), 2026-10-11"
+source = "Zenodo 20308061 'Raw NMR data of Andrographis paniculata extracts used in metabolomic analysis', NMR_data.zip"
+attribution = "Masullo, Milena"
+notes = "27 Bruker experiments (9 extracts x 3 repeats), 1H noesygppr1d in D2O, TopSpin 3.2, 600 MHz, each with TopSpin's pdata/1"
+
+[[file]]
+id = "zenodo20308061-andrographis-mac50-3"
+format = "bruker-nmr"
+family = "nmr"
+role = "input"
+tier = "standard"
+bundle = "zenodo20308061-andrographis-bundle"
+filename = "zenodo20308061-andrographis-bundle/AP_MAC_50%ok/3"
+license = "CC-BY-4.0"
+license_checked = "Zenodo record licence cc-by-4.0 (API), 2026-10-11"
+source = "Zenodo 20308061, NMR_data.zip, AP_MAC_50%ok/3"
+attribution = "Masullo, Milena"
+notes = "Plant-extract metabolomics: 1H noesygppr1d (water presaturation) in D2O, TopSpin 3.2, 600.13 MHz, DIGMOD 3 (GRPDLY 76), TD 65536 with TDeff 32768, pdata/1 (SI 16384, LB 1, FCOR 0, no baseline correction). Weak aromatic lines beside large sugar and water signals."
+
+[[file]]
+id = "zenodo20308061-andrographis-ult100-2"
+format = "bruker-nmr"
+family = "nmr"
+role = "input"
+tier = "standard"
+bundle = "zenodo20308061-andrographis-bundle"
+filename = "zenodo20308061-andrographis-bundle/Andrographis extr_ULT_100%/2"
+license = "CC-BY-4.0"
+license_checked = "Zenodo record licence cc-by-4.0 (API), 2026-10-11"
+source = "Zenodo 20308061, NMR_data.zip, Andrographis extr_ULT_100%/2"
+attribution = "Masullo, Milena"
+notes = "1H noesygppr1d in D2O, TopSpin 3.2, 600.13 MHz, with TopSpin's pdata/1; a second extract of the same study"
+
+[[file]]
+id = "zenodo22712212-aiw-bundle"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "zenodo22712212-aiw-bundle.zip"
+url = "https://zenodo.org/api/records/22712212/files/Aiw_NMR_data_all_samples.zip/content"
+sha256 = "375125eb266f7e2b4950a35e0eb233dcda3c08bf991ebce8aeab18c7634437ca"
+size = 69664652
+md5 = "b9a7ccaf7cf35b9e8b0678606050e8a0"
+license = "CC-BY-4.0"
+license_checked = "Zenodo record licence cc-by-4.0 (API), 2026-10-11"
+source = "Zenodo 22712212 'AiW - NMR data (raw and processed)', Aiw_NMR_data_all_samples.zip"
+attribution = "Rajakaruna, Sumudu; Singh, Vishal; Hao, Fuhua"
+notes = "61 Bruker experiments of mouse cecal extracts, 1H noesygppr1d.comp in H2O+D2O (TSP), TopSpin 4.3.0, Avance NEO 600 MHz, each with TopSpin's pdata/1"
+
+[[file]]
+id = "zenodo22712212-aiw-61"
+format = "bruker-nmr"
+family = "nmr"
+role = "input"
+tier = "standard"
+bundle = "zenodo22712212-aiw-bundle"
+filename = "zenodo22712212-aiw-bundle/61"
+license = "CC-BY-4.0"
+license_checked = "Zenodo record licence cc-by-4.0 (API), 2026-10-11"
+source = "Zenodo 22712212, Aiw_NMR_data_all_samples.zip, 61"
+attribution = "Rajakaruna, Sumudu; Singh, Vishal; Hao, Fuhua"
+notes = "Metabolomics of a mouse cecal extract: 1H noesygppr1d.comp in H2O+D2O with TSP, TopSpin 4.3.0, NEO 600.45 MHz, DIGMOD 3, NS 64, with TopSpin's pdata/1"
