@@ -362,6 +362,105 @@ fn accela_pda_matches_an_independent_conversion() {
             "id": id, "format": "thermo-raw", "status": "pass", "independent": true,
             "compared": ["traces"],
         });
-        std::fs::write(p, format!("{line}\n")).unwrap();
+        append_line(&p, &line);
+    }
+}
+
+/// Append one results line (the tests of this file run in parallel and share the file).
+fn append_line(path: &str, line: &serde_json::Value) {
+    use std::io::Write;
+    let mut f = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)
+        .unwrap();
+    f.write_all(format!("{line}\n").as_bytes()).unwrap();
+}
+
+/// Pump-pressure chromatograms in five depositor mzMLs (ProteoWizard with the vendor library)
+/// against the analog controllers of the same runs: every exported point must be one of our
+/// samples, at the same time, with the export's value = ours × 10⁵ (bar in the file, pascal in
+/// the export). The exports cover the part of the run the mass spectrometer acquired, so they
+/// hold fewer points than the controller.
+#[test]
+fn analog_pressure_matches_the_exported_chromatograms() {
+    use openreadout_mzml::MzmlReader;
+    let mut lines = Vec::new();
+    for id in [
+        "msv94528-idx-msnlib-peptide01-b18",
+        "mtbls12283-rumenwall-qc-id-01-neg",
+        "mtbls14308-mwy251008a-mix01",
+        "mtbls14508-mh-b4-c18-pos-dda-r01",
+        "pxd059315-ascend-etd-wkl-1",
+    ] {
+        let raw = corpus_dir().join(format!("{id}.raw"));
+        let mzml = corpus_dir().join(format!("{id}.mzML"));
+        if !raw.exists() || !mzml.exists() {
+            eprintln!("skip: {id} missing");
+            continue;
+        }
+        let mut ds = ThermoRawReader.open(&raw).unwrap();
+        let info = ds.info().unwrap();
+        let mut ours = Vec::new();
+        for t in info
+            .traces
+            .iter()
+            .filter(|t| t.extra.get("detector").and_then(|v| v.as_str()) == Some("analog"))
+        {
+            let tr = ds.read_trace(t.index, 0, 0, t.sample_count).unwrap();
+            ours.push((t.name.clone().unwrap_or_default(), tr.channels));
+        }
+        let mut ex = MzmlReader.open(&mzml).unwrap();
+        let ex_info = ex.info().unwrap();
+        let mut checked = 0;
+        for t in ex_info
+            .traces
+            .iter()
+            .filter(|t| t.name.as_deref().is_some_and(|n| n.contains("Pressure")))
+        {
+            let theirs = ex
+                .read_trace(t.index, 0, 0, t.sample_count)
+                .unwrap()
+                .channels;
+            let (times, values) = (&theirs[0], &theirs[1]);
+            // the analog trace whose samples hold every exported point
+            let found = ours.iter().find(|(_, ch)| {
+                let mut k = 0;
+                times.iter().zip(values).all(|(&s, &v)| {
+                    while k < ch[0].len() && ch[0][k] < s - 1e-6 {
+                        k += 1;
+                    }
+                    k < ch[0].len()
+                        && (ch[0][k] - s).abs() <= 1e-6
+                        // (an f32 export holds our value rounded to single precision)
+                        && ((ch[1][k] * 1e5 - v).abs() <= 1e-6 * v.abs().max(1.0)
+                            || (f64::from((ch[1][k] * 1e5) as f32) - v).abs()
+                                <= f64::EPSILON * v.abs())
+                })
+            });
+            let Some((name, ch)) = found else {
+                panic!("{id}: {:?} matches none of our analog traces", t.name);
+            };
+            println!(
+                "{id}: {:?} = {name} × 1e5 on all {} exported points (ours: {})",
+                t.name,
+                times.len(),
+                ch[0].len()
+            );
+            checked += 1;
+        }
+        assert!(
+            checked > 0,
+            "{id}: the export holds a pressure chromatogram"
+        );
+        lines.push(serde_json::json!({
+            "id": id, "format": "thermo-raw", "status": "pass", "independent": true,
+            "compared": ["traces"],
+        }));
+    }
+    if let Ok(p) = std::env::var("THERMO_DETECTOR_RESULTS") {
+        for line in &lines {
+            append_line(&p, line);
+        }
     }
 }

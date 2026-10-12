@@ -228,6 +228,22 @@ fn tof_data_dependent() {
         Some("sample=1 period=1 cycle=1 experiment=2")
     );
     assert!(ds.check().unwrap().ok);
+
+    // Without the .wiff.scan the scan headers still come from the .wiff; peaks are refused.
+    std::fs::remove_file(tmp.path().join("tof.wiff.scan")).unwrap();
+    let mut ds = SciexWiffReader.open(&wiff).unwrap();
+    let info = ds.info().unwrap();
+    assert_eq!(info.spectra[0].scan_count, 2);
+    assert_eq!(info.spectra[0].ms_levels, vec![1, 2]);
+    let mut headers = Vec::new();
+    ds.visit_scan_headers(0, 0, &mut |h| {
+        headers.push((h.ms_level, h.precursor_mz));
+        true
+    })
+    .unwrap();
+    assert_eq!(headers, vec![(1, None), (2, Some(456.75))]);
+    assert_eq!(ds.read_spectrum(0, 1).unwrap_err().exit_code(), 6);
+    assert!(ds.check().unwrap().ok);
 }
 
 #[test]

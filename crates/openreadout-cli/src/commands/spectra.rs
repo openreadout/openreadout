@@ -1,7 +1,7 @@
 //! Mass spectrometry: `scans` lists the scan headers of a run (scan number, MS level, retention
 //! time, polarity, precursor m/z and charge, isolation window, activation, filter string)
 //! without decoding peaks (`openreadout_core::scans`); `spectrum` returns one spectrum's m/z and
-//! intensity arrays, picked with `--scan`, `--spectrum` or `--ms-level L --nth K`.
+//! intensity arrays, picked with `--scan` or `--spectrum` (within one MS level with `--ms-level`).
 
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -69,7 +69,7 @@ pub struct ScansArgs {
 
 /// Arguments of `spectrum`.
 #[derive(Debug, Clone, clap::Args)]
-#[command(group(clap::ArgGroup::new("which").required(true).args(["scan", "spectrum", "nth"])))]
+#[command(group(clap::ArgGroup::new("which").required(true).args(["scan", "spectrum"])))]
 pub struct SpectrumArgs {
     /// The mass-spectrometry file (Thermo .raw, mzML/.mzML.gz/mzMLb, mzXML, imzML, Bruker .d,
     /// Agilent .d, Waters .raw, Sciex .wiff, ANDI/MS .cdf, ChemStation .ms).
@@ -78,17 +78,14 @@ pub struct SpectrumArgs {
     #[arg(long, default_value_t = 0)]
     pub run: u32,
     /// This scan number as the instrument counts it (1-based in Thermo files).
-    #[arg(long, value_name = "N", conflicts_with_all = ["spectrum", "nth"])]
+    #[arg(long, value_name = "N", conflicts_with = "spectrum")]
     pub scan: Option<u64>,
-    /// This zero-based spectrum index.
-    #[arg(long, value_name = "I", conflicts_with = "nth")]
+    /// This zero-based spectrum index, counted within `--ms-level` when it is given.
+    #[arg(long, value_name = "I")]
     pub spectrum: Option<u64>,
-    /// With `--ms-level`: the K-th spectrum (from 1) of that level (MS1 and MS/MS scans are
-    /// interleaved; `--ms-level 2 --nth 1` is the first MS/MS scan).
-    #[arg(long, value_name = "K", requires = "ms_level")]
-    pub nth: Option<u64>,
-    /// The MS level `--nth` counts in.
-    #[arg(long, value_name = "N", requires = "nth")]
+    /// Count `--spectrum` among the spectra of this MS level only. MS1 and MS/MS scans are
+    /// interleaved, and `--ms-level 2 --spectrum 0` is the first MS/MS scan.
+    #[arg(long, value_name = "L", requires = "spectrum")]
     pub ms_level: Option<u32>,
     /// The instrument's stored centroid list instead of the profile when a scan has both.
     #[arg(long)]
@@ -98,6 +95,10 @@ pub struct SpectrumArgs {
     /// before 3.0.20286 do.
     #[arg(long)]
     pub exclude_flagged: bool,
+    /// Correct m/z with the lock-spray reference scans (Waters `.raw`): the lock compound's
+    /// m/z, or `auto` for the Lock Mass the file records. Off by default: values are as stored.
+    #[arg(long, value_name = "MZ|auto")]
+    pub lock_mass: Option<String>,
     /// At most this many points (`point_count` still reports the full size).
     #[arg(long, value_name = "N")]
     pub max_points: Option<usize>,
@@ -383,16 +384,16 @@ pub fn run_scans(reg: &Registry, a: &ScansArgs) -> i32 {
     }
 }
 
-/// `openreadout spectrum --scan N | --spectrum I | --ms-level L --nth K`: one spectrum.
+/// `openreadout spectrum --scan N | --spectrum I [--ms-level L]`: one spectrum.
 pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
-    let by = match (a.nth, a.scan, a.spectrum) {
-        (Some(k), _, _) => SpectrumBy::Level(a.ms_level.unwrap_or(1), k),
-        (None, _, Some(i)) => SpectrumBy::Index(i),
-        (None, Some(n), None) => SpectrumBy::Scan(n),
-        (None, None, None) => {
+    let by = match (a.scan, a.spectrum, a.ms_level) {
+        (_, Some(i), Some(level)) => SpectrumBy::Level(level, i),
+        (_, Some(i), None) => SpectrumBy::Index(i),
+        (Some(n), None, _) => SpectrumBy::Scan(n),
+        (None, None, _) => {
             return fail(
                 a.json,
-                &Error::Usage("give --scan N, --spectrum I or --ms-level L --nth K".into()),
+                &Error::Usage("give --scan N or --spectrum I (with --ms-level L to count within one MS level)".into()),
             );
         }
     };
@@ -403,6 +404,7 @@ pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
         a.run,
         a.centroid,
         a.exclude_flagged,
+        a.lock_mass.as_deref(),
         a.max_points,
     ) {
         Ok(v) => emit(a.json, &v, render_spectrum),
@@ -414,7 +416,7 @@ pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
 pub enum SpectrumBy {
     Scan(u64),
     Index(u64),
-    /// MS level and 1-based rank within that level.
+    /// MS level and zero-based index within that level.
     Level(u32, u64),
 }
 
@@ -426,6 +428,7 @@ pub fn spectrum(
     run: u32,
     centroid: bool,
     exclude_flagged: bool,
+    lock_mass: Option<&str>,
     max_points: Option<usize>,
 ) -> Result<SpectrumOutput> {
     let (det, mut ds) = reg.open(file)?;
@@ -435,6 +438,7 @@ pub fn spectrum(
             det.format_id
         ));
     }
+    apply_lock_mass(ds.as_mut(), lock_mass, det.format_id)?;
     let view = if centroid {
         SpectrumView::Centroid
     } else {
@@ -445,14 +449,21 @@ pub fn spectrum(
         SpectrumBy::Scan(n) => {
             openreadout_core::reader::spectrum_by_scan(ds.as_mut(), run, n, view)?
         }
-        SpectrumBy::Level(level, nth) => {
+        SpectrumBy::Level(level, index) => {
             let count = ds
                 .info()?
                 .spectra
                 .iter()
                 .find(|s| s.index == run)
                 .map_or(0, |s| s.scan_count);
-            openreadout_core::reader::spectrum_by_level(ds.as_mut(), run, level, nth, count, view)?
+            openreadout_core::reader::spectrum_by_level(
+                ds.as_mut(),
+                run,
+                level,
+                index,
+                count,
+                view,
+            )?
         }
     };
     let point_count = sp.mz.len() as u64;
@@ -516,6 +527,38 @@ pub fn render_spectrum(o: &SpectrumOutput) -> String {
         ));
     }
     out.trim_end().to_string()
+}
+
+/// `--lock-mass MZ|auto`: ask the reader to correct m/z with the file's lock-spray scans. A
+/// format without lock-spray reference scans leaves the values unchanged, with a warning.
+pub fn apply_lock_mass(
+    ds: &mut dyn openreadout_core::Dataset,
+    arg: Option<&str>,
+    format_id: &str,
+) -> Result<()> {
+    let Some(arg) = arg else {
+        return Ok(());
+    };
+    let reference = if arg.eq_ignore_ascii_case("auto") {
+        None
+    } else {
+        Some(
+            arg.parse::<f64>()
+                .ok()
+                .filter(|m| m.is_finite() && *m > 0.0)
+                .ok_or_else(|| {
+                    Error::Usage(format!(
+                        "--lock-mass {arg:?}: expected the lock compound's m/z (e.g. 556.2771) or auto"
+                    ))
+                })?,
+        )
+    };
+    if !ds.set_lock_mass(reference)? {
+        crate::output::warn(&format!(
+            "--lock-mass: {format_id} files have no lock-spray reference scans; m/z are unchanged"
+        ));
+    }
+    Ok(())
 }
 
 #[cfg(test)]

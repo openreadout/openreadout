@@ -100,7 +100,7 @@ impl FormatReader for AgilentMsReader {
                 "Ion-mobility data: drift-bin spectra only (the frame-summed spectra are not listed); all-ions high-energy spectra carry no precursor or collision energy (the frame method's energy ramp is shown by dump); compressed drift-bin profiles and CCS values are not supported".into(),
                 "Precursor-ion scans have not been seen; neutral-loss scans report the loss as extra.neutral_loss_mz, not as a precursor".into(),
                 "MSPeriodicActuals.bin, MSActualDefs.xml, the acquisition method's device settings and MSTree2.bin are listed but not decoded; ion-mode codes are reported as numbers".into(),
-                "DAD spectra (DAD1.sd/.sp) are listed but not decoded; DAD and LC-module signals (*.cd/*.cg) are exposed as traces".into(),
+                "DAD spectra (DAD1.sd/.sp) are a trace with one channel per wavelength, validated against one ProteoWizard export (520 spectra); DAD and LC-module signals (*.cd/*.cg) are exposed as traces".into(),
             ],
         }
     }

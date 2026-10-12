@@ -130,8 +130,8 @@ enum Command {
     /// Mass spectrometry: the scan headers of a run, filtered, counted and paged, or as CSV.
     /// IR, Raman, UV-Vis and NMR spectra are traces (`trace`).
     Scans(commands::spectra::ScansArgs),
-    /// Mass spectrometry: one spectrum's m/z and intensity arrays, by `--scan`, `--spectrum` or
-    /// `--ms-level L --nth K`.
+    /// Mass spectrometry: one spectrum's m/z and intensity arrays, by `--scan` or `--spectrum`
+    /// (zero-based, within one MS level with `--ms-level L`).
     Spectrum(commands::spectra::SpectrumArgs),
     /// Analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks,
     /// patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader

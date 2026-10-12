@@ -4200,7 +4200,40 @@ def agilent_ms(p: Path, q: Path) -> dict:
     out = thermo(p, q)
     if "spectra" in out:
         out["spectra"]["by_index"] = True
+    dad = _uv_spectra(q)
+    if dad is not None:
+        out["dad_spectra"] = dad
     return out
+
+
+def _uv_spectra(q: Path):
+    """The export's UV/Vis (diode-array) spectra, read with pyteomics: their count, wavelength
+    grid, every time (minutes) and a hash of every value as float32, spectrum after spectrum.
+    `None` when the export holds none."""
+    from pyteomics import mzml
+    times, wl, rows = [], None, []
+    with mzml.MzML(str(q), decode_binary=True) as f:
+        for sp in f:
+            if sp.get("m/z array") is not None or sp.get("wavelength array") is None:
+                continue
+            w = np.asarray(sp["wavelength array"], dtype=np.float64)
+            if wl is None:
+                wl = w
+            elif w.size != wl.size or np.any(w != wl):
+                raise ValueError(f"{sp.get('id')}: the wavelength grid changes")
+            scan = sp.get("scanList", {}).get("scan", [{}])[0]
+            times.append(float(scan.get("scan start time")))
+            rows.append(np.asarray(sp.get("intensity array", []), dtype=np.float64))
+    if wl is None:
+        return None
+    m = np.vstack(rows)
+    return {
+        "count": int(m.shape[0]),
+        "wavelengths_nm": [float(x) for x in wl],
+        "times_min": times,
+        "xxh3_f32": xxhash.xxh3_128_hexdigest(m.astype("<f4").tobytes()),
+        "sum": float(m.sum()),
+    }
 
 
 def agilent_ms_rainbow(p: Path) -> dict:

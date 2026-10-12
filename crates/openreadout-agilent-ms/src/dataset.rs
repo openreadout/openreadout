@@ -7,27 +7,32 @@ use std::path::{Path, PathBuf};
 use openreadout_core::bytes::le_f64;
 use openreadout_core::model::{
     CheckReport, FileInfo, Finding, InstrumentInfo, LsEntry, SignalChannelInfo, SpectraInfo,
-    Spectrum, Trace, TraceInfo,
+    Spectrum, Table, Trace, TraceInfo,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, SpectrumView};
 use openreadout_core::source::{Fs, Input};
+use openreadout_core::transitions::{
+    Transition, transition_summary, transition_table, transition_table_info,
+};
 use openreadout_core::xmljson::xml_to_json;
 use openreadout_core::{Error, Result};
 use serde_json::{Value, json};
 
 use crate::layout::{
-    Calibration, DATA_START, DefaultCalibration, FALLBACK_XSD_V5, FALLBACK_XSD_V6, FORMAT_PEAK,
-    FORMAT_PROFILE, FORMAT_QUAD_PEAK, FrameMethod, FrameRecord, ScanFileHeader, ScanLayout,
-    ScanRecord, SignalDef, SignalDirectory, decode_ims_profile, decode_peaks, decode_profile,
-    decode_quad_profile, default_calibrations, frame_layout_from_xsd, frame_methods,
-    mass_cal_values, read_frames, read_record, scan_file_header, scan_layout_from_xsd,
-    signal_block, signal_directory,
+    Calibration, DATA_START, DadRecord, DefaultCalibration, FALLBACK_XSD_V5, FALLBACK_XSD_V6,
+    FORMAT_PEAK, FORMAT_PROFILE, FORMAT_QUAD_PEAK, FrameMethod, FrameRecord, ScanFileHeader,
+    ScanLayout, ScanRecord, SignalDef, SignalDirectory, dad_values, decode_ims_profile,
+    decode_peaks, decode_profile, decode_quad_profile, default_calibrations, frame_layout_from_xsd,
+    frame_methods, mass_cal_values, parse_dad_index, read_frames, read_record, scan_file_header,
+    scan_layout_from_xsd, signal_block, signal_directory,
 };
 use crate::{AgilentMsReader, FORMAT_ID};
 
 /// `ScanType` of a neutral-loss scan (`MzOfInterest` holds the loss).
 const SCAN_TYPE_NEUTRAL_LOSS: i32 = 2048;
+/// `ScanType` of an MRM scan.
+const SCAN_TYPE_MRM: i32 = 256;
 
 /// Largest metadata file read whole (XML, `.cd`, `MSScan.bin` index, `MSMassCal.bin`).
 const MAX_INDEX_BYTES: u64 = 1 << 31;
@@ -209,6 +214,14 @@ struct Signal {
     cg: PathBuf,
 }
 
+/// The DAD spectra of one `DADn.sd` index and its `DADn.sp` values, all on one wavelength grid.
+#[derive(Debug)]
+struct DadSpectra {
+    file_stem: String,
+    sp: PathBuf,
+    records: Vec<DadRecord>,
+}
+
 /// The ion-mobility part of a data directory: frames and their methods.
 #[derive(Debug)]
 struct Ims {
@@ -243,6 +256,7 @@ pub struct AgilentDataset {
     samples: Vec<(String, String)>,
     method_name: Option<String>,
     signals: Vec<Signal>,
+    dad: Vec<DadSpectra>,
     size_bytes: u64,
     notes: Vec<String>,
     ims: Option<Ims>,
@@ -408,6 +422,51 @@ impl AgilentDataset {
                 }
             }
         }
+        // DAD spectra: every DADn.sd with its DADn.sp.
+        let mut dad = Vec::new();
+        if let Ok(rd) = fs.read_dir(&acq) {
+            let mut sds: Vec<PathBuf> = rd
+                .flatten()
+                .map(|e| e.path())
+                .filter(|p| p.extension().is_some_and(|e| e.eq_ignore_ascii_case("sd")))
+                .collect();
+            sds.sort();
+            for sd in sds {
+                let sp = sd.with_extension("sp");
+                let stem = sd
+                    .file_stem()
+                    .map(|s| s.to_string_lossy().into_owned())
+                    .unwrap_or_default();
+                if !fs.is_file(&sp) {
+                    notes.push(format!(
+                        "{stem}.sd has no {stem}.sp beside it; its spectra are not exposed"
+                    ));
+                    continue;
+                }
+                match read_all(fs, &sd)
+                    .map_err(|e| e.to_string())
+                    .and_then(|b| parse_dad_index(&b))
+                {
+                    Ok(records) if records.is_empty() => {}
+                    Ok(records) => {
+                        let grid =
+                            |r: &DadRecord| (r.points, r.first_nm.to_bits(), r.step_nm.to_bits());
+                        if records.iter().all(|r| grid(r) == grid(&records[0])) {
+                            dad.push(DadSpectra {
+                                file_stem: stem,
+                                sp,
+                                records,
+                            });
+                        } else {
+                            notes.push(format!(
+                                "{stem}.sd: its spectra use different wavelength grids; they are not exposed"
+                            ));
+                        }
+                    }
+                    Err(e) => notes.push(format!("{stem}.sd: {e}; its spectra are not exposed")),
+                }
+            }
+        }
         let mut files = Vec::new();
         walk(fs, &dir, 0, &mut files);
         let size_bytes = files.iter().map(|(_, n)| n).sum();
@@ -434,6 +493,7 @@ impl AgilentDataset {
             samples,
             method_name,
             signals,
+            dad,
             size_bytes,
             notes,
             ims,
@@ -691,6 +751,47 @@ impl AgilentDataset {
             return Calibration::from_values(&v, flags);
         }
         default.and_then(|d| Calibration::from_values(&d.values, d.flags))
+    }
+
+    /// Spectra `first..first + max` of a DAD index as trace channels: time (s), then one
+    /// channel per wavelength. The spectra are read as one range of `DADn.sp`.
+    fn dad_trace(&self, d: &DadSpectra, first: u64, max: u64) -> Result<Vec<Vec<f64>>> {
+        let start = usize::try_from(first)
+            .unwrap_or(usize::MAX)
+            .min(d.records.len());
+        let end = start
+            .saturating_add(usize::try_from(max).unwrap_or(usize::MAX))
+            .min(d.records.len());
+        let recs = &d.records[start..end];
+        let points = d.records[0].points as usize;
+        let mut channels = vec![Vec::with_capacity(recs.len()); points + 1];
+        let Some(lo) = recs.iter().map(|r| i64::from(r.offset)).min() else {
+            return Ok(channels);
+        };
+        let hi = recs
+            .iter()
+            .map(|r| i64::from(r.offset) + i64::from(r.byte_len))
+            .max()
+            .unwrap_or(lo);
+        let bytes = Self::read_block_bytes(&self.fs, &d.sp, lo, hi - lo)?;
+        for r in recs {
+            let at = usize::try_from(i64::from(r.offset) - lo).unwrap_or(usize::MAX);
+            let vals = bytes
+                .get(at..)
+                .and_then(|b| dad_values(b, r.points))
+                .ok_or_else(|| {
+                    Error::corrupt_at(
+                        FORMAT_ID,
+                        u64::from(r.offset),
+                        format!("{}.sp: spectrum {} is cut off", d.file_stem, r.number),
+                    )
+                })?;
+            channels[0].push(r.time_min * 60.0);
+            for (c, v) in channels[1..].iter_mut().zip(vals) {
+                c.push(v);
+            }
+        }
+        Ok(channels)
     }
 
     fn read_block_bytes(fs: &Fs, path: &Path, offset: i64, len: i64) -> Result<Vec<u8>> {
@@ -1151,6 +1252,88 @@ impl AgilentDataset {
         s.into_iter().collect()
     }
 
+    /// The MRM transitions of the run: the MRM scans (`ScanType` 256) grouped by scan method,
+    /// time segment, precursor and collision energy, one transition per product. A dynamic-MRM
+    /// method gives every transition row its own scan method, so a compound measured in two time
+    /// windows counts twice, as the exports' SRM chromatograms do. A scan that holds one product
+    /// gives its m/z from its record; one that holds several (an MRM time segment with several
+    /// products per precursor) has its point list read, once per group.
+    fn mrm_transitions(&self) -> Vec<Transition> {
+        type Key = (i32, i32, u64, u64);
+        // (transition template, the record with the most products)
+        let mut groups: BTreeMap<Key, (Transition, usize)> = BTreeMap::new();
+        for (i, r) in self.records.iter().enumerate() {
+            if r.scan_type != SCAN_TYPE_MRM || r.ms_level < 2 {
+                continue;
+            }
+            let Some(method) = r.scan_method_id else {
+                continue;
+            };
+            let q1 = r.mz_of_interest.filter(|&m| m > 0.0);
+            let ce = r.collision_energy.map(f64::abs);
+            let key = (
+                method,
+                r.time_segment_id.unwrap_or(0),
+                q1.map_or(0, f64::to_bits),
+                ce.map_or(0, f64::to_bits),
+            );
+            let (_, peak) = self.blocks_of(r);
+            let products = peak.map_or(0, |b| u32::try_from(b.point_count).unwrap_or(0));
+            let t = r.scan_time_min;
+            let (row, best) = groups.entry(key).or_insert_with(|| {
+                (
+                    Transition {
+                        id: Some(i64::from(method)),
+                        precursor_mz: q1,
+                        product_mz: peak
+                            .filter(|b| b.point_count == 1)
+                            .and_then(|b| b.min_x)
+                            .filter(|&x| x > 0.0),
+                        products,
+                        collision_energy: ce,
+                        polarity: match r.ion_polarity {
+                            Some(0) => "positive",
+                            Some(1) => "negative",
+                            _ => "unknown",
+                        },
+                        name: None,
+                        rt_min: Some([t, t]),
+                    },
+                    i,
+                )
+            });
+            if products > row.products {
+                row.products = products;
+                row.product_mz = None;
+                *best = i;
+            }
+            if let Some(w) = row.rt_min.as_mut() {
+                w[0] = w[0].min(t);
+                w[1] = w[1].max(t);
+            }
+        }
+        let mut out = Vec::new();
+        for (row, best) in groups.into_values() {
+            let products = (row.products > 1)
+                .then(|| {
+                    let r = self.records.get(best)?;
+                    let (_, peak) = self.blocks_of(r);
+                    self.peaks(r, peak?).ok().map(|(mz, _)| mz)
+                })
+                .flatten()
+                .filter(|mz| mz.len() == row.products as usize);
+            match products {
+                Some(mz) => out.extend(mz.into_iter().map(|m| Transition {
+                    product_mz: Some(m),
+                    products: 1,
+                    ..row.clone()
+                })),
+                None => out.push(row),
+            }
+        }
+        out
+    }
+
     fn spectra_info(&self) -> SpectraInfo {
         let rt = if self.records.is_empty() {
             None
@@ -1216,6 +1399,17 @@ impl AgilentDataset {
         };
         let data = if self.ims.is_some() { "profile" } else { data };
         extra.insert("stored_spectra".into(), json!(data));
+        let transitions = self.mrm_transitions();
+        if !transitions.is_empty() {
+            extra.insert(
+                "mrm_transitions".into(),
+                transition_summary(
+                    &transitions,
+                    "one per product of each scan method, time segment and precursor; a pair measured in two time windows counts twice",
+                    0,
+                ),
+            );
+        }
         // Scans whose only data is a profile kept in an MSProfile.bin the directory does not
         // hold (a partial copy). A centroid-only acquisition still declares profile blocks; its
         // scans are read from their peak lists.
@@ -1351,6 +1545,44 @@ impl AgilentDataset {
                 extra,
             });
         }
+        for d in &self.dad {
+            let r0 = &d.records[0];
+            // the unit of the detector's own signals, when they share one
+            let units: BTreeSet<&str> = self
+                .signals
+                .iter()
+                .filter(|s| s.file_stem == d.file_stem && !s.def.unit.is_empty())
+                .map(|s| s.def.unit.as_str())
+                .collect();
+            let unit = (units.len() == 1)
+                .then(|| units.into_iter().next())
+                .flatten();
+            let mut channels = vec![chan(0, "time", Some("s"))];
+            for k in 0..r0.points {
+                let wl = r0.first_nm + r0.step_nm * f64::from(k);
+                let mut c = chan(k + 1, &format!("{wl} nm"), unit);
+                c.extra.insert("wavelength_nm".into(), json!(wl));
+                channels.push(c);
+            }
+            let mut extra = BTreeMap::new();
+            extra.insert("kind".into(), json!("DAD spectra"));
+            extra.insert("device_file".into(), json!(format!("{}.sd", d.file_stem)));
+            extra.insert(
+                "wavelength_range_nm".into(),
+                json!([r0.first_nm, r0.last_nm, r0.step_nm]),
+            );
+            extra.insert("irregular_sampling".into(), json!(true));
+            out.push(TraceInfo {
+                index: out.len() as u32,
+                name: Some(format!("{} spectra", d.file_stem)),
+                sample_rate_hz: 0.0,
+                sample_count: d.records.len() as u64,
+                sweep_count: 1,
+                channels,
+                start_s: Some(r0.time_min * 60.0),
+                extra,
+            });
+        }
         out
     }
 
@@ -1406,7 +1638,14 @@ impl Dataset for AgilentDataset {
             format: AgilentMsReader.descriptor(),
             format_version: Some(format!("MSScan layout {}", self.header.layout_version)),
             images: Vec::new(),
-            tables: Vec::new(),
+            tables: {
+                let rows = self.mrm_transitions();
+                if rows.is_empty() {
+                    Vec::new()
+                } else {
+                    vec![transition_table_info(&rows, 0, "scan method")]
+                }
+            },
             spectra: vec![self.spectra_info()],
             traces: self.trace_infos(),
             plane_count: 0,
@@ -1728,6 +1967,17 @@ impl Dataset for AgilentDataset {
         Ok(rep)
     }
 
+    fn read_table(&mut self, index: u32, first_row: u64, max_rows: u64) -> Result<Table> {
+        let rows = self.mrm_transitions();
+        if index != 0 || rows.is_empty() {
+            return Err(Error::Usage(format!(
+                "table {index} not found (this data set has {} tables)",
+                usize::from(!rows.is_empty())
+            )));
+        }
+        Ok(transition_table(&rows, 0, first_row, max_rows))
+    }
+
     fn read_trace(
         &mut self,
         index: u32,
@@ -1736,11 +1986,22 @@ impl Dataset for AgilentDataset {
         max_samples: u64,
     ) -> Result<Trace> {
         let n_ms = if self.records.is_empty() { 0 } else { 2 };
-        if sweep != 0 || index as usize >= n_ms + self.signals.len() {
+        let n_signals = n_ms + self.signals.len();
+        if sweep != 0 || index as usize >= n_signals + self.dad.len() {
             return Err(Error::Usage(format!(
                 "trace {index} sweep {sweep} does not exist ({} traces, one sweep each)",
-                n_ms + self.signals.len()
+                n_signals + self.dad.len()
             )));
+        }
+        if index as usize >= n_signals {
+            let d = &self.dad[index as usize - n_signals];
+            let channels = self.dad_trace(d, first_sample, max_samples)?;
+            return Ok(Trace {
+                trace: index,
+                sweep,
+                first_sample,
+                channels,
+            });
         }
         let start = usize::try_from(first_sample).unwrap_or(usize::MAX);
         let take = usize::try_from(max_samples).unwrap_or(usize::MAX);

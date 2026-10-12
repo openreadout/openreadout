@@ -85,7 +85,7 @@ fn observe(info: &FileInfo) -> Observations {
                 "lock-mass correction",
                 CalibrationStatus::Available,
                 &[Scope::Spectra],
-                "the acquisition recorded a lock-spray reference (extra.lock_mass); masses are returned as calibrated by the Cal Function, without the lock-mass drift correction MassLynx can apply in processing",
+                "the acquisition recorded a lock-spray reference (extra.lock_mass); masses are returned as calibrated by the Cal Function, without the lock-mass drift correction MassLynx can apply in processing (--lock-mass applies it)",
             );
         }
         o.calibration(

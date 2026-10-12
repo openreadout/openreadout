@@ -333,6 +333,24 @@ def test_command_isolation():
         h.close()
 
 
+def test_with_can_load_deferred_mcp_tools(tmp_path):
+    """Claude Code defers MCP tools behind ToolSearch; without it the `with` agent has no MCP tools."""
+    import argparse
+
+    fake = tmp_path / "openreadout"
+    fake.write_text("#!/bin/sh\n")
+    fake.chmod(0o755)
+    args = argparse.Namespace(claude="claude", model="m", max_turns=3, max_budget_usd=0.1, with_mode="all", timeout=10)
+    h = run.Harness(fake, "all", keep=False)
+    try:
+        cmd, _ = run.claude_command(args, h, "with", "PROMPT")
+        assert "ToolSearch" in cmd[cmd.index("--tools") + 1].split(",")
+        allowed = cmd[cmd.index("--allowedTools") + 1 : cmd.index("--disallowedTools")]
+        assert "ToolSearch" in allowed and "mcp__openreadout" in allowed
+    finally:
+        h.close()
+
+
 # ---------------------------------------------------------------- experiment facts
 
 

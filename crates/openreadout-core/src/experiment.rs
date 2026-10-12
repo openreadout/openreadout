@@ -1653,6 +1653,16 @@ const DYE_WORDS: &[&str] = &[
     "cy2", "cy3", "cy5", "cy7", "alexa", "texas", "mcitrine", "mscarlet", "venus", "dio", "dii",
 ];
 
+/// A pixel or voxel length as a parameter. Electron-microscopy lengths are given in nm, so the
+/// number needs no conversion (a 0.156 nm pixel is 0.000156 µm, which is easy to misread).
+fn image_length(c: &Ctx<'_>, um: f64) -> Quantity {
+    if c.family() == "electron-microscopy" {
+        Quantity::number(um * 1e3, "nm")
+    } else {
+        Quantity::number(um, "µm")
+    }
+}
+
 /// A length in µm in words: `0.172 µm`, `2.73 nm`, `0.3 Å`.
 fn length_words(um: f64) -> String {
     if um < 1e-3 {
@@ -1802,7 +1812,7 @@ fn image_measurement(c: &Ctx<'_>, im: &ImageInfo) -> Measurement {
         params.insert("z_slices".into(), Quantity::plain(im.size_z));
         if let Some(z) = im.physical_size.z {
             let _ = write!(what, " {} apart", length_words(z));
-            params.insert("z_step".into(), Quantity::number(z, "µm"));
+            params.insert("z_step".into(), image_length(c, z));
         }
     }
     if im.size_t > 1 {
@@ -1823,7 +1833,7 @@ fn image_measurement(c: &Ctx<'_>, im: &ImageInfo) -> Measurement {
     let _ = write!(what, ", {} × {} px", im.size_x, im.size_y);
     if let Some(x) = im.physical_size.x {
         let _ = write!(what, " at {}/px", length_words(x));
-        params.insert("pixel_size".into(), Quantity::number(x, "µm"));
+        params.insert("pixel_size".into(), image_length(c, x));
     }
     let mut terms = Vec::new();
     if im.size_t > 1 && c.family() == "microscopy" {
@@ -3176,16 +3186,12 @@ fn imaging_params(c: &mut Ctx<'_>) {
     if let Some(x) = im.physical_size.x {
         c.param(
             "pixel_size",
-            Quantity::number(x, "µm"),
+            image_length(c, x),
             "images[0].physical_size.x",
         );
     }
     if let Some(z) = im.physical_size.z.filter(|_| im.size_z > 1) {
-        c.param(
-            "z_step",
-            Quantity::number(z, "µm"),
-            "images[0].physical_size.z",
-        );
+        c.param("z_step", image_length(c, z), "images[0].physical_size.z");
     }
     if let Some(t) = im.time_increment_s.filter(|_| im.size_t > 1) {
         c.param(

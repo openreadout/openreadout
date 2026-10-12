@@ -103,8 +103,8 @@
    "can_write": false,
    "confidence": "medium",
    "known_gaps": [
-    "Validated file versions: 57, 61, 62, 63, 64, 66 (current instruments, Orbitrap Astral and TSQ Altis Plus included, write 66); versions 58-60 and 65 open with a note and may misparse",
-    "Detector controllers (UV/DAD channels, PDA field, analog pressure/temperature/A-D) are traces. An Accela PDA file (v63) is validated against an independent conversion (GNPS/MassIVE msconvert mzML of MTBLS773): all 10,501 PDA spectra × 401 wavelengths and their times exact, channel A equal to its `UV 1` chromatogram (that conversion times it one 0.1 s sample later; our grid lines up with the PDA field). The Vanquish DAD/CAD (v66) and the analog channels are validated by internal consistency only (DAD channels equal the PDA field at their wavelength; stored per-scan values equal the samples). Units are inferred (mAU; no unit is stored) or taken from the method text; file versions before 63 expose only the mass spectrometer",
+    "Validated file versions: 57, 60, 61, 62, 63, 64, 66 (current instruments, Orbitrap Astral and TSQ Altis Plus included, write 66); versions 58, 59 and 65 open with a note and may misparse (no public file of them with a conversion was found)",
+    "Detector controllers (UV/DAD channels, PDA field, analog pressure/temperature/A-D) are traces. An Accela PDA file (v63) is validated against an independent conversion (GNPS/MassIVE msconvert mzML of MTBLS773): all 10,501 PDA spectra × 401 wavelengths and their times exact, channel A equal to its `UV 1` chromatogram (that conversion times it one 0.1 s sample later; our grid lines up with the PDA field). Analog channels (v66) are validated against the pump-pressure chromatograms of five depositor mzMLs (every exported point equal, bar in the file, pascal in the export); the Vanquish DAD/CAD (v66) by internal consistency only (DAD channels equal the PDA field at their wavelength; stored per-scan values equal the samples). Units are inferred (mAU; no unit is stored) or taken from the method text; file versions before 63 expose only the mass spectrometer",
     "SRM scans (TSQ Vantage window records, TSQ Altis Plus runs whose scans take their events from the method table) are validated through the depositors' chromatograms, rebuilt from our spectra; their per-peak flag bytes are not interpreted. GC full scans of a TSQ 9610 and of an ISQ single quadrupole are validated against spectra; LC triple-quadrupole full scans (Q1MS/Q3MS) have no corpus file",
     "Scan filter text covers analyzer (ITMS, FTMS, ASTMS), polarity, data kind, ionization, in-source CID (sid=), FAIMS compensation voltage (cv=), turbo and rapid scan rates (t, r), dependent flag, supplemental activation (sa), multiplexing (msx), scan type, MS level, precursors with activation (CID, HCD, ETD) and energy, MSn stages, and scan ranges (SRM product windows included); multi-range SIM scans list every range. No corpus file has in-source CID and FAIMS together, or FAIMS on an ion-trap scan with a rate token, so those orders are assumed and such files are unvalidated",
     "Ion-trap (m/z-grid) profiles are validated against vendor-library conversions (LTQ Velos, Orbitrap ion-trap MS2/MS3 of ProteoWizard's test data); four-coefficient ion-cyclotron profiles are validated at single precision on one LTQ FT Ultra file",
@@ -300,7 +300,6 @@
    "known_gaps": [
     "No specification: the layout comes from OpenSlide's public format documentation and the corpus files; placement of camera photos was derived by comparison with OpenSlide run as a black box",
     "Levels above 0 place camera photos at fractional pixels: values are bilinear resamplings as OpenSlide renders them (within a few grey levels of OpenSlide), not stored samples",
-    "Slides without a camera position table (exported with overlaps removed) are listed but their pixels are refused (exit 6): no such development file yet",
     "Fluorescence slides with more than three filters, or filters sharing a colour component, are refused (exit 6)",
     "Level 0 is too large to read whole: read a region (`--region`) or a coarser level (`--level`)",
     "The scan-information records (focus, motor positions) and stitching records are listed as attachments, not decoded"
@@ -763,7 +762,7 @@
     "Ion-mobility data: drift-bin spectra only (the frame-summed spectra are not listed); all-ions high-energy spectra carry no precursor or collision energy (the frame method's energy ramp is shown by dump); compressed drift-bin profiles and CCS values are not supported",
     "Precursor-ion scans have not been seen; neutral-loss scans report the loss as extra.neutral_loss_mz, not as a precursor",
     "MSPeriodicActuals.bin, MSActualDefs.xml, the acquisition method's device settings and MSTree2.bin are listed but not decoded; ion-mode codes are reported as numbers",
-    "DAD spectra (DAD1.sd/.sp) are listed but not decoded; DAD and LC-module signals (*.cd/*.cg) are exposed as traces"
+    "DAD spectra (DAD1.sd/.sp) are a trace with one channel per wavelength, validated against one ProteoWizard export (520 spectra); DAD and LC-module signals (*.cd/*.cg) are exposed as traces"
    ],
    "page": "agilent-masshunter",
    "field": "Mass spectrometry"
@@ -785,7 +784,8 @@
     ".wiff2 (SCIEX OS) files are encrypted and are refused (exit 6); convert them with the vendor's software",
     "Validated on MRM files (QTRAP 6500+ scheduled MRM, Analyst 1.7.2: 165 SRM chromatograms bit-exact; QTRAP 6500; a 2007 ten-sample Analyst file with one value per transition per cycle) and LC device traces, and on TripleTOF 6600 and 5600+ data-dependent files (Analyst TF; scan times, MS levels, polarity, precursors, TIC and base-peak m/z against the export); other scan types (Q1/Q3 scans, enhanced product ion, MRM³, SWATH variable windows) are listed but not decoded",
     "TOF spectra are the stored time-to-digital histograms (counts per bin, calibrated per scan); the vendor library's peak picking, which depositor exports hold, is not reproduced",
-    "ZenoTOF (SCIEX OS) .wiff + .wiff.scan files open, but their precursor charges and rolling collision energies are not read (reported absent); not validated against an export",
+    "ZenoTOF (SCIEX OS) .wiff + .wiff.scan files: scan times, MS levels, polarity and precursor m/z agree with the export; no stream of the file holds the precursor charges or per-scan collision energies the exports list (they appear to be computed by the converter), so both are reported absent",
+    "Without the .wiff.scan, scan headers (times, MS levels, precursors) are listed from the .wiff and peaks are refused (exit 6)",
     "TripleTOF 5600 files: the index TIC is not the sum of the stored counts (median +0.6 %, from -64 % on the most intense scans to +38 % on the weakest); every scan's largest count equals the index's base-peak intensity at the index's base-peak m/z, so the counts are returned as stored and `total_ion_current` is the index value",
     "The first half of every 2N-value MRM cycle (zero in the corpus files) is not interpreted; transitions are assigned to cycles by their scheduling windows, and a boundary cycle whose values are all zero is left out of the transitions that start or end there (inferred from one file)",
     "Multi-period methods: only period 0's experiments are described; multi-sample files expose one run per sample but only sample 1's acquisition time"
@@ -875,7 +875,7 @@
    "confidence": "high",
    "known_gaps": [
     "Spectra are validated point for point (m/z within 0.06 ppm, intensities equal) against vendor-library conversions of 13 acquisitions (SYNAPT G2/G2-Si/XS, Synapt MS, Xevo TQ-MS/G2-XS, ACQUITY SQD; 12-, 8- and 6-byte layouts, centroid and continuum, DDA, MSe, product-ion scans); the index flag 0x100 means values stored calibrated, otherwise the `Cal Function n` polynomial (T0, T1) is applied",
-    "Lock-mass (lock-spray) correction is not applied: each reference scan's flagged lock-mass peak is reported (`lock_mass_peak_mz`); files MassLynx already corrected are read as stored",
+    "Lock-mass (lock-spray) correction is off by default (m/z as stored; each reference scan's flagged lock-mass peak is reported as `lock_mass_peak_mz`) and applied on request (`--lock-mass MZ|auto`, `Dataset::set_lock_mass`): checked against MassLynx-corrected copies of two runs to about 2 ppm, its exact smoothing over lock-spray scans is not established; files MassLynx already corrected are read as stored",
     "Ion-mobility (HDMS/HDMSe/HDDDA/HD-MRM) and SONAR functions: the drift-resolved bins (_funcNNN.cdt) are not decoded; their stored drift-summed spectra are returned and say so",
     "MRM intensities (4-byte layout) are scaled so each scan sums to the TIC stored in _FUNCnnn.IDX (rainbow reports twice these values) and exposed as tables/traces, not spectra",
     "Photodiode-array functions are a trace of stored absorbance counts (unscaled); binary .EE/.CMP files and the third word of 12-byte values are listed, not decoded"

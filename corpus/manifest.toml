@@ -2845,6 +2845,74 @@ attribution = "PXD000792 submitters (PRIDE)"
 notes = "depositor-made ProteoWizard 3.0.4337 mzML, sourceFile SHA-1 a7faa1ed... equals the .raw's"
 
 [[file]]
+id = "msv79053-ltqorbi-v60-saltyph-76"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "smoke"
+filename = "msv79053-ltqorbi-v60-saltyph-76.raw"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000079053/raw/Salmonella_typhimurium_LT2/SalTyph_StatPhas_NanoMate_31Jan06_76.RAW&forceDownload=true"
+sha256 = "1e01f162fdeee9da2126296acf9760b28b57877e756dfac7d566d2314f947044"
+size = 2904146
+license = "CC0-1.0 (MassIVE public dataset)"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000079053 (MassIVE public dataset, CC0 1.0; data descriptor Payne et al., Sci Data 2015, PXD001860), 2026-10-12"
+source = "MassIVE MSV000079053 (PNNL Biodiversity Library, microbial section), raw/Salmonella_typhimurium_LT2/SalTyph_StatPhas_NanoMate_31Jan06_76.RAW"
+attribution = "PNNL Biodiversity Library (Payne SH et al., Sci Data 2015)"
+notes = "LTQ Orbitrap, Xcalibur 2.0 Beta 3, file version 60, 2006, NanoMate infusion, 438 scans (Orbitrap MS1, ion-trap MS2); paired with MassIVE's ProteoWizard 3.0.6721 conversion, whose sourceFile SHA-1 4ea6a7e3... equals the .raw's"
+precursor_tolerance = 1.7e-5  # the export prints the isolation target with the filter's 2 decimals where it names the target
+export_monoisotopic_max_shift = 1.5  # as ProteoWizard 3.0.4337: the monoisotopic m/z only within 1.5 of the target as the filter prints it
+
+[[file]]
+id = "msv79053-ltqorbi-v60-saltyph-76"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "smoke"
+filename = "msv79053-ltqorbi-v60-saltyph-76.mzML.gz"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000079053/peak/Salmonella_typhimurium_LT2/SalTyph_StatPhas_NanoMate_31Jan06_76.mzML.gz&forceDownload=true"
+sha256 = "7f2c341f0676fbfa458c2d2288e6c62c416ea09d020346ae47654227d045e256"
+size = 477897
+license = "CC0-1.0 (MassIVE public dataset)"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000079053 (MassIVE public dataset, CC0 1.0), 2026-10-12"
+source = "MassIVE MSV000079053 (PNNL Biodiversity Library, microbial section), peak/Salmonella_typhimurium_LT2/SalTyph_StatPhas_NanoMate_31Jan06_76.mzML.gz"
+attribution = "PNNL Biodiversity Library (Payne SH et al., Sci Data 2015)"
+notes = "ProteoWizard 3.0.6721 mzML (gzip) of msv79053-ltqorbi-v60-saltyph-76.raw, made by MassIVE from the deposited .raw"
+
+[[file]]
+id = "msv79053-ltq-v60-rpick-150"
+format = "thermo-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "msv79053-ltq-v60-rpick-150.raw"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000079053/raw/Ralstonia_pickettii/KO_Rpick_02-01_11Nov06_Falcon_06-10-05b_fst-150.RAW&forceDownload=true"
+sha256 = "368c3cc237b131a16e26d268c33e74808f0d0931e9a5fdc18c365f7b79780194"
+size = 13444135
+license = "CC0-1.0 (MassIVE public dataset)"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000079053 (MassIVE public dataset, CC0 1.0; data descriptor Payne et al., Sci Data 2015, PXD001860), 2026-10-12"
+source = "MassIVE MSV000079053 (PNNL Biodiversity Library, microbial section), raw/Ralstonia_pickettii/KO_Rpick_02-01_11Nov06_Falcon_06-10-05b_fst-150.RAW"
+attribution = "PNNL Biodiversity Library (Payne SH et al., Sci Data 2015)"
+notes = "LTQ, Xcalibur 2.0, file version 60, 2006, LC-MS/MS, 8,678 scans; paired with MassIVE's ProteoWizard 3.0.6721 conversion, whose sourceFile SHA-1 e4178be8... equals the .raw's"
+precursor_tolerance = 1.7e-5  # the export prints the isolation target with the filter's 2 decimals where it names the target
+export_monoisotopic_max_shift = 1.5  # as ProteoWizard 3.0.4337: the monoisotopic m/z only within 1.5 of the target as the filter prints it
+
+[[file]]
+id = "msv79053-ltq-v60-rpick-150"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "msv79053-ltq-v60-rpick-150.mzML.gz"
+url = "https://massive.ucsd.edu/ProteoSAFe/DownloadResultFile?file=f.MSV000079053/peak/Ralstonia_pickettii/KO_Rpick_02-01_11Nov06_Falcon_06-10-05b_fst-150.mzML.gz&forceDownload=true"
+sha256 = "efe59d473bb547f6e24fd5c3aef98926ff71ee1136f0232b5a092be7f436260b"
+size = 11506691
+license = "CC0-1.0 (MassIVE public dataset)"
+license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000079053 (MassIVE public dataset, CC0 1.0), 2026-10-12"
+source = "MassIVE MSV000079053 (PNNL Biodiversity Library, microbial section), peak/Ralstonia_pickettii/KO_Rpick_02-01_11Nov06_Falcon_06-10-05b_fst-150.mzML.gz"
+attribution = "PNNL Biodiversity Library (Payne SH et al., Sci Data 2015)"
+notes = "ProteoWizard 3.0.6721 mzML (gzip) of msv79053-ltq-v60-rpick-150.raw, made by MassIVE from the deposited .raw"
+
+[[file]]
 id = "pxd000951-ltqft-he4"
 format = "thermo-raw"
 family = "mass-spectrometry"
@@ -11486,6 +11554,84 @@ attribution = "Romain Guiet"
 notes = "whole-slide brightfield VSI with overview, label and pyramid ETS stacks"
 
 [[file]]
+id = "openslide-olympus-os-1-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-olympus-OS-1.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Olympus/OS-1.zip"
+sha256 = "a273c82158b97554f1286146a841998ff1e05fd0dcb987a9feb81a18c9f3e1be"
+size = 518405833
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\"; directory listing: \"Free to use and distribute, with or without modification\")"
+notes = "Olympus VSI slide zip: OS-1.vsi and its ETS stacks"
+
+[[file]]
+id = "openslide-olympus-os-1"
+format = "vsi"
+role = "input"
+tier = "full"
+bundle = "openslide-olympus-os-1-zip"
+filename = "openslide-olympus-os-1-zip/OS-1.vsi"
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\")"
+notes = "H&E, brightfield, VS-ASW FL 2 (2012): overview and 20x pyramid, JPEG 2000 tiles"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
+id = "openslide-olympus-os-2-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-olympus-OS-2.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Olympus/OS-2.zip"
+sha256 = "0fe056a4e89d5b8a6d7f15b1de3b9cac68f840da07cf3dd738fd31e58851b07f"
+size = 309552104
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\"; directory listing: \"Free to use and distribute, with or without modification\")"
+notes = "Olympus VSI slide zip: OS-2.vsi and its ETS stacks"
+
+[[file]]
+id = "openslide-olympus-os-2"
+format = "vsi"
+role = "input"
+tier = "full"
+bundle = "openslide-olympus-os-2-zip"
+filename = "openslide-olympus-os-2-zip/OS-2.vsi"
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\")"
+notes = "Ki-67 stain, brightfield"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
+id = "openslide-olympus-os-3-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-olympus-OS-3.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Olympus/OS-3.zip"
+sha256 = "0ac826dd83270612cba37924bf158296486bdf9eb6b53bb6f76c17c6367d22f8"
+size = 357744605
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\"; directory listing: \"Free to use and distribute, with or without modification\")"
+notes = "Olympus VSI slide zip: OS-3.vsi and its ETS stacks"
+
+[[file]]
+id = "openslide-olympus-os-3"
+format = "vsi"
+role = "input"
+tier = "full"
+bundle = "openslide-olympus-os-3-zip"
+filename = "openslide-olympus-os-3-zip/OS-3.vsi"
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\")"
+notes = "PTEN stain, brightfield"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
 id = "zenodo17453126-he-bone-vsi"
 format = "vsi"
 role = "input"
@@ -14855,7 +15001,8 @@ license = "CC0-1.0"
 source = "PRIDE PXD070374 (isobaric amino-acid variants in the pancreatic-cancer immunopeptidome), raw file 20260311_RD_ExCID_C1RB57_ClassI_KE6_rxn20ms_rep2.wiff"
 attribution = "PXD070374 submitters"
 notes = "ZenoTOF 7600+, SCIEX OS (2026), data-dependent acquisition with ExCID fragmentation, 47,220 scans; the project also deposits the run as .wiff2 (not used). Oracle: every 10th spectrum of the depositor's export (ORACLE_SPECTRA_STRIDE=10 oracle/gen.py --export …)"
-oracle_skip = "not yet validated: the reader does not read this SCIEX OS run's precursor charges (the export lists 1 to 4 on every MS/MS scan) or its rolling collision energies (the export's CE = 0.05 m/z + 5 for charge 1); spectra times, levels, polarity and precursor m/z agree. Kept for the ZenoTOF work in docs/provenance/sciex-wiff.md"
+peaks_not_compared = "the export holds the vendor library's peak-picked centroids (ABI/Analyst peak picking); the reader returns the stored TDC profile"
+charge_not_compared = "no stream of the .wiff or .wiff.scan holds the export's precursor charges (docs/provenance/sciex-wiff.md, 2026-10-11); the converter determines them, and its collision energies follow from them"
 
 [[file]]
 id = "pxd070374-excid-classi-ke6-rep2-scan"
@@ -51651,6 +51798,33 @@ license = "CC0-1.0"
 source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
 attribution = "Carnegie Mellon University"
 notes = "brightfield, version 1.9, 10 levels, JPEG, Hitachi HV-F22CL camera, 4 x 4 images per camera photo"
+lossy = true
+
+[[file]]
+id = "openslide-mirax-cmu-1-exported-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-mirax-CMU-1-Exported.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Mirax/CMU-1-Exported.zip"
+sha256 = "ebc49ab15f0d5ee8552919d0eb1bd5e23f27702f4a757873cf51c2a0b2907f71"
+size = 2169827661
+license = "CC0-1.0"
+source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "MIRAX slide zip: CMU-1-Exported.mrxs and its data directory"
+
+[[file]]
+id = "openslide-mirax-cmu-1-exported"
+format = "mirax"
+role = "input"
+tier = "full"
+bundle = "openslide-mirax-cmu-1-exported-zip"
+filename = "openslide-mirax-cmu-1-exported-zip/CMU-1-Exported.mrxs"
+license = "CC0-1.0"
+source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "export of CMU-1.mrxs with overlaps resolved (index.yaml), brightfield, JPEG, CURRENT_SLIDE_VERSION 2.3: no camera position table"
 lossy = true
 
 [[file]]

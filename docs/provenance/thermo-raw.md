@@ -288,3 +288,19 @@ Search method for the non-MTBLS404 files: PRIDE v3 API listings (`/pride/ws/arch
 **Changed:** `render_profile` blanks by rendered span with the intensity limit. The corpus harness reads `srm_energy_not_compared` from the manifest.
 
 **Validation:** `mtbls9526-elite-liver-neg-a01` 2,446 of 2,446 spectra exact; `mtbls5747-vantage-sponge-35` 194 of 194 chromatograms exact (TIC and 193 SRM traces). The other Thermo development files whose exports leave flagged peaks out (MTBLS20, MTBLS404, MTBLS755, MTBLS773, MTBLS797, MTBLS805, MTBLS1820, MTBLS2400, MTBLS2688, MTBLS3177, MTBLS10098, PXD000001, PXD000792, PXD000874, PXD000951, PXD032908, PXD064311) and the profile files whose exports keep them give the same results as before, including the known m/z residuals of MTBLS755 (256 scans) and PXD000001 (25).
+
+## 2026-10-11 — counting SRM transitions (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `mtbls6991-tsq-altis-plus-sar11-40`, `mtbls1822-tsq-74`, `mtbls5747-vantage-sponge-35` and their depositor mzMLs. **Prior art consulted:** none.
+**What was inferred from what.** Distinct (polarity, precursor, product window, collision energy) over the SRM scan events give 291, 110 and 193 transitions; the exports hold 291, 109 and 193 SRM chromatograms. The one missing from the `mtbls1822` export, 129.063→85.051, has its own scan event and scans in the file. No parsing changed: `info` states the count (`mrm_transitions`) and `table` lists the transitions.
+
+## 2026-10-11 — analog controllers against exported pressure chromatograms (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `msv94528-idx-msnlib-peptide01-b18`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls14308-mwy251008a-mix01`, `mtbls14508-mh-b4-c18-pos-dda-r01`, `pxd059315-ascend-etd-wkl-1` (development inputs, file version 66) and their depositor mzMLs, which hold `Pump Pressure N` chromatograms (MS:1003019). **Prior art consulted:** none.
+**What was found.** Each of the seven exported chromatograms equals one of our analog traces point for point: same times, values × 10⁵ (bar stored, pascal exported). No parsing changed. The corpus test `thermo_detectors` now checks this and writes results lines that confirm the files' traces.
+
+## 2026-10-12 — file version 60 (Richard Zimring with Claude as assistant)
+
+**Search.** The version bytes of one to three `.raw` files in about 1,100 PRIDE LTQ-era projects, about 300 MetaboLights Thermo studies and about 650 runs of the PNNL Biodiversity Library (MassIVE MSV000079053) showed versions 57 and 60–66, none of 58, 59 or 65.
+**Corpus files:** `msv79053-ltqorbi-v60-saltyph-76` (LTQ Orbitrap, Xcalibur 2.0 Beta 3, 2006) and `msv79053-ltq-v60-rpick-150` (LTQ, Xcalibur 2.0, 2006), both version 60, from MassIVE MSV000079053 (CC0), each with the ProteoWizard 3.0.6721 conversion MassIVE made of it (sourceFile SHA-1 equal to the `.raw`'s). **Prior art consulted:** none new.
+**Observed.** The prior-art layouts read both files unchanged: all 438 and 8,678 spectra equal the conversions' peak lists exactly, with no metadata mismatch once the converter's precursor convention is applied (it names the isolation target, with the filter's two decimals, where the monoisotopic m/z lies 1.5 or more away, as ProteoWizard 3.0.4337 does; manifest `export_monoisotopic_max_shift`). **Changed:** version 60 joins `SUPPORTED_VERSIONS`.

@@ -51,7 +51,7 @@ Every question's `source` field names where its answer came from. `generate.py -
 
 There are three conditions:
 
-- `with`: the `openreadout` binary, the skill and the MCP server.
+- `with`: the `openreadout` binary, the skill and the MCP server, as a user who installed the plugin has them (ToolSearch included, which loads the deferred MCP tools).
 - `baseline`: the open-source readers a well-equipped scientist would install (`baseline/pyproject.toml`), Bio-Formats, and a skill naming the right reader per format.
 - `without`: a shell and Python, with nothing preinstalled.
 
