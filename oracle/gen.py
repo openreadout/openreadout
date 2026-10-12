@@ -4236,7 +4236,6 @@ def _uv_spectra(q: Path):
     }
 
 
-
 def agilent_ms_rainbow(p: Path) -> dict:
     """Ground truth for an Agilent MassHunter .d without a depositor export: its MSProfile.bin
     scans through rainbow-api (LGPL-3.0, run as a black box only; `uv run --group chrom`) with
