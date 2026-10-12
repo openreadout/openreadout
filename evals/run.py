@@ -463,14 +463,23 @@ def parse_stream(lines: list[str]) -> dict:
     return out
 
 
+# The harness's temporary directory is named "openreadout-eval-XXXX", so every path in a run
+# contains the word. It does not count as using the tool.
+WORKDIR_PREFIX = re.compile(r"openreadout-(?:eval|preflight)-[A-Za-z0-9_]*")
+OPENREADOUT_WORD = re.compile(r"(?<![A-Za-z0-9])openreadout(?![A-Za-z0-9])")
+
+
+def mentions_openreadout(value: Any) -> bool:
+    text = WORKDIR_PREFIX.sub("", json.dumps(value))
+    return OPENREADOUT_WORD.search(text) is not None
+
+
 def used_openreadout(tool_inputs: list[dict]) -> bool:
     for call in tool_inputs:
         name = call.get("name") or ""
-        if name.startswith("mcp__openreadout"):
+        if name.startswith("mcp__") and "openreadout" in name:
             return True
-        if name == "Bash" and "openreadout" in json.dumps(call.get("input")):
-            return True
-        if name == "Skill" and "openreadout" in json.dumps(call.get("input")):
+        if name in ("Bash", "Skill") and mentions_openreadout(call.get("input")):
             return True
     return False
 

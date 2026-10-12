@@ -82,6 +82,12 @@ def images(o: dict) -> list[dict]:
     return o.get("images") or []
 
 
+def scene_count(o: dict) -> int:
+    """Distinct scenes of a CZI file: the oracle names each one "Scene N". Some files list several
+    images under one scene (SIM phases, separate acquisition blocks), which are not scenes."""
+    return len({i.get("name") for i in images(o) if re.fullmatch(r"Scene \d+", str(i.get("name")))})
+
+
 def objective_mag(o: dict) -> int | None:
     optics = (o.get("text_info") or {}).get("optics")
     if not optics:
@@ -212,8 +218,8 @@ SHARE_SPECS: list[ShareSpec] = [
         "microscopy",
         "How many of the CZI files in this share hold more than one scene?",
         lambda m: inputs(m, "czi", need=lambda o: bool(images(o))),
-        count(lambda e, o: o is not None and len(images(o)) > 1),
-        "oracle: number of /images (scenes) of every CZI file",
+        count(lambda e, o: o is not None and scene_count(o) > 1),
+        'oracle: number of distinct "Scene N" /images of every CZI file',
     ),
     ShareSpec(
         "share-lif-multi-image",
