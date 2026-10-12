@@ -29,7 +29,7 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 
 - Composition reproduces OpenSlide's rendering, including its double resampling of fractional subtiles: a different but equally valid resampling would disagree by up to ~30 levels at coarse levels. Keep `render.rs` in step with the provenance notes.
 - `IMAGE_FILL_COLOR_BGR` byte order is unverified (grey in every corpus file); a non-grey value is noted and reported as assumed.
-- Slides without camera positions (exported) have their metadata read but their pixels refused (exit 6, `LevelLayout::build`): no development file confirms grid placement.
+- Slides without camera positions (exported with overlaps removed) place their images on the grid (`LevelLayout::build`); one development file confirms it (`openslide-mirax-cmu-1-exported`).
 - `level0_size` uses `round(OVERLAP_X) / step₀`, OpenSlide's convention matched on three kinds of slide; a new kind of saved slide may differ.
 
 <!-- BEGIN GENERATED guide -->
