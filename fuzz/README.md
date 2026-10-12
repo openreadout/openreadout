@@ -47,6 +47,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_mrc`, `whole_dm`, `whole_emd`; `whole_ser` | electron microscopy; TIA `.ser` + `.emi` |
 | `whole_thermo`, `whole_mzml`, `whole_mzxml`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry; gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
 | `whole_chemstation`, `whole_waters`; `whole_andi`, `whole_shimadzu`; `whole_sciex` | ChemStation `.D` and MassLynx `.raw` directories; ANDI netCDF, Shimadzu `.lcd`; Sciex `.wiff` + `.wiff.scan` |
+| `whole_baf` | Bruker BAF `.d`: `analysis.baf`, then `Calibrator.ami` (seed: the synthetic fixture) |
 | `whole_masshunter` | Agilent MassHunter `.d`: `AcqData/` scan-index schema, scan index, centroid and profile data, calibrations, time segments, contents, devices, sample info and one LC signal pair (seeds: two MetaboLights directories, cut) |
 | `whole_openlab` | Agilent OpenLab CDS injection: `.dx` + `.rx` + sequence `.acaml` in one folder (seed: allotropy's MIT-licensed test result set) |
 | `whole_chromeleon` | Thermo Scientific Chromeleon 7 archive `.cmbx` (a small synthetic archive: header.xml, a protocol-buffers sequence file, one PtsLDiff signal) |

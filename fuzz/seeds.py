@@ -597,9 +597,9 @@ def new_format_seeds() -> None:
 VMS_NAMES = ["s.vms", "s.jpg", "s(1,0).jpg", "s(0,1).jpg", "s(1,1).jpg", "s_map2.jpg", "s.opt", "s_macro.jpg"]
 
 
-def wsi_fixture_seeds() -> None:
-    """Whole-slide seeds from the committed synthetic fixtures (our own writers:
-    oracle/make_isyntax_fixtures.py, oracle/make_vms_fixtures.py)."""
+def synthetic_fixture_seeds() -> None:
+    """Seeds from the committed synthetic fixtures (our own writers: oracle/make_isyntax_fixtures.py,
+    oracle/make_vms_fixtures.py, oracle/make_baf_fixtures.py)."""
     fx = ROOT.parent / "crates" / "openreadout-wsi" / "tests" / "fixtures"
     put("whole_isyntax", "synthetic.isyntax", (fx / "isyntax-synthetic.isyntax").read_bytes())
     d = fx / "vms-synthetic"
@@ -607,6 +607,8 @@ def wsi_fixture_seeds() -> None:
     files = ["synthetic.jpg", "synthetic(1,0).jpg", "synthetic(0,1).jpg", "synthetic(1,1).jpg", "synthetic_map2.jpg",
              "synthetic.opt", "synthetic_macro.jpg"]
     put("whole_vms", "synthetic.bundle", BUNDLE_SEP.join([vms.encode()] + [(d / f).read_bytes() for f in files]))
+    b = ROOT.parent / "crates" / "openreadout-bruker-tims" / "tests" / "fixtures" / "baf-synthetic.d"
+    put("whole_baf", "synthetic.bundle", BUNDLE_SEP.join([(b / "analysis.baf").read_bytes(), (b / "Calibrator.ami").read_bytes()]))
 
 
 def main() -> None:
@@ -755,7 +757,7 @@ def main() -> None:
     put("whole_openephys", "mini.continuous", b"header.format = 'Open Ephys Data Format';\nheader.sampleRate = 30000;\nheader.bitVolts = 0.195;\n".ljust(1024, b" ") + struct.pack("<qHH", 0, 1024, 0) + bytes(2048) + bytes([0, 1, 2, 3, 4, 5, 6, 7, 8, 255]))
     put("whole_spike2", "magic.smr", struct.pack("<h", 6) + b"(C) CED 87" + bytes(500))
     new_format_seeds()
-    wsi_fixture_seeds()
+    synthetic_fixture_seeds()
     put("codec_packbits", "runs.bin", struct.pack("<I", 64)[:3] + bytes([0xFD, 7, 2, 1, 2, 3, 0x81, 9]))
     # LZMA2 of b"hello hello hello hello, lzma2!" (CPython lzma, FORMAT_RAW, preset 6)
     put("codec_lzma2", "hello.bin", struct.pack("<I", 31)[:3] + bytes.fromhex("e0001e00145d00341949ee8de9560ae7799a19124543a9df4c4c4000"))
