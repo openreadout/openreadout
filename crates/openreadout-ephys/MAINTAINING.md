@@ -50,7 +50,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | `heka-patchmaster` | [format note](../../docs/formats/heka-patchmaster.md), [provenance log](../../docs/provenance/heka-patchmaster.md) | high | vendor docs | 10 / 10 | 6 | - |
 | `ced-spike2` | [format note](../../docs/formats/ced-spike2.md), [provenance log](../../docs/provenance/ced-spike2.md) | high | prior art | 24 / 22 | 11 | - |
 | `winwcp` | [format note](../../docs/formats/winwcp.md), [provenance log](../../docs/provenance/winwcp.md) | medium | prior art | 4 / 4 | 3 | - |
-| `open-ephys` | [format note](../../docs/formats/open-ephys.md), [provenance log](../../docs/provenance/open-ephys.md) | high | vendor docs | 17 / 17 | 3 | - |
+| `open-ephys` | [format note](../../docs/formats/open-ephys.md), [provenance log](../../docs/provenance/open-ephys.md) | high | vendor docs | 18 / 18 | 4 | - |
 
 ### Source map
 
@@ -161,9 +161,9 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `open-ephys` | format_version | `GUI 0.6` | metadata, tables, traces | 5 | 5 | `oe-bin-v0-6-x-neuropixels-missing-folders`, `oe-bin-v0-6-x-neuropixels-multiexp-multistream`, `oe-bin-v0-6-x-neuropixels-with-sync` |
 | `open-ephys` | format_version | `GUI 1.0` | metadata, tables, traces | 1 | 1 | `oe-bin-v1-0-x-onix-source-neuropixels-sync-timestamps` |
 | `open-ephys` | format_version | `Open Ephys format 0.4` | metadata, tables, traces | 5 | 5 | `oe-legacy-sampledata-1`, `oe-legacy-sampledata-2-multiple-starts`, `oe-legacy-sampledata-3` |
-| `open-ephys` | format_version | `Open Ephys format 0.6` | metadata, tables, traces | 1 | 1 | `oe-legacy-rhythmdata-test-nodes` |
+| `open-ephys` | format_version | `Open Ephys format 0.6` | metadata, tables, traces | 2 | 2 | `oe-legacy-rhythmdata-test-nodes`, `oept-v067-legacy` |
 | `open-ephys` | layout | `binary` | metadata, tables, traces | 11 | 11 | `oe-bin-neural-and-non-neural-data-mixed`, `oe-bin-v0-4-4-1-with-spikes`, `oe-bin-v0-4-4-1-with-video-tracking` |
-| `open-ephys` | layout | `legacy` | metadata, tables, traces | 6 | 6 | `oe-legacy-rhythmdata-test-nodes`, `oe-legacy-sampledata-1`, `oe-legacy-sampledata-2-multiple-starts` |
+| `open-ephys` | layout | `legacy` | metadata, tables, traces | 7 | 7 | `oe-legacy-rhythmdata-test-nodes`, `oe-legacy-sampledata-1`, `oe-legacy-sampledata-2-multiple-starts` |
 | `open-ephys` | layout | `several sweeps` | descriptive | 2 | 2 | `oe-bin-v0-5-x-two-nodes`, `oe-legacy-sampledata-2-multiple-starts` |
 | `winwcp` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file` |
 | `winwcp` | format_version | `8` | metadata, traces | 1 | 1 | `winwcp-file-winwcp-1` |
@@ -176,7 +176,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_heka`, `whole_openephys`, `whole_spike2`, `whole_winwcp`
-- corpus inputs by tier: full 1, heldout 5, smoke 25, standard 29
+- corpus inputs by tier: full 1, heldout 5, smoke 25, standard 30
 - golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
 
 ### Open new-variant intakes

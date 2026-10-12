@@ -1,10 +1,10 @@
 # Maintaining `openreadout-spectro`
 
-Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruker-opus`, `opus.rs`), Thermo OMNIC `.spa`/`.spg` (`thermo-omnic`, `omnic.rs`), Renishaw WiRE `.wdf` (`renishaw-wdf`, `wdf.rs`), PerkinElmer `.sp` (`perkinelmer-sp`, `pesp.rs`), JASCO Spectra Manager `.jws`/`.jrs` (`jasco-jws`, `jasco.rs`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes and provenance: `docs/formats/<format id>.md` and `docs/provenance/<format id>.md`.
+Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruker-opus`, `opus.rs`), Thermo OMNIC `.spa`/`.spg` (`thermo-omnic`, `omnic.rs`), Renishaw WiRE `.wdf` (`renishaw-wdf`, `wdf.rs`), PerkinElmer `.sp` (`perkinelmer-sp`, `pesp.rs`), JASCO Spectra Manager `.jws`/`.jrs` (`jasco-jws`, `jasco.rs`), Shimadzu UVProbe `.spc` (`shimadzu-uvprobe`, `uvprobe.rs`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes and provenance: `docs/formats/<format id>.md` and `docs/provenance/<format id>.md`.
 
 ## Decode pipeline
 
-1. **Detect** (`lib.rs`, one reader per format): OPUS by `0A 0A FE FE` on any numbered extension; OMNIC by `Spectral Data File` (or its series signature); WDF by `WDF1`; PerkinElmer by `PEPE`; JASCO by the compound-file streams (`is_compound_jws`) or the flat `L~S ` header (`header_is_jasco`).
+1. **Detect** (`lib.rs`, one reader per format): OPUS by `0A 0A FE FE` on any numbered extension; OMNIC by `Spectral Data File` (or its series signature); WDF by `WDF1`; PerkinElmer by `PEPE`; JASCO by the compound-file streams (`is_compound_jws`) or the flat `L~S ` header (`header_is_jasco`); UVProbe by its compound-file `DataSet1` arrays (`is_uvprobe`).
 2. **Parse** (each module's `parse`) into the shared model `common.rs` `Parsed`: spectrum sets (spectra sharing an x axis and y quantity; one trace each, one sweep per spectrum), per-spectrum tables (positions, times), maps (spectra on a grid → one image, one channel per spectral point), attachments (a white-light image), experiment facts and the vendor tree. **Formats and their versions branch in the modules**:
    - OPUS: a block directory (`BlockType`: parameter, data, data-status, history, series blocks), parameter blocks (`parse_params`), data blocks paired with their data-status blocks (`pairs_with`, `make_set`); 3D series follow brukeropus's layout.
    - OMNIC: key-addressed header entries (`Key`, `header`), x and y axes (`x_axis`, `y_axis`), history text; `.spg` holds several spectra.
@@ -42,11 +42,12 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-opus` | [format note](../../docs/formats/bruker-opus.md), [provenance log](../../docs/provenance/bruker-opus.md) | high | prior art | 26 / 25 | 12 | 2 / 0 |
 | `thermo-omnic` | [format note](../../docs/formats/thermo-omnic.md), [provenance log](../../docs/provenance/thermo-omnic.md) | medium | prior art | 32 / 32 | 14 | 2 / 0 |
-| `renishaw-wdf` | [format note](../../docs/formats/renishaw-wdf.md), [provenance log](../../docs/provenance/renishaw-wdf.md) | high | prior art | 15 / 15 | 6 | 2 / 0 |
+| `renishaw-wdf` | [format note](../../docs/formats/renishaw-wdf.md), [provenance log](../../docs/provenance/renishaw-wdf.md) | high | prior art | 17 / 17 | 7 | 2 / 0 |
 | `perkinelmer-sp` | [format note](../../docs/formats/perkinelmer-sp.md), [provenance log](../../docs/provenance/perkinelmer-sp.md) | medium | prior art | 16 / 13 | 11 | 1 / 0 |
 | `galactic-spc` | [format note](../../docs/formats/galactic-spc.md), [provenance log](../../docs/provenance/galactic-spc.md) | high | prior art | 13 / 13 | 11 | - |
 | `jasco-jws` | [format note](../../docs/formats/jasco-jws.md), [provenance log](../../docs/provenance/jasco-jws.md) | high | prior art | 28 / 23 | 9 | - |
 | `witec-project` | [format note](../../docs/formats/witec-project.md), [provenance log](../../docs/provenance/witec-project.md) | high | prior art | 14 / 14 | 9 | - |
+| `shimadzu-uvprobe` | [format note](../../docs/formats/shimadzu-uvprobe.md), [provenance log](../../docs/provenance/shimadzu-uvprobe.md) | low | reverse engineered | 5 / 0 | 0 | - |
 | `perkinelmer-fsm` | [format note](../../docs/formats/perkinelmer-fsm.md), [provenance log](../../docs/provenance/perkinelmer-fsm.md) | low | prior art | 2 / 2 | 2 | - |
 | `agilent-fpa` | [format note](../../docs/formats/agilent-fpa.md), [provenance log](../../docs/provenance/agilent-fpa.md) | medium | prior art | 13 / 13 | 2 | - |
 | `agilent-cary` | [format note](../../docs/formats/agilent-cary.md), [provenance log](../../docs/provenance/agilent-cary.md) | medium | reverse engineered | 24 / 20 | 5 | - |
@@ -68,6 +69,7 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 | [`src/pesp.rs`](src/pesp.rs) | PerkinElmer `.sp` files: `PEPE`, a 40-byte description, then nested blocks of typed members |
 | [`src/pesp_ascii.rs`](src/pesp_ascii.rs) | PerkinElmer `.sp` saved as text (`PE <technique> … ASCII PEDS <version>`): a header of one value per line, then `#HDR`, `#GR` and `#DATA` blocks; `#DATA` holds x and y pairs |
 | [`src/spc.rs`](src/spc.rs) | Galactic / Thermo GRAMS SPC (`.spc`): a 512-byte header (256 in the old 0x4D format), an optional x array, then one or more subfiles (32-byte header + y values), then an optional… |
+| [`src/uvprobe.rs`](src/uvprobe.rs) | Shimadzu UVProbe `.spc` files (UV-Vis and UV-Vis-NIR spectrophotometers): a compound file (OLE2) whose `DataStorage1/DataSetGroup/DataSet<n>` storages each hold one spectrum as two |
 | [`src/wdf.rs`](src/wdf.rs) | Renishaw WiRE `.wdf` files: a chain of named blocks (header, spectra, x list, origin lists, map geometry, white-light image, property sets) |
 | [`src/witec.rs`](src/witec.rs) | WITec Project (`.wip`) and WITec Data (`.wid`) files: a tree of tagged records holding spectra (single spectra, line scans, depth profiles and Raman maps), images derived from… |
 
@@ -106,6 +108,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `layout`
 - feature acquisition `format!("y {y}")`
 - feature layout `n.trim_start_matches("PerkinElmer image file: ")`
+- feature record `format!("value code {c}")`
 - feature writer `v`
 - feature record `format!("y mode {m}")`
 - feature record `format!("x mode {m}")`
@@ -209,15 +212,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `galactic-spc` | writer | `WITec` | descriptive | 1 | 1 | `figshare29990276-pbio-raman-spc` |
 | `jasco-jws` | acquisition | `CIRCULAR DICHROISM SPECTRUM` | traces | 6 | 6 | `figshare13601282-dk-cd`, `jws-jws2txt-001hg`, `jws-jws2txt-bgr` |
 
-… 95 more values: the generated table in `src/assurance.rs` has all of them.
+… 101 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/cary_synthetic.rs`](tests/cary_synthetic.rs), [`tests/jasco_synthetic.rs`](tests/jasco_synthetic.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_agilent_fpa`, `whole_cary`, `whole_fsm`, `whole_jws`, `whole_omnic`, `whole_opus`, `whole_pesp`, `whole_spc`, `whole_wdf`, `whole_witec`
-- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 41
-- golden snapshots: [`corpus/snapshots/bruker-opus.jsonl`](../../corpus/snapshots/bruker-opus.jsonl), [`corpus/snapshots/thermo-omnic.jsonl`](../../corpus/snapshots/thermo-omnic.jsonl), [`corpus/snapshots/renishaw-wdf.jsonl`](../../corpus/snapshots/renishaw-wdf.jsonl), [`corpus/snapshots/perkinelmer-sp.jsonl`](../../corpus/snapshots/perkinelmer-sp.jsonl), [`corpus/snapshots/galactic-spc.jsonl`](../../corpus/snapshots/galactic-spc.jsonl), [`corpus/snapshots/jasco-jws.jsonl`](../../corpus/snapshots/jasco-jws.jsonl), [`corpus/snapshots/witec-project.jsonl`](../../corpus/snapshots/witec-project.jsonl), [`corpus/snapshots/perkinelmer-fsm.jsonl`](../../corpus/snapshots/perkinelmer-fsm.jsonl), [`corpus/snapshots/agilent-fpa.jsonl`](../../corpus/snapshots/agilent-fpa.jsonl), [`corpus/snapshots/agilent-cary.jsonl`](../../corpus/snapshots/agilent-cary.jsonl)
+- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 48
+- golden snapshots: [`corpus/snapshots/bruker-opus.jsonl`](../../corpus/snapshots/bruker-opus.jsonl), [`corpus/snapshots/thermo-omnic.jsonl`](../../corpus/snapshots/thermo-omnic.jsonl), [`corpus/snapshots/renishaw-wdf.jsonl`](../../corpus/snapshots/renishaw-wdf.jsonl), [`corpus/snapshots/perkinelmer-sp.jsonl`](../../corpus/snapshots/perkinelmer-sp.jsonl), [`corpus/snapshots/galactic-spc.jsonl`](../../corpus/snapshots/galactic-spc.jsonl), [`corpus/snapshots/jasco-jws.jsonl`](../../corpus/snapshots/jasco-jws.jsonl), [`corpus/snapshots/witec-project.jsonl`](../../corpus/snapshots/witec-project.jsonl), [`corpus/snapshots/shimadzu-uvprobe.jsonl`](../../corpus/snapshots/shimadzu-uvprobe.jsonl), [`corpus/snapshots/perkinelmer-fsm.jsonl`](../../corpus/snapshots/perkinelmer-fsm.jsonl), [`corpus/snapshots/agilent-fpa.jsonl`](../../corpus/snapshots/agilent-fpa.jsonl), [`corpus/snapshots/agilent-cary.jsonl`](../../corpus/snapshots/agilent-cary.jsonl)
 
 ### Open new-variant intakes
 
