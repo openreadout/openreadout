@@ -126,7 +126,7 @@ pub fn read_in_order<T: Send>(
     sink: &mut dyn FnMut(usize, T) -> Result<()>,
 ) -> Result<()> {
     let units = units(&*primary, requests, plane_bytes);
-    let longest = units.iter().map(|u| u.len()).max().unwrap_or(1) as u64;
+    let longest = units.iter().map(ExactSizeIterator::len).max().unwrap_or(1) as u64;
     let window = window(plane_bytes.saturating_mul(longest));
     let opener = match ctx.opener {
         Some(o) if window > 1 && units.len() > 1 => o,
