@@ -166,17 +166,7 @@ fn table_channel(title: &str, mode: Mode) -> Channel {
     if bare.starts_with("Raw Data") {
         return raw_channel(bare, mode);
     }
-    // the optics of the raw data a calculated column derives from: named directly
-    // (`… based on Raw Data (360-30/456-20)`), or through another calculation
-    // (`Average over replicates based on Blank corrected (360-30/456-20)`)
-    let like = bare
-        .find("Raw Data")
-        .map(|i| raw_channel(&bare[i..], mode))
-        .or_else(|| {
-            let (_, on) = bare.split_once(" based on ")?;
-            let filters = on.rsplit_once('(')?.1.strip_suffix(')')?;
-            Some(raw_channel(&format!("Raw Data ({filters})"), mode))
-        });
+    let like = bare.find("Raw Data").map(|i| raw_channel(&bare[i..], mode));
     let mut c = calculated(
         if bare.is_empty() {
             "Unlabelled column"
@@ -210,12 +200,8 @@ struct TableView {
     header: usize,
     well: WellColumns,
     content: Option<usize>,
-    /// The `Group` column, when the export has one.
-    group: Option<usize>,
     /// First value column.
     first_value: usize,
-    /// One past the last value column (trailing columns empty on both header lines dropped).
-    end: usize,
     /// Per value column (from `first_value`): its wavelength, when a `Wavelength [nm]` line
     /// follows the titles.
     wavelengths: Option<Vec<Option<f64>>>,
@@ -290,62 +276,34 @@ fn cycle_label(line: &str) -> Option<&str> {
     Some(label.split_once(" - ").map_or(label, |(t, _)| t))
 }
 
-/// The descriptive columns MARS writes before the values, in the order the user chose.
-const META_COLUMNS: [&str; 5] = ["Well", "Well Row", "Well Col", "Content", "Group"];
-
-/// A cell of an axis line read as a number, accepting a decimal comma when the export uses
-/// one (semicolon- or tab-separated exports written with a comma locale).
-fn axis_text(sheet: &Sheet, r: usize, c: usize, decimal_comma: bool) -> String {
-    let t = sheet.text(r, c);
-    if decimal_comma && crate::model::decimal_comma(t.trim()).is_some() {
-        t.replacen(',', ".", 1)
-    } else {
-        t
-    }
-}
-
-fn find_table(sheet: &Sheet, upto: usize, decimal_comma: bool) -> Option<TableView> {
+fn find_table(sheet: &Sheet, upto: usize) -> Option<TableView> {
     for r in 0..upto.min(sheet.rows.len()) {
-        // the leading descriptive columns, in any order
-        let mut meta: BTreeMap<String, usize> = BTreeMap::new();
-        let mut c = 0;
-        loop {
-            let t = sheet.text(r, c);
-            let Some(name) = META_COLUMNS.iter().find(|m| t.eq_ignore_ascii_case(m)) else {
-                break;
-            };
-            if meta.insert((*name).to_string(), c).is_some() {
-                break;
-            }
-            c += 1;
-        }
-        let first_value = c;
-        let well = match (meta.get("Well"), meta.get("Well Row"), meta.get("Well Col")) {
-            (Some(&w), _, _) => WellColumns::Name(w),
-            (None, Some(&a), Some(&b)) => WellColumns::RowCol(a, b),
-            _ => continue,
+        let c0 = sheet.text(r, 0);
+        let (well, next) = if c0.eq_ignore_ascii_case("Well") {
+            (WellColumns::Name(0), 1)
+        } else if c0.eq_ignore_ascii_case("Well Row")
+            && sheet.text(r, 1).eq_ignore_ascii_case("Well Col")
+        {
+            (WellColumns::RowCol(0, 1), 2)
+        } else {
+            continue;
         };
+        let content = sheet
+            .text(r, next)
+            .eq_ignore_ascii_case("Content")
+            .then_some(next);
+        let first_value = content.map_or(next, |c| c + 1);
         if sheet.row_len(r) <= first_value {
             continue;
         }
-        // An axis line: its label sits under one of the descriptive columns.
+        // An axis line: its label sits in the column before the values.
         let ax = next_filled(sheet, r + 1);
-        let axis_label = (0..first_value)
-            .rev()
-            .map(|c| sheet.text(ax, c))
-            .find(|t| !t.trim().is_empty())
-            .unwrap_or_default();
+        let axis_label = sheet.text(ax, first_value - 1);
         let well_at = |row: usize| match well {
             WellColumns::Name(c) => parse_well(&sheet.text(row, c)).is_some(),
             WellColumns::RowCol(a, _) => parse_row_label(&sheet.text(row, a), false).is_some(),
         };
-        let mut width = sheet.row_len(ax).max(sheet.row_len(r));
-        while width > first_value
-            && sheet.text(r, width - 1).trim().is_empty()
-            && sheet.text(ax, width - 1).trim().is_empty()
-        {
-            width -= 1;
-        }
+        let width = sheet.row_len(ax).max(sheet.row_len(r));
         let lower = axis_label.to_ascii_lowercase();
         let after = next_filled(sheet, ax + 1);
         let (mut wavelengths, mut times, mut other_axis) = (None, None, None);
@@ -353,14 +311,14 @@ fn find_table(sheet: &Sheet, upto: usize, decimal_comma: bool) -> Option<TableVi
             ax
         } else if lower.starts_with("wavelength") {
             let wl = (first_value..width)
-                .map(|c| crate::sheet::parse_number(&axis_text(sheet, ax, c, decimal_comma)))
+                .map(|c| sheet.cell(ax, c).number())
                 .collect();
             wavelengths = Some(wl);
             after
         } else {
             let unit = axis_unit_s(&axis_label);
             let parsed: Option<Vec<f64>> = (first_value..width)
-                .map(|c| column_time_s(&axis_text(sheet, ax, c, decimal_comma), unit))
+                .map(|c| column_time_s(&sheet.text(ax, c), unit))
                 .collect();
             match parsed {
                 Some(t) if lower.starts_with("time") && !t.is_empty() => times = Some(t),
@@ -371,10 +329,8 @@ fn find_table(sheet: &Sheet, upto: usize, decimal_comma: bool) -> Option<TableVi
         return Some(TableView {
             header: r,
             well,
-            content: meta.get("Content").copied(),
-            group: meta.get("Group").copied(),
+            content,
             first_value,
-            end: width,
             wavelengths,
             times,
             other_axis,
@@ -392,7 +348,10 @@ fn push_table(
     b: &mut Block,
     layout: &mut BTreeMap<String, BTreeMap<String, String>>,
 ) {
-    let width = t.end;
+    let width = (t.header..t.data.max(t.header + 1))
+        .map(|r| sheet.row_len(r))
+        .max()
+        .unwrap_or(0);
     // Column titles; a blank title continues the one before it.
     let mut titles: Vec<String> = Vec::new();
     for c in t.first_value..width {
@@ -430,14 +389,13 @@ fn push_table(
         let Some((row, col)) = well else {
             break;
         };
-        for (name, c) in [("Content", t.content), ("Group", t.group)] {
-            let Some(c) = c else { continue };
-            let text = sheet.text(r, c);
-            if !text.is_empty() {
+        if let Some(c) = t.content {
+            let content = sheet.text(r, c);
+            if !content.is_empty() {
                 layout
-                    .entry(name.into())
+                    .entry("Content".into())
                     .or_default()
-                    .insert(well_name(row, col), text);
+                    .insert(well_name(row, col), content);
             }
         }
         for (i, title) in titles.iter().enumerate() {
@@ -463,14 +421,6 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
         Kind::BmgMars
     };
     let mut ex = Export::new(kind, book.container.clone());
-    // a semicolon or tab export may come from a comma-decimal locale (`0,07` h)
-    let comma_locale = matches!(
-        book.container,
-        crate::sheet::Container::Text {
-            delimiter: crate::text::Delimiter::Semicolon | crate::text::Delimiter::Tab,
-            ..
-        }
-    );
     let data_sheet = book
         .sheets
         .iter()
@@ -493,7 +443,7 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
     );
     let grids = titled_grids(data_sheet);
     let table = if grids.is_empty() {
-        find_table(data_sheet, 200, comma_locale)
+        find_table(data_sheet, 200)
     } else {
         None
     };
@@ -546,7 +496,6 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
     let mut b = Block::new(plate.clone(), plate);
     b.barcode = id1;
     b.read_type = Some(ReadType::Endpoint);
-    b.decimal_comma = comma_locale;
     b.started_at.clone_from(&ex.acquired_at);
     b.sheet = (!data_sheet.name.is_empty()).then(|| data_sheet.name.clone());
     for (k, key) in [
@@ -581,12 +530,7 @@ pub(crate) fn parse(book: &Book, smart_control: bool) -> Export {
             if t.wavelengths.is_some() {
                 b.read_type = Some(ReadType::Spectrum);
             }
-            // one time for every column (an endpoint exported with a `Time` line) is no kinetic read
-            if t
-                .times
-                .as_ref()
-                .is_some_and(|ts| ts.iter().any(|&x| x != ts[0]))
-            {
+            if t.times.is_some() {
                 b.read_type = Some(ReadType::Kinetic);
             }
             push_table(data_sheet, t, mode, &mut b, &mut layout);
@@ -725,31 +669,6 @@ mod tests {
         // a bare number under a bare `Time` label states no unit: refused
         assert_eq!(column_time_s("90", None), None);
         assert_eq!(column_time_s("Cycle 1", None), None);
-    }
-
-    #[test]
-    fn mars_table_view_group_column_and_decimal_comma() {
-        // bmg-table-lindberg-opa-kinetic: `Group` first, semicolons, `Time [h]` with decimal
-        // commas, every line ending in `;`
-        let t = "User: USER;Path: C:\\Program Files (x86)\\BMG\\CLARIOstar\\User\\Data\\;Test run no.: 11736\r\nTest name: Max-OPA2;Date: 2022-09-08;Time: 16:59:04\r\n\r\nID1: x;\r\nFluorescence (FI), multichromatic\r\n\r\nGroup;Well;Content; Raw Data (340-30/440-40 1); Raw Data (340-30/440-40 1); Raw Data (340-30/440-40 1);\r\n;;Time [h];0;0,07;0,13;\r\nA;A05;Sample X1;3942;5214;5535;\r\nD;B01;Sample X2;5028;5450;5679;\r\n";
-        let ex = parse(&text_book(t.as_bytes()), false);
-        let b = &ex.blocks[0];
-        assert_eq!(b.read_type, Some(ReadType::Kinetic));
-        assert_eq!(b.obs.len(), 6, "{:?}", b.findings);
-        let times: Vec<f64> = b.obs.iter().filter_map(|o| o.time_s).collect();
-        assert!((times[1] - 0.07 * 3600.0).abs() < 1e-9, "{times:?}");
-        assert_eq!(b.obs[3].value, 5028.0);
-        let layout = &b.extra["layout"];
-        assert_eq!(layout["Group"]["B1"], "D", "{layout}");
-        assert_eq!(layout["Content"]["A5"], "Sample X1");
-        // bmg-table-lindberg-opa-endpoint: `Group` after `Content`, the label under `Content`,
-        // one time for every column: an endpoint
-        let t = "User: USER;Path: C:\\BMG\\CLARIOstar\\User\\Data\\;Test run no.: 11562\r\nTest name: Max-OPA;Date: 2022-05-17;Time: 12:27:20\r\nFluorescence (FI)\r\n\r\nWell;Content;Group; Raw Data (360-30/456-20); Blank corrected based on Raw Data (360-30/456-20);\r\n;Time [h];;0;0;\r\nA01;Standard S1;A;31750;30273;\r\nH01;Blank B;A;1487;;\r\n";
-        let ex = parse(&text_book(t.as_bytes()), false);
-        let b = &ex.blocks[0];
-        assert_eq!(b.read_type, Some(ReadType::Endpoint));
-        assert_eq!(b.obs.len(), 3, "{:?}", b.findings);
-        assert_eq!(b.channels.len(), 2);
     }
 
     #[test]
