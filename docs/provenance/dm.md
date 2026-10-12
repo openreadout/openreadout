@@ -65,3 +65,13 @@ Gatan does not publish the DM3/DM4 file format. Everything here comes from permi
 **Inferred.** Writers set the root length to file length − header − 8 or to file length − header − 4, in DM3 and DM4 alike. In every one of the 30 files the tag directory parses to its end, which is followed by the usual 8 zero bytes.
 
 **Rule implemented:** a root length of file length − header − 4 is accepted as well; a larger one is still `truncated`, and a smaller one is still a `root_length` warning. A file whose tag directory or pixel data run past the end is reported as before.
+
+## 2026-10-12 — Microscope model: the session's microscope before the control plug-in's name
+
+**Why.** `instrument.model` fell back to `Microscope Info.Name`, which on most files names DigitalMicrograph's microscope-control plug-in ("JEOL COM", "FEI Tecnai Remote", "Zeiss SEM COM"), not the microscope.
+
+**Corpus files used:** `zenodo10848941-go-zno`, `zenodo1108559-diamond-1c`, `zenodo11471263-wte2-HRTEM`, `zenodo17113003-picker-si`, `zenodo14602797-lunar-eels`, `zenodo13821437-Figure-2e`, `zenodo1478664-sorter-47r`, `rsciio-dm-2d-test-stem-image-dm3`, `rsciio-dm-2d-test-monarccl-spectrum-si-dm4`, `ncem-dm-08-carbon-dm3`. **Prior art consulted:** ncempy 1.16 (`ncempy.io.dm`, run to list the tags).
+
+**Inferred.** `Session Info.Microscope` holds the microscope the user entered for the session ("JEM-ARM200F", "ARM 200F", "FEI Titan") or is empty. `Microscope Info.Microscope`, when present, is a microscope name too ("TitanX", "NCEM TEAM 0.5").
+
+**Rule implemented:** model = `Microscope Info.Microscope`, else a non-empty `Session Info.Microscope`, else `Microscope Info.Name`.
