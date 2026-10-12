@@ -150,3 +150,9 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 **Corpus files used:** the `figshare*` ND2 entries added on 2026-10-12 (CC-BY-4.0 or CC0-1.0). **Prior art consulted:** the nd2 package 0.11.3 (BSD-3-Clause) as the oracle.
 
 **Result.** Every file matched nd2 on geometry, pixels, channels and acquisition time. In `figshare22565206-1-noFISH-na-noConnector-0011` nd2 reports an emission wavelength of -1 for a channel whose wavelength the file leaves unset; we report none. The corpus comparison now reads a non-positive oracle wavelength as unset. No reader change.
+
+## 2026-10-12 — `check` names declared frames that have no chunk
+
+**Why.** On `ome-aryeh-rfp-h2a-cells-02` (OME sample directory `ND2/aryeh`, already in the corpus) `check` said OK while `stats` over the whole file exited 4 ("frame chunk ImageDataSeq|973! missing"). The chunk map holds `ImageDataSeq|0!` to `|2899!` without 973: 2899 chunks, the number the sequence count declares, so the count test passed. The nd2 package (BSD-3-Clause, run) returns zeros for frame 973.
+
+**Rule implemented.** `check` lists every frame index below the sequence count that has no chunk (`missing_planes`, an error). Reading a plane stored in such a frame still exits 4; we do not make up zeros.
