@@ -241,3 +241,11 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 **Inferred from the file** (czifile 2026.8.16, BSD-3-Clause, read as documentation and run; hex dump): the file header says part 0 and its file GUID equals the primary GUID, every subblock entry says part 0, but all four attachment entries say `file_part` 12. Each attachment position in this file holds a `ZISRAWATTACH` segment, and no file named as part 12 exists. The subblocks carry scene index 12 (S=12, the file's only scene: one position saved out of a larger acquisition), so the attachment entries seem to hold the scene index where the part number belongs.
 
 **Rule implemented:** an attachment or subblock entry whose `file_part` names a part that is not next to the master, and whose position in the master holds a segment of the kind the entry needs (`ZISRAWATTACH` or `ZISRAWSUBBLOCK`), is read from the master. Entries whose part is on disk still read from that part, so real multi-file documents are unchanged (the synthetic multi-file fixtures pass as before).
+
+## 2026-10-12 — placeholder subblock times and positions
+
+**Why.** The corpus metadata test failed on `zenodo11039334-prophage-termL-host-association-fov-01-m` (a stitched Airyscan Processing output, Zenodo 11039334, CC-BY-4.0): its per-frame records said `acquired_at` "0001-01-01T00:00:00.0000000" and `stage_z_um` null.
+
+**Inferred from the file** (`strings`): every subblock's `<METADATA>` holds `<AcquisitionTime>0001-01-01T00:00:00.0000000</AcquisitionTime><FocusPosition>NaN</FocusPosition>`. The first is the smallest date the writer can store, the second is not a number; both mean the value was not recorded.
+
+**Rule implemented:** a subblock acquisition time that starts with 0001-01-01 and a stage or focus position that is not a finite number are left out.

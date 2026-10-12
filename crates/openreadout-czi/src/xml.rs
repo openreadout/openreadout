@@ -440,11 +440,15 @@ pub fn parse_subblock_tags(xml: &str) -> SubBlockTags {
                 .and_then(|t| t.trim().parse().ok())
         })
     });
+    // Processed and stitched images carry placeholders: the time 0001-01-01T00:00:00 (the
+    // smallest date ZEN can write) and NaN positions. They mean "not recorded".
+    let finite = |n| num(n).filter(|v: &f64| v.is_finite());
     SubBlockTags {
-        acquisition_time: text(child(tags, "AcquisitionTime")),
-        stage_x_um: num(child(tags, "StageXPosition")),
-        stage_y_um: num(child(tags, "StageYPosition")),
-        focus_um: num(child(tags, "FocusPosition")),
+        acquisition_time: text(child(tags, "AcquisitionTime"))
+            .filter(|t| !t.trim_start().starts_with("0001-01-01")),
+        stage_x_um: finite(child(tags, "StageXPosition")),
+        stage_y_um: finite(child(tags, "StageYPosition")),
+        focus_um: finite(child(tags, "FocusPosition")),
         exposure_ns,
     }
 }
@@ -479,6 +483,9 @@ mod tests {
         assert_eq!(t.focus_um, Some(111.842));
         assert_eq!(t.exposure_ns, Some(10_004_210.5));
         assert_eq!(parse_subblock_tags("<not xml"), SubBlockTags::default());
+        // Placeholders written into processed (stitched Airyscan) subblocks.
+        let p = "<METADATA><Tags><AcquisitionTime>0001-01-01T00:00:00.0000000</AcquisitionTime><FocusPosition>NaN</FocusPosition></Tags></METADATA>";
+        assert_eq!(parse_subblock_tags(p), SubBlockTags::default());
     }
 
     #[test]
