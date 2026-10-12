@@ -3458,10 +3458,14 @@ def varian(p: Path) -> dict:
     if v("tn") is not None:
         extra["nucleus"] = _varian_nucleus(v("tn"))
     for key, name, conv in (("spectrometer_frequency_mhz", "sfrq", float), ("spectral_width_hz", "sw", float),
-                            ("scans", "nt", lambda x: int(float(x))), ("time_domain_size", "np", lambda x: int(float(x))),
+                            ("requested_scans", "nt", lambda x: int(float(x))), ("time_domain_size", "np", lambda x: int(float(x))),
                             ("pulse_program", "seqfil", str), ("solvent", "solvent", str)):
         if v(name) not in (None, ""):
             extra[key] = conv(v(name))
+    # the transients the FID holds: procpar ct (completed), else nt
+    ct = int(float(v("ct"))) if v("ct") not in (None, "") else 0
+    if ct > 0 or "requested_scans" in extra:
+        extra["scans"] = ct if ct > 0 else extra["requested_scans"]
     entry = {"index": 0, "name": "fid", "sample_count": int(arr.shape[1]), "sweep_count": int(arr.shape[0]),
              "channel_count": 2, "reader": f"nmrglue {ng.__version__} varian.read(as_2d=True)",
              "nmrglue_dtype": str(arr.dtype), "sweeps": _sweeps(sweeps)}

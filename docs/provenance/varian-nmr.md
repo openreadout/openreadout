@@ -63,3 +63,8 @@ channel blocks.
 **Corpus files:** every development input of this format on disk (`corpus/assurance/evidence.json` lists them); no held-out file.
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: the procpar version, sample type, dimensions and the block scale factors (available, not applied). The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
+
+## 2026-10-11 — scans in the data versus scans requested
+
+**Corpus files:** every development input (13 directories). **Prior art consulted:** none new.
+**What was inferred:** `ct` equals the first block header's `completed_scans` in all 13. It is below `nt` only in `nmrxiv-s501-carbon` (3000 requested, 1776 completed, a stopped acquisition). The FID holds the sum of `ct` transients, so `scans` now reports `ct` when it is positive and `requested_scans` reports `nt`.
