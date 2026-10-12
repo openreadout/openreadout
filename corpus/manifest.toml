@@ -11486,6 +11486,84 @@ attribution = "Romain Guiet"
 notes = "whole-slide brightfield VSI with overview, label and pyramid ETS stacks"
 
 [[file]]
+id = "openslide-olympus-os-1-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-olympus-OS-1.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Olympus/OS-1.zip"
+sha256 = "a273c82158b97554f1286146a841998ff1e05fd0dcb987a9feb81a18c9f3e1be"
+size = 518405833
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\"; directory listing: \"Free to use and distribute, with or without modification\")"
+notes = "Olympus VSI slide zip: OS-1.vsi and its ETS stacks"
+
+[[file]]
+id = "openslide-olympus-os-1"
+format = "vsi"
+role = "input"
+tier = "full"
+bundle = "openslide-olympus-os-1-zip"
+filename = "openslide-olympus-os-1-zip/OS-1.vsi"
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\")"
+notes = "H&E, brightfield, VS-ASW FL 2 (2012): overview and 20x pyramid, JPEG 2000 tiles"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
+id = "openslide-olympus-os-2-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-olympus-OS-2.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Olympus/OS-2.zip"
+sha256 = "0fe056a4e89d5b8a6d7f15b1de3b9cac68f840da07cf3dd738fd31e58851b07f"
+size = 309552104
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\"; directory listing: \"Free to use and distribute, with or without modification\")"
+notes = "Olympus VSI slide zip: OS-2.vsi and its ETS stacks"
+
+[[file]]
+id = "openslide-olympus-os-2"
+format = "vsi"
+role = "input"
+tier = "full"
+bundle = "openslide-olympus-os-2-zip"
+filename = "openslide-olympus-os-2-zip/OS-2.vsi"
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\")"
+notes = "Ki-67 stain, brightfield"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
+id = "openslide-olympus-os-3-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-olympus-OS-3.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Olympus/OS-3.zip"
+sha256 = "0ac826dd83270612cba37924bf158296486bdf9eb6b53bb6f76c17c6367d22f8"
+size = 357744605
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\"; directory listing: \"Free to use and distribute, with or without modification\")"
+notes = "Olympus VSI slide zip: OS-3.vsi and its ETS stacks"
+
+[[file]]
+id = "openslide-olympus-os-3"
+format = "vsi"
+role = "input"
+tier = "full"
+bundle = "openslide-olympus-os-3-zip"
+filename = "openslide-olympus-os-3-zip/OS-3.vsi"
+license = "LicenseRef-OpenSlide-distributable"
+source = "OpenSlide test data (Olympus/index.yaml: license \"distributable\")"
+notes = "PTEN stain, brightfield"
+pixel_tolerance = 4
+lossy = true
+
+[[file]]
 id = "zenodo17453126-he-bone-vsi"
 format = "vsi"
 role = "input"
@@ -51651,6 +51729,33 @@ license = "CC0-1.0"
 source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
 attribution = "Carnegie Mellon University"
 notes = "brightfield, version 1.9, 10 levels, JPEG, Hitachi HV-F22CL camera, 4 x 4 images per camera photo"
+lossy = true
+
+[[file]]
+id = "openslide-mirax-cmu-1-exported-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-mirax-CMU-1-Exported.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Mirax/CMU-1-Exported.zip"
+sha256 = "ebc49ab15f0d5ee8552919d0eb1bd5e23f27702f4a757873cf51c2a0b2907f71"
+size = 2169827661
+license = "CC0-1.0"
+source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "MIRAX slide zip: CMU-1-Exported.mrxs and its data directory"
+
+[[file]]
+id = "openslide-mirax-cmu-1-exported"
+format = "mirax"
+role = "input"
+tier = "full"
+bundle = "openslide-mirax-cmu-1-exported-zip"
+filename = "openslide-mirax-cmu-1-exported-zip/CMU-1-Exported.mrxs"
+license = "CC0-1.0"
+source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "export of CMU-1.mrxs with overlaps resolved (index.yaml), brightfield, JPEG, CURRENT_SLIDE_VERSION 2.3: no camera position table"
 lossy = true
 
 [[file]]

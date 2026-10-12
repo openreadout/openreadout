@@ -795,7 +795,10 @@ impl DmDataset {
         };
         let instrument = InstrumentInfo {
             manufacturer: None,
+            // `Microscope Info.Name` often names the microscope-control plug-in ("JEOL COM"),
+            // so the microscope entered for the session comes first (docs/formats/dm.md).
             model: as_text(t("Microscope Info.Microscope"))
+                .or_else(|| as_text(t("Session Info.Microscope")))
                 .or_else(|| as_text(t("Microscope Info.Name"))),
             software: Some("Gatan DigitalMicrograph".into()),
             software_version: as_text(t("GMS Version.Created")),

@@ -598,7 +598,7 @@ impl Dataset for MiraxDataset {
         if s.cameras.is_some() {
             notes.push("camera photos overlap: each stored image is placed at its camera's recorded position (fractional at levels above 0, resampled bilinearly as OpenSlide does); where photos overlap, the later one in raster order is shown".into());
         } else {
-            notes.push("no camera position table (a slide exported with overlaps removed): the pixels are not read (exit 6) until such a slide is validated; the size is the image grid".into());
+            notes.push("no camera position table (a slide exported with overlaps removed): the images abut on their grid".into());
         }
         if !self.components.is_empty() {
             notes.push(format!(

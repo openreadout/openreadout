@@ -39,7 +39,6 @@ impl FormatReader for MiraxReader {
             known_gaps: vec![
                 "No specification: the layout comes from OpenSlide's public format documentation and the corpus files; placement of camera photos was derived by comparison with OpenSlide run as a black box".into(),
                 "Levels above 0 place camera photos at fractional pixels: values are bilinear resamplings as OpenSlide renders them (within a few grey levels of OpenSlide), not stored samples".into(),
-                "Slides without a camera position table (exported with overlaps removed) are listed but their pixels are refused (exit 6): no such development file yet".into(),
                 "Fluorescence slides with more than three filters, or filters sharing a colour component, are refused (exit 6)".into(),
                 "Level 0 is too large to read whole: read a region (`--region`) or a coarser level (`--level`)".into(),
                 "The scan-information records (focus, motor positions) and stitching records are listed as attachments, not decoded".into(),

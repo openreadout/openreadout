@@ -148,3 +148,7 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Inferred from the file:** the `.vsi` holds a TIFF preview page (512 × 375, JPEG, photometric RGB, so its sample order is fixed by the TIFF specification). Its channel means are 161.1, 142.6, 139.5. The raw `stack1` tile read in stored order has means 138.9, 142.1, 160.5, and read in reverse order 160.5, 142.1, 138.9. The stored order is therefore blue, green, red. Bio-Formats' plane equals the reversed tile exactly.
 
 **Rule implemented:** a raw ETS tile with three samples per pixel is returned as red, green, blue (first and third samples exchanged). JPEG and JPEG 2000 tiles are unchanged: their decoders already return red, green, blue.
+
+## 2026-10-12 — OpenSlide's Olympus test slides
+
+**Corpus files added:** `openslide-olympus-os-1`, `-os-2`, `-os-3` (OpenSlide test data `Olympus/OS-*.zip`, "Free to use and distribute, with or without modification"). They were written by VS-ASW FL 2 in 2012 and hold JPEG 2000 tiles. **Black-box oracle:** Bio-Formats 8.5.0 (`oracle/gen.py`). No parsing logic changed: all three agree with Bio-Formats within the lossy tolerance.
