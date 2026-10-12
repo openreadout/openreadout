@@ -174,7 +174,7 @@ The parts:
 - `notes`: things to know, such as a CZI whose scenes cover several wells.
 - `provenance`: where each value came from.
 
-**Parameters** use our own snake_case names: `nucleus`, `pulse_program`, `method_length`, `injection_volume`, `polarity`, `ms_levels`, `ion_source`, `wavelength`, `objective_magnification`, `pixel_size`, `time_interval`, `sample_rate`, `gradient`, `solvents`, `oven_program`, `column` and others. Each is `{value, unit, ucum}`; a parameter with a unit carries its UCUM code. Structured settings keep their units in their keys:
+**Parameters** use our own snake_case names: `nucleus`, `pulse_program`, `method_length`, `injection_volume`, `polarity`, `ms_levels`, `ion_source`, `wavelength`, `objective_magnification`, `pixel_size`, `time_interval`, `sample_rate`, `gradient`, `solvents`, `oven_program`, `column` and others. Each is `{value, unit, ucum}`; a parameter with a unit carries its UCUM code. `pixel_size` and `z_step` are in µm, or in nm for electron microscopy. Structured settings keep their units in their keys:
 
 - `gradient` is the LC pump program as steps `{time_min, flow_ul_min, percent: {A: …, B: …}}`.
 - `solvents` names the solvent channels: `{"A": "Eau + 0.1% HCOOH", "B": "ACN + 0.1% HCOOH"}`.
