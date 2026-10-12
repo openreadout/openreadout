@@ -114,8 +114,12 @@ def run(rec: Rec, entry: dict, path: Path, ctx) -> None:
     r = rec.reader("Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)")
     dates = sorted(i["acquired"] for i in images if i.get("acquired"))
     if dates:
+        # Zeiss LSM stores a local time without a zone; Bio-Formats reads it in the zone of the
+        # machine it runs on and writes UTC, so only the clock reading up to whole quarter
+        # hours can be compared (2026-10-12: a constant 5 h shift on 34 LSM files).
+        lsm = path.suffix.lower() == ".lsm"
         rec.check("acquisition date (earliest image)", "/experiment/acquisition/started_at", dates[0],
-                  cmp="time_or_utc", abs=60.0, reader=r)
+                  cmp="time_mod_zone" if lsm else "time_or_utc", abs=60.0, reader=r)
     models = [i["microscope"] for i in images if i.get("microscope")]
     if models:
         rec.check("microscope model", "/experiment/instrument/model", models[0], cmp="text", reader=r)

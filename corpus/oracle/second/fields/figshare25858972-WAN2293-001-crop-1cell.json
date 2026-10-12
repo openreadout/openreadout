@@ -1,0 +1,31 @@
+{
+ "id": "figshare25858972-WAN2293-001-crop-1cell",
+ "file": "figshare25858972-WAN2293-001-crop-1cell.nd2",
+ "format": "nd2",
+ "family": "imaging",
+ "readers": [
+  "Bio-Formats 8.5.0 (GPL, showinf -omexml, run as a black box)"
+ ],
+ "checks": [
+  {
+   "field": "image 0 size_x",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_x",
+   "theirs": 55,
+   "cmp": "exact"
+  },
+  {
+   "field": "image 0 size_y",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/images/0/size_y",
+   "theirs": 55,
+   "cmp": "exact"
+  }
+ ]
+}
