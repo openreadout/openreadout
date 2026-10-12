@@ -75441,3 +75441,78 @@ license = "CC-BY-4.0"
 license_checked = "https://figshare.com/articles/15086511 (CC BY 4.0), 2026-10-12"
 source = "Figshare 15086511: Example movies of p21YFP CRISPR MCF7 cells expressing either Ubc-mScarlet control or Ubc-mScarlet Hes1, 20210628 p21YFP expressing Ubc mScarlet CONTROL.nd2 (figshare file 29006685)"
 attribution = "Nancy Papalopulu"
+
+[[file]]
+id = "zenodo20135401-IB-DIC-WA09-M36-07"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo20135401-IB-DIC-WA09-M36-07.lif"
+url = "https://zenodo.org/api/records/20135401/files/IB_DIC_WA09_M36_07.lif/content"
+sha256 = "5a923efbf1f775fb0241a36e040ba6e226737d431c9eb9025a07f69ca7ba5cb6"
+size = 96723543
+md5 = "3df03e8ad81028d6a9ee97bec150065f"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/20135401 (cc-by-4.0), 2026-10-12"
+source = "Zenodo 20135401: Branched-chain amino acid assimilation promotes mixotrophy of ammonia-oxidizing archaeal sponge symbionts, IB_DIC_WA09_M36_07.lif"
+attribution = "Glasl, Bettina, Kitzinger, Katharina, Luter, Heidi et al."
+
+[[file]]
+id = "zenodo19043056-ctr-10x"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo19043056-ctr-10x.lif"
+url = "https://zenodo.org/api/records/19043056/files/ctr%2010x.lif/content"
+sha256 = "379b7b979efbff13f2d241ba9065853bfe70a40d04ca6aff7acf9a7b14d6700e"
+size = 75913543
+md5 = "081e6c5169251c7eaa1d73162a664008"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/19043056 (cc-by-4.0), 2026-10-12"
+source = "Zenodo 19043056: Sleep Deprivation Exacerbates Periodontitis via Vascular-immune Dysfunction, ctr 10x.lif"
+attribution = "Sheng, Yang"
+
+[[file]]
+id = "zenodo7194797-Fig-4F-EcN-wt-control-GFP"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo7194797-Fig-4F-EcN-wt-control-GFP.lif"
+url = "https://zenodo.org/api/records/7194797/files/Fig%204F.%20EcN%20wt%20control%20GFP.lif/content"
+sha256 = "9451e93ddbed4b1fa39f234b31e0218f41c845dee9106b32e031bdd9f4144ae7"
+size = 65226571
+md5 = "4b5e26c048271756bd486e385e493a95"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7194797 (cc-by-4.0), 2026-10-12"
+source = "Zenodo 7194797: Efficient markerless integration of genes in the chromosome of probiotic E. coli Nissle 1917 by bacterial conjugation, Fig 4F. EcN wt control GFP.lif"
+attribution = "Seco, Elena M., Fernández, Luis Ángel"
+
+[[file]]
+id = "zenodo8298760-Orb-Vas-PI-1-mei-P26-1-uninf-4-5d-211024"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo8298760-Orb-Vas-PI-1-mei-P26-1-uninf-4-5d-211024.lif"
+url = "https://zenodo.org/api/records/8298760/files/Orb-Vas-PI_1__mei-P26_1__uninf-4-5d-211024.lif/content"
+sha256 = "2b2b6b3083a6f05f546b641d7394a90d6b98ed208139dac4f2afa906180c371e"
+size = 75386965
+md5 = "43d86a8ab11c0a341ac58a0e77269c63"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/8298760 (cc-zero), 2026-10-12"
+source = "Zenodo 8298760: Wolbachia endosymbionts manipulate the self-renewal and differentiation of germline stem cells to reinforce fertility of their fruit fly host, Orb-Vas-PI_1__mei-P26_1__uninf-4-5d-211024.lif"
+attribution = "Russell, Shelbi"
+
+[[file]]
+id = "zenodo7808487-Source-Data-Supplementary-Fig-7-No-DNA"
+format = "lif"
+role = "input"
+tier = "standard"
+filename = "zenodo7808487-Source-Data-Supplementary-Fig-7-No-DNA.lif"
+url = "https://zenodo.org/api/records/7808487/files/Source%20Data%20Supplementary%20Fig.%207%20-%20No%20DNA.lif/content"
+sha256 = "5c3609469977ffcfb42da522218c0a10408454189aa9002c13437554838e2154"
+size = 99700651
+md5 = "74cbcb0a71d8fe274ba2929eec287b7a"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/7808487 (cc-by-4.0), 2026-10-12"
+source = "Zenodo 7808487: Engineering cellular communication between light-activated synthetic cells and bacteria (Source data), Source Data Supplementary Fig. 7 - No DNA.lif"
+attribution = "Smith, Jefferson, Hartmann, Denis, Booth, Michael"
