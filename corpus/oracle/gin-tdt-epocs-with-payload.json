@@ -1,0 +1,29 @@
+{
+ "id": "gin-tdt-epocs-with-payload",
+ "file": "epocs_with_payload",
+ "size": 1768,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 TdtRawIO",
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 30,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "time_s",
+      "block",
+      "value"
+     ],
+     "count": 30,
+     "xxh3": "a6fa456916785946e114213e121897a5"
+    }
+   ]
+  }
+ ],
+ "oracle_note": "Neo's .Tbk parse lists 0 of the 1 strobe stores; strobe-on records read with Neo's .tsq record layout"
+}

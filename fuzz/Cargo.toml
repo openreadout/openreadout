@@ -456,6 +456,27 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_isyntax"
+path = "fuzz_targets/whole_isyntax.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_vms"
+path = "fuzz_targets/whole_vms.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_baf"
+path = "fuzz_targets/whole_baf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_chemstation"
 path = "fuzz_targets/whole_chemstation.rs"
 test = false
@@ -1037,6 +1058,27 @@ bench = false
 [[bin]]
 name = "whole_fsm"
 path = "fuzz_targets/whole_fsm.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_tdt"
+path = "fuzz_targets/whole_tdt.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_axona"
+path = "fuzz_targets/whole_axona.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mcs_raw"
+path = "fuzz_targets/whole_mcs_raw.rs"
 test = false
 doc = false
 bench = false

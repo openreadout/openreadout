@@ -70,6 +70,27 @@ const BUNDLES: &[Bundle] = &[
         Some(0),
     ),
     (
+        "whole_baf",
+        "s.d",
+        &["s.d/analysis.baf", "s.d/Calibrator.ami"],
+        None,
+    ),
+    (
+        "whole_vms",
+        "",
+        &[
+            "s.vms",
+            "s.jpg",
+            "s(1,0).jpg",
+            "s(0,1).jpg",
+            "s(1,1).jpg",
+            "s_map2.jpg",
+            "s.opt",
+            "s_macro.jpg",
+        ],
+        Some(0),
+    ),
+    (
         "whole_vsi",
         "",
         &["s.vsi", "_s_/stack1/frame_t_0.ets"],

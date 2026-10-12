@@ -1,0 +1,118 @@
+{
+ "id": "zenodo5037046-isyntax-testslide",
+ "file": "testslide.isyntax",
+ "size": 495125898,
+ "sha256": "38e65f4ddd2001f18135a1835807cb5b2303d012a2a63d63cdfa08a9673c849d",
+ "max_planes_hashed": 64,
+ "reader": "libisyntax 92471dbf6c70 via pyisyntax 0.1.7 (BSD-2-Clause / MIT)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 37382,
+   "size_y": 73222,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.25,
+    "y": 0.25
+   },
+   "pyramid_levels": 8,
+   "level_sizes": [
+    [
+     37382,
+     73222
+    ],
+    [
+     18691,
+     36611
+    ],
+    [
+     9345,
+     18305
+    ],
+    [
+     4672,
+     9152
+    ],
+    [
+     2336,
+     4576
+    ],
+    [
+     1168,
+     2288
+    ],
+    [
+     584,
+     1144
+    ],
+    [
+     292,
+     572
+    ]
+   ],
+   "planes": [],
+   "levels": [
+    {
+     "level": 4,
+     "size_x": 2336,
+     "size_y": 4576,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5f6843f500bc8f51f4a3fec20bf1a341",
+       "mean": 219.24453559069354
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 1168,
+     "size_y": 2288,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "ae00816f50dedbaf9707496f24dedb8a",
+       "mean": 219.53324771689498
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 584,
+     "size_y": 1144,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "fa1d8771ead67e7558d98f97f4cac879",
+       "mean": 219.87461532474376
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 292,
+     "size_y": 572,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "46192092372218abb564a1b7ab2046b0",
+       "mean": 220.27139612670436
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

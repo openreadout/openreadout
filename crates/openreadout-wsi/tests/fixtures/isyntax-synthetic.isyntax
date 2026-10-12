@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataObject ObjectType="DPUfsImport">
+<Attribute Name="PIM_DP_UFS_INTERFACE_VERSION" Group="0x301D" Element="0x1001" PMSVR="IString">5.0</Attribute><Attribute Name="DICOM_MANUFACTURER" Group="0x0008" Element="0x0070" PMSVR="IString">OpenReadout</Attribute><Attribute Name="DICOM_MANUFACTURERS_MODEL_NAME" Group="0x0008" Element="0x1090" PMSVR="IString">synthetic</Attribute><Attribute Name="DICOM_SOFTWARE_VERSIONS" Group="0x0018" Element="0x1020" PMSVR="IStringArray">"1.0.0"</Attribute><Attribute Name="DICOM_ACQUISITION_DATETIME" Group="0x0008" Element="0x002A" PMSVR="IString">20261012120000.000000</Attribute><Attribute Name="PIM_DP_UFS_BARCODE" Group="0x301D" Element="0x1002" PMSVR="IString">U1lOVEgtMQ==</Attribute><Attribute Name="PIM_DP_SCANNED_IMAGES" Group="0x301D" Element="0x1003" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="DPScannedImage">
+<Attribute Name="PIM_DP_IMAGE_TYPE" Group="0x301D" Element="0x1004" PMSVR="IString">WSI</Attribute><Attribute Name="DICOM_DERIVATION_DESCRIPTION" Group="0x0008" Element="0x2111" PMSVR="IString">OpenReadout synthetic fixture | Compressor=16</Attribute><Attribute Name="DICOM_LOSSY_IMAGE_COMPRESSION" Group="0x0028" Element="0x2110" PMSVR="IString">01</Attribute><Attribute Name="UFS_IMAGE_BLOCK_HEADER_TABLE" Group="0x301D" Element="0x2014" PMSVR="IString">IAoAAP7/AOAoAAAAHTAOIBQAAADsAwAA1AcAAAAAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAADpAwAA0QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA0QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADpAwAA4QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA4QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADuAwAA1gcAAAAAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAADsAwAA1AcAAAEAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAADpAwAA0QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA0QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADpAwAA4QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA4QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADuAwAA1gcAAAEAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAADsAwAA1AcAAAIAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAADpAwAA0QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA0QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADpAwAA4QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA4QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADuAwAA1gcAAAIAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAAAMBAAA1AcAAAAAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAAAJBAAA0QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAZBAAA0QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAJBAAA4QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAZBAAA4QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAOBAAA1gcAAAAAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAAAMBAAA1AcAAAEAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAAAJBAAA0QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAZBAAA0QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAJBAAA4QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAZBAAA4QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAOBAAA1gcAAAEAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAAAMBAAA1AcAAAIAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAAAJBAAA0QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAZBAAA0QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAJBAAA4QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAZBAAA4QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAAOBAAA1gcAAAIAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAADsAwAA9AcAAAAAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAADpAwAA8QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA8QcAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADpAwAAAQgAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAAAQgAAAAAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADuAwAA9gcAAAAAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAADsAwAA9AcAAAEAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAADpAwAA8QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA8QcAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADpAwAAAQgAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAAAQgAAAEAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADuAwAA9gcAAAEAAAABAAAAAAAAAB0wEiAEAAAAAgAAAP7/AOAoAAAAHTAOIBQAAADsAwAA9AcAAAIAAAABAAAAAQAAAB0wEiAEAAAAAAAAAP7/AOAoAAAAHTAOIBQAAADpAwAA8QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAA8QcAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADpAwAAAQgAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAAD5AwAAAQgAAAIAAAAAAAAAAQAAAB0wEiAEAAAAAQAAAP7/AOAoAAAAHTAOIBQAAADuAwAA9gcAAAIAAAABAAAAAAAAAB0wEiAEAAAAAgAAAA==</Attribute>
+<Attribute Name="UFS_IMAGE_BLOCK_HEADER_TEMPLATES" Group="0x301D" Element="0x2009" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="UFSImageBlockHeaderTemplate">
+<Attribute Name="UFS_IMAGE_BLOCK_COMPRESSION_METHOD" Group="0x301D" Element="0x200F" PMSVR="IString">16</Attribute><Attribute Name="UFS_IMAGE_DIMENSION_RANGES" Group="0x301D" Element="0x200A" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 7</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 7</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 2</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">1 0 1</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">1 1 3</Attribute></DataObject>
+</Array>
+</Attribute>
+</DataObject>
+<DataObject ObjectType="UFSImageBlockHeaderTemplate">
+<Attribute Name="UFS_IMAGE_BLOCK_COMPRESSION_METHOD" Group="0x301D" Element="0x200F" PMSVR="IString">16</Attribute><Attribute Name="UFS_IMAGE_DIMENSION_RANGES" Group="0x301D" Element="0x200A" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 7</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 7</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 2</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 0 0</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">1 1 3</Attribute></DataObject>
+</Array>
+</Attribute>
+</DataObject>
+<DataObject ObjectType="UFSImageBlockHeaderTemplate">
+<Attribute Name="UFS_IMAGE_BLOCK_COMPRESSION_METHOD" Group="0x301D" Element="0x200F" PMSVR="IString">16</Attribute><Attribute Name="UFS_IMAGE_DIMENSION_RANGES" Group="0x301D" Element="0x200A" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 7</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 7</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 2</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">1 0 1</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 0</Attribute></DataObject>
+</Array>
+</Attribute>
+</DataObject>
+</Array>
+</Attribute>
+<Attribute Name="UFS_IMAGE_GENERAL_HEADERS" Group="0x301D" Element="0x2000" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="UFSImageGeneralHeader">
+<Attribute Name="UFS_IMAGE_NUMBER_OF_BLOCKS" Group="0x301D" Element="0x2001" PMSVR="IUInt32">54</Attribute><Attribute Name="UFS_IMAGE_DIMENSIONS" Group="0x301D" Element="0x2003" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="UFSImageDimension">
+<Attribute Name="UFS_IMAGE_DIMENSION_NAME" Group="0x301D" Element="0x2004" PMSVR="IString">x</Attribute><Attribute Name="UFS_IMAGE_DIMENSION_UNIT" Group="0x301D" Element="0x2006" PMSVR="IString">MicroMeter</Attribute><Attribute Name="UFS_IMAGE_DIMENSION_SCALE_FACTOR" Group="0x301D" Element="0x2007" PMSVR="IDouble">0.25</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimension">
+<Attribute Name="UFS_IMAGE_DIMENSION_NAME" Group="0x301D" Element="0x2004" PMSVR="IString">y</Attribute><Attribute Name="UFS_IMAGE_DIMENSION_UNIT" Group="0x301D" Element="0x2006" PMSVR="IString">MicroMeter</Attribute><Attribute Name="UFS_IMAGE_DIMENSION_SCALE_FACTOR" Group="0x301D" Element="0x2007" PMSVR="IDouble">0.25</Attribute></DataObject>
+</Array>
+</Attribute>
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGES" Group="0x301D" Element="0x200A" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">1000 1 1063</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">2000 1 2047</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 2</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 1</Attribute></DataObject>
+<DataObject ObjectType="UFSImageDimensionRange">
+<Attribute Name="UFS_IMAGE_DIMENSION_RANGE" Group="0x301D" Element="0x200B" PMSVR="IInt32Array">0 1 3</Attribute></DataObject>
+</Array>
+</Attribute>
+</DataObject>
+</Array>
+</Attribute>
+<Attribute Name="DP_COLOR_MANAGEMENT" Group="0x301D" Element="0x1013" PMSVR="IDataObjectArray">
+<Array>
+<DataObject ObjectType="DPColorManagement">
+<Attribute Name="DICOM_ICCPROFILE" Group="0x0028" Element="0x2000" PMSVR="IString">c3ludGhldGljIGljYyBwcm9maWxlIHN0YW5kLWlu</Attribute></DataObject>
+</Array>
+</Attribute>
+</DataObject>
+<DataObject ObjectType="DPScannedImage">
+<Attribute Name="PIM_DP_IMAGE_TYPE" Group="0x301D" Element="0x1004" PMSVR="IString">LABELIMAGE</Attribute><Attribute Name="PIM_DP_IMAGE_DATA" Group="0x301D" Element="0x1005" PMSVR="IString">/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAACAAQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDxSiiivzc/tU//2Q==</Attribute></DataObject>
+<DataObject ObjectType="DPScannedImage">
+<Attribute Name="PIM_DP_IMAGE_TYPE" Group="0x301D" Element="0x1004" PMSVR="IString">MACROIMAGE</Attribute><Attribute Name="PIM_DP_IMAGE_DATA" Group="0x301D" Element="0x1005" PMSVR="IString">/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAACAAQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5Eooor+1T5w//2Q==</Attribute></DataObject>
+</Array>
+</Attribute>
+</DataObject>
+
+0 @  þÿ à    0    ˜?      0           þÿ à    0     ?      0           þÿ à    0    ÞJ      0           þÿ à    0    æJ      0           þÿ à    0    ¨?      0           þÿ à    0    °?      0    Æ      þÿ à    0    îJ      0           þÿ à    0    öJ      0           þÿ à    0    ¨P      0           þÿ à    0    °P      0                                                                                           þÿ à    0    ¸P      0           þÿ à    0    ÀP      0                                                                                           þÿ à    0    ?      0           þÿ à    0    ÖJ      0           þÿ à    0     P      0                                                   þÿ à    0    vB      0    Æ      þÿ à    0    þJ      0    Æ      þÿ à    0    ÈP      0    Æ                                              þÿ à    0    G      0           þÿ à    0    
+G      0           þÿ à    0    ÌL      0           þÿ à    0    ÔL      0           þÿ à    0    G      0           þÿ à    0    G      0           þÿ à    0    ÜL      0           þÿ à    0    äL      0           þÿ à    0    –R      0           þÿ à    0    žR      0                                                                                           þÿ à    0    ¦R      0           þÿ à    0    ®R      0                                                                                           þÿ à    0    <D      0    Æ      þÿ à    0    ÄL      0           þÿ à    0    ŽR      0                                                   þÿ à    0    "G      0    Æ      þÿ à    0    ìL      0    Æ      þÿ à    0    ¶R      0    Æ                                              þÿ à    0    ðH      0           þÿ à    0    øH      0           þÿ à    0    ºN      0           þÿ à    0    ÂN      0           þÿ à    0     I      0           þÿ à    0    I      0           þÿ à    0    ÊN      0           þÿ à    0    ÒN      0           þÿ à    0    „T      0    Æ      þÿ à    0    JW      0                                                                                           þÿ à    0    RW      0           þÿ à    0    ZW      0                                                                                           þÿ à    0    èH      0           þÿ à    0    ²N      0           þÿ à    0    |T      0                                                   þÿ à    0    I      0    Æ      þÿ à    0    ÚN      0    Æ      þÿ à    0    bW      0    Æ                                                                              €     (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿMÑ*Í¢,Ñ"[KÛéeËiÕ²mÕ.Ý².                                                                                                        ff33ff3³ª*‘ª*DDffDDff                                                                                                        g €ÿggç¹9g € Æw                                                                                                          €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿ               €ªªªªªªªª´´´´´´´´m’ím’mä	väö‰d€‰€‰ÿd      €›ÿÿÿÿÿÿ                                                        €     (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿMÑ*Í¢,Ñ"[KÛéeËiÕ²mÕ.Ý².                                                                                                        ff33ff3³ª*‘ª*DDffDDff                                                                                                        g €ÿggç¹9g € Æw                                                                                                                                          €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿÿÿÿÿÿÿÿÿÿªªªªªªª*33333333‘în‘îîÝ]3³Ý]3³™DÄ™DDff  ff                                                                                                                  €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿ    €€                xxxxxxxx€€€€‡€                                                                                                                             €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿ                UUUUUUUÕáááááááá,SÓ¬,SÓ,äH7ä·È››?wäw@  €ˆ€ˆ¿ÿÿÿÿÿÿÿÿ                                                                                                €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿÿÿÿÿÿÿÿÿÿªªªªªªª*33333333‘în‘în"¢ÌL"¢ÌÌ»»ˆˆ»»ˆˆ»;w÷»;wwDD  DD                                                                                                          €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿ    €€                xxxxxxxx€€€€‡€                                                                                                                             €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿ               €ªªªªªªª*KKKKKKKË&YÙ¦&YÙ¦¿Àæ@?æ@ fÀ€™@ f@  €€¿ÿ™¿ÿ                                                                                                €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿÿÿÿÿÿÿÿÿÿªªªªªªª*33333333‘în‘îîÝ]3³Ý]3³™DÄ™DDff  ff                                                                                  €     (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿMÑ*Í¢,Ñ"[KÛéeËiÕ²mÕ.Ý².                                                                                                        ff33ff3³ª*‘ª*DDffDDff                                                                                                        g €ÿggç¹9g € Æw                                                                                                                                  €      (p€4x€T¸@†:|€#”8AŠZ¼@ŒjÜ Ç=~€ C9B’%š<A”)ª\!Ë]¾@˜1Êœ!ÍmÞ Îuîg>€@ƒ:D¢E=B¤I*]"Ó&>A¨QJ"Õ*­^!Ö,µn‘k—^¿@°aŠ#Ù2Íž!Ú4Õ®‘m›nß Ü8åÎ‘nvïožz÷È·O¿€€<HÂ…>DÄ‰*^$ãF?BÈ‘Jž$åJ-_"æL5o’s§ž?AÐ¡Š%éRMŸ"êTU¯’u«®_!ìXeÏ’v­¶ow®ºwÉ»Wß¿@àÁ
+&ñb#òd•/“y³ÎŸ!ôh¥O“zµÖ¯{¶Ú·É½[ïß øpÅ“|¹æÏ}ºê×É¾]÷ï~¼òçI¿^û÷ˆ?_ýûäß¯ÿ               €ÿÿÿÿÿÿÿxxxxxxxø€€€€ÿÿÿ                                                                                    

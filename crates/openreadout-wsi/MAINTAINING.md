@@ -42,6 +42,8 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `mirax` | [format note](../../docs/formats/mirax.md), [provenance log](../../docs/provenance/mirax.md) | medium | prior art | 8 / 8 | 1 | - |
+| `philips-isyntax` | [format note](../../docs/formats/philips-isyntax.md), [provenance log](../../docs/provenance/philips-isyntax.md) | low | prior art | 1 / 1 | 1 | - |
+| `hamamatsu-vms` | [format note](../../docs/formats/hamamatsu-vms.md), [provenance log](../../docs/provenance/hamamatsu-vms.md) | low | prior art | 1 / 1 | 1 | - |
 
 ### Source map
 
@@ -49,13 +51,24 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 | --- | --- |
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`) of MIRAX slides: the variant features that change how the pyramid is placed and decoded, and the feature values the development corpus… |
 | [`src/image.rs`](src/image.rs) | Decoding the stored images of slide formats that keep one JPEG, PNG or BMP file per tile: always to 8-bit interleaved R, G, B |
-| [`src/lib.rs`](src/lib.rs) | Clean-room readers for whole-slide formats that keep their pyramid in many stored images next to a settings file: 3DHISTECH MIRAX (`.mrxs`, format id `mirax`) |
+| [`src/isyntax/codec.rs`](src/isyntax/codec.rs) | The iSyntax code-block codec (compressor 16): one block of wavelet coefficients, stored as bit planes that are Huffman coded with runs of zero bytes |
+| [`src/isyntax/dataset.rs`](src/isyntax/dataset.rs) | `Dataset` for an iSyntax slide: one RGB pyramid, the label and macro images and the ICC profiles as attachments |
+| [`src/isyntax/header.rs`](src/isyntax/header.rs) | The XML header of an iSyntax file: `DataObject` elements holding `Attribute` elements (a name, a DICOM-style group and element, a value type and a value; arrays of data objects… |
+| [`src/isyntax/mod.rs`](src/isyntax/mod.rs) | Philips iSyntax (`.isyntax`): an XML header ended by byte 0x04, a seek table, then the code blocks of a wavelet pyramid in YCoCg |
+| [`src/isyntax/pyramid.rs`](src/isyntax/pyramid.rs) | The wavelet pyramid of an iSyntax slide: geometry from the general header, the code blocks from the block header table, their place in the seek table, and which tiles exist |
+| [`src/isyntax/render.rs`](src/isyntax/render.rs) | Decoding tiles of an iSyntax pyramid |
+| [`src/isyntax/wavelet.rs`](src/isyntax/wavelet.rs) | Tile reconstruction of an iSyntax pyramid: the 5/3 inverse wavelet transform of one tile with margins from its eight neighbours, and the YCoCg to RGB conversion |
+| [`src/lib.rs`](src/lib.rs) | Clean-room readers for whole-slide formats outside TIFF: 3DHISTECH MIRAX (`.mrxs`, format id `mirax`), whose pyramid is many stored images next to a settings file; Hamamatsu VMS… |
 | [`src/mirax/dataset.rs`](src/mirax/dataset.rs) | `Dataset` for a MIRAX slide: one pyramidal image (RGB for brightfield, one channel per filter for fluorescence), associated images and records as attachments |
 | [`src/mirax/index.rs`](src/mirax/index.rs) | `Index.dat`: a five-character version string, the slide id, two little-endian `i32` pointers (the hierarchical and non-hierarchical root tables), then pointer tables and linked… |
 | [`src/mirax/ini.rs`](src/mirax/ini.rs) | `Slidedat.ini`: `[SECTION]` headers and `KEY = VALUE` lines, UTF-8 (optionally with a byte-order mark) or UTF-16LE with a byte-order mark, CRLF or LF line ends |
 | [`src/mirax/mod.rs`](src/mirax/mod.rs) | 3DHISTECH MIRAX (`.mrxs`): a `.mrxs` preview JPEG next to a directory of the same name with `Slidedat.ini` (settings), `Index.dat` (where every stored image lies) and `Data*.dat`… |
 | [`src/mirax/render.rs`](src/mirax/render.rs) | Placing a MIRAX level's stored images: every image (or, at coarse levels, every camera position inside an image, a "subtile") goes to its camera's recorded position scaled to the |
 | [`src/mirax/slide.rs`](src/mirax/slide.rs) | The slide model of a MIRAX data set: settings, pyramid levels with their stored images, filters, camera positions and non-hierarchical records |
+| [`src/vms/dataset.rs`](src/vms/dataset.rs) | `Dataset` for a VMS slide: one RGB pyramid (the slide images at full, half and quarter size, then the map at full to eighth size), the macro photo, the map and the optimisation |
+| [`src/vms/jpeg.rs`](src/vms/jpeg.rs) | A large baseline JPEG read by restart intervals: each interval (one MCU row high, `DRI` MCUs wide) decodes on its own as a small JPEG made of the file's header with the frame size |
+| [`src/vms/mod.rs`](src/vms/mod.rs) | Hamamatsu VMS (`.vms`): a settings file naming a grid of large baseline JPEGs with restart intervals, a low-resolution map JPEG, a macro photo and an optimisation file of MCU-row |
+| [`src/vms/slide.rs`](src/vms/slide.rs) | The slide model of a VMS data set: the settings, the grid of slide images with their JPEG layouts, the map, the levels and where each MCU row starts |
 
 ### Where variants branch
 
@@ -68,6 +81,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature codec `f`
 - feature acquisition `"fluorescence filters as colour components"`
 - feature acquisition `"brightfield"`
+- feature format_version `format!("data model {v}")`
+- feature codec `format!("isyntax wavelet method {c}")`
+- feature layout `format!("code blocks {} x {}", side(0), side(1))`
+- feature codec `"jpeg restart intervals"`
+- feature layout `format!("map at 1/{d}")`
+- feature layout `"no usable map"`
+- feature layout `"optimisation file"`
 - feature writer_version `format!("scanner software {v}")` (descriptive)
 - assumed "images[].extra.mirax.levels[].fill_color_bgr"
 
@@ -75,6 +95,11 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
+| `hamamatsu-vms` | codec | `jpeg restart intervals` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
+| `hamamatsu-vms` | layout | `grid of slide images` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
+| `hamamatsu-vms` | layout | `map at 1/8` | metadata, pixels | 1 | 1 | `openslide-vms-cmu-1` |
+| `hamamatsu-vms` | layout | `optimisation file` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
+| `hamamatsu-vms` | sample_layout | `uint8x3` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
 | `mirax` | acquisition | `brightfield` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
 | `mirax` | acquisition | `fluorescence filters as colour components` | pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
 | `mirax` | codec | `bmp` | pixels | 1 | 1 | `openslide-mirax2-2-4-bmp` |
@@ -97,14 +122,22 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mirax` | writer_version | `scanner software 1.12` | descriptive | 4 | 4 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | writer_version | `scanner software 1.15` | descriptive | 2 | 2 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png` |
 | `mirax` | writer_version | `scanner software 2.0` | descriptive | 1 | 1 | `openslide-mirax2-fluorescence-1` |
+| `philips-isyntax` | codec | `isyntax wavelet method 16` | pixels | 1 | 1 | `zenodo5037046-isyntax-testslide` |
+| `philips-isyntax` | field | `experiment.acquisition.started_at` | descriptive | 1 | 1 | `zenodo5037046-isyntax-testslide` |
+| `philips-isyntax` | field | `experiment.instrument.model` | descriptive | 1 | 1 | `zenodo5037046-isyntax-testslide` |
+| `philips-isyntax` | format_version | `5.0` | metadata, pixels | 1 | 1 | `zenodo5037046-isyntax-testslide` |
+| `philips-isyntax` | format_version | `data model 5` | metadata, pixels | 1 | 1 | `zenodo5037046-isyntax-testslide` |
+| `philips-isyntax` | layout | `code blocks 128 x 128` | pixels | 1 | 1 | `zenodo5037046-isyntax-testslide` |
+| `philips-isyntax` | sample_layout | `uint8x3` | pixels | 1 | 1 | `zenodo5037046-isyntax-testslide` |
+| `philips-isyntax` | writer_version | `scanner software 1.8` | descriptive | 1 | 1 | `zenodo5037046-isyntax-testslide` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
-- integration tests: [`tests/mirax_synthetic.rs`](tests/mirax_synthetic.rs)
-- committed fixtures: 4 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_mirax`
-- corpus inputs by tier: full 3, heldout 1, smoke 1, standard 4
-- golden snapshots: [`corpus/snapshots/mirax.jsonl`](../../corpus/snapshots/mirax.jsonl)
+- integration tests: [`tests/isyntax_synthetic.rs`](tests/isyntax_synthetic.rs), [`tests/mirax_synthetic.rs`](tests/mirax_synthetic.rs), [`tests/vms_synthetic.rs`](tests/vms_synthetic.rs)
+- committed fixtures: 13 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- fuzz targets (`fuzz/fuzz_targets/`): `whole_isyntax`, `whole_mirax`, `whole_vms`
+- corpus inputs by tier: full 4, heldout 1, smoke 1, standard 5
+- golden snapshots: [`corpus/snapshots/mirax.jsonl`](../../corpus/snapshots/mirax.jsonl), [`corpus/snapshots/philips-isyntax.jsonl`](../../corpus/snapshots/philips-isyntax.jsonl), [`corpus/snapshots/hamamatsu-vms.jsonl`](../../corpus/snapshots/hamamatsu-vms.jsonl)
 
 ### Open new-variant intakes
 

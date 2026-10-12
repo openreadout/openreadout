@@ -1,0 +1,101 @@
+{
+ "id": "pwiz-bruker-csi-apexqe",
+ "file": "analysis.baf",
+ "size": 1753677,
+ "sha256": "21d8ad8ff6a0064963117c4eae2f781c55c63a10da3b9b9b0573723c8a186eaa",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (CsI_Pos_0_G1_000003.mzML)",
+ "paired_export": "CsI_Pos_0_G1_000003.mzML",
+ "export_software": [
+  [
+   "BAF2SQL",
+   "2.7.300.20-112"
+  ],
+  [
+   "apexControl",
+   "ApexControl 3.0.0.alpha.35 (development version, April 18, 2008)"
+  ],
+  [
+   "pwiz_Reader_Bruker",
+   "3.0.18138"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "scan=1",
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": 5704013312.0,
+    "base_peak_mz": null,
+    "n_peaks": 433465,
+    "n_nonzero": 433464,
+    "mz_bits": 32,
+    "xxh3_mz": "9cea6fb8c91fa10c2cec538ab7c67c52",
+    "xxh3_intensity": "148d4c840bb30305ed651485ef581767",
+    "xxh3_mz_nonzero": "6f5c20183f88123947baa4b2a6869dbc",
+    "xxh3_intensity_nonzero": "02e5873669bf71ee44e32d1f4f3fdeec",
+    "sum_intensity": 59715708391.16022,
+    "mz_min": 346.50811767578125,
+    "mz_max": 1999.9656982421875,
+    "first_peaks": [
+     [
+      346.50811767578125,
+      0.0
+     ],
+     [
+      346.5087890625,
+      53815.984375
+     ],
+     [
+      346.5094299316406,
+      59186.76171875
+     ],
+     [
+      346.5101013183594,
+      65656.5859375
+     ],
+     [
+      346.5107727050781,
+      68206.9765625
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      346.5087890625,
+      53815.984375
+     ],
+     [
+      346.5094299316406,
+      59186.76171875
+     ],
+     [
+      346.5101013183594,
+      65656.5859375
+     ],
+     [
+      346.5107727050781,
+      68206.9765625
+     ],
+     [
+      346.51141357421875,
+      66310.4140625
+     ]
+    ]
+   }
+  ]
+ }
+}

@@ -16545,6 +16545,116 @@
       ]
     },
     {
+      "id": "gin-axona-multi-modal",
+      "format": "axona-dacqusb",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "1.2.2.16",
+          []
+        ],
+        [
+          "layout",
+          "raw packets",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "tetrode spikes",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        6
+      ]
+    },
+    {
+      "id": "gin-axona-raw",
+      "format": "axona-dacqusb",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "1.2.2.16",
+          []
+        ],
+        [
+          "layout",
+          "raw packets",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        6
+      ]
+    },
+    {
+      "id": "gin-axona-unit-spikes",
+      "format": "axona-dacqusb",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "1.2.2.16",
+          []
+        ],
+        [
+          "record",
+          "tetrode spikes",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        6
+      ]
+    },
+    {
       "id": "pcrd-cfx-primerpickr",
       "format": "bio-rad-pcrd",
       "source": "figshare:31082878",
@@ -27584,6 +27694,584 @@
       "inferred": [
         0,
         3
+      ]
+    },
+    {
+      "id": "msv000080036-baf-maxis",
+      "format": "bruker-baf",
+      "source": "massive:MSV000080036",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA4",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 10",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "m/z from a Calibrator.ami payload found by scanning",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "maXis",
+          []
+        ],
+        [
+          "writer_version",
+          "otofControl 3",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "msv000088109-baf-solarix",
+      "format": "bruker-baf",
+      "source": "massive:MSV000088109",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA4",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "float32 profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration FT-ICR",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "negative ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "solariX",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "msv000094648-baf-impact2",
+      "format": "bruker-baf",
+      "source": "massive:MSV000094648",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA5",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "MS/MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "m/z from a Calibrator.ami payload found by scanning",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "impact II",
+          []
+        ],
+        [
+          "writer_version",
+          "Bruker otofControl 4",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "mtbls14117-baf-impacthd",
+      "format": "bruker-baf",
+      "source": "metabolights mtbls14117",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA5",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "MS/MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "m/z from a Calibrator.ami payload found by scanning",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "impact HD",
+          []
+        ],
+        [
+          "writer_version",
+          "Bruker otofControl 5",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "mtbls4823-baf-microtofq",
+      "format": "bruker-baf",
+      "source": "metabolights mtbls4823",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA4",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "negative ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "MS/MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "m/z from a Calibrator.ami payload found by scanning",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "micrOTOF-Q",
+          []
+        ],
+        [
+          "writer_version",
+          "otofControl 3",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "mtbls6740-baf-methanolneg-4",
+      "format": "bruker-baf",
+      "source": "metabolights mtbls6740",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA6",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "negative ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "MS/MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "m/z from a Calibrator.ami payload found by scanning",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "timsTOF Pro",
+          []
+        ],
+        [
+          "writer_version",
+          "Bruker otofControl 6",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "pwiz-bruker-csi-apexqe",
+      "format": "bruker-baf",
+      "source": "github:proteowizard/pwiz",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BCC4_3_72_0",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "float32 profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration FT-ICR",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "apex-Qe",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
       ]
     },
     {
@@ -69162,6 +69850,59 @@
       ]
     },
     {
+      "id": "openslide-vms-cmu-1",
+      "format": "hamamatsu-vms",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg restart intervals",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "grid of slide images",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "map at 1/8",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "optimisation file",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        10
+      ]
+    },
+    {
       "id": "hdf5-zenodo14794967-picoharp-histogram-cl1-det2",
       "format": "hdf5",
       "source": "zenodo:14794967",
@@ -82831,6 +83572,31 @@
       "inferred": [
         1,
         1
+      ]
+    },
+    {
+      "id": "gin-rawmcs-raw-mcs-with-header-1",
+      "format": "mcs-raw",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "2.6.10",
+          [
+            "metadata",
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        6
       ]
     },
     {
@@ -111983,6 +112749,75 @@
       ]
     },
     {
+      "id": "zenodo5037046-isyntax-testslide",
+      "format": "philips-isyntax",
+      "source": "zenodo:5037046",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "format_version",
+          "data model 5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "isyntax wavelet method 16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "code blocks 128 x 128",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "scanner software 1.8",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        10
+      ]
+    },
+    {
       "id": "assay-synth-dose-response",
       "format": "plate",
       "source": "synthetic",
@@ -128723,6 +129558,277 @@
       "inferred": [
         1,
         1
+      ]
+    },
+    {
+      "id": "gin-tdt-aep-05",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "tank",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "snippet",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-dataset-0-single-block",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fixed_refuses": [
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-dataset-1-single-block",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fixed_refuses": [
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-epocs-with-offsets-1",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe-off",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-epocs-with-offsets-2",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe-off",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-epocs-with-payload",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        9
       ]
     },
     {

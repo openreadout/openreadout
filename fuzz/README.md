@@ -39,12 +39,15 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_hcs_harmony`, `whole_hcs_cellvoyager`, `whole_hcs_imagexpress` | high-content screening plates: index file(s) plus plane TIFFs, as a bundle |
 | `whole_vsi` | `.vsi`, then `_s_/stack1/frame_t_0.ets` |
 | `whole_mirax` | 3DHISTECH MIRAX: `s.mrxs`, then `s/Slidedat.ini`, `s/Index.dat`, `s/Data0000.dat` |
+| `whole_vms` | Hamamatsu VMS: `s.vms`, the four grid JPEGs, the map, the optimisation file and the macro (seed: the synthetic fixture) |
+| `whole_isyntax` | Philips iSyntax `.isyntax` (seed: the synthetic fixture) |
 | `core_zip` | the shared zip reader (`openreadout_core::zip`) alone: every member decoded and CRC-checked, stored ranges read (seed: a whole RDML file) |
 | `whole_zarr_zip`; `whole_zarr` | OME-Zarr zip store; directory store (`.zgroup`, `.zattrs`, `0/.zarray`, one chunk, v3 `zarr.json` files). No-ops on macOS: `zarrs` registers codecs with `inventory` initializers that Apple's linker rejects under sanitizer coverage; they run in CI (Linux) |
 | `whole_ims`, `whole_nwb`, `whole_hdf5` | Imaris, NWB 2.x and generic HDF5 |
 | `whole_mrc`, `whole_dm`, `whole_emd`; `whole_ser` | electron microscopy; TIA `.ser` + `.emi` |
 | `whole_thermo`, `whole_mzml`, `whole_mzxml`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry; gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
 | `whole_chemstation`, `whole_waters`; `whole_andi`, `whole_shimadzu`; `whole_sciex` | ChemStation `.D` and MassLynx `.raw` directories; ANDI netCDF, Shimadzu `.lcd`; Sciex `.wiff` + `.wiff.scan` |
+| `whole_baf` | Bruker BAF `.d`: `analysis.baf`, then `Calibrator.ami` (seed: the synthetic fixture) |
 | `whole_masshunter` | Agilent MassHunter `.d`: `AcqData/` scan-index schema, scan index, centroid and profile data, calibrations, time segments, contents, devices, sample info and one LC signal pair (seeds: two MetaboLights directories, cut) |
 | `whole_openlab` | Agilent OpenLab CDS injection: `.dx` + `.rx` + sequence `.acaml` in one folder (seed: allotropy's MIT-licensed test result set) |
 | `whole_chromeleon` | Thermo Scientific Chromeleon 7 archive `.cmbx` (a small synthetic archive: header.xml, a protocol-buffers sequence file, one PtsLDiff signal) |
@@ -80,7 +83,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_scn` | Bio-Rad Image Lab `.scn`: MIME multipart parts (nested, with and without lengths), XML headers, 16-bit image data |
 | `whole_unicorn_res`, `whole_unicorn_zip` | Cytiva ÄKTA / UNICORN results: `.res` block directory and descriptors; UNICORN 6/7 export zips with nested padded zips and MS-NRBF records |
 | `whole_rdml`, `whole_eds`, `whole_rex`, `whole_pcrd`, `whole_ixo`, `whole_qpcr_export` | qPCR: RDML (zip or XML), Applied Biosystems `.eds` (zip; seeds in the SDS, 7500 and JSON layouts, written by hand), Rotor-Gene `.rex`, Bio-Rad `.pcrd` (detection and refusal only), LightCycler 480 `.ixo` (a small synthetic object stream with a zlib acquisition store), results exports as text (a CFX CSV; the `.xls` path goes through calamine, see Known issues) |
-| `whole_abf`, `whole_atf`, `whole_neuralynx`, `whole_blackrock`, `whole_intan`, `whole_plexon`, `whole_pl2`, `whole_heka`, `whole_spike2` (`.smr` and `.smrx`), `whole_winwcp`, `whole_openephys`; `whole_spikeglx` | electrophysiology (Plexon: magic-only committed seeds; the corpus files are share-alike and seed `local-seeds/` only); SpikeGLX `.meta` + `.bin` |
+| `whole_abf`, `whole_atf`, `whole_neuralynx`, `whole_blackrock`, `whole_intan`, `whole_plexon`, `whole_pl2`, `whole_heka`, `whole_spike2` (`.smr` and `.smrx`), `whole_winwcp`, `whole_openephys`, `whole_tdt` (`.tsq` + `.tev` block), `whole_axona` (`.set` + `.bin` + tetrode file), `whole_mcs_raw`; `whole_spikeglx` | electrophysiology (Plexon: magic-only committed seeds; the corpus files are share-alike and seed `local-seeds/` only); SpikeGLX `.meta` + `.bin` |
 | `whole_bruker`, `whole_jcamp`, `whole_varian`, `whole_jeol`, `whole_spinsolve` | Bruker NMR experiment directory (`acqus`, `fid`, `pdata/1/procs`, `pdata/1/1r`, `acqu2s`, `ser`); JCAMP-DX; VnmrJ directory (`procpar`, `fid`, `text`); JEOL `.jdf`; Spinsolve experiment directory (`acqu.par`, `data.1d`, `proc.par`, `processing.script`, `spectrum.1d`) |
 | `czi_segment_walk`, `czi_subblock_header`, `czi_metadata_xml` | CZI file header and segment walk; subblock, directory and attachment entries; `ImageDocument` XML |
 | `nd2_chunk_map`, `nd2_lv`, `nd2_variant_xml` | ND2 chunk map (and rescue scan); LV decoder; variant XML decoder, then the normalizers |

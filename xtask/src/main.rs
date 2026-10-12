@@ -617,7 +617,14 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     ("oir", &[("", "oir")]),
     ("vsi", &[("", "vsi")]),
     // whole-slide formats stored as many images: one module directory per format
-    ("wsi", &[("mirax", "mirax")]),
+    (
+        "wsi",
+        &[
+            ("mirax", "mirax"),
+            ("vms", "hamamatsu-vms"),
+            ("isyntax", "philips-isyntax"),
+        ],
+    ),
     ("abf", &[("", "abf")]),
     ("neuralynx", &[("", "neuralynx")]),
     ("blackrock", &[("", "blackrock")]),
@@ -632,6 +639,9 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("spike2", "ced-spike2"),
             ("openephys", "open-ephys"),
             ("winwcp", "winwcp"),
+            ("tdt", "tdt-tank"),
+            ("axona", "axona-dacqusb"),
+            ("mcsraw", "mcs-raw"),
         ],
     ),
     (
@@ -649,7 +659,7 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     ("waters", &[("", "waters-raw")]),
     ("sciex", &[("", "sciex-wiff")]),
     ("mzml", &[("", "mzml")]),
-    ("bruker-tims", &[("", "bruker-tdf")]),
+    ("bruker-tims", &[("baf", "bruker-baf"), ("", "bruker-tdf")]),
     // file-name prefixes per format; lib.rs/binary.rs are checked against all four documents
     (
         "chrom",

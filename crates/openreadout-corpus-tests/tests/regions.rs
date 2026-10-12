@@ -76,6 +76,8 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_nd2::Nd2Reader))
         .with(Box::new(openreadout_vsi::VsiReader))
         .with(Box::new(openreadout_wsi::MiraxReader))
+        .with(Box::new(openreadout_wsi::IsyntaxReader))
+        .with(Box::new(openreadout_wsi::VmsReader))
         .with(Box::new(openreadout_tiff::TiffReader))
         .with(Box::new(openreadout_zarr::ZarrReader))
         .with(Box::new(openreadout_hdf5::ImsReader))

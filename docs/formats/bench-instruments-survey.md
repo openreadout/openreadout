@@ -92,3 +92,22 @@ and cellpy/BEEP/navani/convpot test data trees.
 | Agilent Bioanalyzer `.xad`, TapeStation | none with a licence (Zenodo facet 0) | not implemented (no files) |
 | Luminex xPONENT `.lxb`/`.lxd`, MSD | none on Zenodo (`msd` hits are ZooMS mass-spectrometry files) | not implemented (no files) |
 | Sartorius Incucyte `.vessel` | none | not implemented (no files) |
+
+## 2026-10-12 Bioanalyzer `.xad`
+
+Zenodo 242383 (CC-BY-4.0) holds 20 Bioanalyzer 2100 Expert `.xad` files of one lab, all High
+Sensitivity DNA chips, with the PDF report of each. The files are not encrypted. The XML holds a
+`compressed_data` element whose base64 payload is a 76-byte header (version, uncompressed and
+compressed sizes, the name of the compression library) and a raw deflate stream of UTF-16 XML with
+a `Chipset` root, the same root as the 2100 Expert XML export.
+
+Unlike the export, these files set `PersistSampleSignals` to `false`. The samples carry names,
+wells and settings but no electropherogram, peak table or RIN. The chip holds only the
+continuous detector, voltage, current and temperature streams, with a script-step trace. The
+2100 Expert software cuts that stream into samples and computes every result when it opens the
+file. bioanalyzeR (MIT) reads only the export, so no independent reader produces per-sample
+data from these files, and the PDFs show processed curves only.
+
+Not implemented: the per-sample data would have to be recomputed with the vendor's own
+segmentation and analysis, with nothing independent to check it against. TapeStation native
+files: still none found.

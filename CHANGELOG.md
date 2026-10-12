@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Added
 
+- Bruker BAF `.d` directories (micrOTOF, micrOTOF-Q, maXis, impact, compact, timsTOF in BAF mode, apex and solariX FT-ICR): spectra with their centroids and profiles, retention times, precursors and m/z. The m/z follow the recalibration in `Calibrator.ami` when the run has one and agree with the depositors' vendor-library conversions of seven public runs within 0.12 ppm.
+- Philips iSyntax slides (data model 5): the wavelet pyramid is decoded tile by tile, with the label, macro and ICC profiles as attachments. Regions and whole levels equal libisyntax's pixels exactly on a public slide.
+- Hamamatsu VMS slides: the grid of JPEG images read by restart interval, the map as a coarser level, the macro photo as an attachment, checked against OpenSlide.
+- Tucker-Davis Technologies tanks and blocks (`tdt-tank`): stream stores as traces (a tank's blocks as sweeps), snippets as a `spikes` table and epoc onsets with their durations as an `epocs` table. Checked against Neo on six public blocks and tanks.
+- Axona DacqUSB sessions (`axona-dacqusb`): the raw `.bin` of the active tetrodes in µV and the tetrode spike files as a `spikes` table. Checked against Neo on three public sessions.
+- Multi Channel Systems MC_DataTool binary exports with a header (`mcs-raw`). Checked against Neo on a public file.
 - MIRAX slides exported with overlaps removed, which have no camera position table, are read. Their pixels used to exit 6.
 
 ### Changed

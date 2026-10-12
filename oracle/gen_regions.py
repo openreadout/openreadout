@@ -24,6 +24,9 @@ Readers (third-party, run as black boxes):
   MIRAX .mrxs    OpenSlide (LGPL, black box) `read_region`, alpha composited over the slide's
                  background colour; besides the standard rectangles, 512 x 512 windows centred on
                  camera photos that hold tissue (the standard ones often fall on empty glass)
+  VMS .vms       OpenSlide (LGPL, black box) `read_region`, as for MIRAX
+  iSyntax        libisyntax (BSD-2-Clause) through pyisyntax (MIT) `read_region`, bit-exact; also
+                 512 x 512 windows on tissue
   OME-Zarr       zarr-python 3 (MIT) slicing the multiscales dataset of level L
   ND2            nd2 (BSD-3-Clause) to_xarray sliced (a format without tiles: the generic path)
 
@@ -449,6 +452,38 @@ def openslide_targets(path: Path, use_levels: Callable[[int], Sequence[int]],
             [Target(0, levels, planes, read, use_levels(o.level_count), whole=True, extra_regions=extra)])
 
 
+def isyntax_targets(path: Path, use_levels: Callable[[int], Sequence[int]]) -> Tuple[str, List[Target]]:
+    """Philips iSyntax via libisyntax (BSD-2-Clause) through pyisyntax 0.1.7 (MIT): RGB of
+    `read_region` (alpha is always 255; tiles the file does not store are white). Besides the
+    standard rectangles, 512 x 512 windows on tissue found on the coarsest level."""
+    import isyntax as pyisyntax
+
+    s = pyisyntax.ISyntax.open(path)
+    tw, th = s.tile_width, s.tile_height
+    levels = [(li, w, h, tw, th) for li, (w, h) in enumerate(s.level_dimensions)]
+    lo = s.level_count - 1
+    lw, lh = s.level_dimensions[lo]
+    thumb = s.read_region(0, 0, lw, lh, level=lo)[..., :3].astype(float).mean(axis=2)
+    ys, xs = np.nonzero(thumb < 200)
+    rng = np.random.default_rng(7)
+    picks = [(int(xs[k]), int(ys[k])) for k in rng.choice(len(xs), size=min(3, len(xs)), replace=False)] if len(xs) else []
+
+    def extra(level: int, w: int, h: int) -> List[Tuple[int, int, int, int]]:
+        out = []
+        for (px, py) in picks:
+            cx, cy = px << (lo - level), py << (lo - level)
+            rw, rh = min(512, w), min(512, h)
+            out.append((min(max(cx - rw // 2, 0), w - rw), min(max(cy - rh // 2, 0), h - rh), rw, rh))
+        return out
+
+    def read(level: int, c: int, z: int, t: int, x: int, y: int, w: int, h: int) -> np.ndarray:
+        del c, z, t
+        return np.ascontiguousarray(s.read_region(x, y, w, h, level=level)[..., :3])
+
+    return ("libisyntax 92471dbf6c70 via pyisyntax 0.1.7 (BSD-2-Clause / MIT)",
+            [Target(0, levels, [(0, 0, 0)], read, use_levels(s.level_count), whole=True, extra_regions=extra)])
+
+
 def last_and_mid(n: int) -> List[int]:
     return sorted({0, n // 2, n - 1})
 
@@ -521,6 +556,13 @@ FILES: Dict[str, Tuple[str, bool, Callable[[Path], Tuple[str, List[Target]]]]] =
                                  lambda p: openslide_targets(p, lambda n: [0, 2, 5, n - 1])),
     "openslide-Philips-4.tiff": ("openslide-Philips-4.tiff", True,
                                  lambda p: openslide_targets(p, lambda n: [0, 1, 4, n - 1])),
+    # Hamamatsu VMS: OpenSlide's levels (slide images at 1, 1/2, 1/4; the map at 1 to 1/8)
+    "openslide-vms-cmu-1-zip/CMU-1-40x - 2010-01-12 13.24.05.vms": (
+        "openslide-vms-cmu-1-zip/CMU-1-40x - 2010-01-12 13.24.05.vms", True,
+        lambda p: openslide_targets(p, lambda n: range(n))),
+    # Philips iSyntax: libisyntax's pixels, bit-exact
+    "zenodo5037046-isyntax/testslide.isyntax": ("zenodo5037046-isyntax/testslide.isyntax", False,
+                                                lambda p: isyntax_targets(p, lambda n: [0, 1, 3, 5, n - 1])),
     # a high-content screening field (A01 field 1, 4 channels)
     "hcs/harmony-idr0034/Images/Index.idx.xml": ("hcs/harmony-idr0034/Images/Index.idx.xml", False,
                                                  lambda p: harmony_targets(p.parent, 0, "r01c01f01p01", 4)),
