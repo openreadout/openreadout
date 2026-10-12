@@ -48,13 +48,23 @@
       }
     },
     "rows": {
-      "description": "Row-major values; `rows[r][c]`. Non-finite values serialize as `null`.",
+      "description": "Row-major values; `rows[r][c]`. Non-finite values serialize as `null`. A text column\nholds codes here; `texts` has its text.",
       "type": "array",
       "items": {
         "type": "array",
         "items": {
           "type": "number",
           "format": "double"
+        }
+      }
+    },
+    "texts": {
+      "description": "Text columns (`info` → `tables[].columns[].extra.categories`) by column name: the text\nof each returned row, so `texts[name][r]` is what `rows[r][c]` codes. Absent when the\ntable has no text column.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
         }
       }
     },

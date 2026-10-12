@@ -741,6 +741,15 @@ mod tests {
         assert!(ds.read_trace(1, 0, 0, 5).is_err());
         let tab = ds.read_table(0, 1, 10).unwrap();
         assert_eq!(tab.columns[1], vec![1.0, 0.0]);
+        // a table slice names the text of each coded row
+        let mut slice = crate::model::TableSlice {
+            columns: vec!["step".into(), "kind".into()],
+            rows: vec![vec![2.0, 1.0], vec![3.0, 0.0]],
+            ..Default::default()
+        };
+        slice.attach_texts(&info.tables[0]);
+        assert_eq!(slice.texts["kind"], ["CV", "CC"]);
+        assert!(!slice.texts.contains_key("step"));
         let r = ds.check().unwrap();
         assert!(r.ok);
         assert!(r.findings.iter().any(|f| f.code == "non_finite_values"));
