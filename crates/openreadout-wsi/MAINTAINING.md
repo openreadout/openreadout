@@ -41,7 +41,7 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `mirax` | [format note](../../docs/formats/mirax.md), [provenance log](../../docs/provenance/mirax.md) | medium | prior art | 7 / 7 | 1 | - |
+| `mirax` | [format note](../../docs/formats/mirax.md), [provenance log](../../docs/provenance/mirax.md) | medium | prior art | 8 / 8 | 1 | - |
 | `philips-isyntax` | [format note](../../docs/formats/philips-isyntax.md), [provenance log](../../docs/provenance/philips-isyntax.md) | low | prior art | 1 / 1 | 1 | - |
 | `hamamatsu-vms` | [format note](../../docs/formats/hamamatsu-vms.md), [provenance log](../../docs/provenance/hamamatsu-vms.md) | low | prior art | 1 / 1 | 1 | - |
 
@@ -100,7 +100,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `hamamatsu-vms` | layout | `map at 1/8` | metadata, pixels | 1 | 1 | `openslide-vms-cmu-1` |
 | `hamamatsu-vms` | layout | `optimisation file` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
 | `hamamatsu-vms` | sample_layout | `uint8x3` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
-| `mirax` | acquisition | `brightfield` | pixels | 5 | 5 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
+| `mirax` | acquisition | `brightfield` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
 | `mirax` | acquisition | `fluorescence filters as colour components` | pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
 | `mirax` | codec | `bmp` | pixels | 1 | 1 | `openslide-mirax2-2-4-bmp` |
 | `mirax` | codec | `jpeg` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
@@ -136,7 +136,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/isyntax_synthetic.rs`](tests/isyntax_synthetic.rs), [`tests/mirax_synthetic.rs`](tests/mirax_synthetic.rs), [`tests/vms_synthetic.rs`](tests/vms_synthetic.rs)
 - committed fixtures: 13 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_isyntax`, `whole_mirax`, `whole_vms`
-- corpus inputs by tier: full 3, heldout 1, smoke 1, standard 5
+- corpus inputs by tier: full 4, heldout 1, smoke 1, standard 5
 - golden snapshots: [`corpus/snapshots/mirax.jsonl`](../../corpus/snapshots/mirax.jsonl), [`corpus/snapshots/philips-isyntax.jsonl`](../../corpus/snapshots/philips-isyntax.jsonl), [`corpus/snapshots/hamamatsu-vms.jsonl`](../../corpus/snapshots/hamamatsu-vms.jsonl)
 
 ### Open new-variant intakes
