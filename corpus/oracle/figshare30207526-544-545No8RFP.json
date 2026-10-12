@@ -1,0 +1,50 @@
+{
+ "id": "figshare30207526-544-545No8RFP",
+ "file": "figshare30207526-544-545No8RFP.lsm",
+ "size": 386730,
+ "sha256": "3b55ecbdaf6446c78d9589fe3e43949453bafea7988e78ddab4a5f155d1d7f56",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.7547871249561726,
+    "y": 0.7547871249561726
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8bdf9449739cdf21b0a5705070f28fb1"
+    }
+   ],
+   "check_objective": "Plan-Apochromat 10x/0.45 M27",
+   "check_acquired_at": "2023-05-16T14:44:54"
+  }
+ ]
+}

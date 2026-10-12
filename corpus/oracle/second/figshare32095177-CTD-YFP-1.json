@@ -1,0 +1,20 @@
+{
+ "id": "figshare32095177-CTD-YFP-1",
+ "file": "figshare32095177-CTD-YFP-1.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23e68fab862362985b1a811d658dfa09"
+    }
+   ]
+  }
+ ]
+}

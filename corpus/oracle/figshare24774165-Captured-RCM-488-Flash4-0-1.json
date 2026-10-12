@@ -1,0 +1,82 @@
+{
+ "id": "figshare24774165-Captured-RCM-488-Flash4-0-1",
+ "file": "figshare24774165-Captured-RCM-488-Flash4-0-1.nd2",
+ "size": 2306048,
+ "sha256": "2a474c7b46931a72ef82c95839ab2df787854dda63579fac5fcb55e9faf5b8b6",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.07222222222222201,
+    "y": 0.07222222222222201,
+    "z": null
+   },
+   "channel_names": [
+    "Mono"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d743f8a1d2bb98bb1e014464a0bbf898"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Mono",
+    "color": "#00FF00",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "RCM"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 16291974.808844984,
+    "tags": {
+     "CameraTemp1": -70.37999725341797,
+     "Camera_ExposureTime1": 20.0,
+     "Camera_ExposureTime2": 3015.0561804511276,
+     "PFS_OFFSET": 6985,
+     "PFS_STATUS": 3,
+     "X": -6770.700000000001,
+     "Y": -20702.800000000003,
+     "Z": 4056.7619019939048,
+     "Z1": 4108.38,
+     "Z2": 51.61809800609556
+    }
+   }
+  ],
+  "acquired_at": "2023-03-23T13:14:49.894Z",
+  "acquired_at_unix_ms": 1679577289894
+ },
+ "text_info": {
+  "description": "Camera Name: Flash4.0, SN:003071\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\n Name: Mono\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Re-scan Confocal\r\n Camera Settings:   Exposure: 1.51 s\r\n  Binning: 1x1\r\n  Scan Mode: Fast\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  External Phase, position: 0\r\n  Polarizer, position: Out\r\n  DIC Prism, position: Out\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 1 (Empty)\r\n  Nikon Ti2, FilterChanger(EM Wheel1): 1 (Empty)\r\n  Nikon Ti2, Shutter(FL-Lo): Closed\r\n  Nikon Ti2, Shutter(FL-Up): Closed\r\n  Nikon Ti2, Shutter(DIA LED): Closed\r\n  Nikon Ti2, Illuminator(DIA): Off\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 23.8\r\n  LightPath: L100\r\n  Analyzer Slider: Extracted\r\n  Analyzer Cube: Extracted\r\n  Condenser: 4 ()\r\n  PFS, state: Off\r\n  PFS, offset: 6985\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Zoom: 1.00x\r\n  Eyepiece Ports:\r\n     Port 1: On  (Camera)\r\n     Port 2: Off  (Eye)\r\n  \r\n  LAPP Lower Ports:\r\n     Port 1: Off  (EPI)\r\n     Port 2: On  (N-STORM Direct XY-F-Zoom)\r\n  \r\n  N-STORM  X: 0.0\r\n  N-STORM  Y: 0.0\r\n  N-STORM  Focus: 0.0\r\n  N-STORM  Zoom: 1x\r\n  Spectra/AuraII, Shutter(Spectra): Closed\r\n  Spectra/AuraII, MultiLaser(Spectra):\r\n     Line:1; ExW:395; Power: 52.0; Off\r\n     Line:2; ExW:470; Power: 48.0; Off\r\n     Line:3; ExW:555; Power: 70.0; Off\r\n     Line:4; ExW:640; Power:  7.0; Off\r\n  \r\n  Nikon LU-NV, Shutter(AOTF External(1)1/2/): Closed\r\n  Nikon LU-NV, MultiLaser(External):\r\n     Line:1; ExW:405; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:2; ExW:445; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:3; ExW:488; Power: 10.0; Off; ND:0; Head Power:100.0\r\n     Line:4; ExW:514; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:5; ExW:561; Power:  0.0; Off; ND:0; Head Power:100.0\r\n     Line:6; ExW:647; Power: 10.0; Off; ND:0; Head Power:100.0\r\n  \r\n  LU-NV Switcher:\r\n     Port 1: On  (TIRF)\r\n     Port 2: Off  (Bruker)\r\n  \r\n  NIDAQ, Shutter(LUN-4 RCM): Active\r\n  NIDAQ, Shutter(LUN4SH): Open\r\n  NIDAQ, MultiLaser(LUN-4 RCM):\r\n     Line:1; ExW:405; Power:  0.0; Off\r\n     Line:2; ExW:488; Power: 15.0; On\r\n     Line:3; ExW:561; Power: 20.0; Off\r\n     Line:4; ExW:640; Power: 30.0; Off\r\n\r\n",
+  "capturing": "Flash4.0, SN:003071\r\nExposure: 1.51 s\r\nBinning: 1x1\r\nScan Mode: Fast",
+  "date": "3/23/2023  2:14:49 PM",
+  "optics": "Plan Apo \u03bb 60x Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=1, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=2048, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=1)"
+}

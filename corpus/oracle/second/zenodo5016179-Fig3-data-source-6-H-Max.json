@@ -1,0 +1,26 @@
+{
+ "id": "zenodo5016179-Fig3-data-source-6-H-Max",
+ "file": "zenodo5016179-Fig3-data-source-6-H-Max.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5483b5947d6b5c4d08fc815cce027e37"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "234727693edb1bf07e12f466910c7503"
+    }
+   ]
+  }
+ ]
+}

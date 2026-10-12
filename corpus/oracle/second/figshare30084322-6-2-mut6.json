@@ -1,0 +1,26 @@
+{
+ "id": "figshare30084322-6-2-mut6",
+ "file": "figshare30084322-6-2-mut6.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e7fb72c6ab7f59e2bb4eb517244c0666"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8971b59c8c846d3f77e7427b0694b8db"
+    }
+   ]
+  }
+ ]
+}

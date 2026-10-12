@@ -170,11 +170,14 @@ The LSM info record (little-endian) — offsets in bytes:
 | 90 | u16 | `spectral_scan` | non-zero for lambda stacks |
 | 108 | u32 | (offset) | channel colours and names sub-record |
 | 112 | f64 | `time_interval_s` | seconds |
+| 124 | u32 | (offset) | scan information (`scan`, `LsmScanInfo`), below |
 | 132 | u32 | (offset) | time stamps sub-record: i32 size (= 8 + 8·n), i32 n, n × f64 seconds |
 | 204 | u32 | (offset) | channel wavelength ranges: i32 n, n × (f64, f64) metres |
 | 264, 268 | i32 | `dim_positions`, `dim_tiles` | positions and mosaic tiles (LSM 4.2+) |
 
 Channel colours/names sub-record: u32 size, u32 colour count, u32 name count, u32 colour offset, u32 name offset, u32 mono; colours are RGBA bytes; names are u32-length-prefixed NUL-terminated strings. Pages alternate data and thumbnail (thumbnails have NewSubfileType 1 and are listed as attachments). Channels are the samples of each data page. Data pages run T outer, Z inner, per position. In compressed LSM files `StripByteCounts` holds uncompressed sizes; the reader uses the distance to the next strip instead. Time increment = (last − first time stamp) / (T − 1) when stamps exist, else `time_interval_s`.
+
+Scan information (`parse_scan_info`): a tree of entries, each a u32 code, a u32 type (2 text, 4 i32, 5 f64, 0 none) and a u32 size, then the value. It starts with the recording entry 0x10000000; list codes (0x20000000, 0x30000000, 0x60000000, 0x80000000, 0xA0000000, 0xC0000000, 0x11000000, 0x13000000) and entry codes (0x40000000, 0x50000000, 0x70000000, 0x90000000, 0xB0000000, 0xD0000000, 0x12000000, 0x14000000) open a level and 0xFFFFFFFF closes one. Of the recording level we read 0x10000001 (`recording_name`, reported as the image name when the file has one position), 0x10000004 (`objective`: the text, and from it the magnification and NA of its `<mag>x/<NA>` token and the immersion of an `Oil`, `W`/`Water`, `Glyc` or `Imm` word, `objective_from_text`) and 0x10000036 (`sample0_time_days`: an OLE Automation date in the instrument's local time, reported as `acquired_at` without a zone when it falls in 1990-2100).
 
 ## MetaMorph STK, MetaSeries and `.nd` series (layout from corpus files and tifffile's public documentation)
 
@@ -357,7 +360,7 @@ Codes (EER: `eer_bad_frame`, `eer_dose_mismatch`, `eer_events`, § EER): `trunca
 | `OmeModulo`, `MODULO_NS`, `modulo`, `along`, `type_description`, `unit`, `start`, `step`, `end`, `labels`, `size`, `parent_size`, `parse_modulo`, `modulo_json` | OME Modulo sub-dimensions (`ModuloAlongZ`/`C`/`T`) and `images[].extra.modulo` |
 | `length_to_um`, `time_to_s`, `unit_to_um` | unit conversion |
 | `ImageJInfo`, `keys`, `channels`, `slices`, `frames`, `hyperstack`, `unit`, `spacing`, `finterval`, `mode`, `parse_description`, `page_of`, `parse_binary` | ImageJ description and binary metadata |
-| `LsmInfo`, `LSM_INFO_MAGICS`, `magic`, `record_size`, `dim_x`, `dim_y`, `dim_z`, `dim_channels`, `dim_time`, `data_type`, `voxel_size_x_m`, `voxel_size_y_m`, `voxel_size_z_m`, `scan_type`, `spectral_scan`, `time_interval_s`, `dim_positions`, `dim_tiles`, `channel_names`, `channel_colors`, `time_stamps`, `channel_wavelengths_m`, `stack_axes` | Zeiss LSM record |
+| `LsmInfo`, `LSM_INFO_MAGICS`, `magic`, `record_size`, `dim_x`, `dim_y`, `dim_z`, `dim_channels`, `dim_time`, `data_type`, `voxel_size_x_m`, `voxel_size_y_m`, `voxel_size_z_m`, `scan_type`, `spectral_scan`, `time_interval_s`, `dim_positions`, `dim_tiles`, `channel_names`, `channel_colors`, `time_stamps`, `channel_wavelengths_m`, `stack_axes`, `scan`, `LsmScanInfo`, `recording_name`, `objective`, `sample0_time_days`, `parse_scan_info`, `objective_from_text` | Zeiss LSM record |
 | `AperioDescription`, `parse_aperio`, `number`, `acquired_at` | Aperio description (`header`, `keys`, `text` as above) |
 | `QpiPage`, `parse_qpi`, `image_type`, `magnification`, `pixel_size_um`, `slide_id`, `acquisition_software`, `instrument_type` | PerkinElmer QPI page XML (`name`, `color`, `objective`, `fields` as above) |
 | `MicroManagerPlane`, `parse_micromanager`, `json`, `channel`, `exposure_ms`, `camera`, `time` | Micro-Manager JSON (`pixel_size_um` as above) |

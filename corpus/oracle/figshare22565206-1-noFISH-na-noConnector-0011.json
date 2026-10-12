@@ -1,0 +1,99 @@
+{
+ "id": "figshare22565206-1-noFISH-na-noConnector-0011",
+ "file": "figshare22565206-1-noFISH-na-noConnector-0011.nd2",
+ "size": 4648960,
+ "sha256": "7b631b611efc75c7098e94a82c64267e71b9fc2d67936ab05bbe20f086c1a479",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.216666666666667,
+    "y": 0.216666666666667,
+    "z": null
+   },
+   "channel_names": [
+    "DIC N1",
+    "640nm"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e1af5c045b831bf0084acc9a8675d91"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8ca78bebe62126385363be4a6af00a3a"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DIC N1",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": -1.0,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "640nm",
+    "color": "#FF00FF",
+    "excitation_nm": null,
+    "emission_nm": 700.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1572.0808999999426,
+    "tags": {
+     "CameraTemp1": -70.0,
+     "Camera_ExposureTime1": 7000.0,
+     "PFS_OFFSET": 7149,
+     "PFS_STATUS": 3,
+     "X": 26567.7,
+     "Y": -2145.6,
+     "Z": 2553.54,
+     "Z1": 2663.54,
+     "Z2": 110.0
+    }
+   }
+  ],
+  "acquired_at": "2022-02-23T15:51:05.090Z",
+  "acquired_at_unix_ms": 1645631465090
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(2)\r\nCamera Name: Andor DU-888 X-11624\r\nNumerical Aperture: 1.2\r\nRefractive Index: 1.333\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: DIC N1\r\n Component Count: 1\r\n Modality: Brightfield, Spinning Disk Confocal\r\n Camera Settings:   \r\n  Camera Type: Andor DU-888\r\n  Binning: 1x1\r\n  Exposure: 7 s\r\n  Multiplier: 300\r\n  Readout Speed: 30 MHz\r\n  Conversion Gain: Gain 1\r\n  Vertical Shift Speed: 4.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -70.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: In\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 5 (ANALY)\r\n  Nikon Ti2, Shutter(FL-Eye): Closed\r\n  LightPath: L100\r\n  Analyzer Cube: Inserted\r\n  Condenser: 5 (N1)\r\n  PFS, state: Off\r\n  PFS, offset: 7149\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Sola II, Shutter(EPI): Closed\r\n  Sola II, Illuminator(EPI) Iris intensity: 50.0\r\n  NIDAQ, Shutter(CSU): Open\r\n  NIDAQ, Shutter(DIA): Active\r\n  NIDAQ, MultiLaser(CSU):\r\n     Line:1; ExW:405; Off\r\n     Line:2; ExW:488; Off\r\n     Line:3; ExW:561; Off\r\n     Line:4; ExW:640; Off\r\n  \r\n  CSU-W1, FilterChanger(Light Path Changer): 3 (Left Camera)\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Quad)\r\n  CSU-W1, FilterChanger(LEFT Camera Em): 1 ( Quad (Em))\r\n  CSU-W1, FilterChanger(BACK Camera Em): 8 (Empty)\r\n  CSU-W1, Shutter(SAFETY): Closed\r\n  CSU-W1 Aperture: 10\r\n  CSU-W1, Observation Mode: Confocal\r\n  CSU-W1, rpm: 4000\r\n  CSU-W1, Disk Position: 25 \u00b5m\r\nPlane #2:\r\n Name: 640nm\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   \r\n  Camera Type: Andor DU-888\r\n  Binning: 1x1\r\n  Exposure: 400 ms\r\n  Multiplier: 300\r\n  Readout Speed: 30 MHz\r\n  Conversion Gain: Gain 1\r\n  Vertical Shift Speed: 4.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -70.0\u00b0C\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  DIC Prism, position: In\r\n  Bertrand Lens, position: Out\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, Shutter(FL-Eye): Closed\r\n  LightPath: L100\r\n  Analyzer Cube: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 7149\r\n  PFS, mirror: Inserted\r\n  PFS, Dish Type: Glass\r\n  Sola II, Shutter(EPI): Closed\r\n  Sola II, Illuminator(EPI) Iris intensity: 50.0\r\n  NIDAQ, Shutter(CSU): Active\r\n  NIDAQ, Shutter(DIA): Closed\r\n  NIDAQ, MultiLaser(CSU):\r\n     Line:1; ExW:405; Power: 39.8; Off\r\n     Line:2; ExW:488; Power: 10.0; Off\r\n     Line:3; ExW:561; Power: 10.0; Off\r\n     Line:4; ExW:640; Power: 35.0; On\r\n  \r\n  CSU-W1, FilterChanger(Light Path Changer): 3 (Left Camera)\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Quad)\r\n  CSU-W1, FilterChanger(LEFT Camera Em): 5 (Cy5 (Em))\r\n  CSU-W1, FilterChanger(BACK Camera Em): 8 (Empty)\r\n  CSU-W1, Shutter(SAFETY): Open\r\n  CSU-W1 Aperture: 10\r\n  CSU-W1, Observation Mode: Confocal\r\n  CSU-W1, rpm: 4000\r\n  CSU-W1, Disk Position: 25 \u00b5m",
+  "capturing": "Andor DU-888 X-11624\r\nSample 1:\r\n  \r\n  Camera Type: Andor DU-888\r\n  Binning: 1x1\r\n  Exposure: 7 s\r\n  Multiplier: 300\r\n  Readout Speed: 30 MHz\r\n  Conversion Gain: Gain 1\r\n  Vertical Shift Speed: 4.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -70.0\u00b0C\r\nSample 2:\r\n  \r\n  Camera Type: Andor DU-888\r\n  Binning: 1x1\r\n  Exposure: 400 ms\r\n  Multiplier: 300\r\n  Readout Speed: 30 MHz\r\n  Conversion Gain: Gain 1\r\n  Vertical Shift Speed: 4.3 \u00b5s\r\n  Vertical Clock Voltage Amplitude: Normal\r\n  Trigger Mode: Internal\r\n  Temperature: -70.0\u00b0C",
+  "date": "2/23/2022  9:51:05 AM",
+  "optics": "Plan Apo VC 60xA WI DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=2, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=4096, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

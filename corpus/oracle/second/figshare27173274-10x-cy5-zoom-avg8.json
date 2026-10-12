@@ -1,0 +1,38 @@
+{
+ "id": "figshare27173274-10x-cy5-zoom-avg8",
+ "file": "figshare27173274-10x-cy5-zoom-avg8.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8b729e7166c3143c62d773f2aa72564c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6bb26b241a5fd756db0d2c22350a59d2"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8102080780eef9be1a10e74be899f385"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "076aa01338b80b14238747592060b499"
+    }
+   ]
+  }
+ ]
+}

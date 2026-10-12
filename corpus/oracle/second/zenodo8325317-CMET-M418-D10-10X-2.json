@@ -1,0 +1,26 @@
+{
+ "id": "zenodo8325317-CMET-M418-D10-10X-2",
+ "file": "zenodo8325317-CMET-M418-D10-10X-2.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2752,
+   "size_y": 2208,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e6bea12af2e5882e801ec138e66d143"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1b95cc2211b2e4126f13fd5b75d9608a"
+    }
+   ]
+  }
+ ]
+}

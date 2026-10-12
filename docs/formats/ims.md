@@ -108,7 +108,7 @@ rounding); one cell's ids are renumbered in the exports (values equal in order).
 | `ImsLevel`, `level`, `size_x`, `size_y`, `size_z` | one resolution level and its cropped extent |
 | `version`, `levels`, `timepoints`, `channels`, `pixel_type` | root `ImarisVersion`, levels, time points, channels, sample type |
 | `ims_color`, `ims_datetime` | `r g b` → `#RRGGBB`; date text → ISO-8601 local time |
-| `PlaneDataset`, `path`, `shape`, `big_endian`, `read_plane`, `filter_names`, `chunk_shape`, `chunk_count` | a (z, y, x) dataset read one plane at a time (`h5util`) |
+| `PlaneDataset`, `path`, `shape`, `big_endian`, `read_plane`, `filter_names`, `chunk_shape`, `chunk_count`, `chunk_depth` | a (z, y, x) dataset read one plane at a time (`h5util`); `chunk_depth`: z planes per stored chunk |
 | `PlaneSource`, `h5`, `fs`, `path`, `format` | where a plane read finds its bytes: the parsed file, the namespace and path, the format id errors name (`h5util`) |
 | `FILTER_DEFLATE`, `FILTER_SHUFFLE`, `FILTER_FLETCHER32`, `FILTER_LZ4` | HDF5 filter ids decoded (`h5util`) |
 | `FieldValue` { `Number`, `Text` }, `Records` { `fields`, `text`, `rows` }, `read_records` | compound records (`ims_scene`) |

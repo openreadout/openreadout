@@ -1,0 +1,38 @@
+{
+ "id": "figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale",
+ "file": "figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bc01dbeb5a50379dd85917b9f7bcc06c"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "001e7abeaff32344a1ee2071c69b305f"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0821d99b47d1aac6f9456218a6b92112"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fe51a471319040fb9809abbfc91df962"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "id": "figshare30581381-CandidaConA1",
+ "file": "figshare30581381-CandidaConA1.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1912,
+   "size_y": 1912,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2f52b26c8439ee34e799938ae57872ea"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,267 @@
+{
+ "id": "figshare31445317-PLA-infected-cells",
+ "file": "figshare31445317-PLA-infected-cells.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Rep-SMEK1 1",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "75e9ea57e9dd7298092217096997aa22"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eebff1b1c7164cdbdee78c663659f130"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "Rep-SMEK1 2",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "87de02d1b54fdcbb8cc2df2a89a21d49"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "42338b1713cbdc555a56693f89eef314"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Rep-SMEK1 3",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0f53dd08077d3165c07060904368924e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a969626e461d3f36bee1ff1dba71cd4f"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Rep-SMEK1 4 ",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "576edda38c8b81a39d0746bc173850df"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c145cf806abb84eebfb9073ec94f8938"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "SMEK1 R 1",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "31aa0313975e148eb0ef3f512591f0c7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "727624b8407fe2a3f34e76deeae0488e"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "SMEK1 R 2",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "80a679941dd9a8f20529d51a7fc1a526"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d2775d19bf7d93923ab4eeae958dea3e"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "SMEK1 R 3",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "03169723a037742d977877bd62903f7a"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "30c5f88f603fcf5ba68354760e76d8e1"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "Rep M 1",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "116958cd32308bd374e8ce5c7ca58188"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ecb5858d959908fde5bbd62dd3b8cc34"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "Rep M 2",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "60813ff5fabeffe20d4fa5d698f91e6b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b66dae3e4d6b502dbd5649a4912e9387"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "Rep M 3 ",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "393244af20daac82e50504e8601039cd"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "269c14f9278bc1eaa6d8694369cfb8d6"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "No prim Ab 1",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "db43c45f11eea6044a05570cfea94989"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7edca2da94fe68d7dcd443a9803b8b11"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "No prim Ab 2",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "506017c565f978933cf93375357550a9"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8668eba88837b07d34ad5df4cc287fbe"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "No prim Ab 3",
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ad174b3800db654551f7487b41e48fa7"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "98a3781469b56208f52acaca9329d86f"
+    }
+   ]
+  }
+ ]
+}

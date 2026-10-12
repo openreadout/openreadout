@@ -1689,7 +1689,15 @@ impl Dataset for Nd2Dataset {
         let layout_note = self.layout.layout_note.clone();
         let f = self.handle()?;
         let mut frames_ok = 0u32;
+        let mut seen: std::collections::HashSet<u32> = std::collections::HashSet::new();
         for e in &map {
+            if let Some(i) = e
+                .name
+                .strip_prefix("ImageDataSeq|")
+                .and_then(|n| n.trim_end_matches('!').parse::<u32>().ok())
+            {
+                seen.insert(i);
+            }
             match read_chunk_header(f, &path, e.chunk_offset, file_len) {
                 Ok(hd) => {
                     if hd.name != e.name {
@@ -1736,10 +1744,29 @@ impl Dataset for Nd2Dataset {
                 ),
             }
         }
+        // A frame can be missing even when the chunk count adds up: a file with frames 0..=2899
+        // but no 973 holds the 2899 chunks its sequence count declares.
+        // (Only then: expected_frames is at most the number of chunks in the map.)
+        let absent: Vec<u32> = if frames_ok >= expected_frames {
+            (0..expected_frames).filter(|i| !seen.contains(i)).collect()
+        } else {
+            Vec::new()
+        };
         if frames_ok < expected_frames {
             r.push(Finding::error(
                 "missing_planes",
                 format!("{frames_ok} of {expected_frames} frames present"),
+            ));
+        } else if !absent.is_empty() {
+            let first: Vec<String> = absent.iter().take(10).map(u32::to_string).collect();
+            r.push(Finding::error(
+                "missing_planes",
+                format!(
+                    "{} of the {expected_frames} declared frames have no chunk (frame {}{}); their planes cannot be read",
+                    absent.len(),
+                    first.join(", "),
+                    if absent.len() > 10 { ", ..." } else { "" }
+                ),
             ));
         }
         if let Some(n) = layout_note {

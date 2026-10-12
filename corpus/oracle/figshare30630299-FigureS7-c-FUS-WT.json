@@ -1,0 +1,58 @@
+{
+ "id": "figshare30630299-FigureS7-c-FUS-WT",
+ "file": "figshare30630299-FigureS7-c-FUS-WT.czi",
+ "size": 637312,
+ "sha256": "7fdcb6a83b31db9116f53997692ea792cde2db4e725137cf47cd2dfa6bd04452",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    2,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.058572544688807,
+    "y": 0.058572544688807,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "56d7e6b482a408ea1ce30e5974fff817"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8bbe87dc8fd315ed68765520baf68eb7"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.058572544688807,
+  "y": 0.058572544688807,
+  "z": 0.0
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

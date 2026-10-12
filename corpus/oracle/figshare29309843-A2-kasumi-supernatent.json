@@ -1,0 +1,112 @@
+{
+ "id": "figshare29309843-A2-kasumi-supernatent",
+ "file": "figshare29309843-A2-kasumi-supernatent.nd2",
+ "size": 17666048,
+ "sha256": "eadc8b8432b6b0dc94293fbee3e2f23024a9c760949bf424d00acbddd41310a9",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2942,
+   "size_y": 1484,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1484, 'X': 2942}",
+   "physical_size_um": {
+    "x": 2.485922277608956,
+    "y": 2.485922277608956,
+    "z": null
+   },
+   "channel_names": [
+    "FITC",
+    "TD"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "74174be31eebdc496f080d87b6b5dfdf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4da1343dec76c3303785e614568d4a9f"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "FITC",
+    "color": "#00FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "TD",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": null,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "laserScanConfocal",
+     "transmitDetector"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 1534844.5967842455,
+    "tags": {
+     "Camera_CH1LaserPower": 3.0,
+     "Camera_CH1PMTHighVoltage": 80,
+     "Camera_CH2LaserPower": 3.0,
+     "Camera_CH2PMTHighVoltage": 108,
+     "Camera_CH3LaserPower": 3.0,
+     "Camera_CH3PMTHighVoltage": 80,
+     "Camera_CH4LaserPower": 0.0,
+     "Camera_CH4PMTHighVoltage": 0,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 65,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "PFS_OFFSET": 5512,
+     "PFS_STATUS": 5,
+     "X": 13029.5,
+     "Y": -26000.0,
+     "Z": 4150.85,
+     "Z1": 4150.85
+    }
+   }
+  ],
+  "acquired_at": "2019-06-17T14:19:38.000Z",
+  "acquired_at_unix_ms": 1560781178000
+ },
+ "text_info": {
+  "description": "Camera Name: Nikon C2plus\r\nNumerical Aperture: 0.45\r\nRefractive Index: 1\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: FITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU3\r\n  {Optical Path Mode}: Auto\r\n  {First Dichroic Mirror}: 405/488/561\r\n  {First Filter Cube}: 447/60\r\n  {Second Filter Cube}: 525/50 561 LP\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 3.0\r\n  \t{PMT HV}: 108\t{PMT Offset}: 0\r\n  TD\t{PMT HV}: 65\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 20.00\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 1\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH1][CH2,TD][CH3]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Head type}: Legacy (FOV18)\r\n  {Scanner Zoom}: 1.000 (25mm FOV) / 1.000 (18mm legacy FOV)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: -1.0\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 5512\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: TD\r\n Component Count: 1\r\n Modality: Brightfield, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU3\r\n  {Optical Path Mode}: Auto\r\n  {First Dichroic Mirror}: 405/488/561\r\n  {First Filter Cube}: 447/60\r\n  {Second Filter Cube}: 525/50 561 LP\r\n  CH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 3.0\r\n  \t{PMT HV}: 108\t{PMT Offset}: 0\r\n  TD\t{PMT HV}: 65\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 20.00\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 1\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH1][CH2,TD][CH3]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Head type}: Legacy (FOV18)\r\n  {Scanner Zoom}: 1.000 (25mm FOV) / 1.000 (18mm legacy FOV)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 5\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Remote Switch On\r\n  Nikon Ti, Illuminator(Illuminator-DIA): Off\r\n  Nikon Ti, Illuminator(Illuminator-DIA) Voltage: -1.0\r\n  LightPath: L100\r\n  PFS-S, state: On\r\n  PFS-S, offset: 5512\r\n  PFS-S, mirror: Inserted\r\n  PFS-S, mirror: Inserted\r\n  \r\n  Zoom: 1.00x\r\n",
+  "capturing": "Nikon C2plus\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DU3\r\n{Optical Path Mode}: Auto\r\n{First Dichroic Mirror}: 405/488/561\r\n{First Filter Cube}: 447/60\r\n{Second Filter Cube}: 525/50 561 LP\r\nCH2\t{Laser Wavelength}: 488.0\t{Laser Power}: 3.0\r\n\t{PMT HV}: 108\t{PMT Offset}: 0\r\nTD\t{PMT HV}: 65\t{PMT Offset}: 0\r\n{Pinhole Size(um)}: 20.00\r\n{HV LinearCorrection}: Off\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 1.000\r\n{Scan Speed}: 1\r\n{Channel Series Mode}: Custom\r\n{Channel Series Pass}: [CH1][CH2,TD][CH3]\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: None\r\n{Line Average/Integrate Count}: 0\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n{Head type}: Legacy (FOV18)\r\n{Scanner Zoom}: 1.000 (25mm FOV) / 1.000 (18mm legacy FOV)\r\n\r\n",
+  "date": "6/17/2019  10:19:38 AM",
+  "optics": "Plan Apo \u03bb 10x"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1484, pixelDataType='unsigned', sequenceCount=1, widthBytes=11768, widthPx=2942, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

@@ -1,0 +1,26 @@
+{
+ "id": "figshare27147672-GCAMP-Animal5-pre",
+ "file": "figshare27147672-GCAMP-Animal5-pre.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d252b6e5a2275b2e8ff1d6ab8daaa187"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e7a18f62173c9f880a85d395fc4fa31f"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "id": "zenodo3960743-Figure-1f-mFAP2b-DFHBI-0010",
+ "file": "zenodo3960743-Figure-1f-mFAP2b-DFHBI-0010.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 740,
+   "size_y": 740,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dd6806f2382426e03e50a54f1124ccb2"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,155 @@
+{
+ "id": "figshare12713906-YZ-both-HLA004",
+ "file": "figshare12713906-YZ-both-HLA004.nd2",
+ "size": 6565888,
+ "sha256": "3b5bb0ebf1297eafe271411b484b054ab0ee19b1bc0b250155d3561e7e3a6358",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 4,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 4, 'C': 3, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.207160189800746,
+    "y": 0.207160189800746,
+    "z": 0.5
+   },
+   "channel_names": [
+    "DAPI",
+    "EGFP",
+    "mCherry"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "0d9f6acee70bd714fd444a4e0c1d4c46"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DAPI",
+    "color": "#0000FF",
+    "excitation_nm": 406.40000000000003,
+    "emission_nm": 450.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "EGFP",
+    "color": "#00FF00",
+    "excitation_nm": 487.1,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "mCherry",
+    "color": "#FF0000",
+    "excitation_nm": 561.2,
+    "emission_nm": 595.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   }
+  ],
+  "frames_error": "ValueError: cannot convert float NaN to integer"
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(4)\r\nCamera Name: Nikon A1plus\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: DAPI\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 450/50\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 595/50\r\n  CH1\t{Laser Wavelength}: 406.4\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 108\t{PMT Offset}: -23\r\n  CH2\t{Laser Wavelength}: 487.1\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 58\t{PMT Offset}: -17\r\n  CH3\t{Laser Wavelength}: 561.2\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 72\t{PMT Offset}: -11\r\n  {Pinhole Size(um)}: 39.6\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Shutter(EPI): Closed\r\n  NIDAQ, Shutter(BF): Closed\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 6075\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: EGFP\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 450/50\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 595/50\r\n  CH1\t{Laser Wavelength}: 406.4\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 108\t{PMT Offset}: -23\r\n  CH2\t{Laser Wavelength}: 487.1\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 58\t{PMT Offset}: -17\r\n  CH3\t{Laser Wavelength}: 561.2\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 72\t{PMT Offset}: -11\r\n  {Pinhole Size(um)}: 39.6\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Shutter(EPI): Closed\r\n  NIDAQ, Shutter(BF): Closed\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 6075\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #3:\r\n Name: mCherry\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 450/50\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 595/50\r\n  CH1\t{Laser Wavelength}: 406.4\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 108\t{PMT Offset}: -23\r\n  CH2\t{Laser Wavelength}: 487.1\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 58\t{PMT Offset}: -17\r\n  CH3\t{Laser Wavelength}: 561.2\t{Laser Power}: 9.0\r\n  \t{PMT HV}: 72\t{PMT Offset}: -11\r\n  {Pinhole Size(um)}: 39.6\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Shutter(EPI): Closed\r\n  NIDAQ, Shutter(BF): Closed\r\n  LightPath: L100\r\n  Analyzer: Extracted\r\n  PFS, state: Off\r\n  PFS, offset: 6075\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nZ Stack Loop: 4\r\n- Step: 0.5 \u00b5m\r\n- Device: Ti ZDrive",
+  "capturing": "Nikon A1plus\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DU4\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: 405/488/561/640\r\n{First Filter Cube}: 450/50\r\n{Second Filter Cube}: 525/50\r\n{Third Filter Cube}: 595/50\r\nCH1\t{Laser Wavelength}: 406.4\t{Laser Power}: 9.0\r\n\t{PMT HV}: 108\t{PMT Offset}: -23\r\nCH2\t{Laser Wavelength}: 487.1\t{Laser Power}: 9.0\r\n\t{PMT HV}: 58\t{PMT Offset}: -17\r\nCH3\t{Laser Wavelength}: 561.2\t{Laser Power}: 9.0\r\n\t{PMT HV}: 72\t{PMT Offset}: -11\r\n{Pinhole Size(um)}: 39.6\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 1.000\r\n{Scan Speed}: 0.25\r\n{Channel Series Mode}: None\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: None\r\n{Line Average/Integrate Count}: 0\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n\r\n",
+  "date": "8/10/2015  10:26:35 AM",
+  "optics": "Plan Apo VC 60x Oil DIC N2 DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=512, pixelDataType='unsigned', sequenceCount=4, widthBytes=3072, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

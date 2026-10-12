@@ -92,22 +92,22 @@ fn observe(info: &FileInfo) -> Observations {
 const OPERA_HARMONY_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const OPERA_HARMONY_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 8, 7, 11),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 9),
+    a::row(K::Field, "experiment.acquisition.started_at", 11, 10, 16),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 14),
     a::row(K::FormatVersion, "Columbus", 2, 1, 2),
     a::row(K::FormatVersion, "FLEX 1.8.1.0", 2, 2, 2),
     a::row(K::FormatVersion, "HarmonyV4", 2, 2, 2),
-    a::row(K::FormatVersion, "HarmonyV5", 3, 3, 3),
-    a::row(K::FormatVersion, "HarmonyV6", 1, 1, 1),
-    a::row(K::FormatVersion, "HarmonyV7", 1, 1, 1),
+    a::row(K::FormatVersion, "HarmonyV5", 4, 4, 4),
+    a::row(K::FormatVersion, "HarmonyV6", 3, 2, 3),
+    a::row(K::FormatVersion, "HarmonyV7", 3, 2, 3),
     a::row(K::Instrument, "OPERA5013", 2, 2, 2),
     a::row(K::Instrument, "Operetta", 2, 2, 2),
-    a::row(K::Instrument, "Phenix", 2, 2, 2),
-    a::row(K::Instrument, "Sonata", 3, 3, 3),
-    a::row(K::Layout, "channel maps", 5, 5, 5),
-    a::row(K::SampleLayout, "uint16", 11, 9, 11),
+    a::row(K::Instrument, "Phenix", 4, 3, 4),
+    a::row(K::Instrument, "Sonata", 6, 5, 6),
+    a::row(K::Layout, "channel maps", 10, 8, 10),
+    a::row(K::SampleLayout, "uint16", 16, 12, 16),
     a::row(K::Writer, "Columbus", 2, 1, 2),
-    a::row(K::Writer, "Harmony", 7, 7, 7),
+    a::row(K::Writer, "Harmony", 12, 10, 12),
     a::row(K::Writer, "Opera (FLEX)", 2, 2, 2),
 ];
 // END GENERATED opera-harmony

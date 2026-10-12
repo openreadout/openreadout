@@ -1484,6 +1484,17 @@ impl Dataset for LifDataset {
         Ok(out)
     }
 
+    fn pixels_refused(&self, image: u32) -> Option<String> {
+        let ex = self.exposed.get(image as usize)?;
+        let e = self.entries.get(ex.entry)?;
+        e.node.flim.as_ref().map(|_| {
+            format!(
+                "FALCON FLIM/TCSPC raw photon data (image {image}, '{}')",
+                e.display
+            )
+        })
+    }
+
     fn read_plane(&mut self, image: u32, idx: PlaneIndex) -> Result<Plane> {
         let ex = *self.exposed.get(image as usize).ok_or_else(|| {
             Error::Usage(format!(
@@ -1492,13 +1503,10 @@ impl Dataset for LifDataset {
             ))
         })?;
         let e = &self.entries[ex.entry];
-        if e.node.flim.is_some() {
+        if let Some(what) = self.pixels_refused(image) {
             return Err(Error::unsupported(
                 FORMAT_ID,
-                format!(
-                    "FALCON FLIM/TCSPC raw photon data (image {image}, '{}')",
-                    e.display
-                ),
+                what,
                 "Raw TCSPC histograms are not decoded. Read the LAS X result images stored as its children instead (e.g. '<image>/Intensity', '<image>/Fast Flim'; see `openreadout info`), or export them from LAS X.",
             ));
         }

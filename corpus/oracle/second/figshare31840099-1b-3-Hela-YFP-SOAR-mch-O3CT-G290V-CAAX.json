@@ -1,0 +1,26 @@
+{
+ "id": "figshare31840099-1b-3-Hela-YFP-SOAR-mch-O3CT-G290V-CAAX",
+ "file": "figshare31840099-1b-3-Hela-YFP-SOAR-mch-O3CT-G290V-CAAX.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 320,
+   "size_y": 320,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c2e4962e1fca8060b3de978aa39248b4"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "62997900c1bf988543d584f9f393206c"
+    }
+   ]
+  }
+ ]
+}

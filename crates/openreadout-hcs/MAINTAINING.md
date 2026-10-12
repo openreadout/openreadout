@@ -39,7 +39,7 @@ High-content screening plates, three plate-imager families, each an index file p
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `opera-harmony` | [format note](../../docs/formats/opera-harmony.md), [provenance log](../../docs/provenance/opera-harmony.md) | high | prior art | 11 / 11 | 9 | 2 / 0 |
+| `opera-harmony` | [format note](../../docs/formats/opera-harmony.md), [provenance log](../../docs/provenance/opera-harmony.md) | high | prior art | 16 / 16 | 12 | 2 / 0 |
 | `imagexpress` | [format note](../../docs/formats/imagexpress.md), [provenance log](../../docs/provenance/imagexpress.md) | medium | prior art | 3 / 3 | 3 | 1 / 0 |
 | `cellvoyager` | [format note](../../docs/formats/cellvoyager.md), [provenance log](../../docs/provenance/cellvoyager.md) | medium | prior art | 3 / 3 | 3 | 0 / 1 |
 
@@ -91,29 +91,29 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `imagexpress` | sample_layout | `uint16` | pixels | 3 | 3 | `hcs-imagexpress-idr0081-folder`, `hcs-imagexpress-idr0081-htd`, `hcs-imagexpress-jump-a1170383-folder` |
 | `imagexpress` | writer | `MetaMorph` | metadata | 2 | 2 | `hcs-imagexpress-idr0081-folder`, `hcs-imagexpress-idr0081-htd` |
 | `imagexpress` | writer | `MetaXpress` | metadata | 1 | 1 | `hcs-imagexpress-jump-a1170383-folder` |
-| `opera-harmony` | field | `experiment.acquisition.started_at` | descriptive | 11 | 11 | `hcs-columbus-zenodo6327496-flex-index`, `hcs-columbus-zenodo6327496-tif-index`, `hcs-flex-idr0001-001001000` |
-| `opera-harmony` | field | `experiment.instrument.model` | descriptive | 9 | 9 | `hcs-flex-idr0001-001001000`, `hcs-flex-idr0001-meas01`, `hcs-harmony-idr0034-folder` |
+| `opera-harmony` | field | `experiment.acquisition.started_at` | descriptive | 16 | 16 | `hcs-columbus-zenodo6327496-flex-index`, `hcs-columbus-zenodo6327496-tif-index`, `hcs-flex-idr0001-001001000` |
+| `opera-harmony` | field | `experiment.instrument.model` | descriptive | 14 | 14 | `hcs-flex-idr0001-001001000`, `hcs-flex-idr0001-meas01`, `hcs-harmony-idr0034-folder` |
 | `opera-harmony` | format_version | `Columbus` | metadata, pixels | 2 | 2 | `hcs-columbus-zenodo6327496-flex-index`, `hcs-columbus-zenodo6327496-tif-index` |
 | `opera-harmony` | format_version | `FLEX 1.8.1.0` | metadata, pixels | 2 | 2 | `hcs-flex-idr0001-001001000`, `hcs-flex-idr0001-meas01` |
 | `opera-harmony` | format_version | `HarmonyV4` | metadata, pixels | 2 | 2 | `hcs-harmony-idr0034-folder`, `hcs-harmony-idr0034-index` |
-| `opera-harmony` | format_version | `HarmonyV5` | metadata, pixels | 3 | 3 | `hcs-harmony-jump-br00117035-index`, `hcs-harmony-zenodo7841360-folder`, `hcs-harmony-zenodo7841360-index` |
-| `opera-harmony` | format_version | `HarmonyV6` | metadata, pixels | 1 | 1 | `hcs-harmony6-cpg0048-41005680-index` |
-| `opera-harmony` | format_version | `HarmonyV7` | metadata, pixels | 1 | 1 | `hcs-harmony7-cpg0047-br00143056-index` |
+| `opera-harmony` | format_version | `HarmonyV5` | metadata, pixels | 4 | 4 | `hcs-harmony-jump-br00117035-index`, `hcs-harmony-zenodo7841360-folder`, `hcs-harmony-zenodo7841360-index` |
+| `opera-harmony` | format_version | `HarmonyV6` | metadata, pixels | 3 | 3 | `hcs-harmony6-cpg0048-41005680-index`, `hcs-harmony6-zenodo10776785-archive`, `hcs-harmony6-zenodo10776785-index` |
+| `opera-harmony` | format_version | `HarmonyV7` | metadata, pixels | 3 | 3 | `hcs-harmony7-cpg0047-br00143056-index`, `hcs-harmony7-zenodo20799564-archive`, `hcs-harmony7-zenodo20799564-index` |
 | `opera-harmony` | instrument | `OPERA5013` | descriptive | 2 | 2 | `hcs-flex-idr0001-001001000`, `hcs-flex-idr0001-meas01` |
 | `opera-harmony` | instrument | `Operetta` | descriptive | 2 | 2 | `hcs-harmony-idr0034-folder`, `hcs-harmony-idr0034-index` |
-| `opera-harmony` | instrument | `Phenix` | descriptive | 2 | 2 | `hcs-harmony-jump-br00117035-index`, `hcs-harmony7-cpg0047-br00143056-index` |
-| `opera-harmony` | instrument | `Sonata` | descriptive | 3 | 3 | `hcs-harmony-zenodo7841360-folder`, `hcs-harmony-zenodo7841360-index`, `hcs-harmony6-cpg0048-41005680-index` |
-| `opera-harmony` | layout | `channel maps` | metadata | 5 | 5 | `hcs-harmony-idr0034-folder`, `hcs-harmony-idr0034-index`, `hcs-harmony-jump-br00117035-index` |
-| `opera-harmony` | sample_layout | `uint16` | pixels | 11 | 11 | `hcs-columbus-zenodo6327496-flex-index`, `hcs-columbus-zenodo6327496-tif-index`, `hcs-flex-idr0001-001001000` |
+| `opera-harmony` | instrument | `Phenix` | descriptive | 4 | 4 | `hcs-harmony-jump-br00117035-index`, `hcs-harmony6-zenodo10776785-archive`, `hcs-harmony6-zenodo10776785-index` |
+| `opera-harmony` | instrument | `Sonata` | descriptive | 6 | 6 | `hcs-harmony-zenodo7841360-folder`, `hcs-harmony-zenodo7841360-index`, `hcs-harmony6-cpg0048-41005680-index` |
+| `opera-harmony` | layout | `channel maps` | metadata | 10 | 10 | `hcs-harmony-idr0034-folder`, `hcs-harmony-idr0034-index`, `hcs-harmony-jump-br00117035-index` |
+| `opera-harmony` | sample_layout | `uint16` | pixels | 16 | 16 | `hcs-columbus-zenodo6327496-flex-index`, `hcs-columbus-zenodo6327496-tif-index`, `hcs-flex-idr0001-001001000` |
 | `opera-harmony` | writer | `Columbus` | metadata | 2 | 2 | `hcs-columbus-zenodo6327496-flex-index`, `hcs-columbus-zenodo6327496-tif-index` |
-| `opera-harmony` | writer | `Harmony` | metadata | 7 | 7 | `hcs-harmony-idr0034-folder`, `hcs-harmony-idr0034-index`, `hcs-harmony-jump-br00117035-index` |
+| `opera-harmony` | writer | `Harmony` | metadata | 12 | 12 | `hcs-harmony-idr0034-folder`, `hcs-harmony-idr0034-index`, `hcs-harmony-jump-br00117035-index` |
 | `opera-harmony` | writer | `Opera (FLEX)` | metadata | 2 | 2 | `hcs-flex-idr0001-001001000`, `hcs-flex-idr0001-meas01` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_hcs_cellvoyager`, `whole_hcs_harmony`, `whole_hcs_imagexpress`
-- corpus inputs by tier: heldout 7, smoke 2, standard 15
+- corpus inputs by tier: full 2, heldout 7, smoke 2, standard 18
 - golden snapshots: [`corpus/snapshots/opera-harmony.jsonl`](../../corpus/snapshots/opera-harmony.jsonl), [`corpus/snapshots/imagexpress.jsonl`](../../corpus/snapshots/imagexpress.jsonl), [`corpus/snapshots/cellvoyager.jsonl`](../../corpus/snapshots/cellvoyager.jsonl)
 
 ### Open new-variant intakes

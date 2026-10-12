@@ -1,0 +1,68 @@
+{
+ "id": "zenodo3921838-ZT6-2c",
+ "file": "zenodo3921838-ZT6-2c.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "087e81211e91c0a7bb652e5fbfc2327a"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e2b409cf06640f2159cc10d590569691"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "16037dbc6f5881e108a3adb99c3ce7e6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d7e5f48929a70bab4fdf9f5e5684b5cb"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "87ba1adde27f11401914cd4b617548e4"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "0faa8947b50653f7c89e093188d21866"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "72a579b5e0fd1a36ad821fa680f6369d"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "87390b3de1dc82cdd31ad8d247e36ada"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "a9249374d3bcfdd55ab07b95ad271ba0"
+    }
+   ]
+  }
+ ]
+}

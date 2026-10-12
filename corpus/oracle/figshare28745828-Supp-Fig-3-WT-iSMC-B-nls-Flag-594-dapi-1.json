@@ -1,0 +1,113 @@
+{
+ "id": "figshare28745828-Supp-Fig-3-WT-iSMC-B-nls-Flag-594-dapi-1",
+ "file": "figshare28745828-Supp-Fig-3-WT-iSMC-B-nls-Flag-594-dapi-1.nd2",
+ "size": 1273856,
+ "sha256": "81f1210f0fde172fa2e76e4630c1f1b554ffc63586ffeca32a19329a1e7cbdfd",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 512, 'X': 512}",
+   "physical_size_um": {
+    "x": 0.248592227760896,
+    "y": 0.248592227760896,
+    "z": null
+   },
+   "channel_names": [
+    "DAPI",
+    "TRITC"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "939b021e349a381d6d43f9cb40826573"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "eb403a4c28704d3fb1ae19b7429a9817"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "DAPI",
+    "color": "#8000FF",
+    "excitation_nm": 408.0,
+    "emission_nm": 450.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "pmt"
+    ]
+   },
+   {
+    "name": "TRITC",
+    "color": "#FFC832",
+    "excitation_nm": 560.2,
+    "emission_nm": 595.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "gaasp"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 9613992.104663111,
+    "tags": {
+     "Camera_000CH1PMTHighVoltage": 97,
+     "Camera_001CH2PMTHighVoltage": 14,
+     "Camera_002CH3PMTHighVoltage": 26,
+     "Camera_003CH4PMTHighVoltage": 100,
+     "Camera_004TDPMTHighVoltage": 0,
+     "Camera_005SDHighVoltage": 0,
+     "Camera_006VFCH1Gain": 0,
+     "Camera_007VFCH2Gain": 0,
+     "Camera_008VFCH3Gain": 0,
+     "Camera_009VFCH4Gain": 0,
+     "Camera_014CH1LaserPower": 4.299,
+     "Camera_015CH2LaserPower": 0.3,
+     "Camera_016CH3LaserPower": 0.5,
+     "Camera_017CH4LaserPower": 1.08,
+     "PFS_OFFSET": 3680,
+     "PFS_STATUS": 3,
+     "X": -20640.0,
+     "Y": 127.10000000000001,
+     "Z": 2241.7000000000003,
+     "Z1": 2241.7000000000003
+    }
+   }
+  ],
+  "acquired_at": "2022-08-31T22:27:07.921Z",
+  "acquired_at_unix_ms": 1661984827921
+ },
+ "text_info": {
+  "description": "Camera Name: Nikon A1\r\nNumerical Aperture: 1.4\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: DAPI\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  \r\t\t{GaAsP}: CH2/3;\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 452/45\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 593/46\r\n  CH1\t{Laser Wavelength}: 408.0\t{Laser Power}: 4.3\r\n  \t{PMT HV}: 97\t{PMT Offset}: 1\r\n  CH3\t{Laser Wavelength}: 560.2\t{Laser Power}: 0.5\r\n  \t{PMT HV}: 26\t{PMT Offset}: 1\r\n  {Pinhole Size(um)}: 137.93\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 1\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH4][CH3][CH2][CH1]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Shutter(DIA): Open\r\n  LightPath: L100\r\n  Condenser: 4 (DICN2)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\nPlane #2:\r\n Name: TRITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: DU4\r\n  \r\t\t{GaAsP}: CH2/3;\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: 405/488/561/640\r\n  {First Filter Cube}: 452/45\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 593/46\r\n  CH1\t{Laser Wavelength}: 408.0\t{Laser Power}: 4.3\r\n  \t{PMT HV}: 97\t{PMT Offset}: 1\r\n  CH3\t{Laser Wavelength}: 560.2\t{Laser Power}: 0.5\r\n  \t{PMT HV}: 26\t{PMT Offset}: 1\r\n  {Pinhole Size(um)}: 137.93\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 1\r\n  {Channel Series Mode}: Custom\r\n  {Channel Series Pass}: [CH4][CH3][CH2][CH1]\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Ti Microscope\r\n  Nikon Ti, FilterChanger(Turret1): 1\r\n  Nikon Ti, Shutter(DIA): Open\r\n  LightPath: L100\r\n  Condenser: 4 (DICN2)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n",
+  "capturing": "Nikon A1\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: DU4\r\n\r\t\t{GaAsP}: CH2/3;\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: 405/488/561/640\r\n{First Filter Cube}: 452/45\r\n{Second Filter Cube}: 525/50\r\n{Third Filter Cube}: 593/46\r\nCH1\t{Laser Wavelength}: 408.0\t{Laser Power}: 4.3\r\n\t{PMT HV}: 97\t{PMT Offset}: 1\r\nCH3\t{Laser Wavelength}: 560.2\t{Laser Power}: 0.5\r\n\t{PMT HV}: 26\t{PMT Offset}: 1\r\n{Pinhole Size(um)}: 137.93\r\n{HV LinearCorrection}: Off\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 1.000\r\n{Scan Speed}: 1\r\n{Channel Series Mode}: Custom\r\n{Channel Series Pass}: [CH4][CH3][CH2][CH1]\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: None\r\n{Line Average/Integrate Count}: 0\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n{Head type}: Legacy (FOV18)\r\n\r\n",
+  "sampling": "MaxIP",
+  "date": "8/31/2022  4:27:07 PM",
+  "optics": "Plan Apo VC 100x Oil DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=512, pixelDataType='unsigned', sequenceCount=1, widthBytes=2048, widthPx=512, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

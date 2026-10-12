@@ -1,0 +1,119 @@
+{
+ "id": "figshare25226105-231028-sh147-phmm-30c-100uM-iptg-0p075pc",
+ "file": "figshare25226105-231028-sh147-phmm-30c-100uM-iptg-0p075pc.nd2",
+ "size": 6856704,
+ "sha256": "9d3eac0bd225f5d6ce2cf1481f9dfdf63dce29e375712bbc8b8cf1e0e052a7ce",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 3, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.062274180363012,
+    "y": 0.062274180363012,
+    "z": null
+   },
+   "channel_names": [
+    "Internal Ph3",
+    "561",
+    "488"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "688a0542ea7be8cc64442addbf0f71eb"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1b7a2186cd482d019d7e26a343a4175a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "719bf78454a7a5288b39e4a89d2b8949"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "Internal Ph3",
+    "color": "#FFFFFF",
+    "excitation_nm": null,
+    "emission_nm": 500.0,
+    "component_count": 1,
+    "modality": [
+     "brightfield",
+     "camera"
+    ]
+   },
+   {
+    "name": "561",
+    "color": "#FF6A00",
+    "excitation_nm": null,
+    "emission_nm": 615.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   },
+   {
+    "name": "488",
+    "color": "#49FF00",
+    "excitation_nm": 488.0,
+    "emission_nm": 530.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "camera"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 226.75035002827644,
+    "tags": {
+     "CameraTemp1": -24.45,
+     "CameraTemp2": 0.0,
+     "Camera_ExposureTime1": 85.836,
+     "Camera_ExposureTime2": 11.3,
+     "PFS_OFFSET": 7042,
+     "PFS_STATUS": 1,
+     "X": -3387.2000000000003,
+     "Y": 658.0,
+     "Z": 3509.0904589843753,
+     "Z1": 3559.2000000000003,
+     "Z2": 50.10954101562493
+    }
+   }
+  ],
+  "acquired_at": "2023-10-28T14:59:08.953Z",
+  "acquired_at_unix_ms": 1698505148953
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: \u03bb(3)\r\nCamera Name: Kinetix, A21C723008\r\nNumerical Aperture: 1.49\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: Internal Ph3\r\n Component Count: 1\r\n Modality: Brightfield\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 11 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Camera Mode: 16-bit (HDR)\r\n  Temperature: 0.0\u00b0C\r\n  \r\n  Conversion Gain: CMS\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, FilterChanger(Turret-Up): 1 (Empty)\r\n  Nikon Ti2, Shutter(DIA LED): Open\r\n  Nikon Ti2, Illuminator(DIA): On\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 52.6\r\n  LightPath: R100\r\n  Condenser: 3 (Ph3)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  CorrectionCollar :\r\n     Position: 0\r\nPlane #2:\r\n Name: 561\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 1 s\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Camera Mode: 16-bit (HDR)\r\n  Temperature: 0.0\u00b0C\r\n  \r\n  Conversion Gain: CMS\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Up): 4 (SIM 561)\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, Shutter(FL-Up): Open\r\n  Nikon Ti2, Shutter(DIA LED): Open\r\n  Nikon Ti2, Illuminator(DIA): On\r\n  Nikon Ti2, Illuminator(DIA) Iris intensity: 0.0\r\n  LightPath: R100\r\n  Condenser: 3 (Ph3)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  Eyepiece Ports:\r\n     Port 1: On  (Camera)\r\n  \r\n  LAPP Upper Ports:\r\n     Port 2: On  (E-TIRF 2)\r\n     Port 3: On  (E-TIRF)\r\n  \r\n  LAPP Lower Ports:\r\n     Port 1: On  (EPI)\r\n  \r\n  E-TIRF1(E-TIRF) AngleMode: 0\r\n  E-TIRF1(E-TIRF) Trajectory: 0\r\n  E-TIRF1(E-TIRF) Angle: 0.0000\r\n  E-TIRF1(E-TIRF) Direction: 0.0\r\n  E-TIRF2(E-TIRF 2) AngleMode: 0\r\n  E-TIRF2(E-TIRF 2) Trajectory: 0\r\n  E-TIRF2(E-TIRF 2) Angle: 8099.0\r\n  E-TIRF2(E-TIRF 2) Direction: 174.0\r\n  CorrectionCollar :\r\n     Position: 1738\r\n  NIDAQ, Shutter(Laser): Active\r\n  NIDAQ, MultiLaser(Laser):\r\n     Line:4; ExW:561; Power: 10.0; On\r\n  \r\n  Switcher (name: Switcher):\r\n     Port 1: On  (Port 0)\r\n  \r\n  pE-4000, MultiLaser(pE-4000):\r\n\r\nPlane #3:\r\n Name: 488\r\n Component Count: 1\r\n Modality: Widefield Fluorescence\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 500 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Camera Mode: 16-bit (HDR)\r\n  Temperature: 0.0\u00b0C\r\n  \r\n  Conversion Gain: CMS\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret-Up): 3 (SIM 488)\r\n  Nikon Ti2, FilterChanger(Turret-Lo): 1 (Empty)\r\n  Nikon Ti2, Shutter(FL-Up): Open\r\n  LightPath: R100\r\n  Condenser: 2 (Ph2)\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  Eyepiece Ports:\r\n     Port 1: On  (Camera)\r\n  \r\n  LAPP Upper Ports:\r\n     Port 2: On  (E-TIRF 2)\r\n     Port 3: On  (E-TIRF)\r\n  \r\n  LAPP Lower Ports:\r\n     Port 1: On  (EPI)\r\n  \r\n  E-TIRF1(E-TIRF) AngleMode: 0\r\n  E-TIRF1(E-TIRF) Trajectory: 0\r\n  E-TIRF1(E-TIRF) Angle: 0.0000\r\n  E-TIRF1(E-TIRF) Direction: 0.0\r\n  E-TIRF2(E-TIRF 2) AngleMode: 0\r\n  E-TIRF2(E-TIRF 2) Trajectory: 0\r\n  E-TIRF2(E-TIRF 2) Angle: 7106.0\r\n  E-TIRF2(E-TIRF 2) Direction: 46.0\r\n  CorrectionCollar :\r\n     Position: 0\r\n  NIDAQ, Shutter(Laser): Active\r\n  NIDAQ, MultiLaser(Laser):\r\n     Line:2; ExW:488; Power:  5.0; On\r\n  \r\n  Switcher (name: Switcher):\r\n     Port 1: On  (Port 0)\r\n  \r\n  pE-4000, MultiLaser(pE-4000):\r\n     Line:2; ExW:470; Power: 75.0; On",
+  "capturing": "Kinetix, A21C723008\r\nSample 1:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 11 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Camera Mode: 16-bit (HDR)\r\n  Temperature: 0.0\u00b0C\r\n  \r\n  Conversion Gain: CMS\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\nSample 2:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 1 s\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Camera Mode: 16-bit (HDR)\r\n  Temperature: 0.0\u00b0C\r\n  \r\n  Conversion Gain: CMS\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n\r\nSample 3:\r\n  Binning: 1x1\r\n  Bit Depth: 16-bit\r\n  Exposure: 500 ms\r\n  Readout Speed: 100.0MHz\r\n  Multiplier: Off\r\n  Camera Mode: 16-bit (HDR)\r\n  Temperature: 0.0\u00b0C\r\n  \r\n  Conversion Gain: CMS\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: Low\r\n",
+  "date": "28/10/2023  15:59:08",
+  "optics": "SR HP Apo TIRF 100xAC Oil"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=16, componentCount=3, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=6144, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

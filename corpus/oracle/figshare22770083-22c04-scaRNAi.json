@@ -1,0 +1,120 @@
+{
+ "id": "figshare22770083-22c04-scaRNAi",
+ "file": "figshare22770083-22c04-scaRNAi.lif",
+ "size": 2396419,
+ "sha256": "7d911ebda6222aa5a29fe762f189b68421c51236b73280d4e03a1f836ad208c1",
+ "max_planes_hashed": 64,
+ "reader": "liffile 2026.7.14",
+ "format_version": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "NsfGFPpnrG_scaRNAi_still",
+   "path": "NsfGFPpnrG_scaRNAi_still",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "YX",
+   "shape": [
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.538160469667319,
+    "y": 0.538160469667319,
+    "z": null
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2403cf2c858b4ac26f1e8698715c9280"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "NsfGFPpnrG_scaRNAi_001",
+   "path": "NsfGFPpnrG_scaRNAi_001",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 8,
+   "size_c": 1,
+   "size_t": 1,
+   "dims": "ZYX",
+   "shape": [
+    8,
+    512,
+    512
+   ],
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.538160469667319,
+    "y": 0.538160469667319,
+    "z": 0.9999272857142852
+   },
+   "lambda": null,
+   "folded_into_t": null,
+   "split_axes": null,
+   "split": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d0537bfb1044ff2f0b3f1f195e891b80"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "7306c02b0d7f231510247d5b886546de"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "b8d0da287ca5b59ec0ed65d4b96f94a1"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "2d003462e371b354a39e54c853f0ae87"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "4f66fb0576f418f5964d1521b8a1e458"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "cb47f2aef58db0e170bbd125dd1e8eec"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "23e2cf15f051a31aee5bb80507c63553"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "a164b6e6d5bca84e61a4ff96d047eb7c"
+    }
+   ]
+  }
+ ]
+}

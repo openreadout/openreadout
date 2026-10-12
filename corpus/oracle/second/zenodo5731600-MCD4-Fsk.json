@@ -1,0 +1,32 @@
+{
+ "id": "zenodo5731600-MCD4-Fsk",
+ "file": "zenodo5731600-MCD4-Fsk.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e6292c5954dc591aab8173a1acd883b0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8db243184fe17aef27aaa44484cc3049"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c137983c4614a813f9572cf02d2809fc"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,115 @@
+{
+ "id": "figshare27147672-GCAMP-Animal5-pre",
+ "file": "figshare27147672-GCAMP-Animal5-pre.nd2",
+ "size": 4415488,
+ "sha256": "8dbba336127ca8abe458a3034ccc274c3af182f2ee582c22cf8ae3a675f5fb1b",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'C': 2, 'Y': 1024, 'X': 1024}",
+   "physical_size_um": {
+    "x": 0.497184455521791,
+    "y": 0.497184455521791,
+    "z": null
+   },
+   "channel_names": [
+    "FITC",
+    "TRITC"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d252b6e5a2275b2e8ff1d6ab8daaa187"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e7a18f62173c9f880a85d395fc4fa31f"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "FITC",
+    "color": "#00FF00",
+    "excitation_nm": 960.0,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "multiphoton",
+     "nonDescannedDetector",
+     "gaasp"
+    ]
+   },
+   {
+    "name": "TRITC",
+    "color": "#FF0000",
+    "excitation_nm": 960.0,
+    "emission_nm": 607.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "laserScanConfocal",
+     "multiphoton",
+     "nonDescannedDetector",
+     "gaasp"
+    ]
+   }
+  ],
+  "frame_count": 1,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 614173.3541271687,
+    "tags": {
+     "Camera_CH1LaserPower": 10.000329999999988,
+     "Camera_CH1PMTHighVoltage": 81,
+     "Camera_CH2LaserPower": 10.000329999999988,
+     "Camera_CH2PMTHighVoltage": 10,
+     "Camera_CH3LaserPower": 10.000329999999988,
+     "Camera_CH3PMTHighVoltage": 10,
+     "Camera_CH4LaserPower": 1.0000600000000004,
+     "Camera_CH4PMTHighVoltage": 90,
+     "Camera_SDHighVoltage": 0,
+     "Camera_TDPMTHighVoltage": 0,
+     "Camera_VFCH1Gain": 0,
+     "Camera_VFCH2Gain": 0,
+     "Camera_VFCH3Gain": 0,
+     "Camera_VFCH4Gain": 0,
+     "X": -1942.26,
+     "Y": 5733.030000000001,
+     "Z": 293.11150000000004,
+     "Z1": 91.10000000000001,
+     "Z2": -202.0115
+    }
+   }
+  ],
+  "acquired_at": "2022-06-17T15:00:30.341Z",
+  "acquired_at_unix_ms": 1655478030341
+ },
+ "text_info": {
+  "description": "Camera Name: Nikon A1plus\r\nNumerical Aperture: 1.1\r\nRefractive Index: 1.333\r\nNumber of Picture Planes: 2\r\nPlane #1:\r\n Name: FITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal, \r\n           Multi Photon Fluorescence\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: NDD(Reflect)\r\n  \r\t\t{GaAsP}: R-CH1/2/3;\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: IR-DM\r\n  {First Filter Cube}: 440/80\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 607/70\r\n  R-CH2\t{Laser Wavelength}: 960.0\t{Laser Power}: 10.0\r\n  \t{PMT HV}: 10\t{PMT Offset}: 0\r\n  R-CH3\t{Laser Wavelength}: 960.0\t{Laser Power}: 10.0\r\n  \t{PMT HV}: 10\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 255.4\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Alignment Position}: 11088.9, 9792.2\r\n  {Parfocality Position}: 0\r\n  {KeepPixelBrightnessEnable}: 0\r\n  {ScalingMode}: 0\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Manual Microscope\r\n  Manual Microscope, FilterChanger(FilterBlock): 1\r\nPlane #2:\r\n Name: TRITC\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Laser Scan Confocal, \r\n           Multi Photon Fluorescence\r\n Camera Settings:                 \r\n  {Scanner Selection}: Galvano\r\n  {Detector Selection}: NDD(Reflect)\r\n  \r\t\t{GaAsP}: R-CH1/2/3;\r\n  {Optical Path Mode}: Manual\r\n  {First Dichroic Mirror}: IR-DM\r\n  {First Filter Cube}: 440/80\r\n  {Second Filter Cube}: 525/50\r\n  {Third Filter Cube}: 607/70\r\n  R-CH2\t{Laser Wavelength}: 960.0\t{Laser Power}: 10.0\r\n  \t{PMT HV}: 10\t{PMT Offset}: 0\r\n  R-CH3\t{Laser Wavelength}: 960.0\t{Laser Power}: 10.0\r\n  \t{PMT HV}: 10\t{PMT Offset}: 0\r\n  {Pinhole Size(um)}: 255.4\r\n  {HV LinearCorrection}: Off\r\n  {Scan Direction}: One way\r\n  {Scanner Zoom}: 1.000\r\n  {Scan Speed}: 0.25\r\n  {Channel Series Mode}: None\r\n  {Line Skip}: None\r\n  {Frame Skip}: 0\r\n  {Line Average Mode}: None\r\n  {Line Average/Integrate Count}: 0\r\n  Stim1\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim2\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  Stim3\t{Type}: Nothing\r\n  \t{Scan Speed}: 1\r\n  {Alignment Position}: 11088.9, 9792.2\r\n  {Parfocality Position}: 0\r\n  {KeepPixelBrightnessEnable}: 0\r\n  {ScalingMode}: 0\r\n  {Head type}: Legacy (FOV18)\r\n  \r\n\r\n Microscope Settings:   Microscope: Manual Microscope\r\n  Manual Microscope, FilterChanger(FilterBlock): 1\r\n",
+  "capturing": "Nikon A1plus\r\n              \r\n{Scanner Selection}: Galvano\r\n{Detector Selection}: NDD(Reflect)\r\n\r\t\t{GaAsP}: R-CH1/2/3;\r\n{Optical Path Mode}: Manual\r\n{First Dichroic Mirror}: IR-DM\r\n{First Filter Cube}: 440/80\r\n{Second Filter Cube}: 525/50\r\n{Third Filter Cube}: 607/70\r\nR-CH2\t{Laser Wavelength}: 960.0\t{Laser Power}: 10.0\r\n\t{PMT HV}: 10\t{PMT Offset}: 0\r\nR-CH3\t{Laser Wavelength}: 960.0\t{Laser Power}: 10.0\r\n\t{PMT HV}: 10\t{PMT Offset}: 0\r\n{Pinhole Size(um)}: 255.4\r\n{HV LinearCorrection}: Off\r\n{Scan Direction}: One way\r\n{Scanner Zoom}: 1.000\r\n{Scan Speed}: 0.25\r\n{Channel Series Mode}: None\r\n{Line Skip}: None\r\n{Frame Skip}: 0\r\n{Line Average Mode}: None\r\n{Line Average/Integrate Count}: 0\r\nStim1\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim2\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\nStim3\t{Type}: Nothing\r\n\t{Scan Speed}: 1\r\n{Alignment Position}: 11088.9, 9792.2\r\n{Parfocality Position}: 0\r\n{KeepPixelBrightnessEnable}: 0\r\n{ScalingMode}: 0\r\n{Head type}: Legacy (FOV18)\r\n\r\n",
+  "date": "6/17/2022  10:00:30 AM",
+  "optics": "Apo LWD 25x 1.10W DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=2, heightPx=1024, pixelDataType='unsigned', sequenceCount=1, widthBytes=4096, widthPx=1024, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=2)"
+}

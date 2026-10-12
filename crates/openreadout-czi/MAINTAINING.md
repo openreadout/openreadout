@@ -39,7 +39,7 @@ Zeiss CZI (`czi`): confocal, widefield, Airyscan, lattice light-sheet and whole-
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `czi` | [format note](../../docs/formats/czi.md), [provenance log](../../docs/provenance/czi.md) | medium | prior art | 122 / 116 | 53 | 3 / 1 |
+| `czi` | [format note](../../docs/formats/czi.md), [provenance log](../../docs/provenance/czi.md) | medium | prior art | 180 / 174 | 111 | 3 / 1 |
 
 ### Source map
 
@@ -82,68 +82,77 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `czi` | codec | `jpeg` | pixels | 5 | 5 | `synthetic-bgr24-jpeg`, `synthetic-bgr24-jpeg444`, `synthetic-gray16-jpeg-lossless` |
 | `czi` | codec | `jpeg 12-bit` | pixels | 1 | 1 | `synthetic-gray16-jpeg12` |
 | `czi` | codec | `jpeg lossless` | pixels | 1 | 1 | `synthetic-gray16-jpeg-lossless` |
-| `czi` | codec | `jpeg_xr` | pixels | 13 | 15 | `openslide-zeiss-5-cropped`, `openslide-zeiss-5-flat`, `openslide-zeiss-5-jxr` |
-| `czi` | codec | `uncompressed` | pixels | 90 | 94 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-RGB-8bit` |
+| `czi` | codec | `jpeg_xr` | pixels | 14 | 16 | `openslide-zeiss-5-cropped`, `openslide-zeiss-5-flat`, `openslide-zeiss-5-jxr` |
+| `czi` | codec | `uncompressed` | pixels | 145 | 149 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-RGB-8bit` |
 | `czi` | codec | `zstd0` | pixels | 1 | 1 | `openslide-zeiss-5-slidepreview-zstd0` |
-| `czi` | codec | `zstd1` | pixels | 4 | 4 | `openslide-zeiss-5-slidepreview-zstd1-hilo`, `synthetic-gray16-s2c2t2-zstd1`, `zenodo17252016-Figure-6G-CTRL` |
-| `czi` | format_version | `1.0` | metadata, pixels | 116 | 122 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-RGB-8bit` |
-| `czi` | instrument | `Andor1, AxioObserver` | descriptive | 6 | 6 | `zenodo10219682-sim-mip`, `zenodo10221545-ctcf-livesr`, `zenodo10577621-Image-5-PALM-verrechnet` |
-| `czi` | instrument | `Axio Imager.M2` | descriptive | 1 | 1 | `zenodo8420587-igem-leiden` |
+| `czi` | codec | `zstd1` | pixels | 6 | 6 | `figshare29966063-overview-2-scenes`, `openslide-zeiss-5-slidepreview-zstd1-hilo`, `synthetic-gray16-s2c2t2-zstd1` |
+| `czi` | format_version | `1.0` | metadata, pixels | 174 | 180 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-RGB-8bit` |
+| `czi` | instrument | `Andor1, AxioObserver` | descriptive | 8 | 8 | `zenodo10219682-sim-mip`, `zenodo10221545-ctcf-livesr`, `zenodo10577621-Image-5-PALM-verrechnet` |
+| `czi` | instrument | `Axio Imager.M2` | descriptive | 3 | 3 | `figshare30084322-6-2-mut6`, `zenodo8059091-Snap-461-ABCA4-20X`, `zenodo8420587-igem-leiden` |
 | `czi` | instrument | `Axio Imager.Z1` | descriptive | 2 | 2 | `zenodo10666482-N2-gonad-1`, `zenodo10989097-gat-colon` |
-| `czi` | instrument | `Axio Imager.Z2` | descriptive | 1 | 3 | `zenodo17880403-Snap-8347` |
-| `czi` | instrument | `Axio Observer.Z1 / 7` | descriptive | 16 | 16 | `aics-s-1-t-1-c-1-z-1`, `aics-s-3-t-1-c-3-z-5`, `aics-variable-per-scene-dims` |
-| `czi` | instrument | `Axio Scan.Z1` | descriptive | 6 | 7 | `zenodo10577621-Intestine-3color-RAC`, `zenodo10577621-Kidney-RAC-3color`, `zenodo12509122-PSR-LXR-KO-WT-1054` |
-| `czi` | instrument | `Axio Zoom.V16` | descriptive | 2 | 2 | `zenodo14895059-Figure-6C-D`, `zenodo17098115-Snap-212a` |
+| `czi` | instrument | `Axio Imager.Z2` | descriptive | 2 | 4 | `zenodo17880403-Snap-8347`, `zenodo8436248-sln-acd15-yfp-frap-1-plant-1-8-2` |
+| `czi` | instrument | `Axio Observer` | descriptive | 1 | 1 | `figshare33945238-Figure-1A-WT-1h-czi` |
+| `czi` | instrument | `Axio Observer.Z1` | descriptive | 2 | 2 | `zenodo7254229-P1`, `zenodo8325317-CMET-M418-D10-10X-2` |
+| `czi` | instrument | `Axio Observer.Z1 / 7` | descriptive | 33 | 33 | `aics-s-1-t-1-c-1-z-1`, `aics-s-3-t-1-c-3-z-5`, `aics-variable-per-scene-dims` |
+| `czi` | instrument | `Axio Scan.Z1` | descriptive | 7 | 8 | `zenodo10577621-Intestine-3color-RAC`, `zenodo10577621-Kidney-RAC-3color`, `zenodo12509122-PSR-LXR-KO-WT-1054` |
+| `czi` | instrument | `Axio Zoom.V16` | descriptive | 3 | 3 | `zenodo14895059-Figure-6C-D`, `zenodo17098115-Snap-212a`, `zenodo7818783-Rat-100um-MOR1-x500-TSA` |
 | `czi` | instrument | `Axioscan 7` | descriptive | 6 | 7 | `openslide-zeiss-5-cropped`, `openslide-zeiss-5-flat`, `openslide-zeiss-5-jxr` |
-| `czi` | instrument | `Celldiscoverer 7` | descriptive | 27 | 28 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-variable-scene-shape-first-scene-pyramid` |
+| `czi` | instrument | `Celldiscoverer 7` | descriptive | 28 | 29 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-variable-scene-shape-first-scene-pyramid` |
 | `czi` | instrument | `LSM 510, AxioObserver` | descriptive | 1 | 1 | `zenodo10577621-Channel-ZStack-LineScan-Bidirectional-Averaging` |
-| `czi` | instrument | `LSM 700, AxioObserver` | descriptive | 1 | 1 | `zenodo14139319-SourceDataF2D-withPI3P` |
+| `czi` | instrument | `LSM 700, AxioObserver` | descriptive | 2 | 2 | `figshare31537051-SAP10-CD226-SAP10-1-stack`, `zenodo14139319-SourceDataF2D-withPI3P` |
 | `czi` | instrument | `LSM 710, Axio Examiner` | descriptive | 1 | 1 | `zenodo10708864-ztacktimeposition16bit` |
 | `czi` | instrument | `LSM 710, Axio Imager 2` | descriptive | 1 | 1 | `zenodo5823010-inflammasome` |
-| `czi` | instrument | `LSM 710, AxioObserver` | descriptive | 4 | 4 | `zenodo10577621-LineScan-T3500`, `zenodo10577621-LineScan-T80-Z25`, `zenodo10577621-LineScan-Z200` |
+| `czi` | instrument | `LSM 710, AxioObserver` | descriptive | 7 | 7 | `figshare30581381-CandidaConA1`, `zenodo10577621-LineScan-T3500`, `zenodo10577621-LineScan-T80-Z25` |
 | `czi` | instrument | `LSM 780, Axio Examiner` | descriptive | 1 | 1 | `aics-NoSceneNames` |
-| `czi` | instrument | `LSM 780, AxioObserver` | descriptive | 5 | 5 | `zenodo11260215-LS-foto-1`, `zenodo13144501-airyscan-processed-100x-004`, `zenodo17252016-Figure-6G-CTRL` |
-| `czi` | instrument | `LSM 880 IndiMo, AxioObserver` | descriptive | 1 | 1 | `zenodo12515325-nanocompartment-spf` |
+| `czi` | instrument | `LSM 780, AxioObserver` | descriptive | 10 | 10 | `figshare29451836-PH-mCherry-TTP-OST4-mCherry-Nanos3-1-117`, `figshare30630299-FigureS7-c-FUS-WT`, `zenodo11260215-LS-foto-1` |
+| `czi` | instrument | `LSM 880 IndiMo, AxioObserver` | descriptive | 2 | 2 | `zenodo12515325-nanocompartment-spf`, `zenodo4662053-2021-02-25-tulip-Airyscan` |
 | `czi` | instrument | `LSM 880 Indimo, Axio Imager 2` | descriptive | 1 | 1 | `zenodo8321543-zen-black-3d` |
-| `czi` | instrument | `LSM 880, AxioObserver` | descriptive | 8 | 8 | `zenodo10044967-fig2D-GFP-10B-rot-1`, `zenodo13736595-ycharos-fus`, `zenodo17181554-kinesin-mut017` |
+| `czi` | instrument | `LSM 880 Indimo, AxioObserver` | descriptive | 2 | 2 | `zenodo11039334-prophage-termL-host-association-fov-01-m`, `zenodo12659608-2023-10-16-hsdm-slide-IB-fov-01-03-2023` |
+| `czi` | instrument | `LSM 880, Axio Examiner` | descriptive | 1 | 1 | `figshare27173274-10x-cy5-zoom-avg8` |
+| `czi` | instrument | `LSM 880, AxioObserver` | descriptive | 20 | 20 | `figshare28448495-wt-m9-1`, `figshare28810667-Retina-6hr-40x-001`, `figshare29052365-2019-11-15-Ng2-DsRed-Ret-RFPgr-DSREDrd-L` |
+| `czi` | instrument | `Lattice Lightsheet` | descriptive | 1 | 1 | `zenodo15545732-bmp-tg-fast-20percent-4hpf-movie-5-Latti` |
 | `czi` | instrument | `Other Microscope` | descriptive | 1 | 1 | `zenodo10080888-zebrafish-aif1l` |
 | `czi` | layout | `extra dimension H` | metadata, pixels | 3 | 3 | `zenodo16419509-Rizzollo-Example1-SIM-raw`, `zenodo17432573-MC1-Nt3EmCherry-7412-H4`, `zenodo17482295-Figure-08-P-aeruginosa-H4` |
-| `czi` | layout | `mosaic` | pixels | 31 | 35 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-variable-scene-shape-first-scene-pyramid` |
+| `czi` | layout | `mosaic` | pixels | 33 | 37 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-variable-scene-shape-first-scene-pyramid` |
 | `czi` | layout | `multi_file` | pixels | 1 | 1 | `synthetic-multifile` |
-| `czi` | layout | `multi_scene` | metadata | 35 | 37 | `aics-NoSceneNames`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-s-3-t-1-c-3-z-5` |
-| `czi` | layout | `pyramid` | pixels | 23 | 26 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-variable-scene-shape-first-scene-pyramid` |
+| `czi` | layout | `multi_scene` | metadata | 37 | 39 | `aics-NoSceneNames`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-s-3-t-1-c-3-z-5` |
+| `czi` | layout | `pyramid` | pixels | 25 | 28 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-variable-scene-shape-first-scene-pyramid` |
 | `czi` | layout | `super-resolved rendering` | metadata, pixels | 3 | 3 | `zenodo10577621-Image-5-PALM-verrechnet`, `zenodo10577621-PALM-OnlineVerrechnet`, `zenodo10577621-Palm-mitDrift` |
-| `czi` | sample_layout | `stored bgr24` | pixels | 12 | 14 | `aics-RGB-8bit`, `openslide-zeiss-5-cropped`, `openslide-zeiss-5-flat` |
+| `czi` | sample_layout | `stored bgr24` | pixels | 15 | 17 | `aics-RGB-8bit`, `figshare31329073-a3-eten5-fitc-flag-cy3`, `openslide-zeiss-5-cropped` |
 | `czi` | sample_layout | `stored bgr48` | pixels | 5 | 5 | `openslide-zeiss-5-slidepreview-jxr`, `openslide-zeiss-5-slidepreview-zstd0`, `openslide-zeiss-5-slidepreview-zstd1-hilo` |
-| `czi` | sample_layout | `stored gray16` | pixels | 74 | 76 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2` |
-| `czi` | sample_layout | `stored gray8` | pixels | 25 | 27 | `synthetic-gray8-c2z2t3-uncompressed`, `synthetic-gray8-chunked-lz4`, `synthetic-gray8-jpeg` |
-| `czi` | sample_layout | `uint16` | pixels | 74 | 76 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2` |
+| `czi` | sample_layout | `stored gray16` | pixels | 112 | 114 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2` |
+| `czi` | sample_layout | `stored gray8` | pixels | 42 | 44 | `figshare28448495-wt-m9-1`, `figshare30630299-FigureS7-c-FUS-WT`, `figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale` |
+| `czi` | sample_layout | `uint16` | pixels | 112 | 114 | `aics-NoSceneNames`, `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2` |
 | `czi` | sample_layout | `uint16x3` | pixels | 5 | 5 | `openslide-zeiss-5-slidepreview-jxr`, `openslide-zeiss-5-slidepreview-zstd0`, `openslide-zeiss-5-slidepreview-zstd1-hilo` |
-| `czi` | sample_layout | `uint8` | pixels | 25 | 27 | `synthetic-gray8-c2z2t3-uncompressed`, `synthetic-gray8-chunked-lz4`, `synthetic-gray8-jpeg` |
-| `czi` | sample_layout | `uint8x3` | pixels | 12 | 14 | `aics-RGB-8bit`, `openslide-zeiss-5-cropped`, `openslide-zeiss-5-flat` |
-| `czi` | writer | `ZEN` | metadata, pixels | 9 | 9 | `zenodo10080888-zebrafish-aif1l`, `zenodo16950892-nodose-sum`, `zenodo17432573-MC1-Nt3EmCherry-7412-H4` |
-| `czi` | writer | `ZEN black` | metadata, pixels | 31 | 31 | `aics-NoSceneNames`, `zenodo10044967-fig2D-GFP-10B-rot-1`, `zenodo10219682-sim-mip` |
-| `czi` | writer | `ZEN blue` | metadata, pixels | 56 | 61 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-s-1-t-1-c-1-z-1` |
+| `czi` | sample_layout | `uint8` | pixels | 42 | 44 | `figshare28448495-wt-m9-1`, `figshare30630299-FigureS7-c-FUS-WT`, `figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale` |
+| `czi` | sample_layout | `uint8x3` | pixels | 15 | 17 | `aics-RGB-8bit`, `figshare31329073-a3-eten5-fitc-flag-cy3`, `openslide-zeiss-5-cropped` |
+| `czi` | writer | `ZEN` | metadata, pixels | 14 | 14 | `figshare29204072-mt-opto-con-raw`, `figshare29966063-overview-2-scenes`, `figshare32087253-CrJAG-cYFP-CrMSI4-nYFP` |
+| `czi` | writer | `ZEN black` | metadata, pixels | 56 | 56 | `aics-NoSceneNames`, `figshare27173274-10x-cy5-zoom-avg8`, `figshare28448495-wt-m9-1` |
+| `czi` | writer | `ZEN blue` | metadata, pixels | 82 | 87 | `aics-OverViewScan`, `aics-S-2-4x2-T-2-Z-3-CH-2`, `aics-s-1-t-1-c-1-z-1` |
 | `czi` | writer | `pylibCZIrw` | metadata, pixels | 18 | 19 | `synthetic-bgr24-jpeg`, `synthetic-bgr24-jpeg444`, `synthetic-bgr24-uncompressed` |
 | `czi` | writer_version | `ZEN 3.10` | descriptive | 4 | 4 | `zenodo16950892-nodose-sum`, `zenodo17723322-axioscan-3scenes-BF`, `zenodo17725097-axioscan-FL-multichannel` |
 | `czi` | writer_version | `ZEN 3.13` | descriptive | 1 | 1 | `zenodo22090339-6h-timelapse-06-MIP` |
-| `czi` | writer_version | `ZEN 3.8` | descriptive | 3 | 3 | `zenodo10080888-zebrafish-aif1l`, `zenodo17482295-Figure-08-E-coli`, `zenodo17482295-Figure-08-P-aeruginosa-H4` |
-| `czi` | writer_version | `ZEN 3.9` | descriptive | 1 | 1 | `zenodo17432573-MC1-Nt3EmCherry-7412-H4` |
+| `czi` | writer_version | `ZEN 3.8` | descriptive | 6 | 6 | `figshare29204072-mt-opto-con-raw`, `figshare32087253-CrJAG-cYFP-CrMSI4-nYFP`, `figshare32789232-H-mac-1-3` |
+| `czi` | writer_version | `ZEN 3.9` | descriptive | 3 | 3 | `figshare29966063-overview-2-scenes`, `zenodo15545732-bmp-tg-fast-20percent-4hpf-movie-5-Latti`, `zenodo17432573-MC1-Nt3EmCherry-7412-H4` |
 | `czi` | writer_version | `ZEN black 11.0` | descriptive | 2 | 2 | `zenodo10577621-Image-5-PALM-verrechnet`, `zenodo10577621-PALM-OnlineVerrechnet` |
-| `czi` | writer_version | `ZEN black 14.0` | descriptive | 18 | 18 | `aics-NoSceneNames`, `zenodo10044967-fig2D-GFP-10B-rot-1`, `zenodo11260215-LS-foto-1` |
-| `czi` | writer_version | `ZEN black 16.0` | descriptive | 5 | 5 | `zenodo10219682-sim-mip`, `zenodo10221545-ctcf-livesr`, `zenodo16419509-Rizzollo-Example1-SIM-raw` |
+| `czi` | writer_version | `ZEN black 13.0` | descriptive | 1 | 1 | `zenodo4942564-NIP51-Int1570-mRNA670-7` |
+| `czi` | writer_version | `ZEN black 14.0` | descriptive | 39 | 39 | `aics-NoSceneNames`, `figshare27173274-10x-cy5-zoom-avg8`, `figshare28448495-wt-m9-1` |
+| `czi` | writer_version | `ZEN black 16.0` | descriptive | 6 | 6 | `zenodo10219682-sim-mip`, `zenodo10221545-ctcf-livesr`, `zenodo16419509-Rizzollo-Example1-SIM-raw` |
 | `czi` | writer_version | `ZEN black 7.0` | descriptive | 6 | 6 | `zenodo10577621-Channel-ZStack-LineScan-Bidirectional-Averaging`, `zenodo10577621-LineScan-T3500`, `zenodo10577621-LineScan-T80-Z25` |
-| `czi` | writer_version | `ZEN blue 1.1` | descriptive | 3 | 6 | `zenodo10577621-Intestine-3color-RAC`, `zenodo10577621-Kidney-RAC-3color`, `zenodo10989097-gat-colon` |
-| `czi` | writer_version | `ZEN blue 2.3` | descriptive | 6 | 6 | `aics-OverViewScan`, `aics-s-1-t-1-c-1-z-1`, `aics-s-3-t-1-c-3-z-5` |
-| `czi` | writer_version | `ZEN blue 2.6` | descriptive | 3 | 3 | `zenodo17098115-Snap-212a`, `zenodo17880403-Snap-8347`, `zenodo7430767-smfish-dacv` |
+| `czi` | writer_version | `ZEN black 8.1` | descriptive | 2 | 2 | `figshare31537051-SAP10-CD226-SAP10-1-stack`, `zenodo17586960-FigureS1-HCO-MARV-Infected-Day3-Inclusio` |
+| `czi` | writer_version | `ZEN blue 1.1` | descriptive | 6 | 9 | `figshare29396375-sample5-31`, `zenodo10577621-Intestine-3color-RAC`, `zenodo10577621-Kidney-RAC-3color` |
+| `czi` | writer_version | `ZEN blue 2.0` | descriptive | 2 | 2 | `figshare31329073-a3-eten5-fitc-flag-cy3`, `zenodo8325317-CMET-M418-D10-10X-2` |
+| `czi` | writer_version | `ZEN blue 2.3` | descriptive | 11 | 11 | `aics-OverViewScan`, `aics-s-1-t-1-c-1-z-1`, `aics-s-3-t-1-c-3-z-5` |
+| `czi` | writer_version | `ZEN blue 2.5` | descriptive | 2 | 2 | `zenodo6385351-Extended-Figure3-E`, `zenodo7818783-Rat-100um-MOR1-x500-TSA` |
+| `czi` | writer_version | `ZEN blue 2.6` | descriptive | 4 | 4 | `zenodo17098115-Snap-212a`, `zenodo17880403-Snap-8347`, `zenodo5172827-BPAE-3color-30p-200ms-63xOil-003-diffExp` |
 | `czi` | writer_version | `ZEN blue 3.0` | descriptive | 1 | 1 | `aics-variable-scene-shape-first-scene-pyramid` |
-| `czi` | writer_version | `ZEN blue 3.1` | descriptive | 2 | 2 | `zenodo7011051-airyscan2`, `zenodo7017487-frap3d` |
+| `czi` | writer_version | `ZEN blue 3.1` | descriptive | 5 | 5 | `zenodo11039334-prophage-termL-host-association-fov-01-m`, `zenodo18006631-24-NOW-VB-54-Blurry-H-E-Tumor`, `zenodo7011051-airyscan2` |
 | `czi` | writer_version | `ZEN blue 3.2` | descriptive | 1 | 2 | `zenodo12515325-nanocompartment-spf` |
-| `czi` | writer_version | `ZEN blue 3.3` | descriptive | 5 | 5 | `zenodo14895059-Figure-6C-D`, `zenodo7015307-S-1-3x3-T-3-Z-4-CH-2`, `zenodo7015307-S-2-3x3-T-1-Z-4-CH-2` |
-| `czi` | writer_version | `ZEN blue 3.4` | descriptive | 4 | 4 | `aics-S-2-4x2-T-2-Z-3-CH-2`, `zenodo7015307-S-3-1Pos-2Mosaic-T-2-Z-3-CH-2`, `zenodo7015307-W96-B2-B4-S-2-T-1-Z-1-C-1-Tile-5x9` |
-| `czi` | writer_version | `ZEN blue 3.5` | descriptive | 8 | 9 | `openslide-zeiss-5-cropped`, `openslide-zeiss-5-flat`, `openslide-zeiss-5-jxr` |
+| `czi` | writer_version | `ZEN blue 3.3` | descriptive | 9 | 9 | `figshare30853862-BMDC-Citine-YP-2hr-infection-8-Airyscan`, `figshare31073320-456-0-5ugDAPI-3-7FA-0826-2X-3-Draw-Scale`, `figshare33425479-Snap-29835` |
+| `czi` | writer_version | `ZEN blue 3.4` | descriptive | 8 | 8 | `aics-S-2-4x2-T-2-Z-3-CH-2`, `figshare30992542-Snap-31484-0-3`, `figshare33437809-Fig5a-ricOOE` |
+| `czi` | writer_version | `ZEN blue 3.5` | descriptive | 9 | 10 | `openslide-zeiss-5-cropped`, `openslide-zeiss-5-flat`, `openslide-zeiss-5-jxr` |
 | `czi` | writer_version | `ZEN blue 3.6` | descriptive | 21 | 21 | `zenodo19890985-piezo-capins`, `zenodo7015307-S-1-CH-2`, `zenodo7015307-S-2-2x2-CH-1` |
-| `czi` | writer_version | `ZEN blue 3.7` | descriptive | 2 | 2 | `zenodo10659514-B30-FAM-probe-test`, `zenodo12509122-PSR-LXR-KO-WT-1054` |
+| `czi` | writer_version | `ZEN blue 3.7` | descriptive | 3 | 3 | `figshare27940407-20230706-MN-Diff-20210906-d21-FUS-R244C`, `zenodo10659514-B30-FAM-probe-test`, `zenodo12509122-PSR-LXR-KO-WT-1054` |
 | `czi` | writer_version | `pylibCZIrw 6.1` | descriptive | 18 | 19 | `synthetic-bgr24-jpeg`, `synthetic-bgr24-jpeg444`, `synthetic-bgr24-uncompressed` |
 
 ### Tests, fixtures, fuzz targets, snapshots
@@ -151,7 +160,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 10 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `czi_metadata_xml`, `czi_segment_walk`, `czi_subblock_header`, `whole_czi`
-- corpus inputs by tier: full 4, heldout 13, smoke 49, standard 70
+- corpus inputs by tier: full 4, heldout 13, smoke 49, standard 128
 - golden snapshots: [`corpus/snapshots/czi.jsonl`](../../corpus/snapshots/czi.jsonl)
 
 ### Open new-variant intakes

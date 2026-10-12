@@ -1,0 +1,50 @@
+{
+ "id": "zenodo23067433-CD8-3B10-905-T-1-8-26",
+ "file": "zenodo23067433-CD8-3B10-905-T-1-8-26.ndpi",
+ "size": 112055387,
+ "sha256": "9e882c2842dd6a7868388f54b3d438d071243ee31db235000214471e1568994c",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "ndpi",
+ "flags": [
+  "ndpi"
+ ],
+ "page_count": 7,
+ "series_count": 3,
+ "images": [
+  {
+   "index": 0,
+   "name": "Baseline",
+   "kind": "ndpi",
+   "axes": "YXS",
+   "shape": [
+    13440,
+    23296,
+    3
+   ],
+   "size_x": 23296,
+   "size_y": 13440,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 5,
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.44191082239604046,
+    "y": 0.44189129474149363
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "15abd98c187fa28c72943961c0d71648",
+     "mean": 207.21767591007006
+    }
+   ]
+  }
+ ]
+}

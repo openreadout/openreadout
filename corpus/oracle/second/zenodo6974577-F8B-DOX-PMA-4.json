@@ -1,0 +1,32 @@
+{
+ "id": "zenodo6974577-F8B-DOX-PMA-4",
+ "file": "zenodo6974577-F8B-DOX-PMA-4.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a2c12d02bc9be23774601d2e6deae39"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3a9bc67c0be06d5b19a2a85620337476"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "beda9581b9734a72fe33f94b3443efba"
+    }
+   ]
+  }
+ ]
+}

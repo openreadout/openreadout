@@ -879,6 +879,38 @@ impl CziFile {
             }
         }
 
+        // ZEN can write a number other than the part into the attachment entries of a
+        // single-file document (an Elyra 7 file saved from scene 12: `file_part` 12 in a file
+        // whose header says part 0, no part 12 on disk, every attachment segment in the file).
+        // An entry whose part is not next to the master, but whose position in the master holds
+        // a segment of the kind the entry needs, is read from the master.
+        let mut absent: std::collections::HashMap<u32, bool> = std::collections::HashMap::new();
+        let mut part_absent = |k: u32| {
+            *absent
+                .entry(k)
+                .or_insert_with(|| !probe_part(fs, path, &header, k).present)
+        };
+        let mut in_master = |pos: u64, want: SegmentId| {
+            pos.saturating_add(SEGMENT_HEADER_LEN) <= file_len
+                && read_segment_header(&mut f, path, pos).is_ok_and(|s| s.segment_id == want)
+        };
+        for a in &mut attachments {
+            if a.file_part > 0
+                && part_absent(a.file_part)
+                && in_master(a.file_position, SegmentId::Attachment)
+            {
+                a.file_part = 0;
+            }
+        }
+        for e in &mut entries {
+            if e.file_part > 0
+                && part_absent(e.file_part)
+                && in_master(e.file_position, SegmentId::SubBlock)
+            {
+                e.file_part = 0;
+            }
+        }
+
         // Following parts of a multi-file document: every file_part > 0 that an entry names.
         let referenced: std::collections::BTreeSet<u32> = entries
             .iter()

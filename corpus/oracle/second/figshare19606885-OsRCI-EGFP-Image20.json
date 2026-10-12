@@ -1,0 +1,32 @@
+{
+ "id": "figshare19606885-OsRCI-EGFP-Image20",
+ "file": "figshare19606885-OsRCI-EGFP-Image20.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3532ed4336795fd41e57ee6aef05bd1e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "34aa7cd8dc77ca59d2afb3d1f134f615"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3409f7c0a758ac86036455a2c04932d"
+    }
+   ]
+  }
+ ]
+}

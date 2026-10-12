@@ -1,0 +1,32 @@
+{
+ "id": "figshare22010150-655-BSI-4SoRa-fixed",
+ "file": "figshare22010150-655-BSI-4SoRa-fixed.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6778c980549a1eb32cb265baa56f977b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "972fa681a886d8e84b2575514804574f"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "43584cf2eae608c438cad875cef61aaf"
+    }
+   ]
+  }
+ ]
+}

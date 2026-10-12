@@ -1,0 +1,58 @@
+{
+ "id": "figshare32789232-H-mac-1-3",
+ "file": "figshare32789232-H-mac-1-3.czi",
+ "size": 1442848,
+ "sha256": "86b83580b95cadd48df58503a46dba5c820ac89f666d96dedb10d6f78a4be612",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "dims": "CYX",
+   "shape": [
+    2,
+    512,
+    512
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.311962890625,
+    "y": 0.311962890625,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0387a5cbf1692172971e374f0624a8b6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2f374cc3d58493a41867c5c7d4837b5b"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.311962890625,
+  "y": 0.311962890625,
+  "z": null
+ },
+ "subblock_count": 2,
+ "compression_ids": [
+  0
+ ]
+}

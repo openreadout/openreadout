@@ -1,0 +1,180 @@
+{
+ "id": "figshare25858972-WAN2293-001-crop-1cell",
+ "file": "figshare25858972-WAN2293-001-crop-1cell.nd2",
+ "size": 352256,
+ "sha256": "f12eec51532af72dbd45d90fbddfb2147404a7e5e0b4041ea30e775c09b57001",
+ "max_planes_hashed": 64,
+ "reader": "nd2 0.11.3",
+ "version": "3.0",
+ "is_legacy": false,
+ "images": [
+  {
+   "index": 0,
+   "size_x": 55,
+   "size_y": 55,
+   "size_z": 3,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "sizes": "{'Z': 3, 'C': 3, 'Y': 55, 'X': 55}",
+   "physical_size_um": {
+    "x": 0.11,
+    "y": 0.11,
+    "z": 0.3
+   },
+   "channel_names": [
+    "638",
+    "488",
+    "405"
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "93b7daa7fb4fe10807a718f3da466def"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "625a50e02b3a65dc2d053b11619628ca"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "c0c3269b563c6a774e0add8035690173"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0077517f182f5d1299394561779fd753"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "9bf889bce1f985e903a78b573c949ac9"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "eb6dee7f85ce4ae3d9c145f2886b8de0"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7ca66d39aa219e7653cce3e26d5466fc"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "00ff01987beb8eb4f4f678913746a935"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "1c8178f8328bcafdd05d9ab4a43aef1a"
+    }
+   ]
+  }
+ ],
+ "nd2_meta": {
+  "channels": [
+   {
+    "name": "638",
+    "color": "#FF00FF",
+    "excitation_nm": null,
+    "emission_nm": 650.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "488",
+    "color": "#00FF00",
+    "excitation_nm": null,
+    "emission_nm": 525.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   },
+   {
+    "name": "405",
+    "color": "#0000FF",
+    "excitation_nm": null,
+    "emission_nm": 477.0,
+    "component_count": 1,
+    "modality": [
+     "fluorescence",
+     "spinningDiskConfocal"
+    ]
+   }
+  ],
+  "frame_count": 3,
+  "frames": [
+   {
+    "index": 0,
+    "time_ms": 326.0368800004944,
+    "tags": {
+     "CameraTemp1": -14.88,
+     "Camera_ExposureTime1": 400.0,
+     "PFS_OFFSET": 7532,
+     "PFS_STATUS": 3,
+     "X": 2886.7000000000003,
+     "Y": -1317.4,
+     "Z": 6596.26,
+     "Z1": 6596.26
+    }
+   },
+   {
+    "index": 1,
+    "time_ms": 1884.896080000326,
+    "tags": {
+     "CameraTemp1": -14.88,
+     "Camera_ExposureTime1": 400.0,
+     "PFS_OFFSET": 7532,
+     "PFS_STATUS": 3,
+     "X": 2886.7000000000003,
+     "Y": -1317.4,
+     "Z": 6596.56,
+     "Z1": 6596.56
+    }
+   },
+   {
+    "index": 2,
+    "time_ms": 3480.8249599998817,
+    "tags": {
+     "CameraTemp1": -14.83,
+     "Camera_ExposureTime1": 400.0,
+     "PFS_OFFSET": 7532,
+     "PFS_STATUS": 3,
+     "X": 2886.7000000000003,
+     "Y": -1317.4,
+     "Z": 6596.860000000001,
+     "Z1": 6596.860000000001
+    }
+   }
+  ],
+  "acquired_at": "2024-03-12T08:25:45.991Z",
+  "acquired_at_unix_ms": 1710231945991
+ },
+ "text_info": {
+  "description": "Metadata:\r\nDimensions: Z(53) x \u03bb(3)\r\nCamera Name: Prime 95B, A23E203012\r\nNumerical Aperture: 1.45\r\nRefractive Index: 1.515\r\nNumber of Picture Planes: 3\r\nPlane #1:\r\n Name: 638\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 12-bit\r\n  Exposure: 400 ms\r\n  Readout Speed: 200.0MHz\r\n  Multiplier: Off\r\n  Temperature: -14.9\u00b0C\r\n  \r\n  Conversion Gain: Sensitivity\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: High\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret1): 1 (Empty)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Continuous STORM)\r\n  CSU-W1, FilterChanger(EM2 Wheel): 4 (EM B685/40)\r\n  CSU-W1, FilterChanger(Light Path Changer): 1 (BF)\r\n  CSU-W1, Shutter(CSU NIR): Open\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n  \r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:4; ExW:638; Power: 80.0; On\r\n\r\nPlane #2:\r\n Name: 488\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 12-bit\r\n  Exposure: 100 ms\r\n  Readout Speed: 200.0MHz\r\n  Multiplier: Off\r\n  Temperature: -14.9\u00b0C\r\n  \r\n  Conversion Gain: Sensitivity\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: High\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret1): 1 (Empty)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Continuous STORM)\r\n  CSU-W1, FilterChanger(EM2 Wheel): 2 (EM B525/50)\r\n  CSU-W1, FilterChanger(Light Path Changer): 1 (BF)\r\n  CSU-W1, Shutter(CSU NIR): Open\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n  \r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:2; ExW:488; Power: 50.0; On\r\n\r\nPlane #3:\r\n Name: 405\r\n Component Count: 1\r\n Modality: Widefield Fluorescence, Spinning Disk Confocal\r\n Camera Settings:   Binning: 1x1\r\n  Bit Depth: 12-bit\r\n  Exposure: 400 ms\r\n  Readout Speed: 200.0MHz\r\n  Multiplier: Off\r\n  Temperature: -14.9\u00b0C\r\n  \r\n  Conversion Gain: Sensitivity\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: High\r\n\r\n Microscope Settings:   Microscope: Ti2 Microscope\r\n  Nikon Ti2, FilterChanger(Turret1): 1 (Empty)\r\n  LightPath: L100\r\n  PFS, mirror: Inserted\r\n  Zoom: 1.00x\r\n  CSU-W1, FilterChanger(DM Wheel): 1 (Continuous STORM)\r\n  CSU-W1, FilterChanger(EM2 Wheel): 1 (EM B447/60)\r\n  CSU-W1, FilterChanger(Light Path Changer): 1 (BF)\r\n  CSU-W1, Shutter(CSU NIR): Open\r\n  CSU-W1 Observation Mode:\r\n     Port 1: On \r\n  \r\n  NIDAQ, Shutter(AOTF): Active\r\n  NIDAQ, MultiLaser(AOTF):\r\n     Line:1; ExW:405; Power: 80.0; On\r\n\r\nZ Stack Loop: 53\r\n- Step: 0.3 \u00b5m\r\n- Device: Ti2 ZDrive",
+  "capturing": "Prime 95B, A23E203012\r\nSample 1:\r\n  Binning: 1x1\r\n  Bit Depth: 12-bit\r\n  Exposure: 400 ms\r\n  Readout Speed: 200.0MHz\r\n  Multiplier: Off\r\n  Temperature: -14.9\u00b0C\r\n  \r\n  Conversion Gain: Sensitivity\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: High\r\n\r\nSample 2:\r\n  Binning: 1x1\r\n  Bit Depth: 12-bit\r\n  Exposure: 100 ms\r\n  Readout Speed: 200.0MHz\r\n  Multiplier: Off\r\n  Temperature: -14.9\u00b0C\r\n  \r\n  Conversion Gain: Sensitivity\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: High\r\n\r\nSample 3:\r\n  Binning: 1x1\r\n  Bit Depth: 12-bit\r\n  Exposure: 400 ms\r\n  Readout Speed: 200.0MHz\r\n  Multiplier: Off\r\n  Temperature: -14.9\u00b0C\r\n  \r\n  Conversion Gain: Sensitivity\r\n  Denoise.ai OFF\r\n  Clarify.ai OFF\r\n  Denoising: Off\r\n  Fan Speed: High\r\n",
+  "date": "3/12/2024  4:25:45 PM",
+  "optics": "PLAN APO \u03bbD 100x OIL OFN25 DIC N2"
+ },
+ "attributes": "Attributes(bitsPerComponentInMemory=16, bitsPerComponentSignificant=12, componentCount=3, heightPx=55, pixelDataType='unsigned', sequenceCount=3, widthBytes=332, widthPx=55, compressionLevel=None, compressionType=None, tileHeightPx=None, tileWidthPx=None, channelCount=3)"
+}

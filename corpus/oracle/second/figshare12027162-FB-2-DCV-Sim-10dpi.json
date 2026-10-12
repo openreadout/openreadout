@@ -1,0 +1,32 @@
+{
+ "id": "figshare12027162-FB-2-DCV-Sim-10dpi",
+ "file": "figshare12027162-FB-2-DCV-Sim-10dpi.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "400b4bd69e0075c4da865f3df5ef8153"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "78f169bab0d86664473e5171bdbb303c"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3f50c6c1b4f234f7158c3cbaa5894191"
+    }
+   ]
+  }
+ ]
+}

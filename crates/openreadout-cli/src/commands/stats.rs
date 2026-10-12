@@ -428,5 +428,12 @@ pub fn render(o: &StatsOutput) -> String {
     if o.images.iter().any(|i| !i.stats.exact) {
         s.push_str("\n(percentiles approximate to 0.2 %: more than 131,072 distinct values)");
     }
+    if !o.images_skipped.is_empty() {
+        let list: Vec<String> = o.images_skipped.iter().map(u32::to_string).collect();
+        s.push_str(&format!(
+            "\n(left out: image(s) {}, whose pixel data the reader does not decode; `info` says why)",
+            list.join(", ")
+        ));
+    }
     s.trim_end().to_string()
 }

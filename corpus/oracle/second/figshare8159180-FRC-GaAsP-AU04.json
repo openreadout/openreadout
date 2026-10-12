@@ -1,0 +1,20 @@
+{
+ "id": "figshare8159180-FRC-GaAsP-AU04",
+ "file": "figshare8159180-FRC-GaAsP-AU04.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b2064e4b6659d3c28184497e16bd8aeb"
+    }
+   ]
+  }
+ ]
+}

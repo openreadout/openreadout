@@ -1,0 +1,32 @@
+{
+ "id": "zenodo7656899-Figure-3A-Immunofluorescence-image-KIAA2",
+ "file": "zenodo7656899-Figure-3A-Immunofluorescence-image-KIAA2.lsm",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 652,
+   "size_y": 652,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "64171f8c2acf4e3279d4f167535afcaf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4bd23f44ea99ddae767bd2da7648795"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "327f5401e2fdf3040763483dae621097"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "id": "figshare30581381-CandidaConA1",
+ "file": "figshare30581381-CandidaConA1.czi",
+ "size": 7346720,
+ "sha256": "db718cda080e8c7272bf3678efa8fabaa3ccf75c94fcbae477adb7cf6a19f085",
+ "max_planes_hashed": 64,
+ "reader": "czifile 2026.8.16",
+ "images": [
+  {
+   "index": 0,
+   "name": "Scene 0",
+   "size_x": 1912,
+   "size_y": 1912,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "dims": "YX",
+   "shape": [
+    1912,
+    1912
+   ],
+   "other_dims": {},
+   "pyramid_levels": 1,
+   "physical_size_um": {
+    "x": 0.07058114171705612,
+    "y": 0.07058114171705612,
+    "z": 0.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2f52b26c8439ee34e799938ae57872ea"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "physical_size_um": {
+  "x": 0.07058114171705612,
+  "y": 0.07058114171705612,
+  "z": 0.0
+ },
+ "subblock_count": 1,
+ "compression_ids": [
+  0
+ ]
+}

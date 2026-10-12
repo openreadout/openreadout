@@ -1,0 +1,63 @@
+{
+ "id": "zenodo7656899-Figure-3A-Immunofluorescence-image-KIAA2",
+ "file": "zenodo7656899-Figure-3A-Immunofluorescence-image-KIAA2.lsm",
+ "size": 1483053,
+ "sha256": "4d1c35ea84803e8ab068dd7741e2bd3abe36e7b72ae8b1db7b9b4c037c1b87c5",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "lsm",
+ "flags": [
+  "lsm"
+ ],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "lsm",
+   "axes": "CYX",
+   "shape": [
+    3,
+    652,
+    652
+   ],
+   "size_x": 652,
+   "size_y": 652,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {
+    "x": 0.10349014236423128,
+    "y": 0.10349014236423128
+   },
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "64171f8c2acf4e3279d4f167535afcaf"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f4bd23f44ea99ddae767bd2da7648795"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "327f5401e2fdf3040763483dae621097"
+    }
+   ],
+   "check_objective": "Plan-Apochromat 63x/1.40 Oil DIC M27",
+   "check_acquired_at": "2022-06-28T11:42:15"
+  }
+ ]
+}

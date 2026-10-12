@@ -330,3 +330,29 @@ ids = ["mtbls13066-elite-318a-b5-35nce"]
 fields = ["instrument model"]
 right = "openreadout"
 why = "ours is the model string the raw file's instrument id holds (`Orbitrap Elite`, both strings); the conversion writes the PSI-MS term `LTQ Orbitrap Elite` for the same instrument"
+
+# Imaging sweep, 2026-10-12.
+
+[file.figshare12027162-FB-2-DCV-Sim-10dpi]
+right = "openreadout"
+why = "as aics-ND2-dims-rgb: a colour-camera ND2 whose three interleaved samples Bio-Formats splits into three channels in stored order; each Bio-Formats channel k is bit-identical to the nd2 library's stored sample k (means 237.46, 68.61, 23.73), and ours equals the nd2 library (the primary oracle)"
+
+[file.figshare19649871-210616-DIC-lumbarMNs-P9-control]
+right = "openreadout"
+why = "as figshare12027162-FB-2-DCV-Sim-10dpi: Bio-Formats channel k is the stored colour sample k, bit for bit (means 2025.67, 2026.88, 2027.28); ours equals the nd2 library"
+
+[file.figshare4986389-24hr-2-POM]
+right = "openreadout"
+why = "as figshare12027162-FB-2-DCV-Sim-10dpi: Bio-Formats channel k is the stored colour sample k, bit for bit (means 139.46, 91.51, 72.98); ours equals the nd2 library"
+
+[file.figshare7633508-40xx]
+right = "openreadout"
+why = "as figshare12027162-FB-2-DCV-Sim-10dpi: Bio-Formats channel k is the stored colour sample k, bit for bit (means 156.29, 141.49, 160.51); ours equals the nd2 library"
+
+[file.figshare22336594-FLIM-testdata]
+right = "openreadout"
+why = "as zenodo13752242-FLIM250523: Fast Flim, Standard Deviation and the phasor maps store 16-bit half floats (extra.stored_pixel_type float16); readlif 0.6.6 returns their raw bits as uint16 (Fast Flim mean 15077.69, max 21085), liffile and ours decode the half floats"
+
+[file.zenodo14237352-105-S1-1-5-20x]
+right = "openreadout"
+why = "lossy JPEG 2000 (Aperio 33005) tiles: on the region 8000,8000,2048,2048 Bio-Formats' Java decoder differs from ours by at most 2 grey levels (mean absolute 0.077, no sample by more than 2); OpenReadout agrees with OpenJPEG (tifffile/imagecodecs, the primary oracle) within the lossy tolerance on every sampled region"

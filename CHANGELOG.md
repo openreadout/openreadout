@@ -14,6 +14,8 @@ All notable changes to this project are documented here. The format is based on 
 - Multi Channel Systems MC_DataTool binary exports with a header (`mcs-raw`). Checked against Neo on a public file.
 - Shimadzu UVProbe `.spc` reader (`shimadzu-uvprobe`): UV-Vis and UV-Vis-NIR spectra (absorbance, reflectance) from the compound file, with the instrument model, serial number, software version and the data set's date. Galactic SPC keeps the extension for its own files. Checked against UVProbe's text exports on 3 files and read on 5 files from 3 public records.
 - ABF 1 command waveforms: trace 1 now holds the synthesized DAC command for ABF 1.6 and later episodic files with an epoch table on one DAC, as for ABF 2. Checked against pyABF inside the epochs and against recorded command monitors over whole sweeps.
+- Zeiss LSM files report their objective (name, magnification, NA and immersion), the recording's name and the acquisition date. The date is the instrument's local time, without a time zone.
+- Harmony archives (the `hs` folder that "export as archive" writes, from Operetta CLS and Opera Phenix) open as plates, from the `hs` folder or the measurement folder.
 - MIRAX slides exported with overlaps removed, which have no camera position table, are read. Their pixels used to exit 6.
 
 ### Changed
@@ -22,6 +24,13 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- `stats` and `export` over a whole Leica file with FALCON FLIM elements used to exit 6 because the raw photon data is not decoded. They now leave those images out, list them in `images_skipped`, and read the rest.
+- A CZI whose attachment entries name a file part the document does not have (an Elyra 7 file saved from one scene) failed `check` and lost its time stamps. The attachments are in the file itself and are read from there.
+- `check` on an ND2 file now reports a declared frame that has no chunk. It used to pass the file because the chunk count added up, and `stats` then failed on the missing frame.
+- An Imaris file that holds only scene objects (spots, surfaces) and no image exits 6 with a hint instead of being called corrupt.
+- `stats` and `export` on Imaris files whose chunks span many Z planes used several times the memory with more threads and were no faster. Planes that share a chunk now go to one worker: 313 MB instead of 832 MB on a 205 MB image with 8 threads.
+- `info` printed `NA 0` and `0x` for objectives whose numerical aperture or magnification the file does not state. It now prints only what the file says.
+- The CZI `info` note said `export` writes full resolution only. It writes the pyramid levels too.
 - Claude Code 2.1.292 showed no OpenReadout MCP tools. With MCP protocol version 2026-07-28 the server left `ttlMs` and `cacheScope` off its list results, and the client rejected the whole tool list. The server now sends them.
 - DM3/DM4 files now name the microscope entered for the session (`JEM-ARM200F`) instead of DigitalMicrograph's microscope-control plug-in (`JEOL COM`) when the file has both.
 - Electron-microscopy pixel and voxel sizes in `experiment.method.parameters` are in nm. A 0.156 nm pixel read as 0.000156 µm was easy to misread.

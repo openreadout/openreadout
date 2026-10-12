@@ -1,0 +1,32 @@
+{
+ "id": "zenodo7115828-Figure-S2B",
+ "file": "zenodo7115828-Figure-S2B.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2186,
+   "size_y": 2186,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0293a40a9b0736ff82305408245d19ce"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "07cd5f791202323c4fd1fb494a7b6b6a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "82afa17ab123306bc5cd1b7d0c91e865"
+    }
+   ]
+  }
+ ]
+}

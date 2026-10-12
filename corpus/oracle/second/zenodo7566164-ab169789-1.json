@@ -1,0 +1,38 @@
+{
+ "id": "zenodo7566164-ab169789-1",
+ "file": "zenodo7566164-ab169789-1.czi",
+ "reader": "pylibCZIrw 6.1.0 (LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1272,
+   "size_y": 1272,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7c8ca728616acd6818e1b3f833220dae"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e1c37c6efb7eab1f01e1c76966d07019"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5940d2fab888c35a706ec3641c5fc72b"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e27fec0818dd834446485e9c12f6fee1"
+    }
+   ]
+  }
+ ]
+}

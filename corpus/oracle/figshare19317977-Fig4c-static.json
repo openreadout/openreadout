@@ -1,0 +1,228 @@
+{
+ "id": "figshare19317977-Fig4c-static",
+ "file": "figshare19317977-Fig4c-static.ims",
+ "size": 1289710,
+ "sha256": "4e933437de1327748a3a2cabac8d9f7aa4e12046f178e73a870823d4a2b9cf9b",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 116,
+   "size_y": 110,
+   "size_z": 10,
+   "size_c": 3,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.20637931034482807,
+    "y": 0.20636363636363472,
+    "z": 0.11699999999999874
+   },
+   "channel_names": [
+    "405_DAPI_Confocal 25um_iXon EMCCD",
+    "488_GFP_Confocal 25um_iXon EMCCD",
+    "637_Cy5_Confocal 25um_iXon EMCCD"
+   ],
+   "filters": [],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c5db65c9b4735aac7cae5aaa80d6a64a"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "6a7ea0cbade85c2676f36fcd9b26b0db"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "6a4dd0685e5583f231e75e36b07f23bc"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "4e0709475c384e6ab22d5bbcd2f5ace1"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "5ce3feed132ebcb5c113277141e87e2e"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "de1e4fee9ec8ef1f828c546eac2be529"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "791bd7c92abb70c256fe034f7758a074"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "718809e068d7f3a26c9e2d7a2cb7be8c"
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "3fc244b35d2cb25a521af862e405f63f"
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "8e0acf787e78515d53a52854a6da68f6"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "91572e553e6cf20102561ee4a83f2786"
+    },
+    {
+     "c": 1,
+     "z": 1,
+     "t": 0,
+     "xxh3": "580e6e95557b9a6d459fffb22b0b9746"
+    },
+    {
+     "c": 1,
+     "z": 2,
+     "t": 0,
+     "xxh3": "ec99d79c0adaf993e9189c43c84be979"
+    },
+    {
+     "c": 1,
+     "z": 3,
+     "t": 0,
+     "xxh3": "6ad281bfa763f8de496cbe77ceb415bd"
+    },
+    {
+     "c": 1,
+     "z": 4,
+     "t": 0,
+     "xxh3": "2237f387c7d302624582810a39b18899"
+    },
+    {
+     "c": 1,
+     "z": 5,
+     "t": 0,
+     "xxh3": "d6df6a6f2ce36e04ab40b46a43fdf48b"
+    },
+    {
+     "c": 1,
+     "z": 6,
+     "t": 0,
+     "xxh3": "66929cf754baa3c83fc0af3060f177a3"
+    },
+    {
+     "c": 1,
+     "z": 7,
+     "t": 0,
+     "xxh3": "31677f37ad5615df7138ff9ba34e862f"
+    },
+    {
+     "c": 1,
+     "z": 8,
+     "t": 0,
+     "xxh3": "ae23127bc3597b2f196ca9c2b2ee236d"
+    },
+    {
+     "c": 1,
+     "z": 9,
+     "t": 0,
+     "xxh3": "fea8b4504898d9a6a3ae110b1c361cc2"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "574c69a00d6e434d74d1038b6f01abf1"
+    },
+    {
+     "c": 2,
+     "z": 1,
+     "t": 0,
+     "xxh3": "63ff4e5a274d6b31885cec0ab8c8fa80"
+    },
+    {
+     "c": 2,
+     "z": 2,
+     "t": 0,
+     "xxh3": "2f5c83479d784c1daf0ab55ccced0d24"
+    },
+    {
+     "c": 2,
+     "z": 3,
+     "t": 0,
+     "xxh3": "fcebb2230d3aeb28e5afcc491f3432c2"
+    },
+    {
+     "c": 2,
+     "z": 4,
+     "t": 0,
+     "xxh3": "2d276b2fab58433a98de44b93aa5f490"
+    },
+    {
+     "c": 2,
+     "z": 5,
+     "t": 0,
+     "xxh3": "644b4b35f1ce42fcb76e9677ee7b7575"
+    },
+    {
+     "c": 2,
+     "z": 6,
+     "t": 0,
+     "xxh3": "1044ff987ca3525f3abd9b6bd57f8473"
+    },
+    {
+     "c": 2,
+     "z": 7,
+     "t": 0,
+     "xxh3": "649c65e7eb7c524fe3320a200ded1abd"
+    },
+    {
+     "c": 2,
+     "z": 8,
+     "t": 0,
+     "xxh3": "57ca6568169f5c52e3964b9a8650018f"
+    },
+    {
+     "c": 2,
+     "z": 9,
+     "t": 0,
+     "xxh3": "e2b6a9c7f65e539abd12961fbc37993d"
+    }
+   ],
+   "levels": []
+  }
+ ],
+ "imaris_version": "5.5.0",
+ "bioformats": [
+  {
+   "series": 0,
+   "samples": 1,
+   "width": 116,
+   "height": 110,
+   "size_z": 10,
+   "size_t": 1,
+   "size_c": 3,
+   "dimension_order": "XYZCT",
+   "pixel_type": "uint16",
+   "thumbnail": "false"
+  }
+ ]
+}

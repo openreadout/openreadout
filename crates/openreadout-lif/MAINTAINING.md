@@ -37,7 +37,7 @@ The Leica LIF family (`lif`): LIF, LIFEXT, LOF, XLIF, XLEF, XLCF, XLLF. Project-
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `lif` | [format note](../../docs/formats/lif.md), [provenance log](../../docs/provenance/lif.md) | high | prior art | 36 / 33 | 22 | 3 / 0 |
+| `lif` | [format note](../../docs/formats/lif.md), [provenance log](../../docs/provenance/lif.md) | high | prior art | 57 / 54 | 43 | 3 / 0 |
 
 ### Source map
 
@@ -74,40 +74,46 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `lif` | acquisition | `flim` | pixels | 1 | 1 | `zenodo13752242-FLIM250523` |
+| `lif` | acquisition | `flim` | pixels | 2 | 2 | `figshare22336594-FLIM-testdata`, `zenodo13752242-FLIM250523` |
 | `lif` | acquisition | `lambda_scan` | metadata, pixels | 1 | 1 | `zenodo14976703-Convalaria-LambdaScan` |
 | `lif` | codec | `xlif frame tiff` | pixels | 4 | 4 | `figshare23522880-lasx-9a-xlif`, `figshare23522880-lasx-image006-xlif`, `figshare23522880-lasx-xllf` |
-| `lif` | field | `experiment.acquisition.started_at` | descriptive | 32 | 35 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
-| `lif` | field | `experiment.instrument.model` | descriptive | 32 | 35 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
+| `lif` | field | `experiment.acquisition.started_at` | descriptive | 53 | 56 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
+| `lif` | field | `experiment.instrument.model` | descriptive | 53 | 56 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
 | `lif` | format_version | `1` | metadata, pixels | 1 | 1 | `ome-imagesc-110520-AMR1-lifext` |
-| `lif` | format_version | `2` | metadata, pixels | 32 | 35 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
+| `lif` | format_version | `2` | metadata, pixels | 53 | 56 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
 | `lif` | instrument | `DM4000B-CA` | descriptive | 1 | 1 | `zenodo7225975-polyoma-6e` |
 | `lif` | instrument | `DM4000B-M` | descriptive | 3 | 3 | `figshare23522880-lasx-9a-xlif`, `figshare23522880-lasx-image006-xlif`, `figshare23522880-lasx-xllf` |
 | `lif` | instrument | `DM6000B` | descriptive | 1 | 1 | `zenodo19055391-iliocaudalis-11b` |
+| `lif` | instrument | `DM6000B-CS` | descriptive | 1 | 1 | `figshare5725972-TL3-Pos23-postscan-upright` |
+| `lif` | instrument | `DM6B` | descriptive | 1 | 1 | `figshare28730795-dparAB-parABHTpnat-4` |
 | `lif` | instrument | `DM6B-Z-CFS` | descriptive | 1 | 1 | `ome-imagesc-110520-AMR1` |
 | `lif` | instrument | `DM6B-Z-CS` | descriptive | 2 | 2 | `zenodo13752242-FLIM250523`, `zenodo19217336-dnge-notjammed` |
-| `lif` | instrument | `DMI6000B-CS` | descriptive | 2 | 2 | `ome-imagesc-30856-20191025-Test-FRET-585-423-426`, `zenodo6643649-ki67-untreated` |
-| `lif` | instrument | `DMI8` | descriptive | 2 | 3 | `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
-| `lif` | instrument | `DMI8-CS` | descriptive | 7 | 7 | `aics-merged-tiles`, `aics-tiled`, `zenodo14976703-Convalaria-LambdaScan` |
+| `lif` | instrument | `DMI6000B-CS` | descriptive | 6 | 6 | `figshare12133296-Ex1-panel-f-blochmannia-surrounds-germpl`, `figshare12607805-FoxP-Tubgal80ElavGal4`, `figshare24849369-Fig-S3-Data` |
+| `lif` | instrument | `DMI8` | descriptive | 4 | 5 | `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1`, `zenodo19043056-ctr-10x` |
+| `lif` | instrument | `DMI8-CS` | descriptive | 15 | 15 | `aics-merged-tiles`, `aics-tiled`, `figshare14681301-Scramble-Td-WT-Clone-2` |
 | `lif` | instrument | `DMIL` | descriptive | 1 | 1 | `figshare30597152-lasx-d6-xlif` |
 | `lif` | instrument | `SIMULATOR` | descriptive | 1 | 1 | `ome-michael-PR2729-frameOrderCombinedScanTypes` |
-| `lif` | instrument | `TCS SP5` | descriptive | 11 | 13 | `bsst749-2a-ishi-hf-fshr-dmso`, `bsst749-2a-ishi-hf-fshr-dmso-fsh-5`, `bsst749-2a-ishi-hf-fshr-dyngo` |
+| `lif` | instrument | `TCS SP5` | descriptive | 15 | 17 | `bsst749-2a-ishi-hf-fshr-dmso`, `bsst749-2a-ishi-hf-fshr-dmso-fsh-5`, `bsst749-2a-ishi-hf-fshr-dyngo` |
+| `lif` | instrument | `TCS SPE` | descriptive | 1 | 1 | `figshare31445317-PLA-infected-cells` |
 | `lif` | layout | `lifext_sidecar` | metadata | 1 | 1 | `ome-imagesc-110520-AMR1` |
 | `lif` | layout | `tile_scan` | pixels | 6 | 6 | `aics-tiled`, `ome-imagesc-110520-AMR1`, `ome-imagesc-110520-AMR1-lifext` |
-| `lif` | sample_layout | `float` | pixels | 1 | 1 | `zenodo13752242-FLIM250523` |
-| `lif` | sample_layout | `uint16` | pixels | 9 | 12 | `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1`, `ome-imagesc-110520-AMR1` |
-| `lif` | sample_layout | `uint32` | pixels | 2 | 2 | `ome-imagesc-110520-AMR1-lifext`, `zenodo13752242-FLIM250523` |
-| `lif` | sample_layout | `uint8` | pixels | 25 | 25 | `aics-merged-tiles`, `aics-tiled`, `bsst749-2a-ishi-hf-fshr-dmso` |
-| `lif` | writer | `LAS X` | metadata | 20 | 21 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
-| `lif` | writer_version | `LAS X 3` | descriptive | 14 | 15 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
-| `lif` | writer_version | `LAS X 4` | descriptive | 6 | 6 | `ome-imagesc-110520-AMR1`, `zenodo13752242-FLIM250523`, `zenodo14976703-Convalaria-LambdaScan` |
+| `lif` | sample_layout | `float` | pixels | 2 | 2 | `figshare22336594-FLIM-testdata`, `zenodo13752242-FLIM250523` |
+| `lif` | sample_layout | `uint16` | pixels | 14 | 17 | `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1`, `figshare14892519-Eukaryotic-cells-HeLa-H2A-mTq2-Sir-Hoech` |
+| `lif` | sample_layout | `uint32` | pixels | 3 | 3 | `figshare22336594-FLIM-testdata`, `ome-imagesc-110520-AMR1-lifext`, `zenodo13752242-FLIM250523` |
+| `lif` | sample_layout | `uint8` | pixels | 43 | 43 | `aics-merged-tiles`, `aics-tiled`, `bsst749-2a-ishi-hf-fshr-dmso` |
+| `lif` | writer | `LAS X` | metadata | 35 | 36 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
+| `lif` | writer | `LAS-AF` | metadata | 1 | 1 | `figshare12133296-Ex1-panel-f-blochmannia-surrounds-germpl` |
+| `lif` | writer_version | `LAS X 2` | descriptive | 2 | 2 | `figshare22770083-22c04-scaRNAi`, `figshare5725972-TL3-Pos23-postscan-upright` |
+| `lif` | writer_version | `LAS X 3` | descriptive | 24 | 25 | `aics-merged-tiles`, `aics-s-1-t-1-c-2-z-1`, `aics-s-1-t-4-c-2-z-1` |
+| `lif` | writer_version | `LAS X 4` | descriptive | 9 | 9 | `figshare22336594-FLIM-testdata`, `figshare28730597-22-07-24-WT-5h-tip2`, `figshare31440160-Project` |
+| `lif` | writer_version | `LAS-AF 1` | descriptive | 1 | 1 | `figshare12133296-Ex1-panel-f-blochmannia-surrounds-germpl` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 24 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `lif_container`, `lif_xml_model`, `whole_lif`
-- corpus inputs by tier: full 5, heldout 10, smoke 10, standard 21
+- corpus inputs by tier: full 5, heldout 10, smoke 10, standard 42
 - golden snapshots: [`corpus/snapshots/lif.jsonl`](../../corpus/snapshots/lif.jsonl)
 
 ### Open new-variant intakes

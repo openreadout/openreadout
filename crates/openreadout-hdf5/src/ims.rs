@@ -48,6 +48,7 @@ impl FormatReader for ImsReader {
                 "Imaris 3 (`.ims` TIFF-based files) is not this format; those files go to the TIFF reader".into(),
                 "Scene8 objects: their statistics and numeric record datasets are tables; surface meshes (`SurfaceModel`, `BlockData`), text fields and the legacy `Scene` group are not decoded".into(),
                 "Only the first data set is read when a file declares several (NumberOfDataSets > 1)".into(),
+                "Scene files saved without an image (Scene groups, no DataSet) exit 6".into(),
                 "Chunks compressed with filters other than deflate, shuffle, fletcher32 and LZ4 exit 6".into(),
             ],
         }
@@ -214,7 +215,17 @@ impl ImsDataset {
             .and_then(Value::as_str)
             .map(str::to_string);
         let data = file.group("DataSet").map_err(|_| {
-            corrupt("no DataSet group: not an Imaris 5 file, or the file is truncated")
+            // Imaris also saves scenes on their own: spots, surfaces and tracks under
+            // `Scene`/`Scene8`, no image.
+            if file.group("Scene8").is_ok() || file.group("Scene").is_ok() {
+                Error::unsupported(
+                    IMS_FORMAT_ID,
+                    "an Imaris scene file without image data (only Scene groups: spots, surfaces, tracks)",
+                    "This .ims holds Imaris objects but no image. Open the .ims image the objects were made on, or export the objects' statistics from Imaris as CSV.",
+                )
+            } else {
+                corrupt("no DataSet group: not an Imaris 5 file, or the file is truncated")
+            }
         })?;
         let level_names = data
             .groups()
@@ -636,6 +647,14 @@ impl ImsDataset {
 }
 
 impl Dataset for ImsDataset {
+    fn z_planes_per_chunk(&self, _image: u32, level: u32) -> u32 {
+        // Known once the level's first channel has been opened (level 0 at open).
+        self.levels
+            .get(level as usize)
+            .and_then(|l| self.planes.get(&Self::data_path(l.level, 0, 0)))
+            .map_or(1, |d| u32::try_from(d.chunk_depth()).unwrap_or(u32::MAX))
+    }
+
     fn assurance_observations(&self) -> openreadout_core::assurance::Observations {
         crate::assurance::hdf5_filters(
             &self

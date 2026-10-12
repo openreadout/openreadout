@@ -1,0 +1,27 @@
+{
+ "id": "figshare12133296-Ex1-panel-f-blochmannia-surrounds-germpl",
+ "file": "figshare12133296-Ex1-panel-f-blochmannia-surrounds-germpl.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Series101",
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "61238e50828d4d726a3692c68f52a0fa"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "201fea872efd9f79fffd00388f104097"
+    }
+   ]
+  }
+ ]
+}

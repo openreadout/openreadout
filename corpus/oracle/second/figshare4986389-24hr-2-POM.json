@@ -1,0 +1,32 @@
+{
+ "id": "figshare4986389-24hr-2-POM",
+ "file": "figshare4986389-24hr-2-POM.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1280,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9c7c8cb625901b7131f4a196579c1d5e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d1d91bca340ac09d15f35ae6a10bb1d2"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f8cf904b11c98c05571c905693560c8a"
+    }
+   ]
+  }
+ ]
+}

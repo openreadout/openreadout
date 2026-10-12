@@ -1,0 +1,27 @@
+{
+ "id": "figshare30276394-original-raw-images-Figure-3-supplement",
+ "file": "figshare30276394-original-raw-images-Figure-3-supplement.lif",
+ "reader": "readlif 0.6.6 (GPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Fish2-14",
+   "size_x": 1024,
+   "size_y": 256,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a3125e68c3956b6dd73b17c7cd0ad4e0"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dc6b7ca3ef8ac17635a8c6e664bc9a90"
+    }
+   ]
+  }
+ ]
+}

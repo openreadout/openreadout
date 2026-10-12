@@ -1,0 +1,26 @@
+{
+ "id": "figshare30865277-TurA-10min-2-2",
+ "file": "figshare30865277-TurA-10min-2-2.nd2",
+ "reader": "Bio-Formats 8.5.0 (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 1024,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b84fbc64c74394dfc79d504ae0f14952"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "627fab26be299a5c252eeb387fd81777"
+    }
+   ]
+  }
+ ]
+}
