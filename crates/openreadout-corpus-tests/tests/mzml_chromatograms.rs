@@ -133,7 +133,7 @@ fn all_chromatograms(path: &Path) -> Vec<Chrom> {
     for t in info
         .traces
         .iter()
-        .filter(|t| t.extra.get("chromatogram_type_accession").is_some() && t.channels.len() == 2)
+        .filter(|t| t.extra.contains_key("chromatogram_type_accession") && t.channels.len() == 2)
     {
         let tr = ds.read_trace(t.index, 0, 0, t.sample_count).unwrap();
         let f = |k: &str| t.extra.get(k).and_then(serde_json::Value::as_f64);
@@ -203,7 +203,10 @@ fn srm_runs_export_their_chromatograms() {
                     && a.iter()
                         .zip(&b)
                         // (the Agilent export stores its times as 32-bit minutes)
-                        .all(|(x, y)| (x.0 - y.0).abs() <= 1e-6 + 2e-7 * y.0.abs() && x.1 == y.1)
+                        .all(|(x, y)| {
+                            (x.0 - y.0).abs() <= 1e-6 + 2e-7 * y.0.abs()
+                                && x.1.to_bits() == y.1.to_bits()
+                        })
             };
             let k = (0..ours.len())
                 .find(|&k| !used[k] && same(&ours[k]))

@@ -745,7 +745,7 @@ mod tests {
         // flag, 10 values of 8 bytes each: the DAT should hold 880 bytes but holds 850.
         let mut b = vec![0u8; 330];
         for k in 0..11usize {
-            b[k * 30 + 4..k * 30 + 8].copy_from_slice(&(0x0800_0000u32 | 10).to_le_bytes());
+            b[k * 30 + 4..k * 30 + 8].copy_from_slice(&(0x0800_0000u32 | 0x0a).to_le_bytes());
             b[k * 30 + 22..k * 30 + 30].copy_from_slice(&(k as u64 * 80).to_le_bytes());
         }
         assert_eq!(idx_record_len_for(&b, Some(880)), IDX_RECORD_WIDE);

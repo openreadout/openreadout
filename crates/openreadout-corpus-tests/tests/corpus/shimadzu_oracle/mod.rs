@@ -445,8 +445,10 @@ fn compare_ms_ground_truth(
                         .extra
                         .get("point_precursors_mz")
                         .and_then(Value::as_array)
-                        .map(|a| a.iter().filter_map(Value::as_f64).collect())
-                        .unwrap_or_else(|| s.precursor_mz.map(|p| vec![p; n]).unwrap_or_default());
+                        .map_or_else(
+                            || s.precursor_mz.map(|p| vec![p; n]).unwrap_or_default(),
+                            |a| a.iter().filter_map(Value::as_f64).collect(),
+                        );
                     let mut a: Vec<f64> = want.iter().filter_map(Value::as_f64).collect();
                     let mut b = per_point;
                     a.sort_by(f64::total_cmp);
