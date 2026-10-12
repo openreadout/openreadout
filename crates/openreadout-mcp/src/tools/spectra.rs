@@ -63,12 +63,10 @@ pub struct SpectrumArgs {
     /// The scan number as the instrument counts it (1-based in Thermo files; mzML `scan=N`
     /// native ids, mzXML `num`, timsTOF spectrum position + 1).
     pub scan: Option<u64>,
-    /// The zero-based spectrum index.
+    /// The zero-based spectrum index, counted within ms_level when it is given.
     pub spectrum: Option<u64>,
-    /// With ms_level: the nth spectrum of that level, counting from 1 (ms_level=2, nth=1 = the
-    /// first MS/MS scan; MS1 and MS/MS scans interleave).
-    pub nth: Option<u64>,
-    /// The MS level nth counts in (1 = full scans, 2 = MS/MS).
+    /// Count spectrum among the spectra of this MS level only (1 = full scans, 2 = MS/MS). MS1 and
+    /// MS/MS scans interleave, and ms_level=2 with spectrum=0 is the first MS/MS scan.
     pub ms_level: Option<u32>,
     /// The stored centroid list instead of the profile when a scan has both.
     #[serde(default)]
@@ -133,7 +131,7 @@ impl InstrumentServer {
         name = "openreadout_spectrum",
         annotations(title = "One mass spectrum", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<SpectrumOutput>(),
-        description = "One mass spectrum's mz[] and intensity[] with its metadata, picked by scan number, by zero-based spectrum index, or as the nth spectrum of an MS level."
+        description = "One mass spectrum's mz[] and intensity[] with its metadata, picked by scan number or by zero-based spectrum index, counted within one MS level when ms_level is given."
     )]
     pub(crate) fn spectrum(
         &self,
@@ -147,13 +145,8 @@ impl InstrumentServer {
         } else {
             SpectrumView::Primary
         };
-        let mut sp = match (a.nth, a.scan, a.spectrum) {
-            (Some(nth), _, _) => {
-                let level = a.ms_level.ok_or_else(|| {
-                    mcp_err(&Error::Usage(
-                        "nth counts within ms_level: give ms_level too (2 = MS/MS)".into(),
-                    ))
-                })?;
+        let mut sp = match (a.spectrum, a.ms_level, a.scan) {
+            (Some(i), Some(level), _) => {
                 let count = ds
                     .info()
                     .map_err(|e| mcp_err(&e))?
@@ -165,21 +158,21 @@ impl InstrumentServer {
                     ds.as_mut(),
                     a.run,
                     level,
-                    nth,
+                    i,
                     count,
                     view,
                 )
             }
-            (None, _, Some(i)) => ds.read_spectrum_view(a.run, i, view),
-            (None, Some(n), None) => {
+            (Some(i), None, _) => ds.read_spectrum_view(a.run, i, view),
+            (None, _, Some(n)) => {
                 openreadout_core::reader::spectrum_by_scan(ds.as_mut(), a.run, n, view)
             }
-            (None, None, None) => Err(Error::Usage(
-                "give scan, spectrum, or ms_level with nth".into(),
+            (None, _, None) => Err(Error::Usage(
+                "give scan, or spectrum (with ms_level to count within one MS level)".into(),
             )),
         }
         .map_err(|e| mcp_err(&e))?;
-        if a.nth.is_none() && a.scan.is_some_and(|n| n != sp.scan_number) {
+        if a.spectrum.is_none() && a.scan.is_some_and(|n| n != sp.scan_number) {
             return Err(mcp_err(&Error::Usage(format!(
                 "scan numbers are not contiguous (got scan {}); use `spectrum` (the zero-based index)",
                 sp.scan_number

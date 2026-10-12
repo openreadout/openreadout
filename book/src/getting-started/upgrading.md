@@ -10,7 +10,7 @@ OpenReadout 0.2 renames several commands, MCP tools and flags so that the comman
 | `check A --against B` | `compare A B` |
 | `check --report` | `report` |
 | `spectra` (scan list) | `scans` |
-| `spectra --scan N`, `--index I`, `--nth N` (one spectrum) | `spectrum --scan N`, `--spectrum I`, `--nth N` |
+| `spectra --scan N`, `--index I`, `--nth N` (one spectrum) | `spectrum --scan N`, `--spectrum I`, `--ms-level L --spectrum I` (zero-based) |
 | `analyze assay wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc` | `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth`, `assay-qc` |
 | `export --attachment NAME` | `extract FILE NAME` |
 | `batch summarize TABLE` | `summarize TABLE` |
