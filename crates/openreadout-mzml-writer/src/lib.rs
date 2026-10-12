@@ -181,6 +181,8 @@ pub fn export_mzml(
     // experiment=E`) spectra carry their vendor native ids; Sciex MRM groups do not follow the
     // WIFF native-id format and are numbered by scan instead.
     let vendor_ids = vendor_native_ids(&info, run);
+    // An mzML source keeps its spectra's ids when it names their nativeID format.
+    let source_ids = source_native_id_format(&info, run).is_some();
     let tmp = output.with_file_name(format!(
         ".{}.partial-{}",
         output
@@ -235,7 +237,11 @@ pub fn export_mzml(
                         }
                         Err(e) => return Err(e),
                     };
-                    let id = if agilent_ids {
+                    let id = if source_ids {
+                        sp.native_id
+                            .clone()
+                            .unwrap_or_else(|| native_id(&sp, false))
+                    } else if agilent_ids {
                         format!("scanId={}", sp.scan_number)
                     } else if vendor_ids {
                         sp.native_id
@@ -462,6 +468,30 @@ fn vendor_native_ids(
             .is_some_and(|v| v != "SRM"),
         _ => false,
     }
+}
+
+/// The nativeID format an mzML source declares for its source file (`extra.source_files[0]`
+/// terms, e.g. `MS:1000768` Thermo nativeID format), when the run is read from mzML.
+fn source_native_id_format(
+    info: &openreadout_core::FileInfo,
+    run: &openreadout_core::SpectraInfo,
+) -> Option<(String, String)> {
+    if !matches!(info.format.id.as_str(), "mzml" | "mzmlb") {
+        return None;
+    }
+    let terms = run
+        .extra
+        .get("source_files")?
+        .as_array()?
+        .first()?
+        .get("terms")?
+        .as_array()?;
+    terms.iter().find_map(|t| {
+        let name = t.get("name")?.as_str()?;
+        let acc = t.get("accession")?.as_str()?;
+        (name.ends_with("nativeID format") && acc.starts_with("MS:"))
+            .then(|| (acc.to_string(), name.to_string()))
+    })
 }
 
 fn native_id(sp: &Spectrum, thermo: bool) -> String {
@@ -751,6 +781,8 @@ fn header_xml(
             "        {}",
             cv("MS:1001509", "Agilent MassHunter format", "")
         );
+    } else if let Some((acc, term)) = source_native_id_format(info, run) {
+        let _ = writeln!(s, "        {}", cv(&escape(&acc), &escape(&term), ""));
     } else {
         let _ = writeln!(
             s,
