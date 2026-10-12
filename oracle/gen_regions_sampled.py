@@ -68,6 +68,8 @@ SLIDES: Dict[str, Tuple[str, bool, Callable[[Path], Tuple[str, List[g.Target]]]]
                                         lambda p: g.mirax_targets(p, lambda n: [0])),
     "openslide-mirax-cmu-1": ("openslide-mirax-cmu-1-zip/CMU-1.mrxs", True,
                               lambda p: g.mirax_targets(p, lambda n: [0])),
+    "openslide-mirax-cmu-1-exported": ("openslide-mirax-cmu-1-exported-zip/CMU-1-Exported.mrxs", True,
+                                       lambda p: g.mirax_targets(p, lambda n: [0])),
     "openslide-mirax2-fluorescence-1": ("openslide-mirax2-fluorescence-1-zip/Mirax2-Fluorescence-1.mrxs", True,
                                         lambda p: g.mirax_targets(p, lambda n: [0])),
     "openslide-mirax2-fluorescence-2": ("openslide-mirax2-fluorescence-2-zip/Mirax2-Fluorescence-2.mrxs", True,

@@ -56679,7 +56679,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote TCPIP",
+          "Tecnai 12",
           []
         ],
         [
@@ -56748,7 +56748,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote TCPIP",
+          "Tecnai 12",
           []
         ],
         [
@@ -56906,7 +56906,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote",
+          "FEI Titan",
           []
         ],
         [
@@ -56971,7 +56971,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote",
+          "FEI Titan",
           []
         ],
         [
@@ -57031,7 +57031,7 @@
         ],
         [
           "instrument",
-          "Zeiss SEM COM",
+          "Ultra55",
           []
         ],
         [
@@ -57154,7 +57154,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote",
+          "Example Microscope",
           []
         ],
         [
@@ -58544,7 +58544,7 @@
         ],
         [
           "instrument",
-          "Zeiss SEM COM",
+          "Ultra55",
           []
         ],
         [
@@ -58608,7 +58608,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote",
+          "FEI Titan",
           []
         ],
         [
@@ -58677,7 +58677,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote",
+          "FEI Titan",
           []
         ],
         [
@@ -58917,7 +58917,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote",
+          "FEI Titan",
           []
         ],
         [
@@ -59074,7 +59074,7 @@
         ],
         [
           "instrument",
-          "JEOL COM",
+          "JEM-ARM200F",
           []
         ],
         [
@@ -59138,7 +59138,7 @@
         ],
         [
           "instrument",
-          "JEOL COM",
+          "ARM 200F",
           []
         ],
         [
@@ -59799,7 +59799,7 @@
         ],
         [
           "instrument",
-          "JEOL COM",
+          "NeoARM",
           []
         ],
         [
@@ -60682,7 +60682,7 @@
         ],
         [
           "instrument",
-          "FEI Tecnai Remote",
+          "FEI Titan ultimate",
           []
         ],
         [
@@ -61269,7 +61269,7 @@
         ],
         [
           "instrument",
-          "JEOL COM",
+          "JEM-ARM200F",
           []
         ],
         [
@@ -61387,7 +61387,12 @@
         ],
         [
           "instrument",
-          "Unknown",
+          "Nion UltraSTEM 200",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
           []
         ]
       ],
@@ -83336,6 +83341,73 @@
           "writer_version",
           "scanner software 1.12",
           []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        15
+      ]
+    },
+    {
+      "id": "openslide-mirax-cmu-1-exported",
+      "format": "mirax",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "no camera positions (images on the grid)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "level 0 one camera photo per image",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "brightfield",
+          [
+            "pixels"
+          ]
         ],
         [
           "field",
@@ -147693,6 +147765,243 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
+      "id": "openslide-olympus-os-1",
+      "format": "vsi",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030003",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg2000",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from vsi_layout",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "VS-ASW FL",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "VS-ASW FL 2",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
+      "id": "openslide-olympus-os-2",
+      "format": "vsi",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030003",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg2000",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from vsi_layout",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "VS-ASW FL",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "VS-ASW FL 2",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
+      "id": "openslide-olympus-os-3",
+      "format": "vsi",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030003",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg2000",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from vsi_layout",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "VS-ASW FL",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "VS-ASW FL 2",
+          []
         ],
         [
           "field",

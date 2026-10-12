@@ -512,6 +512,9 @@ FILES: Dict[str, Tuple[str, bool, Callable[[Path], Tuple[str, List[Target]]]]] =
                                                                   lambda p: mirax_targets(p, lambda n: [0, 1, 3, n - 1])),
     "openslide-mirax-cmu-1-zip/CMU-1.mrxs": ("openslide-mirax-cmu-1-zip/CMU-1.mrxs", True,
                                              lambda p: mirax_targets(p, lambda n: [0, 2, 5, n - 1])),
+    # no camera position table: images abut on the grid
+    "openslide-mirax-cmu-1-exported-zip/CMU-1-Exported.mrxs": ("openslide-mirax-cmu-1-exported-zip/CMU-1-Exported.mrxs", True,
+                                                               lambda p: mirax_targets(p, lambda n: [0, 2, 5, n - 1])),
     "openslide-mirax2-fluorescence-1-zip/Mirax2-Fluorescence-1.mrxs": ("openslide-mirax2-fluorescence-1-zip/Mirax2-Fluorescence-1.mrxs", True,
                                                                         lambda p: mirax_targets(p, lambda n: [0, 1, 4, n - 1])),
     "openslide-mirax2-fluorescence-2-zip/Mirax2-Fluorescence-2.mrxs": ("openslide-mirax2-fluorescence-2-zip/Mirax2-Fluorescence-2.mrxs", True,
