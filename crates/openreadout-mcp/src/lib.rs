@@ -136,7 +136,7 @@ impl InstrumentServer {
 }
 
 /// Server instructions sent at initialization.
-pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories (microscopy, screening plates, flow cytometry, electrophysiology, NMR, mass spectrometry, chromatography, spectroscopy, plate readers, qPCR, bench instruments) without vendor software. Indices are zero-based. Values are raw as stored unless a tool says it processed them; each file reports an assurance level, and strict=true refuses values that are not validated. Only openreadout_export and openreadout_extract write next to the data, always to new files that are read back and verified; openreadout_index, openreadout_batch, openreadout_summarize and openreadout_report write only to paths you give them. Tools are the commands of the openreadout CLI and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
+pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories without vendor software: microscopy and slides, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, spectroscopy, mass spectrometry, chromatography, plate readers, qPCR and bench instruments, in the vendors' binary formats and in their text and XML exports. Its readers know each format's layout, units and conventions, so questions about these files need no hand-written parser. Each file reports an assurance level that says how far its variant was checked against an independent reader, and strict=true refuses values that are not validated. Indices are zero-based. Values are raw as stored unless a tool says it processed them. Only openreadout_export and openreadout_extract write next to the data, always to new files that are read back and verified. openreadout_index, openreadout_batch, openreadout_summarize and openreadout_report write only to paths you give them. Tools are the CLI's commands and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
 
 // The trait's methods are async; resources and prompts are answered without awaiting.
 #[allow(clippy::unused_async_trait_impl)]
@@ -632,6 +632,6 @@ mod tests {
         assert!(info.capabilities.prompts.is_some());
         assert!(INSTRUCTIONS.contains("openreadout_export"));
         // A few sentences: the routing is in the tool names and descriptions.
-        assert!(INSTRUCTIONS.len() < 1000, "{}", INSTRUCTIONS.len());
+        assert!(INSTRUCTIONS.len() < 1200, "{}", INSTRUCTIONS.len());
     }
 }

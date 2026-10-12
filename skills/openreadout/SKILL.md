@@ -1,6 +1,6 @@
 ---
 name: openreadout
-description: "Read raw lab-instrument files and data folders without vendor software, with the openreadout CLI or its MCP server: microscopy and whole-slide images (CZI, ND2, LIF, OME-TIFF, SVS, NDPI), screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, IR/Raman/UV-Vis/CD, mass spectrometry, chromatography, plate readers, qPCR, ÄKTA, ITC, SPR, Seahorse, EPR, XRD, electrochemistry, battery cyclers, thermal analysis and rheology. Use when someone has an instrument file or folder and asks what is in it, for a value computed from the data (intensity, saturation, peak area, retention time, IC50, Cq, rheobase, NMR shift), whether it is intact, per-condition numbers across many files with a sample sheet, or a conversion to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, RDML, Allotrope ASM)."
+description: "Read raw lab-instrument files and data folders without vendor software, both binary formats and the text and XML exports instruments write, with the openreadout CLI or its MCP server: microscopy and whole-slide images (CZI, ND2, LIF, OME-TIFF, SVS, NDPI), screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, IR/Raman/UV-Vis/CD, mass spectrometry, chromatography, plate readers, qPCR, ÄKTA, ITC, SPR, Seahorse, EPR, XRD, electrochemistry, battery cyclers, thermal analysis and rheology. Use when someone has an instrument file or folder and asks what is in it, for a value computed from the data (intensity, saturation, peak area, retention time, IC50, Cq, rheobase, NMR shift), whether it is intact, per-condition numbers across many files with a sample sheet, or a conversion to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, RDML, Allotrope ASM)."
 license: MIT OR Apache-2.0
 compatibility: "Requires the openreadout binary on PATH (macOS, Linux, Windows; no Java, Python or vendor DLLs). Optionally runs as an MCP server via `openreadout mcp`."
 metadata:
@@ -21,7 +21,7 @@ metadata:
 - `stats` — pixel statistics; `--per well` for screening plates.
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
-- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--scan`, `--spectrum`, `--ms-level L --nth K`).
+- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--scan N`, or `--spectrum I`, counted within one MS level with `--ms-level L`).
 - `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `assay`, `gate`.
 - `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; the extension of `-o` picks the format (`-o x.ome.zarr`) unless `--format` does. `extract` writes an embedded label or thumbnail as stored.
 - `batch` — one measure over many files as one tidy table joined to a sample sheet; `summarize TABLE --by …`.
@@ -38,7 +38,7 @@ Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <
 
 ## Worth Knowing
 
-- **Indices are zero-based** (`--image`, `--select c=`, `--sweep`, `--trace`, `--table`); "the second scene" is `--image 1`. `--scan` is the instrument's own scan number.
+- **Indices are zero-based** (`--image`, `--select c=`, `--sweep`, `--trace`, `--table`, `--spectrum`); "the second scene" is `--image 1` and the first MS/MS scan is `--ms-level 2 --spectrum 0`. `--scan` is the instrument's own scan number.
 - **Directory data sets** are opened as the directory: a Bruker NMR experiment (`name/1/`), ChemStation `.D`, MassHunter/timsTOF `.d`, Waters `.raw`, plate folders (Harmony, ImageXpress, CellVoyager) or their index file, SpikeGLX/Neuralynx/Intan run folders. A plate is never one of its TIFFs.
 - **Values are raw as stored** unless the output says it processed them (`processing`, `source`): no background subtraction, FCS compensation or scaling, or baseline unless asked for. Pixel statistics pool R, G and B; per colour read `components[]`.
 - **Positions vs indices**: `argmax`/`argmin` are sample indices from the sweep start. The position on the axis (retention time, ppm, cm⁻¹, ml, °2θ) is `argmax_axis_value`; chromatograms can start before 0 min.
