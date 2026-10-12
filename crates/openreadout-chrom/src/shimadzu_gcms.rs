@@ -132,7 +132,10 @@ pub fn header(rec: &[u8]) -> Result<GcmsHeader, String> {
     let points = le_u16(rec, 22).ok_or_else(short)?;
     let params = rec.get(24..GCMS_HEADER_LEN).ok_or_else(short)?;
     let body = rec.len() - GCMS_HEADER_LEN;
-    let (kind, count, entry) = if params.iter().all(|&b| b == 0) && points > 0 {
+    let (kind, count, entry) = if params.iter().all(|&b| b == 0) && points == 0 {
+        // a scan that recorded no ion (its width code is not used)
+        (GcmsRecordKind::Scan { intensity_bytes: 2 }, 0, 4)
+    } else if params.iter().all(|&b| b == 0) {
         let bytes = intensity_bytes(width_code)
             .ok_or_else(|| format!("scan record with intensity width code {width_code}"))?;
         (
@@ -283,6 +286,10 @@ mod tests {
         assert_eq!(flagged, 1);
         // a body that does not fill the record is an error
         assert!(header(&r[..r.len() - 1]).is_err());
+        // a scan without ions (width code 4 in Zenodo 8312045's Dichloromethane_2.qgd)
+        let empty = rec(4, &[], 0);
+        assert_eq!(header(&empty).unwrap().count, 0);
+        assert_eq!(scan_points(&empty).unwrap().0, vec![]);
     }
 
     #[test]
