@@ -1,0 +1,288 @@
+{
+ "id": "openslide-olympus-os-2",
+ "file": "OS-2.vsi",
+ "size": 1120191,
+ "sha256": "c2354185fbfda6149d0fa380329e75f53a74afb82bdbb57f9bce2d7099d9ff14",
+ "max_planes_hashed": 64,
+ "reader": "Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "overview",
+   "size_x": 6753,
+   "size_y": 13196,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 3.4887564563687983,
+    "y": 3.4892279303264564
+   },
+   "channel_names": [
+    null
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2012-10-30T18:33:20",
+   "resolutions": 6,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "09852f9c44d002fb5e517db292fb3692",
+     "mean": 217.86922973964874
+    }
+   ],
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 3377,
+     "size_y": 6598,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "3c58524210bd7a32c17497ad75697637",
+       "mean": 218.0021319980759
+      }
+     ]
+    },
+    {
+     "level": 2,
+     "size_x": 1689,
+     "size_y": 3299,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "4db6c9291df9a6cb3074eb7f23396f8a",
+       "mean": 218.13775720591124
+      }
+     ]
+    },
+    {
+     "level": 3,
+     "size_x": 845,
+     "size_y": 1650,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5b373ca41a093a228d9138f28eefd345",
+       "mean": 218.29591058514134
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 423,
+     "size_y": 825,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "bfdce4db223990f5a850dc859c6c2263",
+       "mean": 218.45063113403538
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 212,
+     "size_y": 413,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a7ff198aadc3fabba47a9e80de22d1c1",
+       "mean": 218.6705042106385
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     6753,
+     13196
+    ],
+    [
+     3377,
+     6598
+    ],
+    [
+     1689,
+     3299
+    ],
+    [
+     845,
+     1650
+    ],
+    [
+     423,
+     825
+    ],
+    [
+     212,
+     413
+    ]
+   ]
+  },
+  {
+   "index": 1,
+   "name": "20x",
+   "size_x": 48502,
+   "size_y": 77578,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.3460559834973875,
+    "y": 0.34605325860336383
+   },
+   "channel_names": [
+    null
+   ],
+   "emission_nm": [
+    null
+   ],
+   "acquired": "2012-10-30T18:54:47",
+   "resolutions": 9,
+   "planes": [],
+   "levels": [
+    {
+     "level": 3,
+     "size_x": 6063,
+     "size_y": 9698,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "8fec93fd199d4e790f61efd2f63370a2",
+       "mean": 213.97921007374495
+      }
+     ]
+    },
+    {
+     "level": 4,
+     "size_x": 3032,
+     "size_y": 4849,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "a7c3c2c303d8f321e6c29d776a4890d1",
+       "mean": 214.08283123051422
+      }
+     ]
+    },
+    {
+     "level": 5,
+     "size_x": 1516,
+     "size_y": 2425,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "965514a2354fc3ae1fb469b5d5c02ef2",
+       "mean": 214.18314537261196
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 758,
+     "size_y": 1213,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "8d3a28cfec0a43a8631818813fd4984b",
+       "mean": 214.29069861026218
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 379,
+     "size_y": 607,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "63182ff2f6eb8433c524544e6b5759a1",
+       "mean": 214.42794631382043
+      }
+     ]
+    },
+    {
+     "level": 8,
+     "size_x": 190,
+     "size_y": 304,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "02b2e6637a66d4f2a7a631d30ee362fd",
+       "mean": 214.6978012465374
+      }
+     ]
+    }
+   ],
+   "level_sizes": [
+    [
+     48502,
+     77578
+    ],
+    [
+     24251,
+     38789
+    ],
+    [
+     12126,
+     19395
+    ],
+    [
+     6063,
+     9698
+    ],
+    [
+     3032,
+     4849
+    ],
+    [
+     1516,
+     2425
+    ],
+    [
+     758,
+     1213
+    ],
+    [
+     379,
+     607
+    ],
+    [
+     190,
+     304
+    ]
+   ]
+  }
+ ]
+}

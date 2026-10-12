@@ -147783,6 +147783,243 @@
       ]
     },
     {
+      "id": "openslide-olympus-os-1",
+      "format": "vsi",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030003",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg2000",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from vsi_layout",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "VS-ASW FL",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "VS-ASW FL 2",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
+      "id": "openslide-olympus-os-2",
+      "format": "vsi",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030003",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg2000",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from vsi_layout",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "VS-ASW FL",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "VS-ASW FL 2",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
+      "id": "openslide-olympus-os-3",
+      "format": "vsi",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0x00030003",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg2000",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "size from vsi_layout",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "VS-ASW FL",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "VS-ASW FL 2",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        18,
+        18
+      ]
+    },
+    {
       "id": "zenodo10825310-vsi-meta-experiment-multichannel-z-stack-20240308",
       "format": "vsi",
       "source": "zenodo:10825310",
