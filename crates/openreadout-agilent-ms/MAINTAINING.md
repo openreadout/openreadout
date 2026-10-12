@@ -107,8 +107,9 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `agilent-masshunter` | instrument | `generation 6500 Q-TOF` | spectra | 8 | 8 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1334-STD_neg_MSMS_1min0205` |
 | `agilent-masshunter` | instrument | `generation 6560 ion-mobility Q-TOF` | spectra | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
 | `agilent-masshunter` | layout | `ion-mobility frames (IMSFrame.bin)` | spectra, traces | 3 | 3 | `pwiz-agilent-ims-allions`, `pwiz-agilent-ims-ccs`, `pwiz-agilent-ims-chrom` |
-| `agilent-masshunter` | record | `base peak` | traces | 7 | 31 | `mtbls1375-6495a-tqc-b1`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `agilent-masshunter` | record | `detector signal` | traces | 0 | 5 |  |
+| `agilent-masshunter` | record | `DAD spectra` | traces | 1 | 3 | `pwiz-agilent-tof-sulfas` |
+| `agilent-masshunter` | record | `base peak` | traces | 8 | 31 | `mtbls1375-6495a-tqc-b1`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `agilent-masshunter` | record | `detector signal` | traces | 1 | 5 | `pwiz-agilent-tof-sulfas` |
 | `agilent-masshunter` | record | `device BinPump` | descriptive | 7 | 7 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1375-6495a-tqc-b1` |
 | `agilent-masshunter` | record | `device CE` | descriptive | 1 | 1 | `mtbls13090-6224-ce-d09c-neg` |
 | `agilent-masshunter` | record | `device CEDAD` | descriptive | 1 | 1 | `mtbls13090-6224-ce-d09c-neg` |
@@ -119,8 +120,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `agilent-masshunter` | record | `device QuatPump` | descriptive | 1 | 1 | `mtbls4722-1` |
 | `agilent-masshunter` | record | `device TCC` | descriptive | 16 | 16 | `mtbls12637-processblank2-pos-77-d`, `mtbls12837-n14-d`, `mtbls1375-6495a-tqc-b1` |
 | `agilent-masshunter` | record | `device TandemQuadrupole` | descriptive | 1 | 1 | `pwiz-agilent-gfb-4scan-timesegs` |
-| `agilent-masshunter` | record | `instrument reading` | traces | 7 | 18 | `mtbls1375-6495a-tqc-b1`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
-| `agilent-masshunter` | record | `total ion current` | traces | 7 | 31 | `mtbls1375-6495a-tqc-b1`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `agilent-masshunter` | record | `instrument reading` | traces | 8 | 18 | `mtbls1375-6495a-tqc-b1`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
+| `agilent-masshunter` | record | `total ion current` | traces | 8 | 31 | `mtbls1375-6495a-tqc-b1`, `mtbls243-03_D24062013T1259_1399CBU_01QC_A3`, `mtbls449-13047CHQ_0001_A1` |
 | `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF (11.0.230.2)` | descriptive | 1 | 1 | `pxd068773-mobilion-100fmol-r001` |
 | `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF 10.1 (48.0)` | descriptive | 3 | 3 | `mtbls12637-processblank2-pos-77-d`, `mtbls14343-e-1-pos-041-ms2-d`, `mtbls7386-DS017_KO2_3_C18MSpos_IO29_20250129` |
 | `agilent-masshunter` | writer_version | `6200 series TOF/6500 series Q-TOF B.05.01 (B5125)` | descriptive | 2 | 2 | `mtbls599-6540-aza-26-50`, `mtbls874-BDV10076M3` |

@@ -66,7 +66,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature instrument `m` (descriptive)
 - undecoded "experiments of unsupported scan types"
 - undecoded "mass ranges"
-- undecoded "spectra in the missing .wiff.scan"
+- undecoded "peaks in the missing .wiff.scan"
 - assumed "spectra[].scans experiment assignment"
 - calibration "time-to-digital bins to m/z (TOFCalibrationData)"
 
@@ -76,14 +76,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | --- | --- | --- | --- | --- | --- | --- |
 | `sciex-wiff` | acquisition | `scan type MRM` | spectra | 3 | 5 | `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase`, `pwiz-sciex-pressuretrace` |
 | `sciex-wiff` | acquisition | `scan type Q1 scan` | spectra | 1 | 1 | `mtbls1969-exosomes` |
-| `sciex-wiff` | acquisition | `scan type TOF MS` | spectra | 5 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
-| `sciex-wiff` | acquisition | `scan type TOF product ion` | spectra | 5 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
+| `sciex-wiff` | acquisition | `scan type TOF MS` | spectra | 6 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
+| `sciex-wiff` | acquisition | `scan type TOF product ion` | spectra | 6 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | acquisition | `scan type enhanced MS` | spectra | 1 | 2 | `msv97113-cm-5-pos-2` |
 | `sciex-wiff` | acquisition | `scan type enhanced product ion` | spectra | 1 | 2 | `msv97113-cm-5-pos-2` |
 | `sciex-wiff` | acquisition | `scan type neutral loss` | spectra | 2 | 2 | `zenodo7897576-dag`, `zenodo7897576-lpds` |
 | `sciex-wiff` | acquisition | `scan type precursor ion` | spectra | 1 | 1 | `zenodo7897576-lpds` |
 | `sciex-wiff` | acquisition | `stored SRM` | spectra | 3 | 5 | `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase`, `pwiz-sciex-pressuretrace` |
-| `sciex-wiff` | acquisition | `stored profile` | spectra | 9 | 12 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
+| `sciex-wiff` | acquisition | `stored profile` | spectra | 10 | 12 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
 | `sciex-wiff` | field | `experiment.acquisition.started_at` | descriptive | 14 | 17 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
 | `sciex-wiff` | field | `experiment.instrument.model` | descriptive | 14 | 17 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
 | `sciex-wiff` | instrument | `4000 Q TRAP` | descriptive | 1 | 1 | `pwiz-sciex-enolase` |
@@ -99,7 +99,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `sciex-wiff` | instrument | `generation QSTAR` | spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
 | `sciex-wiff` | instrument | `generation QTRAP` | spectra | 6 | 9 | `msv97113-cm-5-pos-2`, `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase` |
 | `sciex-wiff` | instrument | `generation TripleTOF` | spectra | 4 | 5 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
-| `sciex-wiff` | instrument | `generation ZenoTOF` | spectra | 0 | 1 |  |
+| `sciex-wiff` | instrument | `generation ZenoTOF` | spectra | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
 | `sciex-wiff` | layout | `scheduled MRM, method windows` | spectra | 0 | 1 |  |
 | `sciex-wiff` | layout | `single file (Scan stream)` | spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
 | `sciex-wiff` | writer | `Analyst` | metadata, spectra | 8 | 10 | `msv97113-cm-5-pos-2`, `mtbls1969-exosomes`, `mtbls3956-arg-1` |

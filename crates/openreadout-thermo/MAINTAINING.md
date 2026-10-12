@@ -39,7 +39,7 @@ Thermo Fisher `.raw` mass-spectrometry files (`thermo-raw`): Orbitrap, ion trap,
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `thermo-raw` | [format note](../../docs/formats/thermo-raw.md), [provenance log](../../docs/provenance/thermo-raw.md) | medium | reverse engineered | 53 / 52 | 41 | 2 / 2 |
+| `thermo-raw` | [format note](../../docs/formats/thermo-raw.md), [provenance log](../../docs/provenance/thermo-raw.md) | medium | reverse engineered | 55 / 54 | 42 | 2 / 2 |
 
 ### Source map
 
@@ -80,38 +80,39 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | --- | --- | --- | --- | --- | --- | --- |
 | `thermo-raw` | acquisition | `FAIMS` | spectra | 3 | 3 | `msv99294-astral-nanopots-1cell-b9`, `msv99508-eclipse-faims-ptrc-f03`, `pxd069324-astral-dia-ihsp-lo2` |
 | `thermo-raw` | acquisition | `Full lock ms` | spectra | 1 | 1 | `mtbls797-dotsha05` |
-| `thermo-raw` | acquisition | `Full ms` | spectra | 39 | 40 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
+| `thermo-raw` | acquisition | `Full ms` | spectra | 41 | 42 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
 | `thermo-raw` | acquisition | `SIM ms` | spectra | 1 | 1 | `pwiz-thermo-ltqvelos` |
 | `thermo-raw` | acquisition | `Z ms` | spectra | 1 | 1 | `pwiz-thermo-ltqvelos` |
 | `thermo-raw` | acquisition | `analyzer ASTMS` | spectra | 2 | 2 | `msv99294-astral-nanopots-1cell-b9`, `pxd069324-astral-dia-ihsp-lo2` |
-| `thermo-raw` | acquisition | `analyzer FTMS` | spectra | 42 | 43 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv99294-astral-nanopots-1cell-b9` |
-| `thermo-raw` | acquisition | `analyzer ITMS` | spectra | 10 | 10 | `msv102435-iqx-leaf-qc-neg-03`, `pwiz-thermo-it-hcd-sps`, `pwiz-thermo-ltqvelos` |
+| `thermo-raw` | acquisition | `analyzer FTMS` | spectra | 43 | 44 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltqorbi-v60-saltyph-76`, `msv94528-idx-msnlib-peptide01-b18` |
+| `thermo-raw` | acquisition | `analyzer ITMS` | spectra | 12 | 12 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
 | `thermo-raw` | acquisition | `analyzer code 6` | spectra | 5 | 5 | `msv97728-tsq9610-gc-crbalf03`, `mtbls1822-tsq-74`, `mtbls5747-vantage-sponge-35` |
-| `thermo-raw` | acquisition | `centroid spectra` | spectra | 25 | 26 | `msv102435-iqx-leaf-qc-neg-03`, `msv97728-tsq9610-gc-crbalf03`, `msv99294-astral-nanopots-1cell-b9` |
+| `thermo-raw` | acquisition | `centroid spectra` | spectra | 27 | 28 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
 | `thermo-raw` | acquisition | `in-source CID` | spectra | 1 | 2 | `pwiz-thermo-source-cid` |
 | `thermo-raw` | acquisition | `ion source EI` | descriptive | 3 | 3 | `msv97728-tsq9610-gc-crbalf03`, `mtbls3177-qe-gc-qc-start`, `mtbls758-isq-growth-93` |
 | `thermo-raw` | acquisition | `ion source ESI` | descriptive | 26 | 27 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `mtbls12283-rumenwall-qc-id-01-neg` |
 | `thermo-raw` | acquisition | `ion source MALDI` | descriptive | 2 | 2 | `mtbls805-imaging-732`, `mtbls805-msms-869` |
-| `thermo-raw` | acquisition | `ion source NSI` | descriptive | 21 | 21 | `msv99294-astral-nanopots-1cell-b9`, `msv99508-eclipse-faims-ptrc-f03`, `mtbls10098-discovery-desi-174` |
-| `thermo-raw` | acquisition | `ms1` | spectra | 39 | 40 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
-| `thermo-raw` | acquisition | `ms2` | spectra | 36 | 37 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv99294-astral-nanopots-1cell-b9` |
+| `thermo-raw` | acquisition | `ion source NSI` | descriptive | 23 | 23 | `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76`, `msv99294-astral-nanopots-1cell-b9` |
+| `thermo-raw` | acquisition | `ms1` | spectra | 41 | 42 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
+| `thermo-raw` | acquisition | `ms2` | spectra | 38 | 39 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
 | `thermo-raw` | acquisition | `ms3` | spectra | 3 | 3 | `msv94528-idx-msnlib-peptide01-b18`, `pwiz-thermo-it-hcd-sps`, `pwiz-thermo-ltqvelos` |
 | `thermo-raw` | acquisition | `ms4` | spectra | 1 | 1 | `msv94528-idx-msnlib-peptide01-b18` |
 | `thermo-raw` | acquisition | `ms5` | spectra | 1 | 1 | `msv94528-idx-msnlib-peptide01-b18` |
 | `thermo-raw` | acquisition | `polarity switching` | spectra | 4 | 4 | `mtbls14308-mwy251008a-mix01`, `mtbls6991-tsq-altis-plus-sar11-40`, `mtbls755-hilic-dpoly` |
-| `thermo-raw` | acquisition | `profile spectra` | spectra | 39 | 39 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv99294-astral-nanopots-1cell-b9` |
-| `thermo-raw` | field | `experiment.acquisition.started_at` | descriptive | 52 | 53 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
-| `thermo-raw` | field | `experiment.instrument.model` | descriptive | 47 | 48 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
+| `thermo-raw` | acquisition | `profile spectra` | spectra | 40 | 40 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltqorbi-v60-saltyph-76`, `msv94528-idx-msnlib-peptide01-b18` |
+| `thermo-raw` | field | `experiment.acquisition.started_at` | descriptive | 54 | 55 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
+| `thermo-raw` | field | `experiment.instrument.model` | descriptive | 49 | 50 | `msv102435-iqx-leaf-qc-neg-03`, `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
 | `thermo-raw` | format_version | `57` | metadata, spectra, traces | 1 | 1 | `pxd000874-ltq-2005-mf01` |
+| `thermo-raw` | format_version | `60` | metadata, spectra, traces | 2 | 2 | `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76` |
 | `thermo-raw` | format_version | `61` | metadata, spectra, traces | 1 | 1 | `pxd000792-ltq-orbitrap-yeast-900` |
 | `thermo-raw` | format_version | `62` | metadata, spectra, traces | 1 | 1 | `pxd000951-ltqft-he4` |
 | `thermo-raw` | format_version | `63` | metadata, spectra, traces | 7 | 7 | `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg`, `mtbls404-Blanc04` |
 | `thermo-raw` | format_version | `64` | metadata, spectra, traces | 10 | 10 | `mtbls1822-tsq-74`, `mtbls2400-sesi-breath-001`, `mtbls5747-vantage-sponge-35` |
 | `thermo-raw` | format_version | `66` | metadata, spectra, traces | 32 | 33 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
 | `thermo-raw` | instrument | `ISQ` | spectra | 1 | 1 | `mtbls758-isq-growth-93` |
-| `thermo-raw` | instrument | `LTQ` | descriptive | 1 | 1 | `pxd000874-ltq-2005-mf01` |
+| `thermo-raw` | instrument | `LTQ` | descriptive | 2 | 2 | `msv79053-ltq-v60-rpick-150`, `pxd000874-ltq-2005-mf01` |
 | `thermo-raw` | instrument | `LTQ FT Ultra` | descriptive | 1 | 1 | `pxd000951-ltqft-he4` |
-| `thermo-raw` | instrument | `LTQ Orbitrap` | descriptive | 1 | 1 | `pxd000792-ltq-orbitrap-yeast-900` |
+| `thermo-raw` | instrument | `LTQ Orbitrap` | descriptive | 2 | 2 | `msv79053-ltqorbi-v60-saltyph-76`, `pxd000792-ltq-orbitrap-yeast-900` |
 | `thermo-raw` | instrument | `LTQ Orbitrap Discovery` | descriptive | 7 | 7 | `mtbls10098-discovery-desi-174`, `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg` |
 | `thermo-raw` | instrument | `LTQ Orbitrap Velos` | descriptive | 2 | 2 | `pxd000001-tmt-erwinia-01`, `pxd032908-velos-etd-pep38` |
 | `thermo-raw` | instrument | `LTQ Orbitrap XL` | descriptive | 3 | 3 | `mtbls2400-sesi-breath-001`, `mtbls773-001-blank-start`, `mtbls7859-orbixl-0909a` |
@@ -139,34 +140,33 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `thermo-raw` | instrument | `Thermo Exactive Orbitrap` | descriptive | 1 | 1 | `mtbls797-dotsha05` |
 | `thermo-raw` | instrument | `generation Exactive` | spectra | 1 | 1 | `mtbls797-dotsha05` |
 | `thermo-raw` | instrument | `generation LTQ FT` | spectra | 1 | 1 | `pxd000951-ltqft-he4` |
-| `thermo-raw` | instrument | `generation LTQ Orbitrap` | spectra | 15 | 15 | `mtbls10098-discovery-desi-174`, `mtbls13066-elite-318a-b5-35nce`, `mtbls20-caffeine-pos` |
-| `thermo-raw` | instrument | `generation LTQ ion trap` | spectra | 3 | 3 | `pwiz-thermo-ltqvelos`, `pxd000874-ltq-2005-mf01`, `pxd059878-amrutha-050713-1` |
+| `thermo-raw` | instrument | `generation LTQ Orbitrap` | spectra | 16 | 16 | `msv79053-ltqorbi-v60-saltyph-76`, `mtbls10098-discovery-desi-174`, `mtbls13066-elite-318a-b5-35nce` |
+| `thermo-raw` | instrument | `generation LTQ ion trap` | spectra | 4 | 4 | `msv79053-ltq-v60-rpick-150`, `pwiz-thermo-ltqvelos`, `pxd000874-ltq-2005-mf01` |
 | `thermo-raw` | instrument | `generation Orbitrap Astral` | spectra | 2 | 2 | `msv99294-astral-nanopots-1cell-b9`, `pxd069324-astral-dia-ihsp-lo2` |
 | `thermo-raw` | instrument | `generation Orbitrap Exploris` | spectra | 4 | 4 | `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls13401-neg-id-01`, `mtbls13930-neg-sqc-5` |
 | `thermo-raw` | instrument | `generation Orbitrap Tribrid` | spectra | 6 | 6 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv99508-eclipse-faims-ptrc-f03` |
 | `thermo-raw` | instrument | `generation Q Exactive` | spectra | 9 | 10 | `mtbls13880-bcells-lipidomics-pos-cko-ab`, `mtbls14308-mwy251008a-mix01`, `mtbls2688-qefocus-neg-ad-1` |
 | `thermo-raw` | instrument | `generation TSQ` | spectra | 4 | 4 | `msv97728-tsq9610-gc-crbalf03`, `mtbls1822-tsq-74`, `mtbls5747-vantage-sponge-35` |
-| `thermo-raw` | record | `controller analog` | traces | 0 | 17 |  |
+| `thermo-raw` | record | `controller analog` | traces | 5 | 17 | `msv94528-idx-msnlib-peptide01-b18`, `mtbls12283-rumenwall-qc-id-01-neg`, `mtbls14308-mwy251008a-mix01` |
 | `thermo-raw` | record | `controller channel` | traces | 1 | 3 | `mtbls773-001-blank-start` |
 | `thermo-raw` | record | `controller pda` | traces | 1 | 2 | `mtbls773-001-blank-start` |
 | `thermo-raw` | writer_version | `Xcalibur 1.0` | descriptive | 2 | 2 | `mtbls758-isq-growth-93`, `pxd000874-ltq-2005-mf01` |
 | `thermo-raw` | writer_version | `Xcalibur 1.1` | descriptive | 3 | 3 | `msv99294-astral-nanopots-1cell-b9`, `mtbls797-dotsha05`, `pwiz-thermo-source-cid` |
-| `thermo-raw` | writer_version | `Xcalibur 2.0` | descriptive | 2 | 2 | `pxd000792-ltq-orbitrap-yeast-900`, `pxd069324-astral-dia-ihsp-lo2` |
+| `thermo-raw` | writer_version | `Xcalibur 2.0` | descriptive | 4 | 4 | `msv79053-ltq-v60-rpick-150`, `msv79053-ltqorbi-v60-saltyph-76`, `pxd000792-ltq-orbitrap-yeast-900` |
 | `thermo-raw` | writer_version | `Xcalibur 2.11` | descriptive | 0 | 1 |  |
 | `thermo-raw` | writer_version | `Xcalibur 2.12` | descriptive | 1 | 1 | `mtbls9798-qeplus-prm-control-1` |
 | `thermo-raw` | writer_version | `Xcalibur 2.13` | descriptive | 1 | 1 | `mtbls14308-mwy251008a-mix01` |
 | `thermo-raw` | writer_version | `Xcalibur 2.2` | descriptive | 1 | 1 | `pxd000951-ltqft-he4` |
 | `thermo-raw` | writer_version | `Xcalibur 2.3` | descriptive | 2 | 2 | `mtbls1822-tsq-74`, `mtbls5747-vantage-sponge-35` |
-| `thermo-raw` | writer_version | `Xcalibur 2.4` | descriptive | 7 | 7 | `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg`, `mtbls404-Blanc04` |
 
-… 13 more values: the generated table in `src/assurance.rs` has all of them.
+… 14 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 2 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_thermo`
-- corpus inputs by tier: full 10, heldout 10, smoke 14, standard 29
+- corpus inputs by tier: full 10, heldout 10, smoke 15, standard 30
 - golden snapshots: [`corpus/snapshots/thermo-raw.jsonl`](../../corpus/snapshots/thermo-raw.jsonl)
 
 ### Open new-variant intakes
