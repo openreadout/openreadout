@@ -260,7 +260,9 @@ impl VmsSlide {
                         ));
                     }
                     if m.layout.mcu_w != 8 || m.layout.mcu_h != 8 {
-                        problems.push("the map uses chroma subsampling; it is not used as a level".into());
+                        problems.push(
+                            "the map uses chroma subsampling; it is not used as a level".into(),
+                        );
                     } else {
                         map_downsample = ds;
                     }
@@ -275,8 +277,12 @@ impl VmsSlide {
             None => 4,
         };
         for s in 0..main_shifts {
-            let w: u64 = (0..cols).map(|x| u64::from(width_of(x)).div_ceil(1 << s)).sum();
-            let h: u64 = (0..rows).map(|y| u64::from(height_of(y)).div_ceil(1 << s)).sum();
+            let w: u64 = (0..cols)
+                .map(|x| u64::from(width_of(x)).div_ceil(1 << s))
+                .sum();
+            let h: u64 = (0..rows)
+                .map(|y| u64::from(height_of(y)).div_ceil(1 << s))
+                .sum();
             levels.push(VmsLevel {
                 source: LevelSource::Slide,
                 shift: s,
@@ -334,18 +340,25 @@ impl VmsSlide {
             return;
         };
         let entries: Vec<u64> = raw
-            .chunks_exact(OPT_ENTRY)
+            .as_chunks::<OPT_ENTRY>()
+            .0
+            .iter()
             .map(|c| u64::from_le_bytes(c[..8].try_into().unwrap_or([0; 8])))
             .collect();
         let mut at = 0usize;
         for (k, im) in self.images.iter().enumerate() {
             let rows = im.layout.rows() as usize;
-            let take = entries.get(at..(at + rows).min(entries.len())).unwrap_or(&[]);
+            let take = entries
+                .get(at..(at + rows).min(entries.len()))
+                .unwrap_or(&[]);
             at += rows;
             let mut ok = Vec::with_capacity(take.len());
             for &v in take {
                 let prev = ok.last().copied().unwrap_or(0);
-                if (ok.is_empty() && v != im.layout.scan_start) || (!ok.is_empty() && v <= prev) || v >= im.len {
+                if (ok.is_empty() && v != im.layout.scan_start)
+                    || (!ok.is_empty() && v <= prev)
+                    || v >= im.len
+                {
                     break;
                 }
                 ok.push(v);

@@ -284,7 +284,7 @@ pub fn decode_block(
         }
         let src = &raw[c * area..(c + 1) * area];
         let dst = &mut out[c * area..(c + 1) * area];
-        for (a, chunk) in src.chunks_exact(16).enumerate() {
+        for (a, chunk) in src.as_chunks::<16>().0.iter().enumerate() {
             let ax = (a % areas_x) * 4;
             let ay = (a / areas_x) * 4;
             for r in 0..4 {
@@ -329,7 +329,13 @@ mod tests {
         message[plane_bytes] = 0x01;
         message.extend_from_slice(&0b11u16.to_le_bytes());
         let mut tree = Bits(Vec::new(), 0);
-        for (bit, sym) in [(0, None), (0, None), (1, Some(0x00)), (1, Some(0x01)), (1, Some(0x03))] {
+        for (bit, sym) in [
+            (0, None),
+            (0, None),
+            (1, Some(0x00)),
+            (1, Some(0x01)),
+            (1, Some(0x03)),
+        ] {
             tree.put(bit, 1);
             if let Some(s) = sym {
                 tree.put(s, 8);

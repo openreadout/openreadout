@@ -171,8 +171,16 @@ fn observe_baf(info: &FileInfo) -> Observations {
         if let Some(c) = a::extra_str(&s.extra, "profile_coding") {
             o.feature(K::Codec, format!("{c} profile"), &[Scope::Spectra]);
         }
-        if let Some(c) = s.extra.get("centroid_element_code").and_then(serde_json::Value::as_u64) {
-            o.feature(K::Layout, format!("centroid element code {c}"), &[Scope::Spectra]);
+        if let Some(c) = s
+            .extra
+            .get("centroid_element_code")
+            .and_then(serde_json::Value::as_u64)
+        {
+            o.feature(
+                K::Layout,
+                format!("centroid element code {c}"),
+                &[Scope::Spectra],
+            );
         }
         if let Some(c) = a::extra_str(&s.extra, "calibration") {
             o.feature(K::Layout, format!("calibration {c}"), &[Scope::Spectra]);
@@ -219,7 +227,10 @@ fn observe_baf(info: &FileInfo) -> Observations {
                 .as_deref()
                 .and_then(|v| a::version_prefix(v, 1))
             {
-                o.context(K::WriterVersion, format!("{} {v}", i.software.as_deref().unwrap_or("software")));
+                o.context(
+                    K::WriterVersion,
+                    format!("{} {v}", i.software.as_deref().unwrap_or("software")),
+                );
             }
         }
     }

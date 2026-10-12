@@ -159,7 +159,7 @@ impl Pyramid {
                 .get(k)
                 .ok_or_else(|| bad("a block header template has fewer than 2 dimension ranges"))?
                 .count();
-            if n < 4 || n > MAX_BLOCK_SIDE || n % 4 != 0 {
+            if !(4..=MAX_BLOCK_SIDE).contains(&n) || n % 4 != 0 {
                 return Err(bad(format!(
                     "code block side {n} (expected a multiple of 4 up to {MAX_BLOCK_SIDE})"
                 )));
@@ -180,7 +180,9 @@ impl Pyramid {
             match compression.as_ref() {
                 None => compression = Some(c),
                 Some(prev) if *prev != c => {
-                    return Err(bad("block header templates name different compression methods"));
+                    return Err(bad(
+                        "block header templates name different compression methods",
+                    ));
                 }
                 Some(_) => {}
             }
@@ -244,14 +246,18 @@ impl Pyramid {
         Ok(p)
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn read_blocks(&mut self, table: &[u8], templates: usize) -> Result<()> {
         if table.len() < 4 {
             return Err(bad("block header table shorter than its length field"));
         }
         let declared = le_u32(table, 0) as usize;
-        let body = table
-            .get(4..4 + declared)
-            .ok_or_else(|| bad(format!("block header table declares {declared} bytes, holds {}", table.len() - 4)))?;
+        let body = table.get(4..4 + declared).ok_or_else(|| {
+            bad(format!(
+                "block header table declares {declared} bytes, holds {}",
+                table.len() - 4
+            ))
+        })?;
         if body.len() >= 8 && le_u32(body, 4) == 72 {
             return Err(Error::unsupported(
                 FORMAT_ID,
@@ -270,13 +276,16 @@ impl Pyramid {
         }
         let levels = self.levels;
         let top = levels - 1;
-        let total_tiles: u64 = (0..levels).map(|s| self.tile_count(s)).sum::<u64>() + self.tile_count(top);
+        let total_tiles: u64 =
+            (0..levels).map(|s| self.tile_count(s)).sum::<u64>() + self.tile_count(top);
         let (tw, th) = self.tile_size();
         self.blocks.reserve(n);
         for k in 0..n {
             let e = &body[k * BLOCK_ENTRY..(k + 1) * BLOCK_ENTRY];
             if le_u16(e, 0) != 0xFFFE || le_u16(e, 2) != 0xE000 || le_u32(e, 4) != 40 {
-                return Err(bad(format!("block header table entry {k} does not start with a 40-byte sequence item")));
+                return Err(bad(format!(
+                    "block header table entry {k} does not start with a 40-byte sequence item"
+                )));
             }
             let (x, y) = (le_u32(e, 16), le_u32(e, 20));
             let (color, scale, coef) = (le_u32(e, 24), le_u32(e, 28), le_u32(e, 32));
@@ -348,15 +357,28 @@ impl Pyramid {
 }
 
 /// Where each code block's data lies: the seek table that follows the header.
-pub fn parse_seek_table(table: &[u8], p: &Pyramid, file_len: u64, data_start: u64) -> Result<Vec<(u64, u64)>> {
+pub fn parse_seek_table(
+    table: &[u8],
+    p: &Pyramid,
+    file_len: u64,
+    data_start: u64,
+) -> Result<Vec<(u64, u64)>> {
     let mut out = Vec::with_capacity(p.blocks.len());
     for (k, b) in p.blocks.iter().enumerate() {
         let at = usize::try_from(b.block_id * SEEK_ENTRY)
             .ok()
             .and_then(|a| table.get(a..a + SEEK_ENTRY as usize))
-            .ok_or_else(|| bad(format!("code block {k} (seek entry {}) lies past the seek table", b.block_id)))?;
+            .ok_or_else(|| {
+                bad(format!(
+                    "code block {k} (seek entry {}) lies past the seek table",
+                    b.block_id
+                ))
+            })?;
         if le_u16(at, 0) != 0xFFFE || le_u16(at, 2) != 0xE000 {
-            return Err(bad(format!("seek-table entry {} is not a sequence item", b.block_id)));
+            return Err(bad(format!(
+                "seek-table entry {} is not a sequence item",
+                b.block_id
+            )));
         }
         let offset = u64::from_le_bytes(at[16..24].try_into().unwrap_or([0; 8]));
         let size = u64::from_le_bytes(at[32..40].try_into().unwrap_or([0; 8]));
@@ -382,6 +404,7 @@ mod tests {
         DimRange { start, step, end }
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn entry(x: u32, y: u32, c: u32, s: u32, coef: u32) -> Vec<u8> {
         let mut e = Vec::new();
         e.extend_from_slice(&0xFFFEu16.to_le_bytes());
@@ -405,7 +428,12 @@ mod tests {
                 ranges: vec![range(0, 8, 56), range(0, 8, 56)],
                 compression: Some("16".into()),
             }],
-            ranges: vec![range(100, 1, 163), range(200, 1, 263), range(0, 1, 2), range(0, 1, 1)],
+            ranges: vec![
+                range(100, 1, 163),
+                range(200, 1, 263),
+                range(0, 1, 2),
+                range(0, 1, 1),
+            ],
             ..ScannedImage::default()
         };
         // Tile (1, 0) of scale 0, colour 0: x = 100 + 1 + 16, y = 200 + 1.
@@ -421,7 +449,10 @@ mod tests {
         assert_eq!((p.block_w, p.levels, p.padding), (8, 2, 9));
         assert_eq!(p.size, (64 - 18, 64 - 18));
         assert_eq!(p.grid, (4, 4));
-        assert_eq!((p.blocks[0].tile_x, p.blocks[0].tile_y, p.blocks[0].block_id), (1, 0, 1));
+        assert_eq!(
+            (p.blocks[0].tile_x, p.blocks[0].tile_y, p.blocks[0].block_id),
+            (1, 0, 1)
+        );
         // LL ids follow every high-pass tile of scales 0 and 1: 16 + 4.
         assert_eq!(p.blocks[1].block_id, 20);
         assert!(p.exists(0, 1, 0) && p.exists(1, 0, 0) && !p.exists(0, 0, 0));
@@ -432,8 +463,12 @@ mod tests {
         w19.templates[0].compression = Some("19".into());
         assert_eq!(Pyramid::from_header(&h, &w19).unwrap_err().exit_code(), 6);
         let mut h100 = Header::default();
-        h100.attributes.insert("PIM_DP_UFS_INTERFACE_VERSION".into(), "100.5".into());
-        assert_eq!(Pyramid::from_header(&h100, &wsi).unwrap_err().exit_code(), 6);
+        h100.attributes
+            .insert("PIM_DP_UFS_INTERFACE_VERSION".into(), "100.5".into());
+        assert_eq!(
+            Pyramid::from_header(&h100, &wsi).unwrap_err().exit_code(),
+            6
+        );
         // A block outside its grid is corrupt.
         let mut wbad = wsi.clone();
         let mut t = entry(100_000, 201, 0, 0, 1);

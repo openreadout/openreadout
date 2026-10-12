@@ -53,9 +53,7 @@ fn pixels_equal_libisyntax() {
     assert_eq!(px(&l0, 45, 0), [147, 186, 191]);
     // The top-scale tile (1, 1) and its children do not exist: white.
     assert_eq!(px(&l0, 45, 29), [255, 255, 255]);
-    let l1 = ds
-        .read_plane_level(0, PlaneIndex::default(), 1)
-        .unwrap();
+    let l1 = ds.read_plane_level(0, PlaneIndex::default(), 1).unwrap();
     assert_eq!(sum(&l1), 178_267);
     assert_eq!(px(&l1, 20, 10), [170, 190, 219]);
     // A region equals the same rectangle of the whole level.
@@ -81,7 +79,10 @@ fn attachments_and_check() {
         .collect();
     assert_eq!(names, ["label", "macro", "icc profile (wsi)"]);
     assert!(ds.read_attachment(0).unwrap().starts_with(&[0xFF, 0xD8]));
-    assert_eq!(ds.read_attachment(2).unwrap(), b"synthetic icc profile stand-in");
+    assert_eq!(
+        ds.read_attachment(2).unwrap(),
+        b"synthetic icc profile stand-in"
+    );
     let r = ds.check().unwrap();
     assert!(r.findings.is_empty(), "{:?}", r.findings);
 }
@@ -93,7 +94,10 @@ fn damaged_copies_are_refused() {
     std::fs::create_dir_all(&dir).unwrap();
     let eot = bytes.iter().position(|&b| b == 4).unwrap();
     // Cut inside the XML header, right after it, and inside the code blocks.
-    for (k, cut) in [eot / 2, eot + 4, bytes.len() - 100].into_iter().enumerate() {
+    for (k, cut) in [eot / 2, eot + 4, bytes.len() - 100]
+        .into_iter()
+        .enumerate()
+    {
         let p = dir.join(format!("cut{k}.isyntax"));
         std::fs::write(&p, &bytes[..cut]).unwrap();
         let res = IsyntaxReader.open(&p).and_then(|mut ds| {

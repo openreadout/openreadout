@@ -86,7 +86,12 @@ pub fn idwt(buf: &mut [i16], qw: usize, qh: usize) {
 /// raster order (index 4 is the tile itself, which must exist); `None` is a neighbour that does
 /// not exist or lies outside the level. `luma` selects the fill for missing LL coefficients
 /// (255 for Y, 0 for Co and Cg). Returns the `2·(bw+8) × 2·(bh+8)` buffer.
-pub fn tile_component(nb: &[Option<Neighbour<'_>>; 9], bw: usize, bh: usize, luma: bool) -> Vec<i16> {
+pub fn tile_component(
+    nb: &[Option<Neighbour<'_>>; 9],
+    bw: usize,
+    bh: usize,
+    luma: bool,
+) -> Vec<i16> {
     let qw = bw + 2 * PAD;
     let qh = bh + 2 * PAD;
     let w = 2 * qw;
@@ -114,7 +119,7 @@ pub fn tile_component(nb: &[Option<Neighbour<'_>>; 9], bw: usize, bh: usize, lum
         let dy = (k / 3) as i32 - 1;
         let (sx, cw, tx) = span(dx, bw);
         let (sy, ch, ty) = span(dy, bh);
-        for q in 0..4 {
+        for (q, &origin) in quadrant_origin.iter().enumerate() {
             let src: &[i16] = if q == 0 {
                 n.ll.unwrap_or(&ll_fill)
             } else {
@@ -122,7 +127,7 @@ pub fn tile_component(nb: &[Option<Neighbour<'_>>; 9], bw: usize, bh: usize, lum
             };
             for r in 0..ch {
                 let s = (sy + r) * bw + sx;
-                let d = quadrant_origin[q] + (ty + r) * w + tx;
+                let d = origin + (ty + r) * w + tx;
                 buf[d..d + cw].copy_from_slice(&src[s..s + cw]);
             }
         }
@@ -149,6 +154,7 @@ pub fn child_ll(buf: &[i16], bw: usize, bh: usize) -> [Vec<i16>; 4] {
 /// RGB pixels of a tile (`2·bw × 2·bh`, interleaved) from the transformed Y, Co and Cg
 /// buffers: Y is taken as an absolute value, then R, G, B are computed with arithmetic shifts
 /// and clamped to 0..255.
+#[allow(clippy::many_single_char_names)]
 pub fn to_rgb(y: &[i16], co: &[i16], cg: &[i16], bw: usize, bh: usize) -> Vec<u8> {
     let w = 2 * (bw + 2 * PAD);
     let (tw, th) = (2 * bw, 2 * bh);

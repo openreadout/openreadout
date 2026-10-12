@@ -209,7 +209,10 @@ mod tests {
         h.extend(seg(0xDD, &512u16.to_be_bytes()));
         h.extend(seg(0xDA, &[3, 0, 0, 1, 0x11, 2, 0x11, 0, 63, 0]));
         let l = JpegLayout::parse(&h).unwrap();
-        assert_eq!((l.width, l.height, l.mcu_w, l.mcu_h, l.restart), (9000, 100, 8, 8, 512));
+        assert_eq!(
+            (l.width, l.height, l.mcu_w, l.mcu_h, l.restart),
+            (9000, 100, 8, 8, 512)
+        );
         assert_eq!(l.scan_start, h.len() as u64);
         assert_eq!((l.intervals_per_row(), l.rows()), (3, 13));
         assert_eq!(l.interval_size(12, 2), (9000 - 8192, 4));

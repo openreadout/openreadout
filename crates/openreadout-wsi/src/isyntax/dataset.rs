@@ -110,9 +110,9 @@ impl IsyntaxDataset {
         };
         let header = header::parse(&head)?;
         drop(head);
-        let wsi = header.image("WSI").ok_or_else(|| {
-            Error::corrupt(FORMAT_ID, "the header has no WSI scanned image")
-        })?;
+        let wsi = header
+            .image("WSI")
+            .ok_or_else(|| Error::corrupt(FORMAT_ID, "the header has no WSI scanned image"))?;
         let pyramid = Pyramid::from_header(&header, wsi)?;
         // The seek table: tag (0x301D, 0x2015) and its size, then 40-byte entries.
         let mut tag = [0u8; 8];
@@ -125,7 +125,9 @@ impl IsyntaxDataset {
             return Err(Error::corrupt_at(
                 FORMAT_ID,
                 eot + 1,
-                format!("expected the seek table (0x301D,0x2015) after the header, found ({group:#06x},{element:#06x})"),
+                format!(
+                    "expected the seek table (0x301D,0x2015) after the header, found ({group:#06x},{element:#06x})"
+                ),
             ));
         }
         let declared = u64::from(u32::from_le_bytes([tag[4], tag[5], tag[6], tag[7]]));
@@ -187,10 +189,14 @@ impl IsyntaxDataset {
         self.header.image("WSI")
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn image_info(&self) -> ImageInfo {
         let p = &self.pyramid;
         let (w, h) = p.level_size(0);
-        let (w32, h32) = (u32::try_from(w).unwrap_or(u32::MAX), u32::try_from(h).unwrap_or(u32::MAX));
+        let (w32, h32) = (
+            u32::try_from(w).unwrap_or(u32::MAX),
+            u32::try_from(h).unwrap_or(u32::MAX),
+        );
         let mut info = ImageInfo::new(0, w32, h32, PixelType::Uint8);
         info.samples_per_pixel = 3;
         info.dimension_order = "XYCZT".into();
@@ -237,21 +243,33 @@ impl IsyntaxDataset {
             .attribute("DICOM_ACQUISITION_DATETIME")
             .and_then(dicom_datetime);
         let mut m = serde_json::Map::new();
-        m.insert("data_model".into(), json!(h.attribute("PIM_DP_UFS_INTERFACE_VERSION")));
+        m.insert(
+            "data_model".into(),
+            json!(h.attribute("PIM_DP_UFS_INTERFACE_VERSION")),
+        );
         m.insert("compression_method".into(), json!(p.compression));
         if let Some(wsi) = self.wsi() {
             for (k, attr) in [
                 ("derivation_description", "DICOM_DERIVATION_DESCRIPTION"),
                 ("lossy_compression", "DICOM_LOSSY_IMAGE_COMPRESSION"),
-                ("pixel_transformation_method", "UFS_IMAGE_PIXEL_TRANSFORMATION_METHOD"),
+                (
+                    "pixel_transformation_method",
+                    "UFS_IMAGE_PIXEL_TRANSFORMATION_METHOD",
+                ),
             ] {
                 if let Some(v) = wsi.attributes.get(attr) {
                     m.insert(k.into(), json!(v));
                 }
             }
             for (k, attr) in [
-                ("lossy_compression_ratio", "DICOM_LOSSY_IMAGE_COMPRESSION_RATIO"),
-                ("lossy_compression_method", "DICOM_LOSSY_IMAGE_COMPRESSION_METHOD"),
+                (
+                    "lossy_compression_ratio",
+                    "DICOM_LOSSY_IMAGE_COMPRESSION_RATIO",
+                ),
+                (
+                    "lossy_compression_method",
+                    "DICOM_LOSSY_IMAGE_COMPRESSION_METHOD",
+                ),
             ] {
                 if let Some(v) = wsi.attributes.get(attr) {
                     m.insert(k.into(), json!(header::string_array(v).join(" ")));
@@ -267,7 +285,11 @@ impl IsyntaxDataset {
         m.insert("image_offset".into(), json!([p.offset.0, p.offset.1]));
         m.insert(
             "tiles_per_scale".into(),
-            json!((0..p.levels).map(|s| p.existing_tiles(s)).collect::<Vec<_>>()),
+            json!(
+                (0..p.levels)
+                    .map(|s| p.existing_tiles(s))
+                    .collect::<Vec<_>>()
+            ),
         );
         m.insert("software_versions".into(), json!(versions));
         if let Some(s) = h.attribute("DICOM_DEVICE_SERIAL_NUMBER") {
@@ -288,13 +310,21 @@ impl IsyntaxDataset {
             m.insert("barcode".into(), json!(b));
         }
         info.extra.insert("isyntax".into(), Value::Object(m));
-        info.extra.insert("codec".into(), json!(format!("isyntax wavelet (method {})", p.compression)));
+        info.extra.insert(
+            "codec".into(),
+            json!(format!("isyntax wavelet (method {})", p.compression)),
+        );
         info.finish()
     }
 
     fn attachment_list(&self) -> Vec<(AttachmentInfo, AttachmentSource)> {
         let mut out = Vec::new();
-        let mut push = |name: String, ct: &str, ext: &str, size: usize, src: AttachmentSource, extra: BTreeMap<String, Value>| {
+        let mut push = |name: String,
+                        ct: &str,
+                        ext: &str,
+                        size: usize,
+                        src: AttachmentSource,
+                        extra: BTreeMap<String, Value>| {
             out.push((
                 AttachmentInfo {
                     index: out.len() as u32,
@@ -323,7 +353,14 @@ impl IsyntaxDataset {
                     extra.insert("width".into(), json!(w));
                     extra.insert("height".into(), json!(h));
                 }
-                push(role.into(), "JPG", "jpg", d.len(), AttachmentSource::Image(k), extra);
+                push(
+                    role.into(),
+                    "JPG",
+                    "jpg",
+                    d.len(),
+                    AttachmentSource::Image(k),
+                    extra,
+                );
             }
         }
         for (k, im) in self.header.images.iter().enumerate() {
@@ -343,7 +380,13 @@ impl IsyntaxDataset {
         out
     }
 
-    fn read_level_region(&mut self, index: PlaneIndex, level: u32, region: Option<Region>) -> Result<Plane> {
+    #[allow(clippy::many_single_char_names)]
+    fn read_level_region(
+        &mut self,
+        index: PlaneIndex,
+        level: u32,
+        region: Option<Region>,
+    ) -> Result<Plane> {
         if index.c != 0 || index.z != 0 || index.t != 0 {
             return Err(Error::Usage(format!(
                 "plane c={} z={} t={} is out of range (C=1, Z=1, T=1)",
@@ -358,7 +401,10 @@ impl IsyntaxDataset {
             )));
         }
         let (lw, lh) = p.level_size(level);
-        let (lw, lh) = (u32::try_from(lw).unwrap_or(u32::MAX), u32::try_from(lh).unwrap_or(u32::MAX));
+        let (lw, lh) = (
+            u32::try_from(lw).unwrap_or(u32::MAX),
+            u32::try_from(lh).unwrap_or(u32::MAX),
+        );
         let win = match region {
             Some(r) => {
                 r.check_within(lw, lh, &format!("image 0 level {level}"))?;
@@ -379,7 +425,13 @@ impl IsyntaxDataset {
             })?;
         let mut data = vec![255u8; n];
         if win.width == 0 || win.height == 0 {
-            return Ok(Plane { width: win.width, height: win.height, pixel_type: PixelType::Uint8, samples_per_pixel: 3, data });
+            return Ok(Plane {
+                width: win.width,
+                height: win.height,
+                pixel_type: PixelType::Uint8,
+                samples_per_pixel: 3,
+                data,
+            });
         }
         let (tw, th) = p.tile_size();
         let origin = p.level_origin(level);
@@ -435,7 +487,10 @@ impl IsyntaxDataset {
         let p = self.pyramid.clone();
         for s in 0..p.levels {
             if p.existing_tiles(s) == 0 {
-                r.push(Finding::warning("empty_scale", format!("scale {s} has no code blocks")));
+                r.push(Finding::warning(
+                    "empty_scale",
+                    format!("scale {s} has no code blocks"),
+                ));
             }
         }
         r.performed("seek table: an entry for every code block, each block inside the data");
@@ -510,6 +565,7 @@ impl Dataset for IsyntaxDataset {
         p
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn entries(&self) -> Result<Vec<LsEntry>> {
         let p = &self.pyramid;
         let mut out = vec![
@@ -561,14 +617,24 @@ impl Dataset for IsyntaxDataset {
 
     fn read_plane_level(&mut self, image: u32, index: PlaneIndex, level: u32) -> Result<Plane> {
         if image != 0 {
-            return Err(Error::Usage(format!("image {image} does not exist (1 image)")));
+            return Err(Error::Usage(format!(
+                "image {image} does not exist (1 image)"
+            )));
         }
         self.read_level_region(index, level, None)
     }
 
-    fn read_region(&mut self, image: u32, index: PlaneIndex, level: u32, region: Region) -> Result<Plane> {
+    fn read_region(
+        &mut self,
+        image: u32,
+        index: PlaneIndex,
+        level: u32,
+        region: Region,
+    ) -> Result<Plane> {
         if image != 0 {
-            return Err(Error::Usage(format!("image {image} does not exist (1 image)")));
+            return Err(Error::Usage(format!(
+                "image {image} does not exist (1 image)"
+            )));
         }
         self.read_level_region(index, level, Some(region))
     }

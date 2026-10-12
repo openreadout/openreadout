@@ -127,7 +127,10 @@ pub fn parse_lines(rec: &[u8]) -> Result<LineBlock> {
     };
     let n = u(24)? as usize;
     if hdr < 52 || hdr > rec.len() || n > MAX_SAMPLES {
-        return Err(bad(format!("centroid block {} header of {hdr} bytes", b.id)));
+        return Err(bad(format!(
+            "centroid block {} header of {hdr} bytes",
+            b.id
+        )));
     }
     for (k, v) in b.stats.iter_mut().enumerate() {
         *v = le_f32(rec, 32 + 4 * k).unwrap_or(0.0);
@@ -150,7 +153,10 @@ pub fn parse_lines(rec: &[u8]) -> Result<LineBlock> {
     let mut arrays = Vec::new();
     for k in 0..offs.len() {
         if bounds[k + 1] < bounds[k] {
-            return Err(bad(format!("centroid block {}: array offsets out of order", b.id)));
+            return Err(bad(format!(
+                "centroid block {}: array offsets out of order",
+                b.id
+            )));
         }
         let size = bounds[k + 1] - bounds[k];
         if n == 0 {
@@ -202,7 +208,10 @@ pub fn parse_profile(rec: &[u8]) -> Result<(u32, Vec<f64>)> {
         }
         _ => Err(Error::unsupported(
             FORMAT_ID,
-            format!("profile coding {:02x} {:02x} {:02x} {:02x}", coding[0], coding[1], coding[2], coding[3]),
+            format!(
+                "profile coding {:02x} {:02x} {:02x} {:02x}",
+                coding[0], coding[1], coding[2], coding[3]
+            ),
             "Only plain float32 profiles and the packed delta coding are known; the centroids are still readable (`spectrum --view centroid`).",
         )),
     }
@@ -239,6 +248,7 @@ impl Bits<'_> {
 /// followed by delta bits; class 0 repeats the last sample, the last class is a 32-bit run
 /// length, the one before it a 32-bit two's-complement delta, the others a magnitude with the
 /// sign in the lowest bit.
+#[allow(clippy::many_single_char_names)]
 pub fn decode_packed(data: &[u8]) -> Result<Vec<i64>> {
     let marker = le_u32(data, 0).ok_or_else(|| bad("packed profile too short"))?;
     if marker != PACKED_MARKER {
@@ -345,7 +355,7 @@ mod tests {
     impl W {
         fn put(&mut self, v: u64, n: u32) {
             for i in (0..n).rev() {
-                if self.1 % 8 == 0 {
+                if self.1.is_multiple_of(8) {
                     self.0.push(0);
                 }
                 let last = self.0.len() - 1;
@@ -394,6 +404,11 @@ mod tests {
         let mut other = data.clone();
         other[12] = 1;
         assert_eq!(decode_packed(&other).unwrap_err().exit_code(), 6);
-        assert_eq!(decode_packed(&data[..head.len() + 3]).unwrap_err().exit_code(), 4);
+        assert_eq!(
+            decode_packed(&data[..head.len() + 3])
+                .unwrap_err()
+                .exit_code(),
+            4
+        );
     }
 }

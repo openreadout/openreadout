@@ -90,7 +90,10 @@ pub fn walk(buf: &[u8], start: usize, end: usize) -> Result<Vec<RecordRef>> {
         o += len;
     }
     if o != end {
-        return Err(bad(format!("{} stray bytes at the end of a record", end - o)));
+        return Err(bad(format!(
+            "{} stray bytes at the end of a record",
+            end - o
+        )));
     }
     Ok(out)
 }
@@ -156,6 +159,7 @@ impl VariableDef {
     }
 
     /// The text `value_text` gives an integer value (`0:CID;1:ETD` → 0 → `CID`).
+    #[allow(clippy::float_cmp)]
     pub fn text_of(&self, v: f64) -> Option<String> {
         self.value_text.split(';').find_map(|item| {
             let (k, t) = item.split_once(':')?;
@@ -228,8 +232,10 @@ pub fn parse_variable_list(rec: &[u8], hdr: usize, count: usize) -> Result<BTree
     let mut out = BTreeMap::new();
     let mut p = hdr;
     for _ in 0..count {
-        let (Some(id), Some(raw)) = (le_u16(rec, p), openreadout_core::bytes::array::<8>(rec, p + 2))
-        else {
+        let (Some(id), Some(raw)) = (
+            le_u16(rec, p),
+            openreadout_core::bytes::array::<8>(rec, p + 2),
+        ) else {
             return Err(bad("a variable list runs past its record"));
         };
         out.insert(id, raw);

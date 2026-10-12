@@ -29,6 +29,8 @@ const WHOLE_MAP_BYTES: u64 = 128 << 20;
 
 /// A decoded interval: `width × height` RGB pixels.
 type Tile = (u32, u32, Vec<u8>);
+/// An interval to decode: MCU row, interval, its JPEG and the expected size.
+type Job = (u32, u32, Vec<u8>, (u32, u32));
 
 /// An opened VMS slide.
 pub struct VmsDataset {
@@ -61,7 +63,10 @@ fn decode(data: &[u8], shift: u32, expect: (u32, u32)) -> Result<Tile> {
     if r.channels != 3 || r.bits_per_sample != 8 {
         return Err(Error::unsupported(
             FORMAT_ID,
-            format!("a JPEG with {} components of {} bits", r.channels, r.bits_per_sample),
+            format!(
+                "a JPEG with {} components of {} bits",
+                r.channels, r.bits_per_sample
+            ),
             "Only 8-bit three-component JPEG images are known in VMS slides.",
         ));
     }
@@ -149,7 +154,10 @@ impl VmsDataset {
         if end <= start || end > im.len || start < lead {
             return Err(Error::corrupt(
                 FORMAT_ID,
-                format!("{}: row {row} spans bytes {start}..{end}", self.rel(&im.path)),
+                format!(
+                    "{}: row {row} spans bytes {start}..{end}",
+                    self.rel(&im.path)
+                ),
             ));
         }
         let file = self.open_file(&im)?;
@@ -210,10 +218,7 @@ impl VmsDataset {
             return Ok(t.clone());
         }
         let im = self.image(self.slide.images.len())?.clone();
-        let data = self
-            .fs
-            .read(&im.path)
-            .map_err(|e| Error::io(&im.path, e))?;
+        let data = self.fs.read(&im.path).map_err(|e| Error::io(&im.path, e))?;
         let expect = (
             im.layout.width.div_ceil(1 << shift),
             im.layout.height.div_ceil(1 << shift),
@@ -333,7 +338,7 @@ impl VmsDataset {
             let k0 = (wx0.max(ox) - ox) / tw;
             let k1 = (wx1.min(ox + iw) - 1 - ox) / tw;
             // Gather the intervals that are not cached, decode them in parallel.
-            let mut jobs: Vec<(u32, u32, Vec<u8>, (u32, u32))> = Vec::new();
+            let mut jobs: Vec<Job> = Vec::new();
             let mut ready: Vec<((u32, u32), Arc<Tile>)> = Vec::new();
             for row in r0..=r1 {
                 let row = row as u32;
@@ -363,7 +368,8 @@ impl VmsDataset {
                 let (pos, t) = r?;
                 let t = Arc::new(t);
                 let bytes = t.2.len();
-                self.tiles.put((level as usize, k, pos.0, pos.1), t.clone(), bytes);
+                self.tiles
+                    .put((level as usize, k, pos.0, pos.1), t.clone(), bytes);
                 ready.push((pos, t));
             }
             for ((row, kk), t) in ready {
@@ -384,6 +390,7 @@ impl VmsDataset {
         })
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn image_info(&self) -> ImageInfo {
         let s = &self.slide;
         let (w, h) = (
@@ -456,7 +463,10 @@ impl VmsDataset {
         );
         if let Some(mp) = &s.map {
             m.insert("map_file".into(), json!(self.rel(&mp.path)));
-            m.insert("map_size".into(), json!([mp.layout.width, mp.layout.height]));
+            m.insert(
+                "map_size".into(),
+                json!([mp.layout.width, mp.layout.height]),
+            );
         }
         m.insert("map_downsample".into(), json!(s.map_downsample));
         m.insert(
@@ -502,7 +512,9 @@ impl VmsDataset {
         ] {
             let Some(f) = s.get(key) else { continue };
             let p = s.dir.join(f);
-            let Ok(m) = self.fs.metadata(&p) else { continue };
+            let Ok(m) = self.fs.metadata(&p) else {
+                continue;
+            };
             let mut extra = BTreeMap::new();
             extra.insert("file".into(), json!(f));
             out.push((
@@ -532,14 +544,19 @@ impl VmsDataset {
             if let Some(f) = self.slide.get(key)
                 && !self.fs.is_file(&self.slide.dir.join(f))
             {
-                r.push(Finding::warning("missing_file", format!("{key} {f} is missing")));
+                r.push(Finding::warning(
+                    "missing_file",
+                    format!("{key} {f} is missing"),
+                ));
             }
         }
         if full {
             r.performed("every image: all MCU rows found, the first and last row follow their restart markers and their first and last intervals decode");
             let n = self.slide.images.len() + usize::from(self.slide.map.is_some());
             for k in 0..n {
-                let Ok(im) = self.image(k).cloned() else { continue };
+                let Ok(im) = self.image(k).cloned() else {
+                    continue;
+                };
                 let rows = im.layout.rows();
                 for row in [0, rows.saturating_sub(1)] {
                     match self.row_intervals(k, row) {
@@ -547,9 +564,16 @@ impl VmsDataset {
                             let last = im.layout.intervals_per_row() - 1;
                             for kk in [0, last] {
                                 let (fw, fh) = im.layout.interval_size(row, kk);
-                                let f = im.layout.frame(fw, fh, &bytes[ranges[kk as usize].clone()]);
+                                let f =
+                                    im.layout.frame(fw, fh, &bytes[ranges[kk as usize].clone()]);
                                 if let Err(e) = decode(&f, 0, (fw, fh)) {
-                                    r.push(Finding::error("bad_interval", format!("{} row {row} interval {kk}: {e}", self.rel(&im.path))));
+                                    r.push(Finding::error(
+                                        "bad_interval",
+                                        format!(
+                                            "{} row {row} interval {kk}: {e}",
+                                            self.rel(&im.path)
+                                        ),
+                                    ));
                                 }
                             }
                         }

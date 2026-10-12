@@ -13,6 +13,7 @@ fn fixture() -> PathBuf {
 
 /// The generator's calibration: delay 3000 ns, time base 0.5 ns, t0 2000 ns, Q from the
 /// reference 0.01, the residual 1e-3 + 1e-6 m inside [50, 1500].
+#[allow(clippy::many_single_char_names)]
 fn mz(index: f64, k: f64, q: f64) -> f64 {
     let t = 3000.0 + 0.5 * index;
     let k1 = 1e6 / k.sqrt();
@@ -69,14 +70,19 @@ fn spectra_and_recalibrated_mz() {
     let f1 = drift(30.5, 28.0);
     let p = ds.read_spectrum_view(0, 0, SpectrumView::Primary).unwrap();
     assert!(!p.centroided);
-    let want: Vec<f32> = [0, 0, 0, 0, 5, 30, 120, 260, 120, 30, 5, 0, 0, 0, 0, 0, 3000, 70000, 2000, 0]
-        .iter()
-        .chain([0i32; 20].iter())
-        .map(|&v| v as f32)
-        .collect();
+    let want: Vec<f32> = [
+        0, 0, 0, 0, 5, 30, 120, 260, 120, 30, 5, 0, 0, 0, 0, 0, 3000, 70000, 2000, 0,
+    ]
+    .iter()
+    .chain([0i32; 20].iter())
+    .map(|&v| v as f32)
+    .collect();
     assert_eq!(p.intensity, want);
     for (i, &m) in p.mz.iter().enumerate() {
-        assert!(close(m, mz(i as f64, k_ami * f1, q_ref / f1)), "profile point {i}: {m}");
+        assert!(
+            close(m, mz(i as f64, k_ami * f1, q_ref / f1)),
+            "profile point {i}: {m}"
+        );
     }
     let c = ds.read_spectrum_view(0, 0, SpectrumView::Centroid).unwrap();
     assert!(c.centroided);
@@ -118,7 +124,10 @@ fn acquisition_calibration_and_record_walk() {
     let d = copy("acq", &baf, false);
     let mut ds = BrukerBafReader.open(&d).unwrap();
     let info = ds.info().unwrap();
-    assert_eq!(info.spectra[0].extra["mz_calibration_source"], "acquisition");
+    assert_eq!(
+        info.spectra[0].extra["mz_calibration_source"],
+        "acquisition"
+    );
     let f1 = drift(30.5, 28.0);
     let c = ds.read_spectrum_view(0, 0, SpectrumView::Centroid).unwrap();
     assert!(close(c.mz[0], mz(7.0, 1.0e8 * f1, 0.01 / f1)));
@@ -135,7 +144,11 @@ fn acquisition_calibration_and_record_walk() {
 #[test]
 fn damaged_copies_are_refused() {
     let baf = std::fs::read(fixture().join("analysis.baf")).unwrap();
-    for (tag, cut) in [("head", 20usize), ("mid", baf.len() / 2), ("tail", baf.len() - 30)] {
+    for (tag, cut) in [
+        ("head", 20usize),
+        ("mid", baf.len() / 2),
+        ("tail", baf.len() - 30),
+    ] {
         let d = copy(tag, &baf[..cut], true);
         let res = BrukerBafReader.open(&d).and_then(|mut ds| {
             for k in 0..2 {

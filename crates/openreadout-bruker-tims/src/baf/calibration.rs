@@ -299,14 +299,24 @@ pub fn parse_reference(p: &[u8]) -> Option<ReferenceCalibration> {
         reference: (le_f64(p, i + 4)?, le_f64(p, i + 12)?),
         gradient: (le_f64(p, i + 20)?, le_f64(p, i + 28)?),
     };
-    [r.t0_ns, r.k, r.q, r.reference.0, r.reference.1, r.gradient.0, r.gradient.1]
-        .iter()
-        .all(|v| v.is_finite())
-        .then_some(r)
+    [
+        r.t0_ns,
+        r.k,
+        r.q,
+        r.reference.0,
+        r.reference.1,
+        r.gradient.0,
+        r.gradient.1,
+    ]
+    .iter()
+    .all(|v| v.is_finite())
+    .then_some(r)
 }
 
 /// The calibration payload `Calibrator.ami` holds for spectra calibrated like `first`: the
 /// first payload of the same kind, delay and time base, found by scanning for the kind word.
+// The payload must hold exactly the spectra's delay and time base.
+#[allow(clippy::float_cmp)]
 pub fn find_recalibration(ami: &[u8], first: &TofCalibration) -> Option<TofCalibration> {
     let pat = first.kind.to_le_bytes();
     let mut from = 0usize;
@@ -376,7 +386,15 @@ mod tests {
     fn payloads() {
         let mut p = vec![0u8; 140];
         p[0..2].copy_from_slice(&3u16.to_le_bytes());
-        for (at, v) in [(4, 1.0f64), (12, 0.5), (20, 2.0), (28, 1e8), (36, 0.0), (72, 10.0), (80, 900.0)] {
+        for (at, v) in [
+            (4, 1.0f64),
+            (12, 0.5),
+            (20, 2.0),
+            (28, 1e8),
+            (36, 0.0),
+            (72, 10.0),
+            (80, 900.0),
+        ] {
             p[at..at + 8].copy_from_slice(&v.to_le_bytes());
         }
         p[88..90].copy_from_slice(&1u16.to_le_bytes());
@@ -385,11 +403,20 @@ mod tests {
         let Ok(Calibration::Tof(c)) = parse_payload(&p) else {
             panic!("kind 3")
         };
-        assert_eq!((c.poly.clone(), c.poly_range, c.temperatures), (vec![0.25], (10.0, 900.0), None));
+        assert_eq!(
+            (c.poly.clone(), c.poly_range, c.temperatures),
+            (vec![0.25], (10.0, 900.0), None)
+        );
         let mut bad = p.clone();
         bad[28..36].copy_from_slice(&(-1.0f64).to_le_bytes());
-        assert!(matches!(parse_payload(&bad), Err(CalibrationIssue::Damaged(_))));
-        assert!(matches!(parse_payload(&[7, 0, 1, 0, 0, 0, 0, 0]), Err(CalibrationIssue::Unknown(_))));
+        assert!(matches!(
+            parse_payload(&bad),
+            Err(CalibrationIssue::Damaged(_))
+        ));
+        assert!(matches!(
+            parse_payload(&[7, 0, 1, 0, 0, 0, 0, 0]),
+            Err(CalibrationIssue::Unknown(_))
+        ));
         assert!(parse_payload(&p[..50]).is_err());
         assert!(find_recalibration(&p, &c).is_some());
     }

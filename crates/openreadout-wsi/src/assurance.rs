@@ -151,7 +151,11 @@ fn observe_isyntax(info: &FileInfo) -> Observations {
             );
         }
         if let Some(c) = s("compression_method") {
-            o.feature(K::Codec, format!("isyntax wavelet method {c}"), &[Scope::Pixels]);
+            o.feature(
+                K::Codec,
+                format!("isyntax wavelet method {c}"),
+                &[Scope::Pixels],
+            );
         }
         if let Some(b) = m.get("block_size").and_then(serde_json::Value::as_array) {
             let side = |i: usize| b.get(i).and_then(serde_json::Value::as_u64).unwrap_or(0);
@@ -206,7 +210,10 @@ fn observe_vms(info: &FileInfo) -> Observations {
             ),
             None => o.feature(K::Layout, "no usable map", &[Scope::Metadata]),
         }
-        if m.get("optimisation_file").and_then(serde_json::Value::as_bool) == Some(true) {
+        if m.get("optimisation_file")
+            .and_then(serde_json::Value::as_bool)
+            == Some(true)
+        {
             o.feature(K::Layout, "optimisation file", &[Scope::Pixels]);
         }
     }

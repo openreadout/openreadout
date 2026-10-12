@@ -7,7 +7,7 @@ use std::path::{Path, PathBuf};
 
 use openreadout_core::bytes::le_u32;
 use openreadout_core::model::{
-    CheckReport, FileInfo, Finding, InstrumentInfo, LsEntry, Spectrum, SpectraInfo,
+    CheckReport, FileInfo, Finding, InstrumentInfo, LsEntry, SpectraInfo, Spectrum,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, PlaneIndex, SpectrumView};
@@ -20,10 +20,10 @@ use super::calibration::{
     parse_payload, parse_reference,
 };
 use super::records::{
-    AcquisitionHeader, Pointers, Segment, SummaryEntry, TAG_ACQUISITION, TAG_COMPRESSOR,
-    TAG_LINES, TAG_POINTERS, TAG_PROFILE, TAG_SEGMENT, TAG_SPECTRUM, TAG_SUMMARY, TAG_TRAILER,
-    TAG_WRITER, bad, bad_at, cstr, parse_acquisition, parse_pointers, parse_segment,
-    parse_summary, parse_trailer,
+    AcquisitionHeader, Pointers, Segment, SummaryEntry, TAG_ACQUISITION, TAG_COMPRESSOR, TAG_LINES,
+    TAG_POINTERS, TAG_PROFILE, TAG_SEGMENT, TAG_SPECTRUM, TAG_SUMMARY, TAG_TRAILER, TAG_WRITER,
+    bad, bad_at, cstr, parse_acquisition, parse_pointers, parse_segment, parse_summary,
+    parse_trailer,
 };
 use super::spectrum::{SpectrumRecord, parse_lines, parse_profile, parse_spectrum, variable};
 use super::{BrukerBafReader, FORMAT_ID};
@@ -108,7 +108,10 @@ fn read_exact(file: &SourceFile, path: &Path, at: u64, n: u64) -> Result<Vec<u8>
     let mut buf = vec![0u8; usize::try_from(n).map_err(|_| bad("record too large"))?];
     file.read_exact_at(at, &mut buf).map_err(|e| {
         if e.kind() == std::io::ErrorKind::UnexpectedEof {
-            bad_at(at, format!("{}: record runs past the end of the file", path.display()))
+            bad_at(
+                at,
+                format!("{}: record runs past the end of the file", path.display()),
+            )
         } else {
             Error::io(path, e)
         }
@@ -121,7 +124,8 @@ fn record_head(file: &SourceFile, path: &Path, at: u64, file_len: u64) -> Result
     let h = read_exact(file, path, at, 8)?;
     let len = u64::from(le_u32(&h, 0).unwrap_or(0));
     let tag = le_u32(&h, 4).unwrap_or(0);
-    if len < 8 || at.saturating_add(len) > file_len || tag & 0xFFFF_0000 != super::records::TAG_BASE {
+    if len < 8 || at.saturating_add(len) > file_len || tag & 0xFFFF_0000 != super::records::TAG_BASE
+    {
         return Err(bad_at(
             at,
             format!("not a BAF record (length {len}, tag {tag:#010x})"),
@@ -156,7 +160,10 @@ impl BafDataset {
         // Leading records: the pointer record, the writer, the compressor, the header.
         let (tag, first) = read_record(&file, &baf, 0, len)?;
         if tag != TAG_POINTERS {
-            return Err(bad_at(0, format!("the first record is {tag:#010x}, not the BAF pointer record")));
+            return Err(bad_at(
+                0,
+                format!("the first record is {tag:#010x}, not the BAF pointer record"),
+            ));
         }
         let pointers = parse_pointers(&first);
         let mut writer = None;
@@ -181,7 +188,8 @@ impl BafDataset {
                     let r = read_exact(&file, &baf, at, rlen)?;
                     header = Some(parse_acquisition(&r)?);
                 }
-                TAG_SEGMENT | TAG_SPECTRUM | TAG_PROFILE | TAG_LINES | TAG_SUMMARY | TAG_TRAILER => {
+                TAG_SEGMENT | TAG_SPECTRUM | TAG_PROFILE | TAG_LINES | TAG_SUMMARY
+                | TAG_TRAILER => {
                     body_start = Some(at);
                     break;
                 }
@@ -196,27 +204,29 @@ impl BafDataset {
         let mut summary: Vec<SummaryEntry> = Vec::new();
         let mut index_source = "trailer index";
         let trailer_ok = match pointers {
-            Some(Pointers { trailer, summary: sum, .. }) if trailer > 0 && trailer < len => {
-                match read_record(&file, &baf, trailer, len) {
-                    Ok((TAG_TRAILER, rec)) => {
-                        for (id, off) in parse_trailer(&rec) {
-                            if off.saturating_add(8) <= len
-                                && let Ok((_, t)) = record_head(&file, &baf, off, len)
-                            {
-                                offsets.entry(t).or_default().insert(id, off);
-                            }
+            Some(Pointers {
+                trailer,
+                summary: sum,
+                ..
+            }) if trailer > 0 && trailer < len => match read_record(&file, &baf, trailer, len) {
+                Ok((TAG_TRAILER, rec)) => {
+                    for (id, off) in parse_trailer(&rec) {
+                        if off.saturating_add(8) <= len
+                            && let Ok((_, t)) = record_head(&file, &baf, off, len)
+                        {
+                            offsets.entry(t).or_default().insert(id, off);
                         }
-                        if let Ok((TAG_SUMMARY, srec)) = read_record(&file, &baf, sum, len) {
-                            match parse_summary(&srec) {
-                                Ok(s) => summary = s,
-                                Err(e) => problems.push(format!("summary table: {e}")),
-                            }
-                        }
-                        !offsets.get(&TAG_SPECTRUM).is_none_or(BTreeMap::is_empty)
                     }
-                    _ => false,
+                    if let Ok((TAG_SUMMARY, srec)) = read_record(&file, &baf, sum, len) {
+                        match parse_summary(&srec) {
+                            Ok(s) => summary = s,
+                            Err(e) => problems.push(format!("summary table: {e}")),
+                        }
+                    }
+                    !offsets.get(&TAG_SPECTRUM).is_none_or(BTreeMap::is_empty)
                 }
-            }
+                _ => false,
+            },
             _ => false,
         };
         if !trailer_ok {
@@ -227,7 +237,11 @@ impl BafDataset {
             while at < len {
                 let (rlen, tag) = record_head(&file, &baf, at, len)?;
                 if matches!(tag, TAG_SEGMENT | TAG_SPECTRUM | TAG_PROFILE | TAG_LINES) {
-                    let id_at = if matches!(tag, TAG_SEGMENT | TAG_SPECTRUM) { 16 } else { 12 };
+                    let id_at = if matches!(tag, TAG_SEGMENT | TAG_SPECTRUM) {
+                        16
+                    } else {
+                        12
+                    };
                     let r = read_exact(&file, &baf, at + id_at, 4)?;
                     offsets
                         .entry(tag)
@@ -259,7 +273,10 @@ impl BafDataset {
             let (_, r) = read_record(&file, &baf, off, len)?;
             let record = parse_spectrum(&r)?;
             if record.id != id {
-                problems.push(format!("the index names spectrum {id} at {off}, the record says {}", record.id));
+                problems.push(format!(
+                    "the index names spectrum {id} at {off}, the record says {}",
+                    record.id
+                ));
             }
             spectra.push(SpectrumEntry {
                 lines: lines.get(&record.id).copied(),
@@ -334,6 +351,8 @@ impl BafDataset {
 
     /// Drift compensation settings: the header reference whose t0 matches the first
     /// spectrum's, then the segment variables for what it lacks.
+    // The reference is the one written with exactly the spectra's t0: an exact comparison.
+    #[allow(clippy::float_cmp)]
     fn drift_settings(&self) -> Option<DriftSettings> {
         let first = self.first_tof()?;
         let mut s = DriftSettings::default();
@@ -378,28 +397,29 @@ impl BafDataset {
         let Some(first) = self.first_tof() else {
             return MzSource::Acquisition;
         };
-        let size = fs.metadata(&p).map(|m| m.len()).unwrap_or(0);
+        let size = fs.metadata(&p).map_or(0, |m| m.len());
         if size > MAX_AMI {
             self.problems
                 .push(format!("Calibrator.ami of {size} bytes was not read"));
             return MzSource::Acquisition;
         }
-        match fs.read(&p) {
-            Ok(a) => match find_recalibration(&a, &first) {
-                Some(c) => MzSource::Recalibration(c),
-                None => {
-                    self.notes.push("Calibrator.ami holds no calibration matching the spectra's; the acquisition calibration is used".into());
-                    MzSource::Acquisition
-                }
-            },
+        let a = match fs.read(&p) {
+            Ok(a) => a,
             Err(e) => {
                 self.problems.push(format!("Calibrator.ami: {e}"));
-                MzSource::Acquisition
+                return MzSource::Acquisition;
             }
+        };
+        if let Some(c) = find_recalibration(&a, &first) {
+            MzSource::Recalibration(c)
+        } else {
+            self.notes.push("Calibrator.ami holds no calibration matching the spectra's; the acquisition calibration is used".into());
+            MzSource::Acquisition
         }
     }
 
     /// The calibration that gives spectrum `k`'s m/z.
+    #[allow(clippy::float_cmp)]
     fn calibration_of(&self, k: usize) -> Result<Calibration> {
         let s = &self.spectra[k].record;
         let payload = s.calibration.as_deref().ok_or_else(|| {
@@ -421,12 +441,12 @@ impl BafDataset {
         };
         match &self.mz_source {
             MzSource::Recalibration(cal) => {
-                let r = match (self.drift, own.temperatures, cal.temperatures) {
-                    (Some(d), Some(ti), Some(ta)) => d.factor(ti) / d.factor(ta),
-                    _ => {
-                        let first = self.first_tof().map_or(own.k, |f| f.k);
-                        own.k / first
-                    }
+                let r = if let (Some(d), Some(ti), Some(ta)) =
+                    (self.drift, own.temperatures, cal.temperatures)
+                {
+                    d.factor(ti) / d.factor(ta)
+                } else {
+                    own.k / self.first_tof().map_or(own.k, |f| f.k)
                 };
                 let mut c = cal.clone();
                 c.k = cal.k * r;
@@ -449,13 +469,21 @@ impl BafDataset {
 
     fn defs_value(&self, k: usize, name: &str) -> Option<f64> {
         let h = &self.header;
-        variable(&self.spectra[k].record.variables, &h.variables, h.variable_id(name))
+        variable(
+            &self.spectra[k].record.variables,
+            &h.variables,
+            h.variable_id(name),
+        )
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn scan_window(&self, k: usize) -> Option<[f64; 2]> {
         let s = &self.spectra[k].record;
         let h = &self.header;
-        let (b, e) = (h.variable_id("Mode_ScanBegin")?, h.variable_id("Mode_ScanEnd")?);
+        let (b, e) = (
+            h.variable_id("Mode_ScanBegin")?,
+            h.variable_id("Mode_ScanEnd")?,
+        );
         let seg = self.segments.iter().find(|g| g.number == s.segment)?;
         let list = seg
             .lists
@@ -468,6 +496,7 @@ impl BafDataset {
     }
 
     /// The header fields of spectrum `k` (no peaks).
+    #[allow(clippy::many_single_char_names)]
     fn header_of(&self, k: usize) -> Spectrum {
         let e = &self.spectra[k];
         let s = &e.record;
@@ -510,7 +539,12 @@ impl BafDataset {
             if s.precursors.len() > 1 {
                 sp.extra.insert(
                     "precursors".into(),
-                    json!(s.precursors.iter().map(|&v| f64::from(v)).collect::<Vec<_>>()),
+                    json!(
+                        s.precursors
+                            .iter()
+                            .map(|&v| f64::from(v))
+                            .collect::<Vec<_>>()
+                    ),
                 );
             }
         }
@@ -521,7 +555,8 @@ impl BafDataset {
         }
         sp.centroided = e.profile.is_none();
         sp.extra.insert("segment".into(), json!(s.segment));
-        sp.extra.insert("scan_mode_code".into(), json!(s.scan_type[2]));
+        sp.extra
+            .insert("scan_mode_code".into(), json!(s.scan_type[2]));
         sp
     }
 
@@ -535,7 +570,13 @@ impl BafDataset {
             let (_, r) = read_record(&self.file, &self.baf, off, self.len)?;
             let (id, v) = parse_profile(&r)?;
             if id != e.record.id {
-                return Err(bad_at(off, format!("profile block of spectrum {id} where {} was expected", e.record.id)));
+                return Err(bad_at(
+                    off,
+                    format!(
+                        "profile block of spectrum {id} where {} was expected",
+                        e.record.id
+                    ),
+                ));
             }
             sp.mz = (0..v.len()).map(|i| cal.mz(i as f64)).collect();
             sp.intensity = v.iter().map(|&x| x as f32).collect();
@@ -544,7 +585,13 @@ impl BafDataset {
             let (_, r) = read_record(&self.file, &self.baf, off, self.len)?;
             let b = parse_lines(&r)?;
             if b.id != e.record.id {
-                return Err(bad_at(off, format!("centroid block of spectrum {} where {} was expected", b.id, e.record.id)));
+                return Err(bad_at(
+                    off,
+                    format!(
+                        "centroid block of spectrum {} where {} was expected",
+                        b.id, e.record.id
+                    ),
+                ));
             }
             sp.mz = b.position.iter().map(|&x| cal.mz(x)).collect();
             sp.intensity = b.intensity.iter().map(|&x| x as f32).collect();
@@ -601,10 +648,7 @@ impl BafDataset {
             "profile_spectra".into(),
             json!(self.spectra.iter().filter(|s| s.profile.is_some()).count()),
         );
-        extra.insert(
-            "calibration".into(),
-            json!(self.first_calibration_name()),
-        );
+        extra.insert("calibration".into(), json!(self.first_calibration_name()));
         extra.insert(
             "mz_calibration_source".into(),
             json!(match self.mz_source {
@@ -677,7 +721,9 @@ impl BafDataset {
         if ids.windows(2).any(|w| w[0].checked_add(1) != Some(w[1])) {
             r.push(Finding::warning("gaps", "spectrum ids are not consecutive"));
         }
-        r.performed("summary table: retention time and segment of every spectrum agree with its record");
+        r.performed(
+            "summary table: retention time and segment of every spectrum agree with its record",
+        );
         let disagree = self
             .spectra
             .iter()
@@ -700,11 +746,15 @@ impl BafDataset {
         if unknown > 0 {
             r.push(Finding::warning(
                 "calibration",
-                format!("{unknown} spectra have a calibration that is not read (their m/z are refused)"),
+                format!(
+                    "{unknown} spectra have a calibration that is not read (their m/z are refused)"
+                ),
             ));
         }
         if full {
-            r.performed("every spectrum: the centroid and profile blocks decode to their declared counts");
+            r.performed(
+                "every spectrum: the centroid and profile blocks decode to their declared counts",
+            );
             let mut bad_blocks = 0usize;
             for k in 0..self.spectra.len() {
                 for view in [SpectrumView::Centroid, SpectrumView::Primary] {
@@ -766,7 +816,9 @@ impl Dataset for BafDataset {
             .filter(|(k, _)| *k != 2)
             .map(|(k, v)| {
                 (
-                    names.get(k).map_or_else(|| format!("string_{k}"), |s| (*s).to_string()),
+                    names
+                        .get(k)
+                        .map_or_else(|| format!("string_{k}"), |s| (*s).to_string()),
                     json!(v),
                 )
             })
@@ -815,12 +867,7 @@ impl Dataset for BafDataset {
     }
 
     fn entries(&self) -> Result<Vec<LsEntry>> {
-        let rel = |p: &Path| {
-            p.strip_prefix(&self.dir)
-                .unwrap_or(p)
-                .display()
-                .to_string()
-        };
+        let rel = |p: &Path| p.strip_prefix(&self.dir).unwrap_or(p).display().to_string();
         let mut out = vec![LsEntry {
             kind: "file".into(),
             name: rel(&self.baf),
@@ -861,7 +908,12 @@ impl Dataset for BafDataset {
         self.read_spectrum_view(index, spectrum, SpectrumView::Primary)
     }
 
-    fn read_spectrum_view(&mut self, index: u32, spectrum: u64, view: SpectrumView) -> Result<Spectrum> {
+    fn read_spectrum_view(
+        &mut self,
+        index: u32,
+        spectrum: u64,
+        view: SpectrumView,
+    ) -> Result<Spectrum> {
         if index != 0 {
             return Err(Error::Usage(format!(
                 "run {index} does not exist (a BAF .d holds one run, 0)"

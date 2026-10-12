@@ -26,7 +26,10 @@ fn geometry() {
         .iter()
         .map(|l| (l.size_x, l.size_y))
         .collect();
-    assert_eq!(sizes, [(96, 40), (48, 20), (24, 10), (12, 5), (6, 2), (3, 1)]);
+    assert_eq!(
+        sizes,
+        [(96, 40), (48, 20), (24, 10), (12, 5), (6, 2), (3, 1)]
+    );
     assert_eq!(im.physical_size.x, Some(0.5));
     assert_eq!(
         im.objective.as_ref().unwrap().nominal_magnification,
@@ -127,11 +130,22 @@ fn damaged_copies_are_refused() {
     assert_eq!(e.exit_code(), 4);
     let p = copy_with("cut", "synthetic(1,0).jpg", &jpg[..jpg.len() - 200]);
     let mut ds = VmsReader.open(&p).unwrap();
-    assert_eq!(ds.read_plane(0, PlaneIndex::default()).unwrap_err().exit_code(), 4);
+    assert_eq!(
+        ds.read_plane(0, PlaneIndex::default())
+            .unwrap_err()
+            .exit_code(),
+        4
+    );
     // VMU settings and several focal layers are refused (exit 6).
     let vms = std::fs::read_to_string(dir().join("synthetic.vms")).unwrap();
     for (tag, text) in [
-        ("vmu", vms.replace("[Virtual Microscope Specimen]", "[Uncompressed Virtual Microscope Specimen]")),
+        (
+            "vmu",
+            vms.replace(
+                "[Virtual Microscope Specimen]",
+                "[Uncompressed Virtual Microscope Specimen]",
+            ),
+        ),
         ("layers", vms.replace("NoLayers=1", "NoLayers=3")),
     ] {
         let p = copy_with(tag, "synthetic.vms", text.as_bytes());
