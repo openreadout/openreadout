@@ -42510,6 +42510,7 @@ license_checked = "https://github.com/LennonLab/residence-time-test/blob/9dc0ce7
 source = "GitHub LennonLab/residence-time-test (commit 9dc0ce7)"
 attribution = "LennonLab"
 notes = "Gen5 3.03 text export of a Synergy H1 absorbance endpoint (Biolog EcoPlate, 590 nm), 2021. Draw C (2026-09-26): a source record no development or earlier held-out file uses. Ground truth: oracle/plate.py independent text reader (allotropy cannot parse it)."
+exposed = "2026-10-11: a search of public Gen5 exports (fix/analysis-gaps) downloaded another file of this record (0_RTLC_S3_3.875.txt) and ran `check` on it, which reported nothing; this file was not opened and nothing was inferred"
 
 [[file]]
 id = "ho-gh-maxlindberg-clariostar-scan"
@@ -42529,6 +42530,7 @@ license_checked = "https://github.com/MaxLindberg/SolubilityAssayPaper2023/blob/
 source = "GitHub MaxLindberg/SolubilityAssayPaper2023 (commit 3052a5f)"
 attribution = "MaxLindberg"
 notes = "BMG CLARIOstar semicolon CSV of a fluorescence excitation scan (320-400 nm), 2023. Draw C (2026-09-26): a source record no development or earlier held-out file uses. Ground truth: oracle/plate.py independent text reader (allotropy cannot parse it)."
+exposed = "2026-10-11: a search of public BMG exports for held-out finding D-H3 (fix/analysis-gaps) fetched every file of this record, this one included, and ran `check` on them before the reservation was noticed; a BMG table-view change was derived from two other files of the record (ABm1-40 tube adsorption.txt, filter ads test AB1-40.txt) and then reverted with those files; nothing from it remains in the reader"
 
 [[file]]
 id = "ho-gh-cellhts2-envision"
