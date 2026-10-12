@@ -250,7 +250,7 @@ pub fn decode_packed(data: &[u8]) -> Result<Vec<i64>> {
     }
     let n = le_u32(data, 4).ok_or_else(|| bad("packed profile too short"))? as usize;
     let tlen = be_u32(data, 8).ok_or_else(|| bad("packed profile too short"))? as usize;
-    if n > MAX_SAMPLES || tlen < 10 || 12 + tlen > data.len() {
+    if n > MAX_SAMPLES || tlen < 10 || tlen > data.len().saturating_sub(12) {
         return Err(bad(format!(
             "packed profile header out of range ({n} samples, table of {tlen} bytes)"
         )));

@@ -121,7 +121,7 @@ fn record_head(file: &SourceFile, path: &Path, at: u64, file_len: u64) -> Result
     let h = read_exact(file, path, at, 8)?;
     let len = u64::from(le_u32(&h, 0).unwrap_or(0));
     let tag = le_u32(&h, 4).unwrap_or(0);
-    if len < 8 || at + len > file_len || tag & 0xFFFF_0000 != super::records::TAG_BASE {
+    if len < 8 || at.saturating_add(len) > file_len || tag & 0xFFFF_0000 != super::records::TAG_BASE {
         return Err(bad_at(
             at,
             format!("not a BAF record (length {len}, tag {tag:#010x})"),
@@ -200,7 +200,7 @@ impl BafDataset {
                 match read_record(&file, &baf, trailer, len) {
                     Ok((TAG_TRAILER, rec)) => {
                         for (id, off) in parse_trailer(&rec) {
-                            if off + 8 <= len
+                            if off.saturating_add(8) <= len
                                 && let Ok((_, t)) = record_head(&file, &baf, off, len)
                             {
                                 offsets.entry(t).or_default().insert(id, off);
@@ -674,7 +674,7 @@ impl BafDataset {
             ));
         }
         let ids: Vec<u32> = self.spectra.iter().map(|s| s.record.id).collect();
-        if ids.windows(2).any(|w| w[1] != w[0] + 1) {
+        if ids.windows(2).any(|w| w[0].checked_add(1) != Some(w[1])) {
             r.push(Finding::warning("gaps", "spectrum ids are not consecutive"));
         }
         r.performed("summary table: retention time and segment of every spectrum agree with its record");

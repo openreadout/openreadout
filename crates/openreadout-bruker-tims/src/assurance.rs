@@ -194,10 +194,12 @@ fn observe_baf(info: &FileInfo) -> Observations {
                     &[Scope::Spectra],
                     "the recalibration the vendor's processing software stored next to the run",
                 );
-                o.derived(
-                    "spectra[].mz",
-                    "Calibrator.ami payload found by scanning",
-                    "the recalibration payload is located by scanning Calibrator.ami for one like the spectra's; the file's container is not decoded",
+                // The payload is found by scanning Calibrator.ami (its container is not
+                // decoded): a variant that only spectra compared with vendor exports validate.
+                o.feature(
+                    K::Layout,
+                    "m/z from a Calibrator.ami payload found by scanning",
+                    &[Scope::Spectra],
                 );
             }
             Some(_) => o.calibration(
@@ -225,9 +227,38 @@ fn observe_baf(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED bruker-baf (cargo xtask assurance-audit --write; do not edit)
-const BRUKER_BAF_CONFIDENCE: Confidence = Confidence::Low;
+const BRUKER_BAF_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const BRUKER_BAF_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "MS/MS", 4, 4, 4),
+    a::row(K::Acquisition, "negative ions", 3, 3, 3),
+    a::row(K::Acquisition, "positive ions", 4, 4, 4),
+    a::row(K::Codec, "float32 profile", 2, 2, 2),
+    a::row(K::Codec, "packed profile", 5, 5, 5),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 7),
+    a::row(K::FormatVersion, "AIDA4", 3, 3, 3),
+    a::row(K::FormatVersion, "AIDA5", 2, 2, 2),
+    a::row(K::FormatVersion, "AIDA6", 1, 1, 1),
+    a::row(K::FormatVersion, "BCC4_3_72_0", 1, 1, 1),
+    a::row(K::Instrument, "apex-Qe", 1, 1, 1),
+    a::row(K::Instrument, "impact HD", 1, 1, 1),
+    a::row(K::Instrument, "impact II", 1, 1, 1),
+    a::row(K::Instrument, "maXis", 1, 1, 1),
+    a::row(K::Instrument, "micrOTOF-Q", 1, 1, 1),
+    a::row(K::Instrument, "solariX", 1, 1, 1),
+    a::row(K::Instrument, "timsTOF Pro", 1, 1, 1),
+    a::row(K::Layout, "calibration FT-ICR", 2, 2, 2),
+    a::row(K::Layout, "calibration time of flight, kind 10", 1, 1, 1),
+    a::row(K::Layout, "calibration time of flight, kind 3", 4, 4, 4),
+    a::row(K::Layout, "centroid element code 1", 1, 1, 1),
+    a::row(K::Layout, "centroid element code 2", 2, 2, 2),
+    a::row(K::Layout, "centroid element code 3", 4, 4, 4),
+    a::row(K::Layout, "m/z from a Calibrator.ami payload found by scanning", 5, 5, 5),
+    a::row(K::Layout, "trailer index", 7, 7, 7),
+    a::row(K::WriterVersion, "Bruker otofControl 4", 1, 1, 1),
+    a::row(K::WriterVersion, "Bruker otofControl 5", 1, 1, 1),
+    a::row(K::WriterVersion, "Bruker otofControl 6", 1, 1, 1),
+    a::row(K::WriterVersion, "otofControl 3", 2, 2, 2),
 ];
 // END GENERATED bruker-baf
 

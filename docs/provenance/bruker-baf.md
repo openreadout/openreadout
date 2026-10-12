@@ -32,3 +32,7 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 - Temperature drift: ratios of per-spectrum constants to the header reference against the two detector temperatures and the gradients (timsTOF, micrOTOF-Q, maXis).
 - Recalibration in `Calibrator.ami`: the doubles of its payload equal the timsTOF `calibration.sqlite` rows; applied with the drift ratio it reproduces the mzML m/z of five files.
 - FT-ICR calibration `m/z = c3 / (f + c2)`, `f = f_high · (1 − index / N)`: apex profile m/z against index, confirmed on solariX.
+
+## 2026-10-12 — fuzzing
+
+`whole_baf` (seed: the synthetic fixture from `oracle/make_baf_fixtures.py`) found a trailer-index offset near the top of the u64 range that overflowed an addition while opening. Offsets are now added with saturation, and the record chain checks lengths against the remaining bytes. The input is `crates/openreadout-bruker-tims/tests/fixtures/malformed/bundle-whole_baf-trailer-offset-overflow.bin`.

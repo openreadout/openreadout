@@ -74,7 +74,7 @@ pub fn walk(buf: &[u8], start: usize, end: usize) -> Result<Vec<RecordRef>> {
     while o + 8 <= end {
         let len = le_u32(buf, o).unwrap_or(0) as usize;
         let tag = le_u32(buf, o + 4).unwrap_or(0);
-        if len < 8 || o + len > end || tag & 0xFFFF_0000 != TAG_BASE {
+        if len < 8 || len > end - o || tag & 0xFFFF_0000 != TAG_BASE {
             return Err(bad(format!(
                 "bad sub-record at byte {o} (length {len}, tag {tag:#010x})"
             )));

@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- Bruker BAF `.d` directories (micrOTOF, micrOTOF-Q, maXis, impact, compact, timsTOF in BAF mode, apex and solariX FT-ICR): spectra with their centroids and profiles, retention times, precursors and m/z. The m/z follow the recalibration in `Calibrator.ami` when the run has one and agree with the depositors' vendor-library conversions of seven public runs within 0.12 ppm.
+- Philips iSyntax slides (data model 5): the wavelet pyramid is decoded tile by tile, with the label, macro and ICC profiles as attachments. Regions and whole levels equal libisyntax's pixels exactly on a public slide.
+- Hamamatsu VMS slides: the grid of JPEG images read by restart interval, the map as a coarser level, the macro photo as an attachment, checked against OpenSlide.
+
 ### Fixed
 
 - `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.

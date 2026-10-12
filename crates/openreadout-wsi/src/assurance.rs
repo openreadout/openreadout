@@ -130,8 +130,8 @@ const MIRAX_VALIDATED: &[Validated] = &[
 pub(crate) static ISYNTAX: AssuranceProfile = AssuranceProfile {
     format_id: "philips-isyntax",
     observe: observe_isyntax,
-    validated: ISYNTAX_VALIDATED,
-    confidence: ISYNTAX_CONFIDENCE,
+    validated: PHILIPS_ISYNTAX_VALIDATED,
+    confidence: PHILIPS_ISYNTAX_CONFIDENCE,
     basis: Basis::PriorArt,
 };
 
@@ -176,8 +176,8 @@ fn observe_isyntax(info: &FileInfo) -> Observations {
 pub(crate) static VMS: AssuranceProfile = AssuranceProfile {
     format_id: "hamamatsu-vms",
     observe: observe_vms,
-    validated: VMS_VALIDATED,
-    confidence: VMS_CONFIDENCE,
+    validated: HAMAMATSU_VMS_VALIDATED,
+    confidence: HAMAMATSU_VMS_CONFIDENCE,
     basis: Basis::PriorArt,
 };
 
@@ -214,15 +214,28 @@ fn observe_vms(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED hamamatsu-vms (cargo xtask assurance-audit --write; do not edit)
-const VMS_CONFIDENCE: Confidence = Confidence::Low;
+const HAMAMATSU_VMS_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
-const VMS_VALIDATED: &[Validated] = &[
+const HAMAMATSU_VMS_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "jpeg restart intervals", 1, 1, 1),
+    a::row(K::Layout, "grid of slide images", 1, 1, 1),
+    a::row(K::Layout, "map at 1/8", 1, 1, 1),
+    a::row(K::Layout, "optimisation file", 1, 1, 1),
+    a::row(K::SampleLayout, "uint8x3", 1, 1, 1),
 ];
 // END GENERATED hamamatsu-vms
 
 // BEGIN GENERATED philips-isyntax (cargo xtask assurance-audit --write; do not edit)
-const ISYNTAX_CONFIDENCE: Confidence = Confidence::Low;
+const PHILIPS_ISYNTAX_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
-const ISYNTAX_VALIDATED: &[Validated] = &[
+const PHILIPS_ISYNTAX_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "isyntax wavelet method 16", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 1),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 1),
+    a::row(K::FormatVersion, "5.0", 1, 1, 1),
+    a::row(K::FormatVersion, "data model 5", 1, 1, 1),
+    a::row(K::Layout, "code blocks 128 x 128", 1, 1, 1),
+    a::row(K::SampleLayout, "uint8x3", 1, 1, 1),
+    a::row(K::WriterVersion, "scanner software 1.8", 1, 1, 1),
 ];
 // END GENERATED philips-isyntax

@@ -186,10 +186,10 @@ openreadout info any-file --json
 
 | Area | Formats | Export to |
 | --- | --- | --- |
-| Light microscopy | Zeiss CZI, Nikon ND2, Leica LIF, Olympus OIR/VSI/OIB, Imaris, OME-TIFF and other TIFF variants, OME-Zarr, whole-slide images | OME-TIFF, OME-Zarr |
+| Light microscopy | Zeiss CZI, Nikon ND2, Leica LIF, Olympus OIR/VSI/OIB, Imaris, OME-TIFF and other TIFF variants, OME-Zarr, whole-slide images (including Philips iSyntax, Hamamatsu VMS and MIRAX) | OME-TIFF, OME-Zarr |
 | High-content screening | Harmony (Opera Phenix, Operetta), ImageXpress, CellVoyager | OME-Zarr plate, OME-TIFF |
 | Electron microscopy | MRC, Gatan DM3/DM4, FEI SER/EMI, Velox EMD | OME-TIFF, OME-Zarr |
-| Mass spectrometry | Thermo RAW, Bruker timsTOF, Agilent MassHunter, Waters MassLynx, Sciex WIFF, mzML | mzML, Parquet, Arrow |
+| Mass spectrometry | Thermo RAW, Bruker timsTOF and BAF, Agilent MassHunter, Waters MassLynx, Sciex WIFF, mzML | mzML, Parquet, Arrow |
 | Chromatography | Agilent ChemStation and OpenLab, Shimadzu, Chromeleon, AIA/ANDI | CSV, JCAMP-DX, Parquet |
 | Electrophysiology | Axon ABF, Intan, SpikeGLX, Open Ephys, Neuralynx, Blackrock, Plexon, HEKA, Spike2, NWB | NWB, CSV, Parquet |
 | NMR and spectroscopy | Bruker TopSpin and OPUS, Varian, JEOL, Thermo OMNIC, Renishaw, JCAMP-DX, SPC | JCAMP-DX, CSV |
