@@ -3191,11 +3191,7 @@ fn imaging_params(c: &mut Ctx<'_>) {
         );
     }
     if let Some(z) = im.physical_size.z.filter(|_| im.size_z > 1) {
-        c.param(
-            "z_step",
-            image_length(c, z),
-            "images[0].physical_size.z",
-        );
+        c.param("z_step", image_length(c, z), "images[0].physical_size.z");
     }
     if let Some(t) = im.time_increment_s.filter(|_| im.size_t > 1) {
         c.param(
