@@ -288,3 +288,8 @@ Search method for the non-MTBLS404 files: PRIDE v3 API listings (`/pride/ws/arch
 **Changed:** `render_profile` blanks by rendered span with the intensity limit. The corpus harness reads `srm_energy_not_compared` from the manifest.
 
 **Validation:** `mtbls9526-elite-liver-neg-a01` 2,446 of 2,446 spectra exact; `mtbls5747-vantage-sponge-35` 194 of 194 chromatograms exact (TIC and 193 SRM traces). The other Thermo development files whose exports leave flagged peaks out (MTBLS20, MTBLS404, MTBLS755, MTBLS773, MTBLS797, MTBLS805, MTBLS1820, MTBLS2400, MTBLS2688, MTBLS3177, MTBLS10098, PXD000001, PXD000792, PXD000874, PXD000951, PXD032908, PXD064311) and the profile files whose exports keep them give the same results as before, including the known m/z residuals of MTBLS755 (256 scans) and PXD000001 (25).
+
+## 2026-10-11 — counting SRM transitions (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `mtbls6991-tsq-altis-plus-sar11-40`, `mtbls1822-tsq-74`, `mtbls5747-vantage-sponge-35` and their depositor mzMLs. **Prior art consulted:** none.
+**What was inferred from what.** Distinct (polarity, precursor, product window, collision energy) over the SRM scan events give 291, 110 and 193 transitions; the exports hold 291, 109 and 193 SRM chromatograms. The one missing from the `mtbls1822` export, 129.063→85.051, has its own scan event and scans in the file. No parsing changed: `info` states the count (`mrm_transitions`) and `table` lists the transitions.

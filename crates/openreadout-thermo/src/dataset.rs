@@ -8,11 +8,14 @@ use std::path::{Path, PathBuf};
 use openreadout_core::bytes::utf16le_z;
 use openreadout_core::cfb::{Cfb, CfbEntry};
 use openreadout_core::model::{
-    CheckReport, FileInfo, Finding, InstrumentInfo, LsEntry, SpectraInfo, Spectrum, Trace,
+    CheckReport, FileInfo, Finding, InstrumentInfo, LsEntry, SpectraInfo, Spectrum, Table, Trace,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, PlaneIndex, SpectrumView};
 use openreadout_core::source::{Fs, Input, SourceFile};
+use openreadout_core::transitions::{
+    Transition, transition_summary, transition_table, transition_table_info,
+};
 use openreadout_core::{Error, Plane, Result};
 use serde_json::{Value, json};
 
@@ -977,6 +980,50 @@ impl ThermoDataset {
         })
     }
 
+    /// The SRM transitions of the run: one per product window of the SRM scan events, told
+    /// apart by polarity, precursor, window and collision energy, with the times of the first
+    /// and last scan that measured it.
+    fn srm_transitions(&self) -> Vec<Transition> {
+        type Key = (&'static str, u64, u64, u64, u64);
+        let mut rows: BTreeMap<Key, Transition> = BTreeMap::new();
+        for (i, e) in self.events.iter().enumerate() {
+            if e.scan_kind_code() != 3 {
+                continue;
+            }
+            let Some(r) = e.precursor_reactions().last() else {
+                continue;
+            };
+            let t = self.index.get(i).map(|x| x.rt_min);
+            let pol = e.polarity();
+            for w in &e.scan_ranges {
+                let key = (
+                    pol.word(),
+                    r.precursor_mz.to_bits(),
+                    w[0].to_bits(),
+                    w[1].to_bits(),
+                    r.energy.to_bits(),
+                );
+                let row = rows.entry(key).or_insert_with(|| Transition {
+                    id: Some(self.scan_number(i) as i64),
+                    precursor_mz: Some(r.precursor_mz),
+                    product_mz: Some((w[0] + w[1]) / 2.0),
+                    products: 1,
+                    collision_energy: Some(r.energy),
+                    polarity: pol.word(),
+                    name: None,
+                    rt_min: t.map(|t| [t, t]),
+                });
+                if let (Some(w), Some(t)) = (row.rt_min.as_mut(), t) {
+                    w[0] = w[0].min(t);
+                    w[1] = w[1].max(t);
+                }
+            }
+        }
+        let mut out: Vec<Transition> = rows.into_values().collect();
+        out.sort_by_key(|t| t.id);
+        out
+    }
+
     fn spectra_info(&self) -> SpectraInfo {
         let mut levels = BTreeSet::new();
         let mut level_counts: BTreeMap<u32, u64> = BTreeMap::new();
@@ -1131,6 +1178,17 @@ impl ThermoDataset {
         put("profile_scans", json!(profile));
         put("centroid_scans", json!(self.events.len() as u64 - profile));
         put("ms1_scan_filters", json!(filters));
+        let transitions = self.srm_transitions();
+        if !transitions.is_empty() {
+            put(
+                "mrm_transitions",
+                transition_summary(
+                    &transitions,
+                    "one per product window of each SRM scan event (precursor, window and energy)",
+                    0,
+                ),
+            );
+        }
         if !faims_cvs.is_empty() {
             put(
                 "faims_compensation_voltages",
@@ -1267,7 +1325,14 @@ impl Dataset for ThermoDataset {
             format: ThermoRawReader.descriptor(),
             format_version: Some(self.header.version.to_string()),
             images: Vec::new(),
-            tables: Vec::new(),
+            tables: {
+                let rows = self.srm_transitions();
+                if rows.is_empty() {
+                    Vec::new()
+                } else {
+                    vec![transition_table_info(&rows, 0, "first scan number")]
+                }
+            },
             spectra: vec![self.spectra_info()],
             traces,
             plane_count: 0,
@@ -1695,6 +1760,17 @@ impl Dataset for ThermoDataset {
         // One scan event per index row: the level is in the event, no packet is read.
         Ok((run == 0 && self.events.len() == self.index.len())
             .then(|| self.events.iter().map(ScanEvent::ms_level).collect()))
+    }
+
+    fn read_table(&mut self, index: u32, first_row: u64, max_rows: u64) -> Result<Table> {
+        let rows = self.srm_transitions();
+        if index != 0 || rows.is_empty() {
+            return Err(Error::Usage(format!(
+                "table {index} not found (this data set has {} tables)",
+                usize::from(!rows.is_empty())
+            )));
+        }
+        Ok(transition_table(&rows, 0, first_row, max_rows))
     }
 
     fn read_trace(
