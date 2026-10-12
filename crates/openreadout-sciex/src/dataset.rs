@@ -860,12 +860,13 @@ impl SciexDataset {
                     Vec::new()
                 };
                 // Non-empty steps with the empty step on each side of a run, so the profile
-                // keeps its shape.
+                // keeps its shape. A run that starts or ends with a stored zero count needs no
+                // empty step on that side.
                 let mut mz = Vec::with_capacity(bins.len() * 2);
                 let mut it = Vec::with_capacity(bins.len() * 2);
                 let mut last: Option<u64> = None;
                 for (k, &(bin, count)) in bins.iter().enumerate() {
-                    if bin >= st && last.is_none_or(|l| l < bin - st) {
+                    if count > 0 && bin >= st && last.is_none_or(|l| l < bin - st) {
                         mz.push(tof_mz((bin - st) as f64, width, a, t0));
                         it.push(0.0);
                     }
@@ -873,7 +874,7 @@ impl SciexDataset {
                     it.push(count as f32);
                     last = Some(bin);
                     let next = bins.get(k + 1).map(|b| b.0);
-                    if next.is_none_or(|n| n > bin + st) {
+                    if count > 0 && next.is_none_or(|n| n > bin + st) {
                         mz.push(tof_mz((bin + st) as f64, width, a, t0));
                         it.push(0.0);
                         last = Some(bin + st);

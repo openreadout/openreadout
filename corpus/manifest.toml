@@ -74563,3 +74563,51 @@ license_checked = "MetaboLights MTBLS12691 i_Investigation.txt, Comment[License]
 source = "MetaboLights MTBLS12691 (cervical microbiome and metabolite profiles before and after menopause)"
 attribution = "Kawasaki et al., MetaboLights MTBLS12691"
 notes = "the vendor's own mzXML export of the .lcd with the same stem (LabSolutions 5.99 SP2 named as the converting software): 47,674 scans, one precursorMz per point"
+
+[[file]]
+id = "mtbls14362-zenotof-fia-blank-1"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls14362-zenotof-fia-blank-1.wiff"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14362/FILES/RAW_FILES/20250204_FIA_R297__MS032_LC004_FCS_Blank_1.wiff"
+sha256 = "ca256622eed6eac5cc437fd318d98a011e850b5071c4fa07ae1afd29b8023d00"
+size = 70144
+license = "CC0-1.0"
+license_checked = "MetaboLights MTBLS14362 i_Investigation.txt, Comment[License] CC0 1.0 Universal, 2026-10-12"
+source = "MetaboLights MTBLS14362 (MetaboFIMS: flow-injection metabolic screening)"
+attribution = "Schmitt, Schmidlin et al., MetaboLights MTBLS14362"
+notes = "ZenoTOF 7600, flow-injection TOF MS of a blank, 215 profile spectra (2025); many runs of stored steps start with a stored zero count"
+
+[[file]]
+id = "mtbls14362-zenotof-fia-blank-1-scan"
+format = "sciex-wiff"
+family = "mass-spectrometry"
+role = "companion"
+tier = "standard"
+filename = "mtbls14362-zenotof-fia-blank-1.wiff.scan"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14362/FILES/RAW_FILES/20250204_FIA_R297__MS032_LC004_FCS_Blank_1.wiff.scan"
+sha256 = "9756466cac0c554ec55334e3f66480f432dc05403b1c06e0b610a7a4a3ded664"
+size = 2882947
+license = "CC0-1.0"
+license_checked = "MetaboLights MTBLS14362 i_Investigation.txt, Comment[License] CC0 1.0 Universal, 2026-10-12"
+source = "MetaboLights MTBLS14362 (MetaboFIMS: flow-injection metabolic screening)"
+attribution = "Schmitt, Schmidlin et al., MetaboLights MTBLS14362"
+notes = "the .wiff.scan of mtbls14362-zenotof-fia-blank-1"
+
+[[file]]
+id = "mtbls14362-zenotof-fia-blank-1-mzxml"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls14362-zenotof-fia-blank-1-mzxml.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS14362/FILES/DERIVED_FILES/20250204_FIA_R297__MS032_LC004_FCS_Blank_1.mzXML"
+sha256 = "2b0b43e16b98f13dabb2dc05551680acc723bc854b73d4054462c32fb14dce51"
+size = 33077122
+license = "CC0-1.0"
+license_checked = "MetaboLights MTBLS14362 i_Investigation.txt, Comment[License] CC0 1.0 Universal, 2026-10-12"
+source = "MetaboLights MTBLS14362 (MetaboFIMS: flow-injection metabolic screening)"
+attribution = "Schmitt, Schmidlin et al., MetaboLights MTBLS14362"
+notes = "depositor's ProteoWizard 3.0.23146 conversion, profile, no peak picking"
