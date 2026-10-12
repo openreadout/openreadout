@@ -79,9 +79,8 @@ divided by `step / step₀` (2^k):
 - `step > divisions`: an image holds `(step/d)²` camera photos ("subtiles"), each `w·d/step ×
   h·d/step` pixels (fractional at coarse levels), each placed at its own camera's position; cameras
   beyond the camera grid's last column are skipped, not wrapped into the next row.
-- Without a position table (slides exported with overlaps removed): no development file shows
-  how such slides are placed, so their pixels are refused (exit 6); `info` gives the image grid
-  as the size.
+- Without a position table (slides exported with overlaps removed, `openslide-mirax-cmu-1-exported`):
+  the images abut on the grid, image (x, y) at `(x / step · w, y / step · h)`.
 
 **Composition** (`compose`), derived by comparison with OpenSlide regions
 (`docs/provenance/mirax.md`): each placed rectangle is resampled bilinearly at its fractional

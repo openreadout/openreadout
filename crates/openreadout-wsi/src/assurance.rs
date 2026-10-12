@@ -27,18 +27,14 @@ fn observe(info: &FileInfo) -> Observations {
             continue;
         };
         let s = |k: &str| m.get(k).and_then(serde_json::Value::as_str);
-        match s("camera_positions") {
-            Some(src) => o.feature(
-                K::Layout,
-                format!("camera positions: {src}"),
-                &[Scope::Metadata, Scope::Pixels],
-            ),
-            None => o.undecoded(
-                "camera positions (none: exported slide)",
-                &[Scope::Pixels],
-                "no camera position table: pixels are refused",
-            ),
-        }
+        o.feature(
+            K::Layout,
+            match s("camera_positions") {
+                Some(src) => format!("camera positions: {src}"),
+                None => "no camera positions (images on the grid)".to_string(),
+            },
+            &[Scope::Metadata, Scope::Pixels],
+        );
         if let Some(levels) = m.get("levels").and_then(serde_json::Value::as_array)
             && let Some(l0) = levels.first()
         {

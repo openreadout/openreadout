@@ -1,0 +1,91 @@
+{
+ "id": "openslide-mirax-cmu-1-exported",
+ "file": "CMU-1-Exported.mrxs",
+ "size": 58871,
+ "sha256": "b09b9a46c8d63aafb28922081d710555a6e21a7f7b35663fa1e2b9b24a975224",
+ "max_planes_hashed": 64,
+ "reader": "OpenSlide 4.0.1 (openslide-python 1.4.6; LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 109312,
+   "size_y": 220672,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.2325,
+    "y": 0.2325
+   },
+   "pyramid_levels": 8,
+   "level_sizes": [
+    [
+     109312,
+     220672
+    ],
+    [
+     54656,
+     110336
+    ],
+    [
+     27328,
+     55168
+    ],
+    [
+     13664,
+     27584
+    ],
+    [
+     6832,
+     13792
+    ],
+    [
+     3416,
+     6896
+    ],
+    [
+     1708,
+     3448
+    ],
+    [
+     854,
+     1724
+    ]
+   ],
+   "planes": [],
+   "levels": [
+    {
+     "level": 6,
+     "size_x": 1708,
+     "size_y": 3448,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5875280cb54b1b97225f269740cabb61",
+       "mean": 250.5074503813545
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 854,
+     "size_y": 1724,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "dd9e6aa976fcf75c9f9cdea4fba64a84",
+       "mean": 250.54651963101622
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

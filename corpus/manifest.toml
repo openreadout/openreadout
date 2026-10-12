@@ -51654,6 +51654,33 @@ notes = "brightfield, version 1.9, 10 levels, JPEG, Hitachi HV-F22CL camera, 4 x
 lossy = true
 
 [[file]]
+id = "openslide-mirax-cmu-1-exported-zip"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "openslide-mirax-CMU-1-Exported.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/Mirax/CMU-1-Exported.zip"
+sha256 = "ebc49ab15f0d5ee8552919d0eb1bd5e23f27702f4a757873cf51c2a0b2907f71"
+size = 2169827661
+license = "CC0-1.0"
+source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "MIRAX slide zip: CMU-1-Exported.mrxs and its data directory"
+
+[[file]]
+id = "openslide-mirax-cmu-1-exported"
+format = "mirax"
+role = "input"
+tier = "full"
+bundle = "openslide-mirax-cmu-1-exported-zip"
+filename = "openslide-mirax-cmu-1-exported-zip/CMU-1-Exported.mrxs"
+license = "CC0-1.0"
+source = "OpenSlide test data (Mirax/index.yaml: license CC0-1.0)"
+attribution = "Carnegie Mellon University"
+notes = "export of CMU-1.mrxs with overlaps resolved (index.yaml), brightfield, JPEG, CURRENT_SLIDE_VERSION 2.3: no camera position table"
+lossy = true
+
+[[file]]
 id = "openslide-mirax2-fluorescence-1-zip"
 format = "zip"
 role = "bundle"
