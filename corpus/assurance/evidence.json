@@ -16523,6 +16523,116 @@
       ]
     },
     {
+      "id": "gin-axona-multi-modal",
+      "format": "axona-dacqusb",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "1.2.2.16",
+          []
+        ],
+        [
+          "layout",
+          "raw packets",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "tetrode spikes",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        6
+      ]
+    },
+    {
+      "id": "gin-axona-raw",
+      "format": "axona-dacqusb",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "1.2.2.16",
+          []
+        ],
+        [
+          "layout",
+          "raw packets",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        6
+      ]
+    },
+    {
+      "id": "gin-axona-unit-spikes",
+      "format": "axona-dacqusb",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "1.2.2.16",
+          []
+        ],
+        [
+          "record",
+          "tetrode spikes",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        6
+      ]
+    },
+    {
       "id": "pcrd-cfx-primerpickr",
       "format": "bio-rad-pcrd",
       "source": "figshare:31082878",
@@ -82807,6 +82917,31 @@
       ]
     },
     {
+      "id": "gin-rawmcs-raw-mcs-with-header-1",
+      "format": "mcs-raw",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "2.6.10",
+          [
+            "metadata",
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        6
+      ]
+    },
+    {
       "id": "itc-bitc-adh10",
       "format": "microcal-itc",
       "source": "github:choderalab/bayesian-itc",
@@ -128628,6 +128763,277 @@
       "inferred": [
         1,
         1
+      ]
+    },
+    {
+      "id": "gin-tdt-aep-05",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "tank",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "snippet",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-dataset-0-single-block",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fixed_refuses": [
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-dataset-1-single-block",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fixed_refuses": [
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-epocs-with-offsets-1",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe-off",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-epocs-with-offsets-2",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe-off",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "gin-tdt-epocs-with-payload",
+      "format": "tdt-tank",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "block",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        9
       ]
     },
     {

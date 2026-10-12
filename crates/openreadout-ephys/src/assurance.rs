@@ -478,6 +478,10 @@ const WINWCP_VALIDATED: &[Validated] = &[
 const AXONA_DACQUSB_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
 const AXONA_DACQUSB_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
+    a::row(K::Layout, "raw packets", 2, 1, 2),
+    a::row(K::Record, "tetrode spikes", 2, 1, 2),
+    a::row(K::WriterVersion, "1.2.2.16", 3, 1, 3),
 ];
 // END GENERATED axona-dacqusb
 
@@ -485,6 +489,7 @@ const AXONA_DACQUSB_VALIDATED: &[Validated] = &[
 const MCS_RAW_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
 const MCS_RAW_VALIDATED: &[Validated] = &[
+    a::row(K::WriterVersion, "2.6.10", 1, 1, 1),
 ];
 // END GENERATED mcs-raw
 
@@ -492,6 +497,15 @@ const MCS_RAW_VALIDATED: &[Validated] = &[
 const TDT_TANK_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
 const TDT_TANK_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
+    a::row(K::Layout, "block", 5, 1, 5),
+    a::row(K::Layout, "tank", 1, 1, 1),
+    a::row(K::Record, "snippet", 1, 1, 1),
+    a::row(K::Record, "stream", 3, 1, 3),
+    a::row(K::Record, "strobe", 4, 1, 4),
+    a::row(K::Record, "strobe-off", 2, 1, 2),
+    a::row(K::SampleLayout, "float32", 2, 1, 2),
+    a::row(K::SampleLayout, "int16", 1, 1, 1),
 ];
 // END GENERATED tdt-tank
 
