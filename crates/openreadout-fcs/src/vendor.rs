@@ -100,13 +100,15 @@ pub fn family(ds: &DataSet) -> Option<Family> {
     if ds.keyword("CYTEXPERTFIL").is_some() || cyt.starts_with("CYTOFLEX") {
         return Some(Family::BeckmanCytoflex);
     }
+    // Sony writes some models with an `LE-` catalogue prefix (`LE-ID7000C`, `LE-SH800SZFCPL`)
+    let sony = cyt.strip_prefix("LE-").unwrap_or(&cyt);
     if ["SA3800", "ID7000", "SP6800"]
         .iter()
-        .any(|m| cyt.starts_with(m))
+        .any(|m| sony.starts_with(m))
     {
         return Some(Family::SonySpectral);
     }
-    if ["SH800", "MA900"].iter().any(|m| cyt.starts_with(m)) {
+    if ["SH800", "MA900"].iter().any(|m| sony.starts_with(m)) {
         return Some(Family::SonySorter);
     }
     if creator.starts_with("BD FACSChorus") || ds.keyword("BDSPECTRAL UNMIXED").is_some() {
@@ -116,6 +118,42 @@ pub fn family(ds: &DataSet) -> Option<Family> {
         return Some(Family::BdFacsDiva);
     }
     None
+}
+
+/// Model names (`$CYT` words, compared case-insensitively as prefixes; the longer names also
+/// inside words) and their manufacturers, for instruments no family covers. Manufacturer names
+/// are the ones users know; `docs/formats/fcs.md` lists the rules and `docs/provenance/fcs.md`
+/// (2026-10-12) the files they come from.
+const MANUFACTURERS: &[(&str, &str)] = &[
+    ("GALLIOS", "Beckman Coulter"),
+    ("NAVIOS", "Beckman Coulter"),
+    ("CYTOMICS", "Beckman Coulter"),
+    ("DXFLEX", "Beckman Coulter"),
+    ("CYTOFLEX", "Beckman Coulter"),
+    ("MOFLO", "Beckman Coulter"),
+    ("ACCURI", "BD Biosciences"),
+    ("FACS", "BD Biosciences"),
+    ("LSR", "BD Biosciences"),
+    ("ATTUNE", "Thermo Fisher Scientific"),
+    ("NOVOCYTE", "Agilent Technologies"),
+    ("MACSQUANT", "Miltenyi Biotec"),
+    ("GUAVA", "Cytek Biosciences (Guava)"),
+    ("PARTEC", "Sysmex Partec"),
+    ("CYFLOW", "Sysmex Partec"),
+    ("APOGEE", "Apogee Flow Systems"),
+];
+
+/// The manufacturer a `$CYT` model name belongs to, when no instrument family is recognised.
+pub fn manufacturer(cyt: &str) -> Option<&'static str> {
+    let up = cyt.trim().to_ascii_uppercase();
+    let words: Vec<&str> = up
+        .split(|c: char| !c.is_ascii_alphanumeric())
+        .filter(|w| !w.is_empty())
+        .collect();
+    MANUFACTURERS
+        .iter()
+        .find(|(m, _)| words.iter().any(|w| w.starts_with(m)) || (m.len() >= 6 && up.contains(m)))
+        .map(|&(_, v)| v)
 }
 
 const ELEMENTS: &[&str] = &[
@@ -529,6 +567,24 @@ pub fn platform(ds: &DataSet) -> Option<Value> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn manufacturers_from_model_names() {
+        assert_eq!(manufacturer("Gallios"), Some("Beckman Coulter"));
+        assert_eq!(manufacturer("BD Accuri C6 Plus"), Some("BD Biosciences"));
+        assert_eq!(manufacturer("FACSCantoII"), Some("BD Biosciences"));
+        assert_eq!(
+            manufacturer("4486516 Attune NxT Acoustic Focusing Cytometer (Lasers: BRXX)"),
+            Some("Thermo Fisher Scientific")
+        );
+        assert_eq!(manufacturer("partec PAS"), Some("Sysmex Partec"));
+        assert_eq!(
+            manufacturer("Apogee A60-Micro"),
+            Some("Apogee Flow Systems")
+        );
+        assert_eq!(manufacturer("BeamCyte"), None);
+        assert_eq!(manufacturer("S3"), None);
+    }
 
     #[test]
     fn metal_tags() {

@@ -3203,6 +3203,8 @@ def _abf_command(a):
     waveform enabled with the epoch table as source, no conditioning train, only off/step/ramp/
     pulse-train epochs (pulse period > 0), epochs ending inside the sweep. None otherwise."""
     import pyabf.waveform
+    if a.abfVersion["major"] == 1:
+        return _abf1_command(a)
     if a.abfVersion["major"] != 2 or a.nOperationMode != 5:
         return None
     if hasattr(a, "_synchArraySection") and len(set(a._synchArraySection.lLength)) > 1:
@@ -3260,6 +3262,71 @@ def _abf_command(a):
             "channel_names": names, "channel_units": units, "sample_rate_hz": a.dataRate,
             "sample_rate_tolerance_hz": 1.0, "sweeps": sweeps}
 
+def _abf1_command(a):
+    """Trace 1 of an ABF 1 file: pyABF's epoch-table synthesis (EpochTable) with the two header
+    fields pyABF's ABF 1 path does not read put back: the DAC holding level (f32[4] at 1394;
+    pyABF takes the first epoch level instead) and the pulse-train period and width (i32[20] at
+    2136 and 2216; pyABF sets them to 0 for ABF 1). Both were confirmed against recorded command
+    monitors (docs/provenance/abf.md, 2026-10-12). Only the cases openreadout synthesizes: the
+    extended header (data at or after byte 6144), episodic stimulation, fixed-length sweeps, no
+    user list, one DAC with an epoch table, no conditioning train, off/step/ramp/pulse-train
+    epochs with a positive pulse period, epochs ending inside the sweep."""
+    import struct
+    import pyabf.waveform
+    h1 = a._headerV1
+    with open(a.abfFilePath, "rb") as fb:
+        head = fb.read(6144)
+    if len(head) < 6144 or h1.lDataSectionPtr * 512 < 6144 or a.nOperationMode != 5:
+        return None
+    if any(head[3360:3376]) or any(c not in (0, 32) for c in head[3376:4400]):
+        return None
+    hold = struct.unpack_from("<4f", head, 1394)
+    period = struct.unpack_from("<20i", head, 2136)
+    width = struct.unpack_from("<20i", head, 2216)
+    cond = struct.unpack_from("<2h", head, 3260)
+    declared = [d for d in (0, 1) if h1.nWaveformEnable[d] and h1.nWaveformSource[d]]
+    with_epochs = [d for d in declared if any(h1.nEpochType[d * 10:d * 10 + 10])]
+    if len(with_epochs) > 1:
+        return None
+    n = a.sweepPointCount
+    dacs, waves = [], {}
+    for d in declared:
+        if h1.nWaveformSource[d] != 1 or cond[d]:
+            continue
+        rows = range(d * 10, d * 10 + 10)
+        if any(h1.nEpochType[i] not in (0, 1, 2, 3) for i in rows):
+            continue
+        if any(h1.nEpochType[i] == 3 and (period[i] <= 0 or width[i] < 0) for i in rows):
+            continue
+        if any(h1.nEpochType[i] and h1.lEpochInitDuration[i] < 0 for i in rows):
+            continue
+        table = pyabf.waveform.EpochTable(a, d)
+        table.holdingLevel = hold[d]
+        live = [i for i in rows if h1.nEpochType[i]]
+        for e, i in zip(table.epochs, live):
+            e.pulsePeriod, e.pulseWidth = period[i], width[i]
+        try:
+            table.epochWaveformsBySweep = table.getEpochWaveformsBySweep(a)
+            ws = [np.asarray(table.epochWaveformsBySweep[s].getWaveform(), dtype=np.float64)
+                  for s in range(a.sweepCount)]
+        except ValueError:
+            continue
+        if any(len(y) != n for y in ws):
+            continue
+        dacs.append(d)
+        waves[d] = ws
+    if not dacs:
+        return None
+    sweeps = []
+    for s in range(min(a.sweepCount, MAX_SWEEPS)):
+        chans = [{"xxh3": _trace_hash(waves[d][s]), "first": _first(waves[d][s])} for d in dacs]
+        sweeps.append({"sweep": s, "sample_count": n, "channels": chans})
+    names = [a.dacNames[d] if d < len(a.dacNames) and a.dacNames[d] else f"DAC{d}" for d in dacs]
+    units = [a.dacUnits[d] if d < len(a.dacUnits) else "" for d in dacs]
+    return {"index": 1, "name": "command", "sweep_count": a.sweepCount, "channel_count": len(dacs),
+            "channel_names": names, "channel_units": units, "sample_rate_hz": a.dataRate,
+            "sample_rate_tolerance_hz": 1.0, "sweeps": sweeps}
+
 def _abf_neo(p: Path, why: str) -> dict:
     """Axon ABF via Neo's AxonRawIO (BSD-3) for files pyABF cannot read: segments are sweeps,
     values Neo's float64 rescaling (raw x gain + offset; float samples as stored)."""
@@ -3281,7 +3348,35 @@ def _abf_neo(p: Path, why: str) -> dict:
              # Neo removes the spaces inside ABF 1 channel names ("IN 0" -> "IN0"): recorded, not compared
              "neo_channel_names": [str(c["name"]) for c in sc], "channel_units": [str(c["units"]) for c in sc],
              "sample_rate_hz": float(sc[0]["sampling_rate"]), "sweeps": sweeps}
-    return {"reader": f"neo {neo.__version__} AxonRawIO", "oracle_note": why, "traces": [trace]}
+    traces = [trace]
+    cmd = _abf1_command_float(p)
+    if cmd is not None:
+        traces.append(cmd)
+    return {"reader": f"neo {neo.__version__} AxonRawIO", "oracle_note": why, "traces": traces}
+
+def _abf1_command_float(p: Path):
+    """The command trace of an ABF 1 file with float samples, which pyABF refuses to open: its
+    header is read by pyABF with the data-format field set to integers (only the sample size
+    depends on it; nothing is read from the data section), then `_abf1_command`."""
+    import pyabf
+    from pyabf.abf1.headerV1 import HeaderV1
+    with open(p, "rb") as fb:
+        if fb.read(4) != b"ABF ":
+            return None
+    orig = HeaderV1.__init__
+
+    def patched(self, *args, **kw):
+        orig(self, *args, **kw)
+        self.nDataFormat = 0
+
+    HeaderV1.__init__ = patched
+    try:
+        a = pyabf.ABF(str(p), loadData=False)
+    except Exception:
+        return None
+    finally:
+        HeaderV1.__init__ = orig
+    return _abf1_command(a)
 
 def _col_hash(values) -> str:
     """xxh3-128 of one table column as little-endian float64 (what openreadout hashes)."""

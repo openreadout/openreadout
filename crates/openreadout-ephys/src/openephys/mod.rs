@@ -51,8 +51,8 @@ fn dir_has(input: &Input, depth: usize, pred: &dyn Fn(&str) -> bool) -> bool {
 
 /// Every entry of the directory is part of an Open Ephys recording: `Record Node …` (any
 /// spelling), `experiment…`, `recording…`, `continuous`, `events`, `spikes` folders; recording
-/// files (`.continuous`, `.events`, `.spikes`, `.oebin`, `.openephys`, `.xml`, `.npy`,
-/// `sync_messages.txt`) and notes (`.txt`, `.md`, `.json`, `.ok`); hidden entries are ignored.
+/// files (`.continuous`, `.events`, `.spikes`, `.timestamps` of GUI 0.6, `.oebin`,
+/// `.openephys`, `.xml`, `.npy`, `sync_messages.txt`) and notes (`.txt`, `.md`, `.json`, `.ok`); hidden entries are ignored.
 fn only_open_ephys_entries(input: &Input) -> bool {
     let Ok(rd) = input.fs().read_dir(input.path()) else {
         return false;
@@ -75,6 +75,7 @@ fn only_open_ephys_entries(input: &Input) -> bool {
                     "continuous"
                         | "events"
                         | "spikes"
+                        | "timestamps"
                         | "oebin"
                         | "openephys"
                         | "xml"

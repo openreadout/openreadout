@@ -388,6 +388,130 @@
       ]
     },
     {
+      "id": "figshare31425755-abf-25106001",
+      "format": "abf",
+      "source": "figshare 31425755 'data supporting the publication \"suppression of astrocyte bmp signaling improves molecular signatures and functional deficits in a fragile x syndrome mouse model\"'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.84",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "abf1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "gap-free",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Clampex",
+          []
+        ],
+        [
+          "writer_version",
+          "Clampex 10",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        22
+      ]
+    },
+    {
+      "id": "figshare31810441-abf-nhx8-col0",
+      "format": "abf",
+      "source": "figshare 31810441 'data for",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.0.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "abf2",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "gap-free",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Clampex",
+          []
+        ],
+        [
+          "writer_version",
+          "Clampex 10",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        22
+      ]
+    },
+    {
       "id": "figshare33253845-abf-demo",
       "format": "abf",
       "source": "figshare 33253845 'source data and source code'",
@@ -625,6 +749,13 @@
           []
         ],
         [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -687,6 +818,13 @@
           []
         ],
         [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -747,6 +885,13 @@
           "writer_version",
           "Clampex 9",
           []
+        ],
+        [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
         ],
         [
           "field",
@@ -1501,6 +1646,13 @@
           []
         ],
         [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -1830,6 +1982,13 @@
           "writer_version",
           "Clampex 9",
           []
+        ],
+        [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
         ],
         [
           "field",
@@ -2865,6 +3024,75 @@
       ]
     },
     {
+      "id": "gin-snowden-abf-2025-09-22-0000",
+      "format": "abf",
+      "source": "gin:maxjoffe/2026_snowden_pfc.pv.m2.signaling",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.9.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "abf2",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "episodic",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Clampex",
+          []
+        ],
+        [
+          "writer_version",
+          "Clampex 11",
+          []
+        ],
+        [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        22
+      ]
+    },
+    {
       "id": "pyabf-05210017-vc-abf1",
       "format": "abf",
       "source": "github:swharden/pyabf",
@@ -2917,6 +3145,13 @@
           "writer_version",
           "clampex 9",
           []
+        ],
+        [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
         ],
         [
           "field",
@@ -3596,6 +3831,13 @@
           []
         ],
         [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -3731,6 +3973,13 @@
           "writer_version",
           "Clampex 9",
           []
+        ],
+        [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
         ],
         [
           "field",
@@ -4281,6 +4530,13 @@
           []
         ],
         [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -4768,6 +5024,13 @@
           []
         ],
         [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -4902,6 +5165,13 @@
           []
         ],
         [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -4989,6 +5259,75 @@
       ],
       "fields": [
         "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.0.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "abf2",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "episodic",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Clampex",
+          []
+        ],
+        [
+          "writer_version",
+          "Clampex 10",
+          []
+        ],
+        [
+          "record",
+          "command waveform (epoch table)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        22
+      ]
+    },
+    {
+      "id": "zenodo3250056-abf-rabbit-at-0026",
+      "format": "abf",
+      "source": "zenodo:3250056",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
       ],
       "features": [
         [
@@ -65308,8 +65647,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65369,8 +65708,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65427,8 +65766,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65489,8 +65828,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65546,8 +65885,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65611,8 +65950,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65676,8 +66015,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65740,8 +66079,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65805,8 +66144,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65863,8 +66202,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65921,8 +66260,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -65979,8 +66318,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66037,8 +66376,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66095,8 +66434,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66153,8 +66492,417 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
+      ]
+    },
+    {
+      "id": "figshare19808482-beamcyte",
+      "format": "fcs",
+      "source": "figshare 19808482 'retracted article",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "BeamCyte",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "figshare22210837-apogee",
+      "format": "fcs",
+      "source": "figshare 22210837 'rainbow bead analysis'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE I",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "Apogee A60-Micro",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "figshare30273178-guava",
+      "format": "fcs",
+      "source": "figshare 30273178 'flow cytometry dataset for time since deposition",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE I",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "big-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "Guava Mini2, InCyte 3.4",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "figshare30376627-id7000",
+      "format": "fcs",
+      "source": "figshare 30376627 'a 33-color immune profiling panel to characterize preclinical murine models of inflammation and autoimmunity'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.1",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "sony-spectral",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "LE-ID7000C",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "figshare30600737-partec",
+      "format": "fcs",
+      "source": "figshare 30600737 'data and code for \"alternative life history strategies of a marine parasitic dinoflagellate\"'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "big-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "partec PAS",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "figshare32906771-accuri-gbk",
+      "format": "fcs",
+      "source": "figshare 32906771 '<b>dual-pathogen defense",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE I",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "big-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "BD Accuri C6",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "figshare33265719-facscelesta",
+      "format": "fcs",
+      "source": "figshare 33265719 'a de novo gmds p.",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "big-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "bd-facsdiva",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "FACSCelesta",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
       ]
     },
     {
@@ -66215,8 +66963,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66276,8 +67024,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66333,8 +67081,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66397,8 +67145,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66454,8 +67202,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66511,8 +67259,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66572,8 +67320,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66630,8 +67378,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66687,8 +67435,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66744,8 +67492,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66801,8 +67549,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66857,8 +67605,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66913,8 +67661,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -66969,8 +67717,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67034,8 +67782,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67080,8 +67828,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67141,8 +67889,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67187,8 +67935,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67249,8 +67997,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67308,8 +68056,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67359,8 +68107,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67418,8 +68166,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67477,8 +68225,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67536,8 +68284,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67595,8 +68343,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67654,8 +68402,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67713,8 +68461,137 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
+      ]
+    },
+    {
+      "id": "zenodo16309593-cytoflex-ams",
+      "format": "fcs",
+      "source": "zenodo:16309593",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "big-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "beckman-cytoflex",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "CytoFLEX",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "zenodo17222100-facslyric",
+      "format": "fcs",
+      "source": "zenodo:17222100",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.1",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "BD FACSuite",
+          []
+        ],
+        [
+          "instrument",
+          "BD FACSLyric",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
       ]
     },
     {
@@ -67779,8 +68656,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67838,8 +68715,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -67904,8 +68781,73 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
+      ]
+    },
+    {
+      "id": "zenodo18924843-sh800",
+      "format": "fcs",
+      "source": "zenodo:18924843",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "sony-sorter",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "LE-SH800SZFCPL",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
       ]
     },
     {
@@ -67968,8 +68910,195 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
+      ]
+    },
+    {
+      "id": "zenodo19613819-cytoflex-pi",
+      "format": "fcs",
+      "source": "zenodo:19613819",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model",
+        "experiment.instrument.serial"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE F",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "big-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "beckman-cytoflex",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "CytoFLEX",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "zenodo20040545-gallios",
+      "format": "fcs",
+      "source": "zenodo:20040545",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE I",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "Gallios",
+          []
+        ],
+        [
+          "layout",
+          "chained data sets ($NEXTDATA)",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        10,
+        35
+      ]
+    },
+    {
+      "id": "zenodo20427837-moflo",
+      "format": "fcs",
+      "source": "zenodo:20427837",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "experiment.acquisition.ended_at",
+        "experiment.acquisition.operator",
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "3.0",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "$DATATYPE I",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "$MODE L",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "MoFlo",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        35
       ]
     },
     {
@@ -68027,8 +69156,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68086,8 +69215,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68142,8 +69271,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68187,14 +69316,22 @@
           ]
         ],
         [
+          "writer",
+          "sony-sorter",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
           "instrument",
           "LE-MA900FP",
           []
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68252,8 +69389,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68306,8 +69443,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68357,8 +69494,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68408,8 +69545,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68467,8 +69604,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68526,8 +69663,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68585,8 +69722,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -68651,8 +69788,8 @@
         ]
       ],
       "inferred": [
-        9,
-        34
+        10,
+        35
       ]
     },
     {
@@ -109968,6 +111105,42 @@
       ]
     },
     {
+      "id": "oept-v067-legacy",
+      "format": "open-ephys",
+      "source": "open-ephys/open-ephys-python-tools test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "legacy",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "Open Ephys format 0.6",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        10
+      ]
+    },
+    {
       "id": "zenodo20726062-1544-of",
       "format": "open-ephys",
       "source": "zenodo:20726062",
@@ -120424,6 +121597,124 @@
       ]
     },
     {
+      "id": "4tu-fb2b2d59-hbn",
+      "format": "renishaw-wdf",
+      "source": "4tu.researchdata doi",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "WiRE 5",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UNKNOWN",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "measurement single",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "x list type 1",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        15
+      ]
+    },
+    {
+      "id": "4tu-fb2b2d59-mapping1",
+      "format": "renishaw-wdf",
+      "source": "4tu.researchdata doi",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "WiRE 5",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UNKNOWN",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "measurement map",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "x list type 1",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "image float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "image uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        15
+      ]
+    },
+    {
       "id": "figshare14312828-data-s2-kerogen-wdf",
       "format": "renishaw-wdf",
       "source": "figshare:14312828",
@@ -126462,6 +127753,251 @@
         [
           "field",
           "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare29858651-uvprobe-baseline-air",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 29858651 'tailored nanosized agins<sub>2</sub>-zns heterostructures via substituted thioureas",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare29858651-uvprobe-substrate",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 29858651 'tailored nanosized agins<sub>2</sub>-zns heterostructures via substituted thioureas",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare29858651-uvprobe-usl18-52-1",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 29858651 'tailored nanosized agins<sub>2</sub>-zns heterostructures via substituted thioureas",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare30231052-uvprobe-dpvc",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 30231052 'recycling of polyolefins using recycled pvc under sunlight'",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 4",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare31645174-uvprobe-usl19-69",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 31645174 'design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'",
+      "oracle": "pass",
+      "independent": false,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
           []
         ]
       ],

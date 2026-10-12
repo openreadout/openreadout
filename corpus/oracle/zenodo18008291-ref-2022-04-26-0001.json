@@ -58,6 +58,60 @@
      ]
     }
    ]
+  },
+  {
+   "index": 1,
+   "name": "command",
+   "sweep_count": 2,
+   "channel_count": 1,
+   "channel_names": [
+    "Cmd 0"
+   ],
+   "channel_units": [
+    "mV"
+   ],
+   "sample_rate_hz": 20000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8000,
+     "channels": [
+      {
+       "xxh3": "29bb5f53f68849f38410260f911db83c",
+       "first": [
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0
+       ]
+      }
+     ]
+    },
+    {
+     "sweep": 1,
+     "sample_count": 8000,
+     "channels": [
+      {
+       "xxh3": "29bb5f53f68849f38410260f911db83c",
+       "first": [
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0,
+        -80.0
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }

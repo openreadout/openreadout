@@ -65,6 +65,14 @@ pub(crate) static WITEC_PROJECT: AssuranceProfile = AssuranceProfile {
     basis: Basis::PriorArt,
 };
 
+pub(crate) static SHIMADZU_UVPROBE: AssuranceProfile = AssuranceProfile {
+    format_id: "shimadzu-uvprobe",
+    observe: observe_uvprobe,
+    validated: SHIMADZU_UVPROBE_VALIDATED,
+    confidence: SHIMADZU_UVPROBE_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
 pub(crate) static PERKINELMER_FSM: AssuranceProfile = AssuranceProfile {
     format_id: "perkinelmer-fsm",
     observe: observe_fsm,
@@ -411,6 +419,37 @@ fn observe_fsm(info: &FileInfo) -> Observations {
     o
 }
 
+fn observe_uvprobe(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &[Scope::Metadata, Scope::Traces]);
+    }
+    common(&mut o, info);
+    for t in &info.traces {
+        if let Some(c) = t
+            .extra
+            .get("value_code")
+            .and_then(serde_json::Value::as_u64)
+        {
+            o.feature(K::Record, format!("value code {c}"), &[Scope::Traces]);
+        }
+    }
+    o
+}
+
+// BEGIN GENERATED shimadzu-uvprobe (cargo xtask assurance-audit --write; do not edit)
+const SHIMADZU_UVPROBE_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const SHIMADZU_UVPROBE_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "UV/VIS SPECTRUM", 0, 0, 5),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 5),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
+    a::row(K::FormatVersion, "file format 0x120", 0, 0, 5),
+    a::row(K::Record, "value code 2", 0, 0, 4),
+    a::row(K::Record, "value code 4", 0, 0, 1),
+];
+// END GENERATED shimadzu-uvprobe
+
 // BEGIN GENERATED perkinelmer-fsm (cargo xtask assurance-audit --write; do not edit)
 const PERKINELMER_FSM_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
@@ -572,22 +611,22 @@ const RENISHAW_WDF_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const RENISHAW_WDF_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "RAMAN SPECTRUM", 14, 6, 14),
-    a::row(K::Acquisition, "UNKNOWN", 1, 1, 1),
-    a::row(K::Acquisition, "measurement map", 4, 2, 4),
+    a::row(K::Acquisition, "UNKNOWN", 3, 2, 3),
+    a::row(K::Acquisition, "measurement map", 5, 3, 5),
     a::row(K::Acquisition, "measurement series", 1, 1, 1),
-    a::row(K::Acquisition, "measurement single", 6, 3, 6),
+    a::row(K::Acquisition, "measurement single", 7, 4, 7),
     a::row(K::Acquisition, "measurement unspecified", 4, 3, 4),
     a::row(K::Acquisition, "scan StreamLine", 2, 2, 2),
     a::row(K::Acquisition, "scan StreamLineHR", 2, 1, 2),
     a::row(K::Acquisition, "scan static", 4, 2, 4),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 13),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 15),
     a::row(K::FormatVersion, "WiRE 4", 8, 2, 8),
-    a::row(K::FormatVersion, "WiRE 5", 5, 4, 5),
+    a::row(K::FormatVersion, "WiRE 5", 7, 5, 7),
     a::row(K::FormatVersion, "no WiRE version", 2, 2, 2),
     a::row(K::Layout, "x list type 0", 1, 1, 1),
-    a::row(K::Layout, "x list type 1", 14, 6, 14),
-    a::row(K::SampleLayout, "image float", 3, 2, 3),
-    a::row(K::SampleLayout, "image uint8x3", 4, 2, 4),
+    a::row(K::Layout, "x list type 1", 16, 7, 16),
+    a::row(K::SampleLayout, "image float", 4, 3, 4),
+    a::row(K::SampleLayout, "image uint8x3", 5, 3, 5),
 ];
 // END GENERATED renishaw-wdf
 

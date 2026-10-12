@@ -70,12 +70,15 @@ impl FcsDataset {
 
 /// The spillover matrix of a data set: `$SPILLOVER` (FCS 3.1), else `SPILL` (same layout, written
 /// by BD FACSDiva and others) when its names are this data set's `$PnN`, else `$COMP` (FCS 3.0).
+///
+/// A matrix whose names are all 1-based parameter numbers and match no `$PnN` (BD Accuri C6,
+/// Apogee: `8,3,4,5,6,9,10,11,12,…`) gets the `$PnN` of those parameters.
 pub fn spillover(ds: &DataSet) -> Option<SpilloverMatrix> {
     if let Some(m) = ds
         .keyword("$SPILLOVER")
         .and_then(|v| parse_spillover("$SPILLOVER", v, false))
     {
-        return Some(m);
+        return Some(numbered_names(m, ds));
     }
     for key in ["$SPILL", "SPILL"] {
         if let Some(m) = ds.keyword(key).and_then(|v| parse_spillover(key, v, false))
@@ -88,6 +91,26 @@ pub fn spillover(ds: &DataSet) -> Option<SpilloverMatrix> {
     }
     ds.keyword("$COMP")
         .and_then(|v| parse_spillover("$COMP", v, true))
+}
+
+fn numbered_names(mut m: SpilloverMatrix, ds: &DataSet) -> SpilloverMatrix {
+    let named = |n: &String| ds.parameters.iter().any(|p| &p.short_name == n);
+    if m.parameters.is_empty() || m.parameters.iter().any(named) {
+        return m;
+    }
+    let names: Option<Vec<String>> = m
+        .parameters
+        .iter()
+        .map(|n| {
+            let k: usize = n.parse().ok()?;
+            let p = ds.parameters.get(k.checked_sub(1)?)?;
+            Some(p.short_name.clone())
+        })
+        .collect();
+    if let Some(names) = names {
+        m.parameters = names;
+    }
+    m
 }
 
 /// Group a non-`$` keyword under a prefix, mechanically (no meaning is assigned):
@@ -305,6 +328,11 @@ fn table_info(ds: &DataSet) -> TableInfo {
     }
     if let Some(v) = text_value(ds, "$CYTSN") {
         instrument.insert("serial_number".into(), v);
+    }
+    if crate::vendor::family(ds).is_none()
+        && let Some(m) = ds.keyword("$CYT").and_then(crate::vendor::manufacturer)
+    {
+        instrument.insert("manufacturer".into(), json!(m));
     }
     if !instrument.is_empty() {
         extra.insert("instrument".into(), Value::Object(instrument));
@@ -541,6 +569,7 @@ impl Dataset for FcsDataset {
             ("tables[].extra.byte_order", Source::Spec),
             ("tables[].extra.mode", Source::Spec),
             ("tables[].extra.instrument", Source::Spec),
+            ("tables[].extra.instrument.manufacturer", Source::Inferred),
             ("tables[].extra.software", Source::Inferred),
             ("tables[].extra.system", Source::Spec),
             ("tables[].extra.acquisition_date", Source::Spec),
@@ -863,17 +892,27 @@ impl Dataset for FcsDataset {
                         crc.update(&read_at(f, &path, pos, n, file_len)?);
                         pos += n;
                     }
-                    let got = crc.finish();
-                    if u32::from(got) == stored || u32::from(got.swap_bytes()) == stored {
+                    let (aug, got) = (crc.finish_aug(), crc.finish());
+                    let matches =
+                        |v: u16| u32::from(v) == stored || u32::from(v.swap_bytes()) == stored;
+                    if matches(aug) || matches(got) {
+                        let form = if matches(aug) {
+                            "CRC-16/CCITT from 0x1D0F, as writers store it"
+                        } else {
+                            "CRC-16/CCITT bit-reflected from 0, as the standard describes it"
+                        };
                         r.push(
-                            Finding::info("crc_ok", format!("{prefix}stored CRC {stored} matches"))
-                                .at(crc_at),
+                            Finding::info(
+                                "crc_ok",
+                                format!("{prefix}stored CRC {stored} matches ({form})"),
+                            )
+                            .at(crc_at),
                         );
                     } else {
                         r.push(
                             Finding::warning(
                                 "crc_mismatch",
-                                format!("{prefix}stored CRC {stored} != computed {got} (CRC-16/CCITT, bit-reflected, initial 0); writers differ in CRC details, so this is not treated as corruption"),
+                                format!("{prefix}stored CRC {stored} matches neither form computed ({aug}: CRC-16/CCITT from 0x1D0F, which every writer seen uses; {got}: bit-reflected from 0, as the standard describes it): the data set may be damaged, or the writer uses another CRC"),
                             )
                             .at(crc_at),
                         );

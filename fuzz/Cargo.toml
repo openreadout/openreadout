@@ -1082,3 +1082,10 @@ path = "fuzz_targets/whole_mcs_raw.rs"
 test = false
 doc = false
 bench = false
+
+[[bin]]
+name = "whole_uvprobe"
+path = "fuzz_targets/whole_uvprobe.rs"
+test = false
+doc = false
+bench = false

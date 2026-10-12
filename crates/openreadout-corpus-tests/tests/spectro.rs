@@ -25,6 +25,7 @@ const FORMATS: &[&str] = &[
     "renishaw-wdf",
     "perkinelmer-sp",
     "galactic-spc",
+    "shimadzu-uvprobe",
 ];
 
 #[derive(Deserialize)]
@@ -66,6 +67,7 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_spectro::WitecReader))
         .with(Box::new(openreadout_spectro::AgilentFpaReader))
         .with(Box::new(openreadout_spectro::FsmReader))
+        .with(Box::new(openreadout_spectro::UvProbeReader))
         .with(Box::new(openreadout_spectro::CaryReader))
 }
 

@@ -89,6 +89,41 @@
      ]
     }
    ]
+  },
+  {
+   "index": 1,
+   "name": "command",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ME1"
+   ],
+   "channel_units": [
+    "nA"
+   ],
+   "sample_rate_hz": 25000,
+   "sample_rate_tolerance_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250000,
+     "channels": [
+      {
+       "xxh3": "6bc15135a24f0a73c9e002b4000cf2a8",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }

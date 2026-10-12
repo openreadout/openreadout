@@ -21,6 +21,8 @@
 //!   (spectrum series and maps exported by GRAMS, OMNIC, WiRE, Spectragryph and others), float
 //!   or fixed-point values, with the log block's instrument settings. Notes:
 //!   `docs/formats/galactic-spc.md`.
+//! - **Shimadzu UVProbe** (`shimadzu-uvprobe`, `.spc` compound files from UV-Vis and UV-Vis-NIR
+//!   spectrophotometers): one trace per data set. Notes: `docs/formats/shimadzu-uvprobe.md`.
 //! - **Agilent (Varian) Cary UV-Vis** (`agilent-cary`, `.dsw` Scan, `.bsw` batch Scan, `.bsk`
 //!   Scanning Kinetics): absorbance spectra and baselines with their wavelengths, the
 //!   instrument, application, parameter list, method log and collection times. Notes:
@@ -95,6 +97,7 @@ mod opus;
 mod pesp;
 mod pesp_ascii;
 mod spc;
+mod uvprobe;
 mod wdf;
 mod witec;
 
@@ -127,6 +130,8 @@ pub const FSM_FORMAT_ID: &str = "perkinelmer-fsm";
 pub const AGILENT_FPA_FORMAT_ID: &str = "agilent-fpa";
 /// Format id of WITec Project `.wip` and WITec Data `.wid` files.
 pub const WITEC_FORMAT_ID: &str = "witec-project";
+/// Format id of Shimadzu UVProbe `.spc` files.
+pub const UVPROBE_FORMAT_ID: &str = "shimadzu-uvprobe";
 
 /// The Bruker OPUS reader.
 #[derive(Debug, Default, Clone, Copy)]
@@ -515,7 +520,7 @@ impl FormatReader for SpcReader {
                 "Big-endian (0x4C) files, per-subfile x arrays (TXYXYS, mass spectra) and old-format (0x4D) multifiles are refused".into(),
                 "16-bit fixed-point values follow the documented rule but no development file has them".into(),
                 "Multifile maps are returned as spectrum series with a subfile table (z, W); the map grid is not rebuilt".into(),
-                "Other programs' .spc files (Bruker EPR, Becker & Hickl, EDAX, Shimadzu UV) are not Galactic SPC and are not read by this reader".into(),
+                "Other programs' .spc files (Bruker EPR, Becker & Hickl, EDAX) are not Galactic SPC and are not read by this reader; Shimadzu UVProbe .spc files are read by shimadzu-uvprobe".into(),
             ],
         }
     }
@@ -824,6 +829,76 @@ impl FormatReader for CaryReader {
         let opened = cary::parse(&f, input.path(), len)?;
         let n = opened.values.len() as u64;
         let src = openreadout_core::source::MemSource::new("spectra", opened.values);
+        Ok(Box::new(
+            SpectroDataset::new(self.descriptor(), input, f, len, opened.parsed)
+                .with_values_source(
+                    openreadout_core::source::SourceFile::new(std::sync::Arc::new(src)),
+                    n,
+                ),
+        ))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
+/// The Shimadzu UVProbe `.spc` reader (compound files; Galactic SPC shares the extension).
+#[derive(Debug, Default, Clone, Copy)]
+pub struct UvProbeReader;
+
+impl FormatReader for UvProbeReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&assurance::SHIMADZU_UVPROBE)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        FormatDescriptor {
+            id: UVPROBE_FORMAT_ID.into(),
+            name: "Shimadzu UVProbe (.spc)".into(),
+            vendor: "Shimadzu UVProbe".into(),
+            extensions: vec!["spc".into()],
+            family: "spectroscopy".into(),
+            can_read: true,
+            can_write: false,
+            confidence: assurance::SHIMADZU_UVPROBE.confidence,
+            known_gaps: vec![
+                "Validated on UV-3600 Plus files (UVProbe 2.43 and 2.71, absorbance and reflectance scans) against the software's text exports; transmittance, photometric and kinetics files have no development file, and value codes not seen are returned unnamed".into(),
+                "Files with several spectra per data set (`.2` arrays) read the first only".into(),
+                "Text in a non-UTF-8 code page (GBK on Chinese-language PCs) is shown as Latin-1; the method pages are kept as text, not named".into(),
+            ],
+        }
+    }
+
+    fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
+        (has_extension(path, &["spc"]) && head.starts_with(&openreadout_core::cfb::CFB_MAGIC))
+            .then_some(Detection {
+                format_id: UVPROBE_FORMAT_ID,
+                confidence: DetectConfidence::Likely,
+                note: Some("compound file with the .spc extension".into()),
+            })
+    }
+
+    fn sniff_input(&self, head: &[u8], input: &Input) -> Option<Detection> {
+        if head.starts_with(&openreadout_core::cfb::CFB_MAGIC) && uvprobe::is_uvprobe(input) {
+            return Some(Detection {
+                format_id: UVPROBE_FORMAT_ID,
+                confidence: DetectConfidence::Definite,
+                note: None,
+            });
+        }
+        self.sniff(head, input.path())
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        let (f, len) = common::open_source(input)?;
+        let opened = uvprobe::parse(&f, input.path())?;
+        let n = opened.values.len() as u64;
+        let src = openreadout_core::source::MemSource::new("Y Data", opened.values);
         Ok(Box::new(
             SpectroDataset::new(self.descriptor(), input, f, len, opened.parsed)
                 .with_values_source(

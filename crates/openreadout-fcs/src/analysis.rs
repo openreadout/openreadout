@@ -1100,10 +1100,14 @@ fn apply_matrix(
             .position(|n| n == d)
             .or_else(|| labels.iter().position(|l| l.as_deref() == Some(d)))
             .ok_or_else(|| {
-                Error::Usage(format!(
-                    "compensation matrix {} names {d}, which is not a parameter of this file",
-                    m.name
-                ))
+                Error::unsupported(
+                    FORMAT_ID,
+                    format!(
+                        "compensation matrix {} names {d}, which is not a parameter of this file",
+                        m.name
+                    ),
+                    "The matrix and the file's parameters do not match (some writers keep detectors in the matrix that the file does not store). Read the values without --compensate, or compensate with a FlowJo workspace or Gating-ML matrix that matches this file.",
+                )
             })
     };
     let det: Vec<usize> = m.detectors.iter().map(|d| find(d)).collect::<Result<_>>()?;

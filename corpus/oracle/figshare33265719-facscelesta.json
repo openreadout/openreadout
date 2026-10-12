@@ -1,0 +1,69 @@
+{
+ "id": "figshare33265719-facscelesta",
+ "file": "figshare33265719-facscelesta.fcs",
+ "size": 684539,
+ "sha256": "52de3ecff355a165df6140b66acec074aab13ee922062b135cc5b380b8f52f76",
+ "max_planes_hashed": 64,
+ "reader": "flowio 1.4.0 + fcsparser (second opinion)",
+ "tables": [
+  {
+   "index": 0,
+   "version": "3.0",
+   "parameter_count": 13,
+   "event_count": 13113,
+   "parameter_names": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "BV421-A",
+    "BV421-H",
+    "BV421-W",
+    "BB515-A",
+    "BB515-H",
+    "BB515-W",
+    "Time"
+   ],
+   "parameter_labels": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "dtypes": [
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32",
+    "float32"
+   ],
+   "xxh3": "495428fde06deeff0e7d6347283fee3c",
+   "xxh3_reader": "flowio 1.4.0"
+  }
+ ],
+ "second_opinion": {
+  "reader": "fcsparser",
+  "event_count": 13113,
+  "xxh3": "495428fde06deeff0e7d6347283fee3c",
+  "agrees_with_flowio": true
+ }
+}
