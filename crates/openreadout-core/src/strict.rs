@@ -187,6 +187,9 @@ impl Dataset for StrictDataset {
     fn pixels_refused(&self, image: u32) -> Option<String> {
         self.inner.pixels_refused(image)
     }
+    fn z_planes_per_chunk(&self, image: u32, level: u32) -> u32 {
+        self.inner.z_planes_per_chunk(image, level)
+    }
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         self.inner.attachments()
     }
