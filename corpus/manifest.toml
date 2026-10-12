@@ -12321,6 +12321,38 @@ plate_vendor = "BMG_CSV"
 notes = "BMG MARS export (wizard `Onyx Fast Growth OD`), table view of a kinetic absorbance read at 600 nm: Well Row and Well Col columns, a second header line `,,Time,0 h ,0 h 15 min,…,27 h` (109 time points, printed to the minute: `0 h 60 min`), an empty line after every line, LF, 6 wells, 2025."
 
 [[file]]
+id = "bmg-table-lindberg-opa-kinetic"
+format = "plate"
+role = "input"
+tier = "smoke"
+filename = "bmg-table-lindberg-opa-kinetic.txt"
+url = "https://raw.githubusercontent.com/MaxLindberg/SolubilityAssayPaper2023/3052a5f084c730c4c5eedd745af84271dc32dc00/Data/SI/ABm1-40%20tube%20adsorption.txt"
+sha256 = "c78cb747cdc1c17eed2c68005f2c732fc25a04e27ba8261be8c5d5a8eaa74b80"
+size = 7098
+license = "GPL-3.0"
+license_checked = "https://github.com/MaxLindberg/SolubilityAssayPaper2023 (repository licence GPL-3.0, GitHub licence API; the export is used as data), 2026-10-11"
+source = "GitHub MaxLindberg/SolubilityAssayPaper2023, Data/SI/ABm1-40 tube adsorption.txt, pinned to commit 3052a5f"
+attribution = "Max Lindberg"
+plate_vendor = "BMG_CSV"
+notes = "BMG CLARIOstar MARS export, semicolons, CRLF, table view of a kinetic multichromatic fluorescence read (340-30/440-40): columns `Group;Well;Content;`, a second header line `;;Time [h];0;0,07;…;1,00;` (16 time points, decimal comma), every line ending in `;`, 2022. A development file for held-out finding D-H3 (a kinetic table view that returned no values)."
+
+[[file]]
+id = "bmg-table-lindberg-opa-endpoint"
+format = "plate"
+role = "input"
+tier = "smoke"
+filename = "bmg-table-lindberg-opa-endpoint.txt"
+url = "https://raw.githubusercontent.com/MaxLindberg/SolubilityAssayPaper2023/3052a5f084c730c4c5eedd745af84271dc32dc00/Data/Main/filter%20ads%20test%20AB1-40.txt"
+sha256 = "a4bb2d1dbfcfdff28af84a932cc4039833161cac45409ab029a7a8263f94ed21"
+size = 2482
+license = "GPL-3.0"
+license_checked = "https://github.com/MaxLindberg/SolubilityAssayPaper2023 (repository licence GPL-3.0, GitHub licence API; the export is used as data), 2026-10-11"
+source = "GitHub MaxLindberg/SolubilityAssayPaper2023, Data/Main/filter ads test AB1-40.txt, pinned to commit 3052a5f"
+attribution = "Max Lindberg"
+plate_vendor = "BMG_CSV"
+notes = "BMG CLARIOstar MARS export, semicolons, CRLF, table view of a fluorescence endpoint (360-30/456-20): columns `Well;Content;Group;`, a second header line `;Time [h];;0;0;0;0;` (the label under Content), raw, blank-corrected, replicate-average and regression-fit columns (`9,97 uM`), 48 wells, 2022."
+
+[[file]]
 id = "envision-text-gdr-lum384-untitled"
 format = "plate"
 role = "input"

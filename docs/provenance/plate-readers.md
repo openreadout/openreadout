@@ -310,3 +310,20 @@ Held-out draw D reported a CLARIOstar kinetic table-view export that returned no
 - The time is written as MARS writes kinetic table columns (`<n> h`, `<n> min`, `<n> s` parts), and the first cycle adds a remark after ` - ` (`Inj. only`: the cycle in which the injector ran, so its wells read `Inj.` instead of a value). The times step by 38 s, the `Cycle time [s]` of the `Protocol Information` sheet, whose `No. of cycles` (100 and 97) equals the number of cycle lines.
 - The workbook's own `Table All Cycles` sheet lists the same run as one line per cycle and section, with the cycle's time in column B (`0 min `, `0 min 38 s`, …). Read with openpyxl, its raw-data lines equal the matrices of the cycle sheet value for value (2,400 values in the first file and 2,328 in the second, none different), and the time of the k-th line equals the time of the k-th cycle line in both files.
 - **Rule:** in a SMART Control plate sheet, a line whose first cell is `Cycle <n> (<time>)` gives its time to the matrices after it, up to the next cycle line. The time is the part before ` - `, read like a kinetic table column. With more than one cycle the read is `kinetic`. A cycle line whose time does not read is reported (`cycle_time_not_read`) and its matrices keep no time.
+
+## 2026-10-11 — BMG MARS table views with a `Group` column, semicolons and decimal-comma times (held-out finding D-H3, a third layout) (Richard Zimring with Claude as assistant)
+
+A search of public GitHub CSV and TXT files naming BMG readers (about 1,750 files) found few kinetic table views. Two more from a repository no held-out file uses read as an empty export before this change:
+
+| id | source | licence | what it is |
+| --- | --- | --- | --- |
+| `bmg-table-lindberg-opa-kinetic` | GitHub MaxLindberg/SolubilityAssayPaper2023 @3052a5f, `Data/SI/ABm1-40 tube adsorption.txt` | GPL-3.0 (data) | CLARIOstar, fluorescence multichromatic, semicolons, CRLF, 2022: columns `Group;Well;Content;`, a time line `;;Time [h];0;0,07;…;1,00;`, every line ending in `;` |
+| `bmg-table-lindberg-opa-endpoint` | the same repository, `Data/Main/filter ads test AB1-40.txt` | GPL-3.0 (data) | CLARIOstar, fluorescence endpoint, columns `Well;Content;Group;`, a time line `;Time [h];;0;0;0;0;`, raw, blank-corrected, averaged and regression-fit columns (`9,97 uM`) |
+
+**Prior art consulted:** none.
+
+**Observed:** MARS writes the descriptive columns `Well` (or `Well Row`, `Well Col`), `Content` and `Group` in the order the user chose, before the value columns. The time line puts its label under one of them, not always the last one. In a semicolon export the times use a decimal comma (`0,07` h). A trailing `;` adds an empty last column to every line.
+
+**Decided:** the descriptive columns are the leading cells of the title line named `Well`, `Well Row`, `Well Col`, `Content` or `Group`, in any order; the values start after them. The axis label is the last non-empty cell of the axis line among those columns. In a semicolon or tab export a time or wavelength may use a decimal comma. Trailing columns that are empty on both the title line and the axis line are dropped. `Group` becomes `extra.layout.Group`. A calculated column that names another calculation (`Average over replicates based on Blank corrected (360-30/456-20)`) takes its optics from the filters in its last parentheses. One time for every column is an endpoint.
+
+**Validation:** `oracle/plate.py` `bmg_csv_summary` reads the same descriptive columns; every value of both files agrees with it, with its time.

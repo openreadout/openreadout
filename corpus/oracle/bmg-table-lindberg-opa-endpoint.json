@@ -1,0 +1,34 @@
+{
+ "id": "bmg-table-lindberg-opa-endpoint",
+ "file": "bmg-table-lindberg-opa-endpoint.txt",
+ "size": 2482,
+ "sha256": "a4bb2d1dbfcfdff28af84a932cc4039833161cac45409ab029a7a8263f94ed21",
+ "max_planes_hashed": 64,
+ "reader": "oracle/plate.py bmg_csv_summary (independent reader of the export text; allotropy cannot parse this export)",
+ "plate": {
+  "groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 48,
+    "values": 48,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "53717c2830958c4e57573364065ecc3f",
+    "times_s": [
+     0.0
+    ]
+   }
+  ],
+  "header": {},
+  "calculated_groups": [
+   {
+    "mode": "fluorescence",
+    "wells": 42,
+    "values": 84,
+    "errors": 0,
+    "wavelengths": [],
+    "value_xxh3": "76b0499309a863838f72ce06ace8b0da"
+   }
+  ]
+ }
+}

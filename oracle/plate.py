@@ -541,38 +541,51 @@ def bmg_csv_summary(path: Path) -> dict:
     groups: dict = {}
     calc: dict = {}
     titles: list = []
-    off = 2  # first value column: after `Well`, `Content` (or `Well Row`, `Well Col`, `Content`)
+    # the descriptive columns before the values (`Well` or `Well Row` + `Well Col`, `Content`,
+    # `Group`), in the order the export has them
+    meta_names = ("Well", "Well Row", "Well Col", "Content", "Group")
+    off, cols = 2, {"Well": 0}
     for r in rows:
         first = r[0].strip() if r else ""
         if ":" not in first:
             m = mode_of(first)
             if m and mode is None:
                 mode = m
-        if first in ("Well", "Well Row") and len(r) > 2:
-            off = 3 if first == "Well Row" else 2
+        lead = []
+        for c in r:
+            if c.strip() in meta_names and c.strip() not in lead:
+                lead.append(c.strip())
+            else:
+                break
+        if ("Well" in lead or {"Well Row", "Well Col"} <= set(lead)) and len(r) > len(lead):
+            off = len(lead)
+            cols = {name: i for i, name in enumerate(lead)}
             titles = [c.strip() for c in r[off:]]
             continue
-        label = r[off - 1].strip() if len(r) >= off else ""
-        if first == "" and label.startswith("Wavelength"):
-            wls = [float(c) for c in r[off:] if c.strip()]
+        labels = [c.strip() for c in r[:off] if c.strip()]
+        label = labels[-1] if labels else ""
+        if label.startswith("Wavelength"):
+            wls = [float(c.replace(",", ".")) for c in r[off:] if c.strip()]
             continue
-        if first == "" and label.startswith("Time"):
+        if label.startswith("Time"):
             # a kinetic read: each column's time, `0 h 15 min`, `1 min`, or a number in the
-            # label's unit (`Time [s]`)
+            # label's unit (`Time [s]`; `Time [h]` with a decimal comma in a semicolon export)
             unit = re.search(r"\[(s|min|h)\]", label)
             scale = {"s": 1, "min": 60, "h": 3600}
             for c in r[off:]:
-                c = c.strip()
+                c = c.strip().replace(",", ".")
                 parts = re.findall(r"(\d+(?:\.\d+)?)\s*(h|min|s)\b", c)
                 if parts:
                     times.append(sum(float(n) * scale[u] for n, u in parts))
                 elif c and unit:
                     times.append(float(c) * scale[unit.group(1)])
             continue
-        if off == 3:
-            w = parse_well(first + r[1].strip()) if first and len(r) > 1 else None
+        if "Well" in cols:
+            cell = r[cols["Well"]].strip() if len(r) > cols["Well"] else ""
+            w = parse_well(cell) if cell else None
         else:
-            w = parse_well(first) if first else None
+            a, b = cols["Well Row"], cols["Well Col"]
+            w = parse_well(r[a].strip() + r[b].strip()) if len(r) > max(a, b) and r[a].strip() else None
         if w and len(r) > off:
             for i, c in enumerate(r[off:]):
                 try:
