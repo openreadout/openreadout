@@ -493,12 +493,15 @@ fn render_image(s: &mut String, im: &ImageInfo) {
         ));
     }
     if let Some(o) = &im.objective {
-        s.push_str(&format!(
-            "      objective: {} {}x NA {}\n",
-            o.model.as_deref().unwrap_or("-"),
-            round_noise(o.nominal_magnification.unwrap_or(0.0)),
-            round_noise(o.lens_na.unwrap_or(0.0))
-        ));
+        // Print only what the file states: a missing magnification or NA is not zero.
+        let mut parts = vec![o.model.as_deref().unwrap_or("-").to_string()];
+        if let Some(m) = o.nominal_magnification {
+            parts.push(format!("{}x", round_noise(m)));
+        }
+        if let Some(na) = o.lens_na {
+            parts.push(format!("NA {}", round_noise(na)));
+        }
+        s.push_str(&format!("      objective: {}\n", parts.join(" ")));
     }
     if let Some(t) = &im.acquired_at {
         s.push_str(&format!("      acquired: {t}\n"));
