@@ -207,6 +207,8 @@ pub fn export_mzml(
         let mut offsets = Vec::new();
         let mut hashes = Vec::new();
         let mut points = 0u64;
+        // The TIC and SRM chromatograms of the written spectra (added when the source holds none)
+        let mut derived = DerivedChromatograms::new(agilent_ids);
         let mut refused = Vec::new();
         if let Some((first, last)) = range {
             // Spectra are read in batches. While the threads compress one batch, this thread
@@ -268,6 +270,7 @@ pub fn export_mzml(
                     let (xml, hash) = xml?;
                     offsets.push((id.clone(), w.pos + 6)); // after the six-space indent
                     points += sp.mz.len() as u64;
+                    derived.add(sp);
                     hashes.push(hash);
                     w.write_str(&xml)?;
                 }
@@ -279,10 +282,11 @@ pub fn export_mzml(
             w.write_str("    </spectrumList>\n")?;
         }
         // The source's chromatograms (mzML inputs: TIC, SRM traces, ...), as they were read.
-        let chroms = match early_chroms.take() {
+        let mut chroms = match early_chroms.take() {
             Some(chroms) => chroms,
             None => chromatograms(ds, &info, false)?,
         };
+        derived.append_to(&mut chroms);
         let mut chrom_offsets = Vec::new();
         let mut chrom_hashes = Vec::new();
         if !chroms.is_empty() {
@@ -1587,6 +1591,169 @@ fn chromatograms(
     Ok(out)
 }
 
+/// A TIC chromatogram from every written spectrum, and one SRM chromatogram per transition of
+/// the SRM/MRM spectra, for exports whose source stores none (vendor files; msconvert writes
+/// both). An SRM spectrum is one whose filter names `SRM` (Thermo), whose `extra.scan_type` is
+/// `MRM` (Sciex) or 256 (Agilent MassHunter), or whose `extra.acquisition` is `mrm`
+/// (Shimadzu). Each of its points is one transition: Q1 is the point's own precursor
+/// (`extra.point_precursors_mz`) or the spectrum's, Q3 the point's m/z. Transitions are told
+/// apart by polarity, Q1, Q3 (both to 1e-4), collision energy and the method entry that
+/// measured them (`extra.scan_method`, `event` or `experiment`: a dynamic-MRM method measures a
+/// transition again in another time window).
+struct DerivedChromatograms {
+    agilent: bool,
+    tic_time: Vec<f64>,
+    tic: Vec<f64>,
+    /// A spectrum without a time was written: no TIC is.
+    tic_incomplete: bool,
+    srm_keys: std::collections::HashMap<(u8, i64, i64, i64, i64), usize>,
+    srm: Vec<Chromatogram>,
+}
+
+impl DerivedChromatograms {
+    fn new(agilent: bool) -> Self {
+        DerivedChromatograms {
+            agilent,
+            tic_time: Vec::new(),
+            tic: Vec::new(),
+            tic_incomplete: false,
+            srm_keys: std::collections::HashMap::new(),
+            srm: Vec::new(),
+        }
+    }
+
+    fn is_srm(&self, sp: &Spectrum) -> bool {
+        let filter = sp
+            .scan_filter
+            .as_deref()
+            .is_some_and(|f| f.split_whitespace().any(|w| w == "SRM"));
+        let scan_type = sp.extra.get("scan_type");
+        filter
+            || scan_type.and_then(|v| v.as_str()) == Some("MRM")
+            || (self.agilent && scan_type.and_then(serde_json::Value::as_u64) == Some(256))
+            || sp.extra.get("acquisition").and_then(|v| v.as_str()) == Some("mrm")
+    }
+
+    fn add(&mut self, sp: &Spectrum) {
+        let Some(t) = sp.rt_s.filter(|t| t.is_finite()) else {
+            self.tic_incomplete = true;
+            return;
+        };
+        let tic = sp
+            .total_ion_current
+            .unwrap_or_else(|| sp.intensity.iter().map(|&v| f64::from(v)).sum());
+        // Spectra that split one scan (Sciex MRM: one per precursor of a cycle) share its time:
+        // one TIC point, their sum.
+        match (self.tic_time.last(), self.tic.last_mut()) {
+            (Some(&last), Some(v)) if last.to_bits() == t.to_bits() => *v += tic,
+            _ => {
+                self.tic_time.push(t);
+                self.tic.push(tic);
+            }
+        }
+        if sp.ms_level < 2 || !self.is_srm(sp) {
+            return;
+        }
+        let per_point: Option<Vec<f64>> = sp
+            .extra
+            .get("point_precursors_mz")
+            .and_then(|v| v.as_array())
+            .map(|a| a.iter().filter_map(serde_json::Value::as_f64).collect())
+            .filter(|v: &Vec<f64>| v.len() == sp.mz.len());
+        let (pol_code, polarity) = match sp.polarity.as_str() {
+            "positive" => (1u8, Some(("MS:1000130", "positive scan"))),
+            "negative" => (2, Some(("MS:1000129", "negative scan"))),
+            _ => (0, None),
+        };
+        let q = |v: f64| (v * 1e4).round() as i64;
+        let ce = sp.collision_energy.map_or(i64::MIN, q);
+        let entry = ["scan_method", "event", "experiment"]
+            .iter()
+            .find_map(|k| sp.extra.get(*k).and_then(serde_json::Value::as_i64))
+            .unwrap_or(i64::MIN);
+        for (k, (&q3, &v)) in sp.mz.iter().zip(&sp.intensity).enumerate() {
+            let Some(q1) = per_point
+                .as_ref()
+                .and_then(|p| p.get(k).copied())
+                .or(sp.precursor_mz)
+            else {
+                continue;
+            };
+            let key = (pol_code, q(q1), q(q3), ce, entry);
+            let next = self.srm.len();
+            let at = *self.srm_keys.entry(key).or_insert(next);
+            if at == next {
+                self.srm.push(Chromatogram {
+                    id: String::new(),
+                    accession: "MS:1001473".into(),
+                    name: "selected reaction monitoring chromatogram".into(),
+                    time_s: Vec::new(),
+                    intensity: Vec::new(),
+                    counts_unit: "number of detector counts",
+                    precursor_mz: Some(q1),
+                    product_mz: Some(q3),
+                    polarity,
+                });
+            }
+            self.srm[at].time_s.push(t);
+            self.srm[at].intensity.push(f64::from(v));
+        }
+    }
+
+    /// Add the TIC and the SRM chromatograms to `out`, unless it already holds chromatograms
+    /// of that type (an mzML source's own).
+    fn append_to(self, out: &mut Vec<Chromatogram>) {
+        let has = |acc: &str| out.iter().any(|c| c.accession == acc);
+        let (has_tic, has_srm) = (has("MS:1000235"), has("MS:1001473"));
+        let mut ids: BTreeSet<String> = out.iter().map(|c| c.id.clone()).collect();
+        let mut unique = |base: String| {
+            let mut id = base.clone();
+            let mut n = 1;
+            while !ids.insert(id.clone()) {
+                n += 1;
+                id = format!("{base} ({n})");
+            }
+            id
+        };
+        if !has_tic && !self.tic_incomplete && !self.tic.is_empty() {
+            out.push(Chromatogram {
+                id: unique("TIC".into()),
+                accession: "MS:1000235".into(),
+                name: "total ion current chromatogram".into(),
+                time_s: self.tic_time,
+                intensity: self.tic,
+                counts_unit: "number of detector counts",
+                precursor_mz: None,
+                product_mz: None,
+                polarity: None,
+            });
+        }
+        if !has_srm {
+            for mut c in self.srm {
+                let base = format!(
+                    "SRM SIC Q1={} Q3={}",
+                    id_mz(c.precursor_mz.unwrap_or(0.0)),
+                    id_mz(c.product_mz.unwrap_or(0.0))
+                );
+                c.id = unique(base);
+                out.push(c);
+            }
+        }
+    }
+}
+
+/// An m/z for a chromatogram id, in its shortest form: a value stored as a 32-bit float
+/// (Thermo windows, Agilent and Sciex transitions) prints as that float does (`132.025`, not
+/// `132.02499389648438`).
+fn id_mz(v: f64) -> String {
+    let f = v as f32;
+    if f64::from(f) == v {
+        format!("{f}")
+    } else {
+        format!("{v}")
+    }
+}
+
 /// Q1 and Q3 of an MRM column named `Q1 > Q3`.
 fn transition_of(name: &str) -> Option<(f64, f64)> {
     let (a, b) = name.split_once('>')?;
@@ -1772,6 +1939,72 @@ impl Sha1 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn srm(rt: f64, q1: f64, points: &[(f64, f32)], tic: f64) -> Spectrum {
+        Spectrum {
+            ms_level: 2,
+            rt_s: Some(rt),
+            polarity: "negative".into(),
+            precursor_mz: Some(q1),
+            scan_filter: Some(format!("- c ESI SRM ms2 {q1} [..]")),
+            total_ion_current: Some(tic),
+            mz: points.iter().map(|p| p.0).collect(),
+            intensity: points.iter().map(|p| p.1).collect(),
+            ..Spectrum::default()
+        }
+    }
+
+    #[test]
+    fn tic_and_srm_chromatograms_from_spectra() {
+        let mut d = DerivedChromatograms::new(false);
+        d.add(&srm(1.0, 258.0, &[(79.0, 5.0), (97.0, 7.0)], 12.0));
+        d.add(&srm(1.0, 300.0, &[(79.0, 1.0)], 1.0)); // same scan time: one TIC point
+        d.add(&srm(2.0, 258.0, &[(79.0, 6.0), (97.0, 8.0)], 14.0));
+        // a Shimadzu MRM record: each point its own precursor
+        let mut sp = srm(3.0, 300.0, &[(79.0, 2.0), (79.0, 3.0)], 5.0);
+        sp.scan_filter = None;
+        sp.extra
+            .insert("acquisition".into(), serde_json::json!("mrm"));
+        sp.extra.insert(
+            "point_precursors_mz".into(),
+            serde_json::json!([300.0, 258.0]),
+        );
+        d.add(&sp);
+        let mut out = Vec::new();
+        d.append_to(&mut out);
+        let ids: Vec<&str> = out.iter().map(|c| c.id.as_str()).collect();
+        assert_eq!(
+            ids,
+            [
+                "TIC",
+                "SRM SIC Q1=258 Q3=79",
+                "SRM SIC Q1=258 Q3=97",
+                "SRM SIC Q1=300 Q3=79"
+            ]
+        );
+        assert_eq!(out[0].time_s, [1.0, 2.0, 3.0]);
+        assert_eq!(out[0].intensity, [13.0, 14.0, 5.0]);
+        assert_eq!(out[1].intensity, [5.0, 6.0, 3.0]);
+        assert_eq!(out[3].time_s, [1.0, 3.0]);
+        assert_eq!(out[3].intensity, [1.0, 2.0]);
+        // a source that stores its own TIC keeps it alone
+        let mut d = DerivedChromatograms::new(false);
+        d.add(&srm(1.0, 258.0, &[(79.0, 5.0)], 5.0));
+        let mut out = vec![Chromatogram {
+            id: "TIC".into(),
+            accession: "MS:1000235".into(),
+            name: "total ion current chromatogram".into(),
+            time_s: vec![1.0],
+            intensity: vec![5.0],
+            counts_unit: "number of detector counts",
+            precursor_mz: None,
+            product_mz: None,
+            polarity: None,
+        }];
+        d.append_to(&mut out);
+        assert_eq!(out.len(), 2);
+        assert_eq!(out[1].accession, "MS:1001473");
+    }
 
     #[test]
     fn mismatched_spectrum_arrays_fail_without_indexing() {

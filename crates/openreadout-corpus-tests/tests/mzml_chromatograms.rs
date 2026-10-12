@@ -2,7 +2,8 @@
 //! Agilent MRM run (TIC and SRM chromatograms) and a Waters Xevo TQ-XS MRM `.raw` (one table of
 //! transitions). The export writes a chromatogramList and no spectrumList, verifies itself by
 //! reading the file back, and the mzML reader must find the source's chromatograms in it with
-//! the same values.
+//! the same values. An SRM run with spectra (Thermo TSQ, Agilent MRM) also exports a TIC and
+//! its SRM chromatograms, equal to the depositor's ProteoWizard export.
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --test mzml_chromatograms`
 #![cfg(feature = "corpus")]
@@ -118,5 +119,96 @@ fn waters_mrm_tables_become_srm_chromatograms() {
         let (q1, q3) = col.name.split_once(" > ").unwrap();
         assert_eq!(c.2, Some(q1.parse().unwrap()));
         assert_eq!(c.3, Some(q3.parse().unwrap()));
+    }
+}
+
+/// One chromatogram of an mzML file: id, times (s), values, precursor, product.
+type Chrom = (String, Vec<f64>, Vec<f64>, Option<f64>, Option<f64>);
+
+/// Every chromatogram of an mzML file, whether or not it also holds spectra.
+fn all_chromatograms(path: &Path) -> Vec<Chrom> {
+    let mut ds = MzmlReader.open(path).unwrap();
+    let info = ds.info().unwrap();
+    let mut out = Vec::new();
+    for t in info
+        .traces
+        .iter()
+        .filter(|t| t.extra.get("chromatogram_type_accession").is_some() && t.channels.len() == 2)
+    {
+        let tr = ds.read_trace(t.index, 0, 0, t.sample_count).unwrap();
+        let f = |k: &str| t.extra.get(k).and_then(serde_json::Value::as_f64);
+        out.push((
+            t.name.clone().unwrap_or_default(),
+            tr.channels[0].clone(),
+            tr.channels[1].clone(),
+            f("precursor_mz"),
+            f("product_mz"),
+        ));
+    }
+    out
+}
+
+/// An SRM run exported to mzML carries a TIC and one SRM chromatogram per transition, rebuilt
+/// from its spectra, as msconvert's export of the same file does: every chromatogram of the
+/// depositor's (ProteoWizard) export has one of ours with the same transition, times and values.
+#[test]
+fn srm_runs_export_their_chromatograms() {
+    let cases: [(&str, &str, Box<dyn FormatReader>); 2] = [
+        (
+            "mtbls1822-tsq-74.raw",
+            "mtbls1822-tsq-74.mzML",
+            Box::new(openreadout_thermo::ThermoRawReader),
+        ),
+        (
+            "Reader_Agilent_Test.data/MRM Neg C5.d",
+            "Reader_Agilent_Test.data/MRM Neg C5.mzML",
+            Box::new(openreadout_agilent_ms::AgilentMsReader),
+        ),
+    ];
+    for (raw, export_rel, reader) in cases {
+        let (Some(input), Some(theirs)) = (corpus_file(raw), corpus_file(export_rel)) else {
+            continue;
+        };
+        let tmp = tempfile::tempdir().unwrap();
+        let out = tmp.path().join("out.mzML");
+        let mut ds = reader.open(&input).unwrap();
+        let report = export_mzml(ds.as_mut(), &input, &out, &MzmlExportOptions::default()).unwrap();
+        assert!(report.verified && report.spectra_written > 0, "{raw}");
+        let ours = all_chromatograms(&out);
+        let want = all_chromatograms(&theirs);
+        assert!(!want.is_empty(), "{export_rel}");
+        let mut used = vec![false; ours.len()];
+        for (id, t, v, q1, q3) in &want {
+            let same = |o: &Chrom| {
+                let transition = match (q1, q3) {
+                    (Some(a), Some(b)) => {
+                        o.3.is_some_and(|x| (x - a).abs() < 0.01)
+                            && o.4.is_some_and(|x| (x - b).abs() < 0.01)
+                    }
+                    _ => o.0 == "TIC" && id == "TIC",
+                };
+                // ProteoWizard pads a transition with zeros at the times of another one whose
+                // product lies within its window (two in mtbls1822): compare the non-zero points
+                let nonzero = |times: &[f64], values: &[f64]| -> Vec<(f64, f64)> {
+                    times
+                        .iter()
+                        .zip(values)
+                        .filter(|p| *p.1 != 0.0)
+                        .map(|(a, b)| (*a, *b))
+                        .collect()
+                };
+                let (a, b) = (nonzero(&o.1, &o.2), nonzero(t, v));
+                transition
+                    && a.len() == b.len()
+                    && a.iter()
+                        .zip(&b)
+                        // (the Agilent export stores its times as 32-bit minutes)
+                        .all(|(x, y)| (x.0 - y.0).abs() <= 1e-6 + 2e-7 * y.0.abs() && x.1 == y.1)
+            };
+            let k = (0..ours.len())
+                .find(|&k| !used[k] && same(&ours[k]))
+                .unwrap_or_else(|| panic!("{raw}: no exported chromatogram equals {id}"));
+            used[k] = true;
+        }
     }
 }
