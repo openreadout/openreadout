@@ -54,7 +54,7 @@ impl MapRecords {
         match kind {
             POINT_LIST if self.points.is_none() && count <= MAX_POINTS => {
                 if let Some(v) = floats(2 * count) {
-                    self.points = Some(v.chunks_exact(2).map(|p| (p[0], p[1])).collect());
+                    self.points = Some(v.as_chunks::<2>().0.iter().map(|p| (p[0], p[1])).collect());
                 }
             }
             RECTANGLE if self.rectangle.is_none() && count == 1 => {
@@ -110,9 +110,12 @@ fn even_step(lines: &[f64]) -> Option<f64> {
     .then_some(step)
 }
 
+/// The x lines, the y lines, and each position's (column, row).
+type Grid = (Vec<f64>, Vec<f64>, Vec<(u32, u32)>);
+
 /// Column and row of each position when the positions fill a grid of evenly spaced lines, one
 /// spectrum per node.
-fn grid(points: &[(f64, f64)]) -> Option<(Vec<f64>, Vec<f64>, Vec<(u32, u32)>)> {
+fn grid(points: &[(f64, f64)]) -> Option<Grid> {
     let xs = lines(points.iter().map(|p| p.0));
     let ys = lines(points.iter().map(|p| p.1));
     if xs.len().checked_mul(ys.len())? != points.len() || points.len() < 2 {
@@ -131,7 +134,9 @@ fn grid(points: &[(f64, f64)]) -> Option<(Vec<f64>, Vec<f64>, Vec<(u32, u32)>)> 
     let mut cells = Vec::with_capacity(points.len());
     for p in points {
         let (i, j) = (find(&xs, p.0)?, find(&ys, p.1)?);
-        let k = (j as usize).checked_mul(xs.len())?.checked_add(i as usize)?;
+        let k = (j as usize)
+            .checked_mul(xs.len())?
+            .checked_add(i as usize)?;
         if std::mem::replace(seen.get_mut(k)?, true) {
             return None;
         }
@@ -301,7 +306,11 @@ mod tests {
     use super::*;
 
     fn shape_bytes(kind: u16, values: &[f32]) -> Vec<u8> {
-        let count = if kind == POINT_LIST { values.len() / 2 } else { 1 };
+        let count = if kind == POINT_LIST {
+            values.len() / 2
+        } else {
+            1
+        };
         let mut b = u16::try_from(count).unwrap().to_le_bytes().to_vec();
         b.extend_from_slice(&kind.to_le_bytes());
         b.extend_from_slice(&[0, 0]);
@@ -315,7 +324,9 @@ mod tests {
     fn grids_and_point_lists() {
         let mut m = MapRecords::default();
         // 3 × 2 grid, x fastest
-        let pts = [83.0, -10.0, 88.0, -10.0, 93.0, -10.0, 83.0, -5.0, 88.0, -5.0, 93.0, -5.0];
+        let pts = [
+            83.0, -10.0, 88.0, -10.0, 93.0, -10.0, 83.0, -5.0, 88.0, -5.0, 93.0, -5.0,
+        ];
         m.shape(&shape_bytes(POINT_LIST, &pts));
         m.shape(&shape_bytes(RECTANGLE, &[0.0, -20.0, 100.0, 0.0]));
         let p = m.checked_points(6).unwrap();

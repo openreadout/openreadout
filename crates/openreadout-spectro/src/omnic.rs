@@ -362,13 +362,17 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
             148 => {
                 map_spectra = true;
                 let b = small(k, 100)?;
-                let name = text_field(b.bytes_at(16, 84).unwrap_or_default());
+                let name = text_field(b.get(16..).unwrap_or_default());
                 if let Some(s) = spectra
                     .iter_mut()
                     .find(|s| s.index == k.spectrum && s.data.is_none())
                 {
                     s.title = Some(name);
-                } else if let Some(h) = spectra.iter().find(|s| s.index == 1).map(|s| s.header.clone()) {
+                } else if let Some(h) = spectra
+                    .iter()
+                    .find(|s| s.index == 1)
+                    .map(|s| s.header.clone())
+                {
                     spectra.push(Spectrum {
                         index: k.spectrum,
                         header: h,
@@ -597,7 +601,15 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
         });
         if is_map {
             if !background && let Some(points) = &map_points {
-                crate::omnic_map::add(f, path, file_len, &mut parsed, trace as usize, &map, points)?;
+                crate::omnic_map::add(
+                    f,
+                    path,
+                    file_len,
+                    &mut parsed,
+                    trace as usize,
+                    &map,
+                    points,
+                )?;
             }
         } else if is_group {
             let times: Vec<f64> = g

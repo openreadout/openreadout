@@ -133,12 +133,13 @@ impl FormatReader for PlexonReader {
             });
         }
         // A longer file with neither start is another kind of file (exit 3).
-        (has_extension(path, &EXTENSIONS) && (head.len() < 4 || head.first() == Some(&0xFE)))
-            .then(|| Detection {
-            format_id: FORMAT_ID,
-            confidence: DetectConfidence::ExtensionOnly,
-            note: Some("Plexon extension but no PLX/PL2 signature".into()),
-        })
+        (has_extension(path, &EXTENSIONS) && (head.len() < 4 || head.first() == Some(&0xFE))).then(
+            || Detection {
+                format_id: FORMAT_ID,
+                confidence: DetectConfidence::ExtensionOnly,
+                note: Some("Plexon extension but no PLX/PL2 signature".into()),
+            },
+        )
     }
 
     fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {

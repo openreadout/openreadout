@@ -239,12 +239,13 @@ impl FormatReader for OmnicReader {
         }
         // A longer file without the signature is another kind of file (exit 3), not a damaged
         // OMNIC file.
-        (has_extension(path, &["spa", "spg", "srs", "map"]) && head.len() < omnic::OMNIC_MAGIC.len())
-            .then_some(Detection {
-                format_id: OMNIC_FORMAT_ID,
-                confidence: DetectConfidence::ExtensionOnly,
-                note: Some("OMNIC extension but the file is too short to be OMNIC".into()),
-            })
+        (has_extension(path, &["spa", "spg", "srs", "map"])
+            && head.len() < omnic::OMNIC_MAGIC.len())
+        .then_some(Detection {
+            format_id: OMNIC_FORMAT_ID,
+            confidence: DetectConfidence::ExtensionOnly,
+            note: Some("OMNIC extension but the file is too short to be OMNIC".into()),
+        })
     }
 
     fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
@@ -608,10 +609,10 @@ impl FormatReader for WitecReader {
         }
         (has_extension(path, &["wip", "wid"]) && (head.len() < 8 || head.starts_with(b"WIT_")))
             .then_some(Detection {
-            format_id: WITEC_FORMAT_ID,
-            confidence: DetectConfidence::ExtensionOnly,
-            note: Some("WITec extension but the file does not start with a WIT_ magic".into()),
-        })
+                format_id: WITEC_FORMAT_ID,
+                confidence: DetectConfidence::ExtensionOnly,
+                note: Some("WITec extension but the file does not start with a WIT_ magic".into()),
+            })
     }
 
     fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {

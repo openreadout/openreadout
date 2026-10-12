@@ -365,7 +365,10 @@ fn omnic_map_file() {
     let info = ds.info().unwrap();
     assert_eq!(info.traces.len(), 2);
     assert_eq!(info.traces[0].sweep_count, 4);
-    assert_eq!(info.traces[0].extra["spectrum_titles"][3], "Spectrum 4 of 4");
+    assert_eq!(
+        info.traces[0].extra["spectrum_titles"][3],
+        "Spectrum 4 of 4"
+    );
     assert_eq!(info.traces[1].name.as_deref(), Some("background"));
     assert_eq!(
         ds.read_trace(0, 3, 0, 9).unwrap().channels[0],
