@@ -6,7 +6,14 @@ Python standard library; written to corpus/oracle/shimadzu/<id>.json as `ms_grou
 (`points`: the non-zero ones; `n_points` counts all). The comparison is
 `crates/openreadout-corpus-tests/tests/shimadzu_oracle/mod.rs`.
 
+With `--export`, the ground truth is a whole open-format export of the run instead (the vendor's
+own LabSolutions mzXML, or a ProteoWizard mzML), read with pyteomics: every spectrum with its
+retention time (s), polarity and the precursor of each point in the export's order
+(`precursors`). To keep the committed JSON under 1 MiB it holds every spectrum whose points have
+more than one precursor and every 50th of the others (`ORACLE_SHIMADZU_EVERY` changes the 50).
+
 Usage: shimadzu_ms_gt.py --id ID FILE.lcd GT.csv.gz
+       shimadzu_ms_gt.py --id ID FILE.lcd --export EXPORT.mzXML|EXPORT.mzML
 """
 import csv
 import gzip
@@ -18,8 +25,61 @@ from pathlib import Path
 OUT = Path(__file__).resolve().parent.parent / "corpus" / "oracle" / "shimadzu"
 
 
+def from_export(path: Path) -> tuple[str, list]:
+    """Every spectrum of an mzXML or mzML export of the run."""
+    from importlib.metadata import version as pkg_version
+    import os
+    every = int(os.environ.get("ORACLE_SHIMADZU_EVERY", "50"))
+    out = []
+    if path.suffix.lower() == ".mzxml":
+        from pyteomics import mzxml
+        reader, name = mzxml.MzXML(str(path)), "MzXML"
+    else:
+        from pyteomics import mzml
+        reader, name = mzml.MzML(str(path)), "MzML"
+    with reader as f:
+        for k, sp in enumerate(f):
+            mz, it = sp["m/z array"], sp["intensity array"]
+            if name == "MzXML":
+                level = int(sp["msLevel"])
+                rt = float(sp["retentionTime"]) * 60.0
+                pol = {"+": "positive", "-": "negative"}.get(sp.get("polarity"))
+                pre = [float(p["precursorMz"]) for p in sp.get("precursorMz", [])]
+            else:
+                level = int(sp["ms level"])
+                rt = float(sp["scanList"]["scan"][0]["scan start time"]) * 60.0
+                pol = "positive" if "positive scan" in sp else ("negative" if "negative scan" in sp else None)
+                pre = [float(si["selected ion m/z"]) for p in sp.get("precursorList", {}).get("precursor", [])
+                       for si in p.get("selectedIonList", {}).get("selectedIon", [])]
+            if len(set(pre)) < 2 and k % every:
+                continue
+            out.append({
+                "scan": k, "ms_level": level, "n_points": len(mz), "rt_s": rt, "polarity": pol,
+                "precursors": pre,
+                "points": [[float(m), float(v)] for m, v in zip(mz, it) if v != 0],
+            })
+    return f"pyteomics {pkg_version('pyteomics')} {name} on {path.name}", out
+
+
 def main() -> None:
     args = sys.argv[1:]
+    if len(args) == 5 and args[0] == "--id" and args[3] == "--export":
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import oracle_json
+        fid, lcd, export = args[1], Path(args[2]), Path(args[4])
+        reader, spectra = from_export(export)
+        data = {
+            "id": fid,
+            "file": lcd.name,
+            "size": lcd.stat().st_size,
+            "sha256": hashlib.sha256(lcd.read_bytes()).hexdigest(),
+            "reader": reader,
+            "ms_ground_truth": {"source": export.name, "spectra": spectra},
+        }
+        OUT.mkdir(parents=True, exist_ok=True)
+        written = oracle_json.write_text(OUT / f"{fid}.json", json.dumps(data) + "\n")
+        print("wrote", written.name, len(spectra), "spectra")
+        return
     if len(args) != 4 or args[0] != "--id":
         raise SystemExit(__doc__)
     fid, lcd, gt = args[1], Path(args[2]), Path(args[3])

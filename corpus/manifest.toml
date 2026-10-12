@@ -74531,3 +74531,35 @@ license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on 
 source = "MetaboLights MTBLS370 (GC-Orbitrap metabolomics of Candida albicans and Staphylococcus aureus biofilms)"
 attribution = "Weidt et al., MetaboLights MTBLS370"
 notes = "depositor-made ProteoWizard 3.0.3324 mzML of the .raw with the same stem (sourceFile SHA-1 equals the .raw's)"
+
+[[file]]
+id = "mtbls12691-lcms8060-048"
+format = "shimadzu"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+filename = "mtbls12691-lcms8060-048.lcd"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12691/FILES/RAW_FILES_4/20211125_048.lcd"
+sha256 = "3c045d7c83b13dbf5c10d4c6a10833f744fa94d98d6face6af43232330f2114d"
+size = 12050432
+license = "CC0-1.0"
+license_checked = "MetaboLights MTBLS12691 i_Investigation.txt, Comment[License] CC0 1.0 Universal, 2026-10-12"
+source = "MetaboLights MTBLS12691 (cervical microbiome and metabolite profiles before and after menopause)"
+attribution = "Kawasaki et al., MetaboLights MTBLS12691"
+notes = "LCMS-8060, LabSolutions 5.99 SP2, two-polarity MRM run of 47,674 records (2021); 3,401 records measure transitions of several precursors in one event. Sample named by a study code."
+
+[[file]]
+id = "mtbls12691-lcms8060-048"
+format = "mzxml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "mtbls12691-lcms8060-048.mzXML"
+url = "https://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS12691/FILES/DERIVED_FILES_4/20211125_048.mzXML"
+sha256 = "4ce47c7a1a720497ed2a19359abd6ac96771d0208683a8a347051515d2f9b785"
+size = 25666613
+license = "CC0-1.0"
+license_checked = "MetaboLights MTBLS12691 i_Investigation.txt, Comment[License] CC0 1.0 Universal, 2026-10-12"
+source = "MetaboLights MTBLS12691 (cervical microbiome and metabolite profiles before and after menopause)"
+attribution = "Kawasaki et al., MetaboLights MTBLS12691"
+notes = "the vendor's own mzXML export of the .lcd with the same stem (LabSolutions 5.99 SP2 named as the converting software): 47,674 scans, one precursorMz per point"

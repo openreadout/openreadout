@@ -1289,7 +1289,7 @@ impl Dataset for ShimadzuDataset {
                 })
                 .count();
             notes.push(format!(
-                "LC-MS data (TLM Raw Data): {} records as spectra run 0 (MRM and SIM spectra; polarity not stated){}",
+                "LC-MS data (TLM Raw Data): {} records as spectra run 0 (MRM and SIM spectra){}",
                 t.index.entries.len(),
                 if profile > 0 {
                     format!("; {profile} full-scan or product-ion-scan records are listed (TIC, retention time, precursor) but their spectra are not read (exit 6): the vendor software reports other values than the file stores")
@@ -1586,6 +1586,13 @@ impl Dataset for ShimadzuDataset {
         extra.insert("event".into(), json!(head.event));
         extra.insert("cycle".into(), json!(head.cycle));
         extra.insert("polarity_code".into(), json!(head.polarity_code));
+        if !decoded.point_precursors.is_empty() {
+            extra.insert("precursors".into(), json!(decoded.precursors));
+            extra.insert(
+                "point_precursors_mz".into(),
+                json!(decoded.point_precursors),
+            );
+        }
         let (mz, intensity): (Vec<f64>, Vec<f32>) =
             decoded.points.iter().map(|(m, v)| (*m, *v as f32)).unzip();
         let base = decoded
@@ -1601,7 +1608,7 @@ impl Dataset for ShimadzuDataset {
             scan_number: spectrum + 1,
             ms_level: decoded.ms_level,
             rt_s: Some(f64::from(tl.index.rt_ms.get(k).copied().unwrap_or(head.rt_ms)) / 1000.0),
-            polarity: "unknown".into(),
+            polarity: head.polarity().into(),
             centroided: decoded.centroided,
             precursor_mz: decoded.precursor_mz,
             precursor_charge: None,
@@ -1649,7 +1656,7 @@ impl Dataset for ShimadzuDataset {
                 scan_number: k as u64 + 1,
                 ms_level: t::ms_level(h.code).unwrap_or(0),
                 rt_s: Some(f64::from(tl.index.rt_ms.get(k).copied().unwrap_or(h.rt_ms)) / 1000.0),
-                polarity: "unknown".into(),
+                polarity: h.polarity().into(),
                 centroided: matches!(h.code, t::TLM_MRM | t::TLM_SIM),
                 precursor_mz: h.precursor_mz(),
                 total_ion_current: tl.index.tic.get(k).map(|v| *v as f64),

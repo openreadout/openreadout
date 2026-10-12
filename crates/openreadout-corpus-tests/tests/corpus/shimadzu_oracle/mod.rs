@@ -16,10 +16,11 @@
 //!   section one of our status traces (by `extra.export_section`, else in order), in the
 //!   export's unit, every value within half a printed unit; every `[Peak Table(<signal>)]` row a
 //!   `vendor_peaks` row of that signal (retention time, area, height);
-//! - for LC-MS data, msconvert's ground-truth slice (`ms_ground_truth`, written by
-//!   `oracle/shimadzu_ms_gt.py`): every MRM/SIM spectrum's MS level and points (m/z within
-//!   0.005, intensities equal); a profile spectrum (full or product-ion scan) must be refused
-//!   with exit 6.
+//! - for LC-MS data, msconvert's ground-truth slice or a whole export of the run
+//!   (`ms_ground_truth`, written by `oracle/shimadzu_ms_gt.py`): every MRM/SIM spectrum's MS level
+//!   and points (m/z within 0.005, intensities equal), and from a whole export also its time,
+//!   polarity and each point's precursor; a profile spectrum (full or product-ion scan) must be
+//!   refused with exit 6.
 #![allow(dead_code)] // each test binary that includes this module uses a part of it
 
 use std::path::Path;
@@ -402,6 +403,45 @@ fn compare_ms_ground_truth(
                         .map(|(m, v)| (*m, f64::from(*v)))
                         .collect();
                 let nonzero: Vec<&(f64, f64)> = ours.iter().filter(|p| p.1 != 0.0).collect();
+                // A whole export also states the time, the polarity and each point's precursor
+                // (stored order, while the points are sorted): compare those as multisets.
+                if let Some(rt) = g["rt_s"].as_f64()
+                    && s.rt_s.is_none_or(|t| (t - rt).abs() > 1e-3)
+                {
+                    problems.push(format!("spectrum {scan}: time {:?} s vs {rt}", s.rt_s));
+                    continue;
+                }
+                if let Some(p) = g["polarity"].as_str()
+                    && s.polarity != p
+                {
+                    problems.push(format!("spectrum {scan}: polarity {} vs {p}", s.polarity));
+                    continue;
+                }
+                if let Some(want) = g["precursors"].as_array().filter(|a| !a.is_empty()) {
+                    let per_point: Vec<f64> = s
+                        .extra
+                        .get("point_precursors_mz")
+                        .and_then(Value::as_array)
+                        .map(|a| a.iter().filter_map(Value::as_f64).collect())
+                        .unwrap_or_else(|| s.precursor_mz.map(|p| vec![p; n]).unwrap_or_default());
+                    let mut a: Vec<f64> = want.iter().filter_map(Value::as_f64).collect();
+                    let mut b = per_point;
+                    a.sort_by(f64::total_cmp);
+                    b.sort_by(f64::total_cmp);
+                    let first = want[0].as_f64();
+                    if a.len() != b.len()
+                        || a.iter().zip(&b).any(|(x, y)| (x - y).abs() > 0.006)
+                        || first
+                            .zip(s.precursor_mz)
+                            .is_none_or(|(x, y)| (x - y).abs() > 0.006)
+                    {
+                        problems.push(format!(
+                            "spectrum {scan}: precursors {b:?} (first {:?}) vs {a:?}",
+                            s.precursor_mz
+                        ));
+                        continue;
+                    }
+                }
                 let same = ours.len() == n
                     && nonzero.len() == want.len()
                     && nonzero
@@ -424,7 +464,7 @@ fn compare_ms_ground_truth(
     }
     if matched + refused > 0 {
         done.push(format!(
-            "{matched} spectra = msconvert's ({points} points){}",
+            "{matched} spectra = the ground truth's ({points} points){}",
             if refused > 0 {
                 format!(", {refused} profile spectra refused (exit 6) as documented")
             } else {
