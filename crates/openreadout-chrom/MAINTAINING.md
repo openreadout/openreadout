@@ -9,7 +9,7 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 - **ChemStation** (`chemstation_header.rs`, `chemstation_decode.rs`, `chemstation_dataset.rs`): the version string at byte 0 (`version_of`) decides kind and body encoding — **file versions are the main branch**: 2 (`.ms`), 30, 81/181 (`.ch`, delta records or second differences), 130/131 (`.uv`), 179 (float64); others listed, not decoded. Headers at fixed offsets (strings, dates, scaling, wavelengths). Bodies decode to raw values with a note of how they ended (`BodyEnd`). A `.D` directory adds `acqmeth.txt` (`chemstation_method.rs`) and vendor peak reports (`chemstation_report.rs`: `Result.xml`, `Report.TXT`, `RESULTS.CSV`).
 - **OpenLab CDS** (`openlab_xml.rs`, `openlab_dataset.rs`): the `.dx` zip holds `injection.acmd` (manifest), one version-179 signal part per detector channel (`<guid>.CH`) and instrument curves (`<guid>.IT`); the `.rx` package holds the vendor's results; the result-set folder's `.acaml` gives the sequence. Namespaces `acmd20`/`acaml21` are matched by local name.
 - **ANDI** (`netcdf.rs`, `andi_dataset.rs`): a netCDF classic (CDF-1/CDF-2) reader written from Unidata's public specification; the chromatography template (`ordinate_values`, peak table) and the mass-spectrometry template (`scan_index`, `point_count`, `mass_values`, `intensity_values`).
-- **Shimadzu** (`shimadzu_dataset.rs`, `shimadzu_signal.rs`, `shimadzu_channels.rs`, `shimadzu_peaks.rs`, `shimadzu_tlm.rs`): a compound file; **two layouts branch everywhere**: older `LC Raw Data` (64-byte channel status records, 128-byte module records) and newer `LSS Raw Data` (`2D Data Item` XML with `DT`/`DK`/`ATN`); 2-D `RC` signal streams and the 3-D PDA stream; LabSolutions' own peak tables; LC-MS records (`TLM Raw Data`: zlib records with MRM/SIM triples and profiles).
+- **Shimadzu** (`shimadzu_dataset.rs`, `shimadzu_signal.rs`, `shimadzu_channels.rs`, `shimadzu_peaks.rs`, `shimadzu_tlm.rs`): a compound file; **two layouts branch everywhere**: older `LC Raw Data` (64-byte channel status records, 128-byte module records) and newer `LSS Raw Data` (`2D Data Item` XML with `DT`/`DK`/`ATN`); 2-D `RC` signal streams and the 3-D PDA stream; LabSolutions' own peak tables; LC-MS records (`TLM Raw Data`: zlib records with MRM/SIM triples and profiles; an MRM record can hold several precursors, each point keeps its own); GCMSsolution `.qgd` GC-MS records (`shimadzu_gcms.rs`, `GCMS Raw Data`: uncompressed scans of u16 m/z × 20 and 2/3/4-byte intensities minus a per-record offset; selected-ion and MRM records listed, refused when read).
 - **Chromeleon** (`chromeleon.rs`, `chromeleon_results.rs`, `chromeleon_dataset.rs`): a zip of `header.xml` (archived items), the sequence file (a protocol-buffers stream describing each signal: unit, range, point count, device, scale), one `.raw` member per signal (sections `SignHdr` and difference-coded `PtsLDiff` blocks; LL2 and DDCMP encodings), stored integration results and LZMA2 blobs (methods, audit trails; decoded by `openreadout-codecs`).
 - **Empower** (`empower_arw.rs`): quoted field names, their values, then `time<TAB>value` rows.
 
@@ -42,11 +42,11 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `chemstation` | [format note](../../docs/formats/chemstation.md), [provenance log](../../docs/provenance/chemstation.md) | high | prior art | 28 / 28 | 9 | 3 / 0 |
+| `chemstation` | [format note](../../docs/formats/chemstation.md), [provenance log](../../docs/provenance/chemstation.md) | high | prior art | 29 / 29 | 10 | 3 / 0 |
 | `openlab-cds` | [format note](../../docs/formats/openlab-cds.md), [provenance log](../../docs/provenance/openlab-cds.md) | medium | reverse engineered | 13 / 13 | 4 | - |
 | `andi-chrom` | [format note](../../docs/formats/andi-chrom.md), [provenance log](../../docs/provenance/andi-chrom.md) | high | open spec | 25 / 25 | 5 | 1 / 0 |
 | `empower-arw` | [format note](../../docs/formats/empower-arw.md), [provenance log](../../docs/provenance/empower-arw.md) | medium | reverse engineered | 23 / 23 | 3 | - |
-| `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 14 / 11 | 6 | 0 / 1 |
+| `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 18 / 14 | 9 | 0 / 1 |
 | `chromeleon` | [format note](../../docs/formats/chromeleon.md), [provenance log](../../docs/provenance/chromeleon.md) | medium | reverse engineered | 17 / 2 | 2 | - |
 
 ### Source map
@@ -71,6 +71,7 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 | [`src/openlab_xml.rs`](src/openlab_xml.rs) | OpenLab CDS XML parts: the injection manifest (`injection.acmd` inside a `.dx`), the injection results (`Base/InjectionACAML` inside a `.rx`) and the sequence file (`.acaml` in a |
 | [`src/shimadzu_channels.rs`](src/shimadzu_channels.rs) | What a Shimadzu `Chromatogram ChN` stream is: the detector it comes from, the name the vendor's ASCII export gives it, and the factor from stored integers to the export's units |
 | [`src/shimadzu_dataset.rs`](src/shimadzu_dataset.rs) | `Dataset` for Shimadzu LabSolutions `.lcd`/`.gcd` files: the compound-file structure (every storage and stream with its size), the text found in the `File Property` stream, and the |
+| [`src/shimadzu_gcms.rs`](src/shimadzu_gcms.rs) | GC-MS data of Shimadzu GCMSsolution `.qgd` files (`GCMS Raw Data`): the record index and the records of `MS Raw Data` |
 | [`src/shimadzu_peaks.rs`](src/shimadzu_peaks.rs) | LabSolutions' own peak tables (`docs/formats/shimadzu.md` § Vendor peaks; provenance 2026-09-26) |
 | [`src/shimadzu_signal.rs`](src/shimadzu_signal.rs) | Shimadzu LabSolutions signal streams: the 2-D `RC` layout (`Chromatogram ChN`, `Max Plot`) and the 3-D PDA stream (one such record per time point) |
 | [`src/shimadzu_tlm.rs`](src/shimadzu_tlm.rs) | LC-MS data of LabSolutions `.lcd` files (`TLM Raw Data`; `docs/formats/shimadzu.md` § LC-MS) |
@@ -89,6 +90,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `format!("irregular {kind} in {unit}")`
 - feature format_version `format!("stored results {v}")`
 - feature format_version `format!("signal {v}")`
+- feature layout `"spectra at uneven times"`
 - feature format_version `format!("MS {v}")`
 - feature writer `a::writer_name_only(s)`
 - feature record `"vendor results (.rx)"`
@@ -99,7 +101,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature dialect `"netCDF without ANDI attributes"`
 - feature layout `format!("{kind} in {storage}")`
 - feature record `"vendor peak table"`
-- feature acquisition `format!("LC-MS {name}")`
+- feature acquisition `label`
 - feature instrument `m` (descriptive)
 - feature acquisition `f.to_ascii_uppercase()` (descriptive)
 - feature instrument `i` (descriptive)
@@ -107,7 +109,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature writer_version `format!("OpenLab CDS {v}")` (descriptive)
 - feature record `format!("unit {u}")` (descriptive)
 - feature instrument `d` (descriptive)
-- feature acquisition `format!("LC-MS {name}")` (descriptive)
+- feature acquisition `label` (descriptive)
 - undecoded "stored integration results"
 - undecoded "embedded MS data"
 - undecoded "signal units"
@@ -119,6 +121,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - undecoded "unmapped netCDF variables"
 - undecoded "scan variables"
 - undecoded "LC-MS profile spectra (full and product-ion scans)"
+- undecoded "GC-MS selected-ion and MRM records"
+- undecoded "LC-MS Q-TOF spectra"
 - undecoded "raw-data storages"
 - assumed "traces[].channels[].unit"
 - calibration "stored integers to signal units"
@@ -142,32 +146,33 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `andi-chrom` | record | `unit mVolts` | descriptive | 1 | 1 | `mtbls390-wb-cc-bat-01-cdf` |
 | `chemstation` | acquisition | `GC / MS DATA FILE` | descriptive | 14 | 14 | `chromhandler-rau-r505-00-data-ms`, `chromhandler-rau-r505-01-d-data-ms`, `chromhandler-rau-r505-02-d-data-ms` |
 | `chemstation` | acquisition | `GC DATA FILE` | descriptive | 9 | 9 | `chemplexity-011f0601-fid1a-ch`, `chromhandler-001f0101-d`, `chromhandler-001f0102-d` |
-| `chemstation` | acquisition | `LC DATA FILE` | descriptive | 5 | 5 | `autolab-001-p1-a1-a1-d`, `chromhandler-ca10-100um-d`, `entab-carotenoid-extract-d` |
+| `chemstation` | acquisition | `LC DATA FILE` | descriptive | 6 | 6 | `autolab-001-p1-a1-a1-d`, `chromhandler-ca10-100um-d`, `entab-carotenoid-extract-d` |
 | `chemstation` | acquisition | `MSD SPECTRAL FILE` | descriptive | 2 | 2 | `autolab-001-p1-a1-a1-d`, `entab-carotenoid-extract-d` |
-| `chemstation` | codec | `delta_records` | traces | 4 | 4 | `autolab-001-p1-a1-a1-d`, `chromhandler-ca10-100um-d`, `entab-chemstation-mwd-d` |
+| `chemstation` | codec | `delta_records` | traces | 5 | 5 | `autolab-001-p1-a1-a1-d`, `chromhandler-ca10-100um-d`, `entab-chemstation-mwd-d` |
 | `chemstation` | codec | `float64` | traces | 2 | 2 | `entab-test-179-fid-ch`, `gc2asm-three-channels-d` |
 | `chemstation` | codec | `mass_spectrum_records` | spectra | 16 | 16 | `autolab-001-p1-a1-a1-d`, `chromhandler-rau-r505-00-data-ms`, `chromhandler-rau-r505-01-d-data-ms` |
 | `chemstation` | codec | `second_difference` | traces | 7 | 7 | `chemplexity-011f0601-fid1a-ch`, `chromhandler-001f0101-d`, `chromhandler-001f0102-d` |
-| `chemstation` | codec | `spectrum_records` | traces | 2 | 2 | `entab-carotenoid-extract-d`, `zhulong-001-1-sm-d` |
-| `chemstation` | field | `experiment.acquisition.started_at` | descriptive | 28 | 28 | `autolab-001-p1-a1-a1-d`, `chemplexity-011f0601-fid1a-ch`, `chromhandler-001f0101-d` |
+| `chemstation` | codec | `spectrum_records` | traces | 3 | 3 | `entab-carotenoid-extract-d`, `gh-mocca-gradient-2022-01-26-19-37-57-d`, `zhulong-001-1-sm-d` |
+| `chemstation` | field | `experiment.acquisition.started_at` | descriptive | 29 | 29 | `autolab-001-p1-a1-a1-d`, `chemplexity-011f0601-fid1a-ch`, `chromhandler-001f0101-d` |
 | `chemstation` | field | `experiment.instrument.model` | descriptive | 21 | 21 | `autolab-001-p1-a1-a1-d`, `chemplexity-011f0601-fid1a-ch`, `chromhandler-ca10-100um-d` |
 | `chemstation` | format_version | `MS 2` | metadata, spectra | 16 | 16 | `autolab-001-p1-a1-a1-d`, `chromhandler-rau-r505-00-data-ms`, `chromhandler-rau-r505-01-d-data-ms` |
-| `chemstation` | format_version | `signal 130` | metadata, traces | 2 | 2 | `autolab-001-p1-a1-a1-d`, `zhulong-001-1-sm-d` |
-| `chemstation` | format_version | `signal 131` | metadata, traces | 2 | 2 | `entab-carotenoid-extract-d`, `zhulong-001-1-sm-d` |
+| `chemstation` | format_version | `signal 130` | metadata, traces | 3 | 3 | `autolab-001-p1-a1-a1-d`, `gh-mocca-gradient-2022-01-26-19-37-57-d`, `zhulong-001-1-sm-d` |
+| `chemstation` | format_version | `signal 131` | metadata, traces | 3 | 3 | `entab-carotenoid-extract-d`, `gh-mocca-gradient-2022-01-26-19-37-57-d`, `zhulong-001-1-sm-d` |
 | `chemstation` | format_version | `signal 179` | metadata, traces | 2 | 2 | `entab-test-179-fid-ch`, `gc2asm-three-channels-d` |
 | `chemstation` | format_version | `signal 181` | metadata, traces | 5 | 5 | `chromhandler-001f0101-d`, `chromhandler-001f0102-d`, `chromhandler-001f0103-d` |
 | `chemstation` | format_version | `signal 30` | metadata, traces | 2 | 2 | `chromhandler-ca10-100um-d`, `entab-chemstation-mwd-d` |
 | `chemstation` | format_version | `signal 81` | metadata, traces | 2 | 2 | `chemplexity-011f0601-fid1a-ch`, `entab-test-fid-ch` |
-| `chemstation` | instrument | `DAD1` | descriptive | 1 | 1 | `zhulong-001-1-sm-d` |
+| `chemstation` | instrument | `DAD1` | descriptive | 2 | 2 | `gh-mocca-gradient-2022-01-26-19-37-57-d`, `zhulong-001-1-sm-d` |
 | `chemstation` | instrument | `G1315B` | descriptive | 2 | 2 | `chromhandler-ca10-100um-d`, `entab-carotenoid-extract-d` |
 | `chemstation` | instrument | `G1365B` | descriptive | 1 | 1 | `entab-chemstation-mwd-d` |
-| `chemstation` | instrument | `GCI` | descriptive | 9 | 9 | `autolab-001-p1-a1-a1-d`, `chromhandler-001f0101-d`, `chromhandler-001f0102-d` |
+| `chemstation` | instrument | `GCI` | descriptive | 10 | 10 | `autolab-001-p1-a1-a1-d`, `chromhandler-001f0101-d`, `chromhandler-001f0102-d` |
 | `chemstation` | instrument | `HP G1530A` | descriptive | 2 | 2 | `chemplexity-011f0601-fid1a-ch`, `entab-test-fid-ch` |
+| `chemstation` | layout | `spectra at uneven times` | traces | 2 | 2 | `gh-mocca-gradient-2022-01-26-19-37-57-d`, `zhulong-001-1-sm-d` |
 | `chemstation` | writer_version | `ChemStation 1` | descriptive | 2 | 2 | `entab-test-179-fid-ch`, `gc2asm-three-channels-d` |
 | `chemstation` | writer_version | `ChemStation 3` | descriptive | 4 | 4 | `chromhandler-001f0101-d`, `chromhandler-001f0102-d`, `chromhandler-001f0103-d` |
 | `chemstation` | writer_version | `ChemStation 5` | descriptive | 1 | 1 | `gc2asm-v181-d` |
 | `chemstation` | writer_version | `ChemStation 6` | descriptive | 1 | 1 | `zhulong-001-1-sm-d` |
-| `chemstation` | writer_version | `ChemStation 7` | descriptive | 1 | 1 | `autolab-001-p1-a1-a1-d` |
+| `chemstation` | writer_version | `ChemStation 7` | descriptive | 2 | 2 | `autolab-001-p1-a1-a1-d`, `gh-mocca-gradient-2022-01-26-19-37-57-d` |
 | `chromeleon` | codec | `3DRawSpc` | traces | 0 | 2 |  |
 | `chromeleon` | codec | `PtsDDCmp` | traces | 0 | 1 |  |
 | `chromeleon` | codec | `PtsLDiff` | traces | 2 | 16 | `cmbx-figshare-milks-sugars`, `cmbx-lauterbach-invivo-cascade` |
@@ -207,15 +212,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `openlab-cds` | format_version | `signal 179` | metadata, traces | 11 | 11 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
 | `openlab-cds` | instrument | `7890B` | descriptive | 1 | 1 | `pygecko-openlab-fkb-fa-060-ri` |
 | `openlab-cds` | instrument | `G1364F` | descriptive | 1 | 1 | `cct-openlab-sirslt-norbert` |
-| `openlab-cds` | instrument | `G7104C` | descriptive | 1 | 1 | `cct-openlab-sirslt-norbert` |
 
-… 30 more values: the generated table in `src/assurance.rs` has all of them.
+… 36 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `chrom_cfb`, `chrom_netcdf`, `whole_andi`, `whole_chemstation`, `whole_chromeleon`, `whole_empower_arw`, `whole_openlab`, `whole_shimadzu`
-- corpus inputs by tier: full 3, heldout 19, smoke 62, standard 55
+- corpus inputs by tier: full 3, heldout 19, smoke 62, standard 60
 - golden snapshots: [`corpus/snapshots/chemstation.jsonl`](../../corpus/snapshots/chemstation.jsonl), [`corpus/snapshots/openlab-cds.jsonl`](../../corpus/snapshots/openlab-cds.jsonl), [`corpus/snapshots/andi-chrom.jsonl`](../../corpus/snapshots/andi-chrom.jsonl), [`corpus/snapshots/empower-arw.jsonl`](../../corpus/snapshots/empower-arw.jsonl), [`corpus/snapshots/shimadzu.jsonl`](../../corpus/snapshots/shimadzu.jsonl), [`corpus/snapshots/chromeleon.jsonl`](../../corpus/snapshots/chromeleon.jsonl)
 
 ### Open new-variant intakes

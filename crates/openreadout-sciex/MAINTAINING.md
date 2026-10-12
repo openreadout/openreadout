@@ -13,6 +13,7 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 ## Invariants and checks
 
 - Every accessor in `layout.rs` is bounds-checked; malformed input yields `None`, an empty list or an error string, never a panic.
+- A scan index that ends part-way through a cycle (an acquisition stopped mid-cycle) loses its last records at open, as the vendor library does; `info` says how many.
 - Memory follows the index records, not the spectra. An MRM cycle can hold a spectrum for each of a thousand precursors. `SpectrumTable` keeps one entry per record, and `mrm_groups` works out a spectrum's transitions when the spectrum is read. `MrmCache` keeps the last cycle's groups and values, so reading spectra in order reads each cycle once. `tests/memory.rs` guards this.
 - `check`: compound file header, FAT, directory; the scan index is whole 54-byte records and every scan lies inside the `.wiff.scan`; the first and last spectrum of every sample decode (TOF: counts sum to the index TIC).
 
@@ -39,7 +40,7 @@ Legacy Sciex `.wiff` files with their `.wiff.scan` companions (`sciex-wiff`); `.
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `sciex-wiff` | [format note](../../docs/formats/sciex-wiff.md), [provenance log](../../docs/provenance/sciex-wiff.md) | high | reverse engineered | 17 / 14 | 12 | - |
+| `sciex-wiff` | [format note](../../docs/formats/sciex-wiff.md), [provenance log](../../docs/provenance/sciex-wiff.md) | high | reverse engineered | 18 / 15 | 13 | - |
 
 ### Source map
 
@@ -76,16 +77,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | --- | --- | --- | --- | --- | --- | --- |
 | `sciex-wiff` | acquisition | `scan type MRM` | spectra | 3 | 5 | `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase`, `pwiz-sciex-pressuretrace` |
 | `sciex-wiff` | acquisition | `scan type Q1 scan` | spectra | 1 | 1 | `mtbls1969-exosomes` |
-| `sciex-wiff` | acquisition | `scan type TOF MS` | spectra | 6 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
+| `sciex-wiff` | acquisition | `scan type TOF MS` | spectra | 7 | 8 | `mtbls11360-col-0-3-n`, `mtbls14362-zenotof-fia-blank-1`, `mtbls4618-t-i-128-1-hilic-neg` |
 | `sciex-wiff` | acquisition | `scan type TOF product ion` | spectra | 6 | 7 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | acquisition | `scan type enhanced MS` | spectra | 1 | 2 | `msv97113-cm-5-pos-2` |
 | `sciex-wiff` | acquisition | `scan type enhanced product ion` | spectra | 1 | 2 | `msv97113-cm-5-pos-2` |
 | `sciex-wiff` | acquisition | `scan type neutral loss` | spectra | 2 | 2 | `zenodo7897576-dag`, `zenodo7897576-lpds` |
 | `sciex-wiff` | acquisition | `scan type precursor ion` | spectra | 1 | 1 | `zenodo7897576-lpds` |
 | `sciex-wiff` | acquisition | `stored SRM` | spectra | 3 | 5 | `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase`, `pwiz-sciex-pressuretrace` |
-| `sciex-wiff` | acquisition | `stored profile` | spectra | 10 | 12 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
-| `sciex-wiff` | field | `experiment.acquisition.started_at` | descriptive | 14 | 17 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
-| `sciex-wiff` | field | `experiment.instrument.model` | descriptive | 14 | 17 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls1969-exosomes` |
+| `sciex-wiff` | acquisition | `stored profile` | spectra | 11 | 13 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls14362-zenotof-fia-blank-1` |
+| `sciex-wiff` | field | `experiment.acquisition.started_at` | descriptive | 15 | 18 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls14362-zenotof-fia-blank-1` |
+| `sciex-wiff` | field | `experiment.instrument.model` | descriptive | 15 | 18 | `msv97113-cm-5-pos-2`, `mtbls11360-col-0-3-n`, `mtbls14362-zenotof-fia-blank-1` |
 | `sciex-wiff` | instrument | `4000 Q TRAP` | descriptive | 1 | 1 | `pwiz-sciex-enolase` |
 | `sciex-wiff` | instrument | `API 2000` | spectra | 1 | 1 | `mtbls1969-exosomes` |
 | `sciex-wiff` | instrument | `QStar XL` | descriptive | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
@@ -95,17 +96,18 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `sciex-wiff` | instrument | `Triple TOF 5600` | descriptive | 1 | 1 | `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | instrument | `TripleTOF 5600+` | descriptive | 1 | 1 | `pxd069939-dda-pbqc-hf75` |
 | `sciex-wiff` | instrument | `TripleTOF 6600` | descriptive | 2 | 3 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg` |
+| `sciex-wiff` | instrument | `ZenoTOF 7600 System` | descriptive | 1 | 1 | `mtbls14362-zenotof-fia-blank-1` |
 | `sciex-wiff` | instrument | `ZenoTOF 7600+ system` | descriptive | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
 | `sciex-wiff` | instrument | `generation QSTAR` | spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
 | `sciex-wiff` | instrument | `generation QTRAP` | spectra | 6 | 9 | `msv97113-cm-5-pos-2`, `mtbls6084-sl-st-blank2`, `pwiz-sciex-enolase` |
 | `sciex-wiff` | instrument | `generation TripleTOF` | spectra | 4 | 5 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
-| `sciex-wiff` | instrument | `generation ZenoTOF` | spectra | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
+| `sciex-wiff` | instrument | `generation ZenoTOF` | spectra | 2 | 2 | `mtbls14362-zenotof-fia-blank-1`, `pxd070374-excid-classi-ke6-rep2` |
 | `sciex-wiff` | layout | `scheduled MRM, method windows` | spectra | 0 | 1 |  |
 | `sciex-wiff` | layout | `single file (Scan stream)` | spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
 | `sciex-wiff` | writer | `Analyst` | metadata, spectra | 8 | 10 | `msv97113-cm-5-pos-2`, `mtbls1969-exosomes`, `mtbls3956-arg-1` |
 | `sciex-wiff` | writer | `Analyst QS` | metadata, spectra | 1 | 1 | `pxd002265-qstar-xl-mmp2-gluc` |
 | `sciex-wiff` | writer | `Analyst TF` | metadata, spectra | 4 | 5 | `mtbls11360-col-0-3-n`, `mtbls4618-t-i-128-1-hilic-neg`, `mtbls851-dry-cal20180201114106110` |
-| `sciex-wiff` | writer | `SCIEX OS` | metadata, spectra | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
+| `sciex-wiff` | writer | `SCIEX OS` | metadata, spectra | 2 | 2 | `mtbls14362-zenotof-fia-blank-1`, `pxd070374-excid-classi-ke6-rep2` |
 | `sciex-wiff` | writer_version | `Analyst 1.4` | descriptive | 1 | 1 | `pwiz-sciex-enolase` |
 | `sciex-wiff` | writer_version | `Analyst 1.5` | descriptive | 1 | 1 | `mtbls1969-exosomes` |
 | `sciex-wiff` | writer_version | `Analyst 1.6` | descriptive | 4 | 6 | `msv97113-cm-5-pos-2`, `mtbls3956-arg-1`, `zenodo7897576-dag` |
@@ -114,13 +116,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `sciex-wiff` | writer_version | `Analyst TF 1.6` | descriptive | 1 | 1 | `mtbls851-dry-cal20180201114106110` |
 | `sciex-wiff` | writer_version | `Analyst TF 1.7` | descriptive | 1 | 2 | `mtbls4618-t-i-128-1-hilic-neg` |
 | `sciex-wiff` | writer_version | `Analyst TF 1.8` | descriptive | 2 | 2 | `mtbls11360-col-0-3-n`, `pxd069939-dda-pbqc-hf75` |
+| `sciex-wiff` | writer_version | `SCIEX OS 3.3` | descriptive | 1 | 1 | `mtbls14362-zenotof-fia-blank-1` |
 | `sciex-wiff` | writer_version | `SCIEX OS 3.4` | descriptive | 1 | 1 | `pxd070374-excid-classi-ke6-rep2` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/memory.rs`](tests/memory.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `sciex_grid`, `whole_sciex`
-- corpus inputs by tier: full 7, heldout 3, smoke 4, standard 6
+- corpus inputs by tier: full 7, heldout 3, smoke 4, standard 7
 - golden snapshots: [`corpus/snapshots/sciex-wiff.jsonl`](../../corpus/snapshots/sciex-wiff.jsonl)
 
 ### Open new-variant intakes

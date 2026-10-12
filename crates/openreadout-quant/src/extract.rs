@@ -30,8 +30,8 @@ use openreadout_core::{Dataset, Error, Result, SpectrumView};
 
 /// Spectra decoded per worker between progress reports.
 const PROGRESS_EVERY: u64 = 256;
-/// Fewest spectra per worker thread.
-const MIN_SCANS_PER_WORKER: u64 = 200;
+/// Fewest spectra decoded per worker thread.
+const MIN_SCANS_PER_WORKER: u64 = 1000;
 /// Samples read from a trace per call.
 const TRACE_CHUNK: u64 = 1 << 20;
 /// Default XIC tolerance, ppm.
@@ -650,16 +650,27 @@ fn visit(sp: &Spectrum, targets: &[(usize, Target)], req: &ChromRequest, accs: &
                     continue;
                 }
                 let tol = req.transition_tolerance_da;
-                let Some(p) = sp.precursor_mz.filter(|p| (p - q1).abs() <= tol) else {
+                // A record that measures several precursors (Shimadzu MRM events) gives each
+                // point its own precursor; otherwise the spectrum's precursor applies to all.
+                let point_q1 = point_precursors(sp);
+                if point_q1.is_none() && sp.precursor_mz.is_none_or(|p| (p - q1).abs() > tol) {
                     continue;
-                };
+                }
                 let start = sp.mz.partition_point(|&m| m < q3 - tol);
                 let best = sp.mz[start..]
                     .iter()
                     .zip(sp.intensity.get(start..).unwrap_or(&[]))
-                    .take_while(|(m, _)| **m <= q3 + tol)
+                    .enumerate()
+                    .take_while(|(_, (m, _))| **m <= q3 + tol)
+                    .filter_map(|(k, (m, v))| {
+                        let p = match &point_q1 {
+                            Some(q) => *q.get(start + k)?,
+                            None => sp.precursor_mz?,
+                        };
+                        ((p - q1).abs() <= tol).then_some((m, v, p))
+                    })
                     .min_by(|a, b| (a.0 - q3).abs().total_cmp(&(b.0 - q3).abs()));
-                let Some((m, v)) = best else { continue };
+                let Some((m, v, p)) = best else { continue };
                 let Some(rt) = rt else {
                     acc.no_rt += 1;
                     continue;
@@ -695,6 +706,19 @@ fn visit(sp: &Spectrum, targets: &[(usize, Target)], req: &ChromRequest, accs: &
     }
 }
 
+/// Each point's own precursor m/z (`extra.point_precursors_mz`, one per point), when the
+/// spectrum records one.
+fn point_precursors(sp: &Spectrum) -> Option<Vec<f64>> {
+    let v: Vec<f64> = sp
+        .extra
+        .get("point_precursors_mz")?
+        .as_array()?
+        .iter()
+        .filter_map(serde_json::Value::as_f64)
+        .collect();
+    (v.len() == sp.mz.len()).then_some(v)
+}
+
 /// Stream every spectrum of the run once.
 fn stream_spectra(
     ds: &mut dyn Dataset,
@@ -720,9 +744,15 @@ fn stream_spectra(
             _ => l == want_level,
         })
     };
+    // Each worker opens its own handle on the file, which for a large run costs as much memory
+    // as the first: count the spectra that are decoded, not every scan of the run.
+    let to_decode = match &levels {
+        Some(_) => (0..scan_count).filter(|&i| needed(i)).count() as u64,
+        None => scan_count,
+    };
     let workers = if ctx.opener.is_some() {
         (rayon::current_num_threads() as u64)
-            .min(scan_count / MIN_SCANS_PER_WORKER)
+            .min(to_decode / MIN_SCANS_PER_WORKER)
             .max(1)
     } else {
         1
@@ -1399,6 +1429,37 @@ mod tests {
         assert_eq!(c.precursor_mz, Some(115.007));
         assert_eq!(c.product_mz, Some(71.103));
         assert!(c.notes[0].contains("115.05"), "{:?}", c.notes);
+    }
+
+    /// A Shimadzu MRM event measuring two precursors with the same product: each point's own
+    /// precursor decides which transition it belongs to.
+    #[test]
+    fn srm_per_point_precursors() {
+        let mut req = ChromRequest::default();
+        req.targets = vec![Target::Srm {
+            q1: 496.3,
+            q3: 184.1,
+        }];
+        let t: Vec<(usize, Target)> = req.targets.iter().cloned().enumerate().collect();
+        let mut accs = vec![Acc::default()];
+        for i in 0..2u64 {
+            let mut s = sp(
+                i,
+                i as f64 * 6.0,
+                2,
+                vec![184.1, 184.1],
+                vec![5.0, 7.0 + i as f32],
+            );
+            s.precursor_mz = Some(494.3);
+            s.extra.insert(
+                "point_precursors_mz".into(),
+                serde_json::json!([494.3, 496.3]),
+            );
+            visit(&s, &t, &req, &mut accs);
+        }
+        let c = finish_spectra(&t[0].1, accs.remove(0), &req);
+        assert_eq!(c.intensity, vec![7.0, 8.0]);
+        assert_eq!(c.precursor_mz, Some(496.3));
     }
 
     #[test]

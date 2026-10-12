@@ -435,12 +435,22 @@ impl SciexDataset {
                 break;
             }
             let idx = read_stream(&cfb, &mut f, &path, &format!("{dir}/Idx")).unwrap_or_default();
-            let index = parse_index(&idx);
+            let mut index = parse_index(&idx);
             let index_trailing = index_trailing(idx.len());
             if index_trailing != 0 {
                 notes.push(format!(
                     "sample {n}: the scan index ends {index_trailing} bytes into a record (truncated); {} whole records are used",
                     index.len()
+                ));
+            }
+            // An acquisition that stops part-way through a cycle leaves records of its first
+            // experiments only; the vendor's library stops at the last whole cycle, and so do we.
+            let partial = index.len() % experiments.len().max(1);
+            if partial > 0 && index.len() > partial {
+                index.truncate(index.len() - partial);
+                notes.push(format!(
+                    "sample {n}: the last cycle is incomplete ({partial} of {} experiments recorded); its records are left out, as the vendor's library leaves them out",
+                    experiments.len()
                 ));
             }
             let windows = read_stream(
@@ -860,12 +870,13 @@ impl SciexDataset {
                     Vec::new()
                 };
                 // Non-empty steps with the empty step on each side of a run, so the profile
-                // keeps its shape.
+                // keeps its shape. A run that starts or ends with a stored zero count needs no
+                // empty step on that side.
                 let mut mz = Vec::with_capacity(bins.len() * 2);
                 let mut it = Vec::with_capacity(bins.len() * 2);
                 let mut last: Option<u64> = None;
                 for (k, &(bin, count)) in bins.iter().enumerate() {
-                    if bin >= st && last.is_none_or(|l| l < bin - st) {
+                    if count > 0 && bin >= st && last.is_none_or(|l| l < bin - st) {
                         mz.push(tof_mz((bin - st) as f64, width, a, t0));
                         it.push(0.0);
                     }
@@ -873,7 +884,7 @@ impl SciexDataset {
                     it.push(count as f32);
                     last = Some(bin);
                     let next = bins.get(k + 1).map(|b| b.0);
-                    if next.is_none_or(|n| n > bin + st) {
+                    if count > 0 && next.is_none_or(|n| n > bin + st) {
                         mz.push(tof_mz((bin + st) as f64, width, a, t0));
                         it.push(0.0);
                         last = Some(bin + st);

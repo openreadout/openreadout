@@ -1123,7 +1123,9 @@ impl ChemStationDataset {
                 let n = recs.len() as u64;
                 let first = recs.first().map(|r| f64::from(r.time_ms));
                 let last = recs.last().map(|r| f64::from(r.time_ms));
+                let irregular = !evenly_spaced(recs);
                 let (rate, step) = match (first, last) {
+                    _ if irregular => (0.0, None),
                     (Some(a), Some(b)) if n > 1 && b > a => {
                         let st = (b - a) / (n - 1) as f64;
                         (1000.0 / st, Some(st))
@@ -1142,7 +1144,7 @@ impl ChemStationDataset {
                 if float {
                     extra.insert("record_encoding".into(), json!("float64"));
                 }
-                let channels = (0..count)
+                let mut channels: Vec<SignalChannelInfo> = (0..count)
                     .map(|i| {
                         let raw = u32::from(grid[0]) + i * u32::from(grid[2]);
                         let mut e = BTreeMap::new();
@@ -1158,6 +1160,24 @@ impl ChemStationDataset {
                         }
                     })
                     .collect();
+                if irregular {
+                    // spectra stored at more than one rate: each record's time, in a last channel
+                    channels.push(SignalChannelInfo {
+                        index: count,
+                        name: "time".into(),
+                        unit: Some("min".into()),
+                        dtype: "float64".into(),
+                        scale: 1.0,
+                        offset: 0.0,
+                        extra: BTreeMap::new(),
+                    });
+                    extra.insert("irregular_sampling".into(), json!(true));
+                    extra.insert(
+                        "axis".into(),
+                        json!({"quantity": "retention_time", "unit": "min",
+                               "irregular": true, "channel": count}),
+                    );
+                }
                 if let Some(a) = first {
                     extra.insert("x_start_min".into(), json!(tidy(a / 60_000.0)));
                 }
@@ -1461,6 +1481,13 @@ impl Dataset for ChemStationDataset {
                 let grid = recs.first().map_or([0; 3], |r| r.wavelength_raw);
                 let width = recs.first().map_or(0, |r| r.count) as usize;
                 let mut cols = vec![Vec::with_capacity(n as usize); width];
+                // the `time` channel of a trace whose records are not evenly spaced
+                let times: Option<Vec<f64>> = (!evenly_spaced(recs)).then(|| {
+                    recs[start..end]
+                        .iter()
+                        .map(|r| f64::from(r.time_ms) / 60_000.0)
+                        .collect()
+                });
                 let mut file = self
                     .fs
                     .open(&sig.path)
@@ -1495,6 +1522,7 @@ impl Dataset for ChemStationDataset {
                         }
                     }
                 }
+                cols.extend(times);
                 Ok(Trace {
                     trace: index,
                     sweep: 0,
@@ -1835,4 +1863,17 @@ impl Dataset for ChemStationDataset {
             columns,
         })
     }
+}
+
+/// Whether `.uv` records are evenly spaced in time: no two intervals more than 1 ms apart (the
+/// times are whole milliseconds). A DAD can store spectra at more than one rate in one run.
+pub(crate) fn evenly_spaced(recs: &[ScanRecord]) -> bool {
+    let mut lo = u32::MAX;
+    let mut hi = 0u32;
+    for w in recs.windows(2) {
+        let d = w[1].time_ms.saturating_sub(w[0].time_ms);
+        lo = lo.min(d);
+        hi = hi.max(d);
+    }
+    recs.len() < 3 || hi.saturating_sub(lo) <= 1
 }

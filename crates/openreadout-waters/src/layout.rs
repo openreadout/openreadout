@@ -55,8 +55,9 @@ pub fn idx_record_len(b: &[u8]) -> usize {
 /// Record length of `_FUNCnnn.IDX` bytes checked against the DAT file: the length (22 or 30)
 /// whose records tile the file and whose offsets step by `count × bytes per value` through a
 /// DAT of `dat_len` bytes. 30-byte records occur without flag 0x100 (a SYNAPT G2-Si profile
-/// acquisition, flags 0x60), so the flag alone does not decide. Falls back to
-/// [`idx_record_len`] when neither or both lengths fit.
+/// acquisition, flags 0x60), so the flag alone does not decide. When neither length fits a
+/// DAT exactly, a truncated DAT is assumed and the length whose offsets step contiguously
+/// past its end is taken. Falls back to [`idx_record_len`] when neither or both lengths fit.
 pub fn idx_record_len_for(b: &[u8], dat_len: Option<u64>) -> usize {
     let fits = |rl: usize| -> bool {
         if b.is_empty() || !b.len().is_multiple_of(rl) {
@@ -86,8 +87,49 @@ pub fn idx_record_len_for(b: &[u8], dat_len: Option<u64>) -> usize {
     match (fits(IDX_RECORD), fits(IDX_RECORD_WIDE)) {
         (true, false) => IDX_RECORD,
         (false, true) => IDX_RECORD_WIDE,
-        _ => idx_record_len(b),
+        (false, false) => match dat_len {
+            Some(dat) => match (
+                steps_past(b, IDX_RECORD, dat),
+                steps_past(b, IDX_RECORD_WIDE, dat),
+            ) {
+                (true, false) => IDX_RECORD,
+                (false, true) => IDX_RECORD_WIDE,
+                _ => idx_record_len(b),
+            },
+            None => idx_record_len(b),
+        },
+        (true, true) => idx_record_len(b),
     }
+}
+
+/// Whether `record_len`-byte records tile `b` and their offsets step from 0 by
+/// `count × bytes per value` (2, 4, 6, 8 or 12, taken from the first two records) to an end
+/// past `dat` bytes: the index of a DAT cut short.
+fn steps_past(b: &[u8], record_len: usize, dat: u64) -> bool {
+    if b.is_empty() || !b.len().is_multiple_of(record_len) {
+        return false;
+    }
+    let recs = parse_idx(b, record_len);
+    let Some(first) = recs.iter().position(|r| r.count > 0) else {
+        return false;
+    };
+    let Some(next) = recs.get(first + 1) else {
+        return false;
+    };
+    let step = next.offset.saturating_sub(recs[first].offset);
+    let count = u64::from(recs[first].count);
+    if step % count != 0 || !matches!(step / count, 2 | 4 | 6 | 8 | 12) {
+        return false;
+    }
+    let bpv = step / count;
+    let mut at = 0u64;
+    for r in &recs {
+        if r.offset != at {
+            return false;
+        }
+        at = at.saturating_add(u64::from(r.count) * bpv);
+    }
+    at > dat
 }
 
 /// Parse `_FUNCnnn.IDX` bytes with `record_len`-byte records (22 or 30); a trailing partial
@@ -695,6 +737,20 @@ mod tests {
         assert_eq!(s[1].offset, 36);
         assert_eq!(s[1].flags & FLAG_WIDE_CALIBRATED, FLAG_WIDE_CALIBRATED);
         assert!(parse_idx(&wide, 4).is_empty());
+    }
+
+    #[test]
+    fn idx_of_truncated_dat() {
+        // Eleven 30-byte records (330 bytes, which 22-byte records also tile) without the wide
+        // flag, 10 values of 8 bytes each: the DAT should hold 880 bytes but holds 850.
+        let mut b = vec![0u8; 330];
+        for k in 0..11usize {
+            b[k * 30 + 4..k * 30 + 8].copy_from_slice(&(0x0800_0000u32 | 0x0a).to_le_bytes());
+            b[k * 30 + 22..k * 30 + 30].copy_from_slice(&(k as u64 * 80).to_le_bytes());
+        }
+        assert_eq!(idx_record_len_for(&b, Some(880)), IDX_RECORD_WIDE);
+        assert_eq!(idx_record_len_for(&b, Some(850)), IDX_RECORD_WIDE);
+        assert_eq!(idx_record_len(&b), IDX_RECORD);
     }
 
     #[test]
