@@ -4,7 +4,7 @@
 
 The tools are the commands of the command line and return the same JSON as their `--json` output (the `data` part). Each result is sent twice: as `structuredContent`, checked against the tool's output schema, and as one text block with the same JSON for clients that only read text.
 
-When a client connects, the server sends short instructions: indices are zero-based; values are raw as stored unless a tool says it processed them; each file reports an assurance level; only `openreadout_export` and `openreadout_extract` write next to the data; tools and arguments have the command line's names; errors carry a code and a hint.
+When a client connects, the server sends short instructions. They say what OpenReadout reads (vendor binary formats and their text and XML exports), that indices are zero-based, that values are raw as stored unless a tool says it processed them, what the assurance level means, that only `openreadout_export` and `openreadout_extract` write next to the data, that tools and arguments have the command line's names, and that errors carry a code and a hint.
 
 ## Names
 

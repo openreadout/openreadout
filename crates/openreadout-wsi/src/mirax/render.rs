@@ -62,13 +62,18 @@ impl LevelLayout {
         let mut keys: Vec<u32> = lv.images.keys().copied().collect();
         keys.sort_unstable();
         let Some((cams, _)) = &slide.cameras else {
-            // Slides exported with overlaps removed have no position table; how their images
-            // are placed has not been confirmed on any file: refuse rather than guess.
-            return Err(Error::unsupported(
-                FORMAT_ID,
-                "a MIRAX slide without a camera position table (exported with overlaps removed)",
-                "No development file of this kind has been validated; `info`, `info --view structure`, `check` and the attachments still work. Please report the file (`openreadout report FILE`).",
-            ));
+            // Slides exported with overlaps removed have no position table: their images abut
+            // on the grid (docs/formats/mirax.md, checked against OpenSlide).
+            for idx in keys {
+                let (gx, gy) = (u64::from(idx % nx), u64::from(idx / nx));
+                out.push(Subtile {
+                    image: idx,
+                    src: [0.0, 0.0, w, h],
+                    dest: ((gx / s) as f64 * w, (gy / s) as f64 * h),
+                    order: (gy as u32, gx as u32),
+                });
+            }
+            return Ok(out);
         };
         if (s < div && div % s != 0) || (s >= div && s % div != 0) {
             return Err(Error::unsupported(

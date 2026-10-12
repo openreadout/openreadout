@@ -3,7 +3,7 @@
 `spectrum` returns one mass spectrum's m/z and intensity arrays with its scan metadata. To list the scans of a run, see [`scans`](scans.md).
 
 ```text
-openreadout spectrum [OPTIONS] <--scan <N>|--spectrum <I>|--nth <K>> <FILE>
+openreadout spectrum [OPTIONS] <--scan <N>|--spectrum <I>> <FILE>
 ```
 
 MCP: `openreadout_spectrum`.
@@ -13,8 +13,8 @@ MCP: `openreadout_spectrum`.
 - `--json`: print the JSON wrapper instead of text.
 - `--run N`: run index, for files with more than one run (Sciex samples). Default 0.
 - `--scan N`: this scan number as the instrument counts it (1-based in Thermo files).
-- `--spectrum I`: this zero-based spectrum index.
-- `--nth K` with `--ms-level N`: the K-th spectrum (from 1) of that MS level. `--ms-level 2 --nth 1` is the first MS/MS scan.
+- `--spectrum I`: this zero-based spectrum index, counted within `--ms-level` when it is given.
+- `--ms-level L` with `--spectrum I`: count `I` among the spectra of MS level `L` only. MS1 and MS/MS scans are interleaved, and `--ms-level 2 --spectrum 0` is the first MS/MS scan.
 - `--centroid`: the instrument's stored centroid list instead of the profile, when a scan has both.
 - `--exclude-flagged`: Thermo `.raw`: leave out peaks the instrument flags as reference or background ions. Otherwise they are listed in `extra.flagged_peaks`.
 - `--max-points N`: return at most this many points. `point_count` still reports the full size.
@@ -23,7 +23,7 @@ MCP: `openreadout_spectrum`.
 
 ```bash
 openreadout spectrum run.raw --scan 1200 --json
-openreadout spectrum run.raw --ms-level 2 --nth 1 --centroid --json
+openreadout spectrum run.raw --ms-level 2 --spectrum 0 --centroid --json
 ```
 
 ## Scan numbers

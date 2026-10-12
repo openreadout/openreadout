@@ -29,7 +29,7 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 
 - Composition reproduces OpenSlide's rendering, including its double resampling of fractional subtiles: a different but equally valid resampling would disagree by up to ~30 levels at coarse levels. Keep `render.rs` in step with the provenance notes.
 - `IMAGE_FILL_COLOR_BGR` byte order is unverified (grey in every corpus file); a non-grey value is noted and reported as assumed.
-- Slides without camera positions (exported) have their metadata read but their pixels refused (exit 6, `LevelLayout::build`): no development file confirms grid placement.
+- Slides without camera positions (exported with overlaps removed) place their images on the grid (`LevelLayout::build`); one development file confirms it (`openslide-mirax-cmu-1-exported`).
 - `level0_size` uses `round(OVERLAP_X) / step₀`, OpenSlide's convention matched on three kinds of slide; a new kind of saved slide may differ.
 
 <!-- BEGIN GENERATED guide -->
@@ -75,7 +75,7 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these features (each value is looked up in the validated table below; a value never confirmed makes the file `unvalidated` for the feature's outputs) and reports these structures and assumptions:
 
 - feature codec `c`
-- feature layout `format!("camera positions: {src}")`
+- feature layout `match s("camera_positions") { Some(src) => format!("camera positions…`
 - feature layout `kind`
 - feature layout `"saved at reduced resolution"`
 - feature codec `f`
@@ -89,7 +89,6 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `"no usable map"`
 - feature layout `"optimisation file"`
 - feature writer_version `format!("scanner software {v}")` (descriptive)
-- undecoded "camera positions (none: exported slide)"
 - assumed "images[].extra.mirax.levels[].fill_color_bgr"
 
 ### Validated variants and the corpus files that pin them
@@ -104,19 +103,22 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mirax` | acquisition | `brightfield` | pixels | 5 | 5 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | acquisition | `fluorescence filters as colour components` | pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
 | `mirax` | codec | `bmp` | pixels | 1 | 1 | `openslide-mirax2-2-4-bmp` |
-| `mirax` | codec | `jpeg` | pixels | 5 | 5 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
+| `mirax` | codec | `jpeg` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
 | `mirax` | codec | `png` | pixels | 1 | 1 | `openslide-mirax2-2-4-png` |
-| `mirax` | field | `experiment.acquisition.started_at` | descriptive | 7 | 7 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
+| `mirax` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
 | `mirax` | format_version | `1.9` | metadata, pixels | 3 | 3 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | format_version | `2` | metadata, pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
 | `mirax` | format_version | `2.2` | metadata, pixels | 2 | 2 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png` |
+| `mirax` | format_version | `2.3` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-exported` |
 | `mirax` | layout | `camera positions: compressed position table` | metadata, pixels | 2 | 2 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png` |
 | `mirax` | layout | `camera positions: position buffer` | metadata, pixels | 5 | 5 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | layout | `level 0 below one camera photo per image` | metadata, pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-2`, `openslide-mirax2-2-4-bmp` |
+| `mirax` | layout | `level 0 one camera photo per image` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-exported` |
 | `mirax` | layout | `level 0 several camera photos per image` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-saved-1-16` |
+| `mirax` | layout | `no camera positions (images on the grid)` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-exported` |
 | `mirax` | layout | `saved at reduced resolution` | metadata, pixels | 2 | 2 | `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | sample_layout | `uint8` | pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
-| `mirax` | sample_layout | `uint8x3` | pixels | 5 | 5 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
+| `mirax` | sample_layout | `uint8x3` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
 | `mirax` | writer_version | `scanner software 1.12` | descriptive | 4 | 4 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | writer_version | `scanner software 1.15` | descriptive | 2 | 2 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png` |
 | `mirax` | writer_version | `scanner software 2.0` | descriptive | 1 | 1 | `openslide-mirax2-fluorescence-1` |

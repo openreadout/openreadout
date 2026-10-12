@@ -12,9 +12,17 @@ All notable changes to this project are documented here. The format is based on 
 - Tucker-Davis Technologies tanks and blocks (`tdt-tank`): stream stores as traces (a tank's blocks as sweeps), snippets as a `spikes` table and epoc onsets with their durations as an `epocs` table. Checked against Neo on six public blocks and tanks.
 - Axona DacqUSB sessions (`axona-dacqusb`): the raw `.bin` of the active tetrodes in µV and the tetrode spike files as a `spikes` table. Checked against Neo on three public sessions.
 - Multi Channel Systems MC_DataTool binary exports with a header (`mcs-raw`). Checked against Neo on a public file.
+- MIRAX slides exported with overlaps removed, which have no camera position table, are read. Their pixels used to exit 6.
+
+### Changed
+
+- `spectrum --ms-level L --spectrum I` picks the spectrum at zero-based index `I` among the spectra of MS level `L`, and `--nth` is gone. `--nth` counted from 1 while every other index counts from 0. The first MS/MS scan is now `--ms-level 2 --spectrum 0` (MCP: `ms_level: 2, spectrum: 0`).
 
 ### Fixed
 
+- Claude Code 2.1.292 showed no OpenReadout MCP tools. With MCP protocol version 2026-07-28 the server left `ttlMs` and `cacheScope` off its list results, and the client rejected the whole tool list. The server now sends them.
+- DM3/DM4 files now name the microscope entered for the session (`JEM-ARM200F`) instead of DigitalMicrograph's microscope-control plug-in (`JEOL COM`) when the file has both.
+- Electron-microscopy pixel and voxel sizes in `experiment.method.parameters` are in nm. A 0.156 nm pixel read as 0.000156 µm was easy to misread.
 - `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.
 - BMG SMART Control workbooks of kinetic runs: each cycle is now its own time point. `check` used to report the whole run as one time point with many values per well.
 - `export -o x.ome.zarr` without `--format` wrote an OME-TIFF under the `.zarr` name. The output's extension now picks the format, on the command line and in `openreadout_export`, and an extension that names no format or contradicts `--format` exits 2.

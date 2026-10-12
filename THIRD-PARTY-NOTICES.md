@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 309 |
+| MIT License | 312 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 5 |
 | zlib License | 2 |
@@ -668,8 +668,8 @@ Used by:
 Used by:
 
 - [flatbuffers 25.12.19](https://github.com/google/flatbuffers)
-- [rmcp-macros 3.5.0](https://github.com/modelcontextprotocol/rust-sdk/)
-- [rmcp 3.5.0](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp-macros 3.5.1](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp 3.5.1](https://github.com/modelcontextprotocol/rust-sdk/)
 
 ```text
 Apache License
@@ -3390,7 +3390,10 @@ Used by:
 - [windows-link 0.2.1](https://github.com/microsoft/windows-rs)
 - [windows-result 0.4.1](https://github.com/microsoft/windows-rs)
 - [windows-strings 0.5.1](https://github.com/microsoft/windows-rs)
+- [windows-sys 0.52.0](https://github.com/microsoft/windows-rs)
 - [windows-sys 0.61.2](https://github.com/microsoft/windows-rs)
+- [windows-targets 0.52.6](https://github.com/microsoft/windows-rs)
+- [windows_x86_64_msvc 0.52.6](https://github.com/microsoft/windows-rs)
 - [zarrs_plugin 0.4.1](https://github.com/zarrs/zarrs/tree/main/zarrs_plugin)
 
 ```text

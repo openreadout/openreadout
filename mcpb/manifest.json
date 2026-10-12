@@ -88,7 +88,7 @@
     },
     {
       "name": "openreadout_spectrum",
-      "description": "One mass spectrum's m/z and intensity arrays, by scan number, index, or the nth scan of an MS level"
+      "description": "One mass spectrum's m/z and intensity arrays, by scan number or by zero-based index, within one MS level if asked"
     },
     {
       "name": "openreadout_peaks",

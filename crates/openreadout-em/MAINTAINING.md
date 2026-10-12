@@ -112,22 +112,29 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `dm` | acquisition | `SCANNING` | descriptive | 21 | 21 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4` |
 | `dm` | acquisition | `STEM` | descriptive | 2 | 2 | `zenodo13913066-CS-Co-EELS-SI`, `zenodo13913066-Core-DF` |
 | `dm` | field | `experiment.acquisition.started_at` | descriptive | 22 | 22 | `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001`, `rsciio-dm-2d-multi-signal-dm3` |
-| `dm` | field | `experiment.instrument.model` | descriptive | 38 | 38 | `ncem-dm-08-carbon-dm3`, `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001` |
+| `dm` | field | `experiment.instrument.model` | descriptive | 39 | 39 | `ncem-dm-08-carbon-dm3`, `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001` |
 | `dm` | format_version | `DM3` | metadata, pixels | 51 | 51 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3` |
 | `dm` | format_version | `DM4` | metadata, pixels | 55 | 55 | `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4`, `nion-dm-ref-f-0-1-dm4` |
 | `dm` | format_version | `DM5` | metadata, pixels | 8 | 8 | `nion-dm-ref-f-0-1-dm5`, `nion-dm-ref-f-0-2-dm5`, `nion-dm-ref-f-1-1-dm5` |
+| `dm` | instrument | `ARM 200F` | descriptive | 1 | 1 | `zenodo1108559-diamond-1c` |
+| `dm` | instrument | `Example Microscope` | descriptive | 1 | 1 | `rsciio-dm-2d-multi-signal-dm3` |
 | `dm` | instrument | `FEI Tecnai` | descriptive | 3 | 3 | `rsciio-dm-2d-test-diffraction-pattern-dm3`, `zenodo13913066-CS-Co-EELS-SI`, `zenodo13913066-Core-DF` |
-| `dm` | instrument | `FEI Tecnai Remote` | descriptive | 7 | 7 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-2d-multi-signal-dm3` |
-| `dm` | instrument | `FEI Tecnai Remote TCPIP` | descriptive | 6 | 6 | `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001`, `zenodo14602797-lunar-eels` |
-| `dm` | instrument | `FEI Titan` | descriptive | 1 | 1 | `zenodo6385528-ge-nanowire` |
-| `dm` | instrument | `JEOL COM` | descriptive | 11 | 11 | `zenodo10848941-go-zno`, `zenodo1108559-diamond-1c`, `zenodo11471263-wte2-HRTEM` |
+| `dm` | instrument | `FEI Tecnai Remote TCPIP` | descriptive | 4 | 4 | `zenodo14602797-lunar-eels`, `zenodo20131420-SI-nanoFe`, `zenodo20131691-bn-eels` |
+| `dm` | instrument | `FEI Titan` | descriptive | 6 | 6 | `rsciio-dm-1d-test-eds-spectrum-dm3`, `rsciio-dm-1d-test-eels-spectrum-dm3`, `rsciio-dm-2d-test-stem-image-dm3` |
+| `dm` | instrument | `FEI Titan ultimate` | descriptive | 1 | 1 | `zenodo6532308-nanowire-line` |
+| `dm` | instrument | `JEM-ARM200F` | descriptive | 2 | 2 | `zenodo10848941-go-zno`, `zenodo8398370-NF-0001` |
+| `dm` | instrument | `JEOL COM` | descriptive | 7 | 7 | `zenodo11471263-wte2-HRTEM`, `zenodo17454201-ice-si`, `zenodo18695090-methanol-2a` |
 | `dm` | instrument | `JEOL COM, F200` | descriptive | 1 | 1 | `zenodo17113003-picker-si` |
 | `dm` | instrument | `NCEM TEAM 0.5` | descriptive | 1 | 1 | `ncem-dm-08-carbon-dm3` |
+| `dm` | instrument | `NeoARM` | descriptive | 1 | 1 | `zenodo17176730-bf-issue-4366` |
+| `dm` | instrument | `Nion UltraSTEM 200` | descriptive | 1 | 1 | `zenodo8403583-apatite-lowloss-SI` |
+| `dm` | instrument | `Tecnai 12` | descriptive | 2 | 2 | `ome-dm4-smallmontage0000`, `ome-dm4-smallmontage0001` |
 | `dm` | instrument | `Tecnai F20` | descriptive | 1 | 1 | `zenodo1478664-sorter-47r` |
 | `dm` | instrument | `Titan Holo` | descriptive | 1 | 1 | `zenodo3878707-oam-gif` |
 | `dm` | instrument | `TitanX` | descriptive | 3 | 3 | `zenodo13821437-Figure-2e`, `zenodo8045363-fem-TbCoSiN-stack`, `zenodo8216192-chirality-probe` |
-| `dm` | instrument | `Unknown` | descriptive | 2 | 2 | `zenodo8190744-EELS-STO`, `zenodo8403583-apatite-lowloss-SI` |
-| `dm` | instrument | `Zeiss SEM COM` | descriptive | 3 | 3 | `rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4`, `rsciio-dm-2d-test-monarccl-spectrum-si-dm4`, `rsciio-dm-2d-test-monocl-spectrum-si-dm4` |
+| `dm` | instrument | `Ultra55` | descriptive | 2 | 2 | `rsciio-dm-1d-test-monarccl-spectrum-ccd-dm4`, `rsciio-dm-2d-test-monocl-spectrum-si-dm4` |
+| `dm` | instrument | `Unknown` | descriptive | 1 | 1 | `zenodo8190744-EELS-STO` |
+| `dm` | instrument | `Zeiss SEM COM` | descriptive | 1 | 1 | `rsciio-dm-2d-test-monarccl-spectrum-si-dm4` |
 | `dm` | layout | `1-D` | pixels | 17 | 17 | `nion-dm-ref-f-0-1-dm3`, `nion-dm-ref-f-0-1-dm4`, `nion-dm-ref-f-0-1-dm5` |
 | `dm` | layout | `2-D` | pixels | 67 | 67 | `ncem-dm-08-carbon-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm3`, `ncem-dm-dmtest-float32-nonsquare-diffpixelsize-dm4` |
 | `dm` | layout | `3-D` | pixels | 32 | 32 | `ncem-dm-dmtest-3d-int16-64-65-66-dm3`, `ncem-dm-dmtest-3d-int16-64-65-66-dm4`, `nion-dm-ref-f-1-1-dm3` |
@@ -178,15 +185,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `emd` | layout | `eds spectrum image` | pixels | 1 | 1 | `zenodo20131712-0017-SI-Nano-1.4um` |
 | `emd` | layout | `eels spectrum image` | metadata, pixels | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
 | `emd` | layout | `multi-frame` | pixels | 4 | 4 | `rsciio-emd-fei-example-tem-stack`, `zenodo13893137-alcumg-haadf`, `zenodo20131712-0017-SI-Nano-1.4um` |
-| `emd` | record | `detector BF` | descriptive | 2 | 2 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `zenodo6414955-sigma3` |
-| `emd` | record | `detector BF-S` | descriptive | 1 | 1 | `zenodo21895889-0041-STEM-HAADF-BF` |
-| `emd` | record | `detector BM-Ceta` | descriptive | 6 | 6 | `ncem-emd-camera-ceta-diffraction-micro`, `ncem-emd-camera-ceta-imaging-micro`, `rsciio-emd-fei-example-complex-fft` |
-| `emd` | record | `detector DF-S` | descriptive | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
-| `emd` | record | `detector DF2` | descriptive | 2 | 2 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `zenodo6414955-sigma3` |
-| `emd` | record | `detector DF4` | descriptive | 4 | 4 | `ncem-emd-stem-haadf-df4-df2-bf-diffraction-micro`, `rsciio-emd-fei-example-dpc-titles`, `zenodo17464971-coreshell-mag` |
-| `emd` | record | `detector EELS Strip Detector` | descriptive | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
 
-… 64 more values: the generated table in `src/assurance.rs` has all of them.
+… 71 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 

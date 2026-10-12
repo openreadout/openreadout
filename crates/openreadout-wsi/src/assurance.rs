@@ -27,18 +27,14 @@ fn observe(info: &FileInfo) -> Observations {
             continue;
         };
         let s = |k: &str| m.get(k).and_then(serde_json::Value::as_str);
-        match s("camera_positions") {
-            Some(src) => o.feature(
-                K::Layout,
-                format!("camera positions: {src}"),
-                &[Scope::Metadata, Scope::Pixels],
-            ),
-            None => o.undecoded(
-                "camera positions (none: exported slide)",
-                &[Scope::Pixels],
-                "no camera position table: pixels are refused",
-            ),
-        }
+        o.feature(
+            K::Layout,
+            match s("camera_positions") {
+                Some(src) => format!("camera positions: {src}"),
+                None => "no camera positions (images on the grid)".to_string(),
+            },
+            &[Scope::Metadata, Scope::Pixels],
+        );
         if let Some(levels) = m.get("levels").and_then(serde_json::Value::as_array)
             && let Some(l0) = levels.first()
         {
@@ -105,22 +101,25 @@ fn observe(info: &FileInfo) -> Observations {
 const MIRAX_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const MIRAX_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "brightfield", 5, 1, 5),
+    a::row(K::Acquisition, "brightfield", 6, 1, 6),
     a::row(K::Acquisition, "fluorescence filters as colour components", 2, 1, 2),
     a::row(K::Codec, "bmp", 1, 1, 1),
-    a::row(K::Codec, "jpeg", 5, 1, 5),
+    a::row(K::Codec, "jpeg", 6, 1, 6),
     a::row(K::Codec, "png", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 7),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 8),
     a::row(K::FormatVersion, "1.9", 3, 1, 3),
     a::row(K::FormatVersion, "2", 2, 1, 2),
     a::row(K::FormatVersion, "2.2", 2, 1, 2),
+    a::row(K::FormatVersion, "2.3", 1, 1, 1),
     a::row(K::Layout, "camera positions: compressed position table", 2, 1, 2),
     a::row(K::Layout, "camera positions: position buffer", 5, 1, 5),
     a::row(K::Layout, "level 0 below one camera photo per image", 6, 1, 6),
+    a::row(K::Layout, "level 0 one camera photo per image", 1, 1, 1),
     a::row(K::Layout, "level 0 several camera photos per image", 1, 1, 1),
+    a::row(K::Layout, "no camera positions (images on the grid)", 1, 1, 1),
     a::row(K::Layout, "saved at reduced resolution", 2, 1, 2),
     a::row(K::SampleLayout, "uint8", 2, 1, 2),
-    a::row(K::SampleLayout, "uint8x3", 5, 1, 5),
+    a::row(K::SampleLayout, "uint8x3", 6, 1, 6),
     a::row(K::WriterVersion, "scanner software 1.12", 4, 1, 4),
     a::row(K::WriterVersion, "scanner software 1.15", 2, 1, 2),
     a::row(K::WriterVersion, "scanner software 2.0", 1, 1, 1),
