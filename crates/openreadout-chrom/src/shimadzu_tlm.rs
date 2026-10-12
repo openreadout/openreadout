@@ -63,7 +63,13 @@ pub struct TlmHeader {
 #[derive(Debug, Clone, PartialEq)]
 pub struct TlmSpectrum {
     pub ms_level: u32,
+    /// The first stored precursor (MRM: Q1).
     pub precursor_mz: Option<f64>,
+    /// MRM records whose transitions have more than one Q1: each point's own precursor,
+    /// aligned with `points`. Empty otherwise.
+    pub point_precursors: Vec<f64>,
+    /// The distinct precursors of such a record, in stored order. Empty otherwise.
+    pub precursors: Vec<f64>,
     pub centroided: bool,
     pub scan_window_mz: Option<[f64; 2]>,
     pub points: Vec<(f64, f64)>,
@@ -197,6 +203,16 @@ pub fn header(d: &[u8]) -> Option<TlmHeader> {
 }
 
 impl TlmHeader {
+    /// `positive` or `negative` from `polarity_code` (0 and 1; validated against the vendor's
+    /// own mzXML export of a two-polarity run), else `unknown`.
+    pub fn polarity(&self) -> &'static str {
+        match self.polarity_code {
+            0 => "positive",
+            1 => "negative",
+            _ => "unknown",
+        }
+    }
+
     /// The precursor m/z the header states (MRM, product-ion scan).
     pub fn precursor_mz(&self) -> Option<f64> {
         matches!(self.code, TLM_MRM | TLM_PRODUCT_ION_SCAN)
@@ -232,8 +248,11 @@ pub fn decode(record: &[u8]) -> Result<TlmSpectrum, String> {
         TLM_MRM | TLM_SIM => {
             let end = n.checked_mul(12).and_then(|x| x.checked_add(44)).ok_or("count overflows")?;
             let body = record.get(44..end).ok_or_else(|| format!("{n} ion entries past the {} record bytes", record.len()))?;
-            let mut pts = Vec::with_capacity(n);
+            // (product m/z, intensity, precursor m/z)
+            let mut pts: Vec<(f64, f64, f64)> = Vec::with_capacity(n);
             let mut q1 = None;
+            let mut several = false;
+            let mut distinct: Vec<u32> = Vec::new();
             for entry in body.as_chunks::<12>().0 {
                 let (precursor, product, intensity) = (
                     u32::from_le_bytes([entry[0], entry[1], entry[2], entry[3]]),
@@ -243,24 +262,40 @@ pub fn decode(record: &[u8]) -> Result<TlmSpectrum, String> {
                 if head.code == TLM_SIM && precursor != product {
                     return Err(format!("SIM entry with two m/z values ({precursor}, {product})"));
                 }
+                if head.code == TLM_MRM && !distinct.contains(&precursor) {
+                    distinct.push(precursor);
+                }
                 if head.code == TLM_MRM {
+                    // one event can measure transitions of several precursors
                     match q1 {
                         None => q1 = Some(precursor),
-                        Some(first) if first != precursor => {
-                            return Err(format!("MRM record with two precursors ({first}, {precursor})"));
-                        }
+                        Some(first) if first != precursor => several = true,
                         _ => {}
                     }
                 }
-                pts.push((f64::from(product) / 100.0, f64::from(intensity)));
+                pts.push((
+                    f64::from(product) / 100.0,
+                    f64::from(intensity),
+                    f64::from(precursor) / 100.0,
+                ));
             }
             pts.sort_by(|x, y| x.0.total_cmp(&y.0));
             Ok(TlmSpectrum {
                 ms_level: if head.code == TLM_MRM { 2 } else { 1 },
                 precursor_mz: q1.map(|raw| f64::from(raw) / 100.0),
+                point_precursors: if several {
+                    pts.iter().map(|p| p.2).collect()
+                } else {
+                    Vec::new()
+                },
+                precursors: if several {
+                    distinct.iter().map(|&q| f64::from(q) / 100.0).collect()
+                } else {
+                    Vec::new()
+                },
                 centroided: true,
                 scan_window_mz: None,
-                points: pts,
+                points: pts.iter().map(|p| (p.0, p.1)).collect(),
             })
         }
         TLM_PRODUCT_ION_SCAN => Err("product-ion scan spectra are not read: their profiles could not be checked against the vendor's (docs/formats/shimadzu.md)".into()),
@@ -295,6 +330,40 @@ mod tests {
         r.extend_from_slice(&(z.len() as u32).to_le_bytes());
         r.extend_from_slice(&z);
         r
+    }
+
+    /// Record 10984 of `mtbls12691-lcms8060-048`: one event, two precursors (184 and 166).
+    #[test]
+    fn mrm_record_with_several_precursors() {
+        let mut body = Vec::new();
+        for (a, b, v) in [
+            (18400u32, 16610u32, 5601u32),
+            (18400, 13410, 400),
+            (18400, 12110, 0),
+            (16600, 13410, 0),
+            (16600, 12110, 0),
+        ] {
+            for x in [a, b, v] {
+                body.extend_from_slice(&x.to_le_bytes());
+            }
+        }
+        let s = decode(&rec(TLM_MRM, &body, 5)).unwrap();
+        assert_eq!(s.precursor_mz, Some(184.0));
+        assert_eq!(s.precursors, vec![184.0, 166.0]);
+        assert_eq!(
+            s.points,
+            vec![
+                (121.1, 0.0),
+                (121.1, 0.0),
+                (134.1, 400.0),
+                (134.1, 0.0),
+                (166.1, 5601.0)
+            ]
+        );
+        assert_eq!(s.point_precursors, vec![184.0, 166.0, 184.0, 166.0, 184.0]);
+        // one precursor: no per-point list
+        let s = decode(&rec(TLM_MRM, &body[..24], 2)).unwrap();
+        assert!(s.point_precursors.is_empty() && s.precursors.is_empty());
     }
 
     #[test]

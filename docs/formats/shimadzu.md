@@ -1,6 +1,6 @@
-# Shimadzu LabSolutions `.lcd` / `.gcd`
+# Shimadzu LabSolutions `.lcd` / `.gcd` and GCMSsolution `.qgd`
 
-Shimadzu LabSolutions writes HPLC data as `.lcd` and GC data as `.gcd` files. OpenReadout returns the chromatograms, the status traces (pressures, temperatures), the PDA field, LC-MS spectra (MRM and SIM; profile spectra are refused) and LabSolutions' own peak tables. Two layouts exist: an older one (File Property version 3.00) and a newer one (5.01).
+Shimadzu LabSolutions writes HPLC data as `.lcd` and GC data as `.gcd` files, and GCMSsolution writes GC-MS data as `.qgd` files in the same container. OpenReadout returns the chromatograms, the status traces (pressures, temperatures), the PDA field, LC-MS spectra (MRM and SIM; profile spectra are refused), GC-MS scans and LabSolutions' own peak tables. Two layouts exist: an older one (File Property version 3.00) and a newer one (5.01).
 
 The container is Microsoft's compound file format, a public open specification; the LabSolutions streams inside were decoded from hex dumps of public Zenodo files (CC-BY-4.0). olefile (BSD-2-Clause) is the reference reader for the container walk. Chromatograms are checked against chromConverter (GPL-3.0, run as a black box) and LabSolutions ASCII exports, and peak tables against the vendor's own peak areas. See `docs/provenance/shimadzu.md`. Format id: `shimadzu`; crate `openreadout-chrom` (`shimadzu_dataset.rs`; the compound-file reader is `openreadout-core/src/cfb.rs`, shared with the ZVI reader). Confidence (computed by the evidence rubric, `docs/assurance.md`): medium.
 
@@ -62,13 +62,28 @@ A newer-layout chromatogram is scaled by its `LSS Raw Data/Chromatogram Status` 
 
 An inflated record: u32 retention time (ms), u32 cycle start (ms), u32 event (1-based), u32 cycle, u32 record index, u16 acquisition code, u16, 12 bytes, u32 `polarity_code` (+36), u32 count (+40), then:
 
-- code 15, MRM: count × (u32 Q1 × 100, u32 Q3 × 100, u32 intensity) → an MS2 spectrum, precursor Q1, points (Q3, intensity), `centroided`; one Q1 per record (two are an error);
+- code 15, MRM: count × (u32 Q1 × 100, u32 Q3 × 100, u32 intensity) → an MS2 spectrum, points (Q3, intensity), `centroided`. One event can measure transitions of several precursors: `precursor_mz` is the first stored Q1, and a record with more than one Q1 also gets `extra.precursors` (the distinct Q1 values in stored order) and `extra.point_precursors_mz` (each point's own Q1, aligned with the sorted points), as the vendor's mzXML export lists one precursor per point;
 - code 11, SIM: count × (m/z × 100, the same m/z × 100, intensity) → an MS1 spectrum of the selected ions;
 - code 10, full scan, and code 14, product-ion scan: count, (precursor × 100 twice for product-ion scans), first and last m/z × 100, then count u32 intensities on a 0.1 m/z grid. **Refused** (exit 6): the vendor's own reader returns other values (full scans) or nothing that could check them (product-ion scans).
 
-The spectra run (`name` `LC-MS`) lists every record: `scan_count`, `ms_levels`, `rt_range_s`, `extra.acquisitions` (records per kind: `mrm`, `sim`, `full scan`, `product ion scan`), `extra.events`, `extra.unreadable_records`. `scans` gives each record's retention time, level, precursor (MRM, product-ion scan) and stored TIC, and `extra.acquisition`, `extra.event`. Spectra: `extra.acquisition`, `event`, `cycle`, `polarity_code`. Polarity is `unknown`: the u32 at +36 is 0 or 1 and differs between the two polarities of a two-polarity method, but nothing says which is which. `check` inflates every record, compares its retention time with the index and the sum of each MRM/SIM record's intensities with its stored TIC.
+The spectra run (`name` `LC-MS`) lists every record: `scan_count`, `ms_levels`, `rt_range_s`, `extra.acquisitions` (records per kind: `mrm`, `sim`, `full scan`, `product ion scan`), `extra.events`, `extra.unreadable_records`. `scans` gives each record's retention time, level, precursor (MRM, product-ion scan) and stored TIC, and `extra.acquisition`, `extra.event`. Spectra: `extra.acquisition`, `event`, `cycle`, `polarity_code`, and for MRM records with several precursors `precursors` and `point_precursors_mz`. Polarity comes from the u32 at +36: 0 positive, 1 negative (validated on all 47,674 records of a two-polarity LCMS-8060 run against the vendor's own mzXML export). `check` inflates every record, compares its retention time with the index and the sum of each MRM/SIM record's intensities with its stored TIC.
 
 Validated (`tests/corpus/`, oracle `oracle/shimadzu_ms_gt.py`): 610 MRM and SIM spectra of three CC0 files equal to the ground-truth slices converted with ProteoWizard msconvert (vendor reader), point for point; the profile spectra of the four files are refused.
+
+## GC-MS data (`.qgd`, `GCMS Raw Data`, spectra run 0, 2026-10-12)
+
+| stream | layout |
+| --- | --- |
+| `GCMS Raw Data/Retention Time` | u32 ms per record |
+| `GCMS Raw Data/TIC Data` | u64 per record: the sum of the record's stored intensities |
+| `GCMS Raw Data/Spectrum Index` | the byte offset of each record in `MS Raw Data`: u32 each (GCMS-QP2010 files), or a u16 1 then u64 each (`wide_offsets`, a GCMS-TQ8040 file); a record ends where the next begins |
+| `GCMS Raw Data/MS Raw Data` | the records, back to back |
+
+A record (`GcmsHeader`) starts with 32 bytes: u32 `record`, u32 `rt_ms`, u16 `event`, u16 `intensity_offset` (470 in every corpus file), two u32, then for a scan (`GcmsRecordKind::Scan`) u16 width code, u16 point count and 8 zero bytes. Its points are u16 m/z × 20 (`GCMS_MZ_SCALE`) and an intensity of 2 bytes (width code 2), 3 bytes (3) or 4 bytes (1); a 4-byte intensity's top bit (`GCMS_FLAG_BIT`) is a flag, not part of the value. Records of the other kinds hold 0 in the width code and point count and give a layout code and an entry count in the 8 bytes instead: entries of u16 m/z × 20 and an intensity for selected ions (`Sim`, codes 1–3), or u16 Q1 × 20, u16 Q3 × 20 and an intensity for MRM (`Mrm`, codes 101–103, `GCMS_MRM_CODE` + the width code). A scan that recorded no ion has point count 0 and zero parameter bytes (width code 4 in a version 2.00 file). A record whose body does not fill it exactly is an error.
+
+**Values.** A scan's intensities are the stored values minus `intensity_offset`, every point kept (some become negative): equal to the vendor's ANDI-MS exports on all 8,000 scans of a GCMS-QP2010 Ultra file and all 1,961 scans of a GCMS-TQ8040 file (m/z, intensity, time, and `total_intensity` = the sum of the points), and to Shimadzu's mzXML exporter on all 12,600 scans of a second QP2010 Ultra file once its points that are not positive are left out, as that exporter does. `total_ion_current` is `TIC Data` minus the offset of every point. Selected-ion and MRM records are listed by `scans` (time, event, MRM's first Q1) and refused when read (exit 6): no export holds them.
+
+The run (`name` `GC-MS`): `scan_count` (every record), `ms_levels` (1 for scans and selected ions, 2 for MRM), `rt_range_s`, `extra.acquisitions` (records per kind: `scan`, `sim`, `mrm`), `extra.events`, `extra.unreadable_records`, `extra.intensity_offsets`. Spectra: MS level 1, centroids, polarity `unknown` (no field states it), `extra.acquisition`, `event`, `intensity_offset`, `flagged_points`. `check` reads every header, compares each record's time with the stream and each scan's points with its `TIC Data` value.
 
 ## Vendor peaks (`vendor_peaks`, 2026-09-26)
 
@@ -118,7 +133,8 @@ The generated time is taken as the start in UTC: the 3.00 file's is 2023-06-06 0
 | `unit`, `display_unit`, `quantity` | a status record's unit text (+40); `uV` → `µV`, `C` → `°C`; pressure/temperature/status from a unit |
 | `label_lc_status`, `label_lss_status`, `DATA_ITEM_STATUS`, `is_chromatogram_item`, `is_status_item`, `data_set` | names and scales of status logs (older/newer layout); `DT` 48; whether a `2D Data Item` entry is a chromatogram (its title contains `Chromatogram` and not `Status Trace(`, whatever its `DT`) or a status log (`DT` 48 and a `Status Trace(` title); its `DSID` |
 | `TlmEntry`, `offset`, `size`, `TlmIndex`, `entries`, `rt_ms`, `tic`, `parse_index` | the LC-MS index streams (§ LC-MS data) |
-| `TlmHeader`, `cycle_rt_ms`, `event`, `cycle`, `record`, `code`, `polarity_code`, `count`, `first_q1`, `precursor_mz`, `header`, `record_header`, `inflate_record` | an LC-MS record's header; reading it (the header alone, or the record inflated) |
+| `TlmHeader`, `cycle_rt_ms`, `event`, `cycle`, `record`, `code`, `polarity_code`, `polarity`, `count`, `first_q1`, `precursor_mz`, `header`, `record_header`, `inflate_record`, `point_precursors`, `precursors` | an LC-MS record's header; reading it (the header alone, or the record inflated) |
+| `GcmsIndex`, `rt_ms`, `offsets`, `tic`, `wide_offsets`, `GcmsHeader`, `record`, `event`, `intensity_offset`, `kind`, `count`, `GcmsRecordKind` { `Scan`, `Sim`, `Mrm` }, `intensity_bytes`, `GCMS_HEADER_LEN`, `GCMS_MRM_CODE`, `GCMS_MZ_SCALE`, `GCMS_FLAG_BIT`, `parse_index`, `header`, `scan_points`, `mrm_first_precursor`, `reported_tic`, `intensity_offsets`, `flagged_points` | GC-MS records of a `.qgd` (section above) |
 | `TlmSpectrum`, `ms_level`, `centroided`, `scan_window_mz`, `points`, `decode`, `acquisition_name`, `MAX_TLM_RECORD`, `TLM_MRM`, `TLM_SIM`, `TLM_FULL_SCAN`, `TLM_PRODUCT_ION_SCAN` | a decoded record (MRM, SIM; profiles refused); acquisition codes; the largest record inflated |
 | `VendorPeak`, `signal`, `number`, `flags`, `rt_min`, `start_min`, `end_min`, `area`, `height`, `baseline_start`, `baseline_end`, `capacity_factor`, `plates`, `plate_height`, `tailing`, `resolution` | one peak of a LabSolutions peak table (see Vendor peaks) |
 | `peak_table_old`, `peak_table_new`, `multi_chromato_wavelengths`, `PEAK_RECORD_OLD`, `MAX_PEAKS` | parse an older/newer peak table; PDA channel wavelengths; older record size; most peaks accepted |

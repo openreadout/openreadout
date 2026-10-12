@@ -89,9 +89,10 @@ pub use layout::{
 };
 #[doc(hidden)]
 pub use packet::{
-    AcquisitionWindow, Centroid, FLAG_EXCLUDED, MAX_WINDOWS, MONOTONIC_NUDGE, MzScale,
-    PROFILE_PAD_BINS, Packet, PacketHeader, PeakDescriptor, Profile, ProfileChunk, WINDOW_LEN,
-    WINDOW_PEAK_LEN, WINDOW_RECORD_KIND, WindowRecord,
+    AcquisitionWindow, Centroid, FLAG_EXCLUDED, MAX_PEAK_LIST_PEAKS, MAX_WINDOWS, MONOTONIC_NUDGE,
+    MzScale, PEAK_LIST_KIND, PEAK_LIST_PEAK_LEN, PROFILE_PAD_BINS, Packet, PacketHeader,
+    PeakDescriptor, Profile, ProfileChunk, WINDOW_LEN, WINDOW_PEAK_LEN, WINDOW_RECORD_KIND,
+    WindowRecord,
 };
 
 /// Format id used on the command line and in JSON.
@@ -131,6 +132,7 @@ impl FormatReader for ThermoRawReader {
                 "Centroid lists keep the peaks the file flags as reference/background ions, as conversions with the current vendor library do; conversions made before October 2020 (ProteoWizard up to 3.0.20239) left them out, so their peak counts are lower".into(),
                 "Orbitrap Exploris and Astral packets end in a per-peak annotation block (isotope-cluster marks, inferred) that is skipped. Orbitrap Astral (Astral-analyzer DIA), Ascend, Eclipse, IQ-X, ID-X and Elite files are validated against their depositors' conversions; Stellar only on three scans of a test file, and no Astral Zoom, Exploris with FAIMS, TSQ Quantis or TSQ Altis (only an Altis Plus) file is in the corpus".into(),
                 "Precursor charge is what the file records (`Charge State`); ion-trap (LTQ) and triple-quadrupole SRM scans record none, so none is reported".into(),
+                "ITQ 900 GC ion-trap scans are bare peak lists (scan-index kind 15) whose events state no polarity, data kind or MS level: they are read as MS1 centroids, with polarity and scan type from the method text, and validated on one file (5,184 scans); other GC ion traps (PolarisQ, ITQ 700/1100) have no corpus file".into(),
             ],
         }
     }

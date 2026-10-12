@@ -43254,6 +43254,85 @@
       ]
     },
     {
+      "id": "gh-mocca-gradient-2022-01-26-19-37-57-d",
+      "format": "chemstation",
+      "source": "github haascp/mocca_tutorial",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "signal 131",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "spectrum_records",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectra at uneven times",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "LC DATA FILE",
+          []
+        ],
+        [
+          "instrument",
+          "DAD1",
+          []
+        ],
+        [
+          "format_version",
+          "signal 130",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "delta_records",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "GCI",
+          []
+        ],
+        [
+          "writer_version",
+          "ChemStation 7",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        22,
+        23
+      ]
+    },
+    {
       "id": "mtbls75-x-fsfa-hl-gc-o7c-1-d",
       "format": "chemstation",
       "source": "metabolights mtbls75",
@@ -43320,6 +43399,13 @@
         [
           "codec",
           "spectrum_records",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectra at uneven times",
           [
             "traces"
           ]
@@ -133310,6 +133396,72 @@
       ]
     },
     {
+      "id": "mtbls14362-zenotof-fia-blank-1",
+      "format": "sciex-wiff",
+      "source": "metabolights:MTBLS14362",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "writer",
+          "SCIEX OS",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "SCIEX OS 3.3",
+          []
+        ],
+        [
+          "instrument",
+          "generation ZenoTOF",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "ZenoTOF 7600 System",
+          []
+        ],
+        [
+          "acquisition",
+          "stored profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "scan type TOF MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        9
+      ]
+    },
+    {
       "id": "mtbls1969-exosomes",
       "format": "sciex-wiff",
       "source": "metabolights:MTBLS1969",
@@ -135975,6 +136127,127 @@
       ]
     },
     {
+      "id": "mtbls12691-lcms8060-048",
+      "format": "shimadzu",
+      "source": "metabolights:MTBLS12691",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.01",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "status trace in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "LC-MS mrm",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "mtbls2235-tq8040-u13c-cit-r2",
+      "format": "shimadzu",
+      "source": "metabolights:MTBLS2235",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "4.00",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "GC-MS mrm",
+          []
+        ],
+        [
+          "acquisition",
+          "GC-MS scan",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "GC-MS sim",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "mtbls2984-qp2010-101-8",
+      "format": "shimadzu",
+      "source": "metabolights:MTBLS2984",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "4.00",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "GC-MS scan",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "mtbls7425-lcd-16s-negative",
       "format": "shimadzu",
       "source": "metabolights:MTBLS7425",
@@ -136348,6 +136621,35 @@
           "field",
           "experiment.acquisition.started_at",
           []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo8312045-qgd-dichloromethane-2",
+      "format": "shimadzu",
+      "source": "zenodo:8312045",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "2.00",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "GC-MS scan",
+          [
+            "spectra"
+          ]
         ]
       ],
       "inferred": [
@@ -144093,6 +144395,97 @@
         [
           "acquisition",
           "ion source EI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "mtbls370-itq900-fbs150-fs-4",
+      "format": "thermo-raw",
+      "source": "metabolights:MTBLS370",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "66",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "ITQ 900",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "Xcalibur 1",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer code 6",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "peak-list spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "derivation",
+          "spectra[].ms_levels by an event with no MS level and no reaction is a full scan",
           []
         ],
         [
@@ -164680,6 +165073,79 @@
         [
           "field",
           "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        14,
+        17
+      ]
+    },
+    {
+      "id": "pxd073998-vion-msms-ce10-raw",
+      "format": "waters-raw",
+      "source": "pride pxd073998",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "01.00",
+          [
+            "metadata",
+            "spectra",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "TOF MSMS FUNCTION",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "8-byte values",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "REFERENCE",
+          [
+            "spectra",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "stored mixed",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "record",
+          "analog channel",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
           []
         ]
       ],
