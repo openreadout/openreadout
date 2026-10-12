@@ -212,6 +212,15 @@ pub trait Dataset: Send {
         }
         Ok(())
     }
+    /// Why the reader refuses every plane of `image` (exit 6), when it knows that without
+    /// reading: raw data it recognises but does not decode, such as Leica FALCON photon
+    /// histograms. `None` (the default) means the planes are read. Whole-file `stats` and
+    /// `export` leave such images out and list them; asking for one by `--image` still
+    /// fails with the reader's error.
+    fn pixels_refused(&self, image: u32) -> Option<String> {
+        let _ = image;
+        None
+    }
     /// Files embedded in the container (thumbnails, label images, time stamps, ...).
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         Ok(Vec::new())

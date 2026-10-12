@@ -184,6 +184,9 @@ impl Dataset for StrictDataset {
         self.gate(Scope::Pixels)?;
         self.inner.read_strips(image, index, level, strips, sink)
     }
+    fn pixels_refused(&self, image: u32) -> Option<String> {
+        self.inner.pixels_refused(image)
+    }
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         self.inner.attachments()
     }

@@ -182,6 +182,9 @@ impl Dataset for ProgressDataset<'_> {
         self.tick();
         r
     }
+    fn pixels_refused(&self, image: u32) -> Option<String> {
+        self.inner.pixels_refused(image)
+    }
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         self.inner.attachments()
     }
