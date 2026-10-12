@@ -19,7 +19,7 @@ A `.wdf` file is a chain of blocks: a 4-character name, an int32 uid, an int64 s
 | `TEXT` | the measurement description |
 | `WXDA`, `WXDM`, `WXCS`, `WXIS`, `ZLDC`, `MAP ` | property sets (below) |
 
-**Codes named, and the corpus evidence.** x list unit 1 = Raman shift in cm⁻¹ (values 100–3200 with the laser line at 0); spectral unit 6 = counts; origin-list types 3/4/5 = X/Y/Z (their stored names say so), unit 5 = µm, type 11 with unit 24 = time as FILETIME ticks, types 16/17 = checksum and flags (stored names). Measurement types 1 single, 2 series, 3 map and scan types 1 static, 6 StreamLine, 7 StreamLineHR agree with each file's `TEXT` description. Other codes are reported as numbers (`x_list_type_code`, `x_list_unit_code`, `spectral_unit_code`, `scan_type_code`) and give an `x` axis or no y unit.
+**Codes named, and the corpus evidence.** x list unit 1 = Raman shift in cm⁻¹ (values 100–3200 with the laser line at 0); x list unit 3 = wavelength in nm (photoluminescence spectra and maps, values 559–670 with a 514.5 nm laser; the trace axis is then `wavelength`, and sets are named `Spectral map`, `Spectral series`, `Spectrum`); spectral unit 6 = counts; origin-list types 3/4/5 = X/Y/Z (their stored names say so), unit 5 = µm, type 11 with unit 24 = time as FILETIME ticks, types 16/17 = checksum and flags (stored names). Measurement types 1 single, 2 series, 3 map and scan types 1 static, 6 StreamLine, 7 StreamLineHR agree with each file's `TEXT` description. Other codes are reported as numbers (`x_list_type_code`, `x_list_unit_code`, `spectral_unit_code`, `scan_type_code`) and give an `x` axis or no y unit.
 
 ## Property sets (`PSET`)
 

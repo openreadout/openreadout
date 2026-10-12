@@ -1,0 +1,72 @@
+{
+ "id": "4tu-fb2b2d59-hbn",
+ "file": "4tu-fb2b2d59-hbn.wdf",
+ "size": 267989,
+ "sha256": "d7ebc7be3b0fd794de858fa336fbaedcac9f204b765d1010e9492eb6f49a23a3",
+ "max_planes_hashed": 64,
+ "reader": "renishawWiRE (MIT)",
+ "traces": [
+  {
+   "index": 0,
+   "reader": "renishawWiRE",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sample_count": 1790,
+   "x_first": 615.8436279296875,
+   "x_last": 517.07421875,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1790,
+     "channels": [
+      {
+       "xxh3": "41c509222ba6601e60caeb6d2cc55d24",
+       "first": [
+        615.8436279296875,
+        615.7893676757812,
+        615.7351684570312,
+        615.6808471679688,
+        615.6266479492188,
+        615.5723876953125,
+        615.5181274414062,
+        615.4638671875
+       ]
+      },
+      {
+       "xxh3": "53214859981dbaa1a2a040d43705244b",
+       "first": [
+        101.37100982666016,
+        80.39769744873047,
+        82.12916564941406,
+        89.10118103027344,
+        99.56390380859375,
+        101.29051971435547,
+        103.01644134521484,
+        80.30194854736328
+       ]
+      }
+     ]
+    }
+   ],
+   "parameters": {
+    "extra": {
+     "accumulations": 1,
+     "laser_wavelength_nm": 514.5011961147924
+    }
+   }
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [],
+   "column_hashes": {},
+   "approx_columns": {
+    "time_s": [
+     0.0
+    ]
+   }
+  }
+ ]
+}

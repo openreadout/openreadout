@@ -71,3 +71,9 @@ Regression fixtures: `crates/openreadout-spectro/tests/fixtures/malformed/file-f
 **Corpus files:** every development input of this format on disk (`corpus/assurance/evidence.json` lists them); no held-out file.
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: the WiRE major version, measurement and scan types, x-list type and white-light image layout. The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
+
+## 2026-10-12 — wavelength x lists (photoluminescence)
+
+**Corpus files:** `4tu-fb2b2d59-hbn`, `4tu-fb2b2d59-mapping1` (4TU.ResearchData record fb2b2d59, added the same day): WiRE photoluminescence spectra and maps with a 514.5 nm laser, each with the depositor's WiRE text export. No held-out file.
+**Prior art consulted:** renishawWiRE 0.1.16 (MIT) `renishawWiRE/types.py` `UnitType`, read as documentation (3 = nanometre), and run as a black box.
+**What was inferred from what.** In these files the x list's unit code is 3 and its values run 559–670, the emission wavelengths in nm of a 514.5 nm laser (the export's `#Wave` column holds the same values; read as Raman shifts they would be wavelengths below the laser line). renishawWiRE names code 3 nanometres. The trace's axis is now `wavelength` in nm for unit code 3, and such spectra are named and typed as spectra, not Raman spectra.

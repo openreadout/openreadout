@@ -73617,3 +73617,53 @@ license_checked = "https://gin.g-node.org/maxjoffe/2026_Snowden_PFC.PV.M2.signal
 source = "G-Node GIN maxjoffe/2026_Snowden_PFC.PV.M2.signaling"
 attribution = "Snowden et al. (GIN depositor maxjoffe)"
 notes = "ABF 2.9, Clampex 11.2, episodic; upstream Files/2025_09_22_0000.abf"
+
+[[file]]
+id = "4tu-fb2b2d59-hbn"
+format = "renishaw-wdf"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "4tu-fb2b2d59-hbn.wdf"
+url = "https://data.4tu.nl/file/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1/13b66401-0d1a-41a0-b455-6e1434ccdc1f"
+sha256 = "d7ebc7be3b0fd794de858fa336fbaedcac9f204b765d1010e9492eb6f49a23a3"
+size = 267989
+license = "CC-BY-4.0"
+license_checked = "https://data.4tu.nl/datasets/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1 (licence CC BY 4.0 in the 4TU API), 2026-10-12"
+source = "4TU.ResearchData doi:10.4121/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1.v1 'Data supporting the publication: Microsphere-assisted generation of localized optical emitters in 2D hexagonal boron nitride'"
+attribution = "4TU.ResearchData fb2b2d59 depositors"
+notes = "WiRE photoluminescence spectrum of hBN, 514.5 nm laser, x list in nm (unit code 3); upstream plain hBN.wdf"
+
+[[file]]
+id = "4tu-fb2b2d59-hbn-txt"
+format = "renishaw-wdf"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "4tu-fb2b2d59-hbn.txt"
+url = "https://data.4tu.nl/file/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1/95c0aec6-a4e0-4644-af81-b6eb5d15cf45"
+sha256 = "28a97d12c91ef3ba2641cd85f66f151c2fd3ee794c30e6b439e9afb4f3756e13"
+size = 40171
+license = "CC-BY-4.0"
+license_checked = "https://data.4tu.nl/datasets/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1 (licence CC BY 4.0 in the 4TU API), 2026-10-12"
+source = "4TU.ResearchData doi:10.4121/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1.v1 'Data supporting the publication: Microsphere-assisted generation of localized optical emitters in 2D hexagonal boron nitride'"
+attribution = "4TU.ResearchData fb2b2d59 depositors"
+notes = "WiRE text export (#Wave, #Intensity) of the .wdf with the same stem; upstream plain hBN.txt"
+
+[[file]]
+id = "4tu-fb2b2d59-mapping1"
+format = "renishaw-wdf"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "4tu-fb2b2d59-mapping1.wdf"
+url = "https://data.4tu.nl/file/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1/1ea99b6d-948d-4fbb-8da3-67bd4a1d9537"
+sha256 = "ff77143b92a42f1b59efa28356ed9c04bf5bbb550219e5b045afe3dad659f45c"
+size = 1354251
+license = "CC-BY-4.0"
+license_checked = "https://data.4tu.nl/datasets/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1 (licence CC BY 4.0 in the 4TU API), 2026-10-12"
+source = "4TU.ResearchData doi:10.4121/fb2b2d59-3fea-47e1-9f26-3cdf2d21d6e1.v1 'Data supporting the publication: Microsphere-assisted generation of localized optical emitters in 2D hexagonal boron nitride'"
+attribution = "4TU.ResearchData fb2b2d59 depositors"
+notes = "WiRE photoluminescence map (1085 spectra, 35 x 31), x list in nm (unit code 3) and a white-light JPEG (decoders differ by a level on some pixels); upstream mapping1.wdf"
+lossy = true
+
