@@ -79,7 +79,7 @@ Without a spectral dimension: X = `Dimensions[0]`, Y = `Dimensions[1]`; a third 
 
 | tag path | our field |
 | --- | --- |
-| `Microscope Info.Microscope` (else `Microscope Info.Name`) | `instrument.model` |
+| `Microscope Info.Microscope`, else `Session Info.Microscope` (the microscope entered for the session), else `Microscope Info.Name` (often the name of the microscope-control plug-in, such as `JEOL COM`) | `instrument.model` |
 | `Acquisition.Device.Name` | `instrument.detector` |
 | `GMS Version.Created` | `instrument.software_version` (software `Gatan DigitalMicrograph`) |
 | `Acquisition.Parameters.High Level.Exposure (s)`, else `Acquisition.Frame.Sequence.Exposure Time (ns)` | `channels[0].exposure_ms` |

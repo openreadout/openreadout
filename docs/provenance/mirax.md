@@ -29,3 +29,13 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 - Level-0 size: OpenSlide's is `cameras_x · (photo_w − o) + o` (truncated), photo_w = `w · d / s0`, with o = 96 in the unsaved files, 30 in the 1/2 save and ≈ 0.5 in the 1/16 save, i.e. `round(OVERLAP_X of level 0) / s0` in all three kinds (the saved files' OVERLAP_X is already at their own scale, so this is OpenSlide's convention, not a physical overlap). Level k size = floor(level-0 size / 2^k). We use the same sizes so that coordinates agree with OpenSlide-based tools.
 - Fluorescence: `SLIDE_TYPE_FLUORESCENCE`, three filters with `STORING_CHANNEL_NUMBER` 0, 1, 2 in one 3-component JPEG. In `fluorescence-1` the decoded red component shows nuclei (round, bright, dark background), and the `UV` filter has storing channel 2; the `Rhodamine` filter (storing channel 0) is the blue component. So storing channel k is decoded component 2 − k (B, G, R order, as `IMAGE_FILL_COLOR_BGR`'s name says). OpenSlide returns the composite RGB (Rhodamine shown in blue); we return one channel per filter.
 - `SLIDE_CREATIONDATETIME` is `DD/MM/YYYY hh:mm:ss`: `29/12/2009` and `20/02/2008` settle the order.
+
+## 2026-10-12 — Slides without a camera position table
+
+**Why.** Slides exported with overlaps removed have no camera position table, and their pixels exited 6.
+
+**Corpus file used:** `openslide-mirax-cmu-1-exported` (new; OpenSlide test data `Mirax/CMU-1-Exported.zip`, CC0-1.0: "Export of CMU-1.mrxs with overlaps resolved", `CURRENT_SLIDE_VERSION` 2.3). **Prior art consulted:** OpenSlide's MIRAX format page (https://openslide.org/formats/mirax/, CC BY-SA 4.0), which describes the position file but not slides without one. **Black-box oracle:** OpenSlide 4.0.1 (openslide-python 1.4.6).
+
+**Inferred from the file.** `Slidedat.ini` has no non-hierarchical records (`NONHIER_COUNT = 0`), `IMAGE_OVERLAP_MICROMETERS_*` 0 and `OVERLAP_*` 0 on every level, and a 427 × 862 grid of 256 × 256 images. OpenSlide's level-0 size is that grid, 109312 × 220672, as ours already was.
+
+**Rule implemented:** without a position table, level k's image at grid (x, y) is placed at `(x / step · w, y / step · h)`, abutting its neighbours, and composed as before.
