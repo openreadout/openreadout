@@ -59,6 +59,125 @@ fn observe_winwcp(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
+    format_id: "tdt-tank",
+    observe: observe_tdt,
+    validated: TDT_TANK_VALIDATED,
+    confidence: TDT_TANK_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_tdt(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if a::note_with(info, "TDT tank").is_some() {
+        o.feature(K::Layout, "tank", &all);
+    } else {
+        o.feature(K::Layout, "block", &all);
+    }
+    for t in &info.traces {
+        o.feature(K::Record, "stream", &[Scope::Traces]);
+        if let Some(f) = a::extra_str(&t.extra, "data_format") {
+            o.feature(K::SampleLayout, f, &[Scope::Traces]);
+        }
+    }
+    for t in &info.tables {
+        match t.name.as_deref() {
+            Some("spikes") => o.feature(K::Record, "snippet", &[Scope::Tables]),
+            Some("epocs") => {
+                o.feature(K::Record, "strobe", &[Scope::Tables]);
+                if t.extra
+                    .get("paired_offsets")
+                    .and_then(serde_json::Value::as_u64)
+                    .unwrap_or(0)
+                    > 0
+                {
+                    o.feature(K::Record, "strobe-off", &[Scope::Tables]);
+                }
+            }
+            _ => {}
+        }
+    }
+    if let Some(n) = a::note_with(info, "is not read") {
+        o.undecoded("unread stores", &[], n.to_string());
+    }
+    if let Some(n) = a::note_with(info, "not decoded") {
+        o.undecoded("scalar records", &[Scope::Tables], n.to_string());
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "data past the end of the .tev",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
+pub(crate) static AXONA: AssuranceProfile = AssuranceProfile {
+    format_id: "axona-dacqusb",
+    observe: observe_axona,
+    validated: AXONA_DACQUSB_VALIDATED,
+    confidence: AXONA_DACQUSB_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_axona(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.context(K::WriterVersion, v);
+    }
+    if !info.traces.is_empty() {
+        o.feature(K::Layout, "raw packets", &[Scope::Traces]);
+        o.calibration(
+            "ADC counts to µV",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "int16 samples × 1000 × ADC_fullscale_mv / (gain_ch × 32768)",
+        );
+    }
+    for t in &info.tables {
+        if t.name.as_deref() == Some("spikes") {
+            o.feature(K::Record, "tetrode spikes", &[Scope::Tables]);
+        }
+    }
+    if let Some(n) = a::note_with(info, "not read:") {
+        o.undecoded("EEG, position and other session files", &[], n.to_string());
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
+pub(crate) static MCS_RAW: AssuranceProfile = AssuranceProfile {
+    format_id: "mcs-raw",
+    observe: observe_mcs_raw,
+    validated: MCS_RAW_VALIDATED,
+    confidence: MCS_RAW_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_mcs_raw(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::WriterVersion, v, &[Scope::Metadata, Scope::Traces]);
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "ADC counts to channel units",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "uint16 samples × El gain − El gain × ADC zero",
+        );
+    }
+    o
+}
+
 fn observe_spike2(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     if let Some(v) = &info.format_version {
@@ -357,6 +476,41 @@ const WINWCP_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "V5.8.1", 1, 1, 1),
 ];
 // END GENERATED winwcp
+
+// BEGIN GENERATED axona-dacqusb (cargo xtask assurance-audit --write; do not edit)
+const AXONA_DACQUSB_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const AXONA_DACQUSB_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
+    a::row(K::Layout, "raw packets", 2, 1, 2),
+    a::row(K::Record, "tetrode spikes", 2, 1, 2),
+    a::row(K::WriterVersion, "1.2.2.16", 3, 1, 3),
+];
+// END GENERATED axona-dacqusb
+
+// BEGIN GENERATED mcs-raw (cargo xtask assurance-audit --write; do not edit)
+const MCS_RAW_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const MCS_RAW_VALIDATED: &[Validated] = &[
+    a::row(K::WriterVersion, "2.6.10", 1, 1, 1),
+];
+// END GENERATED mcs-raw
+
+// BEGIN GENERATED tdt-tank (cargo xtask assurance-audit --write; do not edit)
+const TDT_TANK_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const TDT_TANK_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
+    a::row(K::Layout, "block", 5, 1, 5),
+    a::row(K::Layout, "tank", 1, 1, 1),
+    a::row(K::Record, "snippet", 1, 1, 1),
+    a::row(K::Record, "stream", 3, 1, 3),
+    a::row(K::Record, "strobe", 4, 1, 4),
+    a::row(K::Record, "strobe-off", 2, 1, 2),
+    a::row(K::SampleLayout, "float32", 2, 1, 2),
+    a::row(K::SampleLayout, "int16", 1, 1, 1),
+];
+// END GENERATED tdt-tank
 
 #[cfg(test)]
 mod tests {

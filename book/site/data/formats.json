@@ -789,6 +789,69 @@
    "field": "Electrophysiology"
   },
   {
+   "id": "tdt-tank",
+   "name": "Tucker-Davis Technologies tank or block (.tsq/.tev)",
+   "vendor": "Tucker-Davis Technologies (OpenEx, Synapse)",
+   "extensions": [
+    "tsq",
+    "tev",
+    "tbk",
+    "tdx",
+    "tin",
+    "tnt",
+    "sev"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Input is a block directory, one of its files, or a tank directory (blocks become sweeps)",
+    "Stream and snippet values are returned as stored, without units: TDT files record no unit or gain",
+    "Stores whose samples are in .sev files are listed, not read; scalar records are counted, not decoded",
+    "Samples indexed past the end of a cut-short .tev are not returned (the trace ends at the last whole chunk)"
+   ],
+   "page": "tdt-tank",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "axona-dacqusb",
+   "name": "Axona DacqUSB recording (.set + .bin, tetrode files)",
+   "vendor": "Axona (DacqUSB)",
+   "extensions": [
+    "set"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Input is the .set file (or another file of the session); the raw .bin and the tetrode files .1 … .32 are read",
+    "EEG (.eeg, .egf), position (.pos) and other session files are listed, not read",
+    "Tetrode waveforms are returned as stored (int8 counts); raw .bin samples are scaled to µV with the .set gains"
+   ],
+   "page": "axona-dacqusb",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "mcs-raw",
+   "name": "Multi Channel Systems MC_DataTool binary export (.raw with header)",
+   "vendor": "Multi Channel Systems (MC_DataTool)",
+   "extensions": [
+    "raw"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Only exports written with the header option are read; electrode (El_) streams only, other stream kinds are refused",
+    "MC_Rack .mcd recordings are not read (no public specification)"
+   ],
+   "page": "mcs-raw",
+   "field": "Electrophysiology"
+  },
+  {
    "id": "open-ephys",
    "name": "Open Ephys recording (binary or Open Ephys format)",
    "vendor": "Open Ephys GUI",

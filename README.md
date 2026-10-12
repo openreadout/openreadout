@@ -191,7 +191,7 @@ openreadout info any-file --json
 | Electron microscopy | MRC, Gatan DM3/DM4, FEI SER/EMI, Velox EMD | OME-TIFF, OME-Zarr |
 | Mass spectrometry | Thermo RAW, Bruker timsTOF and BAF, Agilent MassHunter, Waters MassLynx, Sciex WIFF, mzML | mzML, Parquet, Arrow |
 | Chromatography | Agilent ChemStation and OpenLab, Shimadzu, Chromeleon, AIA/ANDI | CSV, JCAMP-DX, Parquet |
-| Electrophysiology | Axon ABF, Intan, SpikeGLX, Open Ephys, Neuralynx, Blackrock, Plexon, HEKA, Spike2, NWB | NWB, CSV, Parquet |
+| Electrophysiology | Axon ABF, Intan, SpikeGLX, Open Ephys, Neuralynx, Blackrock, Plexon, HEKA, Spike2, TDT, Axona, NWB | NWB, CSV, Parquet |
 | NMR and spectroscopy | Bruker TopSpin and OPUS, Varian, JEOL, Thermo OMNIC, Renishaw, JCAMP-DX, SPC | JCAMP-DX, CSV |
 | Flow cytometry | FCS, FlowJo workspaces, Gating-ML | CSV, Parquet, Arrow |
 | Plate readers and qPCR | Plate-reader exports, RDML, Applied Biosystems, LightCycler, Rotor-Gene | Allotrope ASM, RDML, CSV |

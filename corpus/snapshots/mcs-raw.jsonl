@@ -1,0 +1,1 @@
+{"id":"gin-rawmcs-raw-mcs-with-header-1","format":"mcs-raw","info":{"format_version":"2.6.10","traces":["1 sweeps x 60 ch x 100000 samples @ 20000.0 Hz"],"plane_count":0},"info_xxh3":"519862e5392dfbb78fcd6b1a2226b0a9","assurance":{"level":"validated","fingerprint":"mcs-raw|writer_version=2.6.10","strict_refuses":[]},"check":{"ok":true,"findings":[]}}

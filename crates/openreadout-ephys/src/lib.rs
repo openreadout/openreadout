@@ -1,10 +1,12 @@
 //! Readers for electrophysiology recordings that have no other home in OpenReadout:
 //! HEKA PatchMaster bundles (`heka-patchmaster`), CED Spike2 `.smr`/`.smrx` files (`ced-spike2`),
-//! Open Ephys recordings (`open-ephys`, binary and legacy formats) and WinWCP `.wcp` files
-//! (`winwcp`).
+//! Open Ephys recordings (`open-ephys`, binary and legacy formats), WinWCP `.wcp` files
+//! (`winwcp`), Tucker-Davis Technologies tanks and blocks (`tdt-tank`), Axona DacqUSB sessions
+//! (`axona-dacqusb`) and Multi Channel Systems MC_DataTool binary exports (`mcs-raw`).
 //!
 //! Layout and vocabulary: `docs/formats/heka-patchmaster.md`, `docs/formats/ced-spike2.md`,
-//! `docs/formats/open-ephys.md`, `docs/formats/winwcp.md`.
+//! `docs/formats/open-ephys.md`, `docs/formats/winwcp.md`, `docs/formats/tdt-tank.md`,
+//! `docs/formats/axona-dacqusb.md`, `docs/formats/mcs-raw.md`.
 //! Provenance: `docs/provenance/heka-patchmaster.md` (HEKA's public file-format documents and the
 //! MIT-licensed load-heka-python), `docs/provenance/ced-spike2.md` (Neo's BSD-3 `Spike2RawIO`); no
 //! vendor software or SDK was opened.
@@ -47,15 +49,24 @@
 
 mod assurance;
 #[doc(hidden)]
+pub mod axona;
+#[doc(hidden)]
 pub mod heka;
+#[doc(hidden)]
+pub mod mcsraw;
 #[doc(hidden)]
 pub mod openephys;
 #[doc(hidden)]
 pub mod spike2;
 #[doc(hidden)]
+pub mod tdt;
+#[doc(hidden)]
 pub mod winwcp;
 
+pub use axona::{AXONA_FORMAT_ID, AxonaReader};
 pub use heka::{HEKA_FORMAT_ID, HekaReader};
+pub use mcsraw::{MCS_RAW_FORMAT_ID, McsRawReader};
 pub use openephys::{OPEN_EPHYS_FORMAT_ID, OpenEphysReader};
 pub use spike2::{SPIKE2_FORMAT_ID, Spike2Reader};
+pub use tdt::{TDT_FORMAT_ID, TdtReader};
 pub use winwcp::{WINWCP_FORMAT_ID, WinWcpReader};
