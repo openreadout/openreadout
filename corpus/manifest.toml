@@ -74732,3 +74732,86 @@ license_checked = "Zenodo record 8312045 metadata (cc-by-4.0), 2026-10-12"
 source = "Zenodo record 8312045 (doi:10.5281/zenodo.8312045): GC-MS of zebrafish liver extracts after trabectedin exposure"
 attribution = "Évila Damasceno et al., Zenodo 8312045"
 notes = "GCMSsolution .qgd, file version 2.00, a solvent blank: 8,320 scans, 1,198 of them without ions (32-byte records of width code 4). No export exists: self-consistency only (each scan's points sum to its TIC Data value)."
+
+[[file]]
+id = "gh-mocca-gradient-2022-01-26-19-37-57-d"
+format = "chemstation"
+role = "input"
+tier = "standard"
+filename = "gh-mocca-2022-01-26_19-37-57_gradient.D"
+url = ""
+license = "MIT"
+license_checked = "LICENSE.txt of HaasCP/mocca_tutorial (MIT), 2026-10-12"
+source = "GitHub HaasCP/mocca_tutorial (commit 184c363), notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D"
+attribution = "Christian Haas and mocca contributors"
+notes = "Agilent 1200 DAD (OpenLab ChemStation edition), DAD1.UV version 131 with 2,495 spectra stored at two rates (50 ms, then 100 ms) and three 20 Hz signals; the depositor's ChemStation 3D export DAD1.CSV (UTF-16) of the same run equals the spectra and their times (a directory assembled from the part entries below)"
+
+[[file]]
+id = "gh-mocca-gradient-2022-01-26-19-37-57-d-dad1-uv"
+format = "chemstation"
+role = "part"
+tier = "standard"
+filename = "gh-mocca-2022-01-26_19-37-57_gradient.D/DAD1.UV"
+url = "https://raw.githubusercontent.com/HaasCP/mocca_tutorial/184c363ce50e6fd0e154dc95ab591820a2276289/notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D/DAD1.UV"
+sha256 = "999a3a1cc5d48692f6a2960d3e78dd2868b73ffdf2fe69bca65a80c5ca69b1e4"
+size = 1290508
+license = "MIT"
+source = "GitHub HaasCP/mocca_tutorial (commit 184c363), notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D"
+attribution = "Christian Haas and mocca contributors"
+notes = "part of gh-mocca-gradient-2022-01-26-19-37-57-d"
+
+[[file]]
+id = "gh-mocca-gradient-2022-01-26-19-37-57-d-dad1a-ch"
+format = "chemstation"
+role = "part"
+tier = "standard"
+filename = "gh-mocca-2022-01-26_19-37-57_gradient.D/DAD1A.ch"
+url = "https://raw.githubusercontent.com/HaasCP/mocca_tutorial/184c363ce50e6fd0e154dc95ab591820a2276289/notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D/DAD1A.ch"
+sha256 = "b1ef25dfe9b46874f147beccd7fb37135c9cae360c2da52e527f49bf9ed9df4e"
+size = 15890
+license = "MIT"
+source = "GitHub HaasCP/mocca_tutorial (commit 184c363), notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D"
+attribution = "Christian Haas and mocca contributors"
+notes = "part of gh-mocca-gradient-2022-01-26-19-37-57-d"
+
+[[file]]
+id = "gh-mocca-gradient-2022-01-26-19-37-57-d-dad1b-ch"
+format = "chemstation"
+role = "part"
+tier = "standard"
+filename = "gh-mocca-2022-01-26_19-37-57_gradient.D/DAD1B.ch"
+url = "https://raw.githubusercontent.com/HaasCP/mocca_tutorial/184c363ce50e6fd0e154dc95ab591820a2276289/notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D/DAD1B.ch"
+sha256 = "c6aa9eaf6c3f8e218f49cfaafbe95bcae3faca45d6f936934c3f50b416598f61"
+size = 15890
+license = "MIT"
+source = "GitHub HaasCP/mocca_tutorial (commit 184c363), notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D"
+attribution = "Christian Haas and mocca contributors"
+notes = "part of gh-mocca-gradient-2022-01-26-19-37-57-d"
+
+[[file]]
+id = "gh-mocca-gradient-2022-01-26-19-37-57-d-dad1c-ch"
+format = "chemstation"
+role = "part"
+tier = "standard"
+filename = "gh-mocca-2022-01-26_19-37-57_gradient.D/DAD1C.ch"
+url = "https://raw.githubusercontent.com/HaasCP/mocca_tutorial/184c363ce50e6fd0e154dc95ab591820a2276289/notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D/DAD1C.ch"
+sha256 = "2c27a52d78422d9f7aaa1a729ae8404e572d34803f569ab9676e2d8ec8cb88eb"
+size = 15890
+license = "MIT"
+source = "GitHub HaasCP/mocca_tutorial (commit 184c363), notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D"
+attribution = "Christian Haas and mocca contributors"
+notes = "part of gh-mocca-gradient-2022-01-26-19-37-57-d"
+
+[[file]]
+id = "gh-mocca-gradient-2022-01-26-19-37-57-d-dad1-csv"
+format = "chemstation"
+role = "part"
+tier = "standard"
+filename = "gh-mocca-2022-01-26_19-37-57_gradient.D/DAD1.CSV"
+url = "https://raw.githubusercontent.com/HaasCP/mocca_tutorial/184c363ce50e6fd0e154dc95ab591820a2276289/notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D/DAD1.CSV"
+sha256 = "677b1fd6a9e777ce188492e81bc2e673e77c696d8d975f6c811e896ac90baa06"
+size = 4993110
+license = "MIT"
+source = "GitHub HaasCP/mocca_tutorial (commit 184c363), notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D"
+attribution = "Christian Haas and mocca contributors"
+notes = "part of gh-mocca-gradient-2022-01-26-19-37-57-d (the depositor's ChemStation 3D export of DAD1.UV, UTF-16 CSV)"

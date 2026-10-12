@@ -69,7 +69,7 @@ Scales seen: 1/7,680 (FID pA), 1,000/2²¹ (MWD/DAD mAU).
 
 ### Time axis
 
-Traces are regular: `start_s` = first time; the interval is `(last − first) / (n − 1)` for versions 30/130/131/179/181 and `(last − first) / n` for version 81 (both corpus version-81 files span exactly `n` intervals of 200 ms or 100 ms). For `.uv` files the times come from the records. `extra.axis` = `{quantity: retention_time, unit: min, first, step}`; `extra.x_start_min` / `x_end_min` are the header times in minutes.
+Traces are regular: `start_s` = first time; the interval is `(last − first) / (n − 1)` for versions 30/130/131/179/181 and `(last − first) / n` for version 81 (both corpus version-81 files span exactly `n` intervals of 200 ms or 100 ms). For `.uv` files the times come from the records: when they are evenly spaced (no two intervals more than 1 ms apart) the trace is regular; otherwise (a DAD that stored spectra at two rates, or only around peaks) `sample_rate_hz` is 0, a last channel `time` (minutes) holds each record's time, and `extra.axis` is `{irregular: true, channel}` with `extra.irregular_sampling`. `extra.axis` = `{quantity: retention_time, unit: min, first, step}`; `extra.x_start_min` / `x_end_min` are the header times in minutes.
 
 ## Mapping
 

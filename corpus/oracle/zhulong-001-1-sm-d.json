@@ -1,14 +1,14 @@
 {
  "id": "zhulong-001-1-sm-d",
  "file": "zhulong-001-1-0312650-0713-SM.D",
- "size": 331463,
+ "size": 331238,
  "max_planes_hashed": 64,
  "reader": "rainbow-api (black box) / Aston (BSD-3) for version 81",
  "traces": [
   {
    "index": 0,
    "sweep_count": 1,
-   "channel_count": 106,
+   "channel_count": 107,
    "channel_names": [
     "190 nm",
     "192 nm",
@@ -115,7 +115,8 @@
     "394 nm",
     "396 nm",
     "398 nm",
-    "400 nm"
+    "400 nm",
+    "time"
    ],
    "channel_units": [
     "mAU",
@@ -223,11 +224,10 @@
     "mAU",
     "mAU",
     "mAU",
-    "mAU"
+    "mAU",
+    "min"
    ],
-   "sample_rate_hz": 6.53564290473018,
-   "x_first_min": 0.0005,
-   "x_last_min": 2.5021666666666667,
+   "sample_rate_hz": 0.0,
    "sweeps": [
     {
      "sweep": 0,
@@ -1609,6 +1609,19 @@
         11.898994445800781,
         16.158103942871094,
         13.793468475341797
+       ]
+      },
+      {
+       "xxh3": "db556ddaa721e69de80d5a1c2056fb18",
+       "first": [
+        0.0005,
+        0.0021666666666666666,
+        0.003833333333333333,
+        0.0055,
+        0.007166666666666667,
+        0.008833333333333334,
+        0.0105,
+        0.012166666666666666
        ]
       }
      ]

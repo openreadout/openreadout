@@ -200,6 +200,10 @@ fn observe_chemstation(info: &FileInfo) -> Observations {
         if let Some(e) = a::extra_str(&t.extra, "encoding") {
             o.feature(K::Codec, e, &[Scope::Traces]);
         }
+        // spectra whose record times are not evenly spaced carry their times as a channel
+        if t.extra.get("irregular_sampling").is_some() {
+            o.feature(K::Layout, "spectra at uneven times", &[Scope::Traces]);
+        }
         if let Some(f) = a::extra_str(&t.extra, "file_type") {
             o.context(K::Acquisition, f.to_ascii_uppercase());
         }

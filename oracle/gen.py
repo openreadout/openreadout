@@ -5853,6 +5853,11 @@ def _cs_rainbow_file(p: Path, index: int):
     if p.suffix.lower() == ".uv":
         names = [f"{w:g} nm" for w in np.asarray(df.ylabels, dtype=np.float64)]
         cols = [data[:, k] for k in range(data.shape[1])]
+        d = np.diff(x) * 60_000.0
+        if len(d) > 1 and d.max() - d.min() > 1.0:
+            # spectra stored at more than one rate: the times are a last channel, in minutes
+            return _chrom_trace(index, names + ["time"], [unit] * len(names) + ["min"], x,
+                                cols + [x], rate=0.0, x_check=False)
         return _chrom_trace(index, names, [unit] * len(names), x, cols)
     note = None
     x_check = True
