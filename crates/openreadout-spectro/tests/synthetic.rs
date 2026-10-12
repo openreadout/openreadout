@@ -329,6 +329,70 @@ fn omnic_group_file() {
     assert_eq!(tab.columns[2], vec![0.0, 60.0, 120.0]);
 }
 
+/// A key-6 record: u16 count, u16 kind, two bytes, float32 values.
+fn omnic_shape(kind: u16, count: u16, values: &[f32]) -> Vec<u8> {
+    let mut b = count.to_le_bytes().to_vec();
+    b.extend_from_slice(&kind.to_le_bytes());
+    b.extend_from_slice(&[0, 0]);
+    b.extend_from_slice(&floats(values));
+    b
+}
+
+#[test]
+fn omnic_map_file() {
+    // the map header (spectrum 1), the positions, the background (spectrum 0), then per map
+    // spectrum its name record (key 148) and values (key 3)
+    let mut recs = vec![
+        (2, 1, omnic_header(2, 1, 16, 3000.0, 1000.0, 8)),
+        (
+            6,
+            1,
+            omnic_shape(2, 4, &[0.0, 10.0, 5.0, 10.0, 0.0, 12.0, 5.0, 12.0]),
+        ),
+        (6, 2, omnic_shape(4, 1, &[-1.0, 9.0, 6.0, 13.0])),
+        (2, 0, omnic_header(2, 1, 15, 3000.0, 1000.0, 8)),
+        (3, 0, floats(&[9.0, 9.5])),
+    ];
+    for s in 1..=4u16 {
+        let mut name = vec![0u8; 16];
+        name.extend_from_slice(format!("Spectrum {s} of 4").as_bytes());
+        name.resize(96, 0);
+        recs.push((148, s, name));
+        recs.push((3, s, floats(&[f32::from(s), f32::from(s) + 0.5])));
+    }
+    let bytes = omnic_file("m.map", 0, &recs);
+    let mut ds = open(&OmnicReader, "m.map", bytes.clone()).unwrap();
+    let info = ds.info().unwrap();
+    assert_eq!(info.traces.len(), 2);
+    assert_eq!(info.traces[0].sweep_count, 4);
+    assert_eq!(info.traces[0].extra["spectrum_titles"][3], "Spectrum 4 of 4");
+    assert_eq!(info.traces[1].name.as_deref(), Some("background"));
+    assert_eq!(
+        ds.read_trace(0, 3, 0, 9).unwrap().channels[0],
+        vec![4.0, 4.5]
+    );
+    // positions, and a 2 × 2 grid image with one channel per spectral point
+    let tab = ds.read_table(0, 0, 10).unwrap();
+    assert_eq!(tab.columns[1], vec![0.0, 5.0, 0.0, 5.0]);
+    assert_eq!(tab.columns[2], vec![10.0, 10.0, 12.0, 12.0]);
+    assert_eq!(tab.columns[4], vec![0.0, 0.0, 1.0, 1.0]);
+    assert_eq!((info.images[0].size_x, info.images[0].size_y), (2, 2));
+    // fewer positions than spectra: refused
+    let mut short = recs.clone();
+    short[1] = (6, 1, omnic_shape(2, 3, &[0.0, 10.0, 5.0, 10.0, 0.0, 12.0]));
+    let e = open(&OmnicReader, "m.map", omnic_file("m.map", 0, &short))
+        .err()
+        .unwrap();
+    assert_eq!(e.exit_code(), 6);
+    // damage never panics
+    for cut in (0..bytes.len()).step_by(7) {
+        if let Ok(mut ds) = open(&OmnicReader, "m.map", bytes[..cut].to_vec()) {
+            let _ = ds.info();
+            let _ = ds.read_trace(0, 0, 0, 4);
+        }
+    }
+}
+
 #[test]
 fn omnic_series_without_a_series_record_is_corrupt() {
     // `.srs` series are read; a key table without the series record is a clean corrupt error
