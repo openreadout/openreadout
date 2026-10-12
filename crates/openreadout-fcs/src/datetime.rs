@@ -47,10 +47,53 @@ impl FcsDate {
     }
 }
 
-/// Parse `dd-mmm-yyyy` (the spec form), `dd-mmm-yy` (two-digit years: < 70 → 20yy, else 19yy)
-/// and `yyyy-mmm-dd` (seen in Miltenyi MACSQuantify files). Month names are case-insensitive.
+/// Chinese month names (`一月` … `十二月`) as GBK bytes, which the keyword reader decodes as
+/// Latin-1 when a value is not UTF-8 (BD Accuri C6 software on a Chinese-locale PC).
+const GBK_MONTHS: [&[u8]; 12] = [
+    b"\xd2\xbb\xd4\xc2",
+    b"\xb6\xfe\xd4\xc2",
+    b"\xc8\xfd\xd4\xc2",
+    b"\xcb\xc4\xd4\xc2",
+    b"\xce\xe5\xd4\xc2",
+    b"\xc1\xf9\xd4\xc2",
+    b"\xc6\xdf\xd4\xc2",
+    b"\xb0\xcb\xd4\xc2",
+    b"\xbe\xc5\xd4\xc2",
+    b"\xca\xae\xd4\xc2",
+    b"\xca\xae\xd2\xbb\xd4\xc2",
+    b"\xca\xae\xb6\xfe\xd4\xc2",
+];
+
+/// A month field: an English abbreviation, a GBK month name read as Latin-1, or a number.
+fn month_field(m: &str) -> Option<(u32, bool)> {
+    if let Some(n) = month_from_abbrev(m) {
+        return Some((n, false));
+    }
+    let bytes: Option<Vec<u8>> = m.chars().map(|c| u8::try_from(u32::from(c)).ok()).collect();
+    if let Some(b) = bytes
+        && let Some(i) = GBK_MONTHS.iter().position(|g| *g == b.as_slice())
+    {
+        return u32::try_from(i + 1).ok().map(|n| (n, false));
+    }
+    if !m.is_empty() && m.len() <= 2 && m.bytes().all(|b| b.is_ascii_digit()) {
+        let n: u32 = m.parse().ok()?;
+        return (1..=12).contains(&n).then_some((n, true));
+    }
+    None
+}
+
+/// Parse `dd-mmm-yyyy` (the spec form), `dd-mmm-yy` (two-digit years: < 70 → 20yy, else 19yy),
+/// `yyyy-mmm-dd` (seen in Miltenyi MACSQuantify files) and `dd mmm yyyy` (MoFlo). Month names
+/// are case-insensitive; GBK month names (Accuri on Chinese-locale PCs) are read too. A numeric
+/// month (`dd-mm-yyyy`, partec) is accepted only when the day is above 12, because the order of
+/// day and month cannot be told otherwise.
 pub fn parse_date(v: &str) -> Option<FcsDate> {
-    let parts: Vec<&str> = v.trim().split('-').map(str::trim).collect();
+    let t = v.trim();
+    let parts: Vec<&str> = if t.contains('-') {
+        t.split('-').map(str::trim).collect()
+    } else {
+        t.split_whitespace().collect()
+    };
     if parts.len() != 3 {
         return None;
     }
@@ -60,7 +103,10 @@ pub fn parse_date(v: &str) -> Option<FcsDate> {
         (parts[0], parts[1], parts[2])
     };
     let day: u32 = d.parse().ok()?;
-    let month = month_from_abbrev(m.trim())?;
+    let (month, numeric) = month_field(m.trim())?;
+    if numeric && (day <= 12 || parts[0].len() == 4) {
+        return None;
+    }
     let mut year: i32 = y.parse().ok()?;
     if y.len() == 2 {
         year += if year < 70 { 2000 } else { 1900 };
@@ -70,6 +116,26 @@ pub fn parse_date(v: &str) -> Option<FcsDate> {
     (1..=days_in_month(year, month))
         .contains(&day)
         .then_some(FcsDate { year, month, day })
+}
+
+/// A `$BTIM`/`$ETIM` that carries its own date, `yyyy-mm-dd hh:mm:ss` (BeamCyte, which writes no
+/// `$DATE`): the date and the time.
+fn dated_time(v: &str) -> Option<(FcsDate, String)> {
+    let (d, t) = v.trim().split_once(' ')?;
+    let p: Vec<&str> = d.split('-').collect();
+    let [y, m, dd] = p.as_slice() else {
+        return None;
+    };
+    if y.len() != 4 || m.len() != 2 || dd.len() != 2 {
+        return None;
+    }
+    let year: i32 = y.parse().ok()?;
+    let month: u32 = m.parse().ok()?;
+    let day: u32 = dd.parse().ok()?;
+    if !(1..=12).contains(&month) || !(1..=days_in_month(year, month)).contains(&day) {
+        return None;
+    }
+    Some((FcsDate { year, month, day }, parse_time(t)?))
 }
 
 /// Parse `hh:mm:ss`, `hh:mm:ss.cc` (FCS 3.1, hundredths) or `hh:mm:ss:tt` (FCS 2.0/3.0, sixtieths).
@@ -111,14 +177,21 @@ pub fn parse_time(value: &str) -> Option<String> {
 }
 
 /// `$DATE` + `$BTIM`/`$ETIM` → (start, end) ISO timestamps; the end rolls to the next day when it
-/// is earlier than the start.
+/// is earlier than the start. Without a usable `$DATE`, times that carry their own date
+/// (`yyyy-mm-dd hh:mm:ss`) are used.
 pub fn acquisition_span(
     date: Option<&str>,
     btim: Option<&str>,
     etim: Option<&str>,
 ) -> (Option<String>, Option<String>) {
     let Some(d) = date.and_then(parse_date) else {
-        return (None, None);
+        // no usable `$DATE`: times that carry their own date
+        let b = btim.and_then(dated_time);
+        let e = etim.and_then(dated_time);
+        return (
+            b.map(|(d, t)| format!("{}T{t}", d.iso())),
+            e.map(|(d, t)| format!("{}T{t}", d.iso())),
+        );
     };
     let b = btim.and_then(parse_time);
     let e = etim.and_then(parse_time);
@@ -169,6 +242,27 @@ mod tests {
             parse_date("2014-Sep-26").map(FcsDate::iso).as_deref(),
             Some("2014-09-26")
         );
+        assert_eq!(
+            parse_date("13 Mar 2014").map(FcsDate::iso).as_deref(),
+            Some("2014-03-13")
+        );
+        assert_eq!(
+            parse_date("31-\u{ca}\u{ae}\u{b6}\u{fe}\u{d4}\u{c2}-2024")
+                .map(FcsDate::iso)
+                .as_deref(),
+            Some("2024-12-31")
+        );
+        assert_eq!(
+            parse_date("18-\u{ca}\u{ae}\u{d4}\u{c2}-2024")
+                .map(FcsDate::iso)
+                .as_deref(),
+            Some("2024-10-18")
+        );
+        assert_eq!(
+            parse_date("27-03-2024").map(FcsDate::iso).as_deref(),
+            Some("2024-03-27")
+        );
+        assert_eq!(parse_date("05-07-2024"), None);
         assert_eq!(parse_date("31-FEB-2020"), None);
         assert_eq!(parse_date("yesterday"), None);
     }
@@ -180,6 +274,18 @@ mod tests {
         assert_eq!(parse_time("17:29:39:51").as_deref(), Some("17:29:39.85"));
         assert_eq!(parse_time("09:42:05:509").as_deref(), Some("09:42:05"));
         assert_eq!(parse_time("25:00:00"), None);
+    }
+
+    #[test]
+    fn times_with_their_own_date() {
+        let (s, e) = acquisition_span(
+            None,
+            Some("2021-06-02 16:14:40"),
+            Some("2021-06-02 16:14:50"),
+        );
+        assert_eq!(s.as_deref(), Some("2021-06-02T16:14:40"));
+        assert_eq!(e.as_deref(), Some("2021-06-02T16:14:50"));
+        assert_eq!(acquisition_span(None, Some("16:14:40"), None), (None, None));
     }
 
     #[test]
