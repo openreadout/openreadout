@@ -30,8 +30,8 @@ use openreadout_core::{Dataset, Error, Result, SpectrumView};
 
 /// Spectra decoded per worker between progress reports.
 const PROGRESS_EVERY: u64 = 256;
-/// Fewest spectra per worker thread.
-const MIN_SCANS_PER_WORKER: u64 = 200;
+/// Fewest spectra decoded per worker thread.
+const MIN_SCANS_PER_WORKER: u64 = 1000;
 /// Samples read from a trace per call.
 const TRACE_CHUNK: u64 = 1 << 20;
 /// Default XIC tolerance, ppm.
@@ -744,9 +744,15 @@ fn stream_spectra(
             _ => l == want_level,
         })
     };
+    // Each worker opens its own handle on the file, which for a large run costs as much memory
+    // as the first: count the spectra that are decoded, not every scan of the run.
+    let to_decode = match &levels {
+        Some(_) => (0..scan_count).filter(|&i| needed(i)).count() as u64,
+        None => scan_count,
+    };
     let workers = if ctx.opener.is_some() {
         (rayon::current_num_threads() as u64)
-            .min(scan_count / MIN_SCANS_PER_WORKER)
+            .min(to_decode / MIN_SCANS_PER_WORKER)
             .max(1)
     } else {
         1
