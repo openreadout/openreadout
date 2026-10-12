@@ -1,6 +1,6 @@
-# Thermo Fisher OMNIC `.spa` / `.spg`
+# Thermo Fisher OMNIC `.spa` / `.spg` / `.srs` / `.map`
 
-Thermo Fisher OMNIC (Nicolet FT-IR spectrometers) saves one spectrum per `.spa` file, a group of spectra per `.spg` file and series as `.srs` files. OpenReadout returns the spectra as traces, with the sample and background interferograms when OMNIC kept them. OMNIC Atlµs map files (`.map`) are not read.
+Thermo Fisher OMNIC (Nicolet FT-IR spectrometers) saves one spectrum per `.spa` file, a group of spectra per `.spg` file and series as `.srs` files. OpenReadout returns the spectra as traces, with the sample and background interferograms when OMNIC kept them. OMNIC Atlµs map files (`.map`) are read as their spectra with the stage position of each and the video image (below).
 
 Derived from SpectroChemPy's OMNIC reader (CeCILL-B, a BSD-style licence; read as prior art and run as a reference reader), hex dumps of public files and the CSV files OMNIC exported from them. Provenance: `docs/provenance/thermo-omnic.md`. Format id `thermo-omnic`, family `spectroscopy`, crate `openreadout-spectro` (`OmnicReader`, `OMNIC_FORMAT_ID`).
 
@@ -94,11 +94,43 @@ as interferograms and reprocessed to absorbance, high-speed with two backgrounds
 whose records are in another order): every spectrum of every series and the first background,
 bit for bit, and the axis ends.
 
+## Map files (`.map`)
+
+OMNIC Atlµs saves maps in either layout above: FT-IR maps start with `Spectral Data File` and use
+the 16-byte key records, Raman maps start with `Spectral Exte File` and use the series layout.
+Both hold the stage positions in key 6 records: u16 count, u16 kind, two bytes, then float32
+values. Kind 2 is a list of `count` (x, y) positions in µm, kind 4 one rectangle (x0, y0, x1, y1)
+that contains them, kind 1 one value per position (not decoded). Key 147 is the video image: a
+u32 byte count, then a 24-bit Windows BMP.
+
+- **`.spa` layout:** the spectrum-1 header (key 2) describes the map spectra; spectrum 0 (key 2,
+  key 3) is a single-beam background; for each map spectrum k = 1 … n a 96-byte key-148 record
+  (its name at +16, `Spectrum k of n`) and a key-3 record with its values. Traces: the map
+  spectra (one sweep each, `extra.spectrum_titles` the names), then `background`
+  (`extra.spectrum_role` = `background`).
+- **`.srs` layout:** the series record (key 301) holds the map spectra. Key 325 holds the grid
+  (y first, last, step at +66, +70, +74; x at +78, +82, +86) where a series keeps its times, so
+  maps have no `series` table and no `first_time_min` / `last_time_min` / `time_step_min`.
+
+The number of positions must equal the number of map spectra (else exit 6). Table `positions`
+(one row per sweep): `spectrum` (the sweep index), `x_um`, `y_um`, and `column`, `row` when the
+positions fill a grid of evenly spaced lines. A grid is also image `map` (one pixel per spectrum,
+one channel per spectral point; `extra.origin_um`, `extra.row_order`; pixel size = the grid
+steps). Image `video image` is the BMP as RGB (`extra.stage_rectangle_um` = the kind-4
+rectangle; its aspect ratio matches the image's, but it is not confirmed as the field of view,
+so the image has no pixel size).
+
+Validation: no independent reader opens `.map` files. Twelve files of two depositors (nine
+FT-IR point maps of 2 to 8 spectra, three Raman grids of 99 to 440 spectra) agree with
+themselves: the position count equals the spectrum count and the names' `of n`, every position
+lies in the rectangle, the Raman grids' positions match the grid in key 325, and the Raman
+spectra read in ascending x put graphene oxide's G band at 1595 1/cm.
+
 ## Known gaps
 
 `.srs` files with a licence confirmed for redistribution were not found: the series layout rests
 on SpectroChemPy's held test files. The profile records of a series (Gram–Schmidt, chemigrams)
-are not decoded. OMNIC Atlµs map files (`.map`) are not recognised. Resolution and the serial number are only known when the history text records them.
+are not decoded. Map files have no independent reader to check them against; the value OMNIC stores with each FT-IR map spectrum (key 148, +92) and the per-position values (key 6, kind 1) are not decoded. Resolution and the serial number are only known when the history text records them.
 
 ## Vocabulary (public API of `openreadout-spectro`)
 
