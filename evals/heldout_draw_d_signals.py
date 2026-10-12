@@ -754,8 +754,16 @@ def specs(spec, fact, g, H) -> list[Any]:
             "counts",
             "This WITec project holds several Raman maps. How many maps does it hold, and how many spectra does "
             "each map contain?",
-            lambda o, m: g.items([str(o["trace_count"]), str(o["traces"][0]["sweeps"])], ordered=True),
-            "oracle: /trace_count and /traces/0/sweeps (witio)",
+            # A map is a graph of more than one spectrum: the project also holds one-spectrum
+            # "Draw Image" graphs, which are not maps.
+            lambda o, m: g.items(
+                [
+                    str(sum(1 for t in o["traces"] if t["sweeps"] > 1)),
+                    str(next(t["sweeps"] for t in o["traces"] if t["sweeps"] > 1)),
+                ],
+                ordered=True,
+            ),
+            "oracle: /traces with more than one sweep, and their /sweeps (witio)",
             answer_hint="the number of maps, then the spectra per map",
         ),
         spec(
