@@ -1,0 +1,570 @@
+{
+ "id": "figshare22210837-apogee",
+ "file": "figshare22210837-apogee.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0",
+  "FlowKit 1.3.2 (BSD-3) compensation with the file's spillover matrix"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 34577,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 22,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "405SALS(Peak)",
+    "405LALS(Peak)",
+    "405Blu(Peak)",
+    "405Grn(Peak)",
+    "405Org(Peak)",
+    "638DRed(Peak)",
+    "488Grn(Peak)",
+    "488Org(Peak)",
+    "488Red(Peak)",
+    "638LS(Peak)",
+    "405SALS(Area)",
+    "405LALS(Area)",
+    "405Blu(Area)",
+    "405Grn(Area)",
+    "405Org(Area)",
+    "638DRed(Area)",
+    "488Grn(Area)",
+    "488Org(Area)",
+    "488Red(Area)",
+    "638LS(Area)",
+    "TIME",
+    "WIDTH"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "405SALS(Peak)": 4194303.0,
+    "405LALS(Peak)": 4194303.0,
+    "405Blu(Peak)": 4194303.0,
+    "405Grn(Peak)": 4194303.0,
+    "405Org(Peak)": 4194303.0,
+    "638DRed(Peak)": 4194303.0,
+    "488Grn(Peak)": 4194303.0,
+    "488Org(Peak)": 4194303.0,
+    "488Red(Peak)": 4194303.0,
+    "638LS(Peak)": 4194303.0,
+    "405SALS(Area)": 4194303.0,
+    "405LALS(Area)": 4194303.0,
+    "405Blu(Area)": 4194303.0,
+    "405Grn(Area)": 4194303.0,
+    "405Org(Area)": 4194303.0,
+    "638DRed(Area)": 4194303.0,
+    "488Grn(Area)": 4194303.0,
+    "488Org(Area)": 4194303.0,
+    "488Red(Area)": 4194303.0,
+    "638LS(Area)": 4194303.0,
+    "TIME": 4194303.0,
+    "WIDTH": 4194303.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "405SALS(Peak)": 32,
+    "405LALS(Peak)": 32,
+    "405Blu(Peak)": 32,
+    "405Grn(Peak)": 32,
+    "405Org(Peak)": 32,
+    "638DRed(Peak)": 32,
+    "488Grn(Peak)": 32,
+    "488Org(Peak)": 32,
+    "488Red(Peak)": 32,
+    "638LS(Peak)": 32,
+    "405SALS(Area)": 32,
+    "405LALS(Area)": 32,
+    "405Blu(Area)": 32,
+    "405Grn(Area)": 32,
+    "405Org(Area)": 32,
+    "638DRed(Area)": 32,
+    "488Grn(Area)": 32,
+    "488Org(Area)": 32,
+    "488Red(Area)": 32,
+    "638LS(Area)": 32,
+    "TIME": 32,
+    "WIDTH": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "I",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.0",
+   "cmp": "text"
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "APC_MESF_preupgrade_settings_20210715_BB_B10_0.fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "14-000354\\Apogeeflow",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "Apogee A60-Micro",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer serial ($CYTSN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "14-000354",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-07-15T13:28:05.870",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "acquisition end ($DATE $ETIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/ended_at",
+   "theirs": "2021-07-15T13:33:08.020",
+   "cmp": "time",
+   "abs": 0.02
+  },
+  {
+   "field": "spillover parameters ($SPILLOVER)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/parameters",
+   "theirs": [
+    "405Blu(Peak)",
+    "405Grn(Peak)",
+    "405Org(Peak)",
+    "638DRed(Peak)",
+    "488Grn(Peak)",
+    "488Org(Peak)",
+    "488Red(Peak)"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "spillover matrix ($SPILLOVER)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/spillover/matrix",
+   "theirs": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "compensated events (405Blu(Peak))",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/2",
+   "theirs": [
+    1.0,
+    1808.0,
+    866.0,
+    843.0,
+    1.0,
+    2304.0,
+    1.0,
+    169.0,
+    110.0,
+    231.0,
+    1.0,
+    4416.0,
+    469.0,
+    2688.0,
+    132.0,
+    663.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (405Grn(Peak))",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/3",
+   "theirs": [
+    404.0,
+    3696.0,
+    48.0,
+    596.0,
+    1.0,
+    3552.0,
+    20.0,
+    261.0,
+    732.0,
+    145.0,
+    252.0,
+    6096.0,
+    397.0,
+    2208.0,
+    205.0,
+    509.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (405Org(Peak))",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/4",
+   "theirs": [
+    193.0,
+    934.0,
+    525.0,
+    158.0,
+    1.0,
+    1072.0,
+    306.0,
+    239.0,
+    1.0,
+    126.0,
+    88.0,
+    1632.0,
+    1.0,
+    918.0,
+    1.0,
+    636.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (638DRed(Peak))",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/5",
+   "theirs": [
+    1.0,
+    14832.0,
+    561.0,
+    332.0,
+    523.0,
+    543456.0,
+    287.0,
+    291.0,
+    457.0,
+    230.0,
+    264.0,
+    35136.0,
+    89.0,
+    599504.0,
+    443.0,
+    1.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (488Grn(Peak))",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/6",
+   "theirs": [
+    63.0,
+    2336.0,
+    203.0,
+    1.0,
+    148.0,
+    3216.0,
+    289.0,
+    1.0,
+    222.0,
+    602.0,
+    1.0,
+    3824.0,
+    1.0,
+    2800.0,
+    1.0,
+    1.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (488Org(Peak))",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/7",
+   "theirs": [
+    349.0,
+    1040.0,
+    439.0,
+    1.0,
+    68.0,
+    958.0,
+    415.0,
+    1.0,
+    1.0,
+    609.0,
+    36.0,
+    773.0,
+    1.0,
+    1488.0,
+    774.0,
+    566.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  },
+  {
+   "field": "compensated events (488Red(Peak))",
+   "scope": "tables",
+   "cmd": [
+    "table",
+    "--compensate",
+    "fcs",
+    "--max-rows",
+    "16"
+   ],
+   "ours": "/rows/*/8",
+   "theirs": [
+    949.0,
+    2064.0,
+    433.0,
+    1.0,
+    1.0,
+    5792.0,
+    42.0,
+    571.0,
+    792.0,
+    1.0,
+    225.0,
+    1456.0,
+    1488.0,
+    4992.0,
+    1.0,
+    219.0
+   ],
+   "cmp": "num",
+   "rel": 1e-06,
+   "abs": 1e-06,
+   "reader": 1
+  }
+ ]
+}

@@ -21,11 +21,15 @@ T = "/tables/0"
 def fcs_date(date: str | None, clock: str | None) -> str | None:
     """$DATE (dd-mmm-yyyy per the standard; other orders in practice) + $BTIM/$ETIM
     (hh:mm:ss[.cc] or hh:mm:ss:tt with 1/60 s ticks in FCS 2.0/3.0) as ISO 8601 without zone."""
-    if not date:
-        return None
+    if not date or not date.strip():
+        # BeamCyte writes no $DATE and puts the date into $BTIM/$ETIM ("2021-06-02 16:14:40")
+        m = re.fullmatch(r"(\d{4}-\d{2}-\d{2}) (\S+)", (clock or "").strip())
+        if not m:
+            return None
+        date, clock = m.groups()
     date = date.strip()
     day = None
-    for f in ("%d-%b-%Y", "%d-%b-%y", "%Y-%m-%d", "%d.%m.%Y", "%m/%d/%Y", "%Y/%m/%d", "%d-%B-%Y", "%Y-%b-%d"):
+    for f in ("%d-%b-%Y", "%d-%b-%y", "%Y-%m-%d", "%d.%m.%Y", "%m/%d/%Y", "%Y/%m/%d", "%d-%B-%Y", "%Y-%b-%d", "%d %b %Y"):
         try:
             day = datetime.strptime(date.title() if "b" in f.lower() else date, f)
             break
@@ -64,6 +68,11 @@ def spill(meta: dict):
             continue
         names = parts[1:1 + n]
         vals = [float(x) for x in parts[1 + n:1 + n + n * n]]
+        # BD Accuri and Apogee name the parameters by 1-based number ("8,3,4,5,6,9,..."):
+        # those are the $PnN of the numbered parameters
+        pnn = [str(x).strip() for x in meta["_channels_"]["$PnN"]] if "_channels_" in meta else []
+        if names and not set(names) & set(pnn) and all(x.isdigit() and 1 <= int(x) <= len(pnn) for x in names):
+            names = [pnn[int(x) - 1] for x in names]
         return k, names, [vals[i * n:(i + 1) * n] for i in range(n)]
     return None
 

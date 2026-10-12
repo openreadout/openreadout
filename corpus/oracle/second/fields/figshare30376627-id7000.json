@@ -1,0 +1,315 @@
+{
+ "id": "figshare30376627-id7000",
+ "file": "figshare30376627-id7000.fcs",
+ "format": "fcs",
+ "family": "flow-cytometry",
+ "readers": [
+  "fcsparser 0.2.4 (MIT), TEXT segment of data set 0"
+ ],
+ "checks": [
+  {
+   "field": "event count ($TOT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/row_count",
+   "theirs": 5280,
+   "cmp": "exact",
+   "required": true
+  },
+  {
+   "field": "parameter count ($PAR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns#len",
+   "theirs": 41,
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter names ($PnN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns/*/name",
+   "theirs": [
+    "FSC-A",
+    "FSC-H",
+    "FSC-W",
+    "SSC-A",
+    "SSC-H",
+    "SSC-W",
+    "BUV395-A",
+    "BUV496-A",
+    "BUV563-A",
+    "BUV615-A",
+    "BUV661-A",
+    "BUV737-A",
+    "BUV805-A",
+    "BV421-A",
+    "PacBlue-A",
+    "BV510-A",
+    "BV570-A",
+    "BV605-A",
+    "BV650-A",
+    "BV711-A",
+    "BV750-A",
+    "BV785-A",
+    "[AF color 1]-A",
+    "FITC-A",
+    "AF532-A",
+    "PerCP-A",
+    "BB700-A",
+    "PerCP-eFluor710-A",
+    "PE-A",
+    "PE-Dazzle594-A",
+    "PE-Cy5-A",
+    "PE-Cy5.5-A",
+    "PE-Cy7-A",
+    "PE-Fire810-A",
+    "AF647-A",
+    "SparkNIR-685-A",
+    "AF700-A",
+    "Zombie-NIR-A",
+    "APC-Fire810-A",
+    "APC-Fire750-A",
+    "TIME"
+   ],
+   "cmp": "exact"
+  },
+  {
+   "field": "parameter range ($PnR)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 1048576.0,
+    "FSC-H": 1048576.0,
+    "FSC-W": 1048576.0,
+    "SSC-A": 1048576.0,
+    "SSC-H": 1048576.0,
+    "SSC-W": 1048576.0,
+    "BUV395-A": 1000000.0,
+    "BUV496-A": 1000000.0,
+    "BUV563-A": 1000000.0,
+    "BUV615-A": 1000000.0,
+    "BUV661-A": 1000000.0,
+    "BUV737-A": 1000000.0,
+    "BUV805-A": 1000000.0,
+    "BV421-A": 1000000.0,
+    "PacBlue-A": 1000000.0,
+    "BV510-A": 1000000.0,
+    "BV570-A": 1000000.0,
+    "BV605-A": 1000000.0,
+    "BV650-A": 1000000.0,
+    "BV711-A": 1000000.0,
+    "BV750-A": 1000000.0,
+    "BV785-A": 1000000.0,
+    "[AF color 1]-A": 1000000.0,
+    "FITC-A": 1000000.0,
+    "AF532-A": 1000000.0,
+    "PerCP-A": 1000000.0,
+    "BB700-A": 1000000.0,
+    "PerCP-eFluor710-A": 1000000.0,
+    "PE-A": 1000000.0,
+    "PE-Dazzle594-A": 1000000.0,
+    "PE-Cy5-A": 1000000.0,
+    "PE-Cy5.5-A": 1000000.0,
+    "PE-Cy7-A": 1000000.0,
+    "PE-Fire810-A": 1000000.0,
+    "AF647-A": 1000000.0,
+    "SparkNIR-685-A": 1000000.0,
+    "AF700-A": 1000000.0,
+    "Zombie-NIR-A": 1000000.0,
+    "APC-Fire810-A": 1000000.0,
+    "APC-Fire750-A": 1000000.0,
+    "TIME": 1800.0
+   },
+   "cmp": "num",
+   "rel": 1e-12,
+   "by": "/name",
+   "each": "/extra/range_keyword"
+  },
+  {
+   "field": "parameter bits ($PnB)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/columns",
+   "theirs": {
+    "FSC-A": 32,
+    "FSC-H": 32,
+    "FSC-W": 32,
+    "SSC-A": 32,
+    "SSC-H": 32,
+    "SSC-W": 32,
+    "BUV395-A": 32,
+    "BUV496-A": 32,
+    "BUV563-A": 32,
+    "BUV615-A": 32,
+    "BUV661-A": 32,
+    "BUV737-A": 32,
+    "BUV805-A": 32,
+    "BV421-A": 32,
+    "PacBlue-A": 32,
+    "BV510-A": 32,
+    "BV570-A": 32,
+    "BV605-A": 32,
+    "BV650-A": 32,
+    "BV711-A": 32,
+    "BV750-A": 32,
+    "BV785-A": 32,
+    "[AF color 1]-A": 32,
+    "FITC-A": 32,
+    "AF532-A": 32,
+    "PerCP-A": 32,
+    "BB700-A": 32,
+    "PerCP-eFluor710-A": 32,
+    "PE-A": 32,
+    "PE-Dazzle594-A": 32,
+    "PE-Cy5-A": 32,
+    "PE-Cy5.5-A": 32,
+    "PE-Cy7-A": 32,
+    "PE-Fire810-A": 32,
+    "AF647-A": 32,
+    "SparkNIR-685-A": 32,
+    "AF700-A": 32,
+    "Zombie-NIR-A": 32,
+    "APC-Fire810-A": 32,
+    "APC-Fire750-A": 32,
+    "TIME": 32
+   },
+   "cmp": "exact",
+   "by": "/name",
+   "each": "/extra/bits"
+  },
+  {
+   "field": "data type ($DATATYPE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/datatype",
+   "theirs": "F",
+   "cmp": "text"
+  },
+  {
+   "field": "mode ($MODE)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/mode",
+   "theirs": "L",
+   "cmp": "text"
+  },
+  {
+   "field": "byte order ($BYTEORD)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/byte_order",
+   "theirs": "little-endian",
+   "cmp": "text"
+  },
+  {
+   "field": "FCS version",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/fcs_version",
+   "theirs": "FCS3.1",
+   "cmp": "text"
+  },
+  {
+   "field": "time step ($TIMESTEP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/timestep_s",
+   "theirs": 1.0,
+   "cmp": "num",
+   "rel": 1e-12
+  },
+  {
+   "field": "file name ($FIL)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/file_name",
+   "theirs": "B11 PE WLSM.fcs",
+   "cmp": "text"
+  },
+  {
+   "field": "source ($SRC)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/source",
+   "theirs": ",",
+   "cmp": "text"
+  },
+  {
+   "field": "system ($SYS)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/tables/0/extra/system",
+   "theirs": "Microsoft Windows 11 Pro for Workstations",
+   "cmp": "text"
+  },
+  {
+   "field": "operator ($OP)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/operator",
+   "theirs": "administrator",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer ($CYT)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "LE-ID7000C",
+   "cmp": "text"
+  },
+  {
+   "field": "cytometer serial ($CYTSN)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/serial",
+   "theirs": "803009",
+   "cmp": "text"
+  },
+  {
+   "field": "acquisition start ($DATE $BTIM)",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2026-03-11T12:02:48.830",
+   "cmp": "time",
+   "abs": 0.02
+  }
+ ]
+}
