@@ -92,6 +92,7 @@ mod common;
 mod fsm;
 mod jasco;
 mod omnic;
+mod omnic_map;
 mod omnic_srs;
 mod opus;
 mod pesp;
