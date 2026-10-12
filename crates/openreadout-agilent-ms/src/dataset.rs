@@ -7,11 +7,14 @@ use std::path::{Path, PathBuf};
 use openreadout_core::bytes::le_f64;
 use openreadout_core::model::{
     CheckReport, FileInfo, Finding, InstrumentInfo, LsEntry, SignalChannelInfo, SpectraInfo,
-    Spectrum, Trace, TraceInfo,
+    Spectrum, Table, Trace, TraceInfo,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, SpectrumView};
 use openreadout_core::source::{Fs, Input};
+use openreadout_core::transitions::{
+    Transition, transition_summary, transition_table, transition_table_info,
+};
 use openreadout_core::xmljson::xml_to_json;
 use openreadout_core::{Error, Result};
 use serde_json::{Value, json};
@@ -28,6 +31,8 @@ use crate::{AgilentMsReader, FORMAT_ID};
 
 /// `ScanType` of a neutral-loss scan (`MzOfInterest` holds the loss).
 const SCAN_TYPE_NEUTRAL_LOSS: i32 = 2048;
+/// `ScanType` of an MRM scan.
+const SCAN_TYPE_MRM: i32 = 256;
 
 /// Largest metadata file read whole (XML, `.cd`, `MSScan.bin` index, `MSMassCal.bin`).
 const MAX_INDEX_BYTES: u64 = 1 << 31;
@@ -1151,6 +1156,52 @@ impl AgilentDataset {
         s.into_iter().collect()
     }
 
+    /// The MRM transitions of the run, from the scan records alone: one row per scan method of
+    /// the MRM scans (`ScanType` 256), with as many products as its scans hold points. A
+    /// dynamic-MRM method gives every transition row its own scan method, so a compound
+    /// measured in two time windows counts twice, as the exports' SRM chromatograms do.
+    fn mrm_transitions(&self) -> Vec<Transition> {
+        let mut rows: BTreeMap<i32, Transition> = BTreeMap::new();
+        for r in self
+            .records
+            .iter()
+            .filter(|r| r.scan_type == SCAN_TYPE_MRM && r.ms_level >= 2)
+        {
+            let Some(method) = r.scan_method_id else {
+                continue;
+            };
+            let (_, peak) = self.blocks_of(r);
+            let products = peak.map_or(0, |b| u32::try_from(b.point_count).unwrap_or(0));
+            let t = r.scan_time_min;
+            let row = rows.entry(method).or_insert_with(|| Transition {
+                id: Some(i64::from(method)),
+                precursor_mz: r.mz_of_interest.filter(|&m| m > 0.0),
+                product_mz: peak
+                    .filter(|b| b.point_count == 1)
+                    .and_then(|b| b.min_x)
+                    .filter(|&x| x > 0.0),
+                products,
+                collision_energy: r.collision_energy.map(f64::abs),
+                polarity: match r.ion_polarity {
+                    Some(0) => "positive",
+                    Some(1) => "negative",
+                    _ => "unknown",
+                },
+                name: None,
+                rt_min: Some([t, t]),
+            });
+            if products > row.products {
+                row.products = products;
+                row.product_mz = None;
+            }
+            if let Some(w) = row.rt_min.as_mut() {
+                w[0] = w[0].min(t);
+                w[1] = w[1].max(t);
+            }
+        }
+        rows.into_values().collect()
+    }
+
     fn spectra_info(&self) -> SpectraInfo {
         let rt = if self.records.is_empty() {
             None
@@ -1216,6 +1267,17 @@ impl AgilentDataset {
         };
         let data = if self.ims.is_some() { "profile" } else { data };
         extra.insert("stored_spectra".into(), json!(data));
+        let transitions = self.mrm_transitions();
+        if !transitions.is_empty() {
+            extra.insert(
+                "mrm_transitions".into(),
+                transition_summary(
+                    &transitions,
+                    "one per transition row of the method (scan method); a pair measured in two time windows counts twice",
+                    0,
+                ),
+            );
+        }
         // Scans whose only data is a profile kept in an MSProfile.bin the directory does not
         // hold (a partial copy). A centroid-only acquisition still declares profile blocks; its
         // scans are read from their peak lists.
@@ -1406,7 +1468,14 @@ impl Dataset for AgilentDataset {
             format: AgilentMsReader.descriptor(),
             format_version: Some(format!("MSScan layout {}", self.header.layout_version)),
             images: Vec::new(),
-            tables: Vec::new(),
+            tables: {
+                let rows = self.mrm_transitions();
+                if rows.is_empty() {
+                    Vec::new()
+                } else {
+                    vec![transition_table_info(&rows, 0, "scan method")]
+                }
+            },
             spectra: vec![self.spectra_info()],
             traces: self.trace_infos(),
             plane_count: 0,
@@ -1726,6 +1795,17 @@ impl Dataset for AgilentDataset {
             rep.performed("device signals (*.cd/*.cg): every block inside its data file");
         }
         Ok(rep)
+    }
+
+    fn read_table(&mut self, index: u32, first_row: u64, max_rows: u64) -> Result<Table> {
+        let rows = self.mrm_transitions();
+        if index != 0 || rows.is_empty() {
+            return Err(Error::Usage(format!(
+                "table {index} not found (this data set has {} tables)",
+                usize::from(!rows.is_empty())
+            )));
+        }
+        Ok(transition_table(&rows, 0, first_row, max_rows))
     }
 
     fn read_trace(
