@@ -7,7 +7,8 @@ settings, and only these tools: Bash, Read, Write, Edit, Glob, Grep.
 
 Conditions:
   with      + the openreadout binary on PATH, the openreadout skill (as a plugin) and the
-              openreadout MCP server (`openreadout mcp`). `--with-mode cli|mcp|all`.
+              openreadout MCP server (`openreadout mcp`, plus ToolSearch, which loads its deferred
+              tools). `--with-mode cli|mcp|all`.
   baseline  the same agent with the open-source reader stack preinstalled (bioio and its plugins,
             nd2, czifile, liffile, tifffile, flowio, pyabf, neo, nmrglue, pyteomics, rainbow, ...),
             Bio-Formats' showinf/bfconvert, and a skill naming the right reader per format
@@ -406,8 +407,12 @@ def claude_command(args: argparse.Namespace, harness: Harness, condition: str, p
             allowed.append("Skill")
             cmd += ["--plugin-dir", str(harness.plugin)]
         if harness.with_mode in ("mcp", "all"):
+            # Claude Code defers MCP tools and loads them through ToolSearch, as it does for a user
+            # who installed the plugin. Without ToolSearch in --tools the model cannot reach them.
+            # The server comes from --mcp-config because --strict-mcp-config also drops plugin servers.
             cmd += ["--mcp-config", str(harness.mcp_config)]
-            allowed.append("mcp__openreadout")
+            tools.append("ToolSearch")
+            allowed += ["ToolSearch", "mcp__openreadout"]
     elif condition == "baseline":
         missing = baseline.ready()
         if missing:
