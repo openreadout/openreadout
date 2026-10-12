@@ -1156,50 +1156,86 @@ impl AgilentDataset {
         s.into_iter().collect()
     }
 
-    /// The MRM transitions of the run, from the scan records alone: one row per scan method of
-    /// the MRM scans (`ScanType` 256), with as many products as its scans hold points. A
-    /// dynamic-MRM method gives every transition row its own scan method, so a compound
-    /// measured in two time windows counts twice, as the exports' SRM chromatograms do.
+    /// The MRM transitions of the run: the MRM scans (`ScanType` 256) grouped by scan method,
+    /// time segment, precursor and collision energy, one transition per product. A dynamic-MRM
+    /// method gives every transition row its own scan method, so a compound measured in two time
+    /// windows counts twice, as the exports' SRM chromatograms do. A scan that holds one product
+    /// gives its m/z from its record; one that holds several (an MRM time segment with several
+    /// products per precursor) has its point list read, once per group.
     fn mrm_transitions(&self) -> Vec<Transition> {
-        let mut rows: BTreeMap<i32, Transition> = BTreeMap::new();
-        for r in self
-            .records
-            .iter()
-            .filter(|r| r.scan_type == SCAN_TYPE_MRM && r.ms_level >= 2)
-        {
+        type Key = (i32, i32, u64, u64);
+        // (transition template, the record with the most products)
+        let mut groups: BTreeMap<Key, (Transition, usize)> = BTreeMap::new();
+        for (i, r) in self.records.iter().enumerate() {
+            if r.scan_type != SCAN_TYPE_MRM || r.ms_level < 2 {
+                continue;
+            }
             let Some(method) = r.scan_method_id else {
                 continue;
             };
+            let q1 = r.mz_of_interest.filter(|&m| m > 0.0);
+            let ce = r.collision_energy.map(f64::abs);
+            let key = (
+                method,
+                r.time_segment_id.unwrap_or(0),
+                q1.map_or(0, f64::to_bits),
+                ce.map_or(0, f64::to_bits),
+            );
             let (_, peak) = self.blocks_of(r);
             let products = peak.map_or(0, |b| u32::try_from(b.point_count).unwrap_or(0));
             let t = r.scan_time_min;
-            let row = rows.entry(method).or_insert_with(|| Transition {
-                id: Some(i64::from(method)),
-                precursor_mz: r.mz_of_interest.filter(|&m| m > 0.0),
-                product_mz: peak
-                    .filter(|b| b.point_count == 1)
-                    .and_then(|b| b.min_x)
-                    .filter(|&x| x > 0.0),
-                products,
-                collision_energy: r.collision_energy.map(f64::abs),
-                polarity: match r.ion_polarity {
-                    Some(0) => "positive",
-                    Some(1) => "negative",
-                    _ => "unknown",
-                },
-                name: None,
-                rt_min: Some([t, t]),
+            let (row, best) = groups.entry(key).or_insert_with(|| {
+                (
+                    Transition {
+                        id: Some(i64::from(method)),
+                        precursor_mz: q1,
+                        product_mz: peak
+                            .filter(|b| b.point_count == 1)
+                            .and_then(|b| b.min_x)
+                            .filter(|&x| x > 0.0),
+                        products,
+                        collision_energy: ce,
+                        polarity: match r.ion_polarity {
+                            Some(0) => "positive",
+                            Some(1) => "negative",
+                            _ => "unknown",
+                        },
+                        name: None,
+                        rt_min: Some([t, t]),
+                    },
+                    i,
+                )
             });
             if products > row.products {
                 row.products = products;
                 row.product_mz = None;
+                *best = i;
             }
             if let Some(w) = row.rt_min.as_mut() {
                 w[0] = w[0].min(t);
                 w[1] = w[1].max(t);
             }
         }
-        rows.into_values().collect()
+        let mut out = Vec::new();
+        for (row, best) in groups.into_values() {
+            let products = (row.products > 1)
+                .then(|| {
+                    let r = self.records.get(best)?;
+                    let (_, peak) = self.blocks_of(r);
+                    self.peaks(r, peak?).ok().map(|(mz, _)| mz)
+                })
+                .flatten()
+                .filter(|mz| mz.len() == row.products as usize);
+            match products {
+                Some(mz) => out.extend(mz.into_iter().map(|m| Transition {
+                    product_mz: Some(m),
+                    products: 1,
+                    ..row.clone()
+                })),
+                None => out.push(row),
+            }
+        }
+        out
     }
 
     fn spectra_info(&self) -> SpectraInfo {
@@ -1273,7 +1309,7 @@ impl AgilentDataset {
                 "mrm_transitions".into(),
                 transition_summary(
                     &transitions,
-                    "one per transition row of the method (scan method); a pair measured in two time windows counts twice",
+                    "one per product of each scan method, time segment and precursor; a pair measured in two time windows counts twice",
                     0,
                 ),
             );
