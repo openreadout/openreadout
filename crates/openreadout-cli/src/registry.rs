@@ -41,6 +41,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_ephys::HekaReader))
         .with(Box::new(openreadout_ephys::Spike2Reader))
         .with(Box::new(openreadout_ephys::WinWcpReader))
+        .with(Box::new(openreadout_ephys::TdtReader))
         .with(Box::new(openreadout_ephys::OpenEphysReader))
         .with(Box::new(openreadout_agilent_ms::AgilentMsReader))
         .with(Box::new(openreadout_sciex::SciexWiffReader))

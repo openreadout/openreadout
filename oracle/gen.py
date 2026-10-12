@@ -4969,6 +4969,8 @@ def _ephys_dir(p: Path):
     """The oracle for an electrophysiology recording directory (a session), or None."""
     names = [q for q in p.iterdir() if q.is_file()]
     exts = {q.suffix.lower()[1:] for q in names}
+    if "tsq" in exts or any(d.is_dir() and any(q.suffix.lower() == ".tsq" for q in d.iterdir()) for d in p.iterdir()):
+        return tdt
     if any(True for _ in p.rglob("structure.oebin")) or "continuous" in exts or any(
             q.suffix == ".continuous" for d in p.iterdir() if d.is_dir() and d.name.startswith("Record") for q in d.iterdir()):
         return openephys
@@ -5511,6 +5513,145 @@ def winwcp(p: Path) -> dict:
              "sample_rate_hz": float(ch["sampling_rate"][0]), "sweeps": sweeps,
              "reader": f"neo {__import__('neo').__version__} WinWcpRawIO"}
     return {"reader": "neo WinWcpRawIO", "traces": [trace]}
+
+
+def _tdt_blocks(p: Path):
+    """The block directories of a TDT input: [p] for a block, its subdirectories for a tank."""
+    if any(q.suffix.lower() == ".tsq" for q in p.iterdir()):
+        return [p], False
+    return sorted(d for d in p.iterdir() if d.is_dir() and any(q.suffix.lower() == ".tsq" for q in d.iterdir())), True
+
+
+def tdt(p: Path) -> dict:
+    """TDT block or tank directory via Neo's TdtRawIO (BSD-3). Neo reads a symlinked copy of the
+    .tsq, .tev and .Tbk of each block: an empty .Tdx is added where a block has none (Neo requires
+    the file and never reads it), an empty .tev is replaced by one zero byte (NumPy cannot map an
+    empty file; the blocks with an empty .tev have no stream or snippet records), and .sev files are left out (Neo matches them to channels by
+    channel number alone, so a .sev of another store replaces those channels; no corpus block
+    indexes samples in a .sev). Traces are Neo's signal streams with samples, sorted by store name;
+    sweeps are Neo's segments. Where a block's .tsq indexes chunks past the end of its .tev (the
+    depositors cut those files short), Neo returns zeros for them: `sample_count` is then the
+    samples in the chunks that lie wholly in the .tev (from the .tsq read with Neo's record layout)
+    and the hash covers those samples of Neo's output. Snippets: Neo's spike units (timestamps
+    relative to the first block's start, channel and sort code from Neo's unit ids, raw waveforms
+    cut to the record's own length from the .tsq size field, as Neo reads the store header's point
+    count and runs into the next snippet). Epocs: Neo's event channels (time, segment, and the
+    strobe value: Neo's label is the record's offset field as an integer, read back as the float64
+    it holds); where Neo's .Tbk parse finds no stores, the strobe-on records come from the .tsq
+    read with Neo's record layout instead. Durations are not compared (Neo does not pair offsets)."""
+    import tempfile
+    from neo.rawio import tdtrawio as tr
+    blocks, tank = _tdt_blocks(p)
+    tmp = Path(tempfile.mkdtemp(prefix="openreadout-oracle-tdt-"))
+    root = tmp / p.name
+    root.mkdir()
+    staged = []
+    for b in blocks:
+        tsq = next(q for q in b.iterdir() if q.suffix.lower() == ".tsq")
+        stem = tsq.stem
+        dest = root / b.name if tank else root
+        dest.mkdir(exist_ok=True)
+        for q in b.iterdir():
+            if q.is_file() and q.stem == stem and q.suffix.lower() in (".tsq", ".tev", ".tbk", ".tdx"):
+                if q.suffix.lower() == ".tev" and q.stat().st_size == 0:
+                    (dest / q.name).write_bytes(b"\0")  # NumPy cannot map an empty file
+                else:
+                    (dest / q.name).symlink_to(q.resolve())
+        if not any(q.suffix.lower() == ".tdx" for q in dest.iterdir()):
+            (dest / f"{stem}.Tdx").write_bytes(b"")
+        staged.append(dest / tsq.name)
+    r = tr.TdtRawIO(dirname=str(root if tank else staged[0]))
+    r.parse_header()
+    h = r.header
+    nseg = int(h["nb_segment"][0])
+    # each block's .tsq read with Neo's record layout, in Neo's segment order (start time)
+    tsqs = [np.fromfile(s, dtype=tr.tsq_dtype) for s in staged]
+    order = np.argsort([t[1]["timestamp"] for t in tsqs], kind="stable")
+    tsqs = [tsqs[i] for i in order]
+    tev_lens = []
+    for i in order:
+        tev = next((q for q in staged[i].parent.iterdir() if q.stem == staged[i].stem and q.suffix.lower() == ".tev"), None)
+        tev_lens.append(tev.resolve().stat().st_size if tev is not None and tev.is_symlink() else 0)
+    notes = []
+    traces = []
+    streams = []
+    for si, st in enumerate(h["signal_streams"]):
+        if max(r.get_signal_size(0, seg, si) for seg in range(nseg)) > 0:
+            streams.append((str(st["name"]), si))
+    for ti, (name, si) in enumerate(sorted(streams)):
+        ch = h["signal_channels"][h["signal_channels"]["stream_id"] == h["signal_streams"][si]["id"]]
+        sweeps = []
+        for seg in range(min(nseg, MAX_SWEEPS)):
+            n = r.get_signal_size(0, seg, si)
+            t = tsqs[seg]
+            m = t[((t["evtype"] & tr.EVTYPE_MASK) == tr.EVTYPE_STREAM) & (t["evname"] == name.encode())]
+            nbytes = int(m["size"][0]) * 4 - 40 if len(m) else 0
+            per_chunk = r._sig_sample_per_chunk[si]
+            ok = min(int(np.cumprod(m[m["channel"] == c]["offset"] + nbytes <= tev_lens[seg]).sum())
+                     for c in np.unique(m["channel"])) if len(m) else 0
+            have = min(n, ok * per_chunk)
+            if have < n:
+                notes.append(f"{name} segment {seg}: {n} samples in Neo, {have} in chunks wholly inside the .tev")
+            raw = r.get_analogsignal_chunk(0, seg, 0, have, si) if have else np.zeros((0, len(ch)))
+            cols = [raw[:, k].astype(np.float64) for k in range(len(ch))]
+            sweeps.append({"sweep": seg, "sample_count": int(have),
+                           "channels": [{"xxh3": _trace_hash(v), "first": _first(v)} for v in cols]})
+        traces.append({"index": ti, "name": name, "sweep_count": nseg, "channel_count": len(ch),
+                       "channel_names": [str(x) for x in ch["name"]],
+                       "sample_rate_hz": float(ch["sampling_rate"][0]), "sweeps": sweeps})
+    tables = []
+    sc = h["spike_channels"]
+    if len(sc):
+        rows = {"time_s": [], "block": [], "channel": [], "sort_code": []}
+        waves = []
+        for seg in range(nseg):
+            t = tsqs[seg]
+            for u in range(len(sc)):
+                store, chan, unit = r.internal_unit_ids[u]
+                ts = r.get_spike_timestamps(0, seg, u, None, None)
+                if not len(ts):
+                    continue
+                wf = r.get_spike_raw_waveforms(0, seg, u, None, None)[:, 0, :]
+                m = t[(t["evtype"] == tr.EVTYPE_SNIP) & (t["evname"] == store) & (t["channel"] == chan) & (t["sortcode"] == unit)]
+                width = (int(m["size"][0]) * 4 - 40) // wf.dtype.itemsize
+                rows["time_s"] += list(r.rescale_spike_timestamp(ts, "float64"))
+                rows["block"] += [seg] * len(ts)
+                rows["channel"] += [int(chan)] * len(ts)
+                rows["sort_code"] += [int(unit)] * len(ts)
+                waves.append(wf[:, :width].astype(np.float64))
+        w = np.vstack(waves)
+        cols = list(rows.items()) + [(f"w{i}", w[:, i]) for i in range(w.shape[1])]
+        tables.append({"index": len(tables), "event_count": len(rows["time_s"]), "parameter_names": [], "dtypes": [],
+                       "xxh3": None, "sorted_row_hashes": [_sorted_rows(cols)]})
+    t_all = [t[(t["evtype"] == tr.EVTYPE_STRON)] for t in tsqs]
+    names = sorted({bytes(n) for t in t_all for n in t["evname"]})
+    neo_names = sorted(str(e["name"]).encode() for e in h["event_channels"])
+    times, segs, values = [], [], []
+    if names and names == neo_names:
+        for seg in range(nseg):
+            for e in range(len(h["event_channels"])):
+                ts, _, lab = r.get_event_timestamps(0, seg, e, None, None)
+                times += list(r.rescale_event_timestamp(ts, "float64", e))
+                segs += [seg] * len(ts)
+                values += list(np.asarray(lab, dtype=np.int64).view(np.float64))
+    elif names:
+        g = tsqs[0][1]["timestamp"]
+        for seg, t in enumerate(t_all):
+            times += list(t["timestamp"] - g)
+            segs += [seg] * len(t)
+            values += list(t["offset"].view(np.float64))
+        notes.append(f"Neo's .Tbk parse lists {len(neo_names)} of the {len(names)} strobe stores; "
+                     "strobe-on records read with Neo's .tsq record layout")
+    if names:
+        tables.append({"index": len(tables), "event_count": len(times), "parameter_names": [], "dtypes": [],
+                       "xxh3": None,
+                       "sorted_row_hashes": [_sorted_rows([("time_s", times), ("block", segs), ("value", values)])]})
+    out = {"reader": f"neo {__import__('neo').__version__} TdtRawIO", "traces": traces}
+    if tables:
+        out["tables"] = tables
+    if notes:
+        out["oracle_note"] = "; ".join(notes)
+    return out
 
 EPHYS = {"wcp": winwcp, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
          "nse": neuralynx, "nst": neuralynx, "ntt": neuralynx, "plx": plexon, "pl2": pl2, "smr": spike2,

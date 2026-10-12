@@ -55,6 +55,7 @@ fn formats_lists_all_readers() {
             "heka-patchmaster",
             "ced-spike2",
             "winwcp",
+            "tdt-tank",
             "open-ephys",
             "agilent-masshunter",
             "sciex-wiff",

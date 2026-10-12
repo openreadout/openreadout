@@ -59,6 +59,62 @@ fn observe_winwcp(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
+    format_id: "tdt-tank",
+    observe: observe_tdt,
+    validated: TDT_TANK_VALIDATED,
+    confidence: TDT_TANK_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_tdt(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if a::note_with(info, "TDT tank").is_some() {
+        o.feature(K::Layout, "tank", &all);
+    } else {
+        o.feature(K::Layout, "block", &all);
+    }
+    for t in &info.traces {
+        o.feature(K::Record, "stream", &[Scope::Traces]);
+        if let Some(f) = a::extra_str(&t.extra, "data_format") {
+            o.feature(K::SampleLayout, f, &[Scope::Traces]);
+        }
+    }
+    for t in &info.tables {
+        match t.name.as_deref() {
+            Some("spikes") => o.feature(K::Record, "snippet", &[Scope::Tables]),
+            Some("epocs") => {
+                o.feature(K::Record, "strobe", &[Scope::Tables]);
+                if t
+                    .extra
+                    .get("paired_offsets")
+                    .and_then(serde_json::Value::as_u64)
+                    .unwrap_or(0)
+                    > 0
+                {
+                    o.feature(K::Record, "strobe-off", &[Scope::Tables]);
+                }
+            }
+            _ => {}
+        }
+    }
+    if let Some(n) = a::note_with(info, "is not read") {
+        o.undecoded("unread stores", &[], n.to_string());
+    }
+    if let Some(n) = a::note_with(info, "not decoded") {
+        o.undecoded("scalar records", &[Scope::Tables], n.to_string());
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "data past the end of the .tev",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
 fn observe_spike2(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     if let Some(v) = &info.format_version {
@@ -357,6 +413,13 @@ const WINWCP_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "V5.8.1", 1, 1, 1),
 ];
 // END GENERATED winwcp
+
+// BEGIN GENERATED tdt-tank (cargo xtask assurance-audit --write; do not edit)
+const TDT_TANK_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const TDT_TANK_VALIDATED: &[Validated] = &[
+];
+// END GENERATED tdt-tank
 
 #[cfg(test)]
 mod tests {

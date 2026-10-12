@@ -48,6 +48,7 @@ const TRACE_FORMATS: &[&str] = &[
     "jcamp-dx",
     "jeol-jdf",
     "winwcp",
+    "tdt-tank",
     "magritek-spinsolve",
     "mzml",
     "mzxml",

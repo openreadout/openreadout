@@ -639,6 +639,7 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("spike2", "ced-spike2"),
             ("openephys", "open-ephys"),
             ("winwcp", "winwcp"),
+            ("tdt", "tdt-tank"),
         ],
     ),
     (
