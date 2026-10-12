@@ -38,5 +38,5 @@ The channel name is now `Channel` without its surrounding spaces: GPCreader's ex
 ## 2026-10-11 — comma-separated CSVs mistaken for exports
 
 **Corpus files used:** the development `.arw` inputs (unchanged results). **Prior art consulted:** none.
-**Observed:** running `check` over public CSV files that mention plate readers found six ordinary comma-separated tables with a quoted header (`"iata","airport",…`) detected as Empower exports and reported corrupt (exit 4). The first line has no tab, so it was one cell that starts and ends with a quote.
-**Decided:** every tab-separated cell of the first line must be one quoted name, with no quote inside it. Such files are now unknown (exit 3).
+**Observed:** running `check` over public CSV files that mention plate readers found ordinary comma-separated tables with a quoted header (`"iata","airport",…`) and text files whose first line is quoted detected as Empower exports and reported corrupt (exit 4). The first line has no tab, so it was one cell that starts and ends with a quote.
+**Decided:** the first line must hold at least two tab-separated cells, each one quoted name with no quote inside it (every development export has two or more). Such files are now unknown (exit 3).

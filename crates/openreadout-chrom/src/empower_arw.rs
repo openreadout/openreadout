@@ -79,9 +79,10 @@ pub fn looks_like_arw(head: &[u8]) -> bool {
             .iter()
             .all(|&b| b == b'\t' || (b >= 0x20 && b != 0x7f) || b >= 0x80)
         && std::str::from_utf8(first).is_ok_and(|s| {
-            // each tab-separated cell one quoted name: a comma-separated quoted header
-            // (`"iata","airport"`) is not one
-            s.split('\t').all(|c| {
+            // at least two tab-separated cells, each one quoted name: a comma-separated quoted
+            // header (`"iata","airport"`) or a quoted line of text is not one
+            s.contains('\t')
+                && s.split('\t').all(|c| {
                 c.len() >= 2
                     && c.starts_with('"')
                     && c.ends_with('"')
@@ -586,6 +587,7 @@ mod tests {
         // a comma-separated CSV with a quoted header is not an Empower export
         assert!(!looks_like_arw(b"\"iata\",\"airport\",\"city\"\n\"00R\",\"Livingston\",\"TX\"\n"));
         assert!(looks_like_arw(b"\"SampleName\"\t\"Channel\"\r\n"));
+        assert!(!looks_like_arw(b"\"Editorial: Space flight\"\n"));
         assert!(matches!(
             parse_arw("0\t0\r1\tx\r"),
             Err(ArwError::Corrupt(_))
