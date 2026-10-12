@@ -863,17 +863,27 @@ impl Dataset for FcsDataset {
                         crc.update(&read_at(f, &path, pos, n, file_len)?);
                         pos += n;
                     }
-                    let got = crc.finish();
-                    if u32::from(got) == stored || u32::from(got.swap_bytes()) == stored {
+                    let (aug, got) = (crc.finish_aug(), crc.finish());
+                    let matches =
+                        |v: u16| u32::from(v) == stored || u32::from(v.swap_bytes()) == stored;
+                    if matches(aug) || matches(got) {
+                        let form = if matches(aug) {
+                            "CRC-16/CCITT from 0x1D0F, as writers store it"
+                        } else {
+                            "CRC-16/CCITT bit-reflected from 0, as the standard describes it"
+                        };
                         r.push(
-                            Finding::info("crc_ok", format!("{prefix}stored CRC {stored} matches"))
-                                .at(crc_at),
+                            Finding::info(
+                                "crc_ok",
+                                format!("{prefix}stored CRC {stored} matches ({form})"),
+                            )
+                            .at(crc_at),
                         );
                     } else {
                         r.push(
                             Finding::warning(
                                 "crc_mismatch",
-                                format!("{prefix}stored CRC {stored} != computed {got} (CRC-16/CCITT, bit-reflected, initial 0); writers differ in CRC details, so this is not treated as corruption"),
+                                format!("{prefix}stored CRC {stored} matches neither form computed ({aug}: CRC-16/CCITT from 0x1D0F, which every writer seen uses; {got}: bit-reflected from 0, as the standard describes it): the data set may be damaged, or the writer uses another CRC"),
                             )
                             .at(crc_at),
                         );

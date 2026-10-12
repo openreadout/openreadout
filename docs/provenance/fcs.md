@@ -62,3 +62,9 @@ Both readers are also run as black-box oracles (`oracle/gen.py`).
 **Corpus files:** every development input of this format on disk (`corpus/assurance/evidence.json` lists them); no held-out file.
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: the FCS version, $DATATYPE, byte order, $MODE, the acquisition platform family, spillover compensation and $PnE/$PnG scaling (both available on request). The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
+
+## 2026-10-12 — the CRC writers store
+
+**Corpus files:** `zenodo14018551-cytoflex-pi-rho`, `zenodo18439538-cytoflex-l3` (CytoFLEX, CytExpert), `zenodo20785964-gs5-cfse-day1` (BD FACSVerse, FACSuite), and new CytoFLEX files from Zenodo 16309593 and 19613819 (added to the manifest the same day). No held-out file.
+**Prior art consulted:** none. Python's `binascii.crc_hqx` was used to try CRC-16 variants.
+**What was inferred from what.** Every stored, non-zero CRC in the development corpus and in 11 more public files from 7 Zenodo records (14 files, every writer that stores one) disagreed with the bit-reflected CRC-16/CCITT the reader computed. All 14 equal CRC-16/CCITT computed most-significant bit first with initial value 0x1D0F (the "AUG-CCITT" form; check value of `123456789` is 0xE5CC) over the bytes from the data set's first byte through the last byte of its last segment. `check` now accepts either form and says which one matched.

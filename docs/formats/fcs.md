@@ -116,7 +116,7 @@ Events are stored one after another; within an event, parameters in order 1…`$
 
 ## CRC (§3.5)
 
-Eight ASCII bytes right after the last segment of a data set. CRC-16 with the CCITT polynomial, each input byte bit-reversed and initial value 0 (processed LSB-first: reflected polynomial `0x8408`; check value of `123456789` is `0x2189`). `00000000` means "not computed" (DiVa, Miltenyi 3.0, Navios). No corpus file stores a computed CRC, so a mismatch is a warning, not corruption; byte-swapped equality is accepted.
+Eight ASCII bytes right after the last segment of a data set, over the bytes from the data set's first byte through its last segment. The standard describes CRC-16 with the CCITT polynomial, each input byte bit-reversed and initial value 0 (reflected polynomial `0x8408`; check value of `123456789` is `0x2189`). Every writer seen that stores a CRC (CytoFLEX CytExpert, BD FACSuite and others: 14 files from 8 records) computes it most-significant bit first from 0x1D0F instead (CRC-16/AUG-CCITT, check value `0xE5CC`), so `check` accepts either and names the one that matched (`crc_ok`). `00000000` means "not computed" (DiVa, Miltenyi 3.0, Navios). A value matching neither is a warning (`crc_mismatch`), not corruption, because an unseen writer may use another form; byte-swapped equality is accepted.
 
 ## Multiple data sets
 
@@ -180,5 +180,5 @@ Every keyword not starting with `$` (primary and supplemental TEXT) is copied ve
 | `Family` { `BdFacsDiva`, `BdSpectral`, `CytekSpectral`, `BeckmanCytoflex`, `SonySpectral`, `SonySorter`, `MassCytometry` }, `family`, `vendor`, `technology`, `id`, `platform` | instrument family recognition and `extra.platform` |
 | `channel_kind`, `column_extras`, `metal_tag`, `metal_marker` | per-column roles, metal tags and markers |
 | `FcsDate`, `year`, `month`, `day`, `iso`, `next_day`, `parse_date`, `parse_time`, `parse_timestamp`, `acquisition_span` | `$DATE`/`$BTIM`/`$ETIM`/`$LAST_MODIFIED` to ISO-8601 |
-| `Crc16`, `update`, `finish`, `CrcField` { `Absent`, `NotComputed`, `Value`, `Other` }, `read_crc_field` | data-set CRC |
+| `Crc16`, `update`, `finish`, `finish_aug`, `CrcField` { `Absent`, `NotComputed`, `Value`, `Other` }, `read_crc_field` | data-set CRC |
 | `RowCondition`, `column`, `op`, `threshold`, `CompareOp` { `Greater`, `GreaterEqual`, `Less`, `LessEqual`, `Equal`, `NotEqual` }, `symbol`, `test`, `parse_conditions`, `filtered_slice` | `table --filter 'FITC-A > 1000' --count`: row conditions (`COLUMN OP NUMBER`, all must hold; NaN meets none) tested over the whole table on the values `table` returns, raw or compensated/transformed (module `filter`) |
