@@ -74671,3 +74671,47 @@ license = "EMBL-EBI Terms of Use (MetaboLights public study; no restrictions on 
 source = "MetaboLights MTBLS2235 (a TCA cycle subnetwork in the mammalian nucleus)"
 attribution = "Kafkia et al., MetaboLights MTBLS2235"
 notes = "the vendor's ANDI-MS export of the .qgd (source_file_format Shimadzu GCMSsolution): the 1,961 scans, no selected-ion or MRM records"
+
+[[file]]
+id = "pxd073998-vion-msms-ce10-raw-zip"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "pxd073998-vion-msms-ce10-raw.raw.zip"
+url = "https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/09/PXD073998/Lactyl-Adenosine_MSMS.raw"
+sha256 = "ba8cdcaaadb5fb7c046867b3614c1e2a9c4f982c26de43caa622ca4b85f8c50d"
+size = 1705243
+license = "CC0-1.0 (PRIDE project licence, checked 2026-10-12)"
+source = "PRIDE PXD073998 (Human Lactyl Adenosine IPRP-UHPLC QTOF-MS)"
+attribution = "Yichen Xu (PRIDE PXD073998)"
+notes = "a zip of the .raw directory deposited under the name Lactyl-Adenosine_MSMS.raw; extracted into pxd073998-vion-msms-ce10-raw-zip/ by corpus fetch"
+
+[[file]]
+id = "pxd073998-vion-msms-ce10-raw"
+format = "waters-raw"
+family = "mass-spectrometry"
+role = "input"
+tier = "standard"
+bundle = "pxd073998-vion-msms-ce10-raw-zip"
+filename = "pxd073998-vion-msms-ce10-raw-zip/260519_XY_2_MSMS_CE10_5ul.raw"
+url = ""
+license = "CC0-1.0 (PRIDE project licence, checked 2026-10-12)"
+source = "PRIDE PXD073998 (Human Lactyl Adenosine IPRP-UHPLC QTOF-MS)"
+attribution = "Yichen Xu (PRIDE PXD073998)"
+notes = "Vion IMS QTof written by UNIFI 2.0 (lower-case file names), ES-, four TOF MSMS functions without a set mass and a lock-spray REFERENCE function: 2,142 profile scans"
+precursor_not_compared = "the TOF MSMS functions isolate no precursor; the export names the scan window's centre (225 or 200) as one"
+
+[[file]]
+id = "pxd073998-vion-msms-ce10-raw"
+format = "mzml"
+family = "mass-spectrometry"
+role = "oracle-export"
+tier = "standard"
+filename = "pxd073998-vion-msms-ce10-raw.mzML"
+url = "https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/09/PXD073998/Lactyl-Adenosine_MSMS_CE10.mzML"
+sha256 = "d3037559ebaece16dc13109787c4829e0418ce4c59bba24a76b94e5d514415f9"
+size = 11472547
+license = "CC0-1.0 (PRIDE project licence, checked 2026-10-12)"
+source = "PRIDE PXD073998 (Human Lactyl Adenosine IPRP-UHPLC QTOF-MS)"
+attribution = "Yichen Xu (PRIDE PXD073998)"
+notes = "depositor-made ProteoWizard 3.0.24263 mzML of the run (its spectrum titles name 260519_XY_2_MSMS_CE10_5ul.raw): all 2,142 scans"
