@@ -212,6 +212,9 @@ impl Dataset for StrictDataset {
     fn exclude_flagged_peaks(&mut self, exclude: bool) -> bool {
         self.inner.exclude_flagged_peaks(exclude)
     }
+    fn set_lock_mass(&mut self, reference_mz: Option<f64>) -> crate::Result<bool> {
+        self.inner.set_lock_mass(reference_mz)
+    }
 }
 
 #[cfg(test)]
