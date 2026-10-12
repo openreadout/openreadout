@@ -435,12 +435,22 @@ impl SciexDataset {
                 break;
             }
             let idx = read_stream(&cfb, &mut f, &path, &format!("{dir}/Idx")).unwrap_or_default();
-            let index = parse_index(&idx);
+            let mut index = parse_index(&idx);
             let index_trailing = index_trailing(idx.len());
             if index_trailing != 0 {
                 notes.push(format!(
                     "sample {n}: the scan index ends {index_trailing} bytes into a record (truncated); {} whole records are used",
                     index.len()
+                ));
+            }
+            // An acquisition that stops part-way through a cycle leaves records of its first
+            // experiments only; the vendor's library stops at the last whole cycle, and so do we.
+            let partial = index.len() % experiments.len().max(1);
+            if partial > 0 && index.len() > partial {
+                index.truncate(index.len() - partial);
+                notes.push(format!(
+                    "sample {n}: the last cycle is incomplete ({partial} of {} experiments recorded); its records are left out, as the vendor's library leaves them out",
+                    experiments.len()
                 ));
             }
             let windows = read_stream(
