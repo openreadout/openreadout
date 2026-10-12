@@ -375,8 +375,10 @@ def czi(p: Path) -> dict:
         # JPEG subblocks (compression 1): decoders may differ by one count (IDCT rounding); record
         # plane means for files marked `lossy` in the manifest, as for TIFF.
         lossy = 1 in comps
-        n_scenes = len(f.scenes)
-        for s in range(n_scenes):
+        # Scene ids as stored: a file saved from one scene of a larger acquisition keeps its
+        # index (S=12 alone in figshare31165393), which openreadout lists as image 0.
+        scene_ids = list(f.scenes.keys()) if hasattr(f.scenes, "keys") else list(range(len(f.scenes)))
+        for s in scene_ids:
             xa = f.asxarray(scene=s)
             dims = list(xa.dims); shape = dict(zip(dims, xa.shape))
             C = shape.get("C", 1); Z = shape.get("Z", 1); T = shape.get("T", 1)
