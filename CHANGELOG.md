@@ -4,7 +4,14 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- MIRAX slides exported with overlaps removed, which have no camera position table, are read. Their pixels used to exit 6.
+
 ### Fixed
+
+- DM3/DM4 files now name the microscope entered for the session (`JEM-ARM200F`) instead of DigitalMicrograph's microscope-control plug-in (`JEOL COM`) when the file has both.
+- Electron-microscopy pixel and voxel sizes in `experiment.method.parameters` are in nm. A 0.156 nm pixel read as 0.000156 µm was easy to misread.
 
 - `stats` on large CZI mosaics is fast again. Reading the plane in strips had made it decode the tiles that cross a strip edge twice. Now each tile is decoded once, and `stats` also accumulates the colour components of a strip in parallel.
 - BMG SMART Control workbooks of kinetic runs: each cycle is now its own time point. `check` used to report the whole run as one time point with many values per well.
