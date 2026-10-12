@@ -73973,3 +73973,357 @@ license = "CC-BY-SA-4.0"
 source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
 attribution = "NeuralEnsemble ephy_testing_data contributors"
 notes = "part of gin-tdt-epocs-with-payload"
+
+[[file]]
+id = "gin-axona-raw"
+format = "axona-dacqusb"
+family = "electrophysiology"
+role = "input"
+tier = "smoke"
+filename = "gin-axona/axona_raw.set"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/axona_raw.set"
+sha256 = "e2feb5fa097e5f99363a2ad9d3ecfff97f87ca3f11b95993820d34bc2d93b65c"
+size = 26000
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "Axona DacqUSB 1.2.2.16 session: .set and a raw .bin of 192 packets (576 samples at 48 kHz) of tetrodes 1-4 (16 channels); upstream `axona/axona_raw.set` and `.bin`"
+
+[[file]]
+id = "gin-axona-raw-axona-raw-bin"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/axona_raw.bin"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/axona_raw.bin"
+sha256 = "b63d300e2ea73123ede5aba4714661c2875ed548b248cc65b8c0fbf0d6af19bf"
+size = 82944
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-raw"
+
+[[file]]
+id = "gin-axona-multi-modal"
+format = "axona-dacqusb"
+family = "electrophysiology"
+role = "input"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.set"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.set"
+sha256 = "9eb4c6b3ccf6469a1652befce050a355023b48e58646b07ce698be78559c9559"
+size = 24488
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "Axona DacqUSB 1.2.2.16 session: .set, raw .bin (1.2 s, tetrodes 1-4), tetrode files .1-.4 (440 spikes), .eeg-.eeg4, .egf-.egf4 and .pos (not read); upstream `axona/dataset_multi_modal/`"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-1"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.1"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.1"
+sha256 = "7dadf7d12d70b57e8b5d0445cd74c8c7d9da94005b9a5fdc5627bcbde286cb80"
+size = 34642
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-2"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.2"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.2"
+sha256 = "f16116a4b5140d705ef23876cbc0e002d659eba7e4f5df956a9c0da38498fc36"
+size = 13041
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-3"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.3"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.3"
+sha256 = "f34d8fc3cd570a1a0dac6fc71085a488592739fa064ce7a1e1310ebb52566103"
+size = 27514
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-4"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.4"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.4"
+sha256 = "f3d544613c8ffc6ad07e4ebeb2b19469eb4ae64cca4bffff0e622ec99bf15223"
+size = 21033
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-bin"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.bin"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.bin"
+sha256 = "79d8ec8b12d2d699c72c3eead178c1dc4b1978956cbc7fdf22cd1b50dabe709c"
+size = 8294400
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-eeg"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.eeg"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.eeg"
+sha256 = "42ba1a05bd04250156edba585364d69f66c031d6bccd6f04d2082b61cf7d3753"
+size = 150485
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-eeg2"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.eeg2"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.eeg2"
+sha256 = "39cc296cb7e357da1b76685d77b1f5caea6c0f1bea99c7ddb0e6ec8a640f05c7"
+size = 150485
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-eeg3"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.eeg3"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.eeg3"
+sha256 = "ce51ec453244d191f74fd171e3ca51bcedd001af075ff2b899126abe47373323"
+size = 150485
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-eeg4"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.eeg4"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.eeg4"
+sha256 = "4b583d534b553b1aebdbd52750b23d936d35e6c18a3bd5b1a430ebf6c9a084bc"
+size = 150485
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-egf"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.egf"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.egf"
+sha256 = "b99fb3f8e2347ba95d74a9c8a24d295cfa9987f87dab8408696a89c69fb96d23"
+size = 5769808
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-egf2"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.egf2"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.egf2"
+sha256 = "23b5cec8c53b906496aaac59bf80f8e456928669349d1525664e5ede52a74c40"
+size = 5769808
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-egf3"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.egf3"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.egf3"
+sha256 = "e33144aa589d591f80d03a8414554e32618c10dc2a444c65aaac23e012c4ed89"
+size = 5769808
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-egf4"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.egf4"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.egf4"
+sha256 = "8c60793fa2673d9d2232d293e77f661df1c1aaf5029aa087f68ce809d668b1b0"
+size = 5769808
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-multi-modal-axona-sample-pos"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_multi_modal/axona_sample.pos"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_multi_modal/axona_sample.pos"
+sha256 = "4a745701e177bc789382ef60268b3ab8910ec44deab2ef0aab55a72b7ef35658"
+size = 2544
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-multi-modal"
+
+[[file]]
+id = "gin-axona-unit-spikes"
+format = "axona-dacqusb"
+family = "electrophysiology"
+role = "input"
+tier = "smoke"
+filename = "gin-axona/dataset_unit_spikes/20140815-180secs.set"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_unit_spikes/20140815-180secs.set"
+sha256 = "220b8a83a2e3f86e11c1d0a05f88dac19412bc4a4f9c1833dca24c6881a89b50"
+size = 25977
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "Axona DacqUSB 1.2.2.16 session of 180 s: .set, tetrode files .1-.4 (50,448 spikes), .eeg and .pos (not read); no raw .bin; upstream `axona/dataset_unit_spikes/`"
+
+[[file]]
+id = "gin-axona-unit-spikes-20140815-180secs-1"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_unit_spikes/20140815-180secs.1"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_unit_spikes/20140815-180secs.1"
+sha256 = "705f98a0eab4f27d203e5fb6720fc8ef4127ad7b068e81bddb78434e60a54d94"
+size = 3443583
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-unit-spikes"
+
+[[file]]
+id = "gin-axona-unit-spikes-20140815-180secs-2"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_unit_spikes/20140815-180secs.2"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_unit_spikes/20140815-180secs.2"
+sha256 = "feb80041d846da82bf937f08e490abe76a3aa5e7051aea7d3bbd7eda7406c932"
+size = 3861543
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-unit-spikes"
+
+[[file]]
+id = "gin-axona-unit-spikes-20140815-180secs-3"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_unit_spikes/20140815-180secs.3"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_unit_spikes/20140815-180secs.3"
+sha256 = "3190ac5573e8aa8c01d4a644f113042efa3e2faa7590e034119ae9554cff9ccb"
+size = 1397415
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-unit-spikes"
+
+[[file]]
+id = "gin-axona-unit-spikes-20140815-180secs-4"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_unit_spikes/20140815-180secs.4"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_unit_spikes/20140815-180secs.4"
+sha256 = "ee1fece2ff58536d3df22a556e7d6a30ef0e1bb6e96d1fbd23f28ced4bd5ee96"
+size = 2195535
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-unit-spikes"
+
+[[file]]
+id = "gin-axona-unit-spikes-20140815-180secs-eeg"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_unit_spikes/20140815-180secs.eeg"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_unit_spikes/20140815-180secs.eeg"
+sha256 = "01dd41b85fb5dce953b7aec62035dd71f2e6a765a824ad135f3609e9fd7df937"
+size = 45258
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-unit-spikes"
+
+[[file]]
+id = "gin-axona-unit-spikes-20140815-180secs-pos"
+format = "axona-dacqusb"
+role = "part"
+tier = "smoke"
+filename = "gin-axona/dataset_unit_spikes/20140815-180secs.pos"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/axona/dataset_unit_spikes/20140815-180secs.pos"
+sha256 = "4ef8911642a81e460a44e3e7395533a1be4f8dd882045c1c036927bb00f89338"
+size = 180553
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "part of gin-axona-unit-spikes"
+
+[[file]]
+id = "gin-rawmcs-raw-mcs-with-header-1"
+format = "mcs-raw"
+family = "electrophysiology"
+role = "input"
+tier = "smoke"
+filename = "gin-rawmcs/raw_mcs_with_header_1.raw"
+url = "https://gin.g-node.org/NeuralEnsemble/ephy_testing_data/raw/bf392aaed45bf518c556bc7d1195dea8a8e6cf12/rawmcs/raw_mcs_with_header_1.raw"
+sha256 = "3fc129e5f506171edacefef4b7b298ccc5bcc433f6bf6b16292d4f86e8421728"
+size = 12000586
+license = "CC-BY-SA-4.0"
+source = "NeuralEnsemble/ephy_testing_data on G-Node GIN (python-neo test data), pinned to commit bf392aa; database ODbL-1.0, contents CC-BY-SA-4.0"
+attribution = "NeuralEnsemble ephy_testing_data contributors"
+notes = "MC_DataTool 2.6.10 binary export with header: 60 electrode streams (El_12 … El_87), 100,000 uint16 frames at 20 kHz, 0.2083 µV per count; upstream `rawmcs/raw_mcs_with_header_1.raw`"

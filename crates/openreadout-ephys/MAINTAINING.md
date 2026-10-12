@@ -1,23 +1,28 @@
 # Maintaining `openreadout-ephys`
 
-Formats: `heka-patchmaster`, `ced-spike2`, `open-ephys`. Start with [docs/maintaining.md](../../docs/maintaining.md) for the project-wide process.
+Formats: `heka-patchmaster`, `ced-spike2`, `winwcp`, `open-ephys`, `tdt-tank`, `axona-dacqusb`, `mcs-raw`. Start with [docs/maintaining.md](../../docs/maintaining.md) for the project-wide process.
 
 ## Decode pipeline
 
-Three independent readers share the crate; `src/lib.rs` registers each and its `detect`.
+Independent readers share the crate; `src/lib.rs` registers each and its `detect`.
 
 - **HEKA PatchMaster** (`src/heka/`). `bundle.rs` parses the `DAT2` bundle header (writer version, up to twelve items: `.dat` samples, `.pul` pulsed tree, `.pgf` stimulus tree, …). `tree.rs` walks the pulsed tree Root → Group → Series → Sweep → Trace (little-endian `eerT` magic, five levels, record sizes from the tree header, a child count after each record). `dataset.rs` turns every series into a trace (sweeps × channels); channels of one series whose sample interval or point count differ become further traces of that series ("series split by sample grid"). Samples are read lazily per sweep from the `.dat` item at each trace record's offset, in its sample format, and multiplied by the record's data scaler.
 - **CED Spike2 `.smr`** (`src/spike2/`). `file.rs` reads the 512-byte file header, the 140-byte channel headers and each channel's chain of data blocks (20-byte block header, then items). `dataset.rs` makes every waveform channel a trace (pauses between blocks split sweeps), puts events, markers and text marks in the `events` table and AdcMark/RealMark spike shapes in the `spikes` table. Times count the file's tick. A file starting `S64` (64-bit `.smrx`) goes to `file64.rs` instead: the header stream (first 64 KiB plus extra header blocks), 272-byte channel records, the string table, and per channel a tree of 4 KiB index blocks over 64 KiB data blocks (runs of samples, u64 times); blocks of an older channel generation are skipped. It fills the same `SmrFile`, so the dataset code is shared.
 - **WinWCP `.wcp`** (`src/winwcp/`): the 1024-byte `KEY=value` header, then records of `NBA` analysis sectors and `NBD` data sectors of interleaved int16; one trace, records as sweeps, scaled with each record's VMax.
+- **TDT tanks and blocks** (`src/tdt/`). `mod.rs` finds the block files (`.tsq`, `.tev`, `.Tbk`, `.sev`) of a block directory, one of its files, or every block of a tank directory. `tsq.rs` reads the 40-byte index records: stream chunks per store and channel (data offsets into `.tev`), snippets, strobe on/off records (the value is in the offset field), start and stop marks. `dataset.rs` makes every readable stream store a trace (blocks are sweeps, channels end at the last chunk wholly inside the `.tev`), snippets the `spikes` table and strobe onsets the `epocs` table (offsets paired by the onset store named in their channel and sort-code bytes).
+- **Axona DacqUSB** (`src/axona/`): the `.set` `key value` lines, the raw `.bin` (432-byte packets, 3 samples × 64 channels in a permuted order, `bin_channel_slot`) as one trace of the active tetrodes' channels in µV, and the tetrode files `.1` … as the `spikes` table (big-endian time stamps, int8 waveforms). `.eeg`, `.egf` and `.pos` are listed only.
+- **MC_DataTool `.raw`** (`src/mcsraw/`): the text header up to `EOH` and interleaved uint16 frames, scaled with the `El` gain and `ADC zero`; one trace.
 - **Open Ephys** (`src/openephys/`). `mod.rs` claims a recording directory (or its `structure.oebin` / a `.continuous` file) and picks the layout. `binary.rs`: `[Record Node N/]experimentE/recordingR/` with `structure.oebin` (JSON), interleaved int16 `continuous.dat`, `sample_numbers.npy` (GUI 0.6+) or integer `timestamps.npy` (older), and `events/<stream>/*.npy`; `npy.rs` is the minimal `.npy` reader. `legacy.rs`: one `.continuous` file per channel (1024-byte text header, 2070-byte records of 1024 big-endian int16 samples), `.events` and `.spikes`, with `_2`, `_3` … suffixes for later experiments. `dataset.rs` joins both into traces per stream.
 
-Versions branch at: the bundle signature and writer version (`bundle.rs`), the tree magic, level count and record sizes (`tree.rs`), the Spike2 file version in the header (`file.rs`), and the Open Ephys GUI version in `structure.oebin` / the legacy header (`binary.rs`, `legacy.rs`). The assurance profile (`src/assurance.rs`) turns each of these into a variant feature.
+Versions branch at: the bundle signature and writer version (`bundle.rs`), the tree magic, level count and record sizes (`tree.rs`), the Spike2 file version in the header (`file.rs`), and the Open Ephys GUI version in `structure.oebin` / the legacy header (`binary.rs`, `legacy.rs`). The TDT reader branches on the event type and data format codes of each store (`tsq.rs`) and on block versus tank (`mod.rs`); Axona on the tetrode file header (`num_chans`, `bytes_per_sample`); MC_DataTool on the stream kinds in `Streams`. The assurance profile (`src/assurance.rs`) turns each of these into a variant feature.
 
 ## Invariants and checks
 
 - Every offset and length from a header is bounds-checked against the file size before it is read; a tree, block chain or item running past the end is exit 4 (corrupt) with the byte offset (`Error::corrupt_at`).
 - Tree walks are capped (record count, tree size) so a damaged child count cannot allocate without bound; exceeding a cap is exit 6 with a hint that the file may be damaged.
 - Refused (exit 6, with a hint naming a way out): PatchMaster files without a bundle (`DAT1`/`DATA`, trees in separate `.pul`/`.pgf` files), PatchMaster Next v2000 bundles (64-bit offsets; no development file), big-endian (PowerPC) trees, trees that do not have five levels, and image-plane requests on any of the readers.
+- Refused (exit 6): TDT stores whose samples are in `.sev` files, TDT files without a `.tsq`, Axona files without their `.set`, MC_DataTool exports without a header or with streams other than `El_`.
+- TDT and Axona keep times as the file gives them: TDT seconds from the first block's start mark, Axona tetrode time stamps / `timebase`.
 - `check` walks every block chain and tree record and reports damaged blocks and trace records without stopping at the first.
 - Nothing is resampled: channels on different sample grids stay separate traces, and each stream keeps its own clock.
 
@@ -26,7 +31,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 1. `openreadout info FILE --view format` and `openreadout info FILE --json`, then read `assurance` (which variant feature is unseen) and `notes`.
 2. `openreadout info FILE --view structure` lists the bundle items, tree levels, Spike2 channels and block counts, or the Open Ephys streams; `openreadout info FILE --view full` prints the parsed headers and the vendor tree.
 3. `openreadout check FILE` for structural problems (damaged blocks, records past the end).
-4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO` and `OpenEphysBinaryRawIO`/`OpenEphysRawIO` for the others (run as documented in `oracle/`; see each provenance log for licences).
+4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO`, `OpenEphysBinaryRawIO`/`OpenEphysRawIO`, `WinWcpRawIO`, `TdtRawIO`, `AxonaRawIO` and `RawMCSRawIO` for the others (run as documented in `oracle/`; see each provenance log for licences).
 5. Start from the synthetic fixtures in `src/spike2/tests.rs` and `src/openephys/tests.rs` to reproduce a layout without the corpus, and add the file with `cargo xtask variant intake` (`docs/maintaining.md`).
 
 ## Fragile spots
@@ -36,6 +41,9 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 - **Open Ephys units.** Channel units come from `structure.oebin`; when it leaves them empty, µV (neural) and V (ADC) are assumed per the Open Ephys documentation (`unit_assumed`, reported in assurance).
 - **Open Ephys timestamps.** GUI versions before 0.6 store integer sample numbers in `timestamps.npy`; 0.5 has `synchronized_timestamps.npy`. The file name alone decides the meaning, so a new GUI version that reuses a name with another meaning would read wrong times.
 - **Directory claims.** The Open Ephys detector claims a directory only when a recording's marker files are within a few levels; an earlier version claimed whole shares (fixed, see the provenance log). Keep `detect` tests for share-like directories.
+- **TDT `.Tbk` point counts.** Snippet lengths come from each record's size field; the `.Tbk` point count can be larger (it is in the corpus), and a reader that trusts it reads into the next snippet.
+- **TDT cut-short files.** Two corpus blocks index data past the end of their `.tev`; the trace ends at the first chunk that is not wholly in the file, and the oracle hashes the same samples.
+- **Axona channel order.** The `.bin` stores channels in blocks of eight that alternate between the upper and lower half of each sample; a wrong slot table gives plausible but wrong traces, so the corpus hash is the only guard.
 - **Spike2 pauses and ticks.** Sweep boundaries come from gaps between data blocks; a writer that splits blocks without a pause would create spurious sweeps. Times depend on the file's tick (µs per time unit × base).
 
 <!-- BEGIN GENERATED guide -->

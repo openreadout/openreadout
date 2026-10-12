@@ -1054,3 +1054,24 @@ path = "fuzz_targets/whole_fsm.rs"
 test = false
 doc = false
 bench = false
+
+[[bin]]
+name = "whole_tdt"
+path = "fuzz_targets/whole_tdt.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_axona"
+path = "fuzz_targets/whole_axona.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mcs_raw"
+path = "fuzz_targets/whole_mcs_raw.rs"
+test = false
+doc = false
+bench = false

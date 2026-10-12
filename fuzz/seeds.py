@@ -609,6 +609,27 @@ def wsi_fixture_seeds() -> None:
     put("whole_vms", "synthetic.bundle", BUNDLE_SEP.join([vms.encode()] + [(d / f).read_bytes() for f in files]))
 
 
+def ephys_new_seeds() -> None:
+    """TDT, Axona and MC_DataTool seeds: the committed synthetic TDT block
+    (oracle/make_tdt_fixtures.py) and minimal sessions written here (the corpus files of these
+    formats are share-alike and seed local-seeds/ only)."""
+    fx = ROOT.parent / "crates" / "openreadout-ephys" / "tests" / "fixtures" / "tdt-synthetic"
+    put("whole_tdt", "synthetic.bundle",
+        BUNDLE_SEP.join([(fx / "synthetic_B1.tsq").read_bytes(), (fx / "synthetic_B1.tev").read_bytes()]))
+    setf = ("trial_date Sunday, 4 Oct 2020\r\ntrial_time 11:07:07\r\nsw_version 1.2.2.16\r\nADC_fullscale_mv 1500\r\n"
+            + "".join(f"gain_ch_{i} 10000\r\n" for i in range(64))
+            + "".join(f"collectMask_{t} {int(t == 1)}\r\n" for t in range(1, 17)) + "rawRate 48000\r\n").encode()
+    packets = b"".join(b"ADU1" + struct.pack("<I", p) + bytes(24) + struct.pack("<192h", *range(p, p + 192)) + bytes(16)
+                       for p in range(2))
+    spikes = (b"trial_date Sunday, 4 Oct 2020\r\nnum_chans 4\r\ntimebase 96000 hz\r\nbytes_per_timestamp 4\r\n"
+              b"samples_per_spike 50\r\nbytes_per_sample 1\r\nnum_spikes 1\r\ndata_start"
+              + (struct.pack(">i", 960) + bytes(range(50))) * 4 + b"\r\ndata_end\r\n")
+    put("whole_axona", "mini.bundle", BUNDLE_SEP.join([setf, packets, spikes]))
+    put("whole_mcs_raw", "mini.raw",
+        b"MC_DataTool binary conversion\r\nVersion 2.6.10\r\nSample rate = 20000\r\nADC zero = 32768\r\n"
+        b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
+
+
 def main() -> None:
     try:
         import numpy as np
@@ -756,6 +777,7 @@ def main() -> None:
     put("whole_spike2", "magic.smr", struct.pack("<h", 6) + b"(C) CED 87" + bytes(500))
     new_format_seeds()
     wsi_fixture_seeds()
+    ephys_new_seeds()
     put("codec_packbits", "runs.bin", struct.pack("<I", 64)[:3] + bytes([0xFD, 7, 2, 1, 2, 3, 0x81, 9]))
     # LZMA2 of b"hello hello hello hello, lzma2!" (CPython lzma, FORMAT_RAW, preset 6)
     put("codec_lzma2", "hello.bin", struct.pack("<I", 31)[:3] + bytes.fromhex("e0001e00145d00341949ee8de9560ae7799a19124543a9df4c4c4000"))

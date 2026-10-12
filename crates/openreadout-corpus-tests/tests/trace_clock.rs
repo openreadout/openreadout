@@ -49,6 +49,8 @@ const TRACE_FORMATS: &[&str] = &[
     "jeol-jdf",
     "winwcp",
     "tdt-tank",
+    "axona-dacqusb",
+    "mcs-raw",
     "magritek-spinsolve",
     "mzml",
     "mzxml",

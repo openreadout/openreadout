@@ -115,6 +115,66 @@ fn observe_tdt(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static AXONA: AssuranceProfile = AssuranceProfile {
+    format_id: "axona-dacqusb",
+    observe: observe_axona,
+    validated: AXONA_DACQUSB_VALIDATED,
+    confidence: AXONA_DACQUSB_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_axona(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.context(K::WriterVersion, v);
+    }
+    if !info.traces.is_empty() {
+        o.feature(K::Layout, "raw packets", &[Scope::Traces]);
+        o.calibration(
+            "ADC counts to µV",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "int16 samples × 1000 × ADC_fullscale_mv / (gain_ch × 32768)",
+        );
+    }
+    for t in &info.tables {
+        if t.name.as_deref() == Some("spikes") {
+            o.feature(K::Record, "tetrode spikes", &[Scope::Tables]);
+        }
+    }
+    if let Some(n) = a::note_with(info, "not read:") {
+        o.undecoded("EEG, position and other session files", &[], n.to_string());
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded("cut-short files", &[Scope::Traces, Scope::Tables], n.to_string());
+    }
+    o
+}
+
+pub(crate) static MCS_RAW: AssuranceProfile = AssuranceProfile {
+    format_id: "mcs-raw",
+    observe: observe_mcs_raw,
+    validated: MCS_RAW_VALIDATED,
+    confidence: MCS_RAW_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_mcs_raw(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::WriterVersion, v, &[Scope::Metadata, Scope::Traces]);
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "ADC counts to channel units",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "uint16 samples × El gain − El gain × ADC zero",
+        );
+    }
+    o
+}
+
 fn observe_spike2(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     if let Some(v) = &info.format_version {
@@ -413,6 +473,20 @@ const WINWCP_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "V5.8.1", 1, 1, 1),
 ];
 // END GENERATED winwcp
+
+// BEGIN GENERATED axona-dacqusb (cargo xtask assurance-audit --write; do not edit)
+const AXONA_DACQUSB_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const AXONA_DACQUSB_VALIDATED: &[Validated] = &[
+];
+// END GENERATED axona-dacqusb
+
+// BEGIN GENERATED mcs-raw (cargo xtask assurance-audit --write; do not edit)
+const MCS_RAW_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const MCS_RAW_VALIDATED: &[Validated] = &[
+];
+// END GENERATED mcs-raw
 
 // BEGIN GENERATED tdt-tank (cargo xtask assurance-audit --write; do not edit)
 const TDT_TANK_CONFIDENCE: Confidence = Confidence::Low;

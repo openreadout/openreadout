@@ -5653,7 +5653,66 @@ def tdt(p: Path) -> dict:
         out["oracle_note"] = "; ".join(notes)
     return out
 
-EPHYS = {"wcp": winwcp, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
+
+def axona(p: Path) -> dict:
+    """Axona DacqUSB session via Neo's AxonaRawIO (BSD-3), given its .set file. Raw trace: Neo's
+    signal channels (the active tetrodes' channels), values Neo's int16 chunk x Neo's gain (µV),
+    one sweep. Spikes: Neo's spike units (one per tetrode file) as sorted rows of time (Neo's
+    rescaled time stamps), raw time stamp, tetrode and the four channels' raw int8 waveforms."""
+    from neo.rawio import axonarawio as ax
+    r = ax.AxonaRawIO(filename=str(p))
+    r.parse_header()
+    h = r.header
+    out = {"reader": f"neo {__import__('neo').__version__} AxonaRawIO", "traces": []}
+    ch = h["signal_channels"]
+    if len(ch):
+        n = r.get_signal_size(0, 0, 0)
+        raw = r.get_analogsignal_chunk(0, 0, 0, n, 0)
+        cols = [raw[:, k].astype(np.float64) * float(ch["gain"][k]) for k in range(len(ch))]
+        out["traces"].append({"index": 0, "name": "raw", "sweep_count": 1, "channel_count": len(ch),
+                              "channel_names": [str(x) for x in ch["name"]],
+                              "channel_units": [str(x) for x in ch["units"]],
+                              "sample_rate_hz": float(ch["sampling_rate"][0]),
+                              "sweeps": [{"sweep": 0, "sample_count": int(n),
+                                          "channels": [{"xxh3": _trace_hash(v), "first": _first(v)} for v in cols]}]})
+    sc = h["spike_channels"]
+    if len(sc):
+        times, stamps, tetrodes, waves = [], [], [], []
+        for u in range(len(sc)):
+            ts = r.get_spike_timestamps(0, 0, u, None, None)
+            times.append(r.rescale_spike_timestamp(ts, "float64"))
+            stamps.append(np.asarray(ts, dtype=np.float64))
+            tetrodes.append(np.full(len(ts), int(sc["id"][u]), dtype=np.float64))
+            wf = r.get_spike_raw_waveforms(0, 0, u, None, None)
+            waves.append(wf.reshape(len(ts), -1).astype(np.float64))
+        w = np.vstack(waves)
+        nw = w.shape[1] // 4
+        cols = [("time_s", np.concatenate(times)), ("timestamp", np.concatenate(stamps)),
+                ("tetrode", np.concatenate(tetrodes))]
+        cols += [(f"ch{c + 1}_w{i}", w[:, c * nw + i]) for c in range(4) for i in range(nw)]
+        out["tables"] = [{"index": 0, "event_count": int(w.shape[0]), "parameter_names": [], "dtypes": [],
+                          "xxh3": None, "sorted_row_hashes": [_sorted_rows(cols)]}]
+    return out
+
+
+def mcs_raw(p: Path) -> dict:
+    """MC_DataTool binary export (.raw with header) via Neo's RawMCSRawIO (BSD-3): one trace of
+    Neo's signal channels, values Neo's uint16 chunk x gain + offset in float64."""
+    from neo.rawio import rawmcsrawio as rm
+    r = rm.RawMCSRawIO(filename=str(p))
+    r.parse_header()
+    ch = r.header["signal_channels"]
+    n = r.get_signal_size(0, 0, 0)
+    raw = r.get_analogsignal_chunk(0, 0, 0, n, 0)
+    cols = [raw[:, k].astype(np.float64) * float(ch["gain"][k]) + float(ch["offset"][k]) for k in range(len(ch))]
+    trace = {"index": 0, "name": "Signals", "sweep_count": 1, "channel_count": len(ch),
+             "channel_names": [str(x) for x in ch["name"]], "channel_units": [str(x) for x in ch["units"]],
+             "sample_rate_hz": float(ch["sampling_rate"][0]),
+             "sweeps": [{"sweep": 0, "sample_count": int(n),
+                         "channels": [{"xxh3": _trace_hash(v), "first": _first(v)} for v in cols]}]}
+    return {"reader": f"neo {__import__('neo').__version__} RawMCSRawIO", "traces": [trace]}
+
+EPHYS = {"wcp": winwcp, "set": axona, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
          "nse": neuralynx, "nst": neuralynx, "ntt": neuralynx, "plx": plexon, "pl2": pl2, "smr": spike2,
          **{f"ns{i}": blackrock for i in range(1, 7)}}
 
@@ -5979,6 +6038,8 @@ def main():
                 data = waters(p)
             elif ext == ".dat" and p.is_file() and _is_heka(p):
                 data = heka(p)
+            elif ext == ".raw" and p.is_file() and p.open("rb").read(29) == b"MC_DataTool binary conversion":
+                data = mcs_raw(p)
             elif ext == ".raw" and p.is_file() and export is not None:
                 data = thermo(p, export)  # the given export (mzML, mzXML or ANDI-MS)
             elif ext == ".pl2" and export is not None:

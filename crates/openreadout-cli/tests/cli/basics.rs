@@ -56,6 +56,8 @@ fn formats_lists_all_readers() {
             "ced-spike2",
             "winwcp",
             "tdt-tank",
+            "axona-dacqusb",
+            "mcs-raw",
             "open-ephys",
             "agilent-masshunter",
             "sciex-wiff",
