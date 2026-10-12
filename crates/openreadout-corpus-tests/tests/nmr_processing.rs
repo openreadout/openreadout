@@ -40,7 +40,12 @@ use serde::Deserialize;
 
 /// Experiments where automatic phasing is known to land in another minimum of the objective
 /// than TopSpin's stored phases (reported, not asserted; docs/formats/nmr-processing.md).
-const AUTOPHASE_KNOWN_MISSES: &[&str] = &["nmrxiv-s1132-2"];
+const AUTOPHASE_KNOWN_MISSES: &[&str] = &[
+    "nmrxiv-s1132-2",
+    // crowded water-suppressed plant-extract spectra in D2O: 0.97 with a first-order phase near 90°
+    "zenodo20308061-andrographis-mac50-3",
+    "zenodo20308061-andrographis-ult100-2",
+];
 
 #[derive(Deserialize)]
 struct OraclePeak {

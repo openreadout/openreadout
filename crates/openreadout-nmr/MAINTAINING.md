@@ -45,7 +45,7 @@ Shared: `text.rs` (ASCII in principle, UTF-8 or Latin-1 in practice). NMR proces
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-nmr` | [format note](../../docs/formats/bruker-nmr.md), [provenance log](../../docs/provenance/bruker-nmr.md) | high | prior art | 62 / 61 | 35 | 4 / 0 |
+| `bruker-nmr` | [format note](../../docs/formats/bruker-nmr.md), [provenance log](../../docs/provenance/bruker-nmr.md) | high | prior art | 65 / 64 | 37 | 4 / 0 |
 | `jcamp-dx` | [format note](../../docs/formats/jcamp-dx.md), [provenance log](../../docs/provenance/jcamp-dx.md) | high | open spec | 33 / 32 | 13 | 1 / 0 |
 | `varian-nmr` | [format note](../../docs/formats/varian-nmr.md), [provenance log](../../docs/provenance/varian-nmr.md) | high | prior art | 13 / 13 | 7 | 1 / 0 |
 | `jeol-jdf` | [format note](../../docs/formats/jeol-jdf.md), [provenance log](../../docs/provenance/jeol-jdf.md) | high | prior art | 25 / 25 | 18 | 2 / 0 |
@@ -116,30 +116,30 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-nmr` | acquisition | `2D` | traces | 13 | 14 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s1407-hsqc-neo600-ts414` |
 | `bruker-nmr` | acquisition | `AQ_mod 1` | traces | 4 | 4 | `nmrxiv-s1132-2`, `nmrxiv-s1247-15`, `nmrxiv-s596-1` |
-| `bruker-nmr` | acquisition | `AQ_mod 3` | traces | 57 | 58 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | acquisition | `AQ_mod 3` | traces | 60 | 61 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
 | `bruker-nmr` | acquisition | `encoding Echo-Antiecho` | traces | 4 | 5 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1617-hsqc-600-ts420`, `nmrxiv-s572-hsqc-stbhome600-ts35` |
 | `bruker-nmr` | acquisition | `encoding QF` | traces | 2 | 2 | `nmrxiv-s1517-hmqc-av600neo-ts440`, `nmrxiv-s519-dosy-400-ts35pl7` |
 | `bruker-nmr` | acquisition | `encoding States-TPPI` | traces | 4 | 4 | `nmrxiv-s2331-noesy-neo600cryo-ts450`, `nmrxiv-s314-roesy-500-ts411`, `nmrxiv-s501-6` |
 | `bruker-nmr` | acquisition | `encoding undefined` | traces | 3 | 3 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s1608-rpdlf-mas-ts363` |
 | `bruker-nmr` | acquisition | `non-uniform sampling` | traces | 3 | 3 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1517-hmqc-av600neo-ts440`, `nmrxiv-s837-21` |
-| `bruker-nmr` | field | `experiment.acquisition.started_at` | descriptive | 61 | 62 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | field | `experiment.instrument.model` | descriptive | 18 | 18 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1439-1h-nmr`, `nmrxiv-s1462-13c-nmr` |
-| `bruker-nmr` | layout | `fid` | traces | 48 | 48 | `nmrglue-bruker-1d`, `nmrxiv-s1082-80`, `nmrxiv-s1082-81` |
+| `bruker-nmr` | field | `experiment.acquisition.started_at` | descriptive | 64 | 65 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | field | `experiment.instrument.model` | descriptive | 19 | 19 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1439-1h-nmr`, `nmrxiv-s1462-13c-nmr` |
+| `bruker-nmr` | layout | `fid` | traces | 51 | 51 | `nmrglue-bruker-1d`, `nmrxiv-s1082-80`, `nmrxiv-s1082-81` |
 | `bruker-nmr` | layout | `ser` | traces | 13 | 14 | `nmrglue-bruker-2d`, `nmrglue-bruker-3d`, `nmrxiv-s1407-hsqc-neo600-ts414` |
 | `bruker-nmr` | record | `group delay from DSPFVS/DECIM table` | descriptive | 7 | 7 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | record | `group delay from GRPDLY` | descriptive | 54 | 55 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | record | `processed_spectrum` | traces | 54 | 55 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | record | `time_domain` | traces | 61 | 62 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | record | `group delay from GRPDLY` | descriptive | 57 | 58 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | record | `processed_spectrum` | traces | 57 | 58 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | record | `time_domain` | traces | 64 | 65 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
 | `bruker-nmr` | sample_layout | `big-endian` | traces | 7 | 7 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | sample_layout | `float64` | traces | 10 | 10 | `nmrxiv-s1617-hsqc-600-ts420`, `nmrxiv-s2331-noesy-neo600cryo-ts450`, `nmrxiv-s275-1` |
-| `bruker-nmr` | sample_layout | `int32` | traces | 61 | 62 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
-| `bruker-nmr` | sample_layout | `little-endian` | traces | 58 | 59 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | writer | `TopSpin` | metadata, traces | 58 | 59 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | sample_layout | `float64` | traces | 11 | 11 | `nmrxiv-s1617-hsqc-600-ts420`, `nmrxiv-s2331-noesy-neo600cryo-ts450`, `nmrxiv-s275-1` |
+| `bruker-nmr` | sample_layout | `int32` | traces | 64 | 65 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
+| `bruker-nmr` | sample_layout | `little-endian` | traces | 61 | 62 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | writer | `TopSpin` | metadata, traces | 61 | 62 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
 | `bruker-nmr` | writer | `XWIN-NMR` | metadata, traces | 3 | 3 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
 | `bruker-nmr` | writer_version | `TopSpin 1` | descriptive | 2 | 2 | `nmrxiv-s596-1`, `nmrxiv-s597-1` |
 | `bruker-nmr` | writer_version | `TopSpin 2` | descriptive | 9 | 9 | `nmrxiv-s1132-2`, `nmrxiv-s1250-1`, `nmrxiv-s1250-2` |
-| `bruker-nmr` | writer_version | `TopSpin 3` | descriptive | 33 | 34 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
-| `bruker-nmr` | writer_version | `TopSpin 4` | descriptive | 14 | 14 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1517-hmqc-av600neo-ts440`, `nmrxiv-s1617-hsqc-600-ts420` |
+| `bruker-nmr` | writer_version | `TopSpin 3` | descriptive | 35 | 36 | `nmrxiv-s1082-80`, `nmrxiv-s1082-81`, `nmrxiv-s1132-1` |
+| `bruker-nmr` | writer_version | `TopSpin 4` | descriptive | 15 | 15 | `nmrxiv-s1407-hsqc-neo600-ts414`, `nmrxiv-s1517-hmqc-av600neo-ts440`, `nmrxiv-s1617-hsqc-600-ts420` |
 | `bruker-nmr` | writer_version | `XWIN-NMR 3` | descriptive | 3 | 3 | `nmrglue-bruker-1d`, `nmrglue-bruker-2d`, `nmrglue-bruker-3d` |
 | `jcamp-dx` | acquisition | `CONTINUOUS MASS SPECTRUM` | traces | 0 | 1 |  |
 | `jcamp-dx` | acquisition | `INFRARED SPECTRUM` | traces | 6 | 6 | `jcamp-isas-pe1800`, `jcamp-isas-specfile`, `jcamp-lancashire-compound` |
@@ -202,7 +202,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs), [`tests/jcamp_export.rs`](tests/jcamp_export.rs), [`tests/spinsolve.rs`](tests/spinsolve.rs), [`tests/synthetic.rs`](tests/synthetic.rs), [`tests/varian_jeol.rs`](tests/varian_jeol.rs)
 - committed fixtures: 10 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `jcamp_asdf`, `whole_bruker`, `whole_jcamp`, `whole_jeol`, `whole_spinsolve`, `whole_varian`
-- corpus inputs by tier: heldout 21, hold 11, smoke 48, standard 100
+- corpus inputs by tier: heldout 21, hold 11, smoke 48, standard 103
 - golden snapshots: [`corpus/snapshots/bruker-nmr.jsonl`](../../corpus/snapshots/bruker-nmr.jsonl), [`corpus/snapshots/jcamp-dx.jsonl`](../../corpus/snapshots/jcamp-dx.jsonl), [`corpus/snapshots/varian-nmr.jsonl`](../../corpus/snapshots/varian-nmr.jsonl), [`corpus/snapshots/jeol-jdf.jsonl`](../../corpus/snapshots/jeol-jdf.jsonl), [`corpus/snapshots/magritek-spinsolve.jsonl`](../../corpus/snapshots/magritek-spinsolve.jsonl)
 
 ### Open new-variant intakes

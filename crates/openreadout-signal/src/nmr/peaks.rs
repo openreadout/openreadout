@@ -173,8 +173,14 @@ pub fn pick_peaks(y: &[f64], axis: &PpmAxis, opts: &PeakOptions) -> (Vec<Peak>, 
             } else {
                 (0.0, b)
             };
-            let width = half_width(y, i, sign, h);
             let ppm = axis.ppm(i as f64 + off);
+            // the index window is rounded outwards; the interpolated shift decides
+            if let Some((a, b)) = opts.range_ppm
+                && !(a.min(b)..=a.max(b)).contains(&ppm)
+            {
+                continue;
+            }
+            let width = half_width(y, i, sign, h);
             let hzpp = axis.hz_per_point();
             peaks.push(Peak {
                 ppm,
@@ -377,6 +383,25 @@ mod tests {
         let r = integrate(&y, &ax, &[(50.0, 40.0)], Some((5, 1.0)));
         assert_eq!(r[0].points, 0);
         assert!(r[0].normalized.is_none());
+    }
+
+    #[test]
+    fn range_keeps_only_peaks_inside() {
+        // a line just outside the window must not leak in through the rounded index range
+        let n = 8192;
+        let ax = axis(n);
+        let y = lorentz(n, &[(1000.0, 100.0, 4.0), (3000.0, 50.0, 4.0)]);
+        let edge = ax.ppm(1000.2);
+        let (p, _) = pick_peaks(
+            &y,
+            &ax,
+            &PeakOptions {
+                range_ppm: Some((edge, ax.ppm(4000.0))),
+                ..PeakOptions::default()
+            },
+        );
+        assert_eq!(p.len(), 1, "{p:?}");
+        assert!((p[0].ppm - ax.ppm(3000.0)).abs() < 1e-3);
     }
 
     #[test]

@@ -53,10 +53,11 @@
      "nucleus": "1H",
      "spectrometer_frequency_mhz": 399.8146759,
      "spectral_width_hz": 7183.90804598,
-     "scans": 40,
+     "requested_scans": 40,
      "time_domain_size": 32768,
      "pulse_program": "s2pul",
-     "solvent": "cdcl3"
+     "solvent": "cdcl3",
+     "scans": 40
     }
    }
   }

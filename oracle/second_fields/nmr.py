@@ -94,7 +94,11 @@ def varian(rec: Rec, path: Path) -> None:
     if val("np"):
         rec.check("procpar np", f"{ex}/time_domain_size", int(float(val("np"))), reader=r)
     if val("nt"):
-        rec.check("procpar nt", f"{ex}/scans", int(float(val("nt"))), reader=r)
+        rec.check("procpar nt", f"{ex}/requested_scans", int(float(val("nt"))), reader=r)
+    # the transients the FID holds: ct (completed), else nt
+    ct = int(float(val("ct"))) if val("ct") else 0
+    if ct > 0 or val("nt"):
+        rec.check("procpar ct (else nt)", f"{ex}/scans", ct if ct > 0 else int(float(val("nt"))), reader=r)
     if val("tn"):
         rec.check("procpar tn (nucleus)", f"{ex}/nucleus", NUC.get(val("tn"), val("tn")), cmp="text", reader=r)
     for k, field in (("solvent", "solvent"), ("seqfil", "pulse_program"), ("console", "console"),

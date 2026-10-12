@@ -35294,6 +35294,264 @@
       ]
     },
     {
+      "id": "zenodo20308061-andrographis-mac50-3",
+      "format": "bruker-nmr",
+      "source": "zenodo:20308061",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 3",
+          []
+        ],
+        [
+          "layout",
+          "fid",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        8,
+        26
+      ]
+    },
+    {
+      "id": "zenodo20308061-andrographis-ult100-2",
+      "format": "bruker-nmr",
+      "source": "zenodo:20308061",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 3",
+          []
+        ],
+        [
+          "layout",
+          "fid",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        8,
+        26
+      ]
+    },
+    {
+      "id": "zenodo22712212-aiw-61",
+      "format": "bruker-nmr",
+      "source": "zenodo:22712212",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 4",
+          []
+        ],
+        [
+          "layout",
+          "fid",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        8,
+        26
+      ]
+    },
+    {
       "id": "figshare11750730-benzoic-al2o3-drifts",
       "format": "bruker-opus",
       "source": "figshare 11750730 'hydrogenation of benzoic acid to benzyl alcohol_datasets'",
@@ -157442,8 +157700,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157509,8 +157767,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157576,8 +157834,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157643,8 +157901,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157684,8 +157942,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157745,8 +158003,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157802,8 +158060,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157860,8 +158118,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157873,6 +158131,11 @@
       "compared": [
         "metadata",
         "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.method.name",
+        "experiment.sample.id"
       ],
       "assumed": [
         "traces[].sweeps order"
@@ -157923,8 +158186,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -157981,8 +158244,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -158049,8 +158312,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -158106,8 +158369,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
@@ -158170,8 +158433,8 @@
         ]
       ],
       "inferred": [
-        10,
-        19
+        11,
+        20
       ]
     },
     {
