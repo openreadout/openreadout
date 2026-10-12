@@ -1,7 +1,9 @@
-//! Clean-room readers for whole-slide formats that keep their pyramid in many stored images
-//! next to a settings file: 3DHISTECH MIRAX (`.mrxs`, format id `mirax`).
+//! Clean-room readers for whole-slide formats outside TIFF: 3DHISTECH MIRAX (`.mrxs`, format id
+//! `mirax`), whose pyramid is many stored images next to a settings file, and Philips iSyntax
+//! (`.isyntax`, format id `philips-isyntax`), a wavelet pyramid in one file.
 //!
-//! Layouts and vocabulary: `docs/formats/mirax.md`. Provenance: `docs/provenance/mirax.md`.
+//! Layouts and vocabulary: `docs/formats/mirax.md`, `docs/formats/philips-isyntax.md`.
+//! Provenance: `docs/provenance/mirax.md`, `docs/provenance/philips-isyntax.md`.
 //!
 //! # Example
 //!
@@ -48,6 +50,9 @@ mod assurance;
 #[doc(hidden)]
 pub mod image;
 #[doc(hidden)]
+pub mod isyntax;
+#[doc(hidden)]
 pub mod mirax;
 
+pub use isyntax::IsyntaxReader;
 pub use mirax::MiraxReader;

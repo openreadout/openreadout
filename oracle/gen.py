@@ -2602,6 +2602,34 @@ def mirax(p: Path) -> dict:
             "images": [img]}
 
 
+ISYNTAX_MAX_BYTES = int(os.environ.get("ORACLE_ISYNTAX_MAX_BYTES", str(48 << 20)))  # largest level read whole
+
+
+def isyntax_(p: Path) -> dict:
+    """Philips iSyntax via libisyntax (BSD-2-Clause) through pyisyntax 0.1.7 (MIT), which bundles
+    libisyntax at commit 92471dbf6c70. One RGB image: libisyntax's level sizes and micrometres
+    per pixel; whole levels up to ORACLE_ISYNTAX_MAX_BYTES read with `read_region` (RGBA, alpha
+    always 255) and hashed as RGB. Tiles libisyntax does not store are white (255)."""
+    import isyntax as pyisyntax
+
+    with pyisyntax.ISyntax.open(p) as s:
+        width, height = s.dimensions
+        img = {"index": 0, "size_x": width, "size_y": height, "size_z": 1, "size_c": 1, "size_t": 1,
+               "samples_per_pixel": 3, "pixel_type": "uint8",
+               "physical_size_um": {"x": float(s.mpp_x), "y": float(s.mpp_y)},
+               "pyramid_levels": s.level_count,
+               "level_sizes": [list(d) for d in s.level_dimensions],
+               "planes": [], "levels": []}
+        for lv in range(1, s.level_count):
+            lw, lh = s.level_dimensions[lv]
+            if lw * lh * 3 > ISYNTAX_MAX_BYTES:
+                continue
+            rgb = np.ascontiguousarray(s.read_region(0, 0, lw, lh, level=lv)[..., :3])
+            img["levels"].append({"level": lv, "size_x": lw, "size_y": lh,
+                                  "planes": [{"c": 0, "z": 0, "t": 0, "xxh3": h(rgb), "mean": float(rgb.mean())}]})
+    return {"reader": "libisyntax 92471dbf6c70 via pyisyntax 0.1.7 (BSD-2-Clause / MIT)", "images": [img]}
+
+
 def zvi(p: Path) -> dict:
     """Zeiss AxioVision ZVI via Bio-Formats 8.5.0 (GPL; run as a black box):
     `showinf -omexml` for geometry, physical sizes and channel names, `bfconvert` for the planes
@@ -5710,7 +5738,7 @@ def main():
         ext = p.suffix.lower()
         is_tiff = ext in TIFF_SUFFIXES or p.name.lower().endswith(".companion.ome")
         # A .lifext sidecar shares its stem with its .lif; its oracle id gets a -lifext suffix.
-        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs)$", "",
+        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs|isyntax)$", "",
                                  re.sub(r"\.lifext$", "-lifext", p.name, flags=re.I), flags=re.I)
         if (is_tiff or ext in (".nd", ".dcimg", ".ndpis")) and not given_id:
             fid = _corpus_id(p)
@@ -5720,7 +5748,7 @@ def main():
             fid = p.stem  # plate corpus ids are the file stems
         em = {e: mrc for e in ("mrc", "mrcs", "map", "rec", "st", "ali", "ccp4")} | {"dm3": dm, "dm4": dm, "dm5": dm, "ser": ser, "emd": emd}
         try:
-            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, **EPHYS, **em}
+            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, **EPHYS, **em}
             import spectro
 
             if _hcs.is_hcs(p):

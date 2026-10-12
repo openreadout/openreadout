@@ -20,6 +20,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_oir::OirReader))
         .with(Box::new(openreadout_vsi::VsiReader))
         .with(Box::new(openreadout_wsi::MiraxReader))
+        .with(Box::new(openreadout_wsi::IsyntaxReader))
         .with(Box::new(openreadout_zvi::ZviReader))
         .with(Box::new(openreadout_oif::OibReader))
         .with(Box::new(openreadout_oif::OifReader))
