@@ -186,12 +186,13 @@ pub(crate) fn parse(f: &SourceFile, path: &Path) -> Result<Opened> {
         let regular = match (xs.first(), xs.last(), first, last) {
             (Some(&a), Some(&b), Some(fa), Some(fb)) if xs.len() > 1 => {
                 let d = (b - a) / (xs.len() - 1) as f64;
-                a == fa
-                    && b == fb
+                let tol = 1e-9 * a.abs().max(1.0);
+                (a - fa).abs() <= tol
+                    && (b - fb).abs() <= tol
                     && xs
                         .iter()
                         .enumerate()
-                        .all(|(i, v)| (v - (a + d * i as f64)).abs() <= 1e-9 * a.abs().max(1.0))
+                        .all(|(i, v)| (v - (a + d * i as f64)).abs() <= tol)
             }
             _ => false,
         };
@@ -219,16 +220,13 @@ pub(crate) fn parse(f: &SourceFile, path: &Path) -> Result<Opened> {
                 }));
             }
         }
-        let (name, unit) = value_kind(code).map_or_else(
-            || {
-                parsed.findings.push(Finding::warning(
-                    "unknown_value_code",
-                    format!("data set {n}: value code {code} has not been seen with a known measuring mode; the values are returned unnamed"),
-                ));
-                ("y", None)
-            },
-            |k| k,
-        );
+        let (name, unit) = value_kind(code).unwrap_or_else(|| {
+            parsed.findings.push(Finding::warning(
+                "unknown_value_code",
+                format!("data set {n}: value code {code} has not been seen with a known measuring mode; the values are returned unnamed"),
+            ));
+            ("y", None)
+        });
         if let Some(h) = &info {
             if n == 1 {
                 Facts::text(

@@ -16,7 +16,7 @@
 //! samples every `pulse_period` samples.
 
 use crate::file::{
-    AbfFile, AcquisitionMode, EpochKind, Generation, OutputChannel, ABF1_EXTENDED_LEN,
+    ABF1_EXTENDED_LEN, AbfFile, AcquisitionMode, EpochKind, Generation, OutputChannel,
 };
 
 /// Which DACs get a synthesized command trace, or why none do.
@@ -43,7 +43,9 @@ pub fn command_plan(f: &AbfFile) -> CommandPlan {
     }
     let abf1 = f.generation == Generation::Abf1;
     let file_reason = if abf1 && f.header_len < ABF1_EXTENDED_LEN {
-        Some("ABF 1 files before version 1.6 have no complete epoch table: the command waveform is not synthesized")
+        Some(
+            "ABF 1 files before version 1.6 have no complete epoch table: the command waveform is not synthesized",
+        )
     } else if abf1
         && declared
             .iter()
@@ -51,7 +53,9 @@ pub fn command_plan(f: &AbfFile) -> CommandPlan {
             .count()
             > 1
     {
-        Some("ABF 1 does not record whether two epoch waveforms alternate between sweeps: the command waveform is not synthesized")
+        Some(
+            "ABF 1 does not record whether two epoch waveforms alternate between sweeps: the command waveform is not synthesized",
+        )
     } else if f.mode != AcquisitionMode::Episodic {
         Some("command waveforms are synthesized for episodic-stimulation files only")
     } else if f.variable_length() {

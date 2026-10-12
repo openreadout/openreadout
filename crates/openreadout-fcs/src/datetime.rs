@@ -88,29 +88,29 @@ fn month_field(m: &str) -> Option<(u32, bool)> {
 /// month (`dd-mm-yyyy`, partec) is accepted only when the day is above 12, because the order of
 /// day and month cannot be told otherwise.
 pub fn parse_date(v: &str) -> Option<FcsDate> {
-    let t = v.trim();
-    let parts: Vec<&str> = if t.contains('-') {
-        t.split('-').map(str::trim).collect()
+    let text = v.trim();
+    let parts: Vec<&str> = if text.contains('-') {
+        text.split('-').map(str::trim).collect()
     } else {
-        t.split_whitespace().collect()
+        text.split_whitespace().collect()
     };
     if parts.len() != 3 {
         return None;
     }
-    let (d, m, y) = if parts[0].len() == 4 {
+    let (day_s, month_s, year_s) = if parts[0].len() == 4 {
         (parts[2], parts[1], parts[0])
     } else {
         (parts[0], parts[1], parts[2])
     };
-    let day: u32 = d.parse().ok()?;
-    let (month, numeric) = month_field(m.trim())?;
+    let day: u32 = day_s.parse().ok()?;
+    let (month, numeric) = month_field(month_s.trim())?;
     if numeric && (day <= 12 || parts[0].len() == 4) {
         return None;
     }
-    let mut year: i32 = y.parse().ok()?;
-    if y.len() == 2 {
+    let mut year: i32 = year_s.parse().ok()?;
+    if year_s.len() == 2 {
         year += if year < 70 { 2000 } else { 1900 };
-    } else if y.len() != 4 {
+    } else if year_s.len() != 4 {
         return None;
     }
     (1..=days_in_month(year, month))
@@ -121,21 +121,21 @@ pub fn parse_date(v: &str) -> Option<FcsDate> {
 /// A `$BTIM`/`$ETIM` that carries its own date, `yyyy-mm-dd hh:mm:ss` (BeamCyte, which writes no
 /// `$DATE`): the date and the time.
 fn dated_time(v: &str) -> Option<(FcsDate, String)> {
-    let (d, t) = v.trim().split_once(' ')?;
-    let p: Vec<&str> = d.split('-').collect();
-    let [y, m, dd] = p.as_slice() else {
+    let (date, clock) = v.trim().split_once(' ')?;
+    let fields: Vec<&str> = date.split('-').collect();
+    let [year_s, month_s, day_s] = fields.as_slice() else {
         return None;
     };
-    if y.len() != 4 || m.len() != 2 || dd.len() != 2 {
+    if year_s.len() != 4 || month_s.len() != 2 || day_s.len() != 2 {
         return None;
     }
-    let year: i32 = y.parse().ok()?;
-    let month: u32 = m.parse().ok()?;
-    let day: u32 = dd.parse().ok()?;
+    let year: i32 = year_s.parse().ok()?;
+    let month: u32 = month_s.parse().ok()?;
+    let day: u32 = day_s.parse().ok()?;
     if !(1..=12).contains(&month) || !(1..=days_in_month(year, month)).contains(&day) {
         return None;
     }
-    Some((FcsDate { year, month, day }, parse_time(t)?))
+    Some((FcsDate { year, month, day }, parse_time(clock)?))
 }
 
 /// Parse `hh:mm:ss`, `hh:mm:ss.cc` (FCS 3.1, hundredths) or `hh:mm:ss:tt` (FCS 2.0/3.0, sixtieths).
