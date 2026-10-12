@@ -41,7 +41,7 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-opus` | [format note](../../docs/formats/bruker-opus.md), [provenance log](../../docs/provenance/bruker-opus.md) | high | prior art | 26 / 25 | 12 | 2 / 0 |
-| `thermo-omnic` | [format note](../../docs/formats/thermo-omnic.md), [provenance log](../../docs/provenance/thermo-omnic.md) | medium | prior art | 32 / 32 | 14 | 2 / 0 |
+| `thermo-omnic` | [format note](../../docs/formats/thermo-omnic.md), [provenance log](../../docs/provenance/thermo-omnic.md) | medium | prior art | 35 / 32 | 14 | 2 / 0 |
 | `renishaw-wdf` | [format note](../../docs/formats/renishaw-wdf.md), [provenance log](../../docs/provenance/renishaw-wdf.md) | high | prior art | 17 / 17 | 7 | 2 / 0 |
 | `perkinelmer-sp` | [format note](../../docs/formats/perkinelmer-sp.md), [provenance log](../../docs/provenance/perkinelmer-sp.md) | medium | prior art | 16 / 13 | 11 | 1 / 0 |
 | `galactic-spc` | [format note](../../docs/formats/galactic-spc.md), [provenance log](../../docs/provenance/galactic-spc.md) | high | prior art | 13 / 13 | 11 | - |
@@ -64,6 +64,7 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 | [`src/jasco.rs`](src/jasco.rs) | JASCO Spectra Manager `.jws` files (and `.jrs` from the instruments' firmware): FT-IR, Raman, UV-Vis, circular dichroism and fluorescence spectra |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for optical and vibrational spectroscopy files |
 | [`src/omnic.rs`](src/omnic.rs) | Thermo Fisher OMNIC files: `.spa` (one spectrum) and `.spg` (a group of spectra) |
+| [`src/omnic_map.rs`](src/omnic_map.rs) | Thermo Fisher OMNIC map files (`.map`, OMNIC Atlµs): the spectra of a `.spa`-style or `.srs`-style file plus the stage position of each spectrum (key 6) and a video image of the |
 | [`src/omnic_srs.rs`](src/omnic_srs.rs) | Thermo Fisher OMNIC `.srs` series (rapid scan, high-speed real time, GC-IR, TGA-IR): the `.spa` file header with a table of 22-byte key records; the series spectra in one record… |
 | [`src/opus.rs`](src/opus.rs) | Bruker OPUS files (`.0`, `.1`, …): a block directory, parameter blocks and data blocks |
 | [`src/pesp.rs`](src/pesp.rs) | PerkinElmer `.sp` files: `PEPE`, a 40-byte description, then nested blocks of typed members |
@@ -83,6 +84,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `"spa"`
 - feature layout `"spg"`
 - feature layout `"srs"`
+- feature layout `"map, series layout", &Scope::ALL`
+- feature layout `"map, spa layout", &Scope::ALL`
 - feature acquisition `format!("final format {f}")`
 - feature format_version `format!("WiRE {v}")`
 - feature format_version `"no WiRE version"`
@@ -212,14 +215,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `galactic-spc` | writer | `WITec` | descriptive | 1 | 1 | `figshare29990276-pbio-raman-spc` |
 | `jasco-jws` | acquisition | `CIRCULAR DICHROISM SPECTRUM` | traces | 6 | 6 | `figshare13601282-dk-cd`, `jws-jws2txt-001hg`, `jws-jws2txt-bgr` |
 
-… 101 more values: the generated table in `src/assurance.rs` has all of them.
+… 104 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/cary_synthetic.rs`](tests/cary_synthetic.rs), [`tests/jasco_synthetic.rs`](tests/jasco_synthetic.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_agilent_fpa`, `whole_cary`, `whole_fsm`, `whole_jws`, `whole_omnic`, `whole_opus`, `whole_pesp`, `whole_spc`, `whole_uvprobe`, `whole_wdf`, `whole_witec`
-- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 48
+- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 51
 - golden snapshots: [`corpus/snapshots/bruker-opus.jsonl`](../../corpus/snapshots/bruker-opus.jsonl), [`corpus/snapshots/thermo-omnic.jsonl`](../../corpus/snapshots/thermo-omnic.jsonl), [`corpus/snapshots/renishaw-wdf.jsonl`](../../corpus/snapshots/renishaw-wdf.jsonl), [`corpus/snapshots/perkinelmer-sp.jsonl`](../../corpus/snapshots/perkinelmer-sp.jsonl), [`corpus/snapshots/galactic-spc.jsonl`](../../corpus/snapshots/galactic-spc.jsonl), [`corpus/snapshots/jasco-jws.jsonl`](../../corpus/snapshots/jasco-jws.jsonl), [`corpus/snapshots/witec-project.jsonl`](../../corpus/snapshots/witec-project.jsonl), [`corpus/snapshots/shimadzu-uvprobe.jsonl`](../../corpus/snapshots/shimadzu-uvprobe.jsonl), [`corpus/snapshots/perkinelmer-fsm.jsonl`](../../corpus/snapshots/perkinelmer-fsm.jsonl), [`corpus/snapshots/agilent-fpa.jsonl`](../../corpus/snapshots/agilent-fpa.jsonl), [`corpus/snapshots/agilent-cary.jsonl`](../../corpus/snapshots/agilent-cary.jsonl)
 
 ### Open new-variant intakes
