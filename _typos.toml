@@ -27,6 +27,8 @@ extend-ignore-re = [
   "\\b[0-9a-f]{16,}\\b",
   "LTQ OT Discovery",      # Thermo instrument user name recorded in corpus files (mtbls404, mtbls20)
   "figshare22587166-standar-carbon",  # corpus id built from the depositor's file name (generated MAINTAINING.md tables)
+  "zenodo7818783-Rat-100um-MOR1-x500-TSA",  # corpus id (MOR1: the mu-opioid receptor antibody) in generated MAINTAINING.md tables
+  "figshare23651496-fig1-SP-AO-50uM-ADN-0-1mg-ul",  # corpus id built from the depositor's file name (generated MAINTAINING.md tables)
 ]
 
 [default.extend-words]
