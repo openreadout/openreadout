@@ -71,6 +71,9 @@ pub struct SpectrumArgs {
     /// The stored centroid list instead of the profile when a scan has both.
     #[serde(default)]
     pub centroid: bool,
+    /// Waters .raw: correct m/z with the lock-spray reference scans, given the lock compound's
+    /// m/z (e.g. 556.2771), or "auto" for the Lock Mass the file records. Default: m/z as stored.
+    pub lock_mass: Option<String>,
     /// At most this many points (default 2000; point_count reports the full size).
     pub max_points: Option<usize>,
     /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
@@ -140,6 +143,18 @@ impl InstrumentServer {
         use openreadout_core::SpectrumView;
         let reg = self.reg_for(a.strict);
         let (det, mut ds) = reg.open(Path::new(&a.file)).map_err(|e| mcp_err(&e))?;
+        if let Some(lm) = a.lock_mass.as_deref() {
+            let reference = if lm.eq_ignore_ascii_case("auto") {
+                None
+            } else {
+                Some(lm.parse::<f64>().map_err(|_| {
+                    mcp_err(&openreadout_core::Error::Usage(format!(
+                        "lock_mass {lm:?}: expected the lock compound's m/z or \"auto\""
+                    )))
+                })?)
+            };
+            ds.set_lock_mass(reference).map_err(|e| mcp_err(&e))?;
+        }
         let view = if a.centroid {
             SpectrumView::Centroid
         } else {

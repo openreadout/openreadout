@@ -30,6 +30,10 @@ pub(crate) struct Oracle {
     /// Mass-spectrometry ground truth (from the depositor's own open-format conversion).
     #[serde(default)]
     pub(crate) spectra: Option<OracleSpectra>,
+    /// UV/Vis (diode-array) spectra of an export (`oracle/gen.py` `_uv_spectra`): compared with
+    /// the reader's `DAD spectra` trace when present.
+    #[serde(default)]
+    pub(crate) dad_spectra: Option<OracleDad>,
     /// timsTOF frames (timsrust ground truth). Compared when present.
     #[serde(default)]
     pub(crate) tdf: Option<OracleTdf>,
@@ -289,6 +293,9 @@ pub(crate) struct OracleSpectra {
     /// Set from the manifest entry (`precursor_not_compared`).
     #[serde(skip)]
     pub(crate) precursor_not_compared: Option<String>,
+    /// Set from the manifest entry (`charge_not_compared`).
+    #[serde(skip)]
+    pub(crate) charge_not_compared: Option<String>,
     /// Set from the manifest entry (`window_centre_precursor`).
     #[serde(skip)]
     pub(crate) window_centre_precursor: Option<String>,
@@ -454,4 +461,14 @@ pub(crate) struct OraclePlane {
     /// Mean of all samples (written for lossy-compressed TIFF planes).
     #[serde(default)]
     pub(crate) mean: Option<f64>,
+}
+
+/// An export's diode-array spectra: count, wavelength grid, every time and a hash of the values.
+#[derive(Deserialize, Debug, Clone)]
+pub(crate) struct OracleDad {
+    pub(crate) count: u64,
+    pub(crate) wavelengths_nm: Vec<f64>,
+    pub(crate) times_min: Vec<f64>,
+    /// xxh3-128 of every value as little-endian f32, spectrum after spectrum.
+    pub(crate) xxh3_f32: String,
 }

@@ -8740,6 +8740,13 @@
           []
         ],
         [
+          "record",
+          "DAD spectra",
+          [
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -8999,6 +9006,13 @@
           "record",
           "device TCC",
           []
+        ],
+        [
+          "record",
+          "DAD spectra",
+          [
+            "traces"
+          ]
         ],
         [
           "field",
@@ -10039,7 +10053,8 @@
       "independent": true,
       "compared": [
         "metadata",
-        "spectra"
+        "spectra",
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -10120,6 +10135,13 @@
           "record",
           "device TCC",
           []
+        ],
+        [
+          "record",
+          "DAD spectra",
+          [
+            "traces"
+          ]
         ],
         [
           "field",
@@ -131633,7 +131655,8 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
-        "metadata"
+        "metadata",
+        "spectra"
       ],
       "fields": [
         "experiment.acquisition.started_at"
@@ -138906,6 +138929,206 @@
       ]
     },
     {
+      "id": "msv79053-ltq-v60-rpick-150",
+      "format": "thermo-raw",
+      "source": "massive:MSV000079053",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "60",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation LTQ ion trap",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 2.0",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer ITMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
+      "id": "msv79053-ltqorbi-v60-saltyph-76",
+      "format": "thermo-raw",
+      "source": "massive:MSV000079053",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "60",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "generation LTQ Orbitrap",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ Orbitrap",
+          []
+        ],
+        [
+          "writer_version",
+          "Xcalibur 2.0",
+          []
+        ],
+        [
+          "acquisition",
+          "analyzer FTMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "analyzer ITMS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectra",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ms2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "Full ms",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "ion source NSI",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        18
+      ]
+    },
+    {
       "id": "msv94528-idx-msnlib-peptide01-b18",
       "format": "thermo-raw",
       "source": "massive:MSV000094528",
@@ -138913,7 +139136,8 @@
       "independent": true,
       "compared": [
         "metadata",
-        "spectra"
+        "spectra",
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -139454,7 +139678,8 @@
       "independent": true,
       "compared": [
         "metadata",
-        "spectra"
+        "spectra",
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -139978,7 +140203,8 @@
       "independent": true,
       "compared": [
         "metadata",
-        "spectra"
+        "spectra",
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -140084,7 +140310,8 @@
       "independent": true,
       "compared": [
         "metadata",
-        "spectra"
+        "spectra",
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",
@@ -143395,7 +143622,8 @@
       "independent": true,
       "compared": [
         "metadata",
-        "spectra"
+        "spectra",
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at",

@@ -26,7 +26,7 @@ Waters MassLynx `.raw` directories (`waters-raw`): full-scan spectra of TOF inst
 
 ## Fragile spots
 
-- Lock-mass correction is not applied (reported per reference scan).
+- Lock-mass correction is off by default and applied on request (`set_lock_mass`, `--lock-mass`): `measure_lock_peak` and `LockCorrection::factor` in `dataset.rs`; the 60-s averaging matches MassLynx to about 1 ppm on the corpus test `waters_lock_mass` and one MassIVE run, but MassLynx's own smoothing rule is not known.
 - Drift bins get their m/z from the drift-summed DAT spectrum, so they depend on it being stored as a profile of every time-of-flight index the bins use. A file whose DAT is centroided or thresholded fails the sum check and its bins are refused; deriving m/z from the time-of-flight index itself (the `.ind` header holds the sampling rate, `Lteff` and the mass range) would lift that. SONAR quadrupole windows per bin are not derived.
 - MRM 4-byte values are scaled so each scan sums to the IDX TIC (rainbow reports twice these values): a documented choice validated against exports.
 - PDA functions are unscaled absorbance counts; `.EE`/`.CMP` files and the third word of 12-byte values are listed, not decoded.

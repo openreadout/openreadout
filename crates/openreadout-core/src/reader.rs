@@ -290,6 +290,15 @@ pub trait Dataset: Send {
         let _ = exclude;
         false
     }
+    /// Correct the m/z of the spectra read from now on with the file's lock-spray (lock-mass)
+    /// reference scans, `reference_mz` being the lock compound's true m/z (`None`: the one the
+    /// file records). Returns `Ok(false)` when the format has no lock-mass reference (nothing
+    /// changes); an error when the file names no reference m/z and none is given, or no
+    /// reference scan holds the lock peak.
+    fn set_lock_mass(&mut self, reference_mz: Option<f64>) -> crate::Result<bool> {
+        let _ = reference_mz;
+        Ok(false)
+    }
     /// True for the `--strict` wrapper ([`crate::strict::StrictDataset`]): outputs built from
     /// it withhold the fields its assurance does not validate (`Assurance::strict_withholds`).
     fn is_strict(&self) -> bool {

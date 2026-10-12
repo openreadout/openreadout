@@ -76,6 +76,9 @@ impl Dataset for ProgressDataset<'_> {
     fn exclude_flagged_peaks(&mut self, exclude: bool) -> bool {
         self.inner.exclude_flagged_peaks(exclude)
     }
+    fn set_lock_mass(&mut self, reference_mz: Option<f64>) -> openreadout_core::Result<bool> {
+        self.inner.set_lock_mass(reference_mz)
+    }
     fn experiment(&self) -> Option<openreadout_core::Experiment> {
         self.inner.experiment()
     }
