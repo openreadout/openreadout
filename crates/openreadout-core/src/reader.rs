@@ -574,6 +574,11 @@ impl Registry {
                 });
             }
         }
+        if is_apple_double(&head) {
+            return Err(Error::UnknownFormat {
+                path: path.to_path_buf(),
+            });
+        }
         let mut best: Option<(&dyn FormatReader, Detection)> = None;
         for r in &self.readers {
             if let Some(d) = r.sniff_input(&head, input) {
@@ -627,6 +632,11 @@ impl Registry {
     /// e.g. standard input). `name` stands in for the path readers may consult for an extension.
     pub fn detect_bytes(&self, head: &[u8], name: &Path) -> Result<(&dyn FormatReader, Detection)> {
         let head = &head[..head.len().min(SNIFF_LEN)];
+        if is_apple_double(head) {
+            return Err(Error::UnknownFormat {
+                path: name.to_path_buf(),
+            });
+        }
         let mut best: Option<(&dyn FormatReader, Detection)> = None;
         for r in &self.readers {
             if let Some(d) = r.sniff(head, name)
@@ -678,6 +688,13 @@ fn extension_only_context(e: Error, det: &Detection) -> Error {
         },
         other => other,
     }
+}
+
+/// A macOS AppleDouble or AppleSingle file (`._name`: Finder metadata that macOS writes next to
+/// `name` on disks without its own file attributes, and into zip archives). It holds no data,
+/// whatever its extension says.
+fn is_apple_double(head: &[u8]) -> bool {
+    head.starts_with(&[0x00, 0x05, 0x16, 0x07]) || head.starts_with(&[0x00, 0x05, 0x16, 0x00])
 }
 
 fn rank(c: DetectConfidence) -> u8 {
@@ -776,6 +793,21 @@ mod tests {
         fn open(&self, _path: &Path) -> Result<Box<dyn Dataset>> {
             Err(Error::corrupt("by-name", "no signature"))
         }
+    }
+
+    #[test]
+    fn apple_double_files_are_not_data() {
+        let reg = Registry::new().with(Box::new(ByName));
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("._spectrum.ext");
+        let mut b = vec![0x00, 0x05, 0x16, 0x07, 0x00, 0x02, 0x00, 0x00];
+        b.extend_from_slice(b"Mac OS X        ");
+        std::fs::write(&path, &b).unwrap();
+        let err = reg.open(&path).map(|_| ()).unwrap_err();
+        assert_eq!(err.exit_code(), 3, "{err}");
+        assert!(err.hint().unwrap().contains("AppleDouble"));
+        let err = reg.detect_bytes(&b, &path).map(|_| ()).unwrap_err();
+        assert_eq!(err.exit_code(), 3, "{err}");
     }
 
     #[test]

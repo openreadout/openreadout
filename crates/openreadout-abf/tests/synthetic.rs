@@ -324,10 +324,12 @@ fn sniff_by_signature_and_extension() {
         openreadout_core::model::DetectConfidence::Definite
     );
     let other = std::path::Path::new("x.abf");
+    // too short to tell: claimed by the extension; long enough without the signature: not ABF
     assert_eq!(
-        AbfReader.sniff(b"nope", other).unwrap().confidence,
+        AbfReader.sniff(b"no", other).unwrap().confidence,
         openreadout_core::model::DetectConfidence::ExtensionOnly
     );
+    assert!(AbfReader.sniff(b"nope", other).is_none());
     assert!(
         AbfReader
             .sniff(b"nope", std::path::Path::new("x.bin"))

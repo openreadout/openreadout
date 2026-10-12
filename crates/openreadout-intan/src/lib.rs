@@ -181,7 +181,8 @@ impl FormatReader for IntanReader {
                 note: None,
             });
         }
-        has_extension(path, &["rhd", "rhs"]).then(|| Detection {
+        // A longer file without the magic number is another kind of file (exit 3).
+        (has_extension(path, &["rhd", "rhs"]) && head.len() < 4).then(|| Detection {
             format_id: FORMAT_ID,
             confidence: DetectConfidence::ExtensionOnly,
             note: Some("Intan extension but no RHD/RHS magic number".into()),

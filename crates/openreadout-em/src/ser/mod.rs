@@ -71,7 +71,8 @@ impl FormatReader for SerReader {
                 Some("TIA .emi sidecar: images are read from the <name>_<n>.ser files next to it"),
             );
         }
-        if has_extension(path, &["ser"]) {
+        // a longer file without the header is another kind of file (exit 3)
+        if has_extension(path, &["ser"]) && head.len() < 4 {
             return det(
                 DetectConfidence::ExtensionOnly,
                 Some("SER extension, but the file does not start with the series-file header"),

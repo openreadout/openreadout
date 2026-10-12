@@ -128,6 +128,11 @@ impl FormatReader for SciexWiffReader {
         if !has_extension(path, &["wiff"]) {
             return None;
         }
+        // A file long enough to show the compound-file signature that does not is another kind
+        // of file (exit 3), not a damaged one.
+        if head.len() >= CFB_MAGIC.len() && !head.starts_with(&CFB_MAGIC) {
+            return None;
+        }
         let cfb = head.starts_with(&CFB_MAGIC);
         Some(Detection {
             format_id: FORMAT_ID,

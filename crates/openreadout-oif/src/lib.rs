@@ -130,6 +130,11 @@ impl FormatReader for OibReader {
         if !has_extension(path, &["oib"]) {
             return None;
         }
+        // A file long enough to show the compound-file signature that does not is another kind
+        // of file (exit 3), not a damaged one.
+        if head.len() >= CFB_MAGIC.len() && !head.starts_with(&CFB_MAGIC) {
+            return None;
+        }
         Some(if head.starts_with(&CFB_MAGIC) {
             Detection {
                 format_id: OIB_FORMAT_ID,

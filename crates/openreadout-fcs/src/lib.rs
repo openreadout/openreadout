@@ -149,7 +149,8 @@ impl FormatReader for FcsReader {
                     .then(|| format!("version identifier {version} is not supported yet")),
             });
         }
-        if has_extension(path, &["fcs", "lmd"]) {
+        // A file that does not start with `FCS` is another kind of file (exit 3).
+        if has_extension(path, &["fcs", "lmd"]) && (head.len() < 6 || head.starts_with(b"FCS")) {
             return Some(Detection {
                 format_id: FORMAT_ID,
                 confidence: DetectConfidence::ExtensionOnly,
