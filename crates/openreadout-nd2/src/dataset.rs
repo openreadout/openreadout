@@ -1746,7 +1746,12 @@ impl Dataset for Nd2Dataset {
         }
         // A frame can be missing even when the chunk count adds up: a file with frames 0..=2899
         // but no 973 holds the 2899 chunks its sequence count declares.
-        let absent: Vec<u32> = (0..expected_frames).filter(|i| !seen.contains(i)).collect();
+        // (Only then: expected_frames is at most the number of chunks in the map.)
+        let absent: Vec<u32> = if frames_ok >= expected_frames {
+            (0..expected_frames).filter(|i| !seen.contains(i)).collect()
+        } else {
+            Vec::new()
+        };
         if frames_ok < expected_frames {
             r.push(Finding::error(
                 "missing_planes",
