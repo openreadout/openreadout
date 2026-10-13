@@ -1474,7 +1474,8 @@
    "extensions": [
     "spa",
     "spg",
-    "srs"
+    "srs",
+    "map"
    ],
    "family": "spectroscopy",
    "can_read": true,
@@ -1482,7 +1483,7 @@
    "confidence": "medium",
    "known_gaps": [
     "Series files (.srs: rapid scan, high-speed, GC-IR, TGA-IR) are read from their key table: the series spectra, their times and the backgrounds; the per-series profiles (Gram-Schmidt, chemigrams) and processing records are listed, not decoded; no licensed .srs file was available, so the series layout rests on held test files",
-    "OMNIC map files (.map) are not recognised",
+    "Map files (.map) are read as their spectra, the stage position of each (table `positions`) and the video image; there is no independent reader to check them against, and the value OMNIC stores with each map spectrum is not decoded",
     "Resolution and the instrument serial number come from the processing-history text (English or French OMNIC); files without that text have neither",
     "y-unit codes other than absorbance, transmittance, reflectance, log(1/R), single beam, Kubelka-Munk, volts, photoacoustic and Raman intensity are reported as `intensity`"
    ],
