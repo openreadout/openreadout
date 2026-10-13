@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 312 |
+| MIT License | 309 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 5 |
 | zlib License | 2 |
@@ -1929,7 +1929,7 @@ DEALINGS IN THE SOFTWARE.
 Used by:
 
 - [signal-hook-registry 1.4.8](https://github.com/vorner/signal-hook)
-- [signal-hook 0.4.4](https://github.com/vorner/signal-hook)
+- [signal-hook 0.4.5](https://github.com/vorner/signal-hook)
 
 ```text
 Copyright (c) 2017 tokio-jsonrpc developers
@@ -2615,11 +2615,11 @@ Used by:
 - [is_terminal_polyfill 1.70.2](https://github.com/polyfill-rs/is_terminal_polyfill)
 - [once_cell_polyfill 1.70.2](https://github.com/polyfill-rs/once_cell_polyfill)
 - [roff 1.1.1](https://github.com/rust-cli/roff-rs)
-- [serde_spanned 1.1.1](https://github.com/toml-rs/toml)
-- [toml 1.1.6+spec-1.1.0](https://github.com/toml-rs/toml)
-- [toml_datetime 1.1.1+spec-1.1.0](https://github.com/toml-rs/toml)
-- [toml_parser 1.1.3+spec-1.1.0](https://github.com/toml-rs/toml)
-- [toml_writer 1.1.2+spec-1.1.0](https://github.com/toml-rs/toml)
+- [serde_spanned 1.1.2](https://github.com/toml-rs/toml)
+- [toml 1.1.8+spec-1.1.0](https://github.com/toml-rs/toml)
+- [toml_datetime 1.1.2+spec-1.1.0](https://github.com/toml-rs/toml)
+- [toml_parser 1.1.5+spec-1.1.0](https://github.com/toml-rs/toml)
+- [toml_writer 1.1.3+spec-1.1.0](https://github.com/toml-rs/toml)
 
 ```text
 Copyright (c) Individual contributors
@@ -3390,10 +3390,7 @@ Used by:
 - [windows-link 0.2.1](https://github.com/microsoft/windows-rs)
 - [windows-result 0.4.1](https://github.com/microsoft/windows-rs)
 - [windows-strings 0.5.1](https://github.com/microsoft/windows-rs)
-- [windows-sys 0.52.0](https://github.com/microsoft/windows-rs)
 - [windows-sys 0.61.2](https://github.com/microsoft/windows-rs)
-- [windows-targets 0.52.6](https://github.com/microsoft/windows-rs)
-- [windows_x86_64_msvc 0.52.6](https://github.com/microsoft/windows-rs)
 - [zarrs_plugin 0.4.1](https://github.com/zarrs/zarrs/tree/main/zarrs_plugin)
 
 ```text
@@ -3423,7 +3420,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 Used by:
 
 - [tokio-util 0.7.19](https://github.com/tokio-rs/tokio)
-- [tokio 1.53.1](https://github.com/tokio-rs/tokio)
+- [tokio 1.53.2](https://github.com/tokio-rs/tokio)
 
 ```text
 MIT License
