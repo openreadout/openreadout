@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-13
+
+In short:
+
+- **Nine new formats.** Bruker BAF (older Bruker Q-TOF and FT-ICR runs), Philips iSyntax and Hamamatsu VMS slides, TDT, Axona and Multi Channel Systems recordings, Shimadzu UVProbe spectra, Shimadzu GCMSsolution `.qgd` GC-MS runs and OMNIC map files.
+- **Checked on about 900 new public files.** Sweeps of microscopy, mass spectrometry, chromatography, flow cytometry, electrophysiology and spectroscopy files from labs the test corpus did not have, compared with independent readers and the depositors' own exports, found the errors fixed below.
+- **MRM transitions and lock mass.** `info` states the transition count of MRM runs (MassHunter, Thermo, Sciex) and `table` lists them. Waters spectra can be lock-mass corrected (`--lock-mass`).
+- **One breaking change.** `spectrum --nth` (counted from 1) is replaced by `--spectrum` (counted from 0, like every other index).
+
 ### Added
 
 - Bruker BAF `.d` directories (micrOTOF, micrOTOF-Q, maXis, impact, compact, timsTOF in BAF mode, apex and solariX FT-ICR): spectra with their centroids and profiles, retention times, precursors and m/z. The m/z follow the recalibration in `Calibrator.ami` when the run has one and agree with the depositors' vendor-library conversions of seven public runs within 0.12 ppm.
@@ -17,8 +26,14 @@ All notable changes to this project are documented here. The format is based on 
 - Zeiss LSM files report their objective (name, magnification, NA and immersion), the recording's name and the acquisition date. The date is the instrument's local time, without a time zone.
 - Harmony archives (the `hs` folder that "export as archive" writes, from Operetta CLS and Opera Phenix) open as plates, from the `hs` folder or the measurement folder.
 - MIRAX slides exported with overlaps removed, which have no camera position table, are read. Their pixels used to exit 6.
-
 - Thermo OMNIC map files (`.map`, OMNIC Atlµs): every map spectrum, the background, the stage position of each spectrum (table `positions`), a grid image when the positions form a grid, and the video image. They used to read as a group file of two spectra, losing the rest. No independent reader exists, so their outputs are reported as unvalidated.
+- Shimadzu GCMSsolution `.qgd` GC-MS runs: scans are spectra, equal to the vendor's ANDI and mzXML exports on 22,561 scans of 3 files (GCMS-QP2010 Ultra, GCMS-TQ8040).
+- MRM and SRM runs: `info` states the number of transitions (`spectra[].extra.mrm_transitions.count`) and `table` lists them, for Agilent MassHunter, Thermo and Sciex. The counts equal the chromatograms of the depositors' conversions.
+- Waters: `spectrum` and `analyze chromatogram` take `--lock-mass MZ|auto` (MCP `lock_mass`) to correct each scan's m/z by the lock-spray reference. Values stay raw by default. On a run MassLynx also corrected, the error drops from 141 ppm to under 1 ppm.
+- Agilent MassHunter diode-array spectra (`DAD1.sd`/`.sp`) are read as a trace, one channel per wavelength, equal to an export on 520 spectra.
+- Thermo file version 60 is validated, and the analog pressure traces equal the pump-pressure chromatograms of five depositors' conversions.
+- Sciex ZenoTOF runs are validated against a depositor's conversion. A `.wiff` without its `.wiff.scan` lists every scan header instead of none.
+- mzML export builds the TIC and SRM chromatograms from the spectra when the source stores none.
 
 ### Changed
 
@@ -26,6 +41,16 @@ All notable changes to this project are documented here. The format is based on 
 
 ### Fixed
 
+- Thermo ITQ 900 scans stored as bare peak lists are read (5,184 scans equal the export). Identical scan events are stored once, so `info` on a 3.7 GB Orbitrap Astral run takes 100 MiB instead of 227 MiB and its TIC 108 MB instead of 1.67 GB.
+- Thermo: record-length arithmetic on counts read from the file can no longer overflow on a damaged header.
+- Shimadzu MRM events with several precursors and negative polarity are read correctly (47,674 records equal the vendor's mzXML). LCMS-9030 Q-TOF data is named as not read instead of reported as no spectra. `info` gives the vendor peak count of each signal.
+- Sciex TOF profiles no longer get an extra empty step beside a stored zero, and an incomplete last cycle is left out as the vendor library does.
+- ChemStation diode-array spectra keep their recorded times when the spacing is uneven.
+- Waters: a data file that ends early (a damaged download) loses only its last scan, not the whole function.
+- mzML export keeps an mzML source's spectrum ids.
+- Varian NMR: `extra.scans` is the number of scans the FID holds (`ct`), with `extra.requested_scans` (`nt`) and a note when a run stopped early.
+- NMR: processing without stored referencing says that 0 ppm is the spectrometer frequency, and `analyze nmr-peaks --range-ppm` keeps only peaks whose shift lies inside the range.
+- Ordinary CSV files with a quoted header were taken for Empower `.arw` exports and called corrupt.
 - A file whose first bytes match no format, such as a Lumex text file named `.spa` or a macOS `._` AppleDouble file, now exits 3 (unknown format) instead of 4 (corrupt). This covers the readers with a fixed signature.
 - `table` gives the text of text columns (`texts` in JSON, the text itself in the plain output). Zetasizer sample names, measurement kinds and dates used to come out as numeric codes.
 - A TRIOS run that recorded no data points reads as its facts with no traces and a warning instead of exiting 6.
