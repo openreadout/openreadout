@@ -540,6 +540,24 @@ fn read_plane(
     }
 }
 
+/// Mark the samples outside `areas` (the parts of a `w`×`h` plane that hold stored tiles, from
+/// [`Dataset::stored_areas`]) as no data, so they are drawn as background and left out of the
+/// contrast.
+fn blank_unstored(s: &mut [f32], w: usize, h: usize, spp: usize, areas: &[Region]) {
+    let mut stored = vec![false; w * h];
+    for a in areas {
+        let (x0, y0) = (a.x as usize, a.y as usize);
+        let x1 = (x0 + a.width as usize).min(w);
+        let y1 = (y0 + a.height as usize).min(h);
+        for y in y0.min(y1)..y1 {
+            stored[y * w + x0.min(x1)..y * w + x1].fill(true);
+        }
+    }
+    for (px, _) in s.chunks_exact_mut(spp).zip(&stored).filter(|(_, k)| !**k) {
+        px.fill(f32::NAN);
+    }
+}
+
 pub(crate) fn render(
     ds: &mut dyn Dataset,
     info: &FileInfo,
@@ -682,7 +700,19 @@ pub(crate) fn render(
                     budget,
                     &mut out.notes,
                 )?;
-                let s = samples(&p)?;
+                let mut s = samples(&p)?;
+                // Areas of a mosaic with no stored tiles read as 0; draw them as background.
+                if let Some(areas) =
+                    ds.stored_areas(image, PlaneIndex { c, z, t }, level, region)?
+                {
+                    blank_unstored(
+                        &mut s,
+                        p.width as usize,
+                        p.height as usize,
+                        p.samples_per_pixel.max(1) as usize,
+                        &areas,
+                    );
+                }
                 dims = (p.width, p.height);
                 if p.samples_per_pixel as usize != spp {
                     return Err(Error::Other(format!(
@@ -756,8 +786,14 @@ pub(crate) fn render(
         };
         if rgb {
             for i in 0..ow * oh {
+                // No data (unscanned slide areas, fill) is white, the colour of a blank slide.
+                let blank = bands.iter().take(3).any(|b| !b.v[i].is_finite());
                 for (k, band) in bands.iter().take(3).enumerate() {
-                    acc[i * 3 + k] = 255.0 * level_of(band.v[i], lo, hi);
+                    acc[i * 3 + k] = if blank {
+                        255.0
+                    } else {
+                        255.0 * level_of(band.v[i], lo, hi)
+                    };
                 }
             }
         } else {

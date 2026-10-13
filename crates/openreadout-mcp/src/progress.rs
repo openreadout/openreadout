@@ -170,6 +170,15 @@ impl Dataset for ProgressDataset<'_> {
         self.tick();
         p
     }
+    fn stored_areas(
+        &mut self,
+        image: u32,
+        index: PlaneIndex,
+        level: u32,
+        region: Option<openreadout_core::Region>,
+    ) -> Result<Option<Vec<openreadout_core::Region>>> {
+        self.inner.stored_areas(image, index, level, region)
+    }
     fn reads_strips(&self, image: u32, level: u32) -> bool {
         self.inner.reads_strips(image, level)
     }

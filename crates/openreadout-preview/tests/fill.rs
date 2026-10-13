@@ -2,6 +2,7 @@
 //! while its pyramid level carries the fill slide scanners write past the scanned tiles
 //! (65535, and 65535 blended with data at the tile edge), as ZEN's Axioscan RAC scans do. The
 //! preview must draw the gaps as background at every level and take its contrast from the data.
+//! A brightfield (RGB) mosaic that reports its stored tiles has its gaps drawn white.
 
 #![allow(clippy::float_cmp)]
 
@@ -9,6 +10,7 @@ use openreadout_core::model::{CheckReport, FileInfo, FormatDescriptor, ImageInfo
 use openreadout_core::pixel::{PixelType, Plane};
 use openreadout_core::provenance::{Confidence, ProvenanceMap};
 use openreadout_core::reader::{Dataset, PlaneIndex};
+use openreadout_core::region::Region;
 use openreadout_core::{Error, Result};
 use openreadout_preview::{PreviewRequest, Rendered, render};
 
@@ -257,4 +259,145 @@ fn pyramid_fill_leaves_the_contrast_without_a_recorded_depth() {
     req.contrast = openreadout_preview::Contrast::MinMax;
     let m = render(&mut ds, &info, &req).unwrap();
     assert_eq!(display_range(&m).1, 65535.0);
+}
+
+/// An 8-bit RGB slide scan with the same two tiles as [`Mosaic`]: pink tissue with a dark
+/// "nucleus" in each tile, 0 in the gaps, and the tiles reported by `stored_areas`.
+struct Brightfield;
+
+const TISSUE: [u8; 3] = [200, 120, 170];
+const NUCLEUS: [u8; 3] = [40, 20, 90];
+
+fn rgb_at(x: u32, y: u32) -> [u8; 3] {
+    if !covered(x, y) {
+        return [0, 0, 0];
+    }
+    let (tx, ty) = (x % 48, y % 32);
+    if (tx as i32 - 24).pow(2) + (ty as i32 - 16).pow(2) < 16 {
+        NUCLEUS
+    } else {
+        TISSUE
+    }
+}
+
+impl Brightfield {
+    fn file_info() -> FileInfo {
+        let mut info = Mosaic {
+            recorded_depth: false,
+            blend: false,
+        }
+        .file_info();
+        let mut im = ImageInfo::new(0, W, H, PixelType::Uint8);
+        im.samples_per_pixel = 3;
+        info.images = vec![im.finish()];
+        info
+    }
+}
+
+impl Dataset for Brightfield {
+    fn info(&self) -> Result<FileInfo> {
+        Ok(Self::file_info())
+    }
+    fn vendor_metadata(&self) -> Result<serde_json::Value> {
+        Ok(serde_json::Value::Null)
+    }
+    fn provenance(&self) -> ProvenanceMap {
+        ProvenanceMap::default()
+    }
+    fn entries(&self) -> Result<Vec<LsEntry>> {
+        Ok(vec![])
+    }
+    fn read_plane(&mut self, image: u32, i: PlaneIndex) -> Result<Plane> {
+        if image != 0 || i != PlaneIndex::default() {
+            return Err(Error::Usage("out of range".into()));
+        }
+        let data = (0..H)
+            .flat_map(|y| (0..W).flat_map(move |x| rgb_at(x, y)))
+            .collect();
+        Ok(Plane {
+            width: W,
+            height: H,
+            pixel_type: PixelType::Uint8,
+            samples_per_pixel: 3,
+            data,
+        })
+    }
+    fn stored_areas(
+        &mut self,
+        _image: u32,
+        _index: PlaneIndex,
+        _level: u32,
+        region: Option<Region>,
+    ) -> Result<Option<Vec<Region>>> {
+        let window = region.unwrap_or_else(|| Region::full(W, H));
+        let tiles = [(0, 0), (W / 2, H / 2)];
+        Ok(Some(
+            tiles
+                .iter()
+                .filter_map(|&(x, y)| {
+                    let (x0, y0, x1, y1) = window.overlap(
+                        i64::from(x),
+                        i64::from(y),
+                        u64::from(W / 2),
+                        u64::from(H / 2),
+                    )?;
+                    let (ox, oy) = (i64::from(window.x), i64::from(window.y));
+                    Some(Region::new(
+                        (x0 - ox) as u32,
+                        (y0 - oy) as u32,
+                        (x1 - x0) as u32,
+                        (y1 - y0) as u32,
+                    ))
+                })
+                .collect(),
+        ))
+    }
+    fn check(&mut self) -> Result<CheckReport> {
+        Ok(CheckReport::new("brightfield", "synth"))
+    }
+}
+
+fn brightfield(req: &PreviewRequest) -> Rendered {
+    render(&mut Brightfield, &Brightfield::file_info(), req).unwrap()
+}
+
+fn pixel(r: &Rendered, x: u32, y: u32) -> [u8; 3] {
+    let i = ((y * r.canvas.width + x) * 3) as usize;
+    [r.canvas.rgb[i], r.canvas.rgb[i + 1], r.canvas.rgb[i + 2]]
+}
+
+#[test]
+fn brightfield_gaps_are_white() {
+    let mut req = PreviewRequest::default();
+    req.axes = false;
+    let r = brightfield(&req);
+    assert_eq!((r.canvas.width, r.canvas.height), (W, H));
+    for y in 0..H {
+        for x in 0..W {
+            let want = if covered(x, y) {
+                rgb_at(x, y)
+            } else {
+                [255; 3]
+            };
+            assert_eq!(pixel(&r, x, y), want, "({x}, {y})");
+        }
+    }
+    // Downsampled: a block is white only when no tile pixel falls in it.
+    req.max_size = W / 4;
+    let r = brightfield(&req);
+    assert_eq!((r.canvas.width, r.canvas.height), (W / 4, H / 4));
+    assert_eq!(pixel(&r, W / 4 - 1, 0), [255; 3]);
+    assert_eq!(pixel(&r, 0, 0), TISSUE);
+}
+
+#[test]
+fn brightfield_regions_place_the_tiles() {
+    // A region across the top-right gap: its left part is the top-left tile.
+    let mut req = PreviewRequest::default();
+    req.axes = false;
+    req.region = Some(Region::new(40, 0, 16, 8));
+    let r = brightfield(&req);
+    assert_eq!((r.canvas.width, r.canvas.height), (16, 8));
+    assert_eq!(pixel(&r, 7, 0), TISSUE);
+    assert_eq!(pixel(&r, 8, 0), [255; 3]);
 }

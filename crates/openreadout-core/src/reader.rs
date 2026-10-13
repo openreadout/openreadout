@@ -186,6 +186,22 @@ pub trait Dataset: Send {
         let plane = self.read_plane_level(image, index, level)?;
         crate::region::crop(plane, region, &format!("image {image} level {level}"))
     }
+    /// Which parts of one plane of level `level` (or of `region` of it) hold stored tiles, as
+    /// rectangles in the coordinates of the plane [`Dataset::read_region`] returns (the
+    /// region's top-left corner is 0, 0). Mosaic scans leave areas where nothing was
+    /// acquired, and readers return 0 there. Previews use this to draw those areas as
+    /// background instead of as black data. `None` (the default) means the reader stores the
+    /// whole plane or does not know.
+    fn stored_areas(
+        &mut self,
+        image: u32,
+        index: PlaneIndex,
+        level: u32,
+        region: Option<crate::region::Region>,
+    ) -> Result<Option<Vec<crate::region::Region>>> {
+        let _ = (image, index, level, region);
+        Ok(None)
+    }
     /// Whether [`Dataset::read_strips`] decodes each stored tile of `image` at `level` once for
     /// all the strips of a plane. A reader whose tiles are not on a grid (overlapping CZI
     /// mosaic tiles) returns `true`, because separate strip reads would decode the tiles that
