@@ -275,7 +275,7 @@ pub fn filtered_slice(
     } else {
         matched as f64 / total as f64 * 100.0
     };
-    Ok(TableSlice {
+    let mut slice = TableSlice {
         path: file.display().to_string(),
         format: det.format_id.into(),
         table,
@@ -283,6 +283,7 @@ pub fn filtered_slice(
         total_rows: total,
         columns: first.names,
         labels: first.labels,
+        texts: Default::default(),
         truncated: first_match + (rows.len() as u64) < matched,
         rows,
         processing: first.processing,
@@ -293,7 +294,11 @@ pub fn filtered_slice(
             percent,
             values: if processed { "processed" } else { "raw" }.into(),
         }),
-    })
+    };
+    if let Some(t) = &tinfo {
+        slice.attach_texts(t);
+    }
+    Ok(slice)
 }
 
 #[cfg(test)]

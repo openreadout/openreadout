@@ -92,6 +92,7 @@ mod common;
 mod fsm;
 mod jasco;
 mod omnic;
+mod omnic_map;
 mod omnic_srs;
 mod opus;
 mod pesp;
@@ -214,14 +215,14 @@ impl FormatReader for OmnicReader {
             id: OMNIC_FORMAT_ID.into(),
             name: "Thermo Fisher OMNIC".into(),
             vendor: "Thermo Fisher Scientific (Nicolet)".into(),
-            extensions: vec!["spa".into(), "spg".into(), "srs".into()],
+            extensions: vec!["spa".into(), "spg".into(), "srs".into(), "map".into()],
             family: "spectroscopy".into(),
             can_read: true,
             can_write: false,
             confidence: assurance::THERMO_OMNIC.confidence,
             known_gaps: vec![
                 "Series files (.srs: rapid scan, high-speed, GC-IR, TGA-IR) are read from their key table: the series spectra, their times and the backgrounds; the per-series profiles (Gram-Schmidt, chemigrams) and processing records are listed, not decoded; no licensed .srs file was available, so the series layout rests on held test files".into(),
-                "OMNIC map files (.map) are not recognised".into(),
+                "Map files (.map) are read as their spectra, the stage position of each (table `positions`) and the video image; there is no independent reader to check them against, and the value OMNIC stores with each map spectrum is not decoded".into(),
                 "Resolution and the instrument serial number come from the processing-history text (English or French OMNIC); files without that text have neither".into(),
                 "y-unit codes other than absorbance, transmittance, reflectance, log(1/R), single beam, Kubelka-Munk, volts, photoacoustic and Raman intensity are reported as `intensity`".into(),
             ],
@@ -236,12 +237,14 @@ impl FormatReader for OmnicReader {
                 note: None,
             });
         }
-        has_extension(path, &["spa", "spg", "srs"]).then_some(Detection {
+        // A longer file without the signature is another kind of file (exit 3), not a damaged
+        // OMNIC file.
+        (has_extension(path, &["spa", "spg", "srs", "map"])
+            && head.len() < omnic::OMNIC_MAGIC.len())
+        .then_some(Detection {
             format_id: OMNIC_FORMAT_ID,
             confidence: DetectConfidence::ExtensionOnly,
-            note: Some(
-                "OMNIC extension but the file does not start with `Spectral Data File`".into(),
-            ),
+            note: Some("OMNIC extension but the file is too short to be OMNIC".into()),
         })
     }
 
@@ -303,7 +306,7 @@ impl FormatReader for WdfReader {
                 note: None,
             });
         }
-        has_extension(path, &["wdf"]).then_some(Detection {
+        (has_extension(path, &["wdf"]) && head.len() < wdf::WDF_MAGIC.len()).then_some(Detection {
             format_id: WDF_FORMAT_ID,
             confidence: DetectConfidence::ExtensionOnly,
             note: Some("WiRE extension but the file does not start with WDF1".into()),
@@ -374,11 +377,13 @@ impl FormatReader for PeSpReader {
                 note: Some("PerkinElmer .sp saved as text (PEDS)".into()),
             });
         }
-        has_extension(path, &["sp"]).then_some(Detection {
-            format_id: PESP_FORMAT_ID,
-            confidence: DetectConfidence::ExtensionOnly,
-            note: Some("PerkinElmer extension but the file does not start with PEPE".into()),
-        })
+        (has_extension(path, &["sp"]) && (head.len() < 4 || head.starts_with(b"PE"))).then_some(
+            Detection {
+                format_id: PESP_FORMAT_ID,
+                confidence: DetectConfidence::ExtensionOnly,
+                note: Some("PerkinElmer extension but the file does not start with PEPE".into()),
+            },
+        )
     }
 
     fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
@@ -602,11 +607,12 @@ impl FormatReader for WitecReader {
                 note: None,
             });
         }
-        has_extension(path, &["wip", "wid"]).then_some(Detection {
-            format_id: WITEC_FORMAT_ID,
-            confidence: DetectConfidence::ExtensionOnly,
-            note: Some("WITec extension but the file does not start with a WIT_ magic".into()),
-        })
+        (has_extension(path, &["wip", "wid"]) && (head.len() < 8 || head.starts_with(b"WIT_")))
+            .then_some(Detection {
+                format_id: WITEC_FORMAT_ID,
+                confidence: DetectConfidence::ExtensionOnly,
+                note: Some("WITec extension but the file does not start with a WIT_ magic".into()),
+            })
     }
 
     fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
@@ -748,7 +754,8 @@ impl FormatReader for FsmReader {
                 note: None,
             });
         }
-        has_extension(path, &["fsm"]).then_some(Detection {
+        (has_extension(path, &["fsm"]) && (head.len() < 4 || head.starts_with(pesp::PESP_MAGIC)))
+            .then_some(Detection {
             format_id: FSM_FORMAT_ID,
             confidence: DetectConfidence::ExtensionOnly,
             note: Some("Spotlight extension but the file does not start with PEPE and a 4D data-set description".into()),

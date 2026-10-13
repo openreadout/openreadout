@@ -1050,6 +1050,7 @@ pub fn table_slice(
             truncated: first_row + (n as u64) < p.total_rows,
             columns: p.names,
             labels: p.labels,
+            texts: Default::default(),
             processing: Some(p.processing),
             filter: None,
         });
@@ -1068,7 +1069,7 @@ pub fn table_slice(
         })?;
     let tab = ds.read_table(table, first_row, max_rows)?;
     let n = tab.columns.first().map_or(0, Vec::len);
-    Ok(TableSlice {
+    let mut slice = TableSlice {
         path: file.display().to_string(),
         format: det.format_id.into(),
         table,
@@ -1076,13 +1077,16 @@ pub fn table_slice(
         total_rows: t.row_count,
         columns: t.columns.iter().map(|c| c.name.clone()).collect(),
         labels: t.columns.iter().map(|c| c.label.clone()).collect(),
+        texts: Default::default(),
         truncated: first_row + (n as u64) < t.row_count,
         rows: (0..n)
             .map(|r| tab.columns.iter().map(|c| c[r]).collect())
             .collect(),
         processing: None,
         filter: None,
-    })
+    };
+    slice.attach_texts(&t);
+    Ok(slice)
 }
 
 fn apply_matrix(

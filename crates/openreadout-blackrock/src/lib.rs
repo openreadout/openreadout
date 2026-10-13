@@ -211,7 +211,8 @@ impl FormatReader for BlackrockReader {
                 note: None,
             });
         }
-        has_extension(path, &EXTENSIONS).then(|| Detection {
+        // a longer file without a signature is another kind of file (exit 3)
+        (has_extension(path, &EXTENSIONS) && head.len() < 8).then(|| Detection {
             format_id: FORMAT_ID,
             confidence: DetectConfidence::ExtensionOnly,
             note: Some("Blackrock extension but no NSx/NEV signature at byte 0".into()),

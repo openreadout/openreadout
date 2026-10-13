@@ -85,7 +85,8 @@ const TEMP: &str = "f79c919e-6fa6-4856-92f8-6e5868f792f5";
 const TORQUE: &str = "360672f5-f937-414b-bd06-5b9d80d6975e";
 const UNKNOWN: &str = "5f7b2d27-8360-4bc6-be74-eff29aa2fe74";
 
-fn file() -> Vec<u8> {
+/// The header and thumbnail, before the procedure step.
+fn head() -> Vec<u8> {
     let mut entries = Vec::new();
     for (k, v) in [
         ("instrumenttype", "Discovery HR-2"),
@@ -106,6 +107,11 @@ fn file() -> Vec<u8> {
     b.extend(7u32.to_le_bytes());
     b.extend(entries);
     b.extend([0x01, 0x00, 0x01, 4, 0, 0, 0, 0x89, b'P', b'N', b'G']);
+    b
+}
+
+fn file() -> Vec<u8> {
+    let mut b = head();
     // the step: 16 zero bytes, the step prefix, its name, three signals
     let mut step = vec![0u8; 16];
     step.extend([
@@ -208,4 +214,43 @@ fn damage_is_a_clean_error() {
         open(old),
         Err(Error::Unsupported { .. } | Error::Corrupt { .. })
     ));
+}
+
+/// A signal record declared with 0 points and no values (a run that recorded nothing).
+fn empty_signal(id: &str) -> Vec<u8> {
+    let mut p = Vec::new();
+    p.extend(1u32.to_le_bytes());
+    p.extend(1u32.to_le_bytes());
+    p.extend([0x00, 0xF2, 0x21, 0x01, 4, 0, 0, 0, 0, 0, 0, 0, 0x01, 0x00]);
+    p.extend(0u32.to_le_bytes());
+    p.extend([0, 0]);
+    object(&guid(id), &p)
+}
+
+#[test]
+fn a_run_without_points_has_facts_and_no_traces() {
+    let mut b = head();
+    let mut step = vec![0u8; 16];
+    step.extend([
+        0xF2, 0x21, 0x01, 0x04, 0, 0, 0, 0, 0, 0, 0, 0x01, 0x00, 0x11, 0x20, 0x02,
+    ]);
+    step.extend([0u8; 12]);
+    step.extend(empty_signal(TIME));
+    step.extend(empty_signal(TEMP));
+    step.extend([0u8; 3]);
+    b.extend(object(&guid("321daac2-2636-4928-9a48-84f72c21edee"), &step));
+    let mut ds = open(b).unwrap();
+    let info = ds.info().unwrap();
+    assert!(info.traces.is_empty());
+    assert!(
+        info.notes.iter().any(|n| n.contains("no data points")),
+        "{:?}",
+        info.notes
+    );
+    let exp = ds.experiment().unwrap();
+    assert_eq!(
+        exp.instrument.unwrap().model.as_deref(),
+        Some("Discovery HR-2")
+    );
+    assert!(ds.read_trace(0, 0, 0, 10).is_err());
 }

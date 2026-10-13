@@ -78,3 +78,35 @@ ascending x.
 - The background is the set-0 records: key 2 header, key 3 values (ascending likewise).
 - Key 111 (u32 count = the spectrum count, u32 m, then m × count float32) and keys 110, 112, 130,
   146, 300 are not decoded.
+
+## 2026-10-12 — map files (`.map`) (Richard Zimring with Claude as assistant)
+
+**Files:** figshare 32180061 (CC BY 4.0, nine OMNIC Atlµs FT-IR point maps, files 64265535,
+64265538, 64265541, 64265544, 64265547, 64265550, 64265553, 64265556, 64265562) and Zenodo
+10598031 (CC BY 4.0, three Raman maps `HeLa_18,75.map`, `HeLa_37,5.map`, `HeLa_50microg.map`).
+No independent reader opens `.map` files (SpectroChemPy refuses them), so the layout rests on
+hex dumps and on the files agreeing with themselves.
+
+**Prior art consulted:** none beyond the entries above.
+
+**What was inferred from the files:**
+- Two layouts. The FT-IR maps start with `Spectral Data File` and use the 16-byte key records of
+  `.spa`; the Raman maps start with `Spectral Exte File` and use the 22-byte records of `.srs`.
+- Both hold the stage positions in a key-6 record: u16 count, u16 kind, two bytes, then float32
+  values. Kind 2 is a list of `count` (x, y) pairs in µm (the axis titles in key 146 read
+  `Position (micrometers)`); kind 4 holds one rectangle (x0, y0, x1, y1) that contains every
+  position in all twelve files; kind 1 holds one value per position (zeros, 0xFFFFFFFF or one
+  repeated number), not decoded. The kind-2 count equals the number of spectra in all twelve
+  files, and the spectrum names count up to it (`Spectrum 3 of 8`).
+- FT-IR maps: the spectrum-1 header (key 2) comes first and describes the map spectra; then
+  spectrum 0 (key 2, key 3) is a single-beam background; then for k = 1 … n a 96-byte key-148
+  record (name at +16, as in a series record) and a key-3 record with the values of spectrum k.
+- Raman maps: the spectra are the series record (key 301, the `.srs` layout, values in
+  ascending x: the 50 µg/mL GO map has its strongest band at 1595 1/cm read that way, the G band
+  of graphene oxide, and none at 2095 read the other way). Key 325 holds the grid: y first, last
+  and step at +66, +70, +74 (where a series keeps its times) and x first, last and step at +78,
+  +82, +86. These agree with the positions (to 0.1 µm), so the series times are not reported
+  for maps.
+- Key 147 is a Windows BMP (24-bit, uncompressed) after a u32 byte count: the video image of the
+  sample. The kind-4 rectangle's aspect ratio matches the image's to within 0.5 %, which
+  suggests it is the image's field of view; that is not confirmed, so no pixel size is reported.

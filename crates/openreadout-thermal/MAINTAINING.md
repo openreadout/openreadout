@@ -37,7 +37,7 @@ Thermal-analysis instrument files: NETZSCH Proteus (`netzsch-ngb`: `.ngb-ss3`, `
 | --- | --- | --- | --- | --- | --- | --- |
 | `netzsch-ngb` | [format note](../../docs/formats/netzsch-ngb.md), [provenance log](../../docs/provenance/netzsch-ngb.md) | medium | prior art | 18 / 18 | 2 | - |
 | `ta-universal-analysis` | [format note](../../docs/formats/ta-universal-analysis.md), [provenance log](../../docs/provenance/ta-universal-analysis.md) | medium | reverse engineered | 7 / 6 | 2 | - |
-| `ta-trios` | [format note](../../docs/formats/ta-trios.md), [provenance log](../../docs/provenance/ta-trios.md) | medium | reverse engineered | 12 / 9 | 3 | - |
+| `ta-trios` | [format note](../../docs/formats/ta-trios.md), [provenance log](../../docs/provenance/ta-trios.md) | medium | reverse engineered | 13 / 9 | 3 | - |
 
 ### Source map
 
@@ -91,15 +91,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `netzsch-ngb` | record | `channel uc_module` | traces | 2 | 2 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-ro-filed-sta-n2-10k-250129-r29` |
 | `ta-trios` | acquisition | `oscillation moduli, parallel plate 12 mm` | traces | 5 | 5 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
 | `ta-trios` | acquisition | `oscillation moduli, parallel plate 20 mm` | traces | 0 | 1 |  |
-| `ta-trios` | field | `experiment.acquisition.started_at` | descriptive | 9 | 12 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
-| `ta-trios` | field | `experiment.instrument.model` | descriptive | 9 | 12 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
-| `ta-trios` | format_version | `14` | metadata, traces | 9 | 12 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
-| `ta-trios` | format_version | `generation 14` | metadata, traces | 9 | 12 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
+| `ta-trios` | field | `experiment.acquisition.started_at` | descriptive | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
+| `ta-trios` | field | `experiment.instrument.model` | descriptive | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
+| `ta-trios` | format_version | `14` | metadata, traces | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
+| `ta-trios` | format_version | `generation 14` | metadata, traces | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
 | `ta-trios` | instrument | `DMA850` | descriptive | 0 | 1 |  |
 | `ta-trios` | instrument | `DSC25` | descriptive | 2 | 2 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
 | `ta-trios` | instrument | `DSC2500` | descriptive | 0 | 1 |  |
 | `ta-trios` | instrument | `Discovery HR-2` | descriptive | 5 | 5 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
 | `ta-trios` | instrument | `Discovery HR30` | descriptive | 0 | 1 |  |
+| `ta-trios` | instrument | `SDT650` | descriptive | 0 | 1 |  |
 | `ta-trios` | instrument | `TGA550` | descriptive | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
 | `ta-trios` | record | `channel angular_frequency` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
 | `ta-trios` | record | `channel balance_purge` | traces | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
@@ -139,15 +140,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `ta-trios` | record | `channel signal_c0b36bba` | traces | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
 | `ta-trios` | record | `channel signal_cf7aa154` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
 | `ta-trios` | record | `channel signal_d9aae222` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_f03e0b40` | traces | 0 | 1 |  |
 
-… 33 more values: the generated table in `src/assurance.rs` has all of them.
+… 35 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs), [`tests/trios_synthetic.rs`](tests/trios_synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_ngb`, `whole_ta001`, `whole_trios`
-- corpus inputs by tier: heldout 5, smoke 27, standard 10
+- corpus inputs by tier: heldout 5, smoke 27, standard 11
 - golden snapshots: [`corpus/snapshots/netzsch-ngb.jsonl`](../../corpus/snapshots/netzsch-ngb.jsonl), [`corpus/snapshots/ta-universal-analysis.jsonl`](../../corpus/snapshots/ta-universal-analysis.jsonl), [`corpus/snapshots/ta-trios.jsonl`](../../corpus/snapshots/ta-trios.jsonl)
 
 ### Open new-variant intakes

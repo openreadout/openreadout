@@ -89,7 +89,7 @@ CZI frame records are one per plane, ordered t, z, c: `{frame, c, z, t, acquired
 
 ## `openreadout_table` (MCP) → `TableSlice`
 
-`path, format, table, first_row, total_rows, columns[] ($PnN), labels[] ($PnS or null), rows[][] (row-major, raw values), truncated`.
+`path, format, table, first_row, total_rows, columns[] ($PnN), labels[] ($PnS or null), rows[][] (row-major, raw values; text columns hold codes), texts{column: [text per returned row]} (text columns only), truncated`.
 
 ## `trace` / `openreadout_trace` (MCP) → `TraceSlice`
 

@@ -27352,6 +27352,7 @@ license_checked = "https://zenodo.org/records/17691644, 2026-09-24"
 source = "Zenodo 17691644 'FTIR test for MXene-Based Ecoflex Dry Electrodes (TextrodeMisc Project Dataset)'"
 attribution = "Xi Wang"
 notes = "Thermo OMNIC .SPA, one ATR-corrected %T spectrum, 7468 points 400.2-4000.2 cm-1, 2024. Ground truth: SpectroChemPy; the depositor's OMNIC CSV export."
+exposed = "2026-10-12: a spectroscopy follow-up scanned the key tables of every OMNIC file under corpus/files for map records (keys 6, 147, 148), this file included, before excluding held-out files; it found none; the scan was rerun without held-out files, and nothing from it informs a reader"
 
 [[file]]
 id = "ho-zenodo17691644-omnic-spa"
@@ -27387,6 +27388,7 @@ license_checked = "https://zenodo.org/records/7777291, 2026-09-24"
 source = "Zenodo 7777291 'Bax Forms a Membrane Surface Protein-Lipid Complex as it Initiates Apoptosis'"
 attribution = "Luke A. Clifton, Hanna Wacklin-Knecht, Jorgen Aden, Ameeq Ul Mushtaq, Tobias Sparrman et al."
 notes = "Thermo OMNIC spectral group (.SPG), 8 ATR-FTIR absorbance spectra with titles and 2021-07-20 timestamps, 5228 points 4000.2-1480.1 cm-1. Ground truth: SpectroChemPy (no text export)."
+exposed = "2026-10-12: a spectroscopy follow-up scanned the key tables of every OMNIC file under corpus/files for map records (keys 6, 147, 148), this file included, before excluding held-out files; it found none; the scan was rerun without held-out files, and nothing from it informs a reader"
 
 [[file]]
 id = "ho-zenodo21018471-wdf-map"
@@ -42225,7 +42227,7 @@ family = "spectroscopy"
 role = "heldout"
 tier = "heldout"
 draw = "2026-09-26c"
-exposed = "2026-09-26: development work used files from this record before draw C reserved it (sample_a_8e10.SPA, this very file); read and passed unchanged against SpectroChemPy; nothing inferred"
+exposed = "2026-09-26: development work used files from this record before draw C reserved it (sample_a_8e10.SPA, this very file); read and passed unchanged against SpectroChemPy; nothing inferred; 2026-10-12: a spectroscopy follow-up scanned the key tables of every OMNIC file under corpus/files for map records (keys 6, 147, 148), this file included, before excluding held-out files; it found none; the scan was rerun without held-out files, and nothing from it informs a reader"
 filename = "heldout/ho-zenodo21396092-spa-dust/sample_a_8e10.SPA"
 url = "https://zenodo.org/api/records/21396092/files/sample_a_8e10.SPA/content"
 sha256 = "98401bdca69d25d36249a1ef7e788e588fa7a91c24565e823d9cdad4e00a54d1"
@@ -42244,7 +42246,7 @@ family = "spectroscopy"
 role = "heldout"
 tier = "heldout"
 draw = "2026-09-26c"
-exposed = "2026-09-26: development work used files from this record before draw C reserved it (Raman Spectroscopy 1.SPA, this very file); read and passed unchanged against SpectroChemPy; nothing inferred"
+exposed = "2026-09-26: development work used files from this record before draw C reserved it (Raman Spectroscopy 1.SPA, this very file); read and passed unchanged against SpectroChemPy; nothing inferred; 2026-10-12: a spectroscopy follow-up scanned the key tables of every OMNIC file under corpus/files for map records (keys 6, 147, 148), this file included, before excluding held-out files; it found none; the scan was rerun without held-out files, and nothing from it informs a reader"
 filename = "heldout/ho-zenodo10885924-spa-raman/Raman Spectroscopy 1.SPA"
 url = "https://zenodo.org/api/records/10885924/files/Raman%20Spectroscopy%201.SPA/content"
 sha256 = "1553e6b15df0bb6ce4188dcfe324155ccdfc3f4704b40827066fed7f144dc8d6"
@@ -42273,6 +42275,7 @@ license_checked = "https://figshare.com/articles/dataset/Molecules_2024_-_In-sit
 source = "Figshare 27175326 'Molecules 2024 - In-situ raman microscopy' (doi:10.6084/m9.figshare.27175326.v1)"
 attribution = "Roman Svoboda"
 notes = "OMNIC SPG group of 45 in-situ Raman spectra, 2023. Draw C (2026-09-26): a source record no development or earlier held-out file uses. Ground truth: SpectroChemPy."
+exposed = "2026-10-12: a spectroscopy follow-up scanned the key tables of every OMNIC file under corpus/files for map records (keys 6, 147, 148), this file included, before excluding held-out files; it found none; the scan was rerun without held-out files, and nothing from it informs a reader"
 
 [[file]]
 id = "ho-zenodo18849615-wdf-otolith"
@@ -56863,6 +56866,7 @@ license_checked = "https://figshare.com/articles/dataset/corrosion_characteristi
 source = "Figshare 32287374 'corrosion characteristics of steel rebars in mortar' (doi:10.6084/m9.figshare.32287374.v1)"
 attribution = "Raja Rizwan Hussain"
 notes = "OMNIC .SPA Raman spectrum (1801 points, 3578-106 cm-1 Raman shift) of a corroded steel rebar after a potentiodynamic test in simulated pore solution with 0.6 M NaCl, 2026. Corrosion science is a use absent from development. Draw D (2026-10-06): a source record no development or earlier held-out file uses. Ground truth: SpectroChemPy."
+exposed = "2026-10-12: a spectroscopy follow-up scanned the key tables of every OMNIC file under corpus/files for map records (keys 6, 147, 148), this file included, before excluding held-out files; it found none; the scan was rerun without held-out files, and nothing from it informs a reader"
 
 [[file]]
 id = "ho-zenodo15163468-spinsolve-t2-zip"
@@ -77994,6 +77998,70 @@ license_checked = "https://figshare.com/articles/30231052 (CC BY 4.0, figshare A
 source = "figshare 30231052 'Recycling of Polyolefins Using Recycled PVC under Sunlight'"
 attribution = "Heng Liu, Ding-Wei Ji, Su-Yang Xu et al."
 notes = "UV-3600 Plus, UVProbe 2.71 on a Chinese-language PC, reflectance 200-2500 nm, 2301 points (value code 4); no export; upstream UV-Vis-NIR dPVC.spc"
+
+[[file]]
+id = "figshare32180061-omnic-map-mp2"
+format = "thermo-omnic"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare32180061-omnic-map-mp2.map"
+url = "https://ndownloader.figshare.com/files/64265562"
+sha256 = "c5f01df2f6056b5d8bf487dc19d585474e18c967c6d4afd58f8119a53625770b"
+size = 2106060
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/32180061 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 32180061 'FTIR analysis: Indicative data'"
+attribution = "Nimitha Choran"
+notes = "OMNIC Atlus FT-IR point map in the .spa layout: 8 transmittance spectra (863 points) at 8 stage positions, a single-beam background, a 926 x 744 BMP video image; no independent reader; upstream Mp_2_#5.map"
+
+[[file]]
+id = "figshare32180061-omnic-map-mp6"
+format = "thermo-omnic"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare32180061-omnic-map-mp6.map"
+url = "https://ndownloader.figshare.com/files/64265550"
+sha256 = "690b45c51939ad310792e9b9b06b0c3ee6ccf37f2453412f81637d31b9cf329d"
+size = 2087952
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/32180061 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 32180061 'FTIR analysis: Indicative data'"
+attribution = "Nimitha Choran"
+notes = "OMNIC Atlus FT-IR point map in the .spa layout: 3 transmittance spectra at 3 stage positions, background, video image; upstream Mp_6_#B4.map"
+
+[[file]]
+id = "zenodo10598031-omnic-map-hela-raman"
+format = "thermo-omnic"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "zenodo10598031-omnic-map-hela-raman.map"
+url = "https://zenodo.org/api/records/10598031/files/HeLa_37,5.map/content"
+sha256 = "a5fab69c4baeec2a26f6cfe80c20b094a2de56e5847be0b710d415e2d9bc2e21"
+size = 2768464
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/10598031 (metadata.license.id cc-by-4.0), 2026-10-12"
+source = "Zenodo 10598031 'Label-free detection and mapping of graphene oxide in single HeLa cells based on MCR-Raman spectroscopy' (doi:10.1039/D3AY01122D)"
+attribution = "Kateřina Poláková"
+notes = "OMNIC Raman map in the .srs (series) layout: 99 spectra (3558 points, 70-3500 1/cm) on an 11 x 9 grid at 5 um, a 770 x 577 BMP video image; no independent reader; upstream HeLa_37,5.map"
+
+[[file]]
+id = "figshare29920622-trios-sdt650-no-points"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "figshare29920622-trios-sdt650-no-points.tri"
+url = "https://ndownloader.figshare.com/files/57212363"
+sha256 = "0bcd8ed878f7683fbb74fa6eff2f87b56e5f2900949739242b338dac506c3263"
+size = 88055
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/29920622 (CC BY 4.0, figshare API), 2026-10-12"
+source = "figshare 29920622 'Dataset of Solvent-free Crosslinking of Hydroxypropyl Cellulose via Esterification: Towards Green Bioplastics'"
+attribution = "Hongning Ren, Ahu Gumrah Parry, Daniel Lee, Jordi Bures"
+notes = "TA SDT650 run, TRIOS generation 0E, whose 14 signal records hold 0 points: facts, no traces; upstream 12.7mg GA pure powder air.tri"
 
 [[file]]
 id = "mtbls370-itq900-fbs150-fs-4"

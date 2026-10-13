@@ -18,12 +18,17 @@ All notable changes to this project are documented here. The format is based on 
 - Harmony archives (the `hs` folder that "export as archive" writes, from Operetta CLS and Opera Phenix) open as plates, from the `hs` folder or the measurement folder.
 - MIRAX slides exported with overlaps removed, which have no camera position table, are read. Their pixels used to exit 6.
 
+- Thermo OMNIC map files (`.map`, OMNIC Atlµs): every map spectrum, the background, the stage position of each spectrum (table `positions`), a grid image when the positions form a grid, and the video image. They used to read as a group file of two spectra, losing the rest. No independent reader exists, so their outputs are reported as unvalidated.
+
 ### Changed
 
 - `spectrum --ms-level L --spectrum I` picks the spectrum at zero-based index `I` among the spectra of MS level `L`, and `--nth` is gone. `--nth` counted from 1 while every other index counts from 0. The first MS/MS scan is now `--ms-level 2 --spectrum 0` (MCP: `ms_level: 2, spectrum: 0`).
 
 ### Fixed
 
+- A file whose first bytes match no format, such as a Lumex text file named `.spa` or a macOS `._` AppleDouble file, now exits 3 (unknown format) instead of 4 (corrupt). This covers the readers with a fixed signature.
+- `table` gives the text of text columns (`texts` in JSON, the text itself in the plain output). Zetasizer sample names, measurement kinds and dates used to come out as numeric codes.
+- A TRIOS run that recorded no data points reads as its facts with no traces and a warning instead of exiting 6.
 - `stats` and `export` over a whole Leica file with FALCON FLIM elements used to exit 6 because the raw photon data is not decoded. They now leave those images out, list them in `images_skipped`, and read the rest.
 - A CZI whose attachment entries name a file part the document does not have (an Elyra 7 file saved from one scene) failed `check` and lost its time stamps. The attachments are in the file itself and are read from there.
 - `check` on an ND2 file now reports a declared frame that has no chunk. It used to pass the file because the chunk count added up, and `stats` then failed on the missing frame.

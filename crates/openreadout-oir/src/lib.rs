@@ -127,7 +127,8 @@ impl FormatReader for OirReader {
                 }),
             });
         }
-        if has_extension(path, &["oir"]) {
+        // a longer file without the signature is another kind of file (exit 3)
+        if has_extension(path, &["oir"]) && head.len() < 16 {
             return Some(Detection {
                 format_id: FORMAT_ID,
                 confidence: DetectConfidence::ExtensionOnly,

@@ -73,7 +73,7 @@ Exit codes are part of the public interface. Scripts and agents can branch on th
 | 0 | success | – |
 | 1 | error | `error`, `internal_panic` |
 | 2 | usage: bad arguments, bad selection, index out of range | `usage` |
-| 3 | unknown format | `unknown_format` |
+| 3 | unknown format, including a file whose first bytes do not match the format its extension names, and macOS `._` files | `unknown_format` |
 | 4 | corrupt, truncated or empty file | `corrupt_file` |
 | 5 | I/O: missing file, permission denied, read error | `io` |
 | 6 | unsupported feature of a known format | `unsupported_feature` |

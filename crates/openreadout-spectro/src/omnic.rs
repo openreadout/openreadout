@@ -296,6 +296,8 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
     let mut infos: Vec<BTreeMap<&'static str, String>> = Vec::new();
     let mut acq_blocks = Vec::new();
     let mut ifgs: Vec<(u8, Key)> = Vec::new();
+    let mut map = crate::omnic_map::MapRecords::default();
+    let mut map_spectra = false;
     for k in &keys {
         match k.key {
             2 => {
@@ -352,6 +354,41 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
                 acq_blocks.push(small(k, 4096)?);
             }
             102 | 103 => ifgs.push((k.key, *k)),
+            // map files: stage positions and the image's rectangle, the video image
+            6 => map.shape(&small(k, 1 << 25)?),
+            147 => map.image = Some((k.offset, k.length)),
+            // a map spectrum's name record, before its values: the spectrum shares the header
+            // of the first map spectrum (number 1)
+            148 => {
+                map_spectra = true;
+                let b = small(k, 100)?;
+                let name = text_field(b.get(16..).unwrap_or_default());
+                if let Some(s) = spectra
+                    .iter_mut()
+                    .find(|s| s.index == k.spectrum && s.data.is_none())
+                {
+                    s.title = Some(name);
+                } else if let Some(h) = spectra
+                    .iter()
+                    .find(|s| s.index == 1)
+                    .map(|s| s.header.clone())
+                {
+                    spectra.push(Spectrum {
+                        index: k.spectrum,
+                        header: h,
+                        data: None,
+                        title: Some(name),
+                        time: None,
+                        history: None,
+                    });
+                } else {
+                    return Err(Error::unsupported(
+                        FMT,
+                        "an OMNIC map file whose spectra have no header",
+                        "export the map's spectra from OMNIC (File > Save As, .spa or .csv)",
+                    ));
+                }
+            }
             _ => {}
         }
     }
@@ -362,6 +399,17 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
         ));
     }
     let is_group = spectra.len() > 1 || spectra.iter().any(|s| s.title.is_some());
+    // A map: spectra 1 … n at the listed stage positions, spectrum 0 the background.
+    let is_map = map_spectra || map.points.is_some();
+    let map_count = spectra
+        .iter()
+        .filter(|s| s.index != 0 && s.data.is_some())
+        .count() as u64;
+    let map_points = if is_map {
+        Some(map.checked_points(map_count)?.to_vec())
+    } else {
+        None
+    };
 
     let mut parsed = Parsed {
         findings,
@@ -513,7 +561,20 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
             }
         }
         let trace = parsed.sets.len() as u32;
-        let name = if is_group {
+        let background = is_map && g.iter().all(|&i| spectra[i].index == 0);
+        if is_map && !background && g.len() as u64 != map_count {
+            return Err(Error::unsupported(
+                FMT,
+                "an OMNIC map file whose spectra differ in their axis or units",
+                "export the map's spectra from OMNIC (File > Save As, .spa or .csv)",
+            ));
+        }
+        if background {
+            extra.insert("spectrum_role".into(), json!("background"));
+        }
+        let name = if background {
+            "background".to_string()
+        } else if is_group {
             format!("{yq} ({} spectra)", g.len())
         } else if title.is_empty() {
             yq.to_string()
@@ -538,7 +599,19 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
             data_type: dtype,
             extra,
         });
-        if is_group {
+        if is_map {
+            if !background && let Some(points) = &map_points {
+                crate::omnic_map::add(
+                    f,
+                    path,
+                    file_len,
+                    &mut parsed,
+                    trace as usize,
+                    &map,
+                    points,
+                )?;
+            }
+        } else if is_group {
             let times: Vec<f64> = g
                 .iter()
                 .map(|&i| {
@@ -690,11 +763,13 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
         }
     }
     parsed.facts = facts;
-    parsed.notes.push(if is_group {
-        format!("OMNIC group file (.spg) of {} spectra", spectra.len())
-    } else {
-        "OMNIC single-spectrum file (.spa)".to_string()
-    });
+    if !is_map {
+        parsed.notes.push(if is_group {
+            format!("OMNIC group file (.spg) of {} spectra", spectra.len())
+        } else {
+            "OMNIC single-spectrum file (.spa)".to_string()
+        });
+    }
 
     // Vendor tree and listing.
     let key_list: Vec<Value> = keys

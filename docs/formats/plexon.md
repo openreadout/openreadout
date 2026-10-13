@@ -13,7 +13,7 @@ Timestamps count the file's clock (`clock_hz`, 40 kHz in the corpus) from the re
 
 ## Detection
 
-PLX: `PLEX` at byte 0 (`PLX_MAGIC`). PL2: byte 0 = 0xFE and `PLEXON` at byte 10 (`PL2_MAGIC`, `PL2_MAGIC_AT`, `looks_like_pl2`). Either → definite; a `.plx`/`.pl2` name without them → extension only.
+PLX: `PLEX` at byte 0 (`PLX_MAGIC`). PL2: byte 0 = 0xFE and `PLEXON` at byte 10 (`PL2_MAGIC`, `PL2_MAGIC_AT`, `looks_like_pl2`). Either → definite; a `.plx`/`.pl2` name without them → extension only when the file is shorter than 4 bytes or starts with 0xFE; any other file is not this format (exit 3).
 
 ## PLX (`PlxDataset`, `PlxTrace`, `parse_plx` → `PlxFile`)
 

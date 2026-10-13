@@ -138,10 +138,15 @@ impl Error {
     /// A suggestion the caller (human or agent) can act on.
     pub fn hint(&self) -> Option<String> {
         match self {
-            Error::UnknownFormat { .. } => Some(
-                "Run `openreadout self formats` to list supported formats; the file may be a format not yet implemented, or a renamed export."
-                    .into(),
-            ),
+            Error::UnknownFormat { path } => {
+                let name = path.file_name().map(|n| n.to_string_lossy());
+                Some(match name.as_deref().and_then(|n| n.strip_prefix("._")) {
+                    Some(data) if !data.is_empty() => format!(
+                        "This is a macOS AppleDouble file: Finder metadata that macOS writes next to `{data}`, not data. Open `{data}` instead, and skip `._*` files."
+                    ),
+                    _ => "No reader recognised the file's first bytes, so a matching extension alone is not enough: the file may be another kind of file with the same extension, a format not yet implemented, or a renamed export. `openreadout self formats` lists the supported formats.".into(),
+                })
+            }
             Error::Unsupported { hint, .. } => hint.clone(),
             Error::Corrupt { detail, .. } if detail.contains(EXTENSION_ONLY) => {
                 Some(EXTENSION_ONLY_HINT.into())

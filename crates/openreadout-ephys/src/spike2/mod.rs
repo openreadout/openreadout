@@ -52,7 +52,11 @@ impl FormatReader for Spike2Reader {
                 note: None,
             });
         }
-        has_extension(path, &["smr", "smrx"]).then(|| Detection {
+        // A file with neither signature is another kind of file (exit 3); one with the
+        // signature but an unknown version is claimed and refused.
+        (has_extension(path, &["smr", "smrx"])
+            && (head.len() < 12 || head.get(2..12) == Some(&file::SMR_COPYRIGHT[..])))
+        .then(|| Detection {
             format_id: SPIKE2_FORMAT_ID,
             confidence: DetectConfidence::ExtensionOnly,
             note: Some("Spike2 extension but no `(C) CED 87` or `S64` signature".into()),

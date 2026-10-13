@@ -130,7 +130,8 @@ impl FormatReader for AbfReader {
                 confidence: DetectConfidence::Definite,
                 note: None,
             }),
-            _ if has_extension(path, &["abf"]) => Some(Detection {
+            // a longer file without the signature is another kind of file (exit 3)
+            _ if has_extension(path, &["abf"]) && head.len() < 4 => Some(Detection {
                 format_id: FORMAT_ID,
                 confidence: DetectConfidence::ExtensionOnly,
                 note: Some("ABF extension but no `ABF ` or `ABF2` signature at byte 0".into()),

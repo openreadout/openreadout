@@ -377,6 +377,11 @@ impl FormatReader for ShimadzuReader {
         if !has_extension(path, &["lcd", "gcd", "qgd"]) {
             return None;
         }
+        // A file long enough to show the compound-file signature that does not is another kind
+        // of file (exit 3), not a damaged one.
+        if head.len() >= CFB_MAGIC.len() && !head.starts_with(&CFB_MAGIC) {
+            return None;
+        }
         Some(Detection {
             format_id: SHIMADZU_ID,
             confidence: if head.starts_with(&CFB_MAGIC) {

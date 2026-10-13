@@ -80,3 +80,16 @@ code search for `.tri` TRIOS readers, PyPI; TRIOS's own exports are the only gro
   2e-5 relative (time sweeps) and 4e-4 (frequency sweeps, where the inertia term cancels most of
   the torque at 628 rad/s). The fitted total inertia minus the two stored ones is 1.43e-9 kg·m²
   in every file, which is the sample term.
+
+## 2026-10-12 — runs without data points (Richard Zimring with Claude as assistant)
+
+**Files:** figshare 29920622 (CC BY 4.0), `12.7mg GA pure powder air.tri` (TA SDT650, TRIOS
+generation `0E`) and, from the same record, `crosslink HPC-01.tri`, which reads.
+
+**Prior art consulted:** none.
+
+**What was inferred from the file (hex dump):** its one procedure step holds 13 signal records
+(the 13 names of `proceduresignals`) and 4 computed-variable records, each with the point count
+0 and no values; the rest of the 88 KB file is the thumbnail, the procedure, the instrument's
+calibration records and settings. The run holds no data points, so the reader returns the
+file's facts with no traces and says so, instead of refusing it as an unsupported layout.

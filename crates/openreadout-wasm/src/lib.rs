@@ -659,7 +659,7 @@ impl InstrumentFile {
             let rows: Vec<Vec<f64>> = (0..n)
                 .map(|r| tab.columns.iter().map(|c| c[r]).collect())
                 .collect();
-            Ok(TableSlice {
+            let mut slice = TableSlice {
                 path: path.clone(),
                 format: format.into(),
                 table,
@@ -667,11 +667,14 @@ impl InstrumentFile {
                 total_rows: t.row_count,
                 columns: t.columns.iter().map(|c| c.name.clone()).collect(),
                 labels: t.columns.iter().map(|c| c.label.clone()).collect(),
+                texts: Default::default(),
                 truncated: first_row + (n as u64) < t.row_count,
                 rows,
                 processing: None,
                 filter: None,
-            })
+            };
+            slice.attach_texts(&t);
+            Ok(slice)
         });
         envelope(r)
     }

@@ -769,8 +769,14 @@ pub struct TableSlice {
     pub columns: Vec<String>,
     /// Column labels (FCS `$PnS`), `null` where absent.
     pub labels: Vec<Option<String>>,
-    /// Row-major values; `rows[r][c]`. Non-finite values serialize as `null`.
+    /// Row-major values; `rows[r][c]`. Non-finite values serialize as `null`. A text column
+    /// holds codes here; `texts` has its text.
     pub rows: Vec<Vec<f64>>,
+    /// Text columns (`info` → `tables[].columns[].extra.categories`) by column name: the text
+    /// of each returned row, so `texts[name][r]` is what `rows[r][c]` codes. Absent when the
+    /// table has no text column.
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub texts: BTreeMap<String, Vec<String>>,
     /// True when more rows follow the returned slice.
     pub truncated: bool,
     /// Present when the values were processed (FCS scale values, compensation, transforms,
@@ -781,6 +787,34 @@ pub struct TableSlice {
     /// table meet them. `rows`, `first_row` and `truncated` then page through the matching rows.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub filter: Option<TableFilterSummary>,
+}
+
+impl TableSlice {
+    /// Fill `texts` from the category lists of `table`'s text columns (codes past a list's end
+    /// read as empty text).
+    pub fn attach_texts(&mut self, table: &TableInfo) {
+        for (c, col) in table.columns.iter().enumerate() {
+            let Some(cats) = col.extra.get("categories").and_then(|v| v.as_array()) else {
+                continue;
+            };
+            let text = |v: f64| -> String {
+                if v.is_finite() && v >= 0.0 {
+                    cats.get(v as usize)
+                        .and_then(|t| t.as_str())
+                        .unwrap_or_default()
+                        .to_string()
+                } else {
+                    String::new()
+                }
+            };
+            let values = self
+                .rows
+                .iter()
+                .map(|r| r.get(c).copied().map(text).unwrap_or_default())
+                .collect();
+            self.texts.insert(col.name.clone(), values);
+        }
+    }
 }
 
 /// Rows of a whole table that meet every condition (`table --where`, `--count`).

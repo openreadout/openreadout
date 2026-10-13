@@ -384,8 +384,17 @@ fn render_table(t: &TableSlice) -> String {
         }
     }
     let _ = writeln!(s, "{}", t.columns.join("\t"));
-    for r in &t.rows {
-        let cells: Vec<String> = r.iter().map(|v| format!("{v}")).collect();
+    // text columns print their text, not their codes
+    let texts: Vec<Option<&Vec<String>>> = t.columns.iter().map(|c| t.texts.get(c)).collect();
+    for (i, r) in t.rows.iter().enumerate() {
+        let cells: Vec<String> = r
+            .iter()
+            .zip(&texts)
+            .map(|(v, tx)| match tx.and_then(|tx| tx.get(i)) {
+                Some(text) => text.clone(),
+                None => format!("{v}"),
+            })
+            .collect();
         let _ = writeln!(s, "{}", cells.join("\t"));
     }
     let shown = t.rows.len() as u64;

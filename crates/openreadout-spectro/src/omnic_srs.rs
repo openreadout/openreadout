@@ -195,9 +195,27 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
             ),
         ));
     }
+    // A map file in the series layout: the stage position of each spectrum (key 6) instead of
+    // times; key 325 then holds the grid, not times.
+    let mut map = crate::omnic_map::MapRecords::default();
+    for k in keys.iter().filter(|k| k.key == 6) {
+        map.shape(&small(k, 1 << 25)?);
+    }
+    map.image = keys
+        .iter()
+        .find(|k| k.key == 147)
+        .map(|k| (k.offset, k.length));
+    let map_points = match map.points {
+        Some(_) => Some(map.checked_points(series.count)?.to_vec()),
+        None => None,
+    };
     let (times, names) = series.times_and_names(f, path, file_len)?;
-    parsed.sets.push(series_set(&series, &info, &names));
-    if !times.is_empty() {
+    parsed
+        .sets
+        .push(series_set(&series, &info, &names, map_points.is_none()));
+    if let Some(points) = &map_points {
+        crate::omnic_map::add(f, path, file_len, &mut parsed, 0, &map, points)?;
+    } else if !times.is_empty() {
         parsed.tables.push(SpectrumTable {
             name: "series".into(),
             trace: 0,
@@ -267,7 +285,11 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
         );
     }
     parsed.facts = facts;
-    parsed.notes.push("OMNIC series file (.srs)".into());
+    parsed.notes.push(if map_points.is_some() {
+        "OMNIC map file in the series layout".into()
+    } else {
+        "OMNIC series file (.srs)".into()
+    });
     let mut undecoded: Vec<u16> = keys
         .iter()
         .map(|k| k.key)
@@ -357,15 +379,16 @@ fn key_table(
 
 /// The JCAMP data type of a spectrum header.
 fn data_type(h: &Head) -> &'static str {
-    if h.x_code == 2 || h.y_code == 22 {
-        "INFRARED INTERFEROGRAM"
-    } else {
-        "INFRARED SPECTRUM"
+    match (h.x_code, h.y_code) {
+        (2, _) | (_, 22) => "INFRARED INTERFEROGRAM",
+        (32, _) | (_, 31) => "RAMAN SPECTRUM",
+        _ => "INFRARED SPECTRUM",
     }
 }
 
-/// The series spectra as one set.
-fn series_set(series: &Series, info: &SeriesInfo, names: &[String]) -> SpectrumSet {
+/// The series spectra as one set (`times`: the series information holds times, not a map's
+/// grid).
+fn series_set(series: &Series, info: &SeriesInfo, names: &[String], times: bool) -> SpectrumSet {
     let sh = &series.head;
     let (xq, xu) = crate::omnic::x_axis_of(sh.x_code);
     let (yq, yu) = crate::omnic::y_axis_of(sh.y_code);
@@ -389,7 +412,7 @@ fn series_set(series: &Series, info: &SeriesInfo, names: &[String]) -> SpectrumS
         ("last_time_min", info.last_min),
         ("time_step_min", info.step_min),
     ] {
-        if let Some(v) = v.filter(|v| v.is_finite()) {
+        if times && let Some(v) = v.filter(|v| v.is_finite()) {
             extra.insert(k.into(), num(f64::from(v)));
         }
     }

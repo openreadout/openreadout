@@ -406,7 +406,8 @@ impl FormatReader for JeolReader {
                 note: None,
             });
         }
-        if has_extension(path, &["jdf"]) {
+        // a longer file without the signature is another kind of file (exit 3)
+        if has_extension(path, &["jdf"]) && head.len() < 8 {
             return Some(Detection {
                 format_id: JEOL_FORMAT_ID,
                 confidence: DetectConfidence::ExtensionOnly,

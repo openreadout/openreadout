@@ -34,7 +34,8 @@ reader `Spike2Reader`, dataset `Spike2Dataset` (`open`, `open_input`, `smr`).
 
 `(C) CED 87` at byte 2 and a file version 1–9 at byte 0 (`looks_like_smr`, `SMR_COPYRIGHT`) →
 definite; `S64` at byte 0 (`looks_like_smrx`) → definite, read by `parse_smrx`; a `.smr` / `.smrx`
-name without either → extension only.
+name with `(C) CED 87` but another version, or shorter than 12 bytes → extension only; a longer
+file with neither signature is not this format (exit 3).
 
 ## File header (`SMR_HEADER_LEN` = 512, `parse_smr` → `SmrFile`)
 
