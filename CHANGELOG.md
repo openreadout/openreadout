@@ -8,7 +8,6 @@ All notable changes to this project are documented here. The format is based on 
 
 In short:
 
-- **MCP tools work again in Claude Code 2.1.292.** The server's tool lists lacked two fields that version requires, so the client showed no OpenReadout tools at all.
 - **Nine new formats.** Bruker BAF (older Bruker Q-TOF and FT-ICR runs), Philips iSyntax and Hamamatsu VMS slides, TDT, Axona and Multi Channel Systems recordings, Shimadzu UVProbe spectra, Shimadzu GCMSsolution `.qgd` GC-MS runs and OMNIC map files.
 - **Checked on about 900 new public files.** Sweeps of microscopy, mass spectrometry, chromatography, flow cytometry, electrophysiology and spectroscopy files from labs the test corpus did not have, compared with independent readers and the depositors' own exports, found the errors fixed below.
 - **MRM transitions and lock mass.** `info` states the transition count of MRM runs (MassHunter, Thermo, Sciex) and `table` lists them. Waters spectra can be lock-mass corrected (`--lock-mass`).
