@@ -408,6 +408,8 @@ fn image_views_are_bounded_pictures() {
         .decode(&img.data)
         .unwrap();
     assert!(bytes.len() <= crate::resources::PREVIEW_BUDGET);
+    // fitting the byte budget is not something the viewer tells the user
+    assert!(v.get("notes").is_none(), "{}", v["notes"]);
     // a zoomed region maps back to full-resolution pixels
     let r = run(
         json!({"file": f, "outline": false, "region": {"x": 100, "y": 50, "width": 400, "height": 200}}),

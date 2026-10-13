@@ -222,6 +222,21 @@ fn usage(msg: impl Into<String>) -> McpError {
     mcp_err(&Error::Usage(msg.into()))
 }
 
+/// Notes on a view. The viewer shows `shown` under the picture. `model` holds the notes of the
+/// shared rendering and analysis code, worded for the model: they go into the tool result's
+/// text and `model_notes`, and the viewer leaves them out.
+#[derive(Default)]
+struct Notes {
+    shown: Vec<String>,
+    model: Vec<String>,
+}
+
+impl Notes {
+    fn push(&mut self, note: String) {
+        self.shown.push(note);
+    }
+}
+
 /// Run the view tool. `host_path` is the path a host gave for an opened file.
 pub fn call(
     registry: fn() -> Registry,
@@ -269,7 +284,7 @@ pub fn call(
     if a.outline {
         out.insert("outline".into(), outline(&info));
     }
-    let mut notes: Vec<String> = Vec::new();
+    let mut notes = Notes::default();
     let mut limits = Map::new();
     let mut picture: Option<(Vec<u8>, &'static str)> = None;
     let summary = match kind {
@@ -320,7 +335,7 @@ pub fn call(
             let g =
                 openreadout_preview::plate_grid(ds.as_mut(), &info, a.table, a.column.as_deref())
                     .map_err(|e| err(&e))?;
-            notes.extend(g.notes.iter().cloned());
+            notes.model.extend(g.notes.iter().cloned());
             let cells: Vec<Value> = g
                 .cells
                 .iter()
@@ -343,14 +358,20 @@ pub fn call(
             s
         }
     };
-    if !notes.is_empty() {
-        out.insert("notes".into(), json!(notes));
+    if !notes.shown.is_empty() {
+        out.insert("notes".into(), json!(notes.shown));
+    }
+    let mut text = format!("viewer data: {summary}");
+    if !notes.model.is_empty() {
+        text.push_str("; notes: ");
+        text.push_str(&notes.model.join("; "));
+        out.insert("model_notes".into(), json!(notes.model));
     }
     if !limits.is_empty() {
         out.insert("limits".into(), Value::Object(limits));
     }
     let mut r = CallToolResult::structured(Value::Object(out));
-    r.content = vec![ContentBlock::text(format!("viewer data: {summary}"))];
+    r.content = vec![ContentBlock::text(text)];
     if let Some((bytes, mime)) = picture {
         r.content.push(ContentBlock::image(
             base64::engine::general_purpose::STANDARD.encode(&bytes),
@@ -573,7 +594,7 @@ fn image(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
 ) -> Result<(Value, Vec<u8>, &'static str), McpError> {
     use openreadout_preview as pv;
     let mut req = pv::PreviewRequest::default();
@@ -617,9 +638,10 @@ fn image(
         crate::resources::PREVIEW_BUDGET,
     )
     .map_err(|e| err(&e))?;
-    // The rendering's own notes. Fitting the byte budget only shrinks the picture further,
-    // and the viewer loads full detail when the user zooms in, so that is not news to them.
-    notes.extend(r.output.notes.iter().cloned());
+    // The rendering's own notes are worded for the model (rulers, contrast screening).
+    // Fitting the byte budget only shrinks the picture further, and the viewer loads full
+    // detail when the user zooms in, so that is not news to anyone.
+    notes.model.extend(r.output.notes.iter().cloned());
     let mime = if out.encoding == "jpeg" {
         "image/jpeg"
     } else {
@@ -693,7 +715,7 @@ fn trace(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     let ti = a
@@ -852,7 +874,7 @@ fn nmr(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     use openreadout_signal::nmr;
@@ -868,7 +890,7 @@ fn nmr(
     let req = q.request().map_err(|e| err(&e))?;
     let report = nmr::analyze(ds, info, &req).map_err(|e| err(&e))?;
     let chosen = nmr::load(ds, info, &req).map_err(|e| err(&e))?;
-    notes.extend(chosen.notes.iter().take(4).cloned());
+    notes.model.extend(chosen.notes.iter().take(4).cloned());
     let y = &chosen.spectrum.real;
     let ax = &chosen.spectrum.axis;
     let total = y.len() as u64;
@@ -920,7 +942,7 @@ fn chromatogram(
     file: &str,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     let detector = a.trace.or_else(|| {
@@ -983,7 +1005,7 @@ fn chromatogram(
             "points": c["points"],
         }));
     }
-    notes.extend(
+    notes.model.extend(
         out["notes"]
             .as_array()
             .into_iter()
@@ -1036,7 +1058,7 @@ fn spectrum(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     use openreadout_core::SpectrumView;
@@ -1167,7 +1189,7 @@ fn fcs(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     let ti = a.table.unwrap_or(0);
