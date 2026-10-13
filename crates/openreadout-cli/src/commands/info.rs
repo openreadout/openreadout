@@ -314,6 +314,7 @@ fn ls(reg: &Registry, file: &Path) -> Result<Listing> {
         format: det.format_id.into(),
         entries: ds.entries()?,
         acquisition: openreadout_core::live::assess_dataset(ds.as_ref(), file),
+        ..Default::default()
     })
 }
 

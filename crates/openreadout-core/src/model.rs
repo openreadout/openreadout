@@ -473,7 +473,7 @@ pub struct LsEntry {
 }
 
 /// Output of `info --view structure`.
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct Listing {
     /// The input file.
     pub path: String,
@@ -485,6 +485,52 @@ pub struct Listing {
     /// stopped before the end (`interrupted`). See `book/src/guides/lab-shares.md`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub acquisition: Option<crate::live::Acquisition>,
+    /// How many elements of each kind the container holds, when `entries` lists only some.
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub entries_total: BTreeMap<String, u64>,
+    /// What was left out of `entries` and how to list it.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub notes: Vec<String>,
+}
+
+impl Listing {
+    /// Keep the answer small: list at most `max` elements of each kind (`0`: all), or, with
+    /// `kind`, only elements of that kind, from the `first`-th one on. Large mosaics hold tens
+    /// of thousands of tiles, while the attachments a caller looks for come after them in file
+    /// order, so the cap applies per kind. What was left out is said in `entries_total` and
+    /// `notes`.
+    pub fn cap(&mut self, max: usize, kind: Option<&str>, first: usize) {
+        let mut totals: BTreeMap<String, u64> = BTreeMap::new();
+        for e in &self.entries {
+            *totals.entry(e.kind.clone()).or_default() += 1;
+        }
+        let total = self.entries.len();
+        let mut seen: BTreeMap<String, usize> = BTreeMap::new();
+        self.entries.retain(|e| {
+            let n = seen.entry(e.kind.clone()).or_default();
+            let i = *n;
+            *n += 1;
+            match kind {
+                Some(k) => e.kind == k && i >= first && (max == 0 || i - first < max),
+                None => max == 0 || i < max,
+            }
+        });
+        if self.entries.len() == total {
+            return;
+        }
+        let left_out: Vec<String> = totals
+            .iter()
+            .filter_map(|(k, &n)| {
+                let shown = self.entries.iter().filter(|e| &e.kind == k).count() as u64;
+                (shown < n).then(|| format!("{k} {shown} of {n}"))
+            })
+            .collect();
+        self.notes.push(format!(
+            "entries lists part of the {total} elements ({}); pass kind and first_entry to page through one kind, or max_entries 0 for all",
+            left_out.join(", ")
+        ));
+        self.entries_total = totals;
+    }
 }
 
 /// Severity of a `check` finding.
@@ -1054,6 +1100,52 @@ pub struct Trace {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn listing(tiles: usize) -> Listing {
+        let entry = |kind: &str, i: usize| LsEntry {
+            kind: kind.into(),
+            name: format!("{kind} {i}"),
+            offset: Some(i as u64),
+            size: None,
+            image: None,
+            details: serde_json::Value::Null,
+        };
+        let mut entries = vec![entry("header", 0)];
+        entries.extend((0..tiles).map(|i| entry("tile", i)));
+        entries.push(entry("attachment", 0));
+        Listing {
+            entries,
+            ..Listing::default()
+        }
+    }
+
+    #[test]
+    fn structure_listings_are_capped_per_kind() {
+        // Few elements: nothing to say.
+        let mut l = listing(3);
+        l.cap(50, None, 0);
+        assert_eq!(l.entries.len(), 5);
+        assert!(l.entries_total.is_empty() && l.notes.is_empty());
+        // Many tiles: the attachment after them is still listed.
+        let mut l = listing(1000);
+        l.cap(50, None, 0);
+        assert_eq!(l.entries.len(), 52);
+        assert_eq!(l.entries.last().unwrap().kind, "attachment");
+        assert_eq!(l.entries_total["tile"], 1000);
+        assert!(l.notes[0].contains("tile 50 of 1000"), "{:?}", l.notes);
+        // Paging through one kind.
+        let mut l = listing(1000);
+        l.cap(10, Some("tile"), 995);
+        let names: Vec<&str> = l.entries.iter().map(|e| e.name.as_str()).collect();
+        assert_eq!(
+            names,
+            ["tile 995", "tile 996", "tile 997", "tile 998", "tile 999"]
+        );
+        // 0 lists everything.
+        let mut l = listing(1000);
+        l.cap(0, None, 0);
+        assert_eq!(l.entries.len(), 1002);
+    }
 
     #[test]
     #[allow(clippy::float_cmp)]

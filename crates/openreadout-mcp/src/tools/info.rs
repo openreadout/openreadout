@@ -13,6 +13,9 @@ use serde::{Deserialize, Serialize};
 use super::object_output;
 use crate::{InstrumentServer, mcp_err, ok_json};
 
+/// Elements of each kind `view=structure` lists by default.
+const DEFAULT_ENTRIES_PER_KIND: usize = 50;
+
 /// What to return.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Deserialize, schemars::JsonSchema)]
 #[serde(rename_all = "lowercase")]
@@ -54,6 +57,13 @@ pub struct InfoArgs {
     /// view=full: per-frame records per image under images[].extra.frames. Default 100; 0
     /// omits them; -1 embeds all.
     pub max_frames: Option<i64>,
+    /// view=structure: list at most this many elements of each kind (0 = all). Default 50.
+    pub max_entries: Option<usize>,
+    /// view=structure: list only elements of this kind (as entries_total names them), e.g.
+    /// "attachment" or "subblock".
+    pub kind: Option<String>,
+    /// view=structure with kind: skip this many elements of that kind first (paging).
+    pub first_entry: Option<usize>,
     /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
     /// validate (assurance.strict_refuses). Default: the server's setting (OPENREADOUT_STRICT; off).
     #[serde(default)]
@@ -163,12 +173,21 @@ impl InstrumentServer {
         }
         let (det, mut ds) = reg.open(path).map_err(live)?;
         match view {
-            InfoView::Structure => ok_json(&Listing {
-                path: a.file.clone(),
-                format: det.format_id.into(),
-                entries: ds.entries().map_err(|e| mcp_err(&e))?,
-                acquisition: openreadout_core::live::assess_dataset(ds.as_ref(), path),
-            }),
+            InfoView::Structure => {
+                let mut listing = Listing {
+                    path: a.file.clone(),
+                    format: det.format_id.into(),
+                    entries: ds.entries().map_err(|e| mcp_err(&e))?,
+                    acquisition: openreadout_core::live::assess_dataset(ds.as_ref(), path),
+                    ..Default::default()
+                };
+                listing.cap(
+                    a.max_entries.unwrap_or(DEFAULT_ENTRIES_PER_KIND),
+                    a.kind.as_deref(),
+                    a.first_entry.unwrap_or(0),
+                );
+                ok_json(&listing)
+            }
             InfoView::Explain => {
                 let mut info = ds.info().map_err(|e| mcp_err(&e))?;
                 let experiment = openreadout_core::experiment::of_dataset(ds.as_ref(), &info);

@@ -567,6 +567,7 @@ impl InstrumentFile {
                     format: format.into(),
                     entries: ds.entries()?,
                     acquisition: None,
+                    ..Default::default()
                 })
             })),
             "explain" => envelope(self.with_dataset(|ds, _| {

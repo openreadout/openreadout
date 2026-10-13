@@ -29,6 +29,22 @@
           "type": "null"
         }
       ]
+    },
+    "entries_total": {
+      "description": "How many elements of each kind the container holds, when `entries` lists only some.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "notes": {
+      "description": "What was left out of `entries` and how to list it.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "required": [

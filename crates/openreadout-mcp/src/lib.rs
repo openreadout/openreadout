@@ -492,6 +492,9 @@ mod tests {
             thumbnail,
             vendor: false,
             max_frames: None,
+            max_entries: None,
+            kind: None,
+            first_entry: None,
             strict: None,
         })
     }

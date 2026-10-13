@@ -350,6 +350,7 @@ fn rs_info_view(h: Robj, view: &str, ask: &str, vendor: bool) -> Robj {
                     format: ds.info()?.format.id,
                     entries: ds.entries()?,
                     acquisition: None,
+                    ..Default::default()
                 }),
                 "explain" => {
                     let mut info = ds.info()?;
