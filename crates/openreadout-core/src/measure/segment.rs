@@ -21,11 +21,13 @@
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;
 
-/// Gaussian blur with σ in pixels (edges repeat the border value). σ ≤ 0 copies.
+/// Gaussian blur with σ in pixels (edges repeat the border value). σ ≤ 0 (or not a number)
+/// copies; σ beyond the plane's size is cut to it, which blurs it nearly flat anyway.
 pub(crate) fn gaussian(v: &[f32], w: usize, h: usize, sigma: f64) -> Vec<f32> {
-    if sigma <= 0.0 || w == 0 || h == 0 {
+    if sigma.is_nan() || sigma <= 0.0 || w == 0 || h == 0 || v.len() < w * h {
         return v.to_vec();
     }
+    let sigma = sigma.min(w.max(h) as f64);
     let rad = (3.0 * sigma).ceil().max(1.0) as usize;
     let mut k: Vec<f32> = (0..=2 * rad)
         .map(|i| {
@@ -62,6 +64,7 @@ pub(crate) fn gaussian(v: &[f32], w: usize, h: usize, sigma: f64) -> Vec<f32> {
 
 /// Mean of each `f × f` block (the last blocks may be smaller).
 pub(crate) fn shrink(v: &[f32], w: usize, h: usize, f: usize) -> (Vec<f32>, usize, usize) {
+    let f = f.max(1);
     let (sw, sh) = (w.div_ceil(f), h.div_ceil(f));
     let mut sum = vec![0f32; sw * sh];
     let mut n = vec![0u32; sw * sh];
@@ -105,7 +108,7 @@ pub(crate) fn rank_filter(v: &[f32], w: usize, h: usize, r: usize, max: bool) ->
     let mut tmp = vec![0f32; v.len()];
     for y in 0..h {
         for x in 0..w {
-            let (a, b) = (x.saturating_sub(r), (x + r).min(w - 1));
+            let (a, b) = (x.saturating_sub(r), x.saturating_add(r).min(w - 1));
             tmp[y * w + x] = v[y * w + a..=y * w + b]
                 .iter()
                 .copied()
@@ -115,7 +118,7 @@ pub(crate) fn rank_filter(v: &[f32], w: usize, h: usize, r: usize, max: bool) ->
     }
     let mut out = vec![0f32; v.len()];
     for y in 0..h {
-        let (a, b) = (y.saturating_sub(r), (y + r).min(h - 1));
+        let (a, b) = (y.saturating_sub(r), y.saturating_add(r).min(h - 1));
         for x in 0..w {
             let mut m = tmp[a * w + x];
             for yy in a + 1..=b {
