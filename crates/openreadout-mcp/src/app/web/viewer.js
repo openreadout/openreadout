@@ -73,6 +73,25 @@ function fmt(v, digits) {
   return String(s);
 }
 
+/** A value to read in a tooltip: `digits` significant digits, SI suffixes from a million up
+ * (`28.77 M`), and a power of ten written out below 0.001 (`4.392 × 10⁻⁴`). */
+function fmtValue(v, digits) {
+  if (v === null || v === undefined || !isFinite(v)) return "–";
+  if (v < 0) return "−" + fmtValue(-v, digits);
+  const a = Math.abs(v);
+  const d = digits || 4;
+  if (a >= 1e6 && a < 1e15) {
+    const [k, s] = a >= 1e12 ? [1e12, "T"] : a >= 1e9 ? [1e9, "G"] : [1e6, "M"];
+    return `${Number((v / k).toPrecision(d))} ${s}`;
+  }
+  if (a !== 0 && (a < 1e-3 || a >= 1e15)) {
+    const e = Math.floor(Math.log10(a));
+    const m = Number((v / Math.pow(10, e)).toPrecision(d));
+    return `${m} × 10${supers(e)}`;
+  }
+  return String(Number(v.toPrecision(d)));
+}
+
 /** A tick label, as the figure engine writes them (openreadout-figure `format_tick`): as many
  * decimals as the step needs, SI suffixes from 10 000 up (`20k`, `1.5M`), an exponent below
  * 0.001. */
@@ -161,6 +180,18 @@ function spreadLabels(targets, gap, lo, hi) {
 function hexRgb(h) {
   const n = parseInt(String(h).replace("#", ""), 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+/** A CSS colour as the browser resolves it (`rgb(r, g, b)`, `rgba(…)`, `#rrggbb`) → "#rrggbb",
+ * or null when it is not one of those (or is transparent). */
+function cssHex(c) {
+  const s = String(c || "").trim();
+  if (/^#[0-9a-f]{6}$/i.test(s)) return s.toLowerCase();
+  const m = s.match(/^rgba?\(([^)]*)\)$/i);
+  if (!m) return null;
+  const v = m[1].split(/[\s,/]+/).filter(Boolean).map(Number);
+  if (v.length < 3 || v.slice(0, 3).some((x) => !isFinite(x)) || (v.length > 3 && v[3] < 0.5)) return null;
+  return "#" + v.slice(0, 3).map((x) => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, "0")).join("");
 }
 
 /** Colour at t in [0, 1] along `stops` (hex strings), as [r, g, b]. */
@@ -2316,10 +2347,11 @@ function main() {
       for (const s of pn.series) drawSeries(s, X, Y, py + ph, m);
       g.restore();
       // only prominent peaks are labelled (the server says which); every peak can be hovered
-      if (pi === 0 && peaks.length) drawPeakLabels(peaks.filter((q) => q.labelled !== false), X, Y, py, left, pw, m.kind === "chromatogram" ? 10 : 14);
+      const avoid = pi === 0 && labels.length ? directLabelZones(directLabelLayout(labels, { py, ph, Y }, left + pw), left + pw) : [];
+      if (pi === 0 && peaks.length) drawPeakLabels(peaks.filter((q) => q.labelled !== false), X, Y, py, left, pw, m.kind === "chromatogram" ? 10 : 14, avoid);
       if (pi === 0 && m.kind === "spectrum" && pn.series[0]) {
         if (!pn.series[0].x.length) txt("This scan holds no peaks.", left + pw / 2, py + ph / 2, { size: 13, color: c.muted, align: "center" });
-        else drawPeakLabels(spectrumPeaks(pn.series[0], 12), X, Y, py, left, pw, 12);
+        else drawPeakLabels(spectrumPeaks(pn.series[0], 12), X, Y, py, left, pw, 12, avoid);
       }
       if (pi === 0) drawPlotAnnotations(X, Y, py, ph, left, pw, "over");
       panelsGeo.push({ py, ph, y0, y1, Y, series: pn.series });
@@ -2358,9 +2390,10 @@ function main() {
     return pn.series.map((s) => ({ text: legendLabel(s.name, 22), color: s.color, members: [s] }));
   }
 
-  function drawDirectLabels(labels, X, panels, xEnd, w) {
-    if (!labels.length || !panels[0]) return;
-    const P = panels[0];
+  /** Where the direct labels go: each label's line end (`y`) and its spread place (`ty`), and the
+   * text's left edge. Peak labels keep off these places (one set of labels, as in the figure
+   * engine). */
+  function directLabelLayout(labels, P, xEnd) {
     const items = labels.map((l) => {
       // the last finite point of the member with the highest end
       let best = null;
@@ -2380,7 +2413,19 @@ function main() {
     const hgt = 15;
     const ys = spreadLabels(items.map((it) => it.y), hgt, P.py, P.py + P.ph);
     const moved = items.some((it, i) => Math.abs(ys[i] - it.y) > 3);
-    const tx = xEnd + (moved ? 18 : 6);
+    items.forEach((it, i) => { it.ty = ys[i]; });
+    return { items, moved, tx: xEnd + (moved ? 18 : 6) };
+  }
+
+  /** The places the direct labels take inside the plot: the last stretch of each labelled line. */
+  function directLabelZones(lay, xEnd) {
+    return lay.items.map((it) => ({ x: xEnd - 28, y: Math.min(it.y, it.ty) - 9, w: 40, h: Math.abs(it.y - it.ty) + 18 }));
+  }
+
+  function drawDirectLabels(labels, X, panels, xEnd, w) {
+    if (!labels.length || !panels[0]) return;
+    const { items, moved, tx } = directLabelLayout(labels, panels[0], xEnd);
+    const ys = items.map((it) => it.ty);
     const c = colors();
     items.forEach((it, i) => {
       if (moved) {
@@ -2469,7 +2514,7 @@ function main() {
     return out.sort((a, b) => b.height - a.height).slice(0, max);
   }
 
-  function drawPeakLabels(peaks, X, Y, py, left, pw, max) {
+  function drawPeakLabels(peaks, X, Y, py, left, pw, max, avoid) {
     const c = colors();
     g.font = font(10.5, 400, true);
     const sorted = peaks.slice().sort((a, b) => (b.height || 0) - (a.height || 0));
@@ -2485,8 +2530,14 @@ function main() {
       if (xx < left - 2 || xx > left + pw + 2) continue;
       const tx = Math.min(left + pw - half, Math.max(left + half, xx));
       if (used.some(([a, b]) => tx + half > a && tx - half < b)) continue;
+      let yy = pk.height != null ? Math.max(py + 10, Y(pk.height) - 4) : py + 10;
+      // off the direct labels' places: above them when there is room, else left out
+      const hits = (avoid || []).filter((z) => tx + half > z.x && tx - half < z.x + z.w && yy > z.y && yy - 12 < z.y + z.h);
+      if (hits.length) {
+        yy = Math.min(...hits.map((z) => z.y)) - 3;
+        if (yy - 12 < py) continue;
+      }
       used.push([tx - half, tx + half]);
-      const yy = pk.height != null ? Math.max(py + 10, Y(pk.height) - 4) : py + 10;
       txt(label, tx, yy, { mono: true, size: 10.5, align: "center", color: c.ink, halo: c.bg });
       n++;
     }
@@ -3231,21 +3282,30 @@ function main() {
   }
 
   /** Draw the figure again (openreadout_view figure): in the host's theme, as wide as the
-   * canvas at the screen's pixel density, over `xRange` (single plots) or the whole range. */
+   * canvas at the screen's pixel density, over `xRange` ({range: [a, b], panel}: the panel
+   * of the spec it was dragged on; panels that share x, facets and plate grids zoom together)
+   * or the whole range. */
   async function redrawFigure(xRange) {
     const F = S.fig;
     if (!F || !F.spec) return;
     const dpr = Math.min(3, window.devicePixelRatio || 1);
     const width = Math.round(Math.max(320, canvas.parentElement.clientWidth));
-    const dark = colors().dark;
-    const key = JSON.stringify([width, dpr, dark, xRange]);
+    const c = colors();
+    const dark = c.dark;
+    // drawn on the host's own background, so the figure sits in the page without a card
+    const paper = cssHex(c.bg);
+    const key = JSON.stringify([width, dpr, dark, paper, xRange]);
     if (F.drawn === key) return;
     F.drawn = key;
     // the viewer's header shows the title, so the picture leaves it out
     const spec = Object.assign({}, F.spec);
     delete spec.title;
     const args = { view: "figure", spec, dark, width, scale: dpr, outline: false };
-    if (xRange) args.x_range = xRange;
+    if (paper) args.paper = paper;
+    if (xRange) {
+      args.x_range = xRange.range;
+      if (xRange.panel != null) args.panel = xRange.panel;
+    }
     root.setAttribute("aria-busy", "true");
     try {
       const r = await callView(args);
@@ -3257,6 +3317,8 @@ function main() {
       F.data = figurePanels(fig, img);
       F.zoom = null;
       F.xRange = xRange;
+      S.hover = null;
+      tip(null);
       for (const n of (r.structuredContent && r.structuredContent.notes) || []) toast(n);
       invalidate();
       renderControls();
@@ -3268,10 +3330,10 @@ function main() {
     }
   }
 
-  /** A single plot can be zoomed by drawing it again over an x range. */
+  /** A figure the viewer can draw again zooms by drawing it over an x range. */
   function figureRedrawsZoom() {
     const F = S.fig;
-    return !!(F && F.spec && F.data.length === 1 && !(F.spec.panels && F.spec.panels.length) && !F.spec.facet);
+    return !!(F && F.spec && F.data.length);
   }
 
   function figurePanels(data, img) {
@@ -3287,8 +3349,33 @@ function main() {
         return { dom, log: v.scale === "log", unit: v.unit || v.label || "", reversed: !!v.reversed };
       };
       const series = (p.series || []).map((s) => ({ name: s.name || s.label || "", x: (s.x || []).map(num), y: (s.y || []).map(num), color: s.color })).filter((s) => s.x.length && s.x.length === s.y.length);
-      return { area: { x: num(a.x) * sx, y: num(a.y) * sy, w: num(a.width ?? a.w) * sx, h: num(a.height ?? a.h) * sy }, x: ax("x"), y: ax("y"), series };
+      return { area: { x: num(a.x) * sx, y: num(a.y) * sy, w: num(a.width ?? a.w) * sx, h: num(a.height ?? a.h) * sy }, x: ax("x"), y: ax("y"), series, specPanel: Number.isInteger(p.spec_panel) ? p.spec_panel : null };
     }).filter((p) => p && [p.area.x, p.area.y, p.area.w, p.area.h].every(isFinite) && p.x.dom.every(isFinite) && p.y.dom.every(isFinite));
+  }
+
+  /** The x range dragged from `x0` to `x1` (canvas px) at height `ym` over one panel, in that
+   * panel's units, with the spec panel it belongs to; null when the drag is not over a panel
+   * with a numeric x axis. The ends are clamped to the panel. */
+  function figureDragRange(x0, x1, ym) {
+    const F = S.fig, L = S.layout;
+    if (!F || !L || Math.abs(x1 - x0) <= 8) return null;
+    const [ia, iy] = L.inv(x0, ym), [ib] = L.inv(x1, ym);
+    // the panel under the drag, or the nearest one above or below it (a drag along a gap)
+    const across = F.data.filter((q) => Math.max(ia, ib) >= q.area.x && Math.min(ia, ib) <= q.area.x + q.area.w);
+    const gapTo = (q) => (iy < q.area.y ? q.area.y - iy : iy > q.area.y + q.area.h ? iy - q.area.y - q.area.h : 0);
+    const p = across.sort((q, r) => gapTo(q) - gapTo(r))[0];
+    if (!p || gapTo(p) * L.k > 40) return null;
+    const at = (ix) => {
+      const tr = (v) => (p.x.log ? Math.log10(v) : v);
+      const [xa, xb] = p.x.dom.map(tr);
+      let u = Math.min(1, Math.max(0, (ix - p.area.x) / p.area.w));
+      if (p.x.reversed) u = 1 - u;
+      const v = xa + u * (xb - xa);
+      return p.x.log ? Math.pow(10, v) : v;
+    };
+    const a = at(ia), b = at(ib);
+    if (!isFinite(a) || !isFinite(b) || a === b) return null;
+    return { range: [Math.min(a, b), Math.max(a, b)], panel: p.specPanel };
   }
 
   function figureZoom(z) {
@@ -3374,6 +3461,37 @@ function main() {
     return null;
   }
 
+  /** The rich tooltip of a figure readout: the x value as a heading, then each series (with its
+   * colour) and its value, aligned; a single point gives its x and y. */
+  function figureTip(f) {
+    const p = f.p;
+    const xu = p.x.unit || "", yu = p.y.unit || "";
+    const axisName = (u, fallback) => (u ? legendLabel(u, 22) : fallback);
+    if (f.rows) {
+      return {
+        head: { value: fmtValue(f.x, 5), unit: xu },
+        rows: f.rows.map((r) => ({ color: r.s.color, key: legendLabel(r.s.name || "value", 32), value: fmtValue(r.s.y[r.i], 4) })),
+      };
+    }
+    if (f.best) {
+      const s = f.best.s, i = f.best.i;
+      return {
+        head: s.name ? { value: legendLabel(s.name, 32) } : null,
+        rows: [
+          { color: s.name ? null : s.color, key: axisName(xu, "x"), value: fmtValue(s.x[i], 5) },
+          { color: null, key: axisName(yu, "y"), value: fmtValue(s.y[i], 5) },
+        ],
+      };
+    }
+    return {
+      head: null,
+      rows: [
+        { color: null, key: axisName(xu, "x"), value: fmtValue(f.x, 4) },
+        { color: null, key: axisName(yu, "y"), value: fmtValue(f.y, 4) },
+      ],
+    };
+  }
+
   function figureOverlays(L) {
     const hv = S.hover;
     const c = colors();
@@ -3406,11 +3524,37 @@ function main() {
     return [e.clientX - r.left, e.clientY - r.top];
   }
 
-  function tip(text, x, y) {
+  /** The hover tooltip: `rich` ({head, rows: [{color, key, value}]}) as an aligned key–value
+   * list with series swatches, else `text` as lines. */
+  function tip(text, x, y, rich) {
     const t = $("tip");
     if (!text) { t.hidden = true; return; }
     t.hidden = false;
-    t.textContent = text;
+    t.classList.toggle("rich", !!rich);
+    if (rich) {
+      t.textContent = "";
+      const el = (cls, s) => { const e = document.createElement("span"); e.className = cls; if (s != null) e.textContent = s; t.appendChild(e); return e; };
+      if (rich.head) {
+        const h = el("tip-head");
+        const v = document.createElement("span");
+        v.textContent = rich.head.value;
+        h.appendChild(v);
+        if (rich.head.unit) { const u = document.createElement("span"); u.className = "tip-unit"; u.textContent = " " + rich.head.unit; h.appendChild(u); }
+      }
+      const swatches = rich.rows.some((r) => r.color);
+      t.classList.toggle("plain", !swatches);
+      for (const r of rich.rows) {
+        if (swatches) {
+          const sw = el("tip-swatch");
+          if (r.color) sw.style.background = r.color;
+        }
+        el("tip-key", r.key);
+        const v = el("tip-value", r.value);
+        if (r.unit) { const u = document.createElement("span"); u.className = "tip-unit"; u.textContent = " " + r.unit; v.appendChild(u); }
+      }
+    } else {
+      t.textContent = text;
+    }
     const w = canvas.clientWidth, h = canvas.clientHeight;
     let left = x + 14, top = y - t.offsetHeight - 10;
     if (left + t.offsetWidth > w - 4) left = x - t.offsetWidth - 14;
@@ -3455,6 +3599,9 @@ function main() {
       };
       const unit = (d.plot.x && (d.plot.x.unit || (d.plot.x.quantity !== "sample" ? d.plot.x.quantity : ""))) || (d.plot.kind === "spectrum" ? "m/z" : "");
       const lines = [];
+      // the same readout as an aligned key–value list for the tooltip
+      const rows = [];
+      let headX = null;
       S.hover = { px, py, dots: [] };
       // a peak under the pointer
       const peaks = d.plot.peaks || [];
@@ -3466,6 +3613,9 @@ function main() {
           lines.push(`peak ${pk.label ?? ""} · apex ${fmt(pk.x, 5)} ${unit}`.trim());
           if (pk.area != null) lines.push(`area ${fmt(pk.area, 5)}${pk.area_percent != null ? ` (${fmt(pk.area_percent, 3)} %)` : ""}`);
           if (pk.height != null) lines.push(`height ${fmt(pk.height, 5)}`);
+          rows.push({ key: `peak ${pk.label ?? ""} apex`.replace("  ", " "), value: fmtValue(pk.x, 5), unit });
+          if (pk.area != null) rows.push({ key: "area", value: fmtValue(pk.area, 5) + (pk.area_percent != null ? ` (${fmt(pk.area_percent, 3)} %)` : "") });
+          if (pk.height != null) rows.push({ key: "height", value: fmtValue(pk.height, 5) });
         }
       }
       if (panel.series.length > 8) {
@@ -3482,8 +3632,10 @@ function main() {
           S.hover.curve = best.s;
           S.hover.dots.push({ x: L.X(best.s.x[best.k]), y: panel.Y(best.v), color: colors().accent });
           lines.unshift(`${best.s.name}`, `${fmt(best.s.x[best.k], 5)} ${unit} · ${fmt(best.v, 5)}`);
+          S.hover.tip = { head: { value: legendLabel(best.s.name, 32) }, rows: [{ color: best.s.color, key: unit || "x", value: fmtValue(best.s.x[best.k], 5) }, { color: null, key: "value", value: fmtValue(best.v, 5) }].concat(rows) };
         } else {
           lines.unshift(`${fmt(xv, 5)} ${unit}`);
+          S.hover.tip = rows.length ? { head: { value: fmtValue(xv, 5), unit }, rows } : null;
         }
         return lines.join("\n");
       }
@@ -3494,10 +3646,14 @@ function main() {
         const y = s.y ? s.y[k] : null;
         if (!head.length) head.push(`${fmt(s.x[k], 6)} ${unit}`.trim());
         const yv = y != null ? fmt(y, 5) : `${fmt(s.lo[k], 4)} … ${fmt(s.hi[k], 4)}`;
+        const yTip = y != null ? fmtValue(y, 5) : `${fmtValue(s.lo[k], 4)} … ${fmtValue(s.hi[k], 4)}`;
         lines.push(`${panel.series.length > 1 ? legendLabel(s.name, 16) + "  " : ""}${yv}${s.unit ? " " + s.unit : ""}`);
+        if (headX == null) headX = s.x[k];
+        rows.push({ color: panel.series.length > 1 ? s.color : null, key: panel.series.length > 1 ? legendLabel(s.name, 26) : (s.name ? legendLabel(s.name, 26) : "value"), value: yTip, unit: s.unit || "" });
         const yy = y != null ? y : s.hi[k];
         if (yy != null && isFinite(yy) && s.style !== "sticks") S.hover.dots.push({ x: L.X(s.x[k]), y: panel.Y(yy), color: s.color });
       }
+      if (headX != null) S.hover.tip = { head: { value: fmtValue(headX, 6), unit }, rows };
       return head.concat(lines).join("\n");
     }
     if (L.kind === "plate") {
@@ -3532,16 +3688,19 @@ function main() {
       S.hover = { fig: f };
       if (!f) return "";
       const p = f.p;
+      const xu = p.x.unit || "", yu = p.y.unit || "";
+      const rich = figureTip(f);
+      S.hover.tip = rich;
       if (f.rows) {
         // x, then each series at it, top to bottom as they lie on the plot
-        const head = `${fmt(f.x, 5)}${p.x.unit ? " " + p.x.unit : ""}`;
-        return [head].concat(f.rows.map((r) => `${r.s.name ? legendLabel(r.s.name, 24) + "  " : ""}${fmt(r.s.y[r.i], 4)}`)).join("\n");
+        const head = `${fmt(f.x, 5)}${xu ? " " + xu : ""}`;
+        return [head].concat(f.rows.map((r) => `${r.s.name ? legendLabel(r.s.name, 24) + " " : ""}${fmt(r.s.y[r.i], 4)}`)).join("\n");
       }
       if (f.best) {
         const s = f.best.s, i = f.best.i;
-        return `${s.name ? s.name + "\n" : ""}${fmt(s.x[i], 5)}${p.x.unit ? " " + p.x.unit : ""} · ${fmt(s.y[i], 5)}${p.y.unit ? " " + p.y.unit : ""}`;
+        return `${s.name ? s.name + "\n" : ""}${fmt(s.x[i], 5)}${xu ? " " + xu : ""} · ${fmt(s.y[i], 5)}${yu ? " " + yu : ""}`;
       }
-      return `${fmt(f.x, 4)}${p.x.unit ? " " + p.x.unit : ""} · ${fmt(f.y, 4)}${p.y.unit ? " " + p.y.unit : ""}`;
+      return `${fmt(f.x, 4)}${xu ? " " + xu : ""} · ${fmt(f.y, 4)}${yu ? " " + yu : ""}`;
     }
     return "";
   }
@@ -3584,12 +3743,9 @@ function main() {
       sel.count = n;
       sel.of = L.tx.length;
       showAct(sel, anchor);
-    } else if (L.kind === "figure" && figureRedrawsZoom()) {
-      // zoom by drawing the plot again over the dragged x range
-      const a0 = figureData(x0, (y0 + y1) / 2), a1 = figureData(x1, (y0 + y1) / 2);
-      const p = S.fig.data[0];
-      const xa = a0 ? a0.x : p.x.dom[0], xb = a1 ? a1.x : p.x.dom[1];
-      if (Math.abs(x1 - x0) > 8 && isFinite(xa) && isFinite(xb) && xa !== xb) redrawFigure([Math.min(xa, xb), Math.max(xa, xb)]);
+    } else if (L.kind === "figure" && figureRedrawsZoom() && figureDragRange(x0, x1, (y0 + y1) / 2)) {
+      // zoom by drawing the figure again over the dragged x range of the panel dragged on
+      redrawFigure(figureDragRange(x0, x1, (y0 + y1) / 2));
     } else if (L.kind === "figure") {
       const [ia, ja] = L.inv(x0, y0), [ib, jb] = L.inv(x1, y1);
       const z = { x: Math.max(0, ia), y: Math.max(0, ja), w: Math.min(S.fig.img.width, ib) - Math.max(0, ia), h: Math.min(S.fig.img.height, jb) - Math.max(0, ja) };
@@ -3696,7 +3852,7 @@ function main() {
     }
     const text = hover(p[0], p[1]);
     $("readout").textContent = text.replace(/\n/g, "  ·  ");
-    tip(text, p[0], p[1]);
+    tip(text, p[0], p[1], S.hover && S.hover.tip);
     canvas.classList.toggle("pointer", !!(S.hover && (S.hover.ann || S.hover.mini || S.hover.pop != null || S.hover.peak || S.hover.well)));
     invalidateOverlay();
   });
@@ -3866,7 +4022,7 @@ function main() {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    niceTicks, niceBelow, fmt, fmtTick, tickLabels, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, plotXs, sampleWindow,
+    niceTicks, niceBelow, fmt, fmtTick, tickLabels, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, cssHex, fmtValue, plotXs, sampleWindow,
     f32FromBase64, bytesFromBase64, scaleFn, scaleInv, scaleTicks, percentile, hintFrom, wellName, parseWell,
     normalizeAnnotations, placeLabels, ease, lerpRect, fitAspect, defaultGroupMap, isBlankGroup, seriesGroup,
     callText, wellSpec, THEMES, categoryColors, spreadLabels,

@@ -194,6 +194,20 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             || matches!(s.geom, Geom::Bars { .. })
     });
     let mut yr = ext.y;
+    // an x range (a zoom) fits y to what it shows
+    if let (Some([a, b]), None, true) = (xs.range, ys.range, ax.cats.is_empty()) {
+        let (lo, hi) = (a.min(b), a.max(b));
+        let mut shown = Extent::default();
+        for s in series.iter() {
+            shown.merge(&s.geom.extent_in(lo, hi));
+            for c in s.callouts.iter().filter(|c| c.x >= lo && c.x <= hi) {
+                shown.add(f64::NAN, c.y);
+            }
+        }
+        if shown.y.0 <= shown.y.1 {
+            yr = shown.y;
+        }
+    }
     if let Some(f) = floor {
         yr.0 = f;
     }

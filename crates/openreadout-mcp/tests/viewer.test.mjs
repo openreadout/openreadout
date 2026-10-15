@@ -7,6 +7,22 @@ import { test } from "node:test";
 const require = createRequire(import.meta.url);
 const v = require("../src/app/web/viewer.js");
 
+test("tooltip values read as numbers with SI suffixes and written-out powers of ten", () => {
+  assert.equal(v.fmtValue(2.877e7, 4), "28.77 M");
+  assert.equal(v.fmtValue(4.392e-4, 4), "4.392 × 10⁻⁴");
+  assert.equal(v.fmtValue(0.5306, 4), "0.5306");
+  assert.equal(v.fmtValue(-1.2e9, 4), "−1.2 G");
+  assert.equal(v.fmtValue(NaN), "–");
+});
+
+test("the host's background resolves to a hex colour for the figure's paper", () => {
+  assert.equal(v.cssHex("rgb(38, 38, 36)"), "#262624");
+  assert.equal(v.cssHex("rgba(251, 250, 247, 1)"), "#fbfaf7");
+  assert.equal(v.cssHex("#FFFFFF"), "#ffffff");
+  assert.equal(v.cssHex("rgba(0, 0, 0, 0)"), null);
+  assert.equal(v.cssHex("color(srgb 1 1 1)"), null);
+});
+
 test("ticks are round numbers inside the range", () => {
   assert.deepEqual(v.niceTicks(0, 10, 5), [0, 2, 4, 6, 8, 10]);
   assert.deepEqual(v.niceTicks(10, 0, 5), [0, 2, 4, 6, 8, 10]);

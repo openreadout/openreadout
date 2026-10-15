@@ -117,6 +117,37 @@ impl Geom {
         e
     }
 
+    /// The extent of the points whose x lies in `lo..=hi` (bars and histograms: all of it).
+    pub fn extent_in(&self, lo: f64, hi: f64) -> Extent {
+        let inside = |x: f64| x >= lo && x <= hi;
+        let mut e = Extent::default();
+        match self {
+            Geom::Line(p) => p
+                .iter()
+                .filter(|q| inside(q.0))
+                .for_each(|&(x, y)| e.add(x, y)),
+            Geom::Band(p) => p.iter().filter(|q| inside(q.0)).for_each(|&(x, m, a, b)| {
+                e.add(x, m);
+                e.add(x, a);
+                e.add(x, b);
+            }),
+            Geom::Points { pts, err } => {
+                for (i, &(x, y)) in pts.iter().enumerate().filter(|(_, q)| inside(q.0)) {
+                    let d = err.get(i).copied().filter(|d| d.is_finite()).unwrap_or(0.0);
+                    e.add(x, y - d);
+                    e.add(x, y + d);
+                }
+            }
+            Geom::Events { x, y } => x
+                .iter()
+                .zip(y)
+                .filter(|q| inside(*q.0))
+                .for_each(|(&a, &b)| e.add(a, b)),
+            Geom::Bars { .. } | Geom::Hist(_) => return self.extent(),
+        }
+        e
+    }
+
     /// Scale x by `k` (time unit changes).
     pub fn scale_x(&mut self, k: f64) {
         match self {

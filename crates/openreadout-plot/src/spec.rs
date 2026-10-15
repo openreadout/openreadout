@@ -54,6 +54,12 @@ pub struct PlotSpec {
     pub theme: Option<ThemeName>,
     /// true: refuse values this file's assurance does not validate (exit_code 6, with a hint).
     pub strict: Option<bool>,
+    /// The ground the figure is drawn on (`#RRGGBB`), in place of the theme's paper: the viewer
+    /// passes its host's background so a figure sits in the page without a card of its own.
+    /// Not part of the tool's arguments.
+    #[serde(skip)]
+    #[schemars(skip)]
+    pub paper: Option<String>,
 }
 
 /// A panel in `panels`.

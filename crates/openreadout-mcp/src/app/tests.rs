@@ -510,6 +510,38 @@ fn run(args: Value, host_path: Option<String>) -> CallToolResult {
     view::call(fake_registry, &a, host_path).unwrap()
 }
 
+/// A figure drawn again for the viewer: on the host's background, and zoomed on the panel the
+/// user dragged on, with y fitted to what the range shows; the other panel keeps its range.
+#[test]
+fn figure_views_zoom_one_panel_on_the_hosts_background() {
+    let line = |k: f64| {
+        json!({"values": {"x": (0..=10).map(|i| json!(i)).collect::<Vec<_>>(),
+                          "y": (0..=10).map(|i| f64::from(i) * k).collect::<Vec<_>>()}})
+    };
+    let spec = json!({"panels": [{"data": line(1.0)}, {"data": line(10.0)}]});
+    let panels = |r: &CallToolResult| r.structured_content.as_ref().unwrap()["figure"]["panels"].clone();
+    let r = run(
+        json!({"view": "figure", "spec": spec, "width": 600, "x_range": [2, 4], "panel": 1,
+               "paper": "#262624", "dark": true}),
+        None,
+    );
+    let p = panels(&r);
+    let dom = |i: usize, k: &str| p[i][k]["domain"].clone();
+    assert_eq!(p[1]["spec_panel"], 1);
+    assert_eq!(dom(1, "x"), json!([2.0, 4.0]), "{p}");
+    let y = dom(1, "y");
+    assert!(y[1].as_f64().unwrap() < 60.0, "y fits the zoomed range: {y}");
+    assert!(dom(0, "x")[1].as_f64().unwrap() >= 10.0, "panel 0 keeps its range");
+    // the figure is drawn on the paper the viewer passes
+    let mut s = openreadout_plot::parse_spec(spec.clone()).unwrap();
+    s.paper = Some("#262624".into());
+    let p = openreadout_plot::plot(&Registry::new(), &s).unwrap();
+    assert_eq!(
+        p.figure.background,
+        Some(openreadout_figure::Color::hex(0x26_2624))
+    );
+}
+
 #[test]
 fn image_views_are_bounded_pictures() {
     let f = fake_file("image", b'I', 6000);
