@@ -906,7 +906,7 @@ mod tests {
             let (fw, fh) = (w as f64, h as f64);
             let polys: Vec<Vec<[f64; 2]>> = vec![
                 vec![[0.0, 0.0], [fw, 0.0], [fw, fh], [0.0, fh]],
-                // repeated and colinear vertices
+                // repeated and collinear vertices
                 vec![
                     [0.0, 0.0],
                     [0.0, 0.0],
