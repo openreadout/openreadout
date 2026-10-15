@@ -71,6 +71,10 @@
       "description": "A picture of the data (image plane, composite, projection, zoomed region, trace, spectrum or plate heat map) as image content"
     },
     {
+      "name": "openreadout_plot",
+      "description": "A finished figure from one or more files (plate wells, group means, chromatograms and spectra, sweeps and f–I, FCS dot plots, fits, table columns) as image content, with PNG, SVG or PDF output"
+    },
+    {
       "name": "openreadout_stats",
       "description": "Pixel statistics per channel and image: min, max, mean, std, percentiles, histogram, zero and saturated fractions; per=plane|well|field"
     },

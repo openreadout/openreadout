@@ -414,7 +414,9 @@ pub(super) fn trace(
             if axis_channel == Some(c as usize) {
                 continue;
             }
-            let ch = &t.channels[c as usize];
+            let Some(ch) = t.channels.iter().find(|ch| ch.index == c) else {
+                continue;
+            };
             let ys = &data[k];
             let pts: Vec<(f64, f64)> = xs[i0..i0 + ys.len().min(i1 - i0)]
                 .iter()
