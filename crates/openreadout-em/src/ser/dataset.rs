@@ -659,7 +659,14 @@ impl Dataset for SerDataset {
                 .take(s.valid() as usize)
                 .copied()
                 .collect(),
-            SerLayout::Frames => vec![s.header.data_offsets[index.t as usize]],
+            SerLayout::Frames => {
+                vec![*s.header.data_offsets.get(index.t as usize).ok_or_else(|| {
+                    Error::corrupt(
+                        FORMAT_ID,
+                        format!("no data offset for frame {} of the series", index.t),
+                    )
+                })?]
+            }
         };
         let bps = pixel_type.bytes_per_sample() as u64;
         let s = &mut self.series[image as usize];
