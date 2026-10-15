@@ -111,6 +111,11 @@ enum Command {
     /// Render a PNG/JPEG preview: an image plane, channel composite or max projection; a trace
     /// sparkline (sweeps, chromatograms, NMR spectra); a mass spectrum; or a plate heat map.
     Preview(preview_cmd::PreviewArgs),
+    /// Draw a figure from lab files: traces, chromatograms and spectra, plate wells in plate
+    /// positions or by layout group, FCS dot plots and histograms, f–I curves, dose-response
+    /// fits, table columns; panels, small multiples and annotations. The JSON spec is the
+    /// `openreadout_plot` MCP tool's arguments.
+    Plot(commands::plot::PlotArgs),
     /// Pixel statistics per plane, channel and image (min, max, mean, std, percentiles,
     /// histogram, zero and saturated fractions), or per well of a plate (`--per well`).
     ///

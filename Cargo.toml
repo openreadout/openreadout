@@ -51,6 +51,7 @@ default-members = [
     "crates/openreadout-thermal",
     "crates/openreadout-echem",
     "crates/openreadout-figure",
+    "crates/openreadout-plot",
     "crates/openreadout-preview",
     "crates/openreadout-quant",
     "crates/openreadout-ops",
@@ -129,6 +130,7 @@ openreadout-xrd = { path = "crates/openreadout-xrd", version = "0.3.0" }
 openreadout-thermal = { path = "crates/openreadout-thermal", version = "0.3.0" }
 openreadout-echem = { path = "crates/openreadout-echem", version = "0.3.0" }
 openreadout-figure = { path = "crates/openreadout-figure", version = "0.3.0" }
+openreadout-plot = { path = "crates/openreadout-plot", version = "0.3.0" }
 openreadout-preview = { path = "crates/openreadout-preview", version = "0.3.0" }
 openreadout-quant = { path = "crates/openreadout-quant", version = "0.3.0" }
 openreadout-ops = { path = "crates/openreadout-ops", version = "0.3.0" }

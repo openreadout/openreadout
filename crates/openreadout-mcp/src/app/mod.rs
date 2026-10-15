@@ -69,9 +69,8 @@ pub enum ToolView {
     /// `openreadout_chromatogram`, `openreadout_peaks`: the chromatogram the call asked for,
     /// with its peaks.
     Chromatogram,
-    /// A tool that returns a finished figure (image content, with its data in
-    /// `structuredContent.figure`): the viewer shows the result itself and calls nothing.
-    #[allow(dead_code)] // for openreadout_plot
+    /// `openreadout_plot`: the figure the tool drew (its image content), with the panels and
+    /// series under `_meta["openreadout/figure"]`.
     Figure,
 }
 
@@ -80,6 +79,7 @@ pub enum ToolView {
 pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ("openreadout_info", ToolView::Auto),
     ("openreadout_preview", ToolView::Preview),
+    ("openreadout_plot", ToolView::Figure),
     ("openreadout_stats", ToolView::Kind(view::ViewKind::Image)),
     ("openreadout_trace", ToolView::Kind(view::ViewKind::Trace)),
     (
@@ -296,7 +296,8 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
     use view::ViewKind as K;
     let tv = tool_view(tool)?;
     if tv == ToolView::Figure {
-        return Some(json!({ "view": "figure" }));
+        // the figure is in the result itself
+        return Some(json!({"view": "figure"}));
     }
     let args = args?;
     let file = args.get("file")?.as_str()?;
@@ -370,6 +371,7 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
             hint.insert("peaks".into(), json!(true));
             Some(K::Chromatogram)
         }
+        ToolView::Figure => None,
     };
     if let Some(k) = kind {
         hint.insert("view".into(), json!(k.name()));

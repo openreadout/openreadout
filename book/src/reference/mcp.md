@@ -17,7 +17,7 @@ The command pages list each flag. Flags that only make sense in a terminal or a 
 
 ## Tools
 
-The server has 27 tools.
+The server has 28 tools.
 
 | tool | what it does | command |
 | --- | --- | --- |
@@ -26,6 +26,7 @@ The server has 27 tools.
 | `openreadout_compare` | compare two files, such as a raw file and its export | [compare](commands/compare.md) |
 | `openreadout_report` | a diagnostic bundle for a file OpenReadout cannot read | [report](commands/report.md) |
 | `openreadout_preview` | a picture of the data | [preview](commands/preview.md) |
+| `openreadout_plot` | a finished figure from one or more files | [plot](commands/plot.md) |
 | `openreadout_stats` | pixel statistics, per-well statistics of a plate, intensity profiles, polygon statistics and object counts | [stats](commands/stats.md) |
 | `openreadout_trace` | samples and statistics of one sweep of a signal or 1-D spectrum | [trace](commands/trace.md) |
 | `openreadout_table` | rows of a table | [table](commands/table.md) |
@@ -80,6 +81,12 @@ A file still being written gets the same `acquisition` block as on the command l
 ### openreadout_preview
 
 Returns a picture as image content, followed by JSON that says what was drawn. Arguments as in [`preview`](commands/preview.md): `image`, `select`, `mip`, `composite`, `level`, `region` (`{x, y, width, height}`), `max_size` (default 768, at most 2048), `axes` (`rulers`, `grid` or `none`; default `rulers`), `contrast`, `lut` and `format`; for traces `trace`, `sweep` and `channels`; for spectra `run`, `spectrum`, `scan` and `centroid`; for plates and flow cytometry `table` and `columns`; `marks` (`auto`, `peaks`, `spikes` or `none`) and `annotations` (see [Annotations](commands/preview.md#annotations)). With `format: "svg"` the picture still comes back as PNG, followed by the SVG text.
+
+### openreadout_plot
+
+Returns a figure as image content (PNG, or JPEG when the PNG would be over 750 kB), followed by JSON that says what was drawn: per panel the axes (label, unit, range) and the series with the file and selector each was read from, the points drawn, their ranges and the peaks or spikes marked. The arguments are the JSON spec of [`plot`](commands/plot.md): `data` (one series or a list) and the panel keys, or `panels`; `title`, `caption`, `theme`, `width` and `height`; `output` (with `overwrite`) also writes the figure as PNG, SVG or PDF. The result's `_meta["openreadout/figure"]` holds each panel's pixel rectangle, axis ranges and thinned series, for the viewer.
+
+An agent names the data rather than pasting it: `{"file": "run.raw", "rt": "apex", "peaks": 6}` is the spectrum at the TIC's apex with its six largest peaks labelled, `{"file": "plate.pda", "by": "group", "groups": ["lambda", "HK97"]}` the mean and SD of two layout groups. Small numbers the agent computed itself go in `values`, and the result counts them under `inline_series`.
 
 ### openreadout_stats
 
@@ -163,7 +170,7 @@ Image previews have rulers labelled in full-resolution pixels, and a µm scale b
 
 ## The viewer
 
-In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_stats`, `openreadout_trace`, `openreadout_scans`, `openreadout_spectrum`, `openreadout_table`, `openreadout_gate`, `openreadout_qpcr` or one of the plate and chromatography analyses, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
+In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_plot`, `openreadout_stats`, `openreadout_trace`, `openreadout_scans`, `openreadout_spectrum`, `openreadout_table`, `openreadout_gate`, `openreadout_qpcr` or one of the plate and chromatography analyses, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
 
 | data | view | what you can do |
 | --- | --- | --- |
@@ -177,7 +184,7 @@ In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/ap
 
 The viewer is one HTML page served as the resource `ui://openreadout/viewer.html`. It runs in the client's sandbox, loads nothing from the network and asks the server for data with the tool `openreadout_view`. That tool is only for the viewer: clients that support MCP Apps hide it from the assistant. Its results are kept small. Pictures are at most 1600 px on their longest side and 750 kB. Plots have at most 4000 points per series, and longer signals are drawn as the minimum and maximum of each slice, so single-sample spikes stay visible. Flow-cytometry plots sample at most 50,000 events. Each result says what was reduced.
 
-The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 27 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
+The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 28 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
 
 ### Following the assistant
 
@@ -202,7 +209,7 @@ Every tool has a title and the four MCP behaviour hints:
 
 | tools | read-only | destructive | idempotent |
 | --- | --- | --- | --- |
-| info, check, compare, preview, stats, trace, table, scans, spectrum, the analysis tools, link, search, health | yes | no | yes |
+| info, check, compare, preview, plot, stats, trace, table, scans, spectrum, the analysis tools, link, search, health | yes | no | yes |
 | watch | yes | no | no |
 | index, report | no | no | yes |
 | export, extract, batch, summarize | no | yes | yes |

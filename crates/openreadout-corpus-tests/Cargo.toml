@@ -17,6 +17,7 @@ flate2 = { workspace = true }  # committed ground truth over 1 MiB is `<id>.json
 openreadout-core = { workspace = true }
 openreadout-index = { workspace = true }
 openreadout-batch = { workspace = true }
+openreadout-plot = { workspace = true }
 openreadout-live = { workspace = true }
 tempfile = { workspace = true }
 rayon = { workspace = true }

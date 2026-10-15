@@ -8,6 +8,7 @@ pub(crate) mod check;
 pub(crate) mod export;
 pub(crate) mod index;
 pub(crate) mod info;
+pub(crate) mod plot;
 pub(crate) mod preview;
 pub(crate) mod spectra;
 pub(crate) mod stats;
@@ -30,6 +31,7 @@ pub(crate) fn router() -> ToolRouter<InstrumentServer> {
         + InstrumentServer::table_router()
         + InstrumentServer::trace_router()
         + InstrumentServer::preview_router()
+        + InstrumentServer::plot_router()
         + InstrumentServer::stats_router()
         + InstrumentServer::batch_router()
         + InstrumentServer::index_router()

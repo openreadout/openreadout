@@ -315,6 +315,7 @@ mod tests {
                 "openreadout_link",
                 "openreadout_nmr_peaks",
                 "openreadout_peaks",
+                "openreadout_plot",
                 "openreadout_preview",
                 "openreadout_qpcr",
                 "openreadout_report",
@@ -631,6 +632,35 @@ mod tests {
         assert_eq!(v["image"]["axes"], false);
         assert_eq!(v["image"]["plot_area"]["width"], v["width"]);
         let _ = std::fs::remove_file(f);
+    }
+
+    #[tokio::test]
+    async fn plot_returns_the_figure_and_what_it_drew() {
+        let s = InstrumentServer::new(Registry::new);
+        let args: crate::tools::plot::PlotArgs = serde_json::from_value(serde_json::json!({
+            "title": "per tube",
+            "data": {"values": {"x": ["E01", "E03"], "y": [0.004, 2.6]}},
+            "annotate": [{"y": 1.0, "label": "threshold"}],
+        }))
+        .unwrap();
+        let r = s.plot(Parameters(args)).await.unwrap();
+        let first = serde_json::to_value(&r.content[0]).unwrap();
+        assert_eq!(first["type"], "image");
+        assert_eq!(first["mimeType"], "image/png");
+        let v = r.structured_content.clone().unwrap();
+        assert_eq!(v["inline_series"], 1);
+        assert_eq!(
+            v["panels"][0]["x"]["categories"],
+            serde_json::json!(["E01", "E03"])
+        );
+        let meta = r.meta.unwrap();
+        assert!(meta.get(crate::tools::plot::FIGURE_META_KEY).is_some());
+        // an unknown key names the known ones
+        let e =
+            serde_json::from_value::<crate::tools::plot::PlotArgs>(serde_json::json!({"dta": {}}))
+                .unwrap_err()
+                .to_string();
+        assert!(e.contains("unknown plot argument `dta`"), "{e}");
     }
 
     #[test]

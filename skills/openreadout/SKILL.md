@@ -18,6 +18,7 @@ metadata:
 - `info` — what a file holds, from its headers (fast on multi-gigabyte files); `--view full | structure | explain | format`, `--ask "QUESTION"`.
 - `check` — integrity (exit 4 = damaged); `compare A B` — are two files (a source and its export) the same data; `planes` — plane hashes; `report` — a diagnostic bundle for a file that is refused or not validated.
 - `preview` — a PNG of an image, trace, spectrum, plate (kinetic reads: one growth curve per well) or flow events; Read the PNG to see it. `--annotate` draws labelled points, boxes, arrows and bands in the picture's own coordinates, to show what you found.
+- `plot SPEC.json -o fig.png|svg|pdf` (MCP `openreadout_plot`) — a finished figure for the user from one or more files: data named by file and selector, panels, small multiples, plate positions, annotations. Spec and examples: `references/figures.md`.
 - `stats` — pixel statistics; `--per well` for screening plates. On one plane: `--line X0,Y0,X1,Y1` (intensity profile, FWHM), `--polygon` (statistics inside), `--objects` (count nuclei, cells or spots: areas in µm², centroids).
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
@@ -62,4 +63,5 @@ Load when the question needs them:
 - `references/formats.md` — per family (microscopy, whole slides, plates, flow, ephys, NMR, IR/Raman, chromatography, MS, qPCR, plate readers): where each fact lives in the JSON, worked routes, known limits per format.
 - `references/bench-instruments.md` — ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, GenePix, gels, EPR, XRD, electrochemistry, battery cyclers, thermal analysis, rheology.
 - `references/json-shapes.md` — field lists of the main outputs.
+- `references/figures.md` — `plot` specs for common figures: plate grids and group means, TIC and the spectrum at its apex, f–I and sweeps, FCS dot plots and histograms, overlays, fits, batch tables.
 - `references/workflows.md` — end-to-end examples: an unknown file, converting for analysis, triaging a folder, MCP setup, an NMR data set.
