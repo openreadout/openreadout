@@ -237,12 +237,15 @@ fn running_median(y: &[f64], k: usize) -> Vec<f64> {
         .collect()
 }
 
-/// Crash and regrowth of a time series (t in seconds, values background-corrected).
+/// Crash and regrowth of a time series (t in seconds, values background-corrected). Growth and
+/// regrowth count when they rise by at least `min_rise` in the data's units as well as well
+/// above the noise; a fall with no growth before it or after it is no growth. 0 for no floor.
 pub fn phases(
     t: &[f64],
     y: &[f64],
     window: Option<usize>,
     threshold: Option<f64>,
+    min_rise: f64,
 ) -> Option<Phases> {
     let (t, y) = clean(t, y);
     let n = t.len();
@@ -263,7 +266,8 @@ pub fn phases(
         trough_value: None,
         regrowth_s: None,
     };
-    // the first crash: a fall to half the height above the floor, by at least 5σ
+    // the first crash: a fall to half the height above the floor, by at least 5σ (phage can
+    // lyse a culture while it is still too thin to rise by min_rise)
     let mut hi = 0;
     let mut crash = None;
     for i in 0..n {
@@ -278,7 +282,7 @@ pub fn phases(
     let Some((hi, fell)) = crash else {
         let start = s[..k.min(n)].iter().copied().fold(f64::INFINITY, f64::min);
         let top = s.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-        out.pattern = if top - start >= 10.0 * sigma {
+        out.pattern = if top - start >= (10.0 * sigma).max(min_rise) {
             Pattern::Grew
         } else {
             Pattern::NoGrowth
@@ -298,11 +302,24 @@ pub fn phases(
     out.trough_s = Some(t[trough]);
     out.trough_value = Some(s[trough]);
     let rise = s[top_after] - s[trough];
-    if top_after > trough && rise >= 10.0 * sigma && rise >= 0.5 * (s[hi] - s[trough]) {
+    if top_after > trough
+        && rise >= (10.0 * sigma).max(min_rise)
+        && rise >= 0.5 * (s[hi] - s[trough])
+    {
         out.pattern = Pattern::Regrew;
         out.regrowth_s = growth(&t[trough..], &y[trough..], window, threshold)
             .and_then(|g| g.lag_time_s)
             .map(|l| l.max(t[trough]));
+    } else if s[hi] - floor < min_rise {
+        // a fall that neither followed growth nor led to regrowth: a flat well's noise
+        return Some(Phases {
+            pattern: Pattern::NoGrowth,
+            crash_s: None,
+            crash_value: None,
+            trough_s: None,
+            trough_value: None,
+            regrowth_s: None,
+        });
     }
     Some(out)
 }
@@ -528,7 +545,7 @@ mod tests {
                     }
             })
             .collect();
-        let p = phases(&t, &y, None, None).unwrap();
+        let p = phases(&t, &y, None, None, 0.0).unwrap();
         assert_eq!(p.pattern, Pattern::Regrew, "{p:?}");
         let crash_h = p.crash_s.unwrap() / 3600.0;
         assert!((crash_h - 3.0).abs() < 0.2, "{crash_h}");
@@ -539,13 +556,21 @@ mod tests {
             .iter()
             .map(|s| 0.01 * (s / 3600.0).exp().min(50.0))
             .collect();
-        assert_eq!(phases(&t, &up, None, None).unwrap().pattern, Pattern::Grew);
+        assert_eq!(phases(&t, &up, None, None, 0.0).unwrap().pattern, Pattern::Grew);
         // flat noise
         let flat: Vec<f64> = (0..600)
             .map(|i| if i % 2 == 0 { 0.001 } else { -0.001 })
             .collect();
         assert_eq!(
-            phases(&t, &flat, None, None).unwrap().pattern,
+            phases(&t, &flat, None, None, 0.0).unwrap().pattern,
+            Pattern::NoGrowth
+        );
+        // a flat well whose first readings settle: a fall, but from no growth
+        let settling: Vec<f64> = (0..600)
+            .map(|i| 0.008 * (-f64::from(i) / 20.0).exp() + if i % 2 == 0 { 0.0002 } else { 0.0 })
+            .collect();
+        assert_eq!(
+            phases(&t, &settling, None, None, 0.05).unwrap().pattern,
             Pattern::NoGrowth
         );
     }

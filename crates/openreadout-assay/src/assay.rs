@@ -1381,6 +1381,39 @@ fn time_course(
             per_time_point: true,
         });
     }
+    // a plate-wide floor for what counts as a rise: a tenth of the larger rises on the plate,
+    // so that a flat well's noise is not read as growth or a crash
+    let min_rise = if req.analysis == Analysis::Growth {
+        let mut rises: Vec<f64> = wells
+            .iter()
+            .filter(|w| !w.excluded && w.role != Some(Role::Blank))
+            .filter_map(|w| {
+                let v: Vec<f64> = series[&w.pos]
+                    .iter()
+                    .map(|p| p.1)
+                    .filter(|v| v.is_finite())
+                    .collect();
+                let hi = v.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+                let lo = v.iter().copied().fold(f64::INFINITY, f64::min);
+                (hi > lo).then_some(hi - lo)
+            })
+            .collect();
+        rises.sort_by(f64::total_cmp);
+        let p95 = rises
+            .get((rises.len() as f64 * 0.95) as usize)
+            .or(rises.last())
+            .copied()
+            .unwrap_or(0.0);
+        if p95 > 0.0 {
+            notes.push(format!(
+                "growth and regrowth count from a rise of {:.3}, a tenth of the larger rises on this plate",
+                p95 * 0.1
+            ));
+        }
+        p95 * 0.1
+    } else {
+        0.0
+    };
     let mut missing_blank = 0usize;
     let mut blanks_skipped = 0usize;
     let mut kin_by_well: BTreeMap<String, f64> = BTreeMap::new();
@@ -1462,7 +1495,7 @@ fn time_course(
                     if let Some(d) = g.doubling_time_h {
                         kin_by_well.insert(w.name.clone(), d);
                     }
-                    let ph = kinetics::phases(&t, &y, window, req.growth_threshold);
+                    let ph = kinetics::phases(&t, &y, window, req.growth_threshold, min_rise);
                     let ph = ph.as_ref();
                     // a logistic curve describes a culture that grew; a crash breaks its shape
                     let l = g
