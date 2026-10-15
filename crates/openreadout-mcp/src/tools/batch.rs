@@ -117,7 +117,7 @@ fn batch_request(a: BatchArgs) -> Result<batch::BatchToolArgs, McpError> {
 impl InstrumentServer {
     #[tool(
         name = "openreadout_batch",
-        annotations(title = "Measure many files as one table", read_only_hint = false, destructive_hint = true, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Measure many files", read_only_hint = false, destructive_hint = true, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_batch::BatchOutput>(),
         description = "One measure over many files as one tidy table, optionally joined to sample sheets or plate maps (the join key is chosen from the data and reported in joins[] with unmatched rows) and summarized by group (by; test against a control). Analyses (peaks, chromatogram, nmr-peaks, ephys-features, spikes, qpcr, gate, assay) take the arguments of their tools as options. Inputs (paths): files, directories, globs or an index query. Returns at most limit rows (page with offset; output writes them all to a file); a failing file is a row with error. openreadout_summarize regroups a table written by an earlier output."
     )]

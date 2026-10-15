@@ -140,7 +140,7 @@ fn preview_blocking(
 impl InstrumentServer {
     #[tool(
         name = "openreadout_preview",
-        annotations(title = "Look at the data", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Draw a picture of the data", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_preview::PreviewOutput>(),
         description = "A picture of the data as image content plus what was drawn: an image plane (default channel 0, middle z), a composite, a max projection (mip=z), a region (only the tiles needed are read), a trace or spectrum plot, or a plate heat map. Image pictures carry rulers in full-resolution pixels and a µm scale bar, so a region read off the rulers zooms in."
     )]

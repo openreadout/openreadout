@@ -72,7 +72,7 @@
     },
     {
       "name": "openreadout_stats",
-      "description": "Pixel statistics per channel and image: min, max, mean, std, percentiles, histogram, zero and saturated fractions; per=plane|well|field"
+      "description": "Pixel statistics per channel and image (per=plane|well|field), intensity profiles along a line, statistics inside a polygon, and object counts (nuclei, cells, spots)"
     },
     {
       "name": "openreadout_trace",

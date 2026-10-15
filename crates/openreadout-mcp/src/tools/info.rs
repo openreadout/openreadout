@@ -144,7 +144,7 @@ fn info_thumbnail(ds: &mut dyn openreadout_core::Dataset, info: &FileInfo) -> Ve
 impl InstrumentServer {
     #[tool(
         name = "openreadout_info",
-        annotations(title = "What a file holds", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Read what a file holds", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<InfoToolOutput>(),
         description = "What an instrument file or data-set directory holds, from its headers (fast on huge files): format, images[] (sizes, pixel type, µm/px, channels and dyes, objective), tables[], traces[], spectra[] (MS runs), plate, experiment (sample, instrument, method, operator, start) and assurance. view=summary attaches a ~384 px thumbnail of image 0 with full-resolution pixel rulers. ask answers a question in words, naming the fields it used."
     )]

@@ -96,7 +96,7 @@ enum StatsToolOutput {
 impl InstrumentServer {
     #[tool(
         name = "openreadout_stats",
-        annotations(title = "Pixel statistics", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Measure pixels", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<StatsToolOutput>(),
         description = "Pixel statistics per channel and image: count, min, max, mean, std, percentiles p1–p99, zero and saturated fractions (at the detector's 2^bits−1 when recorded), histogram; RGB images also per component. per=plane adds every plane; per=well or field gives rows per well of a screening plate. mip='z' measures the maximum-intensity projection; whole slides: a coarser level and/or a region. Measurements on one plane: line (intensity profile, FWHM), polygon (statistics inside), objects (count nuclei, cells or spots with areas and centroids)."
     )]

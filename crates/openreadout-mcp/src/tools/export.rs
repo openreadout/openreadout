@@ -508,7 +508,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_extract",
         annotations(
-            title = "Extract an embedded attachment",
+            title = "Extract an embedded file",
             read_only_hint = false,
             destructive_hint = true,
             idempotent_hint = true,

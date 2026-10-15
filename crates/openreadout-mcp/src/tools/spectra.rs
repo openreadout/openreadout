@@ -93,7 +93,7 @@ const MAX_SCANS_LISTED: u64 = 5000;
 impl InstrumentServer {
     #[tool(
         name = "openreadout_scans",
-        annotations(title = "Mass-spectrometry scans", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "List mass-spectrometry scans", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_core::ScanList>(),
         description = "The scans of a mass-spectrometry run, without decoding peaks: scan number, MS level, retention time, polarity, precursor m/z and charge, isolation window, activation, collision energy, filter, stored TIC; filtered and paged, and every match counted (matched, ms_level_counts). IR, Raman, UV-Vis and NMR spectra are traces: openreadout_trace."
     )]
@@ -136,7 +136,7 @@ impl InstrumentServer {
 
     #[tool(
         name = "openreadout_spectrum",
-        annotations(title = "One mass spectrum", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Read a mass spectrum", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<SpectrumOutput>(),
         description = "One mass spectrum, picked by retention time (rt, minutes: the scan nearest it), scan number or zero-based spectrum index: metadata, peaks[] (the most intense, with charge from the isotope spacing and neutral mass) and mz[]/intensity[]."
     )]
