@@ -33,6 +33,7 @@
 #![warn(missing_docs)]
 
 mod app;
+mod budget;
 mod coerce;
 #[cfg(feature = "http")]
 mod http;
@@ -203,6 +204,7 @@ impl ServerHandler for InstrumentServer {
             .then(|| app::view_hint(&request.name, request.arguments.as_ref()))
             .flatten();
         let name = request.name.clone();
+        let max_chars = budget::max_chars(&name, request.arguments.as_ref());
         let tcc = rmcp::handler::server::tool::ToolCallContext::new(self, request, context);
         let mut response = match coerce::with_argument_hint(
             self.tool_router.call(tcc).await,
@@ -211,8 +213,11 @@ impl ServerHandler for InstrumentServer {
             Err(e) if self.tool_router.get(&name).is_some() => error_result(e).into(),
             r => r?,
         };
-        if let (Some(hint), CallToolResponse::Complete(result)) = (hint, &mut response) {
-            app::attach_hint(result, hint);
+        if let CallToolResponse::Complete(result) = &mut response {
+            budget::fit(result, &name, max_chars);
+            if let Some(hint) = hint {
+                app::attach_hint(result, hint);
+            }
         }
         Ok(response)
     }
