@@ -31,7 +31,7 @@ pub fn max_chars(tool: &str, args: Option<&serde_json::Map<String, Value>>) -> u
 const KEEP_WHOLE: usize = 12;
 
 /// Room kept for the note [`fit`] adds.
-const NOTE_ROOM: usize = 1_000;
+const NOTE_ROOM: usize = 3_000;
 
 /// Cut `result` to `max` characters of text when it is longer, and add a note on what was cut.
 /// Every text block counts: the JSON and any block beside it.
@@ -84,7 +84,7 @@ pub fn fit(result: &mut CallToolResult, tool: &str, max: usize) {
                 .iter()
                 .map(|(path, kept, of)| format!("{path} kept {kept} of {of}"))
                 .collect();
-            said.push(format!("its longest lists were cut: {}", l.join("; ")));
+            said.push(format!("its longest lists were cut: {}", listed(&l)));
         }
         let parts = prune(v, room);
         if !parts.is_empty() {
@@ -92,7 +92,7 @@ pub fn fit(result: &mut CallToolResult, tool: &str, max: usize) {
                 .iter()
                 .map(|(path, n)| format!("{path} ({n} characters)"))
                 .collect();
-            said.push(format!("these parts were left out: {}", p.join("; ")));
+            said.push(format!("these parts were left out: {}", listed(&p)));
         }
         let after = v.to_string();
         for c in &mut result.content {
@@ -111,6 +111,21 @@ pub fn fit(result: &mut CallToolResult, tool: &str, max: usize) {
     )));
 }
 
+/// The first few items of a list for the note, and how many more there are.
+fn listed(items: &[String]) -> String {
+    const SHOWN: usize = 8;
+    let mut s = items
+        .iter()
+        .take(SHOWN)
+        .cloned()
+        .collect::<Vec<_>>()
+        .join("; ");
+    if items.len() > SHOWN {
+        s.push_str(&format!(" and {} more", items.len() - SHOWN));
+    }
+    s
+}
+
 /// What stands in for a text block left out.
 fn left_out_block(tool: &str, n: usize, max: usize) -> String {
     if tool == "openreadout_preview" {
@@ -124,9 +139,9 @@ fn left_out_block(tool: &str, n: usize, max: usize) -> String {
     }
 }
 
-/// Leave out the largest parts of `v` until it serializes to at most `budget` characters: the
-/// smallest single part whose removal is enough, else the largest part, each time. A long
-/// string is shortened rather than removed. Returns each part left out, as (JSON pointer, its
+/// Leave out the largest parts of `v` until it serializes to at most `budget` characters, each
+/// time the largest part of the smallest part that holds the excess, so its smaller siblings
+/// stay. A long string is shortened rather than removed. Returns each part left out, as (JSON pointer, its
 /// size in characters).
 fn prune(v: &mut Value, budget: usize) -> Vec<(String, usize)> {
     let mut out = Vec::new();
@@ -139,21 +154,17 @@ fn prune(v: &mut Value, budget: usize) -> Vec<(String, usize)> {
         let mut path: Vec<PathPart> = Vec::new();
         let mut cur: &Value = v;
         let mut target: Option<(Vec<PathPart>, usize)> = None;
-        // go down while one child alone is enough to remove
+        // go down the largest parts while one alone is enough to leave out; then leave out the
+        // largest part at that level (the next round looks again if that was not enough)
         loop {
             let Some((part, child, n)) = largest_child(cur) else {
                 break;
             };
             path.push(part);
+            target = Some((path.clone(), n));
             if n < over + 64 {
-                // no single part is enough: take the largest one (at the top level only, so
-                // the next round can look again)
-                if target.is_none() {
-                    target = Some((path.clone(), n));
-                }
                 break;
             }
-            target = Some((path.clone(), n));
             cur = child;
         }
         let Some((path, n)) = target else {
