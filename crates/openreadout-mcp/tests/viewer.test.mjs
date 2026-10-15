@@ -58,12 +58,115 @@ test("events decode from little-endian float32", () => {
 });
 
 test("colour scales and display transforms", () => {
-  assert.deepEqual(v.viridis(0), [68, 1, 84]);
-  assert.deepEqual(v.viridis(1), [253, 231, 37]);
-  assert.deepEqual(v.viridis(NaN), [68, 1, 84]);
+  const seq = v.THEMES.light.seq;
+  assert.deepEqual(v.ramp(seq, 0), v.hexRgb(seq[0]));
+  assert.deepEqual(v.ramp(seq, 1), v.hexRgb(seq[seq.length - 1]));
+  assert.deepEqual(v.ramp(seq, NaN), v.hexRgb(seq[0]));
   assert.ok(Number.isNaN(v.scaleFn("log")(-1)));
   assert.equal(v.scaleFn("arcsinh")(0), 0);
+  for (const s of ["log", "arcsinh", "linear"]) assert.ok(Math.abs(v.scaleInv(s)(v.scaleFn(s)(1234)) - 1234) < 1e-6, s);
   assert.equal(v.percentile([5, 1, 3, NaN], 50), 3);
+});
+
+test("transformed axes get ticks at round data values", () => {
+  const f = v.scaleFn("arcsinh");
+  const t = v.scaleTicks("arcsinh", f(-500), f(50000), 5);
+  assert.deepEqual(t.map((x) => x.label), ["−10²", "0", "10²", "10³", "10⁴"]);
+  assert.ok(t.every((x) => x.at >= f(-500) && x.at <= f(50000)));
+  assert.deepEqual(v.scaleTicks("log", 0, 3, 4).map((x) => x.label), ["10⁰", "10¹", "10²", "10³"]);
+  assert.deepEqual(v.scaleTicks("linear", 0, 10, 5).map((x) => x.at), [0, 2, 4, 6, 8, 10]);
+});
+
+test("units read naturally", () => {
+  assert.equal(v.fmtLength(0.22), "220 nm");
+  assert.equal(v.fmtLength(33), "33 µm");
+  assert.equal(v.fmtLength(5000), "5 mm");
+  assert.equal(v.fmtInt(41877.4), "41,877");
+  assert.equal(v.timeUnit(18 * 3600).unit, "h");
+  assert.equal(v.timeUnit(600).unit, "min");
+  assert.equal(v.timeUnit(30).unit, "s");
+});
+
+test("wells: names, parsing and the spec the plate tools take", () => {
+  assert.equal(v.wellName(0, 0), "A1");
+  assert.equal(v.wellName(7, 11), "H12");
+  assert.equal(v.wellName(27, 47), "AB48");
+  assert.deepEqual(v.parseWell("b07"), [1, 6]);
+  assert.deepEqual(v.parseWell("AB48"), [27, 47]);
+  assert.equal(v.parseWell("FSC-A"), null);
+  assert.equal(v.wellSpec([[0, 0], [0, 1], [1, 0], [1, 1]]), "A1:B2");
+  assert.equal(v.wellSpec([[2, 3], [0, 0]]), "A1,C4");
+  assert.equal(v.wellSpec([[5, 4]]), "F5");
+});
+
+test("plates are coloured by the smallest useful layout map", () => {
+  const groups = {
+    Sample: { A1: "s1", A2: "s2", A3: "s3", A4: "s4" },
+    Group: { A1: "phage", A2: "phage", A3: "none", A4: "Blank" },
+    Single: { A1: "x", A2: "x" },
+  };
+  assert.equal(v.defaultGroupMap(groups), "Group");
+  assert.equal(v.defaultGroupMap({}), null);
+  assert.ok(v.isBlankGroup("Blank") && v.isBlankGroup(" BL ") && !v.isBlankGroup("lambda"));
+  assert.equal(v.seriesGroup("B3 GAPDH"), "GAPDH");
+  assert.equal(v.seriesGroup("IN 0"), null);
+});
+
+test("annotations come in one shape whatever the spelling", () => {
+  const a = v.normalizeAnnotations([
+    { kind: "point", x: 10, y: 20, label: "Purkinje cells" },
+    { type: "box", region: { x: 1, y: 2, width: 30, height: 40 }, label: "fold" },
+    { kind: "rect", x0: 50, y0: 60, x1: 40, y1: 80 },
+    { kind: "polygon", points: [[0, 0], [10, 0], [5, 5]] },
+    { kind: "arrow", from: [0, 0], to: [5, 5], label: "here" },
+    { kind: "band", x_range: [8.6, 7.4], label: "came back" },
+    { kind: "hline", y: -60 },
+    { kind: "vline", at: 3 },
+    { kind: "text", at: [1, 2], text: "note" },
+    { kind: "point", wells: ["B3", "C4"], label: "outliers" },
+    { kind: "unknown", x: 1 },
+    { kind: "point", x: "nope" },
+    null,
+  ]);
+  assert.deepEqual(a.map((x) => x.kind), ["point", "box", "box", "polygon", "line", "band", "hline", "vline", "text", "wells"]);
+  assert.deepEqual([a[1].x, a[1].y, a[1].w, a[1].h], [1, 2, 30, 40]);
+  assert.deepEqual([a[2].x, a[2].y, a[2].w, a[2].h], [40, 60, 10, 20]);
+  assert.equal(a[4].arrow, true);
+  assert.deepEqual([a[5].x0, a[5].x1], [7.4, 8.6]);
+  assert.equal(a[8].label, "note");
+  assert.deepEqual(a[9].wells, [[1, 2], [2, 3]]);
+  assert.deepEqual(v.normalizeAnnotations("nope"), []);
+});
+
+test("labels do not overlap and stay inside", () => {
+  const bounds = { x: 0, y: 0, w: 300, h: 200 };
+  const items = [0, 1, 2, 3].map(() => ({ ax: 150, ay: 100, w: 80, h: 20 }));
+  const out = v.placeLabels(items, bounds, []);
+  for (let i = 0; i < out.length; i++) {
+    const r = Object.assign({}, out[i], { w: 80, h: 20 });
+    assert.ok(r.x >= 0 && r.y >= 0 && r.x + r.w <= 300 && r.y + r.h <= 200, JSON.stringify(r));
+    for (let j = 0; j < i; j++) {
+      const q = out[j];
+      assert.ok(!(r.x < q.x + 80 && r.x + 80 > q.x && r.y < q.y + 20 && r.y + 20 > q.y), `${i} overlaps ${j}`);
+    }
+  }
+  // a label near the edge is kept inside
+  const [p] = v.placeLabels([{ ax: 295, ay: 2, w: 80, h: 20 }], bounds, []);
+  assert.ok(p.x + 80 <= 300 && p.y >= 0);
+});
+
+test("the camera zooms smoothly and keeps the canvas shape", () => {
+  const a = { x: 0, y: 0, w: 1000, h: 500 }, b = { x: 400, y: 200, w: 10, h: 5 };
+  assert.deepEqual(v.lerpRect(a, b, 0), a);
+  const end = v.lerpRect(a, b, 1);
+  assert.ok(Math.abs(end.w - 10) < 1e-9 && Math.abs(end.x - 400) < 1e-9);
+  // halfway in time is halfway in zoom steps (geometric), not in width
+  const mid = v.lerpRect(a, b, 0.5);
+  assert.ok(Math.abs(mid.w - 100) < 1e-6, String(mid.w));
+  const f = v.fitAspect({ x: 10, y: 10, w: 100, h: 100 }, 2);
+  assert.deepEqual(f, { x: -40, y: 10, w: 200, h: 100 });
+  assert.equal(v.ease(0), 0);
+  assert.equal(v.ease(1), 1);
 });
 
 test("the viewer starts from the result's hint, else the tool's file", () => {

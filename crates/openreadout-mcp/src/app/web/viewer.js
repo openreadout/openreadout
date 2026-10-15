@@ -382,6 +382,16 @@ function seriesGroup(name) {
   return m ? m[1].trim() : null;
 }
 
+/** Wells as the plate tools take them: `A1:B3` for a full rectangle, else `A1,B2,C7`. */
+function wellSpec(wells) {
+  if (!wells.length) return "";
+  const rs = wells.map((w) => w[0]), cs = wells.map((w) => w[1]);
+  const r0 = Math.min(...rs), r1 = Math.max(...rs), c0 = Math.min(...cs), c1 = Math.max(...cs);
+  const uniq = new Set(wells.map(([r, c]) => r * 1000 + c));
+  if (wells.length > 1 && uniq.size === (r1 - r0 + 1) * (c1 - c0 + 1)) return `${wellName(r0, c0)}:${wellName(r1, c1)}`;
+  return [...uniq].sort((a, b) => a - b).map((k) => wellName(Math.floor(k / 1000), k % 1000)).join(",");
+}
+
 /** Arguments of an MCP tool call, as the model would write it. */
 function callText(tool, args) {
   return `${tool} ${JSON.stringify(args)}`;
@@ -860,7 +870,8 @@ function main() {
       }).filter(Boolean);
       if (vals.length && vals.length <= 24) what += `; ${pl.kinetic ? "at " + fmtTime(kinTime()) : "values"}: ${vals.join(", ")}`;
       data.wells = names;
-      if (pl.kinetic) calls.push(callText("openreadout_growth", { file, wells: names }), callText("openreadout_kinetics", { file, wells: names }));
+      const spec = wellSpec(sel.wells);
+      if (pl.kinetic) calls.push(callText("openreadout_growth", { file, wells: spec }), callText("openreadout_kinetics", { file, wells: spec }));
       else calls.push(callText("openreadout_table", { file, table: pl.table }));
     } else if (sel.kind === "gate") {
       const ev = d.events;
@@ -2647,7 +2658,11 @@ function main() {
       }
       const span = `${fmtTime(kinTime())} of ${fmtTime(k.time_s[k.n - 1])}` + (k.unit ? ` · ${k.unit}` : "") + (k.wavelength_nm ? ` at ${fmt(k.wavelength_nm, 4)} nm` : "");
       txt(span, ox, oy + pl.rows * ch + 13, { size: 11, color: c.muted });
-      txt(`0 – ${fmt(k.hi, 3)}${k.unit ? " " + k.unit : ""} in every well`, ox + gw, oy + pl.rows * ch + 13, { size: 11, color: c.faintText, align: "right", mono: true });
+      const scale = `0 – ${fmt(k.hi, 3)}${k.unit ? " " + k.unit : ""} in every well`;
+      g.font = font(11, 400);
+      const used = g.measureText(span).width;
+      g.font = font(11, 400, true);
+      if (used + g.measureText(scale).width + 24 < gw) txt(scale, ox + gw, oy + pl.rows * ch + 13, { size: 11, color: c.faintText, align: "right", mono: true });
     } else {
       // heat map: a value per well (the scrubbed time for kinetic plates)
       let lo = Infinity, hi = -Infinity;
@@ -3025,6 +3040,7 @@ function main() {
     const img = await decode(im).catch(() => null);
     if (!img) { overlay("Could not decode the figure.", true); return; }
     S.data = { view: "figure" };
+    S.args = {};
     S.fig = { img, data: figurePanels(data, img), zoom: null };
     S.img = null;
     S.sel = null;
@@ -3099,9 +3115,12 @@ function main() {
       const Y = (v) => a.y + (1 - (fy(v) - ya) / (yb - ya)) * a.h;
       // nearest point of any series, in picture pixels
       let best = null;
+      const z = F.zoom;
       for (const s of p.series) {
         for (let i = 0; i < s.x.length; i++) {
-          const dx = X(s.x[i]) - ix, dy = Y(s.y[i]) - iy;
+          const qx = X(s.x[i]), qy = Y(s.y[i]);
+          if (z && (qx < z.x || qx > z.x + z.w || qy < z.y || qy > z.y + z.h)) continue;
+          const dx = qx - ix, dy = qy - iy;
           const d = dx * dx * 1 + dy * dy * 0.25;
           if (!best || d < best.d) best = { d, s, i, cx: X(s.x[i]), cy: Y(s.y[i]) };
         }
@@ -3577,7 +3596,7 @@ if (typeof module !== "undefined" && module.exports) {
     niceTicks, niceBelow, fmt, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, plotXs, sampleWindow,
     f32FromBase64, bytesFromBase64, scaleFn, scaleInv, scaleTicks, percentile, hintFrom, wellName, parseWell,
     normalizeAnnotations, placeLabels, ease, lerpRect, fitAspect, defaultGroupMap, isBlankGroup, seriesGroup,
-    callText, THEMES,
+    callText, wellSpec, THEMES,
   };
 } else {
   main();
