@@ -238,11 +238,11 @@ mod tests {
     #[test]
     fn finds_prominent_peaks() {
         // peaks on a quiet baseline
-        let mut ys = vec![0.0; 40];
-        ys[1] = 1.0;
-        ys[4] = 5.0;
-        ys[7] = 0.3;
-        ys[9] = 3.0;
+        let mut ys = vec![0.0; 120];
+        ys[10] = 1.0;
+        ys[40] = 5.0;
+        ys[70] = 0.3;
+        ys[100] = 3.0;
         for (i, y) in ys.iter_mut().enumerate() {
             *y += 0.001 * (i % 3) as f64;
         }
@@ -251,9 +251,9 @@ mod tests {
             .enumerate()
             .map(|(i, &v)| Some(Col::new(i as f64, v)))
             .collect();
-        assert_eq!(prominent(&cols, 2, 1, 0.1), vec![4, 9]);
-        assert_eq!(prominent(&cols, 5, 1, 0.1), vec![4, 9, 1]);
-        assert_eq!(prominent(&cols, 5, 6, 0.1), vec![4]);
+        assert_eq!(prominent(&cols, 2, 1, 0.1), vec![40, 100]);
+        assert_eq!(prominent(&cols, 5, 1, 0.1), vec![40, 100, 10]);
+        assert_eq!(prominent(&cols, 5, 65, 0.1), vec![40]);
         // spiky noise with one spike twice its size: nothing stands out enough to label
         let noisy: Vec<Option<Col>> = (0..60)
             .map(|i| {
