@@ -643,7 +643,12 @@ mod tests {
         .unwrap();
         let w = crate::tools::export::export_blocking(synth_registry, a, None).unwrap();
         assert_eq!(w["drawn"], "image");
-        assert_eq!(w["width"], v["width"].as_u64().unwrap() * 2);
+        // the image is read again at twice max_size (whole downsampling steps, so about twice)
+        let (saved, seen) = (w["width"].as_u64().unwrap(), v["width"].as_u64().unwrap());
+        assert!(
+            saved > seen * 3 / 2 && saved <= seen * 2 + 2,
+            "{saved} vs {seen}"
+        );
         let png = std::fs::read(&out).unwrap();
         assert!(png.starts_with(b"\x89PNG") && png.windows(4).any(|x| x == b"pHYs"));
         // unknown preview arguments are refused, not ignored

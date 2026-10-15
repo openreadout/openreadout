@@ -143,7 +143,7 @@ Compression, chunk size, pyramid levels and vendor metadata embedding are comman
 ```
 
 - `output`: `.png`, `.jpg`, `.tiff`, `.svg` or `.pdf`. The default is `<data file stem>.figure.png` (plots) or `<stem>.preview.png` (previews) next to the data. `output` and `overwrite` given inside `plot` or `preview` are used too.
-- `scale`: pixels per figure pixel in PNG, JPEG and TIFF files (default 2, at most 8). Text, lines and marks are drawn again at that size; image data keeps the detail of the preview's `max_size` (here up to 8192).
+- `scale`: pixels per figure pixel in PNG, JPEG and TIFF files (default 2, at most 8). Plots are drawn again at that size. An image preview is read again at `max_size` × `scale` (at most 8192), so the saved picture has real pixels, not enlarged ones; at the default 768 × 2 it looks the same as the picture the agent saw.
 - `dpi`: the print resolution. PNG, JPEG and TIFF files record it; SVG and PDF pages get the size the raster would print at. The result's `print_size_in` is that size in inches.
 
 The result is the written file (`path`, `format`, `width`, `height`, `bytes`, `verified`), what was drawn (`drawn`: `plot`, or the preview's kind) and the drawing's notes and warnings.

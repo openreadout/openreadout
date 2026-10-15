@@ -114,7 +114,8 @@ impl Default for SaveOptions {
 }
 
 impl SaveOptions {
-    fn check(&self) -> Result<()> {
+    /// Refuse a scale or dpi out of range.
+    pub fn check(&self) -> Result<()> {
         if !(self.scale.is_finite() && (0.25..=MAX_SCALE).contains(&self.scale)) {
             return Err(Error::Usage(format!(
                 "scale {} is out of range: use 0.25 to {MAX_SCALE} (2 is the default; for print, give dpi as well)",

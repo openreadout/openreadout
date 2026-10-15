@@ -24,7 +24,8 @@ pub struct ExportArgs {
     /// annotations, marks, dark, …); max_size up to 8192.
     #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
     pub preview: Option<serde_json::Value>,
-    /// Figures: pixels per figure pixel in .png, .jpg and .tiff files (default 2, up to 8).
+    /// Figures: pixels per figure pixel in .png, .jpg and .tiff files (default 2, up to 8);
+    /// image previews are read again at max_size × scale.
     pub scale: Option<f32>,
     /// Figures: print resolution (e.g. 300), recorded in .png, .jpg and .tiff files; .svg and
     /// .pdf pages get the size the raster would print at.
@@ -176,11 +177,13 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<serde_json
     }
     let mut output = a.output.clone();
     let mut overwrite = a.overwrite;
-    let opts = |overwrite: bool| openreadout_plot::SaveOptions {
-        scale: a.scale.unwrap_or(openreadout_plot::DEFAULT_SCALE),
+    let mut scale = a.scale.unwrap_or(openreadout_plot::DEFAULT_SCALE);
+    let opts = |scale: f32, overwrite: bool| openreadout_plot::SaveOptions {
+        scale,
         dpi: a.dpi,
         overwrite,
     };
+    opts(scale, false).check().map_err(|e| mcp_err(&e))?;
     // the file format: from `output`, else `format`, else PNG
     let named = a
         .format
@@ -223,7 +226,18 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<serde_json
             }
             let args: super::preview::PreviewArgs =
                 serde_json::from_value(v).map_err(|e| usage(format!("preview: {e}")))?;
-            let r = super::preview::render(registry, &args, openreadout_preview::MAX_PREVIEW_SIZE)?;
+            let max = openreadout_preview::MAX_PREVIEW_SIZE;
+            let mut r = super::preview::render(registry, &args, max)?;
+            if r.output.kind == "image" && (scale - 1.0).abs() > f32::EPSILON {
+                // read the image again at the size it is saved at, so its pixels are real
+                let size = args
+                    .max_size
+                    .unwrap_or(super::preview::DEFAULT_MCP_PREVIEW_SIZE);
+                let mut big = args.clone();
+                big.max_size = Some(((size as f32 * scale).round() as u32).clamp(16, max));
+                r = super::preview::render(registry, &big, max)?;
+                scale = 1.0;
+            }
             let path = super::preview::default_figure_path(&args.file);
             (r.figure, path, r.output.kind, r.output.notes, Vec::new())
         }
@@ -243,8 +257,8 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<serde_json
             }
         }
     };
-    let written =
-        openreadout_plot::write(&figure, &path, &opts(overwrite)).map_err(|e| mcp_err(&e))?;
+    let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite))
+        .map_err(|e| mcp_err(&e))?;
     to_value(&FigureExport {
         written,
         drawn,

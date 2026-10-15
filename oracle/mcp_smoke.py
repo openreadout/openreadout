@@ -1008,6 +1008,12 @@ def per_file(c, path, tmp, called):
         img = [x for x in r["result"]["content"] if x["type"] == "image"]
         check(len(img) == 1 and fig["panels"], f"plot: {len(img)} images, {fig.get('panels')}")
         check_image(img[0]["data"], img[0]["mimeType"], "plot")
+        # plot only draws; openreadout_export saves the same figure
+        check("openreadout_export" in (fig.get("save") or ""), "plot: no save line")
+        out = os.path.join(tmp, base + ".figure.pdf")
+        w = result_json(call("openreadout_export", {"plot": {"data": {"file": path}, "title": "smoke"},
+                                                   "output": out, "overwrite": True})[0], "export plot")
+        check(w["verified"] and w["format"] == "pdf" and os.path.exists(out), f"export plot: {w}")
         fam = info["format"]["family"]
         if fam == "chromatography":
             ch = result_json(analyze("chromatogram", traces=[0])[0], "chromatogram")

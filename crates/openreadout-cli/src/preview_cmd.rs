@@ -104,8 +104,8 @@ pub struct PreviewArgs {
     /// Draw in the dark theme.
     #[arg(long)]
     pub dark: bool,
-    /// Draw the picture again at this many pixels per preview pixel (0.25 to 8): sharp text
-    /// and marks for print. Image data keeps the detail of `--max-size`.
+    /// Pixels per preview pixel (0.25 to 8): plots are drawn again at that size, images are
+    /// read again at `--max-size` × scale, so text, marks and pixels stay sharp in print.
     #[arg(long)]
     pub scale: Option<f32>,
     /// Print resolution: recorded in .png, .jpg and .tiff files; the page size of .svg and .pdf.
@@ -216,7 +216,21 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
     let info = ds.info()?;
     let rendered = render(ds.as_mut(), &info, &req)?;
     if figure_file {
-        return save_figure(a, &rendered).map(|o| (o, None));
+        let scale = a.scale.unwrap_or(1.0);
+        let check = openreadout_plot::SaveOptions {
+            scale,
+            ..openreadout_plot::SaveOptions::default()
+        };
+        check.check()?;
+        if rendered.output.kind == "image" && (scale - 1.0).abs() > f32::EPSILON {
+            // read the image again at the size it is saved at, so its pixels are real
+            let mut big = req.clone();
+            big.max_size = ((req.max_size as f32 * scale).round() as u32)
+                .clamp(16, openreadout_preview::MAX_PREVIEW_SIZE);
+            let r = render(ds.as_mut(), &info, &big)?;
+            return save_figure(a, &r, 1.0).map(|o| (o, None));
+        }
+        return save_figure(a, &rendered, scale).map(|o| (o, None));
     }
     let (mut out, bytes) = finish(&rendered, encoding, a.quality)?;
     if to_stdout {
@@ -233,7 +247,11 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
 }
 
 /// Write the preview through the figure writer: TIFF and PDF, a pixel scale, a print resolution.
-fn save_figure(a: &PreviewArgs, r: &openreadout_preview::Rendered) -> Result<PreviewOutput> {
+fn save_figure(
+    a: &PreviewArgs,
+    r: &openreadout_preview::Rendered,
+    scale: f32,
+) -> Result<PreviewOutput> {
     let output = a
         .output
         .clone()
@@ -246,7 +264,7 @@ fn save_figure(a: &PreviewArgs, r: &openreadout_preview::Rendered) -> Result<Pre
         ));
     }
     let opts = openreadout_plot::SaveOptions {
-        scale: a.scale.unwrap_or(1.0),
+        scale,
         dpi: a.dpi,
         overwrite: a.overwrite,
     };
