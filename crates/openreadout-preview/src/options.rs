@@ -3,6 +3,7 @@
 //! MCP tool on every name and default.
 
 use openreadout_core::{Error, Region, Result};
+use schemars::JsonSchema;
 use serde::{Deserialize, Deserializer};
 
 use crate::{Annotation, Axes, Axis, Contrast, Lut, Marks, PreviewRequest};
@@ -23,57 +24,68 @@ fn one_or_many<'de, D: Deserializer<'de>>(d: D) -> std::result::Result<Vec<Strin
 }
 
 /// Preview options by name. Every field is optional; [`PreviewOptions::request`] fills in the
-/// defaults.
-#[derive(Debug, Clone, Default, Deserialize)]
+/// defaults. The MCP tool `openreadout_preview` takes these fields as its arguments, so their
+/// documentation is also what an agent reads.
+#[derive(Debug, Clone, Default, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct PreviewOptions {
-    /// Image index.
+    /// Image index (default 0).
     pub image: Option<u32>,
-    /// Plane selection (`c=1`, `z=4`, or combined `c=0,1,z=2`).
+    /// Plane selection such as `c=1`, `z=4`, `t=0` or combined `c=0,1,z=2`. Default: c=0, the
+    /// middle z, t=0. Several channels imply a composite.
     #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub select: Vec<String>,
-    /// Maximum-intensity projection axis.
+    /// Maximum-intensity projection, over the selected range if any.
     pub mip: Option<Axis>,
-    /// Blend the channels in their colours.
+    /// Blend all (or the selected) channels additively in their colours.
     #[serde(default)]
     pub composite: bool,
-    /// Pyramid level.
+    /// Pyramid level to read (default: the level nearest max_size, or the level at which
+    /// `region` renders at about max_size).
     pub level: Option<u32>,
-    /// Only this rectangle, `{x, y, width, height}`.
+    /// Zoom: only this rectangle, `{x, y, width, height}` in full-resolution pixels (or in the
+    /// pixels of `level` when a level is given). Whole-slide images: look at the overview
+    /// first, then at regions of it.
     pub region: Option<Region>,
-    /// Longest side in pixels.
+    /// Longest side in pixels, rulers included (MCP: default 768, at most 2048).
     pub max_size: Option<u32>,
-    /// What frames an image (`rulers`, `grid`, `none`).
+    /// Image previews: what frames the picture.
     pub axes: Option<Axes>,
-    /// `auto`, `min-max`, `percentile:LO,HI` or `raw`.
+    /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
     pub contrast: Option<String>,
-    /// Colour lookup of one channel.
+    /// Colour lookup. Default: gray for one channel, channel colours for composites.
     pub lut: Option<Lut>,
-    /// Trace index.
+    /// Trace preview: trace index (see openreadout_info traces[]).
     pub trace: Option<u32>,
-    /// Sweep index.
+    /// Trace preview: sweep index.
     pub sweep: Option<u32>,
-    /// Trace channel indices.
+    /// Trace preview: channel indices (default: the first 8).
     #[serde(default)]
     pub channels: Vec<u32>,
-    /// Spectrum run index.
+    /// Spectrum preview: run index.
     pub run: Option<u32>,
-    /// Zero-based spectrum index.
+    /// Spectrum preview: zero-based spectrum index.
     pub spectrum: Option<u64>,
-    /// Instrument scan number.
+    /// Spectrum preview: instrument scan number instead of an index.
     pub scan: Option<u64>,
-    /// The instrument's centroid list.
+    /// Spectrum preview: the instrument's centroid list instead of the profile.
     #[serde(default)]
     pub centroid: bool,
-    /// Table index (plates, flow cytometry).
+    /// Plate or flow-cytometry preview: table index.
     pub table: Option<u32>,
-    /// Table columns: a plate's value column, or the parameters of an event plot.
+    /// Table columns: a plate's value column, or the x and y parameters of a flow-cytometry
+    /// density plot (one gives a histogram; default FSC-A, SSC-A).
     #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub columns: Vec<String>,
-    /// Marks from the data.
+    /// Marks from the data. Default auto: the prominent peaks of spectra and chromatograms are
+    /// labelled.
     pub marks: Option<Marks>,
-    /// The caller's own marks.
+    /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
+    /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
+    /// units on plots, wells on plates.
     #[serde(default)]
     pub annotations: Vec<Annotation>,
     /// Draw in the dark theme.

@@ -8,8 +8,8 @@
    "title": "Labelled layers in a whole-slide scan",
    "caption": "One fold of the cerebellum in a 3.7 GB slide scan of a young mouse, read as a 1,200 × 900 pixel region. The rulers are file pixels, so an agent can read coordinates off the picture and put its labels where it sees the layers.",
    "img": "img/gallery/slide-fold.png",
-   "width": 1344,
-   "height": 994,
+   "width": 1400,
+   "height": 1036,
    "commands": [
     "openreadout preview zenodo10577621-Young-mouse.czi --region 43300,13300,1200,900 --level 0 --max-size 1400 --annotate '[{\"type\":\"point\",\"x\":43504,\"y\":13570,\"label\":\"Immature granule cells\"},{\"type\":\"point\",\"x\":43540,\"y\":13795,\"label\":\"Molecular layer\"},{\"type\":\"point\",\"x\":43996,\"y\":13921,\"label\":\"Purkinje cells\"},{\"type\":\"point\",\"x\":44140,\"y\":14074,\"label\":\"Granular layer\"}]' -o slide-fold.png"
    ]

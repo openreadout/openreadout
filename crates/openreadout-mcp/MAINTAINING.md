@@ -17,6 +17,7 @@ The viewer is an MCP App (the `io.modelcontextprotocol/ui` extension, spec at gi
 | `src/app/mod.rs` | capability check, tool `_meta`, the `ui://` resource, the table of tools with a viewer (`TOOL_VIEWS`), the result hint, the file extensions offered to hosts with file entrypoints |
 | `src/app/view.rs` | `openreadout_view`: what each view returns, and the size caps |
 | `src/app/web/viewer.html`, `viewer.css`, `viewer.js` | the page, assembled into one HTML document at compile time |
+| `src/app/web/theme.json` | the figure engine's colour tokens, light and dark, and the blank labels of the category rule (generated; see the rules for the page) |
 | `src/app/web/fonts/` | subsets of IBM Plex Sans and Mono for the data labels (SIL OFL, renamed OpenReadout Sans and Mono as the licence asks of modified fonts) |
 | `src/app/tests.rs` | unit tests and a scripted MCP session over a byte stream |
 | `tests/viewer.test.mjs` | Node tests of the page's helpers |
@@ -38,7 +39,7 @@ The viewer is an MCP App (the `io.modelcontextprotocol/ui` extension, spec at gi
                         series: [{name, x: [...], y: [...]}] }] }
    ```
 
-   A one-panel figure may put `area`, `x`, `y` and `series` at the top level.
+   A one-panel figure may put `area`, `x`, `y` and `series` at the top level. When the page can call tools it draws the figure again with `openreadout_view {view: "figure", spec, dark, width, scale, x_range?}`: the tool's own arguments (`spec`, without `output`, so nothing is written) in the host's theme, at the canvas width and pixel density, and over a dragged x range when the figure is a single plot. Larger figures fall back to enlarging the picture.
 
 ### What the user sends back
 
@@ -59,13 +60,13 @@ Rules for the page:
 - Load nothing from outside the page. MCP Apps hosts apply a CSP with no external origins unless the resource declares them, and rule 5 (no network) applies to the page too. `the_page_is_self_contained` fails on `http://`, `https://`, `<link`, `fetch(` or `import(` in the assembled HTML.
 - Use the host's CSS variables (`--color-*`, `--font-*`) with the fallbacks in `viewer.css`. Hosts send colours as `light-dark(…)`, which a canvas cannot parse; `colors()` in `viewer.js` resolves each one through a hidden element.
 - Keep the pure helpers (ticks, number formatting, axis arithmetic, decoding, annotation shapes, label placement, camera paths, well specs) at the top of `viewer.js` and exported for `tests/viewer.test.mjs`.
-- Draw data in the OpenReadout look (`THEMES` in `viewer.js`, the same colours as `openreadout-figure`): ink and a warm red accent, quiet axes with the unit after the last tick, direct labels instead of legends. Chrome colours come from the host.
+- Draw data in the OpenReadout look: ink and a warm red accent, quiet axes with the unit after the last tick, direct labels instead of legends. Chrome colours come from the host. The data colours are `openreadout-figure`'s `Theme`, written to `web/theme.json` (`Theme::tokens_json`); `html()` puts the file in place of `/*TOKENS*/null`, and the Node tests read it directly. The test `viewer_colours_are_the_figure_engines` rewrites the file when the theme changes and fails once: commit the new file. Categories (plate groups, populations, qPCR targets) are coloured by `categoryColors`, the figure engine's `category_colors` rule, so a plate looks the same in a preview, a plot and the viewer. Tick labels (`fmtTick`) and direct labels (`spreadLabels`) follow the figure engine's `format_tick` and `end_labels`.
 - The page draws everything but the pointer's overlays (hover, selection, popovers) into an offscreen canvas once; moving the pointer copies it back and draws the overlays, so hover stays cheap on 50,000 events or a 384-well plate of curves.
 - No `<form>`: sandboxed frames without `allow-forms` block form submission.
 
 ### Size caps
 
-`openreadout_view` keeps each result small enough for a `postMessage` round trip: pictures at most `MAX_IMAGE_SIZE` px and the preview byte budget (`resources::PREVIEW_BUDGET`), plots at most `MAX_POINTS` points per series (signals longer than that become a min/max envelope, so single-sample spikes survive), at most `MAX_CHANNELS` stacked channels or `MAX_OVERLAY_CHANNELS` overlaid ones (qPCR wells) sharing `MAX_PLOT_VALUES` points, `MAX_SAMPLES_READ` samples read per channel, `MAX_EVENTS` flow-cytometry events (float32, base64; with gating, the first `MAX_GATED_READ` events are gated and sampled), `MAX_PEAKS` peak markers, and `MAX_TIME_POINTS` time points per well of a kinetic plate (float32, base64). Each result reports what it reduced in `limits` and `notes`. The smoke test (`oracle/mcp_smoke.py`) checks the picture and point caps over every file it reads.
+`openreadout_view` keeps each result small enough for a `postMessage` round trip: pictures at most `MAX_IMAGE_SIZE` px and the preview byte budget (`resources::PREVIEW_BUDGET`), plots at most `MAX_POINTS` points per series (signals longer than that become a min/max envelope, so single-sample spikes survive), at most `MAX_CHANNELS` stacked channels or `MAX_OVERLAY_CHANNELS` overlaid ones (qPCR wells) sharing `MAX_PLOT_VALUES` points, `MAX_SAMPLES_READ` samples read per channel, `MAX_EVENTS` flow-cytometry events (float32, base64; with gating, every event of files up to `MAX_GATED_READ` is gated in chunks of `GATED_CHUNK`, larger files in `GATED_WINDOWS` windows spread over the run), `MAX_PEAKS` peak markers, and `MAX_TIME_POINTS` time points per well of a kinetic plate (float32, base64). Each result reports what it reduced in `limits` and `notes`. The smoke test (`oracle/mcp_smoke.py`) checks the picture and point caps over every file it reads.
 
 ### Testing
 

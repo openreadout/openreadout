@@ -40,12 +40,23 @@ pub const MAX_SAMPLES_READ: u64 = 20_000_000;
 pub const MAX_EVENTS: u64 = 50_000;
 /// Events sampled when the viewer does not ask.
 pub const DEFAULT_EVENTS: u64 = 10_000;
-/// Most events read and gated for a population view (the first ones of the file).
-pub const MAX_GATED_READ: u64 = 300_000;
+/// A population view gates every event of files with at most this many; larger files are gated
+/// in [`GATED_WINDOWS`] windows spread over the run, this many events in all.
+pub const MAX_GATED_READ: u64 = 2_000_000;
+/// Events gated per read.
+pub const GATED_CHUNK: u64 = 250_000;
+/// Windows of a larger file gated for a population view.
+pub const GATED_WINDOWS: u64 = 16;
 /// Most child populations coloured in a gated view.
 pub const MAX_GATED_POPULATIONS: usize = 8;
 /// Most peaks marked on a plot.
 pub const MAX_PEAKS: usize = 60;
+/// A chromatogram peak is labelled when it is at least this share of the tallest peak's height
+/// (smaller ones can still be hovered).
+pub const LABEL_SHARE: f64 = 0.2;
+/// A labelled chromatogram peak is also at least this many noise SDs tall, by the peak picker's
+/// S/N and by the trace's point-to-point noise.
+pub const LABEL_SNR: f64 = 10.0;
 /// Most images, traces or tables listed in the outline.
 pub const MAX_OUTLINE_ITEMS: usize = 256;
 /// Most columns listed per table in the outline.
@@ -81,6 +92,9 @@ pub enum ViewKind {
     Fcs,
     /// Only the outline (the file holds nothing the viewer draws).
     Summary,
+    /// An `openreadout_plot` figure drawn again from its arguments (`spec`): in the host's
+    /// theme, at the viewer's size, over a zoomed x range.
+    Figure,
 }
 
 impl ViewKind {
@@ -96,6 +110,7 @@ impl ViewKind {
             ViewKind::Plate => "plate",
             ViewKind::Fcs => "fcs",
             ViewKind::Summary => "summary",
+            ViewKind::Figure => "figure",
         }
     }
 }
@@ -120,8 +135,8 @@ pub enum FileRef {
 /// Arguments of `openreadout_view`.
 #[derive(Debug, Clone, Deserialize, schemars::JsonSchema)]
 pub struct ViewArgs {
-    /// The file.
-    pub file: FileRef,
+    /// The file (every view but `figure`).
+    pub file: Option<FileRef>,
     /// What to show (default: picked from the file).
     #[serde(default)]
     pub view: ViewKind,
@@ -203,6 +218,16 @@ pub struct ViewArgs {
     /// FCS with gating: show the events of this population (path or unique name), coloured by
     /// its child populations (default: all events, coloured by the top populations).
     pub population: Option<String>,
+    /// Figure: the `openreadout_plot` arguments, as the agent sent them.
+    pub spec: Option<Value>,
+    /// Figure: draw in the dark theme.
+    #[serde(default)]
+    pub dark: bool,
+    /// Figure: width in CSS pixels (default the spec's), and pixels per CSS pixel (default 1,
+    /// at most 3), so the picture is sharp on the viewer's screen.
+    pub width: Option<u32>,
+    /// Figure: pixels per CSS pixel.
+    pub scale: Option<f32>,
 }
 
 fn yes() -> bool {
@@ -269,10 +294,14 @@ pub fn call(
     a: &ViewArgs,
     host_path: Option<String>,
 ) -> Result<CallToolResult, McpError> {
+    if a.view == ViewKind::Figure {
+        return figure(registry, a);
+    }
     let path = match (&a.file, host_path) {
         (_, Some(p)) => p,
-        (FileRef::Path(p), None) => p.clone(),
-        (FileRef::Opened { name, resource_uri }, None) => {
+        (None, None) => return Err(usage("file is required for this view")),
+        (Some(FileRef::Path(p)), None) => p.clone(),
+        (Some(FileRef::Opened { name, resource_uri }), None) => {
             // The host's first call may come without the path; the viewer calls again and the
             // host adds it to calls from the viewer.
             let v = json!({
@@ -314,7 +343,9 @@ pub fn call(
     let mut limits = Map::new();
     let mut picture: Option<(Vec<u8>, &'static str)> = None;
     let summary = match kind {
-        ViewKind::Auto | ViewKind::Summary => format!("outline of {}", info.format.name),
+        ViewKind::Auto | ViewKind::Summary | ViewKind::Figure => {
+            format!("outline of {}", info.format.name)
+        }
         ViewKind::Image => {
             let (v, bytes, mime) = image(ds.as_mut(), &info, a, &mut notes)?;
             let s = format!(
@@ -419,6 +450,68 @@ pub fn call(
             mime,
         ));
     }
+    Ok(r)
+}
+
+/// Most CSS pixels wide a figure is drawn again at.
+const MAX_FIGURE_WIDTH: u32 = 2400;
+
+/// `openreadout_plot` again, for the viewer: the agent's spec in the host's theme, at the
+/// viewer's width and pixel density, over `x_range` when the figure is a single plot. It never
+/// writes a file.
+fn figure(registry: fn() -> Registry, a: &ViewArgs) -> Result<CallToolResult, McpError> {
+    let raw = a
+        .spec
+        .clone()
+        .ok_or_else(|| usage("view figure needs spec: the openreadout_plot arguments"))?;
+    let mut spec = openreadout_plot::parse_spec(raw).map_err(|e| err(&e))?;
+    spec.theme = Some(if a.dark {
+        openreadout_plot::ThemeName::Dark
+    } else {
+        openreadout_plot::ThemeName::Light
+    });
+    if let Some(w) = a.width {
+        spec.width = Some(w.clamp(320, MAX_FIGURE_WIDTH));
+        // the height follows the content at the new width
+        spec.height = None;
+    }
+    let mut notes = Vec::new();
+    if let Some([x0, x1]) = a.x_range {
+        if spec.panels.is_empty() && spec.panel.facet.is_none() {
+            let x = spec.panel.x.get_or_insert_with(Default::default);
+            x.range = Some([x0.min(x1), x0.max(x1)]);
+        } else {
+            notes.push(
+                "zoom redraws single plots only; this figure is enlarged instead".to_string(),
+            );
+        }
+    }
+    let reg = crate::with_strict(registry(), spec.strict);
+    let p = openreadout_plot::plot(&reg, &spec).map_err(|e| err(&e))?;
+    let scale = a.scale.unwrap_or(1.0).clamp(1.0, 3.0);
+    let raster = p.figure.to_raster(scale);
+    let mut bytes = raster.to_png().map_err(|e| err(&e))?;
+    let mut mime = "image/png";
+    if bytes.len() > crate::resources::PREVIEW_BUDGET {
+        bytes = raster.to_jpeg(88).map_err(|e| err(&e))?;
+        mime = "image/jpeg";
+    }
+    let v = json!({
+        "view": "figure",
+        "figure": {"width": p.output.width, "height": p.output.height, "panels": p.hover},
+        "notes": notes,
+    });
+    let mut r = CallToolResult::structured(v);
+    r.content = vec![
+        ContentBlock::text(format!(
+            "viewer data: figure {}x{} at {scale}x",
+            p.output.width, p.output.height
+        )),
+        ContentBlock::image(
+            base64::engine::general_purpose::STANDARD.encode(&bytes),
+            mime,
+        ),
+    ];
     Ok(r)
 }
 
@@ -781,6 +874,15 @@ fn trace(
             t.sweep_count
         )));
     }
+    // Voltammetry reads as current against potential, as the preview draws it.
+    if a.channels.is_empty()
+        && a.first_sample.is_none()
+        && a.count.is_none()
+        && let Some(v) = openreadout_preview::electrochem::voltammogram(ds, info, Some(ti), a.sweep)
+            .map_err(|e| err(&e))?
+    {
+        return Ok(voltammogram_plot(&v, &t, a, notes));
+    }
     let nch = t.channels.len();
     if nch == 0 {
         return Err(usage(format!("trace {ti} has no channels")));
@@ -917,6 +1019,44 @@ fn trace(
         plot["xs"] = json!(xs);
     }
     Ok(plot)
+}
+
+/// A voltammogram as a plot: one series per cycle, current against potential.
+fn voltammogram_plot(
+    v: &openreadout_preview::electrochem::Voltammogram,
+    t: &TraceInfo,
+    a: &ViewArgs,
+    notes: &mut Notes,
+) -> Value {
+    for n in &v.notes {
+        notes.push(n.clone());
+    }
+    let cap = points(a);
+    let series: Vec<Value> = v
+        .cycles
+        .iter()
+        .map(|(name, pts)| {
+            let step = pts.len().div_ceil(cap).max(1);
+            let (xs, ys): (Vec<f32>, Vec<f32>) = pts
+                .iter()
+                .step_by(step)
+                .map(|p| (p.0 as f32, p.1 as f32))
+                .unzip();
+            json!({
+                "name": if name.is_empty() { v.current.1.clone() } else { format!("cycle {name}") },
+                "unit": v.current.2, "x": xs, "y": ys,
+            })
+        })
+        .collect();
+    json!({
+        "kind": "trace",
+        "voltammogram": true,
+        "trace": v.trace, "sweep": v.sweep, "sweep_count": t.sweep_count,
+        "x": {"quantity": "potential", "unit": v.potential.2, "irregular": true},
+        "y_unit": v.current.2,
+        "series": series,
+        "overlay": true,
+    })
 }
 
 fn nmr(
@@ -1063,6 +1203,17 @@ fn chromatogram(
             .take(4)
             .map(str::to_string),
     );
+    // the point-to-point noise of the first chromatogram, for which peaks get a label
+    let step_noise = series
+        .first()
+        .and_then(|c| c["y"].as_array())
+        .map_or(0.0, |ys| {
+            let v: Vec<f64> = ys.iter().filter_map(Value::as_f64).collect();
+            let mut d: Vec<f64> = v.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+            d.sort_by(f64::total_cmp);
+            d.get(d.len() / 2)
+                .map_or(0.0, |m| 1.4826 * m / std::f64::consts::SQRT_2)
+        });
     let want_peaks = a.peaks.unwrap_or(detector.is_some());
     let mut peaks = Vec::new();
     let mut area_unit = Value::Null;
@@ -1079,12 +1230,29 @@ fn chromatogram(
                         ));
                     }
                     let all = tallest(all, MAX_PEAKS, |p| p["height"].as_f64().unwrap_or(0.0));
+                    let top = all
+                        .iter()
+                        .filter_map(|p| p["height"].as_f64())
+                        .fold(0.0, f64::max);
                     for pk in &all {
+                        let h = pk["height"].as_f64().unwrap_or(0.0);
+                        // the picker's S/N, and the height over the trace's own wiggle
+                        let snr =
+                            pk["snr"]
+                                .as_f64()
+                                .unwrap_or(f64::INFINITY)
+                                .min(if step_noise > 0.0 {
+                                    h / step_noise
+                                } else {
+                                    f64::INFINITY
+                                });
                         peaks.push(json!({
                             "x": pk["rt_min"], "from": pk["start_min"], "to": pk["end_min"],
                             "height": pk["height"], "area": pk["area"],
                             "area_percent": pk["area_percent"],
                             "label": pk["number"],
+                            // every peak can be hovered; only the prominent ones are labelled
+                            "labelled": h >= top * LABEL_SHARE && snr >= LABEL_SNR,
                         }));
                     }
                 }
@@ -1649,79 +1817,127 @@ fn fcs_gated(
     let mut members: Vec<String> = shown_path.iter().cloned().collect();
     members.extend(children.iter().map(|c| field(c, "path")));
     let total_rows = report["event_count"].as_u64().unwrap_or(0);
-    let read = total_rows.clamp(1, MAX_GATED_READ);
+    // Every event is gated, chunk by chunk, when the file holds at most MAX_GATED_READ of them;
+    // a larger file is gated in GATED_WINDOWS windows spread evenly over the acquisition.
+    let windows: Vec<(u64, u64)> = if total_rows <= MAX_GATED_READ {
+        (0..total_rows.div_ceil(GATED_CHUNK).max(1))
+            .map(|k| {
+                (
+                    k * GATED_CHUNK,
+                    GATED_CHUNK.min(total_rows - k * GATED_CHUNK),
+                )
+            })
+            .collect()
+    } else {
+        let per = MAX_GATED_READ / GATED_WINDOWS;
+        (0..GATED_WINDOWS)
+            .map(|k| (k * total_rows / GATED_WINDOWS, per))
+            .collect()
+    };
+    let read: u64 = windows.iter().map(|w| w.1).sum();
     if read < total_rows {
         limits.insert("events_read".into(), json!(read));
-        notes.push(format!("the first {read} of {total_rows} events"));
+        notes.push(format!(
+            "{read} of {total_rows} events gated, in {} windows spread over the run",
+            windows.len()
+        ));
     }
     let mut topts = fa::TableOptions::default();
     topts.gating_file = Some(std::path::PathBuf::from(&gating));
     topts.sample = a.sample.clone();
     topts.populations = members;
     topts.compensation = Some(fa::CompensationChoice::Auto);
-    let rows = if let Ok(r) = fa::processed_rows(Path::new(path), ti, 0, read, &topts) {
-        r
-    } else {
-        // no matrix to compensate with: the values as stored
-        topts.compensation = None;
-        notes.push("values as stored (no compensation matrix)".into());
-        fa::processed_rows(Path::new(path), ti, 0, read, &topts).map_err(|e| err(&e))?
-    };
-    let col = |name: &str| rows.names.iter().position(|n| n == name);
-    let named =
-        |n: &str| col(n).ok_or_else(|| usage(format!("no parameter named '{n}' in table {ti}")));
-    let xi = match a.x.as_deref() {
-        Some(n) => named(n)?,
-        None => axes
-            .first()
-            .and_then(|n| col(n))
-            .or_else(|| col("FSC-A"))
-            .unwrap_or(0),
-    };
-    let yi = match a.y.as_deref() {
-        Some("") => None,
-        Some(n) => Some(named(n)?),
-        None if axes.len() == 1 => None,
-        None => axes.get(1).and_then(|n| col(n)).or_else(|| col("SSC-A")),
-    };
-    let gate_col = |p: &str| col(&format!("gate:{p}")).and_then(|i| rows.columns.get(i));
-    let inside = shown_path.as_deref().and_then(gate_col);
-    let child_cols: Vec<Option<&Vec<f64>>> = children
-        .iter()
-        .map(|c| gate_col(&field(c, "path")))
-        .collect();
-    let n = rows.columns.first().map_or(0, Vec::len);
-    let is_in = |i: usize| inside.is_none_or(|c| c.get(i).copied() == Some(1.0));
-    let in_shown = (0..n).filter(|&i| is_in(i)).count() as u64;
+    // the events of the shown population expected among those read, for an even sample
+    let shown_count = shown
+        .and_then(|p| p["count"].as_u64())
+        .unwrap_or(total_rows);
+    let expected = shown_count
+        .saturating_mul(read)
+        .checked_div(total_rows)
+        .unwrap_or(0);
     let want = a.events.unwrap_or(DEFAULT_EVENTS).clamp(100, MAX_EVENTS);
-    let stride = in_shown.div_ceil(want).max(1);
+    let stride = expected.div_ceil(want).max(1);
     if stride > 1 {
         limits.insert("event_stride".into(), json!(stride));
     }
     let (mut xs, mut ys, mut bits) = (Vec::new(), Vec::new(), Vec::new());
-    for (k, i) in (0..n).filter(|&i| is_in(i)).enumerate() {
-        if !(k as u64).is_multiple_of(stride) {
-            continue;
-        }
-        let at = |c: usize| {
-            rows.columns
-                .get(c)
-                .and_then(|v| v.get(i))
-                .copied()
-                .unwrap_or(f64::NAN) as f32
-        };
-        xs.push(at(xi));
-        if let Some(y) = yi {
-            ys.push(at(y));
-        }
-        let mut b = 0u8;
-        for (j, c) in child_cols.iter().enumerate() {
-            if c.and_then(|c| c.get(i)).copied() == Some(1.0) {
-                b |= 1 << j;
+    let mut in_shown = 0u64;
+    let mut first: Option<fa::ProcessedRows> = None;
+    let mut axes_at: Option<(usize, Option<usize>)> = None;
+    for &(start, count) in &windows {
+        let rows = match fa::processed_rows(Path::new(path), ti, start, count, &topts) {
+            Ok(r) => r,
+            Err(_) if first.is_none() && topts.compensation.is_some() => {
+                // no matrix to compensate with: the values as stored
+                topts.compensation = None;
+                notes.push("values as stored (no compensation matrix)".into());
+                fa::processed_rows(Path::new(path), ti, start, count, &topts)
+                    .map_err(|e| err(&e))?
             }
+            Err(e) => return Err(err(&e)),
+        };
+        let col = |name: &str| rows.names.iter().position(|n| n == name);
+        // the axes, found by name in the first window
+        if axes_at.is_none() {
+            let named = |n: &str| {
+                col(n).ok_or_else(|| usage(format!("no parameter named '{n}' in table {ti}")))
+            };
+            let xi = match a.x.as_deref() {
+                Some(n) => named(n)?,
+                None => axes
+                    .first()
+                    .and_then(|n| col(n))
+                    .or_else(|| col("FSC-A"))
+                    .unwrap_or(0),
+            };
+            let yi = match a.y.as_deref() {
+                Some("") => None,
+                Some(n) => Some(named(n)?),
+                None if axes.len() == 1 => None,
+                None => axes.get(1).and_then(|n| col(n)).or_else(|| col("SSC-A")),
+            };
+            axes_at = Some((xi, yi));
         }
-        bits.push(b);
+        let (xi, yi) = axes_at.unwrap_or((0, None));
+        let gate_col = |p: &str| col(&format!("gate:{p}")).and_then(|i| rows.columns.get(i));
+        let inside = shown_path.as_deref().and_then(gate_col);
+        let child_cols: Vec<Option<&Vec<f64>>> = children
+            .iter()
+            .map(|c| gate_col(&field(c, "path")))
+            .collect();
+        let n = rows.columns.first().map_or(0, Vec::len);
+        let is_in = |i: usize| inside.is_none_or(|c| c.get(i).copied() == Some(1.0));
+        for i in (0..n).filter(|&i| is_in(i)) {
+            let k = in_shown;
+            in_shown += 1;
+            if !k.is_multiple_of(stride) || xs.len() as u64 >= want {
+                continue;
+            }
+            let at = |c: usize| {
+                rows.columns
+                    .get(c)
+                    .and_then(|v| v.get(i))
+                    .copied()
+                    .unwrap_or(f64::NAN) as f32
+            };
+            xs.push(at(xi));
+            if let Some(y) = yi {
+                ys.push(at(y));
+            }
+            let mut b = 0u8;
+            for (j, c) in child_cols.iter().enumerate() {
+                if c.and_then(|c| c.get(i)).copied() == Some(1.0) {
+                    b |= 1 << j;
+                }
+            }
+            bits.push(b);
+        }
+        if first.is_none() {
+            first = Some(rows);
+        }
     }
+    let rows = first.ok_or_else(|| usage(format!("table {ti} holds no events")))?;
+    let (xi, yi) = axes_at.unwrap_or((0, None));
     let b64 = |v: &[f32]| {
         let bytes: Vec<u8> = v.iter().flat_map(|x| x.to_le_bytes()).collect();
         base64::engine::general_purpose::STANDARD.encode(bytes)

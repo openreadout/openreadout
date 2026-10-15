@@ -138,12 +138,21 @@ fn region_on_a_downsampled_level_maps_back_to_full_resolution() {
     let im = r.output.image.as_ref().unwrap();
     assert_eq!(im.level, 1, "the region spans 600 px at level 1");
     assert_eq!(im.region, Some(Region::new(250, 200, 600, 400)));
-    assert_eq!(im.downsample, 2);
     assert!(im.axes);
+    // level 1 is resampled so the region fills what the rulers leave of 400 px
+    let (pw, ph) = (im.plot_area.width, im.plot_area.height);
+    assert!(pw > ph, "the region is wider than tall");
+    assert!((600.0 / f64::from(pw) - im.downsample).abs() < 1e-12);
+    assert!(
+        im.downsample > 1.0 && im.downsample < 2.0,
+        "{}",
+        im.downsample
+    );
+    assert_eq!(ph, (f64::from(pw) * 400.0 / 600.0).round() as u32);
     assert_eq!((im.source_origin.x, im.source_origin.y), (1000.0, 800.0));
-    assert_eq!((im.source_per_pixel, im.source_per_pixel_y), (8.0, 8.0));
+    assert!((im.source_per_pixel - 2400.0 / f64::from(pw)).abs() < 1e-12);
+    assert!((im.source_per_pixel_y - 1600.0 / f64::from(ph)).abs() < 1e-12);
     assert_eq!(im.full_res_region, Region::new(1000, 800, 2400, 1600));
-    assert_eq!((im.plot_area.width, im.plot_area.height), (300, 200));
     assert!(r.canvas.width.max(r.canvas.height) <= 400);
     // the bright square, mapped back through the reported transform
     let (x0, y0, x1, y1) = bright_box(&r);
@@ -160,9 +169,10 @@ fn region_on_a_downsampled_level_maps_back_to_full_resolution() {
     for (got, want) in [(sx0, qx), (sy0, qy), (sx1, qx + n), (sy1, qy + n)] {
         assert!((got - f64::from(want)).abs() <= tol, "{got} vs {want}");
     }
-    // 0.25 µm/px × 8 = 2 µm per drawn px, 300 px: ≤ 120 µm → 100 µm, 50 px
+    // 0.25 µm per source px: a 100 µm bar is 400 source px
     let b = im.scale_bar.as_ref().unwrap();
-    assert_eq!((b.length, b.unit.as_str(), b.pixels), (100.0, "µm", 50));
+    assert_eq!((b.length, b.unit.as_str()), (100.0, "µm"));
+    assert_eq!(b.pixels, (400.0 / im.source_per_pixel).round() as u32);
     // the same request gives the same bytes; halving to a byte budget keeps the mapping
     let (_, png) = finish(&r, Encoding::Png, 90).unwrap();
     let r2 = render(&mut Pyramid::default(), &info, &req).unwrap();
@@ -192,7 +202,7 @@ fn whole_image_overview_and_plain_mode() {
     assert!(im.scale_bar.is_none());
     assert_eq!(im.full_res_region, Region::new(0, 0, W, H));
     let spp = im.source_per_pixel;
-    assert!((spp - 4.0 * f64::from(im.downsample)).abs() < 1e-9);
+    assert!((spp - 4.0 * im.downsample).abs() < 1e-9);
     let (x0, _, _, _) = bright_box(&r);
     let sx = im.source_origin.x + f64::from(x0 - im.plot_area.x) * spp;
     assert!((sx - f64::from(SQUARE.0)).abs() <= spp, "{sx}");
@@ -206,8 +216,8 @@ fn whole_image_overview_and_plain_mode() {
         Region::new(0, 0, p.canvas.width, p.canvas.height)
     );
     assert_eq!(
-        p.canvas.width, 500,
-        "plain fills max_size from level 1 (1000 px / 2)"
+        p.canvas.width, 512,
+        "plain fills max_size from level 1 (1000 px resampled)"
     );
     // grid lines change the data area only
     req.axes = true;

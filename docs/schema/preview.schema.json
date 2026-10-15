@@ -13,7 +13,7 @@
       "type": "string"
     },
     "kind": {
-      "description": "`image`, `trace`, `spectrum`, `plate` or `events`.",
+      "description": "`image`, `trace`, `chromatogram`, `spectrum`, `plate` or `events`.",
       "type": "string"
     },
     "output": {
@@ -80,6 +80,17 @@
       "anyOf": [
         {
           "$ref": "#/$defs/SpectrumPreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "chromatogram": {
+      "description": "Present for chromatogram previews (a mass-spectrometry run's total-ion chromatogram).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChromatogramPreview"
         },
         {
           "type": "null"
@@ -203,10 +214,9 @@
           ]
         },
         "downsample": {
-          "description": "Block size of the averaging downsample (1 = none).",
-          "type": "integer",
-          "format": "uint32",
-          "minimum": 0
+          "description": "Pixels of the plane at `level` per drawn pixel, horizontally: above 1 when the plane was\nmade smaller (an area average), below 1 when it was enlarged (each source pixel drawn as\na square), 1 when drawn as is.",
+          "type": "number",
+          "format": "double"
         },
         "c": {
           "description": "Channels, z-planes and time points used.",
@@ -700,6 +710,52 @@
         "style",
         "point_count",
         "x_axis"
+      ]
+    },
+    "ChromatogramPreview": {
+      "description": "Details of a chromatogram preview of a mass-spectrometry run (its first look).",
+      "type": "object",
+      "properties": {
+        "run": {
+          "description": "Run index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "signal": {
+          "description": "`tic` (the total ion current each scan header records) or `bpc` (base-peak intensity).",
+          "type": "string"
+        },
+        "ms1_scans": {
+          "description": "MS1 scans drawn.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "scans": {
+          "description": "Scans in the run (all MS levels).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "apex_rt_min": {
+          "description": "Retention time of the tallest point, minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "apex_intensity": {
+          "description": "Its intensity.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "run",
+        "signal",
+        "ms1_scans",
+        "scans",
+        "apex_rt_min",
+        "apex_intensity"
       ]
     },
     "PlatePreview": {

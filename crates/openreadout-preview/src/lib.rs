@@ -3,7 +3,8 @@
 //!
 //! - **Images**: one plane, a channel composite (additive, channel colours from the normalized
 //!   model) or a maximum-intensity projection over z or t, read from the pyramid level nearest the
-//!   requested size when the reader exposes levels, then block-averaged to fit and mapped to 8 bits
+//!   requested size when the reader exposes levels, then resampled to the requested size (area
+//!   average; a small image is enlarged by repeating its pixels) and mapped to 8 bits
 //!   with a contrast rule (`auto`, `min-max`, `percentile:LO,HI`, `raw`). By default the picture
 //!   is framed by coordinate rulers in full-resolution pixels (and a scale bar when the pixel
 //!   size is known), and [`ImagePreview`] reports how PNG pixels map back to source pixels, so a
@@ -64,15 +65,18 @@
 
 mod annotate;
 pub mod color;
+pub mod electrochem;
 mod events;
 mod image;
 mod kinetic;
 mod marks;
+mod nmr;
 mod options;
 mod overlay;
 mod plate;
 mod rulers;
 mod spectrum;
+mod tic;
 mod trace;
 
 use std::path::{Path, PathBuf};
@@ -507,8 +511,10 @@ pub struct ImagePreview {
     /// The rectangle drawn, in the pixel coordinates of `level`, when a region was asked for.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub region: Option<openreadout_core::Region>,
-    /// Block size of the averaging downsample (1 = none).
-    pub downsample: u32,
+    /// Pixels of the plane at `level` per drawn pixel, horizontally: above 1 when the plane was
+    /// made smaller (an area average), below 1 when it was enlarged (each source pixel drawn as
+    /// a square), 1 when drawn as is.
+    pub downsample: f64,
     /// Channels, z-planes and time points used.
     pub c: Vec<u32>,
     /// Z indices used.
@@ -657,6 +663,23 @@ pub struct SpectrumPreview {
     pub precursor_mz: Option<f64>,
 }
 
+/// Details of a chromatogram preview of a mass-spectrometry run (its first look).
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct ChromatogramPreview {
+    /// Run index.
+    pub run: u32,
+    /// `tic` (the total ion current each scan header records) or `bpc` (base-peak intensity).
+    pub signal: String,
+    /// MS1 scans drawn.
+    pub ms1_scans: u64,
+    /// Scans in the run (all MS levels).
+    pub scans: u64,
+    /// Retention time of the tallest point, minutes.
+    pub apex_rt_min: f64,
+    /// Its intensity.
+    pub apex_intensity: f64,
+}
+
 /// One layout group of a plate preview (a SoftMax Pro group, a sample name, …).
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct PlateGroup {
@@ -799,7 +822,7 @@ pub struct PreviewOutput {
     pub path: String,
     /// Format id of the input file.
     pub format: String,
-    /// `image`, `trace`, `spectrum`, `plate` or `events`.
+    /// `image`, `trace`, `chromatogram`, `spectrum`, `plate` or `events`.
     pub kind: String,
     /// The written file (CLI); absent when the preview is returned inline (MCP image content).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -825,6 +848,9 @@ pub struct PreviewOutput {
     /// Present for spectrum previews.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub spectrum: Option<SpectrumPreview>,
+    /// Present for chromatogram previews (a mass-spectrometry run's total-ion chromatogram).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub chromatogram: Option<ChromatogramPreview>,
     /// Present for plate previews.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plate: Option<PlatePreview>,
@@ -985,12 +1011,6 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
         Ok("trace")
     } else if !info.spectra.is_empty() {
         Ok("spectrum")
-    } else if info.format.family == "flow-cytometry" {
-        Err(Error::unsupported(
-            "preview",
-            format!("a picture of {} events", info.format.name),
-            "Flow-cytometry events have no preview here. Count events with openreadout_table (filter, count=true), and get each population's count, percentage and medians with openreadout_gate and the FlowJo workspace or Gating-ML file.",
-        ))
     } else if !info.tables.is_empty() {
         Ok(if events::is_events(info, 0) {
             "events"
@@ -1021,11 +1041,39 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         kind: k.into(),
         ..PreviewOutput::default()
     };
-    let (mut figure, frame) = match k {
-        "image" => image::render(ds, info, req, &mut out)?,
-        "trace" => trace::render(ds, info, req, &mut out)?,
-        "spectrum" => spectrum::render(ds, info, req, &mut out)?,
-        "events" => events::render(ds, info, req, &mut out)?,
+    // An NMR data set shows its spectrum unless the caller picked a trace, sweep or channel.
+    let nmr_default = k == "trace"
+        && info.format.family == "nmr"
+        && req.trace.is_none()
+        && req.sweep.is_none()
+        && req.channels.is_empty();
+    let mut drawn = if nmr_default {
+        nmr::render(ds, info, req, &mut out)
+    } else {
+        None
+    };
+    // A mass-spectrometry run shows its chromatogram unless a spectrum was asked for.
+    if drawn.is_none()
+        && k == "spectrum"
+        && req.run.is_none()
+        && req.spectrum.is_none()
+        && req.scan.is_none()
+        && !req.centroid
+    {
+        drawn = tic::render(ds, info, req, &mut out)?;
+        if drawn.is_some() {
+            out.kind = "chromatogram".into();
+        }
+    }
+    let (mut figure, frame) = match (k, drawn) {
+        (_, Some(drawn)) => drawn,
+        ("image", _) => image::render(ds, info, req, &mut out)?,
+        ("trace", _) if electrochem::is_voltammetry(info, req) => {
+            electrochem::render(ds, info, req, &mut out)?
+        }
+        ("trace", _) => trace::render(ds, info, req, &mut out)?,
+        ("spectrum", _) => spectrum::render(ds, info, req, &mut out)?,
+        ("events", _) => events::render(ds, info, req, &mut out)?,
         _ => plate::render(ds, info, req, &mut out)?,
     };
     if let Frame::Plots { panels, .. } = &frame {

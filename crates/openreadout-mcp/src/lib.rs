@@ -114,7 +114,7 @@ fn error_result(e: McpError) -> CallToolResult {
 pub const ERROR_META_KEY: &str = "openreadout/error";
 
 /// A tool's `strict` argument over the server's default (`OPENREADOUT_STRICT`, `--strict`).
-fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {
+pub(crate) fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {
     match strict {
         Some(on) => reg.strict(on),
         None => reg,
@@ -677,8 +677,8 @@ mod tests {
         let args = |axes: openreadout_preview::Axes, region: Option<openreadout_core::Region>| {
             let v = serde_json::json!({"file": f.display().to_string(), "max_size": 400});
             let mut a: PreviewArgs = serde_json::from_value(v).unwrap();
-            a.axes = axes;
-            a.region = region;
+            a.options.axes = Some(axes);
+            a.options.region = region;
             Parameters(a)
         };
         let r = s

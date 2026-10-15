@@ -232,10 +232,11 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
             if r.output.kind == "image" && (scale - 1.0).abs() > f32::EPSILON {
                 // read the image again at the size it is saved at, so its pixels are real
                 let size = args
+                    .options
                     .max_size
                     .unwrap_or(super::preview::DEFAULT_MCP_PREVIEW_SIZE);
                 let mut big = args.clone();
-                big.max_size = Some(((size as f32 * scale).round() as u32).clamp(16, max));
+                big.options.max_size = Some(((size as f32 * scale).round() as u32).clamp(16, max));
                 r = super::preview::render(registry, &big, max)?;
                 scale = 1.0;
             }

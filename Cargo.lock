@@ -2453,6 +2453,7 @@ dependencies = [
  "openreadout-batch",
  "openreadout-core",
  "openreadout-fcs",
+ "openreadout-figure",
  "openreadout-hdf5",
  "openreadout-index",
  "openreadout-live",
