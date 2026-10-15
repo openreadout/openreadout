@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "PlotOutput",
-  "description": "The result of a plot.",
+  "title": "PlotReport",
+  "description": "What `plot` prints: what was drawn and the file written.",
   "type": "object",
   "properties": {
     "title": {
@@ -47,17 +47,6 @@
       "format": "uint",
       "minimum": 0
     },
-    "output": {
-      "description": "The file written (`output`), when any.",
-      "anyOf": [
-        {
-          "$ref": "#/$defs/WrittenFile"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
     "notes": {
       "description": "What was done to the data (subtractions, fits, transforms).",
       "type": "array",
@@ -71,6 +60,17 @@
       "items": {
         "type": "string"
       }
+    },
+    "save": {
+      "description": "How to save this figure to a file (MCP: the openreadout_export call).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "written": {
+      "description": "The file written.",
+      "$ref": "#/$defs/WrittenFile"
     }
   },
   "required": [
@@ -79,7 +79,8 @@
     "theme",
     "panels",
     "files",
-    "inline_series"
+    "inline_series",
+    "written"
   ],
   "$defs": {
     "PanelOutput": {
@@ -297,7 +298,7 @@
       ]
     },
     "WrittenFile": {
-      "description": "A file written.",
+      "description": "A figure file written.",
       "type": "object",
       "properties": {
         "path": {
@@ -305,8 +306,42 @@
           "type": "string"
         },
         "format": {
-          "description": "`png`, `svg` or `pdf`.",
+          "description": "`png`, `jpeg`, `tiff`, `svg` or `pdf`.",
           "type": "string"
+        },
+        "width": {
+          "description": "Width in pixels (PNG, JPEG, TIFF) or figure units (SVG, PDF).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Height, as `width`.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "dpi": {
+          "description": "Print resolution recorded in the file.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "print_size_in": {
+          "description": "Printed size `[width, height]` in inches, when `dpi` is given.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
         },
         "bytes": {
           "description": "Size in bytes.",
@@ -322,6 +357,8 @@
       "required": [
         "path",
         "format",
+        "width",
+        "height",
         "bytes",
         "verified"
       ]

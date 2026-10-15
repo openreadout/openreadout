@@ -53,11 +53,13 @@ fn spec_of(a: &PlotArgs) -> Result<openreadout_plot::PlotSpec> {
 }
 
 /// What `plot` prints: what was drawn and the file written.
-#[derive(serde::Serialize)]
-struct PlotReport {
+#[derive(serde::Serialize, schemars::JsonSchema)]
+pub struct PlotReport {
+    /// What was drawn.
     #[serde(flatten)]
-    plot: openreadout_plot::PlotOutput,
-    written: openreadout_plot::WrittenFile,
+    pub plot: openreadout_plot::PlotOutput,
+    /// The file written.
+    pub written: openreadout_plot::WrittenFile,
 }
 
 fn run_plot(reg: &Registry, a: &PlotArgs) -> Result<PlotReport> {
