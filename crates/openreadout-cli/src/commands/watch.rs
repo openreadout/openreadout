@@ -55,6 +55,9 @@ pub struct WatchArgs {
     /// Most data sets remembered at once (memory bound); finished ones are forgotten first.
     #[arg(long, default_value_t = 100_000, value_name = "N")]
     pub max_tracked: usize,
+    /// Walk into directories behind symbolic links too (links to files are always followed).
+    #[arg(long)]
+    pub follow_symlinks: bool,
     /// Accepted for symmetry with other commands: the output is always JSON lines.
     #[arg(long)]
     pub json: bool,
@@ -89,6 +92,7 @@ fn options(a: &WatchArgs) -> Result<(WatchOptions, Duration, Option<Duration>)> 
     o.stall_after = seconds("--stall-after", a.stall_after)?;
     o.max_tracked = a.max_tracked.max(1);
     o.trust_first_look = a.once;
+    o.follow_symlinks = a.follow_symlinks;
     o.qc = match (&a.qc_rules, a.qc) {
         (Some(p), _) => Some(Rules::parse(
             &std::fs::read_to_string(p).map_err(|e| Error::io(p, e))?,
@@ -119,6 +123,7 @@ pub fn run(reg: &Registry, a: &WatchArgs) -> i32 {
     let mut watcher = Watcher::new(opts);
     let stdout = std::io::stdout();
     let mut broken = false;
+    let mut told_links = false;
     loop {
         let poll_start = Instant::now();
         {
@@ -135,6 +140,15 @@ pub fn run(reg: &Registry, a: &WatchArgs) -> i32 {
                     broken = true; // the reader went away (a closed pipe)
                 }
             });
+        }
+        let links = watcher.links_skipped();
+        if links > 0 && !told_links {
+            told_links = true;
+            eprintln!(
+                "note: {links} symbolic link{} to a directory not watched; pass --follow-symlinks to watch {}",
+                if links == 1 { "" } else { "s" },
+                if links == 1 { "it" } else { "them" },
+            );
         }
         if a.once || broken || stop.load(Ordering::Relaxed) {
             break;

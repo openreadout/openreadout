@@ -3,7 +3,7 @@
 //! calling tools needs the tool and argument names instead (`openreadout_trace` with
 //! `sweep: N`, `overwrite: true`).
 
-/// Rewrite the notes and warnings of a tool result (`notes`, `warnings`, `note`, `hint`
+/// Rewrite the notes and warnings of a tool result (`notes`, `warnings`, `note`, `hint`, `next`
 /// anywhere in its JSON) in tool words, keeping its text block the same JSON.
 pub fn result_notes(result: &mut rmcp::model::CallToolResult) {
     let Some(v) = result.structured_content.as_mut() else {
@@ -32,7 +32,7 @@ fn notes(v: &mut serde_json::Value, inside: bool) {
         Value::Array(a) => a.iter_mut().for_each(|x| notes(x, inside)),
         Value::Object(o) => {
             for (k, x) in o.iter_mut() {
-                let is_note = matches!(k.as_str(), "notes" | "warnings" | "note" | "hint");
+                let is_note = matches!(k.as_str(), "notes" | "warnings" | "note" | "hint" | "next");
                 notes(x, inside || is_note);
             }
         }
