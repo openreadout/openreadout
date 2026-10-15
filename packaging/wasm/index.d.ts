@@ -37,6 +37,53 @@ export interface OpenOptions {
   module?: BufferSource | WebAssembly.Module | URL | string | Response;
 }
 
+/** A mark drawn on a preview, in its own coordinates (file pixels, axis units or wells). */
+export interface Annotation {
+  type: "point" | "box" | "polygon" | "line" | "arrow" | "text" | "vline" | "hline" | "vband" | "hband" | "well";
+  x?: number;
+  y?: number;
+  x2?: number;
+  y2?: number;
+  width?: number;
+  height?: number;
+  points?: Array<[number, number]>;
+  label?: string;
+  /** `accent` (default), `ink`, `muted`, `white` or `#RRGGBB`. */
+  color?: string;
+  channel?: number;
+  well?: string;
+}
+
+export interface PreviewOptions {
+  image?: number;
+  /** Plane selection, e.g. `"c=1"` or `["c=0,1", "z=3"]`. */
+  select?: string | string[];
+  mip?: "z" | "t";
+  composite?: boolean;
+  level?: number;
+  region?: { x: number; y: number; width: number; height: number };
+  /** Longest side in pixels (default 768). */
+  max_size?: number;
+  /** What frames an image (default `none` here: the bare plane). */
+  axes?: "rulers" | "grid" | "none";
+  /** `auto`, `min-max`, `percentile:LO,HI` or `raw`. */
+  contrast?: string;
+  lut?: "gray" | "channel-color";
+  trace?: number;
+  sweep?: number;
+  channels?: number[];
+  run?: number;
+  spectrum?: number;
+  scan?: number;
+  centroid?: boolean;
+  table?: number;
+  columns?: string | string[];
+  marks?: "auto" | "peaks" | "spikes" | "none";
+  annotations?: Annotation[];
+  dark?: boolean;
+  format?: "png" | "jpeg" | "svg";
+}
+
 export class InstrumentFile {
   readonly name: string;
   readonly bytesHeld: number;
@@ -48,17 +95,12 @@ export class InstrumentFile {
     ask?: string;
   }): Promise<Record<string, any>>;
   check(options?: { headersOnly?: boolean }): Promise<Record<string, any>>;
-  preview(options?: {
-    image?: number;
-    select?: string[];
-    composite?: boolean;
-    max_size?: number;
-    trace?: number;
-    sweep?: number;
-    run?: number;
-    spectrum?: number;
-    table?: number;
-  }): Promise<{ meta: Record<string, any>; png: Uint8Array }>;
+  /** A picture: options as for the `openreadout_preview` MCP tool, plus `dark` and `format`. */
+  preview(options?: PreviewOptions): Promise<{
+    meta: Record<string, any>;
+    data: Uint8Array;
+    type: "image/png" | "image/jpeg" | "image/svg+xml";
+  }>;
   table(table?: number, options?: { firstRow?: number; maxRows?: number }): Promise<Record<string, any>>;
   trace(
     trace?: number,
