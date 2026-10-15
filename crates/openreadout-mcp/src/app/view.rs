@@ -1209,14 +1209,13 @@ fn chromatogram(
     let step_noise = series
         .first()
         .and_then(|c| c["y"].as_array())
-        .map(|ys| {
+        .map_or(0.0, |ys| {
             let v: Vec<f64> = ys.iter().filter_map(Value::as_f64).collect();
             let mut d: Vec<f64> = v.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
             d.sort_by(f64::total_cmp);
             d.get(d.len() / 2)
                 .map_or(0.0, |m| 1.4826 * m / std::f64::consts::SQRT_2)
-        })
-        .unwrap_or(0.0);
+        });
     let want_peaks = a.peaks.unwrap_or(detector.is_some());
     let mut peaks = Vec::new();
     let mut area_unit = Value::Null;
@@ -1854,11 +1853,10 @@ fn fcs_gated(
     let shown_count = shown
         .and_then(|p| p["count"].as_u64())
         .unwrap_or(total_rows);
-    let expected = if total_rows > 0 {
-        shown_count.saturating_mul(read) / total_rows
-    } else {
-        0
-    };
+    let expected = shown_count
+        .saturating_mul(read)
+        .checked_div(total_rows)
+        .unwrap_or(0);
     let want = a.events.unwrap_or(DEFAULT_EVENTS).clamp(100, MAX_EVENTS);
     let stride = expected.div_ceil(want).max(1);
     if stride > 1 {
@@ -1881,30 +1879,28 @@ fn fcs_gated(
             Err(e) => return Err(err(&e)),
         };
         let col = |name: &str| rows.names.iter().position(|n| n == name);
-        let (xi, yi) = match axes_at {
-            Some(a) => a,
-            None => {
-                let named = |n: &str| {
-                    col(n).ok_or_else(|| usage(format!("no parameter named '{n}' in table {ti}")))
-                };
-                let xi = match a.x.as_deref() {
-                    Some(n) => named(n)?,
-                    None => axes
-                        .first()
-                        .and_then(|n| col(n))
-                        .or_else(|| col("FSC-A"))
-                        .unwrap_or(0),
-                };
-                let yi = match a.y.as_deref() {
-                    Some("") => None,
-                    Some(n) => Some(named(n)?),
-                    None if axes.len() == 1 => None,
-                    None => axes.get(1).and_then(|n| col(n)).or_else(|| col("SSC-A")),
-                };
-                axes_at = Some((xi, yi));
-                (xi, yi)
-            }
-        };
+        // the axes, found by name in the first window
+        if axes_at.is_none() {
+            let named = |n: &str| {
+                col(n).ok_or_else(|| usage(format!("no parameter named '{n}' in table {ti}")))
+            };
+            let xi = match a.x.as_deref() {
+                Some(n) => named(n)?,
+                None => axes
+                    .first()
+                    .and_then(|n| col(n))
+                    .or_else(|| col("FSC-A"))
+                    .unwrap_or(0),
+            };
+            let yi = match a.y.as_deref() {
+                Some("") => None,
+                Some(n) => Some(named(n)?),
+                None if axes.len() == 1 => None,
+                None => axes.get(1).and_then(|n| col(n)).or_else(|| col("SSC-A")),
+            };
+            axes_at = Some((xi, yi));
+        }
+        let (xi, yi) = axes_at.unwrap_or((0, None));
         let gate_col = |p: &str| col(&format!("gate:{p}")).and_then(|i| rows.columns.get(i));
         let inside = shown_path.as_deref().and_then(gate_col);
         let child_cols: Vec<Option<&Vec<f64>>> = children

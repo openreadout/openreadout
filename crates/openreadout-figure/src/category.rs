@@ -39,13 +39,10 @@ pub fn category_colors<S: AsRef<str>>(theme: &Theme, names: &[S]) -> Vec<Color> 
             if is_blank_label(n) {
                 return theme.faint;
             }
-            let i = match seen.iter().position(|s| *s == n) {
-                Some(i) => i,
-                None => {
-                    seen.push(n);
-                    seen.len() - 1
-                }
-            };
+            let i = seen.iter().position(|s| *s == n).unwrap_or_else(|| {
+                seen.push(n);
+                seen.len() - 1
+            });
             theme.series(i)
         })
         .collect()

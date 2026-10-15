@@ -1125,7 +1125,13 @@ mod tests {
         let mut fig = Figure::new(400.0, 200.0, Some(theme.paper));
         let few: Vec<(Color, String)> =
             (0..3).map(|i| (theme.series(i), format!("g{i}"))).collect();
-        let left = key_fit(&mut fig, &theme, Rect::new(0.0, 0.0, 400.0, 200.0), &few, false);
+        let left = key_fit(
+            &mut fig,
+            &theme,
+            Rect::new(0.0, 0.0, 400.0, 200.0),
+            &few,
+            false,
+        );
         assert!(
             left.y > 0.0 && (left.w - 400.0).abs() < 1e-3,
             "rows above: {left:?}"
@@ -1133,7 +1139,13 @@ mod tests {
         let many: Vec<(Color, String)> = (0..60)
             .map(|i| (theme.series(i), format!("group {i}")))
             .collect();
-        let left = key_fit(&mut fig, &theme, Rect::new(0.0, 0.0, 400.0, 200.0), &many, false);
+        let left = key_fit(
+            &mut fig,
+            &theme,
+            Rect::new(0.0, 0.0, 400.0, 200.0),
+            &many,
+            false,
+        );
         assert!(
             left.w < 400.0 && left.w >= 240.0 - 1e-3,
             "columns beside: {left:?}"

@@ -3,7 +3,6 @@
 //! `analyze nmr-peaks`), drawn on a chemical-shift axis running high to low, with each
 //! multiplet labelled once at its tallest line.
 
-use openreadout_core::Result;
 use openreadout_core::model::FileInfo;
 use openreadout_core::reader::Dataset;
 use openreadout_figure::{
@@ -40,14 +39,14 @@ pub(crate) fn render(
     info: &FileInfo,
     req: &PreviewRequest,
     out: &mut PreviewOutput,
-) -> Result<Option<(Figure, Frame)>> {
+) -> Option<(Figure, Frame)> {
     let Ok(chosen) = nmr::load(ds, info, &NmrRequest::default()) else {
-        return Ok(None);
+        return None;
     };
     let s = &chosen.spectrum;
     let n = s.real.len().min(s.axis.size);
     if n < 8 {
-        return Ok(None);
+        return None;
     }
     let theme = crate::theme(req);
     let fs = theme.font_size;
@@ -219,7 +218,7 @@ pub(crate) fn render(
         channel: Some(0),
         ..FramePanel::new(panel)
     }];
-    Ok(Some((fig, Frame::plots(panels))))
+    Some((fig, Frame::plots(panels)))
 }
 
 #[cfg(test)]

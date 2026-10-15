@@ -1045,7 +1045,7 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         && req.sweep.is_none()
         && req.channels.is_empty();
     let mut drawn = if nmr_default {
-        nmr::render(ds, info, req, &mut out)?
+        nmr::render(ds, info, req, &mut out)
     } else {
         None
     };
