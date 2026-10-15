@@ -195,7 +195,9 @@ fn hints_follow_the_tool_table() {
     let ann = json!([{"kind": "point", "x": 10, "y": 20, "label": "here"}]);
     let h = view_hint(
         "openreadout_preview",
-        Some(&args(json!({"file": "/d/a.czi", "annotations": ann.clone()}))),
+        Some(&args(
+            json!({"file": "/d/a.czi", "annotations": ann.clone()}),
+        )),
     )
     .unwrap();
     assert_eq!(h["annotations"], ann);
@@ -583,41 +585,51 @@ fn events_are_sampled_and_encoded() {
 
 #[test]
 fn kinetic_plates_carry_time_courses_and_layout() {
-    let f = fake_file("plate", b'P', 500);
-    let r = run(json!({"file": f, "view": "plate"}), None);
-    let v = r.structured_content.unwrap();
-    let pl = &v["plate"];
+    let file = fake_file("plate", b'P', 500);
+    let res = run(json!({"file": file, "view": "plate"}), None);
+    let out = res.structured_content.unwrap();
+    let pl = &out["plate"];
     assert_eq!(pl["groups"]["Group"]["A12"], "Blank");
-    let k = &pl["kinetic"];
-    assert_eq!(k["read"], 1);
-    assert_eq!(k["unit"], "OD");
-    assert_eq!(k["time_points"], 500);
-    let t = k["time_s"].as_array().unwrap();
-    assert_eq!(t.len(), view::MAX_TIME_POINTS);
-    assert_eq!(k["wells"].as_array().unwrap().len(), 96);
-    assert_eq!(v["limits"]["time_points"], json!(view::MAX_TIME_POINTS));
+    let kin = &pl["kinetic"];
+    assert_eq!(kin["read"], 1);
+    assert_eq!(kin["unit"], "OD");
+    assert_eq!(kin["time_points"], 500);
+    let times = kin["time_s"].as_array().unwrap();
+    assert_eq!(times.len(), view::MAX_TIME_POINTS);
+    assert_eq!(kin["wells"].as_array().unwrap().len(), 96);
+    assert_eq!(out["limits"]["time_points"], json!(view::MAX_TIME_POINTS));
     let vals = base64::engine::general_purpose::STANDARD
-        .decode(k["values"].as_str().unwrap())
+        .decode(kin["values"].as_str().unwrap())
         .unwrap();
     assert_eq!(vals.len(), 96 * view::MAX_TIME_POINTS * 4);
     // well A2 (index 1), first bin: read 1 values 101, 101.5, 102 averaged
     let first = f32::from_le_bytes(vals[view::MAX_TIME_POINTS * 4..][..4].try_into().unwrap());
     assert!((100.5..102.5).contains(&first), "{first}");
     // the other read
-    let r = run(json!({"file": f, "view": "plate", "read": 2, "outline": false}), None);
-    assert_eq!(r.structured_content.unwrap()["plate"]["kinetic"]["read"], 2);
+    let res = run(
+        json!({"file": file, "view": "plate", "read": 2, "outline": false}),
+        None,
+    );
+    assert_eq!(
+        res.structured_content.unwrap()["plate"]["kinetic"]["read"],
+        2
+    );
     // an unknown read leaves the heat map and says why there is no time course
-    let r = run(json!({"file": f, "view": "plate", "read": 7}), None);
-    let v = r.structured_content.unwrap();
-    assert!(v["plate"].get("kinetic").is_none());
-    assert!(v["notes"].to_string().contains("read 7"), "{}", v["notes"]);
+    let res = run(json!({"file": file, "view": "plate", "read": 7}), None);
+    let out = res.structured_content.unwrap();
+    assert!(out["plate"].get("kinetic").is_none());
+    assert!(
+        out["notes"].to_string().contains("read 7"),
+        "{}",
+        out["notes"]
+    );
     // a short run keeps its time points as they are
-    let f2 = fake_file("plate-short", b'P', 3);
-    let r = run(json!({"file": f2, "view": "plate"}), None);
-    let k = &r.structured_content.unwrap()["plate"]["kinetic"];
-    assert_eq!(k["time_s"], json!([0.0, 600.0, 1200.0]));
-    let _ = std::fs::remove_file(f);
-    let _ = std::fs::remove_file(f2);
+    let short = fake_file("plate-short", b'P', 3);
+    let res = run(json!({"file": short, "view": "plate"}), None);
+    let kin = &res.structured_content.unwrap()["plate"]["kinetic"];
+    assert_eq!(kin["time_s"], json!([0.0, 600.0, 1200.0]));
+    let _ = std::fs::remove_file(file);
+    let _ = std::fs::remove_file(short);
 }
 
 #[test]

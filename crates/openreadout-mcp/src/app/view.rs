@@ -1268,14 +1268,16 @@ fn cell(cols: &[Vec<f64>], c: Option<usize>, i: usize) -> f64 {
 /// `None` when the table holds one time point.
 fn kinetics(
     ds: &mut dyn openreadout_core::Dataset,
-    t: &TableInfo,
+    table: &TableInfo,
     read: Option<u32>,
     limits: &mut Map<String, Value>,
 ) -> Result<Option<Value>, McpError> {
     let idx = |names: &[&str]| {
-        t.columns
-            .iter()
-            .position(|c| names.iter().any(|n| c.name.trim().eq_ignore_ascii_case(n)))
+        table.columns.iter().position(|c| {
+            names
+                .iter()
+                .any(|nrows| c.name.trim().eq_ignore_ascii_case(nrows))
+        })
     };
     let (Some(ti), Some(vi)) = (idx(&["time_s"]), idx(&["value"])) else {
         return Ok(None);
@@ -1284,27 +1286,27 @@ fn kinetics(
     // Well names of a `well` index column (`extra.categories`), when there is no row and column.
     let well_names: Option<Vec<Option<(u32, u32)>>> = wi
         .filter(|_| ri.is_none() || ci.is_none())
-        .and_then(|w| t.columns[w].extra.get("categories"))
+        .and_then(|w| table.columns[w].extra.get("categories"))
         .and_then(Value::as_array)
         .map(|names| {
             names
                 .iter()
-                .map(|n| n.as_str().and_then(parse_well))
+                .map(|nrows| nrows.as_str().and_then(parse_well))
                 .collect()
         });
     if (ri.is_none() || ci.is_none()) && well_names.is_none() {
         return Ok(None);
     }
     let (readi, wli) = (idx(&["read"]), idx(&["wavelength_nm"]));
-    let total = t.row_count.min(MAX_PLATE_ROWS);
-    if total < t.row_count {
+    let total = table.row_count.min(MAX_PLATE_ROWS);
+    if total < table.row_count {
         limits.insert("plate_rows_read".into(), json!(total));
     }
-    let mut cols: Vec<Vec<f64>> = vec![Vec::new(); t.columns.len()];
+    let mut cols: Vec<Vec<f64>> = vec![Vec::new(); table.columns.len()];
     let mut pos = 0u64;
     while pos < total {
         let tab = ds
-            .read_table(t.index, pos, (total - pos).min(262_144))
+            .read_table(table.index, pos, (total - pos).min(262_144))
             .map_err(|e| err(&e))?;
         let got = tab.columns.first().map_or(0, Vec::len) as u64;
         if got == 0 {
@@ -1318,7 +1320,7 @@ fn kinetics(
         }
         pos += got;
     }
-    let n = cols.get(vi).map_or(0, Vec::len);
+    let nrows = cols.get(vi).map_or(0, Vec::len);
     // Base of row and column numbers: 1 unless a 0 occurs.
     let base = |c: Option<usize>| {
         if c.and_then(|c| cols.get(c))
@@ -1342,7 +1344,7 @@ fn kinetics(
             .then_some((r as u32, c as u32))
     };
     // Which read, and its first wavelength.
-    let mut reads: Vec<u32> = (0..n)
+    let mut reads: Vec<u32> = (0..nrows)
         .map(|i| cell(&cols, readi, i))
         .filter(|r| r.is_finite() && *r >= 0.0)
         .map(|r| r as u32)
@@ -1354,14 +1356,15 @@ fn kinetics(
         Some(r) => {
             return Err(usage(format!(
                 "read {r} is not in table {} (reads {reads:?})",
-                t.index
+                table.index
             )));
         }
         None => reads.first().copied(),
     };
-    let of_read =
-        |i: usize| chosen.is_none_or(|r| readi.is_none() || cell(&cols, readi, i) == f64::from(r));
-    let wavelength = (0..n)
+    let of_read = |i: usize| {
+        chosen.is_none_or(|r| readi.is_none() || (cell(&cols, readi, i) - f64::from(r)).abs() < 0.5)
+    };
+    let wavelength = (0..nrows)
         .filter(|&i| of_read(i))
         .map(|i| cell(&cols, wli, i))
         .filter(|w| w.is_finite())
@@ -1369,10 +1372,10 @@ fn kinetics(
     let keep = |i: usize| {
         of_read(i) && {
             let w = cell(&cols, wli, i);
-            !wavelength.is_finite() || !w.is_finite() || w == wavelength
+            !wavelength.is_finite() || !w.is_finite() || w.to_bits() == wavelength.to_bits()
         }
     };
-    let mut times: Vec<f64> = (0..n)
+    let mut times: Vec<f64> = (0..nrows)
         .filter(|&i| keep(i))
         .map(|i| cell(&cols, Some(ti), i))
         .filter(|x| x.is_finite())
@@ -1385,26 +1388,26 @@ fn kinetics(
     // The time grid: the time points themselves, or equal bins when there are too many.
     let (t0, t1) = (times[0], times[times.len() - 1]);
     let bucketed = times.len() > MAX_TIME_POINTS;
-    let k = times.len().min(MAX_TIME_POINTS);
+    let bins = times.len().min(MAX_TIME_POINTS);
     let slot = |x: f64| -> usize {
         if bucketed {
-            (((x - t0) / (t1 - t0) * k as f64) as usize).min(k - 1)
+            (((x - t0) / (t1 - t0) * bins as f64) as usize).min(bins - 1)
         } else {
-            times.partition_point(|t| *t < x).min(k - 1)
+            times.partition_point(|t| *t < x).min(bins - 1)
         }
     };
     let grid: Vec<f64> = if bucketed {
-        (0..k)
-            .map(|j| t0 + (j as f64 + 0.5) * (t1 - t0) / k as f64)
+        (0..bins)
+            .map(|j| t0 + (j as f64 + 0.5) * (t1 - t0) / bins as f64)
             .collect()
     } else {
         times.clone()
     };
     if bucketed {
-        limits.insert("time_points".into(), json!(k));
+        limits.insert("time_points".into(), json!(bins));
     }
     let mut wells: std::collections::BTreeMap<(u32, u32), Vec<(f64, u32)>> = Default::default();
-    for i in 0..n {
+    for i in 0..nrows {
         if !keep(i) {
             continue;
         }
@@ -1413,12 +1416,12 @@ fn kinetics(
         if !x.is_finite() || !v.is_finite() {
             continue;
         }
-        let acc = wells.entry(p).or_insert_with(|| vec![(0.0, 0); k]);
+        let acc = wells.entry(p).or_insert_with(|| vec![(0.0, 0); bins]);
         let s = &mut acc[slot(x)];
         s.0 += v;
         s.1 += 1;
     }
-    let mut values: Vec<f32> = Vec::with_capacity(wells.len() * k);
+    let mut values: Vec<f32> = Vec::with_capacity(wells.len() * bins);
     for acc in wells.values() {
         values.extend(acc.iter().map(|(s, c)| {
             if *c > 0 {
@@ -1429,7 +1432,7 @@ fn kinetics(
         }));
     }
     let bytes: Vec<u8> = values.iter().flat_map(|x| x.to_le_bytes()).collect();
-    let described = t.extra.get("reads").and_then(Value::as_array);
+    let described = table.extra.get("reads").and_then(Value::as_array);
     let reads_json: Vec<Value> = reads
         .iter()
         .map(|r| {
@@ -1656,13 +1659,13 @@ fn fcs_gated(
     topts.sample = a.sample.clone();
     topts.populations = members;
     topts.compensation = Some(fa::CompensationChoice::Auto);
-    let rows = match fa::processed_rows(Path::new(path), ti, 0, read, &topts) {
-        Ok(r) => r,
-        Err(_) => {
-            topts.compensation = None;
-            notes.push("values as stored (no compensation matrix)".into());
-            fa::processed_rows(Path::new(path), ti, 0, read, &topts).map_err(|e| err(&e))?
-        }
+    let rows = if let Ok(r) = fa::processed_rows(Path::new(path), ti, 0, read, &topts) {
+        r
+    } else {
+        // no matrix to compensate with: the values as stored
+        topts.compensation = None;
+        notes.push("values as stored (no compensation matrix)".into());
+        fa::processed_rows(Path::new(path), ti, 0, read, &topts).map_err(|e| err(&e))?
     };
     let col = |name: &str| rows.names.iter().position(|n| n == name);
     let named =

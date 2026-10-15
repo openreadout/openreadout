@@ -265,11 +265,15 @@ pub fn html() -> &'static str {
         let fonts: Vec<Value> = FONTS
             .iter()
             .map(|(family, weight, bytes)| {
-                json!([family, weight, base64::engine::general_purpose::STANDARD.encode(bytes)])
+                json!([
+                    family,
+                    weight,
+                    base64::engine::general_purpose::STANDARD.encode(bytes)
+                ])
             })
             .collect();
-        let script = include_str!("web/viewer.js")
-            .replace("/*FONTS*/[]", &Value::Array(fonts).to_string());
+        let script =
+            include_str!("web/viewer.js").replace("/*FONTS*/[]", &Value::Array(fonts).to_string());
         include_str!("web/viewer.html")
             .replace("/*STYLE*/", include_str!("web/viewer.css"))
             .replace("/*SCRIPT*/", &script)
