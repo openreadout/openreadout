@@ -13,6 +13,8 @@
 //!   markers, bars, heat-map cells, text, arrows) and quiet axes;
 //! - [`Envelope`]: dense data reduced to a min/max line per pixel column;
 //! - [`grid`]: the frames of small multiples;
+//! - [`category_colors`]: the one rule for colouring categories (layout groups, populations,
+//!   series), shared with the viewer through [`Theme::tokens_json`];
 //! - [`LabelPlacer`], [`spread`] and [`end_labels`]: labels that do not overlap;
 //! - [`Pill`]: a label on a rounded background that reads on any image.
 //!

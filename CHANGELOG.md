@@ -16,6 +16,8 @@ All notable changes to this project are documented here. The format is based on 
 - Flow cytometry files preview as a density plot of two parameters (default FSC-A against SSC-A) or a histogram of one; fluorescence axes are asinh.
 - `preview --annotate` (MCP `annotations`) draws labelled points, boxes, outlines, arrows, text, lines and bands in the picture's own coordinates, and reports where each landed.
 - Spectra and chromatogram previews label their largest peaks; `preview --marks spikes` marks the action potentials of a current-clamp sweep.
+- NMR data sets preview as their spectrum on a ppm axis with each multiplet labelled (the stored processed spectrum, else the FID processed), mass-spectrometry runs as their total-ion chromatogram, and voltammetry as current against potential.
+- The viewer draws `openreadout_plot` figures again in the host's theme and at the viewer's size, redraws them over a dragged x range, and reads out every series' value under the pointer.
 - `preview` writes SVG (`-o x.svg`), and `--dark` draws in the dark theme. Chromatogram and peak plots (`analyze chromatogram -o x.png`, `analyze peaks --plot`) and assay curve plots use the new engine.
 
 ### Changed
@@ -25,11 +27,16 @@ All notable changes to this project are documented here. The format is based on 
 - A spike must rise 15 mV above the trough before it (`--min-rise-mv`, 0 for eFEL's count), and `spectrum --max-points` keeps the most intense points.
 - `preview --column` is repeatable (MCP `columns`): a plate's value column, or the parameters of an event preview.
 - Previews report `panels` (each plot panel's place and data range), `marks` and `annotations`, so a viewer can map picture pixels to data values.
+- Image previews fill the requested size: `max_size` 768 on a 4000 × 3000 region gives a 768-pixel-wide picture, not 579. `image.downsample` is now the exact (fractional) number of source pixels per picture pixel.
+- Previews, plots and the viewer colour categories by one rule: layout groups, populations and series take ink, the accent, blue, ochre, … in the order they first appear, and blank wells are faint. The viewer takes its colours from the figure engine's theme.
+- Peak labels on previews, chromatogram plots and the viewer go only on peaks that stand clear of the noise; direct labels at line ends keep a line apart with elbow leaders; flow cytometry axes label decades (`10²`, `10³`, `−10²`); on a log axis, curves that rise from a baseline at zero (qPCR ΔRn) start where they leave the noise.
 
 ### Fixed
 
 - `analyze ephys-features` gave a rheobase for cells that fire during the 0 pA step; it now reports none, with a note and `spontaneous_rate_hz`. Noise near −20 mV in depolarisation block no longer counts as spikes, and the f–I slope stops at the step of highest rate.
 - `analyze growth --wells` dropped the layout's blank wells and fell back to each well's own minimum; the blanks are now subtracted.
+- The viewer gates every event of a flow cytometry file (up to 2 million, then evenly spread windows), not the first 300,000, and its frame takes the shape of each new region the agent looks at.
+- `preview` of an FCS file draws its events again (it said it could not).
 - `index` reads symbolic links to files. Plane selections such as `c=0,1,z=2` work in every command. MCP tools take a single value where they take a list, and a type error lists the tool's arguments. `preview` and `stats` point FCS and other table-only files at the tools that read them. The website's `/formats/` address works.
 
 ## [0.3.0] - 2026-10-13

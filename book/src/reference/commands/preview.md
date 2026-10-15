@@ -1,12 +1,19 @@
 # preview
 
-`preview` renders a PNG, JPEG or SVG picture of the data: an image plane, a channel composite or a maximum projection; a trace; a mass spectrum; a plate heat map, or a grid of growth curves for a kinetic plate read; or a density plot of flow cytometry events. Spectra and chromatograms get their largest peaks labelled, and you can draw your own annotations on any of them.
+`preview` renders a PNG, JPEG or SVG picture of the data: an image plane, a channel composite or a maximum projection; a trace; a mass spectrum or a run's chromatogram; a plate heat map, or a grid of growth curves for a kinetic plate read; or a density plot of flow cytometry events. Spectra and chromatograms get their prominent peaks labelled, and you can draw your own annotations on any of them.
 
 ```text
 openreadout preview [OPTIONS] <FILE>
 ```
 
-The kind of picture follows the file: images first, then traces, spectra and tables. The trace, spectrum and table flags pick another. The same request on the same file always gives the same bytes.
+The kind of picture follows the file: images first, then traces, spectra and tables. The trace, spectrum and table flags pick another. Some files get the picture people read them by:
+
+- an NMR data set shows its spectrum on a chemical-shift axis, with each multiplet labelled: the processed spectrum the vendor software stored, or else the FID processed as [`analyze nmr-peaks`](analyze.md#nmr-peaks) does. `--trace 0` shows the raw FID.
+- a mass-spectrometry run shows its total-ion chromatogram from the scan headers, with the apex and the other prominent peaks labelled in minutes. `--spectrum` or `--scan` shows a spectrum.
+- cyclic and linear sweep voltammetry shows current against potential, one loop per cycle from faint (first) to dark (last). `--channel` draws channels against time instead.
+- flow cytometry events show FSC-A against SSC-A.
+
+The same request on the same file always gives the same bytes.
 
 ## Flags
 
@@ -16,7 +23,7 @@ The kind of picture follows the file: images first, then traces, spectra and tab
 - `--format png|jpeg|svg`: default from the output extension, else PNG. SVG keeps text as text and embeds image data as PNG.
 - `--dark`: draw in the dark theme.
 - `--quality N`: JPEG quality, 1–100. Default 90.
-- `--max-size N`: longest side of the picture in pixels (16–8192), rulers included. Default 1024.
+- `--max-size N`: longest side of the picture in pixels (16–8192), rulers included. Default 1024. An image is resampled to fill it (an area average when made smaller; a small image is enlarged by repeating its pixels), and the report's `source_per_pixel` says exactly how picture pixels map to source pixels.
 - `--overwrite`: replace an existing output file.
 - `--json`: print the report as JSON.
 
@@ -38,7 +45,7 @@ The kind of picture follows the file: images first, then traces, spectra and tab
 - `--run N`, `--spectrum N`, `--scan N`: the mass spectrum to draw, by zero-based index or instrument scan number.
 - `--centroid`: draw the instrument's centroid list instead of the profile.
 - `--table N`, `--column NAME`: the table, and the column to draw: a plate's value column (long layout), or the x and then the y parameter of flow cytometry events (`--column` is repeatable; one parameter gives a histogram; default FSC-A against SSC-A).
-- `--marks auto|peaks|spikes|none`: marks drawn from the data. `auto` (default) labels the largest peaks of spectra and chromatograms with their position; `peaks` does so on any trace; `spikes` marks the action potentials of a current-clamp sweep (upward crossings of −20 mV, as [`analyze ephys-features`](analyze.md) counts them).
+- `--marks auto|peaks|spikes|none`: marks drawn from the data. `auto` (default) labels the prominent peaks of spectra and chromatograms with their position (a peak has to stand well clear of the noise around it, so a noisy baseline stays unlabelled); `peaks` does so on any trace; `spikes` marks the action potentials of a current-clamp sweep (upward crossings of −20 mV, as [`analyze ephys-features`](analyze.md) counts them).
 
 ### Annotations
 
