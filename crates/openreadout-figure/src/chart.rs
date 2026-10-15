@@ -974,6 +974,98 @@ pub fn key_row(
     used
 }
 
+/// Height of [`key_row`]'s rows for `items` wrapped inside `max_w`, without drawing.
+pub fn key_row_height(theme: &Theme, max_w: f32, items: &[(Color, String)]) -> f32 {
+    let fs = theme.font_size;
+    let st = TextStyle::new(fs, theme.ink);
+    let sw = fs * 1.1;
+    let (mut cx, mut rows) = (0.0f32, 1usize);
+    for (_, t) in items {
+        let w = sw + fs * 0.4 + st.width(t);
+        if cx > 0.0 && cx + w > max_w {
+            cx = 0.0;
+            rows += 1;
+        }
+        cx += w + fs * 1.2;
+    }
+    fs * 1.2 + (rows - 1) as f32 * fs * 1.5
+}
+
+/// A key that always fits `area`, and the area left for the chart. A few entries go in rows
+/// above the chart; when those rows would take more than a quarter of the height, the entries
+/// go in columns at the right instead (at most two fifths of the width); entries that still do
+/// not fit are summed up as "+N more".
+pub fn key_fit(
+    fig: &mut Figure,
+    theme: &Theme,
+    area: Rect,
+    items: &[(Color, String)],
+    block: bool,
+) -> Rect {
+    let fs = theme.font_size;
+    if items.is_empty() {
+        return area;
+    }
+    let rows_h = key_row_height(theme, area.w, items);
+    if rows_h <= area.h * 0.25 {
+        let used = key_row(fig, theme, area.x, area.y + fs * 0.6, area.w, items, block);
+        return area.inset_sides(0.0, used.bottom() - area.y + fs * 0.6, 0.0, 0.0);
+    }
+    // columns at the right: entries top to bottom, a new column when one is full
+    let st = TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Middle);
+    let sw = fs * 1.1;
+    let line = fs * 1.45;
+    let per_col = ((area.h - fs * 0.4) / line).floor().max(1.0) as usize;
+    let max_text = area.w * 0.4 - sw - fs * 0.4;
+    let short = |t: &str| {
+        let mut s = t.to_string();
+        while st.width(&s) > max_text.max(fs * 3.0) && s.chars().count() > 4 {
+            let n = s.chars().count();
+            s = format!("{}…", s.chars().take(n - 2).collect::<String>());
+        }
+        s
+    };
+    let texts: Vec<String> = items.iter().map(|(_, t)| short(t)).collect();
+    let col_w = texts.iter().map(|t| st.width(t)).fold(0.0f32, f32::max) + sw + fs * 1.6;
+    let max_cols = ((area.w * 0.4) / col_w).floor().max(1.0) as usize;
+    let capacity = per_col * max_cols;
+    let (shown, more) = if items.len() > capacity {
+        (capacity - 1, items.len() - (capacity - 1))
+    } else {
+        (items.len(), 0)
+    };
+    let cols = (shown + usize::from(more > 0)).div_ceil(per_col).max(1);
+    let x0 = area.right() - cols as f32 * col_w + fs * 1.2;
+    for (k, ((c, _), t)) in items.iter().zip(&texts).take(shown).enumerate() {
+        let (col, row) = (k / per_col, k % per_col);
+        let x = x0 + col as f32 * col_w;
+        let y = area.y + fs * 0.6 + row as f32 * line;
+        if block {
+            fig.fill(
+                Path::round_rect(x, y - fs * 0.4, sw, fs * 0.8, fs * 0.15),
+                *c,
+            );
+        } else {
+            fig.stroke(
+                Path::segment(x, y, x + sw, y),
+                Stroke::new(*c, theme.line_width * 1.4).round(),
+            );
+        }
+        fig.text(x + sw + fs * 0.4, y, t, &st);
+    }
+    if more > 0 {
+        let (col, row) = (shown / per_col, shown % per_col);
+        let st = TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Middle);
+        fig.text(
+            x0 + col as f32 * col_w,
+            area.y + fs * 0.6 + row as f32 * line,
+            &format!("+{more} more"),
+            &st,
+        );
+    }
+    area.inset_sides(0.0, 0.0, cols as f32 * col_w, 0.0)
+}
+
 /// A horizontal colour bar over `rect` for `cmap` from `lo` to `hi`, with end labels under it
 /// and an optional caption to its left.
 pub fn color_bar(
@@ -1026,6 +1118,28 @@ pub fn color_bar(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn keys_always_fit() {
+        let theme = Theme::light().for_size(400.0);
+        let mut fig = Figure::new(400.0, 200.0, Some(theme.paper));
+        let few: Vec<(Color, String)> =
+            (0..3).map(|i| (theme.series(i), format!("g{i}"))).collect();
+        let left = key_fit(&mut fig, &theme, Rect::new(0.0, 0.0, 400.0, 200.0), &few, false);
+        assert!(
+            left.y > 0.0 && (left.w - 400.0).abs() < 1e-3,
+            "rows above: {left:?}"
+        );
+        let many: Vec<(Color, String)> = (0..60)
+            .map(|i| (theme.series(i), format!("group {i}")))
+            .collect();
+        let left = key_fit(&mut fig, &theme, Rect::new(0.0, 0.0, 400.0, 200.0), &many, false);
+        assert!(
+            left.w < 400.0 && left.w >= 240.0 - 1e-3,
+            "columns beside: {left:?}"
+        );
+        assert!(left.h > 199.0);
+    }
 
     #[test]
     fn spreads_labels() {

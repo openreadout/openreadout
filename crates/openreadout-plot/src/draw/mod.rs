@@ -8,7 +8,7 @@ use openreadout_core::Result;
 use openreadout_figure::{
     Anchor, AxesSpec, Baseline, Color, Domain, EndLabel, Face, Figure, GridLines, LabelPlacer,
     Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_labels, format_tick,
-    key_row, spread,
+    key_fit, key_row, spread,
 };
 use serde_json::{Value, json};
 
@@ -364,27 +364,44 @@ fn draw_axes(
             r.w / ticks.len() as f32
         };
         let ls = label.clone().align(Anchor::Middle, Baseline::Top);
-        let widest = ticks.iter().map(|t| ls.width(&t.1)).fold(0.0f32, f32::max);
-        let rotate = ax.is_cat() && widest > room * 0.95;
-        for (v, t) in &ticks {
+        let lay = if ax.is_cat() {
+            let names: Vec<String> = ticks.iter().map(|t| t.1.clone()).collect();
+            cat_layout(&names, room, &label)
+        } else {
+            CatLayout::FLAT
+        };
+        for (i, (v, t)) in ticks.iter().enumerate() {
             let Some(px) = p.x.px(*v) else { continue };
             if px < r.x - 1.0 || px > r.right() + 1.0 {
                 continue;
             }
             fig.line(px, r.bottom(), px, r.bottom() + tick, axis.clone());
-            if rotate {
+            if i % lay.every != 0 {
+                continue;
+            }
+            if lay.angle != 0.0 {
                 let st = label
                     .clone()
                     .align(Anchor::End, Baseline::Middle)
-                    .rotate(-35.0);
+                    .rotate(lay.angle);
                 fig.text(px, r.bottom() + tick + fs * 0.4, &shorten(t, 22), &st);
+            } else if lay.lines == 2 {
+                for (k, line) in wrap_two(t).iter().enumerate() {
+                    let y = r.bottom() + tick + fs * 0.3 + k as f32 * fs * 1.15;
+                    fig.text(px, y, line, &ls);
+                }
             } else {
                 fig.text(px, r.bottom() + tick + fs * 0.3, t, &ls);
             }
         }
         if let Some(xl) = &spec.x_label {
-            let y = r.bottom() + tick + fs * 0.3 + fs * 1.1 + fs * 1.05;
-            if !rotate {
+            let y = r.bottom()
+                + tick
+                + fs * 0.3
+                + fs * 1.1
+                + fs * 1.05
+                + if lay.lines == 2 { fs * 1.15 } else { 0.0 };
+            if lay.angle == 0.0 {
                 fig.text(
                     r.right(),
                     y,
@@ -425,6 +442,81 @@ fn draw_axes(
                 fig.line(px, r.y, px, r.bottom(), grid.clone());
             }
         }
+    }
+}
+
+/// How category names sit under a categorical x axis: level on one line when they fit, on
+/// two lines (split at a space) when that fits, else turned 45° while neighbours stay a line
+/// apart, else upright, with only every n-th named when even that would crowd.
+#[derive(Debug, Clone, Copy, PartialEq)]
+struct CatLayout {
+    /// Lines of level text (1 or 2).
+    lines: usize,
+    /// Rotation in degrees (0, -45 or -90).
+    angle: f32,
+    /// Name every n-th category.
+    every: usize,
+    /// Room the names need below a one-line label, pixels.
+    depth: f32,
+}
+
+impl CatLayout {
+    const FLAT: CatLayout = CatLayout {
+        lines: 1,
+        angle: 0.0,
+        every: 1,
+        depth: 0.0,
+    };
+}
+
+/// `name` on at most two lines, split at the space nearest its middle.
+fn wrap_two(name: &str) -> Vec<String> {
+    let mid = name.chars().count() / 2;
+    let best = name
+        .char_indices()
+        .filter(|(_, c)| *c == ' ')
+        .map(|(i, _)| i)
+        .min_by_key(|&i| name[..i].chars().count().abs_diff(mid));
+    match best {
+        Some(i) => vec![name[..i].to_string(), name[i + 1..].to_string()],
+        None => vec![name.to_string()],
+    }
+}
+
+fn cat_layout(names: &[String], room: f32, st: &TextStyle) -> CatLayout {
+    let fs = st.size;
+    let fits = |w: f32| w <= room * 0.92;
+    let widest = names
+        .iter()
+        .map(|c| st.width(&shorten(c, 22)))
+        .fold(0.0f32, f32::max);
+    if names.iter().all(|c| fits(st.width(c))) {
+        return CatLayout::FLAT;
+    }
+    if names
+        .iter()
+        .all(|c| wrap_two(c).iter().all(|l| fits(st.width(l))))
+    {
+        return CatLayout {
+            lines: 2,
+            depth: fs * 1.15,
+            ..CatLayout::FLAT
+        };
+    }
+    // turned names stay apart when neighbours are a line of type apart across the slant
+    let line = fs * 1.2;
+    if room >= line * std::f32::consts::SQRT_2 {
+        return CatLayout {
+            angle: -45.0,
+            depth: widest * std::f32::consts::FRAC_1_SQRT_2,
+            ..CatLayout::FLAT
+        };
+    }
+    CatLayout {
+        angle: -90.0,
+        every: (line / room.max(0.1)).ceil().max(1.0) as usize,
+        depth: widest - fs * 0.6,
+        ..CatLayout::FLAT
     }
 }
 
@@ -968,8 +1060,8 @@ fn draw_plot(
     if legend == Legend::Key && !entries.is_empty() {
         let items: Vec<(Color, String)> = entries.iter().map(|e| (e.1, e.0.clone())).collect();
         let block = entries.iter().any(|e| e.2);
-        let used = key_row(fig, theme, area.x, area.y + fs * 0.6, area.w, &items, block);
-        area = area.inset_sides(0.0, used.bottom() - area.y + fs * 0.6, 0.0, 0.0);
+        // rows above the chart, or columns beside it when there are many
+        area = key_fit(fig, theme, area, &items, block);
     }
     let right = if legend == Legend::Direct && !hist {
         let st = TextStyle::new(fs, theme.ink);
@@ -984,18 +1076,15 @@ fn draw_plot(
     let spec = axes_spec(ax, ay, right, 0.0);
     let mut fit_spec = spec.clone();
     if ax.is_cat() {
-        // rotated category names need room
+        // wrapped or turned category names need room under the axis
         let st = TextStyle::new(fs, theme.muted);
-        let widest = ax
-            .cats
-            .iter()
-            .map(|c| st.width(&shorten(c, 22)))
-            .fold(0.0f32, f32::max);
         let room = area.w / ax.cats.len().max(1) as f32;
-        if widest > room * 0.95 {
+        let lay = cat_layout(&ax.cats, room, &st);
+        if lay.angle != 0.0 {
             fit_spec.x_label = None;
-            let extra = widest * 0.6;
-            area = area.inset_sides(0.0, 0.0, 0.0, extra);
+        }
+        if lay.depth > 0.0 {
+            area = area.inset_sides(0.0, 0.0, 0.0, lay.depth);
         }
     }
     let panel = Panel::fit(area, ax.domain, ay.domain, theme, &fit_spec);
@@ -1160,16 +1249,7 @@ fn draw_facets(
     let entries = legend_entries(&p.series);
     if !classes.is_empty() && entries.len() > 1 {
         let items: Vec<(Color, String)> = entries.iter().map(|e| (e.1, e.0.clone())).collect();
-        let used = key_row(
-            fig,
-            theme,
-            area.x,
-            area.y + fs * 0.6,
-            area.w,
-            &items,
-            entries.iter().any(|e| e.2),
-        );
-        area = area.inset_sides(0.0, used.bottom() - area.y + fs * 0.4, 0.0, 0.0);
+        area = key_fit(fig, theme, area, &items, entries.iter().any(|e| e.2));
     }
     let small_fs = theme.small_size();
     let gap_x = fs * 1.2;
