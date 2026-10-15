@@ -929,6 +929,8 @@ pub(crate) enum Frame {
     Plots {
         panels: Vec<FramePanel>,
         key: Option<KeySlot>,
+        /// Labels the preview drew itself (peak labels), which the caller's labels keep off.
+        taken: Vec<openreadout_figure::Rect>,
     },
     /// A plate heat map: each well's cell.
     Wells(Vec<((u32, u32), openreadout_figure::Rect)>),
@@ -937,7 +939,20 @@ pub(crate) enum Frame {
 impl Frame {
     /// Plot panels without a key.
     pub(crate) fn plots(panels: Vec<FramePanel>) -> Frame {
-        Frame::Plots { panels, key: None }
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: Vec::new(),
+        }
+    }
+
+    /// Plot panels whose own labels occupy `taken`.
+    pub(crate) fn plots_labelled(panels: Vec<FramePanel>, taken: &[openreadout_figure::Rect]) -> Frame {
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: taken.to_vec(),
+        }
     }
 }
 

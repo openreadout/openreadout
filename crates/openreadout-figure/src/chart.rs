@@ -898,14 +898,9 @@ pub struct EndLabel {
 /// crowded stack still reads line by line.
 pub fn end_labels(fig: &mut Figure, theme: &Theme, x: f32, labels: &[EndLabel], lo: f32, hi: f32) {
     let fs = theme.font_size;
-    let gap = fs * 1.3;
-    let ys: Vec<f32> = labels.iter().map(|l| l.y).collect();
-    let need = gap * labels.len().saturating_sub(1) as f32;
-    let lo = lo.min(hi - need).max(fs * 0.6);
-    let pos = spread(&ys, gap, lo, hi);
+    let (tx, pos) = end_label_layout(theme, x, labels, lo, hi);
     let moved = |a: f32, b: f32| (a - b).abs() > fs * 0.25;
-    let any_moved = labels.iter().zip(&pos).any(|(l, &y)| moved(l.y, y));
-    let tx = x + if any_moved { fs * 1.6 } else { fs * 0.5 };
+    let any_moved = tx > x + fs;
     for (l, &y) in labels.iter().zip(&pos) {
         if moved(l.y, y) {
             let run = fs * 0.3;
@@ -927,6 +922,58 @@ pub fn end_labels(fig: &mut Figure, theme: &Theme, x: f32, labels: &[EndLabel], 
         let st = TextStyle::new(fs, l.color).align(Anchor::Start, Baseline::Middle);
         fig.text(tx, y, &l.text, &st);
     }
+}
+
+/// Where [`end_labels`] puts its text: the left edge, and each label's y in input order.
+fn end_label_layout(
+    theme: &Theme,
+    x: f32,
+    labels: &[EndLabel],
+    lo: f32,
+    hi: f32,
+) -> (f32, Vec<f32>) {
+    let fs = theme.font_size;
+    let gap = fs * 1.3;
+    let ys: Vec<f32> = labels.iter().map(|l| l.y).collect();
+    let need = gap * labels.len().saturating_sub(1) as f32;
+    let lo = lo.min(hi - need).max(fs * 0.6);
+    let pos = spread(&ys, gap, lo, hi);
+    let any_moved = labels
+        .iter()
+        .zip(&pos)
+        .any(|(l, &y)| (l.y - y).abs() > fs * 0.25);
+    let tx = x + if any_moved { fs * 1.6 } else { fs * 0.5 };
+    (tx, pos)
+}
+
+/// The space each label of [`end_labels`] takes, with the same arguments: its text, its
+/// leader, and the last stretch of its line inside the panel (`reach` pixels left of `x`).
+/// Other labels (peaks, callouts) keep off these boxes, so a figure's labels form one set
+/// that does not collide.
+pub fn end_label_boxes(
+    theme: &Theme,
+    x: f32,
+    labels: &[EndLabel],
+    lo: f32,
+    hi: f32,
+    reach: f32,
+) -> Vec<Rect> {
+    let fs = theme.font_size;
+    let (tx, pos) = end_label_layout(theme, x, labels, lo, hi);
+    labels
+        .iter()
+        .zip(&pos)
+        .map(|(l, &y)| {
+            let w = text_width_of(&l.text, fs);
+            let top = l.y.min(y) - fs * 0.7;
+            let bottom = l.y.max(y) + fs * 0.7;
+            Rect::new(x - reach, top, tx + w - (x - reach), bottom - top)
+        })
+        .collect()
+}
+
+fn text_width_of(text: &str, fs: f32) -> f32 {
+    font::text_width(text, Face::Sans, fs)
 }
 
 /// How far right of the panel [`end_labels`] puts its text, at most (room to reserve).
@@ -1151,6 +1198,37 @@ mod tests {
             "columns beside: {left:?}"
         );
         assert!(left.h > 199.0);
+    }
+
+    #[test]
+    fn end_label_boxes_keep_peak_labels_away() {
+        let theme = Theme::light();
+        let labels = [
+            EndLabel {
+                y: 100.0,
+                text: "Cellulose".into(),
+                color: theme.ink,
+            },
+            EndLabel {
+                y: 104.0,
+                text: "Quartz".into(),
+                color: theme.ink,
+            },
+        ];
+        let boxes = end_label_boxes(&theme, 400.0, &labels, 0.0, 300.0, 30.0);
+        assert_eq!(boxes.len(), 2);
+        for (b, l) in boxes.iter().zip(&labels) {
+            // the box spans the end of the line and the label
+            assert!(b.x <= 370.0 + 1e-3 && b.right() > 400.0 + 20.0, "{b:?}");
+            assert!(b.y < l.y && b.bottom() > l.y, "{b:?}");
+        }
+        // a label for a peak just inside the panel's right edge goes elsewhere
+        let mut placer = crate::LabelPlacer::new(Rect::new(0.0, 0.0, 400.0, 300.0));
+        for b in &boxes {
+            placer.reserve(*b);
+        }
+        let r = placer.place(390.0, 102.0, 24.0, 12.0, 4.0);
+        assert!(boxes.iter().all(|b| !b.intersects(&r)), "{r:?}");
     }
 
     #[test]

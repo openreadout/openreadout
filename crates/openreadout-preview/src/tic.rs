@@ -187,5 +187,8 @@ pub(crate) fn render(
         },
         pts.len()
     ));
-    Ok(Some((fig, Frame::plots(vec![FramePanel::new(panel)]))))
+    Ok(Some((
+        fig,
+        Frame::plots_labelled(vec![FramePanel::new(panel)], placer.taken()),
+    )))
 }
