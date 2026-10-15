@@ -421,10 +421,7 @@ pub fn format_tick(v: f64, step: f64) -> String {
         return format!("{}{suffix}", trim(format!("{:.dec$}", v / div)));
     }
     if a < 1e-3 {
-        let e = a.log10().floor() as i32;
-        let m = v / 10f64.powi(e);
-        let ms = trim(format!("{m:.1}"));
-        return format!("{ms}e{e}");
+        return sci(v, 1);
     }
     let dec = decimals_for(step).min(6);
     trim(format!("{v:.dec$}"))
@@ -440,12 +437,21 @@ pub fn format_value(v: f64) -> String {
     }
     let a = v.abs();
     if !(1e-3..1e6).contains(&a) {
-        let e = a.log10().floor() as i32;
-        let m = v / 10f64.powi(e);
-        return format!("{}e{e}", trim(format!("{m:.2}")));
+        return sci(v, 2);
     }
     let decimals = (3 - a.log10().floor() as i32).clamp(0, 6) as usize;
     trim(format!("{v:.decimals$}"))
+}
+
+/// `v` in scientific notation with `digits` decimals in the mantissa, trailing zeros dropped
+/// (`1.5e-5`, `2e8`). The formatter finds the exponent itself, so subnormal numbers (about
+/// 1e-308 and below), where dividing by a power of ten overflows, are written right.
+fn sci(v: f64, digits: usize) -> String {
+    let s = format!("{v:.digits$e}");
+    match s.split_once('e') {
+        Some((m, e)) => format!("{}e{e}", trim(m.to_string())),
+        None => s,
+    }
 }
 
 fn decimals_for(step: f64) -> usize {
@@ -473,6 +479,20 @@ fn trim(s: String) -> String {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn tiny_and_huge_numbers_are_written_in_scientific_notation() {
+        assert_eq!(format_tick(1e-320, 1e-321), "1e-320");
+        assert_eq!(format_tick(-2.5e-5, 1e-5), "-2.5e-5");
+        let tiny = format_value(1.234e-321);
+        assert!(tiny.starts_with("1.2") && tiny.ends_with("e-321"), "{tiny}");
+        assert_eq!(format_value(9.999e7), "1e8");
+        assert_eq!(format_value(f64::MIN_POSITIVE), "2.23e-308");
+        for v in [5e-324, 1e-310, 3e-300, 1e300] {
+            assert!(!format_value(v).contains("inf"), "{v}");
+            assert!(!format_tick(v, v).contains("inf"), "{v}");
+        }
+    }
+
     use super::*;
 
     #[test]

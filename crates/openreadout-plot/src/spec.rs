@@ -5,7 +5,7 @@
 use std::collections::BTreeMap;
 
 use schemars::JsonSchema;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 
 // Enums whose values name themselves (light, dark, sd, sem, ...) carry no doc comments: the
 // field that takes them describes them, and the tool's schema stays short.
@@ -25,6 +25,25 @@ impl<T: Clone> OneOrMany<T> {
             OneOrMany::One(v) => vec![v.clone()],
             OneOrMany::Many(v) => v.clone(),
         }
+    }
+}
+
+/// A list of scalars that also takes a single value: R's `jsonlite::toJSON(auto_unbox = TRUE)`
+/// and agents both write one-element lists as the element alone. (Lists of objects, `panels`
+/// and `annotate`, are lists in R too, and keep serde's error paths.)
+fn one_or_many<'de, D, T>(d: D) -> std::result::Result<Vec<T>, D::Error>
+where
+    D: Deserializer<'de>,
+    T: serde::de::DeserializeOwned,
+{
+    use serde::de::Error as _;
+    let v = serde_json::Value::deserialize(d)?;
+    match v {
+        serde_json::Value::Null => Ok(Vec::new()),
+        serde_json::Value::Array(_) => serde_json::from_value(v).map_err(D::Error::custom),
+        one => serde_json::from_value(one)
+            .map(|x| vec![x])
+            .map_err(D::Error::custom),
     }
 }
 
@@ -62,6 +81,31 @@ pub struct PlotSpec {
     pub paper: Option<String>,
 }
 
+impl PlotSpec {
+    /// Every file the spec names (instrument files, table files, FlowJo workspaces, Gating-ML
+    /// and assay layouts): the files a saved figure must not replace.
+    pub fn input_files(&self) -> Vec<std::path::PathBuf> {
+        let mut out = Vec::new();
+        let panels = std::iter::once(&self.panel).chain(self.panels.iter().map(|p| &p.panel));
+        for p in panels {
+            out.extend(p.file.iter().flat_map(OneOrMany::to_vec));
+            for s in p.data.iter().flat_map(OneOrMany::to_vec) {
+                out.extend(s.file.iter().flat_map(OneOrMany::to_vec));
+                out.extend(
+                    s.table
+                        .iter()
+                        .chain(&s.workspace)
+                        .chain(&s.gatingml)
+                        .cloned(),
+                );
+                let assay = s.assay.iter().flat_map(|m| m.values());
+                out.extend(assay.filter_map(|v| v.as_str().map(str::to_string)));
+            }
+        }
+        out.into_iter().map(std::path::PathBuf::from).collect()
+    }
+}
+
 /// A panel in `panels`.
 #[derive(Debug, Clone, Default, Deserialize, Serialize, JsonSchema)]
 pub struct PanelItem {
@@ -94,11 +138,13 @@ pub struct PanelSpec {
     /// direct when it fits, else key.
     pub legend: Option<Legend>,
     /// Column headings of a plate facet (e.g. doses), left to right.
-    #[serde(default)]
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub column_labels: Vec<String>,
     /// Row headings of a plate facet, top to bottom. Default: the layout group of each block of
     /// rows, else the row letters.
-    #[serde(default)]
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub row_labels: Vec<String>,
     /// Offset each series upward by this fraction of the tallest one (stacked spectra).
     pub stack: Option<f64>,
@@ -273,7 +319,8 @@ pub struct SeriesSpec {
     /// Plates and qPCR: wells such as `A1:H11` or `A1,B2`.
     pub wells: Option<String>,
     /// Plates: only wells of these layout groups (`*` matches any text).
-    #[serde(default)]
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub groups: Vec<String>,
     /// Plates: `well` (one curve per well, default) or `group` (mean and spread per layout
     /// group). Tables: the column whose values split rows into series.
@@ -296,10 +343,12 @@ pub struct SeriesSpec {
     /// Table column with error bar half-widths.
     pub error: Option<String>,
     /// Tables: row filters `COLUMN=VALUE` or `COLUMN!=VALUE`.
-    #[serde(rename = "where", default)]
+    #[serde(rename = "where", default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub where_: Vec<String>,
     /// FCS: populations to colour (paths or unique names; needs workspace or gatingml).
-    #[serde(default)]
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub populations: Vec<String>,
     /// FCS: FlowJo workspace (.wsp).
     pub workspace: Option<String>,
@@ -322,14 +371,20 @@ pub struct SeriesSpec {
 #[serde(deny_unknown_fields)]
 pub struct InlineValues {
     /// x values: numbers, or category names.
+    #[serde(deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<serde_json::Value>")]
     pub x: Vec<serde_json::Value>,
     /// y values.
+    #[serde(deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<f64>")]
     pub y: Vec<f64>,
     /// Error bar half-widths.
-    #[serde(default)]
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<f64>")]
     pub error: Vec<f64>,
     /// Point labels.
-    #[serde(default)]
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
     pub labels: Vec<String>,
     /// Unit of x (axis label).
     pub x_unit: Option<String>,

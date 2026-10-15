@@ -272,7 +272,49 @@ fn measure_request(
         polygon,
         objects,
     };
+    check_measure_args(a, &req)?;
     Ok(req.any().then_some(req))
+}
+
+/// Refuse flags a measurement (`--line`, `--polygon`, `--objects`) would ignore.
+fn check_measure_args(a: &StatsArgs, m: &openreadout_core::measure::MeasureRequest) -> Result<()> {
+    use openreadout_core::Error;
+    if !m.any() {
+        if a.line_width.is_some() {
+            return Err(Error::Usage(
+                "--line-width is the width of a line profile: give --line as well".into(),
+            ));
+        }
+        return Ok(());
+    }
+    let set: Vec<&str> = [
+        ("--mip", a.mip.is_some()),
+        ("--per", a.per != PerArg::Channel),
+        ("--bins", a.bins != DEFAULT_BINS),
+        ("--scale", a.scale != ScaleArg::Linear),
+        ("--well", !a.wells.is_empty()),
+    ]
+    .into_iter()
+    .filter(|x| x.1)
+    .map(|x| x.0)
+    .collect();
+    if !set.is_empty() {
+        return Err(Error::Usage(format!(
+            "{} apply to pixel statistics, not to --line, --polygon or --objects, which measure one plane: pick the plane with --select (`z=4`, `c=1`), or drop the measurement flags",
+            set.join(", ")
+        )));
+    }
+    if m.region.is_some() && m.objects.is_none() {
+        return Err(Error::Usage(
+            "--region bounds an --objects count; --line and --polygon are given in full-plane pixels of --level, so drop --region".into(),
+        ));
+    }
+    if a.line_width.is_some() && m.line.is_none() {
+        return Err(Error::Usage(
+            "--line-width is the width of a line profile: give --line as well".into(),
+        ));
+    }
+    Ok(())
 }
 
 fn render_measure(o: &openreadout_core::measure::MeasureOutput) -> String {

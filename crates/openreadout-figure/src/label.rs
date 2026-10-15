@@ -17,12 +17,21 @@ const CANDIDATES: [(f32, f32); 8] = [
     (0.0, 1.0),   // below
 ];
 
+/// Cells per side of the grid that finds the boxes near a candidate spot.
+const GRID: usize = 64;
+
 /// Places label boxes near their anchors without overlapping each other, the anchors already
 /// marked, or anything reserved; inside `bounds` whenever possible.
+///
+/// The boxes are also kept in a coarse grid over `bounds` (boxes outside it go in the edge
+/// cells), so a spot is checked against the boxes near it only and placing many labels stays
+/// fast.
 #[derive(Debug, Clone)]
 pub struct LabelPlacer {
     bounds: Rect,
     taken: Vec<Rect>,
+    /// Indices into `taken`, per grid cell, row-major.
+    grid: Vec<Vec<u32>>,
 }
 
 impl LabelPlacer {
@@ -31,12 +40,57 @@ impl LabelPlacer {
         LabelPlacer {
             bounds,
             taken: Vec::new(),
+            grid: vec![Vec::new(); GRID * GRID],
         }
+    }
+
+    /// The grid cells `r` covers, as column and row ranges (clamped to the grid).
+    fn cells(
+        &self,
+        r: &Rect,
+    ) -> (
+        std::ops::RangeInclusive<usize>,
+        std::ops::RangeInclusive<usize>,
+    ) {
+        let cw = (self.bounds.w / GRID as f32).max(1.0);
+        let ch = (self.bounds.h / GRID as f32).max(1.0);
+        // `as usize` saturates: left of the bounds (and NaN) is cell 0
+        let col = |x: f32| (((x - self.bounds.x) / cw) as usize).min(GRID - 1);
+        let row = |y: f32| (((y - self.bounds.y) / ch) as usize).min(GRID - 1);
+        let (x0, x1) = (r.x.min(r.right()), r.x.max(r.right()));
+        let (y0, y1) = (r.y.min(r.bottom()), r.y.max(r.bottom()));
+        (col(x0)..=col(x1), row(y0)..=row(y1))
+    }
+
+    /// Add `r` to the boxes labels keep off.
+    fn push(&mut self, r: Rect) {
+        let i = u32::try_from(self.taken.len()).unwrap_or(u32::MAX);
+        let (cols, rows) = self.cells(&r);
+        for y in rows {
+            for x in cols.clone() {
+                self.grid[y * GRID + x].push(i);
+            }
+        }
+        self.taken.push(r);
+    }
+
+    /// The boxes that may overlap `r`, each once.
+    fn near(&self, r: &Rect) -> Vec<u32> {
+        let (cols, rows) = self.cells(r);
+        let mut ids: Vec<u32> = Vec::new();
+        for y in rows {
+            for x in cols.clone() {
+                ids.extend(&self.grid[y * GRID + x]);
+            }
+        }
+        ids.sort_unstable();
+        ids.dedup();
+        ids
     }
 
     /// Keep labels off `r` (a marker, a title, a legend).
     pub fn reserve(&mut self, r: Rect) {
-        self.taken.push(r);
+        self.push(r);
     }
 
     /// Everything placed or reserved so far.
@@ -46,7 +100,11 @@ impl LabelPlacer {
 
     /// True when `r` lies inside the bounds and overlaps nothing reserved.
     pub fn free(&self, r: &Rect) -> bool {
-        self.bounds.contains_rect(r) && !self.taken.iter().any(|t| t.intersects(r))
+        self.bounds.contains_rect(r)
+            && !self
+                .near(r)
+                .iter()
+                .any(|&i| self.taken[i as usize].intersects(r))
     }
 
     /// Choose a spot for a `w` × `h` box near `(x, y)`, `gap` pixels from it; the spot with the
@@ -71,7 +129,11 @@ impl LabelPlacer {
                     y - h / 2.0
                 };
                 let r = Rect::new(bx, by, w, h);
-                let mut cost: f32 = self.taken.iter().map(|t| t.overlap_area(&r)).sum();
+                let mut cost: f32 = self
+                    .near(&r)
+                    .iter()
+                    .map(|&i| self.taken[i as usize].overlap_area(&r))
+                    .sum();
                 // leaving the bounds costs as much as covering the outside part
                 let inside = self.bounds.overlap_area(&r);
                 cost += (w * h - inside) * 2.0;
@@ -89,7 +151,7 @@ impl LabelPlacer {
             }
         }
         let r = best.map_or(Rect::new(x, y, w, h), |(_, r)| r);
-        self.taken.push(r);
+        self.push(r);
         r
     }
 }
@@ -147,5 +209,29 @@ mod tests {
         // near the right edge, the label goes left
         let c = p.place(195.0, 50.0, 40.0, 12.0, 4.0);
         assert!(c.right() <= 200.0, "{c:?}");
+    }
+
+    /// The grid finds every box a spot overlaps, also boxes outside the bounds, and many labels
+    /// are placed quickly.
+    #[test]
+    fn the_grid_sees_every_neighbour() {
+        let mut p = LabelPlacer::new(Rect::new(0.0, 0.0, 1000.0, 600.0));
+        p.reserve(Rect::new(-50.0, -50.0, 1100.0, 20.0));
+        assert!(!p.free(&Rect::new(500.0, -40.0, 10.0, 10.0)));
+        assert!(!p.free(&Rect::new(990.0, -45.0, 5.0, 5.0)));
+        let t = std::time::Instant::now();
+        let placed: Vec<Rect> = (0..5000)
+            .map(|i| {
+                let (x, y) = ((i * 37 % 1000) as f32, (i * 53 % 600) as f32);
+                p.place(x, y, 30.0, 10.0, 3.0)
+            })
+            .collect();
+        assert!(t.elapsed().as_secs_f32() < 5.0, "{:?}", t.elapsed());
+        // the first labels, placed while there was room, overlap nothing
+        for (i, a) in placed[..40].iter().enumerate() {
+            for b in &placed[..i] {
+                assert!(!a.intersects(b), "{a:?} {b:?}");
+            }
+        }
     }
 }

@@ -198,12 +198,21 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
             })
         })
         .transpose()?;
+    // the files the figure is drawn from, which the saved figure must not replace
+    let mut inputs: Vec<PathBuf> = Vec::new();
     let (figure, default_path, drawn, notes, warnings) = match (&a.plot, &a.preview) {
         (Some(p), None) => {
             let v = lift_output(p, &mut output, &mut overwrite);
             check_name(output.as_deref(), named)?;
             let spec = openreadout_plot::parse_spec(v).map_err(|e| mcp_err(&e))?;
+            inputs = spec.input_files();
+            refuse_inputs(output.as_deref(), &inputs)?;
             let p = super::plot::draw(registry, &spec)?;
+            if output.is_none() && p.output.files.is_empty() {
+                return Err(usage(
+                    "this plot reads no file, so there is no folder to save it next to: give output (a .png, .svg or .pdf path)".into(),
+                ));
+            }
             let path = super::plot::default_figure_path(&p.output.files);
             (
                 p.figure,
@@ -228,6 +237,8 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
             }
             let args: super::preview::PreviewArgs =
                 serde_json::from_value(v).map_err(|e| usage(format!("preview: {e}")))?;
+            inputs.push(PathBuf::from(&args.file));
+            refuse_inputs(output.as_deref(), &inputs)?;
             let max = openreadout_preview::MAX_PREVIEW_SIZE;
             // a saved picture is for people: a scale bar, no rulers, unless axes says otherwise
             let axes = openreadout_preview::Axes::ScaleBar;
@@ -240,8 +251,13 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
                     .unwrap_or(super::preview::DEFAULT_MCP_PREVIEW_SIZE);
                 let mut big = args.clone();
                 big.options.max_size = Some(((size as f32 * scale).round() as u32).clamp(16, max));
-                r = super::preview::render(registry, &big, max, axes)?;
-                scale = 1.0;
+                let larger = super::preview::render(registry, &big, max, axes)?;
+                // keep the picture as drawn at its own size, with the pixels read at the larger
+                // size, so type, lines and outlines scale with the save
+                if !r.take_pixels(&larger, scale) {
+                    r = larger;
+                    scale = 1.0;
+                }
             }
             let path = super::preview::default_figure_path(&args.file);
             (r.figure, path, r.output.kind, r.output.notes, Vec::new())
@@ -259,7 +275,8 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
         },
         PathBuf::from,
     );
-    let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite))
+    let inputs: Vec<&Path> = inputs.iter().map(PathBuf::as_path).collect();
+    let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite), &inputs)
         .map_err(|e| mcp_err(&e))?;
     let value = to_value(&FigureExport {
         written,
@@ -268,6 +285,18 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
         warnings,
     })?;
     Ok((value, Some(shown(&figure)?)))
+}
+
+/// Refuse an output that is one of the inputs, before anything is read or drawn.
+fn refuse_inputs(output: Option<&str>, inputs: &[PathBuf]) -> Result<(), McpError> {
+    match output {
+        Some(o) => openreadout_core::output::refuse_inputs(
+            Path::new(o),
+            inputs.iter().map(PathBuf::as_path),
+        )
+        .map_err(|e| mcp_err(&e)),
+        None => Ok(()),
+    }
 }
 
 /// Longest side of the picture of a saved figure returned to the agent.
@@ -409,11 +438,7 @@ fn export_open(
     let output = a.output.as_ref().map(PathBuf::from);
     let usage = |m: &str| mcp_err(&Error::Usage(m.to_string()));
     let check_out = |o: &PathBuf| {
-        if *o == input {
-            Err(usage("output must differ from the input"))
-        } else {
-            Ok(())
-        }
+        openreadout_core::output::refuse_dataset(o, &input, &*ds).map_err(|e| mcp_err(&e))
     };
     match format {
         "nwb" => {
@@ -490,9 +515,7 @@ fn export_columnar(
         let info = ds.info().map_err(|e| mcp_err(&e))?;
         openreadout_arrow::default_output(input, &info, &o)
     };
-    if out == input {
-        return Err(usage("output must differ from the input".into()));
-    }
+    openreadout_core::output::refuse_dataset(&out, input, &*ds).map_err(|e| mcp_err(&e))?;
     let mut wrapped;
     let ds: &mut dyn openreadout_core::reader::Dataset = match progress {
         Some(p) => {
@@ -676,11 +699,7 @@ fn export_data(
         },
         PathBuf::from,
     );
-    if output == input {
-        return Err(mcp_err(&Error::Usage(
-            "output must differ from the input".into(),
-        )));
-    }
+    openreadout_core::output::refuse_dataset(&output, &input, &*ds).map_err(|e| mcp_err(&e))?;
     let total = progress::planes_to_export(&info, a.image, &a.select);
     let mut wrapped;
     let dsr: &mut dyn openreadout_core::reader::Dataset = match &notifier {
@@ -820,6 +839,38 @@ mod tests {
 
     fn export(v: serde_json::Value) -> Result<serde_json::Value, McpError> {
         export_blocking(Registry::new, serde_json::from_value(v).unwrap(), None).map(|e| e.0)
+    }
+
+    /// A figure is never saved over the file it shows, however the path is spelled and with
+    /// overwrite; a plot that reads no file needs an output.
+    #[test]
+    fn a_figure_never_replaces_its_input() {
+        let d = std::env::temp_dir().join(format!("openreadout-figin-{}", std::process::id()));
+        std::fs::create_dir_all(&d).unwrap();
+        let img = d.join("img.tiff");
+        std::fs::write(&img, b"raw image").unwrap();
+        let f = img.display().to_string();
+        for out in [f.clone(), d.join("new/../img.tiff").display().to_string()] {
+            for inside in [false, true] {
+                let v = if inside {
+                    serde_json::json!({"preview": {"file": f, "output": out, "overwrite": true}})
+                } else {
+                    serde_json::json!({"preview": {"file": f}, "output": out, "overwrite": true})
+                };
+                let e = export(v).unwrap_err();
+                assert_eq!(exit_code(&e), Some(2), "{out}: {e:?}");
+            }
+            let plot = serde_json::json!({"data": {"file": f}});
+            let e = export(serde_json::json!({"plot": plot, "output": out, "overwrite": true}))
+                .unwrap_err();
+            assert_eq!(exit_code(&e), Some(2), "{out}: {e:?}");
+        }
+        assert_eq!(std::fs::read(&img).unwrap(), b"raw image");
+        let plot = serde_json::json!({"data": {"values": {"x": [1, 2], "y": [3, 4]}}});
+        let e = export(serde_json::json!({"plot": plot})).unwrap_err();
+        assert_eq!(exit_code(&e), Some(2), "{e:?}");
+        assert!(!Path::new("figure.png").exists());
+        std::fs::remove_dir_all(&d).ok();
     }
 
     /// A plot is saved as a figure file, verified, with the print size `dpi` gives; `output`

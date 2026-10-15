@@ -101,8 +101,11 @@ fn view_tool_claims_only_vendor_extensions() {
 fn viewer_colours_are_the_figure_engines() {
     let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/app/web/theme.json");
     let want = openreadout_figure::Theme::tokens_json();
-    let have = std::fs::read_to_string(&path).unwrap_or_default();
-    if have != want {
+    // compared without line endings: a Windows checkout may have turned LF into CRLF
+    let have = std::fs::read_to_string(&path)
+        .unwrap_or_default()
+        .replace("\r\n", "\n");
+    if have != want.replace("\r\n", "\n") {
         std::fs::write(&path, &want).unwrap();
         panic!(
             "{} was out of date and has been rewritten; commit it",

@@ -20,4 +20,4 @@ Suggests: arrow, digest, jpeg, png, testthat (>= 3.0.0), tibble, withr
 Config/testthat/edition: 3
 SystemRequirements: Cargo (Rust's package manager), rustc >= 1.91, xz
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1

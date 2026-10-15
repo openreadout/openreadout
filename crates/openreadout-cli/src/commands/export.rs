@@ -643,11 +643,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             let opts = nwb_options(req)?;
             let output =
                 explicit.unwrap_or_else(|| openreadout_hdf5::default_nwb_output(&name_base, &opts));
-            if output == file {
-                return Err(Error::Usage(
-                    "output path must differ from the input; raw files are never modified".into(),
-                ));
-            }
+            openreadout_core::output::refuse_inputs(&output, [file])?;
             return openreadout_hdf5::export_nwb(ds.as_mut(), file, &output, &opts)
                 .map(ExportOutput::Nwb);
         }
@@ -655,11 +651,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             let opts = jcamp_options(req)?;
             let output = explicit
                 .unwrap_or_else(|| openreadout_nmr::default_jcamp_output(&name_base, &opts));
-            if output == file {
-                return Err(Error::Usage(
-                    "output path must differ from the input; raw files are never modified".into(),
-                ));
-            }
+            openreadout_core::output::refuse_inputs(&output, [file])?;
             return openreadout_nmr::export_jcamp(ds.as_mut(), file, &output, &opts)
                 .map(ExportOutput::Jcamp);
         }
@@ -682,11 +674,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             unreachable!("handled above")
         }
     });
-    if output == file {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
+    openreadout_core::output::refuse_inputs(&output, [file])?;
     if to == ExportFormat::Csv {
         return Ok(
             match openreadout_batch::csv::export(ds.as_mut(), file, &output, &req.csv)? {
@@ -923,11 +911,7 @@ fn export_columnar(
         Some(p) => p,
         None => openreadout_arrow::default_output(name_base, &ds.info()?, &o),
     };
-    if output == file {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
+    openreadout_core::output::refuse_inputs(&output, [file])?;
     openreadout_arrow::export_columnar(ds, file, &output, &o).map(ExportOutput::Columnar)
 }
 

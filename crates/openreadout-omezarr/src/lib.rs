@@ -455,6 +455,7 @@ pub fn export_ome_zarr_with(
     opts: &ZarrExportOptions,
     ctx: &ReadContext<'_>,
 ) -> Result<ExportReport> {
+    openreadout_core::output::refuse_dataset(output, input, &*ds)?;
     if opts.chunk == 0 {
         return Err(Error::Usage("chunk size must be at least 1".into()));
     }

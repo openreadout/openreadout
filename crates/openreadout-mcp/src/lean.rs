@@ -194,18 +194,25 @@ pub enum Fields {
 }
 
 impl Fields {
-    /// Read `fields` out of a tool's options (removing it): a list of names or one name.
+    /// Read `fields` out of a tool's options (removing it): a list of names or one name, each
+    /// of which may hold several names separated by commas (`"run, dye"`).
     pub fn take(options: &mut Map<String, Value>) -> Result<Fields, String> {
+        let split = |s: &str| {
+            s.split(',')
+                .map(|x| x.trim().to_string())
+                .collect::<Vec<_>>()
+        };
         let names: Vec<String> = match options.remove("fields") {
             None | Some(Value::Null) => return Ok(Fields::Default),
-            Some(Value::String(s)) => s.split(',').map(|x| x.trim().to_string()).collect(),
+            Some(Value::String(s)) => split(&s),
             Some(Value::Array(a)) => a
                 .into_iter()
                 .map(|v| match v {
-                    Value::String(s) => Ok(s),
+                    Value::String(s) => Ok(split(&s)),
                     other => Err(format!("fields: {other} is not a field name")),
                 })
-                .collect::<Result<_, _>>()?,
+                .collect::<Result<Vec<_>, _>>()?
+                .concat(),
             Some(other) => {
                 return Err(format!(
                     "fields must be a list of field names or [\"all\"], not {other}"
@@ -493,6 +500,16 @@ mod tests {
         assert_eq!(
             Fields::take(&mut o),
             Ok(Fields::Named(vec!["auc_h".into(), "lag_time_s".into()]))
+        );
+        // one string the argument coercion made a list of
+        o.insert("fields".into(), json!(["run, dye", "lane"]));
+        assert_eq!(
+            Fields::take(&mut o),
+            Ok(Fields::Named(vec![
+                "run".into(),
+                "dye".into(),
+                "lane".into()
+            ]))
         );
         o.insert("fields".into(), json!(3));
         assert!(Fields::take(&mut o).is_err());

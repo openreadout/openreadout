@@ -174,7 +174,13 @@ pub(crate) fn render(
                 )));
             }
         }
-        req.channels.clone()
+        // each channel once, in the order asked
+        let mut seen = std::collections::HashSet::new();
+        req.channels
+            .iter()
+            .copied()
+            .filter(|c| seen.insert(*c))
+            .collect()
     };
     let sweep_len = openreadout_core::trace::sweep_samples(&t, sweep);
     let n = sweep_len.min(MAX_TRACE_PREVIEW_SAMPLES);

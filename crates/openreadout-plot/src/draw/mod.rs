@@ -8,7 +8,7 @@ use openreadout_core::Result;
 use openreadout_figure::{
     Anchor, AxesSpec, Baseline, Color, Domain, EndLabel, Face, Figure, GridLines, LabelPlacer,
     Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_label_boxes, end_labels,
-    format_tick, key_fit, key_row, spread,
+    format_tick, key_fit, key_row, key_row_height, spread,
 };
 use serde_json::{Value, json};
 
@@ -945,6 +945,13 @@ fn edge_point(r: Rect, x: f32, y: f32) -> (f32, f32) {
 /// Check the annotations make sense before drawing them.
 pub(crate) fn check_annotations(anns: &[Annotation]) -> Result<()> {
     use crate::spec::OneOrMany::{Many, One};
+    if anns.len() > crate::MAX_ANNOTATIONS {
+        return Err(crate::load::usage(format!(
+            "{} annotations are over the limit of {} per panel; mark the most telling ones",
+            anns.len(),
+            crate::MAX_ANNOTATIONS
+        )));
+    }
     for (i, a) in anns.iter().enumerate() {
         let ok = matches!(
             (&a.x, &a.y),
@@ -1430,7 +1437,37 @@ fn draw_plate(
         + fs * 1.2;
     let head = fs * 2.0;
     let entries = legend_entries(&p.series);
-    let foot = fs * 3.2;
+    // under the grid: the key, and a note of the scale every well shares. On a narrow figure
+    // the key wraps and the note goes under it, wrapped too; the grid gives them the room.
+    let inner_w = (area.w - left).max(fs * 4.0);
+    let key_items: Vec<(Color, String)> = if !classes.is_empty() && entries.len() > 1 {
+        entries.iter().map(|e| (e.1, e.0.clone())).collect()
+    } else {
+        Vec::new()
+    };
+    let scale_txt = plate_scale_note(ax, ay);
+    let small = TextStyle::new(theme.small_size(), theme.muted);
+    let key_beside_w = inner_w * 0.6;
+    let beside = key_items.is_empty()
+        || (key_row_height(theme, key_beside_w, &key_items) <= fs * 1.3
+            && key_row_width(theme, &key_items) + fs * 1.5 + small.width(&scale_txt) <= inner_w);
+    let key_w = if beside { key_beside_w } else { inner_w };
+    let key_h = if key_items.is_empty() {
+        0.0
+    } else {
+        key_row_height(theme, key_w, &key_items)
+    };
+    let note_lines = if beside && small.width(&scale_txt) <= inner_w {
+        vec![scale_txt.clone()]
+    } else {
+        openreadout_figure::wrap_text(&scale_txt, small.face, theme.small_size(), inner_w, 3)
+    };
+    let note_lh = theme.small_size() * 1.35;
+    let foot = if beside {
+        fs * 3.2 + (note_lines.len() as f32 - 1.0) * note_lh
+    } else {
+        fs * 2.4 + key_h + note_lh * note_lines.len() as f32
+    };
     let block_gap = if grouped { fs * 0.9 } else { 0.0 };
     let grid_area = area.inset_sides(left, head, 0.0, foot);
     let gap = (grid_area.w / cols as f32 * 0.07).clamp(3.0, fs * 0.6);
@@ -1445,17 +1482,22 @@ fn draw_plate(
             .unwrap_or(0);
         grid_area.y + r as f32 * (ch + gap) + b as f32 * block_gap
     };
-    // column headings
+    // column headings: every one when they fit, else every second, third, ... column
     let col_st = TextStyle::new(fs, theme.muted).align(Anchor::Middle, Baseline::Alphabetic);
-    for c in 0..cols {
-        let x = grid_area.x + c as f32 * (cw + gap) + cw / 2.0;
-        let t = p
-            .spec
+    let col_text = |c: usize| {
+        p.spec
             .column_labels
             .get(c)
             .cloned()
-            .unwrap_or_else(|| (c + 1).to_string());
-        fig.text(x, grid_area.y - fs * 0.7, &t, &col_st);
+            .unwrap_or_else(|| (c + 1).to_string())
+    };
+    let widest = (0..cols)
+        .map(|c| col_st.width(&col_text(c)))
+        .fold(0.0f32, f32::max);
+    let col_step = ((widest + fs * 0.5) / (cw + gap)).ceil().max(1.0) as usize;
+    for c in (0..cols).step_by(col_step) {
+        let x = grid_area.x + c as f32 * (cw + gap) + cw / 2.0;
+        fig.text(x, grid_area.y - fs * 0.7, &col_text(c), &col_st);
     }
     for b in &blocks {
         let y0 = row_y(b.0);
@@ -1540,12 +1582,46 @@ fn draw_plate(
     }
     // key and the shared scale, under the grid
     let bottom = row_y(rows - 1) + ch + fs * 1.5;
-    let mut kx = grid_area.x;
-    if !classes.is_empty() && entries.len() > 1 {
-        let items: Vec<(Color, String)> = entries.iter().map(|e| (e.1, e.0.clone())).collect();
-        let used = key_row(fig, theme, kx, bottom, grid_area.w * 0.6, &items, false);
-        kx = used.right() + fs * 1.5;
+    let mut note_y = bottom;
+    if !key_items.is_empty() {
+        let used = key_row(fig, theme, grid_area.x, bottom, key_w, &key_items, false);
+        if !beside {
+            note_y = used.bottom() + note_lh * 0.9;
+        }
     }
+    if beside {
+        let st = small.clone().align(Anchor::End, Baseline::Middle);
+        for (i, l) in note_lines.iter().enumerate() {
+            fig.text(grid_area.right(), note_y + i as f32 * note_lh, l, &st);
+        }
+    } else {
+        let st = small.clone().align(Anchor::Start, Baseline::Middle);
+        for (i, l) in note_lines.iter().enumerate() {
+            fig.text(grid_area.x, note_y + i as f32 * note_lh, l, &st);
+        }
+    }
+    let _ = spread;
+    let _ = EndLabel {
+        y: 0.0,
+        text: String::new(),
+        color: theme.ink,
+    };
+    drawn
+}
+
+/// Width of [`key_row`]'s items set in one row.
+fn key_row_width(theme: &Theme, items: &[(Color, String)]) -> f32 {
+    let fs = theme.font_size;
+    let st = TextStyle::new(fs, theme.ink);
+    items
+        .iter()
+        .map(|(_, t)| fs * 1.5 + st.width(t) + fs * 1.2)
+        .sum::<f32>()
+        - fs * 1.2
+}
+
+/// "every well on one scale: time 0–19 h, absorbance 600 nm 0–0.8 OD".
+fn plate_scale_note(ax: &AxisRes, ay: &AxisRes) -> String {
     let range = |a: &AxisRes| {
         let d = a.domain;
         let (lo, hi) = (d.lo.min(d.hi), d.lo.max(d.hi));
@@ -1560,26 +1636,13 @@ fn draw_plate(
             format!("{a}–{b}")
         }
     };
-    let scale_txt = format!(
+    format!(
         "every well on one scale: {} {}, {} {}",
         ax.label.split(" (").next().unwrap_or("x"),
         with_unit(&range(ax), ax.unit.as_deref()),
         ay.label.split(" (").next().unwrap_or("y"),
         with_unit(&range(ay), ay.unit.as_deref())
-    );
-    let st = TextStyle::new(theme.small_size(), theme.muted).align(Anchor::End, Baseline::Middle);
-    if kx + st.width(&scale_txt) < grid_area.right() {
-        fig.text(grid_area.right(), bottom, &scale_txt, &st);
-    } else {
-        fig.text(grid_area.right(), bottom + fs * 1.4, &scale_txt, &st);
-    }
-    let _ = spread;
-    let _ = EndLabel {
-        y: 0.0,
-        text: String::new(),
-        color: theme.ink,
-    };
-    drawn
+    )
 }
 
 fn with_unit(s: &str, u: Option<&str>) -> String {

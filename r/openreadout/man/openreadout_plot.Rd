@@ -33,10 +33,11 @@ An \code{openreadout_figure} picture: a list with \code{data} (a raw vector), \c
 (the \code{plot --json} data: each panel's axes, series and callouts, \code{notes}, \code{warnings}).
 }
 \description{
-\verb{openreadout plot}: each series names its data by file and selector (a trace, sweep and
-channel; a chromatogram such as \code{list(file = "run.raw", chromatogram = "tic")} or the spectrum at a
-retention time; plate \code{wells} or layout \code{group}; FCS \code{x}/\code{y} parameters and \code{population}; an
-analysis result such as \code{fi} or \code{fit}; a table's columns) or gives inline \code{values}.
+\verb{openreadout plot}: each series names its data by \code{file} and a selector (\code{trace}, \code{sweep} and
+\code{channel}; a chromatogram, \code{chromatogram = "tic"} or \code{mz} for an XIC, or the spectrum at
+\code{rt}; plate \code{wells} or layout \code{groups}; FCS \code{x} and \code{y} parameters and \code{populations}; \code{show}
+(\code{"fi"}, \code{"dose_response"}, \code{"standard_curve"}, \code{"melt"}, ...) for an analysis result; a
+\code{table} file's columns) or gives inline \code{values}.
 \code{panels}, \code{facet} (\code{"plate"} lays wells out in plate positions), \code{share}, \code{x}/\code{y} axis
 options, \code{annotate} (bands, lines, labelled points, arrows) and \code{theme} (\code{"light"},
 \code{"dark"}) arrange it. The spec is the JSON of the \code{openreadout_plot} MCP tool; indices in it

@@ -52,8 +52,16 @@
 
 # Write `data` to a temporary file beside `file`, read it back and compare, then rename it into
 # place.
-.write_verified <- function(data, file, overwrite) {
+.write_verified <- function(data, file, overwrite, inputs = character()) {
   file <- path.expand(file)
+  # never over a file the picture was drawn from, however its path is spelled
+  inputs <- unlist(inputs)
+  inputs <- path.expand(inputs[file.exists(inputs)])
+  if (file.exists(file) && length(inputs) > 0 &&
+      normalizePath(file) %in% normalizePath(inputs)) {
+    .openreadout_abort(sprintf("%s is an input file; raw files are never modified", file),
+                       call = sys.call(-1))
+  }
   if (file.exists(file) && !isTRUE(overwrite)) {
     .openreadout_abort(sprintf("%s exists; pass overwrite = TRUE to replace it", file),
                        call = sys.call(-1))
@@ -123,7 +131,7 @@ openreadout_preview <- function(x, ..., format = c("png", "jpeg", "svg"), file =
   format <- match.arg(format)
   opts <- .to_json(.preview_options(list(...)))
   pic <- .with_file(x, function(h) .picture(.ic(rs_preview(.ptr(h), opts, format)), format, "preview"))
-  if (!is.null(file)) .write_verified(pic$data, file, overwrite)
+  if (!is.null(file)) .write_verified(pic$data, file, overwrite, pic$meta$path)
   pic
 }
 
@@ -173,7 +181,7 @@ openreadout_plot <- function(spec = NULL, ..., format = c("png", "svg", "pdf"), 
   json <- if (length(body) == 0) "{}" else
     as.character(jsonlite::toJSON(body, auto_unbox = TRUE, null = "null", digits = NA))
   pic <- .picture(.ic(rs_plot(json, format, as.double(scale))), format, "figure")
-  if (!is.null(file)) .write_verified(pic$data, file, overwrite)
+  if (!is.null(file)) .write_verified(pic$data, file, overwrite, pic$meta$files)
   pic
 }
 

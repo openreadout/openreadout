@@ -71,8 +71,14 @@ fn run_plot(reg: &Registry, a: &PlotArgs) -> Result<PlotReport> {
     };
     // check the file name before reading any data
     openreadout_plot::FileFormat::from_path(&a.output)?;
+    let mut inputs = spec.input_files();
+    if !a.spec.trim_start().starts_with('{') {
+        inputs.push(PathBuf::from(&a.spec));
+    }
+    let inputs: Vec<&std::path::Path> = inputs.iter().map(PathBuf::as_path).collect();
+    openreadout_core::output::refuse_inputs(&a.output, inputs.iter().copied())?;
     let p = openreadout_plot::plot(reg, &spec)?;
-    let written = openreadout_plot::write(&p.figure, &a.output, &opts)?;
+    let written = openreadout_plot::write(&p.figure, &a.output, &opts, &inputs)?;
     Ok(PlotReport {
         plot: p.output,
         written,

@@ -10,7 +10,7 @@
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufWriter, Write};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::sync::Arc;
 
 use arrow_array::builder::{BooleanBuilder, Float64Builder, Int64Builder, StringBuilder};
@@ -140,21 +140,17 @@ pub fn write_jsonl(t: &Table, w: &mut dyn Write) -> std::io::Result<()> {
     Ok(())
 }
 
-fn tmp_path(dest: &Path) -> PathBuf {
-    let name = dest
-        .file_name()
-        .map_or_else(|| "table".into(), |n| n.to_string_lossy().into_owned());
-    dest.with_file_name(format!(".{name}.tmp-{}", std::process::id()))
-}
-
 /// Write `t` to `dest` in `format` (from the extension when `None`), verified and atomic.
+/// Refuses `dest` when it is one of `inputs` (the files the table was made from).
 pub fn save(
     t: &Table,
     dest: &Path,
     format: Option<TableFormat>,
     meta: &TableMeta,
     overwrite: bool,
+    inputs: &[&Path],
 ) -> Result<WrittenFile> {
+    openreadout_core::output::refuse_inputs(dest, inputs.iter().copied())?;
     let format = format
         .or_else(|| TableFormat::from_path(dest))
         .ok_or_else(|| {
@@ -172,7 +168,7 @@ pub fn save(
     if let Some(parent) = dest.parent().filter(|p| !p.as_os_str().is_empty()) {
         std::fs::create_dir_all(parent).map_err(|e| Error::io(parent, e))?;
     }
-    let tmp = tmp_path(dest);
+    let tmp = openreadout_core::output::temp_path(dest);
     let res = (|| -> Result<()> {
         if format == TableFormat::Parquet {
             write_parquet(t, &tmp, meta)?;
@@ -605,9 +601,12 @@ mod tests {
         };
         for ext in ["csv", "tsv", "jsonl", "json", "parquet"] {
             let p = d.path().join(format!("out.{ext}"));
-            let w = save(&t(), &p, None, &meta, false).unwrap();
+            let w = save(&t(), &p, None, &meta, false, &[]).unwrap();
             assert_eq!(w.rows, 2, "{ext}");
-            assert!(save(&t(), &p, None, &meta, false).is_err(), "no overwrite");
+            assert!(
+                save(&t(), &p, None, &meta, false, &[]).is_err(),
+                "no overwrite"
+            );
             let (back, m) = read_table(&p).unwrap();
             assert_eq!(back.rows.len(), 2, "{ext}");
             assert_eq!(
@@ -629,6 +628,6 @@ mod tests {
                 assert_eq!(back.columns[0].role, Role::Id);
             }
         }
-        assert!(save(&t(), &d.path().join("x.xyz"), None, &meta, false).is_err());
+        assert!(save(&t(), &d.path().join("x.xyz"), None, &meta, false, &[]).is_err());
     }
 }

@@ -1022,6 +1022,9 @@ pub fn build(
     opts: &ReportOptions,
     output: Option<(&Path, bool)>,
 ) -> Result<Report> {
+    if let Some((out, _)) = output {
+        openreadout_core::output::refuse_inputs(out, [path])?;
+    }
     let meta = std::fs::metadata(path).map_err(|e| Error::io(path, e))?;
     let mut b = Builder {
         opts,
@@ -1932,26 +1935,7 @@ fn first_read(ds: &mut dyn Dataset, info: &FileInfo) -> Result<Option<String>> {
 /// Write `bytes` to `path` via a temporary file in the same directory, read it back, compare,
 /// then rename it into place (never replaces an existing file unless `overwrite`).
 pub fn write_verified(path: &Path, bytes: &[u8], overwrite: bool) -> Result<()> {
-    if path.exists() && !overwrite {
-        return Err(Error::Usage(format!(
-            "{} exists; pass --overwrite to replace it",
-            path.display()
-        )));
-    }
-    let name = path
-        .file_name()
-        .map_or_else(|| "report".into(), |n| n.to_string_lossy().into_owned());
-    let tmp = path.with_file_name(format!(".{name}.tmp-{}", std::process::id()));
-    std::fs::write(&tmp, bytes).map_err(|e| Error::io(&tmp, e))?;
-    let back = std::fs::read(&tmp).map_err(|e| Error::io(&tmp, e))?;
-    if back != bytes {
-        let _ = std::fs::remove_file(&tmp);
-        return Err(Error::Other(format!(
-            "{}: read-back differs from what was written",
-            tmp.display()
-        )));
-    }
-    std::fs::rename(&tmp, path).map_err(|e| Error::io(path, e))
+    openreadout_core::output::write_verified(path, bytes, overwrite, &[])
 }
 
 /// The default bundle name: `openreadout-report-<12 hex digits>.json`, from a hash of the

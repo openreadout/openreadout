@@ -233,7 +233,7 @@ Every tool has a title and the four MCP behaviour hints:
 | index, report | no | no | yes |
 | export, extract, batch, summarize | no | yes | yes |
 
-`openreadout_export`, `openreadout_extract`, `openreadout_batch` and `openreadout_summarize` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. `openreadout_report` writes only when `output` is given. None of the tools reach the network (`openWorldHint` is `false` for all).
+`openreadout_export`, `openreadout_extract`, `openreadout_batch` and `openreadout_summarize` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. With or without it, they refuse an output that is one of the input files, however the path is spelled, and a figure that reads no file is saved only to an `output` the call names. `openreadout_report` writes only when `output` is given. None of the tools reach the network (`openWorldHint` is `false` for all).
 
 ## Progress
 
@@ -241,7 +241,7 @@ When a request carries a `progressToken`, long calls send progress notifications
 
 ## Errors
 
-A call that fails returns a tool result with `isError: true`, so the model reads why. Its text is the message and the hint on the next line, the same as the command line's [JSON errors](../getting-started/reading-json.md#the-json-wrapper) but in the tools' words: a hint that names a command line, such as `openreadout trace FILE --sweep N`, names the tool and its arguments instead (`openreadout_trace` with `sweep: N`). Notes and warnings in results are worded the same way.
+A call that fails returns a tool result with `isError: true`, so the model reads why. Its text is the message and the hint on the next line, the same as the command line's [JSON errors](../getting-started/reading-json.md#the-json-wrapper) but in the tools' words: a hint that names a command line, such as `openreadout trace FILE --sweep N`, names the tool and its arguments instead (`openreadout_trace` with `sweep: N`). A command no tool runs, such as `openreadout planes`, stays a command line. Notes and warnings in results are worded the same way.
 
 ```text
 usage error: plot.png exists; pass `overwrite: true` to replace it
@@ -252,12 +252,12 @@ The result's `_meta["openreadout/error"]` carries `code`, `exit_code` and `hint`
 
 ## Reply size
 
-A reply has at most 38,000 characters of JSON (an `openreadout_info` summary 20,000), because clients refuse longer ones or set them aside in a file the model may not be able to read. Most replies are far shorter.
+A reply has at most 38,000 characters of text (an `openreadout_info` summary 20,000), because clients refuse longer ones or set them aside in a file the model may not be able to read. Every text block counts, the JSON and anything beside it, such as the SVG of `openreadout_preview` with `format: "svg"`. Most replies are far shorter.
 
 ### Per-well rows
 
 The per-well and per-group rows of `openreadout_assay` (`growth`, `kinetics`, `wells`, `samples`) and of `openreadout_qpcr` (`records`, `relative_quantities`) keep their main fields by default, rounded to 4 significant digits (whole numbers stay whole). A field is also left out of a row when it says nothing there: false, null or empty, a role nobody assigned, a group named after its well, `raw` equal to `value`, a Cq status of `determined`. A note lists the other fields. `fields: ["all"]` returns every field at full precision; `fields` with names returns those (and the row's well, sample, target and group). A 96-well plate's growth rows and a qPCR plate's ΔΔCq records fit in one reply this way. When a plate's rows still do not fit (a 384-well plate), the list ends at a whole plate row and a note gives the `wells` argument for the rest, such as `wells: "J1:P24"`.
- Over the limit, the server shortens the longest lists (a plate's per-well rows, a qPCR run's records) until the reply fits, and adds a note that names each list, how many items it kept, and the arguments that narrow the call, such as `wells` for `openreadout_assay`.
+Over the limit, the server first leaves out a text block beside the JSON (an SVG over the limit is replaced by a pointer to `openreadout_export`, which saves it as a file). Then it shortens the longest lists (a plate's per-well rows, a qPCR run's records), and then leaves out the largest remaining parts, such as a branch of a vendor metadata tree in `openreadout_info` with `view: "full"` and `vendor: true`, until the reply fits. A note names each list and how many items it kept, each part left out, and the arguments that narrow the call, such as `wells` for `openreadout_assay`.
 
 ## Resources and prompts
 

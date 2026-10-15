@@ -550,14 +550,11 @@ pub fn export_columnar(
         ColumnarFormat::Parquet => ColumnarCompression::Snappy,
         ColumnarFormat::ArrowIpc => ColumnarCompression::None,
     });
+    openreadout_core::output::refuse_dataset(output, input, &*ds)?;
     let (mut src, target) = build(ds, input, opts)?;
     let summary = src.spectra().map(|_| summary_output(output));
     for out in std::iter::once(output).chain(summary.as_deref()) {
-        if out == input {
-            return Err(Error::Usage(
-                "output path must differ from the input; raw files are never modified".into(),
-            ));
-        }
+        openreadout_core::output::refuse_inputs(out, [input])?;
         if out.exists() && !opts.overwrite {
             return Err(Error::Usage(format!(
                 "{} exists; pass --overwrite to replace it",

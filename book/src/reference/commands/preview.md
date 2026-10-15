@@ -40,7 +40,7 @@ The same request on the same file always gives the same bytes.
 - `--contrast auto|min-max|percentile:LO,HI|raw`: `auto` stretches the 0.1–99.9 percentiles. Default `auto`.
 - `--lut gray|channel-color`: default gray for one channel, channel colours for composites.
 - `--axes rulers|grid|scale-bar|none`: `rulers` (default) frames the picture with rulers in full-resolution pixels and a scale bar, `grid` adds faint grid lines at the ruler ticks, `scale-bar` makes a figure for people (the picture, a scale bar, and the title and caption), `none` gives the bare plane.
-- `--title TEXT`, `--caption TEXT`: a title above the picture and a caption under it, beside the scale bar. Either one picks `--axes scale-bar` unless `--axes` is given.
+- `--title TEXT`, `--caption TEXT`: a title above the picture and a caption under it, beside the scale bar. Either one picks `--axes scale-bar` unless `--axes` is given. A title has at most 300 characters and a caption 2,000; a caption longer than its lines allow ends in `…`.
 
 ### Traces, spectra, plates and events
 
@@ -85,7 +85,7 @@ A plate table with readings at several time points draws as one small growth cur
 
 ## Annotations
 
-`--annotate` (MCP: `annotations`) draws labelled marks on top of the picture, in the picture's own coordinates: full-resolution pixels on images (the numbers on the rulers), axis units on plots, wells on plates. Each annotation has a `type` and the fields that type needs:
+`--annotate` (MCP: `annotations`, at most 500) draws labelled marks on top of the picture, in the picture's own coordinates: full-resolution pixels on images (the numbers on the rulers), axis units on plots, wells on plates. Each annotation has a `type` and the fields that type needs:
 
 | `type` | fields | draws |
 | --- | --- | --- |

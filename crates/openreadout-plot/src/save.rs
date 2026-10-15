@@ -196,12 +196,14 @@ pub fn encode(fig: &Figure, format: FileFormat, o: &SaveOptions) -> Result<(Vec<
 }
 
 /// Write `fig` to `path` (format from the extension) through a temporary file that is read back
-/// and compared before it is renamed into place. Refuses to replace an existing file unless
-/// `overwrite`, and creates the folder when it is missing.
-pub fn write(fig: &Figure, path: &Path, o: &SaveOptions) -> Result<WrittenFile> {
+/// and compared before it is renamed into place. Refuses `path` when it is one of `inputs` (the
+/// files the figure was drawn from), refuses to replace an existing file unless `overwrite`, and
+/// creates the folder when it is missing.
+pub fn write(fig: &Figure, path: &Path, o: &SaveOptions, inputs: &[&Path]) -> Result<WrittenFile> {
     let format = FileFormat::from_path(path)?;
+    openreadout_core::output::refuse_inputs(path, inputs.iter().copied())?;
     let (bytes, width, height) = encode(fig, format, o)?;
-    openreadout_assay::write_verified(path, &bytes, o.overwrite)?;
+    openreadout_core::output::write_verified(path, &bytes, o.overwrite, inputs)?;
     let print_size_in = o.dpi.map(|d| {
         let k = if format.is_vector() {
             f64::from(o.scale)
@@ -368,14 +370,27 @@ mod tests {
             dpi: Some(300),
             ..SaveOptions::default()
         };
-        let w = write(&fig(), &p, &o).unwrap();
+        let w = write(&fig(), &p, &o, &[]).unwrap();
         assert!(w.verified);
         assert_eq!((w.width, w.print_size_in), (400, Some([1.33, 0.67])));
         assert!(
-            write(&fig(), &p, &o).is_err(),
+            write(&fig(), &p, &o, &[]).is_err(),
             "never over a file without overwrite"
         );
-        assert!(write(&fig(), &d.path().join("fig.bmp"), &o).is_err());
+        assert!(write(&fig(), &d.path().join("fig.bmp"), &o, &[]).is_err());
+        // never over an input, however the path is spelled, even with overwrite
+        let input = d.path().join("img.tiff");
+        std::fs::write(&input, b"raw").unwrap();
+        let o2 = SaveOptions {
+            overwrite: true,
+            ..o
+        };
+        let dotted = d.path().join("sub/../img.tiff");
+        for out in [&input, &dotted] {
+            let e = write(&fig(), out, &o2, &[&input]).unwrap_err();
+            assert_eq!(e.exit_code(), 2);
+        }
+        assert_eq!(std::fs::read(&input).unwrap(), b"raw");
         for bad in [
             SaveOptions { scale: 0.0, ..o },
             SaveOptions { dpi: Some(5), ..o },

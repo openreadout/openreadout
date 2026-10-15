@@ -1017,6 +1017,55 @@ pub struct Rendered {
     pub output: PreviewOutput,
 }
 
+impl Rendered {
+    /// Give this picture the pixels of `big`, the same image read at `scale` times the size,
+    /// so that saving it at `scale` draws a sharper version of this picture: type, lines,
+    /// outlines and labels keep their size relative to the image, and the image has real
+    /// pixels. Returns false (and changes nothing) when `big` has no image of about that size.
+    pub fn take_pixels(&mut self, big: &Rendered, scale: f32) -> bool {
+        use openreadout_figure::Item;
+        fn largest(f: &Figure) -> Option<usize> {
+            f.items
+                .iter()
+                .enumerate()
+                .filter_map(|(i, it)| match it {
+                    Item::Image { rect, .. } => Some((i, rect.w * rect.h)),
+                    _ => None,
+                })
+                .max_by(|a, b| a.1.total_cmp(&b.1))
+                .map(|x| x.0)
+        }
+        let (Some(i), Some(j)) = (largest(&self.figure), largest(&big.figure)) else {
+            return false;
+        };
+        let Item::Image { raster, .. } = &big.figure.items[j] else {
+            return false;
+        };
+        let raster = raster.clone();
+        let Item::Image {
+            rect,
+            raster: mine,
+            smooth,
+        } = &mut self.figure.items[i]
+        else {
+            return false;
+        };
+        // the same region (the same shape), with more pixels than this picture shows. The
+        // larger picture's frame does not grow in proportion, so its image is near, not exactly
+        // at, `scale` times the size; it is then resampled smoothly to the saved size.
+        let (w, h) = (raster.width as f32, raster.height as f32);
+        let same_shape = (w / h - rect.w / rect.h).abs() <= 0.02 * rect.w / rect.h;
+        if !same_shape || w <= mine.width as f32 {
+            return false;
+        }
+        if (w - rect.w * scale).abs() > 1.0 {
+            *smooth = true;
+        }
+        *mine = raster;
+        true
+    }
+}
+
 /// Split combined selections: `["c=0,1,z=2"]` → `["c=0,1", "z=2"]` (a comma followed by
 /// `axis=` starts a new selection). Plain repeatable `c=0` arguments pass through.
 pub fn split_select(args: &[String]) -> Vec<String> {
@@ -1081,14 +1130,64 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
     }
 }
 
-/// Render a preview (no encoding yet).
-pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Result<Rendered> {
+/// Most annotations one picture takes.
+pub const MAX_ANNOTATIONS: usize = 500;
+/// Most trace channels one picture draws.
+pub const MAX_CHANNELS: usize = 64;
+/// Longest title, in characters.
+pub const MAX_TITLE_CHARS: usize = 300;
+/// Longest caption, in characters.
+pub const MAX_CAPTION_CHARS: usize = 2000;
+
+/// Refuse requests too large to draw: many annotations or channels, long titles and captions.
+fn check_limits(req: &PreviewRequest) -> Result<()> {
     if req.max_size < 16 || req.max_size > MAX_PREVIEW_SIZE {
         return Err(Error::Usage(format!(
-            "max size {} out of range (16..={MAX_PREVIEW_SIZE})",
+            "max size {} is out of range: use 16 to {MAX_PREVIEW_SIZE}",
             req.max_size
         )));
     }
+    let over = |what: &str, n: usize, max: usize, how: &str| {
+        Err(Error::Usage(format!(
+            "{n} {what} are over the limit of {max}; {how}"
+        )))
+    };
+    if req.annotations.len() > MAX_ANNOTATIONS {
+        return over(
+            "annotations",
+            req.annotations.len(),
+            MAX_ANNOTATIONS,
+            "mark the most telling ones, or zoom in with region and annotate each part",
+        );
+    }
+    let mut channels = req.channels.clone();
+    channels.sort_unstable();
+    channels.dedup();
+    if channels.len() > MAX_CHANNELS {
+        return over(
+            "channels",
+            channels.len(),
+            MAX_CHANNELS,
+            "draw fewer channels per picture",
+        );
+    }
+    for (what, text, max) in [
+        ("title", &req.title, MAX_TITLE_CHARS),
+        ("caption", &req.caption, MAX_CAPTION_CHARS),
+    ] {
+        let n = text.as_deref().map_or(0, |t| t.chars().count());
+        if n > max {
+            return Err(Error::Usage(format!(
+                "a {what} of {n} characters is over the limit of {max}; shorten it, and give the full text in your reply"
+            )));
+        }
+    }
+    Ok(())
+}
+
+/// Render a preview (no encoding yet).
+pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Result<Rendered> {
+    check_limits(req)?;
     let k = kind(info, req)?;
     let mut out = PreviewOutput {
         path: info.path.clone(),
@@ -1303,47 +1402,74 @@ pub fn default_output(input: &Path, encoding: Encoding) -> PathBuf {
 
 /// Write `bytes` to `output` through a temporary file that is read back and compared before it is
 /// renamed into place. Refuses to replace an existing file unless `overwrite`, and refuses to
-/// write over the input. Returns `true` (verified).
+/// write over the input however its path is spelled. Returns `true` (verified).
 pub fn write_verified(input: &Path, output: &Path, bytes: &[u8], overwrite: bool) -> Result<bool> {
-    if output == input
-        || (output.exists()
-            && std::fs::canonicalize(output).ok() == std::fs::canonicalize(input).ok())
-    {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
-    if output.exists() && !overwrite {
-        return Err(Error::Usage(format!(
-            "{} exists; pass --overwrite to replace it",
-            output.display()
-        )));
-    }
-    let tmp = output.with_file_name(format!(
-        ".{}.partial-{}",
-        output
-            .file_name()
-            .map_or_else(|| "preview".into(), |s| s.to_string_lossy().to_string()),
-        std::process::id()
-    ));
-    std::fs::write(&tmp, bytes).map_err(|e| Error::io(&tmp, e))?;
-    let same = std::fs::read(&tmp).is_ok_and(|b| b == bytes);
-    if !same {
-        let _ = std::fs::remove_file(&tmp);
-        return Err(Error::Other(
-            "read-back verification failed; preview discarded".into(),
-        ));
-    }
-    std::fs::rename(&tmp, output).map_err(|e| {
-        let _ = std::fs::remove_file(&tmp);
-        Error::io(output, e)
-    })?;
+    openreadout_core::output::write_verified(output, bytes, overwrite, &[input])?;
     Ok(true)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Saving at a larger scale keeps the picture as drawn and takes only the image's pixels
+    /// from the larger reading, so type and outlines grow with the save.
+    #[test]
+    fn a_scaled_save_takes_only_the_pixels() {
+        use std::sync::Arc;
+        let picture = |w: u32, h: u32, rect: openreadout_figure::Rect| {
+            let mut figure = Figure::new(rect.w + 20.0, rect.h + 20.0, None);
+            figure.image(rect, Arc::new(Raster::new(w, h, [9, 9, 9])), false);
+            figure.text(
+                5.0,
+                5.0,
+                "12 nuclei",
+                &openreadout_figure::TextStyle::new(12.0, openreadout_figure::Color::rgb(0, 0, 0)),
+            );
+            Rendered {
+                canvas: Raster::new(1, 1, [0, 0, 0]),
+                figure,
+                output: PreviewOutput::default(),
+            }
+        };
+        let mut small = picture(
+            100,
+            50,
+            openreadout_figure::Rect::new(10.0, 10.0, 100.0, 50.0),
+        );
+        let big = picture(
+            300,
+            150,
+            openreadout_figure::Rect::new(10.0, 10.0, 300.0, 150.0),
+        );
+        assert!(small.take_pixels(&big, 3.0));
+        assert_eq!(small.figure.width, 120.0, "the layout stays the small one");
+        let sizes: Vec<(u32, u32)> = small
+            .figure
+            .items
+            .iter()
+            .filter_map(|i| match i {
+                openreadout_figure::Item::Image { raster, .. } => {
+                    Some((raster.width, raster.height))
+                }
+                _ => None,
+            })
+            .collect();
+        assert_eq!(sizes, vec![(300, 150)]);
+        let mut other = picture(
+            100,
+            50,
+            openreadout_figure::Rect::new(10.0, 10.0, 100.0, 50.0),
+        );
+        assert!(!other.take_pixels(
+            &picture(
+                120,
+                50,
+                openreadout_figure::Rect::new(0.0, 0.0, 120.0, 50.0)
+            ),
+            3.0
+        ));
+    }
 
     #[test]
     fn parses_options() {

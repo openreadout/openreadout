@@ -6,7 +6,7 @@
 openreadout plot [OPTIONS] <SPEC>
 ```
 
-`SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG, JPEG or TIFF (at twice the pixel size unless `--scale` says otherwise), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place.
+`SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG, JPEG or TIFF (at twice the pixel size unless `--scale` says otherwise), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place. `plot` refuses an output that is one of the files the figure reads (or the spec file), however the path is spelled: through `..`, a symbolic link or a hard link.
 
 ## Flags
 
@@ -92,6 +92,19 @@ Plate groups come from the layout the file stores (SoftMax Pro groups, Gen5 well
 ```
 
 Each annotation also takes `color`, `marker: false` (text without a dot) and `facet` (only in the small plot with this title).
+
+### Limits
+
+A list that takes several values also takes one on its own (`"groups": "phage"`), which is how R's `jsonlite` writes a list of one. A file, sweep or m/z value listed twice is read once. These limits keep a figure quick to draw, and going over one is a usage error that says which:
+
+| What | At most |
+| --- | --- |
+| Files, sweeps or m/z values in one series | 96 |
+| Panels | 24 |
+| Annotations in a panel | 500 |
+| Title | 300 characters |
+| Caption | 2,000 characters, and it has to leave room for the plots at the figure's height |
+| Data points read for the whole figure | 12 million |
 
 ## Output
 

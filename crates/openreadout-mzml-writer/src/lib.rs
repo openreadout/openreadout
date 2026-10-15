@@ -109,11 +109,7 @@ pub fn export_mzml(
     output: &Path,
     opts: &MzmlExportOptions,
 ) -> Result<MzmlExportReport> {
-    if output == input {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
+    openreadout_core::output::refuse_dataset(output, input, &*ds)?;
     if output.exists() && !opts.overwrite {
         return Err(Error::Usage(format!(
             "{} exists; pass --overwrite to replace it",

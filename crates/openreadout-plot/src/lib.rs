@@ -7,7 +7,7 @@
 //! small multiples, plate positions, shared and log axes, bands, lines, labelled points, arrows.
 //! [`plot`] reads the data through the readers and analyses, picks chart types, ranges, units and
 //! labels from it, and draws the figure with `openreadout-figure` in the OpenReadout look. The
-//! result is the [`Figure`] (save it with [`write`] as PNG, JPEG, TIFF, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
+//! result is the [`Figure`] (save it with [`write`](fn@write) as PNG, JPEG, TIFF, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
 //!
 //! ```no_run
 //! use openreadout_core::Registry;
@@ -48,6 +48,18 @@ pub use spec::{
 
 /// Default figure width in px.
 pub const DEFAULT_WIDTH: u32 = 1200;
+/// Most panels in one figure.
+pub const MAX_PANELS: usize = 24;
+/// Most files, sweeps or m/z values one series item may list.
+pub const MAX_LIST: usize = 96;
+/// Most data points a figure may hold, over all its series.
+pub const MAX_POINTS: usize = 12_000_000;
+/// Most annotations in one panel.
+pub const MAX_ANNOTATIONS: usize = 500;
+/// Longest title, in characters.
+pub const MAX_TITLE_CHARS: usize = 300;
+/// Longest caption, in characters.
+pub const MAX_CAPTION_CHARS: usize = 2000;
 /// Largest width or height in px.
 pub const MAX_SIZE: u32 = 3000;
 
@@ -187,6 +199,69 @@ fn check_data(at: &str, data: &Value) -> Result<()> {
     Ok(())
 }
 
+/// A list without repeats (the first of each kept), refused when longer than [`MAX_LIST`]. A
+/// single value stays as it is.
+fn tidy<T: Clone, K: std::hash::Hash + Eq>(
+    list: &mut Option<OneOrMany<T>>,
+    key: impl Fn(&T) -> K,
+    what: &str,
+    panel: usize,
+) -> Result<()> {
+    let Some(OneOrMany::Many(v)) = list else {
+        return Ok(());
+    };
+    let mut seen = std::collections::HashSet::new();
+    v.retain(|x| seen.insert(key(x)));
+    if v.len() > MAX_LIST {
+        return Err(Error::Usage(format!(
+            "panel {panel}: a list of {} {what} values is over the limit of {MAX_LIST}; draw fewer, or split them over several figures",
+            v.len()
+        )));
+    }
+    Ok(())
+}
+
+/// Drop repeated files, sweeps and m/z values from the lists of a panel's series, and refuse
+/// lists longer than [`MAX_LIST`].
+fn tidy_lists(i: usize, ps: &mut PanelSpec) -> Result<()> {
+    let Some(data) = ps.data.take() else {
+        return Ok(());
+    };
+    let mut items = data.to_vec();
+    for s in &mut items {
+        tidy(&mut s.file, Clone::clone, "file", i)?;
+        tidy(&mut s.sweep, |x| *x, "sweep", i)?;
+        tidy(&mut s.mz, |x| x.to_bits(), "m/z", i)?;
+    }
+    ps.data = Some(OneOrMany::Many(items));
+    Ok(())
+}
+
+/// Refuse titles and captions too long to lay out.
+fn check_text(spec: &PlotSpec) -> Result<()> {
+    let titles = spec
+        .title
+        .iter()
+        .chain(spec.panels.iter().filter_map(|p| p.title.as_ref()));
+    for t in titles {
+        let n = t.chars().count();
+        if n > MAX_TITLE_CHARS {
+            return Err(Error::Usage(format!(
+                "a title of {n} characters is over the limit of {MAX_TITLE_CHARS}; put the detail in caption"
+            )));
+        }
+    }
+    if let Some(c) = &spec.caption {
+        let n = c.chars().count();
+        if n > MAX_CAPTION_CHARS {
+            return Err(Error::Usage(format!(
+                "a caption of {n} characters is over the limit of {MAX_CAPTION_CHARS}; shorten it, and give the full text in your reply"
+            )));
+        }
+    }
+    Ok(())
+}
+
 /// Give the series of a panel that name no data the panel's (or the figure's) `file`; a panel
 /// with a file and no `data` draws that file's default view.
 fn with_default_file(ps: &mut PanelSpec, figure: Option<&OneOrMany<String>>) {
@@ -252,8 +327,16 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             .map(|p| (p.title.clone(), p.panel.clone()))
             .collect()
     };
-    for (_, ps) in &mut panels {
+    if panels.len() > MAX_PANELS {
+        return Err(Error::Usage(format!(
+            "{} panels are over the limit of {MAX_PANELS}; facet=series lays out many small plots in one panel",
+            panels.len()
+        )));
+    }
+    check_text(spec)?;
+    for (i, (_, ps)) in panels.iter_mut().enumerate() {
         with_default_file(ps, spec.panel.file.as_ref());
+        tidy_lists(i, ps)?;
     }
     // a lone dot plot reads best near square
     let lone_events = panels.len() == 1
@@ -374,8 +457,13 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         .map_or(natural, |h| h as f32)
         .clamp(200.0, MAX_SIZE as f32);
     // stretch or squeeze the rows to the height asked for
-    let k = (height - margin * 2.0 - title_h - caption_h - gap * (rows as f32 - 1.0))
-        / row_h.iter().sum::<f32>().max(1.0);
+    let room = height - margin * 2.0 - title_h - caption_h - gap * (rows as f32 - 1.0);
+    if room < 60.0 * rows as f32 {
+        return Err(Error::Usage(format!(
+            "the title and caption leave no room for the plots at height {height:.0}: shorten the caption, or give a larger height (at most {MAX_SIZE})"
+        )));
+    }
+    let k = room / row_h.iter().sum::<f32>().max(1.0);
     let mut fig = Figure::new(width, height.round(), Some(theme.paper));
     fig.title.clone_from(&spec.title);
     if let Some(t) = &spec.title {
@@ -437,24 +525,7 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
 
 /// Break `text` into lines at most `max_w` pixels wide, at spaces.
 fn wrap_words(text: &str, size: f32, max_w: f32, face: Face) -> Vec<String> {
-    let mut lines: Vec<String> = Vec::new();
-    let mut cur = String::new();
-    for word in text.split_whitespace() {
-        let trial = if cur.is_empty() {
-            word.to_string()
-        } else {
-            format!("{cur} {word}")
-        };
-        if !cur.is_empty() && openreadout_figure::text_width(&trial, face, size) > max_w {
-            lines.push(std::mem::replace(&mut cur, word.to_string()));
-        } else {
-            cur = trial;
-        }
-    }
-    if !cur.is_empty() {
-        lines.push(cur);
-    }
-    lines
+    openreadout_figure::wrap_text(text, face, size, max_w, usize::MAX)
 }
 
 /// One data item that gives several series (wells, files) is named once, by its label.

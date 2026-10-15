@@ -522,17 +522,13 @@ fn read_back(doc: &Value) -> Counts {
 
 /// Write `ds` as ASM JSON to `output` (temporary file, read back and verified, then renamed).
 pub fn export_asm(ds: &PlateDataset, output: &Path, overwrite: bool) -> Result<AsmExportReport> {
+    let input = ds.path();
+    openreadout_core::output::refuse_inputs(output, [input])?;
     if output.exists() && !overwrite {
         return Err(Error::Usage(format!(
             "{} exists; pass --overwrite to replace it",
             output.display()
         )));
-    }
-    let input = ds.path();
-    if output == input {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
     }
     let out_name = output.file_name().map_or_else(
         || "export.json".into(),

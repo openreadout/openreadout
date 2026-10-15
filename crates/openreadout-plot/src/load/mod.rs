@@ -31,6 +31,8 @@ pub(crate) struct Ctx<'a> {
     pub plate: Option<PlateHints>,
     /// The time unit the panel's x axis is asked to show (`s`, `min`, `h`).
     pub x_unit: Option<String>,
+    /// Data points read so far for the figure, against [`crate::MAX_POINTS`].
+    pub points: usize,
 }
 
 impl<'a> Ctx<'a> {
@@ -42,7 +44,21 @@ impl<'a> Ctx<'a> {
             apex: HashMap::new(),
             plate: None,
             x_unit: None,
+            points: 0,
         }
+    }
+
+    /// Count `n` more data points against the figure's budget; refuse when it runs out, before
+    /// the data is read where the loader knows the size up front.
+    pub fn spend(&mut self, n: usize) -> Result<()> {
+        self.points = self.points.saturating_add(n);
+        if self.points > crate::MAX_POINTS {
+            return Err(usage(format!(
+                "the figure would hold more than {} data points; draw fewer files, sweeps, wells or m/z values, or set x_range to a window",
+                crate::MAX_POINTS
+            )));
+        }
+        Ok(())
     }
 
     /// Open `file` and read its header.
@@ -68,11 +84,16 @@ pub(crate) fn load(ctx: &mut Ctx<'_>, spec: &SeriesSpec) -> Result<Vec<Series>> 
             "each data item needs exactly one of `file` (an instrument file), `table` (a .csv/.parquet table file) or `values` (inline numbers)",
         ));
     }
+    let count = |s: &[Series]| s.iter().map(|x| x.geom.len()).sum::<usize>();
     if let Some(v) = &spec.values {
-        return table::inline(spec, v);
+        let s = table::inline(spec, v)?;
+        ctx.spend(count(&s))?;
+        return Ok(s);
     }
     if let Some(t) = &spec.table {
-        return table::table(ctx, spec, t);
+        let s = table::table(ctx, spec, t)?;
+        ctx.spend(count(&s))?;
+        return Ok(s);
     }
     let files = spec
         .file
@@ -84,7 +105,10 @@ pub(crate) fn load(ctx: &mut Ctx<'_>, spec: &SeriesSpec) -> Result<Vec<Series>> 
     }
     let mut out = Vec::new();
     for f in &files {
+        let before = ctx.points;
         let mut s = load_file(ctx, spec, f)?;
+        // loaders that cannot tell the size before reading are counted once they have read
+        ctx.spend(count(&s).saturating_sub(ctx.points - before))?;
         if files.len() > 1 {
             let stem = file_label(f);
             let one = s.len() == 1;

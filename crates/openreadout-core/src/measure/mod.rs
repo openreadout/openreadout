@@ -16,7 +16,7 @@
 //!   samples; `values` returns at most [`PROFILE_VALUES`] of them, evenly spaced from the start
 //!   to the end, each the mean of the samples within half a step of it.
 //! - **polygon**: a pixel is inside when its centre is (even-odd rule).
-//! - **objects**: see [`objects`] and `segment.rs`.
+//! - **objects**: see `objects.rs` and `segment.rs`.
 
 // x, y, w, h, c, k are the natural names in image arithmetic.
 #![allow(clippy::many_single_char_names)]

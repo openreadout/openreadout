@@ -27,6 +27,8 @@ These read one plane: the selected channels (all by default), the middle z unles
 - `--polygon "X,Y X,Y X,Y …"`: the pixels whose centres are inside (even-odd rule): `area_px`, `area_um2`, and per channel `mean`, `std`, `median`, `min`, `max` and `sum` (the integrated intensity).
 - `--objects`, `--objects=cells`, `--objects=spots`: count nuclei (the default), whole cells or small bright spots in `--region`, inside `--polygon`, or in the whole plane. See [Objects](#objects).
 
+The flags of pixel statistics (`--mip`, `--per`, `--bins`, `--scale`, `--well`) do not apply to these measurements, so giving one with them is a usage error, as are `--region` with only a line or polygon and `--line-width` without `--line`. Pick the plane with `--select` instead.
+
 ### Objects
 
 One call answers how many, how big, how bright and where. The settings come from the image, so the defaults usually suffice:

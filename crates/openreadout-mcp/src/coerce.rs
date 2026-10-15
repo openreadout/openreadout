@@ -187,7 +187,9 @@ fn argument_hint(tool: Option<&rmcp::model::Tool>) -> Option<String> {
 
 /// An argument error without a hint (a wrong type or a missing field) gets one: the tool's
 /// arguments and their types. The router reports these either as an error or as a result with
-/// `isError` whose text starts `failed to deserialize parameters`.
+/// `isError` whose text starts `failed to deserialize parameters`; that result also gets
+/// `{code: "usage", exit_code: 2, hint}` under `_meta["openreadout/error"]`, as every failed
+/// call has.
 pub fn with_argument_hint(
     r: Result<rmcp::model::CallToolResponse, rmcp::ErrorData>,
     tool: Option<&rmcp::model::Tool>,
@@ -206,11 +208,17 @@ pub fn with_argument_hint(
                         .is_some_and(|t| t.text.starts_with("failed to deserialize parameters"))
                 }) =>
         {
+            let mut data = serde_json::json!({"code": "usage", "exit_code": 2});
             if let Some(h) = argument_hint(tool) {
                 result
                     .content
                     .push(rmcp::model::ContentBlock::text(format!("hint: {h}")));
+                data["hint"] = Value::String(h);
             }
+            result
+                .meta
+                .get_or_insert_with(rmcp::model::MetaObject::default)
+                .insert(crate::ERROR_META_KEY.into(), data);
             Ok(result.into())
         }
         other => other,
@@ -283,6 +291,34 @@ mod tests {
                 "panels": [{"series": [{"file": "x"}]}],
             })
         );
+    }
+
+    /// An argument error reported as a result carries the usage code under `_meta`, as the
+    /// reference promises for every failed call.
+    #[test]
+    fn argument_errors_carry_the_usage_code() {
+        let tool = rmcp::model::Tool::new(
+            "t",
+            "",
+            std::sync::Arc::new(
+                json!({"type": "object", "properties": {"file": {"type": "string"}}})
+                    .as_object()
+                    .unwrap()
+                    .clone(),
+            ),
+        );
+        let r = rmcp::model::CallToolResult::error(vec![rmcp::model::ContentBlock::text(
+            "failed to deserialize parameters: missing field `file`",
+        )]);
+        let Ok(rmcp::model::CallToolResponse::Complete(r)) =
+            with_argument_hint(Ok(r.into()), Some(&tool))
+        else {
+            panic!("a result");
+        };
+        let meta = &r.meta.as_ref().unwrap()[crate::ERROR_META_KEY];
+        assert_eq!(meta["code"], "usage");
+        assert_eq!(meta["exit_code"], 2);
+        assert_eq!(meta["hint"], "arguments: file (string)");
     }
 
     #[test]

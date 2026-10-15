@@ -276,6 +276,70 @@ pub fn text_width(text: &str, face: Face, size: f32) -> f32 {
     layout(text, face, size).1
 }
 
+/// Lines of `text` at most `max_w` pixels wide, broken at spaces, and inside words longer than
+/// a line. At most `max_lines` lines; when text is dropped, the last line ends in `…`.
+///
+/// Each word is measured once (kerning across a space is left out), so the time grows with the
+/// length of the text, not with its square.
+pub fn wrap_text(text: &str, face: Face, size: f32, max_w: f32, max_lines: usize) -> Vec<String> {
+    let char_w = |c: char| text_width(c.encode_utf8(&mut [0; 4]), face, size);
+    let space = char_w(' ');
+    let mut lines: Vec<String> = Vec::new();
+    let (mut cur, mut cur_w) = (String::new(), 0f32);
+    // one more line than kept tells that text was dropped
+    let full = |lines: &Vec<String>| lines.len() > max_lines;
+    'words: for word in text.split_whitespace() {
+        let ww = text_width(word, face, size);
+        if !cur.is_empty() && cur_w + space + ww <= max_w {
+            cur.push(' ');
+            cur.push_str(word);
+            cur_w += space + ww;
+            continue;
+        }
+        if !cur.is_empty() {
+            lines.push(std::mem::take(&mut cur));
+            cur_w = 0.0;
+            if full(&lines) {
+                break;
+            }
+        }
+        if ww <= max_w {
+            cur.push_str(word);
+            cur_w = ww;
+            continue;
+        }
+        // a word wider than a line is broken between characters
+        for c in word.chars() {
+            let w = char_w(c);
+            if !cur.is_empty() && cur_w + w > max_w {
+                lines.push(std::mem::take(&mut cur));
+                cur_w = 0.0;
+                if full(&lines) {
+                    break 'words;
+                }
+            }
+            cur.push(c);
+            cur_w += w;
+        }
+    }
+    if !cur.is_empty() && !full(&lines) {
+        lines.push(cur);
+    }
+    if full(&lines) {
+        lines.truncate(max_lines);
+        if let Some(last) = lines.last_mut() {
+            let tail = text_width(" …", face, size);
+            let mut w = text_width(last, face, size);
+            while w + tail > max_w {
+                let Some(c) = last.pop() else { break };
+                w -= char_w(c);
+            }
+            last.push_str(" …");
+        }
+    }
+    lines
+}
+
 /// Vertical metrics of a face at a size, in pixels.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Metrics {
@@ -369,6 +433,27 @@ pub fn text_path(text: &str, face: Face, size: f32, x: f32, y: f32) -> Path {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn wrapping_is_quick_and_keeps_inside_the_width() {
+        let lines = wrap_text("one two three four five six", Face::Sans, 12.0, 60.0, 10);
+        assert!(lines.len() > 1, "{lines:?}");
+        assert_eq!(lines.join(" "), "one two three four five six");
+        for l in &lines {
+            assert!(text_width(l, Face::Sans, 12.0) <= 60.0 + 0.5, "{l}");
+        }
+        // five words of 8000 characters: broken inside the words, cut to the lines asked for
+        let long = vec!["x".repeat(8000); 5].join(" ");
+        let t = std::time::Instant::now();
+        let lines = wrap_text(&long, Face::Sans, 12.0, 400.0, 3);
+        assert!(t.elapsed().as_secs_f32() < 2.0, "{:?}", t.elapsed());
+        assert_eq!(lines.len(), 3);
+        assert!(lines[2].ends_with(" …"));
+        for l in &lines {
+            assert!(text_width(l, Face::Sans, 12.0) <= 400.0 + 0.5, "{l}");
+        }
+        assert!(wrap_text("a b", Face::Sans, 12.0, 100.0, 0).is_empty());
+    }
+
     use super::*;
 
     #[test]

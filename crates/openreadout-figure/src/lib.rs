@@ -62,7 +62,7 @@ pub use chart::{
     key_row, key_row_height, marker_path, spread,
 };
 pub use color::{Color, Colormap};
-pub use font::{Face, Metrics, metrics, text_path, text_width};
+pub use font::{Face, Metrics, metrics, text_path, text_width, wrap_text};
 pub use geom::{Rect, grid};
 pub use label::{LabelPlacer, Pill};
 pub use path::{Path, Segment};

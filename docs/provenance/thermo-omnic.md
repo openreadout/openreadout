@@ -110,3 +110,15 @@ hex dumps and on the files agreeing with themselves.
 - Key 147 is a Windows BMP (24-bit, uncompressed) after a u32 byte count: the video image of the
   sample. The kind-4 rectangle's aspect ratio matches the image's to within 0.5 %, which
   suggests it is the image's field of view; that is not confirmed, so no pixel size is reported.
+
+## 2026-10-15 — map point count bounded by the data (Richard Zimring with Claude as assistant)
+
+**Files:** a fuzz input (`tests/fixtures/malformed/file-fuzz-omnic-map-points-alloc.spa`) whose
+map spectrum header gives 10,878,979 points while each intensity record holds 3 values.
+
+**Prior art consulted:** none.
+
+**What was inferred:** nothing new about the format. A map spectrum's key-3 record holds its
+point count of float32 values, so the reader now refuses a map whose point count no intensity
+record holds, before it lists one image channel per point. The corpus maps
+(figshare32180061 mp2 and mp6, zenodo10598031) open as before.
