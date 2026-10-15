@@ -14,20 +14,24 @@ const VIEW_LABELS = {
 // Keys that select a zoomed window; a new selection or view clears them.
 const ZOOM_KEYS = ["region", "first_sample", "count", "x_range"];
 
-// The OpenReadout look (shared with the figure engine): ink on paper, a warm red accent, quiet
-// axes, direct labels. Chrome colours come from the host; these are the data colours.
-const THEMES = {
-  light: {
-    accent: "#a8432f", band: "rgba(168,67,47,0.11)", faint: "#cfcac0",
-    series: ["#1d1f24", "#a8432f", "#3d6a8a", "#c08a2e", "#5e7f4f", "#7b5b84", "#2e7d7a", "#8c6d5a"],
-    seq: ["#f3eee4", "#edd9b4", "#e3b57f", "#d18a57", "#b45c3c", "#8a3a2c", "#55222a"],
-  },
-  dark: {
-    accent: "#e07a5f", band: "rgba(224,122,95,0.16)", faint: "#4a4c52",
-    series: ["#eceae4", "#e07a5f", "#7fa8c6", "#e0b25a", "#92b57f", "#b497bd", "#5fb3ad", "#c0a08a"],
-    seq: ["#22202a", "#4a2531", "#7a3333", "#a84e37", "#cf7a4a", "#e7ae6e", "#f6e2b4"],
-  },
-};
+// The OpenReadout look, the figure engine's: ink on paper, a warm red accent, quiet axes,
+// direct labels. theme.json holds openreadout-figure's Theme tokens (a Rust test keeps it
+// current); the server puts it in place of the placeholder below. Chrome colours come from the
+// host; these are the data colours.
+const TOKENS = /*TOKENS*/null;
+function themesFrom(t) {
+  const one = (m, bandAlpha) => {
+    const th = (t && t[m]) || {};
+    const [r, g, b] = hexRgb(th.accent || "#a8432f");
+    return {
+      accent: th.accent, faint: th.faint, ink: th.ink, muted: th.muted, paper: th.paper, panel: th.panel,
+      band: `rgba(${r},${g},${b},${bandAlpha})`,
+      series: th.series || [], seq: th.sequential || [], div: th.diverging || [],
+    };
+  };
+  return { light: one("light", 0.11), dark: one("dark", 0.16), blanks: (t && t.blank_labels) || [] };
+}
+const THEMES = themesFrom(TOKENS || (typeof require === "function" ? require("./theme.json") : null));
 const MONO = '"OpenReadout Mono", "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace';
 // [family, weight, base64 WOFF]: subsets of IBM Plex, filled in by the server (src/app/mod.rs).
 const FONTS = /*FONTS*/[];
@@ -69,6 +73,57 @@ function fmt(v, digits) {
   return String(s);
 }
 
+/** A value to read in a tooltip: `digits` significant digits, SI suffixes from a million up
+ * (`28.77 M`), and a power of ten written out below 0.001 (`4.392 × 10⁻⁴`). */
+function fmtValue(v, digits) {
+  if (v === null || v === undefined || !isFinite(v)) return "–";
+  if (v < 0) return "−" + fmtValue(-v, digits);
+  const a = Math.abs(v);
+  const d = digits || 4;
+  if (a >= 1e6 && a < 1e15) {
+    const [k, s] = a >= 1e12 ? [1e12, "T"] : a >= 1e9 ? [1e9, "G"] : [1e6, "M"];
+    return `${Number((v / k).toPrecision(d))} ${s}`;
+  }
+  if (a !== 0 && (a < 1e-3 || a >= 1e15)) {
+    const e = Math.floor(Math.log10(a));
+    const m = Number((v / Math.pow(10, e)).toPrecision(d));
+    return `${m} × 10${supers(e)}`;
+  }
+  return String(Number(v.toPrecision(d)));
+}
+
+/** A tick label, as the figure engine writes them (openreadout-figure `format_tick`): as many
+ * decimals as the step needs, SI suffixes from 10 000 up (`20k`, `1.5M`), an exponent below
+ * 0.001. */
+function fmtTick(v, step) {
+  if (v === null || v === undefined || !isFinite(v)) return "–";
+  if (v === 0) return "0";
+  const a = Math.abs(v);
+  step = isFinite(step) && step > 0 ? step : a;
+  const dec = (s) => {
+    if (s >= 1 || s <= 0) return 0;
+    const base = Math.max(0, Math.ceil(-Math.log10(s)));
+    const scaled = s * Math.pow(10, base);
+    return Math.abs(scaled - Math.round(scaled)) > 1e-6 ? base + 1 : base;
+  };
+  const trim = (x) => (x.includes(".") ? x.replace(/0+$/, "").replace(/\.$/, "") : x);
+  if (a >= 1e4) {
+    const [div, suffix] = a >= 1e12 ? [1e12, "T"] : a >= 1e9 ? [1e9, "G"] : a >= 1e6 ? [1e6, "M"] : [1e3, "k"];
+    return trim((v / div).toFixed(Math.min(3, dec(step / div)))) + suffix;
+  }
+  if (a < 1e-3) {
+    const e = Math.floor(Math.log10(a));
+    return `${trim((v / Math.pow(10, e)).toFixed(1))}e${e}`;
+  }
+  return trim(v.toFixed(Math.min(6, dec(step))));
+}
+
+/** Labels for a run of ticks (their step sets the decimals). */
+function tickLabels(ticks) {
+  const step = ticks.length > 1 ? Math.abs(ticks[1] - ticks[0]) : Math.abs(ticks[0] || 1);
+  return ticks.map((t) => fmtTick(t, step));
+}
+
 /** A whole number with thousands separators (pixel coordinates, counts). */
 function fmtInt(v) {
   if (!isFinite(v)) return "–";
@@ -97,10 +152,46 @@ function legendLabel(name, max) {
   return s.length > max ? s.slice(0, max - 1) + "…" : s;
 }
 
+/** Label positions near `targets`, at least `gap` apart and within [lo, hi] when they fit,
+ * each as close to its target as the others allow (the figure engine's `spread`). */
+function spreadLabels(targets, gap, lo, hi) {
+  const order = targets.map((t, i) => i).sort((a, b) => targets[a] - targets[b]);
+  const pos = order.map((i) => Math.min(hi, Math.max(lo, targets[i])));
+  // pool adjacent violators: each block sits at the mean of its shifted targets
+  const blocks = [];
+  pos.forEach((p, k) => {
+    blocks.push({ m: p - gap * k, s: k, n: 1 });
+    while (blocks.length > 1 && blocks[blocks.length - 2].m > blocks[blocks.length - 1].m) {
+      const b = blocks.pop(), a = blocks.pop();
+      blocks.push({ m: (a.m * a.n + b.m * b.n) / (a.n + b.n), s: a.s, n: a.n + b.n });
+    }
+  });
+  for (const b of blocks) for (let k = b.s; k < b.s + b.n; k++) pos[k] = b.m + gap * k;
+  const over = pos.length ? pos[pos.length - 1] - hi : 0;
+  if (over > 0) for (let k = 0; k < pos.length; k++) pos[k] -= over;
+  const under = pos.length ? lo - pos[0] : 0;
+  if (under > 0) for (let k = 0; k < pos.length; k++) pos[k] += under;
+  const out = new Array(targets.length);
+  order.forEach((i, k) => { out[i] = pos[k]; });
+  return out;
+}
+
 /** "#rrggbb" → [r, g, b]. */
 function hexRgb(h) {
   const n = parseInt(String(h).replace("#", ""), 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+/** A CSS colour as the browser resolves it (`rgb(r, g, b)`, `rgba(…)`, `#rrggbb`) → "#rrggbb",
+ * or null when it is not one of those (or is transparent). */
+function cssHex(c) {
+  const s = String(c || "").trim();
+  if (/^#[0-9a-f]{6}$/i.test(s)) return s.toLowerCase();
+  const m = s.match(/^rgba?\(([^)]*)\)$/i);
+  if (!m) return null;
+  const v = m[1].split(/[\s,/]+/).filter(Boolean).map(Number);
+  if (v.length < 3 || v.slice(0, 3).some((x) => !isFinite(x)) || (v.length > 3 && v[3] < 0.5)) return null;
+  return "#" + v.slice(0, 3).map((x) => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, "0")).join("");
 }
 
 /** Colour at t in [0, 1] along `stops` (hex strings), as [r, g, b]. */
@@ -183,7 +274,11 @@ function scaleInv(name) {
 
 /** Ticks for a transformed axis: data values (0, ±10^k) placed by the transform. */
 function scaleTicks(name, lo, hi, want) {
-  if (name !== "log" && name !== "arcsinh") return niceTicks(lo, hi, want).map((v) => ({ at: v, label: fmt(v, 3) }));
+  if (name !== "log" && name !== "arcsinh") {
+    const t = niceTicks(lo, hi, want);
+    const labels = tickLabels(t);
+    return t.map((v, i) => ({ at: v, label: labels[i] }));
+  }
   const f = scaleFn(name), inv = scaleInv(name);
   const a = inv(lo), b = inv(hi);
   const out = [];
@@ -361,21 +456,38 @@ function fitAspect(r, aspect) {
   return { x: r.x + r.w / 2 - w / 2, y: r.y + r.h / 2 - h / 2, w, h };
 }
 
-/** The layout map a plate is coloured by: the one with fewest groups (2 to 8), else none. */
+/** The layout map a plate is coloured by, as the previews choose it: 2 to 8 groups (blanks
+ * aside) covering the most wells, a map named like a group winning ties; else none. */
 function defaultGroupMap(groups) {
-  let best = null, bestN = Infinity;
+  let best = null, bestScore = null;
   for (const [name, m] of Object.entries(groups || {})) {
-    const n = new Set(Object.values(m)).size;
-    if (n >= 2 && n <= 8 && n < bestN) { best = name; bestN = n; }
+    const values = Object.values(m).map(String);
+    const n = new Set(values.filter((v) => !isBlankGroup(v))).size;
+    if (n < 2 || n > 8) continue;
+    const score = [values.length, /group/i.test(name) ? 1 : 0];
+    if (!bestScore || score[0] > bestScore[0] || (score[0] === bestScore[0] && score[1] > bestScore[1])) {
+      best = name;
+      bestScore = score;
+    }
   }
-  if (best) return best;
-  for (const [name, m] of Object.entries(groups || {})) if (new Set(Object.values(m)).size >= 2) return name;
-  return null;
+  return best;
 }
 
-/** Blank or empty wells recede: `Blank`, `BL`, `empty`, `buffer`. */
+/** Blank wells recede: the figure engine's blank labels (`Blank`, `BL`, `buffer`, `empty`, …). */
 function isBlankGroup(name) {
-  return /^(blank|blk|bl|empty|buffer|none|-)$/i.test(String(name || "").trim());
+  return THEMES.blanks.includes(String(name == null ? "" : name).trim().toLowerCase());
+}
+
+/** The shared category rule (openreadout-figure `category_colors`): categories take the series
+ * colours in the order they first appear, blanks are faint and use up no colour. */
+function categoryColors(names, palette) {
+  const seen = [];
+  return names.map((n) => {
+    if (isBlankGroup(n)) return palette.faint;
+    let i = seen.indexOf(n);
+    if (i < 0) { seen.push(n); i = seen.length - 1; }
+    return palette.series[i % palette.series.length];
+  });
 }
 
 /** qPCR channel names `B3 GAPDH` → the target after the well, for colouring by target. */
@@ -522,6 +634,7 @@ function main() {
     }
     palette = null;
     invalidate();
+    if (S.fig) redrawFigure(S.fig.xRange);
   }
 
   function onNotification(method, p) {
@@ -566,8 +679,7 @@ function main() {
     }
     // openreadout_plot: show the figure it drew; _meta["openreadout/figure"] has its panels
     if (result && result._meta && result._meta["openreadout/figure"]) {
-      S.figure = result._meta["openreadout/figure"];
-      showStatic(result);
+      showFigure(result);
       return;
     }
     const hint = sc && sc.view === "pending" ? hintFrom(null, S.toolInput) : hintFrom(result, S.toolInput);
@@ -1276,7 +1388,7 @@ function main() {
       }
       add(select("Events", [[10000, "10 000"], [25000, "25 000"], [50000, "50 000"]], S.args.events || 10000, (v) => load({ events: Number(v) })));
     } else if (d.view === "figure") {
-      add(button("Reset zoom", () => figureZoom(null), !(S.fig && S.fig.zoom)));
+      add(button("Reset zoom", () => (S.fig && S.fig.xRange ? redrawFigure(null) : figureZoom(null)), !(S.fig && (S.fig.zoom || S.fig.xRange))));
     }
   }
 
@@ -1562,8 +1674,14 @@ function main() {
       if (isWhole(rect, prev.full)) prev.overview = tex;
       overlay(null);
       if (follow) {
-        // The agent looked somewhere else: follow it there.
+        // The agent looked somewhere else: follow it there, in a frame shaped like its region
+        // (a wide strip after a square would otherwise sit in wide margins).
         prev.follow = false;
+        const aspect = frameAspect(rect);
+        if (Math.abs(aspect - prev.aspect) > 0.02) {
+          prev.aspect = aspect;
+          invalidate();
+        }
         flyTo(rect, 1100);
       } else {
         invalidate();
@@ -1578,7 +1696,7 @@ function main() {
       fetchOverview();
       return;
     }
-    const aspect = Math.min(2.4, Math.max(0.55, rect.w / rect.h));
+    const aspect = frameAspect(rect);
     S.img = {
       key, imageIndex: im.image, full: { w: fullW, h: fullH }, aspect,
       textures: [tex], overview: null, cam: null, anim: null, settled: true, follow: false, pending: null,
@@ -1607,6 +1725,11 @@ function main() {
   }
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  /** The viewer frame's shape for a picture of `rect`, within limits a chat column can show. */
+  function frameAspect(rect) {
+    return Math.min(2.4, Math.max(0.55, rect.w / rect.h));
+  }
 
   function isWhole(rect, full) {
     return rect.x <= 0 && rect.y <= 0 && rect.w >= full.w - 1 && rect.h >= full.h - 1;
@@ -2129,7 +2252,8 @@ function main() {
       if (Array.isArray(s.x)) x = Float64Array.from(s.x, (v) => (v == null ? NaN : v));
       else x = xs && xs.length === n ? xs : (xs = plotXs(p, n || n0));
       let color, group = null;
-      if (groups) { group = groups.names[i]; color = seriesColor(groups.distinct.indexOf(group)); }
+      if (p.voltammogram) color = alpha(colors().ink, series.length > 1 ? 0.3 + 0.7 * i / (series.length - 1) : 1); // cycles: first faint, last ink
+      else if (groups) { group = groups.names[i]; color = seriesColor(groups.distinct.indexOf(group)); }
       else if (series.length > 8) color = colors().ink;
       else color = seriesColor(i);
       return { name: s.name, unit: s.unit, color, group, x, y: s.y, lo: s.lo, hi: s.hi, style: s.style || (p.kind === "spectrum" ? "profile" : "line"), channel: s.channel, index: i };
@@ -2174,7 +2298,7 @@ function main() {
     const ph = (h - top - bottom - gap * (np - 1)) / np;
     g.font = font(10.5, 400, true);
     let tickW = 0;
-    yinfo.forEach((yi) => { for (const t of niceTicks(yi.y0, yi.y1, Math.max(3, Math.floor(ph / 42)))) tickW = Math.max(tickW, g.measureText(fmt(t, 3)).width); });
+    yinfo.forEach((yi) => { for (const l of tickLabels(niceTicks(yi.y0, yi.y1, Math.max(3, Math.floor(ph / 42))))) tickW = Math.max(tickW, g.measureText(l).width); });
     const left = Math.ceil(tickW + 14);
     // room on the right for direct labels
     const labels = directLabels(m);
@@ -2190,12 +2314,13 @@ function main() {
       const Y = (v) => py + ph - (v - y0) / (y1 - y0) * ph;
       // quiet grid and y ticks
       const yt = niceTicks(y0, y1, Math.max(3, Math.floor(ph / 42)));
+      const ytl = tickLabels(yt);
       g.lineWidth = 1;
       for (const t of yt) {
         const yy = Math.round(Y(t)) + 0.5;
         g.strokeStyle = t === 0 ? c.rule : c.grid;
         g.beginPath(); g.moveTo(left, yy); g.lineTo(left + pw, yy); g.stroke();
-        txt(fmt(t, 3), left - 7, yy, { mono: true, size: 10.5, align: "right", baseline: "middle" });
+        txt(ytl[yt.indexOf(t)], left - 7, yy, { mono: true, size: 10.5, align: "right", baseline: "middle" });
       }
       // panel label (channel name) and y unit, top left
       const head = [pn.label, pn.unit && pn.label !== pn.unit ? pn.unit : ""].filter(Boolean).join("  ·  ") || pn.unit || "";
@@ -2206,13 +2331,27 @@ function main() {
       g.beginPath();
       g.rect(left, py - 1, pw, ph + 2);
       g.clip();
-      const peaks = (p.peaks || []).map((q) => (m.kind === "chromatogram" ? Object.assign({}, q, { number: q.label, label: Number(q.x).toFixed(2) }) : q));
+      // chromatogram peaks: labelled with their time, at the trace's own top (the picker's
+      // height is above its baseline)
+      const onTrace = (x) => {
+        const s0 = pn.series[0];
+        if (!s0 || !s0.x.length) return null;
+        let best = -1, bd = Infinity;
+        for (let k = 0; k < s0.x.length; k++) { const d = Math.abs(s0.x[k] - x); if (d < bd) { bd = d; best = k; } }
+        const ys = s0.y || s0.hi;
+        let top = -Infinity;
+        for (let k = Math.max(0, best - 2); k <= Math.min(ys.length - 1, best + 2); k++) if (isFinite(ys[k]) && ys[k] > top) top = ys[k];
+        return isFinite(top) ? top : null;
+      };
+      const peaks = (p.peaks || []).map((q) => (m.kind === "chromatogram" ? Object.assign({}, q, { number: q.label, label: Number(q.x).toFixed(2), height: onTrace(q.x) ?? q.height }) : q));
       for (const s of pn.series) drawSeries(s, X, Y, py + ph, m);
       g.restore();
-      if (pi === 0 && peaks.length) drawPeakLabels(peaks, X, Y, py, left, pw, m.kind === "chromatogram" ? 10 : 14);
+      // only prominent peaks are labelled (the server says which); every peak can be hovered
+      const avoid = pi === 0 && labels.length ? directLabelZones(directLabelLayout(labels, { py, ph, Y }, left + pw), left + pw) : [];
+      if (pi === 0 && peaks.length) drawPeakLabels(peaks.filter((q) => q.labelled !== false), X, Y, py, left, pw, m.kind === "chromatogram" ? 10 : 14, avoid);
       if (pi === 0 && m.kind === "spectrum" && pn.series[0]) {
         if (!pn.series[0].x.length) txt("This scan holds no peaks.", left + pw / 2, py + ph / 2, { size: 13, color: c.muted, align: "center" });
-        else drawPeakLabels(spectrumPeaks(pn.series[0], 12), X, Y, py, left, pw, 12);
+        else drawPeakLabels(spectrumPeaks(pn.series[0], 12), X, Y, py, left, pw, 12, avoid);
       }
       if (pi === 0) drawPlotAnnotations(X, Y, py, ph, left, pw, "over");
       panelsGeo.push({ py, ph, y0, y1, Y, series: pn.series });
@@ -2223,12 +2362,13 @@ function main() {
     g.lineWidth = 1;
     g.beginPath(); g.moveTo(left, yAxis + 0.5); g.lineTo(left + pw, yAxis + 0.5); g.stroke();
     const xt = niceTicks(x0, x1, Math.max(2, Math.floor(pw / 90)));
+    const xtl = tickLabels(xt);
     const unit = m.ax.unit || (m.kind === "spectrum" ? "m/z" : m.ax.quantity === "sample" ? "samples" : String(m.ax.quantity || "").replace(/_/g, " "));
     xt.forEach((t, i) => {
       const xx = Math.round(X(t)) + 0.5;
       g.beginPath(); g.moveTo(xx, yAxis); g.lineTo(xx, yAxis + 4); g.stroke();
       const last = m.reversed ? i === 0 : i === xt.length - 1;
-      const label = fmt(t, 5) + (last && unit ? " " + unit : "");
+      const label = xtl[i] + (last && unit ? " " + unit : "");
       const align = last ? (xx + g.measureText(label).width / 2 > w - 4 ? "right" : "center") : "center";
       txt(label, align === "right" ? Math.min(xx + 6, w - 4) : xx, yAxis + 17, { mono: true, size: 10.5, align });
     });
@@ -2244,13 +2384,16 @@ function main() {
     if (m.groups) {
       return m.groups.distinct.map((name, i) => ({ text: legendLabel(name, 22), color: seriesColor(i), members: pn.series.filter((s) => s.group === name) }));
     }
+    // cycles of a voltammogram are loops: their ends are not where a label belongs
+    if (S.data.plot && S.data.plot.voltammogram) return [];
     if (pn.series.length < 2 || pn.series.length > 8) return [];
     return pn.series.map((s) => ({ text: legendLabel(s.name, 22), color: s.color, members: [s] }));
   }
 
-  function drawDirectLabels(labels, X, panels, xEnd, w) {
-    if (!labels.length || !panels[0]) return;
-    const P = panels[0];
+  /** Where the direct labels go: each label's line end (`y`) and its spread place (`ty`), and the
+   * text's left edge. Peak labels keep off these places (one set of labels, as in the figure
+   * engine). */
+  function directLabelLayout(labels, P, xEnd) {
     const items = labels.map((l) => {
       // the last finite point of the member with the highest end
       let best = null;
@@ -2265,12 +2408,39 @@ function main() {
       }
       return best ? { l, y: P.Y(best.v) } : null;
     }).filter(Boolean).sort((a, b) => a.y - b.y);
-    // nudge apart vertically
-    const hgt = 14;
-    for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < hgt) items[i].y = items[i - 1].y + hgt;
-    const over = items.length ? items[items.length - 1].y - (P.py + P.ph) : 0;
-    if (over > 0) for (const it of items) it.y -= over;
-    for (const it of items) txt(it.l.text, xEnd + 6, it.y, { size: 11.5, weight: 500, color: it.l.color, baseline: "middle" });
+    // spread apart vertically, as the figure engine does (end_labels): one line of type apart,
+    // as close to each line's end as the others allow
+    const hgt = 15;
+    const ys = spreadLabels(items.map((it) => it.y), hgt, P.py, P.py + P.ph);
+    const moved = items.some((it, i) => Math.abs(ys[i] - it.y) > 3);
+    items.forEach((it, i) => { it.ty = ys[i]; });
+    return { items, moved, tx: xEnd + (moved ? 18 : 6) };
+  }
+
+  /** The places the direct labels take inside the plot: the last stretch of each labelled line. */
+  function directLabelZones(lay, xEnd) {
+    return lay.items.map((it) => ({ x: xEnd - 28, y: Math.min(it.y, it.ty) - 9, w: 40, h: Math.abs(it.y - it.ty) + 18 }));
+  }
+
+  function drawDirectLabels(labels, X, panels, xEnd, w) {
+    if (!labels.length || !panels[0]) return;
+    const { items, moved, tx } = directLabelLayout(labels, panels[0], xEnd);
+    const ys = items.map((it) => it.ty);
+    const c = colors();
+    items.forEach((it, i) => {
+      if (moved) {
+        // an elbow leader from the line's end to its label
+        g.strokeStyle = alpha(it.l.color, 0.55);
+        g.lineWidth = 1;
+        g.beginPath();
+        g.moveTo(xEnd + 2, it.y);
+        g.lineTo(xEnd + 5, it.y);
+        g.lineTo(tx - 5, ys[i]);
+        g.lineTo(tx - 2, ys[i]);
+        g.stroke();
+      }
+      txt(it.l.text, tx, ys[i], { size: 11.5, weight: 500, color: it.l.color === c.faint ? c.muted : it.l.color, baseline: "middle" });
+    });
   }
 
   function drawSeries(s, X, Y, baseY, m) {
@@ -2344,7 +2514,7 @@ function main() {
     return out.sort((a, b) => b.height - a.height).slice(0, max);
   }
 
-  function drawPeakLabels(peaks, X, Y, py, left, pw, max) {
+  function drawPeakLabels(peaks, X, Y, py, left, pw, max, avoid) {
     const c = colors();
     g.font = font(10.5, 400, true);
     const sorted = peaks.slice().sort((a, b) => (b.height || 0) - (a.height || 0));
@@ -2360,8 +2530,14 @@ function main() {
       if (xx < left - 2 || xx > left + pw + 2) continue;
       const tx = Math.min(left + pw - half, Math.max(left + half, xx));
       if (used.some(([a, b]) => tx + half > a && tx - half < b)) continue;
+      let yy = pk.height != null ? Math.max(py + 10, Y(pk.height) - 4) : py + 10;
+      // off the direct labels' places: above them when there is room, else left out
+      const hits = (avoid || []).filter((z) => tx + half > z.x && tx - half < z.x + z.w && yy > z.y && yy - 12 < z.y + z.h);
+      if (hits.length) {
+        yy = Math.min(...hits.map((z) => z.y)) - 3;
+        if (yy - 12 < py) continue;
+      }
       used.push([tx - half, tx + half]);
-      const yy = pk.height != null ? Math.max(py + 10, Y(pk.height) - 4) : py + 10;
       txt(label, tx, yy, { mono: true, size: 10.5, align: "center", color: c.ink, halo: c.bg });
       n++;
     }
@@ -2575,15 +2751,9 @@ function main() {
       const v = map[wellName(r, c)];
       if (v != null && !order.includes(v)) order.push(v);
     }
-    const colorsBy = new Map();
-    let i = 0;
-    const th = colors();
-    // Data colours in order, skipping ink for the first group so the accent leads.
-    const pal = th.series.slice(1).concat([th.series[0]]);
-    for (const name of order) {
-      if (isBlankGroup(name)) colorsBy.set(name, th.faint);
-      else colorsBy.set(name, pal[i++ % pal.length]);
-    }
+    // the shared category rule, so the plate looks as it does in previews and plots
+    const cols = categoryColors(order, colors());
+    const colorsBy = new Map(order.map((name, i) => [name, cols[i]]));
     const counts = new Map();
     for (const v of Object.values(map)) counts.set(v, (counts.get(v) || 0) + 1);
     return { map, order, colorsBy, counts };
@@ -2965,7 +3135,7 @@ function main() {
       });
     }
     // axes
-    const yt = ev.yv ? scaleTicks(sy, yr[0], yr[1], Math.max(2, Math.floor(ph / 44))) : niceTicks(yr[0], yr[1], Math.max(2, Math.floor(ph / 44))).map((v) => ({ at: v, label: fmt(v, 3) }));
+    const yt = ev.yv ? scaleTicks(sy, yr[0], yr[1], Math.max(2, Math.floor(ph / 44))) : scaleTicks("linear", yr[0], yr[1], Math.max(2, Math.floor(ph / 44)));
     for (const t of yt) txt(t.label, left - 7, Y(t.at), { mono: true, size: 10.5, align: "right", baseline: "middle" });
     const xt = scaleTicks(sx, xr[0], xr[1], Math.max(2, Math.floor(pw / 80)));
     g.strokeStyle = c.rule;
@@ -2984,10 +3154,9 @@ function main() {
     S.layout = L;
   }
 
+  /** Population colours follow the shared category rule (in the order the gates list them). */
   function popColor(j) {
-    const th = colors();
-    const pal = th.series.slice(1).concat([th.series[0]]);
-    return pal[j % pal.length];
+    return seriesColor(j);
   }
 
   function drawDensity(tx, ty, xr, yr, left, top, pw, ph) {
@@ -3095,7 +3264,9 @@ function main() {
     if (!img) { overlay("Could not decode the figure.", true); return; }
     S.data = { view: "figure" };
     S.args = {};
-    S.fig = { img, data: figurePanels(data, img), zoom: null };
+    // the agent's arguments, to draw the figure again in this theme, size and zoom
+    const spec = S.toolInput && Object.keys(S.toolInput).length && canCallTools() ? S.toolInput : null;
+    S.fig = { img, data: figurePanels(data, img), zoom: null, spec, xRange: null, drawn: null };
     S.img = null;
     S.sel = null;
     hideAct();
@@ -3107,6 +3278,62 @@ function main() {
     invalidate();
     renderControls();
     setHint();
+    redrawFigure(null);
+  }
+
+  /** Draw the figure again (openreadout_view figure): in the host's theme, as wide as the
+   * canvas at the screen's pixel density, over `xRange` ({range: [a, b], panel}: the panel
+   * of the spec it was dragged on; panels that share x, facets and plate grids zoom together)
+   * or the whole range. */
+  async function redrawFigure(xRange) {
+    const F = S.fig;
+    if (!F || !F.spec) return;
+    const dpr = Math.min(3, window.devicePixelRatio || 1);
+    const width = Math.round(Math.max(320, canvas.parentElement.clientWidth));
+    const c = colors();
+    const dark = c.dark;
+    // drawn on the host's own background, so the figure sits in the page without a card
+    const paper = cssHex(c.bg);
+    const key = JSON.stringify([width, dpr, dark, paper, xRange]);
+    if (F.drawn === key) return;
+    F.drawn = key;
+    // the viewer's header shows the title, so the picture leaves it out
+    const spec = Object.assign({}, F.spec);
+    delete spec.title;
+    const args = { view: "figure", spec, dark, width, scale: dpr, outline: false };
+    if (paper) args.paper = paper;
+    if (xRange) {
+      args.x_range = xRange.range;
+      if (xRange.panel != null) args.panel = xRange.panel;
+    }
+    root.setAttribute("aria-busy", "true");
+    try {
+      const r = await callView(args);
+      const im = (r.content || []).find((c) => c.type === "image");
+      if (!im || S.fig !== F || F.drawn !== key) return;
+      const img = await decode(im);
+      const fig = r.structuredContent && r.structuredContent.figure;
+      F.img = img;
+      F.data = figurePanels(fig, img);
+      F.zoom = null;
+      F.xRange = xRange;
+      S.hover = null;
+      tip(null);
+      for (const n of (r.structuredContent && r.structuredContent.notes) || []) toast(n);
+      invalidate();
+      renderControls();
+    } catch (e) {
+      // the picture the tool returned stays
+      F.drawn = null;
+    } finally {
+      root.setAttribute("aria-busy", "false");
+    }
+  }
+
+  /** A figure the viewer can draw again zooms by drawing it over an x range. */
+  function figureRedrawsZoom() {
+    const F = S.fig;
+    return !!(F && F.spec && F.data.length);
   }
 
   function figurePanels(data, img) {
@@ -3122,8 +3349,33 @@ function main() {
         return { dom, log: v.scale === "log", unit: v.unit || v.label || "", reversed: !!v.reversed };
       };
       const series = (p.series || []).map((s) => ({ name: s.name || s.label || "", x: (s.x || []).map(num), y: (s.y || []).map(num), color: s.color })).filter((s) => s.x.length && s.x.length === s.y.length);
-      return { area: { x: num(a.x) * sx, y: num(a.y) * sy, w: num(a.width ?? a.w) * sx, h: num(a.height ?? a.h) * sy }, x: ax("x"), y: ax("y"), series };
+      return { area: { x: num(a.x) * sx, y: num(a.y) * sy, w: num(a.width ?? a.w) * sx, h: num(a.height ?? a.h) * sy }, x: ax("x"), y: ax("y"), series, specPanel: Number.isInteger(p.spec_panel) ? p.spec_panel : null };
     }).filter((p) => p && [p.area.x, p.area.y, p.area.w, p.area.h].every(isFinite) && p.x.dom.every(isFinite) && p.y.dom.every(isFinite));
+  }
+
+  /** The x range dragged from `x0` to `x1` (canvas px) at height `ym` over one panel, in that
+   * panel's units, with the spec panel it belongs to; null when the drag is not over a panel
+   * with a numeric x axis. The ends are clamped to the panel. */
+  function figureDragRange(x0, x1, ym) {
+    const F = S.fig, L = S.layout;
+    if (!F || !L || Math.abs(x1 - x0) <= 8) return null;
+    const [ia, iy] = L.inv(x0, ym), [ib] = L.inv(x1, ym);
+    // the panel under the drag, or the nearest one above or below it (a drag along a gap)
+    const across = F.data.filter((q) => Math.max(ia, ib) >= q.area.x && Math.min(ia, ib) <= q.area.x + q.area.w);
+    const gapTo = (q) => (iy < q.area.y ? q.area.y - iy : iy > q.area.y + q.area.h ? iy - q.area.y - q.area.h : 0);
+    const p = across.sort((q, r) => gapTo(q) - gapTo(r))[0];
+    if (!p || gapTo(p) * L.k > 40) return null;
+    const at = (ix) => {
+      const tr = (v) => (p.x.log ? Math.log10(v) : v);
+      const [xa, xb] = p.x.dom.map(tr);
+      let u = Math.min(1, Math.max(0, (ix - p.area.x) / p.area.w));
+      if (p.x.reversed) u = 1 - u;
+      const v = xa + u * (xb - xa);
+      return p.x.log ? Math.pow(10, v) : v;
+    };
+    const a = at(ia), b = at(ib);
+    if (!isFinite(a) || !isFinite(b) || a === b) return null;
+    return { range: [Math.min(a, b), Math.max(a, b)], panel: p.specPanel };
   }
 
   function figureZoom(z) {
@@ -3167,37 +3419,101 @@ function main() {
       const xv = xa + u * (xb - xa), yv = ya + (1 - (iy - a.y) / a.h) * (yb - ya);
       const X = (v) => a.x + ((p.x.reversed ? xb - fx(v) : fx(v) - xa) / (xb - xa)) * a.w;
       const Y = (v) => a.y + (1 - (fy(v) - ya) / (yb - ya)) * a.h;
-      // nearest point of any series, in picture pixels
+      const inside = (qx, qy) => qx >= a.x - 0.5 && qx <= a.x + a.w + 0.5 && qy >= a.y - 0.5 && qy <= a.y + a.h + 0.5;
+      const xAt = p.x.log ? Math.pow(10, xv) : xv, yAt = p.y.log ? Math.pow(10, yv) : yv;
+      // A few lines: every series' value at the nearest x it has, the cursor snapped to it.
+      const lines = p.series.length <= 8 && p.series.every((s) => s.x.length > 3);
+      if (lines) {
+        let snapX = null, bestDx = Infinity;
+        for (const s of p.series) for (let i = 0; i < s.x.length; i++) {
+          const dx = Math.abs(X(s.x[i]) - ix);
+          if (dx < bestDx) { bestDx = dx; snapX = s.x[i]; }
+        }
+        const rows = [];
+        for (const s of p.series) {
+          let bi = -1, bd = Infinity;
+          for (let i = 0; i < s.x.length; i++) {
+            const d = Math.abs(s.x[i] - snapX);
+            if (d < bd) { bd = d; bi = i; }
+          }
+          if (bi < 0 || !isFinite(s.y[bi])) continue;
+          const cx = X(s.x[bi]), cy = Y(s.y[bi]);
+          if (!inside(cx, cy) || Math.abs(cx - X(snapX)) > a.w * 0.02) continue;
+          rows.push({ s, i: bi, cx, cy });
+        }
+        rows.sort((q, r) => q.cy - r.cy);
+        if (rows.length) return { p, x: snapX, y: yAt, rows, rule: X(snapX) };
+      }
+      // Otherwise the nearest point of any series, in picture pixels.
       let best = null;
       const z = F.zoom;
       for (const s of p.series) {
         for (let i = 0; i < s.x.length; i++) {
           const qx = X(s.x[i]), qy = Y(s.y[i]);
-          if (z && (qx < z.x || qx > z.x + z.w || qy < z.y || qy > z.y + z.h)) continue;
+          if (!inside(qx, qy) || (z && (qx < z.x || qx > z.x + z.w || qy < z.y || qy > z.y + z.h))) continue;
           const dx = qx - ix, dy = qy - iy;
-          const d = dx * dx * 1 + dy * dy * 0.25;
-          if (!best || d < best.d) best = { d, s, i, cx: X(s.x[i]), cy: Y(s.y[i]) };
+          const d = dx * dx + dy * dy * 0.25;
+          if (!best || d < best.d) best = { d, s, i, cx: qx, cy: qy };
         }
       }
-      const unx = p.x.log ? Math.pow(10, xv) : xv, uny = p.y.log ? Math.pow(10, yv) : yv;
-      return { p, x: unx, y: uny, best: best && Math.sqrt(best.d) * L.k < 40 ? best : null };
+      return { p, x: xAt, y: yAt, best: best && Math.sqrt(best.d) * L.k < 40 ? best : null };
     }
     return null;
+  }
+
+  /** The rich tooltip of a figure readout: the x value as a heading, then each series (with its
+   * colour) and its value, aligned; a single point gives its x and y. */
+  function figureTip(f) {
+    const p = f.p;
+    const xu = p.x.unit || "", yu = p.y.unit || "";
+    const axisName = (u, fallback) => (u ? legendLabel(u, 22) : fallback);
+    if (f.rows) {
+      return {
+        head: { value: fmtValue(f.x, 5), unit: xu },
+        rows: f.rows.map((r) => ({ color: r.s.color, key: legendLabel(r.s.name || "value", 32), value: fmtValue(r.s.y[r.i], 4) })),
+      };
+    }
+    if (f.best) {
+      const s = f.best.s, i = f.best.i;
+      return {
+        head: s.name ? { value: legendLabel(s.name, 32) } : null,
+        rows: [
+          { color: s.name ? null : s.color, key: axisName(xu, "x"), value: fmtValue(s.x[i], 5) },
+          { color: null, key: axisName(yu, "y"), value: fmtValue(s.y[i], 5) },
+        ],
+      };
+    }
+    return {
+      head: null,
+      rows: [
+        { color: null, key: axisName(xu, "x"), value: fmtValue(f.x, 4) },
+        { color: null, key: axisName(yu, "y"), value: fmtValue(f.y, 4) },
+      ],
+    };
   }
 
   function figureOverlays(L) {
     const hv = S.hover;
     const c = colors();
-    if (hv && hv.fig && hv.fig.best) {
-      const b = hv.fig.best;
+    const dot = (b, col) => {
       const [x, y] = L.P(b.cx, b.cy);
       g.beginPath();
       g.arc(x, y, 4, 0, Math.PI * 2);
       g.fillStyle = c.bg;
       g.fill();
-      g.strokeStyle = c.accent;
+      g.strokeStyle = col || c.accent;
       g.lineWidth = 2;
       g.stroke();
+    };
+    if (hv && hv.fig && hv.fig.rows) {
+      const f = hv.fig, a = f.p.area;
+      const [x, y0] = L.P(f.rule, a.y), [, y1] = L.P(f.rule, a.y + a.h);
+      g.strokeStyle = alpha(c.ink, 0.25);
+      g.lineWidth = 1;
+      g.beginPath(); g.moveTo(Math.round(x) + 0.5, y0); g.lineTo(Math.round(x) + 0.5, y1); g.stroke();
+      for (const r of f.rows) dot(r, r.s.color);
+    } else if (hv && hv.fig && hv.fig.best) {
+      dot(hv.fig.best, hv.fig.best.s.color);
     }
   }
 
@@ -3208,11 +3524,37 @@ function main() {
     return [e.clientX - r.left, e.clientY - r.top];
   }
 
-  function tip(text, x, y) {
+  /** The hover tooltip: `rich` ({head, rows: [{color, key, value}]}) as an aligned key–value
+   * list with series swatches, else `text` as lines. */
+  function tip(text, x, y, rich) {
     const t = $("tip");
     if (!text) { t.hidden = true; return; }
     t.hidden = false;
-    t.textContent = text;
+    t.classList.toggle("rich", !!rich);
+    if (rich) {
+      t.textContent = "";
+      const el = (cls, s) => { const e = document.createElement("span"); e.className = cls; if (s != null) e.textContent = s; t.appendChild(e); return e; };
+      if (rich.head) {
+        const h = el("tip-head");
+        const v = document.createElement("span");
+        v.textContent = rich.head.value;
+        h.appendChild(v);
+        if (rich.head.unit) { const u = document.createElement("span"); u.className = "tip-unit"; u.textContent = " " + rich.head.unit; h.appendChild(u); }
+      }
+      const swatches = rich.rows.some((r) => r.color);
+      t.classList.toggle("plain", !swatches);
+      for (const r of rich.rows) {
+        if (swatches) {
+          const sw = el("tip-swatch");
+          if (r.color) sw.style.background = r.color;
+        }
+        el("tip-key", r.key);
+        const v = el("tip-value", r.value);
+        if (r.unit) { const u = document.createElement("span"); u.className = "tip-unit"; u.textContent = " " + r.unit; v.appendChild(u); }
+      }
+    } else {
+      t.textContent = text;
+    }
     const w = canvas.clientWidth, h = canvas.clientHeight;
     let left = x + 14, top = y - t.offsetHeight - 10;
     if (left + t.offsetWidth > w - 4) left = x - t.offsetWidth - 14;
@@ -3240,6 +3582,9 @@ function main() {
       let s = `x ${fmtInt(p.x)}  y ${fmtInt(p.y)} px`;
       if (ps) s += `\n${fmtLength(p.x * ps.x)}, ${fmtLength(p.y * ps.y)}`;
       if (hitAnn && hitAnn.a.label) s = `${hitAnn.a.label}\n` + s;
+      const rows = [{ key: "x", value: fmtInt(p.x), unit: "px" }, { key: "y", value: fmtInt(p.y), unit: "px" }];
+      if (ps) rows.push({ key: "position", value: `${fmtLength(p.x * ps.x)}, ${fmtLength(p.y * ps.y)}` });
+      S.hover.tip = { head: hitAnn && hitAnn.a.label ? { value: legendLabel(hitAnn.a.label, 40) } : null, rows };
       return s;
     }
     if (L.kind === "plot") {
@@ -3257,6 +3602,9 @@ function main() {
       };
       const unit = (d.plot.x && (d.plot.x.unit || (d.plot.x.quantity !== "sample" ? d.plot.x.quantity : ""))) || (d.plot.kind === "spectrum" ? "m/z" : "");
       const lines = [];
+      // the same readout as an aligned key–value list for the tooltip
+      const rows = [];
+      let headX = null;
       S.hover = { px, py, dots: [] };
       // a peak under the pointer
       const peaks = d.plot.peaks || [];
@@ -3268,6 +3616,9 @@ function main() {
           lines.push(`peak ${pk.label ?? ""} · apex ${fmt(pk.x, 5)} ${unit}`.trim());
           if (pk.area != null) lines.push(`area ${fmt(pk.area, 5)}${pk.area_percent != null ? ` (${fmt(pk.area_percent, 3)} %)` : ""}`);
           if (pk.height != null) lines.push(`height ${fmt(pk.height, 5)}`);
+          rows.push({ key: `peak ${pk.label ?? ""} apex`.replace("  ", " "), value: fmtValue(pk.x, 5), unit });
+          if (pk.area != null) rows.push({ key: "area", value: fmtValue(pk.area, 5) + (pk.area_percent != null ? ` (${fmt(pk.area_percent, 3)} %)` : "") });
+          if (pk.height != null) rows.push({ key: "height", value: fmtValue(pk.height, 5) });
         }
       }
       if (panel.series.length > 8) {
@@ -3284,8 +3635,10 @@ function main() {
           S.hover.curve = best.s;
           S.hover.dots.push({ x: L.X(best.s.x[best.k]), y: panel.Y(best.v), color: colors().accent });
           lines.unshift(`${best.s.name}`, `${fmt(best.s.x[best.k], 5)} ${unit} · ${fmt(best.v, 5)}`);
+          S.hover.tip = { head: { value: legendLabel(best.s.name, 32) }, rows: [{ color: best.s.color, key: unit || "x", value: fmtValue(best.s.x[best.k], 5) }, { color: null, key: "value", value: fmtValue(best.v, 5) }].concat(rows) };
         } else {
           lines.unshift(`${fmt(xv, 5)} ${unit}`);
+          S.hover.tip = rows.length ? { head: { value: fmtValue(xv, 5), unit }, rows } : null;
         }
         return lines.join("\n");
       }
@@ -3296,10 +3649,14 @@ function main() {
         const y = s.y ? s.y[k] : null;
         if (!head.length) head.push(`${fmt(s.x[k], 6)} ${unit}`.trim());
         const yv = y != null ? fmt(y, 5) : `${fmt(s.lo[k], 4)} … ${fmt(s.hi[k], 4)}`;
+        const yTip = y != null ? fmtValue(y, 5) : `${fmtValue(s.lo[k], 4)} … ${fmtValue(s.hi[k], 4)}`;
         lines.push(`${panel.series.length > 1 ? legendLabel(s.name, 16) + "  " : ""}${yv}${s.unit ? " " + s.unit : ""}`);
+        if (headX == null) headX = s.x[k];
+        rows.push({ color: panel.series.length > 1 ? s.color : null, key: panel.series.length > 1 ? legendLabel(s.name, 26) : (s.name ? legendLabel(s.name, 26) : "value"), value: yTip, unit: s.unit || "" });
         const yy = y != null ? y : s.hi[k];
         if (yy != null && isFinite(yy) && s.style !== "sticks") S.hover.dots.push({ x: L.X(s.x[k]), y: panel.Y(yy), color: s.color });
       }
+      if (headX != null) S.hover.tip = { head: { value: fmtValue(headX, 6), unit }, rows };
       return head.concat(lines).join("\n");
     }
     if (L.kind === "plate") {
@@ -3312,6 +3669,10 @@ function main() {
       const gc = groupColoring();
       const grp = gc ? gc.map[name] : null;
       if (pl.kinetic) return "";
+      S.hover.tip = {
+        head: { value: name, unit: grp || "" },
+        rows: [{ color: gc && grp ? gc.colorsBy.get(grp) || null : null, key: S.args.column || "value", value: v == null ? "no value" : fmtValue(v, 5) }],
+      };
       return `${name}${grp ? " · " + grp : ""}\n${v == null ? "no value" : fmt(v, 5)}`;
     }
     if (L.kind === "events") {
@@ -3319,14 +3680,20 @@ function main() {
       if (lab) {
         S.hover = { pop: lab.j };
         const p = lab.p;
+        S.hover.tip = {
+          head: { value: legendLabel(p.path, 40) },
+          rows: [{ key: "events", value: fmtInt(p.count) }, { key: "of parent", value: fmt(p.percent_of_parent, 3), unit: "%" }],
+        };
         return `${p.path}\n${fmtInt(p.count)} events · ${fmt(p.percent_of_parent, 3)} % of parent\nclick to select`;
       }
       const u = (px - L.left) / L.pw, v = 1 - (py - L.top) / L.ph;
       if (u < 0 || u > 1 || v < 0 || v > 1) return "";
       S.hover = { px, py };
       const x = scaleInv(L.sx)(L.xr[0] + u * (L.xr[1] - L.xr[0]));
+      S.hover.tip = { head: null, rows: [{ key: d.events.x.name, value: fmtValue(x, 4) }] };
       if (L.hist) return `${d.events.x.name} ${fmt(x, 4)}`;
       const y = scaleInv(L.sy)(L.yr[0] + v * (L.yr[1] - L.yr[0]));
+      S.hover.tip.rows.push({ key: d.events.y.name, value: fmtValue(y, 4) });
       return `${d.events.x.name} ${fmt(x, 4)}\n${d.events.y.name} ${fmt(y, 4)}`;
     }
     if (L.kind === "figure") {
@@ -3334,11 +3701,19 @@ function main() {
       S.hover = { fig: f };
       if (!f) return "";
       const p = f.p;
+      const xu = p.x.unit || "", yu = p.y.unit || "";
+      const rich = figureTip(f);
+      S.hover.tip = rich;
+      if (f.rows) {
+        // x, then each series at it, top to bottom as they lie on the plot
+        const head = `${fmt(f.x, 5)}${xu ? " " + xu : ""}`;
+        return [head].concat(f.rows.map((r) => `${r.s.name ? legendLabel(r.s.name, 24) + " " : ""}${fmt(r.s.y[r.i], 4)}`)).join("\n");
+      }
       if (f.best) {
         const s = f.best.s, i = f.best.i;
-        return `${s.name ? s.name + "\n" : ""}${fmt(s.x[i], 5)}${p.x.unit ? " " + p.x.unit : ""} · ${fmt(s.y[i], 5)}${p.y.unit ? " " + p.y.unit : ""}`;
+        return `${s.name ? s.name + "\n" : ""}${fmt(s.x[i], 5)}${xu ? " " + xu : ""} · ${fmt(s.y[i], 5)}${yu ? " " + yu : ""}`;
       }
-      return `${fmt(f.x, 4)}${p.x.unit ? " " + p.x.unit : ""} · ${fmt(f.y, 4)}${p.y.unit ? " " + p.y.unit : ""}`;
+      return `${fmt(f.x, 4)}${xu ? " " + xu : ""} · ${fmt(f.y, 4)}${yu ? " " + yu : ""}`;
     }
     return "";
   }
@@ -3381,6 +3756,9 @@ function main() {
       sel.count = n;
       sel.of = L.tx.length;
       showAct(sel, anchor);
+    } else if (L.kind === "figure" && figureRedrawsZoom() && figureDragRange(x0, x1, (y0 + y1) / 2)) {
+      // zoom by drawing the figure again over the dragged x range of the panel dragged on
+      redrawFigure(figureDragRange(x0, x1, (y0 + y1) / 2));
     } else if (L.kind === "figure") {
       const [ia, ja] = L.inv(x0, y0), [ib, jb] = L.inv(x1, y1);
       const z = { x: Math.max(0, ia), y: Math.max(0, ja), w: Math.min(S.fig.img.width, ib) - Math.max(0, ia), h: Math.min(S.fig.img.height, jb) - Math.max(0, ja) };
@@ -3487,7 +3865,7 @@ function main() {
     }
     const text = hover(p[0], p[1]);
     $("readout").textContent = text.replace(/\n/g, "  ·  ");
-    tip(text, p[0], p[1]);
+    tip(text, p[0], p[1], S.hover && S.hover.tip);
     canvas.classList.toggle("pointer", !!(S.hover && (S.hover.ann || S.hover.mini || S.hover.pop != null || S.hover.peak || S.hover.well)));
     invalidateOverlay();
   });
@@ -3515,7 +3893,7 @@ function main() {
       zoomBy(e.altKey ? 0.5 : 2, L.inv(px, py));
       return;
     }
-    if (L && L.kind === "figure") { figureZoom(null); return; }
+    if (L && L.kind === "figure") { if (S.fig && S.fig.xRange) redrawFigure(null); else figureZoom(null); return; }
     if (ZOOM_KEYS.some((k) => S.args && S.args[k] !== undefined)) { clearSelection(); load({}); }
   });
   // Pinch (and ctrl/cmd + wheel) zooms images; a plain wheel scrolls the chat as usual.
@@ -3619,6 +3997,7 @@ function main() {
     resizeTimer = setTimeout(() => {
       invalidate();
       if (S.img && S.img.settled) fetchDetail();
+      if (S.fig) redrawFigure(S.fig.xRange);
       if (S.sel && !$("act").hidden) positionAct(null);
     }, 150);
   });
@@ -3656,10 +4035,10 @@ function main() {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    niceTicks, niceBelow, fmt, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, plotXs, sampleWindow,
+    niceTicks, niceBelow, fmt, fmtTick, tickLabels, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, cssHex, fmtValue, plotXs, sampleWindow,
     f32FromBase64, bytesFromBase64, scaleFn, scaleInv, scaleTicks, percentile, hintFrom, wellName, parseWell,
     normalizeAnnotations, placeLabels, ease, lerpRect, fitAspect, defaultGroupMap, isBlankGroup, seriesGroup,
-    callText, wellSpec, THEMES,
+    callText, wellSpec, THEMES, categoryColors, spreadLabels,
   };
 } else {
   main();

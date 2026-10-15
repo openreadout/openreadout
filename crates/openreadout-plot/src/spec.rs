@@ -52,14 +52,14 @@ pub struct PlotSpec {
     pub height: Option<u32>,
     /// Colour scheme. Default light.
     pub theme: Option<ThemeName>,
-    /// Also write the figure to this file (.png, .svg or .pdf; png at 2× the pixel size),
-    /// verified after writing.
-    pub output: Option<String>,
-    /// Replace an existing output file.
-    #[serde(default)]
-    pub overwrite: bool,
     /// true: refuse values this file's assurance does not validate (exit_code 6, with a hint).
     pub strict: Option<bool>,
+    /// The ground the figure is drawn on (`#RRGGBB`), in place of the theme's paper: the viewer
+    /// passes its host's background so a figure sits in the page without a card of its own.
+    /// Not part of the tool's arguments.
+    #[serde(skip)]
+    #[schemars(skip)]
+    pub paper: Option<String>,
 }
 
 /// A panel in `panels`.
@@ -75,6 +75,9 @@ pub struct PanelItem {
 /// One plot area (or a grid of small multiples of it, with `facet`).
 #[derive(Debug, Clone, Default, Deserialize, Serialize, JsonSchema)]
 pub struct PanelSpec {
+    /// The file of every series here that names no file, table or values. Alone, without
+    /// `data`, it draws the file's default view.
+    pub file: Option<OneOrMany<String>>,
     /// What to draw: one series spec or a list of them, drawn in order (first at the back).
     pub data: Option<OneOrMany<SeriesSpec>>,
     /// Small multiples: `series` = one small plot per series (sweeps, files, groups, wells);
@@ -146,7 +149,7 @@ pub struct AxisSpec {
     /// Log scale.
     #[serde(default)]
     pub log: bool,
-    /// Range shown, `[low, high]`.
+    /// Range shown, `[low, high]`. On x, y fits the data inside it unless y has a range.
     pub range: Option<[f64; 2]>,
     /// High to low (default for NMR ppm and IR wavenumbers).
     pub reverse: Option<bool>,
@@ -281,8 +284,9 @@ pub struct SeriesSpec {
     pub subtract: Option<Subtract>,
     /// Plates: read number or label (default the first).
     pub read: Option<String>,
-    /// Plate wells: colour by `group`, `row` or `column`; by classes `{"crashed": "E3:H11"}`; or
-    /// by a rule `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}` (at in x units).
+    /// Plate wells: colour by `group`, `row`, `column` or `growth` (grew, crashed, crashed then
+    /// regrew, no growth, from the growth analysis); by classes `{"crashed": "E3:H11"}`; or by a
+    /// rule `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}` (at in x units).
     pub color_by: Option<ColorBy>,
 
     /// FCS parameter, table column, or f–I measure for the x axis.
@@ -337,7 +341,7 @@ pub struct InlineValues {
 #[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]
 #[serde(untagged)]
 pub enum ColorBy {
-    /// `group`, `row`, `column` or `none`.
+    /// `group`, `row`, `column`, `growth` or `none`.
     Field(String),
     /// A rule on each well's value at one x.
     Rule(ColorRule),

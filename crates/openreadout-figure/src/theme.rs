@@ -190,6 +190,54 @@ impl Theme {
     }
 }
 
+impl Theme {
+    /// The data colours of this theme as a JSON object (`paper`, `panel`, `ink`, `muted`,
+    /// `rule`, `grid`, `accent`, `band`, `faint` as `#RRGGBB`; `series`, `sequential` and
+    /// `diverging` as arrays of them).
+    pub fn tokens(&self) -> String {
+        let one = |c: Color| format!("\"{}\"", c.to_hex());
+        let many = |cs: &[Color]| {
+            let v: Vec<String> = cs.iter().map(|c| one(*c)).collect();
+            format!("[{}]", v.join(","))
+        };
+        let named = [
+            ("paper", self.paper),
+            ("panel", self.panel),
+            ("ink", self.ink),
+            ("muted", self.muted),
+            ("rule", self.rule),
+            ("grid", self.grid),
+            ("accent", self.accent),
+            ("band", self.band),
+            ("faint", self.faint),
+        ];
+        let mut parts: Vec<String> = named
+            .iter()
+            .map(|(k, c)| format!("\"{k}\":{}", one(*c)))
+            .collect();
+        parts.push(format!("\"series\":{}", many(&self.series)));
+        parts.push(format!("\"sequential\":{}", many(self.sequential.stops())));
+        parts.push(format!("\"diverging\":{}", many(self.diverging.stops())));
+        format!("{{{}}}", parts.join(","))
+    }
+
+    /// Both themes' tokens and the category rule's blank labels,
+    /// `{"light": {...}, "dark": {...}, "blank_labels": [...]}`: what the viewer draws data with,
+    /// so its colours stay those of the pictures. One line per entry, ending in a newline.
+    pub fn tokens_json() -> String {
+        let blanks: Vec<String> = crate::category::BLANK_LABELS
+            .iter()
+            .map(|b| format!("\"{b}\""))
+            .collect();
+        format!(
+            "{{\n\"light\":{},\n\"dark\":{},\n\"blank_labels\":[{}]\n}}\n",
+            Theme::light().tokens(),
+            Theme::dark().tokens(),
+            blanks.join(",")
+        )
+    }
+}
+
 impl Default for Theme {
     fn default() -> Self {
         Theme::light()

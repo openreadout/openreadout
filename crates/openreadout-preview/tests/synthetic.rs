@@ -246,7 +246,7 @@ fn composite_mip_downsampled() {
     let r = render(&mut Synth, &info, &req).unwrap();
     assert_eq!((r.canvas.width, r.canvas.height), (32, 24));
     let im = r.output.image.as_ref().unwrap();
-    assert_eq!(im.downsample, 2);
+    assert!((im.downsample - 2.0).abs() < 1e-12);
     assert_eq!(im.z, vec![0, 1, 2]);
     assert_eq!(im.projection.as_deref(), Some("max-z"));
     assert_eq!(im.channels[0].color_source, "wavelength");
@@ -366,26 +366,33 @@ fn rulers_frame_the_unchanged_plane() {
     let im = a.output.image.as_ref().unwrap();
     assert!(im.axes);
     let pa = im.plot_area;
-    assert_eq!((pa.width, pa.height), (64, 48));
+    // the 64 x 48 plane is enlarged to fill what the rulers leave of 1024 px
+    assert!(pa.width > 64 * 10 && pa.height == (f64::from(pa.width) * 0.75).round() as u32);
     assert!(pa.x > 0 && pa.y > 0);
-    assert!(a.canvas.width > 64 && a.canvas.height > 48);
     assert!(a.canvas.width.max(a.canvas.height) <= 1024);
     assert_eq!(png_size(&ab), (a.canvas.width, a.canvas.height));
-    assert_eq!(im.source_per_pixel, 1.0);
+    assert!((im.source_per_pixel - 64.0 / f64::from(pa.width)).abs() < 1e-12);
+    assert!(im.downsample < 1.0);
     assert_eq!((im.source_origin.x, im.source_origin.y), (0.0, 0.0));
     assert_eq!(
         im.full_res_region,
         openreadout_core::Region::new(0, 0, 64, 48)
     );
     assert!(im.scale_bar.is_none(), "no pixel size, no scale bar");
-    // the plot area holds exactly the plain rendering
+    // each drawn pixel of the plot area is the plain plane's pixel under its centre
     let w = a.canvas.width as usize;
-    for y in 0..48usize {
-        let row = (y + pa.y as usize) * w + pa.x as usize;
-        assert_eq!(
-            &a.canvas.rgb[row * 3..(row + 64) * 3],
-            &p.canvas.rgb[y * 64 * 3..(y + 1) * 64 * 3]
-        );
+    for y in (0..pa.height as usize).step_by(7) {
+        for x in (0..pa.width as usize).step_by(5) {
+            let sx = (((x as f64 + 0.5) * im.source_per_pixel) as usize).min(63);
+            let sy = (((y as f64 + 0.5) * im.source_per_pixel_y) as usize).min(47);
+            let at = ((y + pa.y as usize) * w + x + pa.x as usize) * 3;
+            let src = (sy * 64 + sx) * 3;
+            // (the contrast percentiles of the enlarged plane may differ by a level)
+            for k in 0..3 {
+                let d = i16::from(a.canvas.rgb[at + k]) - i16::from(p.canvas.rgb[src + k]);
+                assert!(d.abs() <= 2, "{x},{y}: {d}");
+            }
+        }
     }
     let pi = p.output.image.as_ref().unwrap();
     assert!(!pi.axes);

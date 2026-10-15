@@ -39,13 +39,42 @@ impl schemars::JsonSchema for PlotArgs {
     }
 }
 
+/// Where `openreadout_export` saves a plot by default: `<stem>.figure.png` next to the first
+/// file the figure read, else `figure.png`.
+pub(crate) fn default_figure_path(files: &[String]) -> String {
+    files.first().map_or_else(
+        || "figure.png".to_string(),
+        |f| {
+            let p = std::path::Path::new(f);
+            let stem = p
+                .file_stem()
+                .map_or_else(|| "figure".into(), |s| s.to_string_lossy().to_string());
+            p.with_file_name(format!("{stem}.figure.png"))
+                .display()
+                .to_string()
+        },
+    )
+}
+
+/// Draw the figure (no encoding).
+pub(crate) fn draw(
+    registry: fn() -> openreadout_core::Registry,
+    spec: &PlotSpec,
+) -> Result<openreadout_plot::Plotted, McpError> {
+    let reg = with_strict(registry(), spec.strict);
+    openreadout_plot::plot(&reg, spec).map_err(|e| mcp_err(&e))
+}
+
 /// Draw the figure; PNG bytes (JPEG when a PNG would be over the budget) and the result.
 fn plot_blocking(
     registry: fn() -> openreadout_core::Registry,
     spec: &PlotSpec,
 ) -> Result<(openreadout_plot::Plotted, Vec<u8>, &'static str), McpError> {
-    let reg = with_strict(registry(), spec.strict);
-    let p = openreadout_plot::run(&reg, spec).map_err(|e| mcp_err(&e))?;
+    let mut p = draw(registry, spec)?;
+    p.output.save = Some(crate::tools::export::save_hint(
+        "plot",
+        &default_figure_path(&p.output.files),
+    ));
     let raster = p.figure.to_raster(1.0);
     let png = raster.to_png().map_err(|e| mcp_err(&e))?;
     if png.len() <= resources::PREVIEW_BUDGET {
@@ -60,8 +89,8 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_plot",
         annotations(title = "Draw a figure", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_plot::PlotOutput>(),
-        description = "A finished figure from lab files in one call, as image content plus what was drawn (series, data read, ranges, units, marked peaks). Name data by file and selector, never by pasting numbers: traces and sweeps, chromatograms (TIC, XIC) and the spectrum at an rt or the TIC apex, plate wells by range or layout group (curves per well, or mean ± spread per group), FCS dot plots coloured by gate population and histograms, f–I curves, dose-response and standard-curve fits, a table file's columns (openreadout_batch output); small inline values are allowed. Several files overlay; facet=series gives small multiples, facet=plate plate positions; panels side by side; annotate with bands, lines, labelled points, arrows. output writes PNG, SVG or PDF."
+        output_schema = crate::tools::output_schema::<openreadout_plot::PlotOutput>(),
+        description = "A finished figure from lab files in one call, as image content plus what was drawn (series, data read, ranges, units, marked peaks). Name data by file and selector, never by pasting numbers: traces and sweeps, chromatograms (TIC, XIC) and the spectrum at an rt or the TIC apex, plate wells by range or layout group (curves per well, or mean ± spread per group), FCS dot plots coloured by gate population and histograms, f–I curves, dose-response and standard-curve fits, a table file's columns (openreadout_batch output); small inline values are allowed. Several files overlay; facet=series gives small multiples, facet=plate plate positions; panels side by side; annotate with bands, lines, labelled points, arrows. Draws only; openreadout_export saves the figure."
     )]
     pub(crate) async fn plot(
         &self,

@@ -1,5 +1,5 @@
-//! Image previews: plane selection, pyramid level choice, projection, block-average
-//! downsampling, contrast and colour mapping, then the rulers frame ([`crate::rulers`]).
+//! Image previews: plane selection, pyramid level choice, projection, resampling to the
+//! requested size, contrast and colour mapping, then the rulers frame ([`crate::rulers`]).
 
 use openreadout_core::model::{FileInfo, ImageInfo};
 use openreadout_core::pixel::{PixelType, Plane};
@@ -9,6 +9,7 @@ use openreadout_core::select::Selection;
 use openreadout_core::{Error, Result};
 
 use crate::color::{self, Rgb};
+use crate::figure_frame::{self, FigureLayout};
 use crate::rulers::{self, Layout, Mapping};
 use crate::{
     Axis, Contrast, ImagePreview, Lut, PreviewChannel, PreviewOutput, PreviewRequest, SourcePoint,
@@ -21,7 +22,7 @@ const MAX_COMPOSITE_CHANNELS: usize = 16;
 /// Percentiles used by `auto` contrast.
 const AUTO_PERCENTILES: (f64, f64) = (0.1, 99.9);
 
-/// One downsampled band of values (NaN where a block had no finite sample).
+/// One resampled band of values (NaN where a cell had no finite sample).
 struct Band {
     w: usize,
     h: usize,
@@ -87,44 +88,86 @@ fn samples(p: &Plane) -> Result<Vec<f32>> {
     })
 }
 
-/// Average `f`×`f` blocks of sample `s` (of `spp`) into a band; non-finite samples are skipped.
-fn block_average(src: &[f32], w: usize, h: usize, spp: usize, s: usize, f: usize) -> Band {
-    let (ow, oh) = (w.div_ceil(f), h.div_ceil(f));
-    if f == 1 {
+/// For each of `n_out` output cells over `n_in` source cells: the source cells it covers and
+/// how much of each (an area-average box filter; fractional at the edges). Enlarging maps each
+/// output cell to the one source cell under its centre, so pixels stay crisp squares.
+fn weights(n_in: usize, n_out: usize) -> Vec<Vec<(usize, f32)>> {
+    let scale = n_in as f64 / n_out.max(1) as f64;
+    (0..n_out)
+        .map(|o| {
+            if scale <= 1.0 {
+                let c = (((o as f64 + 0.5) * scale) as usize).min(n_in.saturating_sub(1));
+                return vec![(c, 1.0)];
+            }
+            let (a, b) = (o as f64 * scale, ((o + 1) as f64 * scale).min(n_in as f64));
+            let mut v = Vec::with_capacity(scale.ceil() as usize + 1);
+            let mut i = a.floor() as usize;
+            while (i as f64) < b && i < n_in {
+                let lo = a.max(i as f64);
+                let hi = b.min((i + 1) as f64);
+                if hi > lo {
+                    v.push((i, (hi - lo) as f32));
+                }
+                i += 1;
+            }
+            v
+        })
+        .collect()
+}
+
+/// Resample sample `s` (of `spp` interleaved) of a `w`×`h` plane to `ow`×`oh` with an area
+/// average (or nearest neighbour when enlarging), separably: rows first, then columns.
+/// Non-finite samples are left out of the average; a cell with none is NaN.
+fn resample(src: &[f32], w: usize, h: usize, spp: usize, s: usize, ow: usize, oh: usize) -> Band {
+    if ow == w && oh == h {
         return Band {
             w,
             h,
             v: (0..w * h).map(|i| src[i * spp + s]).collect(),
         };
     }
-    let mut sum = vec![0f64; ow * oh];
-    let mut cnt = vec![0u32; ow * oh];
+    let wx = weights(w, ow);
+    let wy = weights(h, oh);
+    // horizontal pass: h rows of ow (sum, weight)
+    let mut rows = vec![(0f32, 0f32); h * ow];
     for y in 0..h {
-        let row = (y / f) * ow;
-        for x in 0..w {
-            let v = src[(y * w + x) * spp + s];
-            if v.is_finite() {
-                let o = row + x / f;
-                sum[o] += f64::from(v);
-                cnt[o] += 1;
+        let line = &src[y * w * spp..(y + 1) * w * spp];
+        for (ox, ws) in wx.iter().enumerate() {
+            let (mut sum, mut wt) = (0f32, 0f32);
+            for &(x, k) in ws {
+                let v = line[x * spp + s];
+                if v.is_finite() {
+                    sum += v * k;
+                    wt += k;
+                }
+            }
+            rows[y * ow + ox] = (sum, wt);
+        }
+    }
+    let mut v = vec![f32::NAN; ow * oh];
+    for (oy, ws) in wy.iter().enumerate() {
+        for ox in 0..ow {
+            let (mut sum, mut wt) = (0f32, 0f32);
+            for &(y, k) in ws {
+                let (rs, rw) = rows[y * ow + ox];
+                sum += rs * k;
+                wt += rw * k;
+            }
+            if wt > 0.0 {
+                v[oy * ow + ox] = sum / wt;
             }
         }
     }
-    Band {
-        w: ow,
-        h: oh,
-        v: sum
-            .iter()
-            .zip(&cnt)
-            .map(|(&s, &n)| {
-                if n > 0 {
-                    (s / f64::from(n)) as f32
-                } else {
-                    f32::NAN
-                }
-            })
-            .collect(),
-    }
+    Band { w: ow, h: oh, v }
+}
+
+/// The drawn size of a `w`×`h` plane whose longer side should be `fit` pixels: the same aspect
+/// ratio, at least 1 × 1.
+fn fitted(w: u32, h: u32, fit: u32) -> (usize, usize) {
+    let long = w.max(h).max(1);
+    let k = f64::from(fit.max(1)) / f64::from(long);
+    let side = |n: u32| ((f64::from(n) * k).round() as usize).max(1);
+    (side(w), side(h))
 }
 
 /// `(level, width, height)` of every pyramid level the reader describes (level 0 first).
@@ -558,6 +601,27 @@ fn blank_unstored(s: &mut [f32], w: usize, h: usize, spp: usize, areas: &[Region
     }
 }
 
+/// What frames the picture.
+enum Framing {
+    Rulers(Layout),
+    Figure(FigureLayout),
+}
+
+impl Framing {
+    fn h(&self) -> u32 {
+        match self {
+            Framing::Rulers(l) => l.h(),
+            Framing::Figure(f) => f.h(),
+        }
+    }
+    fn v(&self) -> u32 {
+        match self {
+            Framing::Rulers(l) => l.v(),
+            Framing::Figure(f) => f.v(),
+        }
+    }
+}
+
 pub(crate) fn render(
     ds: &mut dyn Dataset,
     info: &FileInfo,
@@ -636,27 +700,48 @@ pub(crate) fn render(
     )?;
     let t_list = axis_indices("t", &sel.t, im.size_t, 0, req.mip == Some(Axis::T))?;
 
-    // Rulers: `max_size` bounds the whole picture, so the data gets what the margins leave.
-    let mut layout = req
-        .axes
-        .then(|| Layout::new(req.max_size, im.size_x, im.size_y));
-    if let Some(l) = layout {
+    // The frame: `max_size` bounds the whole picture, so the data gets what the margins leave.
+    let has_bar = im.physical_size.x.is_some_and(|v| v.is_finite() && v > 0.0);
+    let mut layout = req.axes.then(|| {
+        if req.figure {
+            Framing::Figure(FigureLayout::new(
+                req.max_size,
+                has_bar,
+                req.title.as_deref(),
+                req.caption.as_deref(),
+            ))
+        } else {
+            Framing::Rulers(Layout::new(req.max_size, im.size_x, im.size_y))
+        }
+    });
+    if let Some(l) = &layout {
         let room = req.max_size.saturating_sub(l.h().max(l.v()));
         if room < 16 || room < req.max_size / 2 {
             out.notes.push(format!(
-                "max size {} is too small for rulers; drawn without them",
+                "max size {} is too small for the frame; drawn without it",
                 req.max_size
             ));
             layout = None;
         }
     }
-    if req.grid && layout.is_none() {
+    if req.grid && !matches!(layout, Some(Framing::Rulers(_))) {
         out.notes
             .push("grid lines are drawn only with the rulers (axes)".into());
     }
-    // The level is chosen for `max_size` as without rulers (a level just under it would be
-    // halved by the integer block average); the block size then fits what the margins leave.
-    let fit = layout.map_or(req.max_size, |l| req.max_size - l.h().max(l.v()));
+    if (req.title.is_some() || req.caption.is_some()) && !matches!(layout, Some(Framing::Figure(_)))
+    {
+        out.notes
+            .push("title and caption are drawn only with axes scale-bar".into());
+    }
+    if matches!(layout, Some(Framing::Figure(_))) && !has_bar {
+        out.notes
+            .push("the pixel size is not recorded: no scale bar".into());
+    }
+    // The level is chosen for `max_size` as without rulers; the plane is then resampled so its
+    // longer side fills what the margins leave (a bare plane is only ever made smaller).
+    let fit = layout
+        .as_ref()
+        .map_or(req.max_size, |l| req.max_size - l.h().max(l.v()));
     let planes = (c_list.len() * z_list.len() * t_list.len()) as u64;
     let budget = req.max_read_bytes.map(|b| Budget {
         im: &im,
@@ -678,7 +763,7 @@ pub(crate) fn render(
     let region0 = if auto_level { req.region } else { None };
     let spp = im.samples_per_pixel.max(1) as usize;
     let mut first_dims: Option<(u32, u32)> = None;
-    let mut factor = 1usize;
+    let mut out_dims = (1usize, 1usize);
     let contrast = resolve_contrast(req.contrast, im.pixel_type, rgb);
     // Auto contrast (not what it resolved to for RGB) may leave fill and clipping out.
     let auto_contrast = req.contrast == Contrast::Auto && contrast != Contrast::Raw;
@@ -743,7 +828,14 @@ pub(crate) fn render(
         match first_dims {
             None => {
                 first_dims = Some(dims);
-                factor = (dims.0.max(dims.1).div_ceil(fit)).max(1) as usize;
+                let fit = if let Some(Framing::Figure(f)) = &layout {
+                    f.fit(req.max_size, dims.0, dims.1)
+                } else if layout.is_some() {
+                    fit
+                } else {
+                    fit.min(dims.0.max(dims.1))
+                };
+                out_dims = fitted(dims.0, dims.1, fit);
             }
             Some(d) if d != dims => {
                 return Err(Error::Other(format!(
@@ -755,7 +847,7 @@ pub(crate) fn render(
         }
         let (w, h) = (dims.0 as usize, dims.1 as usize);
         let bands = (0..spp)
-            .map(|s| block_average(&acc, w, h, spp, s, factor))
+            .map(|s| resample(&acc, w, h, spp, s, out_dims.0, out_dims.1))
             .collect();
         per_channel.push((c, bands, screened));
     }
@@ -817,7 +909,7 @@ pub(crate) fn render(
     for (o, a) in canvas.rgb.iter_mut().zip(&acc) {
         *o = a.round().clamp(0.0, 255.0) as u8;
     }
-    // Map drawn pixels back to full-resolution pixels: level scale × block size.
+    // Map drawn pixels back to full-resolution pixels: level scale × resampling step.
     let level_size = if level == 0 {
         Some((im.size_x, im.size_y))
     } else {
@@ -835,9 +927,16 @@ pub(crate) fn render(
             (1.0, 1.0)
         }
     };
+    // source pixels (at the level read) per drawn pixel, exact for the drawn size
+    let step = first_dims.map_or((1.0, 1.0), |(w, h)| {
+        (
+            f64::from(w) / out_dims.0.max(1) as f64,
+            f64::from(h) / out_dims.1.max(1) as f64,
+        )
+    });
     let map = Mapping {
         origin: region.map_or((0.0, 0.0), |r| (f64::from(r.x) * kx, f64::from(r.y) * ky)),
-        per_pixel: (factor as f64 * kx, factor as f64 * ky),
+        per_pixel: (step.0 * kx, step.1 * ky),
     };
     let read_end = match (region, level_size) {
         (Some(r), Some(ls)) => {
@@ -847,9 +946,17 @@ pub(crate) fn render(
         _ => (im.size_x, im.size_y),
     };
     let full_res_region = map.covered(ow as u32, oh as u32, read_end);
-    let (figure, plot_area, scale_bar) = if let Some(l) = layout {
+    let rulers_drawn = matches!(layout, Some(Framing::Rulers(_)));
+    let (figure, plot_area, scale_bar) = if let Some(l) = &layout {
         let theme = crate::theme(req);
-        let d = rulers::decorate(canvas, l, map, im.physical_size.x, req.grid, &theme);
+        let d = match l {
+            Framing::Rulers(l) => {
+                rulers::decorate(canvas, *l, map, im.physical_size.x, req.grid, &theme)
+            }
+            Framing::Figure(f) => {
+                figure_frame::decorate(canvas, f, map, im.physical_size.x, &theme)
+            }
+        };
         (d.figure, d.plot_area, d.scale_bar)
     } else {
         let (w, h) = (ow as f32, oh as f32);
@@ -868,7 +975,7 @@ pub(crate) fn render(
         source_width: sw,
         source_height: sh,
         region,
-        downsample: factor as u32,
+        downsample: step.0,
         c: c_list,
         z: z_list,
         t: t_list,
@@ -890,8 +997,8 @@ pub(crate) fn render(
             "channel-color".into()
         },
         channels,
-        axes: layout.is_some(),
-        grid: layout.is_some() && req.grid,
+        axes: rulers_drawn,
+        grid: rulers_drawn && req.grid,
         plot_area,
         source_origin: SourcePoint {
             x: map.origin.0,
@@ -910,14 +1017,21 @@ mod tests {
     use super::*;
 
     #[test]
-    fn block_average_handles_edges_and_nan() {
-        // 3x2 image, f=2 → 2x1: [(1+2+4+5)/4, (3+6)/2]
-        let src = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
-        let b = block_average(&src, 3, 2, 1, 0, 2);
+    fn resampling_averages_areas_and_skips_nan() {
+        // 4x2 → 2x1: the mean of each 2x2 block
+        let src = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0];
+        let b = resample(&src, 4, 2, 1, 0, 2, 1);
         assert_eq!((b.w, b.h), (2, 1));
-        assert_eq!(b.v, vec![3.0, 4.5]);
-        let b = block_average(&[f32::NAN, 2.0], 2, 1, 1, 0, 2);
+        assert_eq!(b.v, vec![3.5, 5.5]);
+        // 3 → 2: the middle source pixel is shared half and half
+        let b = resample(&[0.0, 3.0, 6.0], 3, 1, 1, 0, 2, 1);
+        assert_eq!(b.v, vec![1.0, 5.0]);
+        let b = resample(&[f32::NAN, 2.0], 2, 1, 1, 0, 1, 1);
         assert_eq!(b.v, vec![2.0]);
+        // enlarging repeats pixels
+        let b = resample(&[1.0, 2.0], 2, 1, 1, 0, 4, 2);
+        assert_eq!(b.v, vec![1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 2.0, 2.0]);
+        assert_eq!(fitted(4000, 3000, 768), (768, 576));
     }
 
     #[test]

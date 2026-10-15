@@ -4,7 +4,7 @@ use std::fmt::Write as _;
 use std::path::Path;
 
 use openreadout_core::Registry;
-use openreadout_plot::{FileFormat, encode, parse_spec, plot, run};
+use openreadout_plot::{FileFormat, SaveOptions, encode, parse_spec, plot, write};
 use serde_json::json;
 
 /// A 2 × 4 kinetic plate: row A grows, row B grows then crashes; column 4 is blank.
@@ -93,7 +93,7 @@ fn group_means_and_annotations() {
     assert!(panel.series.iter().all(|s| s.mark == "band"));
     assert_eq!(panel.annotations.len(), 3, "{:?}", panel.annotations);
     // a group the layout does not have names the ones it does
-    let bad = parse_spec(json!({"data": {"file": f, "groups": ["lamda"]}})).unwrap();
+    let bad = parse_spec(json!({"data": {"file": f, "groups": ["phi80"]}})).unwrap();
     let e = plot(&Registry::new(), &bad).unwrap_err().to_string();
     assert!(e.contains("lambda") && e.contains("HK97"), "{e}");
 }
@@ -137,22 +137,25 @@ fn inline_values_and_every_output_format() {
     assert_eq!(p.output.inline_series, 2);
     assert!(p.output.files.is_empty());
     assert_eq!(p.output.panels[1].series[0].marked[0].text, "nine");
-    for (ext, magic) in [("png", &b"\x89PNG"[..]), ("svg", b"<svg"), ("pdf", b"%PDF")] {
+    for (ext, magic) in [
+        ("png", &b"\x89PNG"[..]),
+        ("jpg", b"\xFF\xD8"),
+        ("tiff", b"II*\0"),
+        ("svg", b"<svg"),
+        ("pdf", b"%PDF"),
+    ] {
         let path = d.path().join(format!("f.{ext}"));
-        let mut s = spec.clone();
-        s.output = Some(path.display().to_string());
-        let out = run(&Registry::new(), &s).unwrap();
-        let w = out.output.output.unwrap();
-        assert!(w.verified && w.format == ext);
+        let w = write(&p.figure, &path, &SaveOptions::default()).unwrap();
+        assert!(w.verified && FileFormat::from_name(ext).unwrap().as_str() == w.format);
         let bytes = std::fs::read(&path).unwrap();
         assert!(
             bytes.windows(magic.len()).take(200).any(|x| x == magic),
             "{ext}"
         );
         // never over an existing file without overwrite
-        assert!(run(&Registry::new(), &s).is_err());
+        assert!(write(&p.figure, &path, &SaveOptions::default()).is_err());
     }
-    let svg = encode(&p.figure, FileFormat::Svg).unwrap();
+    let (svg, ..) = encode(&p.figure, FileFormat::Svg, &SaveOptions::default()).unwrap();
     assert!(String::from_utf8_lossy(&svg).contains("IFNγ+"));
 }
 
@@ -197,5 +200,62 @@ fn helpful_errors() {
             .unwrap_err()
             .to_string()
             .contains("nothing to plot")
+    );
+}
+
+#[test]
+fn growth_colours_and_a_figure_level_file() {
+    let d = tempfile::tempdir().unwrap();
+    let f = plate(d.path());
+    // `file` at the figure level is the file of every series that names none
+    let spec = parse_spec(json!({
+        "file": f,
+        "data": {"color_by": "growth", "subtract": "blank"},
+        "facet": "plate",
+    }))
+    .unwrap();
+    let p = plot(&Registry::new(), &spec).unwrap();
+    let classes: Vec<_> = p.output.panels[0]
+        .series
+        .iter()
+        .filter_map(|s| s.class.clone())
+        .collect();
+    assert!(classes.contains(&"grew".to_string()), "{classes:?}");
+    assert!(
+        classes.iter().any(|c| c.starts_with("crashed")),
+        "{classes:?}"
+    );
+    // a file alone draws its default view
+    let p = plot(&Registry::new(), &parse_spec(json!({"file": f})).unwrap()).unwrap();
+    assert_eq!(p.output.files, vec![f.clone()]);
+}
+
+#[test]
+fn misplaced_keys_say_where_they_go() {
+    let e = parse_spec(json!({"show": "wells", "data": {"file": "p.csv"}}))
+        .unwrap_err()
+        .to_string();
+    assert!(e.contains("describes a series"), "{e}");
+    let e = parse_spec(json!({"data": {"values": {"x": [1], "y": [1]}, "x": {"label": "pA"}}}))
+        .unwrap_err()
+        .to_string();
+    assert!(e.contains("data.x") && e.contains("on the panel"), "{e}");
+    let e = parse_spec(json!({"data": {"file": "r.raw", "tic": true}}))
+        .unwrap_err()
+        .to_string();
+    assert!(
+        e.contains("unknown field `tic`") && e.contains("chromatogram"),
+        "{e}"
+    );
+    let e = parse_spec(json!({"data": {"file": "a"}, "panels": [], "y": {"name": "OD"}}))
+        .unwrap_err()
+        .to_string();
+    assert!(e.contains("y: unknown field `name`"), "{e}");
+    let e = parse_spec(json!({"panels": [{"data": [{"file": "a"}, {"file": "b", "title": "t"}]}]}))
+        .unwrap_err()
+        .to_string();
+    assert!(
+        e.contains("panels[0].data[1]") && e.contains("`title`"),
+        "{e}"
     );
 }

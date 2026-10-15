@@ -10,6 +10,8 @@ use crate::DataMark;
 
 /// Most peaks labelled in one panel.
 pub(crate) const MAX_PEAKS: usize = 8;
+/// Least prominence of a labelled peak, in noise standard deviations.
+pub(crate) const MIN_PEAK_SNR: f64 = 8.0;
 
 /// One pixel column of a trace: its extremes and where the maximum is.
 #[derive(Debug, Clone, Copy)]
@@ -66,16 +68,19 @@ pub(crate) fn prominent(
     if !(lo.is_finite() && hi.is_finite()) || hi <= lo {
         return Vec::new();
     }
-    // noise: the median step between neighbouring columns; a peak must stand well above it
+    // noise: the larger of the robust spread around the local baseline (as NMR peak picking
+    // measures it) and the median step between neighbouring columns (spiky noise); a peak must
+    // stand well clear of it, so ripples on a noisy baseline stay unlabelled
     let finite: Vec<f64> = v.iter().copied().filter(|x| x.is_finite()).collect();
     let mut steps: Vec<f64> = finite.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
     steps.sort_by(f64::total_cmp);
-    let noise = if steps.len() >= 50 {
+    let step_noise = if steps.len() >= 8 {
         steps[steps.len() / 2]
     } else {
         0.0
     };
-    let floor = ((hi - lo) * min_share).max(noise * 8.0);
+    let noise = openreadout_signal::nmr::noise_sd(&finite).max(step_noise);
+    let floor = ((hi - lo) * min_share).max(noise * MIN_PEAK_SNR);
     let len = v.len();
     let mut cands: Vec<(usize, f64)> = Vec::new();
     for i in 0..len {
@@ -125,7 +130,7 @@ pub(crate) fn prominent(
             (false, false) => lmin.min(rmin),
         };
         let prom = x - base;
-        if prom >= floor {
+        if prom >= floor && prom >= local_step(&v, i) * MIN_PEAK_SNR * 1.5 {
             cands.push((i, prom));
         }
     }
@@ -143,6 +148,26 @@ pub(crate) fn prominent(
         }
     }
     out
+}
+
+/// The median step between neighbouring columns within a tenth of the axis around column `i`
+/// (at least 8 columns each side): the noise a peak there has to clear. A spike in a noisy
+/// stretch stands no taller than its neighbours' jitter, however quiet the rest of the trace.
+fn local_step(v: &[f64], i: usize) -> f64 {
+    let half = (v.len() / 10).max(8);
+    let lo = i.saturating_sub(half);
+    let hi = (i + half + 1).min(v.len());
+    let finite: Vec<f64> = v[lo..hi]
+        .iter()
+        .copied()
+        .filter(|x| x.is_finite())
+        .collect();
+    let mut steps: Vec<f64> = finite.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+    if steps.len() < 4 {
+        return 0.0;
+    }
+    steps.sort_by(f64::total_cmp);
+    steps[steps.len() / 2]
 }
 
 /// How many decimals a peak label needs so neighbouring peaks `resolution` apart differ.
@@ -216,15 +241,31 @@ mod tests {
 
     #[test]
     fn finds_prominent_peaks() {
-        let ys = [0.0, 1.0, 0.0, 0.0, 5.0, 0.0, 0.2, 0.3, 0.2, 3.0, 0.0];
+        // peaks on a quiet baseline
+        let mut ys = vec![0.0; 120];
+        ys[10] = 1.0;
+        ys[40] = 5.0;
+        ys[70] = 0.3;
+        ys[100] = 3.0;
+        for (i, y) in ys.iter_mut().enumerate() {
+            *y += 0.001 * (i % 3) as f64;
+        }
         let cols: Vec<Option<Col>> = ys
             .iter()
             .enumerate()
             .map(|(i, &v)| Some(Col::new(i as f64, v)))
             .collect();
-        assert_eq!(prominent(&cols, 2, 1, 0.1), vec![4, 9]);
-        assert_eq!(prominent(&cols, 5, 1, 0.1), vec![4, 9, 1]);
-        assert_eq!(prominent(&cols, 5, 6, 0.1), vec![4]);
+        assert_eq!(prominent(&cols, 2, 1, 0.1), vec![40, 100]);
+        assert_eq!(prominent(&cols, 5, 1, 0.1), vec![40, 100, 10]);
+        assert_eq!(prominent(&cols, 5, 65, 0.1), vec![40]);
+        // spiky noise with one spike twice its size: nothing stands out enough to label
+        let noisy: Vec<Option<Col>> = (0..60)
+            .map(|i| {
+                let v = if i == 30 { 2.0 } else { f64::from(i % 2) };
+                Some(Col::new(f64::from(i), v))
+            })
+            .collect();
+        assert!(prominent(&noisy, 5, 1, 0.04).is_empty());
         assert_eq!(decimals_for(0.01), 2);
         assert_eq!(peak_label(1.23456, 2), "1.23");
     }

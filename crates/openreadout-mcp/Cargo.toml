@@ -48,6 +48,10 @@ serde_json = { workspace = true }
 schemars = { workspace = true }
 anyhow = { workspace = true }
 
+[dev-dependencies]
+# the viewer's colour tokens are checked against the figure engine's theme
+openreadout-figure = { workspace = true }
+
 [features]
 # `format: "parquet"|"arrow"` of `openreadout_export` (Apache Arrow/Parquet, pure Rust).
 parquet = ["dep:openreadout-arrow"]

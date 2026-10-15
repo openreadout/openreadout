@@ -435,6 +435,12 @@ pub(crate) fn draw(
             .halo(theme.paper, (fs * 0.2).max(2.0)),
         placer: LabelPlacer::new(fig.rect().inset(2.0)),
     };
+    // the preview's own labels (peaks) are part of the same set
+    if let Frame::Plots { taken, .. } = frame {
+        for r in taken {
+            labels.placer.reserve(*r);
+        }
+    }
     let mut out = Vec::with_capacity(anns.len());
     let mut outside_any = false;
     let mut key_slot: Option<KeySlot> = None;
@@ -461,7 +467,7 @@ pub(crate) fn draw(
                 }
                 draw_one(fig, &sp, a, color, theme, &mut labels, &mut d);
             }
-            Frame::Plots { panels, key } => {
+            Frame::Plots { panels, key, .. } => {
                 if a.kind == AnnotationType::Well {
                     if panels.iter().any(|p| p.well.is_some()) {
                         let w = a.well.as_deref().and_then(parse_well_name);
@@ -1046,7 +1052,7 @@ mod tests {
         let bad: Annotation = serde_json::from_str(r#"{"type":"box","x":1,"y":2}"#).unwrap();
         assert!(validate(&bad).unwrap_err().to_string().contains("width"));
         assert!(
-            serde_json::from_str::<Annotation>(r#"{"type":"point","x":1,"y":2,"lable":"x"}"#)
+            serde_json::from_str::<Annotation>(r#"{"type":"point","x":1,"y":2,"caption":"x"}"#)
                 .is_err()
         );
         let t: Annotation = serde_json::from_str(r#"{"type":"text","x":1,"y":2}"#).unwrap();

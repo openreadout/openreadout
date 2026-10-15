@@ -252,8 +252,9 @@ pub fn html() -> &'static str {
                 ])
             })
             .collect();
-        let script =
-            include_str!("web/viewer.js").replace("/*FONTS*/[]", &Value::Array(fonts).to_string());
+        let script = include_str!("web/viewer.js")
+            .replace("/*FONTS*/[]", &Value::Array(fonts).to_string())
+            .replace("/*TOKENS*/null", include_str!("web/theme.json").trim());
         include_str!("web/viewer.html")
             .replace("/*STYLE*/", include_str!("web/viewer.css"))
             .replace("/*SCRIPT*/", &script)

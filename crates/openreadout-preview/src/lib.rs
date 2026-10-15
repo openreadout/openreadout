@@ -3,7 +3,8 @@
 //!
 //! - **Images**: one plane, a channel composite (additive, channel colours from the normalized
 //!   model) or a maximum-intensity projection over z or t, read from the pyramid level nearest the
-//!   requested size when the reader exposes levels, then block-averaged to fit and mapped to 8 bits
+//!   requested size when the reader exposes levels, then resampled to the requested size (area
+//!   average; a small image is enlarged by repeating its pixels) and mapped to 8 bits
 //!   with a contrast rule (`auto`, `min-max`, `percentile:LO,HI`, `raw`). By default the picture
 //!   is framed by coordinate rulers in full-resolution pixels (and a scale bar when the pixel
 //!   size is known), and [`ImagePreview`] reports how PNG pixels map back to source pixels, so a
@@ -64,16 +65,20 @@
 
 mod annotate;
 pub mod color;
+pub mod electrochem;
 mod events;
+mod figure_frame;
 mod image;
 mod kinetic;
 mod marks;
+mod nmr;
 mod objects;
 mod options;
 mod overlay;
 mod plate;
 mod rulers;
 mod spectrum;
+mod tic;
 mod trace;
 
 use std::path::{Path, PathBuf};
@@ -197,8 +202,18 @@ pub enum Axis {
 }
 
 /// What frames an image preview.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "lowercase")]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Default,
+    serde::Deserialize,
+    serde::Serialize,
+    schemars::JsonSchema,
+)]
+#[serde(rename_all = "kebab-case")]
 #[non_exhaustive]
 pub enum Axes {
     /// coordinate rulers in full-resolution pixels and a scale bar around the picture (default)
@@ -206,27 +221,31 @@ pub enum Axes {
     Rulers,
     /// rulers, plus faint grid lines over the data at the ruler ticks
     Grid,
+    /// a figure for people: the picture with a scale bar, the title and the caption; no rulers
+    ScaleBar,
     /// the bare downsampled plane
     None,
 }
 
 impl Axes {
-    /// Set `axes` and `grid` of a request.
+    /// Set `axes`, `grid` and `figure` of a request.
     pub fn apply(self, req: &mut PreviewRequest) {
         req.axes = self != Axes::None;
         req.grid = self == Axes::Grid;
+        req.figure = self == Axes::ScaleBar;
     }
 }
 
 impl FromStr for Axes {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self> {
-        match s.trim().to_ascii_lowercase().as_str() {
+        match s.trim().to_ascii_lowercase().replace('_', "-").as_str() {
             "rulers" => Ok(Axes::Rulers),
             "grid" => Ok(Axes::Grid),
+            "scale-bar" | "scalebar" => Ok(Axes::ScaleBar),
             "none" => Ok(Axes::None),
             other => Err(Error::Usage(format!(
-                "bad axes '{other}': use rulers, grid or none"
+                "bad axes '{other}': use rulers, grid, scale-bar or none"
             ))),
         }
     }
@@ -407,6 +426,13 @@ pub struct PreviewRequest {
     /// Image preview: faint grid lines over the data at the ruler ticks (default `false`; only
     /// with `axes`).
     pub grid: bool,
+    /// Image preview: frame the picture as a figure for people instead of with rulers: a scale
+    /// bar under it, and `title` and `caption` (default `false`; only with `axes`).
+    pub figure: bool,
+    /// Image preview: a title above the picture (drawn with `figure`).
+    pub title: Option<String>,
+    /// Image preview: a caption under the picture (drawn with `figure`).
+    pub caption: Option<String>,
     /// Image preview: refuse (an `unsupported` error) to read more than this many bytes of
     /// decoded pixels in total, so a quick look never decodes a huge plane.
     pub max_read_bytes: Option<u64>,
@@ -439,6 +465,9 @@ impl Default for PreviewRequest {
             dark: false,
             axes: true,
             grid: false,
+            figure: false,
+            title: None,
+            caption: None,
             max_read_bytes: None,
         }
     }
@@ -514,8 +543,10 @@ pub struct ImagePreview {
     /// The rectangle drawn, in the pixel coordinates of `level`, when a region was asked for.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub region: Option<openreadout_core::Region>,
-    /// Block size of the averaging downsample (1 = none).
-    pub downsample: u32,
+    /// Pixels of the plane at `level` per drawn pixel, horizontally: above 1 when the plane was
+    /// made smaller (an area average), below 1 when it was enlarged (each source pixel drawn as
+    /// a square), 1 when drawn as is.
+    pub downsample: f64,
     /// Channels, z-planes and time points used.
     pub c: Vec<u32>,
     /// Z indices used.
@@ -664,6 +695,23 @@ pub struct SpectrumPreview {
     pub precursor_mz: Option<f64>,
 }
 
+/// Details of a chromatogram preview of a mass-spectrometry run (its first look).
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct ChromatogramPreview {
+    /// Run index.
+    pub run: u32,
+    /// `tic` (the total ion current each scan header records) or `bpc` (base-peak intensity).
+    pub signal: String,
+    /// MS1 scans drawn.
+    pub ms1_scans: u64,
+    /// Scans in the run (all MS levels).
+    pub scans: u64,
+    /// Retention time of the tallest point, minutes.
+    pub apex_rt_min: f64,
+    /// Its intensity.
+    pub apex_intensity: f64,
+}
+
 /// One layout group of a plate preview (a SoftMax Pro group, a sample name, …).
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct PlateGroup {
@@ -806,7 +854,7 @@ pub struct PreviewOutput {
     pub path: String,
     /// Format id of the input file.
     pub format: String,
-    /// `image`, `trace`, `spectrum`, `plate` or `events`.
+    /// `image`, `trace`, `chromatogram`, `spectrum`, `plate` or `events`.
     pub kind: String,
     /// The written file (CLI); absent when the preview is returned inline (MCP image content).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -832,6 +880,9 @@ pub struct PreviewOutput {
     /// Present for spectrum previews.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub spectrum: Option<SpectrumPreview>,
+    /// Present for chromatogram previews (a mass-spectrometry run's total-ion chromatogram).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub chromatogram: Option<ChromatogramPreview>,
     /// Present for plate previews.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plate: Option<PlatePreview>,
@@ -859,6 +910,9 @@ pub struct PreviewOutput {
     /// What to do next with the picture (look at it; zoom with a region read off the rulers).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hint: Option<String>,
+    /// How to save this picture to a file (MCP: the openreadout_export call).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub save: Option<String>,
 }
 
 impl PreviewOutput {
@@ -895,6 +949,8 @@ pub(crate) enum Frame {
     Plots {
         panels: Vec<FramePanel>,
         key: Option<KeySlot>,
+        /// Labels the preview drew itself (peak labels), which the caller's labels keep off.
+        taken: Vec<openreadout_figure::Rect>,
     },
     /// A plate heat map: each well's cell.
     Wells(Vec<((u32, u32), openreadout_figure::Rect)>),
@@ -903,7 +959,23 @@ pub(crate) enum Frame {
 impl Frame {
     /// Plot panels without a key.
     pub(crate) fn plots(panels: Vec<FramePanel>) -> Frame {
-        Frame::Plots { panels, key: None }
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: Vec::new(),
+        }
+    }
+
+    /// Plot panels whose own labels occupy `taken`.
+    pub(crate) fn plots_labelled(
+        panels: Vec<FramePanel>,
+        taken: &[openreadout_figure::Rect],
+    ) -> Frame {
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: taken.to_vec(),
+        }
     }
 }
 
@@ -994,12 +1066,6 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
         Ok("trace")
     } else if !info.spectra.is_empty() {
         Ok("spectrum")
-    } else if info.format.family == "flow-cytometry" {
-        Err(Error::unsupported(
-            "preview",
-            format!("a picture of {} events", info.format.name),
-            "Flow-cytometry events have no preview here. Count events with openreadout_table (filter, count=true), and get each population's count, percentage and medians with openreadout_gate and the FlowJo workspace or Gating-ML file.",
-        ))
     } else if !info.tables.is_empty() {
         Ok(if events::is_events(info, 0) {
             "events"
@@ -1030,13 +1096,47 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         kind: k.into(),
         ..PreviewOutput::default()
     };
-    let (mut figure, frame) = match k {
-        "image" => image::render(ds, info, req, &mut out)?,
-        "trace" => trace::render(ds, info, req, &mut out)?,
-        "spectrum" => spectrum::render(ds, info, req, &mut out)?,
-        "events" => events::render(ds, info, req, &mut out)?,
+    // An NMR data set shows its spectrum unless the caller picked a trace, sweep or channel.
+    let nmr_default = k == "trace"
+        && info.format.family == "nmr"
+        && req.trace.is_none()
+        && req.sweep.is_none()
+        && req.channels.is_empty();
+    let mut drawn = if nmr_default {
+        nmr::render(ds, info, req, &mut out)
+    } else {
+        None
+    };
+    // A mass-spectrometry run shows its chromatogram unless a spectrum was asked for.
+    if drawn.is_none()
+        && k == "spectrum"
+        && req.run.is_none()
+        && req.spectrum.is_none()
+        && req.scan.is_none()
+        && !req.centroid
+    {
+        drawn = tic::render(ds, info, req, &mut out)?;
+        if drawn.is_some() {
+            out.kind = "chromatogram".into();
+        }
+    }
+    let (mut figure, frame) = match (k, drawn) {
+        (_, Some(drawn)) => drawn,
+        ("image", _) => image::render(ds, info, req, &mut out)?,
+        ("trace", _) if electrochem::is_voltammetry(info, req) => {
+            electrochem::render(ds, info, req, &mut out)?
+        }
+        ("trace", _) => trace::render(ds, info, req, &mut out)?,
+        ("spectrum", _) => spectrum::render(ds, info, req, &mut out)?,
+        ("events", _) => events::render(ds, info, req, &mut out)?,
         _ => plate::render(ds, info, req, &mut out)?,
     };
+    if out.kind != "image" && (req.title.is_some() || req.caption.is_some()) {
+        out.notes.push(
+            "title and caption are drawn on image previews; openreadout_plot titles and captions plots"
+                .into(),
+        );
+    }
     if let Frame::Plots { panels, .. } = &frame {
         out.panels = panels.iter().map(annotate::plot_panel).collect();
     }

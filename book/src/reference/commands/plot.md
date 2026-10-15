@@ -1,23 +1,25 @@
 # plot
 
-`plot` draws a finished figure from lab files: traces and sweeps, chromatograms and mass spectra, plate wells in their plate positions or as group means, FCS dot plots and histograms, f–I curves, dose-response and standard-curve fits, and the columns of a table file. You describe the figure in JSON. The same JSON is the arguments of the MCP tool `openreadout_plot`.
+`plot` draws a finished figure from lab files: traces and sweeps, chromatograms and mass spectra, plate wells in their plate positions or as group means, FCS dot plots and histograms, f–I curves, dose-response and standard-curve fits, and the columns of a table file. You describe the figure in JSON. The same JSON is the arguments of the MCP tool `openreadout_plot`, which returns the figure as a picture; `openreadout_export` with `plot` set to that JSON saves it (see [saving figures](../mcp.md#saving-figures)).
 
 ```text
 openreadout plot [OPTIONS] <SPEC>
 ```
 
-`SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG (at twice the pixel size), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place.
+`SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG, JPEG or TIFF (at twice the pixel size unless `--scale` says otherwise), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place.
 
 ## Flags
 
-- `-o`, `--output FILE`: `.png`, `.svg` or `.pdf`. Overrides the spec's `output`.
+- `-o`, `--output FILE`: `.png`, `.jpg`, `.tiff`, `.svg` or `.pdf`. Required.
+- `--scale N`: pixels per figure pixel in PNG, JPEG and TIFF files, 0.25–8. Default 2. Text and lines are drawn again at that size.
+- `--dpi N`: print resolution. PNG, JPEG and TIFF files record it, so they open at pixels ÷ dpi inches; SVG and PDF pages get the size the raster would print at. A 1200-pixel figure at the default scale and `--dpi 300` prints 8 inches wide.
 - `--overwrite`: replace an existing output file.
 - `--theme light|dark`: overrides the spec's `theme`.
-- `--json`: print what was drawn as JSON (the same summary the MCP tool returns).
+- `--json`: print what was drawn as JSON (the same summary the MCP tool returns) and the file written under `written`.
 
 ## The spec
 
-A figure is one panel, with the panel's keys at the top level, or several in `panels` (side by side, `columns` per row). Each panel has `data`: one series spec or a list of them, drawn in order.
+A figure is one panel, with the panel's keys at the top level, or several in `panels` (side by side, `columns` per row). Each panel has `data`: one series spec or a list of them, drawn in order. A `file` on the figure or on a panel is the file of every series there that names none, so a figure of one file names it once: `{"file": "cell.abf", "panels": [{"data": {"show": "fi"}}, {"data": {"show": "sweeps"}}]}`. A `file` alone draws that file's default view. A key in the wrong place, such as `show` at the top level or an axis object inside `data`, is an error that says where it goes. A long `caption` wraps.
 
 ```json
 {"title": "Plate 1: growth in every well",
@@ -37,7 +39,6 @@ A figure is one panel, with the panel's keys at the top level, or several in `pa
 | `share` | `x`, `y` or `both`: panels use the same range. |
 | `width`, `height` | Pixels. Default 1200 wide (960 for a lone dot plot) and a height that suits the content; at most 3000. |
 | `theme` | `light` (default) or `dark`. |
-| `output`, `overwrite` | Also write the figure to this file. |
 | `strict` | Refuse values that this file's assurance does not validate. |
 
 ### Panel
@@ -46,7 +47,7 @@ A figure is one panel, with the panel's keys at the top level, or several in `pa
 | --- | --- |
 | `data` | One series spec or a list. |
 | `facet` | `series`: one small plot per series (sweeps, files, groups) on shared axes. `plate`: plate wells in their positions, with the layout groups as row headings. |
-| `x`, `y` | Axis: `label`, `log`, `range` `[low, high]`, `reverse`, and for time axes `unit` (`s`, `min`, `h`). |
+| `x`, `y` | Axis: `label`, `log`, `range` `[low, high]`, `reverse`, and for time axes `unit` (`s`, `min`, `h`). An x `range` without a y `range` fits y to the data inside it. |
 | `annotate` | A list of bands, lines, labelled points, arrows and notes (below). |
 | `legend` | `direct` (labels at the line ends), `key` or `none`. Default: direct labels when they fit. |
 | `column_labels`, `row_labels` | Headings of a plate facet. Row labels are one per row, or one per block of rows that share a layout group. |
@@ -74,7 +75,7 @@ Every series also takes `mark` (`line`, `points`, `line_points`, `bars`, `area`,
 - `table`: a `.csv`, `.tsv`, `.jsonl`, `.json` or `.parquet` file, such as `batch -o` writes. `x` and `y` are column names, `error` a column of error-bar half-widths, `by` the column that splits rows into series and `where` filters rows (`["parent=CD8+"]`). Text in `x` gives bars over categories.
 - `values`: `{"x": [...], "y": [...], "error": [...], "labels": [...], "x_unit": "...", "y_unit": "..."}` for a few numbers you computed. x may be category names. The result counts these series under `inline_series`, so a reader can tell drawn data from computed data.
 
-Plate groups come from the layout the file stores (SoftMax Pro groups, Gen5 well IDs, a long CSV's `sample` column). `by: "group"` draws the mean of each group with its spread (`sd`, `sem`, `range` or `none`). With `groups` patterns that contain `*`, each pattern pools its matching groups into one series: `"groups": ["99.9 * +", "99 * +"]`. A `color_by` rule flags wells by their value at one point on the x axis, in the unit the axis shows: `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}`. Blank wells are drawn faint.
+Plate groups come from the layout the file stores (SoftMax Pro groups, Gen5 well IDs, a long CSV's `sample` column). `by: "group"` draws the mean of each group with its spread (`sd`, `sem`, `range` or `none`). With `groups` patterns that contain `*`, each pattern pools its matching groups into one series: `"groups": ["99.9 * +", "99 * +"]`. A `color_by` rule flags wells by their value at one point on the x axis, in the unit the axis shows: `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}`. `color_by: "growth"` colours each well by its pattern in the growth analysis (`analyze growth`): grew, crashed, crashed then regrew, or no growth. Blank wells are drawn faint.
 
 `peaks: N` labels the N highest peaks that the axes show, so a narrowed `x_range` or a clipped `y` range (a solvent peak cut off) labels the peaks you can see.
 

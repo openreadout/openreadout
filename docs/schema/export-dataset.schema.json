@@ -282,6 +282,7 @@
         "kind",
         "rows",
         "bytes",
+        "digest",
         "verified"
       ]
     },

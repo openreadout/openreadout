@@ -71,6 +71,29 @@ fn plate_one_wells_that_grew_and_crashed() {
 }
 
 #[test]
+fn plate_one_growth_patterns() {
+    let Some(f) = file("softmax5-kinetic-phage-120308b.pda") else {
+        return;
+    };
+    let o = run(
+        json!({"file": f, "data": {"subtract": "blank", "color_by": "growth"}, "facet": "plate"}),
+    );
+    let p = &o.panels[0];
+    let wells = |c: &str| {
+        p.series
+            .iter()
+            .find(|s| s.class.as_deref() == Some(c))
+            .and_then(|s| s.count)
+    };
+    // the infected HK97 wells crash and come back, except the three that never grow (E10,
+    // F11, G7) and H3 and H10, which escaped; λ A11 never grows, B11-D11 come back late
+    assert_eq!(wells("no growth"), Some(4));
+    assert_eq!(wells("crashed, then regrew"), Some(34));
+    assert_eq!(wells("grew"), Some(50));
+    assert_eq!(wells("crashed"), None);
+}
+
+#[test]
 fn plate_two_group_means() {
     let Some(f) = file("softmax5-kinetic-phage-120524.pda") else {
         return;

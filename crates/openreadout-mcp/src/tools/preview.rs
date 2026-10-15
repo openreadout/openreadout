@@ -7,80 +7,57 @@ use openreadout_core::Registry;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{CallToolResult, ContentBlock};
 use rmcp::{ErrorData as McpError, schemars, tool, tool_router};
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
+use serde_json::{Map, Value};
 
 use crate::{InstrumentServer, mcp_err, resources, to_value, with_strict};
 
-/// Arguments for `openreadout_preview`.
-#[derive(Debug, Deserialize, schemars::JsonSchema)]
+/// Arguments for `openreadout_preview`: the file, the encoding, and the preview options the
+/// bindings share ([`openreadout_preview::PreviewOptions`]). Read by hand, because serde
+/// ignores unknown keys next to a flattened struct: an argument the tool does not take is an
+/// error that lists the ones it does.
+#[derive(Debug, Clone, schemars::JsonSchema)]
 pub struct PreviewArgs {
     /// Path to the file.
     pub file: String,
-    /// Image index (default 0).
-    pub image: Option<u32>,
-    /// Plane selection such as `c=1`, `z=4`, `t=0` or combined `c=0,1,z=2`. Default: c=0, the
-    /// middle z, t=0. Several channels imply a composite.
-    #[serde(default)]
-    pub select: Vec<String>,
-    /// Maximum-intensity projection, over the selected range if any.
-    pub mip: Option<openreadout_preview::Axis>,
-    /// Blend all (or the selected) channels additively in their colours.
-    #[serde(default)]
-    pub composite: bool,
-    /// Pyramid level to read (default: the level nearest max_size, or the level at which
-    /// `region` renders at about max_size).
-    pub level: Option<u32>,
-    /// Zoom: only this rectangle, `{x, y, width, height}` in full-resolution pixels (or in the
-    /// pixels of `level` when a level is given). Whole-slide images: look at the overview
-    /// first, then at regions of it.
-    pub region: Option<openreadout_core::Region>,
-    /// Longest side in pixels, rulers included (default 768, max 2048).
-    pub max_size: Option<u32>,
-    /// Image previews: what frames the picture.
-    #[serde(default)]
-    pub axes: openreadout_preview::Axes,
-    /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
-    pub contrast: Option<String>,
-    /// Colour lookup. Default: gray for one channel, channel colours for composites.
-    pub lut: Option<openreadout_preview::Lut>,
     /// Encoding. Default png (sent as JPEG when a PNG would be too large); svg also returns
     /// the vector drawing as text.
     pub format: Option<openreadout_preview::Encoding>,
-    /// Trace preview: trace index (see openreadout_info traces[]).
-    pub trace: Option<u32>,
-    /// Trace preview: sweep index.
-    pub sweep: Option<u32>,
-    /// Trace preview: channel indices (default: the first 8).
-    #[serde(default)]
-    pub channels: Vec<u32>,
-    /// Spectrum preview: run index.
-    pub run: Option<u32>,
-    /// Spectrum preview: zero-based spectrum index.
-    pub spectrum: Option<u64>,
-    /// Spectrum preview: instrument scan number instead of an index.
-    pub scan: Option<u64>,
-    /// Spectrum preview: the instrument's centroid list instead of the profile.
-    #[serde(default)]
-    pub centroid: bool,
-    /// Plate or flow-cytometry preview: table index.
-    pub table: Option<u32>,
-    /// Table columns: a plate's value column, or the x and y parameters of a flow-cytometry
-    /// density plot (one gives a histogram; default FSC-A, SSC-A).
-    #[serde(default)]
-    pub columns: Vec<String>,
-    /// Marks from the data. Default auto: the largest peaks of spectra and chromatograms are
-    /// labelled.
-    pub marks: Option<openreadout_preview::Marks>,
-    /// Images: how objects are found for marks=objects (as openreadout_stats objects).
-    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
-    /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
-    /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
-    /// units on plots, wells on plates.
-    #[serde(default)]
-    pub annotations: Vec<openreadout_preview::Annotation>,
     /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
+    /// What to draw and how.
+    #[serde(flatten)]
+    pub options: openreadout_preview::PreviewOptions,
+}
+
+impl<'de> Deserialize<'de> for PreviewArgs {
+    fn deserialize<D: Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
+        use serde::de::Error as _;
+        let mut m = Map::<String, Value>::deserialize(d)?;
+        let file = match m.remove("file") {
+            Some(Value::String(s)) => s,
+            Some(_) => return Err(D::Error::custom("`file` must be a string (a path)")),
+            None => return Err(D::Error::missing_field("file")),
+        };
+        let mut take = |k: &str| m.remove(k).filter(|v| !v.is_null());
+        let format = take("format")
+            .map(serde_json::from_value)
+            .transpose()
+            .map_err(|e| D::Error::custom(format!("format: {e}")))?;
+        let strict = take("strict")
+            .map(serde_json::from_value)
+            .transpose()
+            .map_err(|e| D::Error::custom(format!("strict: {e}")))?;
+        // the options refuse keys they do not know
+        let options = serde_json::from_value(Value::Object(m)).map_err(D::Error::custom)?;
+        Ok(PreviewArgs {
+            file,
+            format,
+            strict,
+            options,
+        })
+    }
 }
 
 /// Default `max_size` of `openreadout_preview`.
@@ -88,58 +65,45 @@ pub const DEFAULT_MCP_PREVIEW_SIZE: u32 = 768;
 /// Largest `max_size` `openreadout_preview` accepts (larger requests are clamped).
 pub const MAX_MCP_PREVIEW_SIZE: u32 = 2048;
 
+/// Render the preview `a` asks for, with `max_size` at most `max_size_cap`; image previews are
+/// framed by `default_axes` unless `a` says otherwise.
+pub(crate) fn render(
+    registry: fn() -> Registry,
+    a: &PreviewArgs,
+    max_size_cap: u32,
+    default_axes: openreadout_preview::Axes,
+) -> Result<openreadout_preview::Rendered, McpError> {
+    let mut req = a
+        .options
+        .request(DEFAULT_MCP_PREVIEW_SIZE, default_axes)
+        .map_err(|e| mcp_err(&e))?;
+    req.max_size = req.max_size.min(max_size_cap);
+    let reg = with_strict(registry(), a.strict);
+    let (_, mut ds) = reg.open(Path::new(&a.file)).map_err(|e| mcp_err(&e))?;
+    let info = ds.info().map_err(|e| mcp_err(&e))?;
+    openreadout_preview::render(ds.as_mut(), &info, &req).map_err(|e| mcp_err(&e))
+}
+
+/// Where `openreadout_export` saves a preview of `file` by default: `<stem>.preview.png` next
+/// to it.
+pub(crate) fn default_figure_path(file: &str) -> String {
+    openreadout_preview::default_output(Path::new(file), openreadout_preview::Encoding::Png)
+        .display()
+        .to_string()
+}
+
 /// Render a preview and encode it within [`resources::PREVIEW_BUDGET`] bytes.
 fn preview_blocking(
     registry: fn() -> Registry,
     a: &PreviewArgs,
 ) -> Result<(openreadout_preview::PreviewOutput, Vec<u8>, Option<String>), McpError> {
     use openreadout_preview as pv;
-    fn parse<T>(r: openreadout_core::Result<T>) -> Result<T, McpError> {
-        r.map_err(|e| mcp_err(&e))
-    }
-    let req = {
-        let mut preview_request = pv::PreviewRequest::default();
-        preview_request.image = a.image;
-        preview_request.select = a.select.clone();
-        preview_request.mip = a.mip;
-        preview_request.composite = a.composite;
-        preview_request.level = a.level;
-        preview_request.region = a.region;
-        preview_request.max_size = a
-            .max_size
-            .unwrap_or(DEFAULT_MCP_PREVIEW_SIZE)
-            .min(MAX_MCP_PREVIEW_SIZE);
-        preview_request.contrast = parse(
-            a.contrast
-                .as_deref()
-                .unwrap_or("auto")
-                .parse::<pv::Contrast>(),
-        )?;
-        preview_request.lut = a.lut;
-        preview_request.trace = a.trace;
-        preview_request.sweep = a.sweep;
-        preview_request.channels = a.channels.clone();
-        preview_request.run = a.run;
-        preview_request.spectrum = a.spectrum;
-        preview_request.scan = a.scan;
-        preview_request.centroid = a.centroid;
-        preview_request.table = a.table;
-        preview_request.columns = a.columns.clone();
-        preview_request.marks = a.marks.unwrap_or_default();
-        preview_request.objects = a.objects.clone();
-        preview_request.annotations = a.annotations.clone();
-        a.axes.apply(&mut preview_request);
-        preview_request
-    };
+    let r = render(registry, a, MAX_MCP_PREVIEW_SIZE, pv::Axes::Rulers)?;
     // SVG goes back as text next to a PNG picture
     let encoding = match a.format.unwrap_or_default() {
         pv::Encoding::Svg => pv::Encoding::Png,
         e => e,
     };
-    let reg = with_strict(registry(), a.strict);
-    let (_, mut ds) = reg.open(Path::new(&a.file)).map_err(|e| mcp_err(&e))?;
-    let info = ds.info().map_err(|e| mcp_err(&e))?;
-    let r = pv::render(ds.as_mut(), &info, &req).map_err(|e| mcp_err(&e))?;
     let (mut out, bytes) = pv::finish_within(
         &r,
         encoding,
@@ -148,11 +112,20 @@ fn preview_blocking(
     )
     .map_err(|e| mcp_err(&e))?;
     if let Some(im) = &out.image {
+        let read = if im.axes {
+            "read off the rulers"
+        } else {
+            "inside full_res_region"
+        };
         out.hint = Some(format!(
-            "showing full-res region {}; zoom: call again with region {{x, y, width, height}} in full-res px read off the rulers; numbers come from openreadout_stats",
+            "showing full-res region {}; zoom: call again with region {{x, y, width, height}} in full-res px {read}; numbers come from openreadout_stats",
             im.full_res_region
         ));
     }
+    out.save = Some(crate::tools::export::save_hint(
+        "preview",
+        &default_figure_path(&a.file),
+    ));
     let svg = (a.format == Some(pv::Encoding::Svg)).then(|| r.figure.to_svg());
     Ok((out, bytes, svg))
 }
@@ -162,8 +135,8 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_preview",
         annotations(title = "Draw a picture of the data", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_preview::PreviewOutput>(),
-        description = "A picture of the data as image content plus what was drawn: an image plane (default channel 0, middle z), a composite, a max projection (mip=z), a region (only the tiles needed are read), a trace or spectrum plot (largest peaks labelled; marks=spikes marks action potentials), a plate heat map or, for kinetic reads, per-well growth curves coloured by layout group, or a flow-cytometry density plot. Image pictures carry rulers in full-resolution pixels and a µm scale bar, so a region read off the rulers zooms in. annotations draw your own labelled points, boxes, outlines, arrows, lines and bands in the picture's coordinates, to show the user what you found."
+        output_schema = crate::tools::output_schema::<openreadout_preview::PreviewOutput>(),
+        description = "A picture of the data as image content plus what was drawn: an image plane (default channel 0, middle z), a composite, a max projection (mip=z), a region (only the tiles needed are read), a trace or spectrum plot (largest peaks labelled; marks=spikes marks action potentials), a plate heat map or, for kinetic reads, per-well growth curves coloured by layout group, or a flow-cytometry density plot. Image pictures carry rulers in full-resolution pixels and a µm scale bar, so a region read off the rulers zooms in. annotations draw your own labelled points, boxes, outlines, arrows, lines and bands in the picture's coordinates, to show the user what you found. Draws only; openreadout_export saves the picture."
     )]
     pub(crate) async fn preview(
         &self,

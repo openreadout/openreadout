@@ -28,6 +28,9 @@ pub struct IndexArgs {
     /// Glob patterns of names or root-relative paths to skip.
     #[serde(default)]
     pub exclude: Vec<String>,
+    /// Crawl directories behind symbolic links too (links to files are always read).
+    #[serde(default)]
+    pub follow_symlinks: bool,
     /// Discard an interrupted crawl instead of resuming it.
     #[serde(default)]
     pub restart: bool,
@@ -92,8 +95,8 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_index",
         annotations(title = "Index a folder of data", read_only_hint = false, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_index::IndexManifest>(),
-        description = "Catalog every data set under roots into index_dir (Parquet: one row per data set with format, size, sample, instrument, technique, method, operator, start, dimensions, channels, objective, events, scans, integrity status, personal-data flags). Headers only and resumable: a call stops after max_files/max_seconds with complete=false, and the same call again continues. openreadout_search queries the result."
+        output_schema = crate::tools::output_schema::<openreadout_index::IndexManifest>(),
+        description = "Catalog every data set under roots into index_dir (Parquet: one row per data set with format, size, sample, instrument, technique, method, operator, start, dimensions, channels, objective, events, scans, integrity status, personal-data flags). Headers only and resumable: a call stops after max_files/max_seconds with complete=false, and the same call again continues. openreadout_search queries the result. For one folder of files, openreadout_batch with measure info lists what each file is in one call."
     )]
     pub(crate) async fn index(
         &self,
@@ -121,6 +124,7 @@ impl InstrumentServer {
             o.max_seconds = Some(a.max_seconds.unwrap_or(MCP_INDEX_MAX_SECONDS));
             o.exclude = a.exclude;
             o.restart = a.restart;
+            o.follow_symlinks = a.follow_symlinks;
             o.full_rescan = a.full_rescan;
             o.pii = a.pii.unwrap_or(true);
             let threads = a.threads.unwrap_or_else(|| {
@@ -157,7 +161,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_search",
         annotations(title = "Search an index", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_index::SearchOutput>(),
+        output_schema = crate::tools::output_schema::<openreadout_index::SearchOutput>(),
         description = "Query an index from openreadout_index: 'format=nd2 objective=60x', 'channel~CD4', 'events>100000', 'rate>=20kHz', 'acquired<2015', 'status=truncated|corrupt'. Returns {total, returned, results[]}: total counts every match, results is capped by limit (default 50); fields=['all'] returns every column."
     )]
     pub(crate) fn search(
@@ -177,7 +181,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_health",
         annotations(title = "Check an indexed folder's health", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_index::HealthReport>(),
+        output_schema = crate::tools::output_schema::<openreadout_index::HealthReport>(),
         description = "Storage health of a share indexed by openreadout_index: truncated or corrupt files, unreadable formats, duplicates (confirmed by content hash unless no_hash), the same experiment stored twice, files at risk, totals and personal-data findings."
     )]
     pub(crate) async fn health(

@@ -13,6 +13,10 @@ use crate::extract::Chromatogram;
 /// Height of one chromatogram panel, pixels.
 pub const PANEL_HEIGHT: u32 = 280;
 
+/// Peaks smaller than this share of the tallest one get no number (they are flat at the
+/// figure's scale; the peak table lists them all).
+const VISIBLE_SHARE: f64 = 0.02;
+
 /// Draw the chromatograms, one panel each, `width` pixels wide. `peaks[k]`, when present, is
 /// drawn over panel `k`.
 pub fn render(chroms: &[Chromatogram], peaks: &[Option<&ChromatogramPeaks>], width: u32) -> Figure {
@@ -166,9 +170,14 @@ fn panel(
                 Stroke::new(theme.accent, theme.hairline()),
             );
         }
-        // numbers at the apexes, tallest peaks first; a number that would cover another is
-        // left out (its peak keeps its baseline and shading)
-        let mut order: Vec<&crate::peaks::Peak> = pk.peaks.iter().collect();
+        // numbers at the apexes of the peaks big enough to see at this size, tallest first; a
+        // number that would cover another is left out (its peak keeps its baseline and shading)
+        let tallest = pk.peaks.iter().map(|p| p.height).fold(0.0, f64::max);
+        let mut order: Vec<&crate::peaks::Peak> = pk
+            .peaks
+            .iter()
+            .filter(|p| p.height >= tallest * VISIBLE_SHARE)
+            .collect();
         order.sort_by(|a, b| b.height.total_cmp(&a.height));
         let mut taken: Vec<openreadout_figure::Rect> = Vec::new();
         for pe in order {

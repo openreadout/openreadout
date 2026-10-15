@@ -208,8 +208,8 @@ fn predict(c: &Case) -> Vec<u32> {
     predict_d(c).0
 }
 
-/// The predicted label image and the expected diameter used.
-fn predict_d(c: &Case) -> (Vec<u32>, f64) {
+/// The predicted label image, the expected diameter used and the objects' fit.
+fn predict_d(c: &Case) -> (Vec<u32>, f64, f64) {
     let comps: Vec<Vec<f32>> = c
         .comps
         .iter()
@@ -217,7 +217,7 @@ fn predict_d(c: &Case) -> (Vec<u32>, f64) {
         .collect();
     let req = openreadout_core::measure::ObjectsRequest::default();
     openreadout_core::measure::label_plane(&comps, c.w, c.h, c.pixel_um, &req)
-        .unwrap_or_else(|_| (vec![0; c.w * c.h], 0.0))
+        .unwrap_or_else(|_| (vec![0; c.w * c.h], 0.0, 0.0))
 }
 
 /// Median diameter (of a disc of the same area) of the annotated nuclei, in pixels.
@@ -329,11 +329,11 @@ fn nuclei_against_annotations() {
         return;
     }
     let t0 = std::time::Instant::now();
-    let results: Vec<(&Case, Score, f64)> = cases
+    let results: Vec<(&Case, Score, f64, f64)> = cases
         .par_iter()
         .map(|c| {
-            let (p, d) = predict_d(c);
-            (c, score(&p, &c.truth), d)
+            let (p, d, fit) = predict_d(c);
+            (c, score(&p, &c.truth), d, fit)
         })
         .collect();
     let secs = t0.elapsed().as_secs_f64();
@@ -353,10 +353,11 @@ fn nuclei_against_annotations() {
         }
     }
     if let Some(d) = std::env::var_os("NUCLEI_DUMP") {
-        let mut tsv = String::from("group\timage\ttruth\tfound\ttp\tfp\tfn\td_used\td_truth\n");
-        for (c, s, d) in &results {
+        let mut tsv =
+            String::from("group\timage\ttruth\tfound\ttp\tfp\tfn\td_used\td_truth\tfit\n");
+        for (c, s, d, fit) in &results {
             tsv.push_str(&format!(
-                "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{:.1}\t{:.1}\n",
+                "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{:.1}\t{:.1}\t{:.3}\n",
                 c.group,
                 c.name,
                 s.truth,
@@ -365,12 +366,23 @@ fn nuclei_against_annotations() {
                 s.fp,
                 s.fn_,
                 d,
-                truth_diameter(&c.truth)
+                truth_diameter(&c.truth),
+                fit
             ));
         }
         std::fs::write(Path::new(&d).join("nuclei.tsv"), tsv).expect("write dump");
     }
-    let results: Vec<(&Case, Score)> = results.into_iter().map(|(c, s, _)| (c, s)).collect();
+    // images the count flags as low confidence, and the count error of the others
+    let mut flagged: HashMap<&str, (usize, Vec<f64>)> = HashMap::new();
+    for (c, s, _, fit) in &results {
+        let e = flagged.entry(c.group).or_default();
+        if *fit < openreadout_core::measure::LOW_FIT {
+            e.0 += 1;
+        } else if s.truth > 0 {
+            e.1.push((s.found as f64 - s.truth as f64).abs() / s.truth as f64);
+        }
+    }
+    let results: Vec<(&Case, Score)> = results.into_iter().map(|(c, s, _, _)| (c, s)).collect();
     let mut groups: Vec<&str> = results.iter().map(|r| r.0.group).collect();
     groups.sort_unstable();
     groups.dedup();
@@ -422,6 +434,13 @@ fn nuclei_against_annotations() {
             s.fn_ - s.missed - s.merged,
             100.0 * (s.fn_ - s.missed - s.merged) as f64 / s.truth.max(1) as f64
         );
+        if let Some((n, errs)) = flagged.get(g) {
+            println!(
+                "{:<24} low confidence {n} images; |count err| of the others {:.1}%",
+                "",
+                100.0 * errs.iter().sum::<f64>() / errs.len().max(1) as f64
+            );
+        }
         let floor = floor(g);
         if f1 < floor {
             failures.push(format!("{g}: F1 {f1:.3} below {floor}"));

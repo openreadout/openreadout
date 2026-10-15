@@ -86,6 +86,9 @@ pub fn write_verified(path: &Path, bytes: &[u8], overwrite: bool) -> Result<()> 
             path.display()
         )));
     }
+    if let Some(parent) = path.parent().filter(|p| !p.as_os_str().is_empty()) {
+        std::fs::create_dir_all(parent).map_err(|e| Error::io(parent, e))?;
+    }
     let name = path
         .file_name()
         .map_or_else(|| "out".into(), |n| n.to_string_lossy().into_owned());

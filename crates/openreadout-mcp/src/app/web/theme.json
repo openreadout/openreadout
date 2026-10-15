@@ -1,0 +1,5 @@
+{
+"light":{"paper":"#F7F5F0","panel":"#FBFAF7","ink":"#1D1F24","muted":"#6B6E75","rule":"#D6D1C7","grid":"#E9E5DD","accent":"#A8432F","band":"#EFE7DF","faint":"#CFCAC0","series":["#1D1F24","#A8432F","#3D6A8A","#C08A2E","#5E7F4F","#7B5B84","#2E7D7A","#8C6D5A"],"sequential":["#EDE2CC","#E9D2A6","#E3B57F","#D18A57","#B45C3C","#8A3A2C","#55222A"],"diverging":["#2F5A78","#8FB0C4","#F3EEE4","#D9A08A","#A8432F"]},
+"dark":{"paper":"#16171A","panel":"#1C1D21","ink":"#ECEAE4","muted":"#9A9CA3","rule":"#3A3C42","grid":"#2A2C31","accent":"#E07A5F","band":"#3A2A26","faint":"#4A4C52","series":["#ECEAE4","#E07A5F","#7FA8C6","#E0B25A","#92B57F","#B497BD","#5FB3AD","#C0A08A"],"sequential":["#22202A","#4A2531","#7A3333","#A84E37","#CF7A4A","#E7AE6E","#F6E2B4"],"diverging":["#7FA8C6","#3E5566","#26262B","#7A3F33","#E07A5F"]},
+"blank_labels":["blank","bl","blk","buffer","empty","medium","media","background"]
+}

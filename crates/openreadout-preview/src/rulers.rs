@@ -217,7 +217,7 @@ pub(crate) fn scale_bar(um_per_pixel: f64, data_w: u32) -> Option<ScaleBar> {
     })
 }
 
-fn fmt_len(v: f64) -> String {
+pub(crate) fn fmt_len(v: f64) -> String {
     if v.fract() == 0.0 {
         format!("{}", v as u64)
     } else {

@@ -170,57 +170,57 @@ pub fn run(reg: &Registry, c: SelfCommand) -> i32 {
 
 fn schema(of: SchemaOf) -> String {
     let s = match of {
-        SchemaOf::Info => schemars::schema_for!(InfoOutput),
-        SchemaOf::InfoFull => schemars::schema_for!(Dump),
-        SchemaOf::InfoStructure => schemars::schema_for!(Listing),
-        SchemaOf::InfoExplain => schemars::schema_for!(Explanation),
-        SchemaOf::InfoFormat => schemars::schema_for!(DetectOutput),
-        SchemaOf::Sidecar => schemars::schema_for!(sidecar::SidecarReport),
-        SchemaOf::SidecarFile => schemars::schema_for!(sidecar::SidecarFile),
-        SchemaOf::Check => schemars::schema_for!(CheckReport),
-        SchemaOf::Planes => schemars::schema_for!(PlanesOutput),
-        SchemaOf::Compare => schemars::schema_for!(openreadout_ops::compare::CompareOutput),
-        SchemaOf::Report => schemars::schema_for!(openreadout_index::report::ReportOutput),
-        SchemaOf::Export => schemars::schema_for!(ExportOutput),
-        SchemaOf::Extract => schemars::schema_for!(ExtractOutput),
-        SchemaOf::Preview => schemars::schema_for!(openreadout_preview::PreviewOutput),
-        SchemaOf::Stats => schemars::schema_for!(openreadout_core::stats::StatsOutput),
-        SchemaOf::StatsWells => schemars::schema_for!(openreadout_core::plate::WellStatsOutput),
-        SchemaOf::StatsMeasure => {
-            schemars::schema_for!(openreadout_core::measure::MeasureOutput)
-        }
-        SchemaOf::Trace => schemars::schema_for!(openreadout_core::trace::TraceSlice),
-        SchemaOf::Table => schemars::schema_for!(openreadout_core::model::TableSlice),
-        SchemaOf::Scans => schemars::schema_for!(openreadout_core::ScanList),
-        SchemaOf::Spectrum => schemars::schema_for!(SpectrumOutput),
-        SchemaOf::Peaks => schemars::schema_for!(openreadout_quant::analyze::PeaksOutput),
-        SchemaOf::Chromatogram => {
-            schemars::schema_for!(openreadout_quant::extract::ChromatogramOutput)
-        }
-        SchemaOf::NmrPeaks => schemars::schema_for!(openreadout_signal::nmr::NmrReport),
-        SchemaOf::EphysFeatures => schemars::schema_for!(openreadout_signal::ephys::CellReport),
-        SchemaOf::Spikes => schemars::schema_for!(openreadout_signal::ephys::SpikesReport),
-        SchemaOf::Qpcr => schemars::schema_for!(openreadout_qpcr::QpcrReport),
-        SchemaOf::Assay => schemars::schema_for!(openreadout_assay::AssayOutput),
-        SchemaOf::Gate => schemars::schema_for!(openreadout_core::flow::GateOutput),
-        SchemaOf::BatchTable => schemars::schema_for!(openreadout_batch::BatchOutput),
-        SchemaOf::Summarize => schemars::schema_for!(summarize::SummarizeOutput),
-        SchemaOf::Plot => schemars::schema_for!(openreadout_plot::PlotOutput),
-        SchemaOf::Link => schemars::schema_for!(openreadout_batch::LinkOutput),
-        SchemaOf::Index => schemars::schema_for!(openreadout_index::IndexManifest),
-        SchemaOf::Search => schemars::schema_for!(openreadout_index::SearchOutput),
-        SchemaOf::Health => schemars::schema_for!(openreadout_index::HealthReport),
-        SchemaOf::ExportDataset => {
-            schemars::schema_for!(openreadout_index::ExportDatasetReport)
-        }
-        SchemaOf::Watch => schemars::schema_for!(openreadout_live::watch::WatchEvent),
-        SchemaOf::Formats => schemars::schema_for!(FormatsOutput),
-        SchemaOf::Doctor => schemars::schema_for!(doctor::DoctorReport),
-        SchemaOf::Envelope => {
-            schemars::schema_for!(openreadout_core::Envelope<serde_json::Value>)
-        }
+        SchemaOf::Info => out::<InfoOutput>(),
+        SchemaOf::InfoFull => out::<Dump>(),
+        SchemaOf::InfoStructure => out::<Listing>(),
+        SchemaOf::InfoExplain => out::<Explanation>(),
+        SchemaOf::InfoFormat => out::<DetectOutput>(),
+        SchemaOf::Sidecar => out::<sidecar::SidecarReport>(),
+        SchemaOf::SidecarFile => out::<sidecar::SidecarFile>(),
+        SchemaOf::Check => out::<CheckReport>(),
+        SchemaOf::Planes => out::<PlanesOutput>(),
+        SchemaOf::Compare => out::<openreadout_ops::compare::CompareOutput>(),
+        SchemaOf::Report => out::<openreadout_index::report::ReportOutput>(),
+        SchemaOf::Export => out::<ExportOutput>(),
+        SchemaOf::Extract => out::<ExtractOutput>(),
+        SchemaOf::Preview => out::<openreadout_preview::PreviewOutput>(),
+        SchemaOf::Stats => out::<openreadout_core::stats::StatsOutput>(),
+        SchemaOf::StatsWells => out::<openreadout_core::plate::WellStatsOutput>(),
+        SchemaOf::StatsMeasure => out::<openreadout_core::measure::MeasureOutput>(),
+        SchemaOf::Trace => out::<openreadout_core::trace::TraceSlice>(),
+        SchemaOf::Table => out::<openreadout_core::model::TableSlice>(),
+        SchemaOf::Scans => out::<openreadout_core::ScanList>(),
+        SchemaOf::Spectrum => out::<SpectrumOutput>(),
+        SchemaOf::Peaks => out::<openreadout_quant::analyze::PeaksOutput>(),
+        SchemaOf::Chromatogram => out::<openreadout_quant::extract::ChromatogramOutput>(),
+        SchemaOf::NmrPeaks => out::<openreadout_signal::nmr::NmrReport>(),
+        SchemaOf::EphysFeatures => out::<openreadout_signal::ephys::CellReport>(),
+        SchemaOf::Spikes => out::<openreadout_signal::ephys::SpikesReport>(),
+        SchemaOf::Qpcr => out::<openreadout_qpcr::QpcrReport>(),
+        SchemaOf::Assay => out::<openreadout_assay::AssayOutput>(),
+        SchemaOf::Gate => out::<openreadout_core::flow::GateOutput>(),
+        SchemaOf::BatchTable => out::<openreadout_batch::BatchOutput>(),
+        SchemaOf::Summarize => out::<summarize::SummarizeOutput>(),
+        SchemaOf::Plot => out::<super::plot::PlotReport>(),
+        SchemaOf::Link => out::<openreadout_batch::LinkOutput>(),
+        SchemaOf::Index => out::<openreadout_index::IndexManifest>(),
+        SchemaOf::Search => out::<openreadout_index::SearchOutput>(),
+        SchemaOf::Health => out::<openreadout_index::HealthReport>(),
+        SchemaOf::ExportDataset => out::<openreadout_index::ExportDatasetReport>(),
+        SchemaOf::Watch => out::<openreadout_live::watch::WatchEvent>(),
+        SchemaOf::Formats => out::<FormatsOutput>(),
+        SchemaOf::Doctor => out::<doctor::DoctorReport>(),
+        SchemaOf::Envelope => out::<openreadout_core::Envelope<serde_json::Value>>(),
     };
     serde_json::to_string_pretty(&s).expect("schema serializes")
+}
+
+/// The schema of an output type as it is serialized: a field skipped when empty is not required.
+fn out<T: schemars::JsonSchema>() -> schemars::Schema {
+    schemars::generate::SchemaSettings::default()
+        .for_serialize()
+        .into_generator()
+        .into_root_schema_for::<T>()
 }
 
 fn skill(install: Option<SkillTarget>) -> i32 {

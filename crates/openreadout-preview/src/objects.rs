@@ -190,6 +190,9 @@ fn caption(o: &Objects) -> String {
         (Kind::Spots, _) => "spots",
     };
     let mut s = format!("{} {what}", o.count);
+    if o.confidence == openreadout_core::measure::CountConfidence::Low {
+        s.push_str(" · low confidence, check");
+    }
     if o.kind != Kind::Spots
         && let Some(d) = &o.diameter_um
     {

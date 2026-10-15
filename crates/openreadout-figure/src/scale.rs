@@ -260,57 +260,114 @@ impl Scale {
         }
     }
 
-    /// Ticks of an asinh scale: 0, then ±1, ±10, ±100, … and, where those are sparse (the
-    /// near-linear part around zero), the linear ticks of the span; candidates that would sit
-    /// closer than 6 % of the axis to a kept tick are dropped, decades first kept.
+    /// Ticks of an asinh scale, the way flow cytometry axes are read: 0 and the decades on
+    /// both sides (`10²`, `10³`, `−10³`) labelled, the 2–9 multiples between them as unlabelled
+    /// minor ticks. Decades that would crowd the near-linear part around zero (closer than 6 %
+    /// of the axis to a kept label) lose their label. A span too narrow to hold three labelled
+    /// decades gets plain linear ticks instead.
     fn asinh_ticks(&self, a: f64, b: f64) -> Vec<Tick> {
         let inside = |v: f64| v >= a - 1e-9 * a.abs() && v <= b + 1e-9 * b.abs();
-        let mut cands: Vec<(f64, u8)> = vec![(0.0, 0)];
+        let min_gap = self.len() * 0.06;
         let top = a.abs().max(b.abs()).max(1.0).log10().ceil() as i32;
-        for d in (0..=top.min(30)).rev() {
+        // labels: 0 first, then decades from the largest down, so the far decades win
+        let mut cands: Vec<f64> = vec![0.0];
+        for d in (1..=top.min(30)).rev() {
             let v = 10f64.powi(d);
-            cands.push((v, 1));
-            cands.push((-v, 1));
+            cands.push(v);
+            cands.push(-v);
         }
-        let step = nice_step(b - a, 5);
-        if step > 0.0 {
-            let first = (a / step).ceil() as i64;
-            let last = (b / step).floor() as i64;
-            for k in first..=last.min(first.saturating_add(50)) {
-                cands.push((k as f64 * step, 2));
+        let mut kept: Vec<(f64, f32)> = Vec::new();
+        for v in cands.into_iter().filter(|v| inside(*v)) {
+            let Some(px) = self.px(v) else { continue };
+            if kept.iter().all(|(_, q)| (q - px).abs() >= min_gap) {
+                kept.push((v, px));
             }
         }
-        cands.retain(|(v, _)| inside(*v));
-        let min_gap = self.len() * 0.06;
-        let mut kept: Vec<(f64, f32, u8)> = Vec::new();
-        for prio in 0..=2u8 {
-            for &(v, p) in cands.iter().filter(|c| c.1 == prio) {
-                let Some(px) = self.px(v) else { continue };
-                if kept
-                    .iter()
-                    .all(|(w, q, _)| w.to_bits() != v.to_bits() && (q - px).abs() >= min_gap)
-                {
-                    kept.push((v, px, p));
+        if kept.len() < 3 {
+            let lin = Scale {
+                kind: ScaleKind::Linear,
+                ..*self
+            };
+            let step = nice_step(b - a, 5);
+            return lin
+                .ticks(5)
+                .into_iter()
+                .filter_map(|t| {
+                    Some(Tick {
+                        px: self.px(t.value)?,
+                        label: format_tick(t.value, step),
+                        ..t
+                    })
+                })
+                .collect();
+        }
+        let mut out: Vec<Tick> = kept
+            .iter()
+            .map(|&(v, px)| Tick {
+                value: v,
+                px,
+                label: format_power(v),
+                major: true,
+            })
+            .collect();
+        // minor ticks where they are at least 3 px apart
+        for d in 0..=top.min(30) {
+            for m in 2..=9 {
+                for sign in [1.0, -1.0] {
+                    let v = sign * f64::from(m) * 10f64.powi(d);
+                    if !inside(v) {
+                        continue;
+                    }
+                    let (Some(px), Some(next)) = (self.px(v), self.px(v + sign * 10f64.powi(d)))
+                    else {
+                        continue;
+                    };
+                    if (next - px).abs() >= 3.0 {
+                        out.push(Tick {
+                            value: v,
+                            px,
+                            label: String::new(),
+                            major: false,
+                        });
+                    }
                 }
             }
         }
-        kept.sort_by(|x, y| x.0.total_cmp(&y.0));
-        let linear_step = step;
-        kept.into_iter()
-            .map(|(v, px, p)| Tick {
-                value: v,
-                px,
-                label: if p == 2 {
-                    format_tick(v, linear_step)
-                } else if (1000.0..1e4).contains(&v.abs()) {
-                    format!("{}k", format_tick(v / 1000.0, v.abs() / 1000.0))
-                } else {
-                    format_tick(v, v.abs().max(1.0))
-                },
-                major: true,
-            })
-            .collect()
+        out.sort_by(|x, y| x.value.total_cmp(&y.value));
+        out
     }
+}
+
+/// A power of ten as people write it on a flow cytometry axis: `0`, `1`, `10`, `10²`, `10³`,
+/// `−10⁴`. Other values get [`format_value`].
+pub fn format_power(v: f64) -> String {
+    if v == 0.0 {
+        return "0".into();
+    }
+    let a = v.abs();
+    let d = a.log10().round();
+    if !d.is_finite() || (10f64.powf(d) - a).abs() > a * 1e-9 {
+        return format_value(v);
+    }
+    let sign = if v < 0.0 { "−" } else { "" };
+    match d as i32 {
+        0 => format!("{sign}1"),
+        1 => format!("{sign}10"),
+        n => format!("{sign}10{}", superscript(n)),
+    }
+}
+
+/// `n` in superscript digits (`³`, `⁻²`).
+pub fn superscript(n: i32) -> String {
+    const DIGITS: [char; 10] = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
+    let mut s = String::new();
+    if n < 0 {
+        s.push('⁻');
+    }
+    for c in n.unsigned_abs().to_string().chars() {
+        s.push(DIGITS[c.to_digit(10).unwrap_or(0) as usize]);
+    }
+    s
 }
 
 /// The step of the 1-2-5 series that gives about `target` intervals over `span`.
@@ -466,7 +523,7 @@ mod tests {
         };
         let labels: Vec<String> = a.ticks(6).into_iter().map(|t| t.label).collect();
         assert!(
-            labels.contains(&"0".to_string()) && labels.contains(&"100k".to_string()),
+            labels.contains(&"0".to_string()) && labels.contains(&"10⁵".to_string()),
             "{labels:?}"
         );
         assert!((a.value(a.px(1234.0).unwrap()) - 1234.0).abs() < 0.01);

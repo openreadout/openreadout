@@ -118,7 +118,19 @@ pub(crate) fn render(
     req: &PreviewRequest,
     out: &mut PreviewOutput,
 ) -> Result<(Figure, Frame)> {
-    let ti = req.trace.unwrap_or(0);
+    // by default a processed spectrum (a ppm axis) before the FID it came from
+    let ti = req.trace.unwrap_or_else(|| {
+        info.traces
+            .iter()
+            .find(|t| {
+                t.extra
+                    .get("axis")
+                    .and_then(|a| a.get("unit"))
+                    .and_then(serde_json::Value::as_str)
+                    .is_some_and(|u| u.contains("ppm"))
+            })
+            .map_or(0, |t| t.index)
+    });
     let sweep = req.sweep.unwrap_or(0);
     let t = find_trace(info, ti)?;
     if sweep >= t.sweep_count {
@@ -138,7 +150,15 @@ pub(crate) fn render(
     // An irregular abscissa stored as a channel (a grating spectrometer's Raman-shift list, a
     // peak table's x) is the x axis, not a signal to draw.
     let xch = x_channel(&t).filter(|c| (*c as usize) < nch && nch > 1);
-    let channels: Vec<u32> = if req.channels.is_empty() {
+    // a processed NMR spectrum is read in its real part; the imaginary part is for phasing
+    let real_only = t.extra.get("kind").and_then(serde_json::Value::as_str)
+        == Some("processed_spectrum")
+        && t.channels.iter().any(|c| c.name == "imag");
+    let channels: Vec<u32> = if req.channels.is_empty() && real_only {
+        out.notes
+            .push("showing the real part; channels=[1] shows the imaginary part".into());
+        vec![0]
+    } else if req.channels.is_empty() {
         let signal: Vec<u32> = (0..nch as u32).filter(|c| xch != Some(*c)).collect();
         if signal.len() > DEFAULT_CHANNELS {
             out.notes.push(format!(
@@ -454,7 +474,7 @@ pub(crate) fn render(
         x_axis: Some(ax),
         channels: report,
     });
-    Ok((fig, Frame::plots(panels)))
+    Ok((fig, Frame::plots_labelled(panels, placer.taken())))
 }
 
 /// The envelope of `cols` as a line in `panel`'s pixels: each column's first, extremes and

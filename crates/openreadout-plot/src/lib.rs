@@ -7,7 +7,7 @@
 //! small multiples, plate positions, shared and log axes, bands, lines, labelled points, arrows.
 //! [`plot`] reads the data through the readers and analyses, picks chart types, ranges, units and
 //! labels from it, and draws the figure with `openreadout-figure` in the OpenReadout look. The
-//! result is the [`Figure`] (PNG, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
+//! result is the [`Figure`] (save it with [`write`] as PNG, JPEG, TIFF, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
 //!
 //! ```no_run
 //! use openreadout_core::Registry;
@@ -30,15 +30,17 @@ mod load;
 mod model;
 mod output;
 mod pdf;
+mod save;
 mod spec;
 
-use std::path::Path;
-
 use openreadout_core::{Error, Registry, Result};
-use openreadout_figure::{Anchor, Baseline, Face, Figure, Rect, TextStyle, Theme};
+use openreadout_figure::{Anchor, Baseline, Color, Face, Figure, Rect, TextStyle, Theme};
 use serde_json::Value;
 
-pub use output::{AxisOutput, Marked, PanelOutput, PlotOutput, SeriesOutput, WrittenFile};
+pub use output::{AxisOutput, Marked, PanelOutput, PlotOutput, SeriesOutput};
+pub use save::{
+    DEFAULT_SCALE, EXTENSIONS, FileFormat, MAX_SCALE, SaveOptions, WrittenFile, encode, write,
+};
 pub use spec::{
     Annotation, AxisSpec, ColorBy, ColorRule, Facet, InlineValues, Legend, MarkKind, OneOrMany,
     PanelItem, PanelSpec, PlotSpec, SeriesSpec, Share, Show, Spread, Subtract, ThemeName,
@@ -56,25 +58,17 @@ pub struct Plotted {
     pub figure: Figure,
     /// What was drawn.
     pub output: PlotOutput,
-    /// Per panel: its pixel rectangle, axis ranges and thinned series, for hover read-outs.
+    /// Per plot panel (each facet too): its pixel rectangle, axis ranges and thinned series, for
+    /// the viewer's hover read-outs.
     pub hover: Value,
 }
 
 /// Fields of [`PlotSpec`] and [`PanelSpec`] at the top level, and of a `panels` item.
 const TOP_KEYS: &[&str] = &[
-    "title",
-    "caption",
-    "panels",
-    "columns",
-    "share",
-    "width",
-    "height",
-    "theme",
-    "output",
-    "overwrite",
-    "strict",
+    "title", "caption", "panels", "columns", "share", "width", "height", "theme", "strict",
 ];
 const PANEL_KEYS: &[&str] = &[
+    "file",
     "data",
     "facet",
     "x",
@@ -86,29 +80,45 @@ const PANEL_KEYS: &[&str] = &[
     "stack",
 ];
 
-/// Parse a plot spec from JSON, refusing unknown keys with the list of known ones.
+/// Parse a plot spec from JSON, refusing unknown keys with the list of known ones and saying
+/// where a misplaced key belongs.
 pub fn parse_spec(v: Value) -> Result<PlotSpec> {
     if let Value::Object(m) = &v {
         for k in m.keys() {
+            if matches!(k.as_str(), "output" | "overwrite" | "scale" | "dpi") {
+                return Err(Error::Usage(format!(
+                    "`{k}` is not part of a plot: a plot only draws. Save the figure with openreadout_export, plot = these arguments without `{k}`, output = FILE ({EXTENSIONS}); on the command line, `openreadout plot SPEC -o FILE`"
+                )));
+            }
             if !TOP_KEYS.contains(&k.as_str()) && !PANEL_KEYS.contains(&k.as_str()) {
                 return Err(Error::Usage(format!(
-                    "unknown plot argument `{k}`; known: {}, {}",
+                    "unknown plot argument `{k}`{}; known: {}, {}",
+                    series_key_note(k),
                     PANEL_KEYS.join(", "),
                     TOP_KEYS.join(", ")
                 )));
             }
         }
+        if let Some(d) = m.get("data") {
+            check_data("data", d)?;
+        }
+        check_panel_parts("", m)?;
         if let Some(Value::Array(ps)) = m.get("panels") {
             for (i, p) in ps.iter().enumerate() {
                 if let Value::Object(pm) = p {
                     for k in pm.keys() {
                         if k != "title" && !PANEL_KEYS.contains(&k.as_str()) {
                             return Err(Error::Usage(format!(
-                                "panels[{i}]: unknown key `{k}`; a panel takes title, {}",
+                                "panels[{i}]: unknown key `{k}`{}; a panel takes title, {}",
+                                series_key_note(k),
                                 PANEL_KEYS.join(", ")
                             )));
                         }
                     }
+                    if let Some(d) = pm.get("data") {
+                        check_data(&format!("panels[{i}].data"), d)?;
+                    }
+                    check_panel_parts(&format!("panels[{i}]."), pm)?;
                 }
             }
         }
@@ -116,19 +126,118 @@ pub fn parse_spec(v: Value) -> Result<PlotSpec> {
     serde_json::from_value(v).map_err(|e| Error::Usage(format!("plot spec: {e}")))
 }
 
+/// Check a panel's axes and annotations on their own, so that an error names the key.
+fn check_panel_parts(at: &str, m: &serde_json::Map<String, Value>) -> Result<()> {
+    for axis in ["x", "y"] {
+        if let Some(v) = m.get(axis) {
+            serde_json::from_value::<AxisSpec>(v.clone())
+                .map_err(|e| Error::Usage(format!("{at}{axis}: {e}")))?;
+        }
+    }
+    if let Some(Value::Array(a)) = m.get("annotate") {
+        for (i, v) in a.iter().enumerate() {
+            serde_json::from_value::<Annotation>(v.clone())
+                .map_err(|e| Error::Usage(format!("{at}annotate[{i}]: {e}")))?;
+        }
+    }
+    Ok(())
+}
+
+/// For a key that belongs to a series, where to put it.
+fn series_key_note(k: &str) -> String {
+    let series = serde_json::to_value(schemars::schema_for!(SeriesSpec)).unwrap_or_default();
+    if series["properties"].get(k).is_some() {
+        format!(" (`{k}` describes a series: put it in `data`, as in {{\"data\": {{\"{k}\": …}}}})")
+    } else {
+        String::new()
+    }
+}
+
+/// Check each series of a `data` value on its own, so that an error names the series and says
+/// where a misplaced key goes.
+fn check_data(at: &str, data: &Value) -> Result<()> {
+    let items: Vec<(String, &Value)> = match data {
+        Value::Array(a) => a
+            .iter()
+            .enumerate()
+            .map(|(i, x)| (format!("{at}[{i}]"), x))
+            .collect(),
+        x => vec![(at.to_string(), x)],
+    };
+    for (at, item) in items {
+        if let Value::Object(m) = item {
+            for axis in ["x", "y"] {
+                if m.get(axis).is_some_and(Value::is_object) {
+                    return Err(Error::Usage(format!(
+                        "{at}.{axis} names a column, FCS parameter or f–I measure; axis settings (label, range, log, unit) go on the panel, next to `data`: {{\"{axis}\": {{\"label\": …}}}}"
+                    )));
+                }
+            }
+            for k in ["title", "caption", "annotate", "facet", "legend", "panels"] {
+                if m.contains_key(k) {
+                    return Err(Error::Usage(format!(
+                        "{at}: `{k}` belongs on the panel or the figure, next to `data`, not inside it"
+                    )));
+                }
+            }
+        }
+        serde_json::from_value::<SeriesSpec>(item.clone())
+            .map_err(|e| Error::Usage(format!("{at}: {e}")))?;
+    }
+    Ok(())
+}
+
+/// Give the series of a panel that name no data the panel's (or the figure's) `file`; a panel
+/// with a file and no `data` draws that file's default view.
+fn with_default_file(ps: &mut PanelSpec, figure: Option<&OneOrMany<String>>) {
+    let Some(file) = ps.file.clone().or_else(|| figure.cloned()) else {
+        return;
+    };
+    let named = |s: &SeriesSpec| s.file.is_some() || s.table.is_some() || s.values.is_some();
+    ps.data = Some(match ps.data.take() {
+        None => OneOrMany::One(SeriesSpec {
+            file: Some(file),
+            ..SeriesSpec::default()
+        }),
+        Some(d) => OneOrMany::Many(
+            d.to_vec()
+                .into_iter()
+                .map(|mut s| {
+                    if !named(&s) {
+                        s.file = Some(file.clone());
+                    }
+                    s
+                })
+                .collect(),
+        ),
+    });
+}
+
 fn theme_for(spec: &PlotSpec) -> Theme {
-    match spec.theme.unwrap_or_default() {
+    let mut t = match spec.theme.unwrap_or_default() {
         ThemeName::Light => Theme::light(),
         ThemeName::Dark => Theme::dark(),
+    };
+    if let Some(p) = spec
+        .paper
+        .as_deref()
+        .and_then(Color::parse)
+        .map(|c| c.alpha(1.0))
+    {
+        // cards (small multiples, plate wells) stay a shade off the ground
+        t.panel = p.mix(t.ink, 0.03);
+        t.paper = p;
     }
+    t
 }
 
 /// Read the data a spec names and draw the figure.
 pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
-    let panels: Vec<(Option<String>, PanelSpec)> = if spec.panels.is_empty() {
-        if spec.panel.data.is_none() {
+    let mut panels: Vec<(Option<String>, PanelSpec)> = if spec.panels.is_empty() {
+        if spec.panel.data.is_none() && spec.panel.file.is_none() {
             return Err(Error::Usage(
-                "nothing to plot: give `data` (a series or a list of them), or `panels`".into(),
+                "nothing to plot: give `data` (a series or a list of them), `file`, or `panels`"
+                    .into(),
             ));
         }
         vec![(None, spec.panel.clone())]
@@ -143,6 +252,9 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             .map(|p| (p.title.clone(), p.panel.clone()))
             .collect()
     };
+    for (_, ps) in &mut panels {
+        with_default_file(ps, spec.panel.file.as_ref());
+    }
     // a lone dot plot reads best near square
     let lone_events = panels.len() == 1
         && panels[0].1.data.as_ref().is_some_and(|d| {
@@ -225,10 +337,20 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     let fs = theme.font_size;
     let margin = (fs * 1.3).round();
     let title_h = if spec.title.is_some() { fs * 2.6 } else { 0.0 };
-    let caption_h = if spec.caption.is_some() {
-        fs * 2.0
-    } else {
+    // a long caption wraps to the figure's width
+    let caption_lines = spec.caption.as_deref().map_or_else(Vec::new, |c| {
+        wrap_words(
+            c,
+            theme.small_size(),
+            width - 2.0 * margin,
+            TextStyle::new(theme.small_size(), theme.muted).face,
+        )
+    });
+    let caption_lh = theme.small_size() * 1.35;
+    let caption_h = if caption_lines.is_empty() {
         0.0
+    } else {
+        fs * 2.0 + caption_lh * (caption_lines.len() as f32 - 1.0)
     };
     let gap = fs * 2.2;
     let inner_w = width - 2.0 * margin;
@@ -272,23 +394,33 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     };
     let mut hover = Vec::new();
     let mut y = margin + title_h;
-    let mut it = ins.into_iter();
+    let mut it = ins.into_iter().enumerate();
     for h in &row_h {
         let rh = h * k;
         for c in 0..cols {
-            let Some(p) = it.next() else { break };
+            let Some((index, p)) = it.next() else { break };
             let x = margin + c as f32 * (col_w + gap);
             let drawn =
                 draw::draw_panel(&mut fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)?;
             out.panels.push(drawn.summary);
-            hover.push(Value::Array(drawn.hover));
+            // which spec panel each hover panel (a facet, a well) belongs to, for the viewer's zoom
+            hover.extend(drawn.hover.into_iter().map(|mut v| {
+                if let Value::Object(m) = &mut v {
+                    m.insert("spec_panel".into(), Value::from(index));
+                }
+                v
+            }));
         }
         y += rh + gap;
     }
-    if let Some(c) = &spec.caption {
+    if !caption_lines.is_empty() {
         let st = TextStyle::new(theme.small_size(), theme.muted)
             .align(Anchor::Start, Baseline::Alphabetic);
-        fig.text(margin, height - margin * 0.75, c, &st);
+        let last = caption_lines.len() as f32 - 1.0;
+        for (i, line) in caption_lines.iter().enumerate() {
+            let y = height - margin * 0.75 - caption_lh * (last - i as f32);
+            fig.text(margin, y, line, &st);
+        }
     }
     out.files = files;
     out.inline_series = inline_series;
@@ -301,6 +433,28 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         output: out,
         hover: Value::Array(hover),
     })
+}
+
+/// Break `text` into lines at most `max_w` pixels wide, at spaces.
+fn wrap_words(text: &str, size: f32, max_w: f32, face: Face) -> Vec<String> {
+    let mut lines: Vec<String> = Vec::new();
+    let mut cur = String::new();
+    for word in text.split_whitespace() {
+        let trial = if cur.is_empty() {
+            word.to_string()
+        } else {
+            format!("{cur} {word}")
+        };
+        if !cur.is_empty() && openreadout_figure::text_width(&trial, face, size) > max_w {
+            lines.push(std::mem::replace(&mut cur, word.to_string()));
+        } else {
+            cur = trial;
+        }
+    }
+    if !cur.is_empty() {
+        lines.push(cur);
+    }
+    lines
 }
 
 /// One data item that gives several series (wells, files) is named once, by its label.
@@ -356,79 +510,7 @@ fn share_axes(ins: &mut [draw::PanelIn], share: Option<Share>) -> Result<()> {
     Ok(())
 }
 
-/// Encodings for `output`.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum FileFormat {
-    /// PNG at 2× the pixel size.
-    Png,
-    /// SVG (vector; text as text in IBM Plex).
-    Svg,
-    /// PDF (vector; text as outlines).
-    Pdf,
-}
-
-impl FileFormat {
-    /// From a path's extension.
-    pub fn from_path(p: &Path) -> Result<FileFormat> {
-        match p
-            .extension()
-            .and_then(|e| e.to_str())
-            .map(str::to_ascii_lowercase)
-            .as_deref()
-        {
-            Some("png") => Ok(FileFormat::Png),
-            Some("svg") => Ok(FileFormat::Svg),
-            Some("pdf") => Ok(FileFormat::Pdf),
-            _ => Err(Error::Usage(format!(
-                "output `{}`: name it .png, .svg or .pdf",
-                p.display()
-            ))),
-        }
-    }
-
-    /// `png`, `svg` or `pdf`.
-    pub fn as_str(self) -> &'static str {
-        match self {
-            FileFormat::Png => "png",
-            FileFormat::Svg => "svg",
-            FileFormat::Pdf => "pdf",
-        }
-    }
-}
-
 /// The figure as a PDF document (vector, one page the size of the figure at 72 px per inch).
 pub fn to_pdf(fig: &Figure) -> Vec<u8> {
-    pdf::pdf(fig)
-}
-
-/// Encode `fig` as `format`.
-pub fn encode(fig: &Figure, format: FileFormat) -> Result<Vec<u8>> {
-    Ok(match format {
-        FileFormat::Png => fig.to_png(2.0)?,
-        FileFormat::Svg => fig.to_svg().into_bytes(),
-        FileFormat::Pdf => to_pdf(fig),
-    })
-}
-
-/// Write the figure to `path` (format from the extension) through a temporary file that is read
-/// back and compared before it is renamed into place.
-pub fn write(fig: &Figure, path: &Path, overwrite: bool) -> Result<WrittenFile> {
-    let format = FileFormat::from_path(path)?;
-    let bytes = encode(fig, format)?;
-    openreadout_assay::write_verified(path, &bytes, overwrite)?;
-    Ok(WrittenFile {
-        path: path.display().to_string(),
-        format: format.as_str().into(),
-        bytes: bytes.len() as u64,
-        verified: true,
-    })
-}
-
-/// Plot and, when the spec names an `output`, write it.
-pub fn run(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
-    let mut p = plot(reg, spec)?;
-    if let Some(o) = &spec.output {
-        p.output.output = Some(write(&p.figure, Path::new(o), spec.overwrite)?);
-    }
-    Ok(p)
+    pdf::pdf(fig, 1.0)
 }

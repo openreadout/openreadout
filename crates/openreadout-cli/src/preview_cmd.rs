@@ -18,8 +18,8 @@ pub struct PreviewArgs {
     pub file: PathBuf,
     #[command(flatten)]
     pub process: crate::commands::nmr::ProcessArgs,
-    /// Output file (`.png`, `.jpg` or `.svg`); `-` writes the image to stdout. Default:
-    /// `<input stem>.preview.png` next to the input.
+    /// Output file (`.png`, `.jpg`, `.svg`, or `.tiff` and `.pdf` for print); `-` writes the
+    /// image to stdout. Default: `<input stem>.preview.png` next to the input.
     #[arg(short, long)]
     pub output: Option<PathBuf>,
     /// Image index (see `info`). Default 0.
@@ -44,10 +44,17 @@ pub struct PreviewArgs {
     #[arg(long, value_name = "X,Y,W,H")]
     pub region: Option<String>,
     /// Image previews: `rulers` (coordinate rulers in full-resolution pixels and a scale bar),
-    /// `grid` (rulers plus faint grid lines over the data at the ruler ticks) or `none` (the
-    /// bare downsampled plane).
-    #[arg(long, default_value = "rulers", value_name = "rulers|grid|none")]
-    pub axes: String,
+    /// `grid` (rulers plus faint grid lines over the data at the ruler ticks), `scale-bar` (a
+    /// figure for people: the picture, a scale bar, `--title` and `--caption`) or `none` (the
+    /// bare downsampled plane). Default: rulers, or scale-bar with a title or caption.
+    #[arg(long, value_name = "rulers|grid|scale-bar|none")]
+    pub axes: Option<String>,
+    /// Image previews: a title above the picture (with `--axes scale-bar`).
+    #[arg(long)]
+    pub title: Option<String>,
+    /// Image previews: a caption under the picture (with `--axes scale-bar`).
+    #[arg(long)]
+    pub caption: Option<String>,
     /// Longest side of the output in pixels (16..=8192), rulers included.
     #[arg(long, default_value_t = openreadout_preview::DEFAULT_PREVIEW_SIZE)]
     pub max_size: u32,
@@ -114,6 +121,13 @@ pub struct PreviewArgs {
     /// Draw in the dark theme.
     #[arg(long)]
     pub dark: bool,
+    /// Pixels per preview pixel (0.25 to 8): plots are drawn again at that size, images are
+    /// read again at `--max-size` × scale, so text, marks and pixels stay sharp in print.
+    #[arg(long)]
+    pub scale: Option<f32>,
+    /// Print resolution: recorded in .png, .jpg and .tiff files; the page size of .svg and .pdf.
+    #[arg(long)]
+    pub dpi: Option<u32>,
     /// Replace an existing output file.
     #[arg(long)]
     pub overwrite: bool,
@@ -162,7 +176,15 @@ impl PreviewArgs {
                 None => Vec::new(),
             };
             preview_request.dark = self.dark;
-            self.axes.parse::<Axes>()?.apply(&mut preview_request);
+            preview_request.title.clone_from(&self.title);
+            preview_request.caption.clone_from(&self.caption);
+            let text = self.title.is_some() || self.caption.is_some();
+            match &self.axes {
+                Some(a) => a.parse::<Axes>()?,
+                None if text => Axes::ScaleBar,
+                None => Axes::Rulers,
+            }
+            .apply(&mut preview_request);
             preview_request
         })
     }
@@ -209,10 +231,40 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
             .filter(|_| !to_stdout)
             .map_or(Encoding::Png, Encoding::from_path),
     };
+    // .tiff, .pdf, --scale and --dpi go through the figure writer
+    let figure_file = !to_stdout
+        && (a.scale.is_some()
+            || a.dpi.is_some()
+            || a.output.as_deref().is_some_and(|o| {
+                matches!(
+                    openreadout_plot::FileFormat::from_path(o),
+                    Ok(openreadout_plot::FileFormat::Tiff | openreadout_plot::FileFormat::Pdf)
+                )
+            }));
+    if figure_file && let Some(o) = &a.output {
+        openreadout_plot::FileFormat::from_path(o)?;
+    }
     let (_, ds) = reg.open(&a.file)?;
     let mut ds = a.process.wrap(ds)?;
     let info = ds.info()?;
     let rendered = render(ds.as_mut(), &info, &req)?;
+    if figure_file {
+        let scale = a.scale.unwrap_or(1.0);
+        let check = openreadout_plot::SaveOptions {
+            scale,
+            ..openreadout_plot::SaveOptions::default()
+        };
+        check.check()?;
+        if rendered.output.kind == "image" && (scale - 1.0).abs() > f32::EPSILON {
+            // read the image again at the size it is saved at, so its pixels are real
+            let mut big = req.clone();
+            big.max_size = ((req.max_size as f32 * scale).round() as u32)
+                .clamp(16, openreadout_preview::MAX_PREVIEW_SIZE);
+            let r = render(ds.as_mut(), &info, &big)?;
+            return save_figure(a, &r, 1.0).map(|o| (o, None));
+        }
+        return save_figure(a, &rendered, scale).map(|o| (o, None));
+    }
     let (mut out, bytes) = finish(&rendered, encoding, a.quality)?;
     if to_stdout {
         return Ok((out, Some(bytes)));
@@ -225,6 +277,42 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
     out.output = Some(output.display().to_string());
     out.hint = Some(look_hint(&out, &output.display().to_string()));
     Ok((out, None))
+}
+
+/// Write the preview through the figure writer: TIFF and PDF, a pixel scale, a print resolution.
+fn save_figure(
+    a: &PreviewArgs,
+    r: &openreadout_preview::Rendered,
+    scale: f32,
+) -> Result<PreviewOutput> {
+    let output = a
+        .output
+        .clone()
+        .unwrap_or_else(|| default_output(&a.file, Encoding::Png));
+    if output == a.file
+        || std::fs::canonicalize(&output).ok() == std::fs::canonicalize(&a.file).ok()
+    {
+        return Err(Error::Usage(
+            "output path must differ from the input; raw files are never modified".into(),
+        ));
+    }
+    let opts = openreadout_plot::SaveOptions {
+        scale,
+        dpi: a.dpi,
+        overwrite: a.overwrite,
+    };
+    let w = openreadout_plot::write(&r.figure, &output, &opts)?;
+    let mut out = r.output.clone();
+    out.encoding = w.format.clone();
+    out.width = w.width;
+    out.height = w.height;
+    out.bytes = w.bytes;
+    out.verified = w.verified;
+    let written = std::fs::read(&output).map_err(|e| Error::io(&output, e))?;
+    out.xxh3 = format!("{:032x}", xxhash_rust::xxh3::xxh3_128(&written));
+    out.output = Some(w.path.clone());
+    out.hint = Some(look_hint(&out, &w.path));
+    Ok(out)
 }
 
 /// How to look at the written picture, and how to zoom into it.
@@ -274,6 +362,15 @@ fn human(o: &PreviewOutput) -> String {
         format!(
             "spectrum {} (scan {}, MS{}, {} points, {})",
             s.index, s.scan_number, s.ms_level, s.point_count, s.style
+        )
+    } else if let Some(c) = &o.chromatogram {
+        format!(
+            "{} of run {} ({} MS1 scans of {}), apex at {:.2} min",
+            c.signal.to_uppercase(),
+            c.run,
+            c.ms1_scans,
+            c.scans,
+            c.apex_rt_min
         )
     } else if let Some(p) = &o.plate {
         format!(

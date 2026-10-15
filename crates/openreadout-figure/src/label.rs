@@ -39,6 +39,11 @@ impl LabelPlacer {
         self.taken.push(r);
     }
 
+    /// Everything placed or reserved so far.
+    pub fn taken(&self) -> &[Rect] {
+        &self.taken
+    }
+
     /// True when `r` lies inside the bounds and overlaps nothing reserved.
     pub fn free(&self, r: &Rect) -> bool {
         self.bounds.contains_rect(r) && !self.taken.iter().any(|t| t.intersects(r))

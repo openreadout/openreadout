@@ -867,6 +867,15 @@ pub fn index(
         ));
     }
     let mut notes = root_notes;
+    let links = stats.walk.symlinks_skipped;
+    if links > 0 {
+        notes.push(format!(
+            "{links} symbolic link{} to a directory {} not crawled; pass --follow-symlinks to crawl {}.",
+            if links == 1 { "" } else { "s" },
+            if links == 1 { "was" } else { "were" },
+            if links == 1 { "it" } else { "them" },
+        ));
+    }
     if let Some(n) = manifest.next.take() {
         notes.push(n);
     }

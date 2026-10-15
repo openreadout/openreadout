@@ -19,7 +19,7 @@ openreadout_preview(
 selection such as \code{"c=1"} or \code{"c=0,1,z=2"}, as in the CLI), \code{mip} (\code{"z"}, \code{"t"}),
 \code{composite}, \code{level}, \code{region} (\code{c(x, y, width, height)}, \code{x} and \code{y} from 1 as in
 \code{\link[=openreadout_read_image]{openreadout_read_image()}}), \code{max_size} (default 1024), \code{axes} (\code{"rulers"}, \code{"grid"},
-\code{"none"}), \code{contrast}, \code{lut}, \code{trace}, \code{sweep}, \code{channels}, \code{run}, \code{spectrum}, \code{scan},
+\code{"scale-bar"}, \code{"none"}), \code{title}, \code{caption}, \code{contrast}, \code{lut}, \code{trace}, \code{sweep}, \code{channels}, \code{run}, \code{spectrum}, \code{scan},
 \code{centroid}, \code{table}, \code{columns}, \code{marks} (\code{"auto"}, \code{"peaks"}, \code{"spikes"}, \code{"none"}),
 \code{annotations} and \code{dark}. Indices (\code{image}, \code{trace}, \code{sweep}, \code{channels}, \code{run},
 \code{spectrum}, \code{table}) start at 1.}

@@ -234,3 +234,52 @@ fn watch_reports_each_plane_once_and_completion() {
     let seqs: Vec<u64> = events.iter().map(|e| e.seq).collect();
     assert!(seqs.windows(2).all(|w| w[1] == w[0] + 1));
 }
+
+/// Lab shares are often folders of links to the instrument's files: a link to a file is
+/// watched like the file, a link to a directory only with `follow_symlinks` (and counted
+/// otherwise), and a link back to a parent does not make the walk loop.
+#[cfg(unix)]
+#[test]
+fn watch_follows_links_to_files_and_counts_links_to_directories() {
+    let reg = registry();
+    let d = tmp();
+    let data = d.path().join("data");
+    std::fs::create_dir_all(data.join("more")).unwrap();
+    std::fs::write(data.join("a.ome.tif"), ome_tiff(16, 8, 2)).unwrap();
+    std::fs::write(data.join("more/b.ome.tif"), ome_tiff(16, 8, 2)).unwrap();
+    let lab = d.path().join("lab");
+    std::fs::create_dir(&lab).unwrap();
+    std::os::unix::fs::symlink(data.join("a.ome.tif"), lab.join("a.ome.tif")).unwrap();
+    std::os::unix::fs::symlink(data.join("more"), lab.join("more")).unwrap();
+    std::os::unix::fs::symlink(&lab, lab.join("loop")).unwrap();
+    let new_paths = |follow: bool| {
+        let mut o = WatchOptions::default();
+        o.roots.push(lab.clone());
+        o.trust_first_look = true;
+        o.follow_symlinks = follow;
+        let mut w = Watcher::new(o);
+        let mut events = Vec::new();
+        w.poll(&reg, &mut |e| events.push(e));
+        let mut paths: Vec<String> = events
+            .iter()
+            .filter(|e| e.event == EventKind::DatasetNew)
+            .map(|e| {
+                Path::new(&e.path)
+                    .strip_prefix(&lab)
+                    .unwrap()
+                    .display()
+                    .to_string()
+            })
+            .collect();
+        paths.sort();
+        (paths, w.links_skipped())
+    };
+    assert_eq!(new_paths(false), (vec!["a.ome.tif".to_string()], 2));
+    let (followed, skipped) = new_paths(true);
+    assert_eq!(skipped, 0);
+    assert!(followed.contains(&"a.ome.tif".to_string()), "{followed:?}");
+    assert!(
+        followed.contains(&"more/b.ome.tif".to_string()),
+        "{followed:?}"
+    );
+}

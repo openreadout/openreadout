@@ -251,7 +251,13 @@
       },
       "required": [
         "count",
-        "finite"
+        "finite",
+        "min",
+        "max",
+        "mean",
+        "std",
+        "argmin",
+        "argmax"
       ]
     }
   }

@@ -538,8 +538,14 @@ impl Panel {
         );
     }
 
-    /// Vertical bars centred on `x`, `width` data units wide, from `base` to `y`.
+    /// Vertical bars centred on `x`, `width` data units wide, from `base` to `y`. On a log axis,
+    /// where zero has no position, a base at or below zero is the bottom of the axis.
     pub fn bars(&self, fig: &mut Figure, bars: &[(f64, f64)], width: f64, base: f64, fill: Color) {
+        let base = if self.y.kind == ScaleKind::Log && base <= 0.0 {
+            self.y.lo.min(self.y.hi)
+        } else {
+            base
+        };
         for &(x, y) in bars {
             self.rect_data(
                 fig,
@@ -885,23 +891,94 @@ pub struct EndLabel {
     pub color: Color,
 }
 
-/// Direct labels to the right of `x` (pixels), spread so they do not overlap, each joined to
-/// its line's end by a short leader when it had to move.
+/// Direct labels to the right of `x` (pixels), one line of type apart, kept between `lo` and
+/// `hi` when they fit (a stack taller than that grows upwards past `lo`). When any label had to
+/// move off its line's end, every label steps out a little further and the moved ones get an
+/// elbow leader: level with the line's end, a slanted run, level again into the label, so a
+/// crowded stack still reads line by line.
 pub fn end_labels(fig: &mut Figure, theme: &Theme, x: f32, labels: &[EndLabel], lo: f32, hi: f32) {
     let fs = theme.font_size;
-    let ys: Vec<f32> = labels.iter().map(|l| l.y).collect();
-    let pos = spread(&ys, fs * 1.15, lo, hi);
+    let (tx, pos) = end_label_layout(theme, x, labels, lo, hi);
+    let moved = |a: f32, b: f32| (a - b).abs() > fs * 0.25;
+    let any_moved = tx > x + fs;
     for (l, &y) in labels.iter().zip(&pos) {
-        let tx = x + fs * 0.9;
-        if (y - l.y).abs() > fs * 0.3 {
+        if moved(l.y, y) {
+            let run = fs * 0.3;
             fig.stroke(
-                Path::polyline([(x + 2.0, l.y), (tx - 3.0, y)]),
-                Stroke::new(l.color.alpha(0.6), theme.hairline()),
+                Path::polyline([
+                    (x + 2.0, l.y),
+                    (x + 2.0 + run, l.y),
+                    (tx - run - 2.0, y),
+                    (tx - 3.0, y),
+                ]),
+                Stroke::new(l.color.alpha(0.55), theme.hairline()),
+            );
+        } else if any_moved {
+            fig.stroke(
+                Path::segment(x + 2.0, l.y, tx - 3.0, y),
+                Stroke::new(l.color.alpha(0.55), theme.hairline()),
             );
         }
         let st = TextStyle::new(fs, l.color).align(Anchor::Start, Baseline::Middle);
         fig.text(tx, y, &l.text, &st);
     }
+}
+
+/// Where [`end_labels`] puts its text: the left edge, and each label's y in input order.
+fn end_label_layout(
+    theme: &Theme,
+    x: f32,
+    labels: &[EndLabel],
+    lo: f32,
+    hi: f32,
+) -> (f32, Vec<f32>) {
+    let fs = theme.font_size;
+    let gap = fs * 1.3;
+    let ys: Vec<f32> = labels.iter().map(|l| l.y).collect();
+    let need = gap * labels.len().saturating_sub(1) as f32;
+    let lo = lo.min(hi - need).max(fs * 0.6);
+    let pos = spread(&ys, gap, lo, hi);
+    let any_moved = labels
+        .iter()
+        .zip(&pos)
+        .any(|(l, &y)| (l.y - y).abs() > fs * 0.25);
+    let tx = x + if any_moved { fs * 1.6 } else { fs * 0.5 };
+    (tx, pos)
+}
+
+/// The space each label of [`end_labels`] takes, with the same arguments: its text, its
+/// leader, and the last stretch of its line inside the panel (`reach` pixels left of `x`).
+/// Other labels (peaks, callouts) keep off these boxes, so a figure's labels form one set
+/// that does not collide.
+pub fn end_label_boxes(
+    theme: &Theme,
+    x: f32,
+    labels: &[EndLabel],
+    lo: f32,
+    hi: f32,
+    reach: f32,
+) -> Vec<Rect> {
+    let fs = theme.font_size;
+    let (tx, pos) = end_label_layout(theme, x, labels, lo, hi);
+    labels
+        .iter()
+        .zip(&pos)
+        .map(|(l, &y)| {
+            let w = text_width_of(&l.text, fs);
+            let top = l.y.min(y) - fs * 0.7;
+            let bottom = l.y.max(y) + fs * 0.7;
+            Rect::new(x - reach, top, tx + w - (x - reach), bottom - top)
+        })
+        .collect()
+}
+
+fn text_width_of(text: &str, fs: f32) -> f32 {
+    font::text_width(text, Face::Sans, fs)
+}
+
+/// How far right of the panel [`end_labels`] puts its text, at most (room to reserve).
+pub fn end_label_indent(theme: &Theme) -> f32 {
+    theme.font_size * 1.6
 }
 
 /// A row of keys (a short line or block in each colour, then its text) starting at `(x, y)`
@@ -942,6 +1019,98 @@ pub fn key_row(
         cx += w + fs * 1.2;
     }
     used
+}
+
+/// Height of [`key_row`]'s rows for `items` wrapped inside `max_w`, without drawing.
+pub fn key_row_height(theme: &Theme, max_w: f32, items: &[(Color, String)]) -> f32 {
+    let fs = theme.font_size;
+    let st = TextStyle::new(fs, theme.ink);
+    let sw = fs * 1.1;
+    let (mut cx, mut rows) = (0.0f32, 1usize);
+    for (_, t) in items {
+        let w = sw + fs * 0.4 + st.width(t);
+        if cx > 0.0 && cx + w > max_w {
+            cx = 0.0;
+            rows += 1;
+        }
+        cx += w + fs * 1.2;
+    }
+    fs * 1.2 + (rows - 1) as f32 * fs * 1.5
+}
+
+/// A key that always fits `area`, and the area left for the chart. A few entries go in rows
+/// above the chart; when those rows would take more than a quarter of the height, the entries
+/// go in columns at the right instead (at most two fifths of the width); entries that still do
+/// not fit are summed up as "+N more".
+pub fn key_fit(
+    fig: &mut Figure,
+    theme: &Theme,
+    area: Rect,
+    items: &[(Color, String)],
+    block: bool,
+) -> Rect {
+    let fs = theme.font_size;
+    if items.is_empty() {
+        return area;
+    }
+    let rows_h = key_row_height(theme, area.w, items);
+    if rows_h <= area.h * 0.25 {
+        let used = key_row(fig, theme, area.x, area.y + fs * 0.6, area.w, items, block);
+        return area.inset_sides(0.0, used.bottom() - area.y + fs * 0.6, 0.0, 0.0);
+    }
+    // columns at the right: entries top to bottom, a new column when one is full
+    let st = TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Middle);
+    let sw = fs * 1.1;
+    let line = fs * 1.45;
+    let per_col = ((area.h - fs * 0.4) / line).floor().max(1.0) as usize;
+    let max_text = area.w * 0.4 - sw - fs * 0.4;
+    let short = |t: &str| {
+        let mut s = t.to_string();
+        while st.width(&s) > max_text.max(fs * 3.0) && s.chars().count() > 4 {
+            let n = s.chars().count();
+            s = format!("{}…", s.chars().take(n - 2).collect::<String>());
+        }
+        s
+    };
+    let texts: Vec<String> = items.iter().map(|(_, t)| short(t)).collect();
+    let col_w = texts.iter().map(|t| st.width(t)).fold(0.0f32, f32::max) + sw + fs * 1.6;
+    let max_cols = ((area.w * 0.4) / col_w).floor().max(1.0) as usize;
+    let capacity = per_col * max_cols;
+    let (shown, more) = if items.len() > capacity {
+        (capacity - 1, items.len() - (capacity - 1))
+    } else {
+        (items.len(), 0)
+    };
+    let cols = (shown + usize::from(more > 0)).div_ceil(per_col).max(1);
+    let x0 = area.right() - cols as f32 * col_w + fs * 1.2;
+    for (k, ((c, _), t)) in items.iter().zip(&texts).take(shown).enumerate() {
+        let (col, row) = (k / per_col, k % per_col);
+        let x = x0 + col as f32 * col_w;
+        let y = area.y + fs * 0.6 + row as f32 * line;
+        if block {
+            fig.fill(
+                Path::round_rect(x, y - fs * 0.4, sw, fs * 0.8, fs * 0.15),
+                *c,
+            );
+        } else {
+            fig.stroke(
+                Path::segment(x, y, x + sw, y),
+                Stroke::new(*c, theme.line_width * 1.4).round(),
+            );
+        }
+        fig.text(x + sw + fs * 0.4, y, t, &st);
+    }
+    if more > 0 {
+        let (col, row) = (shown / per_col, shown % per_col);
+        let st = TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Middle);
+        fig.text(
+            x0 + col as f32 * col_w,
+            area.y + fs * 0.6 + row as f32 * line,
+            &format!("+{more} more"),
+            &st,
+        );
+    }
+    area.inset_sides(0.0, 0.0, cols as f32 * col_w, 0.0)
 }
 
 /// A horizontal colour bar over `rect` for `cmap` from `lo` to `hi`, with end labels under it
@@ -996,6 +1165,71 @@ pub fn color_bar(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn keys_always_fit() {
+        let theme = Theme::light().for_size(400.0);
+        let mut fig = Figure::new(400.0, 200.0, Some(theme.paper));
+        let few: Vec<(Color, String)> =
+            (0..3).map(|i| (theme.series(i), format!("g{i}"))).collect();
+        let left = key_fit(
+            &mut fig,
+            &theme,
+            Rect::new(0.0, 0.0, 400.0, 200.0),
+            &few,
+            false,
+        );
+        assert!(
+            left.y > 0.0 && (left.w - 400.0).abs() < 1e-3,
+            "rows above: {left:?}"
+        );
+        let many: Vec<(Color, String)> = (0..60)
+            .map(|i| (theme.series(i), format!("group {i}")))
+            .collect();
+        let left = key_fit(
+            &mut fig,
+            &theme,
+            Rect::new(0.0, 0.0, 400.0, 200.0),
+            &many,
+            false,
+        );
+        assert!(
+            left.w < 400.0 && left.w >= 240.0 - 1e-3,
+            "columns beside: {left:?}"
+        );
+        assert!(left.h > 199.0);
+    }
+
+    #[test]
+    fn end_label_boxes_keep_peak_labels_away() {
+        let theme = Theme::light();
+        let labels = [
+            EndLabel {
+                y: 100.0,
+                text: "Cellulose".into(),
+                color: theme.ink,
+            },
+            EndLabel {
+                y: 104.0,
+                text: "Quartz".into(),
+                color: theme.ink,
+            },
+        ];
+        let boxes = end_label_boxes(&theme, 400.0, &labels, 0.0, 300.0, 30.0);
+        assert_eq!(boxes.len(), 2);
+        for (b, l) in boxes.iter().zip(&labels) {
+            // the box spans the end of the line and the label
+            assert!(b.x <= 370.0 + 1e-3 && b.right() > 400.0 + 20.0, "{b:?}");
+            assert!(b.y < l.y && b.bottom() > l.y, "{b:?}");
+        }
+        // a label for a peak just inside the panel's right edge goes elsewhere
+        let mut placer = crate::LabelPlacer::new(Rect::new(0.0, 0.0, 400.0, 300.0));
+        for b in &boxes {
+            placer.reserve(*b);
+        }
+        let r = placer.place(390.0, 102.0, 24.0, 12.0, 4.0);
+        assert!(boxes.iter().all(|b| !b.intersects(&r)), "{r:?}");
+    }
 
     #[test]
     fn spreads_labels() {

@@ -12,6 +12,7 @@ The figure behind `openreadout plot` and `openreadout_plot`. The user documentat
 | `src/draw/` | `prep.rs` turns series into axes (time units, histogram bins, stacking, categories, ranges, peak picking, colours); `mod.rs` lays out plots, small multiples and plate grids, axes, legends, callouts and annotations; `marks.rs` draws one series. |
 | `src/output.rs` | The JSON summary (`openreadout self schema plot`). |
 | `src/pdf.rs` | A one-page vector PDF of a `Figure` (text as outlines, so no fonts are embedded). |
+| `src/save.rs` | Saving any `Figure` (a plot, or a preview through `openreadout_export`): PNG, JPEG and TIFF at a pixel scale with the print resolution recorded, SVG and PDF sized for print, written through the verified write. |
 
 ## Rules
 

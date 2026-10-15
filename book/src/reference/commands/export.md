@@ -1,6 +1,6 @@
 # export
 
-`export` converts a file to an open format. To write one embedded attachment as it is stored, see [`extract`](extract.md).
+`export` converts a file to an open format. To write one embedded attachment as it is stored, see [`extract`](extract.md). Pictures are saved by [`plot`](plot.md) and [`preview`](preview.md) with `-o`; over MCP, `openreadout_export` saves them too ([saving figures](../mcp.md#saving-figures)).
 
 ```text
 openreadout export [OPTIONS] <FILE>...

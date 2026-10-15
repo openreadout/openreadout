@@ -2453,6 +2453,7 @@ dependencies = [
  "openreadout-batch",
  "openreadout-core",
  "openreadout-fcs",
+ "openreadout-figure",
  "openreadout-hdf5",
  "openreadout-index",
  "openreadout-live",
@@ -2638,10 +2639,12 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-quant",
  "openreadout-signal",
+ "png",
  "schemars",
  "serde",
  "serde_json",
  "tempfile",
+ "tiff",
 ]
 
 [[package]]

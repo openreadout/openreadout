@@ -33,13 +33,16 @@
 #![warn(missing_docs)]
 
 mod app;
+mod budget;
 mod coerce;
 #[cfg(feature = "http")]
 mod http;
+mod lean;
 mod progress;
 mod resources;
 mod schema_compact;
 mod tools;
+mod wording;
 
 #[cfg(feature = "http")]
 pub use http::{HttpOptions, serve_http};
@@ -74,17 +77,44 @@ impl std::fmt::Debug for InstrumentServer {
 fn mcp_err(e: &Error) -> McpError {
     let mut data = serde_json::json!({"code": e.code(), "exit_code": e.exit_code()});
     if let Some(h) = e.hint() {
-        data["hint"] = serde_json::Value::String(h);
+        data["hint"] = serde_json::Value::String(wording::for_tools(&h));
     }
     McpError::new(
         rmcp::model::ErrorCode::INTERNAL_ERROR,
-        e.to_string(),
+        wording::for_tools(&e.to_string()),
         Some(data),
     )
 }
 
+/// A failed tool call as a result with `isError`, its message and hint in the text (the model
+/// reads tool results; clients often pass on only the message of a protocol error), and
+/// `{code, exit_code, hint}` under `_meta["openreadout/error"]`.
+fn error_result(e: McpError) -> CallToolResult {
+    let mut text = e.message.to_string();
+    if let Some(h) = e
+        .data
+        .as_ref()
+        .and_then(|d| d.get("hint"))
+        .and_then(|h| h.as_str())
+    {
+        text.push_str("\nhint: ");
+        text.push_str(h);
+    }
+    let mut r = CallToolResult::error(vec![rmcp::model::ContentBlock::text(text)]);
+    // the code and exit code for clients that branch on them, as the CLI's JSON errors have
+    if let Some(d) = e.data {
+        r.meta
+            .get_or_insert_with(rmcp::model::MetaObject::default)
+            .insert(ERROR_META_KEY.into(), d);
+    }
+    r
+}
+
+/// Result `_meta` key of a failed call: `{code, exit_code, hint}`.
+pub const ERROR_META_KEY: &str = "openreadout/error";
+
 /// A tool's `strict` argument over the server's default (`OPENREADOUT_STRICT`, `--strict`).
-fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {
+pub(crate) fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {
     match strict {
         Some(on) => reg.strict(on),
         None => reg,
@@ -137,7 +167,7 @@ impl InstrumentServer {
 }
 
 /// Server instructions sent at initialization.
-pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories without vendor software: microscopy and slides, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, spectroscopy, mass spectrometry, chromatography, plate readers, qPCR and bench instruments, in the vendors' binary formats and in their text and XML exports. Its readers know each format's layout, units and conventions, so questions about these files need no hand-written parser. Each file reports an assurance level that says how far its variant was checked against an independent reader, and strict=true refuses values that are not validated. Indices are zero-based. Values are raw as stored unless a tool says it processed them. Only openreadout_export and openreadout_extract write next to the data, always to new files that are read back and verified. openreadout_index, openreadout_batch, openreadout_summarize and openreadout_report write only to paths you give them. Tools are the CLI's commands and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
+pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories without vendor software: microscopy and slides, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, spectroscopy, mass spectrometry, chromatography, plate readers, qPCR and bench instruments, in the vendors' binary formats and in their text and XML exports. Its readers know each format's layout, units and conventions, so questions about these files need no hand-written parser. Each file reports an assurance level that says how far its variant was checked against an independent reader, and strict=true refuses values that are not validated. Indices are zero-based. Values are raw as stored unless a tool says it processed them. Only openreadout_export (data, and figures from openreadout_plot or openreadout_preview) and openreadout_extract write next to the data, always to new files that are read back and verified. openreadout_index, openreadout_batch, openreadout_summarize and openreadout_report write only to paths you give them. Tools are the CLI's commands and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
 
 // The trait's methods are async; resources and prompts are answered without awaiting.
 #[allow(clippy::unused_async_trait_impl)]
@@ -180,7 +210,14 @@ impl ServerHandler for InstrumentServer {
             self.tool_router.get(&request.name),
             request.arguments.as_mut(),
         ) {
-            coerce::lists(&tool.input_schema, args);
+            coerce::args(&tool.input_schema, args);
+            for (key, inner_tool) in coerce::NESTED_TOOL_ARGS {
+                if let (Some(serde_json::Value::Object(inner)), Some(t)) =
+                    (args.get_mut(key), self.tool_router.get(inner_tool))
+                {
+                    coerce::args(&t.input_schema, inner);
+                }
+            }
         }
         if request.name == app::VIEW_TOOL {
             return app::call_view(self.registry, request, &context)
@@ -191,13 +228,21 @@ impl ServerHandler for InstrumentServer {
             .then(|| app::view_hint(&request.name, request.arguments.as_ref()))
             .flatten();
         let name = request.name.clone();
+        let max_chars = budget::max_chars(&name, request.arguments.as_ref());
         let tcc = rmcp::handler::server::tool::ToolCallContext::new(self, request, context);
-        let mut response = coerce::with_argument_hint(
+        let mut response = match coerce::with_argument_hint(
             self.tool_router.call(tcc).await,
             self.tool_router.get(&name),
-        )?;
-        if let (Some(hint), CallToolResponse::Complete(result)) = (hint, &mut response) {
-            app::attach_hint(result, hint);
+        ) {
+            Err(e) if self.tool_router.get(&name).is_some() => error_result(e).into(),
+            r => r?,
+        };
+        if let CallToolResponse::Complete(result) = &mut response {
+            wording::result_notes(result);
+            budget::fit(result, &name, max_chars);
+            if let Some(hint) = hint {
+                app::attach_hint(result, hint);
+            }
         }
         Ok(response)
     }
@@ -579,6 +624,55 @@ mod tests {
         let _ = std::fs::remove_file(big);
     }
 
+    /// A preview with annotations, as the agent saw it, saved by openreadout_export at twice
+    /// its size; the preview's result says how.
+    #[tokio::test]
+    async fn export_saves_an_annotated_preview() {
+        let server = InstrumentServer::new(synth_registry);
+        let file = synth_file("save", 3000, 2000);
+        let preview = serde_json::json!({
+            "file": file.display().to_string(),
+            "max_size": 400,
+            "dark": true,
+            "annotations": [{"type": "point", "x": 1500, "y": 1000, "label": "here"}],
+        });
+        let result = server
+            .preview(Parameters(serde_json::from_value(preview.clone()).unwrap()))
+            .await
+            .unwrap();
+        let seen = result.structured_content.unwrap();
+        let save = seen["save"].as_str().unwrap();
+        assert!(save.contains("preview = these arguments") && save.contains(".preview.png"));
+        let out = file.with_extension("annotated.png");
+        let args = serde_json::from_value(serde_json::json!({
+            "preview": preview, "output": out.display().to_string(), "dpi": 300,
+        }))
+        .unwrap();
+        let (written, shown) =
+            crate::tools::export::export_blocking(synth_registry, args, None).unwrap();
+        assert!(
+            shown.is_some_and(|(bytes, _)| !bytes.is_empty()),
+            "the saved picture comes back"
+        );
+        assert_eq!(written["drawn"], "image");
+        // the image is read again at twice max_size (whole downsampling steps, so about twice)
+        let saved_width = written["width"].as_u64().unwrap();
+        let seen_width = seen["width"].as_u64().unwrap();
+        assert!(
+            saved_width > seen_width * 3 / 2 && saved_width <= seen_width * 2 + 2,
+            "{saved_width} vs {seen_width}"
+        );
+        let png = std::fs::read(&out).unwrap();
+        assert!(png.starts_with(b"\x89PNG") && png.windows(4).any(|x| x == b"pHYs"));
+        // unknown preview arguments are refused, not ignored
+        let err =
+            serde_json::from_value::<PreviewArgs>(serde_json::json!({"file": "x", "zoom": 2}))
+                .unwrap_err();
+        assert!(err.to_string().contains("zoom"), "{err}");
+        let _ = std::fs::remove_file(out);
+        let _ = std::fs::remove_file(file);
+    }
+
     fn preview_size_limit() -> u32 {
         openreadout_preview::DEFAULT_THUMBNAIL_SIZE
     }
@@ -590,8 +684,8 @@ mod tests {
         let args = |axes: openreadout_preview::Axes, region: Option<openreadout_core::Region>| {
             let v = serde_json::json!({"file": f.display().to_string(), "max_size": 400});
             let mut a: PreviewArgs = serde_json::from_value(v).unwrap();
-            a.axes = axes;
-            a.region = region;
+            a.options.axes = Some(axes);
+            a.options.region = region;
             Parameters(a)
         };
         let r = s
@@ -655,6 +749,19 @@ mod tests {
         );
         let meta = r.meta.unwrap();
         assert!(meta.get(crate::tools::plot::FIGURE_META_KEY).is_some());
+        // it says how to save it, and only openreadout_export writes
+        assert!(
+            v["save"]
+                .as_str()
+                .is_some_and(|s| s.starts_with("openreadout_export with plot")),
+            "{v}"
+        );
+        let e = serde_json::from_value::<crate::tools::plot::PlotArgs>(
+            serde_json::json!({"data": {"values": {"y": [1]}}, "output": "f.png"}),
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(e.contains("openreadout_export"), "{e}");
         // an unknown key names the known ones
         let e =
             serde_json::from_value::<crate::tools::plot::PlotArgs>(serde_json::json!({"dta": {}}))

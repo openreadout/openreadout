@@ -15,6 +15,9 @@ use crate::region::Region;
 
 /// Objects listed by default.
 pub const DEFAULT_MAX_OBJECTS: usize = 100;
+/// Below this `fit` a count has low confidence. On annotated nuclei (BBBC038) it marks most
+/// brightfield smears, whose counts were several times too high, and few fluorescence images.
+pub const LOW_FIT: f64 = 0.5;
 /// Regions up to this many pixels (2896 × 2896) are counted in one piece.
 const ONE_PIECE: u64 = 1 << 23;
 /// Larger regions are counted in tiles this many pixels a side.
@@ -61,6 +64,17 @@ pub enum ThresholdMethod {
     Triangle,
     /// each pixel against its neighbourhood (uneven staining)
     Local,
+}
+
+/// How far a count can be trusted.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "lowercase")]
+pub enum CountConfidence {
+    /// the objects look like what was asked for
+    #[default]
+    High,
+    /// many objects are irregular or of the wrong size: check a picture before quoting the count
+    Low,
 }
 
 /// What an RGB image's objects are found in.
@@ -229,6 +243,13 @@ pub struct Objects {
     pub split: bool,
     /// Objects found, including those touching the edge.
     pub count: usize,
+    /// `high`, or `low` when less than half of the objects' area is in compact objects of the
+    /// expected size (`fit`): the image may not suit the count (see `notes`).
+    pub confidence: CountConfidence,
+    /// Share of the objects' area in compact objects (solidity at least 0.85) of the expected
+    /// size (a third to three times the area of its disc), 0 to 1. Not for spots.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fit: Option<f64>,
     /// Objects touching the edge of the area searched.
     pub touching_edge: usize,
     /// Objects per mm² (edge objects count half).
@@ -548,9 +569,16 @@ fn quality(s: &[f32], w: usize, h: usize, plan: &Plan) -> f64 {
         .flat_map(|y| s[(y0 + y) * w + x0..(y0 + y) * w + x0 + cw].iter().copied())
         .collect();
     let (lab, _) = label_tile(&crop, cw, ch, plan);
-    let expected = std::f64::consts::PI * plan.d * plan.d / 4.0;
+    fit(&shapes(&lab, cw, ch), plan.d)
+}
+
+/// The share of the objects' area in objects that are compact (solidity at least 0.85) and
+/// of a plausible size for diameter `d` (a third to three times its disc's area), from each
+/// object's `(area, solidity)`.
+fn fit(shapes: &[(f64, f64)], d: f64) -> f64 {
+    let expected = std::f64::consts::PI * d * d / 4.0;
     let (mut good, mut all) = (0.0, 0.0);
-    for (area, solidity) in shapes(&lab, cw, ch) {
+    for &(area, solidity) in shapes {
         all += area;
         let r = area / expected;
         if solidity >= 0.85 && (0.3..=3.0).contains(&r) {
@@ -1338,7 +1366,26 @@ pub(crate) fn objects(
         })
         .collect();
     // say when the objects do not look like what was asked for
-    if o.kind != Kind::Spots && count >= 10 {
+    let fit = (o.kind != Kind::Spots && count > 0).then(|| {
+        let s: Vec<(f64, f64)> = all
+            .iter()
+            .map(|o| (o.area_px as f64, o.solidity.unwrap_or(1.0)))
+            .collect();
+        round4(fit(&s, d))
+    });
+    let confidence = if fit.is_some_and(|f| f < LOW_FIT) {
+        CountConfidence::Low
+    } else {
+        CountConfidence::High
+    };
+    if let Some(f) = fit.filter(|_| confidence == CountConfidence::Low) {
+        notes.push(format!(
+            "low confidence: only {:.0}% of the objects' area is in compact objects about {:.0} px across; this image may not suit counting {} (cytoplasm, another stain or debris counted, or touching objects merged). Do not quote the count without checking a picture (preview marks=objects); set diameter_um, another channel or stain if the picture shows why",
+            f * 100.0,
+            d,
+            kind_name(o.kind)
+        ));
+    } else if o.kind != Kind::Spots && count >= 10 {
         let mut sol: Vec<f64> = all.iter().filter_map(|o| o.solidity).collect();
         let irregular = median(&mut sol).is_some_and(|s| s < 0.8);
         if large * 4 > count || irregular {
@@ -1377,6 +1424,8 @@ pub(crate) fn objects(
         threshold_method: method_name,
         split: plan.split,
         count,
+        confidence,
+        fit,
         touching_edge: touching,
         density_per_mm2: density,
         area_fraction: round4(covered as f64 / searched.max(1) as f64),
@@ -1632,7 +1681,8 @@ fn tiles(r: Region, d: f64) -> Vec<Tile> {
 
 /// Label a plane held in memory: `comps` one plane (or three RGB components), `w × h`, with
 /// the pixel size in µm when known. For tests and evaluation against annotated images: the
-/// label image (objects 1, 2, …; 0 = background) and the expected diameter used, in pixels.
+/// label image (objects 1, 2, …; 0 = background), the expected diameter used, in pixels, and
+/// the objects' fit (see `Objects::fit`).
 #[doc(hidden)]
 pub fn label_plane(
     comps: &[Vec<f32>],
@@ -1640,7 +1690,7 @@ pub fn label_plane(
     h: usize,
     pixel_um: Option<f64>,
     o: &ObjectsRequest,
-) -> Result<(Vec<u32>, f64)> {
+) -> Result<(Vec<u32>, f64, f64)> {
     if comps.is_empty() || comps.iter().any(|c| c.len() != w * h) {
         return Err(usage("label_plane: each component needs w × h values"));
     }
@@ -1661,7 +1711,9 @@ pub fn label_plane(
             .ok_or_else(|| usage("the plane is flat"))?
             .0
     };
-    Ok((label_tile(&s, w, h, &plan).0, d))
+    let lab = label_tile(&s, w, h, &plan).0;
+    let f = fit(&shapes(&lab, w, h), d);
+    Ok((lab, d, f))
 }
 
 #[cfg(test)]
@@ -1739,7 +1791,7 @@ mod tests {
                 ..ObjectsRequest::default()
             },
         ] {
-            let (lab, d) = label_plane(std::slice::from_ref(&plane), w, h, None, &o).unwrap();
+            let (lab, d, _) = label_plane(std::slice::from_ref(&plane), w, h, None, &o).unwrap();
             assert!((12.0..30.0).contains(&d), "{d}");
             assert_eq!(count(&lab), 9, "diameter {d}");
         }
@@ -1760,7 +1812,7 @@ mod tests {
             .map(|(x, y, r, v)| (x, y, r, 250.0 - v))
             .collect();
         let plane = discs(w, h, &d, 230.0, 8.0);
-        let (lab, _) = label_plane(&[plane], w, h, None, &ObjectsRequest::default()).unwrap();
+        let (lab, _, _) = label_plane(&[plane], w, h, None, &ObjectsRequest::default()).unwrap();
         assert_eq!(count(&lab), 9);
     }
 
@@ -1800,7 +1852,7 @@ mod tests {
         assert_eq!(name, "hematoxylin");
         assert!(notes.is_empty(), "{notes:?}");
         assert!(sig.deconvolved());
-        let (lab, _) = label_plane(&[r, g, b], w, h, None, &o).unwrap();
+        let (lab, _, _) = label_plane(&[r, g, b], w, h, None, &o).unwrap();
         assert_eq!(count(&lab), 9);
     }
 
@@ -1818,8 +1870,23 @@ mod tests {
             kind: Kind::Spots,
             ..ObjectsRequest::default()
         };
-        let (lab, _) = label_plane(&[plane], w, h, None, &o).unwrap();
+        let (lab, _, _) = label_plane(&[plane], w, h, None, &o).unwrap();
         assert_eq!(count(&lab), 20);
+    }
+
+    #[test]
+    fn irregular_objects_have_low_fit() {
+        // thin streaks, nothing like round nuclei of the size asked for
+        let (w, h) = (160, 160);
+        let plane: Vec<f32> = (0..w * h)
+            .map(|i| if (i % w) % 16 < 2 { 200.0 } else { 10.0 })
+            .collect();
+        let o = ObjectsRequest {
+            diameter_px: Some(12.0),
+            ..ObjectsRequest::default()
+        };
+        let (_, _, f) = label_plane(&[plane], w, h, None, &o).unwrap();
+        assert!(f < LOW_FIT, "{f}");
     }
 
     #[test]
@@ -1952,6 +2019,7 @@ mod tests {
         let o = out.objects.unwrap();
         assert_eq!(o.measured, "c=1 DAPI");
         assert_eq!(o.count, 9);
+        assert_eq!(o.confidence, CountConfidence::High, "fit {:?}", o.fit);
         assert_eq!(o.objects.len(), 9);
         assert_eq!(o.channels.len(), 2);
         let ki67 = o.channels[0].positive.as_ref().unwrap();

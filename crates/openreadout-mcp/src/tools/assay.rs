@@ -18,8 +18,8 @@ use rmcp::service::RequestContext;
 use rmcp::{ErrorData as McpError, RoleServer, tool, tool_router};
 use serde_json::Value;
 
-use super::analyses::{AnalysisArgs, call};
-use super::object_output;
+use super::analyses::{AnalysisArgs, Lean, call};
+
 use crate::{InstrumentServer, mcp_err};
 
 /// Plate layout and control wells, shared by every assay tool.
@@ -123,6 +123,10 @@ pub struct AssayArgs {
     /// growth: values at or below this are left out of the log-scale fit. Default 5 % of each
     /// well's maximum.
     growth_threshold: Option<f64>,
+    /// Rows show their main fields to 4 significant digits (growth: pattern, growth_rate_per_h,
+    /// doubling_time_h, lag_time_s, max_value, time_to_max_s, crash_s, trough_s, regrowth_s).
+    /// fields adds others, e.g. `["auc_h", "logistic_k"]`; `["all"]`: every field, full precision.
+    fields: Option<Vec<String>>,
 }
 
 /// The arguments each analysis takes (besides `file`, `strict` and `analysis`).
@@ -194,6 +198,7 @@ fn accepted(analysis: Analysis) -> std::collections::BTreeSet<String> {
         Analysis::Growth => accepted_keys::<GrowthArgs>(),
     };
     k.insert("analysis".into());
+    k.insert("fields".into());
     k
 }
 
@@ -202,7 +207,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_assay",
         annotations(title = "Analyse a plate-reader assay", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_assay::AssayOutput>(),
+        output_schema = super::lean_output_schema::<openreadout_assay::AssayOutput>(crate::lean::ASSAY),
         description = "Plate-reader exports, with the layout the file stores or `layout`. analysis: wells (per-well values, blank subtraction, replicate mean/SD/CV, outliers), curve (standard curve, back-calculated concentrations, LLOQ/ULOQ), dose-response (IC50/EC50 per compound with CI and Hill slope), kinetics (Vmax, lag, AUC per well), growth (growth rate, doubling time, lag, logistic fit, and whether each well grew, crashed or regrew, with times), qc (Z′, S/B, S/N, SSMD). An argument that names analyses applies to those only."
     )]
     pub(crate) async fn assay(
@@ -237,7 +242,22 @@ impl InstrumentServer {
             ))));
         }
         let mut options = a.options;
+        let lean = Lean::take(
+            &mut options,
+            crate::lean::ASSAY,
+            &["growth_summary"],
+            &["growth", "kinetics", "wells"],
+        )?;
         options.insert("analysis".into(), Value::String(analysis.id().into()));
-        call(self, AnalyzeKind::Assay, a.file, a.strict, options, &ctx).await
+        call(
+            self,
+            AnalyzeKind::Assay,
+            a.file,
+            a.strict,
+            options,
+            Some(lean),
+            &ctx,
+        )
+        .await
     }
 }

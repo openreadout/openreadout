@@ -38,7 +38,7 @@ Other options:
 
 - `--check headers|full|none` sets the integrity check. `full` runs the complete `check`, which may decode data.
 - `--exclude GLOB` skips names or root-relative paths (repeatable).
-- `--follow-symlinks` follows symbolic links to directories. By default they are skipped and counted. Links to files are always read.
+- `--follow-symlinks` follows symbolic links to directories. By default they are skipped, counted, and named in a note. Links to files are always read, so a folder of links to instrument files indexes like the files themselves. `watch` and `batch` read links to files the same way, and `watch` takes `--follow-symlinks` too.
 - `--no-pii` skips the personal-data rules.
 
 Hidden entries are skipped. The index directory must not be inside a crawled directory. A lock keeps two crawls from writing the same index.

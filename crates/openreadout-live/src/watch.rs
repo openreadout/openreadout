@@ -123,6 +123,8 @@ pub struct WatchOptions {
     /// Report a finished data set as complete on the first poll, without waiting for a second
     /// poll to show it stopped changing (`--once`).
     pub trust_first_look: bool,
+    /// Walk into directories behind symbolic links (links to files are always followed).
+    pub follow_symlinks: bool,
 }
 
 impl Default for WatchOptions {
@@ -135,6 +137,7 @@ impl Default for WatchOptions {
             max_depth: 32,
             qc: None,
             trust_first_look: false,
+            follow_symlinks: false,
         }
     }
 }
@@ -196,6 +199,7 @@ pub struct Watcher {
     opts: WatchOptions,
     tracked: HashMap<PathBuf, Tracked>,
     dataset_dirs: HashMap<PathBuf, bool>,
+    links_skipped: usize,
     seq: u64,
     polls: u64,
     started: Instant,
@@ -227,9 +231,14 @@ fn stat(p: &Path) -> Option<(u64, Option<SystemTime>)> {
             if n > 2_000_000 {
                 break;
             }
-            let Ok(md) = e.metadata() else { continue };
+            // (a link to a file counts as the file; links to directories are not followed)
+            let Ok(md) = std::fs::metadata(e.path()) else {
+                continue;
+            };
             if md.is_dir() {
-                stack.push(e.path());
+                if !e.file_type().is_ok_and(|t| t.is_symlink()) {
+                    stack.push(e.path());
+                }
             } else {
                 size += md.len();
             }
@@ -248,10 +257,17 @@ impl Watcher {
             opts,
             tracked: HashMap::new(),
             dataset_dirs: HashMap::new(),
+            links_skipped: 0,
             seq: 0,
             polls: 0,
             started: Instant::now(),
         }
+    }
+
+    /// Symbolic links to directories the last poll did not walk into (see
+    /// [`WatchOptions::follow_symlinks`]).
+    pub fn links_skipped(&self) -> usize {
+        self.links_skipped
     }
 
     /// Number of data sets currently remembered.
@@ -267,6 +283,9 @@ impl Watcher {
     fn items(&mut self, reg: &Registry) -> Vec<PathBuf> {
         let mut out = Vec::new();
         let roots = self.opts.roots.clone();
+        self.links_skipped = 0;
+        // directories walked, by their real path, so links cannot make the walk loop
+        let mut visited = std::collections::HashSet::new();
         for r in &roots {
             if r.is_file() {
                 out.push(r.clone());
@@ -278,6 +297,9 @@ impl Watcher {
             }
             let mut stack = vec![(r.clone(), 0usize)];
             while let Some((d, depth)) = stack.pop() {
+                if !visited.insert(std::fs::canonicalize(&d).unwrap_or_else(|_| d.clone())) {
+                    continue;
+                }
                 let Ok(rd) = std::fs::read_dir(&d) else {
                     continue;
                 };
@@ -290,13 +312,26 @@ impl Watcher {
                     }
                     let p = e.path();
                     let Ok(ft) = e.file_type() else { continue };
-                    if ft.is_dir() {
+                    // A link reports what it points at; a broken one is left out.
+                    let (is_dir, is_file) = if ft.is_symlink() {
+                        let Ok(m) = std::fs::metadata(&p) else {
+                            continue;
+                        };
+                        if m.is_dir() && !self.opts.follow_symlinks {
+                            self.links_skipped += 1;
+                            continue;
+                        }
+                        (m.is_dir(), m.is_file())
+                    } else {
+                        (ft.is_dir(), ft.is_file())
+                    };
+                    if is_dir {
                         if self.is_dataset_dir(reg, &p) {
                             out.push(p);
                         } else if depth < self.opts.max_depth {
                             stack.push((p, depth + 1));
                         }
-                    } else if ft.is_file() {
+                    } else if is_file {
                         out.push(p);
                     }
                 }

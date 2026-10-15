@@ -35,8 +35,8 @@ mod objects;
 mod segment;
 
 pub use objects::{
-    DEFAULT_MAX_OBJECTS, Kind, MAX_OBJECT_PIXELS, Object, ObjectChannel, Objects, ObjectsRequest,
-    Polarity, Positive, Stain, ThresholdMethod, label_plane,
+    CountConfidence, DEFAULT_MAX_OBJECTS, Kind, LOW_FIT, MAX_OBJECT_PIXELS, Object, ObjectChannel,
+    Objects, ObjectsRequest, Polarity, Positive, Stain, ThresholdMethod, label_plane,
 };
 
 /// Most samples taken along a profile line.

@@ -334,8 +334,10 @@ fn render_objects(ob: &openreadout_core::measure::Objects) -> String {
         .ok()
         .and_then(|v| v.as_str().map(str::to_string))
         .unwrap_or_default();
+    let low = ob.confidence == openreadout_core::measure::CountConfidence::Low;
     out.push(format!(
-        "{} {kind} in {} ({}; {} touching the edge{})",
+        "{}{} {kind} in {} ({}; {} touching the edge{})",
+        if low { "LOW CONFIDENCE: " } else { "" },
         ob.count,
         ob.region,
         ob.measured,
