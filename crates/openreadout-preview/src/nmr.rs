@@ -183,12 +183,12 @@ pub(crate) fn render(
     out.marks = data_marks;
     if chosen.source == "fid" {
         out.notes.push(format!(
-            "no processed spectrum is stored: the FID ({trace_name}) was processed here as openreadout_nmr_peaks does; pass trace={} to see the raw FID",
+            "no processed spectrum is stored: the FID ({trace_name}) was processed here as the NMR peak analysis does; pick trace {} to see the raw FID",
             chosen.trace
         ));
     } else {
         out.notes.push(format!(
-            "showing the processed spectrum ({trace_name}); pass trace=0 (or another trace) for the raw data"
+            "showing the processed spectrum ({trace_name}); pick a trace to see the stored data as it is (the FID, for one)"
         ));
     }
     out.notes.extend(chosen.notes.iter().take(3).cloned());
