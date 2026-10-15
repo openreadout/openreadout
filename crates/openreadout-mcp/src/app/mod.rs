@@ -69,6 +69,10 @@ pub enum ToolView {
     /// `openreadout_chromatogram`, `openreadout_peaks`: the chromatogram the call asked for,
     /// with its peaks.
     Chromatogram,
+    /// A tool that returns a finished figure (image content, with its data in
+    /// `structuredContent.figure`): the viewer shows the result itself and calls nothing.
+    #[allow(dead_code)] // for openreadout_plot
+    Figure,
 }
 
 /// The tools whose results the viewer shows, and how it starts. Tools not listed here (export,
@@ -93,6 +97,7 @@ pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ),
     ("openreadout_spikes", ToolView::Kind(view::ViewKind::Trace)),
     ("openreadout_gate", ToolView::Kind(view::ViewKind::Fcs)),
+    ("openreadout_qpcr", ToolView::Auto),
     (
         "openreadout_assay_wells",
         ToolView::Kind(view::ViewKind::Plate),
@@ -255,7 +260,19 @@ pub fn read(uri: &str) -> Option<ReadResourceResult> {
 
 /// Keys of a tool's arguments that the viewer understands under the same name.
 const PASSED_KEYS: &[&str] = &[
-    "image", "level", "region", "trace", "sweep", "channels", "run", "table", "column",
+    "image",
+    "level",
+    "region",
+    "trace",
+    "sweep",
+    "channels",
+    "run",
+    "table",
+    "column",
+    "workspace",
+    "gatingml",
+    "sample",
+    "annotations",
 ];
 
 /// The arguments the viewer starts from after `tool` ran with `args`, or `None` when the tool
@@ -263,6 +280,9 @@ const PASSED_KEYS: &[&str] = &[
 pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
     use view::ViewKind as K;
     let tv = tool_view(tool)?;
+    if tv == ToolView::Figure {
+        return Some(json!({ "view": "figure" }));
+    }
     let args = args?;
     let file = args.get("file")?.as_str()?;
     let mut hint = serde_json::Map::new();
@@ -277,8 +297,16 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
         view::select_into(sel, &mut hint);
     }
     let kind = match tv {
-        ToolView::Auto => None,
-        ToolView::Kind(k) => Some(k),
+        ToolView::Auto | ToolView::Figure => None,
+        ToolView::Kind(k) => {
+            // openreadout_gate: the first population asked about, with its children.
+            if let Some(Value::Array(p)) = args.get("populations")
+                && let Some(first) = p.first()
+            {
+                hint.insert("population".into(), first.clone());
+            }
+            Some(k)
+        }
         ToolView::Preview => {
             if args.get("run").is_some() || args.get("scan").is_some() {
                 if let Some(s) = args.get("spectrum") {
