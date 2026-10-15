@@ -9,7 +9,8 @@
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test nuclei -- --nocapture`
 //! Env: `OPENREADOUT_CORPUS_DIR` overrides `corpus/files`; `NUCLEI_LIMIT=N` evaluates the first N
-//! images of each set; `NUCLEI_DUMP=DIR` writes a TSV of per-image results there.
+//! images of each set; `NUCLEI_DUMP=DIR` writes a TSV of per-image results there, and with
+//! `NUCLEI_SHOW=PREFIX,...` pictures of those images with both outlines.
 #![cfg(feature = "corpus")]
 
 use std::collections::HashMap;
@@ -481,7 +482,12 @@ fn overlay(c: &Case, pred: &[u32], out: &Path) {
         .expect("png data");
 }
 
-/// Lowest F1 at IoU 0.5 accepted per group.
-fn floor(_group: &str) -> f64 {
-    0.0
+/// Lowest F1 at IoU 0.5 accepted per group, a little under what the counting reaches now.
+fn floor(group: &str) -> f64 {
+    match group {
+        "bbbc039 fluorescence" => 0.88,
+        "bbbc038 fluorescence" => 0.82,
+        "bbbc038 stained (H&E)" => 0.55,
+        _ => 0.2,
+    }
 }
