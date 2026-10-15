@@ -228,6 +228,12 @@ pub struct ViewArgs {
     pub width: Option<u32>,
     /// Figure: pixels per CSS pixel.
     pub scale: Option<f32>,
+    /// Figure: the panel `x_range` zooms (its index in the spec's `panels`; default every
+    /// panel). Panels that share x (`share` x or both), facets and plate grids zoom together.
+    pub panel: Option<usize>,
+    /// Figure: the host's background (`#RRGGBB`), drawn in place of the theme's paper so the
+    /// figure blends into the page.
+    pub paper: Option<String>,
 }
 
 fn yes() -> bool {
@@ -470,6 +476,7 @@ fn figure(registry: fn() -> Registry, a: &ViewArgs) -> Result<CallToolResult, Mc
     } else {
         openreadout_plot::ThemeName::Light
     });
+    spec.paper.clone_from(&a.paper);
     if let Some(w) = a.width {
         spec.width = Some(w.clamp(320, MAX_FIGURE_WIDTH));
         // the height follows the content at the new width
@@ -477,13 +484,33 @@ fn figure(registry: fn() -> Registry, a: &ViewArgs) -> Result<CallToolResult, Mc
     }
     let mut notes = Vec::new();
     if let Some([x0, x1]) = a.x_range {
-        if spec.panels.is_empty() && spec.panel.facet.is_none() {
-            let x = spec.panel.x.get_or_insert_with(Default::default);
-            x.range = Some([x0.min(x1), x0.max(x1)]);
+        let range = Some([x0.min(x1), x0.max(x1)]);
+        if spec.panels.is_empty() {
+            // one plot, or its facets or wells, which share their axes
+            spec.panel.x.get_or_insert_with(Default::default).range = range;
         } else {
-            notes.push(
-                "zoom redraws single plots only; this figure is enlarged instead".to_string(),
+            let shared = matches!(
+                spec.share,
+                Some(openreadout_plot::Share::X | openreadout_plot::Share::Both)
             );
+            let n = spec.panels.len();
+            match a.panel {
+                Some(i) if i >= n => notes.push(format!(
+                    "panel {i} is not in the figure (it has {n}); zoom left out"
+                )),
+                Some(i) if !shared => {
+                    spec.panels[i]
+                        .panel
+                        .x
+                        .get_or_insert_with(Default::default)
+                        .range = range;
+                }
+                _ => {
+                    for p in &mut spec.panels {
+                        p.panel.x.get_or_insert_with(Default::default).range = range;
+                    }
+                }
+            }
         }
     }
     let reg = crate::with_strict(registry(), spec.strict);

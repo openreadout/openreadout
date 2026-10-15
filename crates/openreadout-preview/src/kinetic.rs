@@ -641,6 +641,7 @@ pub(crate) fn render(
         Frame::Plots {
             panels,
             key: Some(slot),
+            taken: Vec::new(),
         },
     )))
 }

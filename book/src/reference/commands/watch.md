@@ -18,6 +18,7 @@ openreadout watch [OPTIONS] [DIR]...
 - `--qc-rules FILE`: QC rules from a TOML file instead of the built-in ones. Implies `--qc`.
 - `--print-qc-rules`: print the built-in QC rules as TOML and exit.
 - `--timeout SECONDS`: stop after this many seconds. Default: run until Ctrl-C.
+- `--follow-symlinks`: walk into directories behind symbolic links. Links to files are always watched; a skipped link to a directory gets a note on stderr.
 - `--max-tracked N`: most data sets remembered at once. Finished ones are forgotten first. Default 100000.
 - `--json`: accepted for consistency with other commands. The output is always JSON lines.
 

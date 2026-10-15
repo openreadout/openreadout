@@ -210,7 +210,14 @@ impl ServerHandler for InstrumentServer {
             self.tool_router.get(&request.name),
             request.arguments.as_mut(),
         ) {
-            coerce::lists(&tool.input_schema, args);
+            coerce::args(&tool.input_schema, args);
+            for (key, inner_tool) in coerce::NESTED_TOOL_ARGS {
+                if let (Some(serde_json::Value::Object(inner)), Some(t)) =
+                    (args.get_mut(key), self.tool_router.get(inner_tool))
+                {
+                    coerce::args(&t.input_schema, inner);
+                }
+            }
         }
         if request.name == app::VIEW_TOOL {
             return app::call_view(self.registry, request, &context)

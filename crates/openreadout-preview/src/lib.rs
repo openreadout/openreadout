@@ -67,6 +67,7 @@ mod annotate;
 pub mod color;
 pub mod electrochem;
 mod events;
+mod figure_frame;
 mod image;
 mod kinetic;
 mod marks;
@@ -200,8 +201,18 @@ pub enum Axis {
 }
 
 /// What frames an image preview.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "lowercase")]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Default,
+    serde::Deserialize,
+    serde::Serialize,
+    schemars::JsonSchema,
+)]
+#[serde(rename_all = "kebab-case")]
 #[non_exhaustive]
 pub enum Axes {
     /// coordinate rulers in full-resolution pixels and a scale bar around the picture (default)
@@ -209,27 +220,31 @@ pub enum Axes {
     Rulers,
     /// rulers, plus faint grid lines over the data at the ruler ticks
     Grid,
+    /// a figure for people: the picture with a scale bar, the title and the caption; no rulers
+    ScaleBar,
     /// the bare downsampled plane
     None,
 }
 
 impl Axes {
-    /// Set `axes` and `grid` of a request.
+    /// Set `axes`, `grid` and `figure` of a request.
     pub fn apply(self, req: &mut PreviewRequest) {
         req.axes = self != Axes::None;
         req.grid = self == Axes::Grid;
+        req.figure = self == Axes::ScaleBar;
     }
 }
 
 impl FromStr for Axes {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self> {
-        match s.trim().to_ascii_lowercase().as_str() {
+        match s.trim().to_ascii_lowercase().replace('_', "-").as_str() {
             "rulers" => Ok(Axes::Rulers),
             "grid" => Ok(Axes::Grid),
+            "scale-bar" | "scalebar" => Ok(Axes::ScaleBar),
             "none" => Ok(Axes::None),
             other => Err(Error::Usage(format!(
-                "bad axes '{other}': use rulers, grid or none"
+                "bad axes '{other}': use rulers, grid, scale-bar or none"
             ))),
         }
     }
@@ -405,6 +420,13 @@ pub struct PreviewRequest {
     /// Image preview: faint grid lines over the data at the ruler ticks (default `false`; only
     /// with `axes`).
     pub grid: bool,
+    /// Image preview: frame the picture as a figure for people instead of with rulers: a scale
+    /// bar under it, and `title` and `caption` (default `false`; only with `axes`).
+    pub figure: bool,
+    /// Image preview: a title above the picture (drawn with `figure`).
+    pub title: Option<String>,
+    /// Image preview: a caption under the picture (drawn with `figure`).
+    pub caption: Option<String>,
     /// Image preview: refuse (an `unsupported` error) to read more than this many bytes of
     /// decoded pixels in total, so a quick look never decodes a huge plane.
     pub max_read_bytes: Option<u64>,
@@ -436,6 +458,9 @@ impl Default for PreviewRequest {
             dark: false,
             axes: true,
             grid: false,
+            figure: false,
+            title: None,
+            caption: None,
             max_read_bytes: None,
         }
     }
@@ -912,6 +937,8 @@ pub(crate) enum Frame {
     Plots {
         panels: Vec<FramePanel>,
         key: Option<KeySlot>,
+        /// Labels the preview drew itself (peak labels), which the caller's labels keep off.
+        taken: Vec<openreadout_figure::Rect>,
     },
     /// A plate heat map: each well's cell.
     Wells(Vec<((u32, u32), openreadout_figure::Rect)>),
@@ -920,7 +947,23 @@ pub(crate) enum Frame {
 impl Frame {
     /// Plot panels without a key.
     pub(crate) fn plots(panels: Vec<FramePanel>) -> Frame {
-        Frame::Plots { panels, key: None }
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: Vec::new(),
+        }
+    }
+
+    /// Plot panels whose own labels occupy `taken`.
+    pub(crate) fn plots_labelled(
+        panels: Vec<FramePanel>,
+        taken: &[openreadout_figure::Rect],
+    ) -> Frame {
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: taken.to_vec(),
+        }
     }
 }
 
@@ -1076,6 +1119,12 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         ("events", _) => events::render(ds, info, req, &mut out)?,
         _ => plate::render(ds, info, req, &mut out)?,
     };
+    if out.kind != "image" && (req.title.is_some() || req.caption.is_some()) {
+        out.notes.push(
+            "title and caption are drawn on image previews; openreadout_plot titles and captions plots"
+                .into(),
+        );
+    }
     if let Frame::Plots { panels, .. } = &frame {
         out.panels = panels.iter().map(annotate::plot_panel).collect();
     }

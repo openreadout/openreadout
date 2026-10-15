@@ -474,7 +474,7 @@ pub(crate) fn render(
         x_axis: Some(ax),
         channels: report,
     });
-    Ok((fig, Frame::plots(panels)))
+    Ok((fig, Frame::plots_labelled(panels, placer.taken())))
 }
 
 /// The envelope of `cols` as a line in `panel`'s pixels: each column's first, extremes and

@@ -39,7 +39,8 @@ The same request on the same file always gives the same bytes.
 - `--region X,Y,W,H`: only this rectangle, in full-resolution pixels (or in the pixels of `--level` when one is given).
 - `--contrast auto|min-max|percentile:LO,HI|raw`: `auto` stretches the 0.1–99.9 percentiles. Default `auto`.
 - `--lut gray|channel-color`: default gray for one channel, channel colours for composites.
-- `--axes rulers|grid|none`: `rulers` (default) frames the picture with rulers in full-resolution pixels and a scale bar, `grid` adds faint grid lines at the ruler ticks, `none` gives the bare plane.
+- `--axes rulers|grid|scale-bar|none`: `rulers` (default) frames the picture with rulers in full-resolution pixels and a scale bar, `grid` adds faint grid lines at the ruler ticks, `scale-bar` makes a figure for people (the picture, a scale bar, and the title and caption), `none` gives the bare plane.
+- `--title TEXT`, `--caption TEXT`: a title above the picture and a caption under it, beside the scale bar. Either one picks `--axes scale-bar` unless `--axes` is given.
 
 ### Traces, spectra, plates and events
 

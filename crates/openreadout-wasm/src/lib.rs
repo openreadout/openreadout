@@ -615,8 +615,8 @@ impl InstrumentFile {
     /// `preview --json`: draws the picture (fetch it with [`image`](InstrumentFile::image)).
     /// `options` is a JSON object with the arguments of the `openreadout_preview` MCP tool:
     /// `image`, `select` (e.g. `["c=1","z=3"]`), `mip`, `composite`, `level`, `region`,
-    /// `max_size` (default 768), `axes` (`rulers`, `grid` or `none`; default `none` here, the
-    /// bare plane), `contrast`, `lut`, `trace`, `sweep`, `channels`, `run`, `spectrum`, `scan`,
+    /// `max_size` (default 768), `axes` (`rulers`, `grid`, `scale-bar` or `none`; default
+    /// `none` here, the bare plane), `title`, `caption`, `contrast`, `lut`, `trace`, `sweep`, `channels`, `run`, `spectrum`, `scan`,
     /// `centroid`, `table`, `columns`, `marks`, `annotations`, plus `dark` and `format`
     /// (`png`, `jpeg` or `svg`).
     pub fn preview(&mut self, options: Option<String>) -> String {

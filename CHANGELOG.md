@@ -33,6 +33,7 @@ In short:
 - Python: `openreadout.plot()` returns a `Figure` and `File.preview()` (or `openreadout.preview()`) a `Preview`. Both show themselves in Jupyter and save through a verified write, and a `Figure` renders again as PNG, SVG or PDF without reading the files. `File.stats()` takes `line`, `polygon` and `objects`.
 - R: `openreadout_plot()` and `openreadout_preview()` return pictures that `plot()` draws and `file =` writes, and `openreadout_stats()` takes `line`, `polygon` and `objects`.
 - WebAssembly: `preview()` takes every `openreadout_preview` option, including annotations, marks, `dark` and `format: "svg"`.
+- `preview --axes scale-bar` (MCP `axes: "scale-bar"`) frames an image as a figure for people: the picture with a scale bar, a `title` above and a `caption` below, no rulers. `openreadout_export` saves image previews this way unless `axes` says otherwise.
 - The website has a [gallery](https://openreadout.github.io/openreadout/gallery.html) of previews and figures drawn by the binary from public files, with the command or spec behind each.
 
 ### Changed
@@ -46,6 +47,7 @@ In short:
 - Image previews fill the requested size: `max_size` 768 on a 4000 × 3000 region gives a 768-pixel-wide picture, not 579. `image.downsample` is now the exact (fractional) number of source pixels per picture pixel.
 - Previews, plots and the viewer colour categories by one rule: layout groups, populations and series take ink, the accent, blue, ochre, … in the order they first appear, and blank wells are faint. The viewer takes its colours from the figure engine's theme.
 - Peak labels on previews, chromatogram plots and the viewer go only on peaks that stand clear of the noise; direct labels at line ends keep a line apart with elbow leaders; flow cytometry axes label decades (`10²`, `10³`, `−10²`); on a log axis, curves that rise from a baseline at zero (qPCR ΔRn) start where they leave the noise.
+- In `plot`, an x `range` fits y to the data it shows, end labels, peak labels and annotation labels keep out of each other's way as one set, and the viewer redraws figures on the host's own background, zooms any panel of a multi-panel figure (panels that share x zoom together), and reads out values in an aligned list with series swatches.
 - In `plot`, category names under many narrow bars go on two lines, turn 45° or upright, or name every other bar, whichever fits; a long key moves into columns beside the chart, and keys never run off the figure.
 
 ### Fixed
@@ -54,7 +56,7 @@ In short:
 - `analyze growth --wells` dropped the layout's blank wells and fell back to each well's own minimum; the blanks are now subtracted.
 - The viewer gates every event of a flow cytometry file (up to 2 million, then evenly spread windows), not the first 300,000, and its frame takes the shape of each new region the agent looks at.
 - `preview` of an FCS file draws its events again (it said it could not).
-- `index` reads symbolic links to files. Plane selections such as `c=0,1,z=2` work in every command. MCP tools take a single value where they take a list, and a type error lists the tool's arguments. `preview` and `stats` point FCS and other table-only files at the tools that read them. The website's `/formats/` address works.
+- `index` reads symbolic links to files, and `watch` now does too (it skipped them, so a folder of links showed nothing); a skipped link to a directory gets a note naming `--follow-symlinks`, which `watch` and MCP `openreadout_index` and `openreadout_watch` now take. Plane selections such as `c=0,1,z=2` work in every command. MCP tools take a single value where they take a list and a JSON string where they take an object or a list (agents sent the `preview` of `openreadout_export` as a string), and a type error lists the tool's arguments. `preview` and `stats` point FCS and other table-only files at the tools that read them. The website's `/formats/` address works.
 - `cargo xtask r-vendor` copies the figure engine's fonts into the R source package.
 
 ## [0.3.0] - 2026-10-13

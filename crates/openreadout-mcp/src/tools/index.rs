@@ -28,6 +28,9 @@ pub struct IndexArgs {
     /// Glob patterns of names or root-relative paths to skip.
     #[serde(default)]
     pub exclude: Vec<String>,
+    /// Crawl directories behind symbolic links too (links to files are always read).
+    #[serde(default)]
+    pub follow_symlinks: bool,
     /// Discard an interrupted crawl instead of resuming it.
     #[serde(default)]
     pub restart: bool,
@@ -121,6 +124,7 @@ impl InstrumentServer {
             o.max_seconds = Some(a.max_seconds.unwrap_or(MCP_INDEX_MAX_SECONDS));
             o.exclude = a.exclude;
             o.restart = a.restart;
+            o.follow_symlinks = a.follow_symlinks;
             o.full_rescan = a.full_rescan;
             o.pii = a.pii.unwrap_or(true);
             let threads = a.threads.unwrap_or_else(|| {

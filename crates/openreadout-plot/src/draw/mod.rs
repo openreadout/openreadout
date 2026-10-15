@@ -7,8 +7,8 @@ mod prep;
 use openreadout_core::Result;
 use openreadout_figure::{
     Anchor, AxesSpec, Baseline, Color, Domain, EndLabel, Face, Figure, GridLines, LabelPlacer,
-    Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_labels, format_tick,
-    key_fit, key_row, spread,
+    Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_label_boxes, end_labels,
+    format_tick, key_fit, key_row, spread,
 };
 use serde_json::{Value, json};
 
@@ -597,7 +597,8 @@ fn draw_callouts(
 ) {
     let fs = theme.small_size();
     let st = TextStyle::new(fs, theme.ink).halo(theme.paper, fs * 0.22);
-    let mut taken: Vec<Rect> = Vec::new();
+    // the markers of every series first, so no label covers another series' marker
+    let mut labels: Vec<(f32, f32, &str)> = Vec::new();
     // one series with callouts marks them in the accent; several, each in its own colour
     let several = series
         .iter()
@@ -645,31 +646,33 @@ fn draw_callouts(
                 m.size,
                 m.size,
             ));
-            let w = st.width(&c.text);
-            let h = fs * 1.05;
-            let above = Rect::new(px - w / 2.0, py - fs * 0.5 - h, w, h);
-            let r = if taken.iter().all(|t| !t.intersects(&above)) && p.rect.contains_rect(&above) {
-                placer.reserve(above);
-                above
-            } else {
-                placer.place(px, py, w, h, fs * 0.45)
-            };
-            taken.push(r);
-            fig.text(r.x, r.bottom() - fs * 0.22, &c.text, &st);
-            // a hairline leader when the label had to move away
-            let (cx, cy) = r.center();
-            let dist = ((cx - px).powi(2) + (cy - py).powi(2)).sqrt();
-            if dist > w * 0.5 + fs * 1.4 {
-                let lx = px.clamp(r.x, r.right());
-                let ly = if py < r.y { r.y } else { r.bottom() };
-                fig.line(
-                    px,
-                    py,
-                    lx,
-                    ly,
-                    Stroke::new(theme.muted.alpha(0.7), theme.hairline()),
-                );
-            }
+            labels.push((px, py, c.text.as_str()));
+        }
+    }
+    for (px, py, text) in labels {
+        let w = st.width(text);
+        let h = fs * 1.05;
+        let above = Rect::new(px - w / 2.0, py - fs * 0.5 - h, w, h);
+        let r = if placer.free(&above) {
+            placer.reserve(above);
+            above
+        } else {
+            placer.place(px, py, w, h, fs * 0.45)
+        };
+        fig.text(r.x, r.bottom() - fs * 0.22, text, &st);
+        // a hairline leader when the label had to move away
+        let (cx, cy) = r.center();
+        let dist = ((cx - px).powi(2) + (cy - py).powi(2)).sqrt();
+        if dist > w * 0.5 + fs * 1.4 {
+            let lx = px.clamp(r.x, r.right());
+            let ly = if py < r.y { r.y } else { r.bottom() };
+            fig.line(
+                px,
+                py,
+                lx,
+                ly,
+                Stroke::new(theme.muted.alpha(0.7), theme.hairline()),
+            );
         }
     }
 }
@@ -1104,11 +1107,36 @@ fn draw_plot(
         false,
         ann,
     );
+    // End labels, peak labels and callouts are one set of labels: the end labels' places (and
+    // the line ends they point at) are kept free before the others are placed.
+    let ends = (legend == Legend::Direct && !hist)
+        .then(|| direct_labels(theme, &panel, &p.series, area.right()));
+    if let Some(ends) = &ends {
+        let reach = theme.font_size * 2.5;
+        for r in end_label_boxes(
+            theme,
+            panel.rect.right(),
+            ends,
+            ends_lo(theme, &panel),
+            panel.rect.bottom(),
+            reach,
+        ) {
+            placer.reserve(r);
+        }
+    }
     draw_callouts(fig, theme, &panel, &refs, &mut placer, ink);
     if legend == Legend::Direct && hist {
         peak_labels(fig, theme, &panel, &p.series, &mut placer);
-    } else if legend == Legend::Direct {
-        direct_labels(fig, theme, &panel, &p.series, area.right());
+    }
+    if let Some(ends) = &ends {
+        end_labels(
+            fig,
+            theme,
+            panel.rect.right(),
+            ends,
+            ends_lo(theme, &panel),
+            panel.rect.bottom(),
+        );
     }
     hover.push(hover_panel(&panel, p.title.as_deref(), &refs, 400));
 }
@@ -1151,14 +1179,18 @@ fn label_color(theme: &Theme, c: Color) -> Color {
     }
 }
 
-/// Labels at the right end of each line (one per class), kept apart.
+/// The top of the band [`end_labels`] keeps direct labels in.
+fn ends_lo(theme: &Theme, panel: &Panel) -> f32 {
+    panel.rect.y + theme.font_size * 0.5
+}
+
+/// Labels for the right end of each line (one per class), drawn by [`end_labels`].
 fn direct_labels(
-    fig: &mut Figure,
     theme: &Theme,
     panel: &Panel,
     series: &[Series],
     right_edge: f32,
-) {
+) -> Vec<EndLabel> {
     let mut groups: Vec<(String, Color, Vec<f32>)> = Vec::new();
     for s in series {
         if s.weight == Weight::Context && s.class.is_none() {
@@ -1181,7 +1213,7 @@ fn direct_labels(
     }
     let room = (right_edge - panel.rect.right() - theme.font_size * 1.0).max(theme.font_size * 3.0);
     let st = TextStyle::new(theme.font_size, theme.ink);
-    let labels: Vec<EndLabel> = groups
+    groups
         .into_iter()
         .map(|(text, color, ys)| {
             let mut ys = ys;
@@ -1197,15 +1229,7 @@ fn direct_labels(
                 color: label_color(theme, color),
             }
         })
-        .collect();
-    end_labels(
-        fig,
-        theme,
-        panel.rect.right(),
-        &labels,
-        panel.rect.y + theme.font_size * 0.5,
-        panel.rect.bottom(),
-    );
+        .collect()
 }
 
 /// The pixel y of the last point of a line that lies inside the panel's x range.

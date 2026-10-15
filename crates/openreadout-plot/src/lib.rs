@@ -34,7 +34,7 @@ mod save;
 mod spec;
 
 use openreadout_core::{Error, Registry, Result};
-use openreadout_figure::{Anchor, Baseline, Face, Figure, Rect, TextStyle, Theme};
+use openreadout_figure::{Anchor, Baseline, Color, Face, Figure, Rect, TextStyle, Theme};
 use serde_json::Value;
 
 pub use output::{AxisOutput, Marked, PanelOutput, PlotOutput, SeriesOutput};
@@ -214,10 +214,21 @@ fn with_default_file(ps: &mut PanelSpec, figure: Option<&OneOrMany<String>>) {
 }
 
 fn theme_for(spec: &PlotSpec) -> Theme {
-    match spec.theme.unwrap_or_default() {
+    let mut t = match spec.theme.unwrap_or_default() {
         ThemeName::Light => Theme::light(),
         ThemeName::Dark => Theme::dark(),
+    };
+    if let Some(p) = spec
+        .paper
+        .as_deref()
+        .and_then(Color::parse)
+        .map(|c| c.alpha(1.0))
+    {
+        // cards (small multiples, plate wells) stay a shade off the ground
+        t.panel = p.mix(t.ink, 0.03);
+        t.paper = p;
     }
+    t
 }
 
 /// Read the data a spec names and draw the figure.
@@ -383,16 +394,22 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     };
     let mut hover = Vec::new();
     let mut y = margin + title_h;
-    let mut it = ins.into_iter();
+    let mut it = ins.into_iter().enumerate();
     for h in &row_h {
         let rh = h * k;
         for c in 0..cols {
-            let Some(p) = it.next() else { break };
+            let Some((index, p)) = it.next() else { break };
             let x = margin + c as f32 * (col_w + gap);
             let drawn =
                 draw::draw_panel(&mut fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)?;
             out.panels.push(drawn.summary);
-            hover.extend(drawn.hover);
+            // which spec panel each hover panel (a facet, a well) belongs to, for the viewer's zoom
+            hover.extend(drawn.hover.into_iter().map(|mut v| {
+                if let Value::Object(m) = &mut v {
+                    m.insert("spec_panel".into(), Value::from(index));
+                }
+                v
+            }));
         }
         y += rh + gap;
     }

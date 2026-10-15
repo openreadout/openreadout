@@ -311,6 +311,35 @@ mod tests {
         let _ = std::fs::remove_dir_all(&base);
     }
 
+    /// Links to files are read like the files; links to directories are walked once, even
+    /// when one points back up the tree.
+    #[cfg(unix)]
+    #[test]
+    fn links_are_followed_without_loops() {
+        let base = tempfile::tempdir().unwrap();
+        let data = base.path().join("data");
+        std::fs::create_dir_all(data.join("more")).unwrap();
+        std::fs::write(data.join("a.txt"), b"x").unwrap();
+        std::fs::write(data.join("more/b.txt"), b"x").unwrap();
+        let lab = base.path().join("lab");
+        std::fs::create_dir(&lab).unwrap();
+        std::os::unix::fs::symlink(data.join("a.txt"), lab.join("a.txt")).unwrap();
+        std::os::unix::fs::symlink(data.join("more"), lab.join("more")).unwrap();
+        std::os::unix::fs::symlink(&lab, lab.join("up")).unwrap();
+        let reg = Registry::new();
+        let opts = ExpandOptions {
+            recursive: true,
+            glob: false,
+            dataset_dir: None,
+        };
+        let names: Vec<String> = expand(&reg, std::slice::from_ref(&lab), opts)
+            .items
+            .iter()
+            .map(|i| i.relative.to_string_lossy().replace('\\', "/"))
+            .collect();
+        assert_eq!(names, ["a.txt", "more/b.txt"]);
+    }
+
     /// Test reader: `*.proj` folders are likely (a project), `*.exp` folders definite (one
     /// experiment); `*.tp` folders are likely of the project's own format (a time-point folder).
     #[derive(Debug)]

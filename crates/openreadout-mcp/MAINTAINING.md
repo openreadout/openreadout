@@ -39,7 +39,7 @@ The viewer is an MCP App (the `io.modelcontextprotocol/ui` extension, spec at gi
                         series: [{name, x: [...], y: [...]}] }] }
    ```
 
-   A one-panel figure may put `area`, `x`, `y` and `series` at the top level. When the page can call tools it draws the figure again with `openreadout_view {view: "figure", spec, dark, width, scale, x_range?}`: the tool's own arguments (`spec`, without `output`, so nothing is written) in the host's theme, at the canvas width and pixel density, and over a dragged x range when the figure is a single plot. Larger figures fall back to enlarging the picture.
+   A one-panel figure may put `area`, `x`, `y` and `series` at the top level. When the page can call tools it draws the figure again with `openreadout_view {view: "figure", spec, dark, width, scale, paper, x_range?, panel?}`: the tool's own arguments (`spec`, without `output`, so nothing is written) in the host's theme, on the host's background (`paper`, so the figure has no card of its own), at the canvas width and pixel density. A drag over a panel draws it again over that x range (`panel` is the spec panel, from each hover panel's `spec_panel`), with y fitted to what the range shows; panels that share x, facets and plate grids zoom together. Without tool calls the page enlarges the picture instead. The hover tooltip is a key–value list with series swatches (`figureTip`, numbers by `fmtValue`).
 
 ### What the user sends back
 

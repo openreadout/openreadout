@@ -218,7 +218,7 @@ pub(crate) fn render(
         channel: Some(0),
         ..FramePanel::new(panel)
     }];
-    Some((fig, Frame::plots(panels)))
+    Some((fig, Frame::plots_labelled(panels, placer.taken())))
 }
 
 #[cfg(test)]

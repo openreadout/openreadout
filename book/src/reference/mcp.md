@@ -80,7 +80,7 @@ A file still being written gets the same `acquisition` block as on the command l
 
 ### openreadout_preview
 
-Returns a picture as image content, followed by JSON that says what was drawn. Arguments as in [`preview`](commands/preview.md): `image`, `select`, `mip`, `composite`, `level`, `region` (`{x, y, width, height}`), `max_size` (default 768, at most 2048), `axes` (`rulers`, `grid` or `none`; default `rulers`), `contrast`, `lut` and `format`; for traces `trace`, `sweep` and `channels`; for spectra `run`, `spectrum`, `scan` and `centroid`; for plates and flow cytometry `table` and `columns`; `marks` (`auto`, `peaks`, `spikes` or `none`), `annotations` (see [Annotations](commands/preview.md#annotations)) and `dark`. With `format: "svg"` the picture still comes back as PNG, followed by the SVG text. An unknown argument is an error that lists the known ones. The tool writes nothing; its result's `save` line is the [`openreadout_export`](#saving-figures) call that saves the picture.
+Returns a picture as image content, followed by JSON that says what was drawn. Arguments as in [`preview`](commands/preview.md): `image`, `select`, `mip`, `composite`, `level`, `region` (`{x, y, width, height}`), `max_size` (default 768, at most 2048), `axes` (`rulers`, `grid`, `scale-bar` or `none`; default `rulers`), `title` and `caption` (images; they pick `scale-bar`), `contrast`, `lut` and `format`; for traces `trace`, `sweep` and `channels`; for spectra `run`, `spectrum`, `scan` and `centroid`; for plates and flow cytometry `table` and `columns`; `marks` (`auto`, `peaks`, `spikes` or `none`), `annotations` (see [Annotations](commands/preview.md#annotations)) and `dark`. With `format: "svg"` the picture still comes back as PNG, followed by the SVG text. An unknown argument is an error that lists the known ones. The tool writes nothing; its result's `save` line is the [`openreadout_export`](#saving-figures) call that saves the picture.
 
 ### openreadout_plot
 
@@ -144,6 +144,7 @@ Compression, chunk size, pyramid levels and vendor metadata embedding are comman
 
 - `output`: `.png`, `.jpg`, `.tiff`, `.svg` or `.pdf`. The default is `<data file stem>.figure.png` (plots) or `<stem>.preview.png` (previews) next to the data. `output` and `overwrite` given inside `plot` or `preview` are used too.
 - `scale`: pixels per figure pixel in PNG, JPEG and TIFF files (default 2, at most 8). Plots are drawn again at that size. An image preview is read again at `max_size` × `scale` (at most 8192), so the saved picture has real pixels, not enlarged ones; at the default 768 × 2 it looks the same as the picture the agent saw.
+- An image preview is saved as a figure for people: the picture with a scale bar, the agent's annotations and the preview's `title` and `caption`, without the rulers the agent read coordinates from (`axes: "scale-bar"`). Pass `axes: "rulers"` inside `preview` to keep them.
 - `dpi`: the print resolution. PNG, JPEG and TIFF files record it; SVG and PDF pages get the size the raster would print at. The result's `print_size_in` is that size in inches.
 
 The result is the saved picture as image content (at most 1568 px on its long side, the size a model reads), then the written file (`path`, `format`, `width`, `height`, `bytes`, `verified`), what was drawn (`drawn`: `plot`, or the preview's kind) and the drawing's notes and warnings. An agent can save a figure it has not drawn yet in one call and still see it.
@@ -168,13 +169,13 @@ Groups files that measured the same sample, from their headers. Every link has i
 
 ### openreadout_index, openreadout_search, openreadout_health and openreadout_watch
 
-`openreadout_index` catalogs every data set under `roots` into Parquet tables in `index_dir`, reading headers only. One call stops after `max_files` (default 20000) or `max_seconds` (default 45) and returns `complete: false`; the same call again continues where it stopped. Other arguments: `check` (`headers`, `full` or `none`), `exclude`, `restart`, `full_rescan`, `pii` and `threads`. It writes only inside `index_dir`.
+`openreadout_index` catalogs every data set under `roots` into Parquet tables in `index_dir`, reading headers only. One call stops after `max_files` (default 20000) or `max_seconds` (default 45) and returns `complete: false`; the same call again continues where it stopped. Other arguments: `check` (`headers`, `full` or `none`), `exclude`, `follow_symlinks` (directories behind links; links to files are always read), `restart`, `full_rescan`, `pii` and `threads`. It writes only inside `index_dir`.
 
 `openreadout_search` queries an index with the query language of [`search`](commands/search.md), for example `format=nd2 objective=60x`. `total` counts every match; `limit` (default 50, at most 1000) caps the results, and `fields: ["all"]` returns every column.
 
 `openreadout_health` reports on the files in an index: truncated or corrupt files, formats it could not read, duplicates (confirmed by hashing their content unless `no_hash: true`), the same experiment stored twice, and personal-data findings. `max_list` (default 50) caps each list; the counts are complete.
 
-`openreadout_watch` looks once at `dirs` per call and returns the events since `cursor`: new data sets, planes and scans, completed and stalled data sets, QC findings (with `qc: true`) and errors. `stall_after` sets the seconds without growth before a data set counts as stalled. Poll with the returned `cursor`. The watcher persists between calls with the same `dirs`. It doesn't lock files. See [Lab shares, indexes and live acquisitions](../guides/lab-shares.md).
+`openreadout_watch` looks once at `dirs` per call and returns the events since `cursor`: new data sets, planes and scans, completed and stalled data sets, QC findings (with `qc: true`) and errors. `stall_after` sets the seconds without growth before a data set counts as stalled, and `follow_symlinks` walks into directories behind links (links to files are always followed; skipped directory links are named in `notes`). Poll with the returned `cursor`. The watcher persists between calls with the same `dirs`. It doesn't lock files. See [Lab shares, indexes and live acquisitions](../guides/lab-shares.md).
 
 ## Pictures
 
@@ -236,7 +237,7 @@ Every tool has a title and the four MCP behaviour hints:
 
 ## Progress
 
-When a request carries a `progressToken`, long calls send progress notifications whose `message` a host can show as is, such as "Reading 1,200 of 53,141 spectra": `openreadout_export` (planes, spectra, rows or samples read; verification of the written file follows the last one), `openreadout_chromatogram` and `openreadout_peaks` (spectra read), `openreadout_stats` (planes read), `openreadout_batch` (data sets measured) and `openreadout_index` (data sets read so far, without a `total`). A tool argument that takes a list also accepts a single value (`"filter": "FITC-A > 1000"`), and an argument of the wrong type gets a hint listing the tool's arguments.
+When a request carries a `progressToken`, long calls send progress notifications whose `message` a host can show as is, such as "Reading 1,200 of 53,141 spectra": `openreadout_export` (planes, spectra, rows or samples read; verification of the written file follows the last one), `openreadout_chromatogram` and `openreadout_peaks` (spectra read), `openreadout_stats` (planes read), `openreadout_batch` (data sets measured) and `openreadout_index` (data sets read so far, without a `total`). A tool argument that takes a list also accepts a single value (`"filter": "FITC-A > 1000"`), an argument that takes an object or a list also accepts it as a JSON string (`"preview": "{\"file\": …}"`, at any depth, including inside the `plot` and `preview` of `openreadout_export`), and an argument of the wrong type gets a hint listing the tool's arguments.
 
 ## Errors
 

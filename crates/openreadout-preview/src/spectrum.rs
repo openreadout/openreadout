@@ -174,6 +174,7 @@ pub(crate) fn render(
         }
         panel.line_px(&mut fig, envelope_points(&zeroed, &panel), ink);
     }
+    let mut placer = LabelPlacer::new(fig.rect());
     if labels_on && imax > 0.0 {
         let min_gap = (fs * 4.5) as usize;
         let idx = marks::prominent(&cols, marks::MAX_PEAKS, min_gap.max(1), 0.02);
@@ -184,7 +185,6 @@ pub(crate) fn render(
             .filter_map(|&i| cols[i])
             .map(|c| (c.x_at_max, c.max, marks::peak_label(c.x_at_max, dec)))
             .collect();
-        let mut placer = LabelPlacer::new(fig.rect());
         out.marks = marks::label_peaks(&mut fig, &panel, &theme, &peaks, None, &mut placer);
     }
     let x_axis = XAxis {
@@ -205,5 +205,8 @@ pub(crate) fn render(
         max_intensity: (imax > 0.0).then_some(imax),
         precursor_mz: sp.precursor_mz,
     });
-    Ok((fig, Frame::plots(vec![FramePanel::new(panel)])))
+    Ok((
+        fig,
+        Frame::plots_labelled(vec![FramePanel::new(panel)], placer.taken()),
+    ))
 }

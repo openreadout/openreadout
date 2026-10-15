@@ -9,6 +9,7 @@ use openreadout_core::select::Selection;
 use openreadout_core::{Error, Result};
 
 use crate::color::{self, Rgb};
+use crate::figure_frame::{self, FigureLayout};
 use crate::rulers::{self, Layout, Mapping};
 use crate::{
     Axis, Contrast, ImagePreview, Lut, PreviewChannel, PreviewOutput, PreviewRequest, SourcePoint,
@@ -600,6 +601,27 @@ fn blank_unstored(s: &mut [f32], w: usize, h: usize, spp: usize, areas: &[Region
     }
 }
 
+/// What frames the picture.
+enum Framing {
+    Rulers(Layout),
+    Figure(FigureLayout),
+}
+
+impl Framing {
+    fn h(&self) -> u32 {
+        match self {
+            Framing::Rulers(l) => l.h(),
+            Framing::Figure(f) => f.h(),
+        }
+    }
+    fn v(&self) -> u32 {
+        match self {
+            Framing::Rulers(l) => l.v(),
+            Framing::Figure(f) => f.v(),
+        }
+    }
+}
+
 pub(crate) fn render(
     ds: &mut dyn Dataset,
     info: &FileInfo,
@@ -678,27 +700,48 @@ pub(crate) fn render(
     )?;
     let t_list = axis_indices("t", &sel.t, im.size_t, 0, req.mip == Some(Axis::T))?;
 
-    // Rulers: `max_size` bounds the whole picture, so the data gets what the margins leave.
-    let mut layout = req
-        .axes
-        .then(|| Layout::new(req.max_size, im.size_x, im.size_y));
-    if let Some(l) = layout {
+    // The frame: `max_size` bounds the whole picture, so the data gets what the margins leave.
+    let has_bar = im.physical_size.x.is_some_and(|v| v.is_finite() && v > 0.0);
+    let mut layout = req.axes.then(|| {
+        if req.figure {
+            Framing::Figure(FigureLayout::new(
+                req.max_size,
+                has_bar,
+                req.title.as_deref(),
+                req.caption.as_deref(),
+            ))
+        } else {
+            Framing::Rulers(Layout::new(req.max_size, im.size_x, im.size_y))
+        }
+    });
+    if let Some(l) = &layout {
         let room = req.max_size.saturating_sub(l.h().max(l.v()));
         if room < 16 || room < req.max_size / 2 {
             out.notes.push(format!(
-                "max size {} is too small for rulers; drawn without them",
+                "max size {} is too small for the frame; drawn without it",
                 req.max_size
             ));
             layout = None;
         }
     }
-    if req.grid && layout.is_none() {
+    if req.grid && !matches!(layout, Some(Framing::Rulers(_))) {
         out.notes
             .push("grid lines are drawn only with the rulers (axes)".into());
     }
+    if (req.title.is_some() || req.caption.is_some()) && !matches!(layout, Some(Framing::Figure(_)))
+    {
+        out.notes
+            .push("title and caption are drawn only with axes scale-bar".into());
+    }
+    if matches!(layout, Some(Framing::Figure(_))) && !has_bar {
+        out.notes
+            .push("the pixel size is not recorded: no scale bar".into());
+    }
     // The level is chosen for `max_size` as without rulers; the plane is then resampled so its
     // longer side fills what the margins leave (a bare plane is only ever made smaller).
-    let fit = layout.map_or(req.max_size, |l| req.max_size - l.h().max(l.v()));
+    let fit = layout
+        .as_ref()
+        .map_or(req.max_size, |l| req.max_size - l.h().max(l.v()));
     let planes = (c_list.len() * z_list.len() * t_list.len()) as u64;
     let budget = req.max_read_bytes.map(|b| Budget {
         im: &im,
@@ -785,7 +828,9 @@ pub(crate) fn render(
         match first_dims {
             None => {
                 first_dims = Some(dims);
-                let fit = if layout.is_some() {
+                let fit = if let Some(Framing::Figure(f)) = &layout {
+                    f.fit(req.max_size, dims.0, dims.1)
+                } else if layout.is_some() {
                     fit
                 } else {
                     fit.min(dims.0.max(dims.1))
@@ -901,9 +946,17 @@ pub(crate) fn render(
         _ => (im.size_x, im.size_y),
     };
     let full_res_region = map.covered(ow as u32, oh as u32, read_end);
-    let (figure, plot_area, scale_bar) = if let Some(l) = layout {
+    let rulers_drawn = matches!(layout, Some(Framing::Rulers(_)));
+    let (figure, plot_area, scale_bar) = if let Some(l) = &layout {
         let theme = crate::theme(req);
-        let d = rulers::decorate(canvas, l, map, im.physical_size.x, req.grid, &theme);
+        let d = match l {
+            Framing::Rulers(l) => {
+                rulers::decorate(canvas, *l, map, im.physical_size.x, req.grid, &theme)
+            }
+            Framing::Figure(f) => {
+                figure_frame::decorate(canvas, f, map, im.physical_size.x, &theme)
+            }
+        };
         (d.figure, d.plot_area, d.scale_bar)
     } else {
         let (w, h) = (ow as f32, oh as f32);
@@ -944,8 +997,8 @@ pub(crate) fn render(
             "channel-color".into()
         },
         channels,
-        axes: layout.is_some(),
-        grid: layout.is_some() && req.grid,
+        axes: rulers_drawn,
+        grid: rulers_drawn && req.grid,
         plot_area,
         source_origin: SourcePoint {
             x: map.origin.0,
