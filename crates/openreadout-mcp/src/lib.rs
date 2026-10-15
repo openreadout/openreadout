@@ -40,6 +40,7 @@ mod progress;
 mod resources;
 mod schema_compact;
 mod tools;
+mod wording;
 
 #[cfg(feature = "http")]
 pub use http::{HttpOptions, serve_http};
@@ -74,13 +75,24 @@ impl std::fmt::Debug for InstrumentServer {
 fn mcp_err(e: &Error) -> McpError {
     let mut data = serde_json::json!({"code": e.code(), "exit_code": e.exit_code()});
     if let Some(h) = e.hint() {
-        data["hint"] = serde_json::Value::String(h);
+        data["hint"] = serde_json::Value::String(wording::for_tools(&h));
     }
     McpError::new(
         rmcp::model::ErrorCode::INTERNAL_ERROR,
-        e.to_string(),
+        wording::for_tools(&e.to_string()),
         Some(data),
     )
+}
+
+/// A failed tool call as a result with `isError`, its message and hint in the text: the model
+/// reads tool results, while clients often show it only the message of a protocol error.
+fn error_result(e: McpError) -> CallToolResult {
+    let mut text = e.message.to_string();
+    if let Some(h) = e.data.as_ref().and_then(|d| d.get("hint")).and_then(|h| h.as_str()) {
+        text.push_str("\nhint: ");
+        text.push_str(h);
+    }
+    CallToolResult::error(vec![rmcp::model::ContentBlock::text(text)])
 }
 
 /// A tool's `strict` argument over the server's default (`OPENREADOUT_STRICT`, `--strict`).
@@ -192,10 +204,13 @@ impl ServerHandler for InstrumentServer {
             .flatten();
         let name = request.name.clone();
         let tcc = rmcp::handler::server::tool::ToolCallContext::new(self, request, context);
-        let mut response = coerce::with_argument_hint(
+        let mut response = match coerce::with_argument_hint(
             self.tool_router.call(tcc).await,
             self.tool_router.get(&name),
-        )?;
+        ) {
+            Err(e) if self.tool_router.get(&name).is_some() => error_result(e).into(),
+            r => r?,
+        };
         if let (Some(hint), CallToolResponse::Complete(result)) = (hint, &mut response) {
             app::attach_hint(result, hint);
         }
