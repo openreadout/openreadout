@@ -244,7 +244,9 @@ pub struct Objects {
     /// Objects found, including those touching the edge.
     pub count: usize,
     /// `high`, or `low` when less than half of the objects' area is in compact objects of the
-    /// expected size (`fit`): the image may not suit the count (see `notes`).
+    /// expected size (`fit`), when most objects are under a third of the expected area, or
+    /// when more objects were found than the area holds: the image may not suit the count, or
+    /// the threshold cut noise into pieces (see `notes`).
     pub confidence: CountConfidence,
     /// Share of the objects' area in compact objects (solidity at least 0.85) of the expected
     /// size (a third to three times the area of its disc), 0 to 1. Not for spots.
@@ -382,13 +384,17 @@ fn stain_misfit(comps: &[Vec<f32>], i0: [f32; 3]) -> f64 {
 
 /// True for transmitted light (brightfield), where objects are darker than the background:
 /// the median sits closer to the top of the range than to the bottom, or the plane has no
-/// dark background at all (stained tissue filling the field). Fluorescence always has one.
+/// dark background at all (stained tissue filling the field). Fluorescence always has one,
+/// though a camera offset can lift it: there the brightest few objects (the 20th brightest
+/// pixel, which a handful of hot pixels do not reach) stand far above it, even when they
+/// cover less than a thousandth of the plane.
 fn looks_dark(v: &[f32]) -> bool {
+    let n = v.len().max(1) as f64;
     let (Some(p1), Some(p50), Some(p99), Some(top)) = (
         sg::quantile(v, 0.01),
         sg::quantile(v, 0.5),
         sg::quantile(v, 0.99),
-        sg::quantile(v, 0.999),
+        sg::quantile(v, 0.999f64.max(1.0 - 20.0 / n)),
     ) else {
         return false;
     };
@@ -530,7 +536,7 @@ fn measure_diameter(
         }
     }
     let measured = cands.len();
-    if let Some(t) = typical
+    if let Some(t) = typical.filter(|t| *t <= w.min(h) as f64)
         && distinct(&cands, t)
     {
         cands.push(t);
@@ -570,6 +576,64 @@ fn quality(s: &[f32], w: usize, h: usize, plan: &Plan) -> f64 {
         .collect();
     let (lab, _) = label_tile(&crop, cw, ch, plan);
     fit(&shapes(&lab, cw, ch), plan.d)
+}
+
+/// Why a count has low confidence.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub(crate) enum Doubt {
+    /// Less than [`LOW_FIT`] of the objects' area is in compact objects of the expected size.
+    Shapes(f64),
+    /// Most objects are under a third of the expected area: noise or texture cut into specks.
+    Specks,
+    /// More objects of the expected size than the area searched holds.
+    Crowded,
+}
+
+impl Doubt {
+    fn note(self, count: usize, d: f64, kind: Kind) -> String {
+        let why = match self {
+            Doubt::Shapes(f) => format!(
+                "only {:.0}% of the objects' area is in compact objects about {d:.0} px across; this image may not suit counting {} (cytoplasm, another stain or debris counted, or touching objects merged)",
+                f * 100.0,
+                kind_name(kind)
+            ),
+            Doubt::Specks => format!(
+                "most of the {count} objects are under a third of the area of a {d:.0} px disc: the threshold probably cut background noise or texture into specks"
+            ),
+            Doubt::Crowded => format!(
+                "{count} objects about {d:.0} px across would need more than the area searched: the threshold probably cut background noise or texture into pieces"
+            ),
+        };
+        format!(
+            "low confidence: {why}. Do not quote the count without checking a picture (preview marks=objects); set diameter_um, threshold, another channel or stain if the picture shows why"
+        )
+    }
+}
+
+/// The fit of a count (see [`fit`]; not for spots) and why it has low confidence, if it has:
+/// from each object's `(area, solidity)`, the expected diameter `d` and the pixels searched.
+pub(crate) fn assess(
+    kind: Kind,
+    shapes: &[(f64, f64)],
+    d: f64,
+    searched: f64,
+) -> (Option<f64>, Option<Doubt>) {
+    if kind == Kind::Spots || shapes.is_empty() {
+        return (None, None);
+    }
+    let f = fit(shapes, d);
+    let expected = std::f64::consts::PI * d * d / 4.0;
+    let mut areas: Vec<f64> = shapes.iter().map(|s| s.0).collect();
+    let doubt = if f < LOW_FIT {
+        Some(Doubt::Shapes(f))
+    } else if shapes.len() >= 10 && median(&mut areas).is_some_and(|a| a < expected / 3.0) {
+        Some(Doubt::Specks)
+    } else if shapes.len() as f64 * expected > searched {
+        Some(Doubt::Crowded)
+    } else {
+        None
+    };
+    (Some(f), doubt)
 }
 
 /// The share of the objects' area in objects that are compact (solidity at least 0.85) and
@@ -744,12 +808,17 @@ fn spot_sigma(d: f64) -> f64 {
 /// need only about 32 pixels per object, and large objects would make them slow.
 const LARGE_OBJECTS: f64 = 64.0;
 
+/// The most [`working`] shrinks by (diameters are at most the area's side, so only objects
+/// too large to count get near it).
+const MAX_WORKING_FACTOR: usize = 1 << 12;
+
 /// The factor [`working`] shrinks by.
 fn working_factor(p: &Plan) -> usize {
     if p.kind == Kind::Spots || p.d < LARGE_OBJECTS {
         1
     } else {
-        (p.d / 32.0).floor().max(1.0) as usize
+        // about 32 pixels per object
+        ((p.d / 32.0).floor().max(1.0) as usize).min(MAX_WORKING_FACTOR)
     }
 }
 
@@ -769,7 +838,7 @@ fn scaled(p: &Plan, k: usize) -> Plan {
     let mut q = p.clone();
     if k > 1 {
         q.d = p.d / k as f64;
-        q.min_area = (p.min_area / (k * k)).max(1);
+        q.min_area = (p.min_area / k.saturating_mul(k)).max(1);
     }
     q
 }
@@ -889,6 +958,41 @@ fn spots(s: &[f32], w: usize, h: usize, p: &Plan) -> (Vec<u32>, Vec<f32>) {
     (lab, heights)
 }
 
+/// The error when no threshold can be chosen.
+fn flat() -> Error {
+    usage(
+        "the area has no contrast (one value once the background is removed), so there is nothing to count: check the channel, z plane and region with preview",
+    )
+}
+
+/// The threshold for a few bright objects on a large background, or `None` when the objects
+/// are not sparse. Objects that cover well under a thousandth of the area fall outside the
+/// range the histogram thresholds look at, and Otsu's threshold then splits the background
+/// noise: it lands within a few robust standard deviations (σ) of the median. Then the
+/// threshold is half way from the background to the median of the pixels more than 5σ above
+/// it (the objects), and at least 5σ above the background. `None` also when the sample has a
+/// single value.
+fn sparse_threshold(sample: &[f32]) -> Option<f32> {
+    let med = sg::quantile(sample, 0.5)?;
+    let dev: Vec<f32> = sample.iter().map(|v| (v - med).abs()).collect();
+    let sd = 1.4826 * sg::quantile(&dev, 0.5)?;
+    let noise_top = med + 5.0 * sd;
+    let bright: Vec<f32> = sample.iter().copied().filter(|v| *v > noise_top).collect();
+    let n = sample.iter().filter(|v| v.is_finite()).count();
+    // flat, or more than a twentieth of the area above the noise: not sparse objects
+    if (bright.is_empty() && sd == 0.0) || bright.len() * 20 > n {
+        return None;
+    }
+    // Otsu's threshold clear of the noise: it sees the objects
+    if let Some((t, _)) = sg::otsu(sample)
+        && (t - med).abs() >= 3.0 * sd
+    {
+        return None;
+    }
+    let top = sg::quantile(&bright, 0.5).unwrap_or(noise_top);
+    Some(noise_top.max(med + 0.5 * (top - med)))
+}
+
 /// The threshold for `plan` from a sample of the flattened signal, and its name. `auto` tries
 /// Otsu's two-class threshold and the upper of Otsu's three-class thresholds (objects that
 /// stand out from a middle class such as cytoplasm), and keeps the three-class one only when
@@ -907,6 +1011,14 @@ fn settle_threshold(
         let mad = sg::quantile(&dev, 0.5)?;
         let sd = (1.4826 * mad).max(f32::EPSILON);
         return Some((med + 5.0 * sd, "noise"));
+    }
+    if let Some(t) = sparse_threshold(sample) {
+        let name = if plan.method == ThresholdMethod::Local {
+            "local"
+        } else {
+            "sparse"
+        };
+        return Some((t, name));
     }
     match plan.method {
         ThresholdMethod::Otsu => sg::otsu(sample).map(|t| (t.0, "otsu")),
@@ -1003,6 +1115,7 @@ pub(crate) fn objects(
     o: &ObjectsRequest,
     notes: &mut Vec<String>,
 ) -> Result<Objects> {
+    validate(o)?;
     let poly = req.polygon.as_deref();
     let r = match (req.region, poly) {
         (Some(r), _) => {
@@ -1069,7 +1182,7 @@ pub(crate) fn objects(
     };
     let s = signal.of(&comps);
     let background = !signal.deconvolved();
-    let (d, from) = diameter(o, &s, probe, pixel_um, &signal, notes)?;
+    let (d, from) = diameter(o, &s, probe, r, pixel_um, &signal, notes)?;
     if d < 3.0 && o.kind != Kind::Spots {
         notes.push(format!(
             "objects are about {d:.1} px across at this level: too small to separate; read a finer level"
@@ -1097,11 +1210,14 @@ pub(crate) fn objects(
         }
         (None, _) => f64::MAX,
     };
-    let max_area = if max_area >= usize::MAX as f64 {
-        usize::MAX
-    } else {
-        max_area as usize
-    };
+    // validated finite and positive; `as` saturates at usize::MAX
+    let max_area = max_area as usize;
+    if max_area < min_area {
+        return Err(usage(format!(
+            "max_area_um2 is below the smallest object kept ({:.3} µm², a fifth of the expected area): raise it, or set min_area_um2 too",
+            min_area as f64 * area_px_um2.unwrap_or(1.0)
+        )));
+    }
     // threshold: from the whole area (tile by tile when it is large)
     let tiles = tiles(r, d);
     let mut plan = Plan::new(o.kind, d, background, o.method);
@@ -1142,8 +1258,7 @@ pub(crate) fn objects(
             }
         }
         let (pw, ph) = (probe.width as usize, probe.height as usize);
-        let (t, m) = settle_threshold(&s, pw, ph, &plan, &sample)
-            .ok_or_else(|| usage("the area is flat (one value): there is nothing to count"))?;
+        let (t, m) = settle_threshold(&s, pw, ph, &plan, &sample).ok_or_else(flat)?;
         if o.kind != Kind::Spots
             && let Some((_, sep)) = sg::otsu(&sample)
             && sep < 0.5
@@ -1366,25 +1481,19 @@ pub(crate) fn objects(
         })
         .collect();
     // say when the objects do not look like what was asked for
-    let fit = (o.kind != Kind::Spots && count > 0).then(|| {
-        let s: Vec<(f64, f64)> = all
-            .iter()
-            .map(|o| (o.area_px as f64, o.solidity.unwrap_or(1.0)))
-            .collect();
-        round4(fit(&s, d))
-    });
-    let confidence = if fit.is_some_and(|f| f < LOW_FIT) {
+    let shapes: Vec<(f64, f64)> = all
+        .iter()
+        .map(|o| (o.area_px as f64, o.solidity.unwrap_or(1.0)))
+        .collect();
+    let (fit, doubt) = assess(o.kind, &shapes, d, searched as f64);
+    let fit = fit.map(round4);
+    let confidence = if doubt.is_some() {
         CountConfidence::Low
     } else {
         CountConfidence::High
     };
-    if let Some(f) = fit.filter(|_| confidence == CountConfidence::Low) {
-        notes.push(format!(
-            "low confidence: only {:.0}% of the objects' area is in compact objects about {:.0} px across; this image may not suit counting {} (cytoplasm, another stain or debris counted, or touching objects merged). Do not quote the count without checking a picture (preview marks=objects); set diameter_um, another channel or stain if the picture shows why",
-            f * 100.0,
-            d,
-            kind_name(o.kind)
-        ));
+    if let Some(doubt) = doubt {
+        notes.push(doubt.note(count, d, o.kind));
     } else if o.kind != Kind::Spots && count >= 10 {
         let mut sol: Vec<f64> = all.iter().filter_map(|o| o.solidity).collect();
         let irregular = median(&mut sol).is_some_and(|s| s < 0.8);
@@ -1536,34 +1645,105 @@ fn tile_data(
     Ok(TileData { comps, measured })
 }
 
-/// The expected diameter in pixels and where it came from.
+/// Largest spot diameter in pixels: spots are small, and the Laplacian of Gaussian that finds
+/// them costs about the diameter per pixel.
+const MAX_SPOT_PX: f64 = 64.0;
+
+/// Check the numbers of a request before anything is read: each must be a finite number, and
+/// sizes positive.
+pub(crate) fn validate(o: &ObjectsRequest) -> Result<()> {
+    let positive = [
+        ("diameter_um", o.diameter_um),
+        ("diameter_px", o.diameter_px),
+        ("min_area_um2", o.min_area_um2),
+        ("max_area_um2", o.max_area_um2),
+    ];
+    for (name, v) in positive {
+        if let Some(v) = v
+            && !(v.is_finite() && v > 0.0)
+        {
+            return Err(usage(format!(
+                "{name} must be a positive number (got {v}); leave it out for the default"
+            )));
+        }
+    }
+    if let Some(t) = o.threshold
+        && !(t.is_finite() && t.abs() < f64::from(f32::MAX))
+    {
+        return Err(usage(format!(
+            "threshold must be a finite number (got {t}); leave it out to choose one from the image"
+        )));
+    }
+    if let (Some(lo), Some(hi)) = (o.min_area_um2, o.max_area_um2)
+        && hi < lo
+    {
+        return Err(usage(format!(
+            "max_area_um2 ({hi}) is below min_area_um2 ({lo}): no object could be kept"
+        )));
+    }
+    Ok(())
+}
+
+/// The largest diameter (pixels) objects of `kind` can have in an area of `w × h` pixels.
+fn largest_diameter(kind: Kind, w: usize, h: usize) -> f64 {
+    let side = w.min(h).max(1) as f64;
+    if kind == Kind::Spots {
+        side.min(MAX_SPOT_PX)
+    } else {
+        side
+    }
+}
+
+/// The expected diameter in pixels and where it came from. `area` is the whole area searched
+/// and `probe` the part of it in `s`.
 fn diameter(
     o: &ObjectsRequest,
     s: &[f32],
     probe: Region,
+    area: Region,
     pixel_um: Option<f64>,
     signal: &Signal,
     notes: &mut Vec<String>,
 ) -> Result<(f64, &'static str)> {
-    let check = |d: f64, what: &str| -> Result<f64> {
-        if d.is_finite() && d > 0.0 {
-            Ok(d)
-        } else {
-            Err(usage(format!("{what} must be a positive number")))
+    let cap = largest_diameter(o.kind, area.width as usize, area.height as usize);
+    let given = |d: f64, what: &str| -> Result<(f64, &'static str)> {
+        if d <= cap {
+            return Ok((d, "given"));
         }
+        Err(usage(if o.kind == Kind::Spots && cap == MAX_SPOT_PX {
+            format!(
+                "{what} makes spots {d:.0} px across; spots are at most {MAX_SPOT_PX} px: for larger objects use kind=nuclei or cells, or read a coarser level"
+            )
+        } else {
+            format!(
+                "{what} makes objects {d:.0} px across, more than the area searched ({} x {} px) holds: give a smaller diameter or a larger region",
+                area.width, area.height
+            )
+        }))
     };
     if let Some(d) = o.diameter_um {
-        let d = check(d, "diameter_um")?;
         let Some(p) = pixel_um else {
             return Err(usage(
                 "diameter_um needs the pixel size, which this image does not record; give diameter_px instead",
             ));
         };
-        return Ok((d / p, "given"));
+        return given(d / p, "diameter_um");
     }
     if let Some(d) = o.diameter_px {
-        return Ok((check(d, "diameter_px")?, "given"));
+        return given(d, "diameter_px");
     }
+    // a default from the pixel size: a wrong pixel size must not make it absurd
+    let derived = |d: f64, notes: &mut Vec<String>| -> f64 {
+        if d <= cap {
+            return d;
+        }
+        notes.push(format!(
+            "the recorded pixel size ({} µm) makes typical {} {d:.0} px across, more than the area searched allows; used {cap:.0} px (set diameter_px if the pixel size is wrong)",
+            pixel_um.map_or_else(String::new, |p| format!("{p:.3e}")),
+            kind_name(o.kind)
+        ));
+        cap
+    };
     // typical sizes and the range a measurement may fall in, in µm
     let (typical, lo, hi) = match o.kind {
         Kind::Nuclei => (10.0, 3.0, 30.0),
@@ -1572,8 +1752,8 @@ fn diameter(
     };
     if o.kind == Kind::Spots {
         return Ok(match pixel_um {
-            Some(p) => ((typical / p).max(2.0), "default"),
-            None => (3.0, "default"),
+            Some(p) => (derived((typical / p).max(2.0), notes), "default"),
+            None => (3.0f64.min(cap), "default"),
         });
     }
     let (w, h) = (probe.width as usize, probe.height as usize);
@@ -1586,17 +1766,17 @@ fn diameter(
         pixel_um,
     ) {
         (Some((d, false)), _) => Ok((d, "measured")),
-        (Some((d, true)), _) => Ok((d, "default")),
+        (Some((d, true)), _) => Ok((derived(d, notes), "default")),
         (None, Some(p)) => {
             notes.push(format!(
                 "could not measure the {} in the image; used the typical {typical} µm (set diameter_um to override)",
                 kind_name(o.kind)
             ));
-            Ok((typical / p, "default"))
+            Ok((derived(typical / p, notes), "default"))
         }
         (None, None) => {
             notes.push("could not measure the object size and the image has no pixel size; used 20 px (set diameter_px)".into());
-            Ok((20.0, "default"))
+            Ok((20f64.min(cap), "default"))
         }
     }
 }
@@ -1681,8 +1861,8 @@ fn tiles(r: Region, d: f64) -> Vec<Tile> {
 
 /// Label a plane held in memory: `comps` one plane (or three RGB components), `w × h`, with
 /// the pixel size in µm when known. For tests and evaluation against annotated images: the
-/// label image (objects 1, 2, …; 0 = background), the expected diameter used, in pixels, and
-/// the objects' fit (see `Objects::fit`).
+/// label image (objects 1, 2, …; 0 = background), the expected diameter used, in pixels, the
+/// objects' fit and the count's confidence (see `Objects::fit` and `Objects::confidence`).
 #[doc(hidden)]
 pub fn label_plane(
     comps: &[Vec<f32>],
@@ -1690,16 +1870,17 @@ pub fn label_plane(
     h: usize,
     pixel_um: Option<f64>,
     o: &ObjectsRequest,
-) -> Result<(Vec<u32>, f64, f64)> {
-    if comps.is_empty() || comps.iter().any(|c| c.len() != w * h) {
+) -> Result<(Vec<u32>, f64, f64, CountConfidence)> {
+    if comps.is_empty() || w == 0 || h == 0 || comps.iter().any(|c| c.len() != w * h) {
         return Err(usage("label_plane: each component needs w × h values"));
     }
+    validate(o)?;
     let mut notes = Vec::new();
     let (signal, _) = signal_for(comps, o, &mut notes)?;
     let s = signal.of(comps);
     let background = !signal.deconvolved();
     let full = Region::full(w as u32, h as u32);
-    let (d, _) = diameter(o, &s, full, pixel_um, &signal, &mut notes)?;
+    let (d, _) = diameter(o, &s, full, full, pixel_um, &signal, &mut notes)?;
     let mut plan = Plan::new(o.kind, d, background, o.method);
     plan.split &= o.split.unwrap_or(true);
     plan.threshold = if let Some(t) = o.threshold {
@@ -1707,17 +1888,20 @@ pub fn label_plane(
     } else {
         let (ws, sw, _, k) = working(&s, w, h, &plan);
         let f = scaled(&plan, k).flatten(&ws, sw, ws.len() / sw.max(1));
-        settle_threshold(&s, w, h, &plan, &f)
-            .ok_or_else(|| usage("the plane is flat"))?
-            .0
+        settle_threshold(&s, w, h, &plan, &f).ok_or_else(flat)?.0
     };
     let lab = label_tile(&s, w, h, &plan).0;
-    let f = fit(&shapes(&lab, w, h), d);
-    Ok((lab, d, f))
+    let (f, doubt) = assess(o.kind, &shapes(&lab, w, h), d, (w * h) as f64);
+    let confidence = if doubt.is_some() {
+        CountConfidence::Low
+    } else {
+        CountConfidence::High
+    };
+    Ok((lab, d, f.unwrap_or(0.0), confidence))
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use crate::measure::{MeasureRequest, measure};
     use crate::model::{ChannelInfo, CheckReport, FileInfo, ImageInfo, LsEntry, PhysicalSize};
@@ -1791,7 +1975,7 @@ mod tests {
                 ..ObjectsRequest::default()
             },
         ] {
-            let (lab, d, _) = label_plane(std::slice::from_ref(&plane), w, h, None, &o).unwrap();
+            let (lab, d, _, _) = label_plane(std::slice::from_ref(&plane), w, h, None, &o).unwrap();
             assert!((12.0..30.0).contains(&d), "{d}");
             assert_eq!(count(&lab), 9, "diameter {d}");
         }
@@ -1812,7 +1996,7 @@ mod tests {
             .map(|(x, y, r, v)| (x, y, r, 250.0 - v))
             .collect();
         let plane = discs(w, h, &d, 230.0, 8.0);
-        let (lab, _, _) = label_plane(&[plane], w, h, None, &ObjectsRequest::default()).unwrap();
+        let (lab, _, _, _) = label_plane(&[plane], w, h, None, &ObjectsRequest::default()).unwrap();
         assert_eq!(count(&lab), 9);
     }
 
@@ -1852,7 +2036,7 @@ mod tests {
         assert_eq!(name, "hematoxylin");
         assert!(notes.is_empty(), "{notes:?}");
         assert!(sig.deconvolved());
-        let (lab, _, _) = label_plane(&[r, g, b], w, h, None, &o).unwrap();
+        let (lab, _, _, _) = label_plane(&[r, g, b], w, h, None, &o).unwrap();
         assert_eq!(count(&lab), 9);
     }
 
@@ -1870,7 +2054,7 @@ mod tests {
             kind: Kind::Spots,
             ..ObjectsRequest::default()
         };
-        let (lab, _, _) = label_plane(&[plane], w, h, None, &o).unwrap();
+        let (lab, _, _, _) = label_plane(&[plane], w, h, None, &o).unwrap();
         assert_eq!(count(&lab), 20);
     }
 
@@ -1885,8 +2069,236 @@ mod tests {
             diameter_px: Some(12.0),
             ..ObjectsRequest::default()
         };
-        let (_, _, f) = label_plane(&[plane], w, h, None, &o).unwrap();
+        let (_, _, f, c) = label_plane(&[plane], w, h, None, &o).unwrap();
         assert!(f < LOW_FIT, "{f}");
+        assert_eq!(c, CountConfidence::Low);
+    }
+
+    /// `n` discs of radius `r` in a row across the middle of a `w × w` plane, `height` above a
+    /// background of 100 with noise of standard deviation about 10.
+    fn sparse(w: usize, n: usize, r: f32, height: f32) -> Vec<f32> {
+        let d: Vec<_> = (0..n)
+            .map(|i| (100.0 + 180.0 * i as f32, w as f32 / 2.0, r, 100.0 + height))
+            .collect();
+        discs(w, w, &d, 100.0, 35.0)
+    }
+
+    #[test]
+    fn sparse_objects_on_noise_are_counted() {
+        // five 12 px nuclei cover 0.05% of a noisy 1024 × 1024 plane: Otsu's threshold on the
+        // usual histogram range split the noise (34 to 38 000 objects)
+        let w = 1024;
+        let plane = sparse(w, 5, 6.0, 1000.0);
+        for method in [
+            ThresholdMethod::Auto,
+            ThresholdMethod::Otsu,
+            ThresholdMethod::Triangle,
+        ] {
+            let o = ObjectsRequest {
+                diameter_px: Some(12.0),
+                method,
+                ..ObjectsRequest::default()
+            };
+            let (lab, _, _, c) = label_plane(std::slice::from_ref(&plane), w, w, None, &o).unwrap();
+            assert_eq!(count(&lab), 5, "{method:?}");
+            assert_eq!(c, CountConfidence::High, "{method:?}");
+        }
+        let (lab, d, _, _) = label_plane(
+            std::slice::from_ref(&plane),
+            w,
+            w,
+            None,
+            &ObjectsRequest::default(),
+        )
+        .unwrap();
+        assert_eq!(count(&lab), 5, "measured diameter {d}");
+        // one nucleus on a clean, zero background
+        let one = discs(512, 512, &[(256.0, 256.0, 5.0, 1000.0)], 0.0, 0.0);
+        let o = ObjectsRequest {
+            diameter_px: Some(10.0),
+            ..ObjectsRequest::default()
+        };
+        let (lab, _, _, _) = label_plane(&[one], 512, 512, None, &o).unwrap();
+        assert_eq!(count(&lab), 1);
+        // noise alone: nothing, rather than thousands of specks
+        let noise = discs(512, 512, &[], 100.0, 35.0);
+        let (lab, _, _, _) = label_plane(&[noise], 512, 512, None, &o).unwrap();
+        assert!(count(&lab) <= 1, "{}", count(&lab));
+    }
+
+    #[test]
+    fn a_threshold_inside_the_noise_has_low_confidence() {
+        let w = 512;
+        let plane = sparse(w, 2, 6.0, 1000.0);
+        let o = ObjectsRequest {
+            diameter_px: Some(12.0),
+            threshold: Some(0.0),
+            ..ObjectsRequest::default()
+        };
+        let (lab, _, _, c) = label_plane(&[plane], w, w, None, &o).unwrap();
+        assert!(count(&lab) > 10, "{}", count(&lab));
+        assert_eq!(c, CountConfidence::Low);
+        // the reasons, from object sizes and solidities
+        let specks = vec![(35.0, 0.9); 20];
+        assert_eq!(
+            assess(Kind::Nuclei, &specks, 12.0, 1e6).1,
+            Some(Doubt::Specks)
+        );
+        let crowded = vec![(113.0, 0.95); 100];
+        assert_eq!(
+            assess(Kind::Nuclei, &crowded, 12.0, 5000.0).1,
+            Some(Doubt::Crowded)
+        );
+        assert_eq!(assess(Kind::Nuclei, &crowded, 12.0, 1e6).1, None);
+    }
+
+    #[test]
+    fn object_options_must_be_finite_and_positive() {
+        let plane = discs(64, 64, &[(32.0, 32.0, 6.0, 100.0)], 0.0, 1.0);
+        let bad = [
+            ObjectsRequest {
+                diameter_px: Some(f64::NAN),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                diameter_px: Some(-3.0),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                max_area_um2: Some(f64::NAN),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                max_area_um2: Some(0.0),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                min_area_um2: Some(f64::INFINITY),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                min_area_um2: Some(50.0),
+                max_area_um2: Some(10.0),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                threshold: Some(f64::NAN),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                threshold: Some(1e300),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                diameter_um: Some(f64::NEG_INFINITY),
+                ..ObjectsRequest::default()
+            },
+        ];
+        for o in bad {
+            let e = label_plane(std::slice::from_ref(&plane), 64, 64, Some(0.5), &o).unwrap_err();
+            assert!(matches!(e, Error::Usage(_)), "{o:?} {e}");
+        }
+        // through measure: a max area under the smallest object kept would count nothing
+        let mut ds = TwoChannels::new();
+        let info = ds.info().unwrap();
+        let req = MeasureRequest {
+            objects: Some(ObjectsRequest {
+                max_area_um2: Some(0.01),
+                ..ObjectsRequest::default()
+            }),
+            ..MeasureRequest::default()
+        };
+        assert!(matches!(
+            measure(&mut ds, &info, &req).unwrap_err(),
+            Error::Usage(_)
+        ));
+    }
+
+    #[test]
+    fn huge_diameters_are_refused_or_capped_quickly() {
+        let plane = discs(64, 64, &[(32.0, 32.0, 2.0, 1000.0)], 0.0, 1.0);
+        for kind in [Kind::Spots, Kind::Nuclei, Kind::Cells] {
+            for d in [65.0, 500.0, 2000.0, 1e13, f64::MAX] {
+                let o = ObjectsRequest {
+                    kind,
+                    diameter_px: Some(d),
+                    ..ObjectsRequest::default()
+                };
+                let t = std::time::Instant::now();
+                let e = label_plane(std::slice::from_ref(&plane), 64, 64, None, &o).unwrap_err();
+                assert!(matches!(e, Error::Usage(_)), "{kind:?} {d} {e}");
+                assert!(t.elapsed().as_secs() < 5);
+            }
+        }
+        // spots are at most 64 px across, whatever the area
+        let big = discs(300, 300, &[(150.0, 150.0, 2.0, 1000.0)], 0.0, 1.0);
+        let o = ObjectsRequest {
+            kind: Kind::Spots,
+            diameter_px: Some(100.0),
+            ..ObjectsRequest::default()
+        };
+        assert!(label_plane(std::slice::from_ref(&big), 300, 300, None, &o).is_err());
+        // a default from an absurd pixel size is capped
+        for (kind, p) in [
+            (Kind::Spots, 1e-9),
+            (Kind::Nuclei, 1e-9),
+            (Kind::Spots, 1e9),
+            (Kind::Nuclei, 1e9),
+        ] {
+            let o = ObjectsRequest {
+                kind,
+                ..ObjectsRequest::default()
+            };
+            let t = std::time::Instant::now();
+            let r = label_plane(std::slice::from_ref(&big), 300, 300, Some(p), &o);
+            if let Ok((_, d, _, _)) = r {
+                assert!(d <= 300.0, "{kind:?} {p} {d}");
+            }
+            assert!(t.elapsed().as_secs() < 20, "{kind:?} {p}");
+        }
+        // the shrink factor of an enormous plan stays bounded
+        let p = Plan::new(Kind::Nuclei, 1e13, true, ThresholdMethod::Auto);
+        let q = scaled(&p, working_factor(&p));
+        assert!(q.min_area >= 1);
+    }
+
+    #[test]
+    fn odd_planes_fail_cleanly() {
+        let kinds = [
+            ObjectsRequest::default(),
+            ObjectsRequest {
+                kind: Kind::Spots,
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                diameter_px: Some(2.0),
+                ..ObjectsRequest::default()
+            },
+            ObjectsRequest {
+                method: ThresholdMethod::Local,
+                ..ObjectsRequest::default()
+            },
+        ];
+        for (w, h) in [(1, 1000), (1000, 1), (1, 1), (2, 2), (3, 300), (5, 5)] {
+            let ramp: Vec<f32> = (0..w * h).map(|i| (i % 7) as f32).collect();
+            let nan = vec![f32::NAN; w * h];
+            let inf = vec![f32::INFINITY; w * h];
+            let mixed: Vec<f32> = ramp
+                .iter()
+                .enumerate()
+                .map(|(i, v)| match i % 3 {
+                    0 => f32::NAN,
+                    1 => f32::NEG_INFINITY,
+                    _ => *v,
+                })
+                .collect();
+            for plane in [ramp, nan, inf, mixed] {
+                for o in &kinds {
+                    // an answer or a clean error, never a panic
+                    let _ = label_plane(std::slice::from_ref(&plane), w, h, None, o);
+                }
+            }
+        }
     }
 
     #[test]
@@ -1911,14 +2323,14 @@ mod tests {
     }
 
     /// Two 16-bit channels: DAPI nuclei in channel 1, a marker in half of them in channel 0.
-    struct TwoChannels {
-        w: usize,
-        h: usize,
-        planes: [Vec<f32>; 2],
+    pub(crate) struct TwoChannels {
+        pub w: usize,
+        pub h: usize,
+        pub planes: [Vec<f32>; 2],
     }
 
     impl TwoChannels {
-        fn new() -> TwoChannels {
+        pub(crate) fn new() -> TwoChannels {
             let (w, h) = (180, 180);
             let n = nuclei();
             let dapi = discs(w, h, &n, 100.0, 20.0);
