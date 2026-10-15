@@ -185,7 +185,7 @@ Each entry of `compounds[]` has:
 | `logistic_k`, `logistic_r_per_h`, `logistic_n0`, `logistic_doubling_time_h` | a least-squares fit of the logistic curve N(t) = K / (1 + ((K − N0)/N0) e^(−rt)), the model growthcurver fits; only for wells that grew, since a crash breaks the logistic shape |
 | `max_value`, `time_to_max_s`, `auc_h` | as named; area in value × hours |
 | `pattern` | `grew`, `no_growth`, `crashed` (fell to half its height above its lowest value, by at least 5 noise SDs, and stayed down) or `regrew` (fell, then rose again by half the fall and 10 noise SDs). Measured on a running median, so single noisy reads do not count. Growth and regrowth must also rise by a tenth of the larger rises on the plate (a note gives the value), and a fall with no growth before or after it is `no_growth`, so a flat well's noise is not read as a crash |
-| `crash_s`, `crash_value` | the high point before the fall: the decline starts there (0 when the values fall from the first read) |
+| `crash_s`, `crash_value` | the high point before the fall: the decline starts there (0 when the values fall slowly from the first read, as when phage lyse the inoculum). A decline that ends within the first hour, such as condensation clearing or cells settling, is not a crash: a crash after it needs a rise of 5 noise SDs first |
 | `trough_s`, `trough_value` | the lowest point after the fall |
 | `regrowth_s` | when growth restarts: the lag time of the part after the trough |
 | `exp_phase_after_crash` | the exponential phase above is the regrowth, so the rate and doubling time are those of the cells that came back |
