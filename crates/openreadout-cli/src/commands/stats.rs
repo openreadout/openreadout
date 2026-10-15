@@ -83,8 +83,17 @@ pub struct StatsArgs {
     #[arg(long, value_name = "X,Y ...", help_heading = "Measurements")]
     pub polygon: Option<String>,
     /// Count objects in `--region`, `--polygon` or the whole plane: their number, sizes,
-    /// positions and mean intensity in every channel.
-    #[arg(long, value_enum, value_name = "KIND", num_args = 0..=1, default_missing_value = "nuclei", help_heading = "Measurements")]
+    /// positions and mean intensity in every channel. `--objects` counts nuclei;
+    /// `--objects=cells` or `--objects=spots` count those.
+    #[arg(
+        long,
+        value_enum,
+        value_name = "KIND",
+        num_args = 0..=1,
+        require_equals = true,
+        default_missing_value = "nuclei",
+        help_heading = "Measurements"
+    )]
     pub objects: Option<KindArg>,
     /// With `--objects`: expected object diameter in µm (default: measured from the image).
     #[arg(long, value_name = "UM", help_heading = "Measurements")]

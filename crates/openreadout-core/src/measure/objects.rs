@@ -15,7 +15,9 @@ use crate::region::Region;
 
 /// Objects listed by default.
 pub const DEFAULT_MAX_OBJECTS: usize = 100;
-/// Most pixels counted in one piece; larger regions are counted tile by tile.
+/// Regions up to this many pixels (2896 × 2896) are counted in one piece.
+const ONE_PIECE: u64 = 1 << 23;
+/// Larger regions are counted in tiles this many pixels a side.
 const TILE: u32 = 2048;
 /// Most pixels an object count covers (an 8192 × 8192 region).
 pub const MAX_OBJECT_PIXELS: u64 = 1 << 26;
@@ -360,8 +362,6 @@ fn signal_for(comps: &[Vec<f32>], o: &ObjectsRequest) -> Result<(Signal, String)
         };
         let i0 = [0, 1, 2].map(|k| sg::quantile(&comps[k], 0.99).unwrap_or(255.0).max(1.0));
         let stain = match (o.stain, brightfield) {
-            (Stain::Auto, true) if knob("STAIN", 0.0) == 1.0 => Stain::Luminance,
-            (Stain::Auto, true) if knob("STAIN", 0.0) == 2.0 => Stain::Red,
             (Stain::Auto, true) => Stain::Hematoxylin,
             (s, _) => s,
         };
@@ -408,36 +408,62 @@ fn signal_for(comps: &[Vec<f32>], o: &ObjectsRequest) -> Result<(Signal, String)
     ))
 }
 
-/// Object diameter in pixels measured from the image. Two estimates: the median size of the
-/// compact regions above Otsu's threshold, and the scale of the strongest blobs (Laplacian of
-/// Gaussian). When they disagree, the one whose segmentation gives more compact objects of
-/// the expected size wins.
-fn measure_diameter(s: &[f32], w: usize, h: usize, kind: Kind, signal: &Signal) -> Option<f64> {
+/// Object diameter in pixels measured from the image. Candidates: the size of the regions
+/// above Otsu's threshold, the scale of the strongest blobs (Laplacian of Gaussian) and, for
+/// textured objects, the size of the regions in a smoothed copy. When they disagree, the one
+/// whose segmentation gives the most compact objects of the expected size wins.
+///
+/// `range` bounds the candidates in pixels (from the physical sizes the kind can have, when
+/// the pixel size is known); `typical`, the kind's typical size, competes as a last candidate.
+/// Returns the diameter and whether it is the typical one.
+fn measure_diameter(
+    s: &[f32],
+    w: usize,
+    h: usize,
+    kind: Kind,
+    signal: &Signal,
+    range: (f64, f64),
+    typical: Option<f64>,
+) -> Option<(f64, bool)> {
     let background = !signal.deconvolved();
     // objects narrower than 4 pixels cannot be told apart; wider than a third of the plane
     // they cannot be counted
-    let plausible = |d: &f64| *d >= 4.0 && *d <= (w.min(h) as f64) / 3.0;
+    let plausible = |d: &f64| {
+        *d >= range.0.max(4.0) && *d <= range.1.min((w.min(h) as f64) / 3.0)
+    };
+    // one candidate per size
+    let distinct = |cands: &[f64], d: f64| cands.iter().all(|c| (c / d).max(d / c) > 1.3);
     let mut cands: Vec<f64> = Vec::new();
-    let mut add = |d: Option<f64>| {
-        if let Some(d) = d.filter(plausible) {
-            // one candidate per size
-            if cands.iter().all(|c| (c / d).max(d / c) > 1.3) {
+    {
+        let mut add = |d: Option<f64>| {
+            if let Some(d) = d.filter(plausible)
+                && distinct(&cands, d)
+            {
                 cands.push(d);
             }
+        };
+        let (compact, peaks) = mask_sizes(s, w, h);
+        add(compact.or(peaks));
+        add(sg::blob_diameter(s, w, h));
+        // textured objects (chromatin, granules) look like many small ones until smoothed;
+        // not in brightfield, where the coarse scale is that of the cells around the nuclei
+        if !signal.dark {
+            let k = (w.min(h) / 128).max(2);
+            let (small, sw, sh) = sg::shrink(s, w, h, k);
+            let sm = sg::gaussian(&small, sw, sh, 1.5);
+            let (compact, peaks) = mask_sizes(&sm, sw, sh);
+            add(peaks.map(|d| d * k as f64));
+            add(compact.map(|d| d * k as f64));
         }
-    };
-    add(mask_diameter(s, w, h));
-    add(sg::blob_diameter(s, w, h));
-    // textured objects (chromatin, granules) look like many small ones until smoothed; not
-    // in brightfield, where the coarse scale is that of the cells around the nuclei
-    if !signal.dark {
-        let k = (w.min(h) / 128).max(2);
-        let (small, sw, sh) = sg::shrink(s, w, h, k);
-        let sm = sg::gaussian(&small, sw, sh, 1.5);
-        add(mask_diameter(&sm, sw, sh).map(|d| d * k as f64));
+    }
+    let measured = cands.len();
+    if let Some(t) = typical
+        && distinct(&cands, t)
+    {
+        cands.push(t);
     }
     if cands.len() <= 1 {
-        return cands.pop();
+        return cands.pop().map(|d| (d, measured == 0));
     }
     let q = |d: f64| {
         let mut plan = Plan::new(kind, d, background, ThresholdMethod::Otsu);
@@ -449,14 +475,14 @@ fn measure_diameter(s: &[f32], w: usize, h: usize, kind: Kind, signal: &Signal) 
         quality(s, w, h, &plan)
     };
     // the first (the compact regions' size) unless another is clearly better
-    let mut best = (q(cands[0]) + knob("DMARGIN", 0.0), cands[0]);
-    for &d in &cands[1..] {
+    let mut best = (q(cands[0]), 0usize);
+    for (i, &d) in cands.iter().enumerate().skip(1) {
         let qd = q(d);
         if qd > best.0 {
-            best = (qd, d);
+            best = (qd, i);
         }
     }
-    Some(best.1)
+    Some((cands[best.1], best.1 >= measured))
 }
 
 /// How well a plan explains the plane: the share of the segmented area in objects that are
@@ -521,47 +547,50 @@ fn shapes(lab: &[u32], w: usize, h: usize) -> Vec<(f64, f64)> {
         .collect()
 }
 
-/// The median diameter of the compact regions above Otsu's threshold, or (when most regions
-/// are clumps) twice the median depth of their distance-transform peaks.
-fn mask_diameter(s: &[f32], w: usize, h: usize) -> Option<f64> {
+/// Two sizes of the regions above Otsu's threshold: the median diameter of the compact ones
+/// (when there are enough), and twice the median depth of the distance-transform peaks (one
+/// per object even where objects touch).
+fn mask_sizes(s: &[f32], w: usize, h: usize) -> (Option<f64>, Option<f64>) {
     let sm = sg::gaussian(s, w, h, 1.0);
-    let (t, _) = sg::otsu(&sm)?;
+    let Some((t, _)) = sg::otsu(&sm) else {
+        return (None, None);
+    };
     let mut fg: Vec<bool> = sm.iter().map(|v| *v > t).collect();
     sg::fill_holes(&mut fg, w, h, (w * h) / 100);
     let (lab, n) = sg::components(&fg, w, h);
-    let n = n as usize;
     if n == 0 {
-        return None;
+        return (None, None);
     }
     let mut compact = Vec::new();
-    let mut all = Vec::new();
+    let mut all = 0usize;
     for (area, solidity) in shapes(&lab, w, h) {
         if area < 12.0 {
             continue;
         }
-        let d = 2.0 * (area / std::f64::consts::PI).sqrt();
-        all.push(d);
+        all += 1;
         if solidity >= 0.85 {
-            compact.push(d);
+            compact.push(2.0 * (area / std::f64::consts::PI).sqrt());
         }
     }
-    if compact.len() >= 5 && compact.len() * 3 >= all.len() {
-        return median(&mut compact);
-    }
-    // clumps: the depth of each region's distance peaks
+    let compact = if compact.len() >= 5 && compact.len() * 3 >= all {
+        median(&mut compact)
+    } else {
+        None
+    };
     let dist = sg::distance(&fg, w, h);
     let (seeds, k) = sg::seeds(&dist, &fg, w, h, 3, 2.0);
-    if k == 0 {
-        return median(&mut all);
-    }
     let mut depth = vec![0f32; k as usize + 1];
     for (i, &l) in seeds.iter().enumerate() {
         if l > 0 {
             depth[l as usize] = depth[l as usize].max(dist[i]);
         }
     }
-    let mut d: Vec<f64> = depth[1..].iter().map(|r| 2.0 * f64::from(*r) * 1.1).collect();
-    median(&mut d)
+    let mut d: Vec<f64> = depth
+        .iter()
+        .skip(1)
+        .map(|r| 2.0 * f64::from(*r) * 1.1)
+        .collect();
+    (compact, median(&mut d))
 }
 
 fn median(v: &mut [f64]) -> Option<f64> {
@@ -609,18 +638,19 @@ impl Plan {
     }
 
     /// What the threshold applies to: the signal smoothed at a twentieth of the object size,
-    /// less the background (spots: the height above the local background).
+    /// less the background under objects of that size (spots: the height above the local
+    /// background).
     pub(crate) fn flatten(&self, s: &[f32], w: usize, h: usize) -> Vec<f32> {
         if self.kind == Kind::Spots {
             let sm = sg::gaussian(s, w, h, spot_sigma(self.d).min(1.0));
             let bg = sg::background(&sm, w, h, (self.d * 3.0).max(6.0));
             return sm.iter().zip(&bg).map(|(a, b)| a - b).collect();
         }
-        let sm = sg::gaussian(s, w, h, (self.d * knob("SMOOTH", 0.05)).max(0.6));
-        if !self.background || knob("BG", 1.0) == 0.0 {
+        let sm = sg::gaussian(s, w, h, (self.d / 20.0).max(0.6));
+        if !self.background {
             return sm;
         }
-        let bg = sg::background(&sm, w, h, self.d * knob("BG", 1.0));
+        let bg = sg::background(&sm, w, h, self.d);
         sm.iter().zip(&bg).map(|(a, b)| a - b).collect()
     }
 }
@@ -630,25 +660,26 @@ fn spot_sigma(d: f64) -> f64 {
     (d / (2.0 * std::f64::consts::SQRT_2)).max(0.7)
 }
 
-/// Tuning knob (temporary).
-pub(crate) fn knob(name: &str, default: f64) -> f64 {
-    std::env::var(format!("OR_{name}"))
-        .ok()
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(default)
-}
-
 /// Object diameter (pixels) above which a tile is labelled at a reduced scale: the steps
-/// need only about 24 pixels per object, and large objects would make them slow.
-const LARGE_OBJECTS: f64 = 48.0;
+/// need only about 32 pixels per object, and large objects would make them slow.
+const LARGE_OBJECTS: f64 = 64.0;
+
+/// The factor [`working`] shrinks by.
+fn working_factor(p: &Plan) -> usize {
+    if p.kind == Kind::Spots || p.d < LARGE_OBJECTS {
+        1
+    } else {
+        (p.d / 32.0).floor().max(1.0) as usize
+    }
+}
 
 /// The plane the steps work on: `s` itself, or for large objects a copy shrunk by a whole
 /// factor (returned last) with the plan scaled to match.
 fn working(s: &[f32], w: usize, h: usize, p: &Plan) -> (Vec<f32>, usize, usize, usize) {
-    if p.kind == Kind::Spots || p.d < LARGE_OBJECTS {
+    let f = working_factor(p);
+    if f == 1 {
         return (s.to_vec(), w, h, 1);
     }
-    let f = (p.d / 24.0).floor().max(1.0) as usize;
     let (small, sw, sh) = sg::shrink(s, w, h, f);
     (small, sw, sh, f)
 }
@@ -684,39 +715,32 @@ pub(crate) fn label_tile(s: &[f32], w: usize, h: usize, p: &Plan) -> (Vec<u32>, 
     (lab, Vec::new())
 }
 
-/// Nuclei and cells: threshold the flattened signal, fill holes, split touching objects by a
-/// watershed of the distance to the background from one seed per distance peak, drop specks.
+/// Nuclei and cells: threshold the flattened signal, fill holes smaller than half an object,
+/// split touching objects by a watershed of the distance to the background (and to dark
+/// seams) from one seed per distance peak, and merge specks under the smallest size into
+/// their neighbour.
 fn label_objects(s: &[f32], w: usize, h: usize, p: &Plan) -> Vec<u32> {
     let f = p.flatten(s, w, h);
     let mut fg = foreground(&f, w, h, p);
     let expected = std::f64::consts::PI * p.d * p.d / 4.0;
     sg::fill_holes(&mut fg, w, h, (expected * 0.5) as usize);
     let mut lab = if p.split {
-        let dist = sg::distance(&fg, w, h);
-        let mode = knob("SEEDMODE", 0.0);
-        let md = sg::gaussian(&dist, w, h, (p.d * knob("SEED_SIGMA", 0.08)).max(0.7));
-        let m: Vec<f32> = if mode == 0.0 {
-            md
-        } else {
-            let fi = sg::gaussian(&f, w, h, (p.d * knob("INT_SIGMA", 0.1)).max(0.7));
-            let t = p.threshold.max(f32::EPSILON);
-            let half = (p.d / 2.0) as f32;
-            if mode == 1.0 {
-                fi
-            } else {
-                // distance (saturating at the expected radius) times intensity
-                md.iter()
-                    .zip(&fi)
-                    .map(|(a, b)| (a / half).min(1.0) * (b / t).max(0.0))
-                    .collect()
-            }
-        };
-        let radius = ((p.d * knob("SEED_R", 0.3)).round() as usize).max(1);
-        let floor = if mode == 0.0 {
-            (p.d * knob("SEED_FLOOR", 0.1)) as f32
-        } else {
-            f32::MIN_POSITIVE
-        };
+        // dark seams between touching objects: valleys narrower than a fifth of an object
+        // where the signal falls by 40% or more from the ridges around them (a black
+        // top-hat); cut there before measuring the distance to the background
+        let r = ((p.d * 0.1).round() as usize).max(1);
+        let closed = sg::rank_filter(&sg::rank_filter(&f, w, h, r, true), w, h, r, false);
+        let t = p.threshold.abs().max(f32::EPSILON);
+        let cut: Vec<bool> = fg
+            .iter()
+            .zip(closed.iter().zip(&f))
+            .map(|(g, (c, v))| *g && (c - v) < 0.4 * c.max(t))
+            .collect();
+        let dist = sg::distance(&cut, w, h);
+        // seeds: peaks of the smoothed distance at least a quarter diameter apart
+        let m = sg::gaussian(&dist, w, h, (p.d * 0.08).max(0.7));
+        let radius = ((p.d * 0.25).round() as usize).max(1);
+        let floor = (p.d * 0.05) as f32;
         let (seeds, _) = sg::seeds(&m, &fg, w, h, radius, floor);
         sg::watershed(&m, &fg, &seeds, w, h)
     } else {
@@ -786,9 +810,9 @@ fn spots(s: &[f32], w: usize, h: usize, p: &Plan) -> (Vec<u32>, Vec<f32>) {
 }
 
 /// The threshold for `plan` from a sample of the flattened signal, and its name. `auto` tries
-/// Otsu's two-class threshold, the upper of Otsu's three-class thresholds (objects darker or
-/// brighter than a middle class such as cytoplasm) and, for sparse objects, the triangle
-/// threshold, and keeps the one whose objects on the probe tile are most compact and best sized.
+/// Otsu's two-class threshold and the upper of Otsu's three-class thresholds (objects that
+/// stand out from a middle class such as cytoplasm), and keeps the three-class one only when
+/// its objects on the probe tile are clearly more compact and better sized.
 fn settle_threshold(
     probe: &[f32],
     w: usize,
@@ -810,23 +834,14 @@ fn settle_threshold(
         ThresholdMethod::Triangle => sg::triangle(sample).map(|t| (t, "triangle")),
         ThresholdMethod::Auto => {
             let (t, _) = sg::otsu(sample)?;
-            // each class boundary moved towards the class below, so that dim objects are
-            // whole and bright ones not much enlarged
-            let k = knob("TSCALE", 1.0) as f32;
+            // each class boundary moved 30% of the way towards the class below, so that dim
+            // objects are whole and bright ones not much enlarged
+            let k = 0.7f32;
             let med = sg::quantile(sample, 0.5)?;
             let mut cands: Vec<(f32, &'static str)> = vec![(med + k * (t - med), "otsu")];
-            let above =
-                sample.iter().filter(|v| **v > t).count() as f64 / sample.len().max(1) as f64;
-            if above < knob("TRI", 0.0) {
-                if let Some(tt) = sg::triangle(sample) {
-                    cands.push((tt.min(t), "triangle"));
-                }
-            }
-            if knob("OTSU3", 1.0) > 0.0 {
-                if let Some((lo, hi)) = sg::otsu3(sample) {
-                    if hi > t {
-                        cands.push((lo + k * (hi - lo), "otsu-3"));
-                    }
+            if let Some((lo, hi)) = sg::otsu3(sample) {
+                if hi > t {
+                    cands.push((lo + k * (hi - lo), "otsu-3"));
                 }
             }
             if cands.len() == 1 {
@@ -837,7 +852,8 @@ fn settle_threshold(
                 let mut p = plan.clone();
                 p.threshold = c.0;
                 let q = quality(probe, w, h, &p);
-                if q > best.0 + knob("QMARGIN", 0.02) {
+                // the three-class threshold only when clearly better
+                if q > best.0 + 0.2 {
                     best = (q, c);
                 }
             }
@@ -1154,7 +1170,12 @@ pub(crate) fn objects(
             e.sy = cy;
             e.height = heights.get(l - 1).map(|h| f64::from(*h));
             if o.outlines {
-                let mut ol = sg::outline(&lab, w, h, l as u32, first[l], 0.7);
+                // labels found on a shrunken copy have block-sized steps: smooth them away
+                let block = working_factor(&plan);
+                let mut ol = sg::outline(&lab, w, h, l as u32, first[l], 0.4 + 0.6 * block as f64);
+                if block > 1 {
+                    ol = sg::chaikin(&ol, 2);
+                }
                 for p in &mut ol {
                     p[0] += f64::from(t.read.x);
                     p[1] += f64::from(t.read.y);
@@ -1403,7 +1424,7 @@ fn diameter(
     }
     // typical sizes and the range a measurement may fall in, in µm
     let (typical, lo, hi) = match o.kind {
-        Kind::Nuclei => (10.0, 3.0, 40.0),
+        Kind::Nuclei => (10.0, 3.0, 30.0),
         Kind::Cells => (20.0, 6.0, 150.0),
         Kind::Spots => (0.5, 0.1, 3.0),
     };
@@ -1414,19 +1435,20 @@ fn diameter(
         });
     }
     let (w, h) = (probe.width as usize, probe.height as usize);
-    let measured = measure_diameter(s, w, h, o.kind, signal);
-    match (measured, pixel_um) {
-        (Some(d), Some(p)) if d * p >= lo && d * p <= hi => Ok((d, "measured")),
-        (Some(d), Some(p)) => {
+    let (range, typical_px) = match pixel_um {
+        Some(p) => ((lo / p, hi / p), Some(typical / p)),
+        None => ((0.0, f64::INFINITY), None),
+    };
+    match (measure_diameter(s, w, h, o.kind, signal, range, typical_px), pixel_um) {
+        (Some((d, false)), _) => Ok((d, "measured")),
+        (Some((d, true)), _) => Ok((d, "default")),
+        (None, Some(p)) => {
             notes.push(format!(
-                "the objects measured {:.1} µm across, unusual for {}; used the typical {typical} µm (set diameter_um to override)",
-                d * p,
+                "could not measure the {} in the image; used the typical {typical} µm (set diameter_um to override)",
                 kind_name(o.kind)
             ));
             Ok((typical / p, "default"))
         }
-        (Some(d), None) => Ok((d, "measured")),
-        (None, Some(p)) => Ok((typical / p, "default")),
         (None, None) => {
             notes.push("could not measure the object size and the image has no pixel size; used 20 px (set diameter_px)".into());
             Ok((20.0, "default"))
@@ -1442,8 +1464,11 @@ fn kind_name(k: Kind) -> &'static str {
     }
 }
 
-/// The tile at the centre of `r` (all of `r` when it fits in one).
+/// The tile at the centre of `r` (all of `r` when it is counted in one piece).
 fn centre_tile(r: Region) -> Region {
+    if u64::from(r.width) * u64::from(r.height) <= ONE_PIECE {
+        return r;
+    }
     let w = r.width.min(TILE);
     let h = r.height.min(TILE);
     Region::new(r.x + (r.width - w) / 2, r.y + (r.height - h) / 2, w, h)
@@ -1478,13 +1503,14 @@ impl ContainsPx for Region {
     }
 }
 
-/// Split `r` into tiles of at most [`TILE`] pixels a side, each read with a margin of two
-/// object diameters (clipped to `r`).
+/// Split `r` into tiles: one when it holds at most [`ONE_PIECE`] pixels, else cores of
+/// [`TILE`] pixels a side, each read with a margin of three object diameters (clipped to `r`)
+/// so that the objects a core owns are found as they would be in one piece.
 fn tiles(r: Region, d: f64) -> Vec<Tile> {
-    if r.width <= TILE && r.height <= TILE {
+    if u64::from(r.width) * u64::from(r.height) <= ONE_PIECE {
         return vec![Tile { core: r, read: r }];
     }
-    let m = (2.0 * d).ceil().clamp(8.0, 512.0) as u32;
+    let m = (3.0 * d).ceil().clamp(16.0, 1024.0) as u32;
     let mut out = Vec::new();
     let mut y = r.y;
     while y < r.y + r.height {

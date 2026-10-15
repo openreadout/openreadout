@@ -200,28 +200,13 @@ fn bbbc038() -> Vec<Case> {
         .collect()
 }
 
-/// The predicted label image of one case: the default count (`NUCLEI_ALGO=legacy`: the
-/// pipeline before 2026-10-15).
+/// The predicted label image of one case: the default count.
 fn predict(c: &Case) -> Vec<u32> {
     predict_d(c).0
 }
 
-/// The predicted label image and the expected diameter used (0 for the legacy pipeline).
+/// The predicted label image and the expected diameter used.
 fn predict_d(c: &Case) -> (Vec<u32>, f64) {
-    if std::env::var("NUCLEI_ALGO").is_ok_and(|v| v == "legacy") {
-        let rgb = c.comps.len() > 1;
-        let raw: Vec<f64> = if rgb {
-            (0..c.w * c.h)
-                .map(|i| c.comps.iter().map(|p| p[i]).sum::<f64>() / c.comps.len() as f64)
-                .collect()
-        } else {
-            c.comps[0].clone()
-        };
-        return (
-            openreadout_core::measure::legacy::baseline_labels(&raw, c.w, c.h, rgb),
-            0.0,
-        );
-    }
     let comps: Vec<Vec<f32>> = c
         .comps
         .iter()

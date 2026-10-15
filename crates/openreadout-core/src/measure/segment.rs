@@ -626,7 +626,7 @@ pub(crate) fn blob_diameter(v: &[f32], w: usize, h: usize) -> Option<f64> {
     // scores of sigma = 2^(i/2) pixels of the full plane, i = 0..
     let mut scores: Vec<(f64, f64)> = Vec::new();
     let (mut cur, mut cw, mut ch, mut scale) = (v.to_vec(), w, h, 1.0f64);
-    for i in 0..14 {
+    for i in 0..20 {
         let sigma = 2f64.powf(f64::from(i) / 2.0);
         // keep the working sigma between 1 and 2.9 pixels of the current copy
         while sigma / scale > 2.9 && cw >= 32 && ch >= 32 {
@@ -746,6 +746,26 @@ pub(crate) fn outline(lab: &[u32], w: usize, h: usize, l: u32, start: usize, tol
         }
     }
     simplify(&pts, tol)
+}
+
+/// Chaikin's corner cutting of a closed outline, `iterations` times: each edge is replaced by
+/// the points a quarter and three quarters along it, which rounds off staircase steps.
+pub(crate) fn chaikin(p: &[[f64; 2]], iterations: usize) -> Vec<[f64; 2]> {
+    let mut cur = p.to_vec();
+    for _ in 0..iterations {
+        if cur.len() < 3 {
+            break;
+        }
+        let n = cur.len();
+        let mut next = Vec::with_capacity(2 * n);
+        for i in 0..n {
+            let (a, b) = (cur[i], cur[(i + 1) % n]);
+            next.push([0.75 * a[0] + 0.25 * b[0], 0.75 * a[1] + 0.25 * b[1]]);
+            next.push([0.25 * a[0] + 0.75 * b[0], 0.25 * a[1] + 0.75 * b[1]]);
+        }
+        cur = next;
+    }
+    cur
 }
 
 /// Douglas–Peucker simplification of a closed outline.

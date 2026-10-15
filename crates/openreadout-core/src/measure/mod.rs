@@ -34,9 +34,6 @@ use crate::select::Selection;
 mod objects;
 mod segment;
 
-#[doc(hidden)]
-pub mod legacy;
-
 pub use objects::{
     DEFAULT_MAX_OBJECTS, Kind, MAX_OBJECT_PIXELS, Object, ObjectChannel, Objects, ObjectsRequest,
     Polarity, Positive, Stain, ThresholdMethod, label_plane,
