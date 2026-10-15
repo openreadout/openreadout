@@ -149,7 +149,7 @@ pub struct AxisSpec {
     /// Log scale.
     #[serde(default)]
     pub log: bool,
-    /// Range shown, `[low, high]`.
+    /// Range shown, `[low, high]`. On x, y fits the data inside it unless y has a range.
     pub range: Option<[f64; 2]>,
     /// High to low (default for NMR ppm and IR wavenumbers).
     pub reverse: Option<bool>,

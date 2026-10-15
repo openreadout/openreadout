@@ -47,6 +47,7 @@ In short:
 - Image previews fill the requested size: `max_size` 768 on a 4000 × 3000 region gives a 768-pixel-wide picture, not 579. `image.downsample` is now the exact (fractional) number of source pixels per picture pixel.
 - Previews, plots and the viewer colour categories by one rule: layout groups, populations and series take ink, the accent, blue, ochre, … in the order they first appear, and blank wells are faint. The viewer takes its colours from the figure engine's theme.
 - Peak labels on previews, chromatogram plots and the viewer go only on peaks that stand clear of the noise; direct labels at line ends keep a line apart with elbow leaders; flow cytometry axes label decades (`10²`, `10³`, `−10²`); on a log axis, curves that rise from a baseline at zero (qPCR ΔRn) start where they leave the noise.
+- In `plot`, an x `range` fits y to the data it shows, end labels, peak labels and annotation labels keep out of each other's way as one set, and the viewer redraws figures on the host's own background, zooms any panel of a multi-panel figure (panels that share x zoom together), and reads out values in an aligned list with series swatches.
 - In `plot`, category names under many narrow bars go on two lines, turn 45° or upright, or name every other bar, whichever fits; a long key moves into columns beside the chart, and keys never run off the figure.
 
 ### Fixed

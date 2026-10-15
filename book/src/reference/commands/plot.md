@@ -47,7 +47,7 @@ A figure is one panel, with the panel's keys at the top level, or several in `pa
 | --- | --- |
 | `data` | One series spec or a list. |
 | `facet` | `series`: one small plot per series (sweeps, files, groups) on shared axes. `plate`: plate wells in their positions, with the layout groups as row headings. |
-| `x`, `y` | Axis: `label`, `log`, `range` `[low, high]`, `reverse`, and for time axes `unit` (`s`, `min`, `h`). |
+| `x`, `y` | Axis: `label`, `log`, `range` `[low, high]`, `reverse`, and for time axes `unit` (`s`, `min`, `h`). An x `range` without a y `range` fits y to the data inside it. |
 | `annotate` | A list of bands, lines, labelled points, arrows and notes (below). |
 | `legend` | `direct` (labels at the line ends), `key` or `none`. Default: direct labels when they fit. |
 | `column_labels`, `row_labels` | Headings of a plate facet. Row labels are one per row, or one per block of rows that share a layout group. |
