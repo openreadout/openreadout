@@ -131,8 +131,7 @@ fn rising_events(v: &[f64], a: usize, b: usize, thr: f64, rise: f64) -> Vec<(usi
             .find(|&q| v[q - 1] < thr && v[q] >= thr)
             .unwrap_or(from)
     };
-    for i in a..b {
-        let x = v[i];
+    for (i, &x) in v.iter().enumerate().take(b).skip(a) {
         if rising {
             if x > hi {
                 hi = x;

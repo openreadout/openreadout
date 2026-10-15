@@ -219,7 +219,8 @@ impl EphysQuery {
         }
         if !ap.peak_threshold_mv.is_finite()
             || !(ap.dvdt_threshold_v_per_s > 0.0)
-            || !(ap.min_rise_mv >= 0.0)
+            || ap.min_rise_mv.is_nan()
+            || ap.min_rise_mv < 0.0
         {
             return Err(usage(
                 "peak_threshold_mv must be finite, dvdt_threshold positive and min_rise_mv at least 0"

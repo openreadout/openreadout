@@ -73,10 +73,193 @@ pub struct StatsArgs {
     /// With `--per well` or `--per field`: only this well (`C05`). Repeatable.
     #[arg(long = "well", value_name = "WELL")]
     pub wells: Vec<String>,
+    /// Intensity profile along a line from (X0, Y0) to (X1, Y1), in the pixels of `--level`.
+    #[arg(long, value_name = "X0,Y0,X1,Y1", help_heading = "Measurements")]
+    pub line: Option<String>,
+    /// Profile width in pixels, averaged across the line.
+    #[arg(long, value_name = "PX", help_heading = "Measurements")]
+    pub line_width: Option<u32>,
+    /// Statistics inside a polygon, `X,Y X,Y X,Y ...` in the pixels of `--level`.
+    #[arg(long, value_name = "X,Y ...", help_heading = "Measurements")]
+    pub polygon: Option<String>,
+    /// Count objects (nuclei, cells, spots) in `--region` or the whole plane: a threshold, then
+    /// connected components with their areas and centroids.
+    #[arg(long, help_heading = "Measurements")]
+    pub objects: bool,
+    /// With `--objects`: threshold in raw units (default: Otsu's).
+    #[arg(long, help_heading = "Measurements")]
+    pub threshold: Option<f64>,
+    /// With `--objects`: count bright or dark objects (default: bright, dark for RGB).
+    #[arg(long, value_enum, help_heading = "Measurements")]
+    pub polarity: Option<PolarityArg>,
+    /// With `--objects`: Gaussian smoothing sigma in pixels before the threshold (default 1).
+    #[arg(long, value_name = "PX", help_heading = "Measurements")]
+    pub smooth: Option<f64>,
+    /// With `--objects`: smallest object kept, in pixels (default 10).
+    #[arg(long, value_name = "PX", help_heading = "Measurements")]
+    pub min_area: Option<u64>,
+    /// With `--objects`: objects listed, largest first (default 100).
+    #[arg(long, value_name = "N", help_heading = "Measurements")]
+    pub max_objects: Option<usize>,
+    /// With `--objects`: keep touching objects together instead of cutting them apart at narrow
+    /// necks.
+    #[arg(long, help_heading = "Measurements")]
+    pub no_split: bool,
+    /// With `--objects` on an RGB image: threshold this component (0 red, 1 green, 2 blue)
+    /// instead of the mean of the three.
+    #[arg(long, value_name = "K", help_heading = "Measurements")]
+    pub component: Option<u32>,
     #[arg(long)]
     pub json: bool,
     #[command(flatten)]
     pub tidy: super::tidy::TidyArgs,
+}
+
+/// Bright or dark objects.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub enum PolarityArg {
+    /// Objects brighter than the background (fluorescence).
+    Bright,
+    /// Objects darker than the background (stained brightfield).
+    Dark,
+}
+
+/// The measurement `--line`, `--polygon` and `--objects` ask for; `None` without them.
+fn measure_request(
+    a: &StatsArgs,
+    region: Option<openreadout_core::Region>,
+) -> Result<Option<openreadout_core::measure::MeasureRequest>> {
+    use openreadout_core::Error;
+    use openreadout_core::measure::{MeasureRequest, ObjectsRequest, Polarity};
+    let nums = |s: &str, what: &str| -> Result<Vec<f64>> {
+        s.split([',', ' ', ';'])
+            .filter(|p| !p.trim().is_empty())
+            .map(|p| {
+                p.trim()
+                    .parse::<f64>()
+                    .map_err(|_| Error::Usage(format!("{what} '{s}': '{p}' is not a number")))
+            })
+            .collect()
+    };
+    let line = match a.line.as_deref() {
+        None => None,
+        Some(s) => match nums(s, "--line")?[..] {
+            [x0, y0, x1, y1] => Some([x0, y0, x1, y1]),
+            _ => {
+                return Err(Error::Usage(format!(
+                    "--line '{s}': expected X0,Y0,X1,Y1 in pixels"
+                )));
+            }
+        },
+    };
+    let polygon = match a.polygon.as_deref() {
+        None => None,
+        Some(s) => {
+            let v = nums(s, "--polygon")?;
+            if v.len() < 6 || v.len() % 2 != 0 {
+                return Err(Error::Usage(format!(
+                    "--polygon '{s}': expected at least three X,Y vertices separated by spaces"
+                )));
+            }
+            Some(v.as_chunks::<2>().0.to_vec())
+        }
+    };
+    let objects = a.objects.then(|| ObjectsRequest {
+        threshold: a.threshold,
+        polarity: match a.polarity {
+            None => Polarity::Auto,
+            Some(PolarityArg::Bright) => Polarity::Bright,
+            Some(PolarityArg::Dark) => Polarity::Dark,
+        },
+        smooth: a.smooth,
+        min_area_px: a.min_area,
+        max_objects: a.max_objects,
+        component: a.component,
+        split: a.no_split.then_some(false),
+    });
+    let req = MeasureRequest {
+        image: a.image,
+        select: a.select.clone(),
+        level: a.level,
+        region,
+        line,
+        line_width: a.line_width,
+        polygon,
+        objects,
+    };
+    Ok(req.any().then_some(req))
+}
+
+fn render_measure(o: &openreadout_core::measure::MeasureOutput) -> String {
+    let mut out = Vec::new();
+    let um =
+        |v: Option<f64>, unit: &str| v.map(|v| format!(" ({v:.3} {unit})")).unwrap_or_default();
+    let name = |n: &Option<String>| n.as_deref().map(|n| format!(" {n}")).unwrap_or_default();
+    if let Some(p) = &o.profile {
+        out.push(format!(
+            "profile {:.1} px{}, {} samples",
+            p.length_px,
+            um(p.length_um, "µm"),
+            p.samples
+        ));
+        for c in &p.channels {
+            out.push(format!(
+                "  c={}{}  min {}  max {} at {:.1} px{}  mean {}{}",
+                c.c,
+                name(&c.name),
+                num(Some(c.min)),
+                num(Some(c.max)),
+                c.max_at_px,
+                um(c.max_at_um, "µm"),
+                num(Some(c.mean)),
+                c.fwhm_px
+                    .map(|w| format!("  FWHM {w:.1} px{}", um(c.fwhm_um, "µm")))
+                    .unwrap_or_default()
+            ));
+        }
+    }
+    if let Some(r) = &o.roi {
+        out.push(format!("polygon {} px{}", r.area_px, um(r.area_um2, "µm²")));
+        for c in &r.channels {
+            out.push(format!(
+                "  c={}{}  mean {}  std {}  median {}  min {}  max {}  sum {}",
+                c.c,
+                name(&c.name),
+                num(Some(c.mean)),
+                num(Some(c.std)),
+                num(Some(c.median)),
+                num(Some(c.min)),
+                num(Some(c.max)),
+                num(Some(c.sum))
+            ));
+        }
+    }
+    if let Some(ob) = &o.objects {
+        out.push(format!(
+            "{} objects in {} (threshold {} {}, {} touching the edge, {} large)",
+            ob.count,
+            ob.region,
+            num(Some(ob.threshold)),
+            ob.threshold_method,
+            ob.touching_edge,
+            ob.large
+        ));
+        if let Some(a) = &ob.area_px {
+            out.push(format!(
+                "  area px: median {}  min {}  max {}",
+                num(Some(a.median)),
+                num(Some(a.min)),
+                num(Some(a.max))
+            ));
+        }
+        if let Some(d) = ob.median_diameter_um {
+            out.push(format!("  median diameter {d:.2} µm"));
+        }
+    }
+    for n in &o.notes {
+        out.push(format!("note: {n}"));
+    }
+    out.join("\n")
 }
 
 /// Row grain of `stats`.
@@ -101,6 +284,27 @@ pub fn run(reg: &Registry, a: &StatsArgs) -> i32 {
         Some(Ok(r)) => Some(r),
         Some(Err(e)) => return crate::output::fail(a.json, &e),
     };
+    match measure_request(a, region) {
+        Err(e) => return crate::output::fail(a.json, &e),
+        Ok(Some(m)) => {
+            return batch::run(
+                reg,
+                &a.files,
+                Spec {
+                    json: a.json,
+                    batch: &a.batch,
+                    stdin: Stdin::Spool,
+                },
+                &mut |input| {
+                    let (_, mut ds) = reg.open(input.path)?;
+                    let info = ds.info()?;
+                    openreadout_core::measure::measure(ds.as_mut(), &info, &m)
+                },
+                &render_measure,
+            );
+        }
+        Ok(None) => {}
+    }
     if matches!(a.per, PerArg::Well | PerArg::Field) {
         return run_by_well(reg, a);
     }

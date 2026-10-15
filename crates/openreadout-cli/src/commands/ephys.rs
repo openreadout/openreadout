@@ -77,7 +77,8 @@ pub struct EphysArgs {
 
 fn cell_request(a: &EphysArgs) -> Result<CellRequest> {
     let dvdt_ok = a.dvdt_threshold.is_finite() && a.dvdt_threshold > 0.0;
-    if !a.peak_threshold_mv.is_finite() || !dvdt_ok || !(a.min_rise_mv >= 0.0) {
+    if !a.peak_threshold_mv.is_finite() || !dvdt_ok || a.min_rise_mv.is_nan() || a.min_rise_mv < 0.0
+    {
         return Err(Error::Usage(
             "--peak-threshold-mv must be finite, --dvdt-threshold positive and --min-rise-mv at least 0".into(),
         ));

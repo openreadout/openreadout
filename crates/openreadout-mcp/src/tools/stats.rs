@@ -59,6 +59,18 @@ pub struct StatsArgs {
     /// value of each pixel over the selected z planes) or `t`; the statistics are of the
     /// projections.
     pub mip: Option<openreadout_core::stats::Projection>,
+    /// Intensity profile along the line `[x0, y0, x1, y1]` (pixels of `level`, as on the
+    /// preview rulers): values per channel, peak position and FWHM in px and µm.
+    pub line: Option<[f64; 4]>,
+    /// Profile width in pixels, averaged across the line. Default 1.
+    pub line_width: Option<u32>,
+    /// Statistics inside this polygon `[[x, y], ...]` (pixels of `level`): area, mean, std,
+    /// median, sum per channel.
+    pub polygon: Option<Vec<[f64; 2]>>,
+    /// Count objects (nuclei, cells, spots) in `region` or the whole plane: threshold
+    /// (Otsu unless given), 8-connected components, with count, areas (px, µm²) and centroids.
+    /// Reads one plane: the first selected channel, the middle z unless selected.
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
     /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
     /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
     #[serde(default)]
@@ -77,6 +89,8 @@ enum StatsToolOutput {
     Images(openreadout_core::stats::StatsOutput),
     /// per=well|field.
     Wells(openreadout_core::plate::WellStatsOutput),
+    /// line, polygon or objects.
+    Measure(openreadout_core::measure::MeasureOutput),
 }
 
 #[tool_router(router = stats_router, vis = "pub(super)")]
@@ -85,7 +99,7 @@ impl InstrumentServer {
         name = "openreadout_stats",
         annotations(title = "Pixel statistics", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<StatsToolOutput>(),
-        description = "Pixel statistics per channel and image: count, min, max, mean, std, percentiles p1–p99, zero and saturated fractions (at the detector's 2^bits−1 when recorded), histogram; RGB images also per component. per=plane adds every plane; per=well or field gives rows per well of a screening plate. mip='z' measures the maximum-intensity projection; whole slides: a coarser level and/or a region."
+        description = "Pixel statistics per channel and image: count, min, max, mean, std, percentiles p1–p99, zero and saturated fractions (at the detector's 2^bits−1 when recorded), histogram; RGB images also per component. per=plane adds every plane; per=well or field gives rows per well of a screening plate. mip='z' measures the maximum-intensity projection; whole slides: a coarser level and/or a region. Measurements on one plane: line (intensity profile, FWHM), polygon (statistics inside), objects (count nuclei, cells or spots with areas and centroids)."
     )]
     pub(crate) fn stats(
         &self,
@@ -102,6 +116,21 @@ impl InstrumentServer {
             opener: Some(&opener),
             progress: None,
         };
+        let measure = openreadout_core::measure::MeasureRequest {
+            image: a.image,
+            select: a.select.clone(),
+            level: a.level,
+            region: a.region,
+            line: a.line,
+            line_width: a.line_width,
+            polygon: a.polygon.clone(),
+            objects: a.objects.clone(),
+        };
+        if measure.any() {
+            let out = openreadout_core::measure::measure(ds.as_mut(), &info, &measure)
+                .map_err(|e| mcp_err(&e))?;
+            return ok_json(&out);
+        }
         if matches!(a.per, StatsPer::Well | StatsPer::Field) {
             let mut req = openreadout_core::plate::WellStatsRequest::default();
             req.select = a.select;
