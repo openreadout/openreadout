@@ -1,12 +1,10 @@
-//! The plate-reader assay tools, one per analysis of `openreadout analyze`:
-//! `openreadout_assay_wells`, `openreadout_assay_curve`, `openreadout_dose_response`,
-//! `openreadout_kinetics`, `openreadout_growth` and `openreadout_assay_qc`.
-//!
-//! They share the plate arguments ([`Plate`]): the layout and the control wells at the top level,
-//! the rarely needed ones under `plate_options`. Each tool adds the arguments of its analysis
-//! and runs `openreadout_batch::analyze` kind `assay` with `analysis` set. Everything assay-
-//! specific in this server is in this file, so folding the six tools into one
-//! `openreadout_assay` with an `analysis` argument means replacing this file only.
+//! `openreadout_assay`: the plate-reader analyses of `openreadout analyze` (`assay-wells`,
+//! `assay-curve`, `dose-response`, `kinetics`, `growth`, `assay-qc`) as one tool with an
+//! `analysis` argument. They share the plate arguments ([`Plate`]): the layout and the control
+//! wells at the top level, the rarely needed ones under `plate_options`. The arguments of one
+//! analysis only say so in their description, and a call with an argument its analysis does not
+//! take is an error that lists the ones it does. The request runs `openreadout_batch::analyze`
+//! kind `assay`.
 
 use std::collections::BTreeMap;
 
@@ -59,9 +57,9 @@ pub struct PlateOptions {
     empty_wells: Option<String>,
     /// Role of wells by the name the layout gives them: `{"DMSO": "negative", "STAU": "positive"}`.
     roles: Option<BTreeMap<String, String>>,
-    /// Default `auto`.
+    /// Blank subtraction. Default `auto`.
     blank_subtraction: Option<BlankMode>,
-    /// Default `grubbs`.
+    /// Outlier rule within a replicate group. Default `grubbs`.
     outliers: Option<OutlierRule>,
     /// Outlier threshold: alpha (`grubbs`, default 0.05) or modified z-score cut-off (`mad`,
     /// default 3.5).
@@ -74,9 +72,11 @@ pub struct PlateOptions {
 #[derive(schemars::JsonSchema)]
 #[allow(dead_code)]
 pub struct Endpoint {
-    /// Kinetic reads.
+    /// wells, curve, dose-response, qc on a kinetic read: how each well's time course becomes
+    /// one value.
     reduce: Option<Reduce>,
-    /// Points per window for reduce=max-slope.
+    /// Points per sliding window (reduce=max-slope, kinetics, growth). Default: 5 or a tenth of
+    /// the time points, whichever is larger.
     window: Option<usize>,
 }
 
@@ -84,193 +84,158 @@ pub struct Endpoint {
 #[derive(schemars::JsonSchema)]
 #[allow(dead_code)]
 pub struct Fit {
-    /// Curve model: `linear`, `4pl`, `5pl`. Default `4pl`.
+    /// curve, dose-response: the model. Default `4pl`.
     model: Option<Model>,
-    /// Fit weighting. Default `none`.
+    /// curve, dose-response: fit weighting. Default `none`.
     weighting: Option<Weighting>,
-    /// Confidence level of intervals. Default 0.95.
+    /// curve, dose-response: confidence level of intervals. Default 0.95.
     confidence: Option<f64>,
-    /// Also return a PNG of the points and the fitted curve as image content.
+    /// curve, dose-response: also return a PNG of the points and the fitted curve.
     plot: Option<bool>,
 }
 
-/// `openreadout_assay_wells` and `openreadout_assay_qc`.
+/// Every argument of `openreadout_assay`: the schema the model sees.
 #[derive(schemars::JsonSchema)]
 #[allow(dead_code)]
-pub struct WellsArgs {
-    #[serde(flatten)]
-    plate: Plate,
-    #[serde(flatten)]
-    endpoint: Endpoint,
-    /// Every well's percent effect. Default `none`.
-    normalize: Option<Normalize>,
-}
-
-/// `openreadout_assay_curve`.
-#[derive(schemars::JsonSchema)]
-#[allow(dead_code)]
-pub struct CurveArgs {
+pub struct AssayArgs {
+    /// What to compute.
+    analysis: Analysis,
     #[serde(flatten)]
     plate: Plate,
     #[serde(flatten)]
     endpoint: Endpoint,
     #[serde(flatten)]
     fit: Fit,
-    /// Standards as `WELLS=CONCENTRATION` items separated by `;` (`A1,A2=100;B1:B2=50`); default:
-    /// the layout's.
+    /// wells, dose-response, qc: percent effect from the controls. Default `none`.
+    normalize: Option<Normalize>,
+    /// curve: standards as `WELLS=CONCENTRATION` items separated by `;`
+    /// (`A1,A2=100;B1:B2=50`). Default: the layout's.
     standards: Option<String>,
-    /// Fit every standard replicate or the level means. Default `replicates`.
+    /// curve: fit every standard replicate or the level means. Default `replicates`.
     fit_on: Option<FitOn>,
-    /// Lower limit of quantification (overrides the recovery rule).
+    /// curve: lower limit of quantification (overrides the recovery rule).
     lloq: Option<f64>,
-    /// Upper limit of quantification (overrides the recovery rule).
+    /// curve: upper limit of quantification (overrides the recovery rule).
     uloq: Option<f64>,
-}
-
-/// `openreadout_dose_response`.
-#[derive(schemars::JsonSchema)]
-#[allow(dead_code)]
-pub struct DoseResponseArgs {
-    #[serde(flatten)]
-    plate: Plate,
-    #[serde(flatten)]
-    endpoint: Endpoint,
-    #[serde(flatten)]
-    fit: Fit,
-    /// What is fitted. Default `none`.
-    normalize: Option<Normalize>,
-}
-
-/// `openreadout_kinetics`.
-#[derive(schemars::JsonSchema)]
-#[allow(dead_code)]
-pub struct KineticsArgs {
-    #[serde(flatten)]
-    plate: Plate,
-    /// Points per sliding window. Default: 5 or a tenth of the time points, whichever is larger.
-    window: Option<usize>,
-    /// Only these wells (`A1:H6`). Default: every well with values.
+    /// Only these wells (`A1:H6`); the layout's blanks and controls are still used.
     wells: Option<String>,
-}
-
-/// `openreadout_growth`.
-#[derive(schemars::JsonSchema)]
-#[allow(dead_code)]
-pub struct GrowthArgs {
-    #[serde(flatten)]
-    kinetics: KineticsArgs,
-    /// Values at or below this are left out of the log-scale fit. Default 5 % of each well's
-    /// maximum.
+    /// growth: values at or below this are left out of the log-scale fit. Default 5 % of each
+    /// well's maximum.
     growth_threshold: Option<f64>,
 }
 
-/// Run one assay analysis: check that every argument is one of `Q`'s, then hand the request to
-/// the shared dispatcher with `analysis` set.
-async fn assay<Q: schemars::JsonSchema>(
-    server: &InstrumentServer,
-    tool: &str,
-    analysis: Analysis,
-    a: AnalysisArgs<Q>,
-) -> Result<CallToolResult, McpError> {
-    let accepted = openreadout_batch::measures::accepted_keys::<AnalysisArgs<Q>>();
-    let unknown: Vec<&String> = a
-        .options
-        .keys()
-        .filter(|k| !accepted.contains(*k))
-        .collect();
-    if !unknown.is_empty() {
-        return Err(mcp_err(&Error::Usage(format!(
-            "{tool} has no argument {}; it takes: {}",
-            unknown
-                .iter()
-                .map(|k| format!("`{k}`"))
-                .collect::<Vec<_>>()
-                .join(", "),
-            accepted.iter().cloned().collect::<Vec<_>>().join(", ")
-        ))));
-    }
-    let mut options = a.options;
-    options.insert("analysis".into(), Value::String(analysis.id().into()));
-    call(server, AnalyzeKind::Assay, a.file, a.strict, options).await
+/// The arguments each analysis takes (besides `file`, `strict` and `analysis`).
+#[derive(schemars::JsonSchema)]
+#[allow(dead_code)]
+struct WellsArgs {
+    #[serde(flatten)]
+    plate: Plate,
+    #[serde(flatten)]
+    endpoint: Endpoint,
+    normalize: Option<Normalize>,
+    wells: Option<String>,
+}
+
+#[derive(schemars::JsonSchema)]
+#[allow(dead_code)]
+struct CurveArgs {
+    #[serde(flatten)]
+    plate: Plate,
+    #[serde(flatten)]
+    endpoint: Endpoint,
+    #[serde(flatten)]
+    fit: Fit,
+    standards: Option<String>,
+    fit_on: Option<FitOn>,
+    lloq: Option<f64>,
+    uloq: Option<f64>,
+    wells: Option<String>,
+}
+
+#[derive(schemars::JsonSchema)]
+#[allow(dead_code)]
+struct DoseResponseArgs {
+    #[serde(flatten)]
+    plate: Plate,
+    #[serde(flatten)]
+    endpoint: Endpoint,
+    #[serde(flatten)]
+    fit: Fit,
+    normalize: Option<Normalize>,
+    wells: Option<String>,
+}
+
+#[derive(schemars::JsonSchema)]
+#[allow(dead_code)]
+struct KineticsArgs {
+    #[serde(flatten)]
+    plate: Plate,
+    window: Option<usize>,
+    wells: Option<String>,
+}
+
+#[derive(schemars::JsonSchema)]
+#[allow(dead_code)]
+struct GrowthArgs {
+    #[serde(flatten)]
+    kinetics: KineticsArgs,
+    growth_threshold: Option<f64>,
+}
+
+/// The arguments `analysis` takes.
+fn accepted(analysis: Analysis) -> std::collections::BTreeSet<String> {
+    use openreadout_batch::measures::accepted_keys;
+    let mut k = match analysis {
+        Analysis::Wells | Analysis::Qc => accepted_keys::<WellsArgs>(),
+        Analysis::Curve => accepted_keys::<CurveArgs>(),
+        Analysis::DoseResponse => accepted_keys::<DoseResponseArgs>(),
+        Analysis::Kinetics => accepted_keys::<KineticsArgs>(),
+        Analysis::Growth => accepted_keys::<GrowthArgs>(),
+    };
+    k.insert("analysis".into());
+    k
 }
 
 #[tool_router(router = assay_router, vis = "pub(super)")]
 impl InstrumentServer {
     #[tool(
-        name = "openreadout_assay_wells",
-        annotations(title = "Plate wells and replicates", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        name = "openreadout_assay",
+        annotations(title = "Analyse a plate-reader assay", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_assay::AssayOutput>(),
-        description = "Plate-reader export: per-well values with roles from the layout, blank subtraction, and per replicate group the mean, SD, CV % and outlier flags (plus Z′ when the layout has positive and negative controls)."
+        description = "Plate-reader exports, with the layout the file stores or `layout`. analysis: wells (per-well values, blank subtraction, replicate mean/SD/CV, outliers), curve (standard curve, back-calculated concentrations, LLOQ/ULOQ), dose-response (IC50/EC50 per compound with CI and Hill slope), kinetics (Vmax, lag, AUC per well), growth (growth rate, doubling time, lag, logistic fit, and whether each well grew, crashed or regrew, with times), qc (Z′, S/B, S/N, SSMD). An argument that names analyses applies to those only."
     )]
-    pub(crate) async fn assay_wells(
+    pub(crate) async fn assay(
         &self,
-        Parameters(a): Parameters<AnalysisArgs<WellsArgs>>,
+        Parameters(a): Parameters<AnalysisArgs<AssayArgs>>,
     ) -> Result<CallToolResult, McpError> {
-        assay(self, "openreadout_assay_wells", Analysis::Wells, a).await
-    }
-
-    #[tool(
-        name = "openreadout_assay_curve",
-        annotations(title = "Standard curve", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_assay::AssayOutput>(),
-        description = "Plate-reader export: fit a standard curve (linear, 4PL, 5PL) to the standard wells and back-calculate the concentration of every well, with range flags, LLOQ/ULOQ, R² and residuals."
-    )]
-    pub(crate) async fn assay_curve(
-        &self,
-        Parameters(a): Parameters<AnalysisArgs<CurveArgs>>,
-    ) -> Result<CallToolResult, McpError> {
-        assay(self, "openreadout_assay_curve", Analysis::Curve, a).await
-    }
-
-    #[tool(
-        name = "openreadout_dose_response",
-        annotations(title = "Dose-response", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_assay::AssayOutput>(),
-        description = "Plate-reader export: a dose-response fit (4PL/5PL) per compound: IC50/EC50 with confidence interval, Hill slope, top and bottom; optionally normalised to the controls (percent effect)."
-    )]
-    pub(crate) async fn dose_response(
-        &self,
-        Parameters(a): Parameters<AnalysisArgs<DoseResponseArgs>>,
-    ) -> Result<CallToolResult, McpError> {
-        assay(self, "openreadout_dose_response", Analysis::DoseResponse, a).await
-    }
-
-    #[tool(
-        name = "openreadout_kinetics",
-        annotations(title = "Kinetic reads", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_assay::AssayOutput>(),
-        description = "Plate-reader kinetic read: per well the max slope (Vmax) over a sliding window, lag time, time to max, mean slope and AUC."
-    )]
-    pub(crate) async fn kinetics(
-        &self,
-        Parameters(a): Parameters<AnalysisArgs<KineticsArgs>>,
-    ) -> Result<CallToolResult, McpError> {
-        assay(self, "openreadout_kinetics", Analysis::Kinetics, a).await
-    }
-
-    #[tool(
-        name = "openreadout_growth",
-        annotations(title = "Growth curves", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_assay::AssayOutput>(),
-        description = "Plate-reader growth curves (OD over time): per well the maximum growth rate and doubling time from the exponential phase, lag time, a logistic fit (K, r, N0), and whether it grew, crashed or regrew (crash and regrowth times); growth_summary lists the wells of each pattern."
-    )]
-    pub(crate) async fn growth(
-        &self,
-        Parameters(a): Parameters<AnalysisArgs<GrowthArgs>>,
-    ) -> Result<CallToolResult, McpError> {
-        assay(self, "openreadout_growth", Analysis::Growth, a).await
-    }
-
-    #[tool(
-        name = "openreadout_assay_qc",
-        annotations(title = "Assay quality", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_assay::AssayOutput>(),
-        description = "Plate-reader assay quality from the control wells: Z′, signal/background, signal/noise, SSMD and CVs."
-    )]
-    pub(crate) async fn assay_qc(
-        &self,
-        Parameters(a): Parameters<AnalysisArgs<WellsArgs>>,
-    ) -> Result<CallToolResult, McpError> {
-        assay(self, "openreadout_assay_qc", Analysis::Qc, a).await
+        let analysis: Analysis = match a.options.get("analysis") {
+            Some(v) => serde_json::from_value(v.clone()).map_err(|_| {
+                mcp_err(&Error::Usage(format!(
+                    "analysis must be wells, curve, dose-response, kinetics, growth or qc, not {v}"
+                )))
+            })?,
+            None => {
+                return Err(mcp_err(&Error::Usage(
+                    "openreadout_assay needs analysis: wells, curve, dose-response, kinetics, growth or qc".into(),
+                )));
+            }
+        };
+        let ok = accepted(analysis);
+        let unknown: Vec<&String> = a.options.keys().filter(|k| !ok.contains(*k)).collect();
+        if !unknown.is_empty() {
+            return Err(mcp_err(&Error::Usage(format!(
+                "analysis={} takes no {}; it takes: {}",
+                analysis.id(),
+                unknown
+                    .iter()
+                    .map(|k| format!("`{k}`"))
+                    .collect::<Vec<_>>()
+                    .join(", "),
+                ok.iter().cloned().collect::<Vec<_>>().join(", ")
+            ))));
+        }
+        let mut options = a.options;
+        options.insert("analysis".into(), Value::String(analysis.id().into()));
+        call(self, AnalyzeKind::Assay, a.file, a.strict, options).await
     }
 }

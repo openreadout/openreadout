@@ -14,7 +14,7 @@ use crate::{InstrumentServer, mcp_err, ok_json};
 /// Arguments for `openreadout_table`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct TableArgs {
-    /// Absolute or working-directory-relative path to the instrument file.
+    /// Path to the file.
     pub file: String,
     /// Table index (FCS data set or plate read; see openreadout_info → tables[]). Default 0.
     #[serde(default)]
@@ -56,8 +56,7 @@ pub struct TableArgs {
     /// Return only the count (`filter.matched_rows`, `total_rows`, `percent`), no rows.
     #[serde(default)]
     pub count: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

@@ -1,6 +1,6 @@
 # analyze
 
-`analyze` runs analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks, patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader assays. Each analysis is a subcommand with its own flags, and an MCP tool with the same name and arguments: `analyze nmr-peaks --range-ppm 0:10` is `openreadout_nmr_peaks` with `range_ppm: [0, 10]`.
+`analyze` runs analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks, patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader assays. Each analysis is a subcommand with its own flags, and an MCP tool with the same name and arguments: `analyze nmr-peaks --range-ppm 0:10` is `openreadout_nmr_peaks` with `range_ppm: [0, 10]`. The six plate-reader analyses share one tool, `openreadout_assay`, with `analysis` naming the subcommand.
 
 ```text
 openreadout analyze <SUBCOMMAND> [OPTIONS] <FILE>...
@@ -15,12 +15,12 @@ openreadout analyze <SUBCOMMAND> [OPTIONS] <FILE>...
 | `spikes` | `openreadout_spikes` | extracellular spike counts, rates and times | [Electrophysiology](../../guides/ephys.md) |
 | `qpcr` | `openreadout_qpcr` | Cq, Tm, ΔΔCq, standard curves | [qPCR formats](../../formats/qpcr.md) |
 | `gate` | `openreadout_gate` | FlowJo or Gating-ML gate hierarchy and population counts | [FlowJo workspaces](../../formats/flowjo-wsp.md) |
-| `assay-wells` | `openreadout_assay_wells` | plate-reader wells: roles, blanks, replicate statistics | [Plate analysis](../../guides/plate-analysis.md) |
-| `assay-curve` | `openreadout_assay_curve` | a standard curve and back-calculated concentrations | [Plate analysis](../../guides/plate-analysis.md) |
-| `dose-response` | `openreadout_dose_response` | IC50/EC50 per compound | [Plate analysis](../../guides/plate-analysis.md) |
-| `kinetics` | `openreadout_kinetics` | per-well rates of a kinetic read | [Plate analysis](../../guides/plate-analysis.md) |
-| `growth` | `openreadout_growth` | growth rate, doubling time, crash and regrowth per well | [Plate analysis](../../guides/plate-analysis.md) |
-| `assay-qc` | `openreadout_assay_qc` | Z′ and other plate quality metrics | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-wells` | `openreadout_assay` `analysis: wells` | plate-reader wells: roles, blanks, replicate statistics | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-curve` | `openreadout_assay` `analysis: curve` | a standard curve and back-calculated concentrations | [Plate analysis](../../guides/plate-analysis.md) |
+| `dose-response` | `openreadout_assay` `analysis: dose-response` | IC50/EC50 per compound | [Plate analysis](../../guides/plate-analysis.md) |
+| `kinetics` | `openreadout_assay` `analysis: kinetics` | per-well rates of a kinetic read | [Plate analysis](../../guides/plate-analysis.md) |
+| `growth` | `openreadout_assay` `analysis: growth` | growth rate, doubling time, crash and regrowth per well | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-qc` | `openreadout_assay` `analysis: qc` | Z′ and other plate quality metrics | [Plate analysis](../../guides/plate-analysis.md) |
 
 Every subcommand takes `--json`. The guides describe the methods and how they were validated. To run any of these over many files as one table, use [`batch`](batch.md).
 

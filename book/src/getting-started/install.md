@@ -69,7 +69,7 @@ openreadout 0.1.0
 $ openreadout self doctor
 openreadout 0.1.0 (x86_64-unknown-linux-gnu, release)
   features: mcp
-  mcp server: available (32 tools)
+  mcp server: available (27 tools)
   threads: 4
   formats (97): czi, lif, nd2, thermo-raw, fcs, imzml, mzml, mzxml, mzmlb, bruker-tdf, ...
 self-test:

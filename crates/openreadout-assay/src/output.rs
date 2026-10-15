@@ -472,6 +472,8 @@ pub struct GrowthRow {
     /// Sample name.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sample: Option<String>,
+    /// Replicate group (the layout's group, else the sample name).
+    pub group: String,
     /// Time points used.
     pub n_points: usize,
     /// The well's own minimum, subtracted as background when the layout has no blank wells

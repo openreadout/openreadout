@@ -15,14 +15,13 @@ use crate::{InstrumentServer, mcp_err, ok_json};
 /// Arguments for `openreadout_check`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct CheckArgs {
-    /// Absolute or working-directory-relative path to the file or data-set directory.
+    /// Path to the file or data-set directory.
     pub file: String,
     /// Check headers and structure only (offsets, declared sizes and counts, missing parts):
     /// no decompression, decoding or checksums over the data.
     #[serde(default)]
     pub headers_only: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -53,8 +52,7 @@ pub struct CompareArgs {
     /// Metadata and geometry only, no pixels.
     #[serde(default)]
     pub no_pixels: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

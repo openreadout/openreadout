@@ -17,7 +17,7 @@ The command pages list each flag. Flags that only make sense in a terminal or a 
 
 ## Tools
 
-The server has 32 tools.
+The server has 27 tools.
 
 | tool | what it does | command |
 | --- | --- | --- |
@@ -38,12 +38,7 @@ The server has 32 tools.
 | `openreadout_spikes` | extracellular spikes | [analyze spikes](commands/analyze.md#spikes) |
 | `openreadout_qpcr` | qPCR Cq, Tm, ΔΔCq and standard curves | [analyze qpcr](commands/analyze.md#qpcr) |
 | `openreadout_gate` | flow-cytometry gating | [analyze gate](commands/analyze.md#gate) |
-| `openreadout_assay_wells` | plate-reader wells, blanks and replicates | [analyze assay-wells](commands/analyze.md#plate-reader-assays) |
-| `openreadout_assay_curve` | a plate-reader standard curve | [analyze assay-curve](commands/analyze.md#plate-reader-assays) |
-| `openreadout_dose_response` | IC50/EC50 from a plate | [analyze dose-response](commands/analyze.md#plate-reader-assays) |
-| `openreadout_kinetics` | per-well rates of a kinetic read | [analyze kinetics](commands/analyze.md#plate-reader-assays) |
-| `openreadout_growth` | growth rate and doubling time per well | [analyze growth](commands/analyze.md#plate-reader-assays) |
-| `openreadout_assay_qc` | Z′ and other plate quality metrics | [analyze assay-qc](commands/analyze.md#plate-reader-assays) |
+| `openreadout_assay` | plate-reader assays: wells and replicates, standard curves, IC50/EC50, kinetics, growth with crash and regrowth, Z′ | [analyze](commands/analyze.md#plate-reader-assays) |
 | `openreadout_export` | export to an open format | [export](commands/export.md) |
 | `openreadout_extract` | write one embedded attachment, such as a slide label, to a file | [extract](commands/extract.md) |
 | `openreadout_batch` | one measure over many files as one table | [batch](commands/batch.md) |
@@ -117,7 +112,7 @@ Each `analyze` subcommand is a tool whose arguments are its flags. An argument t
 - `openreadout_spikes`: extracellular spike detection per channel. Arguments: `trace`, `channels`, `sweeps`, `band_hz`, `threshold`, `sign`, `max_seconds` and `max_times`.
 - `openreadout_qpcr`: Cq and Tm per well and target, ΔΔCq and standard curves. Arguments: `well`, `target`, `sample`, `run`, `compute_cq`, `cq_method`, `threshold`, `baseline_start`, `baseline_end`, `ddcq`, `reference_targets`, `control_sample`, `standard_curve`, `undetermined_cq` and `max_records`.
 - `openreadout_gate`: population counts, percentages and medians from a FlowJo workspace or Gating-ML file. Arguments: `workspace`, `gatingml`, `sample`, `populations`, `table` and `medians`. Without `workspace` or `gatingml`, `file` is the gating file itself, described without counts.
-- The plate-reader tools `openreadout_assay_wells`, `openreadout_assay_curve`, `openreadout_dose_response`, `openreadout_kinetics`, `openreadout_growth` and `openreadout_assay_qc` take `layout`, `blank_wells`, `positive_wells` and `negative_wells`, the arguments of their analysis (`reduce`, `window`, `normalize`; `model`, `weighting`, `confidence`, `plot`; `standards`, `fit_on`, `lloq`, `uloq`; `wells`, `growth_threshold`), and the rarely needed plate options in `plate_options`: `table`, `read`, `wavelength_nm`, `embedded_layout`, `layout_text`, `empty_wells`, `roles`, `blank_subtraction`, `outliers`, `outlier_threshold` and `exclude_outliers`. `plot: true` adds the fitted curve as an image. See [Plate-reader assays](../guides/plate-analysis.md).
+- `openreadout_assay` takes `analysis` (`wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc`, the subcommands `assay-wells` … `assay-qc`), `layout`, `blank_wells`, `positive_wells` and `negative_wells`, the arguments of that analysis (`reduce`, `window`, `normalize`; `model`, `weighting`, `confidence`, `plot`; `standards`, `fit_on`, `lloq`, `uloq`; `wells`, `growth_threshold`), and the rarely needed plate options in `plate_options`: `table`, `read`, `wavelength_nm`, `embedded_layout`, `layout_text`, `empty_wells`, `roles`, `blank_subtraction`, `outliers`, `outlier_threshold` and `exclude_outliers`. `plot: true` adds the fitted curve as an image. See [Plate-reader assays](../guides/plate-analysis.md).
 
 ### openreadout_export
 
@@ -181,7 +176,7 @@ In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/ap
 
 The viewer is one HTML page served as the resource `ui://openreadout/viewer.html`. It runs in the client's sandbox, loads nothing from the network and asks the server for data with the tool `openreadout_view`. That tool is only for the viewer: clients that support MCP Apps hide it from the assistant. Its results are kept small. Pictures are at most 1600 px on their longest side and 750 kB. Plots have at most 4000 points per series, and longer signals are drawn as the minimum and maximum of each slice, so single-sample spikes stay visible. Flow-cytometry plots sample at most 50,000 events. Each result says what was reduced.
 
-The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 32 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
+The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 27 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
 
 The viewer also tells the client what you are looking at (for example "image 0, channel 1, z 12, region x 400–800"), so you can ask the assistant about it.
 

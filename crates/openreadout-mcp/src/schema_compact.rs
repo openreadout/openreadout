@@ -4,11 +4,14 @@
 //! and description stays.
 //!
 //! - unit enums (`oneOf` of `const` strings, each with its own description) become `enum: [...]`
-//!   with one description (`a` = …; `b` = …), and are inlined where they are referenced;
+//!   with one description (`a` = …; `b` = …), and are inlined where they are referenced, under
+//!   the argument's description (the enum type's own only when the argument has none);
 //! - `Option<T>` (`anyOf: [T, {type: null}]`, `type: [T, "null"]`) becomes `T` (omitting the
 //!   property is how an agent leaves it unset);
-//! - Rust integer/float `format`s (`uint32`, `double`, …), `"default": null` and `$schema` are
-//!   removed; line breaks in descriptions become spaces.
+//! - Rust integer/float `format`s (`uint32`, `double`, …), `$schema`, the `minimum: 0` of
+//!   unsigned integers and defaults that say nothing (`null`, `false`, `0`, `[]`, `""`: what an
+//!   omitted argument means anyway; other defaults are in the descriptions) are removed; line
+//!   breaks in descriptions become spaces.
 //!
 //! Arguments are still parsed by serde from the same field names, so the calls accepted do not
 //! change.
@@ -127,8 +130,9 @@ fn walk(v: Value, defs: &Value, depth: u32) -> Value {
                 m.remove("$ref");
                 let mut inlined = d.clone();
                 let inner = inlined.remove("description");
-                if let Some(x) = merge_description(desc.as_ref(), inner.as_ref()) {
-                    inlined.insert("description".into(), x);
+                // The argument's own description says what it is for; the type's only repeats it.
+                if let Some(Value::String(x)) = desc.or(inner) {
+                    inlined.insert("description".into(), Value::String(one_line(&x)));
                 }
                 for (k, x) in inlined {
                     m.entry(k).or_insert(x);
@@ -188,8 +192,19 @@ fn walk(v: Value, defs: &Value, depth: u32) -> Value {
             {
                 m.remove("format");
             }
-            if m.get("default") == Some(&Value::Null) {
+            if m.get("default").is_some_and(|d| {
+                d.is_null()
+                    || *d == Value::Bool(false)
+                    || d.as_f64() == Some(0.0)
+                    || d.as_array().is_some_and(Vec::is_empty)
+                    || d.as_str() == Some("")
+            }) {
                 m.remove("default");
+            }
+            if m.get("type") == Some(&Value::from("integer"))
+                && m.get("minimum").and_then(Value::as_f64) == Some(0.0)
+            {
+                m.remove("minimum");
             }
             if let Some(Value::String(d)) = m.get_mut("description") {
                 *d = one_line(d);
@@ -220,6 +235,8 @@ mod tests {
             "properties": {
                 "mode": {"anyOf": [{"$ref": "#/$defs/Mode"}, {"type": "null"}], "description": "Pick one."},
                 "n": {"type": ["integer", "null"], "format": "uint32", "minimum": 0, "default": null},
+                "on": {"type": "boolean", "default": false},
+                "k": {"type": "integer", "minimum": 1, "default": 3},
                 "file": {"type": "string", "description": "Path"}
             },
             "required": ["file"]
@@ -237,9 +254,11 @@ mod tests {
             d.contains("Pick one.") && d.contains("`a` = First line") && d.contains("`b`"),
             "{d}"
         );
+        assert_eq!(c["properties"]["n"], json!({"type": "integer"}));
+        assert_eq!(c["properties"]["on"], json!({"type": "boolean"}));
         assert_eq!(
-            c["properties"]["n"],
-            json!({"type": "integer", "minimum": 0})
+            c["properties"]["k"],
+            json!({"type": "integer", "minimum": 1, "default": 3})
         );
         assert_eq!(c["required"], json!(["file"]));
     }

@@ -30,9 +30,7 @@ pub struct BatchArgs {
     #[serde(default)]
     pub formats: Vec<String>,
     /// The measure's options. Analyses: the arguments of that analysis's tool
-    /// (openreadout_peaks, openreadout_nmr_peaks, ...; assay: `analysis` = wells, curve,
-    /// dose-response, kinetics, growth or qc, plus the arguments of that openreadout_assay_*
-    /// tool), plus `rows` (which record list becomes rows: peaks
+    /// (openreadout_peaks, openreadout_nmr_peaks, openreadout_assay with its `analysis`, ...), plus `rows` (which record list becomes rows: peaks
     /// peak|compound|chromatogram|band|region, nmr-peaks peak|integral|spectrum,
     /// ephys-features sweep|cell|spike, qpcr record|rq|standard_curve, assay
     /// wells|samples|compounds|kinetics|growth|quality).

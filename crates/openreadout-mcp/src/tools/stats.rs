@@ -71,8 +71,7 @@ pub struct StatsArgs {
     /// (Otsu unless given), 8-connected components, with count, areas (px, µm²) and centroids.
     /// Reads one plane: the first selected channel, the middle z unless selected.
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

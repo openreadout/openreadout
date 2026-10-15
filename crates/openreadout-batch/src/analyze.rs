@@ -1,6 +1,6 @@
 //! The analyses by name: one entry point, picked by `kind`, configured by `options` (the same
 //! options `openreadout_batch` takes for that measure). The MCP analysis tools
-//! (`openreadout_peaks`, `openreadout_nmr_peaks`, ..., `openreadout_dose_response`), the Python
+//! (`openreadout_peaks`, `openreadout_nmr_peaks`, ..., `openreadout_assay`), the Python
 //! `openreadout.analyze()` and the R `openreadout_analyze()` call it.
 
 use std::path::{Path, PathBuf};
@@ -159,8 +159,7 @@ pub struct AnalyzeArgs {
     #[serde(default)]
     #[schemars(with = "Option<AnalyzeOptions>")]
     pub options: Map<String, Value>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

@@ -98,7 +98,7 @@ plates/plate1.csv  plate   CPD-B     IC50  1.8251     -1.5585
 ...
 ```
 
-The MCP tool is `openreadout_dose_response`, with `file` and `layout`.
+The MCP tool is `openreadout_assay` with `analysis: "dose-response"`, `file` and `layout`.
 
 ## More
 

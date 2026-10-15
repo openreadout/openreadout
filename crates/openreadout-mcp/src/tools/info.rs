@@ -36,7 +36,7 @@ pub enum InfoView {
 /// Arguments for `openreadout_info`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct InfoArgs {
-    /// Absolute or working-directory-relative path to the instrument file or data-set directory.
+    /// Path to the file or data-set directory.
     pub file: String,
     /// What to return.
     #[serde(default)]
@@ -64,8 +64,7 @@ pub struct InfoArgs {
     pub kind: Option<String>,
     /// view=structure with kind: skip this many elements of that kind first (paging).
     pub first_entry: Option<usize>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate (assurance.strict_refuses). Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

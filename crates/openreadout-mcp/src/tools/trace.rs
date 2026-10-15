@@ -12,7 +12,7 @@ use crate::{InstrumentServer, mcp_err, ok_json};
 /// Arguments for `openreadout_trace`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct TraceArgs {
-    /// Absolute or working-directory-relative path to the instrument file.
+    /// Path to the file.
     pub file: String,
     /// Trace index (see openreadout_info → traces[]). Default 0.
     #[serde(default)]
@@ -37,8 +37,7 @@ pub struct TraceArgs {
     /// zero filling, FT, stored or automatic phase, baseline, ppm axis).
     #[serde(default)]
     pub process: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

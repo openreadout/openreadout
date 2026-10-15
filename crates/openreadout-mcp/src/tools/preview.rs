@@ -14,7 +14,7 @@ use crate::{InstrumentServer, mcp_err, resources, to_value, with_strict};
 /// Arguments for `openreadout_preview`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct PreviewArgs {
-    /// Absolute or working-directory-relative path to the instrument file.
+    /// Path to the file.
     pub file: String,
     /// Image index (default 0).
     pub image: Option<u32>,
@@ -65,8 +65,7 @@ pub struct PreviewArgs {
     pub table: Option<u32>,
     /// Plate preview (long layout): value column name.
     pub column: Option<String>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

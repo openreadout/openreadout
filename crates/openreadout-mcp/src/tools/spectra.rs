@@ -15,7 +15,7 @@ use crate::{InstrumentServer, mcp_err, ok_json};
 /// Arguments for `openreadout_scans`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct ScansArgs {
-    /// Absolute or working-directory-relative path to the mass-spectrometry file.
+    /// Path to the mass-spectrometry file.
     pub file: String,
     /// Run index for files with several runs (Sciex samples; default 0).
     #[serde(default)]
@@ -46,8 +46,7 @@ pub struct ScansArgs {
     /// Only count the matching scans (matched, ms_level_counts); list none.
     #[serde(default)]
     pub count: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -55,7 +54,7 @@ pub struct ScansArgs {
 /// Arguments for `openreadout_spectrum`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct SpectrumArgs {
-    /// Absolute or working-directory-relative path to the mass-spectrometry file.
+    /// Path to the mass-spectrometry file.
     pub file: String,
     /// Run index for files with several runs (Sciex samples; default 0).
     #[serde(default)]
@@ -76,8 +75,7 @@ pub struct SpectrumArgs {
     pub lock_mass: Option<String>,
     /// At most this many points (default 2000; point_count reports the full size).
     pub max_points: Option<usize>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }

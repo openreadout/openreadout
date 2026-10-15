@@ -1463,6 +1463,7 @@ fn time_course(
                         well: w.name.clone(),
                         role: role_id(w.role),
                         sample: w.info.sample.clone(),
+                        group: w.group.clone(),
                         n_points: g.n_points,
                         background,
                         window: g.window,

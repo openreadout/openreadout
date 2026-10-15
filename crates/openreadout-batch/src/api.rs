@@ -139,7 +139,7 @@ pub struct BatchToolArgs {
     pub medians: Vec<String>,
     /// Options of the analysis measures: the arguments of that analysis's MCP tool (e.g.
     /// `{"mz": [195.0877], "ppm": 10}` for openreadout_peaks; assay: `{"analysis": "curve"}`
-    /// plus the openreadout_assay_curve arguments), plus `rows` to pick the record list (peaks: peak|compound|chromatogram;
+    /// plus the openreadout_assay arguments), plus `rows` to pick the record list (peaks: peak|compound|chromatogram;
     /// nmr-peaks: peak|integral|spectrum; ephys-features: sweep|cell|spike; qpcr:
     /// record|rq|standard_curve; assay: wells|samples|compounds|kinetics|growth|quality).
     #[serde(default)]
@@ -164,7 +164,7 @@ pub enum MeasureName {
     Peaks,
     /// openreadout_chromatogram (its arguments as options)
     Chromatogram,
-    /// a plate-reader assay: options `analysis` (wells, curve, dose-response, kinetics, growth, qc) and the arguments of that openreadout_assay_* tool
+    /// a plate-reader assay: options `analysis` (wells, curve, dose-response, kinetics, growth, qc) and the other openreadout_assay arguments
     Assay,
     /// openreadout_nmr_peaks (its arguments as options)
     NmrPeaks,

@@ -186,8 +186,10 @@ fn hints_follow_the_tool_table() {
     .unwrap();
     assert_eq!(h["view"], "nmr");
     let h = view_hint(
-        "openreadout_dose_response",
-        Some(&args(json!({"file": "plate.xlsx"}))),
+        "openreadout_assay",
+        Some(&args(
+            json!({"file": "plate.xlsx", "analysis": "dose-response"}),
+        )),
     )
     .unwrap();
     assert_eq!(h["view"], "plate");
@@ -671,7 +673,7 @@ async fn sessions_offer_the_viewer_only_when_negotiated() {
     let tools = plain.call("tools/list", json!({})).await;
     let text = tools.to_string();
     assert!(!text.contains(VIEW_TOOL) && !text.contains(RESOURCE_URI));
-    assert_eq!(tools["tools"].as_array().unwrap().len(), 32);
+    assert_eq!(tools["tools"].as_array().unwrap().len(), 27);
     let list = plain.call("resources/list", json!({})).await;
     assert!(!list.to_string().contains(RESOURCE_URI));
     let info = plain

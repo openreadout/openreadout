@@ -93,27 +93,7 @@ pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ),
     ("openreadout_spikes", ToolView::Kind(view::ViewKind::Trace)),
     ("openreadout_gate", ToolView::Kind(view::ViewKind::Fcs)),
-    (
-        "openreadout_assay_wells",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    (
-        "openreadout_assay_curve",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    (
-        "openreadout_dose_response",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    (
-        "openreadout_kinetics",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    ("openreadout_growth", ToolView::Kind(view::ViewKind::Plate)),
-    (
-        "openreadout_assay_qc",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
+    ("openreadout_assay", ToolView::Kind(view::ViewKind::Plate)),
 ];
 
 fn tool_view(name: &str) -> Option<ToolView> {

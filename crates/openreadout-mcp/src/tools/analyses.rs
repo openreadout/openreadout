@@ -63,12 +63,11 @@ impl<'de, Q> Deserialize<'de> for AnalysisArgs<Q> {
 #[derive(schemars::JsonSchema)]
 #[allow(dead_code)]
 struct Shape<Q> {
-    /// Absolute or working-directory-relative path to the instrument file or data-set directory.
+    /// Path to the file or data-set directory.
     file: String,
     #[serde(flatten)]
     options: Q,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     strict: Option<bool>,
 }
 

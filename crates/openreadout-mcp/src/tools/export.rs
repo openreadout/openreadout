@@ -15,7 +15,7 @@ use crate::{InstrumentServer, mcp_err, progress, to_value, with_strict};
 /// Arguments for `openreadout_export`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct ExportArgs {
-    /// Absolute or working-directory-relative path to the instrument file.
+    /// Path to the file.
     pub file: String,
     /// `ome-tiff` (one BigTIFF file; the default for images), `ome-zarr` (OME-NGFF 0.5 / Zarr v3
     /// directory with a pyramid), `mzml` (indexed mzML 1.1.0; the default for mass spectra),
@@ -71,8 +71,7 @@ pub struct ExportArgs {
     /// scan has both.
     #[serde(default)]
     pub centroid: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
