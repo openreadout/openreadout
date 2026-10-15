@@ -331,17 +331,19 @@ fn stains(comps: &[Vec<f32>], i0: [f32; 3]) -> [Vec<f32>; 3] {
     out
 }
 
-/// True when most of the plane is bright and objects are the dark tail (brightfield): the
-/// median sits closer to the top of the range than to the bottom.
+/// True for transmitted light (brightfield), where objects are darker than the background:
+/// the median sits closer to the top of the range than to the bottom, or the plane has no
+/// dark background at all (stained tissue filling the field). Fluorescence always has one.
 fn looks_dark(v: &[f32]) -> bool {
-    let (Some(p1), Some(p50), Some(p99)) = (
+    let (Some(p1), Some(p50), Some(p99), Some(top)) = (
         sg::quantile(v, 0.01),
         sg::quantile(v, 0.5),
         sg::quantile(v, 0.99),
+        sg::quantile(v, 0.999),
     ) else {
         return false;
     };
-    (p50 - p1) > 1.5 * (p99 - p50)
+    (p50 - p1) > 1.5 * (p99 - p50) || (top > 0.0 && p1 > 0.12 * top && p50 > 0.5 * top)
 }
 
 /// Decide what to measure from a sample tile of the image (`comps`: one plane, or three RGB).
@@ -959,6 +961,7 @@ pub(crate) fn objects(
     } else {
         0
     };
+    let counted = c;
     let all_channels: Vec<u32> = (0..tg.im.size_c.max(1)).take(8).collect();
     if tg.im.size_c > 1 && !selected_c {
         notes.push(format!(
@@ -1192,7 +1195,8 @@ pub(crate) fn objects(
             .total_cmp(&(b.sy / band).floor())
             .then(a.sx.total_cmp(&b.sx))
     });
-    let channels_meta: Vec<(u32, Option<String>)> = if rgb && signal.dark || rgb && matches!(signal.stain, Some(Stain::Hematoxylin | Stain::Eosin | Stain::Dab)) {
+    let stained = rgb && (signal.dark || signal.deconvolved());
+    let channels_meta: Vec<(u32, Option<String>)> = if stained {
         vec![
             (0, Some("hematoxylin".into())),
             (1, Some("eosin".into())),
@@ -1268,7 +1272,13 @@ pub(crate) fn objects(
             let means: Vec<f64> = all.iter().map(|o| o.mean[k]).collect();
             let bg = &bg_samples[k];
             let background = sg::quantile(bg, 0.5).map_or(f64::NAN, f64::from);
-            let positive = positive(&means, bg);
+            // positive calls for markers: other channels than the one counted, and DAB
+            let marker = if stained {
+                k == 2
+            } else {
+                rgb || c != counted
+            };
+            let positive = marker.then(|| positive(&means, bg)).flatten();
             ObjectChannel {
                 c,
                 name,
@@ -1334,8 +1344,9 @@ fn round_spread(s: Spread) -> Spread {
 }
 
 /// Which objects are clearly brighter in a channel: Otsu's split of the object means when they
-/// fall in two well-separated groups, else those above the background plus five robust
-/// standard deviations.
+/// fall in two well-separated groups, else those above the background by five robust
+/// standard deviations of the background (and at least a tenth of the way to the brightest
+/// objects, for backgrounds without noise).
 fn positive(means: &[f64], bg: &[f32]) -> Option<Positive> {
     if means.is_empty() {
         return None;
@@ -1344,7 +1355,8 @@ fn positive(means: &[f64], bg: &[f32]) -> Option<Positive> {
     let bg_med = sg::quantile(bg, 0.5)?;
     let dev: Vec<f32> = bg.iter().map(|v| (v - bg_med).abs()).collect();
     let bg_sd = 1.4826 * sg::quantile(&dev, 0.5)?;
-    let floor = f64::from(bg_med + 5.0 * bg_sd.max(f32::EPSILON));
+    let top = sg::quantile(&m32, 0.95)?;
+    let floor = f64::from(bg_med + (5.0 * bg_sd).max(0.1 * (top - bg_med)).max(f32::EPSILON));
     let (threshold, method) = match sg::otsu(&m32) {
         // two groups, the upper one above the background
         Some((t, sep)) if sep >= 0.75 && means.len() >= 8 && f64::from(t) > floor => {
