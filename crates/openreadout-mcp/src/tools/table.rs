@@ -139,6 +139,10 @@ impl InstrumentServer {
         }
         .map_err(|e| mcp_err(&e))?;
         let mut slice = slice;
+        if a.count {
+            // no rows were asked for, so none are missing
+            slice.truncated = false;
+        }
         // Wide tables (spectral cytometers: hundreds of parameters): without an explicit
         // max_rows keep the answer to about MCP_TABLE_CELLS values; `truncated` and first_row
         // page through the rest.

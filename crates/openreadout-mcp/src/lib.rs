@@ -33,6 +33,7 @@
 #![warn(missing_docs)]
 
 mod app;
+mod coerce;
 #[cfg(feature = "http")]
 mod http;
 mod progress;
@@ -172,9 +173,15 @@ impl ServerHandler for InstrumentServer {
 
     async fn call_tool(
         &self,
-        request: CallToolRequestParams,
+        mut request: CallToolRequestParams,
         context: RequestContext<RoleServer>,
     ) -> Result<CallToolResponse, McpError> {
+        if let (Some(tool), Some(args)) = (
+            self.tool_router.get(&request.name),
+            request.arguments.as_mut(),
+        ) {
+            coerce::lists(&tool.input_schema, args);
+        }
         if request.name == app::VIEW_TOOL {
             return app::call_view(self.registry, request, &context)
                 .await
@@ -183,8 +190,12 @@ impl ServerHandler for InstrumentServer {
         let hint = app::ui_for(&context)
             .then(|| app::view_hint(&request.name, request.arguments.as_ref()))
             .flatten();
+        let name = request.name.clone();
         let tcc = rmcp::handler::server::tool::ToolCallContext::new(self, request, context);
-        let mut response = self.tool_router.call(tcc).await?;
+        let mut response = coerce::with_argument_hint(
+            self.tool_router.call(tcc).await,
+            self.tool_router.get(&name),
+        )?;
         if let (Some(hint), CallToolResponse::Complete(result)) = (hint, &mut response) {
             app::attach_hint(result, hint);
         }
