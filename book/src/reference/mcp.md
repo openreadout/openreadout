@@ -168,22 +168,36 @@ Image previews have rulers labelled in full-resolution pixels, and a µm scale b
 
 ## The viewer
 
-In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_stats`, `openreadout_trace`, `openreadout_scans`, `openreadout_spectrum`, `openreadout_table` or one of the analysis tools, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
+In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_stats`, `openreadout_trace`, `openreadout_scans`, `openreadout_spectrum`, `openreadout_table`, `openreadout_gate`, `openreadout_qpcr` or one of the plate and chromatography analyses, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
 
 | data | view | what you can do |
 | --- | --- | --- |
-| images | the image plane | pick the image, channel or composite, z, time point, pyramid level and contrast; drag a box to zoom into full-resolution pixels; hover for coordinates in px and µm |
-| electrophysiology, detector traces, 1-D spectra | sweeps, one panel per channel | step through sweeps, choose channels, drag to zoom into the samples |
-| NMR | the spectrum on a ppm axis (an FID is processed first) with its peaks | drag to zoom |
-| mass spectrometry, chromatography | the TIC or a detector trace, with peaks | type m/z values for extracted-ion chromatograms, click a point to see the spectrum there, step through scans |
-| plates | a heat map of the wells | pick the table and value column, hover for a well's value |
-| flow cytometry | a density plot of two parameters, or a histogram of one | pick parameters, linear, log or arcsinh scales, and how many events to sample |
+| images | the image plane, with a scale bar and, when zoomed in, a small map of the whole image | pick the image, channel or composite, z, time point and contrast; zoom with double-click, pinch or the + and − buttons, pan with shift-drag; hover for coordinates in px and µm, mm or nm |
+| electrophysiology, detector traces, 1-D spectra | sweeps, one panel per channel | step through sweeps, choose channels, select a time range |
+| qPCR | every well's amplification curve, coloured and labelled by target | hover a curve for its well |
+| NMR | the spectrum on a ppm axis (an FID is processed first) with its peaks | select a range |
+| mass spectrometry, chromatography | the TIC or a detector trace, with peaks | type m/z values for extracted-ion chromatograms, hover a peak for its area and height, click for the spectrum at that time, click a peak in a spectrum for its chromatogram, step through scans |
+| plates | a heat map of the wells; for kinetic reads, a small growth curve in each well, coloured by the plate layout stored in the file (samples, groups) | hover a well for its curve with the rest of its group, scrub or play the time course, switch to a heat map at any time point, pick the read and what the colours mean |
+| flow cytometry | a density plot of two parameters, or a histogram of one; with a FlowJo workspace or Gating-ML file, the events of a population coloured by its child populations | pick parameters, linear, log or arcsinh scales, and how many events to sample; click a population to open it, go back up with the breadcrumb |
 
 The viewer is one HTML page served as the resource `ui://openreadout/viewer.html`. It runs in the client's sandbox, loads nothing from the network and asks the server for data with the tool `openreadout_view`. That tool is only for the viewer: clients that support MCP Apps hide it from the assistant. Its results are kept small. Pictures are at most 1600 px on their longest side and 750 kB. Plots have at most 4000 points per series, and longer signals are drawn as the minimum and maximum of each slice, so single-sample spikes stay visible. Flow-cytometry plots sample at most 50,000 events. Each result says what was reduced.
 
 The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 32 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
 
-The viewer also tells the client what you are looking at (for example "image 0, channel 1, z 12, region x 400–800"), so you can ask the assistant about it.
+### Following the assistant
+
+When the assistant zooms into an image with `openreadout_preview` and `region`, the viewer shows the whole image first and then moves to the region, so you see where on the slide it is. The assistant's picture has rulers to help it navigate; the viewer shows the same view without them. When the assistant marks things on a picture or plot (`annotations`: labelled points, boxes, outlines, arrows, bands and lines), the viewer draws them on top of the data, with labels kept apart and readable on any background. A figure made with `openreadout_plot` opens in the viewer too, where you can zoom into it and hover its curves for their values.
+
+### Pointing at things
+
+You can show the assistant what you mean instead of describing it:
+
+- Drag a box on an image, click a point, or click one of the assistant's labels.
+- Drag across a plot to select a range, or click a chromatogram peak or a peak in a spectrum.
+- Click wells on a plate (shift-click to add more, drag for a block, double-click a group name for all of its wells).
+- Drag a box over flow-cytometry events, or click a population's label.
+
+A small bar opens next to the selection. Type a question and press Ask, and the question goes to the chat with the selection in full-resolution pixels, wells, minutes or m/z, the units the tools take. The viewer also keeps the assistant up to date with what you are looking at and what you selected, together with the tool calls that would look closer (for example `openreadout_preview` with that `region`, or `openreadout_growth` with those `wells`), so a plain "what is this?" in the chat works too. In clients that do not take messages from apps, the bar has only the zoom and copy actions.
 
 In apps that open files with an MCP App (the ChatGPT and Codex desktop apps), the viewer is also the file viewer for `.czi`, `.nd2`, `.lif`, `.lof`, `.oir`, `.oib`, `.oif`, `.vsi`, `.ims`, `.zvi`, `.mrxs`, `.isyntax`, `.ndpi`, `.svs`, `.dm3`, `.dm4`, `.fcs`, `.abf`, `.smr`, `.smrx`, `.wcp`, `.wiff`, `.wiff2` and `.asyr` files: opening one in a thread shows it in the viewer. OpenReadout claims only extensions that belong to one instrument format, not general ones such as `.tif`, `.csv` or `.raw`.
 

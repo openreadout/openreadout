@@ -736,7 +736,7 @@ function main() {
     else if (d.view === "image") h = "Drag to select · Shift-drag to pan · double-click to zoom";
     else if (d.view === "figure") h = "Drag to zoom · double-click to reset";
     else if (d.plot) h = d.plot.kind === "chromatogram" && d.plot.source === "spectra" ? "Drag to select a range · click for the spectrum" : d.plot.kind === "spectrum" ? "Click a peak · drag to select" : "Drag to select a range · double-click to reset";
-    else if (d.plate) h = "Click wells to select · hover for the curve";
+    else if (d.plate) h = d.plate.kinetic ? "Click wells to select · hover for the curve" : "Click wells to select";
     else if (d.events) h = d.events.gating ? "Click a population to open it · drag to select" : "Drag to select events";
     $("hint").textContent = h;
   }
@@ -2660,7 +2660,7 @@ function main() {
       }
       const span = `${fmtTime(kinTime())} of ${fmtTime(k.time_s[k.n - 1])}` + (k.unit ? ` · ${k.unit}` : "") + (k.wavelength_nm ? ` at ${fmt(k.wavelength_nm, 4)} nm` : "");
       txt(span, ox, oy + pl.rows * ch + 13, { size: 11, color: c.muted });
-      const scale = `0 – ${fmt(k.hi, 3)}${k.unit ? " " + k.unit : ""} in every well`;
+      const scale = `${fmt(k.lo, 3)} – ${fmt(k.hi, 3)}${k.unit ? " " + k.unit : ""} in every well`;
       g.font = font(11, 400);
       const used = g.measureText(span).width;
       g.font = font(11, 400, true);
@@ -2826,7 +2826,7 @@ function main() {
       g.fill();
     }
     txt(fmt(k.hi, 3), px + pw, py - 3, { size: 10, mono: true, align: "right", color: c.faintText });
-    txt("0", px, py + ph + 13, { size: 10, mono: true });
+    txt("0", px, py + ph + 13, { size: 10, mono: true, color: c.faintText });
     txt(fmtTime(k.time_s[k.n - 1]), px + pw, py + ph + 13, { size: 10, mono: true, align: "right" });
   }
 
