@@ -346,18 +346,11 @@ pub fn run(reg: &Registry, a: &PeaksArgs) -> i32 {
                     .iter()
                     .map(openreadout_quant::bands::axis_label)
                     .collect();
-                let canvas =
+                let figure =
                     openreadout_quant::plot::render_labelled(&chroms, &refs, &labels, a.width);
-                let enc = if target.extension().is_some_and(|e| {
-                    e.eq_ignore_ascii_case("jpg") || e.eq_ignore_ascii_case("jpeg")
-                }) {
-                    openreadout_preview::Encoding::Jpeg
-                } else {
-                    openreadout_preview::Encoding::Png
-                };
-                let bytes = openreadout_preview::encode(
-                    &canvas,
-                    enc,
+                let bytes = openreadout_preview::encode_figure(
+                    &figure,
+                    openreadout_preview::Encoding::from_path(&target),
                     openreadout_preview::DEFAULT_JPEG_QUALITY,
                 )?;
                 openreadout_preview::write_verified(path, &target, &bytes, a.overwrite)?;

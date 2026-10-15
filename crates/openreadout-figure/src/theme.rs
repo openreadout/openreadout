@@ -76,8 +76,8 @@ impl Theme {
                 Color::hex(0x8C6D5A),
             ],
             sequential: Colormap::new(vec![
-                Color::hex(0xF3EEE4),
-                Color::hex(0xEDD9B4),
+                Color::hex(0xEDE2CC),
+                Color::hex(0xE9D2A6),
                 Color::hex(0xE3B57F),
                 Color::hex(0xD18A57),
                 Color::hex(0xB45C3C),

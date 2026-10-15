@@ -1,13 +1,20 @@
 //! Scales from data values to pixels, nice tick positions and short tick labels.
 
-/// Linear or logarithmic.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+/// Linear, logarithmic or inverse hyperbolic sine.
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
 pub enum ScaleKind {
     /// Equal steps for equal differences.
     #[default]
     Linear,
     /// Equal steps for equal ratios (base 10). Values ≤ 0 have no position.
     Log,
+    /// `asinh(v / cofactor)`: linear near zero, logarithmic far from it, and defined for
+    /// negative values (flow cytometry fluorescence).
+    Asinh(f64),
+}
+
+fn asinh_c(c: f64) -> f64 {
+    if c.is_finite() && c > 0.0 { c } else { 1.0 }
 }
 
 /// A tick: its value, its pixel position and its label.
@@ -80,6 +87,14 @@ impl Scale {
                 }
                 (self.lo.log10(), self.hi.log10(), v.log10())
             }
+            ScaleKind::Asinh(c) => {
+                let c = asinh_c(c);
+                (
+                    (self.lo / c).asinh(),
+                    (self.hi / c).asinh(),
+                    (v / c).asinh(),
+                )
+            }
         };
         let span = b - a;
         Some(if span != 0.0 && span.is_finite() {
@@ -108,6 +123,11 @@ impl Scale {
         match self.kind {
             ScaleKind::Linear => self.lo + t * (self.hi - self.lo),
             ScaleKind::Log => 10f64.powf(self.lo.log10() + t * (self.hi.log10() - self.lo.log10())),
+            ScaleKind::Asinh(c) => {
+                let c = asinh_c(c);
+                let (a, b) = ((self.lo / c).asinh(), (self.hi / c).asinh());
+                (a + t * (b - a)).sinh() * c
+            }
         }
     }
 
@@ -141,6 +161,7 @@ impl Scale {
                 }
             }
             ScaleKind::Log => (10f64.powf(a.log10().floor()), 10f64.powf(b.log10().ceil())),
+            ScaleKind::Asinh(_) => (a, b),
         };
         if flip {
             (self.lo, self.hi) = (b, a);
@@ -235,7 +256,60 @@ impl Scale {
                 }
                 out
             }
+            ScaleKind::Asinh(_) => self.asinh_ticks(a, b),
         }
+    }
+
+    /// Ticks of an asinh scale: 0, then ±1, ±10, ±100, … and, where those are sparse (the
+    /// near-linear part around zero), the linear ticks of the span; candidates that would sit
+    /// closer than 6 % of the axis to a kept tick are dropped, decades first kept.
+    fn asinh_ticks(&self, a: f64, b: f64) -> Vec<Tick> {
+        let inside = |v: f64| v >= a - 1e-9 * a.abs() && v <= b + 1e-9 * b.abs();
+        let mut cands: Vec<(f64, u8)> = vec![(0.0, 0)];
+        let top = a.abs().max(b.abs()).max(1.0).log10().ceil() as i32;
+        for d in (0..=top.min(30)).rev() {
+            let v = 10f64.powi(d);
+            cands.push((v, 1));
+            cands.push((-v, 1));
+        }
+        let step = nice_step(b - a, 5);
+        if step > 0.0 {
+            let first = (a / step).ceil() as i64;
+            let last = (b / step).floor() as i64;
+            for k in first..=last.min(first.saturating_add(50)) {
+                cands.push((k as f64 * step, 2));
+            }
+        }
+        cands.retain(|(v, _)| inside(*v));
+        let min_gap = self.len() * 0.06;
+        let mut kept: Vec<(f64, f32, u8)> = Vec::new();
+        for prio in 0..=2u8 {
+            for &(v, p) in cands.iter().filter(|c| c.1 == prio) {
+                let Some(px) = self.px(v) else { continue };
+                if kept
+                    .iter()
+                    .all(|(w, q, _)| *w != v && (q - px).abs() >= min_gap)
+                {
+                    kept.push((v, px, p));
+                }
+            }
+        }
+        kept.sort_by(|x, y| x.0.total_cmp(&y.0));
+        let linear_step = step;
+        kept.into_iter()
+            .map(|(v, px, p)| Tick {
+                value: v,
+                px,
+                label: if p == 2 {
+                    format_tick(v, linear_step)
+                } else if (1000.0..1e4).contains(&v.abs()) {
+                    format!("{}k", format_tick(v / 1000.0, v.abs() / 1000.0))
+                } else {
+                    format_tick(v, v.abs().max(1.0))
+                },
+                major: true,
+            })
+            .collect()
     }
 }
 
@@ -383,6 +457,19 @@ mod tests {
         assert_eq!(majors, vec!["1", "10", "100", "1k", "10k", "100k", "1M"]);
         assert_eq!(s.px(0.0), None);
         assert!((s.px(1000.0).unwrap() - 300.0).abs() < 1e-3);
+        let a = Scale {
+            lo: -500.0,
+            hi: 250_000.0,
+            px0: 0.0,
+            px1: 500.0,
+            kind: ScaleKind::Asinh(150.0),
+        };
+        let labels: Vec<String> = a.ticks(6).into_iter().map(|t| t.label).collect();
+        assert!(
+            labels.contains(&"0".to_string()) && labels.contains(&"100k".to_string()),
+            "{labels:?}"
+        );
+        assert!((a.value(a.px(1234.0).unwrap()) - 1234.0).abs() < 0.01);
         let narrow = Scale::log(1.0, 20.0, 0.0, 100.0);
         assert!(narrow.ticks(5).iter().any(|t| t.label == "5"));
     }

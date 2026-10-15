@@ -2003,8 +2003,8 @@ name = "openreadout-assay"
 version = "0.3.0"
 dependencies = [
  "openreadout-core",
+ "openreadout-figure",
  "openreadout-plate",
- "openreadout-preview",
  "schemars",
  "serde",
  "serde_json",
@@ -2620,6 +2620,7 @@ dependencies = [
  "jpeg-decoder",
  "openreadout-core",
  "openreadout-figure",
+ "openreadout-signal",
  "png",
  "schemars",
  "serde",
@@ -2704,7 +2705,7 @@ name = "openreadout-quant"
 version = "0.3.0"
 dependencies = [
  "openreadout-core",
- "openreadout-preview",
+ "openreadout-figure",
  "rayon",
  "schemars",
  "serde",

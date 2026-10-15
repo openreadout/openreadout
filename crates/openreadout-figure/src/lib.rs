@@ -53,8 +53,8 @@ mod svg;
 mod theme;
 
 pub use chart::{
-    AxesDrawn, AxesSpec, Domain, EndLabel, Envelope, GridLines, Marker, Panel, Shape, arrow_px,
-    color_bar, draw_marker, end_labels, key_row, marker_path, spread,
+    AxesDrawn, AxesSpec, Domain, EndLabel, Envelope, GridLines, Marker, Panel, Shape, arrow_parts,
+    arrow_px, color_bar, draw_marker, end_labels, key_row, marker_path, spread,
 };
 pub use color::{Color, Colormap};
 pub use font::{Face, Metrics, metrics, text_path, text_width};
