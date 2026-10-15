@@ -858,6 +858,37 @@ async fn sessions_offer_the_viewer_only_when_negotiated() {
     let _ = std::fs::remove_file(f);
 }
 
+// Models sometimes send a nested object as a JSON string: the `preview` of openreadout_export,
+// and the arguments inside it, are read as the objects they hold.
+#[tokio::test]
+async fn nested_arguments_sent_as_json_strings_are_read() {
+    let f = fake_file("nested-json", b'I', 256);
+    let out = f.with_extension("saved.png");
+    let mut s = Session::start(json!({
+        "extensions": {EXTENSION_ID: {"mimeTypes": [MIME_TYPE]}}
+    }))
+    .await;
+    let preview = json!({
+        "file": f.display().to_string(),
+        "max_size": 128,
+        "annotations": json!([{"type": "point", "x": 10, "y": 10, "label": "a"}]).to_string(),
+    })
+    .to_string();
+    let r = s
+        .call(
+            "tools/call",
+            json!({"name": "openreadout_export", "arguments": {
+                "preview": preview, "output": out.display().to_string(),
+            }}),
+        )
+        .await;
+    assert_ne!(r["isError"], json!(true), "{r}");
+    assert_eq!(r["structuredContent"]["verified"], json!(true), "{r}");
+    assert!(out.exists());
+    let _ = std::fs::remove_file(out);
+    let _ = std::fs::remove_file(f);
+}
+
 // Protocol 2026-07-28 has no initialize. The client sends `server/discover`, every request carries
 // the version in `_meta`, and list results must carry `ttlMs` and `cacheScope`. Claude Code 2.1.292
 // drops a server's whole tool list when they are missing, as it did with rmcp 3.5.0.
