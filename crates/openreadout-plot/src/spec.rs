@@ -7,13 +7,14 @@ use std::collections::BTreeMap;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-/// One value or a list of them.
+// Enums whose values name themselves (light, dark, sd, sem, ...) carry no doc comments: the
+// field that takes them describes them, and the tool's schema stays short.
+
+#[allow(missing_docs)]
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, JsonSchema)]
 #[serde(untagged)]
 pub enum OneOrMany<T> {
-    /// One.
     One(T),
-    /// Several.
     Many(Vec<T>),
 }
 
@@ -100,50 +101,39 @@ pub struct PanelSpec {
     pub stack: Option<f64>,
 }
 
-/// Small multiples.
+#[allow(missing_docs)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Facet {
-    /// One small plot per series.
     Series,
-    /// Plate wells in plate positions.
     Plate,
 }
 
-/// Shared axis ranges across panels.
+#[allow(missing_docs)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Share {
-    /// Same x range.
     X,
-    /// Same y range.
     Y,
-    /// Both.
     Both,
-    /// Each panel its own.
     None,
 }
 
-/// Colour scheme.
+#[allow(missing_docs)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ThemeName {
-    /// Ink on paper.
     #[default]
     Light,
-    /// Light ink on a dark ground.
     Dark,
 }
 
-/// Legend style.
+#[allow(missing_docs)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Legend {
-    /// Labels at the line ends.
     Direct,
-    /// A key row above the plot.
     Key,
-    /// No labels.
     None,
 }
 
@@ -164,8 +154,7 @@ pub struct AxisSpec {
     pub unit: Option<String>,
 }
 
-/// What a series shows. Default from the file: traces for signals and spectra, the TIC for mass
-/// spectrometry, per-well curves for plates, events for FCS (with x and y), rows for tables.
+/// What a series shows.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Show {
@@ -195,49 +184,35 @@ pub enum Show {
     Melt,
 }
 
-/// How a series is drawn. Default from what it shows.
+#[allow(missing_docs)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkKind {
-    /// Lines.
     Line,
-    /// Dots.
     Points,
-    /// Lines with dots.
     LinePoints,
-    /// Bars (categories or x positions).
     Bars,
-    /// Filled to zero.
     Area,
-    /// Vertical sticks (centroided spectra).
     Sticks,
-    /// 2-D density of events.
     Density,
 }
 
-/// How plate wells or table rows are grouped into series.
+#[allow(missing_docs)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Spread {
-    /// Mean ± standard deviation.
     Sd,
-    /// Mean ± standard error.
     Sem,
-    /// Mean with the min–max range.
     Range,
-    /// Mean only.
     None,
 }
 
-/// Plate values before plotting.
+#[allow(missing_docs)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Subtract {
-    /// Raw values.
     None,
-    /// Minus the mean of the layout's blank wells (per time point).
     Blank,
-    /// Minus each well's first reading (gain over the run).
     First,
 }
 
@@ -253,7 +228,9 @@ pub struct SeriesSpec {
     /// Small inline data the agent computed: `{x: [...], y: [...], error?: [...]}`; x may be
     /// category names.
     pub values: Option<InlineValues>,
-    /// What to show (default from the file).
+    /// What to show. Default from the file: trace (signals, 1-D spectra), chromatogram (mass
+    /// spectrometry; spectrum with rt or scan), wells (plates), events (FCS with x and y; histogram
+    /// with x only), amplification (qPCR).
     pub show: Option<Show>,
     /// How to draw it (default from what it shows).
     pub mark: Option<MarkKind>,

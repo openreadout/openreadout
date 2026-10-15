@@ -301,6 +301,12 @@ function main() {
       show(result);
       return;
     }
+    // openreadout_plot: show the figure it drew; _meta["openreadout/figure"] has its panels
+    if (result && result._meta && result._meta["openreadout/figure"]) {
+      S.figure = result._meta["openreadout/figure"];
+      showStatic(result);
+      return;
+    }
     const hint = sc && sc.view === "pending" ? hintFrom(null, S.toolInput) : hintFrom(result, S.toolInput);
     if (!hint) {
       overlay(textOf(result) || "Nothing to show for this result.");

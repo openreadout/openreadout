@@ -25,6 +25,7 @@ openreadout-plate = { workspace = true }
 openreadout-qpcr = { workspace = true }
 openreadout-mzml-writer = { workspace = true }
 openreadout-preview = { workspace = true }
+openreadout-plot = { workspace = true }
 openreadout-index = { workspace = true }
 openreadout-batch = { workspace = true }
 # the argument types of the analysis tools (their input schemas)

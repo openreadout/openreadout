@@ -69,6 +69,9 @@ pub enum ToolView {
     /// `openreadout_chromatogram`, `openreadout_peaks`: the chromatogram the call asked for,
     /// with its peaks.
     Chromatogram,
+    /// `openreadout_plot`: the figure the tool drew (its image content), with the panels and
+    /// series under `_meta["openreadout/figure"]`.
+    Figure,
 }
 
 /// The tools whose results the viewer shows, and how it starts. Tools not listed here (export,
@@ -76,6 +79,7 @@ pub enum ToolView {
 pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ("openreadout_info", ToolView::Auto),
     ("openreadout_preview", ToolView::Preview),
+    ("openreadout_plot", ToolView::Figure),
     ("openreadout_stats", ToolView::Kind(view::ViewKind::Image)),
     ("openreadout_trace", ToolView::Kind(view::ViewKind::Trace)),
     (
@@ -263,6 +267,10 @@ const PASSED_KEYS: &[&str] = &[
 pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
     use view::ViewKind as K;
     let tv = tool_view(tool)?;
+    if tv == ToolView::Figure {
+        // the figure is in the result itself
+        return Some(json!({"view": "figure"}));
+    }
     let args = args?;
     let file = args.get("file")?.as_str()?;
     let mut hint = serde_json::Map::new();
@@ -327,6 +335,7 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
             hint.insert("peaks".into(), json!(true));
             Some(K::Chromatogram)
         }
+        ToolView::Figure => None,
     };
     if let Some(k) = kind {
         hint.insert("view".into(), json!(k.name()));
