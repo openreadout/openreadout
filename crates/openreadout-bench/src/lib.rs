@@ -190,8 +190,8 @@ impl CodecInputs {
                 [v, v.wrapping_add(40), v.wrapping_mul(3)]
             })
             .collect();
-        let canvas = openreadout_preview::Canvas { width, height, rgb };
-        let jpeg = openreadout_preview::jpeg::encode(&canvas, 90);
+        let canvas = openreadout_figure::Raster { width, height, rgb };
+        let jpeg = openreadout_figure::jpeg::encode(&canvas, 90);
         let jpeg2000 = dicom_toolkit_jpeg2000::encode(
             &raw,
             width,

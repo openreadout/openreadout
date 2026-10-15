@@ -79,7 +79,7 @@ A file still being written gets the same `acquisition` block as on the command l
 
 ### openreadout_preview
 
-Returns a picture as image content, followed by JSON that says what was drawn. Arguments as in [`preview`](commands/preview.md): `image`, `select`, `mip`, `composite`, `level`, `region` (`{x, y, width, height}`), `max_size` (default 768, at most 2048), `axes` (`rulers`, `grid` or `none`; default `rulers`), `contrast`, `lut` and `format`; for traces `trace`, `sweep` and `channels`; for spectra `run`, `spectrum`, `scan` and `centroid`; for plates `table` and `column`.
+Returns a picture as image content, followed by JSON that says what was drawn. Arguments as in [`preview`](commands/preview.md): `image`, `select`, `mip`, `composite`, `level`, `region` (`{x, y, width, height}`), `max_size` (default 768, at most 2048), `axes` (`rulers`, `grid` or `none`; default `rulers`), `contrast`, `lut` and `format`; for traces `trace`, `sweep` and `channels`; for spectra `run`, `spectrum`, `scan` and `centroid`; for plates and flow cytometry `table` and `columns`; `marks` (`auto`, `peaks`, `spikes` or `none`) and `annotations` (see [Annotations](commands/preview.md#annotations)). With `format: "svg"` the picture still comes back as PNG, followed by the SVG text.
 
 ### openreadout_stats
 

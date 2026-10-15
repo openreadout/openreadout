@@ -11,12 +11,20 @@ All notable changes to this project are documented here. The format is based on 
 - `spectrum --rt MIN` reads the scan at a retention time, and every spectrum lists its most intense peaks with charge, monoisotopic m/z and neutral mass.
 - `analyze nmr-peaks --auto-integrate` integrates every multiplet; `analyze gate --median all` reports the median of every gated parameter.
 - MCP progress notifications carry a message a host can show ("Reading 1,200 of 53,141 spectra"), from exports, chromatograms, peaks, stats, batch and indexing.
+- A figure engine (`openreadout-figure`) draws every picture: vector shapes and real type (IBM Plex Sans and Mono, embedded) rendered in-process to PNG, JPEG or SVG, in the paper-and-ink look of the project, light or dark.
+- Kinetic plate reads preview as a grid of growth curves in plate positions, coloured by the plate layout's groups, with blank wells faint. The heat map of the last time point used to hide wells that crashed and grew back.
+- Flow cytometry files preview as a density plot of two parameters (default FSC-A against SSC-A) or a histogram of one; fluorescence axes are asinh.
+- `preview --annotate` (MCP `annotations`) draws labelled points, boxes, outlines, arrows, text, lines and bands in the picture's own coordinates, and reports where each landed.
+- Spectra and chromatogram previews label their largest peaks; `preview --marks spikes` marks the action potentials of a current-clamp sweep.
+- `preview` writes SVG (`-o x.svg`), and `--dark` draws in the dark theme. Chromatogram and peak plots (`analyze chromatogram -o x.png`, `analyze peaks --plot`) and assay curve plots use the new engine.
 
 ### Changed
 
 - The six plate-reader MCP tools are one, `openreadout_assay`, with `analysis` (`wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc`). The tool list is about a quarter smaller.
 - SoftMax Pro groups are the replicate groups of the plate analyses.
 - A spike must rise 15 mV above the trough before it (`--min-rise-mv`, 0 for eFEL's count), and `spectrum --max-points` keeps the most intense points.
+- `preview --column` is repeatable (MCP `columns`): a plate's value column, or the parameters of an event preview.
+- Previews report `panels` (each plot panel's place and data range), `marks` and `annotations`, so a viewer can map picture pixels to data values.
 
 ### Fixed
 

@@ -17,7 +17,7 @@ metadata:
 
 - `info` — what a file holds, from its headers (fast on multi-gigabyte files); `--view full | structure | explain | format`, `--ask "QUESTION"`.
 - `check` — integrity (exit 4 = damaged); `compare A B` — are two files (a source and its export) the same data; `planes` — plane hashes; `report` — a diagnostic bundle for a file that is refused or not validated.
-- `preview` — a PNG of an image, trace, spectrum or plate; Read the PNG to see it.
+- `preview` — a PNG of an image, trace, spectrum, plate (kinetic reads: one growth curve per well) or flow events; Read the PNG to see it. `--annotate` draws labelled points, boxes, arrows and bands in the picture's own coordinates, to show what you found.
 - `stats` — pixel statistics; `--per well` for screening plates. On one plane: `--line X0,Y0,X1,Y1` (intensity profile, FWHM), `--polygon` (statistics inside), `--objects` (count nuclei, cells or spots: areas in µm², centroids).
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
