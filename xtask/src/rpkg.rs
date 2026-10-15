@@ -208,10 +208,8 @@ pub fn vendor(root: &Path, out: Option<PathBuf>, keep_dir: bool) -> Result<()> {
         )?;
         src_bytes += copy_dir(&from.join("src"), &to.join("src"))?;
         // data the sources embed with include_bytes! (the figure engine's fonts)
-        for data in ["fonts"] {
-            if from.join(data).is_dir() {
-                src_bytes += copy_dir(&from.join(data), &to.join(data))?;
-            }
+        if from.join("fonts").is_dir() {
+            src_bytes += copy_dir(&from.join("fonts"), &to.join("fonts"))?;
         }
         if from.join("build.rs").is_file() {
             src_bytes += fs::copy(from.join("build.rs"), to.join("build.rs"))?;
