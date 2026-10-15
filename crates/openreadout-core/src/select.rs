@@ -1,4 +1,5 @@
-//! Plane selection syntax shared by `export` and `planes`: `c=0`, `z=2-5`, `t=0,3,7`.
+//! Plane selection syntax shared by every command that reads planes: `c=0`, `z=2-5`,
+//! `t=0,3,7`, as separate arguments or combined in one (`c=0,1,z=2`).
 
 use crate::{Error, Result};
 
@@ -14,10 +15,12 @@ pub struct Selection {
 }
 
 impl Selection {
-    /// Parse repeatable `axis=spec` arguments.
+    /// Parse repeatable `axis=spec` arguments. One argument may hold several axes: in
+    /// `c=0,1,z=2` a comma followed by `axis=` starts the next axis.
     pub fn parse(args: &[String]) -> Result<Self> {
         let mut s = Selection::default();
-        for a in args {
+        for a in split_axes(args) {
+            let a = a.as_str();
             let (axis, spec) = a.split_once('=').ok_or_else(|| {
                 Error::Usage(format!(
                     "bad selection '{a}': expected axis=values, e.g. z=0-3"
@@ -50,6 +53,27 @@ impl Selection {
     pub fn is_all(&self) -> bool {
         self.c.is_empty() && self.z.is_empty() && self.t.is_empty()
     }
+}
+
+/// `["c=0,1,z=2"]` → `["c=0,1", "z=2"]`; plain `axis=spec` arguments pass through.
+fn split_axes(args: &[String]) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+    for a in args {
+        let mut cur = String::new();
+        for part in a.split(',') {
+            if part.contains('=') && !cur.is_empty() {
+                out.push(std::mem::take(&mut cur));
+            }
+            if !cur.is_empty() {
+                cur.push(',');
+            }
+            cur.push_str(part.trim());
+        }
+        if !cur.is_empty() {
+            out.push(cur);
+        }
+    }
+    out
 }
 
 /// Most indices one axis selection may expand to (`z=0-4294967295` would otherwise
@@ -103,6 +127,15 @@ mod tests {
         assert!(s.contains(0, 2, 9));
         assert!(!s.contains(1, 2, 0));
         assert!(Selection::parse(&["q=1".into()]).is_err());
+    }
+
+    #[test]
+    fn parses_combined_axes() {
+        let s = Selection::parse(&["c=0,1,z=2-3".into(), "t=4".into()]).unwrap();
+        assert_eq!(s.c, vec![0, 1]);
+        assert_eq!(s.z, vec![2, 3]);
+        assert_eq!(s.t, vec![4]);
+        assert!(Selection::parse(&["c=0,q=1".into()]).is_err());
     }
 
     #[test]
