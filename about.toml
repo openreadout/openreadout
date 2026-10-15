@@ -32,3 +32,8 @@ targets = [
 # Only what is linked into the binary.
 ignore-build-dependencies = true
 ignore-dev-dependencies = true
+
+# Fonts are data: openreadout-figure embeds the IBM Plex fonts unmodified under the SIL Open Font
+# License (see deny.toml).
+[openreadout-figure]
+accepted = ["OFL-1.1"]
