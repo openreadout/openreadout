@@ -231,7 +231,19 @@ pub(super) fn trace(
                 trace_list(&info)
             ))
         })?,
-        _ => info.traces[0].index,
+        // a processed spectrum (a ppm axis) before the FID it came from
+        _ => info
+            .traces
+            .iter()
+            .find(|t| {
+                t.extra
+                    .get("axis")
+                    .and_then(|a| a.get("unit"))
+                    .and_then(Value::as_str)
+                    .is_some_and(|u| u.contains("ppm"))
+            })
+            .unwrap_or(&info.traces[0])
+            .index,
     };
     let t = info
         .traces
@@ -413,7 +425,11 @@ pub(super) fn trace(
                     t.extra
                         .get("quantity")
                         .and_then(Value::as_str)
-                        .unwrap_or("fluorescence"),
+                        .unwrap_or(if trace_kind(&t).contains("derivative") {
+                            "−dF/dT"
+                        } else {
+                            "fluorescence"
+                        }),
                     ch.unit.as_deref(),
                 )
             } else {

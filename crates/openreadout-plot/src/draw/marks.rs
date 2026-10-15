@@ -166,7 +166,9 @@ pub(crate) fn draw_series(
             let w = if gap.is_finite() { gap * 0.68 } else { 1.0 };
             p.bars(fig, pts, w, 0.0, c);
             error_bars(fig, p, theme, pts, err, ink);
-            bar_values(fig, p, theme, pts, ink);
+            if !err.iter().any(|e| e.is_finite() && *e > 0.0) {
+                bar_values(fig, p, theme, pts, ink);
+            }
         }
         (Geom::Points { pts, err }, m) => {
             if m == MarkKind::LinePoints || m == MarkKind::Line {
@@ -220,7 +222,7 @@ pub(crate) fn draw_series(
             }
             p.bars(fig, &pts, slot * 0.86, 0.0, c);
             error_bars(fig, p, theme, &pts, &errs, ink);
-            if m == 1 {
+            if m == 1 && !errs.iter().any(|e| e.is_finite() && *e > 0.0) {
                 bar_values(fig, p, theme, &pts, ink);
             }
         }
