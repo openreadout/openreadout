@@ -24,10 +24,23 @@
     <canvas id="canvas" tabindex="0" aria-label="Data view"></canvas>
     <div id="overlay" class="overlay" role="status" aria-live="polite">Waiting for data…</div>
     <div id="tip" class="tip" hidden></div>
+    <div id="act" class="act" hidden role="dialog" aria-label="Selection">
+      <div class="act-row">
+        <span id="act-label" class="act-label"></span>
+        <span id="act-buttons" class="act-buttons"></span>
+        <button id="act-close" class="act-x" type="button" aria-label="Clear the selection" title="Clear (Esc)">×</button>
+      </div>
+      <div id="act-ask" class="act-ask" hidden>
+        <input id="act-input" type="text" autocomplete="off" placeholder="Ask about this…" aria-label="Question for the assistant">
+        <button id="act-send" type="button">Ask</button>
+      </div>
+    </div>
+    <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
   </section>
   <footer class="status">
     <span id="readout" class="readout"></span>
     <span id="notes" class="muted"></span>
+    <span id="hint" class="hint muted"></span>
   </footer>
 </main>
 <script>/*SCRIPT*/</script>
