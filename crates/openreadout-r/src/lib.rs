@@ -461,8 +461,7 @@ fn rs_preview(h: Robj, options: &str, format: &str) -> Robj {
 }
 
 /// A figure from a plot spec (the `openreadout_plot` arguments as JSON), as `format` (png at
-/// `scale`, svg or pdf): `list(json, data)`. With `output` in the spec the file is written and
-/// verified too.
+/// `scale`, svg or pdf): `list(json, data)`.
 #[extendr]
 fn rs_plot(spec: &str, format: &str, scale: f64) -> Robj {
     let res = (|| {
@@ -473,7 +472,7 @@ fn rs_plot(spec: &str, format: &str, scale: f64) -> Robj {
         }
         let v: serde_json::Value = parse("plot spec", spec)?;
         let spec = openreadout_plot::parse_spec(v)?;
-        let p = openreadout_plot::run(&registry(), &spec)?;
+        let p = openreadout_plot::plot(&registry(), &spec)?;
         let bytes = match format {
             "png" => p.figure.to_png(scale as f32)?,
             "svg" => p.figure.to_svg().into_bytes(),

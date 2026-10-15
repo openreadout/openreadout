@@ -58,4 +58,13 @@ IR/Raman overlays: `{"data": {"file": ["a.spa", "b.spa"], "peaks": 2}, "stack": 
 - A batch table: `{"table": "rows.csv", "x": "name", "y": "percent_of_parent", "by": "path", "where": ["parent=/…/CD8+"]}`.
 - Inline: `{"values": {"x": ["E01", "E03"], "y": [0.004, 2.6], "y_unit": "% of CD8"}}`.
 
-`output` (`.png`, `.svg`, `.pdf`) writes the figure for a paper or slides.
+## Saving
+
+`openreadout plot SPEC.json -o fig.pdf` writes `.png`, `.jpg`, `.tiff` (at `--scale`, default 2), `.svg` or `.pdf`; `--dpi 300` records the print resolution. Over MCP, `openreadout_plot` only draws; `openreadout_export` saves the same figure:
+
+```json
+{"plot": {"title": "Growth in every well", "facet": "plate", "data": {"file": "plate.pda", "color_by": "growth"}},
+ "output": "plate-growth.pdf"}
+```
+
+A preview with your annotations (a labelled slide zoom) saves the same way, with `preview` = the `openreadout_preview` arguments.

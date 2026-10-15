@@ -201,7 +201,7 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Gate => out::<openreadout_core::flow::GateOutput>(),
         SchemaOf::BatchTable => out::<openreadout_batch::BatchOutput>(),
         SchemaOf::Summarize => out::<summarize::SummarizeOutput>(),
-        SchemaOf::Plot => out::<openreadout_plot::PlotOutput>(),
+        SchemaOf::Plot => out::<super::plot::PlotReport>(),
         SchemaOf::Link => out::<openreadout_batch::LinkOutput>(),
         SchemaOf::Index => out::<openreadout_index::IndexManifest>(),
         SchemaOf::Search => out::<openreadout_index::SearchOutput>(),

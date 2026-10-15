@@ -2639,10 +2639,12 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-quant",
  "openreadout-signal",
+ "png",
  "schemars",
  "serde",
  "serde_json",
  "tempfile",
+ "tiff",
 ]
 
 [[package]]

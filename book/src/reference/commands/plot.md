@@ -1,19 +1,21 @@
 # plot
 
-`plot` draws a finished figure from lab files: traces and sweeps, chromatograms and mass spectra, plate wells in their plate positions or as group means, FCS dot plots and histograms, f–I curves, dose-response and standard-curve fits, and the columns of a table file. You describe the figure in JSON. The same JSON is the arguments of the MCP tool `openreadout_plot`.
+`plot` draws a finished figure from lab files: traces and sweeps, chromatograms and mass spectra, plate wells in their plate positions or as group means, FCS dot plots and histograms, f–I curves, dose-response and standard-curve fits, and the columns of a table file. You describe the figure in JSON. The same JSON is the arguments of the MCP tool `openreadout_plot`, which returns the figure as a picture; `openreadout_export` with `plot` set to that JSON saves it (see [saving figures](../mcp.md#saving-figures)).
 
 ```text
 openreadout plot [OPTIONS] <SPEC>
 ```
 
-`SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG (at twice the pixel size), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place.
+`SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG, JPEG or TIFF (at twice the pixel size unless `--scale` says otherwise), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place.
 
 ## Flags
 
-- `-o`, `--output FILE`: `.png`, `.svg` or `.pdf`. Overrides the spec's `output`.
+- `-o`, `--output FILE`: `.png`, `.jpg`, `.tiff`, `.svg` or `.pdf`. Required.
+- `--scale N`: pixels per figure pixel in PNG, JPEG and TIFF files, 0.25–8. Default 2. Text and lines are drawn again at that size.
+- `--dpi N`: print resolution. PNG, JPEG and TIFF files record it, so they open at pixels ÷ dpi inches; SVG and PDF pages get the size the raster would print at. A 1200-pixel figure at the default scale and `--dpi 300` prints 8 inches wide.
 - `--overwrite`: replace an existing output file.
 - `--theme light|dark`: overrides the spec's `theme`.
-- `--json`: print what was drawn as JSON (the same summary the MCP tool returns).
+- `--json`: print what was drawn as JSON (the same summary the MCP tool returns) and the file written under `written`.
 
 ## The spec
 
@@ -37,7 +39,6 @@ A figure is one panel, with the panel's keys at the top level, or several in `pa
 | `share` | `x`, `y` or `both`: panels use the same range. |
 | `width`, `height` | Pixels. Default 1200 wide (960 for a lone dot plot) and a height that suits the content; at most 3000. |
 | `theme` | `light` (default) or `dark`. |
-| `output`, `overwrite` | Also write the figure to this file. |
 | `strict` | Refuse values that this file's assurance does not validate. |
 
 ### Panel

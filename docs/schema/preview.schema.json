@@ -153,6 +153,13 @@
         "string",
         "null"
       ]
+    },
+    "save": {
+      "description": "How to save this picture to a file (MCP: the openreadout_export call).",
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "required": [

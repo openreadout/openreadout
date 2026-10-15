@@ -240,7 +240,7 @@ def synthetic_analyses(c, tmp, called):
     want = sum(1 for fsc, _ in fcs_events() if lo <= fsc < hi)
     check(t["filter"]["matched_rows"] == want and not t["rows"],
           f"table filter: {t['filter']['matched_rows']} != {want}")
-    q = result_json(analyze("qpcr", rdml), "qpcr")
+    q = result_json(analyze("qpcr", rdml, fields=["all"]), "qpcr")
     cqs = sorted((r["well"], r.get("cq")) for r in q["records"])
     check(len(cqs) == 2 and any(cq == RDML_CQ for _, cq in cqs), f"qpcr records {cqs}")
     print(f"gate: Box {box[0]['count']} events; table filter: {want} of {t['total_rows']}; "
@@ -515,11 +515,18 @@ def analysis_tools(c, tmp, called):
 
     plate = os.path.join(tmp, "smoke-plate.csv")
     vals = plate_values()
-    aw = analyze("assay", plate, analysis="wells")
+    aw = analyze("assay", plate, analysis="wells", fields=["all"])
     got = {w["well"]: w["raw"] for w in aw["wells"]}
     check(all(math.isclose(got[w], v, rel_tol=1e-9) for w, v in vals.items()), "assay-wells differ from the written values")
+    # by default the rows are lean (no row/col, values to 4 significant digits) and say so
+    lean = analyze("assay", plate, analysis="wells")
+    check(all("row" not in w for w in lean["wells"]) and any("fields" in n for n in lean.get("notes", [])),
+          "assay-wells: default rows are not lean")
+    check(all(math.isclose(w["value"], vals[w["well"]], rel_tol=1e-3) for w in lean["wells"] if "value" in w),
+          "assay-wells: lean values differ")
     stds = ";".join(f"{r}1,{r}2={conc}" for r, conc in PLATE_STD.items())
-    cv = analyze("assay", plate, analysis="curve", standards=stds, model="linear", blank_subtraction="none")
+    cv = analyze("assay", plate, analysis="curve", standards=stds, model="linear", blank_subtraction="none",
+                 fields=["all"])
     well = next(w for w in cv["wells"] if w["well"] == "C7")
     want = (vals["C7"] - 0.05) / 0.01
     check(math.isclose(well["back_calculated"], want, rel_tol=1e-6), f"assay-curve C7 {well['back_calculated']} != {want}")
@@ -1008,6 +1015,12 @@ def per_file(c, path, tmp, called):
         img = [x for x in r["result"]["content"] if x["type"] == "image"]
         check(len(img) == 1 and fig["panels"], f"plot: {len(img)} images, {fig.get('panels')}")
         check_image(img[0]["data"], img[0]["mimeType"], "plot")
+        # plot only draws; openreadout_export saves the same figure
+        check("openreadout_export" in (fig.get("save") or ""), "plot: no save line")
+        out = os.path.join(tmp, base + ".figure.pdf")
+        w = result_json(call("openreadout_export", {"plot": {"data": {"file": path}, "title": "smoke"},
+                                                   "output": out, "overwrite": True})[0], "export plot")
+        check(w["verified"] and w["format"] == "pdf" and os.path.exists(out), f"export plot: {w}")
         fam = info["format"]["family"]
         if fam == "chromatography":
             ch = result_json(analyze("chromatogram", traces=[0])[0], "chromatogram")

@@ -458,15 +458,13 @@ const MAX_FIGURE_WIDTH: u32 = 2400;
 
 /// `openreadout_plot` again, for the viewer: the agent's spec in the host's theme, at the
 /// viewer's width and pixel density, over `x_range` when the figure is a single plot. It never
-/// writes a file (`output` is dropped).
+/// writes a file.
 fn figure(registry: fn() -> Registry, a: &ViewArgs) -> Result<CallToolResult, McpError> {
     let raw = a
         .spec
         .clone()
         .ok_or_else(|| usage("view figure needs spec: the openreadout_plot arguments"))?;
     let mut spec = openreadout_plot::parse_spec(raw).map_err(|e| err(&e))?;
-    spec.output = None;
-    spec.overwrite = false;
     spec.theme = Some(if a.dark {
         openreadout_plot::ThemeName::Dark
     } else {
@@ -489,7 +487,7 @@ fn figure(registry: fn() -> Registry, a: &ViewArgs) -> Result<CallToolResult, Mc
         }
     }
     let reg = crate::with_strict(registry(), spec.strict);
-    let p = openreadout_plot::run(&reg, &spec).map_err(|e| err(&e))?;
+    let p = openreadout_plot::plot(&reg, &spec).map_err(|e| err(&e))?;
     let scale = a.scale.unwrap_or(1.0).clamp(1.0, 3.0);
     let raster = p.figure.to_raster(scale);
     let mut bytes = raster.to_png().map_err(|e| err(&e))?;

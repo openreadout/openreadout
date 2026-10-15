@@ -19,11 +19,13 @@ The same request on the same file always gives the same bytes.
 
 ### Output
 
-- `-o`, `--output FILE`: `.png`, `.jpg` or `.svg`; `-` writes the image to stdout. Default: `<input stem>.preview.png` next to the input.
+- `-o`, `--output FILE`: `.png`, `.jpg`, `.svg`, `.tiff` or `.pdf`; `-` writes the image to stdout. Default: `<input stem>.preview.png` next to the input.
 - `--format png|jpeg|svg`: default from the output extension, else PNG. SVG keeps text as text and embeds image data as PNG.
 - `--dark`: draw in the dark theme.
 - `--quality N`: JPEG quality, 1–100. Default 90.
 - `--max-size N`: longest side of the picture in pixels (16–8192), rulers included. Default 1024. An image is resampled to fill it (an area average when made smaller; a small image is enlarged by repeating its pixels), and the report's `source_per_pixel` says exactly how picture pixels map to source pixels.
+- `--scale N`: pixels per preview pixel (0.25–8). Plots are drawn again at that size; images are read again at `--max-size` × N, so text, marks and pixels stay sharp in print.
+- `--dpi N`: print resolution, recorded in PNG, JPEG and TIFF files; SVG and PDF pages get the matching size.
 - `--overwrite`: replace an existing output file.
 - `--json`: print the report as JSON.
 

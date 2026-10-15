@@ -52,12 +52,6 @@ pub struct PlotSpec {
     pub height: Option<u32>,
     /// Colour scheme. Default light.
     pub theme: Option<ThemeName>,
-    /// Also write the figure to this file (.png, .svg or .pdf; png at 2× the pixel size),
-    /// verified after writing.
-    pub output: Option<String>,
-    /// Replace an existing output file.
-    #[serde(default)]
-    pub overwrite: bool,
     /// true: refuse values this file's assurance does not validate (exit_code 6, with a hint).
     pub strict: Option<bool>,
 }

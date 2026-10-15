@@ -3,6 +3,7 @@
 
 use std::path::{Path, PathBuf};
 
+use base64::Engine as _;
 use openreadout_core::{Error, Registry};
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -15,8 +16,21 @@ use crate::{InstrumentServer, mcp_err, progress, to_value, with_strict};
 /// Arguments for `openreadout_export`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct ExportArgs {
-    /// Path to the file.
-    pub file: String,
+    /// Path to the file (not with plot or preview).
+    pub file: Option<String>,
+    /// Save a figure: the arguments of an openreadout_plot call. `output` names the file.
+    #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
+    pub plot: Option<serde_json::Value>,
+    /// Save a picture: the arguments of an openreadout_preview call (file, region,
+    /// annotations, marks, dark, …); max_size up to 8192.
+    #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
+    pub preview: Option<serde_json::Value>,
+    /// Figures: pixels per figure pixel in .png, .jpg and .tiff files (default 2, up to 8);
+    /// image previews are read again at max_size × scale.
+    pub scale: Option<f32>,
+    /// Figures: print resolution (e.g. 300), recorded in .png, .jpg and .tiff files; .svg and
+    /// .pdf pages get the size the raster would print at.
+    pub dpi: Option<u32>,
     /// `ome-tiff` (one BigTIFF file; the default for images), `ome-zarr` (OME-NGFF 0.5 / Zarr v3
     /// directory with a pyramid), `mzml` (indexed mzML 1.1.0; the default for mass spectra),
     /// `csv` (one table, or one sweep of a trace; the default for tables and traces), `parquet`
@@ -28,7 +42,8 @@ pub struct ExportArgs {
     pub format: Option<String>,
     /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.csv`,
     /// `.asm.json`, `.rdml`, `.parquet`, `.arrow`, `.nwb` or `.jdx`. Its extension sets the
-    /// format when `format` is not given.
+    /// format when `format` is not given. Figures: .png, .jpg, .tiff, .svg or .pdf (default
+    /// `<data file stem>.figure.png` or `.preview.png` next to the data).
     pub output: Option<String>,
     /// Replace an existing output file or directory.
     #[serde(default)]
@@ -91,9 +106,207 @@ pub struct ExtractArgs {
     pub overwrite: bool,
 }
 
+/// The data file to convert.
+fn input_path(a: &ExportArgs) -> Result<PathBuf, McpError> {
+    a.file.as_deref().map(PathBuf::from).ok_or_else(|| {
+        mcp_err(&Error::Usage(
+            "openreadout_export needs file (data to convert), or plot or preview (a figure to save)"
+                .into(),
+        ))
+    })
+}
+
+/// The note a plot or preview result carries on how to save it.
+pub(crate) fn save_hint(arg: &str, path: &str) -> String {
+    format!(
+        "openreadout_export with {arg} = these arguments, output = {path:?} (or .pdf, .svg, .tiff; dpi = 300 for print)"
+    )
+}
+
+/// What `openreadout_export` returns for a figure.
+#[derive(serde::Serialize)]
+struct FigureExport {
+    #[serde(flatten)]
+    written: openreadout_plot::WrittenFile,
+    /// What was drawn: `plot` or the preview's kind.
+    drawn: String,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    notes: Vec<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    warnings: Vec<String>,
+}
+
+/// Take `output` and `overwrite` out of a plot or preview object (agents put them there) and
+/// use them when the export call has none of its own.
+fn lift_output(
+    v: &serde_json::Value,
+    output: &mut Option<String>,
+    overwrite: &mut bool,
+) -> serde_json::Value {
+    let mut v = v.clone();
+    if let serde_json::Value::Object(m) = &mut v {
+        if let Some(serde_json::Value::String(o)) = m.remove("output") {
+            output.get_or_insert(o);
+        }
+        if let Some(serde_json::Value::Bool(true)) = m.remove("overwrite") {
+            *overwrite = true;
+        }
+    }
+    v
+}
+
+/// `plot` or `preview`: draw the figure and save it.
+fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, McpError> {
+    let usage = |m: String| mcp_err(&Error::Usage(m));
+    let data_args = [
+        ("table", a.table.is_some()),
+        ("trace", a.trace.is_some()),
+        ("sweep", a.sweep.is_some()),
+        ("rows", a.rows.is_some()),
+        ("labels", a.labels),
+        ("spectra", a.spectra),
+        ("centroid", a.centroid),
+        ("image", a.image.is_some()),
+        ("select", !a.select.is_empty()),
+        ("region", a.region.is_some()),
+        ("wells", !a.wells.is_empty()),
+    ];
+    if let Some((k, _)) = data_args.iter().find(|(_, set)| *set) {
+        return Err(usage(format!(
+            "`{k}` converts data; for a figure put it inside plot or preview, whose arguments are those of openreadout_plot and openreadout_preview"
+        )));
+    }
+    let mut output = a.output.clone();
+    let mut overwrite = a.overwrite;
+    let mut scale = a.scale.unwrap_or(openreadout_plot::DEFAULT_SCALE);
+    let opts = |scale: f32, overwrite: bool| openreadout_plot::SaveOptions {
+        scale,
+        dpi: a.dpi,
+        overwrite,
+    };
+    opts(scale, false).check().map_err(|e| mcp_err(&e))?;
+    // the file format: from `output`, else `format`, else PNG
+    let named = a
+        .format
+        .as_deref()
+        .map(|f| {
+            openreadout_plot::FileFormat::from_name(f).ok_or_else(|| {
+                usage(format!(
+                    "format {f:?} is not a figure format: use png, jpeg, tiff, svg or pdf"
+                ))
+            })
+        })
+        .transpose()?;
+    let (figure, default_path, drawn, notes, warnings) = match (&a.plot, &a.preview) {
+        (Some(p), None) => {
+            let v = lift_output(p, &mut output, &mut overwrite);
+            check_name(output.as_deref(), named)?;
+            let spec = openreadout_plot::parse_spec(v).map_err(|e| mcp_err(&e))?;
+            let p = super::plot::draw(registry, &spec)?;
+            let path = super::plot::default_figure_path(&p.output.files);
+            (
+                p.figure,
+                path,
+                "plot".to_string(),
+                p.output.notes,
+                p.output.warnings,
+            )
+        }
+        (None, Some(p)) => {
+            let mut v = lift_output(p, &mut output, &mut overwrite);
+            check_name(output.as_deref(), named)?;
+            if let (serde_json::Value::Object(m), Some(f)) = (&mut v, &a.file) {
+                let inner = m
+                    .entry("file")
+                    .or_insert_with(|| serde_json::Value::String(f.clone()));
+                if inner.as_str() != Some(f) {
+                    return Err(usage(format!(
+                        "file {f:?} and preview.file {inner} differ: give the file once, inside preview"
+                    )));
+                }
+            }
+            let args: super::preview::PreviewArgs =
+                serde_json::from_value(v).map_err(|e| usage(format!("preview: {e}")))?;
+            let max = openreadout_preview::MAX_PREVIEW_SIZE;
+            let mut r = super::preview::render(registry, &args, max)?;
+            if r.output.kind == "image" && (scale - 1.0).abs() > f32::EPSILON {
+                // read the image again at the size it is saved at, so its pixels are real
+                let size = args
+                    .options
+                    .max_size
+                    .unwrap_or(super::preview::DEFAULT_MCP_PREVIEW_SIZE);
+                let mut big = args.clone();
+                big.options.max_size = Some(((size as f32 * scale).round() as u32).clamp(16, max));
+                r = super::preview::render(registry, &big, max)?;
+                scale = 1.0;
+            }
+            let path = super::preview::default_figure_path(&args.file);
+            (r.figure, path, r.output.kind, r.output.notes, Vec::new())
+        }
+        _ => {
+            return Err(usage(
+                "give plot or preview, not both: one export saves one figure".into(),
+            ));
+        }
+    };
+    let path = output.map_or_else(
+        || {
+            let p = PathBuf::from(default_path);
+            named.map_or_else(|| p.clone(), |f| p.with_extension(f.extension()))
+        },
+        PathBuf::from,
+    );
+    let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite))
+        .map_err(|e| mcp_err(&e))?;
+    let value = to_value(&FigureExport {
+        written,
+        drawn,
+        notes,
+        warnings,
+    })?;
+    Ok((value, Some(shown(&figure)?)))
+}
+
+/// Longest side of the picture of a saved figure returned to the agent.
+const SHOWN_SIZE: f32 = 1568.0;
+
+/// The saved figure as the agent sees it: at most [`SHOWN_SIZE`] px, PNG (JPEG when a PNG would
+/// be over the preview budget).
+fn shown(f: &openreadout_preview::Figure) -> Result<(Vec<u8>, &'static str), McpError> {
+    let long = f.width.max(f.height).max(1.0);
+    let raster = f.to_raster((SHOWN_SIZE / long).min(1.0));
+    let png = raster.to_png().map_err(|e| mcp_err(&e))?;
+    if png.len() <= crate::resources::PREVIEW_BUDGET {
+        return Ok((png, "image/png"));
+    }
+    Ok((raster.to_jpeg(88).map_err(|e| mcp_err(&e))?, "image/jpeg"))
+}
+
+/// An export's JSON result, and the picture of a saved figure.
+pub(crate) type Exported = (serde_json::Value, Option<(Vec<u8>, &'static str)>);
+
+/// A figure's file name and `format` must agree; checked before anything is drawn.
+fn check_name(
+    output: Option<&str>,
+    named: Option<openreadout_plot::FileFormat>,
+) -> Result<(), McpError> {
+    let Some(o) = output else {
+        return Ok(());
+    };
+    let f = openreadout_plot::FileFormat::from_path(Path::new(o)).map_err(|e| mcp_err(&e))?;
+    match named {
+        Some(n) if n != f => Err(mcp_err(&Error::Usage(format!(
+            "output {o:?} is a .{} file but format is {}: drop one",
+            f.extension(),
+            n.as_str()
+        )))),
+        _ => Ok(()),
+    }
+}
+
 /// `format = "csv"`: one table, or one sweep of a trace.
 fn export_csv(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
-    let input = PathBuf::from(&a.file);
+    let input = input_path(a)?;
     let opts = openreadout_batch::csv::CsvOptions {
         table: a.table,
         rows: a.rows.clone(),
@@ -119,7 +332,7 @@ fn export_csv(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpEr
 
 /// `format = "rdml"`: a qPCR file to RDML 1.3.
 fn export_rdml(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
-    let input = PathBuf::from(&a.file);
+    let input = input_path(a)?;
     let reg = with_strict(registry(), a.strict);
     let ds = openreadout_qpcr::open_qpcr(&reg, &input).map_err(|e| mcp_err(&e))?;
     let output = a.output.as_ref().map_or_else(
@@ -132,7 +345,7 @@ fn export_rdml(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json:
 
 /// `format = "asm"`: a plate-reader export to Allotrope Simple Model JSON.
 fn export_asm(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
-    let input = PathBuf::from(&a.file);
+    let input = input_path(a)?;
     let reg = with_strict(registry(), a.strict);
     let (_, det) = reg.detect(&input).map_err(|e| mcp_err(&e))?;
     if det.format_id != openreadout_plate::FORMAT_ID {
@@ -187,7 +400,7 @@ fn export_open(
     format: &str,
     progress: Option<progress::ProgressFn>,
 ) -> Result<serde_json::Value, McpError> {
-    let input = PathBuf::from(&a.file);
+    let input = input_path(a)?;
     let (_, mut ds) = registry().open(&input).map_err(|e| mcp_err(&e))?;
     let rows = a.rows.as_deref().map(parse_rows).transpose()?;
     let output = a.output.as_ref().map(PathBuf::from);
@@ -309,13 +522,25 @@ fn export_columnar(
 
 /// The export itself (blocking). `notifier`, when given, reports the planes, spectra, rows or
 /// samples read.
-fn export_blocking(
+pub(crate) fn export_blocking(
+    registry: fn() -> Registry,
+    a: ExportArgs,
+    notifier: Option<progress::Notifier>,
+) -> Result<Exported, McpError> {
+    if a.plot.is_some() || a.preview.is_some() {
+        return export_figure(registry, a);
+    }
+    Ok((export_data(registry, a, notifier)?, None))
+}
+
+/// Convert data to an open format.
+fn export_data(
     registry: fn() -> Registry,
     a: ExportArgs,
     notifier: Option<progress::Notifier>,
 ) -> Result<serde_json::Value, McpError> {
     let reg = with_strict(registry(), a.strict);
-    let input = PathBuf::from(&a.file);
+    let input = input_path(&a)?;
     let mut requested = a.format.as_deref().map(str::to_ascii_lowercase);
     // The output name and `format` have to agree, and the name decides when `format` is
     // missing (the CLI does the same). An unknown `format` fails further down.
@@ -539,13 +764,13 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_export",
         annotations(
-            title = "Export to an open format",
+            title = "Export data or save a figure",
             read_only_hint = false,
             destructive_hint = true,
             idempotent_hint = true,
             open_world_hint = false
         ),
-        description = "Convert to an open format: a new file, read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). Sends progress with a progressToken."
+        description = "Convert to an open format, or save a figure, as a new file read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). Figures: plot or preview = the arguments of that call, output .png, .jpg, .tiff, .svg or .pdf (scale, dpi for print); the picture comes back too. Sends progress with a progressToken."
     )]
     pub(crate) async fn export(
         &self,
@@ -558,7 +783,18 @@ impl InstrumentServer {
             .await
             .map_err(|e| McpError::internal_error(format!("export task failed: {e}"), None))?;
         forward.finish().await;
-        Ok(CallToolResult::structured(r?))
+        let (value, image) = r?;
+        let mut r = CallToolResult::structured(value);
+        if let Some((bytes, mime)) = image {
+            r.content.insert(
+                0,
+                rmcp::model::ContentBlock::image(
+                    base64::engine::general_purpose::STANDARD.encode(&bytes),
+                    mime,
+                ),
+            );
+        }
+        Ok(r)
     }
 }
 
@@ -577,6 +813,70 @@ mod tests {
 
     fn exit_code(e: &McpError) -> Option<i64> {
         e.data.as_ref()?.get("exit_code")?.as_i64()
+    }
+
+    fn export(v: serde_json::Value) -> Result<serde_json::Value, McpError> {
+        export_blocking(Registry::new, serde_json::from_value(v).unwrap(), None).map(|e| e.0)
+    }
+
+    /// A plot is saved as a figure file, verified, with the print size `dpi` gives; `output`
+    /// put inside the plot is used too.
+    #[test]
+    fn saves_a_plot_as_a_figure() {
+        let d = std::env::temp_dir().join(format!("openreadout-fig-{}", std::process::id()));
+        let plot = serde_json::json!({
+            "title": "per tube",
+            "data": {"values": {"x": ["E01", "E03"], "y": [0.004, 2.6]}},
+        });
+        let pdf = d.join("fig.pdf").display().to_string();
+        let r = export(serde_json::json!({"plot": plot, "output": pdf, "dpi": 300})).unwrap();
+        assert_eq!(
+            (r["format"].as_str(), r["verified"].as_bool()),
+            (Some("pdf"), Some(true))
+        );
+        assert_eq!(r["drawn"], "plot");
+        assert_eq!(r["print_size_in"][0], 8.0, "1200 units × 2 ÷ 300 dpi");
+        assert!(std::fs::read(&pdf).unwrap().starts_with(b"%PDF"));
+        // output inside the plot object, a TIFF at scale 1
+        let mut inner = plot.clone();
+        inner["output"] = d.join("fig.tiff").display().to_string().into();
+        let r = export(serde_json::json!({"plot": inner, "scale": 1})).unwrap();
+        assert_eq!(
+            (r["format"].as_str(), r["width"].as_u64()),
+            (Some("tiff"), Some(1200))
+        );
+        // never over an existing file without overwrite
+        let e = export(serde_json::json!({"plot": plot, "output": pdf})).unwrap_err();
+        assert!(e.message.contains("exists"), "{}", e.message);
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn figure_arguments_are_checked() {
+        let plot = serde_json::json!({"data": {"values": {"x": [1, 2], "y": [1, 2]}}});
+        for (v, says) in [
+            (
+                serde_json::json!({"plot": plot, "preview": {"file": "x"}}),
+                "not both",
+            ),
+            (serde_json::json!({"plot": plot, "table": 1}), "`table`"),
+            (
+                serde_json::json!({"plot": plot, "output": "f.bmp"}),
+                ".tiff",
+            ),
+            (
+                serde_json::json!({"plot": plot, "output": "f.png", "format": "pdf"}),
+                "drop one",
+            ),
+            (
+                serde_json::json!({"preview": {"file": "x", "zoom": 2}}),
+                "zoom",
+            ),
+            (serde_json::json!({}), "needs file"),
+        ] {
+            let e = export(v.clone()).unwrap_err();
+            assert!(e.message.contains(says), "{v}: {}", e.message);
+        }
     }
 
     /// The output name and `format` are checked as on the command line, before the file is

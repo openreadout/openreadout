@@ -1262,15 +1262,14 @@ impl NativeFigure {
     }
 }
 
-/// A figure from a plot spec (the arguments of the `openreadout_plot` MCP tool, as JSON). When
-/// the spec has `output`, that file is written and verified too.
+/// A figure from a plot spec (the arguments of the `openreadout_plot` MCP tool, as JSON).
 #[pyfunction]
 fn plot(py: Python<'_>, spec_json: String) -> PyResult<NativeFigure> {
     let v: serde_json::Value = request(&spec_json)?;
     let p = py
         .detach(|| {
             let spec = openreadout_plot::parse_spec(v)?;
-            openreadout_plot::run(&registry(), &spec)
+            openreadout_plot::plot(&registry(), &spec)
         })
         .map_err(|e| to_py(py, e))?;
     Ok(NativeFigure {

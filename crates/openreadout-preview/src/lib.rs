@@ -873,6 +873,9 @@ pub struct PreviewOutput {
     /// What to do next with the picture (look at it; zoom with a region read off the rulers).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hint: Option<String>,
+    /// How to save this picture to a file (MCP: the openreadout_export call).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub save: Option<String>,
 }
 
 impl PreviewOutput {

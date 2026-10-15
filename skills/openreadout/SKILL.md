@@ -18,7 +18,8 @@ metadata:
 - `info` — what a file holds, from its headers (fast on multi-gigabyte files); `--view full | structure | explain | format`, `--ask "QUESTION"`.
 - `check` — integrity (exit 4 = damaged); `compare A B` — are two files (a source and its export) the same data; `planes` — plane hashes; `report` — a diagnostic bundle for a file that is refused or not validated.
 - `preview` — a PNG of an image, trace, spectrum, plate (kinetic reads: one growth curve per well) or flow events; Read the PNG to see it. `--annotate` draws labelled points, boxes, arrows and bands in the picture's own coordinates, to show what you found.
-- `plot SPEC.json -o fig.png|svg|pdf` (MCP `openreadout_plot`) — a finished figure for the user from one or more files: data named by file and selector, panels, small multiples, plate positions, annotations. Spec and examples: `references/figures.md`.
+- `plot SPEC.json -o fig.png|tiff|svg|pdf` (MCP `openreadout_plot`) — a finished figure for the user from one or more files: data named by file and selector, panels, small multiples, plate positions, annotations. Spec and examples: `references/figures.md`.
+- Saving pictures: `plot` and `preview` take `-o` (`.png`, `.jpg`, `.tiff`, `.svg`, `.pdf`; `--scale`, `--dpi 300` for print). Over MCP, `openreadout_plot` and `openreadout_preview` only draw, and `openreadout_export` with `plot` or `preview` (the same arguments) and `output` saves what they drew, annotations included.
 - `stats` — pixel statistics; `--per well` for screening plates. On one plane: `--line X0,Y0,X1,Y1` (intensity profile, FWHM), `--polygon` (statistics inside), `--objects` (count nuclei, cells or spots: areas in µm², centroids).
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
@@ -34,7 +35,7 @@ Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <
 ## Output
 
 - `--json` prints `{"ok": true, "schema_version": "2", "tool": {...}, "data": {...}}`; errors are `{"ok": false, "error": {"code", "message", "hint", "exit_code"}}`, and the `hint` says what to do next. Exit codes: 0 ok · 1 error (`compare`: the files differ) · 2 usage · 3 unknown format · 4 corrupt or truncated · 5 I/O · 6 known format, unsupported feature.
-- Replies are summary-first: a capped list says it was `truncated` and names the flag that pages it. `--only /pointer,…` (JSON pointers into `data`, `*` for every element) returns just those values.
+- Replies are summary-first: a capped list says it was `truncated` and names the flag that pages it. MCP per-well rows (`openreadout_assay`, `openreadout_qpcr`) show their main fields to 4 significant digits; `fields: ["all"]` gives the rest. `--only /pointer,…` (JSON pointers into `data`, `*` for every element) returns just those values.
 - Several paths, directories (`-r`) or quoted globs make a batch; `--jsonl` prints one envelope per input, and a failing file does not stop the run. `--tidy`, `--sample-sheet` and `--by` turn `info`, `stats`, `trace`, `table` and `analyze gate` into one table; check its `joins[]` (key used, unmatched rows) before the numbers.
 
 ## Worth Knowing
@@ -50,7 +51,7 @@ Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <
 - **Growing files**: `acquisition.state: in_progress` means an instrument is still writing; it is not corruption.
 - **Vendor results**: when the file stores the vendor's own peak table, Cq, fit or counts (`vendor_peaks`, `cq`, `fits`, `stored_count`), those are what the vendor software reported; recomputed values are close to, not identical with, them.
 - **Missing facts**: a field absent from `experiment` was not recorded in the file.
-- **Writes**: only `export`, `report`, `-o` tables and `index` write, always to new files; exports are read back and verified before they are renamed into place and never replace a file without `--overwrite`.
+- **Writes**: only `export` (MCP: also saved figures), `report`, `-o` files and `index` write, always to new files; exports are read back and verified before they are renamed into place and never replace a file without `--overwrite`.
 
 ## In Python and R
 

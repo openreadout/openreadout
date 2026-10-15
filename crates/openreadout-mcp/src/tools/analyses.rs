@@ -81,14 +81,64 @@ impl<Q: schemars::JsonSchema> schemars::JsonSchema for AnalysisArgs<Q> {
     }
 }
 
+/// How a tool trims its per-well rows: the lists and their default fields, what `fields`
+/// asked for, and the lists to page by plate row when the reply is too long.
+pub(super) struct Lean {
+    pub rows: &'static [crate::lean::Rows],
+    pub round: &'static [&'static str],
+    pub fields: crate::lean::Fields,
+    pub page: &'static [&'static str],
+}
+
+impl Lean {
+    /// Read `fields` out of `options` for a tool whose rows are `rows`.
+    pub fn take(
+        options: &mut Map<String, Value>,
+        rows: &'static [crate::lean::Rows],
+        round: &'static [&'static str],
+        page: &'static [&'static str],
+    ) -> Result<Lean, McpError> {
+        let fields = crate::lean::Fields::take(options)
+            .map_err(|m| mcp_err(&openreadout_core::Error::Usage(m)))?;
+        Ok(Lean {
+            rows,
+            round,
+            fields,
+            page,
+        })
+    }
+
+    /// Shape `v` and add the notes to its `notes` list.
+    fn apply(&self, v: &mut Value) {
+        let mut notes: Vec<String> = Vec::new();
+        notes.extend(crate::lean::shape(v, self.rows, self.round, &self.fields));
+        for key in self.page {
+            notes.extend(crate::lean::page_by_plate_row(
+                v,
+                key,
+                crate::budget::MAX_CHARS,
+            ));
+        }
+        if notes.is_empty() {
+            return;
+        }
+        if let Value::Object(o) = v
+            && let Value::Array(n) = o.entry("notes").or_insert_with(|| Value::Array(Vec::new()))
+        {
+            n.extend(notes.into_iter().map(Value::String));
+        }
+    }
+}
+
 /// Run analysis `kind` with `options` on `file`, as a tool result (with the PNG of a plot first,
-/// when the analysis drew one).
+/// when the analysis drew one). `lean` trims per-well rows.
 pub(super) async fn call(
     server: &InstrumentServer,
     kind: AnalyzeKind,
     file: String,
     strict: Option<bool>,
     options: Map<String, Value>,
+    lean: Option<Lean>,
     ctx: &RequestContext<RoleServer>,
 ) -> Result<CallToolResult, McpError> {
     let registry = server.registry;
@@ -113,7 +163,11 @@ pub(super) async fn call(
     .map_err(|e| McpError::internal_error(format!("analysis task failed: {e}"), None))?
     .map_err(|e| mcp_err(&e))?;
     forward.finish().await;
-    let mut r = CallToolResult::structured(to_value(&out)?);
+    let mut v = to_value(&out)?;
+    if let Some(l) = &lean {
+        l.apply(&mut v);
+    }
+    let mut r = CallToolResult::structured(v);
     if let Some(bytes) = png {
         r.content.insert(
             0,
@@ -124,6 +178,18 @@ pub(super) async fn call(
         );
     }
     Ok(r)
+}
+
+/// The arguments of `openreadout_qpcr`: the analysis's options and `fields`.
+#[derive(schemars::JsonSchema)]
+#[allow(dead_code)]
+pub(super) struct QpcrArgs {
+    #[serde(flatten)]
+    options: openreadout_batch::analyze::QpcrOptions,
+    /// Rows show their main fields to 4 significant digits (records: well, sample, target, cq,
+    /// tm; relative_quantities: cq means, delta_cq, delta_delta_cq, rq with rq_min and rq_max).
+    /// fields adds others, e.g. `["threshold"]`; `["all"]`: every field, full precision.
+    fields: Option<Vec<String>>,
 }
 
 use openreadout_quant::api::{ChromatogramQuery, PeaksQuery};
@@ -142,7 +208,16 @@ impl InstrumentServer {
         Parameters(a): Parameters<AnalysisArgs<PeaksQuery>>,
         ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Peaks, a.file, a.strict, a.options, &ctx).await
+        call(
+            self,
+            AnalyzeKind::Peaks,
+            a.file,
+            a.strict,
+            a.options,
+            None,
+            &ctx,
+        )
+        .await
     }
 
     #[tool(
@@ -162,6 +237,7 @@ impl InstrumentServer {
             a.file,
             a.strict,
             a.options,
+            None,
             &ctx,
         )
         .await
@@ -184,6 +260,7 @@ impl InstrumentServer {
             a.file,
             a.strict,
             a.options,
+            None,
             &ctx,
         )
         .await
@@ -206,6 +283,7 @@ impl InstrumentServer {
             a.file,
             a.strict,
             a.options,
+            None,
             &ctx,
         )
         .await
@@ -222,21 +300,46 @@ impl InstrumentServer {
         Parameters(a): Parameters<AnalysisArgs<SpikesQuery>>,
         ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Spikes, a.file, a.strict, a.options, &ctx).await
+        call(
+            self,
+            AnalyzeKind::Spikes,
+            a.file,
+            a.strict,
+            a.options,
+            None,
+            &ctx,
+        )
+        .await
     }
 
     #[tool(
         name = "openreadout_qpcr",
         annotations(title = "Analyse a qPCR run", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = output_schema::<openreadout_qpcr::QpcrReport>(),
+        output_schema = super::lean_output_schema::<openreadout_qpcr::QpcrReport>(crate::lean::QPCR),
         description = "Real-time PCR (RDML, .eds, .rex, ...): one record per well and target with sample, task, Cq and Tm; compute_cq recomputes Cq, ddcq gives 2^-ΔΔCq fold changes, standard_curve fits efficiency per target."
     )]
     pub(crate) async fn qpcr(
         &self,
-        Parameters(a): Parameters<AnalysisArgs<openreadout_batch::analyze::QpcrOptions>>,
+        Parameters(a): Parameters<AnalysisArgs<QpcrArgs>>,
         ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Qpcr, a.file, a.strict, a.options, &ctx).await
+        let mut options = a.options;
+        let lean = Lean::take(
+            &mut options,
+            crate::lean::QPCR,
+            &["targets", "cq_comparison", "standard_curves"],
+            &[],
+        )?;
+        call(
+            self,
+            AnalyzeKind::Qpcr,
+            a.file,
+            a.strict,
+            options,
+            Some(lean),
+            &ctx,
+        )
+        .await
     }
 
     #[tool(
@@ -250,6 +353,15 @@ impl InstrumentServer {
         Parameters(a): Parameters<AnalysisArgs<openreadout_batch::analyze::GateOptions>>,
         ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Gate, a.file, a.strict, a.options, &ctx).await
+        call(
+            self,
+            AnalyzeKind::Gate,
+            a.file,
+            a.strict,
+            a.options,
+            None,
+            &ctx,
+        )
+        .await
     }
 }

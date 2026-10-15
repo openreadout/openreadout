@@ -4,7 +4,7 @@ use std::fmt::Write as _;
 use std::path::Path;
 
 use openreadout_core::Registry;
-use openreadout_plot::{FileFormat, encode, parse_spec, plot, run};
+use openreadout_plot::{FileFormat, SaveOptions, encode, parse_spec, plot, write};
 use serde_json::json;
 
 /// A 2 × 4 kinetic plate: row A grows, row B grows then crashes; column 4 is blank.
@@ -137,22 +137,25 @@ fn inline_values_and_every_output_format() {
     assert_eq!(p.output.inline_series, 2);
     assert!(p.output.files.is_empty());
     assert_eq!(p.output.panels[1].series[0].marked[0].text, "nine");
-    for (ext, magic) in [("png", &b"\x89PNG"[..]), ("svg", b"<svg"), ("pdf", b"%PDF")] {
+    for (ext, magic) in [
+        ("png", &b"\x89PNG"[..]),
+        ("jpg", b"\xFF\xD8"),
+        ("tiff", b"II*\0"),
+        ("svg", b"<svg"),
+        ("pdf", b"%PDF"),
+    ] {
         let path = d.path().join(format!("f.{ext}"));
-        let mut s = spec.clone();
-        s.output = Some(path.display().to_string());
-        let out = run(&Registry::new(), &s).unwrap();
-        let w = out.output.output.unwrap();
-        assert!(w.verified && w.format == ext);
+        let w = write(&p.figure, &path, &SaveOptions::default()).unwrap();
+        assert!(w.verified && FileFormat::from_name(ext).unwrap().as_str() == w.format);
         let bytes = std::fs::read(&path).unwrap();
         assert!(
             bytes.windows(magic.len()).take(200).any(|x| x == magic),
             "{ext}"
         );
         // never over an existing file without overwrite
-        assert!(run(&Registry::new(), &s).is_err());
+        assert!(write(&p.figure, &path, &SaveOptions::default()).is_err());
     }
-    let svg = encode(&p.figure, FileFormat::Svg).unwrap();
+    let (svg, ..) = encode(&p.figure, FileFormat::Svg, &SaveOptions::default()).unwrap();
     assert!(String::from_utf8_lossy(&svg).contains("IFNγ+"));
 }
 

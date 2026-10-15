@@ -7,7 +7,7 @@
 //! small multiples, plate positions, shared and log axes, bands, lines, labelled points, arrows.
 //! [`plot`] reads the data through the readers and analyses, picks chart types, ranges, units and
 //! labels from it, and draws the figure with `openreadout-figure` in the OpenReadout look. The
-//! result is the [`Figure`] (PNG, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
+//! result is the [`Figure`] (save it with [`write`] as PNG, JPEG, TIFF, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
 //!
 //! ```no_run
 //! use openreadout_core::Registry;
@@ -30,15 +30,17 @@ mod load;
 mod model;
 mod output;
 mod pdf;
+mod save;
 mod spec;
-
-use std::path::Path;
 
 use openreadout_core::{Error, Registry, Result};
 use openreadout_figure::{Anchor, Baseline, Face, Figure, Rect, TextStyle, Theme};
 use serde_json::Value;
 
-pub use output::{AxisOutput, Marked, PanelOutput, PlotOutput, SeriesOutput, WrittenFile};
+pub use output::{AxisOutput, Marked, PanelOutput, PlotOutput, SeriesOutput};
+pub use save::{
+    DEFAULT_SCALE, EXTENSIONS, FileFormat, MAX_SCALE, SaveOptions, WrittenFile, encode, write,
+};
 pub use spec::{
     Annotation, AxisSpec, ColorBy, ColorRule, Facet, InlineValues, Legend, MarkKind, OneOrMany,
     PanelItem, PanelSpec, PlotSpec, SeriesSpec, Share, Show, Spread, Subtract, ThemeName,
@@ -63,17 +65,7 @@ pub struct Plotted {
 
 /// Fields of [`PlotSpec`] and [`PanelSpec`] at the top level, and of a `panels` item.
 const TOP_KEYS: &[&str] = &[
-    "title",
-    "caption",
-    "panels",
-    "columns",
-    "share",
-    "width",
-    "height",
-    "theme",
-    "output",
-    "overwrite",
-    "strict",
+    "title", "caption", "panels", "columns", "share", "width", "height", "theme", "strict",
 ];
 const PANEL_KEYS: &[&str] = &[
     "file",
@@ -93,6 +85,11 @@ const PANEL_KEYS: &[&str] = &[
 pub fn parse_spec(v: Value) -> Result<PlotSpec> {
     if let Value::Object(m) = &v {
         for k in m.keys() {
+            if matches!(k.as_str(), "output" | "overwrite" | "scale" | "dpi") {
+                return Err(Error::Usage(format!(
+                    "`{k}` is not part of a plot: a plot only draws. Save the figure with openreadout_export, plot = these arguments without `{k}`, output = FILE ({EXTENSIONS}); on the command line, `openreadout plot SPEC -o FILE`"
+                )));
+            }
             if !TOP_KEYS.contains(&k.as_str()) && !PANEL_KEYS.contains(&k.as_str()) {
                 return Err(Error::Usage(format!(
                     "unknown plot argument `{k}`{}; known: {}, {}",
@@ -176,9 +173,7 @@ fn check_data(at: &str, data: &Value) -> Result<()> {
                     )));
                 }
             }
-            for k in [
-                "title", "caption", "annotate", "facet", "legend", "output", "panels",
-            ] {
+            for k in ["title", "caption", "annotate", "facet", "legend", "panels"] {
                 if m.contains_key(k) {
                     return Err(Error::Usage(format!(
                         "{at}: `{k}` belongs on the panel or the figure, next to `data`, not inside it"
@@ -498,79 +493,7 @@ fn share_axes(ins: &mut [draw::PanelIn], share: Option<Share>) -> Result<()> {
     Ok(())
 }
 
-/// Encodings for `output`.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum FileFormat {
-    /// PNG at 2× the pixel size.
-    Png,
-    /// SVG (vector; text as text in IBM Plex).
-    Svg,
-    /// PDF (vector; text as outlines).
-    Pdf,
-}
-
-impl FileFormat {
-    /// From a path's extension.
-    pub fn from_path(p: &Path) -> Result<FileFormat> {
-        match p
-            .extension()
-            .and_then(|e| e.to_str())
-            .map(str::to_ascii_lowercase)
-            .as_deref()
-        {
-            Some("png") => Ok(FileFormat::Png),
-            Some("svg") => Ok(FileFormat::Svg),
-            Some("pdf") => Ok(FileFormat::Pdf),
-            _ => Err(Error::Usage(format!(
-                "output `{}`: name it .png, .svg or .pdf",
-                p.display()
-            ))),
-        }
-    }
-
-    /// `png`, `svg` or `pdf`.
-    pub fn as_str(self) -> &'static str {
-        match self {
-            FileFormat::Png => "png",
-            FileFormat::Svg => "svg",
-            FileFormat::Pdf => "pdf",
-        }
-    }
-}
-
 /// The figure as a PDF document (vector, one page the size of the figure at 72 px per inch).
 pub fn to_pdf(fig: &Figure) -> Vec<u8> {
-    pdf::pdf(fig)
-}
-
-/// Encode `fig` as `format`.
-pub fn encode(fig: &Figure, format: FileFormat) -> Result<Vec<u8>> {
-    Ok(match format {
-        FileFormat::Png => fig.to_png(2.0)?,
-        FileFormat::Svg => fig.to_svg().into_bytes(),
-        FileFormat::Pdf => to_pdf(fig),
-    })
-}
-
-/// Write the figure to `path` (format from the extension) through a temporary file that is read
-/// back and compared before it is renamed into place.
-pub fn write(fig: &Figure, path: &Path, overwrite: bool) -> Result<WrittenFile> {
-    let format = FileFormat::from_path(path)?;
-    let bytes = encode(fig, format)?;
-    openreadout_assay::write_verified(path, &bytes, overwrite)?;
-    Ok(WrittenFile {
-        path: path.display().to_string(),
-        format: format.as_str().into(),
-        bytes: bytes.len() as u64,
-        verified: true,
-    })
-}
-
-/// Plot and, when the spec names an `output`, write it.
-pub fn run(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
-    let mut p = plot(reg, spec)?;
-    if let Some(o) = &spec.output {
-        p.output.output = Some(write(&p.figure, Path::new(o), spec.overwrite)?);
-    }
-    Ok(p)
+    pdf::pdf(fig, 1.0)
 }

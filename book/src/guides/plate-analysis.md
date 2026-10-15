@@ -192,6 +192,8 @@ Each entry of `compounds[]` has:
 
 `growth_summary` lists the wells of each pattern and the smallest, median and largest crash and regrowth times, so "how many infected wells came back, and when" is one call.
 
+Over MCP, `openreadout_assay` rows keep the main fields above (rate, doubling time in hours, lag, maximum, pattern and the crash and regrowth times) to 4 significant digits, so a whole 96-well plate fits in one reply; `fields: ["all"]` returns every field. See [Per-well rows](../reference/mcp.md#per-well-rows).
+
 The two rates answer different questions. µmax is the steepest exponential growth seen. The logistic r belongs to the best-fitting logistic curve and is smaller when the growth is not logistic. Say which one you report.
 
 ## Assay quality
