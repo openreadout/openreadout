@@ -226,14 +226,24 @@ impl Grid {
         let spp = p.samples_per_pixel.max(1) as usize;
         let bps = p.pixel_type.bytes_per_sample();
         let (w, h) = (p.width as usize, p.height as usize);
-        if p.data.len() < w * h * spp * bps {
+        if (p.width, p.height) != (r.width, r.height) || w == 0 || h == 0 {
             return Err(Error::corrupt(
                 "stats",
                 format!(
-                    "plane holds {} bytes, {w} x {h} needs {}",
-                    p.data.len(),
-                    w * h * spp * bps
+                    "the reader returned {w} x {h} pixels for a {} x {} region",
+                    r.width, r.height
                 ),
+            ));
+        }
+        let need = w
+            .checked_mul(h)
+            .and_then(|n| n.checked_mul(spp))
+            .and_then(|n| n.checked_mul(bps))
+            .unwrap_or(usize::MAX);
+        if p.data.len() < need {
+            return Err(Error::corrupt(
+                "stats",
+                format!("plane holds {} bytes, {w} x {h} needs {need}", p.data.len()),
             ));
         }
         let mut comps = vec![Vec::with_capacity(w * h); spp];
@@ -256,11 +266,15 @@ impl Grid {
     }
 
     /// Bilinear value of component `k` at level coordinates (x, y) (pixel centres at
-    /// integer + 0.5); `None` outside.
+    /// integer + 0.5); `None` outside. The plane's edges (x = 0 and x = width) are inside: the
+    /// half pixel between the last centre and the edge takes the edge pixel's value.
     fn at(&self, k: usize, x: f64, y: f64) -> Option<f64> {
         let fx = x - 0.5 - f64::from(self.x0);
         let fy = y - 0.5 - f64::from(self.y0);
-        if !(fx > -0.5 && fy > -0.5 && fx < self.w as f64 - 0.5 && fy < self.h as f64 - 0.5) {
+        if !(fx >= -0.5 && fy >= -0.5 && fx <= self.w as f64 - 0.5 && fy <= self.h as f64 - 0.5)
+            || self.w == 0
+            || self.h == 0
+        {
             return None;
         }
         let fx = fx.clamp(0.0, (self.w - 1) as f64);
@@ -349,11 +363,14 @@ fn target<'a>(info: &'a FileInfo, req: &MeasureRequest) -> Result<Target<'a>> {
     } else {
         1.0
     };
-    let pixel_um = im.physical_size.x.map(|p| p * downsample);
+    // a zero, negative or missing pixel size is no pixel size
+    let usable = |p: &f64| p.is_finite() && *p > 0.0;
+    let pixel_um = im.physical_size.x.map(|p| p * downsample).filter(usable);
     let pixel_um_y = im
         .physical_size
         .y
         .map(|p| p * f64::from(im.size_y) / f64::from(level_h.max(1)))
+        .filter(usable)
         .filter(|py| pixel_um.is_some_and(|px| (py - px).abs() > px * 1e-6));
     Ok(Target {
         im,
@@ -502,6 +519,16 @@ fn profile(
             "line needs two different end points [x0, y0, x1, y1]",
         ));
     }
+    // both ends on the plane (its edges included), so every sample along the line has a value
+    let (pw, ph) = (f64::from(tg.level_w), f64::from(tg.level_h));
+    if [x0, x1].iter().any(|x| !(0.0..=pw).contains(x))
+        || [y0, y1].iter().any(|y| !(0.0..=ph).contains(y))
+    {
+        return Err(usage(format!(
+            "the line {line:?} runs off the plane, which is {} x {} pixels at this level: keep x within 0..={} and y within 0..={}",
+            tg.level_w, tg.level_h, tg.level_w, tg.level_h
+        )));
+    }
     let r = bounds(
         &[[x0, y0], [x1, y1]],
         f64::from(width) / 2.0 + 1.0,
@@ -509,7 +536,9 @@ fn profile(
         tg.level_h,
     )?;
     check_size(r, "a profile")?;
-    let n = ((len.ceil() as usize) + 1).clamp(2, MAX_PROFILE_SAMPLES);
+    let n = (len.ceil() as usize)
+        .saturating_add(1)
+        .clamp(2, MAX_PROFILE_SAMPLES);
     let step = len / (n - 1) as f64;
     let (ux, uy) = ((x1 - x0) / len, (y1 - y0) / len);
     let offsets: Vec<f64> = (0..width)
@@ -529,13 +558,17 @@ fn profile(
             let values: Vec<f64> = (0..n)
                 .map(|i| {
                     let d = step * i as f64;
-                    let (px, py) = (x0 + ux * d, y0 + uy * d);
+                    // on the plane, which holds both ends (rounding aside)
+                    let px = (x0 + ux * d).clamp(0.0, pw);
+                    let py = (y0 + uy * d).clamp(0.0, ph);
                     let vals: Vec<f64> = offsets
                         .iter()
                         .filter_map(|o| g.at(k, px - uy * o, py + ux * o))
                         .collect();
                     if vals.is_empty() {
-                        f64::NAN
+                        // every sample across the line is off the plane (a wide line at a
+                        // corner): the value on the line itself
+                        g.at(k, px, py).unwrap_or(f64::NAN)
                     } else {
                         vals.iter().sum::<f64>() / vals.len() as f64
                     }
@@ -588,15 +621,17 @@ fn resample(v: &[f64], k: usize) -> Vec<f64> {
     if v.len() <= k || k < 2 {
         return v.to_vec();
     }
-    let last = (v.len() - 1) as f64;
+    let end = v.len() - 1;
+    let last = end as f64;
     let step = last / (k - 1) as f64;
     (0..k)
         .map(|i| {
-            let c = i as f64 * step;
+            // i · step can land a rounding error past the last sample
+            let c = (i as f64 * step).min(last);
             // a window centred on the value, narrower at the ends of the line
-            let half = (step / 2.0).min(c).min(last - c);
-            let lo = (c - half).ceil().max(0.0) as usize;
-            let hi = ((c + half).floor() as usize).min(v.len() - 1);
+            let half = (step / 2.0).min(c).min(last - c).max(0.0);
+            let lo = ((c - half).ceil().max(0.0) as usize).min(end);
+            let hi = ((c + half).floor().max(0.0) as usize).min(end);
             let f: Vec<f64> = v[lo..=hi.max(lo)]
                 .iter()
                 .copied()
@@ -769,6 +804,147 @@ mod tests {
         assert_eq!(round_sig(1234.56789), 1234.57);
         assert_eq!(round_sig(0.000_123_456_78), 0.000_123_457);
         assert_eq!(round_sig(65535.0), 65535.0);
+    }
+
+    #[test]
+    fn resampling_never_reads_past_the_end() {
+        // i · step rounds past the last sample for some lengths (a 256-pixel line panicked)
+        for len in 2..1200u32 {
+            let v: Vec<f64> = (0..len).map(f64::from).collect();
+            for k in [2, 3, 7, 199, 200, 201] {
+                let b = resample(&v, k);
+                assert!(b.iter().all(|x| x.is_finite()), "{len} {k}");
+                assert_eq!(*b.last().unwrap(), f64::from(len - 1), "{len} {k}");
+            }
+        }
+    }
+
+    /// A plane whose value in channel 0 is its column (in channel 1, 1000 + its row).
+    fn ramp(w: usize, h: usize) -> super::objects::tests::TwoChannels {
+        let mut ds = super::objects::tests::TwoChannels::new();
+        ds.w = w;
+        ds.h = h;
+        ds.planes = [
+            (0..w * h).map(|i| (i % w) as f32).collect(),
+            (0..w * h).map(|i| 1000.0 + (i / w) as f32).collect(),
+        ];
+        ds
+    }
+
+    fn line(ds: &mut dyn Dataset, info: &FileInfo, l: [f64; 4], width: u32) -> Result<Profile> {
+        let req = MeasureRequest {
+            line: Some(l),
+            line_width: Some(width),
+            select: vec!["c=0".into()],
+            ..MeasureRequest::default()
+        };
+        measure(ds, info, &req).map(|o| o.profile.unwrap_or_default())
+    }
+
+    #[test]
+    fn profiles_reach_the_edges_of_the_plane() {
+        for (w, h) in [(256, 100), (1, 1), (1, 40), (40, 1), (3, 3)] {
+            let mut ds = ramp(w, h);
+            let info = ds.info().unwrap();
+            let (fw, fh) = (w as f64, h as f64);
+            // edge to edge across the middle, along the top and bottom edges, and diagonals
+            for l in [
+                [0.0, fh / 2.0, fw, fh / 2.0],
+                [0.0, 0.0, fw, 0.0],
+                [0.0, fh, fw, fh],
+                [0.0, 0.0, fw, fh],
+                [fw, fh, 0.0, 0.0],
+            ] {
+                for width in [1, 3, 1000] {
+                    let p = line(&mut ds, &info, l, width)
+                        .unwrap_or_else(|e| panic!("{w}x{h} {l:?} {e}"));
+                    let c = &p.channels[0];
+                    assert!(
+                        c.values.iter().all(|v| v.is_finite()),
+                        "{w}x{h} {l:?} {:?}",
+                        c.values
+                    );
+                    assert!(c.min.is_finite() && c.max.is_finite() && c.mean.is_finite());
+                    let json = serde_json::to_string(&p).unwrap();
+                    assert!(!json.contains("null"), "{json}");
+                }
+            }
+        }
+        // across the ramp: the ends take the edge pixels' values, and the peak is at the end
+        let mut ds = ramp(256, 100);
+        let info = ds.info().unwrap();
+        let p = line(&mut ds, &info, [0.0, 50.0, 256.0, 50.0], 1).unwrap();
+        let c = &p.channels[0];
+        assert_eq!(c.values[0], 0.0);
+        assert_eq!(*c.values.last().unwrap(), 255.0);
+        assert!((c.max_at_px - 256.0).abs() < 1e-9, "{}", c.max_at_px);
+    }
+
+    #[test]
+    fn profiles_off_the_plane_are_usage_errors() {
+        let mut ds = ramp(64, 64);
+        let info = ds.info().unwrap();
+        for l in [
+            [-1.0, 5.0, 10.0, 5.0],
+            [0.0, 5.0, 64.5, 5.0],
+            [0.0, 65.0, 10.0, 65.0],
+            [f64::NAN, 0.0, 1.0, 1.0],
+            [0.0, 0.0, f64::INFINITY, 1.0],
+            [3.0, 3.0, 3.0, 3.0],
+            [1e300, 0.0, -1e300, 0.0],
+        ] {
+            let e = line(&mut ds, &info, l, 1).unwrap_err();
+            assert!(matches!(e, Error::Usage(_)), "{l:?} {e}");
+        }
+    }
+
+    #[test]
+    fn odd_polygons_and_planes_do_not_panic() {
+        for (w, h) in [(1, 1), (1, 50), (50, 1), (7, 3)] {
+            let mut ds = ramp(w, h);
+            let info = ds.info().unwrap();
+            let (fw, fh) = (w as f64, h as f64);
+            let polys: Vec<Vec<[f64; 2]>> = vec![
+                vec![[0.0, 0.0], [fw, 0.0], [fw, fh], [0.0, fh]],
+                // repeated and colinear vertices
+                vec![
+                    [0.0, 0.0],
+                    [0.0, 0.0],
+                    [fw, 0.0],
+                    [fw, 0.0],
+                    [fw, fh],
+                    [0.0, fh],
+                ],
+                vec![[0.0, 0.0], [fw / 2.0, 0.0], [fw, 0.0]],
+                vec![[0.0, 0.0], [fw, fh], [fw, 0.0], [0.0, fh]],
+                vec![[-100.0, -100.0], [1e6, -100.0], [1e6, 1e6], [-100.0, 1e6]],
+                vec![[1e300, 1e300], [2e300, 1e300], [2e300, 2e300]],
+                vec![[f64::NAN, 0.0], [1.0, 0.0], [1.0, 1.0]],
+                vec![[0.0, 0.0], [1.0, f64::INFINITY], [1.0, 1.0]],
+            ];
+            for poly in polys {
+                let req = MeasureRequest {
+                    polygon: Some(poly.clone()),
+                    ..MeasureRequest::default()
+                };
+                match measure(&mut ds, &info, &req) {
+                    Ok(o) => {
+                        let roi = o.roi.unwrap();
+                        assert!(roi.area_px > 0);
+                        assert!(roi.channels.iter().all(|c| c.mean.is_finite()));
+                    }
+                    Err(e) => assert!(matches!(e, Error::Usage(_)), "{w}x{h} {poly:?} {e}"),
+                }
+            }
+        }
+        let mut ds = ramp(10, 4);
+        let info = ds.info().unwrap();
+        let req = MeasureRequest {
+            polygon: Some(vec![[0.0, 0.0], [10.0, 0.0], [10.0, 4.0], [0.0, 4.0]]),
+            ..MeasureRequest::default()
+        };
+        let roi = measure(&mut ds, &info, &req).unwrap().roi.unwrap();
+        assert_eq!(roi.area_px, 40);
     }
 
     #[test]

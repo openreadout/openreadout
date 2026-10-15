@@ -402,7 +402,7 @@
           "format": "double"
         },
         "threshold_method": {
-          "description": "`otsu`, `triangle`, `local`, `noise` (spots: five robust standard deviations of the\nbackground) or `given`.",
+          "description": "`otsu`, `otsu-3`, `triangle`, `local`, `sparse` (a few objects on a large background:\nhalf way from the background to the objects), `noise` (spots: five robust standard\ndeviations of the background) or `given`.",
           "type": "string"
         },
         "split": {
@@ -416,7 +416,7 @@
           "minimum": 0
         },
         "confidence": {
-          "description": "`high`, or `low` when less than half of the objects' area is in compact objects of the\nexpected size (`fit`): the image may not suit the count (see `notes`).",
+          "description": "`high`, or `low` when less than half of the objects' area is in compact objects of the\nexpected size (`fit`), when most objects are under a third of the expected area, or\nwhen more objects were found than the area holds: the image may not suit the count, or\nthe threshold cut noise into pieces (see `notes`).",
           "$ref": "#/$defs/CountConfidence"
         },
         "fit": {
