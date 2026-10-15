@@ -236,12 +236,43 @@ fn resource_meta() -> MetaObject {
     }))
 }
 
+/// The fonts the viewer draws data labels with: subsets of IBM Plex Sans and Mono, renamed as
+/// the SIL Open Font License asks of modified fonts (`web/fonts/OFL.txt`). The page loads them
+/// from bytes with the `FontFace` API, which the default MCP Apps CSP allows (it has no
+/// `font-src`, so `data:` URLs in CSS would be blocked).
+const FONTS: &[(&str, &str, &[u8])] = &[
+    (
+        "OpenReadout Sans",
+        "400",
+        include_bytes!("web/fonts/sans-regular.woff"),
+    ),
+    (
+        "OpenReadout Sans",
+        "500",
+        include_bytes!("web/fonts/sans-medium.woff"),
+    ),
+    (
+        "OpenReadout Mono",
+        "400",
+        include_bytes!("web/fonts/mono-regular.woff"),
+    ),
+];
+
 /// The page, assembled from `web/` once.
 pub fn html() -> &'static str {
     static HTML: LazyLock<String> = LazyLock::new(|| {
+        use base64::Engine as _;
+        let fonts: Vec<Value> = FONTS
+            .iter()
+            .map(|(family, weight, bytes)| {
+                json!([family, weight, base64::engine::general_purpose::STANDARD.encode(bytes)])
+            })
+            .collect();
+        let script = include_str!("web/viewer.js")
+            .replace("/*FONTS*/[]", &Value::Array(fonts).to_string());
         include_str!("web/viewer.html")
             .replace("/*STYLE*/", include_str!("web/viewer.css"))
-            .replace("/*SCRIPT*/", include_str!("web/viewer.js"))
+            .replace("/*SCRIPT*/", &script)
     });
     &HTML
 }

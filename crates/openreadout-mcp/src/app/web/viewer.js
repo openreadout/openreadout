@@ -28,7 +28,9 @@ const THEMES = {
     seq: ["#22202a", "#4a2531", "#7a3333", "#a84e37", "#cf7a4a", "#e7ae6e", "#f6e2b4"],
   },
 };
-const MONO = '"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace';
+const MONO = '"OpenReadout Mono", "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace';
+// [family, weight, base64 WOFF]: subsets of IBM Plex, filled in by the server (src/app/mod.rs).
+const FONTS = /*FONTS*/[];
 
 // ---------------------------------------------------------------------------------------------
 // Pure helpers (also loaded by the Node tests)
@@ -1311,7 +1313,7 @@ function main() {
       grid: v("--color-border-secondary", "#e9e5dd"),
       bg,
       panel: v("--color-background-secondary", "#f4f2ec"),
-      sans: `"IBM Plex Sans", ${hostSans}`,
+      sans: `"OpenReadout Sans", "IBM Plex Sans", ${hostSans}`,
       mono: MONO,
     });
     palette.series = [palette.ink].concat(th.series.slice(1));
@@ -3572,6 +3574,15 @@ function main() {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const onScheme = () => { if (!S.hostContext.theme) { palette = null; invalidate(); } };
     if (mq.addEventListener) mq.addEventListener("change", onScheme);
+  }
+
+  // The data labels' fonts, from bytes (no network). Redraw once they are ready.
+  if (typeof FontFace !== "undefined" && document.fonts && FONTS.length) {
+    Promise.all(FONTS.map(([family, weight, b64]) => {
+      const face = new FontFace(family, bytesFromBase64(b64), { weight, style: "normal" });
+      document.fonts.add(face);
+      return face.load();
+    })).then(() => { palette = null; invalidate(); }).catch(() => {});
   }
 
   // ---------- start
