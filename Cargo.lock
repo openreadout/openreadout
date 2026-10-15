@@ -1937,6 +1937,7 @@ dependencies = [
  "openreadout-ops",
  "openreadout-plate",
  "openreadout-plexon",
+ "openreadout-plot",
  "openreadout-preview",
  "openreadout-qpcr",
  "openreadout-quant",
@@ -2611,6 +2612,26 @@ dependencies = [
  "openreadout-core",
  "serde_json",
  "tempfile",
+]
+
+[[package]]
+name = "openreadout-plot"
+version = "0.3.0"
+dependencies = [
+ "miniz_oxide 0.9.1",
+ "openreadout-abf",
+ "openreadout-assay",
+ "openreadout-batch",
+ "openreadout-core",
+ "openreadout-fcs",
+ "openreadout-figure",
+ "openreadout-plate",
+ "openreadout-qpcr",
+ "openreadout-quant",
+ "openreadout-signal",
+ "schemars",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
