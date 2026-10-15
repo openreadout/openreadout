@@ -3,7 +3,11 @@
 //! **Detection.** A spike is an upward crossing of `peak_threshold_mv` (default −20 mV); it ends
 //! at the next downward crossing (or the end of the window). Its peak is the largest sample in
 //! between. This is the spike definition eFEL documents for `Spikecount` (voltage `Threshold`
-//! −20 mV), so counts are comparable.
+//! −20 mV), so counts are comparable. One rule is added: a spike's peak must rise `min_rise_mv`
+//! (default 15 mV) above the lowest voltage since the previous spike and fall that far again
+//! after it. Without it, a membrane held near the threshold during a strong step
+//! (depolarisation block) turns every noise wiggle across −20 mV into a spike, and spikes riding
+//! on a plateau above −20 mV merge into one. `min_rise_mv = 0` gives eFEL's count.
 //!
 //! **Threshold (onset).** `dV/dt` is the forward difference in V/s (= mV/ms). Searching forward
 //! from the previous spike's after-hyperpolarisation minimum (or the window start) to the peak,
@@ -31,6 +35,8 @@ pub struct ApSettings {
     pub dvdt_threshold_v_per_s: f64,
     /// Consecutive samples the onset criterion must hold.
     pub dvdt_window_samples: usize,
+    /// Rise of a spike's peak above the lowest voltage since the previous spike's peak, mV.
+    pub min_rise_mv: f64,
 }
 
 impl Default for ApSettings {
@@ -39,6 +45,7 @@ impl Default for ApSettings {
             peak_threshold_mv: -20.0,
             dvdt_threshold_v_per_s: 10.0,
             dvdt_window_samples: 5,
+            min_rise_mv: 15.0,
         }
     }
 }
@@ -82,17 +89,10 @@ pub struct Spike {
     pub isi_ms: Option<f64>,
 }
 
-/// Detect spikes in `v[a..b)` (module docs). `fs` in Hz.
-pub fn detect(v: &[f64], fs: f64, a: usize, b: usize, sweep: u32, s: &ApSettings) -> Vec<Spike> {
-    let b = b.min(v.len());
-    if b < a + 3 || !(fs > 0.0) {
-        return Vec::new();
-    }
-    let dt_ms = 1000.0 / fs;
-    let dvdt = |i: usize| (v[i + 1] - v[i]) / dt_ms; // mV/ms = V/s, valid for i + 1 < len
-    let thr = s.peak_threshold_mv;
-    // crossings and peaks
-    let mut events: Vec<(usize, usize, usize)> = Vec::new(); // (crossing, peak, end)
+/// `(crossing, peak, end)` of every upward crossing of `thr` in `v[a..b)`; a spike ends at the
+/// next downward crossing.
+fn crossing_events(v: &[f64], a: usize, b: usize, thr: f64) -> Vec<(usize, usize, usize)> {
+    let mut events = Vec::new();
     let mut i = a + 1;
     while i < b {
         if v[i - 1] < thr && v[i] >= thr {
@@ -111,6 +111,70 @@ pub fn detect(v: &[f64], fs: f64, a: usize, b: usize, sweep: u32, s: &ApSettings
             i += 1;
         }
     }
+    events
+}
+
+/// `(crossing, peak, end)` of every peak at or above `thr` that rises `rise` above the lowest
+/// voltage since the previous peak and falls `rise` below itself (or to the window end)
+/// afterwards. Spikes riding on a plateau above `thr` are told apart; noise near `thr` is not
+/// a spike. The crossing is the last upward crossing of `thr` before the peak, or the start of
+/// the rise when the voltage stayed above `thr`.
+fn rising_events(v: &[f64], a: usize, b: usize, thr: f64, rise: f64) -> Vec<(usize, usize, usize)> {
+    let mut events = Vec::new();
+    // Rising: looking for a peak (from rise_start); falling: looking for a trough.
+    let mut rising = false;
+    let (mut lo, mut hi) = (v[a], v[a]);
+    let (mut hi_i, mut rise_start) = (a, a);
+    let crossing = |pk: usize, from: usize| -> usize {
+        (from + 1..=pk)
+            .rev()
+            .find(|&q| v[q - 1] < thr && v[q] >= thr)
+            .unwrap_or(from)
+    };
+    for i in a..b {
+        let x = v[i];
+        if rising {
+            if x > hi {
+                hi = x;
+                hi_i = i;
+            }
+            if x < hi - rise {
+                if hi >= thr {
+                    events.push((crossing(hi_i, rise_start), hi_i, i));
+                }
+                rising = false;
+                lo = x;
+            }
+        } else {
+            lo = lo.min(x);
+            if x > lo + rise {
+                rising = true;
+                hi = x;
+                hi_i = i;
+                rise_start = i;
+            }
+        }
+    }
+    if rising && hi >= thr {
+        events.push((crossing(hi_i, rise_start), hi_i, b));
+    }
+    events
+}
+
+/// Detect spikes in `v[a..b)` (module docs). `fs` in Hz.
+pub fn detect(v: &[f64], fs: f64, a: usize, b: usize, sweep: u32, s: &ApSettings) -> Vec<Spike> {
+    let b = b.min(v.len());
+    if b < a + 3 || !(fs > 0.0) {
+        return Vec::new();
+    }
+    let dt_ms = 1000.0 / fs;
+    let dvdt = |i: usize| (v[i + 1] - v[i]) / dt_ms; // mV/ms = V/s, valid for i + 1 < len
+    let thr = s.peak_threshold_mv;
+    let events = if s.min_rise_mv > 0.0 {
+        rising_events(v, a, b, thr, s.min_rise_mv)
+    } else {
+        crossing_events(v, a, b, thr)
+    };
     let mut out: Vec<Spike> = Vec::with_capacity(events.len());
     let mut search_from = a;
     for (k, &(c, pk, end)) in events.iter().enumerate() {
@@ -252,5 +316,27 @@ mod tests {
         assert!(detect(&[0.0; 2], 20000.0, 0, 2, 0, &s).is_empty());
         assert!(detect(&[f64::NAN; 100], 20000.0, 0, 100, 0, &s).is_empty());
         assert!(detect(&[-70.0; 100], 0.0, 0, 100, 0, &s).is_empty());
+    }
+
+    #[test]
+    fn plateau_noise_is_not_a_spike_and_plateau_spikes_are_split() {
+        // A plateau at -19 mV with ±2 mV noise crossing -20 mV every other sample, and three
+        // spikes to +20 mV that fall back to -24 mV (still above -20 only on the plateau).
+        let mut v: Vec<f64> = (0..3000)
+            .map(|i| if i % 2 == 0 { -21.0 } else { -17.0 })
+            .collect();
+        for &t in &[500usize, 1500, 2500] {
+            for k in 0..10 {
+                v[t + k] = -17.0 + 3.7 * k as f64;
+                v[t + 10 + k] = 20.0 - 4.4 * k as f64;
+            }
+        }
+        let s = ApSettings::default();
+        assert_eq!(detect(&v, 20_000.0, 0, v.len(), 0, &s).len(), 3);
+        let efel = ApSettings {
+            min_rise_mv: 0.0,
+            ..s
+        };
+        assert!(detect(&v, 20_000.0, 0, v.len(), 0, &efel).len() > 100);
     }
 }

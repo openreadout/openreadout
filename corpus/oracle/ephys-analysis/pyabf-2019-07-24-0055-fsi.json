@@ -6744,7 +6744,7 @@
   }
  ],
  "cell": {
-  "rheobase_pa": 25.0,
+  "rheobase_pa": null,
   "input_resistance_mohm": 176.76663477887396,
   "tau_ms": 14.347587621802308,
   "sag_ratio": 0.011163447616627525

@@ -74,6 +74,9 @@ pub struct EphysQuery {
     pub peak_threshold_mv: Option<f64>,
     /// dV/dt onset criterion, V/s (default 10).
     pub dvdt_threshold: Option<f64>,
+    /// A spike's peak must rise this far above the lowest voltage since the previous spike, mV
+    /// (default 15; 0 counts every crossing, as eFEL does).
+    pub min_rise_mv: Option<f64>,
     /// Per-spike rows returned (default 25, the first spikes in sweep order; counts stay complete).
     pub max_spikes: Option<usize>,
 }
@@ -211,9 +214,16 @@ impl EphysQuery {
         if let Some(v) = self.dvdt_threshold {
             ap.dvdt_threshold_v_per_s = v;
         }
-        if !ap.peak_threshold_mv.is_finite() || !(ap.dvdt_threshold_v_per_s > 0.0) {
+        if let Some(v) = self.min_rise_mv {
+            ap.min_rise_mv = v;
+        }
+        if !ap.peak_threshold_mv.is_finite()
+            || !(ap.dvdt_threshold_v_per_s > 0.0)
+            || !(ap.min_rise_mv >= 0.0)
+        {
             return Err(usage(
-                "peak_threshold_mv must be finite and dvdt_threshold positive".into(),
+                "peak_threshold_mv must be finite, dvdt_threshold positive and min_rise_mv at least 0"
+                    .into(),
             ));
         }
         Ok(CellRequest {

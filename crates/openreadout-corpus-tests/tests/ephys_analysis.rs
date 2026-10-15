@@ -27,6 +27,13 @@ use openreadout_core::{Dataset, FormatReader};
 use openreadout_signal::ephys::{self, CellRequest, SpikesRequest};
 use serde::Deserialize;
 
+/// eFEL counts every upward crossing of −20 mV: compare with `min_rise_mv` 0.
+fn efel_request() -> CellRequest {
+    let mut r = CellRequest::default();
+    r.ap.min_rise_mv = 0.0;
+    r
+}
+
 fn root() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
@@ -139,7 +146,7 @@ fn current_clamp_matches_efel() {
         }
         let mut ds = open(&path);
         let info = ds.info().unwrap();
-        let r = ephys::analyze_cell(ds.as_mut(), &info, &CellRequest::default()).unwrap();
+        let r = ephys::analyze_cell(ds.as_mut(), &info, &efel_request()).unwrap();
         let fs = r.sample_rate_hz;
         let sample_ms = 1000.0 / fs;
         let (mut n_spk, mut d_peak_t, mut d_peak_v) = (0usize, 0.0_f64, 0.0_f64);
@@ -364,7 +371,7 @@ fn nwb_current_clamp_matches_efel() {
             }
             let req = CellRequest {
                 trace: t.index,
-                ..CellRequest::default()
+                ..efel_request()
             };
             let r = match ephys::analyze_cell(ds.as_mut(), &info, &req) {
                 Ok(r) => r,
@@ -448,7 +455,7 @@ fn voltage_clamp_matches_pyabf_memtest() {
         }
         let mut ds = open(&path);
         let info = ds.info().unwrap();
-        let r = ephys::analyze_cell(ds.as_mut(), &info, &CellRequest::default()).unwrap();
+        let r = ephys::analyze_cell(ds.as_mut(), &info, &efel_request()).unwrap();
         let theirs = |v: &[Option<f64>]| med(v.iter().filter_map(|x| *x).collect());
         let c = &r.cell;
         let total = med(r

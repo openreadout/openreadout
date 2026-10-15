@@ -60,6 +60,10 @@ pub struct EphysArgs {
     /// dV/dt defining the spike onset (threshold), V/s.
     #[arg(long, value_name = "V_PER_S", default_value_t = 10.0)]
     pub dvdt_threshold: f64,
+    /// A spike's peak must rise this far above the lowest voltage since the previous spike, mV
+    /// (0 counts every crossing of --peak-threshold-mv, as eFEL does).
+    #[arg(long, value_name = "MV", default_value_t = 15.0)]
+    pub min_rise_mv: f64,
     /// Keep at most this many rows in the per-spike table (counts stay complete; `spikes_truncated`
     /// says when rows were left out). Default 25 with --json, every spike with --csv.
     #[arg(long, value_name = "N")]
@@ -73,9 +77,9 @@ pub struct EphysArgs {
 
 fn cell_request(a: &EphysArgs) -> Result<CellRequest> {
     let dvdt_ok = a.dvdt_threshold.is_finite() && a.dvdt_threshold > 0.0;
-    if !a.peak_threshold_mv.is_finite() || !dvdt_ok {
+    if !a.peak_threshold_mv.is_finite() || !dvdt_ok || !(a.min_rise_mv >= 0.0) {
         return Err(Error::Usage(
-            "--peak-threshold-mv must be finite and --dvdt-threshold positive".into(),
+            "--peak-threshold-mv must be finite, --dvdt-threshold positive and --min-rise-mv at least 0".into(),
         ));
     }
     Ok(CellRequest {
@@ -89,6 +93,7 @@ fn cell_request(a: &EphysArgs) -> Result<CellRequest> {
         ap: ApSettings {
             peak_threshold_mv: a.peak_threshold_mv,
             dvdt_threshold_v_per_s: a.dvdt_threshold,
+            min_rise_mv: a.min_rise_mv,
             ..ApSettings::default()
         },
         max_spikes: a.max_spikes.unwrap_or(if a.csv.is_some() {
