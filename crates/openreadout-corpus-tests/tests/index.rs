@@ -181,6 +181,15 @@ fn corpus_index() {
         checked += 1;
         match role.get(p.to_string_lossy().as_ref()) {
             Some((r, _)) if r != "unknown" => {}
+            // A directory may be read as part of a data set rooted further up, as a share
+            // holding one Open Ephys `Record Node` is.
+            _ if p.is_dir()
+                && p.ancestors().skip(1).any(|a| {
+                    role.get(a.to_string_lossy().as_ref())
+                        .is_some_and(|(r, f)| {
+                            r != "unknown" && f.as_deref() == Some(e.format.as_str())
+                        })
+                }) => {}
             other => missing.push(format!("{} ({}): {other:?}", e.id, e.format)),
         }
     }
