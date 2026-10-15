@@ -2,6 +2,12 @@
 
 The MCP server: one module per tool family in `src/tools/`, resources and prompts in `src/resources.rs`, the HTTP transport in `src/http.rs`, and the viewer app in `src/app/`. `book/src/reference/mcp.md` is the user documentation; keep it in step with what the server offers.
 
+## Reply size and writes
+
+- `src/budget.rs` cuts the longest lists of any reply over 38,000 characters and says what it cut. It is the last resort.
+- `src/lean.rs` comes first for per-well rows (`openreadout_assay`, `openreadout_qpcr`): each list's main fields, the values left out when they say nothing, rounding, the `fields` argument, and paging by whole plate rows with the `wells` for the rest. When an analysis gains a row field worth reading by default, add it to the list there; the output schema of those rows requires no field, because the default view leaves fields out.
+- Only `openreadout_export` and `openreadout_extract` write next to the data (`openreadout_batch`, `openreadout_summarize`, `openreadout_index` and `openreadout_report` write only where told). `openreadout_plot` and `openreadout_preview` only draw, and their results carry a `save` line with the export call; `openreadout_export` with `plot` or `preview` draws the same figure again and saves it through `openreadout_plot::write`. Keep the annotations honest: a tool that can write is not read-only (`every_tool_is_annotated`).
+
 ## The viewer app
 
 The viewer is an MCP App (the `io.modelcontextprotocol/ui` extension, spec at github.com/modelcontextprotocol/ext-apps, `specification/2026-01-26/apps.mdx`). It shows the data of a file in the chat.

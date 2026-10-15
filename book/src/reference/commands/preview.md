@@ -12,11 +12,13 @@ The kind of picture follows the file: images first, then traces, spectra and tab
 
 ### Output
 
-- `-o`, `--output FILE`: `.png`, `.jpg` or `.svg`; `-` writes the image to stdout. Default: `<input stem>.preview.png` next to the input.
+- `-o`, `--output FILE`: `.png`, `.jpg`, `.svg`, `.tiff` or `.pdf`; `-` writes the image to stdout. Default: `<input stem>.preview.png` next to the input.
 - `--format png|jpeg|svg`: default from the output extension, else PNG. SVG keeps text as text and embeds image data as PNG.
 - `--dark`: draw in the dark theme.
 - `--quality N`: JPEG quality, 1–100. Default 90.
 - `--max-size N`: longest side of the picture in pixels (16–8192), rulers included. Default 1024.
+- `--scale N`: draw the picture again at N pixels per preview pixel (0.25–8), so text and marks stay sharp in print. Image data keeps the detail that `--max-size` reads.
+- `--dpi N`: print resolution, recorded in PNG, JPEG and TIFF files; SVG and PDF pages get the matching size.
 - `--overwrite`: replace an existing output file.
 - `--json`: print the report as JSON.
 
