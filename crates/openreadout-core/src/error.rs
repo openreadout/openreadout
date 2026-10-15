@@ -138,6 +138,9 @@ impl Error {
     /// A suggestion the caller (human or agent) can act on.
     pub fn hint(&self) -> Option<String> {
         match self {
+            Error::UnknownFormat { path } if path.is_dir() => Some(
+                "This folder is not a data set that one reader opens as a whole: name a file in it, or use `openreadout batch` to read every file of the folder.".into(),
+            ),
             Error::UnknownFormat { path } => {
                 let name = path.file_name().map(|n| n.to_string_lossy());
                 Some(match name.as_deref().and_then(|n| n.strip_prefix("._")) {
@@ -157,6 +160,9 @@ impl Error {
             Error::Corrupt { .. } => Some(
                 "Run `openreadout check <file>` for a full integrity report. The file may be truncated by an interrupted acquisition or copy."
                     .into(),
+            ),
+            Error::Io { source, .. } if source.kind() == std::io::ErrorKind::IsADirectory => Some(
+                "This is a folder and the command takes one file: name a file in it, or use `openreadout batch` to read every file of the folder.".into(),
             ),
             Error::Io { .. } => Some("Check that the path exists and is readable.".into()),
             Error::Usage(m) => Some(usage_hint(m).into()),

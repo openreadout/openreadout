@@ -93,7 +93,7 @@ impl InstrumentServer {
         name = "openreadout_index",
         annotations(title = "Index a folder of data", read_only_hint = false, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = crate::tools::output_schema::<openreadout_index::IndexManifest>(),
-        description = "Catalog every data set under roots into index_dir (Parquet: one row per data set with format, size, sample, instrument, technique, method, operator, start, dimensions, channels, objective, events, scans, integrity status, personal-data flags). Headers only and resumable: a call stops after max_files/max_seconds with complete=false, and the same call again continues. openreadout_search queries the result."
+        description = "Catalog every data set under roots into index_dir (Parquet: one row per data set with format, size, sample, instrument, technique, method, operator, start, dimensions, channels, objective, events, scans, integrity status, personal-data flags). Headers only and resumable: a call stops after max_files/max_seconds with complete=false, and the same call again continues. openreadout_search queries the result. For one folder of files, openreadout_batch with measure info lists what each file is in one call."
     )]
     pub(crate) async fn index(
         &self,
