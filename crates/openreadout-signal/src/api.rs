@@ -52,6 +52,9 @@ pub struct NmrQuery {
     /// Regions to integrate, `[[a, b], …]` in ppm.
     #[serde(default)]
     pub integrate: Vec<(f64, f64)>,
+    /// Without integrate: integrate every multiplet (peaks closer than 15 Hz, ±10 Hz).
+    #[serde(default)]
+    pub auto_integrate: bool,
     /// Normalise integrals so region `[index, value]` has that value (default `[0, 1]`).
     pub integral_reference: Option<(usize, f64)>,
 }
@@ -199,6 +202,7 @@ impl NmrQuery {
                 max_peaks: self.max_peaks.unwrap_or(200),
             },
             integrals: self.integrate.clone(),
+            auto_integrals: self.auto_integrate,
             integral_reference: self.integral_reference,
         })
     }

@@ -45,6 +45,9 @@ pub struct NmrRequest {
     pub peaks: PeakOptions,
     /// Integration regions, ppm pairs.
     pub integrals: Vec<(f64, f64)>,
+    /// Without `integrals`: integrate every multiplet, a region around each group of peaks
+    /// closer than [`MULTIPLET_GAP_HZ`].
+    pub auto_integrals: bool,
     /// Normalisation of the integrals: (region index, value).
     pub integral_reference: Option<(usize, f64)>,
 }
@@ -162,6 +165,49 @@ pub fn load(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Result<C
     }
 }
 
+/// Peaks closer than this belong to one multiplet (`auto_integrals`), Hz.
+pub const MULTIPLET_GAP_HZ: f64 = 15.0;
+/// Margin of a multiplet's integration region beyond its outer peaks, Hz.
+pub const MULTIPLET_MARGIN_HZ: f64 = 10.0;
+
+/// One integration region per multiplet: positive peaks closer than [`MULTIPLET_GAP_HZ`] form
+/// a group, and its region reaches [`MULTIPLET_MARGIN_HZ`] beyond its outer peaks (at least
+/// the peaks' half widths). Regions are in falling ppm, as peaks are listed.
+pub fn multiplet_regions(peaks: &[Peak], axis: &PpmAxis) -> Vec<(f64, f64)> {
+    let mhz = axis.reference_frequency_mhz;
+    if !(mhz.is_finite() && mhz > 0.0) {
+        return Vec::new();
+    }
+    let mut pos: Vec<&Peak> = peaks.iter().filter(|p| p.height > 0.0).collect();
+    pos.sort_by(|a, b| b.ppm.total_cmp(&a.ppm));
+    let gap = MULTIPLET_GAP_HZ / mhz;
+    let margin = |p: &Peak| (MULTIPLET_MARGIN_HZ / mhz).max(p.width_ppm.unwrap_or(0.0));
+    let mut out: Vec<(f64, f64)> = Vec::new();
+    let mut group: Vec<&Peak> = Vec::new();
+    let flush = |g: &mut Vec<&Peak>, out: &mut Vec<(f64, f64)>| {
+        if let (Some(hi), Some(lo)) = (g.first(), g.last()) {
+            out.push((hi.ppm + margin(hi), lo.ppm - margin(lo)));
+        }
+        g.clear();
+    };
+    for p in pos {
+        if group.last().is_some_and(|l| l.ppm - p.ppm > gap) {
+            flush(&mut group, &mut out);
+        }
+        group.push(p);
+    }
+    flush(&mut group, &mut out);
+    // regions that overlap after the margins are merged
+    let mut merged: Vec<(f64, f64)> = Vec::new();
+    for r in out {
+        match merged.last_mut() {
+            Some(m) if r.0 >= m.1 => m.1 = r.1.min(m.1),
+            _ => merged.push(r),
+        }
+    }
+    merged
+}
+
 /// Pick peaks and integrate (module docs).
 pub fn analyze(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Result<NmrReport> {
     let chosen = load(ds, info, req)?;
@@ -172,7 +218,12 @@ pub fn analyze(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Resul
         .filter(|p| p.height > 0.0)
         .max_by(|a, b| a.height.total_cmp(&b.height))
         .cloned();
-    let integrals = integrate(&s.real, &s.axis, &req.integrals, req.integral_reference);
+    let regions = if req.integrals.is_empty() && req.auto_integrals {
+        multiplet_regions(&peaks, &s.axis)
+    } else {
+        req.integrals.clone()
+    };
+    let integrals = integrate(&s.real, &s.axis, &regions, req.integral_reference);
     let trace_name = info
         .traces
         .iter()
@@ -196,4 +247,33 @@ pub fn analyze(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Resul
         integrals,
         notes: chosen.notes,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn peak(ppm: f64) -> Peak {
+        Peak {
+            ppm,
+            hz: ppm * 400.0,
+            index: 0,
+            height: 1.0,
+            width_hz: None,
+            width_ppm: None,
+            snr: None,
+        }
+    }
+
+    #[test]
+    fn multiplets_group_peaks_closer_than_15_hz() {
+        let mut axis = PpmAxis::default();
+        axis.reference_frequency_mhz = 400.0;
+        // a doublet 7 Hz apart at 7.26, a singlet at 2.10
+        let p = [peak(7.26), peak(7.26 - 7.0 / 400.0), peak(2.10)];
+        let r = multiplet_regions(&p, &axis);
+        assert_eq!(r.len(), 2);
+        assert!((r[0].0 - (7.26 + 10.0 / 400.0)).abs() < 1e-9);
+        assert!((r[1].1 - (2.10 - 10.0 / 400.0)).abs() < 1e-9);
+    }
 }

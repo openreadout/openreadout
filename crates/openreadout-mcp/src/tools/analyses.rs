@@ -171,7 +171,7 @@ impl InstrumentServer {
         name = "openreadout_nmr_peaks",
         annotations(title = "Find NMR peaks and integrals", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_signal::nmr::NmrReport>(),
-        description = "NMR peak list (ppm, height, width, S/N) and region integrals, from the vendor's processed spectrum or a spectrum processed from the FID (from=fid: group delay, apodization, zero filling, FT, phase, baseline)."
+        description = "NMR peak list (ppm, height, width, S/N) and integrals of given regions or of every multiplet (auto_integrate), from the vendor's processed spectrum or a spectrum processed from the FID (from=fid: group delay, apodization, zero filling, FT, phase, baseline)."
     )]
     pub(crate) async fn nmr_peaks(
         &self,
