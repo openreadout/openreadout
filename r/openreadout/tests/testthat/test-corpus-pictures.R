@@ -54,6 +54,20 @@ test_that("a figure renders as png, svg and pdf and saves verified", {
                class = "openreadout_usage_error")
 })
 
+test_that("one-element vectors in a plot spec, and pictures never replace their input", {
+  f <- corpus_file("softmax5-kinetic-phage-120308b.pda")
+  # auto_unbox writes these as scalars; the spec takes a single value for a list
+  fig <- openreadout_plot(data = list(file = f, wells = "A1:A3", groups = "*"),
+                          facet = "plate", column_labels = "dose", row_labels = "A")
+  expect_gt(length(fig$meta$panels), 0)
+  fig <- openreadout_plot(data = list(values = list(x = "a", y = 2)), x = list(label = "x"))
+  expect_equal(fig$data[1:4], png_magic)
+  copy <- tempfile(fileext = ".pda")
+  file.copy(f, copy)
+  expect_error(openreadout_preview(copy, file = copy, overwrite = TRUE),
+               class = "openreadout_usage_error")
+})
+
 test_that("plate growth curves lay out in plate positions", {
   fig <- openreadout_plot(data = list(file = corpus_file("softmax5-kinetic-phage-120308b.pda"),
                                       wells = "A1:H12"),
