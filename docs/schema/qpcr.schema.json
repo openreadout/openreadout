@@ -140,8 +140,6 @@
     "records",
     "cq_counts",
     "targets",
-    "relative_quantities",
-    "standard_curves",
     "notes"
   ],
   "$defs": {
@@ -382,10 +380,9 @@
         "well",
         "row",
         "col",
+        "cq",
         "cq_undetermined",
         "cq_status",
-        "tm",
-        "flags",
         "cycles"
       ]
     },
@@ -486,7 +483,11 @@
       "required": [
         "target",
         "counts",
-        "averaged"
+        "averaged",
+        "cq_mean",
+        "cq_sd",
+        "cq_min",
+        "cq_max"
       ]
     },
     "CqComparison": {
@@ -602,7 +603,14 @@
         "both_undetermined",
         "only_vendor",
         "only_ours",
-        "vendor_threshold_used"
+        "vendor_threshold_used",
+        "mean_difference",
+        "mean_abs_difference",
+        "median_abs_difference",
+        "max_abs_difference",
+        "within_0_1",
+        "within_0_5",
+        "pearson_r"
       ]
     },
     "CqMethod": {
@@ -743,8 +751,17 @@
         "replicates",
         "undetermined",
         "cq_mean",
+        "cq_sd",
         "reference_cq_mean",
-        "delta_cq"
+        "delta_cq",
+        "delta_cq_sd",
+        "delta_delta_cq",
+        "rq",
+        "rq_min",
+        "rq_max",
+        "efficiency_corrected_rq",
+        "vendor_delta_cq",
+        "vendor_rq"
       ]
     },
     "StandardCurveFit": {
@@ -819,7 +836,10 @@
         "slope",
         "intercept",
         "r2",
-        "efficiency_percent"
+        "efficiency_percent",
+        "vendor_slope",
+        "vendor_efficiency_percent",
+        "vendor_r2"
       ]
     }
   }

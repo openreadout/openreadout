@@ -121,7 +121,8 @@
       },
       "required": [
         "index",
-        "name"
+        "name",
+        "unit"
       ]
     },
     "ApSettings": {
@@ -189,7 +190,9 @@
       },
       "required": [
         "output",
-        "holding"
+        "unit",
+        "holding",
+        "epoch"
       ]
     },
     "CellFeatures": {
@@ -318,7 +321,20 @@
         }
       },
       "required": [
-        "fi_curve"
+        "resting_mv",
+        "rheobase_pa",
+        "rheobase_sweep",
+        "fi_curve",
+        "fi_slope_hz_per_pa",
+        "max_firing_rate_hz",
+        "input_resistance_mohm",
+        "tau_ms",
+        "capacitance_pf",
+        "sag_ratio",
+        "holding_current_pa",
+        "access_resistance_mohm",
+        "membrane_resistance_mohm",
+        "membrane_capacitance_pf"
       ]
     },
     "FiPoint": {
@@ -502,7 +518,19 @@
       },
       "required": [
         "sweep",
-        "spike_count"
+        "stimulus_start_s",
+        "stimulus_end_s",
+        "stimulus_pa",
+        "stimulus_mv",
+        "spike_count",
+        "spike_count_stimulus",
+        "firing_rate_hz",
+        "first_spike_latency_ms",
+        "isi_mean_ms",
+        "isi_cv",
+        "adaptation_index",
+        "half_width_mean_ms",
+        "amplitude_mean_mv"
       ]
     },
     "StepResponse": {
@@ -565,7 +593,16 @@
           ],
           "format": "double"
         }
-      }
+      },
+      "required": [
+        "baseline_mv",
+        "steady_state_mv",
+        "extreme_mv",
+        "input_resistance_mohm",
+        "tau_ms",
+        "sag_ratio",
+        "steady_fraction"
+      ]
     },
     "TestPulse": {
       "description": "Voltage-clamp test-pulse metrics (module docs).",
@@ -642,7 +679,15 @@
         }
       },
       "required": [
-        "delta_mv"
+        "delta_mv",
+        "holding_current_pa",
+        "peak_current_pa",
+        "steady_current_pa",
+        "access_resistance_mohm",
+        "membrane_resistance_mohm",
+        "total_resistance_mohm",
+        "tau_ms",
+        "capacitance_pf"
       ]
     },
     "Spike": {
@@ -765,8 +810,14 @@
         "threshold_mv",
         "threshold_from_dvdt",
         "amplitude_mv",
+        "half_width_ms",
         "rise_time_ms",
-        "upstroke_v_per_s"
+        "decay_time_ms",
+        "ahp_mv",
+        "ahp_depth_mv",
+        "upstroke_v_per_s",
+        "downstroke_v_per_s",
+        "isi_ms"
       ]
     }
   }

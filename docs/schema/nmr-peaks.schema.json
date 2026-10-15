@@ -199,6 +199,7 @@
         "steps",
         "fid_points",
         "size",
+        "apodization",
         "apodization_source",
         "group_delay_points",
         "phase_mode",
@@ -426,7 +427,10 @@
           "format": "uint",
           "minimum": 0
         }
-      }
+      },
+      "required": [
+        "spectrum_stored"
+      ]
     },
     "PpmAxis": {
       "description": "A regular chemical-shift axis: point `k` is at `first_ppm + k · step_ppm`.",
@@ -572,7 +576,10 @@
         "ppm",
         "hz",
         "index",
-        "height"
+        "height",
+        "width_hz",
+        "width_ppm",
+        "snr"
       ]
     },
     "Integral": {
@@ -613,6 +620,7 @@
         "from_ppm",
         "to_ppm",
         "value",
+        "normalized",
         "points"
       ]
     }

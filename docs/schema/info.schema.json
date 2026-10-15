@@ -1628,6 +1628,8 @@
         "wells",
         "field_count",
         "planes_expected",
+        "planes_absent",
+        "planes_missing",
         "complete"
       ]
     },
@@ -1684,7 +1686,8 @@
         "column",
         "row_index",
         "column_index",
-        "images"
+        "images",
+        "planes_missing"
       ]
     },
     "Assurance": {
