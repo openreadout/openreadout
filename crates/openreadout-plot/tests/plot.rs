@@ -23,7 +23,11 @@ fn plate(dir: &Path) -> String {
                 } else {
                     0.05 + grow
                 };
-                let (sample, role) = if c == 4 { ("Blank", "blank") } else { (if r == 0 { "lambda" } else { "HK97" }, "sample") };
+                let (sample, role) = if c == 4 {
+                    ("Blank", "blank")
+                } else {
+                    (if r == 0 { "lambda" } else { "HK97" }, "sample")
+                };
                 let _ = writeln!(s, "{row}{c},{t},{v:.4},{sample},{role}");
             }
         }
@@ -49,11 +53,26 @@ fn plate_grid_with_flags_and_blank_subtraction() {
     assert_eq!(panel.layout, "plate");
     assert_eq!(panel.facets, Some(8));
     assert_eq!(panel.x.unit.as_deref(), Some("h"));
-    let classes: Vec<_> = panel.series.iter().filter_map(|s| s.class.clone()).collect();
-    assert!(classes.contains(&"crashed".to_string()) && classes.contains(&"grew".to_string()), "{classes:?}");
+    let classes: Vec<_> = panel
+        .series
+        .iter()
+        .filter_map(|s| s.class.clone())
+        .collect();
+    assert!(
+        classes.contains(&"crashed".to_string()) && classes.contains(&"grew".to_string()),
+        "{classes:?}"
+    );
     // after subtracting the blank, row A tops out near 0.6
-    let grew = panel.series.iter().find(|s| s.class.as_deref() == Some("grew")).unwrap();
-    assert!((grew.y_range.unwrap()[1] - 0.6).abs() < 0.05, "{:?}", grew.y_range);
+    let grew = panel
+        .series
+        .iter()
+        .find(|s| s.class.as_deref() == Some("grew"))
+        .unwrap();
+    assert!(
+        (grew.y_range.unwrap()[1] - 0.6).abs() < 0.05,
+        "{:?}",
+        grew.y_range
+    );
     assert!(p.output.notes.iter().any(|n| n.contains("blank")));
     let png = p.figure.to_png(1.0).unwrap();
     assert_eq!(&png[1..4], b"PNG");
@@ -126,7 +145,10 @@ fn inline_values_and_every_output_format() {
         let w = out.output.output.unwrap();
         assert!(w.verified && w.format == ext);
         let bytes = std::fs::read(&path).unwrap();
-        assert!(bytes.windows(magic.len()).take(200).any(|x| x == magic), "{ext}");
+        assert!(
+            bytes.windows(magic.len()).take(200).any(|x| x == magic),
+            "{ext}"
+        );
         // never over an existing file without overwrite
         assert!(run(&Registry::new(), &s).is_err());
     }
@@ -136,14 +158,44 @@ fn inline_values_and_every_output_format() {
 
 #[test]
 fn helpful_errors() {
-    let e = parse_spec(json!({"data": {"values": {"x": [1], "y": [1]}}, "colour": "red"})).unwrap_err().to_string();
-    assert!(e.contains("unknown plot argument `colour`") && e.contains("annotate"), "{e}");
+    let e = parse_spec(json!({"data": {"values": {"x": [1], "y": [1]}}, "colour": "red"}))
+        .unwrap_err()
+        .to_string();
+    assert!(
+        e.contains("unknown plot argument `colour`") && e.contains("annotate"),
+        "{e}"
+    );
     let s = parse_spec(json!({"data": {"values": {"x": [1, 2], "y": [1]}}})).unwrap();
-    assert!(plot(&Registry::new(), &s).unwrap_err().to_string().contains("must match"));
-    let s = parse_spec(json!({"data": {"values": {"x": [1], "y": [1]}}, "annotate": [{"x": [1, 2], "y": [1, 2]}]})).unwrap();
-    assert!(plot(&Registry::new(), &s).unwrap_err().to_string().contains("annotate[0]"));
-    let s = parse_spec(json!({"data": {"values": {"x": [1], "y": [1]}, "color": "chartreuse-ish"}})).unwrap();
-    assert!(plot(&Registry::new(), &s).unwrap_err().to_string().contains("#RRGGBB"));
+    assert!(
+        plot(&Registry::new(), &s)
+            .unwrap_err()
+            .to_string()
+            .contains("must match")
+    );
+    let s = parse_spec(
+        json!({"data": {"values": {"x": [1], "y": [1]}}, "annotate": [{"x": [1, 2], "y": [1, 2]}]}),
+    )
+    .unwrap();
+    assert!(
+        plot(&Registry::new(), &s)
+            .unwrap_err()
+            .to_string()
+            .contains("annotate[0]")
+    );
+    let s =
+        parse_spec(json!({"data": {"values": {"x": [1], "y": [1]}, "color": "chartreuse-ish"}}))
+            .unwrap();
+    assert!(
+        plot(&Registry::new(), &s)
+            .unwrap_err()
+            .to_string()
+            .contains("#RRGGBB")
+    );
     let s = parse_spec(json!({"title": "nothing"})).unwrap();
-    assert!(plot(&Registry::new(), &s).unwrap_err().to_string().contains("nothing to plot"));
+    assert!(
+        plot(&Registry::new(), &s)
+            .unwrap_err()
+            .to_string()
+            .contains("nothing to plot")
+    );
 }

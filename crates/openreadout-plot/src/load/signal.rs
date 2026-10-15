@@ -59,15 +59,19 @@ fn abscissa(
 ) -> Result<(Quantity, Vec<f64>, Option<usize>)> {
     if let Some(a) = t.extra.get("axis").and_then(Value::as_object) {
         let num = |k: &str| a.get(k).and_then(Value::as_f64);
-        let q = Quantity::new(
-            str_of(a, "quantity").unwrap_or("x"),
-            str_of(a, "unit"),
-        );
+        let q = Quantity::new(str_of(a, "quantity").unwrap_or("x"), str_of(a, "unit"));
         if a.get("irregular").and_then(Value::as_bool) == Some(true)
             && let Some(c) = a.get("channel").and_then(Value::as_u64)
         {
             let c = c as usize;
-            let v = openreadout_core::trace::read_channels(ds, t.index, sweep, 0, n as u64, &[c as u32])?;
+            let v = openreadout_core::trace::read_channels(
+                ds,
+                t.index,
+                sweep,
+                0,
+                n as u64,
+                &[c as u32],
+            )?;
             return Ok((q, v.into_iter().next().unwrap_or_default(), Some(c)));
         }
         let first = num("first");
@@ -76,11 +80,30 @@ fn abscissa(
             (n > 1).then(|| (l - f) / (n - 1) as f64)
         });
         if let (Some(f), Some(s)) = (first, step) {
-            let q = if q.unit.as_deref().and_then(openreadout_core::trace::seconds_per_unit).is_some() {
+            let q = if q
+                .unit
+                .as_deref()
+                .and_then(openreadout_core::trace::seconds_per_unit)
+                .is_some()
+            {
                 // a time axis in minutes (chromatograms): seconds, the panel picks the unit
-                let k = q.unit.as_deref().and_then(openreadout_core::trace::seconds_per_unit).unwrap_or(1.0);
-                let name = if q.name == "x" { "time".to_string() } else { q.name.clone() };
-                let name = if name.contains("retention") { "retention time".into() } else if name == "time" { name } else { "time".into() };
+                let k = q
+                    .unit
+                    .as_deref()
+                    .and_then(openreadout_core::trace::seconds_per_unit)
+                    .unwrap_or(1.0);
+                let name = if q.name == "x" {
+                    "time".to_string()
+                } else {
+                    q.name.clone()
+                };
+                let name = if name.contains("retention") {
+                    "retention time".into()
+                } else if name == "time" {
+                    name
+                } else {
+                    "time".into()
+                };
                 return Ok((
                     Quantity::new(name, Some("s")),
                     (0..n).map(|i| (f + s * i as f64) * k).collect(),
@@ -101,7 +124,11 @@ fn abscissa(
             None,
         ));
     }
-    Ok((Quantity::new("sample", None), (0..n).map(|i| i as f64).collect(), None))
+    Ok((
+        Quantity::new("sample", None),
+        (0..n).map(|i| i as f64).collect(),
+        None,
+    ))
 }
 
 /// A channel's quantity: its name, or what its unit measures when the name is only an input
@@ -109,11 +136,15 @@ fn abscissa(
 fn signal_name(name: &str, unit: Option<&str>) -> String {
     let n = name.trim();
     let generic = {
-        let letters: String = n.chars().take_while(|c| c.is_ascii_alphabetic()).collect();
+        let letters: String = n.chars().take_while(char::is_ascii_alphabetic).collect();
         let rest = n[letters.len()..].trim();
-        matches!(letters.to_ascii_uppercase().as_str(), "IN" | "AI" | "ADC" | "CH" | "CHANNEL")
-            && !rest.is_empty()
-            && rest.chars().all(|c| c.is_ascii_digit() || c == ' ' || c == '_')
+        matches!(
+            letters.to_ascii_uppercase().as_str(),
+            "IN" | "AI" | "ADC" | "CH" | "CHANNEL"
+        ) && !rest.is_empty()
+            && rest
+                .chars()
+                .all(|c| c.is_ascii_digit() || c == ' ' || c == '_')
     };
     if !generic {
         return n.to_string();
@@ -160,7 +191,12 @@ fn trim(s: String) -> String {
 }
 
 /// Traces, sweeps and qPCR curves.
-pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show) -> Result<Vec<Series>> {
+pub(super) fn trace(
+    ctx: &mut Ctx<'_>,
+    spec: &SeriesSpec,
+    file: &str,
+    show: Show,
+) -> Result<Vec<Series>> {
     let (_, ds, info) = ctx.open(file)?;
     let (mut ds, info): (Box<dyn Dataset>, _) = if spec.process {
         let p = openreadout_signal::nmr::ProcessedNmrDataset::new(
@@ -179,10 +215,22 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
     }
     let ti = match (spec.trace, show) {
         (Some(t), _) => t,
-        (None, Show::Amplification) => pick_kind(&info, &["amplification baseline-corrected", "amplification"])
-            .ok_or_else(|| usage(format!("{file}: no amplification curves; traces: {}", trace_list(&info))))?,
-        (None, Show::Melt) => pick_kind(&info, &["melt derivative", "melt"])
-            .ok_or_else(|| usage(format!("{file}: no melt curves; traces: {}", trace_list(&info))))?,
+        (None, Show::Amplification) => pick_kind(
+            &info,
+            &["amplification baseline-corrected", "amplification"],
+        )
+        .ok_or_else(|| {
+            usage(format!(
+                "{file}: no amplification curves; traces: {}",
+                trace_list(&info)
+            ))
+        })?,
+        (None, Show::Melt) => pick_kind(&info, &["melt derivative", "melt"]).ok_or_else(|| {
+            usage(format!(
+                "{file}: no melt curves; traces: {}",
+                trace_list(&info)
+            ))
+        })?,
         _ => info.traces[0].index,
     };
     let t = info
@@ -190,7 +238,12 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
         .iter()
         .find(|t| t.index == ti)
         .cloned()
-        .ok_or_else(|| usage(format!("{file}: no trace {ti}; it has traces {}", trace_list(&info))))?;
+        .ok_or_else(|| {
+            usage(format!(
+                "{file}: no trace {ti}; it has traces {}",
+                trace_list(&info)
+            ))
+        })?;
     let overlay = t.extra.get("plot").and_then(Value::as_str) == Some("overlay");
     let sweeps: Vec<u32> = match &spec.sweep {
         Some(s) => s.to_vec(),
@@ -246,7 +299,11 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
             if show == Show::Sweeps || spec.spikes {
                 t.channels
                     .iter()
-                    .find(|c| c.unit.as_deref().is_some_and(|u| u.eq_ignore_ascii_case("mv")))
+                    .find(|c| {
+                        c.unit
+                            .as_deref()
+                            .is_some_and(|u| u.eq_ignore_ascii_case("mv"))
+                    })
                     .map_or(0, |c| c.index)
             } else {
                 0
@@ -267,7 +324,8 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
 
     // per-sweep stimulus and spikes from the patch-clamp analysis
     let mut stim: std::collections::HashMap<u32, f64> = std::collections::HashMap::new();
-    let mut spikes: std::collections::HashMap<u32, Vec<(f64, f64)>> = std::collections::HashMap::new();
+    let mut spikes: std::collections::HashMap<u32, Vec<(f64, f64)>> =
+        std::collections::HashMap::new();
     if (show == Show::Sweeps || spec.spikes) && !overlay {
         let mut o = json!({"trace": ti, "sweeps": sweeps, "max_spikes": 1_000_000});
         if let Some(c) = spec.channel {
@@ -281,7 +339,10 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
                     }
                 }
                 for sp in &r.spikes {
-                    spikes.entry(sp.sweep).or_default().push((sp.peak_time_s, sp.peak_mv));
+                    spikes
+                        .entry(sp.sweep)
+                        .or_default()
+                        .push((sp.peak_time_s, sp.peak_mv));
                 }
             }
             Ok(_) => {}
@@ -293,7 +354,8 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
     let n_total = openreadout_core::trace::sweep_samples(&t, 0) as usize;
     let mut out = Vec::new();
     for &sw in &sweeps {
-        let n_sw = (openreadout_core::trace::sweep_samples(&t, sw) as usize).max(if n_total == 0 { 0 } else { 1 });
+        let n_sw = (openreadout_core::trace::sweep_samples(&t, sw) as usize)
+            .max(usize::from(n_total != 0));
         let n_read = n_sw.min(MAX_SAMPLES);
         if n_sw > MAX_SAMPLES {
             ctx.warnings.push(format!(
@@ -348,11 +410,17 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
                 .collect();
             let yq = if overlay {
                 Quantity::new(
-                    t.extra.get("quantity").and_then(Value::as_str).unwrap_or("fluorescence"),
+                    t.extra
+                        .get("quantity")
+                        .and_then(Value::as_str)
+                        .unwrap_or("fluorescence"),
                     ch.unit.as_deref(),
                 )
             } else {
-                Quantity::new(signal_name(&ch.name, ch.unit.as_deref()), ch.unit.as_deref())
+                Quantity::new(
+                    signal_name(&ch.name, ch.unit.as_deref()),
+                    ch.unit.as_deref(),
+                )
             };
             let name = if overlay {
                 ch.name.clone()
@@ -374,8 +442,13 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
             if spec.process {
                 selector.push_str(", processed from the FID");
             }
-            let mut s = Series::new(name, Geom::Line(pts), MarkKind::Line, Source::file(file, selector))
-                .axes(xq.clone(), yq);
+            let mut s = Series::new(
+                name,
+                Geom::Line(pts),
+                MarkKind::Line,
+                Source::file(file, selector),
+            )
+            .axes(xq.clone(), yq);
             s.x_reverse = reversed_axis(&xq);
             if overlay {
                 let well = ch.extra.get("well").and_then(Value::as_str);
@@ -397,10 +470,20 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
             if let Some(sp) = spikes.get(&sw) {
                 s.callouts = sp
                     .iter()
-                    .map(|&(x, y)| Callout { x, y, text: String::new(), auto: false })
+                    .map(|&(x, y)| Callout {
+                        x,
+                        y,
+                        text: String::new(),
+                        auto: false,
+                    })
                     .collect();
                 if !s.name.contains("spike") {
-                    s.name = format!("{} · {} spike{}", s.name, sp.len(), if sp.len() == 1 { "" } else { "s" });
+                    s.name = format!(
+                        "{} · {} spike{}",
+                        s.name,
+                        sp.len(),
+                        if sp.len() == 1 { "" } else { "s" }
+                    );
                 }
             } else if spec.spikes {
                 s.name = format!("{} · 0 spikes", s.name);
@@ -412,14 +495,21 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
                 let span = p.last().map_or(0.0, |l| l.0) - p.first().map_or(0.0, |f| f.0);
                 s.callouts = top_peaks(p, n as usize, span.abs() / 40.0)
                     .into_iter()
-                    .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x), auto: true })
+                    .map(|(x, y)| Callout {
+                        x,
+                        y,
+                        text: fmt_at(&s.x, x),
+                        auto: true,
+                    })
                     .collect();
             }
             out.push(s);
         }
     }
     if (show == Show::Sweeps || spec.spikes) && spikes.is_empty() && !stim.is_empty() {
-        ctx.notes.push("no action potentials crossed the detection threshold in the sweeps drawn".into());
+        ctx.notes.push(
+            "no action potentials crossed the detection threshold in the sweeps drawn".into(),
+        );
     }
     Ok(out)
 }
@@ -444,9 +534,17 @@ fn pick_kind(info: &openreadout_core::FileInfo, kinds: &[&str]) -> Option<u32> {
 }
 
 /// Chromatograms: TIC, BPC, XICs or detector traces.
-pub(super) fn chromatogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Series>> {
+pub(super) fn chromatogram(
+    ctx: &mut Ctx<'_>,
+    spec: &SeriesSpec,
+    file: &str,
+) -> Result<Vec<Series>> {
     let mut o = json!({"max_points": 20000});
-    let mzs = spec.mz.as_ref().map(crate::spec::OneOrMany::to_vec).unwrap_or_default();
+    let mzs = spec
+        .mz
+        .as_ref()
+        .map(crate::spec::OneOrMany::to_vec)
+        .unwrap_or_default();
     if !mzs.is_empty() {
         o["mz"] = json!(mzs);
         if let Some(p) = spec.ppm {
@@ -458,7 +556,12 @@ pub(super) fn chromatogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> 
             o["channel"] = json!(c);
         }
     } else {
-        match spec.chromatogram.as_deref().map(str::to_ascii_lowercase).as_deref() {
+        match spec
+            .chromatogram
+            .as_deref()
+            .map(str::to_ascii_lowercase)
+            .as_deref()
+        {
             None | Some("tic") => o["tic"] = json!(true),
             Some("bpc") => o["bpc"] = json!(true),
             Some(other) => {
@@ -490,22 +593,39 @@ pub(super) fn chromatogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> 
             .collect();
         let xq = Quantity::new("retention time", Some("s"));
         let yq = Quantity::new("intensity", ch.intensity_unit.as_deref());
-        let mut s = Series::new(ch.label.clone(), Geom::Line(pts), MarkKind::Line, Source::file(file, ch.label.clone()))
-            .axes(xq, yq);
+        let mut s = Series::new(
+            ch.label.clone(),
+            Geom::Line(pts),
+            MarkKind::Line,
+            Source::file(file, ch.label.clone()),
+        )
+        .axes(xq, yq);
         if ch.decimated {
-            s.source.selector.push_str(" (most intense point per slice, 20000 slices)");
+            s.source
+                .selector
+                .push_str(" (most intense point per slice, 20000 slices)");
         }
         s.peaks = spec.peaks.unwrap_or(0) as usize;
         if let Some(n) = spec.peaks {
             if n == 1 {
                 if let (Some(t), Some(v)) = (ch.apex_rt_min, ch.apex_intensity) {
-                    s.callouts.push(Callout { x: t * 60.0, y: v, text: fmt_at(&s.x, t * 60.0), auto: true });
+                    s.callouts.push(Callout {
+                        x: t * 60.0,
+                        y: v,
+                        text: fmt_at(&s.x, t * 60.0),
+                        auto: true,
+                    });
                 }
             } else if let Geom::Line(p) = &s.geom {
                 let span = p.last().map_or(0.0, |l| l.0) - p.first().map_or(0.0, |f| f.0);
                 s.callouts = top_peaks(p, n as usize, span.abs() / 40.0)
                     .into_iter()
-                    .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x), auto: true })
+                    .map(|(x, y)| Callout {
+                        x,
+                        y,
+                        text: fmt_at(&s.x, x),
+                        auto: true,
+                    })
                     .collect();
             }
         }
@@ -522,8 +642,12 @@ fn apex(ctx: &mut Ctx<'_>, file: &str) -> Result<f64> {
     if let Some(&a) = ctx.apex.get(file) {
         return Ok(a);
     }
-    let AnalyzeOutput::Chromatogram(c) =
-        analyze(ctx, file, AnalyzeKind::Chromatogram, json!({"tic": true, "max_points": 10}))?
+    let AnalyzeOutput::Chromatogram(c) = analyze(
+        ctx,
+        file,
+        AnalyzeKind::Chromatogram,
+        json!({"tic": true, "max_points": 10}),
+    )?
     else {
         return Err(usage("chromatogram analysis returned something else"));
     };
@@ -542,14 +666,18 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
         None => None,
         Some(Value::Number(n)) => n.as_f64(),
         Some(Value::String(s)) if s.eq_ignore_ascii_case("apex") => Some(apex(ctx, file)?),
-        Some(Value::String(s)) => Some(s.trim().parse::<f64>().map_err(|_| {
-            usage(format!("rt `{s}`: give minutes (a number) or \"apex\""))
-        })?),
+        Some(Value::String(s)) => Some(
+            s.trim()
+                .parse::<f64>()
+                .map_err(|_| usage(format!("rt `{s}`: give minutes (a number) or \"apex\"")))?,
+        ),
         Some(other) => return Err(usage(format!("rt {other}: give minutes or \"apex\""))),
     };
     let (format, mut ds, info) = ctx.open(file)?;
     if info.spectra.is_empty() {
-        return Err(usage(format!("{file}: no mass spectra; IR/Raman/NMR spectra are traces (show=trace)")));
+        return Err(usage(format!(
+            "{file}: no mass spectra; IR/Raman/NMR spectra are traces (show=trace)"
+        )));
     }
     let scan = match (spec.scan, rt_min) {
         (Some(s), _) => s,
@@ -562,7 +690,15 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
                     rt_max_s: Some((rt + w) * 60.0),
                     ..ScanFilter::default()
                 };
-                let list = openreadout_core::scans::scan_list(ds.as_mut(), file, &format, 0, &f, 0, 100_000)?;
+                let list = openreadout_core::scans::scan_list(
+                    ds.as_mut(),
+                    file,
+                    &format,
+                    0,
+                    &f,
+                    0,
+                    100_000,
+                )?;
                 for h in &list.scans {
                     if let Some(t) = h.rt_s {
                         let d = (t / 60.0 - rt).abs();
@@ -582,8 +718,14 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
             return Err(usage("spectrum: give rt (minutes, or \"apex\") or scan"));
         }
     };
-    let sp = openreadout_core::reader::spectrum_by_scan(ds.as_mut(), 0, scan, SpectrumView::Primary)?;
-    let pts: Vec<(f64, f64)> = sp.mz.iter().copied().zip(sp.intensity.iter().map(|&v| f64::from(v))).collect();
+    let sp =
+        openreadout_core::reader::spectrum_by_scan(ds.as_mut(), 0, scan, SpectrumView::Primary)?;
+    let pts: Vec<(f64, f64)> = sp
+        .mz
+        .iter()
+        .copied()
+        .zip(sp.intensity.iter().map(|&v| f64::from(v)))
+        .collect();
     let rt_txt = sp
         .rt_s
         .map(|t| format!(" · {} min", trim(format!("{:.2}", t / 60.0))))
@@ -592,14 +734,34 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
     if sp.ms_level > 1
         && let Some(p) = sp.precursor_mz
     {
-        name.push_str(&format!(" · MS{} of {}", sp.ms_level, trim(format!("{p:.4}"))));
+        name.push_str(&format!(
+            " · MS{} of {}",
+            sp.ms_level,
+            trim(format!("{p:.4}"))
+        ));
     }
-    let mark = if sp.centroided { MarkKind::Sticks } else { MarkKind::Line };
+    let mark = if sp.centroided {
+        MarkKind::Sticks
+    } else {
+        MarkKind::Line
+    };
     let mut s = Series::new(
         name,
         Geom::Line(pts),
         mark,
-        Source::file(file, format!("scan {} (MS{}{})", sp.scan_number, sp.ms_level, if sp.centroided { ", centroid" } else { ", profile" })),
+        Source::file(
+            file,
+            format!(
+                "scan {} (MS{}{})",
+                sp.scan_number,
+                sp.ms_level,
+                if sp.centroided {
+                    ", centroid"
+                } else {
+                    ", profile"
+                }
+            ),
+        ),
     )
     .axes(Quantity::new("m/z", None), Quantity::new("intensity", None));
     s.peaks = spec.peaks.unwrap_or(0) as usize;
@@ -609,7 +771,11 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
         let span = p.last().map_or(0.0, |l| l.0) - p.first().map_or(0.0, |f| f.0);
         let base = p.iter().map(|q| q.1).fold(0.0f64, f64::max);
         let picked = if sp.centroided {
-            let mut v: Vec<(f64, f64)> = p.iter().copied().filter(|q| q.1.is_finite() && q.1 >= 0.02 * base).collect();
+            let mut v: Vec<(f64, f64)> = p
+                .iter()
+                .copied()
+                .filter(|q| q.1.is_finite() && q.1 >= 0.02 * base)
+                .collect();
             v.sort_by(|a, b| b.1.total_cmp(&a.1));
             let mut out: Vec<(f64, f64)> = Vec::new();
             for c in v {
@@ -626,13 +792,22 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
         };
         s.callouts = picked
             .into_iter()
-            .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x), auto: true })
+            .map(|(x, y)| Callout {
+                x,
+                y,
+                text: fmt_at(&s.x, x),
+                auto: true,
+            })
             .collect();
     }
     // the m/z range that holds the signal: every point above 1 % of the base peak
     if let Geom::Line(p) = &s.geom {
         let base = p.iter().map(|q| q.1).fold(0.0f64, f64::max);
-        let strong: Vec<f64> = p.iter().filter(|q| q.1 >= 0.01 * base).map(|q| q.0).collect();
+        let strong: Vec<f64> = p
+            .iter()
+            .filter(|q| q.1 >= 0.01 * base)
+            .map(|q| q.0)
+            .collect();
         if let (Some(&a), Some(&b)) = (
             strong.iter().min_by(|a, b| a.total_cmp(b)),
             strong.iter().max_by(|a, b| a.total_cmp(b)),
@@ -660,21 +835,35 @@ pub(super) fn fi(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec
         return Err(usage(format!(
             "{file}: no f–I curve (clamp mode {}, {} sweeps with a depolarising current step found)",
             r.clamp_mode,
-            r.sweeps.iter().filter(|s| s.stimulus_pa.is_some_and(|p| p > 0.0)).count()
+            r.sweeps
+                .iter()
+                .filter(|s| s.stimulus_pa.is_some_and(|p| p > 0.0))
+                .count()
         )));
     }
     let rate = match spec.y.as_deref() {
         None | Some("spike_count" | "count" | "spikes") => false,
         Some("rate_hz" | "rate" | "firing_rate_hz") => true,
         Some(other) => {
-            return Err(usage(format!("f–I y `{other}`: spike_count (default) or rate_hz")));
+            return Err(usage(format!(
+                "f–I y `{other}`: spike_count (default) or rate_hz"
+            )));
         }
     };
     let pts: Vec<(f64, f64)> = r
         .cell
         .fi_curve
         .iter()
-        .map(|p| (p.current_pa, if rate { p.rate_hz } else { p.spike_count as f64 }))
+        .map(|p| {
+            (
+                p.current_pa,
+                if rate {
+                    p.rate_hz
+                } else {
+                    p.spike_count as f64
+                },
+            )
+        })
         .collect();
     let stim_s = r
         .sweeps
@@ -700,13 +889,23 @@ pub(super) fn fi(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec
         notes.push(format!("f–I slope {} Hz/pA", trim(format!("{sl:.3}"))));
     }
     if !notes.is_empty() {
-        ctx.notes.push(format!("{}: {}", super::file_label(file), notes.join(", ")));
+        ctx.notes
+            .push(format!("{}: {}", super::file_label(file), notes.join(", ")));
     }
     let s = Series::new(
         "f–I",
-        Geom::Points { pts, err: Vec::new() },
+        Geom::Points {
+            pts,
+            err: Vec::new(),
+        },
         MarkKind::LinePoints,
-        Source::file(file, format!("ephys features, trace {}, channel {} ({}), f–I over depolarising steps", r.trace, r.channel.index, r.channel.name)),
+        Source::file(
+            file,
+            format!(
+                "ephys features, trace {}, channel {} ({}), f–I over depolarising steps",
+                r.trace, r.channel.index, r.channel.name
+            ),
+        ),
     )
     .axes(Quantity::new("injected current", Some("pA")), yq);
     let _ = Path::new(file);

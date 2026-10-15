@@ -30,7 +30,11 @@ impl Ink {
             } else {
                 theme.line_width
             },
-            dot: if small { (short / 30.0).clamp(2.5, 5.0) } else { theme.font_size * 0.42 },
+            dot: if small {
+                (short / 30.0).clamp(2.5, 5.0)
+            } else {
+                theme.font_size * 0.42
+            },
             small,
             fills: 1,
         }
@@ -50,7 +54,13 @@ fn line_stroke(s: &Series, theme: &Theme, ink: Ink, n_many: usize) -> Stroke {
         Weight::Context => Stroke::new(c, ink.line * 0.85).round(),
         Weight::Many => {
             // many overlapping lines: thinner and see-through, more so the more there are
-            let a = if ink.small { 0.95 } else if n_many > 40 { 0.45 } else { 0.6 };
+            let a = if ink.small {
+                0.95
+            } else if n_many > 40 {
+                0.45
+            } else {
+                0.6
+            };
             Stroke::new(c.alpha(a), ink.line * if ink.small { 1.0 } else { 0.8 }).round()
         }
     }
@@ -59,10 +69,14 @@ fn line_stroke(s: &Series, theme: &Theme, ink: Ink, n_many: usize) -> Stroke {
 /// Pixel points of a line, reduced to a min/max envelope when denser than the panel.
 fn line_px(p: &Panel, pts: &[(f64, f64)]) -> Vec<(f32, f32)> {
     let cols = (p.rect.w.max(1.0) * 1.5) as usize;
-    let monotone = pts.windows(2).all(|w| w[1].0 >= w[0].0) || pts.windows(2).all(|w| w[1].0 <= w[0].0);
+    let monotone =
+        pts.windows(2).all(|w| w[1].0 >= w[0].0) || pts.windows(2).all(|w| w[1].0 <= w[0].0);
     if pts.len() > cols * 3 && monotone {
         let d = p.x_domain();
-        let (x0, x1) = (pts.first().map_or(d.lo, |q| q.0), pts.last().map_or(d.hi, |q| q.0));
+        let (x0, x1) = (
+            pts.first().map_or(d.lo, |q| q.0),
+            pts.last().map_or(d.hi, |q| q.0),
+        );
         let (x0, x1) = (x0.min(x1), x0.max(x1));
         let mut env = Envelope::new(cols, x0, x1);
         for &(x, y) in pts {
@@ -90,7 +104,9 @@ pub(crate) fn draw_series(
     let clip = Some(p.rect);
     match (&s.geom, s.mark) {
         (Geom::Line(pts), MarkKind::Sticks) => {
-            let base = p.y.px(0.0_f64.max(p.y_domain().lo)).unwrap_or(p.rect.bottom());
+            let base =
+                p.y.px(0.0_f64.max(p.y_domain().lo))
+                    .unwrap_or(p.rect.bottom());
             let mut path = Path::new();
             for &(x, y) in pts {
                 if let Some((px, py)) = p.pt(x, y) {
@@ -98,16 +114,30 @@ pub(crate) fn draw_series(
                     path.line_to(px, py);
                 }
             }
-            fig.shape(path, None, Some(Stroke::new(c, (ink.line * 0.7).max(1.0))), clip);
+            fig.shape(
+                path,
+                None,
+                Some(Stroke::new(c, (ink.line * 0.7).max(1.0))),
+                clip,
+            );
         }
         (Geom::Line(pts), MarkKind::Area) => {
             let base = 0.0_f64.max(p.y_domain().lo);
-            p.fill_to(fig, pts, base, c.alpha(fill_alpha(ink.fills) * if s.weight == Weight::Main { 1.0 } else { 0.6 }));
+            p.fill_to(
+                fig,
+                pts,
+                base,
+                c.alpha(fill_alpha(ink.fills) * if s.weight == Weight::Main { 1.0 } else { 0.6 }),
+            );
             p.line_px(fig, line_px(p, pts), Stroke::new(c, ink.line * 0.9));
         }
         (Geom::Line(pts), MarkKind::Points | MarkKind::LinePoints) => {
             if s.mark == MarkKind::LinePoints {
-                p.line_px(fig, line_px(p, pts), Stroke::new(c.alpha(0.7), ink.line * 0.8));
+                p.line_px(
+                    fig,
+                    line_px(p, pts),
+                    Stroke::new(c.alpha(0.7), ink.line * 0.8),
+                );
             }
             p.markers(fig, pts.iter().copied(), &Marker::dot(c, ink.dot));
         }
@@ -128,7 +158,11 @@ pub(crate) fn draw_series(
         (Geom::Points { pts, err }, MarkKind::Bars) => {
             let mut xs: Vec<f64> = pts.iter().map(|q| q.0).collect();
             xs.sort_by(f64::total_cmp);
-            let gap = xs.windows(2).map(|w| w[1] - w[0]).filter(|d| *d > 0.0).fold(f64::INFINITY, f64::min);
+            let gap = xs
+                .windows(2)
+                .map(|w| w[1] - w[0])
+                .filter(|d| *d > 0.0)
+                .fold(f64::INFINITY, f64::min);
             let w = if gap.is_finite() { gap * 0.68 } else { 1.0 };
             p.bars(fig, pts, w, 0.0, c);
             error_bars(fig, p, theme, pts, err, ink);
@@ -136,28 +170,47 @@ pub(crate) fn draw_series(
         }
         (Geom::Points { pts, err }, m) => {
             if m == MarkKind::LinePoints || m == MarkKind::Line {
-                p.line(fig, pts.iter().copied(), Stroke::new(c.alpha(0.75), ink.line * 0.85).round());
+                p.line(
+                    fig,
+                    pts.iter().copied(),
+                    Stroke::new(c.alpha(0.75), ink.line * 0.85).round(),
+                );
             }
             error_bars(fig, p, theme, pts, err, ink);
             if m != MarkKind::Line {
                 let mk = Marker {
                     shape: Shape::Circle,
-                    size: if s.weight == Weight::Many { ink.dot * 0.75 } else { ink.dot },
+                    size: if s.weight == Weight::Many {
+                        ink.dot * 0.75
+                    } else {
+                        ink.dot
+                    },
                     fill: Some(c),
                     stroke: Some(Stroke::new(theme.paper, (ink.dot * 0.18).max(1.0))),
                 };
                 p.markers(fig, pts.iter().copied(), &mk);
             }
         }
-        (Geom::Bars { cats: bc, vals, err }, _) => {
+        (
+            Geom::Bars {
+                cats: bc,
+                vals,
+                err,
+            },
+            _,
+        ) => {
             let (k, m) = dodge.unwrap_or((0, 1));
-            let per_unit = (p.x.px(1.0).unwrap_or(1.0) - p.x.px(0.0).unwrap_or(0.0)).abs().max(1e-3);
+            let per_unit = (p.x.px(1.0).unwrap_or(1.0) - p.x.px(0.0).unwrap_or(0.0))
+                .abs()
+                .max(1e-3);
             // bars of a group sit side by side; no bar is wider than about five letters
             let slot = (0.72 / m as f64).min(f64::from(theme.font_size * 6.2 / per_unit));
             let mut pts = Vec::new();
             let mut errs = Vec::new();
             for (i, name) in bc.iter().enumerate() {
-                let Some(ci) = cats.iter().position(|x| x == name) else { continue };
+                let Some(ci) = cats.iter().position(|x| x == name) else {
+                    continue;
+                };
                 let x = ci as f64 - slot * m as f64 / 2.0 + slot * (k as f64 + 0.5);
                 let v = vals.get(i).copied().unwrap_or(f64::NAN);
                 if v.is_finite() {
@@ -185,7 +238,14 @@ fn fill_alpha(n: usize) -> f32 {
     }
 }
 
-fn error_bars(fig: &mut Figure, p: &Panel, theme: &Theme, pts: &[(f64, f64)], err: &[f64], ink: Ink) {
+fn error_bars(
+    fig: &mut Figure,
+    p: &Panel,
+    theme: &Theme,
+    pts: &[(f64, f64)],
+    err: &[f64],
+    ink: Ink,
+) {
     let st = Stroke::new(theme.muted, theme.hairline().max(ink.line * 0.6));
     let cap = ink.dot * 0.6;
     for (i, &(x, y)) in pts.iter().enumerate() {
@@ -194,7 +254,12 @@ fn error_bars(fig: &mut Figure, p: &Panel, theme: &Theme, pts: &[(f64, f64)], er
             continue;
         }
         if let (Some(px), Some(a), Some(b)) = (p.x.px(x), p.y.px(y - e), p.y.px(y + e)) {
-            fig.shape(Path::segment(px, a, px, b), None, Some(st.clone()), Some(p.rect));
+            fig.shape(
+                Path::segment(px, a, px, b),
+                None,
+                Some(st.clone()),
+                Some(p.rect),
+            );
             fig.line(px - cap, a, px + cap, a, st.clone());
             fig.line(px - cap, b, px + cap, b, st.clone());
         }
@@ -243,17 +308,28 @@ fn blur(v: &[f32], w: usize, h: usize) -> Vec<f32> {
 
 /// All event series of a panel as one picture: a density of every series, in its colour,
 /// over the panel background.
-pub(crate) fn events_layer(fig: &mut Figure, p: &Panel, theme: &Theme, series: &[&Series], scale: f32) {
+pub(crate) fn events_layer(
+    fig: &mut Figure,
+    p: &Panel,
+    theme: &Theme,
+    series: &[&Series],
+    scale: f32,
+) {
     let w = ((p.rect.w * scale).round() as u32).max(1);
     let h = ((p.rect.h * scale).round() as u32).max(1);
     let bg = theme.paper;
     let mut r = Raster::new(w, h, bg.to_rgb());
-    let mut acc: Vec<[f32; 3]> = vec![[f32::from(bg.r), f32::from(bg.g), f32::from(bg.b)]; (w * h) as usize];
+    let mut acc: Vec<[f32; 3]> =
+        vec![[f32::from(bg.r), f32::from(bg.g), f32::from(bg.b)]; (w * h) as usize];
     for s in series {
-        let Geom::Events { x, y } = &s.geom else { continue };
+        let Geom::Events { x, y } = &s.geom else {
+            continue;
+        };
         let mut counts = vec![0f32; (w * h) as usize];
         for (&a, &b) in x.iter().zip(y) {
-            let (Some(px), Some(py)) = (p.x.px(a), p.y.px(b)) else { continue };
+            let (Some(px), Some(py)) = (p.x.px(a), p.y.px(b)) else {
+                continue;
+            };
             let cx = ((px - p.rect.x) * scale).floor();
             let cy = ((py - p.rect.y) * scale).floor();
             if cx < 0.0 || cy < 0.0 || cx >= w as f32 || cy >= h as f32 {
@@ -277,7 +353,11 @@ pub(crate) fn events_layer(fig: &mut Figure, p: &Panel, theme: &Theme, series: &
             }
             // log density: single events stay visible, dense cores saturate
             let t = ((n + 1.0).ln() / lmax).clamp(0.0, 1.0);
-            let a = (if context { 0.22 + 0.5 * t } else { 0.3 + 0.7 * t }) * (n / 0.35).min(1.0);
+            let a = (if context {
+                0.22 + 0.5 * t
+            } else {
+                0.3 + 0.7 * t
+            }) * (n / 0.35).min(1.0);
             let px = &mut acc[k];
             for i in 0..3 {
                 px[i] = px[i] * (1.0 - a) + target[i] * a;

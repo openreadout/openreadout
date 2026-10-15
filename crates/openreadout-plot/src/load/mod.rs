@@ -74,7 +74,11 @@ pub(crate) fn load(ctx: &mut Ctx<'_>, spec: &SeriesSpec) -> Result<Vec<Series>> 
     if let Some(t) = &spec.table {
         return table::table(ctx, spec, t);
     }
-    let files = spec.file.as_ref().map(crate::spec::OneOrMany::to_vec).unwrap_or_default();
+    let files = spec
+        .file
+        .as_ref()
+        .map(crate::spec::OneOrMany::to_vec)
+        .unwrap_or_default();
     if files.is_empty() {
         return Err(usage("`file` is an empty list"));
     }
@@ -157,9 +161,10 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     }
     // a long plate CSV (`well`, `value`, maybe `time_s` and layout columns) is a plate
     let p = Path::new(file);
-    let text_ext = p.extension().and_then(|e| e.to_str()).is_some_and(|e| {
-        matches!(e.to_ascii_lowercase().as_str(), "csv" | "tsv" | "txt")
-    });
+    let text_ext = p
+        .extension()
+        .and_then(|e| e.to_str())
+        .is_some_and(|e| matches!(e.to_ascii_lowercase().as_str(), "csv" | "tsv" | "txt"));
     if text_ext
         && let Ok(head) = std::fs::File::open(p).and_then(|f| {
             let mut b = Vec::new();
@@ -199,7 +204,11 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
         return Ok(Show::Wells);
     }
     if !info.traces.is_empty() {
-        return Ok(if spec.spikes { Show::Sweeps } else { Show::Trace });
+        return Ok(if spec.spikes {
+            Show::Sweeps
+        } else {
+            Show::Trace
+        });
     }
     if plate {
         return Ok(Show::Wells);
@@ -252,7 +261,9 @@ pub(crate) fn top_peaks(pts: &[(f64, f64)], n: usize, min_sep: f64) -> Vec<(f64,
         .iter()
         .map(|p| p.1)
         .filter(|v| v.is_finite())
-        .fold((f64::INFINITY, f64::NEG_INFINITY), |a, v| (a.0.min(v), a.1.max(v)));
+        .fold((f64::INFINITY, f64::NEG_INFINITY), |a, v| {
+            (a.0.min(v), a.1.max(v))
+        });
     let floor = 0.03 * (hi - lo);
     let w = (pts.len() / 100).max(3);
     let mut cand: Vec<(f64, f64)> = Vec::new();
@@ -266,8 +277,14 @@ pub(crate) fn top_peaks(pts: &[(f64, f64)], n: usize, min_sep: f64) -> Vec<(f64,
         if !(y >= left && y > right || (y > left && y >= right)) {
             continue;
         }
-        let lmin = pts[i.saturating_sub(w)..i].iter().map(|p| p.1).fold(f64::INFINITY, f64::min);
-        let rmin = pts[i + 1..(i + 1 + w).min(pts.len())].iter().map(|p| p.1).fold(f64::INFINITY, f64::min);
+        let lmin = pts[i.saturating_sub(w)..i]
+            .iter()
+            .map(|p| p.1)
+            .fold(f64::INFINITY, f64::min);
+        let rmin = pts[i + 1..(i + 1 + w).min(pts.len())]
+            .iter()
+            .map(|p| p.1)
+            .fold(f64::INFINITY, f64::min);
         if y - lmin.max(rmin) >= floor {
             cand.push(pts[i]);
         }
@@ -298,7 +315,10 @@ mod tests {
         let pts: Vec<(f64, f64)> = (0..100)
             .map(|i| {
                 let x = f64::from(i);
-                (x, (-(x - 20.0).powi(2) / 4.0).exp() + 0.5 * (-(x - 70.0).powi(2) / 4.0).exp())
+                (
+                    x,
+                    (-(x - 20.0).powi(2) / 4.0).exp() + 0.5 * (-(x - 70.0).powi(2) / 4.0).exp(),
+                )
             })
             .collect();
         let p = top_peaks(&pts, 2, 5.0);

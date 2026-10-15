@@ -30,8 +30,7 @@ impl Quantity {
     }
 
     pub fn is_time(&self) -> bool {
-        self.unit.as_deref() == Some("s")
-            && matches!(self.name.as_str(), "time" | "retention time")
+        self.unit.as_deref() == Some("s") && matches!(self.name.as_str(), "time" | "retention time")
     }
 
     /// `name (unit)`.
@@ -65,7 +64,11 @@ pub(crate) enum Geom {
     /// Points, with optional error half-widths (same length, or empty).
     Points { pts: Vec<(f64, f64)>, err: Vec<f64> },
     /// Bars over named categories, with optional error half-widths.
-    Bars { cats: Vec<String>, vals: Vec<f64>, err: Vec<f64> },
+    Bars {
+        cats: Vec<String>,
+        vals: Vec<f64>,
+        err: Vec<f64>,
+    },
     /// Events: two parameters per event.
     Events { x: Vec<f64>, y: Vec<f64> },
     /// Values to bin into a histogram.

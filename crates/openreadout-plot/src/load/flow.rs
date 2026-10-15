@@ -3,7 +3,9 @@
 use std::path::{Path, PathBuf};
 
 use openreadout_core::Result;
-use openreadout_fcs::analysis::{CompensationChoice, TableOptions, TransformChoice, processed_rows};
+use openreadout_fcs::analysis::{
+    CompensationChoice, TableOptions, TransformChoice, processed_rows,
+};
 use openreadout_fcs::gating::Prepared;
 
 use super::{Ctx, usage};
@@ -123,7 +125,9 @@ fn superscript(n: i32) -> String {
 /// linear for scatter and time.
 fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
     let name = r.names[i].clone();
-    let label = r.labels[i].clone().filter(|l| !l.trim().is_empty() && *l != name);
+    let label = r.labels[i]
+        .clone()
+        .filter(|l| !l.trim().is_empty() && *l != name);
     let display = match &label {
         Some(l) => format!("{name} · {l}"),
         None => name.clone(),
@@ -165,7 +169,9 @@ fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
         .max(1.0);
     let decades = top.log10().ceil().clamp(3.0, 7.0);
     let t_top = 10f64.powf(decades);
-    let spec_str = if wanted.contains(':') || !matches!(wanted.as_str(), "logicle" | "arcsinh" | "asinh" | "log") {
+    let spec_str = if wanted.contains(':')
+        || !matches!(wanted.as_str(), "logicle" | "arcsinh" | "asinh" | "log")
+    {
         wanted.clone()
     } else {
         match wanted.as_str() {
@@ -175,7 +181,9 @@ fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
         }
     };
     let t = openreadout_fcs::analysis::parse_transform_spec(&spec_str)?;
-    let prep: Prepared = t.prepare().map_err(|e| usage(format!("transform {spec_str}: {e}")))?;
+    let prep: Prepared = t
+        .prepare()
+        .map_err(|e| usage(format!("transform {spec_str}: {e}")))?;
     let values: Vec<f64> = raw.iter().map(|&v| prep.apply(v)).collect();
     let mut ticks = Vec::new();
     if wanted != "log" {
@@ -205,7 +213,9 @@ fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
 
 pub(super) fn events(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Series>> {
     let (Some(xn), Some(yn)) = (&spec.x, &spec.y) else {
-        return Err(usage("FCS events need x and y (parameter names, $PnN or $PnS)"));
+        return Err(usage(
+            "FCS events need x and y (parameter names, $PnN or $PnS)",
+        ));
     };
     let r = read(file, spec)?;
     let xi = find(&r, xn, file)?;
@@ -235,8 +245,15 @@ pub(super) fn events(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
     let yq = Quantity::new(py.label.clone(), None);
     let mut out = Vec::new();
     let mut base = Series::new(
-        if spec.populations.is_empty() { "events".to_string() } else { "all events".to_string() },
-        Geom::Events { x: px.values.clone(), y: py.values.clone() },
+        if spec.populations.is_empty() {
+            "events".to_string()
+        } else {
+            "all events".to_string()
+        },
+        Geom::Events {
+            x: px.values.clone(),
+            y: py.values.clone(),
+        },
         MarkKind::Density,
         Source::file(file, base_src.clone()),
     )
@@ -259,8 +276,16 @@ pub(super) fn events(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
                 ys.push(py.values[j]);
             }
         }
-        let leaf = path.rsplit('/').find(|s| !s.is_empty()).unwrap_or(path).to_string();
-        let pct = if n > 0 { 100.0 * xs.len() as f64 / n as f64 } else { 0.0 };
+        let leaf = path
+            .rsplit('/')
+            .find(|s| !s.is_empty())
+            .unwrap_or(path)
+            .to_string();
+        let pct = if n > 0 {
+            100.0 * xs.len() as f64 / n as f64
+        } else {
+            0.0
+        };
         let mut s = Series::new(
             format!("{leaf} ({pct:.1}% of events)"),
             Geom::Events { x: xs, y: ys },
@@ -281,7 +306,10 @@ pub(super) fn histogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Res
         let list: Vec<&String> = r.names.iter().filter(|n| !n.starts_with("gate:")).collect();
         return Err(usage(format!(
             "{file}: give x, the parameter to plot (y too for a dot plot); parameters: {}",
-            list.iter().map(|s| s.as_str()).collect::<Vec<_>>().join(", ")
+            list.iter()
+                .map(|s| s.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
         )));
     };
     let r = read(file, spec)?;
@@ -307,7 +335,11 @@ pub(super) fn histogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Res
     } else {
         pops.iter()
             .map(|(k, p)| {
-                let leaf = p.rsplit('/').find(|s| !s.is_empty()).unwrap_or(p).to_string();
+                let leaf = p
+                    .rsplit('/')
+                    .find(|s| !s.is_empty())
+                    .unwrap_or(p)
+                    .to_string();
                 let v: Vec<f64> = r.columns[*k]
                     .iter()
                     .zip(&px.values)
@@ -323,9 +355,18 @@ pub(super) fn histogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Res
             name.clone(),
             Geom::Hist(v),
             MarkKind::Area,
-            Source::file(file, format!("{} histogram ({}), population {name}", px.name, px.transform)),
+            Source::file(
+                file,
+                format!(
+                    "{} histogram ({}), population {name}",
+                    px.name, px.transform
+                ),
+            ),
         )
-        .axes(Quantity::new(px.label.clone(), None), Quantity::new("events", None));
+        .axes(
+            Quantity::new(px.label.clone(), None),
+            Quantity::new("events", None),
+        );
         s.x_ticks.clone_from(&px.ticks);
         out.push(s);
     }

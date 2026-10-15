@@ -80,15 +80,23 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
             .unwrap_or(&plate.reads[0])
             .clone(),
         Some(s) => {
-            let by_num = s.trim().parse::<u32>().ok().and_then(|n| plate.reads.iter().find(|r| r.number == n));
-            let by_label = plate.reads.iter().find(|r| r.label.eq_ignore_ascii_case(s)).or_else(|| {
-                let m: Vec<_> = plate
-                    .reads
-                    .iter()
-                    .filter(|r| r.label.to_lowercase().contains(&s.to_lowercase()))
-                    .collect();
-                (m.len() == 1).then(|| m[0])
-            });
+            let by_num = s
+                .trim()
+                .parse::<u32>()
+                .ok()
+                .and_then(|n| plate.reads.iter().find(|r| r.number == n));
+            let by_label = plate
+                .reads
+                .iter()
+                .find(|r| r.label.eq_ignore_ascii_case(s))
+                .or_else(|| {
+                    let m: Vec<_> = plate
+                        .reads
+                        .iter()
+                        .filter(|r| r.label.to_lowercase().contains(&s.to_lowercase()))
+                        .collect();
+                    (m.len() == 1).then(|| m[0])
+                });
             by_num.or(by_label).cloned().ok_or_else(|| {
                 usage(format!(
                     "read `{s}` not found; reads: {}",
@@ -110,7 +118,9 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
             .or_default()
             .push((o.time_s.unwrap_or(f64::NAN), o.value));
     }
-    let kinetic = by_well.values().any(|v| v.len() > 1 && v.iter().all(|p| p.0.is_finite()));
+    let kinetic = by_well
+        .values()
+        .any(|v| v.len() > 1 && v.iter().all(|p| p.0.is_finite()));
     let mut wells: Vec<Well> = Vec::new();
     for (pos, mut pts) in by_well {
         pts.sort_by(|a, b| a.0.total_cmp(&b.0));
@@ -137,8 +147,12 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         seen
     };
     // plate size and row groups for a plate facet
-    let rows = plate.rows.max(wells.iter().map(|w| w.pos.0 + 1).max().unwrap_or(0));
-    let cols = plate.cols.max(wells.iter().map(|w| w.pos.1 + 1).max().unwrap_or(0));
+    let rows = plate
+        .rows
+        .max(wells.iter().map(|w| w.pos.0 + 1).max().unwrap_or(0));
+    let cols = plate
+        .cols
+        .max(wells.iter().map(|w| w.pos.1 + 1).max().unwrap_or(0));
     let row_groups = (0..rows)
         .map(|r| {
             let gs: BTreeSet<&String> = wells
@@ -149,12 +163,20 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
             (gs.len() == 1).then(|| (*gs.iter().next().unwrap_or(&&String::new())).clone())
         })
         .collect();
-    ctx.plate = Some(PlateHints { rows, cols, row_groups });
+    ctx.plate = Some(PlateHints {
+        rows,
+        cols,
+        row_groups,
+    });
 
     // subtraction
     let subtract = spec.subtract.unwrap_or(Subtract::None);
     if subtract == Subtract::Blank {
-        let blanks: Vec<Vec<(f64, f64)>> = wells.iter().filter(|w| w.blank).map(|w| w.pts.clone()).collect();
+        let blanks: Vec<Vec<(f64, f64)>> = wells
+            .iter()
+            .filter(|w| w.blank)
+            .map(|w| w.pts.clone())
+            .collect();
         if blanks.is_empty() {
             return Err(usage(format!(
                 "{file}: subtract=blank needs blank wells, and the plate's layout has none (subtract=first takes each well's first reading instead)"
@@ -163,8 +185,17 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         let n = blanks.iter().map(Vec::len).max().unwrap_or(0);
         let mean: Vec<f64> = (0..n)
             .map(|k| {
-                let v: Vec<f64> = blanks.iter().filter_map(|w| w.get(k)).map(|p| p.1).filter(|v| v.is_finite()).collect();
-                if v.is_empty() { f64::NAN } else { v.iter().sum::<f64>() / v.len() as f64 }
+                let v: Vec<f64> = blanks
+                    .iter()
+                    .filter_map(|w| w.get(k))
+                    .map(|p| p.1)
+                    .filter(|v| v.is_finite())
+                    .collect();
+                if v.is_empty() {
+                    f64::NAN
+                } else {
+                    v.iter().sum::<f64>() / v.len() as f64
+                }
             })
             .collect();
         for w in &mut wells {
@@ -196,7 +227,11 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
             if !groups.iter().any(|x| glob(g, x)) {
                 return Err(usage(format!(
                     "no layout group matches `{g}`; the plate's groups are: {}",
-                    if groups.is_empty() { "none (the file stores no layout)".to_string() } else { groups.join(", ") }
+                    if groups.is_empty() {
+                        "none (the file stores no layout)".to_string()
+                    } else {
+                        groups.join(", ")
+                    }
                 )));
             }
         }
@@ -208,7 +243,10 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
             return false;
         }
         if !spec.groups.is_empty() {
-            return w.group.as_ref().is_some_and(|g| spec.groups.iter().any(|p| glob(p, g)));
+            return w
+                .group
+                .as_ref()
+                .is_some_and(|g| spec.groups.iter().any(|p| glob(p, g)));
         }
         true
     };
@@ -218,7 +256,9 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         Some("well" | "wells") => false,
         Some("group" | "groups") => true,
         Some(other) => {
-            return Err(usage(format!("plate `by` is `well` or `group`, not `{other}`")));
+            return Err(usage(format!(
+                "plate `by` is `well` or `group`, not `{other}`"
+            )));
         }
     };
     let wells: Vec<Well> = wells
@@ -233,8 +273,12 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
     let unit = read.unit.as_deref();
     let yname = {
         let base = match (read.mode.as_deref(), plate_wavelength(&plate, read.number)) {
-            (Some(m), Some(wl)) if m.to_lowercase().contains("absorb") => format!("absorbance {wl:.0} nm"),
-            (_, Some(wl)) if read.label.trim().is_empty() || read.label.starts_with("Plate") => format!("{wl:.0} nm"),
+            (Some(m), Some(wl)) if m.to_lowercase().contains("absorb") => {
+                format!("absorbance {wl:.0} nm")
+            }
+            (_, Some(wl)) if read.label.trim().is_empty() || read.label.starts_with("Plate") => {
+                format!("{wl:.0} nm")
+            }
             _ if read.label.trim().is_empty() => "value".to_string(),
             _ => read.label.clone(),
         };
@@ -251,14 +295,21 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         (None, false) => format!("groups {}", spec.groups.join(", ")),
         (None, true) => "all wells".to_string(),
     };
-    let src = |extra: &str| Source::file(file, format!("read {} ({}), {sel_txt}{extra}", read.number, read.label));
+    let src = |extra: &str| {
+        Source::file(
+            file,
+            format!("read {} ({}), {sel_txt}{extra}", read.number, read.label),
+        )
+    };
 
     // classes for colouring
     let span = wells
         .iter()
         .flat_map(|w| w.pts.iter().map(|p| p.0))
         .filter(|t| t.is_finite())
-        .fold((f64::INFINITY, f64::NEG_INFINITY), |a, t| (a.0.min(t), a.1.max(t)));
+        .fold((f64::INFINITY, f64::NEG_INFINITY), |a, t| {
+            (a.0.min(t), a.1.max(t))
+        });
     let shown_unit = ctx
         .x_unit
         .as_deref()
@@ -270,9 +321,21 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
     if !by_group && !kinetic {
         // endpoint values: one bar per well
         let cats: Vec<String> = wells.iter().map(|w| well_name(w.pos.0, w.pos.1)).collect();
-        let vals: Vec<f64> = wells.iter().map(|w| w.pts.first().map_or(f64::NAN, |p| p.1)).collect();
-        let mut s = Series::new(read.label.clone(), Geom::Bars { cats: cats.clone(), vals, err: Vec::new() }, MarkKind::Bars, src(""))
-            .axes(Quantity::new("well", None), yq);
+        let vals: Vec<f64> = wells
+            .iter()
+            .map(|w| w.pts.first().map_or(f64::NAN, |p| p.1))
+            .collect();
+        let mut s = Series::new(
+            read.label.clone(),
+            Geom::Bars {
+                cats: cats.clone(),
+                vals,
+                err: Vec::new(),
+            },
+            MarkKind::Bars,
+            src(""),
+        )
+        .axes(Quantity::new("well", None), yq);
         s.x_cats = Some(cats);
         return Ok(vec![s]);
     }
@@ -280,11 +343,20 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         let many = wells.len() > 12;
         for w in &wells {
             let name = well_name(w.pos.0, w.pos.1);
-            let mut s = Series::new(name.clone(), Geom::Line(w.pts.clone()), MarkKind::Line, src(""))
-                .axes(xq.clone(), yq.clone());
+            let mut s = Series::new(
+                name.clone(),
+                Geom::Line(w.pts.clone()),
+                MarkKind::Line,
+                src(""),
+            )
+            .axes(xq.clone(), yq.clone());
             s.facet = Some(name);
             s.well = Some(w.pos);
-            s.class = if w.blank { Some("blank".to_string()) } else { class_of(w) };
+            s.class = if w.blank {
+                Some("blank".to_string())
+            } else {
+                class_of(w)
+            };
             s.weight = if w.blank {
                 Weight::Context
             } else if many {
@@ -319,14 +391,15 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
     }
     if kinetic {
         for g in &order {
-            let members: Vec<&Well> = wells
-                .iter()
-                .filter(|w| key_of(w) == *g)
-                .collect();
+            let members: Vec<&Well> = wells.iter().filter(|w| key_of(w) == *g).collect();
             let n = members.iter().map(|w| w.pts.len()).max().unwrap_or(0);
             let mut band = Vec::with_capacity(n);
             for k in 0..n {
-                let pts: Vec<(f64, f64)> = members.iter().filter_map(|w| w.pts.get(k)).copied().collect();
+                let pts: Vec<(f64, f64)> = members
+                    .iter()
+                    .filter_map(|w| w.pts.get(k))
+                    .copied()
+                    .collect();
                 let ts: Vec<f64> = pts.iter().map(|p| p.0).filter(|v| v.is_finite()).collect();
                 let vs: Vec<f64> = pts.iter().map(|p| p.1).filter(|v| v.is_finite()).collect();
                 if ts.is_empty() || vs.is_empty() {
@@ -340,7 +413,11 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
                 g.clone(),
                 Geom::Band(band),
                 MarkKind::Line,
-                src(&format!(", group {g}: mean{} of {} wells", spread_txt(spread), members.len())),
+                src(&format!(
+                    ", group {g}: mean{} of {} wells",
+                    spread_txt(spread),
+                    members.len()
+                )),
             )
             .axes(xq.clone(), yq.clone());
             s.facet = Some(g.clone());
@@ -362,7 +439,11 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         }
         let mut s = Series::new(
             read.label.clone(),
-            Geom::Bars { cats: order.clone(), vals, err },
+            Geom::Bars {
+                cats: order.clone(),
+                vals,
+                err,
+            },
             MarkKind::Bars,
             src(&format!(", mean{} per group", spread_txt(spread))),
         )
@@ -375,7 +456,10 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
 
 /// The name of a pooled group: its pattern without the wildcards.
 fn pattern_name(p: &str) -> String {
-    p.replace('*', " ").split_whitespace().collect::<Vec<_>>().join(" ")
+    p.replace('*', " ")
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
 }
 
 fn plate_wavelength(plate: &openreadout_assay::PlateData, read: u32) -> Option<f64> {
@@ -421,7 +505,12 @@ pub(crate) fn summarize(v: &[f64], spread: Spread) -> (f64, f64, f64) {
 
 type ClassFn<'a> = Box<dyn Fn(&Well) -> Option<String> + 'a>;
 
-fn class_fn<'a>(spec: &'a SeriesSpec, groups: &'a [String], unit_s: f64, _rows: u32) -> Result<ClassFn<'a>> {
+fn class_fn<'a>(
+    spec: &'a SeriesSpec,
+    groups: &'a [String],
+    unit_s: f64,
+    _rows: u32,
+) -> Result<ClassFn<'a>> {
     Ok(match &spec.color_by {
         None => {
             if groups.len() > 1 {
@@ -433,7 +522,9 @@ fn class_fn<'a>(spec: &'a SeriesSpec, groups: &'a [String], unit_s: f64, _rows: 
         Some(ColorBy::Field(f)) => match f.as_str() {
             "group" | "groups" => Box::new(|w: &Well| w.group.clone()),
             "row" | "rows" => Box::new(|w: &Well| Some(format!("row {}", row_label(w.pos.0)))),
-            "column" | "col" | "columns" => Box::new(|w: &Well| Some(format!("column {}", w.pos.1 + 1))),
+            "column" | "col" | "columns" => {
+                Box::new(|w: &Well| Some(format!("column {}", w.pos.1 + 1)))
+            }
             "none" => Box::new(|_| None),
             other => {
                 return Err(usage(format!(

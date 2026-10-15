@@ -42,16 +42,19 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
         for s in series.iter() {
             e.merge(&s.geom.extent());
         }
-        let span = if e.has_x() { e.x.1 - e.x.0.min(0.0) } else { 1.0 };
-        let (unit, k) = match xs.unit.as_deref() {
-            Some(u) => (
+        let span = if e.has_x() {
+            e.x.1 - e.x.0.min(0.0)
+        } else {
+            1.0
+        };
+        let (unit, k) = if let Some(u) = xs.unit.as_deref() {
+            (
                 u.to_string(),
                 seconds_in(u).ok_or_else(|| usage(format!("x unit `{u}`: s, min, h or ms")))?,
-            ),
-            None => {
-                let (u, k) = time_unit(span);
-                (u.to_string(), k)
-            }
+            )
+        } else {
+            let (u, k) = time_unit(span);
+            (u.to_string(), k)
         };
         for s in series.iter_mut() {
             s.geom.scale_x(1.0 / k);
@@ -96,13 +99,13 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     let mut ext = Extent::default();
     let mut cont = true;
     for s in series.iter() {
-        if !matches!(s.geom, Geom::Bars { .. }) {
-            ext.merge(&s.geom.extent());
-            cont &= continuous(s.mark) || matches!(s.geom, Geom::Events { .. });
-        } else {
+        if matches!(s.geom, Geom::Bars { .. }) {
             let e = s.geom.extent();
             ext.add(f64::NAN, e.y.0);
             ext.add(f64::NAN, e.y.1);
+        } else {
+            ext.merge(&s.geom.extent());
+            cont &= continuous(s.mark) || matches!(s.geom, Geom::Events { .. });
         }
         for c in &s.callouts {
             ext.add(f64::NAN, c.y);
@@ -112,16 +115,26 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     let x_ticks = series.iter().find_map(|s| s.x_ticks.clone());
     let y_ticks = series.iter().find_map(|s| s.y_ticks.clone());
     let x_log = xs.log || series.iter().any(|s| s.x_log);
-    let x_rev = xs.reverse.unwrap_or_else(|| series.iter().any(|s| s.x_reverse));
-    let x_label = xs.label.clone().unwrap_or_else(|| label_of(series.iter().map(|s| &s.x)));
-    let y_label = ys.label.clone().unwrap_or_else(|| label_of(series.iter().map(|s| &s.y)));
+    let x_rev = xs
+        .reverse
+        .unwrap_or_else(|| series.iter().any(|s| s.x_reverse));
+    let x_label = xs
+        .label
+        .clone()
+        .unwrap_or_else(|| label_of(series.iter().map(|s| &s.x)));
+    let y_label = ys
+        .label
+        .clone()
+        .unwrap_or_else(|| label_of(series.iter().map(|s| &s.y)));
     let ax = if cats.is_empty() {
         let mut xr = ext.x;
         if xs.range.is_none() && !series.is_empty() && series.iter().all(|s| s.x_focus.is_some()) {
             let f = series
                 .iter()
                 .filter_map(|s| s.x_focus)
-                .fold((f64::INFINITY, f64::NEG_INFINITY), |a, f| (a.0.min(f.0), a.1.max(f.1)));
+                .fold((f64::INFINITY, f64::NEG_INFINITY), |a, f| {
+                    (a.0.min(f.0), a.1.max(f.1))
+                });
             xr = (f.0.max(ext.x.0), f.1.min(ext.x.1));
             if xr.0 >= xr.1 {
                 xr = ext.x;
@@ -144,7 +157,14 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             domain: Domain::linear(-0.6, cats.len() as f64 - 0.4),
             label: xs.label.clone().unwrap_or_else(|| {
                 let l = label_of(series.iter().map(|s| &s.x));
-                if matches!(l.as_str(), "well" | "group" | "x" | "name" | "population" | "sample") { String::new() } else { l }
+                if matches!(
+                    l.as_str(),
+                    "well" | "group" | "x" | "name" | "population" | "sample"
+                ) {
+                    String::new()
+                } else {
+                    l
+                }
             }),
             unit: None,
             scale: "category".into(),
@@ -155,7 +175,8 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     // y: from zero for bars, areas, sticks and counts; headroom for labels
     let y_log = ys.log || series.iter().any(|s| s.y_log);
     let zero_based = series.iter().any(|s| {
-        matches!(s.mark, MarkKind::Bars | MarkKind::Area | MarkKind::Sticks) || matches!(s.geom, Geom::Bars { .. })
+        matches!(s.mark, MarkKind::Bars | MarkKind::Area | MarkKind::Sticks)
+            || matches!(s.geom, Geom::Bars { .. })
     });
     let mut yr = ext.y;
     if !y_log && yr.0 <= yr.1 && y_ticks.is_none() {
@@ -165,21 +186,31 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
         }
         let span = (yr.1 - yr.0).max(f64::MIN_POSITIVE);
         // room above for labels on the highest points
-        let labelled = series
-            .iter()
-            .any(|s| s.callouts.iter().any(|c| !c.text.is_empty() && c.y > yr.1 - 0.12 * span));
+        let labelled = series.iter().any(|s| {
+            s.callouts
+                .iter()
+                .any(|c| !c.text.is_empty() && c.y > yr.1 - 0.12 * span)
+        });
         if labelled {
             yr.1 += span * 0.1;
         }
     }
     let stacked = spec.stack.is_some_and(|f| f > 0.0);
     let y_ticks = if stacked { Some(Vec::new()) } else { y_ticks };
-    let y_label = if stacked && ys.label.is_none() { format!("{y_label}, offset") } else { y_label };
+    let y_label = if stacked && ys.label.is_none() {
+        format!("{y_label}, offset")
+    } else {
+        y_label
+    };
     let ay = AxisRes {
         domain: axis_domain(&ys, yr, ext.y_pos, y_log, y_ticks.is_none(), true),
         label: y_label,
         unit: first.and_then(|s| s.y.unit.clone()),
-        scale: if stacked { "linear".into() } else { scale_name(y_log, y_ticks.is_some(), first.map(|s| &s.y)) },
+        scale: if stacked {
+            "linear".into()
+        } else {
+            scale_name(y_log, y_ticks.is_some(), first.map(|s| &s.y))
+        },
         ticks: y_ticks,
         cats: Vec::new(),
     };
@@ -190,14 +221,21 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
 /// Peaks are picked again among the points the axes show: a zoomed window or a clipped y range
 /// (a solvent peak cut off) labels the peaks the reader can see.
 fn repick_peaks(series: &mut [Series], ax: &AxisRes, ay: &AxisRes) {
-    let (x0, x1) = (ax.domain.lo.min(ax.domain.hi), ax.domain.lo.max(ax.domain.hi));
+    let (x0, x1) = (
+        ax.domain.lo.min(ax.domain.hi),
+        ax.domain.lo.max(ax.domain.hi),
+    );
     let ytop = ay.domain.lo.max(ay.domain.hi);
     for s in series.iter_mut() {
         if s.peaks == 0 || ax.is_cat() {
             continue;
         }
         let Geom::Line(p) = &s.geom else { continue };
-        let vis: Vec<(f64, f64)> = p.iter().copied().filter(|q| q.0 >= x0 && q.0 <= x1 && q.1.is_finite()).collect();
+        let vis: Vec<(f64, f64)> = p
+            .iter()
+            .copied()
+            .filter(|q| q.0 >= x0 && q.0 <= x1 && q.1.is_finite())
+            .collect();
         let fully = vis.iter().all(|q| q.1 <= ytop) && vis.len() == p.len();
         if fully || vis.len() < 3 {
             continue;
@@ -207,7 +245,8 @@ fn repick_peaks(series: &mut [Series], ax: &AxisRes, ay: &AxisRes) {
         let span = x1 - x0;
         let picked: Vec<(f64, f64)> = if s.mark == MarkKind::Sticks {
             let base = vis.iter().map(|q| q.1).fold(0.0f64, f64::max);
-            let mut v: Vec<(f64, f64)> = vis.iter().copied().filter(|q| q.1 >= 0.02 * base).collect();
+            let mut v: Vec<(f64, f64)> =
+                vis.iter().copied().filter(|q| q.1 >= 0.02 * base).collect();
             v.sort_by(|a, b| b.1.total_cmp(&a.1));
             let mut out: Vec<(f64, f64)> = Vec::new();
             for c in v {
@@ -233,7 +272,11 @@ fn repick_peaks(series: &mut [Series], ax: &AxisRes, ay: &AxisRes) {
             .map(|(x, y)| crate::model::Callout {
                 x,
                 y,
-                text: if time { format!("{} {unit}", short_num(x)) } else { crate::load::fmt_at(&s.x, x) },
+                text: if time {
+                    format!("{} {unit}", short_num(x))
+                } else {
+                    crate::load::fmt_at(&s.x, x)
+                },
                 auto: false,
             })
             .collect();
@@ -242,8 +285,18 @@ fn repick_peaks(series: &mut [Series], ax: &AxisRes, ay: &AxisRes) {
 
 /// A position as a label: up to three decimals, trailing zeros dropped.
 fn short_num(v: f64) -> String {
-    let s = if v.abs() >= 100.0 { format!("{v:.0}") } else if v.abs() >= 10.0 { format!("{v:.1}") } else { format!("{v:.2}") };
-    if s.contains('.') { s.trim_end_matches('0').trim_end_matches('.').to_string() } else { s }
+    let s = if v.abs() >= 100.0 {
+        format!("{v:.0}")
+    } else if v.abs() >= 10.0 {
+        format!("{v:.1}")
+    } else {
+        format!("{v:.2}")
+    };
+    if s.contains('.') {
+        s.trim_end_matches('0').trim_end_matches('.').to_string()
+    } else {
+        s
+    }
 }
 
 fn scale_name(log: bool, transformed: bool, q: Option<&Quantity>) -> String {
@@ -275,7 +328,11 @@ fn label_of<'a>(qs: impl Iterator<Item = &'a Quantity>) -> String {
 
 fn axis_domain(a: &AxisSpec, r: (f64, f64), pos: f64, log: bool, nice: bool, pad: bool) -> Domain {
     if let Some([lo, hi]) = a.range {
-        return if log { Domain::log(lo.min(hi), lo.max(hi)) } else { Domain::linear(lo.min(hi), lo.max(hi)) };
+        return if log {
+            Domain::log(lo.min(hi), lo.max(hi))
+        } else {
+            Domain::linear(lo.min(hi), lo.max(hi))
+        };
     }
     if log {
         let lo = if r.0 > 0.0 { r.0 } else { pos };
@@ -287,7 +344,11 @@ fn axis_domain(a: &AxisSpec, r: (f64, f64), pos: f64, log: bool, nice: bool, pad
     if nice {
         let d = Domain::of([lo, hi], if pad { 0.03 } else { 0.05 }, ScaleKind::Linear);
         // keep a zero baseline at zero
-        let d = if lo == 0.0 { Domain::linear(0.0, d.hi) } else { d };
+        let d = if lo == 0.0 {
+            Domain::linear(0.0, d.hi)
+        } else {
+            d
+        };
         let n = d.nice(5);
         if lo < 0.0 && hi > 0.0 && -lo < 0.06 * hi {
             // a little noise below zero: no whole tick step of empty space for it
@@ -321,12 +382,20 @@ fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
         }
     }
     all.sort_by(f64::total_cmp);
-    let q = |p: f64| all.get(((all.len() as f64 - 1.0) * p).round() as usize).copied().unwrap_or(0.0);
+    let q = |p: f64| {
+        all.get(((all.len() as f64 - 1.0) * p).round() as usize)
+            .copied()
+            .unwrap_or(0.0)
+    };
     let (lo, hi) = match xs.range {
         Some([a, b]) => (a.min(b), a.max(b)),
         None => (q(0.0005), q(0.9995)),
     };
-    let (lo, hi) = if hi > lo { (lo, hi) } else { (lo - 0.5, lo + 0.5) };
+    let (lo, hi) = if hi > lo {
+        (lo, hi)
+    } else {
+        (lo - 0.5, lo + 0.5)
+    };
     let bins = ((all.len() as f64 / hist.len() as f64).sqrt() as usize).clamp(24, 160);
     let w = (hi - lo) / bins as f64;
     let percent = hist.len() > 1;
@@ -345,7 +414,9 @@ fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
             }
         }
         if percent && n > 0 {
-            counts.iter_mut().for_each(|c| *c *= 100.0 / n as f64);
+            for c in &mut counts {
+                *c *= 100.0 / n as f64;
+            }
         }
         let mut pts = Vec::with_capacity(bins * 2 + 2);
         pts.push((lo, 0.0));
@@ -356,7 +427,14 @@ fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
         pts.push((hi, 0.0));
         s.geom = Geom::Line(pts);
         s.mark = MarkKind::Area;
-        s.y = Quantity::new(if percent { "% of events" } else { s.y.name.as_str() }, None);
+        s.y = Quantity::new(
+            if percent {
+                "% of events"
+            } else {
+                s.y.name.as_str()
+            },
+            None,
+        );
         if s.y.name.is_empty() {
             s.y.name = "count".into();
         }
@@ -382,7 +460,11 @@ pub(crate) fn named_color(theme: &Theme, name: &str) -> Option<Color> {
 
 /// Give every series its colour: asked-for colours stay; colour classes share one (two classes:
 /// ink and accent); blanks and context are faint; the rest take the series palette in order.
-pub(crate) fn assign_colors(theme: &Theme, series: &mut [Series], faceted: bool) -> Vec<(String, Color)> {
+pub(crate) fn assign_colors(
+    theme: &Theme,
+    series: &mut [Series],
+    faceted: bool,
+) -> Vec<(String, Color)> {
     let mut classes: Vec<(String, Color)> = Vec::new();
     for s in series.iter() {
         if let (Some(c), Some(col)) = (&s.class, s.color)

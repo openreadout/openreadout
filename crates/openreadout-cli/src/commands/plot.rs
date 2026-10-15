@@ -75,7 +75,10 @@ pub fn run(reg: &Registry, a: &PlotArgs) -> i32 {
                 let _ = writeln!(
                     s,
                     "  {}{} series; x {}; y {}",
-                    p.title.as_ref().map(|t| format!("{t}: ")).unwrap_or_default(),
+                    p.title
+                        .as_ref()
+                        .map(|t| format!("{t}: "))
+                        .unwrap_or_default(),
                     p.series.iter().map(|x| x.count.unwrap_or(1)).sum::<usize>(),
                     p.x.label,
                     p.y.label

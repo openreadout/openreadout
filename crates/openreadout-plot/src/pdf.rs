@@ -63,19 +63,40 @@ fn path_ops(out: &mut String, p: &Path, h: f32, rot: Option<(f32, f32, f32)>) {
             }
             Segment::QuadTo(x1, y1, x, y) => {
                 // as a cubic
-                let c1 = (cur.0 + 2.0 / 3.0 * (x1 - cur.0), cur.1 + 2.0 / 3.0 * (y1 - cur.1));
+                let c1 = (
+                    cur.0 + 2.0 / 3.0 * (x1 - cur.0),
+                    cur.1 + 2.0 / 3.0 * (y1 - cur.1),
+                );
                 let c2 = (x + 2.0 / 3.0 * (x1 - x), y + 2.0 / 3.0 * (y1 - y));
                 let (a1, b1) = tf(c1.0, c1.1);
                 let (a2, b2) = tf(c2.0, c2.1);
                 let (a, b) = tf(x, y);
-                let _ = write!(out, "{} {} {} {} {} {} c ", num(a1), num(b1), num(a2), num(b2), num(a), num(b));
+                let _ = write!(
+                    out,
+                    "{} {} {} {} {} {} c ",
+                    num(a1),
+                    num(b1),
+                    num(a2),
+                    num(b2),
+                    num(a),
+                    num(b)
+                );
                 cur = (x, y);
             }
             Segment::CubicTo(x1, y1, x2, y2, x, y) => {
                 let (a1, b1) = tf(x1, y1);
                 let (a2, b2) = tf(x2, y2);
                 let (a, b) = tf(x, y);
-                let _ = write!(out, "{} {} {} {} {} {} c ", num(a1), num(b1), num(a2), num(b2), num(a), num(b));
+                let _ = write!(
+                    out,
+                    "{} {} {} {} {} {} c ",
+                    num(a1),
+                    num(b1),
+                    num(a2),
+                    num(b2),
+                    num(a),
+                    num(b)
+                );
                 cur = (x, y);
             }
             Segment::Close => out.push_str("h "),
@@ -86,7 +107,9 @@ fn path_ops(out: &mut String, p: &Path, h: f32, rot: Option<(f32, f32, f32)>) {
 /// The figure as PDF bytes.
 pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
     let (w, h) = (fig.width, fig.height);
-    let mut doc = Doc { objects: Vec::new() };
+    let mut doc = Doc {
+        objects: Vec::new(),
+    };
     let mut content = String::new();
     let mut alphas: Vec<u8> = Vec::new();
     let mut images: Vec<usize> = Vec::new();
@@ -98,14 +121,26 @@ pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
         format!("/A{i} gs ")
     };
     if let Some(bg) = fig.background {
-        let _ = write!(content, "{} rg 0 0 {} {} re f\n", rgb(bg), num(w), num(h));
+        let _ = writeln!(content, "{} rg 0 0 {} {} re f", rgb(bg), num(w), num(h));
     }
     for item in &fig.items {
         match item {
-            Item::Shape { path, fill, stroke, clip } => {
+            Item::Shape {
+                path,
+                fill,
+                stroke,
+                clip,
+            } => {
                 content.push_str("q ");
                 if let Some(r) = clip {
-                    let _ = write!(content, "{} {} {} {} re W n ", num(r.x), num(h - r.bottom()), num(r.w), num(r.h));
+                    let _ = write!(
+                        content,
+                        "{} {} {} {} re W n ",
+                        num(r.x),
+                        num(h - r.bottom()),
+                        num(r.w),
+                        num(r.h)
+                    );
                 }
                 if let Some(c) = fill {
                     content.push_str(&gs(c.a, &mut alphas));
@@ -120,7 +155,12 @@ pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
                         Cap::Round => 1,
                         Cap::Square => 2,
                     };
-                    let _ = write!(content, "{} RG {} w {cap} J 1 j ", rgb(s.color), num(s.width));
+                    let _ = write!(
+                        content,
+                        "{} RG {} w {cap} J 1 j ",
+                        rgb(s.color),
+                        num(s.width)
+                    );
                     if !s.dash.is_empty() {
                         let d: Vec<String> = s.dash.iter().map(|v| num(*v)).collect();
                         let _ = write!(content, "[{}] 0 d ", d.join(" "));
@@ -146,7 +186,11 @@ pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
                 path_ops(&mut content, &glyphs, h, rot);
                 content.push_str("f Q\n");
             }
-            Item::Image { rect, raster, smooth } => {
+            Item::Image {
+                rect,
+                raster,
+                smooth,
+            } => {
                 let data = miniz_oxide::deflate::compress_to_vec_zlib(&raster.rgb, 6);
                 let mut body = format!(
                     "<< /Type /XObject /Subtype /Image /Width {} /Height {} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Interpolate {} /Length {} >>\nstream\n",
@@ -160,9 +204,9 @@ pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
                 body.extend_from_slice(b"\nendstream");
                 let id = doc.add(body);
                 images.push(id);
-                let _ = write!(
+                let _ = writeln!(
                     content,
-                    "q {} 0 0 {} {} {} cm /I{} Do Q\n",
+                    "q {} 0 0 {} {} {} cm /I{} Do Q",
                     num(rect.w),
                     num(rect.h),
                     num(rect.x),
@@ -173,7 +217,11 @@ pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
         }
     }
     let stream = miniz_oxide::deflate::compress_to_vec_zlib(content.as_bytes(), 6);
-    let mut body = format!("<< /Length {} /Filter /FlateDecode >>\nstream\n", stream.len()).into_bytes();
+    let mut body = format!(
+        "<< /Length {} /Filter /FlateDecode >>\nstream\n",
+        stream.len()
+    )
+    .into_bytes();
     body.extend_from_slice(&stream);
     body.extend_from_slice(b"\nendstream");
     let content_id = doc.add(body);
@@ -225,7 +273,9 @@ pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
         out.extend_from_slice(b"\nendobj\n");
     }
     let xref = out.len();
-    out.extend_from_slice(format!("xref\n0 {}\n0000000000 65535 f \n", doc.objects.len() + 1).as_bytes());
+    out.extend_from_slice(
+        format!("xref\n0 {}\n0000000000 65535 f \n", doc.objects.len() + 1).as_bytes(),
+    );
     for o in offsets {
         out.extend_from_slice(format!("{o:010} 00000 n \n").as_bytes());
     }
@@ -249,7 +299,13 @@ mod tests {
     fn writes_a_pdf() {
         let t = Theme::light();
         let mut f = Figure::new(200.0, 100.0, Some(t.paper));
-        f.line(10.0, 10.0, 190.0, 90.0, Stroke::new(t.accent.alpha(0.5), 2.0).dashed(4.0, 2.0));
+        f.line(
+            10.0,
+            10.0,
+            190.0,
+            90.0,
+            Stroke::new(t.accent.alpha(0.5), 2.0).dashed(4.0, 2.0),
+        );
         f.text(20.0, 50.0, "OD600 (λ)", &TextStyle::new(14.0, t.ink));
         let b = pdf(&f);
         assert!(b.starts_with(b"%PDF-1.4"));

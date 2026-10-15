@@ -74,7 +74,10 @@ impl InstrumentServer {
         let mut r = CallToolResult::structured(to_value(&p.output)?);
         r.content.insert(
             0,
-            ContentBlock::image(base64::engine::general_purpose::STANDARD.encode(&bytes), mime),
+            ContentBlock::image(
+                base64::engine::general_purpose::STANDARD.encode(&bytes),
+                mime,
+            ),
         );
         let m = r.meta.get_or_insert_with(MetaObject::default);
         m.insert(

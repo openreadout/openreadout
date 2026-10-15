@@ -62,11 +62,28 @@ pub struct Plotted {
 
 /// Fields of [`PlotSpec`] and [`PanelSpec`] at the top level, and of a `panels` item.
 const TOP_KEYS: &[&str] = &[
-    "title", "caption", "panels", "columns", "share", "width", "height", "theme", "output",
-    "overwrite", "strict",
+    "title",
+    "caption",
+    "panels",
+    "columns",
+    "share",
+    "width",
+    "height",
+    "theme",
+    "output",
+    "overwrite",
+    "strict",
 ];
 const PANEL_KEYS: &[&str] = &[
-    "data", "facet", "x", "y", "annotate", "legend", "column_labels", "row_labels", "stack",
+    "data",
+    "facet",
+    "x",
+    "y",
+    "annotate",
+    "legend",
+    "column_labels",
+    "row_labels",
+    "stack",
 ];
 
 /// Parse a plot spec from JSON, refusing unknown keys with the list of known ones.
@@ -121,12 +138,20 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
                 "give either top-level `data` (one panel) or `panels`, not both".into(),
             ));
         }
-        spec.panels.iter().map(|p| (p.title.clone(), p.panel.clone())).collect()
+        spec.panels
+            .iter()
+            .map(|p| (p.title.clone(), p.panel.clone()))
+            .collect()
     };
     // a lone dot plot reads best near square
     let lone_events = panels.len() == 1
         && panels[0].1.data.as_ref().is_some_and(|d| {
-            d.to_vec().iter().all(|s| s.y.is_some() && s.table.is_none() && s.values.is_none() && s.show.is_none_or(|x| x == Show::Events))
+            d.to_vec().iter().all(|s| {
+                s.y.is_some()
+                    && s.table.is_none()
+                    && s.values.is_none()
+                    && s.show.is_none_or(|x| x == Show::Events)
+            })
         });
     let default_w = if lone_events { 960 } else { DEFAULT_WIDTH };
     let width = spec.width.unwrap_or(default_w).clamp(320, MAX_SIZE) as f32;
@@ -176,14 +201,21 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             series.extend(s);
         }
         if series.is_empty() {
-            return Err(Error::Usage(format!("panel {i}: the data selected nothing to draw")));
+            return Err(Error::Usage(format!(
+                "panel {i}: the data selected nothing to draw"
+            )));
         }
         if ps.facet == Some(Facet::Plate) && series.iter().all(|s| s.well.is_none()) {
             return Err(Error::Usage(
                 "facet=plate lays out plate wells; this data has no wells (facet=series makes one small plot per series)".into(),
             ));
         }
-        ins.push(draw::PanelIn { title, spec: ps, series, plate: ctx.plate.take() });
+        ins.push(draw::PanelIn {
+            title,
+            spec: ps,
+            series,
+            plate: ctx.plate.take(),
+        });
     }
     share_axes(&mut ins, spec.share)?;
     // layout
@@ -193,7 +225,11 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     let fs = theme.font_size;
     let margin = (fs * 1.3).round();
     let title_h = if spec.title.is_some() { fs * 2.6 } else { 0.0 };
-    let caption_h = if spec.caption.is_some() { fs * 2.0 } else { 0.0 };
+    let caption_h = if spec.caption.is_some() {
+        fs * 2.0
+    } else {
+        0.0
+    };
     let gap = fs * 2.2;
     let inner_w = width - 2.0 * margin;
     let col_w = (inner_w - gap * (cols as f32 - 1.0)) / cols as f32;
@@ -202,14 +238,22 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     for r in 0..rows {
         let h = ins[r * cols..((r + 1) * cols).min(n)]
             .iter()
-            .map(|p| draw::preferred_height(p, col_w, facet_cols, fs) + if p.title.is_some() { fs * 1.7 } else { 0.0 })
+            .map(|p| {
+                draw::preferred_height(p, col_w, facet_cols, fs)
+                    + if p.title.is_some() { fs * 1.7 } else { 0.0 }
+            })
             .fold(0.0f32, f32::max);
         row_h.push(h);
     }
-    let natural = margin * 2.0 + title_h + caption_h + row_h.iter().sum::<f32>() + gap * (rows as f32 - 1.0);
-    let height = spec.height.map_or(natural, |h| h as f32).clamp(200.0, MAX_SIZE as f32);
+    let natural =
+        margin * 2.0 + title_h + caption_h + row_h.iter().sum::<f32>() + gap * (rows as f32 - 1.0);
+    let height = spec
+        .height
+        .map_or(natural, |h| h as f32)
+        .clamp(200.0, MAX_SIZE as f32);
     // stretch or squeeze the rows to the height asked for
-    let k = (height - margin * 2.0 - title_h - caption_h - gap * (rows as f32 - 1.0)) / row_h.iter().sum::<f32>().max(1.0);
+    let k = (height - margin * 2.0 - title_h - caption_h - gap * (rows as f32 - 1.0))
+        / row_h.iter().sum::<f32>().max(1.0);
     let mut fig = Figure::new(width, height.round(), Some(theme.paper));
     fig.title.clone_from(&spec.title);
     if let Some(t) = &spec.title {
@@ -234,14 +278,16 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         for c in 0..cols {
             let Some(p) = it.next() else { break };
             let x = margin + c as f32 * (col_w + gap);
-            let drawn = draw::draw_panel(&mut fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)?;
+            let drawn =
+                draw::draw_panel(&mut fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)?;
             out.panels.push(drawn.summary);
             hover.push(Value::Array(drawn.hover));
         }
         y += rh + gap;
     }
     if let Some(c) = &spec.caption {
-        let st = TextStyle::new(theme.small_size(), theme.muted).align(Anchor::Start, Baseline::Alphabetic);
+        let st = TextStyle::new(theme.small_size(), theme.muted)
+            .align(Anchor::Start, Baseline::Alphabetic);
         fig.text(margin, height - margin * 0.75, c, &st);
     }
     out.files = files;
