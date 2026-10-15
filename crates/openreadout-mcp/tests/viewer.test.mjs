@@ -77,6 +77,23 @@ test("transformed axes get ticks at round data values", () => {
   assert.deepEqual(v.scaleTicks("linear", 0, 10, 5).map((x) => x.at), [0, 2, 4, 6, 8, 10]);
 });
 
+test("direct labels spread like the figure engine's", () => {
+  const p = v.spreadLabels([10, 11, 12, 100], 10, 0, 200);
+  assert.ok(p[1] - p[0] >= 9.99 && p[2] - p[1] >= 9.99, String(p));
+  assert.equal(p[3], 100);
+  assert.ok(Math.abs(p[1] - 11) < 1e-9, "centred on the cluster");
+  const q = v.spreadLabels([195, 196], 10, 0, 200);
+  assert.ok(q[1] <= 200 && q[1] - q[0] >= 9.99, String(q));
+});
+
+test("tick labels match the figure engine's", () => {
+  assert.deepEqual(v.tickLabels([0, 5e6, 1e7, 1.5e7]), ["0", "5M", "10M", "15M"]);
+  assert.equal(v.fmtTick(20000, 5000), "20k");
+  assert.equal(v.fmtTick(0.25, 0.05), "0.25");
+  assert.equal(v.fmtTick(0.00002, 0.00001), "2e-5");
+  assert.equal(v.fmtTick(1234, 1), "1234");
+});
+
 test("units read naturally", () => {
   assert.equal(v.fmtLength(0.22), "220 nm");
   assert.equal(v.fmtLength(33), "33 µm");
@@ -108,6 +125,10 @@ test("plates are coloured by the smallest useful layout map", () => {
   assert.equal(v.defaultGroupMap(groups), "Group");
   assert.equal(v.defaultGroupMap({}), null);
   assert.ok(v.isBlankGroup("Blank") && v.isBlankGroup(" BL ") && !v.isBlankGroup("lambda"));
+  // layout groups take the figure engine's series colours in order, blanks faint
+  const pal = { series: v.THEMES.light.series, faint: v.THEMES.light.faint };
+  assert.deepEqual(v.categoryColors(["lambda", "BL", "HK97", "lambda"], pal), [pal.series[0], pal.faint, pal.series[1], pal.series[0]]);
+  assert.equal(pal.series[1], "#A8432F", "the accent comes second");
   assert.equal(v.seriesGroup("B3 GAPDH"), "GAPDH");
   assert.equal(v.seriesGroup("IN 0"), null);
 });

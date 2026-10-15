@@ -1046,7 +1046,7 @@ mod tests {
         let bad: Annotation = serde_json::from_str(r#"{"type":"box","x":1,"y":2}"#).unwrap();
         assert!(validate(&bad).unwrap_err().to_string().contains("width"));
         assert!(
-            serde_json::from_str::<Annotation>(r#"{"type":"point","x":1,"y":2,"lable":"x"}"#)
+            serde_json::from_str::<Annotation>(r#"{"type":"point","x":1,"y":2,"caption":"x"}"#)
                 .is_err()
         );
         let t: Annotation = serde_json::from_str(r#"{"type":"text","x":1,"y":2}"#).unwrap();

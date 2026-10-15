@@ -93,7 +93,7 @@ fn group_means_and_annotations() {
     assert!(panel.series.iter().all(|s| s.mark == "band"));
     assert_eq!(panel.annotations.len(), 3, "{:?}", panel.annotations);
     // a group the layout does not have names the ones it does
-    let bad = parse_spec(json!({"data": {"file": f, "groups": ["lamda"]}})).unwrap();
+    let bad = parse_spec(json!({"data": {"file": f, "groups": ["phi80"]}})).unwrap();
     let e = plot(&Registry::new(), &bad).unwrap_err().to_string();
     assert!(e.contains("lambda") && e.contains("HK97"), "{e}");
 }
@@ -244,10 +244,10 @@ fn misplaced_keys_say_where_they_go() {
         e.contains("unknown field `tic`") && e.contains("chromatogram"),
         "{e}"
     );
-    let e = parse_spec(json!({"data": {"file": "a"}, "panels": [], "y": {"lable": "OD"}}))
+    let e = parse_spec(json!({"data": {"file": "a"}, "panels": [], "y": {"name": "OD"}}))
         .unwrap_err()
         .to_string();
-    assert!(e.contains("y: unknown field `lable`"), "{e}");
+    assert!(e.contains("y: unknown field `name`"), "{e}");
     let e = parse_spec(json!({"panels": [{"data": [{"file": "a"}, {"file": "b", "title": "t"}]}]}))
         .unwrap_err()
         .to_string();

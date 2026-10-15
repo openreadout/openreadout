@@ -180,15 +180,21 @@ pub(crate) fn draw_series(
             }
             error_bars(fig, p, theme, pts, err, ink);
             if m != MarkKind::Line {
-                let mk = Marker {
-                    shape: Shape::Circle,
-                    size: if s.weight == Weight::Many {
-                        ink.dot * 0.75
-                    } else {
-                        ink.dot
-                    },
-                    fill: Some(c),
-                    stroke: Some(Stroke::new(theme.paper, (ink.dot * 0.18).max(1.0))),
+                // the many (samples, replicates) as rings, so they read on a line
+                let mk = if s.weight == Weight::Many {
+                    Marker {
+                        shape: Shape::Circle,
+                        size: ink.dot * 0.9,
+                        fill: Some(theme.paper),
+                        stroke: Some(Stroke::new(c, (ink.dot * 0.26).max(1.2))),
+                    }
+                } else {
+                    Marker {
+                        shape: Shape::Circle,
+                        size: ink.dot,
+                        fill: Some(c),
+                        stroke: Some(Stroke::new(theme.paper, (ink.dot * 0.18).max(1.0))),
+                    }
                 };
                 p.markers(fig, pts.iter().copied(), &mk);
             }

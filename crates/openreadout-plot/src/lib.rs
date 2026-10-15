@@ -56,7 +56,8 @@ pub struct Plotted {
     pub figure: Figure,
     /// What was drawn.
     pub output: PlotOutput,
-    /// Per panel: its pixel rectangle, axis ranges and thinned series, for hover read-outs.
+    /// Per plot panel (each facet too): its pixel rectangle, axis ranges and thinned series, for
+    /// the viewer's hover read-outs.
     pub hover: Value,
 }
 
@@ -396,7 +397,7 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             let drawn =
                 draw::draw_panel(&mut fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)?;
             out.panels.push(drawn.summary);
-            hover.push(Value::Array(drawn.hover));
+            hover.extend(drawn.hover);
         }
         y += rh + gap;
     }

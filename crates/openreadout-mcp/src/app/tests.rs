@@ -95,6 +95,23 @@ fn view_tool_claims_only_vendor_extensions() {
     assert_eq!(t.annotations.unwrap().read_only_hint, Some(true));
 }
 
+/// `web/theme.json` is openreadout-figure's theme as the viewer reads it. When the theme
+/// changes, this test rewrites the file and fails once; commit the new file.
+#[test]
+fn viewer_colours_are_the_figure_engines() {
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/app/web/theme.json");
+    let want = openreadout_figure::Theme::tokens_json();
+    let have = std::fs::read_to_string(&path).unwrap_or_default();
+    if have != want {
+        std::fs::write(&path, &want).unwrap();
+        panic!(
+            "{} was out of date and has been rewritten; commit it",
+            path.display()
+        );
+    }
+    assert!(!html().contains("/*TOKENS*/"));
+}
+
 #[test]
 fn the_page_is_self_contained() {
     let r = read(RESOURCE_URI).unwrap();

@@ -257,6 +257,15 @@ fn human(o: &PreviewOutput) -> String {
             "spectrum {} (scan {}, MS{}, {} points, {})",
             s.index, s.scan_number, s.ms_level, s.point_count, s.style
         )
+    } else if let Some(c) = &o.chromatogram {
+        format!(
+            "{} of run {} ({} MS1 scans of {}), apex at {:.2} min",
+            c.signal.to_uppercase(),
+            c.run,
+            c.ms1_scans,
+            c.scans,
+            c.apex_rt_min
+        )
     } else if let Some(p) = &o.plate {
         format!(
             "plate {}x{} from table {} ({} wells, {}, {})",

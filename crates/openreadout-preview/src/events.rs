@@ -87,6 +87,71 @@ fn domain_for(name: &str, v: &[f64]) -> (Domain, &'static str) {
     }
 }
 
+/// `290172` → `290,172`.
+fn thousands(n: u64) -> String {
+    let s = n.to_string();
+    let mut out = String::new();
+    for (i, c) in s.chars().enumerate() {
+        if i > 0 && (s.len() - i).is_multiple_of(3) {
+            out.push(',');
+        }
+        out.push(c);
+    }
+    out
+}
+
+/// The step between neighbouring recorded values when the parameter is stored on a grid
+/// (integer channels, a coarse ADC), from up to 20,000 values; 0 when it looks continuous.
+fn resolution(v: &[f64]) -> f64 {
+    let step = (v.len() / 20_000).max(1);
+    let mut s: Vec<f64> = v
+        .iter()
+        .step_by(step)
+        .copied()
+        .filter(|x| x.is_finite())
+        .collect();
+    s.sort_by(f64::total_cmp);
+    s.dedup();
+    if s.len() < 3 {
+        return 0.0;
+    }
+    let mut gaps: Vec<f64> = s.windows(2).map(|w| w[1] - w[0]).collect();
+    gaps.sort_by(f64::total_cmp);
+    // the typical gap between distinct values; a continuous parameter has many tiny gaps
+    let typical = gaps[gaps.len() / 4];
+    let span = s[s.len() - 1] - s[0];
+    if span > 0.0 && typical > span * 1e-5 {
+        typical
+    } else {
+        0.0
+    }
+}
+
+/// Bins for a histogram along `scale` (pixels 0..1000): 160, fewer when the values sit on a
+/// grid so coarse that narrow bins would alternate full and empty (a comb).
+fn histogram_bins(v: &[f64], scale: &openreadout_figure::Scale) -> usize {
+    let r = resolution(v);
+    let mut bins = 160usize;
+    if r <= 0.0 {
+        return bins;
+    }
+    while bins > 24 {
+        // the narrowest bin in data units
+        let narrowest = (0..bins)
+            .map(|i| {
+                let a = scale.value(1000.0 * i as f32 / bins as f32);
+                let b = scale.value(1000.0 * (i + 1) as f32 / bins as f32);
+                (b - a).abs()
+            })
+            .fold(f64::INFINITY, f64::min);
+        if narrowest >= r * 4.0 {
+            break;
+        }
+        bins = bins * 3 / 4;
+    }
+    bins
+}
+
 pub(crate) fn render(
     ds: &mut dyn Dataset,
     info: &FileInfo,
@@ -225,13 +290,13 @@ pub(crate) fn render(
         y_name = Some(yn);
     } else {
         fig = Figure::new(size, (size * 0.6).round(), Some(theme.paper));
-        let bins = 160usize;
-        let mut counts = vec![0u32; bins];
         let probe = Panel::new(
             openreadout_figure::Rect::new(0.0, 0.0, 1000.0, 100.0),
             xd,
             Domain::linear(0.0, 1.0),
         );
+        let bins = histogram_bins(&xs, &probe.x);
+        let mut counts = vec![0u32; bins];
         for &x in &xs {
             if let Some(px) = probe.x.px(x)
                 && (0.0..1000.0).contains(&px)
@@ -274,16 +339,20 @@ pub(crate) fn render(
     }
     let caption = format!(
         "{} events{}",
-        n,
-        y_name
-            .as_deref()
-            .map_or_else(String::new, |_| " · darker = more events".into())
+        thousands(n),
+        y_name.as_deref().map_or_else(String::new, |_| {
+            if req.dark {
+                " · brighter = more events".into()
+            } else {
+                " · darker = more events".into()
+            }
+        })
     );
     fig.text(
         fs * 0.8,
         fs * 1.4,
         &caption,
-        &TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Alphabetic),
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
     );
     out.events = Some(EventsPreview {
         table: ti,
