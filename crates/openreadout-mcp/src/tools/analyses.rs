@@ -186,8 +186,9 @@ pub(super) async fn call(
 pub(super) struct QpcrArgs {
     #[serde(flatten)]
     options: openreadout_batch::analyze::QpcrOptions,
-    /// Fields of records and relative_quantities rows. Default: the main ones, rounded to 4
-    /// significant digits; ["all"] for every field at full precision.
+    /// Rows show their main fields to 4 significant digits (records: well, sample, target, cq,
+    /// tm; relative_quantities: cq means, delta_cq, delta_delta_cq, rq with rq_min and rq_max).
+    /// fields adds others, e.g. ["threshold"]; ["all"]: every field, full precision.
     fields: Option<Vec<String>>,
 }
 

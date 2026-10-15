@@ -3,6 +3,7 @@
 
 use std::path::{Path, PathBuf};
 
+use base64::Engine as _;
 use openreadout_core::{Error, Registry};
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -155,7 +156,7 @@ fn lift_output(
 }
 
 /// `plot` or `preview`: draw the figure and save it.
-fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<serde_json::Value, McpError> {
+fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, McpError> {
     let usage = |m: String| mcp_err(&Error::Usage(m));
     let data_args = [
         ("table", a.table.is_some()),
@@ -259,13 +260,32 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<serde_json
     };
     let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite))
         .map_err(|e| mcp_err(&e))?;
-    to_value(&FigureExport {
+    let value = to_value(&FigureExport {
         written,
         drawn,
         notes,
         warnings,
-    })
+    })?;
+    Ok((value, Some(shown(&figure)?)))
 }
+
+/// Longest side of the picture of a saved figure returned to the agent.
+const SHOWN_SIZE: f32 = 1568.0;
+
+/// The saved figure as the agent sees it: at most [`SHOWN_SIZE`] px, PNG (JPEG when a PNG would
+/// be over the preview budget).
+fn shown(f: &openreadout_preview::Figure) -> Result<(Vec<u8>, &'static str), McpError> {
+    let long = f.width.max(f.height).max(1.0);
+    let raster = f.to_raster((SHOWN_SIZE / long).min(1.0));
+    let png = raster.to_png().map_err(|e| mcp_err(&e))?;
+    if png.len() <= crate::resources::PREVIEW_BUDGET {
+        return Ok((png, "image/png"));
+    }
+    Ok((raster.to_jpeg(88).map_err(|e| mcp_err(&e))?, "image/jpeg"))
+}
+
+/// An export's JSON result, and the picture of a saved figure.
+pub(crate) type Exported = (serde_json::Value, Option<(Vec<u8>, &'static str)>);
 
 /// A figure's file name and `format` must agree; checked before anything is drawn.
 fn check_name(
@@ -508,10 +528,19 @@ pub(crate) fn export_blocking(
     registry: fn() -> Registry,
     a: ExportArgs,
     notifier: Option<progress::Notifier>,
-) -> Result<serde_json::Value, McpError> {
+) -> Result<Exported, McpError> {
     if a.plot.is_some() || a.preview.is_some() {
         return export_figure(registry, a);
     }
+    Ok((export_data(registry, a, notifier)?, None))
+}
+
+/// Convert data to an open format.
+fn export_data(
+    registry: fn() -> Registry,
+    a: ExportArgs,
+    notifier: Option<progress::Notifier>,
+) -> Result<serde_json::Value, McpError> {
     let reg = with_strict(registry(), a.strict);
     let input = input_path(&a)?;
     let mut requested = a.format.as_deref().map(str::to_ascii_lowercase);
@@ -743,7 +772,7 @@ impl InstrumentServer {
             idempotent_hint = true,
             open_world_hint = false
         ),
-        description = "Convert to an open format, or save a figure, as a new file read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). Figures: plot or preview = the arguments of that call, output .png, .jpg, .tiff, .svg or .pdf (scale, dpi for print). Sends progress with a progressToken."
+        description = "Convert to an open format, or save a figure, as a new file read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). Figures: plot or preview = the arguments of that call, output .png, .jpg, .tiff, .svg or .pdf (scale, dpi for print); the picture comes back too. Sends progress with a progressToken."
     )]
     pub(crate) async fn export(
         &self,
@@ -756,7 +785,18 @@ impl InstrumentServer {
             .await
             .map_err(|e| McpError::internal_error(format!("export task failed: {e}"), None))?;
         forward.finish().await;
-        Ok(CallToolResult::structured(r?))
+        let (value, image) = r?;
+        let mut r = CallToolResult::structured(value);
+        if let Some((bytes, mime)) = image {
+            r.content.insert(
+                0,
+                rmcp::model::ContentBlock::image(
+                    base64::engine::general_purpose::STANDARD.encode(&bytes),
+                    mime,
+                ),
+            );
+        }
+        Ok(r)
     }
 }
 
@@ -778,7 +818,7 @@ mod tests {
     }
 
     fn export(v: serde_json::Value) -> Result<serde_json::Value, McpError> {
-        export_blocking(Registry::new, serde_json::from_value(v).unwrap(), None)
+        export_blocking(Registry::new, serde_json::from_value(v).unwrap(), None).map(|e| e.0)
     }
 
     /// A plot is saved as a figure file, verified, with the print size `dpi` gives; `output`

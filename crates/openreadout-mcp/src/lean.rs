@@ -2,8 +2,8 @@
 //! repeat settings and derived numbers in every row; the full rows of a 96-well plate do not
 //! fit in one reply. By default a reply keeps each row's main fields, leaves out values that
 //! say nothing (false, null, empty, a role nobody assigned, a group named after its well) and
-//! rounds numbers to 4 significant digits. `fields` asks for other fields, or `["all"]` for
-//! every field at full precision. A reply that is still over the size limit keeps whole plate
+//! rounds numbers to 4 significant digits. `fields` adds other fields, and `["all"]` gives every
+//! field at full precision. A reply that is still over the size limit keeps whole plate
 //! rows and says which `wells` to ask for next.
 
 use serde_json::{Map, Value};
@@ -189,7 +189,7 @@ pub enum Fields {
     Default,
     /// Every field at full precision.
     All,
-    /// These fields (and the row's name: well, sample, target, group) at full precision.
+    /// The main fields and these.
     Named(Vec<String>),
 }
 
@@ -226,8 +226,9 @@ impl Fields {
 /// Fields that name a row; kept with any `fields`.
 const NAMES: &[&str] = &["well", "sample", "target", "group"];
 
-/// Shape the lists of `v` named in `rows` as `fields` asks. Returns a note for the reply (what
-/// was left out and how to get it), or `None` when nothing was.
+/// Shape the lists of `v` named in `rows` as `fields` asks, and round the numbers of the
+/// top-level values `round_also` with them. Returns a note for the reply (the fields left out
+/// and how to get them, or names that matched nothing), or `None`.
 pub fn shape(v: &mut Value, rows: &[Rows], round_also: &[&str], fields: &Fields) -> Option<String> {
     if *fields == Fields::All {
         return None;
@@ -235,11 +236,12 @@ pub fn shape(v: &mut Value, rows: &[Rows], round_also: &[&str], fields: &Fields)
     let Value::Object(top) = v else {
         return None;
     };
-    let mut hidden: Vec<String> = Vec::new();
-    let mut unknown: Vec<String> = match fields {
-        Fields::Named(n) => n.clone(),
-        _ => Vec::new(),
+    let extra: &[String] = match fields {
+        Fields::Named(n) => n,
+        _ => &[],
     };
+    let mut hidden: Vec<String> = Vec::new();
+    let mut unknown: Vec<String> = extra.to_vec();
     let mut shaped: Vec<&str> = Vec::new();
     for r in rows {
         let Some(Value::Array(items)) = top.get_mut(r.key) else {
@@ -253,40 +255,34 @@ pub fn shape(v: &mut Value, rows: &[Rows], round_also: &[&str], fields: &Fields)
             let Value::Object(row) = item else { continue };
             for k in row.keys() {
                 unknown.retain(|u| u != k);
-                let shown = match fields {
-                    Fields::Named(n) => NAMES.contains(&k.as_str()) || n.contains(k),
-                    _ => r.fields.contains(&k.as_str()),
-                };
-                if !shown && !hidden.contains(k) {
+                if !r.fields.contains(&k.as_str()) && !extra.contains(k) && !hidden.contains(k) {
                     hidden.push(k.clone());
                 }
             }
-            match fields {
-                Fields::Named(n) => {
-                    row.retain(|k, _| NAMES.contains(&k.as_str()) || n.contains(k));
-                }
-                _ => {
-                    // the main fields in reading order, without those that say nothing
-                    let mut lean = Map::new();
-                    for f in r.fields {
-                        if let Some(x) = row.get(*f)
-                            && !says_nothing(f, x, row, r.omit)
-                        {
-                            let mut x = x.clone();
-                            round(&mut x);
-                            lean.insert((*f).to_string(), x);
-                        }
-                    }
-                    *row = lean;
+            // the main fields in reading order, without those that say nothing, then the
+            // fields asked for
+            let mut lean = Map::new();
+            for f in r.fields {
+                if let Some(x) = row.get(*f)
+                    && !says_nothing(f, x, row, r.omit)
+                {
+                    lean.insert((*f).to_string(), x.clone());
                 }
             }
-        }
-    }
-    if *fields == Fields::Default {
-        for k in round_also {
-            if let Some(x) = top.get_mut(*k) {
+            for f in extra {
+                if let Some(x) = row.get(f.as_str()) {
+                    lean.insert(f.clone(), x.clone());
+                }
+            }
+            for x in lean.values_mut() {
                 round(x);
             }
+            *row = lean;
+        }
+    }
+    for k in round_also {
+        if let Some(x) = top.get_mut(*k) {
+            round(x);
         }
     }
     if shaped.is_empty() {
@@ -297,20 +293,17 @@ pub fn shape(v: &mut Value, rows: &[Rows], round_also: &[&str], fields: &Fields)
         [init @ .., last] => format!("{} and {last}", init.join(", ")),
         [] => String::new(),
     };
-    match fields {
-        Fields::Default => Some(format!(
-            "{lists} rows show their main fields to 4 significant digits; fields: [\"all\"] (or field names) gives the rest at full precision{}",
-            if hidden.is_empty() {
-                String::new()
-            } else {
-                format!(": {}", hidden.join(", "))
-            }
-        )),
-        Fields::Named(_) if !unknown.is_empty() => {
-            Some(format!("{lists} rows have no field {}", unknown.join(", ")))
-        }
-        _ => None,
+    let mut note = format!("{lists} rows show their main fields to 4 significant digits");
+    if !hidden.is_empty() {
+        note.push_str(&format!(
+            "; fields adds others ({}), [\"all\"] gives every field at full precision",
+            hidden.join(", ")
+        ));
     }
+    if !unknown.is_empty() {
+        note.push_str(&format!("; no row has {}", unknown.join(", ")));
+    }
+    Some(note)
 }
 
 /// True when the value of field `k` carries nothing in this row.
@@ -486,7 +479,9 @@ mod tests {
         let note = shape(&mut some, ASSAY, &[], &f).unwrap();
         assert_eq!(
             some["growth"][0],
-            json!({"well": "A1", "group": "A1", "auc_h": 7.1})
+            json!({"well": "A1", "pattern": "grew", "growth_rate_per_h": 0.8123,
+                   "doubling_time_h": 0.853, "max_value": 1.235, "time_to_max_s": 26415.0,
+                   "auc_h": 7.1})
         );
         assert!(note.contains("nope"), "{note}");
     }

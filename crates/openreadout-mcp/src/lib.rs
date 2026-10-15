@@ -641,7 +641,11 @@ mod tests {
             "preview": preview, "output": out.display().to_string(), "dpi": 300,
         }))
         .unwrap();
-        let w = crate::tools::export::export_blocking(synth_registry, a, None).unwrap();
+        let (w, shown) = crate::tools::export::export_blocking(synth_registry, a, None).unwrap();
+        assert!(
+            shown.is_some_and(|(b, _)| !b.is_empty()),
+            "the saved picture comes back"
+        );
         assert_eq!(w["drawn"], "image");
         // the image is read again at twice max_size (whole downsampling steps, so about twice)
         let (saved, seen) = (w["width"].as_u64().unwrap(), v["width"].as_u64().unwrap());

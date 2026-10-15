@@ -123,8 +123,9 @@ pub struct AssayArgs {
     /// growth: values at or below this are left out of the log-scale fit. Default 5 % of each
     /// well's maximum.
     growth_threshold: Option<f64>,
-    /// Fields of the per-well and per-group rows. Default: the main ones, rounded to 4
-    /// significant digits; ["all"] for every field at full precision.
+    /// Rows show their main fields to 4 significant digits (growth: pattern, growth_rate_per_h,
+    /// doubling_time_h, lag_time_s, max_value, time_to_max_s, crash_s, trough_s, regrowth_s).
+    /// fields adds others, e.g. ["auc_h", "logistic_k"]; ["all"]: every field, full precision.
     fields: Option<Vec<String>>,
 }
 

@@ -146,7 +146,7 @@ Compression, chunk size, pyramid levels and vendor metadata embedding are comman
 - `scale`: pixels per figure pixel in PNG, JPEG and TIFF files (default 2, at most 8). Plots are drawn again at that size. An image preview is read again at `max_size` × `scale` (at most 8192), so the saved picture has real pixels, not enlarged ones; at the default 768 × 2 it looks the same as the picture the agent saw.
 - `dpi`: the print resolution. PNG, JPEG and TIFF files record it; SVG and PDF pages get the size the raster would print at. The result's `print_size_in` is that size in inches.
 
-The result is the written file (`path`, `format`, `width`, `height`, `bytes`, `verified`), what was drawn (`drawn`: `plot`, or the preview's kind) and the drawing's notes and warnings.
+The result is the saved picture as image content (at most 1568 px on its long side, the size a model reads), then the written file (`path`, `format`, `width`, `height`, `bytes`, `verified`), what was drawn (`drawn`: `plot`, or the preview's kind) and the drawing's notes and warnings. An agent can save a figure it has not drawn yet in one call and still see it.
 
 ### openreadout_extract
 
