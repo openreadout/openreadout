@@ -12,7 +12,7 @@ use crate::{InstrumentServer, mcp_err, ok_json};
 /// Arguments for `openreadout_trace`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct TraceArgs {
-    /// Absolute or working-directory-relative path to the instrument file.
+    /// Path to the file.
     pub file: String,
     /// Trace index (see openreadout_info → traces[]). Default 0.
     #[serde(default)]
@@ -37,8 +37,7 @@ pub struct TraceArgs {
     /// zero filling, FT, stored or automatic phase, baseline, ppm axis).
     #[serde(default)]
     pub process: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -50,7 +49,7 @@ pub const MAX_TRACE_SAMPLES: u64 = 10_000;
 impl InstrumentServer {
     #[tool(
         name = "openreadout_trace",
-        annotations(title = "Read a signal sweep", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Read a signal", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_core::trace::TraceSlice>(),
         description = "One window of one sweep of a sampled signal or 1-D spectrum in physical units: electrophysiology sweeps, chromatography detector traces, ÄKTA curves, ITC thermograms, SPR sensorgrams, NMR FIDs and spectra (process=true turns an FID into a spectrum), IR/Raman/UV-Vis/CD spectra (each spectrum of a map is a sweep), qPCR curves, EPR, XRD, electrochemistry, thermal analysis. Per channel: min, max, mean, std and argmax_axis_value (the maximum's position on the axis: retention time, ppm, cm⁻¹, °2θ) over the window, plus the first max_samples values."
     )]

@@ -184,6 +184,9 @@ pub struct SweepFeatures {
     pub spike_count: usize,
     /// Spikes whose peak falls inside the stimulus.
     pub spike_count_stimulus: Option<usize>,
+    /// Spikes whose peak comes before the stimulus starts.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub spike_count_before: Option<usize>,
     /// Spikes in the stimulus / stimulus duration, Hz.
     pub firing_rate_hz: Option<f64>,
     /// First spike peak after stimulus onset, ms.
@@ -224,13 +227,19 @@ pub struct FiPoint {
 pub struct CellFeatures {
     /// Median baseline (pre-stimulus) voltage over sweeps, mV.
     pub resting_mv: Option<f64>,
+    /// Firing rate before the stimulus, over every sweep, Hz: above 0 the cell fires on its own.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub spontaneous_rate_hz: Option<f64>,
     /// Smallest depolarising step that evokes at least one spike during the stimulus, pA.
+    /// Absent when the cell also fires during a step of 0 pA or less (it fires without
+    /// depolarising current, so a rheobase is not defined; `notes` says so).
     pub rheobase_pa: Option<f64>,
     /// The sweep of that step.
     pub rheobase_sweep: Option<u32>,
     /// f–I curve over depolarising steps.
     pub fi_curve: Vec<FiPoint>,
-    /// Least-squares slope of rate vs current over steps that fire, Hz/pA.
+    /// Least-squares slope of rate vs current from the rheobase to the step with the highest
+    /// rate (steps past it, where firing fails, are left out), Hz/pA.
     pub fi_slope_hz_per_pa: Option<f64>,
     /// Highest firing rate, Hz.
     pub max_firing_rate_hz: Option<f64>,
@@ -468,7 +477,8 @@ pub fn analyze_cell(
             ..SweepFeatures::default()
         };
         if voltage {
-            row.stimulus_pa = delta.and_then(|d| cmd_pa.map(|k| d * k));
+            // Epoch levels are float32: 20 pA is stored as 19.99999955.
+            row.stimulus_pa = delta.and_then(|d| cmd_pa.map(|k| round_pa(d * k)));
             let sp = ap::detect(&y, fs, 0, y.len(), sw, &req.ap);
             row.spike_count = sp.len();
             if !sp.is_empty() {
@@ -483,6 +493,8 @@ pub fn analyze_cell(
                     .collect();
                 let dur = (s1 - s0) as f64 / fs;
                 row.spike_count_stimulus = Some(inside.len());
+                row.spike_count_before =
+                    Some(sp.iter().filter(|s| (s.peak_sample as usize) < s0).count());
                 row.firing_rate_hz = (dur > 0.0).then(|| inside.len() as f64 / dur);
                 row.first_spike_latency_ms = inside
                     .first()
@@ -546,7 +558,7 @@ pub fn analyze_cell(
     if let Some(n) = implausible_unit(Some(ch.name.as_str()), unit, voltage, peak, scale) {
         notes.push(n);
     }
-    let cell = summarize(&rows, voltage);
+    let cell = summarize(&rows, voltage, &mut notes);
     Ok(CellReport {
         path: info.path.clone(),
         format: info.format.id.clone(),
@@ -583,7 +595,12 @@ fn median_mean(v: Vec<f64>) -> Option<f64> {
     mean(&v)
 }
 
-fn summarize(rows: &[SweepFeatures], voltage: bool) -> CellFeatures {
+/// A current rounded to 0.001 pA.
+fn round_pa(v: f64) -> f64 {
+    (v * 1000.0).round() / 1000.0
+}
+
+fn summarize(rows: &[SweepFeatures], voltage: bool, notes: &mut Vec<String>) -> CellFeatures {
     let mut c = CellFeatures::default();
     if !voltage {
         let tp = |f: fn(&TestPulse) -> Option<f64>| {
@@ -618,16 +635,67 @@ fn summarize(rows: &[SweepFeatures], voltage: bool) -> CellFeatures {
         })
         .collect();
     fi.sort_by(|a, b| a.current_pa.total_cmp(&b.current_pa));
-    if let Some(p) = fi.iter().find(|p| p.spike_count > 0) {
-        c.rheobase_pa = Some(p.current_pa);
-        c.rheobase_sweep = Some(p.sweep);
-    }
-    let firing: Vec<(f64, f64)> = fi
+    // spontaneous firing: spikes before the stimulus over the time before it
+    let (before, before_s) = rows
         .iter()
-        .filter(|p| p.spike_count > 0)
-        .map(|p| (p.current_pa, p.rate_hz))
-        .collect();
-    c.fi_slope_hz_per_pa = slope(&firing);
+        .filter_map(|r| Some((r.spike_count_before?, r.stimulus_start_s?)))
+        .fold((0usize, 0.0), |(n, t), (k, s)| (n + k, t + s));
+    if before_s > 0.0 {
+        c.spontaneous_rate_hz = Some(before as f64 / before_s);
+    }
+    // a step of 0 pA or less with spikes during it: the cell fires without depolarising current
+    let at_rest = rows
+        .iter()
+        .filter(|r| r.stimulus_pa.is_some_and(|i| i <= 0.0))
+        .filter(|r| r.spike_count_stimulus.unwrap_or(0) > 0)
+        .max_by(|a, b| {
+            a.stimulus_pa
+                .unwrap_or(0.0)
+                .total_cmp(&b.stimulus_pa.unwrap_or(0.0))
+        });
+    let first = fi.iter().position(|p| p.spike_count > 0);
+    match (at_rest, first) {
+        (Some(r), _) => notes.push(format!(
+            "no rheobase: the cell fires during the {} pA step of sweep {} ({} spikes{}), so it fires without depolarising current; fi_curve shows how the rate grows with current",
+            r.stimulus_pa.unwrap_or(0.0),
+            r.sweep,
+            r.spike_count_stimulus.unwrap_or(0),
+            c.spontaneous_rate_hz
+                .filter(|h| *h > 0.0)
+                .map(|h| format!(", {h:.1} Hz before the steps"))
+                .unwrap_or_default()
+        )),
+        (None, Some(i)) => {
+            c.rheobase_pa = Some(fi[i].current_pa);
+            c.rheobase_sweep = Some(fi[i].sweep);
+        }
+        (None, None) => {}
+    }
+    // f–I slope from the first firing step to the step of highest rate
+    if let Some(i) = first {
+        let peak = (i..fi.len())
+            .max_by(|&a, &b| fi[a].rate_hz.total_cmp(&fi[b].rate_hz))
+            .unwrap_or(i);
+        let firing: Vec<(f64, f64)> = fi[i..=peak]
+            .iter()
+            .map(|p| (p.current_pa, p.rate_hz))
+            .collect();
+        c.fi_slope_hz_per_pa = slope(&firing);
+        if let Some(fail) = fi[peak + 1..]
+            .iter()
+            .find(|p| p.rate_hz < fi[peak].rate_hz / 2.0)
+        {
+            notes.push(format!(
+                "firing falls from {:.0} Hz at {} pA to {:.0} Hz at {} pA (depolarisation block?): the f–I slope covers {} to {} pA",
+                fi[peak].rate_hz,
+                fi[peak].current_pa,
+                fail.rate_hz,
+                fail.current_pa,
+                fi[i].current_pa,
+                fi[peak].current_pa
+            ));
+        }
+    }
     c.max_firing_rate_hz = fi.iter().map(|p| p.rate_hz).reduce(f64::max);
     c.fi_curve = fi;
     // passive, from spike-free hyperpolarising steps

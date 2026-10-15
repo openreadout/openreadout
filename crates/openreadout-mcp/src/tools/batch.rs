@@ -30,9 +30,7 @@ pub struct BatchArgs {
     #[serde(default)]
     pub formats: Vec<String>,
     /// The measure's options. Analyses: the arguments of that analysis's tool
-    /// (openreadout_peaks, openreadout_nmr_peaks, ...; assay: `analysis` = wells, curve,
-    /// dose-response, kinetics, growth or qc, plus the arguments of that openreadout_assay_*
-    /// tool), plus `rows` (which record list becomes rows: peaks
+    /// (openreadout_peaks, openreadout_nmr_peaks, openreadout_assay with its `analysis`, ...), plus `rows` (which record list becomes rows: peaks
     /// peak|compound|chromatogram|band|region, nmr-peaks peak|integral|spectrum,
     /// ephys-features sweep|cell|spike, qpcr record|rq|standard_curve, assay
     /// wells|samples|compounds|kinetics|growth|quality).
@@ -119,20 +117,41 @@ fn batch_request(a: BatchArgs) -> Result<batch::BatchToolArgs, McpError> {
 impl InstrumentServer {
     #[tool(
         name = "openreadout_batch",
-        annotations(title = "Measure many files as one table", read_only_hint = false, destructive_hint = true, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Measure many files", read_only_hint = false, destructive_hint = true, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_batch::BatchOutput>(),
         description = "One measure over many files as one tidy table, optionally joined to sample sheets or plate maps (the join key is chosen from the data and reported in joins[] with unmatched rows) and summarized by group (by; test against a control). Analyses (peaks, chromatogram, nmr-peaks, ephys-features, spikes, qpcr, gate, assay) take the arguments of their tools as options. Inputs (paths): files, directories, globs or an index query. Returns at most limit rows (page with offset; output writes them all to a file); a failing file is a row with error. openreadout_summarize regroups a table written by an earlier output."
     )]
     pub(crate) async fn batch(
         &self,
         Parameters(a): Parameters<BatchArgs>,
+        ctx: rmcp::service::RequestContext<rmcp::RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         let registry = self.registry;
         let a = batch_request(a)?;
-        let out = tokio::task::spawn_blocking(move || batch::run_batch(&registry(), a, true))
-            .await
-            .map_err(|e| McpError::internal_error(format!("batch task failed: {e}"), None))?
-            .map_err(|e| mcp_err(&e))?;
+        let (notifier, forward) = crate::progress::Notifier::for_call(&ctx);
+        let out = tokio::task::spawn_blocking(move || {
+            let report = notifier.map(|n| {
+                move |done: u64, total: u64, _path: &str| {
+                    n.send(
+                        done,
+                        total,
+                        crate::progress::message("Measured", done, total, "data sets"),
+                    );
+                }
+            });
+            batch::run_batch_with_progress(
+                &registry(),
+                a,
+                true,
+                report
+                    .as_ref()
+                    .map(|r| r as openreadout_batch::run::Progress<'_>),
+            )
+        })
+        .await
+        .map_err(|e| McpError::internal_error(format!("batch task failed: {e}"), None))?
+        .map_err(|e| mcp_err(&e))?;
+        forward.finish().await;
         ok_json(&out)
     }
 

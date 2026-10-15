@@ -238,6 +238,15 @@ impl Item for PlanesOutput {
     }
 }
 
+impl Item for openreadout_core::measure::MeasureOutput {
+    fn format(&self) -> Option<String> {
+        Some(self.format.clone())
+    }
+    fn relabel(&mut self, to: &str) {
+        self.path = to.into();
+    }
+}
+
 impl Item for StatsOutput {
     fn format(&self) -> Option<String> {
         Some(self.format.clone())

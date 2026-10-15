@@ -17,6 +17,15 @@
 //!   the µmax line crosses ln y0, y0 the mean of the first three values (at least the threshold).
 //! - **logistic fit**: N(t) = K / (1 + ((K − N0)/N0) e^(−r t)) by least squares (the model
 //!   growthcurver fits), t in hours: K, N0, r, t_mid = ln((K − N0)/N0)/r, doubling time ln 2/r.
+//! - **pattern** (crash and regrowth, [`phases`]): on a running median of the values (window 5
+//!   or a fiftieth of the points, whichever is larger) with σ the noise of the raw values
+//!   (median |Δy| / 0.6745 / √2), a well *crashed* when the curve falls to half its height
+//!   above its lowest value after an earlier high point, by at least 5σ; `crash_s` is the time
+//!   of that high point (the decline starts there, at 0 when the values fall from the first
+//!   read). It *regrew* when, after the lowest point that follows (the trough), it rises again
+//!   by at least 10σ and by half the fall. `regrowth_s` is the lag time of the part after the
+//!   trough, by the rule above. Otherwise a well *grew* when it rose 10σ above its starting
+//!   level, else it shows *no_growth*.
 
 use crate::fit;
 use crate::stats;
@@ -173,6 +182,129 @@ pub struct Growth {
     pub auc_h: f64,
     /// Logistic fit, when it converged to a positive carrying capacity and rate.
     pub logistic: Option<LogisticGrowth>,
+}
+
+/// What a growth curve did.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Pattern {
+    /// Rose and did not crash.
+    Grew,
+    /// Did not rise above the noise.
+    NoGrowth,
+    /// Fell to half its height and did not grow again.
+    Crashed,
+    /// Fell, then grew again.
+    Regrew,
+}
+
+impl Pattern {
+    /// The pattern id.
+    pub fn id(self) -> &'static str {
+        match self {
+            Pattern::Grew => "grew",
+            Pattern::NoGrowth => "no_growth",
+            Pattern::Crashed => "crashed",
+            Pattern::Regrew => "regrew",
+        }
+    }
+}
+
+/// Crash and regrowth of one well (module docs, "pattern").
+#[derive(Debug, Clone, PartialEq)]
+pub struct Phases {
+    /// What the curve did.
+    pub pattern: Pattern,
+    /// Time of the high point before the crash (s).
+    pub crash_s: Option<f64>,
+    /// Smoothed value at that point.
+    pub crash_value: Option<f64>,
+    /// Time of the lowest point after the crash (s).
+    pub trough_s: Option<f64>,
+    /// Smoothed value there.
+    pub trough_value: Option<f64>,
+    /// When growth restarts after the trough (s): the lag time of the regrowth.
+    pub regrowth_s: Option<f64>,
+}
+
+fn running_median(y: &[f64], k: usize) -> Vec<f64> {
+    let h = k / 2;
+    (0..y.len())
+        .map(|i| {
+            let mut w: Vec<f64> = y[i.saturating_sub(h)..(i + h + 1).min(y.len())].to_vec();
+            w.sort_by(f64::total_cmp);
+            w[w.len() / 2]
+        })
+        .collect()
+}
+
+/// Crash and regrowth of a time series (t in seconds, values background-corrected).
+pub fn phases(
+    t: &[f64],
+    y: &[f64],
+    window: Option<usize>,
+    threshold: Option<f64>,
+) -> Option<Phases> {
+    let (t, y) = clean(t, y);
+    let n = t.len();
+    if n < 5 {
+        return None;
+    }
+    let k = (5.max(n / 50)) | 1;
+    let s = running_median(&y, k);
+    let mut d: Vec<f64> = y.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+    d.sort_by(f64::total_cmp);
+    let sigma = (d[d.len() / 2] / 0.6745 / std::f64::consts::SQRT_2).max(f64::MIN_POSITIVE);
+    let floor = s.iter().copied().fold(f64::INFINITY, f64::min);
+    let mut out = Phases {
+        pattern: Pattern::NoGrowth,
+        crash_s: None,
+        crash_value: None,
+        trough_s: None,
+        trough_value: None,
+        regrowth_s: None,
+    };
+    // the first crash: a fall to half the height above the floor, by at least 5σ
+    let mut hi = 0;
+    let mut crash = None;
+    for i in 0..n {
+        if s[i] > s[hi] {
+            hi = i;
+        }
+        if s[i] - floor <= 0.5 * (s[hi] - floor) && s[hi] - s[i] >= 5.0 * sigma {
+            crash = Some((hi, i));
+            break;
+        }
+    }
+    let Some((hi, fell)) = crash else {
+        let start = s[..k.min(n)].iter().copied().fold(f64::INFINITY, f64::min);
+        let top = s.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+        out.pattern = if top - start >= 10.0 * sigma {
+            Pattern::Grew
+        } else {
+            Pattern::NoGrowth
+        };
+        return Some(out);
+    };
+    // the trough: the lowest point between the fall and the highest point after it
+    let top_after = (fell..n)
+        .max_by(|&a, &b| s[a].total_cmp(&s[b]))
+        .unwrap_or(fell);
+    let trough = (fell..=top_after)
+        .min_by(|&a, &b| s[a].total_cmp(&s[b]))
+        .unwrap_or(fell);
+    out.pattern = Pattern::Crashed;
+    out.crash_s = Some(t[hi]);
+    out.crash_value = Some(s[hi]);
+    out.trough_s = Some(t[trough]);
+    out.trough_value = Some(s[trough]);
+    let rise = s[top_after] - s[trough];
+    if top_after > trough && rise >= 10.0 * sigma && rise >= 0.5 * (s[hi] - s[trough]) {
+        out.pattern = Pattern::Regrew;
+        out.regrowth_s = growth(&t[trough..], &y[trough..], window, threshold)
+            .and_then(|g| g.lag_time_s)
+            .map(|l| l.max(t[trough]));
+    }
+    Some(out)
 }
 
 /// N(t) = K / (1 + ((K − N0)/N0) e^(−r t)) fitted to one well (t in hours from the first point).
@@ -372,5 +504,49 @@ mod tests {
         // above the 5 % threshold d ln N/dt = r (1 − N/K) ≤ 0.95 r: µmax a little below r
         let mu = g.growth_rate_per_h.unwrap();
         assert!(mu < r && mu > 0.85 * r, "{mu}");
+    }
+
+    #[test]
+    fn crash_and_regrowth() {
+        // rise to 0.2 by 3 h, crash to 0.01 by 5 h, flat, regrow from 8 h to 0.5
+        let t: Vec<f64> = (0..600).map(|i| f64::from(i) * 120.0).collect();
+        let y: Vec<f64> = t
+            .iter()
+            .enumerate()
+            .map(|(i, &s)| {
+                let h = s / 3600.0;
+                let noise = if i % 2 == 0 { 0.0005 } else { -0.0005 };
+                noise
+                    + if h < 3.0 {
+                        0.01 * (h * 1.0).exp()
+                    } else if h < 5.0 {
+                        0.2 - 0.095 * (h - 3.0)
+                    } else if h < 8.0 {
+                        0.01
+                    } else {
+                        (0.01 * (1.2 * (h - 8.0)).exp()).min(0.5)
+                    }
+            })
+            .collect();
+        let p = phases(&t, &y, None, None).unwrap();
+        assert_eq!(p.pattern, Pattern::Regrew, "{p:?}");
+        let crash_h = p.crash_s.unwrap() / 3600.0;
+        assert!((crash_h - 3.0).abs() < 0.2, "{crash_h}");
+        let re_h = p.regrowth_s.unwrap() / 3600.0;
+        assert!(re_h > 7.5 && re_h < 11.0, "{re_h}");
+        // a curve that only rises
+        let up: Vec<f64> = t
+            .iter()
+            .map(|s| 0.01 * (s / 3600.0).exp().min(50.0))
+            .collect();
+        assert_eq!(phases(&t, &up, None, None).unwrap().pattern, Pattern::Grew);
+        // flat noise
+        let flat: Vec<f64> = (0..600)
+            .map(|i| if i % 2 == 0 { 0.001 } else { -0.001 })
+            .collect();
+        assert_eq!(
+            phases(&t, &flat, None, None).unwrap().pattern,
+            Pattern::NoGrowth
+        );
     }
 }

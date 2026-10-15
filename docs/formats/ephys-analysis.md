@@ -21,7 +21,11 @@ Recordings without an epoch table (gap-free, other formats) get spike and sweep 
 
 **Spikes** (per sweep, whole sweep): an upward crossing of `--peak-threshold-mv` (−20 mV) starts a
 spike, the next downward crossing ends it, the peak is the maximum in between (eFEL's
-`Spikecount` definition). Onset (threshold): first sample after the previous spike's AHP minimum
+`Spikecount` definition). In addition, a peak must rise `--min-rise-mv` (15 mV) above the lowest
+voltage since the previous spike and fall that far again afterwards. A membrane held near −20 mV
+by a strong step otherwise turns noise into hundreds of spikes, and spikes riding on a plateau
+above −20 mV merge into one (`pyabf-190619b-0003` sweep 6: eFEL counts 98, the trace shows 8).
+`--min-rise-mv 0` gives eFEL's count. Onset (threshold): first sample after the previous spike's AHP minimum
 from which dV/dt ≥ `--dvdt-threshold` (10 V/s) for 5 samples. Per spike: `peak_time_s`, `peak_mv`,
 `threshold_time_s`, `threshold_mv`, `amplitude_mv` (peak − onset), `half_width_ms` (at the voltage
 half way between onset and peak), `rise_time_ms` (onset → peak), `decay_time_ms` (peak → back to
@@ -29,6 +33,7 @@ the onset voltage), `ahp_mv` (minimum to the next spike's crossing or the sweep 
 `ahp_depth_mv` (onset − AHP), `upstroke_v_per_s`, `downstroke_v_per_s`, `isi_ms`.
 
 **Per sweep:** `spike_count`, `spike_count_stimulus` (peaks inside the stimulus),
+`spike_count_before` (peaks before the stimulus),
 `firing_rate_hz` (= in-stimulus count / stimulus duration), `first_spike_latency_ms` (first peak
 − stimulus onset), `isi_mean_ms`, `isi_cv`, `adaptation_index` = mean of
 (ISIₙ₊₁ − ISIₙ)/(ISIₙ₊₁ + ISIₙ) over the in-stimulus ISIs, `half_width_mean_ms`,
@@ -39,8 +44,12 @@ onset to the voltage extreme), `sag_ratio` = (steady − min)/(baseline − min)
 `steady_fraction` = (baseline − steady)/(baseline − min) (eFEL `sag_ratio2`)); spikes inside the
 stimulus void the passive measures of that sweep.
 
-**Per cell:** `rheobase_pa` (smallest positive step with ≥ 1 in-stimulus spike) and
-`rheobase_sweep`; `fi_curve`; `fi_slope_hz_per_pa` (least squares over firing steps);
+**Per cell:** `spontaneous_rate_hz` (spikes before the stimulus over the time before it, all
+sweeps); `rheobase_pa` (smallest positive step with ≥ 1 in-stimulus spike) and `rheobase_sweep`,
+left out with a note when a step of 0 pA or less also fires (the cell fires without depolarising
+current, so a rheobase is not defined); `fi_curve`; `fi_slope_hz_per_pa` (least squares from the
+first firing step to the step of highest rate; steps past it, where firing fails, are left out
+and a note names them);
 `max_firing_rate_hz`; `input_resistance_mohm` (slope of steady − baseline against the step over
 spike-free negative steps); `tau_ms` (median); `capacitance_pf` = τ/R_in; `sag_ratio` (the most
 negative step); `resting_mv` (median baseline).
@@ -73,7 +82,7 @@ pyABF memtest, Neo + SpikeInterface 0.105). Results:
 
 | data | against | result |
 | --- | --- | --- |
-| `pyabf-171116sh-0018`, `-2019-07-24-0055-fsi`, `-190619b-0003` (current-clamp steps; 44 sweeps, 1182 spikes) | eFEL | spike counts per sweep and inside the stimulus identical in 44/44 sweeps; stimulus windows and step currents identical; rheobase identical (50, 25, 120 pA); input resistance within 0.03 % (104.16 vs 104.14, 176.82 vs 176.77, 224.01 vs 223.99 MΩ); sag ratio within 0.0002; baseline within 0.1 mV, steady state within 0.03 mV; 1160/1182 peaks at the same or the neighbouring sample (differences on flat-topped peaks); median onset voltage difference 0.5–1.0 mV (different onset rules); median half-width difference 3 %; time constant median difference 10–17 % (different fit windows) |
+| `pyabf-171116sh-0018`, `-2019-07-24-0055-fsi`, `-190619b-0003` (current-clamp steps; 44 sweeps, 1182 spikes) | eFEL | spike counts per sweep and inside the stimulus identical in 44/44 sweeps with `min_rise_mv` 0; stimulus windows and step currents identical; rheobase identical (50 pA, none for the fast-spiking cell, which fires during the 0 pA step, 120 pA); input resistance within 0.03 % (104.16 vs 104.14, 176.82 vs 176.77, 224.01 vs 223.99 MΩ); sag ratio within 0.0002; baseline within 0.1 mV, steady state within 0.03 mV; 1160/1182 peaks at the same or the neighbouring sample (differences on flat-topped peaks); median onset voltage difference 0.5–1.0 mV (different onset rules); median half-width difference 3 %; time constant median difference 10–17 % (different fit windows) |
 | `pyabf-18808025-memtest`, `pyabf-171116sh-0011` (voltage-clamp membrane tests) | pyABF memtest | holding current within 0.2 pA; ΔV/ΔI steady-state resistance within 4 % (1922.6 vs 2002.2, 95.9 vs 97.1 MΩ); access resistance within 8 % (28.7 vs 26.8, 18.3 vs 16.9 MΩ); capacitance 24.0 vs 18.8 and 237.6 vs 150.8 pF — pyABF uses τ/Ra, which ignores Rm and the membrane current; ours integrates the transient's charge (exact on a synthetic RC cell, unit-tested) |
 | `brk-filespec2-3001.ns5` (10 ch), `intan-test-tetrode-163225.rhd` (4 ch), `nlx-cheetah-v5-5-1-tet3a.ncs` | SpikeInterface bandpass + detect_peaks | spike counts identical on all 15 channels (3,772 spikes), every SpikeInterface spike matched within 0.1 ms, noise equal to 4 digits |
 
@@ -103,7 +112,7 @@ longer grows with the channel count; `--max-seconds` bounds the length analysed.
 | `to_mv`, `to_pa` | unit factors to mV and pA |
 | `Protocol`, `output`, `unit`, `holding`, `from_trace`, `sweep_epochs`, `stimulus` | the command output's epoch table |
 | `SweepEpoch`, `index`, `kind`, `start_sample`, `end_sample`, `level` | one epoch placed in a sweep |
-| `ApSettings`, `peak_threshold_mv`, `dvdt_threshold_v_per_s`, `dvdt_window_samples` | spike detection settings |
+| `ApSettings`, `peak_threshold_mv`, `dvdt_threshold_v_per_s`, `dvdt_window_samples`, `min_rise_mv` | spike detection settings |
 | `Spike`, `sweep`, `peak_sample`, `peak_time_s`, `peak_mv`, `threshold_time_s`, `threshold_mv`, `threshold_from_dvdt`, `amplitude_mv`, `half_width_ms`, `rise_time_ms`, `decay_time_ms`, `ahp_mv`, `ahp_depth_mv`, `upstroke_v_per_s`, `downstroke_v_per_s`, `isi_ms` | one action potential |
 | `detect`, `adaptation_index` | spike detection, ISI adaptation |
 | `StepResponse`, `baseline_mv`, `steady_state_mv`, `extreme_mv`, `input_resistance_mohm`, `tau_ms`, `sag_ratio`, `steady_fraction`, `current_step` | passive response to a current step |
@@ -113,9 +122,9 @@ longer grows with the channel count; `--max-seconds` bounds the length analysed.
 | `CellReport`, `path`, `format`, `clamp_mode`, `sample_rate_hz`, `settings`, `cell`, `spike_count_total`, `spikes`, `spikes_truncated`, `notes` | `analyze ephys-features` output |
 | `ChannelRef`, `name` | the channel analysed |
 | `StimulusInfo`, `epoch` | the stimulus found |
-| `SweepFeatures`, `stimulus_start_s`, `stimulus_end_s`, `stimulus_pa`, `stimulus_mv`, `spike_count`, `spike_count_stimulus`, `firing_rate_hz`, `first_spike_latency_ms`, `isi_mean_ms`, `isi_cv`, `half_width_mean_ms`, `amplitude_mean_mv`, `passive` | one sweep |
+| `SweepFeatures`, `stimulus_start_s`, `stimulus_end_s`, `stimulus_pa`, `stimulus_mv`, `spike_count`, `spike_count_stimulus`, `spike_count_before`, `firing_rate_hz`, `first_spike_latency_ms`, `isi_mean_ms`, `isi_cv`, `half_width_mean_ms`, `amplitude_mean_mv`, `passive` | one sweep |
 | `FiPoint`, `current_pa`, `rate_hz` | f–I curve point |
-| `CellFeatures`, `resting_mv`, `rheobase_pa`, `rheobase_sweep`, `fi_curve`, `fi_slope_hz_per_pa`, `max_firing_rate_hz`, `membrane_capacitance_pf` | per-cell summary |
+| `CellFeatures`, `resting_mv`, `spontaneous_rate_hz`, `rheobase_pa`, `rheobase_sweep`, `fi_curve`, `fi_slope_hz_per_pa`, `max_firing_rate_hz`, `membrane_capacitance_pf` | per-cell summary |
 | `analyze_cell`, `analyze_extracellular` | entry points |
 | `SpikesRequest`, `channels`, `max_seconds`, `max_times` | `analyze spikes` request |
 | `SpikesReport`, `ChannelSpikes`, `noise`, `threshold`, `duration_s`, `times`, `times_truncated`, `SpikeTime`, `sample`, `time_s`, `amplitude` | `analyze spikes` output |

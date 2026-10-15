@@ -715,6 +715,9 @@ pub fn from_embedded(maps: &serde_json::Value) -> Option<Layout> {
         } else if t == "group" {
             // an assay group (SkanIt `Group 1`), not a replicate group
             Some(Field::Other("assay_group".into()))
+        } else if t == "softmaxgroup" {
+            // SoftMax Pro groups are its replicate groups (`99 G +`, `Blank`)
+            Some(Field::Group)
         } else {
             match field_of(title) {
                 Field::Other(_) if t.contains("layout") || t.contains("content") => {

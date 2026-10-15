@@ -45,12 +45,7 @@ WRITERS = {"openreadout_export", "openreadout_extract", "openreadout_batch", "op
 # Write only new files of their own (the index directory; a diagnostic bundle only when
 # `output` is given): not read-only, not destructive.
 INDEX_WRITERS = {"openreadout_index", "openreadout_report"}
-# One tool per analysis; the plate-reader assays are one tool per `analysis`.
-ASSAY_TOOLS = {
-    "wells": "openreadout_assay_wells", "curve": "openreadout_assay_curve",
-    "dose-response": "openreadout_dose_response", "kinetics": "openreadout_kinetics",
-    "growth": "openreadout_growth", "qc": "openreadout_assay_qc",
-}
+# One tool per analysis; the plate-reader assays are one tool with `analysis`.
 # Assay arguments that the tools take under `plate_options`.
 PLATE_OPTIONS = {"table", "read", "wavelength_nm", "embedded_layout", "layout_text", "empty_wells", "roles",
                  "blank_subtraction", "outliers", "outlier_threshold", "exclude_outliers"}
@@ -59,7 +54,7 @@ EXPECTED_TOOLS = {
     "openreadout_preview", "openreadout_stats", "openreadout_trace", "openreadout_table",
     "openreadout_scans", "openreadout_spectrum", "openreadout_peaks", "openreadout_chromatogram", "openreadout_nmr_peaks",
     "openreadout_ephys_features", "openreadout_spikes", "openreadout_qpcr", "openreadout_gate",
-    *ASSAY_TOOLS.values(),
+    "openreadout_assay",
     "openreadout_export", "openreadout_batch", "openreadout_link", "openreadout_index",
     "openreadout_search", "openreadout_health", "openreadout_watch", "openreadout_extract",
     "openreadout_summarize",
@@ -70,7 +65,8 @@ def analysis_call(kind, file, options):
     """The tool and arguments of analysis `kind` (`peaks`, `nmr-peaks`, `assay` with `analysis`)."""
     args = dict(options)
     if kind == "assay":
-        name = ASSAY_TOOLS[args.pop("analysis", "wells")]
+        name = "openreadout_assay"
+        args.setdefault("analysis", "wells")
         plate = {k: args.pop(k) for k in list(args) if k in PLATE_OPTIONS}
         if plate:
             args["plate_options"] = plate

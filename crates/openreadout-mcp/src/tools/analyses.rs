@@ -12,10 +12,11 @@ use std::borrow::Cow;
 use std::marker::PhantomData;
 
 use base64::Engine as _;
-use openreadout_batch::analyze::{AnalyzeArgs, AnalyzeKind, run};
+use openreadout_batch::analyze::{AnalyzeArgs, AnalyzeKind, run_with_progress};
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{CallToolResult, ContentBlock};
-use rmcp::{ErrorData as McpError, tool, tool_router};
+use rmcp::service::RequestContext;
+use rmcp::{ErrorData as McpError, RoleServer, tool, tool_router};
 use serde::{Deserialize, Deserializer};
 use serde_json::{Map, Value};
 
@@ -63,12 +64,11 @@ impl<'de, Q> Deserialize<'de> for AnalysisArgs<Q> {
 #[derive(schemars::JsonSchema)]
 #[allow(dead_code)]
 struct Shape<Q> {
-    /// Absolute or working-directory-relative path to the instrument file or data-set directory.
+    /// Path to the file or data-set directory.
     file: String,
     #[serde(flatten)]
     options: Q,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     strict: Option<bool>,
 }
 
@@ -89,6 +89,7 @@ pub(super) async fn call(
     file: String,
     strict: Option<bool>,
     options: Map<String, Value>,
+    ctx: &RequestContext<RoleServer>,
 ) -> Result<CallToolResult, McpError> {
     let registry = server.registry;
     let args = AnalyzeArgs {
@@ -97,11 +98,21 @@ pub(super) async fn call(
         options,
         strict,
     };
-    let (out, png) =
-        tokio::task::spawn_blocking(move || run(&with_strict(registry(), args.strict), &args))
-            .await
-            .map_err(|e| McpError::internal_error(format!("analysis task failed: {e}"), None))?
-            .map_err(|e| mcp_err(&e))?;
+    let (notifier, forward) = crate::progress::Notifier::for_call(ctx);
+    let (out, png) = tokio::task::spawn_blocking(move || {
+        let report = notifier.map(|n| n.shared("Reading", "spectra"));
+        run_with_progress(
+            &with_strict(registry(), args.strict),
+            &args,
+            report
+                .as_deref()
+                .map(|r| r as &openreadout_core::parallel::Progress<'_>),
+        )
+    })
+    .await
+    .map_err(|e| McpError::internal_error(format!("analysis task failed: {e}"), None))?
+    .map_err(|e| mcp_err(&e))?;
+    forward.finish().await;
     let mut r = CallToolResult::structured(to_value(&out)?);
     if let Some(bytes) = png {
         r.content.insert(
@@ -122,52 +133,72 @@ use openreadout_signal::api::{EphysQuery, NmrQuery, SpikesQuery};
 impl InstrumentServer {
     #[tool(
         name = "openreadout_peaks",
-        annotations(title = "Chromatographic peaks", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Find and integrate peaks", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_quant::analyze::PeaksOutput>(),
         description = "Detect and integrate peaks: chromatograms (detector traces, TIC, XIC, SRM) with retention time, area, height, widths, tailing, plates, resolution, S/N and area % (purity); one peak near rt; a compound list; bands and regions of IR, Raman, UV-Vis and NMR spectra (x_range, integrate). Takes the openreadout_chromatogram arguments to choose the signal."
     )]
     pub(crate) async fn peaks(
         &self,
         Parameters(a): Parameters<AnalysisArgs<PeaksQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Peaks, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Peaks, a.file, a.strict, a.options, &ctx).await
     }
 
     #[tool(
         name = "openreadout_chromatogram",
-        annotations(title = "Chromatograms", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Extract chromatograms", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_quant::extract::ChromatogramOutput>(),
         description = "Chromatograms from mass spectra and detector signals: TIC, BPC, extracted-ion (mz with ppm or da), SRM/MRM transitions, stored chromatograms and UV/DAD/FID/TCD traces (traces). Per chromatogram: apex time and intensity, integral, and thinned arrays. Answers 'when does m/z X elute'."
     )]
     pub(crate) async fn chromatogram(
         &self,
         Parameters(a): Parameters<AnalysisArgs<ChromatogramQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Chromatogram, a.file, a.strict, a.options).await
+        call(
+            self,
+            AnalyzeKind::Chromatogram,
+            a.file,
+            a.strict,
+            a.options,
+            &ctx,
+        )
+        .await
     }
 
     #[tool(
         name = "openreadout_nmr_peaks",
-        annotations(title = "NMR peaks and integrals", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Find NMR peaks and integrals", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_signal::nmr::NmrReport>(),
-        description = "NMR peak list (ppm, height, width, S/N) and region integrals, from the vendor's processed spectrum or a spectrum processed from the FID (from=fid: group delay, apodization, zero filling, FT, phase, baseline)."
+        description = "NMR peak list (ppm, height, width, S/N) and integrals of given regions or of every multiplet (auto_integrate), from the vendor's processed spectrum or a spectrum processed from the FID (from=fid: group delay, apodization, zero filling, FT, phase, baseline)."
     )]
     pub(crate) async fn nmr_peaks(
         &self,
         Parameters(a): Parameters<AnalysisArgs<NmrQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::NmrPeaks, a.file, a.strict, a.options).await
+        call(
+            self,
+            AnalyzeKind::NmrPeaks,
+            a.file,
+            a.strict,
+            a.options,
+            &ctx,
+        )
+        .await
     }
 
     #[tool(
         name = "openreadout_ephys_features",
-        annotations(title = "Patch-clamp features", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Measure patch-clamp features", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_signal::ephys::CellReport>(),
         description = "Patch-clamp features: action potentials per sweep, rheobase, f-I slope, input resistance, membrane time constant, capacitance, sag; in voltage clamp, holding current and access resistance."
     )]
     pub(crate) async fn ephys_features(
         &self,
         Parameters(a): Parameters<AnalysisArgs<EphysQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         call(
             self,
@@ -175,46 +206,50 @@ impl InstrumentServer {
             a.file,
             a.strict,
             a.options,
+            &ctx,
         )
         .await
     }
 
     #[tool(
         name = "openreadout_spikes",
-        annotations(title = "Extracellular spikes", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Detect extracellular spikes", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_signal::ephys::SpikesReport>(),
         description = "Extracellular spike detection per channel: band-pass, threshold at K x MAD noise, spike counts, rates and times."
     )]
     pub(crate) async fn spikes(
         &self,
         Parameters(a): Parameters<AnalysisArgs<SpikesQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Spikes, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Spikes, a.file, a.strict, a.options, &ctx).await
     }
 
     #[tool(
         name = "openreadout_qpcr",
-        annotations(title = "qPCR results", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Analyse a qPCR run", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_qpcr::QpcrReport>(),
         description = "Real-time PCR (RDML, .eds, .rex, ...): one record per well and target with sample, task, Cq and Tm; compute_cq recomputes Cq, ddcq gives 2^-ΔΔCq fold changes, standard_curve fits efficiency per target."
     )]
     pub(crate) async fn qpcr(
         &self,
         Parameters(a): Parameters<AnalysisArgs<openreadout_batch::analyze::QpcrOptions>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Qpcr, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Qpcr, a.file, a.strict, a.options, &ctx).await
     }
 
     #[tool(
         name = "openreadout_gate",
-        annotations(title = "Flow-cytometry gating", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Count gated populations", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_core::flow::GateOutput>(),
         description = "Flow-cytometry gating from a FlowJo workspace (workspace) or Gating-ML 2.0 file (gatingml): the event count, percentage and medians of every population of the FCS file. Without workspace or gatingml, file is the gating file and the answer describes its samples and gate tree."
     )]
     pub(crate) async fn gate(
         &self,
         Parameters(a): Parameters<AnalysisArgs<openreadout_batch::analyze::GateOptions>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Gate, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Gate, a.file, a.strict, a.options, &ctx).await
     }
 }

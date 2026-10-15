@@ -70,7 +70,10 @@ points (`"2 54 73"`, `"8  2"` → 19.656 points, which removed the pre-response 
   (`None` when an overlapping line keeps the signal from reaching half height);
 - `--negative` also reports negative peaks;
 - `--integrate A:B` (repeatable): sum of the points in the region × the point spacing in ppm;
-  `normalized` rescales so region I has value V (`--integral-reference I=V`, default `0=1`).
+  `normalized` rescales so region I has value V (`--integral-reference I=V`, default `0=1`);
+- `--auto-integrate` (MCP `auto_integrate`), without `--integrate`: one region per multiplet,
+  around each group of positive peaks closer than 15 Hz, reaching 10 Hz (or the outer peak's
+  half width) beyond its outer peaks; regions that then overlap are merged.
 
 ## Validation (automated in `crates/openreadout-corpus-tests/tests/nmr_processing.rs`)
 
@@ -230,7 +233,8 @@ CARBON_01: `proc='lp'`, `ddrtc` 364 µs) need a first-order phase beyond the aut
 | `Peak`, `hz`, `index`, `height`, `width_hz`, `width_ppm`, `snr` | one peak |
 | `Integral`, `from_ppm`, `to_ppm`, `value`, `normalized`, `points`, `integrate` | one integral |
 | `SpectrumSource` { `Auto`, `Fid`, `Processed` }, `is_fid`, `spectrum_axis`, `choose_trace`, `load_spectrum`, `fid_parameters`, `read_fid`, `jeol_group_delay` | choosing and reading a spectrum or FID from any NMR reader |
-| `NmrRequest`, `trace`, `sweep`, `process`, `baseline_on_stored`, `peaks`, `integrals`, `integral_reference` | `analyze nmr-peaks` request |
+| `NmrRequest`, `trace`, `sweep`, `process`, `baseline_on_stored`, `peaks`, `integrals`, `auto_integrals`, `integral_reference` | `analyze nmr-peaks` request |
+| `multiplet_regions`, `MULTIPLET_GAP_HZ`, `MULTIPLET_MARGIN_HZ` | automatic integration regions |
 | `NmrReport`, `path`, `format`, `trace_name`, `processing`, `noise_sd`, `peak_options`, `peak_count`, `main_peak` | `analyze nmr-peaks` output |
 | `ChosenSpectrum`, `spectrum`, `load`, `analyze` | the spectrum used and the analysis entry points |
 | `ProcessedNmrDataset`, `record` | dataset wrapper behind `--process` |

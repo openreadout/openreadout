@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 
 use openreadout_core::{Error, Registry};
 use rmcp::handler::server::wrapper::Parameters;
-use rmcp::model::{CallToolResult, ProgressNotificationParam};
+use rmcp::model::CallToolResult;
 use rmcp::service::RequestContext;
 use rmcp::{ErrorData as McpError, RoleServer, schemars, tool, tool_router};
 use serde::Deserialize;
@@ -15,7 +15,7 @@ use crate::{InstrumentServer, mcp_err, progress, to_value, with_strict};
 /// Arguments for `openreadout_export`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct ExportArgs {
-    /// Absolute or working-directory-relative path to the instrument file.
+    /// Path to the file.
     pub file: String,
     /// `ome-tiff` (one BigTIFF file; the default for images), `ome-zarr` (OME-NGFF 0.5 / Zarr v3
     /// directory with a pyramid), `mzml` (indexed mzML 1.1.0; the default for mass spectra),
@@ -71,8 +71,7 @@ pub struct ExportArgs {
     /// scan has both.
     #[serde(default)]
     pub centroid: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -308,12 +307,12 @@ fn export_columnar(
     )))
 }
 
-/// The export itself (blocking). `progress`, when given, receives `(done, total)` planes or
-/// spectra as they are read.
+/// The export itself (blocking). `notifier`, when given, reports the planes, spectra, rows or
+/// samples read.
 fn export_blocking(
     registry: fn() -> Registry,
     a: ExportArgs,
-    progress: Option<progress::ProgressFn>,
+    notifier: Option<progress::Notifier>,
 ) -> Result<serde_json::Value, McpError> {
     let reg = with_strict(registry(), a.strict);
     let input = PathBuf::from(&a.file);
@@ -339,12 +338,30 @@ fn export_blocking(
         let info = ds.info().map_err(|e| mcp_err(&e))?;
         requested = Some(openreadout_batch::csv::default_export_format(&info).to_string());
     }
+    let open_progress = |name: &str| {
+        let unit = if a.spectra {
+            "spectra"
+        } else if a.trace.is_some() {
+            "samples"
+        } else {
+            "rows"
+        };
+        notifier
+            .as_ref()
+            .map(|n| n.counter(format!("Exporting to {name}: read"), unit))
+    };
     match requested.as_deref() {
         Some("csv") => return export_csv(&reg, &a),
-        Some("parquet") => return export_open(registry, &a, "parquet", progress),
-        Some("arrow" | "feather" | "ipc") => return export_open(registry, &a, "arrow", progress),
-        Some("nwb") => return export_open(registry, &a, "nwb", progress),
-        Some("jcamp" | "jcamp-dx" | "jdx") => return export_open(registry, &a, "jcamp", progress),
+        Some("parquet") => {
+            return export_open(registry, &a, "parquet", open_progress("Parquet"));
+        }
+        Some("arrow" | "feather" | "ipc") => {
+            return export_open(registry, &a, "arrow", open_progress("Arrow"));
+        }
+        Some("nwb") => return export_open(registry, &a, "nwb", open_progress("NWB")),
+        Some("jcamp" | "jcamp-dx" | "jdx") => {
+            return export_open(registry, &a, "jcamp", open_progress("JCAMP-DX"));
+        }
         _ => {}
     }
     if a.table.is_some()
@@ -371,8 +388,9 @@ fn export_blocking(
             PathBuf::from,
         );
         let mut wrapped;
-        let dsr: &mut dyn openreadout_core::reader::Dataset = match progress {
-            Some(p) => {
+        let dsr: &mut dyn openreadout_core::reader::Dataset = match &notifier {
+            Some(n) => {
+                let p = n.counter("Exporting to mzML: read", "spectra");
                 wrapped = progress::ProgressDataset::new(ds.as_mut(), total, p);
                 &mut wrapped
             }
@@ -437,8 +455,14 @@ fn export_blocking(
     }
     let total = progress::planes_to_export(&info, a.image, &a.select);
     let mut wrapped;
-    let dsr: &mut dyn openreadout_core::reader::Dataset = match progress {
-        Some(p) => {
+    let dsr: &mut dyn openreadout_core::reader::Dataset = match &notifier {
+        Some(n) => {
+            let what = if zarr {
+                "Exporting to OME-Zarr: read"
+            } else {
+                "Exporting to OME-TIFF: read"
+            };
+            let p = n.counter(what, "planes");
             wrapped = progress::ProgressDataset::new(ds.as_mut(), total, p);
             &mut wrapped
         }
@@ -484,7 +508,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_extract",
         annotations(
-            title = "Extract an embedded attachment",
+            title = "Extract an embedded file",
             read_only_hint = false,
             destructive_hint = true,
             idempotent_hint = true,
@@ -529,30 +553,11 @@ impl InstrumentServer {
         ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         let registry = self.registry;
-        let token = ctx.meta.get_progress_token();
-        let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel::<(u64, u64)>();
-        let reporter = token.as_ref().map(|_| {
-            progress::throttled(move |done, total| {
-                let _ = tx.send((done, total));
-            })
-        });
-        let forward = token.map(|tok| {
-            let peer = ctx.peer.clone();
-            tokio::spawn(async move {
-                while let Some((done, total)) = rx.recv().await {
-                    let p = ProgressNotificationParam::new(tok.clone(), done as f64)
-                        .with_total(total as f64)
-                        .with_message(format!("read {done} of {total} planes/spectra"));
-                    let _ = peer.notify_progress(p).await;
-                }
-            })
-        });
-        let r = tokio::task::spawn_blocking(move || export_blocking(registry, a, reporter))
+        let (notifier, forward) = progress::Notifier::for_call(&ctx);
+        let r = tokio::task::spawn_blocking(move || export_blocking(registry, a, notifier))
             .await
             .map_err(|e| McpError::internal_error(format!("export task failed: {e}"), None))?;
-        if let Some(f) = forward {
-            let _ = f.await;
-        }
+        forward.finish().await;
         Ok(CallToolResult::structured(r?))
     }
 }

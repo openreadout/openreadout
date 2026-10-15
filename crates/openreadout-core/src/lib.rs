@@ -85,6 +85,7 @@ pub mod gzip;
 pub mod jet;
 pub mod limits;
 pub mod live;
+pub mod measure;
 pub mod model;
 pub mod parallel;
 pub mod pixel;

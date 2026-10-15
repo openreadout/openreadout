@@ -2,6 +2,8 @@
 
 Status: implemented on `feat/surface`. The owner approved the whole proposal, including the items first held for review.
 
+Update, 2026-10-15: the six plate-reader tools are merged back into one `openreadout_assay` with `analysis`, to shrink the tool list (input schemas, descriptions and annotations went from 95 kB to 72 kB over 32 → 27 tools). An argument that belongs to some analyses names them in its description, and a call with an argument its analysis does not take is refused with the list it does take, so rule 2's concern (arguments that silently do nothing) does not arise.
+
 - One MCP tool per analysis, with `plate_options` on the six assay tools. The plate-reader subcommands are `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` and `assay-qc`, and `analyze` stays a CLI group.
 - `check` is split into `check`, `planes`, `compare` and `report`, `spectra` into `scans` and `spectrum`, `export --attachment` into `extract`, `batch summarize` into `summarize`, and `search --health` and `--export` into `health` and `export-dataset`. `index --health` is gone. `openreadout_health` is new, and `openreadout_formats` is gone (the `openreadout://formats` resource stays).
 - The argument renames and naming conventions below, CSV in `openreadout_export`, and `schema_version` 2. The `--samples` and `--layout` spellings of `--sample-sheet` are gone (rule 4).

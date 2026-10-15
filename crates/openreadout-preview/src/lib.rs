@@ -712,6 +712,12 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
         Ok("trace")
     } else if !info.spectra.is_empty() {
         Ok("spectrum")
+    } else if info.format.family == "flow-cytometry" {
+        Err(Error::unsupported(
+            "preview",
+            format!("a picture of {} events", info.format.name),
+            "Flow-cytometry events have no preview here. Count events with openreadout_table (filter, count=true), and get each population's count, percentage and medians with openreadout_gate and the FlowJo workspace or Gating-ML file.",
+        ))
     } else if !info.tables.is_empty() {
         Ok("plate")
     } else {

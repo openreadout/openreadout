@@ -59,8 +59,19 @@ pub struct StatsArgs {
     /// value of each pixel over the selected z planes) or `t`; the statistics are of the
     /// projections.
     pub mip: Option<openreadout_core::stats::Projection>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Intensity profile along the line `[x0, y0, x1, y1]` (pixels of `level`, as on the
+    /// preview rulers): values per channel, peak position and FWHM in px and µm.
+    pub line: Option<[f64; 4]>,
+    /// Profile width in pixels, averaged across the line. Default 1.
+    pub line_width: Option<u32>,
+    /// Statistics inside this polygon `[[x, y], ...]` (pixels of `level`): area, mean, std,
+    /// median, sum per channel.
+    pub polygon: Option<Vec<[f64; 2]>>,
+    /// Count objects (nuclei, cells, spots) in `region` or the whole plane: threshold
+    /// (Otsu unless given), 8-connected components, with count, areas (px, µm²) and centroids.
+    /// Reads one plane: the first selected channel, the middle z unless selected.
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -77,64 +88,105 @@ enum StatsToolOutput {
     Images(openreadout_core::stats::StatsOutput),
     /// per=well|field.
     Wells(openreadout_core::plate::WellStatsOutput),
+    /// line, polygon or objects.
+    Measure(openreadout_core::measure::MeasureOutput),
 }
 
 #[tool_router(router = stats_router, vis = "pub(super)")]
 impl InstrumentServer {
     #[tool(
         name = "openreadout_stats",
-        annotations(title = "Pixel statistics", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Measure pixels", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<StatsToolOutput>(),
-        description = "Pixel statistics per channel and image: count, min, max, mean, std, percentiles p1–p99, zero and saturated fractions (at the detector's 2^bits−1 when recorded), histogram; RGB images also per component. per=plane adds every plane; per=well or field gives rows per well of a screening plate. mip='z' measures the maximum-intensity projection; whole slides: a coarser level and/or a region."
+        description = "Pixel statistics per channel and image: count, min, max, mean, std, percentiles p1–p99, zero and saturated fractions (at the detector's 2^bits−1 when recorded), histogram; RGB images also per component. per=plane adds every plane; per=well or field gives rows per well of a screening plate. mip='z' measures the maximum-intensity projection; whole slides: a coarser level and/or a region. Measurements on one plane: line (intensity profile, FWHM), polygon (statistics inside), objects (count nuclei, cells or spots with areas and centroids)."
     )]
-    pub(crate) fn stats(
+    pub(crate) async fn stats(
         &self,
         Parameters(a): Parameters<StatsArgs>,
+        rc: rmcp::service::RequestContext<rmcp::RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         let reg = self.reg_for(a.strict);
-        let path = Path::new(&a.file);
-        let (_, mut ds) = reg.open(path).map_err(|e| mcp_err(&e))?;
-        let info = ds.info().map_err(|e| mcp_err(&e))?;
-        let opener = || -> openreadout_core::Result<Box<dyn openreadout_core::Dataset>> {
-            reg.open(path).map(|(_, d)| d)
-        };
-        let ctx = openreadout_core::parallel::ReadContext {
-            opener: Some(&opener),
-            progress: None,
-        };
-        if matches!(a.per, StatsPer::Well | StatsPer::Field) {
-            let mut req = openreadout_core::plate::WellStatsRequest::default();
-            req.select = a.select;
-            req.wells = a.wells;
-            req.per_field = a.per == StatsPer::Field;
-            req.level = a.level;
-            let out = openreadout_core::plate::well_stats(ds.as_mut(), &info, &req, &ctx)
-                .map_err(|e| mcp_err(&e))?;
-            return ok_json(&out);
-        }
-        if !a.wells.is_empty() {
-            return Err(mcp_err(&Error::Usage(
-                "wells goes with per=well or per=field".into(),
-            )));
-        }
-        let out = openreadout_core::stats::compute_stats(
-            ds.as_mut(),
-            &info,
-            &{
-                let mut stats_request = openreadout_core::stats::StatsRequest::default();
-                stats_request.image = a.image;
-                stats_request.select = a.select;
-                stats_request.level = a.level;
-                stats_request.region = a.region;
-                stats_request.bins = a.bins.unwrap_or(MCP_STATS_BINS);
-                stats_request.scale = a.scale;
-                stats_request.per_plane = a.per == StatsPer::Plane;
-                stats_request.mip = a.mip;
-                stats_request
-            },
-            &ctx,
-        )
-        .map_err(|e| mcp_err(&e))?;
-        ok_json(&out)
+        let (notifier, forward) = crate::progress::Notifier::for_call(&rc);
+        let r = tokio::task::spawn_blocking(move || {
+            let report = notifier.map(|n| n.shared("Reading", "planes"));
+            stats_blocking(
+                &reg,
+                a,
+                report
+                    .as_deref()
+                    .map(|r| r as &openreadout_core::parallel::Progress<'_>),
+            )
+        })
+        .await
+        .map_err(|e| McpError::internal_error(format!("stats task failed: {e}"), None))?;
+        forward.finish().await;
+        r
     }
+}
+
+/// `openreadout_stats` (blocking), reporting planes read to `report`.
+fn stats_blocking(
+    reg: &openreadout_core::Registry,
+    a: StatsArgs,
+    report: Option<&openreadout_core::parallel::Progress<'_>>,
+) -> Result<CallToolResult, McpError> {
+    let path = Path::new(&a.file);
+    let (_, mut ds) = reg.open(path).map_err(|e| mcp_err(&e))?;
+    let info = ds.info().map_err(|e| mcp_err(&e))?;
+    let opener = || -> openreadout_core::Result<Box<dyn openreadout_core::Dataset>> {
+        reg.open(path).map(|(_, d)| d)
+    };
+    let ctx = openreadout_core::parallel::ReadContext {
+        opener: Some(&opener),
+        progress: report,
+    };
+    let measure = openreadout_core::measure::MeasureRequest {
+        image: a.image,
+        select: a.select.clone(),
+        level: a.level,
+        region: a.region,
+        line: a.line,
+        line_width: a.line_width,
+        polygon: a.polygon.clone(),
+        objects: a.objects.clone(),
+    };
+    if measure.any() {
+        let out = openreadout_core::measure::measure(ds.as_mut(), &info, &measure)
+            .map_err(|e| mcp_err(&e))?;
+        return ok_json(&out);
+    }
+    if matches!(a.per, StatsPer::Well | StatsPer::Field) {
+        let mut req = openreadout_core::plate::WellStatsRequest::default();
+        req.select = a.select;
+        req.wells = a.wells;
+        req.per_field = a.per == StatsPer::Field;
+        req.level = a.level;
+        let out = openreadout_core::plate::well_stats(ds.as_mut(), &info, &req, &ctx)
+            .map_err(|e| mcp_err(&e))?;
+        return ok_json(&out);
+    }
+    if !a.wells.is_empty() {
+        return Err(mcp_err(&Error::Usage(
+            "wells goes with per=well or per=field".into(),
+        )));
+    }
+    let out = openreadout_core::stats::compute_stats(
+        ds.as_mut(),
+        &info,
+        &{
+            let mut stats_request = openreadout_core::stats::StatsRequest::default();
+            stats_request.image = a.image;
+            stats_request.select = a.select;
+            stats_request.level = a.level;
+            stats_request.region = a.region;
+            stats_request.bins = a.bins.unwrap_or(MCP_STATS_BINS);
+            stats_request.scale = a.scale;
+            stats_request.per_plane = a.per == StatsPer::Plane;
+            stats_request.mip = a.mip;
+            stats_request
+        },
+        &ctx,
+    )
+    .map_err(|e| mcp_err(&e))?;
+    ok_json(&out)
 }

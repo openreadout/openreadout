@@ -9,7 +9,7 @@
 # (.claude-plugin/{plugin,marketplace}.json, .codex-plugin/plugin.json, gemini-extension.json),
 # python/bioio-openreadout/pyproject.toml and python/napari-openreadout/pyproject.toml
 # (version + openreadout requirement),
-# packaging/npm/package.json (version + platform package requirements), packaging/wasm/package.json, CITATION.cff, THIRD-PARTY-NOTICES.md (our own crates' versions), CHANGELOG.md.
+# packaging/npm/package.json (version + platform package requirements), packaging/wasm/package.json, CITATION.cff, THIRD-PARTY-NOTICES.md (our own crates' versions), book/site/data/formats.json, CHANGELOG.md.
 # Also r/openreadout/DESCRIPTION and the integrations/ version pins (Galaxy, Nextflow, Snakemake,
 # bioconda, conda-forge). The recipes' sha256 lines are set after the release by scripts/recipe-sha256.sh.
 # The Python extension (pyproject.toml) and the Nix flake read the version from Cargo.toml.
@@ -68,6 +68,9 @@ perl -pi -e '
 
 # CITATION.cff: the version and release date. Zenodo (.zenodo.json) takes both from the GitHub release.
 TODAY="$(date -u +%Y-%m-%d)" perl -pi -e 's/^version: "\Q$ENV{OLD}\E"/version: "$ENV{NEW}"/; s/^date-released: .*/date-released: "$ENV{TODAY}"/' CITATION.cff
+
+# The website's format list names the version it was generated from (book/scripts/gen-data.mjs).
+perl -pi -e 's/^ "version": "openreadout \Q$ENV{OLD}\E",$/ "version": "openreadout $ENV{NEW}",/' book/site/data/formats.json
 
 # THIRD-PARTY-NOTICES.md lists our own crates with their version.
 perl -pi -e 's/\[(openreadout(?:-[a-z0-9-]+)?) \Q$ENV{OLD}\E\]/[$1 $ENV{NEW}]/g' THIRD-PARTY-NOTICES.md

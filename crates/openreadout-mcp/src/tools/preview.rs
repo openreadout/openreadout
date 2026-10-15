@@ -14,7 +14,7 @@ use crate::{InstrumentServer, mcp_err, resources, to_value, with_strict};
 /// Arguments for `openreadout_preview`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct PreviewArgs {
-    /// Absolute or working-directory-relative path to the instrument file.
+    /// Path to the file.
     pub file: String,
     /// Image index (default 0).
     pub image: Option<u32>,
@@ -65,8 +65,7 @@ pub struct PreviewArgs {
     pub table: Option<u32>,
     /// Plate preview (long layout): value column name.
     pub column: Option<String>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -141,7 +140,7 @@ fn preview_blocking(
 impl InstrumentServer {
     #[tool(
         name = "openreadout_preview",
-        annotations(title = "Look at the data", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        annotations(title = "Draw a picture of the data", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_preview::PreviewOutput>(),
         description = "A picture of the data as image content plus what was drawn: an image plane (default channel 0, middle z), a composite, a max projection (mip=z), a region (only the tiles needed are read), a trace or spectrum plot, or a plate heat map. Image pictures carry rulers in full-resolution pixels and a µm scale bar, so a region read off the rulers zooms in."
     )]

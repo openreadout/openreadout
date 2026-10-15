@@ -52,6 +52,9 @@ pub struct NmrQuery {
     /// Regions to integrate, `[[a, b], …]` in ppm.
     #[serde(default)]
     pub integrate: Vec<(f64, f64)>,
+    /// Without integrate: integrate every multiplet (peaks closer than 15 Hz, ±10 Hz).
+    #[serde(default)]
+    pub auto_integrate: bool,
     /// Normalise integrals so region `[index, value]` has that value (default `[0, 1]`).
     pub integral_reference: Option<(usize, f64)>,
 }
@@ -74,6 +77,9 @@ pub struct EphysQuery {
     pub peak_threshold_mv: Option<f64>,
     /// dV/dt onset criterion, V/s (default 10).
     pub dvdt_threshold: Option<f64>,
+    /// A spike's peak must rise this far above the lowest voltage since the previous spike, mV
+    /// (default 15; 0 counts every crossing, as eFEL does).
+    pub min_rise_mv: Option<f64>,
     /// Per-spike rows returned (default 25, the first spikes in sweep order; counts stay complete).
     pub max_spikes: Option<usize>,
 }
@@ -196,6 +202,7 @@ impl NmrQuery {
                 max_peaks: self.max_peaks.unwrap_or(200),
             },
             integrals: self.integrate.clone(),
+            auto_integrals: self.auto_integrate,
             integral_reference: self.integral_reference,
         })
     }
@@ -211,9 +218,17 @@ impl EphysQuery {
         if let Some(v) = self.dvdt_threshold {
             ap.dvdt_threshold_v_per_s = v;
         }
-        if !ap.peak_threshold_mv.is_finite() || !(ap.dvdt_threshold_v_per_s > 0.0) {
+        if let Some(v) = self.min_rise_mv {
+            ap.min_rise_mv = v;
+        }
+        if !ap.peak_threshold_mv.is_finite()
+            || !(ap.dvdt_threshold_v_per_s > 0.0)
+            || ap.min_rise_mv.is_nan()
+            || ap.min_rise_mv < 0.0
+        {
             return Err(usage(
-                "peak_threshold_mv must be finite and dvdt_threshold positive".into(),
+                "peak_threshold_mv must be finite, dvdt_threshold positive and min_rise_mv at least 0"
+                    .into(),
             ));
         }
         Ok(CellRequest {

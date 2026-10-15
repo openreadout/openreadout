@@ -544,3 +544,204 @@ mod tests {
         assert!(json["rt_s"].is_null(), "{json}");
     }
 }
+
+/// The spectrum of MS level `ms_level` in run `run` whose retention time is nearest `rt_s`:
+/// `(index, scan number, retention time in s)`, or `None` when no such scan has a retention time.
+pub fn nearest_scan(
+    ds: &mut dyn Dataset,
+    run: u32,
+    rt_s: f64,
+    ms_level: u32,
+) -> Result<Option<(u64, u64, f64)>> {
+    let mut best: Option<(u64, u64, f64)> = None;
+    visit_scans(ds, run, &mut |h| {
+        if h.ms_level == ms_level
+            && let Some(t) = h.rt_s
+            && best.is_none_or(|b| (t - rt_s).abs() < (b.2 - rt_s).abs())
+        {
+            best = Some((h.index, h.scan_number, t));
+        }
+        true
+    })?;
+    Ok(best)
+}
+
+/// Mass difference between the ¹³C and ¹²C isotopes, Da.
+pub const ISOTOPE_SPACING_DA: f64 = 1.003_355;
+/// Mass of a proton, Da.
+pub const PROTON_DA: f64 = 1.007_276;
+
+/// One of the most intense peaks of a mass spectrum, with its charge from the isotope pattern.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct MsPeak {
+    /// m/z.
+    pub mz: f64,
+    /// Intensity.
+    pub intensity: f64,
+    /// Charge from the spacing of the isotope peaks above it (1.00336/z), when at least one
+    /// is found.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub charge: Option<u32>,
+    /// Isotope peaks found in a row above this one at that spacing.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub isotopes: Option<u32>,
+    /// m/z of the lowest peak of the same isotope pattern (the monoisotopic ion when it is
+    /// seen), when it is below this one.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub monoisotopic_mz: Option<f64>,
+    /// Neutral monoisotopic mass (z · (m/z ∓ proton)), Da, when the charge and polarity are
+    /// known.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub neutral_mass_da: Option<f64>,
+}
+
+/// The centroids of a spectrum: the stored points when centroided, else the local maxima of
+/// the profile.
+fn centroids(sp: &Spectrum) -> Vec<(f64, f64)> {
+    let n = sp.mz.len().min(sp.intensity.len());
+    if sp.centroided {
+        return (0..n)
+            .filter(|&i| sp.intensity[i] > 0.0)
+            .map(|i| (sp.mz[i], f64::from(sp.intensity[i])))
+            .collect();
+    }
+    (0..n)
+        .filter(|&i| {
+            let y = sp.intensity[i];
+            y > 0.0
+                && (i == 0 || sp.intensity[i - 1] < y)
+                && (i + 1 == n || sp.intensity[i + 1] <= y)
+        })
+        .map(|i| (sp.mz[i], f64::from(sp.intensity[i])))
+        .collect()
+}
+
+/// The `n` most intense peaks of `sp`, each with the charge its isotope pattern shows. A peak
+/// inside the isotope pattern of a more intense one already listed is left out.
+pub fn top_peaks(sp: &Spectrum, n: usize) -> Vec<MsPeak> {
+    let c = centroids(sp);
+    if c.is_empty() || n == 0 {
+        return Vec::new();
+    }
+    let mut by_mz = c.clone();
+    by_mz.sort_by(|a, b| a.0.total_cmp(&b.0));
+    let tol = |mz: f64| (mz * 15e-6).max(0.003);
+    let find = |mz: f64, min_i: f64| -> bool {
+        let t = tol(mz);
+        let lo = by_mz.partition_point(|p| p.0 < mz - t);
+        by_mz[lo..]
+            .iter()
+            .take_while(|p| p.0 <= mz + t)
+            .any(|p| p.1 >= min_i)
+    };
+    let mut order = c;
+    order.sort_by(|a, b| b.1.total_cmp(&a.1));
+    let mut out: Vec<MsPeak> = Vec::new();
+    for (mz, intensity) in order {
+        if out.len() >= n {
+            break;
+        }
+        let inside = out.iter().any(|p| {
+            let z = f64::from(p.charge.unwrap_or(1));
+            let base = p.monoisotopic_mz.unwrap_or(p.mz);
+            (0..=8).any(|k| (mz - (base + f64::from(k) * ISOTOPE_SPACING_DA / z)).abs() <= tol(mz))
+        });
+        if inside {
+            continue;
+        }
+        let mut best: Option<(u32, u32)> = None;
+        for z in 1..=8u32 {
+            let mut k = 0;
+            while k < 6
+                && find(
+                    mz + f64::from(k + 1) * ISOTOPE_SPACING_DA / f64::from(z),
+                    intensity * 0.02,
+                )
+            {
+                k += 1;
+            }
+            if k > 0 && best.is_none_or(|b| k > b.1) {
+                best = Some((z, k));
+            }
+        }
+        let charge = best.map(|b| b.0);
+        // the lowest peak of the pattern: step down while the next lower isotope is there
+        let mut mono = mz;
+        if let Some(z) = charge {
+            let step = ISOTOPE_SPACING_DA / f64::from(z);
+            for _ in 0..6 {
+                if find(mono - step, intensity * 0.05) {
+                    mono -= step;
+                } else {
+                    break;
+                }
+            }
+        }
+        let neutral_mass_da = charge.and_then(|z| {
+            let z = f64::from(z);
+            match sp.polarity.as_str() {
+                "positive" => Some(z * (mono - PROTON_DA)),
+                "negative" => Some(z * (mono + PROTON_DA)),
+                _ => None,
+            }
+        });
+        out.push(MsPeak {
+            mz,
+            intensity,
+            charge,
+            isotopes: best.map(|b| b.1),
+            monoisotopic_mz: (mono < mz).then_some(mono),
+            neutral_mass_da,
+        });
+    }
+    out
+}
+
+/// Keep the `cap` most intense points of `sp`, in m/z order.
+pub fn keep_most_intense(sp: &mut Spectrum, cap: usize) {
+    let n = sp.mz.len().min(sp.intensity.len());
+    if n <= cap {
+        return;
+    }
+    let mut idx: Vec<usize> = (0..n).collect();
+    idx.sort_by(|&a, &b| sp.intensity[b].total_cmp(&sp.intensity[a]));
+    idx.truncate(cap);
+    idx.sort_unstable();
+    sp.mz = idx.iter().map(|&i| sp.mz[i]).collect();
+    sp.intensity = idx.iter().map(|&i| sp.intensity[i]).collect();
+}
+
+#[cfg(test)]
+mod peak_tests {
+    use super::*;
+
+    #[test]
+    fn charges_from_isotope_spacing() {
+        let mut sp = Spectrum {
+            centroided: true,
+            polarity: "positive".into(),
+            ..Spectrum::default()
+        };
+        // a 2+ ion at 500.0 with isotopes at +0.5017, +1.0034; a 1+ ion at 700.0 with one isotope
+        let pts = [
+            (500.0, 1000.0),
+            (500.0 + ISOTOPE_SPACING_DA / 2.0, 800.0),
+            (500.0 + ISOTOPE_SPACING_DA, 400.0),
+            (700.0, 600.0),
+            (700.0 + ISOTOPE_SPACING_DA, 300.0),
+            (800.0, 50.0),
+        ];
+        sp.mz = pts.iter().map(|p| p.0).collect();
+        sp.intensity = pts.iter().map(|p| p.1 as f32).collect();
+        let p = top_peaks(&sp, 3);
+        assert_eq!(p[0].charge, Some(2));
+        assert_eq!(p[0].isotopes, Some(2));
+        assert!((p[0].neutral_mass_da.unwrap() - 2.0 * (500.0 - PROTON_DA)).abs() < 1e-9);
+        assert_eq!(p[1].mz, 700.0);
+        assert_eq!(p[1].charge, Some(1));
+        assert_eq!(p[2].mz, 800.0);
+        assert_eq!(p[2].charge, None);
+        keep_most_intense(&mut sp, 2);
+        assert_eq!(sp.mz, vec![500.0, 500.0 + ISOTOPE_SPACING_DA / 2.0]);
+    }
+}

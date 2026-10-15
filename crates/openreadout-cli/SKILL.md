@@ -18,17 +18,17 @@ metadata:
 - `info` — what a file holds, from its headers (fast on multi-gigabyte files); `--view full | structure | explain | format`, `--ask "QUESTION"`.
 - `check` — integrity (exit 4 = damaged); `compare A B` — are two files (a source and its export) the same data; `planes` — plane hashes; `report` — a diagnostic bundle for a file that is refused or not validated.
 - `preview` — a PNG of an image, trace, spectrum or plate; Read the PNG to see it.
-- `stats` — pixel statistics; `--per well` for screening plates.
+- `stats` — pixel statistics; `--per well` for screening plates. On one plane: `--line X0,Y0,X1,Y1` (intensity profile, FWHM), `--polygon` (statistics inside), `--objects` (count nuclei, cells or spots: areas in µm², centroids).
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
-- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--scan N`, or `--spectrum I`, counted within one MS level with `--ms-level L`).
-- `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `assay`, `gate`.
+- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--rt MIN` for the scan at a chromatogram apex, `--scan N`, or `--spectrum I`, counted within one MS level with `--ms-level L`), with its most intense peaks, their charge states and neutral masses.
+- `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `gate`, and the plate-reader `assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` (which wells grew, crashed or regrew, and when) and `assay-qc`.
 - `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; the extension of `-o` picks the format (`-o x.ome.zarr`) unless `--format` does. `extract` writes an embedded label or thumbnail as stored.
 - `batch` — one measure over many files as one tidy table joined to a sample sheet; `summarize TABLE --by …`.
 - `link` (files of the same sample), `index` then `search` and `health` (catalog a share, query it, find damaged or duplicate files), `watch` (a running acquisition).
 - `mcp`, `self` (`formats`, `doctor`, `schema`, `skill`, `completions`, `man`).
 
-Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <command>` (MCP tools declare theirs). Formats and their known gaps: `openreadout self formats --json`. MCP tools have the commands' names (`openreadout_check`; `analyze nmr-peaks` is `openreadout_nmr_peaks`) and take the long flags as arguments with `-` as `_` (`--rt-range` is `rt_range`): a repeatable flag is a plural list (`--channel` is `channels`), and `--no-X` is `X: false`.
+Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <command>` (MCP tools declare theirs). Formats and their known gaps: `openreadout self formats --json`. MCP tools have the commands' names (`openreadout_check`; `analyze nmr-peaks` is `openreadout_nmr_peaks`; the six plate-reader analyses are `openreadout_assay` with `analysis`) and take the long flags as arguments with `-` as `_` (`--rt-range` is `rt_range`): a repeatable flag is a plural list (`--channel` is `channels`), and `--no-X` is `X: false`.
 
 ## Output
 

@@ -1,0 +1,616 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeasureOutput",
+  "description": "The answer to a [`MeasureRequest`].",
+  "type": "object",
+  "properties": {
+    "path": {
+      "description": "The file.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format id.",
+      "type": "string"
+    },
+    "image": {
+      "description": "Image index.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "level": {
+      "description": "Pyramid level read; coordinates are its pixels.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "downsample": {
+      "description": "Level-0 pixels per pixel of this level (1 at level 0).",
+      "type": "number",
+      "format": "double"
+    },
+    "z": {
+      "description": "The z plane read.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "t": {
+      "description": "The time point read.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "pixel_size_um": {
+      "description": "Pixel size at this level in µm, when recorded.",
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "double"
+    },
+    "profile": {
+      "description": "Profile along `line`.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Profile"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "roi": {
+      "description": "Statistics inside `polygon`.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Roi"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "objects": {
+      "description": "Objects.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Objects"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "notes": {
+      "description": "What was assumed.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "format",
+    "image",
+    "level",
+    "downsample",
+    "z",
+    "t"
+  ],
+  "$defs": {
+    "Profile": {
+      "description": "An intensity profile along a line.",
+      "type": "object",
+      "properties": {
+        "line": {
+          "description": "`[x0, y0, x1, y1]` in pixels of the level read.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "width_px": {
+          "description": "Pixels averaged across the line.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "length_px": {
+          "description": "Line length in pixels.",
+          "type": "number",
+          "format": "double"
+        },
+        "length_um": {
+          "description": "Line length in µm, when the pixel size is recorded.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "step_px": {
+          "description": "Distance between the returned values in pixels.",
+          "type": "number",
+          "format": "double"
+        },
+        "step_um": {
+          "description": "Distance between the returned values in µm.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "samples": {
+          "description": "Samples taken along the line (one per pixel up to 20 000).",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "channels": {
+          "description": "One entry per channel.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProfileChannel"
+          }
+        }
+      },
+      "required": [
+        "line",
+        "width_px",
+        "length_px",
+        "step_px",
+        "samples",
+        "channels"
+      ]
+    },
+    "ProfileChannel": {
+      "description": "One channel of a profile.",
+      "type": "object",
+      "properties": {
+        "c": {
+          "description": "Channel index (`c`), or the RGB component for RGB images.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel or component name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "min": {
+          "description": "Smallest value along the line.",
+          "type": "number",
+          "format": "double"
+        },
+        "max": {
+          "description": "Largest value along the line.",
+          "type": "number",
+          "format": "double"
+        },
+        "mean": {
+          "description": "Mean value along the line.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_at_px": {
+          "description": "Distance of the largest value from the start, in pixels.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_at_um": {
+          "description": "The same in µm, when the pixel size is recorded.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "fwhm_px": {
+          "description": "Full width at half maximum of the highest peak above the line's minimum, in pixels.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "fwhm_um": {
+          "description": "The same in µm.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "values": {
+          "description": "The profile, one value every `step_px` from the start (at most 200; each the mean of the\nsamples it covers).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "c",
+        "min",
+        "max",
+        "mean",
+        "max_at_px",
+        "values"
+      ]
+    },
+    "Roi": {
+      "description": "Statistics inside a polygon.",
+      "type": "object",
+      "properties": {
+        "polygon": {
+          "description": "The vertices, in pixels of the level read.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "area_px": {
+          "description": "Pixels inside.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "area_um2": {
+          "description": "Area in µm², when the pixel size is recorded.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "channels": {
+          "description": "One entry per channel.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoiChannel"
+          }
+        }
+      },
+      "required": [
+        "polygon",
+        "area_px",
+        "channels"
+      ]
+    },
+    "RoiChannel": {
+      "description": "Statistics of one channel inside a polygon.",
+      "type": "object",
+      "properties": {
+        "c": {
+          "description": "Channel index (`c`), or the RGB component.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel or component name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "min": {
+          "description": "Smallest value.",
+          "type": "number",
+          "format": "double"
+        },
+        "max": {
+          "description": "Largest value.",
+          "type": "number",
+          "format": "double"
+        },
+        "mean": {
+          "description": "Mean value.",
+          "type": "number",
+          "format": "double"
+        },
+        "std": {
+          "description": "Standard deviation.",
+          "type": "number",
+          "format": "double"
+        },
+        "median": {
+          "description": "Median value.",
+          "type": "number",
+          "format": "double"
+        },
+        "sum": {
+          "description": "Sum of the values (integrated intensity).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "c",
+        "min",
+        "max",
+        "mean",
+        "std",
+        "median",
+        "sum"
+      ]
+    },
+    "Objects": {
+      "description": "Objects found by a threshold.",
+      "type": "object",
+      "properties": {
+        "measured": {
+          "description": "What was thresholded: a channel index, an RGB component (`red`, `green`, `blue`) or\n`luminance` (the mean of the RGB components).",
+          "type": "string"
+        },
+        "region": {
+          "description": "The rectangle searched, in pixels of the level read.",
+          "$ref": "#/$defs/Region"
+        },
+        "threshold": {
+          "description": "Threshold in raw units.",
+          "type": "number",
+          "format": "double"
+        },
+        "threshold_method": {
+          "description": "`otsu` or `given`.",
+          "type": "string"
+        },
+        "polarity": {
+          "description": "`bright` or `dark`.",
+          "$ref": "#/$defs/Polarity"
+        },
+        "smooth_px": {
+          "description": "Gaussian σ in pixels.",
+          "type": "number",
+          "format": "double"
+        },
+        "min_area_px": {
+          "description": "Smallest object kept, in pixels.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "split": {
+          "description": "Whether touching objects were cut apart.",
+          "type": "boolean"
+        },
+        "count": {
+          "description": "Objects found (all, including those touching the edge).",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "touching_edge": {
+          "description": "Objects touching the edge of the rectangle.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "large": {
+          "description": "Objects more than twice the median area: possibly several touching objects.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "area_fraction": {
+          "description": "Fraction of the rectangle covered by objects.",
+          "type": "number",
+          "format": "double"
+        },
+        "area_px": {
+          "description": "Object areas in pixels.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Spread"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "area_um2": {
+          "description": "Object areas in µm².",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Spread"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "median_diameter_um": {
+          "description": "Median equivalent diameter (of a disc of the same area) in µm.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "objects": {
+          "description": "The objects, largest first.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Object"
+          }
+        },
+        "truncated": {
+          "description": "True when `objects` lists fewer than `count`.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "measured",
+        "region",
+        "threshold",
+        "threshold_method",
+        "polarity",
+        "smooth_px",
+        "min_area_px",
+        "split",
+        "count",
+        "touching_edge",
+        "large",
+        "area_fraction",
+        "objects",
+        "truncated"
+      ]
+    },
+    "Region": {
+      "description": "A rectangle of a plane, in the pixel coordinates of the resolution level it is read at.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Left edge (column of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "y": {
+          "description": "Top edge (row of the first pixel).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "width": {
+          "description": "Width in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "height": {
+          "description": "Height in pixels (at least 1).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    "Polarity": {
+      "description": "Bright or dark objects.",
+      "oneOf": [
+        {
+          "description": "bright for one-channel images (fluorescence), dark for RGB (stained brightfield)",
+          "type": "string",
+          "const": "auto"
+        },
+        {
+          "description": "objects brighter than the background",
+          "type": "string",
+          "const": "bright"
+        },
+        {
+          "description": "objects darker than the background",
+          "type": "string",
+          "const": "dark"
+        }
+      ]
+    },
+    "Spread": {
+      "description": "Minimum, median, mean and maximum.",
+      "type": "object",
+      "properties": {
+        "min": {
+          "description": "Smallest.",
+          "type": "number",
+          "format": "double"
+        },
+        "median": {
+          "description": "Median.",
+          "type": "number",
+          "format": "double"
+        },
+        "mean": {
+          "description": "Mean.",
+          "type": "number",
+          "format": "double"
+        },
+        "max": {
+          "description": "Largest.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "min",
+        "median",
+        "mean",
+        "max"
+      ]
+    },
+    "Object": {
+      "description": "One object.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Centroid column, in pixels of the level read.",
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "description": "Centroid row.",
+          "type": "number",
+          "format": "double"
+        },
+        "area_px": {
+          "description": "Pixels.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "area_um2": {
+          "description": "Area in µm².",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mean": {
+          "description": "Mean raw value.",
+          "type": "number",
+          "format": "double"
+        },
+        "bbox": {
+          "description": "Bounding rectangle.",
+          "$ref": "#/$defs/Region"
+        },
+        "touches_edge": {
+          "description": "True when the object touches the edge of the measured rectangle (it may be cut).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "area_px",
+        "mean",
+        "bbox",
+        "touches_edge"
+      ]
+    }
+  }
+}
