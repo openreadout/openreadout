@@ -194,6 +194,7 @@
       "required": [
         "channel",
         "name",
+        "unit",
         "noise",
         "threshold",
         "spike_count",

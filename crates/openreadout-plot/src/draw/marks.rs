@@ -274,6 +274,21 @@ fn bar_values(fig: &mut Figure, p: &Panel, theme: &Theme, pts: &[(f64, f64)], in
         return;
     }
     let fs = theme.small_size();
+    // values only where they fit side by side over their bars
+    let mut xs: Vec<f32> = pts.iter().filter_map(|&(x, _)| p.x.px(x)).collect();
+    xs.sort_by(f32::total_cmp);
+    let room = xs
+        .windows(2)
+        .map(|w| w[1] - w[0])
+        .fold(f32::INFINITY, f32::min);
+    let widest = pts
+        .iter()
+        .map(|&(_, y)| format_value(y).chars().count())
+        .max()
+        .unwrap_or(0) as f32;
+    if room < (widest + 1.0) * fs * 0.6 {
+        return;
+    }
     let st = TextStyle::new(fs, theme.muted).align(Anchor::Middle, Baseline::Alphabetic);
     for &(x, y) in pts {
         if let Some((px, py)) = p.pt(x, y.max(0.0)) {

@@ -75,6 +75,7 @@ const TOP_KEYS: &[&str] = &[
     "strict",
 ];
 const PANEL_KEYS: &[&str] = &[
+    "file",
     "data",
     "facet",
     "x",
@@ -86,34 +87,134 @@ const PANEL_KEYS: &[&str] = &[
     "stack",
 ];
 
-/// Parse a plot spec from JSON, refusing unknown keys with the list of known ones.
+/// Parse a plot spec from JSON, refusing unknown keys with the list of known ones and saying
+/// where a misplaced key belongs.
 pub fn parse_spec(v: Value) -> Result<PlotSpec> {
     if let Value::Object(m) = &v {
         for k in m.keys() {
             if !TOP_KEYS.contains(&k.as_str()) && !PANEL_KEYS.contains(&k.as_str()) {
                 return Err(Error::Usage(format!(
-                    "unknown plot argument `{k}`; known: {}, {}",
+                    "unknown plot argument `{k}`{}; known: {}, {}",
+                    series_key_note(k),
                     PANEL_KEYS.join(", "),
                     TOP_KEYS.join(", ")
                 )));
             }
         }
+        if let Some(d) = m.get("data") {
+            check_data("data", d)?;
+        }
+        check_panel_parts("", m)?;
         if let Some(Value::Array(ps)) = m.get("panels") {
             for (i, p) in ps.iter().enumerate() {
                 if let Value::Object(pm) = p {
                     for k in pm.keys() {
                         if k != "title" && !PANEL_KEYS.contains(&k.as_str()) {
                             return Err(Error::Usage(format!(
-                                "panels[{i}]: unknown key `{k}`; a panel takes title, {}",
+                                "panels[{i}]: unknown key `{k}`{}; a panel takes title, {}",
+                                series_key_note(k),
                                 PANEL_KEYS.join(", ")
                             )));
                         }
                     }
+                    if let Some(d) = pm.get("data") {
+                        check_data(&format!("panels[{i}].data"), d)?;
+                    }
+                    check_panel_parts(&format!("panels[{i}]."), pm)?;
                 }
             }
         }
     }
     serde_json::from_value(v).map_err(|e| Error::Usage(format!("plot spec: {e}")))
+}
+
+/// Check a panel's axes and annotations on their own, so that an error names the key.
+fn check_panel_parts(at: &str, m: &serde_json::Map<String, Value>) -> Result<()> {
+    for axis in ["x", "y"] {
+        if let Some(v) = m.get(axis) {
+            serde_json::from_value::<AxisSpec>(v.clone())
+                .map_err(|e| Error::Usage(format!("{at}{axis}: {e}")))?;
+        }
+    }
+    if let Some(Value::Array(a)) = m.get("annotate") {
+        for (i, v) in a.iter().enumerate() {
+            serde_json::from_value::<Annotation>(v.clone())
+                .map_err(|e| Error::Usage(format!("{at}annotate[{i}]: {e}")))?;
+        }
+    }
+    Ok(())
+}
+
+/// For a key that belongs to a series, where to put it.
+fn series_key_note(k: &str) -> String {
+    let series = serde_json::to_value(schemars::schema_for!(SeriesSpec)).unwrap_or_default();
+    if series["properties"].get(k).is_some() {
+        format!(" (`{k}` describes a series: put it in `data`, as in {{\"data\": {{\"{k}\": …}}}})")
+    } else {
+        String::new()
+    }
+}
+
+/// Check each series of a `data` value on its own, so that an error names the series and says
+/// where a misplaced key goes.
+fn check_data(at: &str, data: &Value) -> Result<()> {
+    let items: Vec<(String, &Value)> = match data {
+        Value::Array(a) => a
+            .iter()
+            .enumerate()
+            .map(|(i, x)| (format!("{at}[{i}]"), x))
+            .collect(),
+        x => vec![(at.to_string(), x)],
+    };
+    for (at, item) in items {
+        if let Value::Object(m) = item {
+            for axis in ["x", "y"] {
+                if m.get(axis).is_some_and(Value::is_object) {
+                    return Err(Error::Usage(format!(
+                        "{at}.{axis} names a column, FCS parameter or f–I measure; axis settings (label, range, log, unit) go on the panel, next to `data`: {{\"{axis}\": {{\"label\": …}}}}"
+                    )));
+                }
+            }
+            for k in [
+                "title", "caption", "annotate", "facet", "legend", "output", "panels",
+            ] {
+                if m.contains_key(k) {
+                    return Err(Error::Usage(format!(
+                        "{at}: `{k}` belongs on the panel or the figure, next to `data`, not inside it"
+                    )));
+                }
+            }
+        }
+        serde_json::from_value::<SeriesSpec>(item.clone())
+            .map_err(|e| Error::Usage(format!("{at}: {e}")))?;
+    }
+    Ok(())
+}
+
+/// Give the series of a panel that name no data the panel's (or the figure's) `file`; a panel
+/// with a file and no `data` draws that file's default view.
+fn with_default_file(ps: &mut PanelSpec, figure: Option<&OneOrMany<String>>) {
+    let Some(file) = ps.file.clone().or_else(|| figure.cloned()) else {
+        return;
+    };
+    let named = |s: &SeriesSpec| s.file.is_some() || s.table.is_some() || s.values.is_some();
+    ps.data = Some(match ps.data.take() {
+        None => OneOrMany::One(SeriesSpec {
+            file: Some(file),
+            ..SeriesSpec::default()
+        }),
+        Some(d) => OneOrMany::Many(
+            d.to_vec()
+                .into_iter()
+                .map(|mut s| {
+                    if !named(&s) {
+                        s.file = Some(file.clone());
+                    }
+                    s
+                })
+                .collect(),
+        ),
+    });
 }
 
 fn theme_for(spec: &PlotSpec) -> Theme {
@@ -125,10 +226,11 @@ fn theme_for(spec: &PlotSpec) -> Theme {
 
 /// Read the data a spec names and draw the figure.
 pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
-    let panels: Vec<(Option<String>, PanelSpec)> = if spec.panels.is_empty() {
-        if spec.panel.data.is_none() {
+    let mut panels: Vec<(Option<String>, PanelSpec)> = if spec.panels.is_empty() {
+        if spec.panel.data.is_none() && spec.panel.file.is_none() {
             return Err(Error::Usage(
-                "nothing to plot: give `data` (a series or a list of them), or `panels`".into(),
+                "nothing to plot: give `data` (a series or a list of them), `file`, or `panels`"
+                    .into(),
             ));
         }
         vec![(None, spec.panel.clone())]
@@ -143,6 +245,9 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             .map(|p| (p.title.clone(), p.panel.clone()))
             .collect()
     };
+    for (_, ps) in &mut panels {
+        with_default_file(ps, spec.panel.file.as_ref());
+    }
     // a lone dot plot reads best near square
     let lone_events = panels.len() == 1
         && panels[0].1.data.as_ref().is_some_and(|d| {
@@ -225,10 +330,20 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     let fs = theme.font_size;
     let margin = (fs * 1.3).round();
     let title_h = if spec.title.is_some() { fs * 2.6 } else { 0.0 };
-    let caption_h = if spec.caption.is_some() {
-        fs * 2.0
-    } else {
+    // a long caption wraps to the figure's width
+    let caption_lines = spec.caption.as_deref().map_or_else(Vec::new, |c| {
+        wrap_words(
+            c,
+            theme.small_size(),
+            width - 2.0 * margin,
+            TextStyle::new(theme.small_size(), theme.muted).face,
+        )
+    });
+    let caption_lh = theme.small_size() * 1.35;
+    let caption_h = if caption_lines.is_empty() {
         0.0
+    } else {
+        fs * 2.0 + caption_lh * (caption_lines.len() as f32 - 1.0)
     };
     let gap = fs * 2.2;
     let inner_w = width - 2.0 * margin;
@@ -285,10 +400,14 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         }
         y += rh + gap;
     }
-    if let Some(c) = &spec.caption {
+    if !caption_lines.is_empty() {
         let st = TextStyle::new(theme.small_size(), theme.muted)
             .align(Anchor::Start, Baseline::Alphabetic);
-        fig.text(margin, height - margin * 0.75, c, &st);
+        let last = caption_lines.len() as f32 - 1.0;
+        for (i, line) in caption_lines.iter().enumerate() {
+            let y = height - margin * 0.75 - caption_lh * (last - i as f32);
+            fig.text(margin, y, line, &st);
+        }
     }
     out.files = files;
     out.inline_series = inline_series;
@@ -301,6 +420,28 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         output: out,
         hover: Value::Array(hover),
     })
+}
+
+/// Break `text` into lines at most `max_w` pixels wide, at spaces.
+fn wrap_words(text: &str, size: f32, max_w: f32, face: Face) -> Vec<String> {
+    let mut lines: Vec<String> = Vec::new();
+    let mut cur = String::new();
+    for word in text.split_whitespace() {
+        let trial = if cur.is_empty() {
+            word.to_string()
+        } else {
+            format!("{cur} {word}")
+        };
+        if !cur.is_empty() && openreadout_figure::text_width(&trial, face, size) > max_w {
+            lines.push(std::mem::replace(&mut cur, word.to_string()));
+        } else {
+            cur = trial;
+        }
+    }
+    if !cur.is_empty() {
+        lines.push(cur);
+    }
+    lines
 }
 
 /// One data item that gives several series (wells, files) is named once, by its label.

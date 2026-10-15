@@ -580,7 +580,7 @@ pub fn gate(req: &GateRequest) -> Result<GateOutput> {
     let Some(strategy) = bound.strategy() else {
         if let Some(w) = bound.workspace() {
             out.notes.push(format!(
-                "the workspace has {} samples; pass --sample NAME (or an FCS file) to list one sample's populations",
+                "the workspace has {} samples; pass --sample NAME (or an FCS file) to list one sample's populations, or gate every FCS file into one table with batch (measure gate, the workspace as an option)",
                 w.samples.len()
             ));
         }

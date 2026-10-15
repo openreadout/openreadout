@@ -351,6 +351,7 @@
         "index",
         "scan_number",
         "ms_level",
+        "rt_s",
         "polarity",
         "centroided"
       ]

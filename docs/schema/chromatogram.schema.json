@@ -249,7 +249,8 @@
         "source",
         "points",
         "rt_min",
-        "intensity"
+        "intensity",
+        "decimated"
       ]
     }
   }

@@ -68,7 +68,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_watch",
         annotations(title = "Watch an acquisition", read_only_hint = true, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<WatchOutput>(),
+        output_schema = crate::tools::output_schema::<WatchOutput>(),
         description = "Follow directories an instrument writes to: each call looks once and returns events since cursor (dataset_new, plane_new, scan_new, frame_new, dataset_complete, dataset_stalled, qc with qc=true: saturation, focus drift, dropped frames, TIC drop, error). Poll with the returned cursor; files are never locked."
     )]
     pub(crate) async fn watch(

@@ -315,7 +315,12 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         .as_deref()
         .and_then(seconds_in)
         .unwrap_or_else(|| time_unit(span.1 - span.0).1);
-    let class_of = class_fn(spec, &groups, shown_unit, rows)?;
+    let growth = if matches!(&spec.color_by, Some(ColorBy::Field(f)) if f == "growth") {
+        growth_patterns(ctx, spec, file)?
+    } else {
+        BTreeMap::new()
+    };
+    let class_of = class_fn(spec, &groups, &growth, shown_unit, rows)?;
 
     let mut out = Vec::new();
     if !by_group && !kinetic {
@@ -365,6 +370,15 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
                 Weight::Main
             };
             out.push(s);
+        }
+        if !growth.is_empty() {
+            // grew first (ink), crashed second (the accent colour)
+            out.sort_by_key(|s| {
+                GROWTH_CLASSES
+                    .iter()
+                    .position(|(_, c)| s.class.as_deref() == Some(*c))
+                    .unwrap_or(GROWTH_CLASSES.len())
+            });
         }
         return Ok(out);
     }
@@ -505,9 +519,58 @@ pub(crate) fn summarize(v: &[f64], spread: Spread) -> (f64, f64, f64) {
 
 type ClassFn<'a> = Box<dyn Fn(&Well) -> Option<String> + 'a>;
 
+/// Growth patterns of the growth analysis and the names the figure gives them, in legend order.
+const GROWTH_CLASSES: [(&str, &str); 4] = [
+    ("grew", "grew"),
+    ("crashed", "crashed"),
+    ("regrew", "crashed, then regrew"),
+    ("no_growth", "no growth"),
+];
+
+/// Each well's growth pattern from the growth analysis (blanks subtracted as it does).
+fn growth_patterns(
+    ctx: &mut Ctx<'_>,
+    spec: &SeriesSpec,
+    file: &str,
+) -> Result<BTreeMap<(u32, u32), String>> {
+    let mut options = serde_json::Map::new();
+    options.insert("analysis".into(), serde_json::json!("growth"));
+    if let Some(r) = &spec.read {
+        options.insert("read".into(), serde_json::json!(r));
+    }
+    let args = openreadout_batch::analyze::AnalyzeArgs {
+        file: file.to_string(),
+        kind: openreadout_batch::analyze::AnalyzeKind::Assay,
+        options,
+        strict: None,
+    };
+    let openreadout_batch::analyze::AnalyzeOutput::Assay(out) =
+        openreadout_batch::analyze::run(ctx.reg, &args)?.0
+    else {
+        return Err(usage("the growth analysis returned something else"));
+    };
+    let mut m = BTreeMap::new();
+    for g in &out.growth {
+        let name = GROWTH_CLASSES
+            .iter()
+            .find(|(p, _)| *p == g.pattern)
+            .map_or(g.pattern.as_str(), |(_, n)| n);
+        for pos in parse_wells(&g.well).unwrap_or_default() {
+            m.insert(pos, name.to_string());
+        }
+    }
+    if m.is_empty() {
+        return Err(usage(format!(
+            "{file}: color_by=growth needs a kinetic read with growth curves; the growth analysis found none"
+        )));
+    }
+    Ok(m)
+}
+
 fn class_fn<'a>(
     spec: &'a SeriesSpec,
     groups: &'a [String],
+    growth: &'a BTreeMap<(u32, u32), String>,
     unit_s: f64,
     _rows: u32,
 ) -> Result<ClassFn<'a>> {
@@ -525,10 +588,11 @@ fn class_fn<'a>(
             "column" | "col" | "columns" => {
                 Box::new(|w: &Well| Some(format!("column {}", w.pos.1 + 1)))
             }
+            "growth" => Box::new(|w: &Well| growth.get(&w.pos).cloned()),
             "none" => Box::new(|_| None),
             other => {
                 return Err(usage(format!(
-                    "color_by `{other}`: group, row, column, none, a map of classes to wells, or a rule {{at, below|above, label, else}}"
+                    "color_by `{other}`: group, row, column, growth, none, a map of classes to wells, or a rule {{at, below|above, label, else}}"
                 )));
             }
         },

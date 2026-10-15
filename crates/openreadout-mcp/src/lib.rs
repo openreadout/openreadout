@@ -33,6 +33,7 @@
 #![warn(missing_docs)]
 
 mod app;
+mod budget;
 mod coerce;
 #[cfg(feature = "http")]
 mod http;
@@ -40,6 +41,7 @@ mod progress;
 mod resources;
 mod schema_compact;
 mod tools;
+mod wording;
 
 #[cfg(feature = "http")]
 pub use http::{HttpOptions, serve_http};
@@ -74,14 +76,41 @@ impl std::fmt::Debug for InstrumentServer {
 fn mcp_err(e: &Error) -> McpError {
     let mut data = serde_json::json!({"code": e.code(), "exit_code": e.exit_code()});
     if let Some(h) = e.hint() {
-        data["hint"] = serde_json::Value::String(h);
+        data["hint"] = serde_json::Value::String(wording::for_tools(&h));
     }
     McpError::new(
         rmcp::model::ErrorCode::INTERNAL_ERROR,
-        e.to_string(),
+        wording::for_tools(&e.to_string()),
         Some(data),
     )
 }
+
+/// A failed tool call as a result with `isError`, its message and hint in the text (the model
+/// reads tool results; clients often pass on only the message of a protocol error), and
+/// `{code, exit_code, hint}` under `_meta["openreadout/error"]`.
+fn error_result(e: McpError) -> CallToolResult {
+    let mut text = e.message.to_string();
+    if let Some(h) = e
+        .data
+        .as_ref()
+        .and_then(|d| d.get("hint"))
+        .and_then(|h| h.as_str())
+    {
+        text.push_str("\nhint: ");
+        text.push_str(h);
+    }
+    let mut r = CallToolResult::error(vec![rmcp::model::ContentBlock::text(text)]);
+    // the code and exit code for clients that branch on them, as the CLI's JSON errors have
+    if let Some(d) = e.data {
+        r.meta
+            .get_or_insert_with(rmcp::model::MetaObject::default)
+            .insert(ERROR_META_KEY.into(), d);
+    }
+    r
+}
+
+/// Result `_meta` key of a failed call: `{code, exit_code, hint}`.
+pub const ERROR_META_KEY: &str = "openreadout/error";
 
 /// A tool's `strict` argument over the server's default (`OPENREADOUT_STRICT`, `--strict`).
 fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {
@@ -137,7 +166,7 @@ impl InstrumentServer {
 }
 
 /// Server instructions sent at initialization.
-pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories without vendor software: microscopy and slides, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, spectroscopy, mass spectrometry, chromatography, plate readers, qPCR and bench instruments, in the vendors' binary formats and in their text and XML exports. Its readers know each format's layout, units and conventions, so questions about these files need no hand-written parser. Each file reports an assurance level that says how far its variant was checked against an independent reader, and strict=true refuses values that are not validated. Indices are zero-based. Values are raw as stored unless a tool says it processed them. Only openreadout_export and openreadout_extract write next to the data, always to new files that are read back and verified. openreadout_index, openreadout_batch, openreadout_summarize and openreadout_report write only to paths you give them. Tools are the CLI's commands and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
+pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories without vendor software: microscopy and slides, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, spectroscopy, mass spectrometry, chromatography, plate readers, qPCR and bench instruments, in the vendors' binary formats and in their text and XML exports. Its readers know each format's layout, units and conventions, so questions about these files need no hand-written parser. Each file reports an assurance level that says how far its variant was checked against an independent reader, and strict=true refuses values that are not validated. Indices are zero-based. Values are raw as stored unless a tool says it processed them. Only openreadout_export and openreadout_extract write next to the data, always to new files that are read back and verified. openreadout_index, openreadout_batch, openreadout_summarize, openreadout_plot and openreadout_report write only to paths you give them. Tools are the CLI's commands and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
 
 // The trait's methods are async; resources and prompts are answered without awaiting.
 #[allow(clippy::unused_async_trait_impl)]
@@ -191,13 +220,21 @@ impl ServerHandler for InstrumentServer {
             .then(|| app::view_hint(&request.name, request.arguments.as_ref()))
             .flatten();
         let name = request.name.clone();
+        let max_chars = budget::max_chars(&name, request.arguments.as_ref());
         let tcc = rmcp::handler::server::tool::ToolCallContext::new(self, request, context);
-        let mut response = coerce::with_argument_hint(
+        let mut response = match coerce::with_argument_hint(
             self.tool_router.call(tcc).await,
             self.tool_router.get(&name),
-        )?;
-        if let (Some(hint), CallToolResponse::Complete(result)) = (hint, &mut response) {
-            app::attach_hint(result, hint);
+        ) {
+            Err(e) if self.tool_router.get(&name).is_some() => error_result(e).into(),
+            r => r?,
+        };
+        if let CallToolResponse::Complete(result) = &mut response {
+            wording::result_notes(result);
+            budget::fit(result, &name, max_chars);
+            if let Some(hint) = hint {
+                app::attach_hint(result, hint);
+            }
         }
         Ok(response)
     }

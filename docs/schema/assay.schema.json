@@ -488,6 +488,8 @@
         "col",
         "role",
         "group",
+        "raw",
+        "value",
         "outlier",
         "excluded"
       ]
@@ -650,7 +652,10 @@
         "wells",
         "metric",
         "n",
-        "n_used"
+        "n_used",
+        "mean",
+        "sd",
+        "cv_percent"
       ]
     },
     "CurveReport": {
@@ -1292,7 +1297,7 @@
           "format": "double"
         },
         "logistic_k": {
-          "description": "Logistic fit: carrying capacity K.",
+          "description": "Logistic fit (wells whose pattern is `grew`): carrying capacity K.",
           "type": [
             "number",
             "null"
@@ -1398,8 +1403,7 @@
         "max_value",
         "time_to_max_s",
         "auc_h",
-        "pattern",
-        "exp_phase_after_crash"
+        "pattern"
       ]
     },
     "GrowthSummary": {

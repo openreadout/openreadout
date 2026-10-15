@@ -60,7 +60,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_plot",
         annotations(title = "Draw a figure", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_plot::PlotOutput>(),
+        output_schema = crate::tools::output_schema::<openreadout_plot::PlotOutput>(),
         description = "A finished figure from lab files in one call, as image content plus what was drawn (series, data read, ranges, units, marked peaks). Name data by file and selector, never by pasting numbers: traces and sweeps, chromatograms (TIC, XIC) and the spectrum at an rt or the TIC apex, plate wells by range or layout group (curves per well, or mean ± spread per group), FCS dot plots coloured by gate population and histograms, f–I curves, dose-response and standard-curve fits, a table file's columns (openreadout_batch output); small inline values are allowed. Several files overlay; facet=series gives small multiples, facet=plate plate positions; panels side by side; annotate with bands, lines, labelled points, arrows. output writes PNG, SVG or PDF."
     )]
     pub(crate) async fn plot(

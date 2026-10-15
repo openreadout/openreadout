@@ -19,7 +19,7 @@ use rmcp::{ErrorData as McpError, RoleServer, tool, tool_router};
 use serde_json::Value;
 
 use super::analyses::{AnalysisArgs, call};
-use super::object_output;
+use super::output_schema;
 use crate::{InstrumentServer, mcp_err};
 
 /// Plate layout and control wells, shared by every assay tool.
@@ -202,7 +202,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_assay",
         annotations(title = "Analyse a plate-reader assay", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_assay::AssayOutput>(),
+        output_schema = output_schema::<openreadout_assay::AssayOutput>(),
         description = "Plate-reader exports, with the layout the file stores or `layout`. analysis: wells (per-well values, blank subtraction, replicate mean/SD/CV, outliers), curve (standard curve, back-calculated concentrations, LLOQ/ULOQ), dose-response (IC50/EC50 per compound with CI and Hill slope), kinetics (Vmax, lag, AUC per well), growth (growth rate, doubling time, lag, logistic fit, and whether each well grew, crashed or regrew, with times), qc (Z′, S/B, S/N, SSMD). An argument that names analyses applies to those only."
     )]
     pub(crate) async fn assay(

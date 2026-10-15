@@ -211,6 +211,7 @@
       "required": [
         "check",
         "follow_symlinks",
+        "exclude",
         "pii"
       ]
     },
@@ -227,6 +228,12 @@
           "type": "integer",
           "format": "uint64",
           "minimum": 0
+        },
+        "columns": {
+          "description": "Columns (name, type, unit class, description). Always in `index.json`; left out of the\nMCP tool's answer (listed in `index.json` and `book/src/guides/lab-shares.md`).",
+          "type": "array",
+          "items": true,
+          "readOnly": true
         }
       },
       "required": [

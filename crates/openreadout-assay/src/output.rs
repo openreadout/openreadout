@@ -511,7 +511,7 @@ pub struct GrowthRow {
     pub time_to_max_s: f64,
     /// Trapezoidal area under the curve (value × h).
     pub auc_h: f64,
-    /// Logistic fit: carrying capacity K.
+    /// Logistic fit (wells whose pattern is `grew`): carrying capacity K.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub logistic_k: Option<f64>,
     /// Logistic fit: N0 at the first time point.

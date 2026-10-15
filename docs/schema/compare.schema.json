@@ -45,8 +45,7 @@
     "theirs",
     "metadata",
     "images",
-    "planes",
-    "notes"
+    "planes"
   ],
   "$defs": {
     "CompareSide": {
@@ -248,8 +247,6 @@
         "image",
         "geometry_equal",
         "channel_names_equal",
-        "ours_channels",
-        "theirs_channels",
         "physical_size_equal"
       ]
     },
@@ -473,7 +470,6 @@
         "identical",
         "within_tolerance",
         "mismatched",
-        "skipped_images",
         "mismatches"
       ]
     },

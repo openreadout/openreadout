@@ -222,11 +222,18 @@ When a request carries a `progressToken`, long calls send progress notifications
 
 ## Errors
 
-Errors are JSON-RPC errors. Their `data` carries `code`, `exit_code` and `hint`, the same as the command line's [JSON errors](../getting-started/reading-json.md#the-json-wrapper):
+A call that fails returns a tool result with `isError: true`, so the model reads why. Its text is the message and the hint on the next line, the same as the command line's [JSON errors](../getting-started/reading-json.md#the-json-wrapper) but in the tools' words: a hint that names a command line, such as `openreadout trace FILE --sweep N`, names the tool and its arguments instead (`openreadout_trace` with `sweep: N`). Notes and warnings in results are worded the same way.
 
-```json
-{"code": "io", "exit_code": 5, "hint": "Check that the path exists and is readable."}
+```text
+usage error: plot.png exists; pass `overwrite: true` to replace it
+hint: Choose another output path, or pass `overwrite: true` to replace that file (the input is never modified).
 ```
+
+The result's `_meta["openreadout/error"]` carries `code`, `exit_code` and `hint` for clients that branch on them. A call to a tool that does not exist is a JSON-RPC error.
+
+## Reply size
+
+A reply has at most 38,000 characters of JSON (an `openreadout_info` summary 20,000), because clients refuse longer ones or set them aside in a file the model may not be able to read. Most replies are far shorter. Over the limit, the server shortens the longest lists (a plate's per-well rows, a qPCR run's records) until the reply fits, and adds a note that names each list, how many items it kept, and the arguments that narrow the call, such as `wells` for `openreadout_assay`.
 
 ## Resources and prompts
 

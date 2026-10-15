@@ -199,3 +199,60 @@ fn helpful_errors() {
             .contains("nothing to plot")
     );
 }
+
+#[test]
+fn growth_colours_and_a_figure_level_file() {
+    let d = tempfile::tempdir().unwrap();
+    let f = plate(d.path());
+    // `file` at the figure level is the file of every series that names none
+    let spec = parse_spec(json!({
+        "file": f,
+        "data": {"color_by": "growth", "subtract": "blank"},
+        "facet": "plate",
+    }))
+    .unwrap();
+    let p = plot(&Registry::new(), &spec).unwrap();
+    let classes: Vec<_> = p.output.panels[0]
+        .series
+        .iter()
+        .filter_map(|s| s.class.clone())
+        .collect();
+    assert!(classes.contains(&"grew".to_string()), "{classes:?}");
+    assert!(
+        classes.iter().any(|c| c.starts_with("crashed")),
+        "{classes:?}"
+    );
+    // a file alone draws its default view
+    let p = plot(&Registry::new(), &parse_spec(json!({"file": f})).unwrap()).unwrap();
+    assert_eq!(p.output.files, vec![f.clone()]);
+}
+
+#[test]
+fn misplaced_keys_say_where_they_go() {
+    let e = parse_spec(json!({"show": "wells", "data": {"file": "p.csv"}}))
+        .unwrap_err()
+        .to_string();
+    assert!(e.contains("describes a series"), "{e}");
+    let e = parse_spec(json!({"data": {"values": {"x": [1], "y": [1]}, "x": {"label": "pA"}}}))
+        .unwrap_err()
+        .to_string();
+    assert!(e.contains("data.x") && e.contains("on the panel"), "{e}");
+    let e = parse_spec(json!({"data": {"file": "r.raw", "tic": true}}))
+        .unwrap_err()
+        .to_string();
+    assert!(
+        e.contains("unknown field `tic`") && e.contains("chromatogram"),
+        "{e}"
+    );
+    let e = parse_spec(json!({"data": {"file": "a"}, "panels": [], "y": {"lable": "OD"}}))
+        .unwrap_err()
+        .to_string();
+    assert!(e.contains("y: unknown field `lable`"), "{e}");
+    let e = parse_spec(json!({"panels": [{"data": [{"file": "a"}, {"file": "b", "title": "t"}]}]}))
+        .unwrap_err()
+        .to_string();
+    assert!(
+        e.contains("panels[0].data[1]") && e.contains("`title`"),
+        "{e}"
+    );
+}

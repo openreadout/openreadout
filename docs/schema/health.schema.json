@@ -234,6 +234,7 @@
       },
       "required": [
         "path",
+        "format",
         "status",
         "codes"
       ]
@@ -363,6 +364,7 @@
       },
       "required": [
         "size_bytes",
+        "sha256",
         "paths"
       ]
     },
