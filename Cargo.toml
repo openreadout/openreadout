@@ -50,6 +50,7 @@ default-members = [
     "crates/openreadout-xrd",
     "crates/openreadout-thermal",
     "crates/openreadout-echem",
+    "crates/openreadout-figure",
     "crates/openreadout-preview",
     "crates/openreadout-quant",
     "crates/openreadout-ops",
@@ -127,6 +128,7 @@ openreadout-epr = { path = "crates/openreadout-epr", version = "0.3.0" }
 openreadout-xrd = { path = "crates/openreadout-xrd", version = "0.3.0" }
 openreadout-thermal = { path = "crates/openreadout-thermal", version = "0.3.0" }
 openreadout-echem = { path = "crates/openreadout-echem", version = "0.3.0" }
+openreadout-figure = { path = "crates/openreadout-figure", version = "0.3.0" }
 openreadout-preview = { path = "crates/openreadout-preview", version = "0.3.0" }
 openreadout-quant = { path = "crates/openreadout-quant", version = "0.3.0" }
 openreadout-ops = { path = "crates/openreadout-ops", version = "0.3.0" }
@@ -175,6 +177,10 @@ hdf5-pure = "0.47"
 tiff = "0.11"
 # previews (pure Rust PNG encoder; JPEG is encoded in openreadout-preview)
 png = "0.18"
+# figures: anti-aliased vector rasterizer (BSD-3-Clause) and font parser (MIT/Apache-2.0); the
+# embedded IBM Plex fonts are WOFF files, inflated at first use (miniz_oxide, above)
+tiny-skia = { version = "0.12", default-features = false, features = ["std"] }
+ttf-parser = { version = "0.25", default-features = false, features = ["std", "opentype-layout"] }
 # spreadsheets (plate-reader XLSX/XLS exports), pure Rust
 calamine = { version = "0.36", default-features = false }
 # zarr (pure Rust; only the filesystem store and gzip codec, no C codecs such as blosc/zstd-sys)

@@ -54,7 +54,6 @@
 pub mod canvas;
 pub mod color;
 mod image;
-pub mod jpeg;
 mod overlay;
 mod plate;
 mod rulers;
@@ -767,7 +766,12 @@ pub fn encode(c: &Canvas, encoding: Encoding, jpeg_quality: u8) -> Result<Vec<u8
             if c.width > 65_535 || c.height > 65_535 {
                 return Err(Error::Usage("JPEG previews are limited to 65535 px".into()));
             }
-            Ok(jpeg::encode(c, jpeg_quality))
+            openreadout_figure::Raster {
+                width: c.width,
+                height: c.height,
+                rgb: c.rgb.clone(),
+            }
+            .to_jpeg(jpeg_quality)
         }
         Encoding::Png => {
             let mut buf = Vec::new();
