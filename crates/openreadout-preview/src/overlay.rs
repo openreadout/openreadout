@@ -9,7 +9,8 @@ use openreadout_core::model::TraceInfo;
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Color, Domain, Figure, Panel, ScaleKind, Stroke, TextStyle, key_row,
+    Anchor, AxesSpec, Baseline, Color, Domain, Figure, Panel, ScaleKind, Stroke, TextStyle,
+    category_colors, key_row,
 };
 
 use crate::color::to_hex;
@@ -86,19 +87,21 @@ pub(crate) fn render(
             .or_else(|| extra_str(ch, "sample"))
             .map(str::to_string)
     };
-    let mut groups: BTreeMap<String, usize> = BTreeMap::new();
+    // in the order the wells first name them, coloured by the shared category rule
+    let mut groups: Vec<String> = Vec::new();
     for &c in &channels {
         if let Some(g) = group_of(c)
             && !is_control(extra_str(&t.channels[c as usize], "sample"))
+            && !groups.contains(&g)
         {
-            *groups.entry(g).or_default() += 1;
+            groups.push(g);
         }
     }
     let colored = (2..=MAX_GROUPS).contains(&groups.len());
     let group_color: BTreeMap<String, Color> = groups
-        .keys()
-        .enumerate()
-        .map(|(i, g)| (g.clone(), theme.series(i)))
+        .iter()
+        .cloned()
+        .zip(category_colors(&theme, &groups))
         .collect();
 
     let (mut lo, mut hi) = (f64::INFINITY, f64::NEG_INFINITY);
@@ -110,7 +113,7 @@ pub(crate) fn render(
             }
         }
     }
-    let key_h = if colored { fs * 2.2 } else { fs * 0.6 };
+    let key_h = if colored { fs * 2.9 } else { fs * 0.6 };
     let name = t
         .name
         .clone()
@@ -180,7 +183,7 @@ pub(crate) fn render(
     report.sort_by_key(|(k, _)| *k);
     if colored {
         let mut items: Vec<(Color, String)> =
-            group_color.iter().map(|(g, c)| (*c, g.clone())).collect();
+            groups.iter().map(|g| (group_color[g], g.clone())).collect();
         if channels
             .iter()
             .any(|&c| is_control(extra_str(&t.channels[c as usize], "sample")))

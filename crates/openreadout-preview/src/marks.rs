@@ -10,6 +10,8 @@ use crate::DataMark;
 
 /// Most peaks labelled in one panel.
 pub(crate) const MAX_PEAKS: usize = 8;
+/// Least prominence of a labelled peak, in noise standard deviations.
+pub(crate) const MIN_PEAK_SNR: f64 = 8.0;
 
 /// One pixel column of a trace: its extremes and where the maximum is.
 #[derive(Debug, Clone, Copy)]
@@ -66,16 +68,19 @@ pub(crate) fn prominent(
     if !(lo.is_finite() && hi.is_finite()) || hi <= lo {
         return Vec::new();
     }
-    // noise: the median step between neighbouring columns; a peak must stand well above it
+    // noise: the larger of the robust spread around the local baseline (as NMR peak picking
+    // measures it) and the median step between neighbouring columns (spiky noise); a peak must
+    // stand well clear of it, so ripples on a noisy baseline stay unlabelled
     let finite: Vec<f64> = v.iter().copied().filter(|x| x.is_finite()).collect();
     let mut steps: Vec<f64> = finite.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
     steps.sort_by(f64::total_cmp);
-    let noise = if steps.len() >= 50 {
+    let step_noise = if steps.len() >= 8 {
         steps[steps.len() / 2]
     } else {
         0.0
     };
-    let floor = ((hi - lo) * min_share).max(noise * 8.0);
+    let noise = openreadout_signal::nmr::noise_sd(&finite).max(step_noise);
+    let floor = ((hi - lo) * min_share).max(noise * MIN_PEAK_SNR);
     let len = v.len();
     let mut cands: Vec<(usize, f64)> = Vec::new();
     for i in 0..len {
@@ -216,7 +221,15 @@ mod tests {
 
     #[test]
     fn finds_prominent_peaks() {
-        let ys = [0.0, 1.0, 0.0, 0.0, 5.0, 0.0, 0.2, 0.3, 0.2, 3.0, 0.0];
+        // peaks on a quiet baseline
+        let mut ys = vec![0.0; 40];
+        ys[1] = 1.0;
+        ys[4] = 5.0;
+        ys[7] = 0.3;
+        ys[9] = 3.0;
+        for (i, y) in ys.iter_mut().enumerate() {
+            *y += 0.001 * (i % 3) as f64;
+        }
         let cols: Vec<Option<Col>> = ys
             .iter()
             .enumerate()
@@ -225,6 +238,14 @@ mod tests {
         assert_eq!(prominent(&cols, 2, 1, 0.1), vec![4, 9]);
         assert_eq!(prominent(&cols, 5, 1, 0.1), vec![4, 9, 1]);
         assert_eq!(prominent(&cols, 5, 6, 0.1), vec![4]);
+        // spiky noise with one spike twice its size: nothing stands out enough to label
+        let noisy: Vec<Option<Col>> = (0..60)
+            .map(|i| {
+                let v = if i == 30 { 2.0 } else { f64::from(i % 2) };
+                Some(Col::new(f64::from(i), v))
+            })
+            .collect();
+        assert!(prominent(&noisy, 5, 1, 0.04).is_empty());
         assert_eq!(decimals_for(0.01), 2);
         assert_eq!(peak_label(1.23456, 2), "1.23");
     }

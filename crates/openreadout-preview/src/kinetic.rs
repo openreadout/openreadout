@@ -10,7 +10,7 @@ use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
     Anchor, Baseline, Color, Domain, Envelope, Face, Figure, Panel, Path, Rect, ScaleKind, Stroke,
-    TextStyle, format_tick, format_value, key_row, text_width,
+    TextStyle, category_colors, format_tick, format_value, is_blank_label, key_row, text_width,
 };
 
 use crate::annotate::row_name;
@@ -216,13 +216,6 @@ fn read_series(
     }))
 }
 
-fn is_blank_label(s: &str) -> bool {
-    matches!(
-        s.trim().to_ascii_lowercase().as_str(),
-        "blank" | "bl" | "blk" | "buffer" | "empty" | "medium" | "media" | "background"
-    )
-}
-
 /// The layout field to colour by: 2–8 groups (blanks aside) covering the most wells; a field
 /// named like a group wins ties.
 /// A layout field and its label per well.
@@ -371,8 +364,8 @@ pub(crate) fn render(
     }
     let color_of_group: BTreeMap<String, Color> = group_names
         .iter()
-        .enumerate()
-        .map(|(i, n)| (n.clone(), theme.series(i)))
+        .cloned()
+        .zip(category_colors(&theme, &group_names))
         .collect();
     let well_color = |p: (u32, u32)| -> Color {
         if blanks.contains(&p) {
