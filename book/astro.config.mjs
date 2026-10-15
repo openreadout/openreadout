@@ -123,6 +123,7 @@ export default defineConfig({
                 cmd("export"),
                 cmd("extract"),
                 cmd("preview"),
+                cmd("plot"),
                 cmd("stats"),
                 cmd("trace"),
                 cmd("table"),
