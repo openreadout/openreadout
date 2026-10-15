@@ -12,6 +12,9 @@
 //! images of each set; `NUCLEI_DUMP=DIR` writes a TSV of per-image results there, and with
 //! `NUCLEI_SHOW=PREFIX,...` pictures of those images with both outlines.
 #![cfg(feature = "corpus")]
+// x, y, w, h are the natural names in image arithmetic, and the PNG samples compared are whole
+// numbers held exactly.
+#![allow(clippy::many_single_char_names, clippy::float_cmp)]
 
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
@@ -139,7 +142,7 @@ fn bbbc038() -> Vec<Case> {
         return Vec::new();
     };
     let mut ids: Vec<String> = rd
-        .filter_map(|e| e.ok())
+        .filter_map(Result::ok)
         .filter(|e| e.path().join("images").is_dir())
         .map(|e| e.file_name().to_string_lossy().into_owned())
         .collect();

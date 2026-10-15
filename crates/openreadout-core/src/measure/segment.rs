@@ -24,7 +24,7 @@ use std::collections::BinaryHeap;
 /// Gaussian blur with σ in pixels (edges repeat the border value). σ ≤ 0 (or not a number)
 /// copies; σ beyond the plane's size is cut to it, which blurs it nearly flat anyway.
 pub(crate) fn gaussian(v: &[f32], w: usize, h: usize, sigma: f64) -> Vec<f32> {
-    if !(sigma > 0.0) || w == 0 || h == 0 || v.len() < w * h {
+    if sigma.is_nan() || sigma <= 0.0 || w == 0 || h == 0 || v.len() < w * h {
         return v.to_vec();
     }
     let sigma = sigma.min(w.max(h) as f64);
