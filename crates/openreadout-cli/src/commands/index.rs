@@ -39,7 +39,8 @@ pub struct IndexArgs {
     /// Integrity check per data set.
     #[arg(long, value_enum, default_value_t)]
     pub check: CheckArg,
-    /// Follow symbolic links (a directory reached twice is crawled once).
+    /// Follow symbolic links to directories (a directory reached twice is crawled once). Links
+    /// to files are always read.
     #[arg(long)]
     pub follow_symlinks: bool,
     /// Skip entries whose name or root-relative path matches this glob (repeatable), e.g.
