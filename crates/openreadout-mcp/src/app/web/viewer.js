@@ -3582,6 +3582,9 @@ function main() {
       let s = `x ${fmtInt(p.x)}  y ${fmtInt(p.y)} px`;
       if (ps) s += `\n${fmtLength(p.x * ps.x)}, ${fmtLength(p.y * ps.y)}`;
       if (hitAnn && hitAnn.a.label) s = `${hitAnn.a.label}\n` + s;
+      const rows = [{ key: "x", value: fmtInt(p.x), unit: "px" }, { key: "y", value: fmtInt(p.y), unit: "px" }];
+      if (ps) rows.push({ key: "position", value: `${fmtLength(p.x * ps.x)}, ${fmtLength(p.y * ps.y)}` });
+      S.hover.tip = { head: hitAnn && hitAnn.a.label ? { value: legendLabel(hitAnn.a.label, 40) } : null, rows };
       return s;
     }
     if (L.kind === "plot") {
@@ -3666,6 +3669,10 @@ function main() {
       const gc = groupColoring();
       const grp = gc ? gc.map[name] : null;
       if (pl.kinetic) return "";
+      S.hover.tip = {
+        head: { value: name, unit: grp || "" },
+        rows: [{ color: gc && grp ? gc.colorsBy.get(grp) || null : null, key: S.args.column || "value", value: v == null ? "no value" : fmtValue(v, 5) }],
+      };
       return `${name}${grp ? " · " + grp : ""}\n${v == null ? "no value" : fmt(v, 5)}`;
     }
     if (L.kind === "events") {
@@ -3673,14 +3680,20 @@ function main() {
       if (lab) {
         S.hover = { pop: lab.j };
         const p = lab.p;
+        S.hover.tip = {
+          head: { value: legendLabel(p.path, 40) },
+          rows: [{ key: "events", value: fmtInt(p.count) }, { key: "of parent", value: fmt(p.percent_of_parent, 3), unit: "%" }],
+        };
         return `${p.path}\n${fmtInt(p.count)} events · ${fmt(p.percent_of_parent, 3)} % of parent\nclick to select`;
       }
       const u = (px - L.left) / L.pw, v = 1 - (py - L.top) / L.ph;
       if (u < 0 || u > 1 || v < 0 || v > 1) return "";
       S.hover = { px, py };
       const x = scaleInv(L.sx)(L.xr[0] + u * (L.xr[1] - L.xr[0]));
+      S.hover.tip = { head: null, rows: [{ key: d.events.x.name, value: fmtValue(x, 4) }] };
       if (L.hist) return `${d.events.x.name} ${fmt(x, 4)}`;
       const y = scaleInv(L.sy)(L.yr[0] + v * (L.yr[1] - L.yr[0]));
+      S.hover.tip.rows.push({ key: d.events.y.name, value: fmtValue(y, 4) });
       return `${d.events.x.name} ${fmt(x, 4)}\n${d.events.y.name} ${fmt(y, 4)}`;
     }
     if (L.kind === "figure") {
