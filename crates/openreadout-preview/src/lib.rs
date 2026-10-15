@@ -202,7 +202,15 @@ pub enum Axis {
 
 /// What frames an image preview.
 #[derive(
-    Debug, Clone, Copy, PartialEq, Eq, Default, serde::Deserialize, serde::Serialize, schemars::JsonSchema,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Default,
+    serde::Deserialize,
+    serde::Serialize,
+    schemars::JsonSchema,
 )]
 #[serde(rename_all = "kebab-case")]
 #[non_exhaustive]
@@ -947,7 +955,10 @@ impl Frame {
     }
 
     /// Plot panels whose own labels occupy `taken`.
-    pub(crate) fn plots_labelled(panels: Vec<FramePanel>, taken: &[openreadout_figure::Rect]) -> Frame {
+    pub(crate) fn plots_labelled(
+        panels: Vec<FramePanel>,
+        taken: &[openreadout_figure::Rect],
+    ) -> Frame {
         Frame::Plots {
             panels,
             key: None,

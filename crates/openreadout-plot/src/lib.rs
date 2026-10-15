@@ -218,7 +218,12 @@ fn theme_for(spec: &PlotSpec) -> Theme {
         ThemeName::Light => Theme::light(),
         ThemeName::Dark => Theme::dark(),
     };
-    if let Some(p) = spec.paper.as_deref().and_then(Color::parse).map(|c| c.alpha(1.0)) {
+    if let Some(p) = spec
+        .paper
+        .as_deref()
+        .and_then(Color::parse)
+        .map(|c| c.alpha(1.0))
+    {
         // cards (small multiples, plate wells) stay a shade off the ground
         t.panel = p.mix(t.ink, 0.03);
         t.paper = p;

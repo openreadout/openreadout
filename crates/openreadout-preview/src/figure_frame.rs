@@ -188,7 +188,13 @@ pub(crate) fn decorate(
         .as_ref()
         .map(|b| format!("{} {}", fmt_len(b.length), b.unit));
     let title_lines = layout.title.as_deref().map_or_else(Vec::new, |t| {
-        wrap(t, Face::SansMedium, layout.title_fs, inner_w as f32, MAX_TITLE_LINES)
+        wrap(
+            t,
+            Face::SansMedium,
+            layout.title_fs,
+            inner_w as f32,
+            MAX_TITLE_LINES,
+        )
     });
     // the data, centred when the text block is wider
     let l = (layout.pad + (inner_w - dw) / 2) as f32;

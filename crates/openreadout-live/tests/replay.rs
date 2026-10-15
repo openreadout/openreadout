@@ -278,5 +278,8 @@ fn watch_follows_links_to_files_and_counts_links_to_directories() {
     let (followed, skipped) = new_paths(true);
     assert_eq!(skipped, 0);
     assert!(followed.contains(&"a.ome.tif".to_string()), "{followed:?}");
-    assert!(followed.contains(&"more/b.ome.tif".to_string()), "{followed:?}");
+    assert!(
+        followed.contains(&"more/b.ome.tif".to_string()),
+        "{followed:?}"
+    );
 }

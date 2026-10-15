@@ -58,8 +58,8 @@ mod theme;
 pub use category::{BLANK_LABELS, category_colors, is_blank_label};
 pub use chart::{
     AxesDrawn, AxesSpec, Domain, EndLabel, Envelope, GridLines, Marker, Panel, Shape, arrow_parts,
-    arrow_px, color_bar, draw_marker, end_label_boxes, end_label_indent, end_labels, key_fit, key_row,
-    key_row_height, marker_path, spread,
+    arrow_px, color_bar, draw_marker, end_label_boxes, end_label_indent, end_labels, key_fit,
+    key_row, key_row_height, marker_path, spread,
 };
 pub use color::{Color, Colormap};
 pub use font::{Face, Metrics, metrics, text_path, text_width};

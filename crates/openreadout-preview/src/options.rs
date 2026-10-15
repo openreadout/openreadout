@@ -183,7 +183,12 @@ mod tests {
         assert!(o.request(512, Axes::Rulers).unwrap().figure);
         let o = PreviewOptions::from_json(r#"{"title": "x", "axes": "rulers"}"#).unwrap();
         assert!(!o.request(512, Axes::None).unwrap().figure);
-        assert!(!PreviewOptions::default().request(512, Axes::Rulers).unwrap().figure);
+        assert!(
+            !PreviewOptions::default()
+                .request(512, Axes::Rulers)
+                .unwrap()
+                .figure
+        );
     }
 
     #[test]

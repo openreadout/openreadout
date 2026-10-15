@@ -16,8 +16,10 @@ use serde_json::{Map, Value};
 const MAX_DEPTH: usize = 12;
 
 /// The `openreadout_export` arguments that hold the arguments of another tool.
-pub const NESTED_TOOL_ARGS: [(&str, &str); 2] =
-    [("plot", "openreadout_plot"), ("preview", "openreadout_preview")];
+pub const NESTED_TOOL_ARGS: [(&str, &str); 2] = [
+    ("plot", "openreadout_plot"),
+    ("preview", "openreadout_preview"),
+];
 
 /// Read `args` against the input `schema` of their tool (see the module notes).
 pub fn args(schema: &Map<String, Value>, args: &mut Map<String, Value>) {
@@ -80,7 +82,10 @@ fn types(alts: &[&Value]) -> Vec<String> {
         if s.get("items").is_some() {
             t.push("array".into());
         }
-        if let Some(c) = s.get("const").or_else(|| s.get("enum").and_then(|e| e.get(0))) {
+        if let Some(c) = s
+            .get("const")
+            .or_else(|| s.get("enum").and_then(|e| e.get(0)))
+        {
             t.push(json_type(c).into());
         }
     }

@@ -499,7 +499,11 @@ fn figure(registry: fn() -> Registry, a: &ViewArgs) -> Result<CallToolResult, Mc
                     "panel {i} is not in the figure (it has {n}); zoom left out"
                 )),
                 Some(i) if !shared => {
-                    spec.panels[i].panel.x.get_or_insert_with(Default::default).range = range;
+                    spec.panels[i]
+                        .panel
+                        .x
+                        .get_or_insert_with(Default::default)
+                        .range = range;
                 }
                 _ => {
                     for p in &mut spec.panels {

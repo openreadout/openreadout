@@ -728,8 +728,7 @@ pub(crate) fn render(
         out.notes
             .push("grid lines are drawn only with the rulers (axes)".into());
     }
-    if (req.title.is_some() || req.caption.is_some())
-        && !matches!(layout, Some(Framing::Figure(_)))
+    if (req.title.is_some() || req.caption.is_some()) && !matches!(layout, Some(Framing::Figure(_)))
     {
         out.notes
             .push("title and caption are drawn only with axes scale-bar".into());

@@ -7,8 +7,8 @@ mod prep;
 use openreadout_core::Result;
 use openreadout_figure::{
     Anchor, AxesSpec, Baseline, Color, Domain, EndLabel, Face, Figure, GridLines, LabelPlacer,
-    Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_label_boxes, end_labels, format_tick,
-    key_fit, key_row, spread,
+    Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_label_boxes, end_labels,
+    format_tick, key_fit, key_row, spread,
 };
 use serde_json::{Value, json};
 
@@ -1113,7 +1113,14 @@ fn draw_plot(
         .then(|| direct_labels(theme, &panel, &p.series, area.right()));
     if let Some(ends) = &ends {
         let reach = theme.font_size * 2.5;
-        for r in end_label_boxes(theme, panel.rect.right(), ends, ends_lo(theme, &panel), panel.rect.bottom(), reach) {
+        for r in end_label_boxes(
+            theme,
+            panel.rect.right(),
+            ends,
+            ends_lo(theme, &panel),
+            panel.rect.bottom(),
+            reach,
+        ) {
             placer.reserve(r);
         }
     }
