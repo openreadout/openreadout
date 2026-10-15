@@ -214,6 +214,7 @@ impl ServerHandler for InstrumentServer {
             r => r?,
         };
         if let CallToolResponse::Complete(result) = &mut response {
+            wording::result_notes(result);
             budget::fit(result, &name, max_chars);
             if let Some(hint) = hint {
                 app::attach_hint(result, hint);

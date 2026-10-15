@@ -3,6 +3,43 @@
 //! calling tools needs the tool and argument names instead (`openreadout_trace` with
 //! `sweep: N`, `overwrite: true`).
 
+/// Rewrite the notes and warnings of a tool result (`notes`, `warnings`, `note`, `hint`
+/// anywhere in its JSON) in tool words, keeping its text block the same JSON.
+pub fn result_notes(result: &mut rmcp::model::CallToolResult) {
+    let Some(v) = result.structured_content.as_mut() else {
+        return;
+    };
+    let before = v.to_string();
+    if !before.contains("openreadout ") && !before.contains("--") {
+        return;
+    }
+    notes(v, false);
+    let after = v.to_string();
+    if after == before {
+        return;
+    }
+    for c in &mut result.content {
+        if c.as_text().is_some_and(|t| t.text == before) {
+            *c = rmcp::model::ContentBlock::text(after.clone());
+        }
+    }
+}
+
+fn notes(v: &mut serde_json::Value, inside: bool) {
+    use serde_json::Value;
+    match v {
+        Value::String(s) if inside => *s = for_tools(s),
+        Value::Array(a) => a.iter_mut().for_each(|x| notes(x, inside)),
+        Value::Object(o) => {
+            for (k, x) in o.iter_mut() {
+                let is_note = matches!(k.as_str(), "notes" | "warnings" | "note" | "hint");
+                notes(x, inside || is_note);
+            }
+        }
+        _ => {}
+    }
+}
+
 /// Rewrite the command lines quoted in `s` (between backticks) and bare `--flag`s.
 pub fn for_tools(s: &str) -> String {
     let mut out = String::with_capacity(s.len());
@@ -134,5 +171,18 @@ mod tests {
             "the `openreadout://formats` resource lists them; `openreadout_info` with `view: structure`"
         );
         assert_eq!(for_tools("a range 1--2 and `x --y`"), "a range 1--2 and `x --y`");
+    }
+
+    #[test]
+    fn notes_in_results_are_rewritten() {
+        let v = serde_json::json!({"path": "a --b", "notes": ["pass --sample NAME"], "x": {"hint": "see `openreadout check FILE`"}});
+        let mut r = rmcp::model::CallToolResult::structured(v);
+        super::result_notes(&mut r);
+        let sc = r.structured_content.as_ref().unwrap();
+        assert_eq!(sc["path"], "a --b", "data stays as it is");
+        assert_eq!(sc["notes"][0], "pass `sample` NAME");
+        assert_eq!(sc["x"]["hint"], "see `openreadout_check`");
+        let text = r.content[0].as_text().unwrap().text.clone();
+        assert_eq!(serde_json::from_str::<serde_json::Value>(&text).unwrap(), *sc);
     }
 }
