@@ -2614,8 +2614,18 @@ function main() {
     const k = pl.kinetic;
     const curves = k && S.kin.mode === "curves";
     const c = colors();
-    const left = 22, top = 20, bottom = curves ? 18 : 40, right = 6;
+    const gc = groupColoring();
+    // When each block of rows holds one group, the group names head the blocks on the left,
+    // as a plate layout is drawn on paper.
+    const blocks = gc ? rowBlocks(pl, gc) : null;
     const boxW = Math.max(160, canvas.parentElement.clientWidth);
+    let headW = 0;
+    if (blocks) {
+      g.font = font(12, 500);
+      headW = Math.min(boxW * 0.22, Math.max(...blocks.map((b) => g.measureText(b.name).width)) + 14);
+      if (headW < 30 || boxW < 420) { headW = 0; }
+    }
+    const left = 22 + headW, top = 20, bottom = curves ? 18 : 40, right = 6;
     const cellW = Math.max(6, Math.min(curves ? 96 : 56, (boxW - left - right) / pl.columns));
     const cellH = curves ? cellW * 0.7 : cellW;
     const [w, h] = sizeCanvas(root.classList.contains("fill") ? null : boxW / (top + pl.rows * cellH + bottom));
@@ -2628,7 +2638,19 @@ function main() {
     const every = cw < 14 ? Math.ceil(14 / cw) : 1;
     for (let col = 0; col < pl.columns; col++) if ((col + 1) % every === 0 || col === 0) txt(String(col + 1), ox + (col + 0.5) * cw, top - 7, { mono: true, size: 10, align: "center" });
     for (let r = 0; r < pl.rows; r++) if (r % (ch < 12 ? Math.ceil(12 / ch) : 1) === 0) txt(wellName(r, 0).replace(/\d+$/, ""), ox - 8, oy + (r + 0.5) * ch, { mono: true, size: 10, align: "center", baseline: "middle" });
-    const gc = groupColoring();
+    if (headW) {
+      for (const b of blocks) {
+        const y0 = oy + b.from * ch, y1 = oy + (b.to + 1) * ch;
+        const words = legendLabel(b.name, 28);
+        txt(words, ox - 18, (y0 + y1) / 2, { size: 12, weight: 500, color: gc.colorsBy.get(b.name) === c.faint ? c.muted : c.ink, align: "right", baseline: "middle" });
+        g.strokeStyle = c.rule;
+        g.lineWidth = 1;
+        g.beginPath();
+        g.moveTo(ox - 14.5, y0 + 3);
+        g.lineTo(ox - 14.5, y1 - 3);
+        g.stroke();
+      }
+    }
     const focus = S.kin.focus;
     const dim = (r, col) => focus && gc && gc.map[wellName(r, col)] !== focus;
     if (curves) {
@@ -2710,6 +2732,30 @@ function main() {
       txt(k ? `at ${fmtTime(kinTime())}` : legendLabel(pl.value, 60), ox + lw + 14, ly + 7, { size: 11, color: c.muted });
     }
     S.layout = { kind: "plate", ox, oy, cw, ch, rows: pl.rows, columns: pl.columns, w, h, curves };
+  }
+
+  /** Runs of rows whose non-blank wells all share one group: [{name, from, to}], or null. */
+  function rowBlocks(pl, gc) {
+    const rowGroup = [];
+    for (let r = 0; r < pl.rows; r++) {
+      const names = new Set();
+      for (let c = 0; c < pl.columns; c++) {
+        const v = gc.map[wellName(r, c)];
+        if (v != null && !isBlankGroup(v)) names.add(v);
+      }
+      if (names.size > 1) return null;
+      rowGroup.push(names.size ? [...names][0] : null);
+    }
+    const out = [];
+    for (let r = 0; r < pl.rows; r++) {
+      const name = rowGroup[r];
+      if (name == null) continue;
+      const last = out[out.length - 1];
+      if (last && last.name === name && last.to === r - 1) last.to = r;
+      else out.push({ name, from: r, to: r });
+    }
+    if (out.length < 2 || out.length > 8 || new Set(out.map((b) => b.name)).size !== out.length) return null;
+    return out;
   }
 
   function miniCurve(s, x, y, w, h, color, lw) {
