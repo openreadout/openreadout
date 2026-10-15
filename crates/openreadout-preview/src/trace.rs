@@ -118,7 +118,19 @@ pub(crate) fn render(
     req: &PreviewRequest,
     out: &mut PreviewOutput,
 ) -> Result<(Figure, Frame)> {
-    let ti = req.trace.unwrap_or(0);
+    // by default a processed spectrum (a ppm axis) before the FID it came from
+    let ti = req.trace.unwrap_or_else(|| {
+        info.traces
+            .iter()
+            .find(|t| {
+                t.extra
+                    .get("axis")
+                    .and_then(|a| a.get("unit"))
+                    .and_then(serde_json::Value::as_str)
+                    .is_some_and(|u| u.contains("ppm"))
+            })
+            .map_or(0, |t| t.index)
+    });
     let sweep = req.sweep.unwrap_or(0);
     let t = find_trace(info, ti)?;
     if sweep >= t.sweep_count {

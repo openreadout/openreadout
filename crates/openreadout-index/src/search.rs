@@ -96,7 +96,16 @@ pub fn output_fields(fields: &[String]) -> Result<Vec<&'static str>> {
             continue;
         }
         let cols = crate::query::resolve_field(f)
-            .ok_or_else(|| Error::Usage(format!("unknown field `{f}`")))?;
+            .or_else(|| crate::query::resolve_field(&f.replace([' ', '-'], "_")))
+            .ok_or_else(|| {
+                let aliases: Vec<&str> = crate::query::FIELDS.iter().map(|a| a.name).collect();
+                let columns: Vec<&str> = EXPERIMENTS.iter().map(|c| c.name).collect();
+                Error::Usage(format!(
+                    "unknown field `{f}`; fields: {}; columns: {}",
+                    aliases.join(", "),
+                    columns.join(", ")
+                ))
+            })?;
         for c in cols {
             if !out.contains(&c) {
                 out.push(c);
