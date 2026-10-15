@@ -39,6 +39,11 @@ impl LabelPlacer {
         self.taken.push(r);
     }
 
+    /// True when `r` lies inside the bounds and overlaps nothing reserved.
+    pub fn free(&self, r: &Rect) -> bool {
+        self.bounds.contains_rect(r) && !self.taken.iter().any(|t| t.intersects(r))
+    }
+
     /// Choose a spot for a `w` × `h` box near `(x, y)`, `gap` pixels from it; the spot with the
     /// least overlap wins (the first candidate on ties). The box is then reserved.
     pub fn place(&mut self, x: f32, y: f32, w: f32, h: f32, gap: f32) -> Rect {

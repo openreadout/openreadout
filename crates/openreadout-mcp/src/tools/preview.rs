@@ -43,7 +43,8 @@ pub struct PreviewArgs {
     pub contrast: Option<String>,
     /// Colour lookup. Default: gray for one channel, channel colours for composites.
     pub lut: Option<openreadout_preview::Lut>,
-    /// Encoding. Default png (sent as JPEG when a PNG would be too large).
+    /// Encoding. Default png (sent as JPEG when a PNG would be too large); svg also returns
+    /// the vector drawing as text.
     pub format: Option<openreadout_preview::Encoding>,
     /// Trace preview: trace index (see openreadout_info traces[]).
     pub trace: Option<u32>,
@@ -61,10 +62,20 @@ pub struct PreviewArgs {
     /// Spectrum preview: the instrument's centroid list instead of the profile.
     #[serde(default)]
     pub centroid: bool,
-    /// Plate preview: table index.
+    /// Plate or flow-cytometry preview: table index.
     pub table: Option<u32>,
-    /// Plate preview (long layout): value column name.
-    pub column: Option<String>,
+    /// Table columns: a plate's value column, or the x and y parameters of a flow-cytometry
+    /// density plot (one gives a histogram; default FSC-A, SSC-A).
+    #[serde(default)]
+    pub columns: Vec<String>,
+    /// Marks from the data. Default auto: the largest peaks of spectra and chromatograms are
+    /// labelled.
+    pub marks: Option<openreadout_preview::Marks>,
+    /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
+    /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
+    /// units on plots, wells on plates.
+    #[serde(default)]
+    pub annotations: Vec<openreadout_preview::Annotation>,
     /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
     /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
     #[serde(default)]
@@ -80,7 +91,7 @@ pub const MAX_MCP_PREVIEW_SIZE: u32 = 2048;
 fn preview_blocking(
     registry: fn() -> Registry,
     a: &PreviewArgs,
-) -> Result<(openreadout_preview::PreviewOutput, Vec<u8>), McpError> {
+) -> Result<(openreadout_preview::PreviewOutput, Vec<u8>, Option<String>), McpError> {
     use openreadout_preview as pv;
     fn parse<T>(r: openreadout_core::Result<T>) -> Result<T, McpError> {
         r.map_err(|e| mcp_err(&e))
@@ -112,11 +123,17 @@ fn preview_blocking(
         preview_request.scan = a.scan;
         preview_request.centroid = a.centroid;
         preview_request.table = a.table;
-        preview_request.column = a.column.clone();
+        preview_request.columns = a.columns.clone();
+        preview_request.marks = a.marks.unwrap_or_default();
+        preview_request.annotations = a.annotations.clone();
         a.axes.apply(&mut preview_request);
         preview_request
     };
-    let encoding = a.format.unwrap_or_default();
+    // SVG goes back as text next to a PNG picture
+    let encoding = match a.format.unwrap_or_default() {
+        pv::Encoding::Svg => pv::Encoding::Png,
+        e => e,
+    };
     let reg = with_strict(registry(), a.strict);
     let (_, mut ds) = reg.open(Path::new(&a.file)).map_err(|e| mcp_err(&e))?;
     let info = ds.info().map_err(|e| mcp_err(&e))?;
@@ -134,7 +151,8 @@ fn preview_blocking(
             im.full_res_region
         ));
     }
-    Ok((out, bytes))
+    let svg = (a.format == Some(pv::Encoding::Svg)).then(|| r.figure.to_svg());
+    Ok((out, bytes, svg))
 }
 
 #[tool_router(router = preview_router, vis = "pub(super)")]
@@ -150,7 +168,7 @@ impl InstrumentServer {
         Parameters(a): Parameters<PreviewArgs>,
     ) -> Result<CallToolResult, McpError> {
         let registry = self.registry;
-        let (out, bytes) = tokio::task::spawn_blocking(move || preview_blocking(registry, &a))
+        let (out, bytes, svg) = tokio::task::spawn_blocking(move || preview_blocking(registry, &a))
             .await
             .map_err(|e| McpError::internal_error(format!("preview task failed: {e}"), None))??;
         let value = to_value(&out)?;
@@ -160,6 +178,9 @@ impl InstrumentServer {
             "image/png"
         };
         let mut r = CallToolResult::structured(value);
+        if let Some(svg) = svg {
+            r.content.push(ContentBlock::text(svg));
+        }
         r.content.insert(
             0,
             ContentBlock::image(

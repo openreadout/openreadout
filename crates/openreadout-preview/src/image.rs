@@ -8,13 +8,13 @@ use openreadout_core::region::Region;
 use openreadout_core::select::Selection;
 use openreadout_core::{Error, Result};
 
-use crate::canvas::Canvas;
 use crate::color::{self, Rgb};
 use crate::rulers::{self, Layout, Mapping};
 use crate::{
     Axis, Contrast, ImagePreview, Lut, PreviewChannel, PreviewOutput, PreviewRequest, SourcePoint,
     split_select,
 };
+use openreadout_figure::{Figure, Raster, Rect};
 
 /// Most channels blended into one composite.
 const MAX_COMPOSITE_CHANNELS: usize = 16;
@@ -563,7 +563,7 @@ pub(crate) fn render(
     info: &FileInfo,
     req: &PreviewRequest,
     out: &mut PreviewOutput,
-) -> Result<Canvas> {
+) -> Result<(Figure, crate::Frame)> {
     let image = req.image.unwrap_or(0);
     let im = info
         .images
@@ -769,7 +769,7 @@ pub(crate) fn render(
         .first()
         .and_then(|(_, b, _)| b.first())
         .map_or((0, 0), |b| (b.w, b.h));
-    let mut canvas = Canvas::new(ow as u32, oh as u32, [0, 0, 0]);
+    let mut canvas = Raster::new(ow as u32, oh as u32, [0, 0, 0]);
     let mut channels = Vec::new();
     let mut acc = vec![0f32; ow * oh * 3];
     for (pos, (c, bands, screened)) in per_channel.iter().enumerate() {
@@ -847,13 +847,24 @@ pub(crate) fn render(
         _ => (im.size_x, im.size_y),
     };
     let full_res_region = map.covered(ow as u32, oh as u32, read_end);
-    let (canvas, plot_area, scale_bar) = match layout {
+    let (figure, plot_area, scale_bar) = match layout {
         Some(l) => {
-            let d = rulers::decorate(&canvas, l, map, im.physical_size.x, req.grid);
-            (d.canvas, d.plot_area, d.scale_bar)
+            let theme = crate::theme(req);
+            let d = rulers::decorate(canvas, l, map, im.physical_size.x, req.grid, &theme);
+            (d.figure, d.plot_area, d.scale_bar)
         }
-        None => (canvas, Region::new(0, 0, ow as u32, oh as u32), None),
+        None => {
+            let (w, h) = (ow as f32, oh as f32);
+            let mut f = Figure::new(w, h, None);
+            f.image(
+                Rect::new(0.0, 0.0, w, h),
+                std::sync::Arc::new(canvas),
+                false,
+            );
+            (f, Region::new(0, 0, ow as u32, oh as u32), None)
+        }
     };
+    let frame = crate::Frame::Image { plot_area, map };
     out.image = Some(ImagePreview {
         image,
         level,
@@ -894,7 +905,7 @@ pub(crate) fn render(
         full_res_region,
         scale_bar,
     });
-    Ok(canvas)
+    Ok((figure, frame))
 }
 
 #[cfg(test)]

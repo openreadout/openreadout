@@ -71,7 +71,7 @@ impl Domain {
     pub fn of(values: impl IntoIterator<Item = f64>, pad: f64, kind: ScaleKind) -> Domain {
         let (mut lo, mut hi) = (f64::INFINITY, f64::NEG_INFINITY);
         for v in values {
-            if v.is_finite() && (kind == ScaleKind::Linear || v > 0.0) {
+            if v.is_finite() && (kind != ScaleKind::Log || v > 0.0) {
                 lo = lo.min(v);
                 hi = hi.max(v);
             }
@@ -83,6 +83,18 @@ impl Domain {
                 Domain::linear(lo - p, hi + p)
             }
             ScaleKind::Log => Domain::log(lo, hi),
+            ScaleKind::Asinh(c) => Domain {
+                kind: ScaleKind::Asinh(c),
+                ..Domain::linear(lo, hi)
+            },
+        }
+    }
+
+    /// An asinh range (`asinh(v / cofactor)`), for data spanning decades on both sides of zero.
+    pub fn asinh(lo: f64, hi: f64, cofactor: f64) -> Domain {
+        Domain {
+            kind: ScaleKind::Asinh(cofactor),
+            ..Domain::linear(lo, hi)
         }
     }
 
@@ -94,7 +106,7 @@ impl Domain {
 
     /// Include `v` (e.g. zero for bars).
     pub fn include(mut self, v: f64) -> Domain {
-        if v.is_finite() && (self.kind == ScaleKind::Linear || v > 0.0) {
+        if v.is_finite() && (self.kind != ScaleKind::Log || v > 0.0) {
             self.lo = self.lo.min(v);
             self.hi = self.hi.max(v);
         }
@@ -118,6 +130,10 @@ impl Domain {
         match self.kind {
             ScaleKind::Linear => Scale::linear(self.lo, self.hi, a, b),
             ScaleKind::Log => Scale::log(self.lo, self.hi, a, b),
+            ScaleKind::Asinh(c) => Scale {
+                kind: ScaleKind::Asinh(c),
+                ..Scale::linear(self.lo, self.hi, a, b)
+            },
         }
     }
 }
@@ -292,29 +308,35 @@ pub fn draw_marker(fig: &mut Figure, m: &Marker, x: f32, y: f32) {
     }
 }
 
-/// An arrow from `(x0, y0)` to `(x1, y1)` in pixels, with its head at the end.
-pub fn arrow_px(fig: &mut Figure, x0: f32, y0: f32, x1: f32, y1: f32, stroke: Stroke) {
+/// The shaft and head of an arrow from `(x0, y0)` to `(x1, y1)` drawn `width` wide: stroke the
+/// shaft, fill the head. `None` for a zero-length arrow.
+pub fn arrow_parts(x0: f32, y0: f32, x1: f32, y1: f32, width: f32) -> Option<(Path, Path)> {
     let (dx, dy) = (x1 - x0, y1 - y0);
     let len = (dx * dx + dy * dy).sqrt();
     if !len.is_finite() || len < 1e-3 {
-        return;
+        return None;
     }
     let (ux, uy) = (dx / len, dy / len);
-    let head = (stroke.width * 4.5).max(7.0).min(len * 0.6);
+    let head = (width * 4.5).max(7.0).min(len * 0.6);
     let half = head * 0.42;
     let (bx, by) = (x1 - ux * head, y1 - uy * head);
-    fig.stroke(
+    Some((
         Path::segment(x0, y0, x1 - ux * head * 0.6, y1 - uy * head * 0.6),
-        stroke.clone(),
-    );
-    fig.fill(
         Path::polygon([
             (x1, y1),
             (bx - uy * half, by + ux * half),
             (bx + uy * half, by - ux * half),
         ]),
-        stroke.color,
-    );
+    ))
+}
+
+/// An arrow from `(x0, y0)` to `(x1, y1)` in pixels, with its head at the end.
+pub fn arrow_px(fig: &mut Figure, x0: f32, y0: f32, x1: f32, y1: f32, stroke: Stroke) {
+    if let Some((shaft, head)) = arrow_parts(x0, y0, x1, y1, stroke.width) {
+        let color = stroke.color;
+        fig.stroke(shaft, stroke);
+        fig.fill(head, color);
+    }
 }
 
 impl Panel {
@@ -630,7 +652,7 @@ impl Panel {
             fig.line(r.x, r.bottom(), r.right(), r.bottom(), axis.clone());
             let ls = label.clone().align(Anchor::Middle, Baseline::Top);
             let mut last_right = f32::NEG_INFINITY;
-            // left to right on the page, so a reversed axis (ppm, cm⁻¹) keeps its labels
+            // left to right on the page, whichever way the axis runs
             let mut by_px: Vec<&Tick> = xt.iter().collect();
             by_px.sort_by(|a, b| a.px.total_cmp(&b.px));
             for t in by_px {

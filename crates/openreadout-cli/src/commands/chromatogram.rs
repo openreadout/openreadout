@@ -308,20 +308,15 @@ fn write_output(
         .unwrap_or("")
         .to_ascii_lowercase();
     match ext.as_str() {
-        "png" | "jpg" | "jpeg" => {
-            let canvas = openreadout_quant::plot::render(
+        "png" | "jpg" | "jpeg" | "svg" => {
+            let figure = openreadout_quant::plot::render(
                 &out.chromatograms,
                 &vec![None; out.chromatograms.len()],
                 width,
             );
-            let enc = if ext == "png" {
-                openreadout_preview::Encoding::Png
-            } else {
-                openreadout_preview::Encoding::Jpeg
-            };
-            let bytes = openreadout_preview::encode(
-                &canvas,
-                enc,
+            let bytes = openreadout_preview::encode_figure(
+                &figure,
+                openreadout_preview::Encoding::from_path(output),
                 openreadout_preview::DEFAULT_JPEG_QUALITY,
             )?;
             openreadout_preview::write_verified(input, output, &bytes, overwrite)?;

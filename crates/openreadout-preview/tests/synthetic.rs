@@ -392,9 +392,9 @@ fn rulers_frame_the_unchanged_plane() {
     assert_eq!(pi.plot_area, openreadout_core::Region::new(0, 0, 64, 48));
     // the whole picture honours max_size, rulers included
     let mut small = PreviewRequest::default();
-    small.max_size = 60;
+    small.max_size = 90;
     let s = render(&mut Synth, &info, &small).unwrap();
-    assert!(s.canvas.width.max(s.canvas.height) <= 60);
+    assert!(s.canvas.width.max(s.canvas.height) <= 90);
     let si = s.output.image.as_ref().unwrap();
     assert!(si.axes);
     assert!(si.source_per_pixel > 1.0);

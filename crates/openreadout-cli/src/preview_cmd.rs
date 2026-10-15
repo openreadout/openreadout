@@ -1,12 +1,13 @@
-//! `openreadout preview`: render a PNG/JPEG preview of an image, trace, spectrum or plate table.
+//! `openreadout preview`: render a PNG, JPEG or SVG preview of an image, trace, spectrum, plate
+//! or event table, with optional annotations.
 
 use std::io::Write;
 use std::path::PathBuf;
 
 use openreadout_core::{Error, Registry, Result};
 use openreadout_preview::{
-    Axes, Axis, Contrast, Encoding, Lut, PreviewOutput, PreviewRequest, default_output, finish,
-    render, write_verified,
+    Annotation, Axes, Axis, Contrast, Encoding, Lut, Marks, PreviewOutput, PreviewRequest,
+    default_output, finish, render, write_verified,
 };
 
 use crate::output::{emit, fail};
@@ -17,7 +18,7 @@ pub struct PreviewArgs {
     pub file: PathBuf,
     #[command(flatten)]
     pub process: crate::commands::nmr::ProcessArgs,
-    /// Output file (`.png` or `.jpg`); `-` writes the image to stdout. Default:
+    /// Output file (`.png`, `.jpg` or `.svg`); `-` writes the image to stdout. Default:
     /// `<input stem>.preview.png` next to the input.
     #[arg(short, long)]
     pub output: Option<PathBuf>,
@@ -56,7 +57,7 @@ pub struct PreviewArgs {
     /// `gray` or `channel-color`. Default: gray for one channel, channel colours for composites.
     #[arg(long)]
     pub lut: Option<String>,
-    /// `png` or `jpeg`. Default: from the output extension, else png.
+    /// `png`, `jpeg` or `svg`. Default: from the output extension, else png.
     #[arg(long)]
     pub format: Option<String>,
     /// JPEG quality (1–100).
@@ -83,12 +84,26 @@ pub struct PreviewArgs {
     /// Spectrum preview: the instrument's centroid list instead of the profile.
     #[arg(long)]
     pub centroid: bool,
-    /// Plate preview: table index.
+    /// Plate or event preview: table index.
     #[arg(long)]
     pub table: Option<u32>,
-    /// Plate preview (long layout): value column name.
+    /// Table column to draw; repeatable. Plates: the value column (long layout). Events (flow
+    /// cytometry): the x then y parameter (one gives a histogram; default FSC-A and SSC-A).
+    #[arg(long = "column")]
+    pub columns: Vec<String>,
+    /// Marks from the data: `auto` (label the largest peaks of spectra and chromatograms),
+    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep) or `none`.
+    #[arg(long, default_value = "auto", value_name = "auto|peaks|spikes|none")]
+    pub marks: String,
+    /// Annotations to draw, as JSON: one object or an array, inline or `@FILE`. Each has a
+    /// `type` (point, box, polygon, line, arrow, text, vline, hline, vband, hband, well) and
+    /// its coordinates in the preview's units (full-resolution pixels on images, axis units on
+    /// plots), e.g. `[{"type":"point","x":1200,"y":340,"label":"Purkinje cells"}]`.
+    #[arg(long, value_name = "JSON")]
+    pub annotate: Option<String>,
+    /// Draw in the dark theme.
     #[arg(long)]
-    pub column: Option<String>,
+    pub dark: bool,
     /// Replace an existing output file.
     #[arg(long)]
     pub overwrite: bool,
@@ -122,11 +137,42 @@ impl PreviewArgs {
             preview_request.scan = self.scan;
             preview_request.centroid = self.centroid;
             preview_request.table = self.table;
-            preview_request.column = self.column.clone();
+            preview_request.columns = self.columns.clone();
+            preview_request.marks = self.marks.parse::<Marks>()?;
+            preview_request.annotations = match &self.annotate {
+                Some(a) => parse_annotations(a)?,
+                None => Vec::new(),
+            };
+            preview_request.dark = self.dark;
             self.axes.parse::<Axes>()?.apply(&mut preview_request);
             preview_request
         })
     }
+}
+
+/// `--annotate`: a JSON object or array, inline or `@FILE`.
+pub fn parse_annotations(arg: &str) -> Result<Vec<Annotation>> {
+    let text = match arg.strip_prefix('@') {
+        Some(path) => std::fs::read_to_string(path).map_err(|e| Error::io(path, e))?,
+        None => arg.to_string(),
+    };
+    let v: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|e| Error::Usage(format!("--annotate is not valid JSON: {e}")))?;
+    let items = match v {
+        serde_json::Value::Array(a) => a,
+        other => vec![other],
+    };
+    items
+        .into_iter()
+        .enumerate()
+        .map(|(i, v)| {
+            serde_json::from_value::<Annotation>(v).map_err(|e| {
+                Error::Usage(format!(
+                    "--annotate item {i}: {e} (fields: type, x, y, x2, y2, width, height, points, label, color, channel, well)"
+                ))
+            })
+        })
+        .collect()
 }
 
 fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option<Vec<u8>>)> {
@@ -213,8 +259,18 @@ fn human(o: &PreviewOutput) -> String {
         )
     } else if let Some(p) = &o.plate {
         format!(
-            "plate {}x{} from table {} ({} wells, {})",
-            p.rows, p.columns, p.table, p.wells, p.value
+            "plate {}x{} from table {} ({} wells, {}, {})",
+            p.rows, p.columns, p.table, p.wells, p.value, p.view
+        )
+    } else if let Some(e) = &o.events {
+        format!(
+            "{} of {} events: {}{}",
+            e.events,
+            e.total_events,
+            e.x,
+            e.y.as_deref()
+                .map(|y| format!(" vs {y}"))
+                .unwrap_or_default()
         )
     } else {
         String::new()
