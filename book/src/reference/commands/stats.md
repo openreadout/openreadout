@@ -68,6 +68,6 @@ Plate layouts, replicate averaging and group tests are covered in [Plate analysi
 
 ## JSON
 
-[`stats`](../json/stats.md), [`stats --per well`](../json/stats-wells.md), [batch table](../json/batch-table.md).
+[`stats`](../json/stats.md), [`stats --per well`](../json/stats-wells.md), [measurements](../json/stats-measure.md), [batch table](../json/batch-table.md).
 
 Run `openreadout stats --help` for the full help of your installed version.

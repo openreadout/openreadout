@@ -408,7 +408,7 @@
           "minimum": 0
         },
         "symlinks_skipped": {
-          "description": "Symbolic links skipped (not followed).",
+          "description": "Symbolic links to directories skipped (not followed).",
           "type": "integer",
           "format": "uint64",
           "minimum": 0

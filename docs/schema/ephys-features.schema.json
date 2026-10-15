@@ -143,12 +143,18 @@
           "type": "integer",
           "format": "uint",
           "minimum": 0
+        },
+        "min_rise_mv": {
+          "description": "Rise of a spike's peak above the lowest voltage since the previous spike's peak, mV.",
+          "type": "number",
+          "format": "double"
         }
       },
       "required": [
         "peak_threshold_mv",
         "dvdt_threshold_v_per_s",
-        "dvdt_window_samples"
+        "dvdt_window_samples",
+        "min_rise_mv"
       ]
     },
     "StimulusInfo": {
@@ -198,8 +204,16 @@
           ],
           "format": "double"
         },
+        "spontaneous_rate_hz": {
+          "description": "Firing rate before the stimulus, over every sweep, Hz: above 0 the cell fires on its own.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
         "rheobase_pa": {
-          "description": "Smallest depolarising step that evokes at least one spike during the stimulus, pA.",
+          "description": "Smallest depolarising step that evokes at least one spike during the stimulus, pA.\nAbsent when the cell also fires during a step of 0 pA or less (it fires without\ndepolarising current, so a rheobase is not defined; `notes` says so).",
           "type": [
             "number",
             "null"
@@ -223,7 +237,7 @@
           }
         },
         "fi_slope_hz_per_pa": {
-          "description": "Least-squares slope of rate vs current over steps that fire, Hz/pA.",
+          "description": "Least-squares slope of rate vs current from the rheobase to the step with the highest\nrate (steps past it, where firing fails, are left out), Hz/pA.",
           "type": [
             "number",
             "null"
@@ -391,6 +405,15 @@
         },
         "spike_count_stimulus": {
           "description": "Spikes whose peak falls inside the stimulus.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
+        "spike_count_before": {
+          "description": "Spikes whose peak comes before the stimulus starts.",
           "type": [
             "integer",
             "null"

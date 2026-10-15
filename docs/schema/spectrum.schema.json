@@ -29,8 +29,15 @@
       "minimum": 0
     },
     "truncated": {
-      "description": "True when `mz`/`intensity` were shortened to `max_points`.",
+      "description": "True when `mz`/`intensity` were shortened to `max_points` (the most intense points are\nkept, in m/z order).",
       "type": "boolean"
+    },
+    "peaks": {
+      "description": "The most intense peaks of the whole spectrum, with charges from their isotope patterns.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MsPeak"
+      }
     },
     "spectrum": {
       "description": "The spectrum, with its arrays.",
@@ -47,6 +54,60 @@
     "spectrum"
   ],
   "$defs": {
+    "MsPeak": {
+      "description": "One of the most intense peaks of a mass spectrum, with its charge from the isotope pattern.",
+      "type": "object",
+      "properties": {
+        "mz": {
+          "description": "m/z.",
+          "type": "number",
+          "format": "double"
+        },
+        "intensity": {
+          "description": "Intensity.",
+          "type": "number",
+          "format": "double"
+        },
+        "charge": {
+          "description": "Charge from the spacing of the isotope peaks above it (1.00336/z), when at least one\nis found.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "isotopes": {
+          "description": "Isotope peaks found in a row above this one at that spacing.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "monoisotopic_mz": {
+          "description": "m/z of the lowest peak of the same isotope pattern (the monoisotopic ion when it is\nseen), when it is below this one.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "neutral_mass_da": {
+          "description": "Neutral monoisotopic mass (z · (m/z ∓ proton)), Da, when the charge and polarity are\nknown.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "mz",
+        "intensity"
+      ]
+    },
     "Spectrum": {
       "description": "One mass spectrum.",
       "type": "object",

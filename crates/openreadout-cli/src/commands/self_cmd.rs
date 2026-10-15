@@ -88,6 +88,8 @@ pub enum SchemaOf {
     Stats,
     /// `stats --per well|field`: per-well rows of a multi-well plate.
     StatsWells,
+    /// `stats --line|--polygon|--objects`: measurements on one plane.
+    StatsMeasure,
     Trace,
     /// `table`: rows of a table, with the processing record for FCS.
     Table,
@@ -182,6 +184,9 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Preview => schemars::schema_for!(openreadout_preview::PreviewOutput),
         SchemaOf::Stats => schemars::schema_for!(openreadout_core::stats::StatsOutput),
         SchemaOf::StatsWells => schemars::schema_for!(openreadout_core::plate::WellStatsOutput),
+        SchemaOf::StatsMeasure => {
+            schemars::schema_for!(openreadout_core::measure::MeasureOutput)
+        }
         SchemaOf::Trace => schemars::schema_for!(openreadout_core::trace::TraceSlice),
         SchemaOf::Table => schemars::schema_for!(openreadout_core::model::TableSlice),
         SchemaOf::Scans => schemars::schema_for!(openreadout_core::ScanList),
