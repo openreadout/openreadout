@@ -1017,6 +1017,55 @@ pub struct Rendered {
     pub output: PreviewOutput,
 }
 
+impl Rendered {
+    /// Give this picture the pixels of `big`, the same image read at `scale` times the size,
+    /// so that saving it at `scale` draws a sharper version of this picture: type, lines,
+    /// outlines and labels keep their size relative to the image, and the image has real
+    /// pixels. Returns false (and changes nothing) when `big` has no image of about that size.
+    pub fn take_pixels(&mut self, big: &Rendered, scale: f32) -> bool {
+        use openreadout_figure::Item;
+        fn largest(f: &Figure) -> Option<usize> {
+            f.items
+                .iter()
+                .enumerate()
+                .filter_map(|(i, it)| match it {
+                    Item::Image { rect, .. } => Some((i, rect.w * rect.h)),
+                    _ => None,
+                })
+                .max_by(|a, b| a.1.total_cmp(&b.1))
+                .map(|x| x.0)
+        }
+        let (Some(i), Some(j)) = (largest(&self.figure), largest(&big.figure)) else {
+            return false;
+        };
+        let Item::Image { raster, .. } = &big.figure.items[j] else {
+            return false;
+        };
+        let raster = raster.clone();
+        let Item::Image {
+            rect,
+            raster: mine,
+            smooth,
+        } = &mut self.figure.items[i]
+        else {
+            return false;
+        };
+        // the same region (the same shape), with more pixels than this picture shows. The
+        // larger picture's frame does not grow in proportion, so its image is near, not exactly
+        // at, `scale` times the size; it is then resampled smoothly to the saved size.
+        let (w, h) = (raster.width as f32, raster.height as f32);
+        let same_shape = (w / h - rect.w / rect.h).abs() <= 0.02 * rect.w / rect.h;
+        if !same_shape || w <= mine.width as f32 {
+            return false;
+        }
+        if (w - rect.w * scale).abs() > 1.0 {
+            *smooth = true;
+        }
+        *mine = raster;
+        true
+    }
+}
+
 /// Split combined selections: `["c=0,1,z=2"]` → `["c=0,1", "z=2"]` (a comma followed by
 /// `axis=` starts a new selection). Plain repeatable `c=0` arguments pass through.
 pub fn split_select(args: &[String]) -> Vec<String> {
@@ -1362,6 +1411,65 @@ pub fn write_verified(input: &Path, output: &Path, bytes: &[u8], overwrite: bool
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Saving at a larger scale keeps the picture as drawn and takes only the image's pixels
+    /// from the larger reading, so type and outlines grow with the save.
+    #[test]
+    fn a_scaled_save_takes_only_the_pixels() {
+        use std::sync::Arc;
+        let picture = |w: u32, h: u32, rect: openreadout_figure::Rect| {
+            let mut figure = Figure::new(rect.w + 20.0, rect.h + 20.0, None);
+            figure.image(rect, Arc::new(Raster::new(w, h, [9, 9, 9])), false);
+            figure.text(
+                5.0,
+                5.0,
+                "12 nuclei",
+                &openreadout_figure::TextStyle::new(12.0, openreadout_figure::Color::rgb(0, 0, 0)),
+            );
+            Rendered {
+                canvas: Raster::new(1, 1, [0, 0, 0]),
+                figure,
+                output: PreviewOutput::default(),
+            }
+        };
+        let mut small = picture(
+            100,
+            50,
+            openreadout_figure::Rect::new(10.0, 10.0, 100.0, 50.0),
+        );
+        let big = picture(
+            300,
+            150,
+            openreadout_figure::Rect::new(10.0, 10.0, 300.0, 150.0),
+        );
+        assert!(small.take_pixels(&big, 3.0));
+        assert_eq!(small.figure.width, 120.0, "the layout stays the small one");
+        let sizes: Vec<(u32, u32)> = small
+            .figure
+            .items
+            .iter()
+            .filter_map(|i| match i {
+                openreadout_figure::Item::Image { raster, .. } => {
+                    Some((raster.width, raster.height))
+                }
+                _ => None,
+            })
+            .collect();
+        assert_eq!(sizes, vec![(300, 150)]);
+        let mut other = picture(
+            100,
+            50,
+            openreadout_figure::Rect::new(10.0, 10.0, 100.0, 50.0),
+        );
+        assert!(!other.take_pixels(
+            &picture(
+                120,
+                50,
+                openreadout_figure::Rect::new(0.0, 0.0, 120.0, 50.0)
+            ),
+            3.0
+        ));
+    }
 
     #[test]
     fn parses_options() {

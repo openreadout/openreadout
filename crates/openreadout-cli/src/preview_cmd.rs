@@ -261,6 +261,12 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
             big.max_size = ((req.max_size as f32 * scale).round() as u32)
                 .clamp(16, openreadout_preview::MAX_PREVIEW_SIZE);
             let r = render(ds.as_mut(), &info, &big)?;
+            // the picture as drawn at its own size, with the pixels read at the larger size,
+            // so type, lines and outlines scale with it
+            let mut small = rendered;
+            if small.take_pixels(&r, scale) {
+                return save_figure(a, &small, scale).map(|o| (o, None));
+            }
             return save_figure(a, &r, 1.0).map(|o| (o, None));
         }
         return save_figure(a, &rendered, scale).map(|o| (o, None));

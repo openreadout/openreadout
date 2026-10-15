@@ -380,3 +380,44 @@ fn a_figure_never_replaces_its_input() {
     assert_eq!(e.exit_code(), 2, "{e}");
     assert_eq!(std::fs::read(&png).unwrap(), std::fs::read(&f).unwrap());
 }
+
+/// A plate grid in a small figure keeps every label apart: column headings thin out, the key
+/// wraps and the scale note goes under it.
+#[test]
+fn a_small_plate_grid_keeps_its_labels_apart() {
+    let d = tempfile::tempdir().unwrap();
+    let f = plate(d.path());
+    for width in [300, 340, 1200] {
+        let spec = parse_spec(json!({
+            "width": width,
+            "data": {"file": f, "color_by": {"at": 8, "below": 0.1, "label": "crashed then regrew", "else": "grew normally"}},
+            "facet": "plate",
+            "column_labels": ["500M", "50M", "5M", "blank"],
+        }))
+        .unwrap();
+        let p = plot(&Registry::new(), &spec).unwrap();
+        let boxes: Vec<(String, openreadout_figure::Rect)> = p
+            .figure
+            .items
+            .iter()
+            .filter_map(|i| match i {
+                openreadout_figure::Item::Text { x, y, text, style } => {
+                    Some((text.clone(), style.bounds(*x, *y, text)))
+                }
+                _ => None,
+            })
+            .collect();
+        for (i, (ta, a)) in boxes.iter().enumerate() {
+            assert!(
+                a.x >= -0.5 && a.right() <= p.figure.width + 0.5,
+                "{width}: {ta} {a:?}"
+            );
+            for (tb, b) in &boxes[..i] {
+                assert!(
+                    !a.intersects(b),
+                    "{width}: {ta:?} {a:?} overlaps {tb:?} {b:?}"
+                );
+            }
+        }
+    }
+}
