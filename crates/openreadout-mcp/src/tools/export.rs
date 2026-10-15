@@ -251,11 +251,11 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
                     .unwrap_or(super::preview::DEFAULT_MCP_PREVIEW_SIZE);
                 let mut big = args.clone();
                 big.options.max_size = Some(((size as f32 * scale).round() as u32).clamp(16, max));
-                let b = super::preview::render(registry, &big, max, axes)?;
+                let larger = super::preview::render(registry, &big, max, axes)?;
                 // keep the picture as drawn at its own size, with the pixels read at the larger
                 // size, so type, lines and outlines scale with the save
-                if !r.take_pixels(&b, scale) {
-                    r = b;
+                if !r.take_pixels(&larger, scale) {
+                    r = larger;
                     scale = 1.0;
                 }
             }
