@@ -14,20 +14,24 @@ const VIEW_LABELS = {
 // Keys that select a zoomed window; a new selection or view clears them.
 const ZOOM_KEYS = ["region", "first_sample", "count", "x_range"];
 
-// The OpenReadout look (shared with the figure engine): ink on paper, a warm red accent, quiet
-// axes, direct labels. Chrome colours come from the host; these are the data colours.
-const THEMES = {
-  light: {
-    accent: "#a8432f", band: "rgba(168,67,47,0.11)", faint: "#cfcac0",
-    series: ["#1d1f24", "#a8432f", "#3d6a8a", "#c08a2e", "#5e7f4f", "#7b5b84", "#2e7d7a", "#8c6d5a"],
-    seq: ["#f3eee4", "#edd9b4", "#e3b57f", "#d18a57", "#b45c3c", "#8a3a2c", "#55222a"],
-  },
-  dark: {
-    accent: "#e07a5f", band: "rgba(224,122,95,0.16)", faint: "#4a4c52",
-    series: ["#eceae4", "#e07a5f", "#7fa8c6", "#e0b25a", "#92b57f", "#b497bd", "#5fb3ad", "#c0a08a"],
-    seq: ["#22202a", "#4a2531", "#7a3333", "#a84e37", "#cf7a4a", "#e7ae6e", "#f6e2b4"],
-  },
-};
+// The OpenReadout look, the figure engine's: ink on paper, a warm red accent, quiet axes,
+// direct labels. theme.json holds openreadout-figure's Theme tokens (a Rust test keeps it
+// current); the server puts it in place of the placeholder below. Chrome colours come from the
+// host; these are the data colours.
+const TOKENS = /*TOKENS*/null;
+function themesFrom(t) {
+  const one = (m, bandAlpha) => {
+    const th = (t && t[m]) || {};
+    const [r, g, b] = hexRgb(th.accent || "#a8432f");
+    return {
+      accent: th.accent, faint: th.faint, ink: th.ink, muted: th.muted, paper: th.paper, panel: th.panel,
+      band: `rgba(${r},${g},${b},${bandAlpha})`,
+      series: th.series || [], seq: th.sequential || [], div: th.diverging || [],
+    };
+  };
+  return { light: one("light", 0.11), dark: one("dark", 0.16), blanks: (t && t.blank_labels) || [] };
+}
+const THEMES = themesFrom(TOKENS || (typeof require === "function" ? require("./theme.json") : null));
 const MONO = '"OpenReadout Mono", "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace';
 // [family, weight, base64 WOFF]: subsets of IBM Plex, filled in by the server (src/app/mod.rs).
 const FONTS = /*FONTS*/[];
@@ -67,6 +71,38 @@ function fmt(v, digits) {
   }
   const s = Number(v.toPrecision(digits || 4));
   return String(s);
+}
+
+/** A tick label, as the figure engine writes them (openreadout-figure `format_tick`): as many
+ * decimals as the step needs, SI suffixes from 10 000 up (`20k`, `1.5M`), an exponent below
+ * 0.001. */
+function fmtTick(v, step) {
+  if (v === null || v === undefined || !isFinite(v)) return "–";
+  if (v === 0) return "0";
+  const a = Math.abs(v);
+  step = isFinite(step) && step > 0 ? step : a;
+  const dec = (s) => {
+    if (s >= 1 || s <= 0) return 0;
+    const base = Math.max(0, Math.ceil(-Math.log10(s)));
+    const scaled = s * Math.pow(10, base);
+    return Math.abs(scaled - Math.round(scaled)) > 1e-6 ? base + 1 : base;
+  };
+  const trim = (x) => (x.includes(".") ? x.replace(/0+$/, "").replace(/\.$/, "") : x);
+  if (a >= 1e4) {
+    const [div, suffix] = a >= 1e12 ? [1e12, "T"] : a >= 1e9 ? [1e9, "G"] : a >= 1e6 ? [1e6, "M"] : [1e3, "k"];
+    return trim((v / div).toFixed(Math.min(3, dec(step / div)))) + suffix;
+  }
+  if (a < 1e-3) {
+    const e = Math.floor(Math.log10(a));
+    return `${trim((v / Math.pow(10, e)).toFixed(1))}e${e}`;
+  }
+  return trim(v.toFixed(Math.min(6, dec(step))));
+}
+
+/** Labels for a run of ticks (their step sets the decimals). */
+function tickLabels(ticks) {
+  const step = ticks.length > 1 ? Math.abs(ticks[1] - ticks[0]) : Math.abs(ticks[0] || 1);
+  return ticks.map((t) => fmtTick(t, step));
 }
 
 /** A whole number with thousands separators (pixel coordinates, counts). */
@@ -183,7 +219,11 @@ function scaleInv(name) {
 
 /** Ticks for a transformed axis: data values (0, ±10^k) placed by the transform. */
 function scaleTicks(name, lo, hi, want) {
-  if (name !== "log" && name !== "arcsinh") return niceTicks(lo, hi, want).map((v) => ({ at: v, label: fmt(v, 3) }));
+  if (name !== "log" && name !== "arcsinh") {
+    const t = niceTicks(lo, hi, want);
+    const labels = tickLabels(t);
+    return t.map((v, i) => ({ at: v, label: labels[i] }));
+  }
   const f = scaleFn(name), inv = scaleInv(name);
   const a = inv(lo), b = inv(hi);
   const out = [];
@@ -361,21 +401,38 @@ function fitAspect(r, aspect) {
   return { x: r.x + r.w / 2 - w / 2, y: r.y + r.h / 2 - h / 2, w, h };
 }
 
-/** The layout map a plate is coloured by: the one with fewest groups (2 to 8), else none. */
+/** The layout map a plate is coloured by, as the previews choose it: 2 to 8 groups (blanks
+ * aside) covering the most wells, a map named like a group winning ties; else none. */
 function defaultGroupMap(groups) {
-  let best = null, bestN = Infinity;
+  let best = null, bestScore = null;
   for (const [name, m] of Object.entries(groups || {})) {
-    const n = new Set(Object.values(m)).size;
-    if (n >= 2 && n <= 8 && n < bestN) { best = name; bestN = n; }
+    const values = Object.values(m).map(String);
+    const n = new Set(values.filter((v) => !isBlankGroup(v))).size;
+    if (n < 2 || n > 8) continue;
+    const score = [values.length, /group/i.test(name) ? 1 : 0];
+    if (!bestScore || score[0] > bestScore[0] || (score[0] === bestScore[0] && score[1] > bestScore[1])) {
+      best = name;
+      bestScore = score;
+    }
   }
-  if (best) return best;
-  for (const [name, m] of Object.entries(groups || {})) if (new Set(Object.values(m)).size >= 2) return name;
-  return null;
+  return best;
 }
 
-/** Blank or empty wells recede: `Blank`, `BL`, `empty`, `buffer`. */
+/** Blank wells recede: the figure engine's blank labels (`Blank`, `BL`, `buffer`, `empty`, …). */
 function isBlankGroup(name) {
-  return /^(blank|blk|bl|empty|buffer|none|-)$/i.test(String(name || "").trim());
+  return THEMES.blanks.includes(String(name == null ? "" : name).trim().toLowerCase());
+}
+
+/** The shared category rule (openreadout-figure `category_colors`): categories take the series
+ * colours in the order they first appear, blanks are faint and use up no colour. */
+function categoryColors(names, palette) {
+  const seen = [];
+  return names.map((n) => {
+    if (isBlankGroup(n)) return palette.faint;
+    let i = seen.indexOf(n);
+    if (i < 0) { seen.push(n); i = seen.length - 1; }
+    return palette.series[i % palette.series.length];
+  });
 }
 
 /** qPCR channel names `B3 GAPDH` → the target after the well, for colouring by target. */
@@ -522,6 +579,7 @@ function main() {
     }
     palette = null;
     invalidate();
+    if (S.fig) redrawFigure(S.fig.xRange);
   }
 
   function onNotification(method, p) {
@@ -566,8 +624,7 @@ function main() {
     }
     // openreadout_plot: show the figure it drew; _meta["openreadout/figure"] has its panels
     if (result && result._meta && result._meta["openreadout/figure"]) {
-      S.figure = result._meta["openreadout/figure"];
-      showStatic(result);
+      showFigure(result);
       return;
     }
     const hint = sc && sc.view === "pending" ? hintFrom(null, S.toolInput) : hintFrom(result, S.toolInput);
@@ -1276,7 +1333,7 @@ function main() {
       }
       add(select("Events", [[10000, "10 000"], [25000, "25 000"], [50000, "50 000"]], S.args.events || 10000, (v) => load({ events: Number(v) })));
     } else if (d.view === "figure") {
-      add(button("Reset zoom", () => figureZoom(null), !(S.fig && S.fig.zoom)));
+      add(button("Reset zoom", () => (S.fig && S.fig.xRange ? redrawFigure(null) : figureZoom(null)), !(S.fig && (S.fig.zoom || S.fig.xRange))));
     }
   }
 
@@ -1562,8 +1619,14 @@ function main() {
       if (isWhole(rect, prev.full)) prev.overview = tex;
       overlay(null);
       if (follow) {
-        // The agent looked somewhere else: follow it there.
+        // The agent looked somewhere else: follow it there, in a frame shaped like its region
+        // (a wide strip after a square would otherwise sit in wide margins).
         prev.follow = false;
+        const aspect = frameAspect(rect);
+        if (Math.abs(aspect - prev.aspect) > 0.02) {
+          prev.aspect = aspect;
+          invalidate();
+        }
         flyTo(rect, 1100);
       } else {
         invalidate();
@@ -1578,7 +1641,7 @@ function main() {
       fetchOverview();
       return;
     }
-    const aspect = Math.min(2.4, Math.max(0.55, rect.w / rect.h));
+    const aspect = frameAspect(rect);
     S.img = {
       key, imageIndex: im.image, full: { w: fullW, h: fullH }, aspect,
       textures: [tex], overview: null, cam: null, anim: null, settled: true, follow: false, pending: null,
@@ -1607,6 +1670,11 @@ function main() {
   }
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  /** The viewer frame's shape for a picture of `rect`, within limits a chat column can show. */
+  function frameAspect(rect) {
+    return Math.min(2.4, Math.max(0.55, rect.w / rect.h));
+  }
 
   function isWhole(rect, full) {
     return rect.x <= 0 && rect.y <= 0 && rect.w >= full.w - 1 && rect.h >= full.h - 1;
@@ -2174,7 +2242,7 @@ function main() {
     const ph = (h - top - bottom - gap * (np - 1)) / np;
     g.font = font(10.5, 400, true);
     let tickW = 0;
-    yinfo.forEach((yi) => { for (const t of niceTicks(yi.y0, yi.y1, Math.max(3, Math.floor(ph / 42)))) tickW = Math.max(tickW, g.measureText(fmt(t, 3)).width); });
+    yinfo.forEach((yi) => { for (const l of tickLabels(niceTicks(yi.y0, yi.y1, Math.max(3, Math.floor(ph / 42))))) tickW = Math.max(tickW, g.measureText(l).width); });
     const left = Math.ceil(tickW + 14);
     // room on the right for direct labels
     const labels = directLabels(m);
@@ -2190,12 +2258,13 @@ function main() {
       const Y = (v) => py + ph - (v - y0) / (y1 - y0) * ph;
       // quiet grid and y ticks
       const yt = niceTicks(y0, y1, Math.max(3, Math.floor(ph / 42)));
+      const ytl = tickLabels(yt);
       g.lineWidth = 1;
       for (const t of yt) {
         const yy = Math.round(Y(t)) + 0.5;
         g.strokeStyle = t === 0 ? c.rule : c.grid;
         g.beginPath(); g.moveTo(left, yy); g.lineTo(left + pw, yy); g.stroke();
-        txt(fmt(t, 3), left - 7, yy, { mono: true, size: 10.5, align: "right", baseline: "middle" });
+        txt(ytl[yt.indexOf(t)], left - 7, yy, { mono: true, size: 10.5, align: "right", baseline: "middle" });
       }
       // panel label (channel name) and y unit, top left
       const head = [pn.label, pn.unit && pn.label !== pn.unit ? pn.unit : ""].filter(Boolean).join("  ·  ") || pn.unit || "";
@@ -2209,7 +2278,8 @@ function main() {
       const peaks = (p.peaks || []).map((q) => (m.kind === "chromatogram" ? Object.assign({}, q, { number: q.label, label: Number(q.x).toFixed(2) }) : q));
       for (const s of pn.series) drawSeries(s, X, Y, py + ph, m);
       g.restore();
-      if (pi === 0 && peaks.length) drawPeakLabels(peaks, X, Y, py, left, pw, m.kind === "chromatogram" ? 10 : 14);
+      // only prominent peaks are labelled (the server says which); every peak can be hovered
+      if (pi === 0 && peaks.length) drawPeakLabels(peaks.filter((q) => q.labelled !== false), X, Y, py, left, pw, m.kind === "chromatogram" ? 10 : 14);
       if (pi === 0 && m.kind === "spectrum" && pn.series[0]) {
         if (!pn.series[0].x.length) txt("This scan holds no peaks.", left + pw / 2, py + ph / 2, { size: 13, color: c.muted, align: "center" });
         else drawPeakLabels(spectrumPeaks(pn.series[0], 12), X, Y, py, left, pw, 12);
@@ -2223,12 +2293,13 @@ function main() {
     g.lineWidth = 1;
     g.beginPath(); g.moveTo(left, yAxis + 0.5); g.lineTo(left + pw, yAxis + 0.5); g.stroke();
     const xt = niceTicks(x0, x1, Math.max(2, Math.floor(pw / 90)));
+    const xtl = tickLabels(xt);
     const unit = m.ax.unit || (m.kind === "spectrum" ? "m/z" : m.ax.quantity === "sample" ? "samples" : String(m.ax.quantity || "").replace(/_/g, " "));
     xt.forEach((t, i) => {
       const xx = Math.round(X(t)) + 0.5;
       g.beginPath(); g.moveTo(xx, yAxis); g.lineTo(xx, yAxis + 4); g.stroke();
       const last = m.reversed ? i === 0 : i === xt.length - 1;
-      const label = fmt(t, 5) + (last && unit ? " " + unit : "");
+      const label = xtl[i] + (last && unit ? " " + unit : "");
       const align = last ? (xx + g.measureText(label).width / 2 > w - 4 ? "right" : "center") : "center";
       txt(label, align === "right" ? Math.min(xx + 6, w - 4) : xx, yAxis + 17, { mono: true, size: 10.5, align });
     });
@@ -2575,15 +2646,9 @@ function main() {
       const v = map[wellName(r, c)];
       if (v != null && !order.includes(v)) order.push(v);
     }
-    const colorsBy = new Map();
-    let i = 0;
-    const th = colors();
-    // Data colours in order, skipping ink for the first group so the accent leads.
-    const pal = th.series.slice(1).concat([th.series[0]]);
-    for (const name of order) {
-      if (isBlankGroup(name)) colorsBy.set(name, th.faint);
-      else colorsBy.set(name, pal[i++ % pal.length]);
-    }
+    // the shared category rule, so the plate looks as it does in previews and plots
+    const cols = categoryColors(order, colors());
+    const colorsBy = new Map(order.map((name, i) => [name, cols[i]]));
     const counts = new Map();
     for (const v of Object.values(map)) counts.set(v, (counts.get(v) || 0) + 1);
     return { map, order, colorsBy, counts };
@@ -2965,7 +3030,7 @@ function main() {
       });
     }
     // axes
-    const yt = ev.yv ? scaleTicks(sy, yr[0], yr[1], Math.max(2, Math.floor(ph / 44))) : niceTicks(yr[0], yr[1], Math.max(2, Math.floor(ph / 44))).map((v) => ({ at: v, label: fmt(v, 3) }));
+    const yt = ev.yv ? scaleTicks(sy, yr[0], yr[1], Math.max(2, Math.floor(ph / 44))) : scaleTicks("linear", yr[0], yr[1], Math.max(2, Math.floor(ph / 44)));
     for (const t of yt) txt(t.label, left - 7, Y(t.at), { mono: true, size: 10.5, align: "right", baseline: "middle" });
     const xt = scaleTicks(sx, xr[0], xr[1], Math.max(2, Math.floor(pw / 80)));
     g.strokeStyle = c.rule;
@@ -2984,10 +3049,9 @@ function main() {
     S.layout = L;
   }
 
+  /** Population colours follow the shared category rule (in the order the gates list them). */
   function popColor(j) {
-    const th = colors();
-    const pal = th.series.slice(1).concat([th.series[0]]);
-    return pal[j % pal.length];
+    return seriesColor(j);
   }
 
   function drawDensity(tx, ty, xr, yr, left, top, pw, ph) {
@@ -3095,7 +3159,9 @@ function main() {
     if (!img) { overlay("Could not decode the figure.", true); return; }
     S.data = { view: "figure" };
     S.args = {};
-    S.fig = { img, data: figurePanels(data, img), zoom: null };
+    // the agent's arguments, to draw the figure again in this theme, size and zoom
+    const spec = S.toolInput && Object.keys(S.toolInput).length && canCallTools() ? S.toolInput : null;
+    S.fig = { img, data: figurePanels(data, img), zoom: null, spec, xRange: null, drawn: null };
     S.img = null;
     S.sel = null;
     hideAct();
@@ -3107,6 +3173,51 @@ function main() {
     invalidate();
     renderControls();
     setHint();
+    redrawFigure(null);
+  }
+
+  /** Draw the figure again (openreadout_view figure): in the host's theme, as wide as the
+   * canvas at the screen's pixel density, over `xRange` (single plots) or the whole range. */
+  async function redrawFigure(xRange) {
+    const F = S.fig;
+    if (!F || !F.spec) return;
+    const dpr = Math.min(3, window.devicePixelRatio || 1);
+    const width = Math.round(Math.max(320, canvas.parentElement.clientWidth));
+    const dark = colors().dark;
+    const key = JSON.stringify([width, dpr, dark, xRange]);
+    if (F.drawn === key) return;
+    F.drawn = key;
+    // the viewer's header shows the title, so the picture leaves it out
+    const spec = Object.assign({}, F.spec);
+    delete spec.title;
+    const args = { view: "figure", spec, dark, width, scale: dpr, outline: false };
+    if (xRange) args.x_range = xRange;
+    root.setAttribute("aria-busy", "true");
+    try {
+      const r = await callView(args);
+      const im = (r.content || []).find((c) => c.type === "image");
+      if (!im || S.fig !== F || F.drawn !== key) return;
+      const img = await decode(im);
+      const fig = r.structuredContent && r.structuredContent.figure;
+      F.img = img;
+      F.data = figurePanels(fig, img);
+      F.zoom = null;
+      F.xRange = xRange;
+      for (const n of (r.structuredContent && r.structuredContent.notes) || []) toast(n);
+      invalidate();
+      renderControls();
+    } catch (e) {
+      // the picture the tool returned stays
+      F.drawn = null;
+    } finally {
+      root.setAttribute("aria-busy", "false");
+    }
+  }
+
+  /** A single plot can be zoomed by drawing it again over an x range. */
+  function figureRedrawsZoom() {
+    const F = S.fig;
+    return !!(F && F.spec && F.data.length === 1 && !(F.spec.panels && F.spec.panels.length) && !F.spec.facet);
   }
 
   function figurePanels(data, img) {
@@ -3167,19 +3278,43 @@ function main() {
       const xv = xa + u * (xb - xa), yv = ya + (1 - (iy - a.y) / a.h) * (yb - ya);
       const X = (v) => a.x + ((p.x.reversed ? xb - fx(v) : fx(v) - xa) / (xb - xa)) * a.w;
       const Y = (v) => a.y + (1 - (fy(v) - ya) / (yb - ya)) * a.h;
-      // nearest point of any series, in picture pixels
+      const inside = (qx, qy) => qx >= a.x - 0.5 && qx <= a.x + a.w + 0.5 && qy >= a.y - 0.5 && qy <= a.y + a.h + 0.5;
+      const unx = p.x.log ? Math.pow(10, xv) : xv, uny = p.y.log ? Math.pow(10, yv) : yv;
+      // A few lines: every series' value at the nearest x it has, the cursor snapped to it.
+      const lines = p.series.length <= 8 && p.series.every((s) => s.x.length > 3);
+      if (lines) {
+        let snapX = null, bestDx = Infinity;
+        for (const s of p.series) for (let i = 0; i < s.x.length; i++) {
+          const dx = Math.abs(X(s.x[i]) - ix);
+          if (dx < bestDx) { bestDx = dx; snapX = s.x[i]; }
+        }
+        const rows = [];
+        for (const s of p.series) {
+          let bi = -1, bd = Infinity;
+          for (let i = 0; i < s.x.length; i++) {
+            const d = Math.abs(s.x[i] - snapX);
+            if (d < bd) { bd = d; bi = i; }
+          }
+          if (bi < 0 || !isFinite(s.y[bi])) continue;
+          const cx = X(s.x[bi]), cy = Y(s.y[bi]);
+          if (!inside(cx, cy) || Math.abs(cx - X(snapX)) > a.w * 0.02) continue;
+          rows.push({ s, i: bi, cx, cy });
+        }
+        rows.sort((q, r) => q.cy - r.cy);
+        if (rows.length) return { p, x: snapX, y: uny, rows, rule: X(snapX) };
+      }
+      // Otherwise the nearest point of any series, in picture pixels.
       let best = null;
       const z = F.zoom;
       for (const s of p.series) {
         for (let i = 0; i < s.x.length; i++) {
           const qx = X(s.x[i]), qy = Y(s.y[i]);
-          if (z && (qx < z.x || qx > z.x + z.w || qy < z.y || qy > z.y + z.h)) continue;
+          if (!inside(qx, qy) || (z && (qx < z.x || qx > z.x + z.w || qy < z.y || qy > z.y + z.h))) continue;
           const dx = qx - ix, dy = qy - iy;
-          const d = dx * dx * 1 + dy * dy * 0.25;
-          if (!best || d < best.d) best = { d, s, i, cx: X(s.x[i]), cy: Y(s.y[i]) };
+          const d = dx * dx + dy * dy * 0.25;
+          if (!best || d < best.d) best = { d, s, i, cx: qx, cy: qy };
         }
       }
-      const unx = p.x.log ? Math.pow(10, xv) : xv, uny = p.y.log ? Math.pow(10, yv) : yv;
       return { p, x: unx, y: uny, best: best && Math.sqrt(best.d) * L.k < 40 ? best : null };
     }
     return null;
@@ -3188,16 +3323,25 @@ function main() {
   function figureOverlays(L) {
     const hv = S.hover;
     const c = colors();
-    if (hv && hv.fig && hv.fig.best) {
-      const b = hv.fig.best;
+    const dot = (b, col) => {
       const [x, y] = L.P(b.cx, b.cy);
       g.beginPath();
       g.arc(x, y, 4, 0, Math.PI * 2);
       g.fillStyle = c.bg;
       g.fill();
-      g.strokeStyle = c.accent;
+      g.strokeStyle = col || c.accent;
       g.lineWidth = 2;
       g.stroke();
+    };
+    if (hv && hv.fig && hv.fig.rows) {
+      const f = hv.fig, a = f.p.area;
+      const [x, y0] = L.P(f.rule, a.y), [, y1] = L.P(f.rule, a.y + a.h);
+      g.strokeStyle = alpha(c.ink, 0.25);
+      g.lineWidth = 1;
+      g.beginPath(); g.moveTo(Math.round(x) + 0.5, y0); g.lineTo(Math.round(x) + 0.5, y1); g.stroke();
+      for (const r of f.rows) dot(r, r.s.color);
+    } else if (hv && hv.fig && hv.fig.best) {
+      dot(hv.fig.best, hv.fig.best.s.color);
     }
   }
 
@@ -3334,6 +3478,11 @@ function main() {
       S.hover = { fig: f };
       if (!f) return "";
       const p = f.p;
+      if (f.rows) {
+        // x, then each series at it, top to bottom as they lie on the plot
+        const head = `${fmt(f.x, 5)}${p.x.unit ? " " + p.x.unit : ""}`;
+        return [head].concat(f.rows.map((r) => `${r.s.name ? legendLabel(r.s.name, 24) + "  " : ""}${fmt(r.s.y[r.i], 4)}`)).join("\n");
+      }
       if (f.best) {
         const s = f.best.s, i = f.best.i;
         return `${s.name ? s.name + "\n" : ""}${fmt(s.x[i], 5)}${p.x.unit ? " " + p.x.unit : ""} · ${fmt(s.y[i], 5)}${p.y.unit ? " " + p.y.unit : ""}`;
@@ -3381,6 +3530,12 @@ function main() {
       sel.count = n;
       sel.of = L.tx.length;
       showAct(sel, anchor);
+    } else if (L.kind === "figure" && figureRedrawsZoom()) {
+      // zoom by drawing the plot again over the dragged x range
+      const a0 = figureData(x0, (y0 + y1) / 2), a1 = figureData(x1, (y0 + y1) / 2);
+      const p = S.fig.data[0];
+      const xa = a0 ? a0.x : p.x.dom[0], xb = a1 ? a1.x : p.x.dom[1];
+      if (Math.abs(x1 - x0) > 8 && isFinite(xa) && isFinite(xb) && xa !== xb) redrawFigure([Math.min(xa, xb), Math.max(xa, xb)]);
     } else if (L.kind === "figure") {
       const [ia, ja] = L.inv(x0, y0), [ib, jb] = L.inv(x1, y1);
       const z = { x: Math.max(0, ia), y: Math.max(0, ja), w: Math.min(S.fig.img.width, ib) - Math.max(0, ia), h: Math.min(S.fig.img.height, jb) - Math.max(0, ja) };
@@ -3515,7 +3670,7 @@ function main() {
       zoomBy(e.altKey ? 0.5 : 2, L.inv(px, py));
       return;
     }
-    if (L && L.kind === "figure") { figureZoom(null); return; }
+    if (L && L.kind === "figure") { if (S.fig && S.fig.xRange) redrawFigure(null); else figureZoom(null); return; }
     if (ZOOM_KEYS.some((k) => S.args && S.args[k] !== undefined)) { clearSelection(); load({}); }
   });
   // Pinch (and ctrl/cmd + wheel) zooms images; a plain wheel scrolls the chat as usual.
@@ -3619,6 +3774,7 @@ function main() {
     resizeTimer = setTimeout(() => {
       invalidate();
       if (S.img && S.img.settled) fetchDetail();
+      if (S.fig) redrawFigure(S.fig.xRange);
       if (S.sel && !$("act").hidden) positionAct(null);
     }, 150);
   });
@@ -3656,10 +3812,10 @@ function main() {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    niceTicks, niceBelow, fmt, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, plotXs, sampleWindow,
+    niceTicks, niceBelow, fmt, fmtTick, tickLabels, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, plotXs, sampleWindow,
     f32FromBase64, bytesFromBase64, scaleFn, scaleInv, scaleTicks, percentile, hintFrom, wellName, parseWell,
     normalizeAnnotations, placeLabels, ease, lerpRect, fitAspect, defaultGroupMap, isBlankGroup, seriesGroup,
-    callText, wellSpec, THEMES,
+    callText, wellSpec, THEMES, categoryColors,
   };
 } else {
   main();

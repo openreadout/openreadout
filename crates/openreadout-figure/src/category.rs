@@ -11,7 +11,7 @@ use crate::color::Color;
 use crate::theme::Theme;
 
 /// Labels that mean "no sample here": blank wells, buffer, empty, media.
-pub const BLANK_LABELS: [&str; 10] = [
+pub const BLANK_LABELS: [&str; 8] = [
     "blank",
     "bl",
     "blk",
@@ -20,8 +20,6 @@ pub const BLANK_LABELS: [&str; 10] = [
     "medium",
     "media",
     "background",
-    "none",
-    "-",
 ];
 
 /// True when a layout label marks a blank (case and surrounding space ignored).

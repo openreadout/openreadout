@@ -221,13 +221,19 @@ impl Theme {
         format!("{{{}}}", parts.join(","))
     }
 
-    /// Both themes' tokens, `{"light": {...}, "dark": {...}}`: what the viewer draws data with,
-    /// so its colours stay those of the pictures.
+    /// Both themes' tokens and the category rule's blank labels,
+    /// `{"light": {...}, "dark": {...}, "blank_labels": [...]}`: what the viewer draws data with,
+    /// so its colours stay those of the pictures. One line per entry, ending in a newline.
     pub fn tokens_json() -> String {
+        let blanks: Vec<String> = crate::category::BLANK_LABELS
+            .iter()
+            .map(|b| format!("\"{b}\""))
+            .collect();
         format!(
-            "{{\"light\":{},\"dark\":{}}}",
+            "{{\n\"light\":{},\n\"dark\":{},\n\"blank_labels\":[{}]\n}}\n",
             Theme::light().tokens(),
-            Theme::dark().tokens()
+            Theme::dark().tokens(),
+            blanks.join(",")
         )
     }
 }

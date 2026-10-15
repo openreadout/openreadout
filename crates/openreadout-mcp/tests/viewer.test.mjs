@@ -108,6 +108,10 @@ test("plates are coloured by the smallest useful layout map", () => {
   assert.equal(v.defaultGroupMap(groups), "Group");
   assert.equal(v.defaultGroupMap({}), null);
   assert.ok(v.isBlankGroup("Blank") && v.isBlankGroup(" BL ") && !v.isBlankGroup("lambda"));
+  // layout groups take the figure engine's series colours in order, blanks faint
+  const pal = { series: v.THEMES.light.series, faint: v.THEMES.light.faint };
+  assert.deepEqual(v.categoryColors(["lambda", "BL", "HK97", "lambda"], pal), [pal.series[0], pal.faint, pal.series[1], pal.series[0]]);
+  assert.equal(pal.series[1], "#A8432F", "the accent comes second");
   assert.equal(v.seriesGroup("B3 GAPDH"), "GAPDH");
   assert.equal(v.seriesGroup("IN 0"), null);
 });

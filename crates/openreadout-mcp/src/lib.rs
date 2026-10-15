@@ -84,7 +84,7 @@ fn mcp_err(e: &Error) -> McpError {
 }
 
 /// A tool's `strict` argument over the server's default (`OPENREADOUT_STRICT`, `--strict`).
-fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {
+pub(crate) fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {
     match strict {
         Some(on) => reg.strict(on),
         None => reg,

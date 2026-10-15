@@ -872,9 +872,19 @@ pub(crate) fn check_annotations(anns: &[Annotation]) -> Result<()> {
     Ok(())
 }
 
-/// A panel for the viewer's hover read-outs: at most `cap` points per series.
+/// A panel for the viewer's hover read-outs, in the shape the viewer reads
+/// (crates/openreadout-mcp/MAINTAINING.md): its area in picture pixels, each axis's domain and
+/// scale, and at most `cap` points per series.
 fn hover_panel(p: &Panel, title: Option<&str>, series: &[&Series], cap: usize) -> Value {
-    let dom = |d: Domain| json!({"lo": d.lo, "hi": d.hi, "log": d.kind == openreadout_figure::ScaleKind::Log, "reversed": d.reversed});
+    let axis = |d: Domain, unit: Option<&String>| {
+        json!({
+            "domain": [tidy(d.lo), tidy(d.hi)],
+            "scale": if d.kind == openreadout_figure::ScaleKind::Log { "log" } else { "linear" },
+            "reversed": d.reversed,
+            "unit": unit,
+        })
+    };
+    let first = series.first();
     let ss: Vec<Value> = series
         .iter()
         .filter(|s| !matches!(s.geom, Geom::Events { .. }))
@@ -890,21 +900,25 @@ fn hover_panel(p: &Panel, title: Option<&str>, series: &[&Series], cap: usize) -
                     .collect(),
                 _ => Vec::new(),
             };
+            let pts: Vec<(f64, f64)> = pts
+                .into_iter()
+                .filter(|q| q.0.is_finite() && q.1.is_finite())
+                .collect();
             let cap = if series.len() > 24 { cap.min(60) } else { cap };
             let step = pts.len().div_ceil(cap).max(1);
-            let pts: Vec<[f64; 2]> = pts
+            let (xs, ys): (Vec<f64>, Vec<f64>) = pts
                 .iter()
                 .step_by(step)
-                .map(|q| [tidy(q.0), tidy(q.1)])
-                .collect();
-            json!({"name": s.name, "color": s.color.map(Color::to_hex), "points": pts})
+                .map(|q| (tidy(q.0), tidy(q.1)))
+                .unzip();
+            json!({"name": s.name, "color": s.color.map(Color::to_hex), "x": xs, "y": ys})
         })
         .collect();
     json!({
         "title": title,
-        "rect": [p.rect.x, p.rect.y, p.rect.w, p.rect.h],
-        "x": dom(p.x_domain()),
-        "y": dom(p.y_domain()),
+        "area": {"x": p.rect.x, "y": p.rect.y, "width": p.rect.w, "height": p.rect.h},
+        "x": axis(p.x_domain(), first.and_then(|s| s.x.unit.as_ref())),
+        "y": axis(p.y_domain(), first.and_then(|s| s.y.unit.as_ref())),
         "series": ss,
     })
 }
