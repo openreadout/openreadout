@@ -12,6 +12,8 @@
 //! images of each set; `NUCLEI_DUMP=DIR` writes a TSV of per-image results there, and with
 //! `NUCLEI_SHOW=PREFIX,...` pictures of those images with both outlines.
 #![cfg(feature = "corpus")]
+// image code: w, h, x, y, s and the like read best short
+#![allow(clippy::many_single_char_names)]
 
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
@@ -139,7 +141,7 @@ fn bbbc038() -> Vec<Case> {
         return Vec::new();
     };
     let mut ids: Vec<String> = rd
-        .filter_map(|e| e.ok())
+        .filter_map(Result::ok)
         .filter(|e| e.path().join("images").is_dir())
         .map(|e| e.file_name().to_string_lossy().into_owned())
         .collect();
@@ -172,7 +174,10 @@ fn bbbc038() -> Vec<Case> {
                     }
                 })
                 .collect();
-            let grey = rgb.iter().all(|p| p[0] == p[1] && p[1] == p[2]);
+            // the values are whole numbers from u8 samples, so equal bits mean equal values
+            let grey = rgb
+                .iter()
+                .all(|p| p[0].to_bits() == p[1].to_bits() && p[1].to_bits() == p[2].to_bits());
             let mean = rgb.iter().map(|p| p[0]).sum::<f64>() / rgb.len() as f64;
             let (group, comps) = if grey {
                 let v: Vec<f64> = rgb.iter().map(|p| p[0]).collect();
