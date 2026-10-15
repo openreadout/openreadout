@@ -1,6 +1,6 @@
 # analyze
 
-`analyze` runs analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks, patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader assays. Each analysis is a subcommand with its own flags, and an MCP tool with the same name and arguments: `analyze nmr-peaks --range-ppm 0:10` is `openreadout_nmr_peaks` with `range_ppm: [0, 10]`.
+`analyze` runs analyses with documented methods: chromatographic peaks, chromatograms, NMR peaks, patch-clamp features, extracellular spikes, qPCR, flow-cytometry gating and plate-reader assays. Each analysis is a subcommand with its own flags, and an MCP tool with the same name and arguments: `analyze nmr-peaks --range-ppm 0:10` is `openreadout_nmr_peaks` with `range_ppm: [0, 10]`. The six plate-reader analyses share one tool, `openreadout_assay`, with `analysis` naming the subcommand.
 
 ```text
 openreadout analyze <SUBCOMMAND> [OPTIONS] <FILE>...
@@ -15,12 +15,12 @@ openreadout analyze <SUBCOMMAND> [OPTIONS] <FILE>...
 | `spikes` | `openreadout_spikes` | extracellular spike counts, rates and times | [Electrophysiology](../../guides/ephys.md) |
 | `qpcr` | `openreadout_qpcr` | Cq, Tm, ΔΔCq, standard curves | [qPCR formats](../../formats/qpcr.md) |
 | `gate` | `openreadout_gate` | FlowJo or Gating-ML gate hierarchy and population counts | [FlowJo workspaces](../../formats/flowjo-wsp.md) |
-| `assay-wells` | `openreadout_assay_wells` | plate-reader wells: roles, blanks, replicate statistics | [Plate analysis](../../guides/plate-analysis.md) |
-| `assay-curve` | `openreadout_assay_curve` | a standard curve and back-calculated concentrations | [Plate analysis](../../guides/plate-analysis.md) |
-| `dose-response` | `openreadout_dose_response` | IC50/EC50 per compound | [Plate analysis](../../guides/plate-analysis.md) |
-| `kinetics` | `openreadout_kinetics` | per-well rates of a kinetic read | [Plate analysis](../../guides/plate-analysis.md) |
-| `growth` | `openreadout_growth` | growth rate and doubling time per well | [Plate analysis](../../guides/plate-analysis.md) |
-| `assay-qc` | `openreadout_assay_qc` | Z′ and other plate quality metrics | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-wells` | `openreadout_assay` `analysis: wells` | plate-reader wells: roles, blanks, replicate statistics | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-curve` | `openreadout_assay` `analysis: curve` | a standard curve and back-calculated concentrations | [Plate analysis](../../guides/plate-analysis.md) |
+| `dose-response` | `openreadout_assay` `analysis: dose-response` | IC50/EC50 per compound | [Plate analysis](../../guides/plate-analysis.md) |
+| `kinetics` | `openreadout_assay` `analysis: kinetics` | per-well rates of a kinetic read | [Plate analysis](../../guides/plate-analysis.md) |
+| `growth` | `openreadout_assay` `analysis: growth` | growth rate, doubling time, crash and regrowth per well | [Plate analysis](../../guides/plate-analysis.md) |
+| `assay-qc` | `openreadout_assay` `analysis: qc` | Z′ and other plate quality metrics | [Plate analysis](../../guides/plate-analysis.md) |
 
 Every subcommand takes `--json`. The guides describe the methods and how they were validated. To run any of these over many files as one table, use [`batch`](batch.md).
 
@@ -117,6 +117,7 @@ The input is a Bruker experiment directory, a Varian `.fid` directory, a JEOL `.
 - `--range-ppm A:B`: only pick peaks between two shifts, in ppm.
 - `--max-peaks N`: keep at most this many peaks. Default 1000.
 - `--integrate A:B`: integrate a region in ppm. Repeatable.
+- `--auto-integrate`: without `--integrate`, integrate every multiplet (peaks closer than 15 Hz, with 10 Hz on each side).
 - `--integral-reference I=V`: normalize integrals so that region I equals V. Default `0=1`.
 
 The `--process-*` flags of `trace`, `export` and `preview` take the same values as `--phase`, `--lb`, `--size` and `--baseline`.
@@ -136,6 +137,7 @@ openreadout analyze ephys-features [OPTIONS] <FILE>
 - `--sweeps LIST`: sweeps to analyse, such as `0,3,5-9`. Default: all.
 - `--peak-threshold-mv MV`: voltage a spike must cross upward. Default −20 mV.
 - `--dvdt-threshold V_PER_S`: dV/dt that defines spike onset. Default 10 V/s.
+- `--min-rise-mv MV`: how far a spike's peak must rise above the lowest voltage since the previous spike. Default 15 mV; 0 counts every crossing of `--peak-threshold-mv`, as eFEL does.
 - `--max-spikes N`: rows in the per-spike table. Default 25 with `--json`, every spike with `--csv`.
 - `--csv sweeps|spikes|fi`: print one tidy table as CSV instead.
 
@@ -256,7 +258,7 @@ Without an FCS file, the gating file is described (samples, compensation, transf
 - `--gatingml XML`: Gating-ML 2.0 document.
 - `--sample NAME`: workspace sample. Default: the sample whose name or file matches FILE.
 - `--population PATH`: report only this population and its descendants. Repeatable.
-- `--median PARAMETER`: report each population's median of this parameter (`Comp-NAME` for compensated values). Repeatable or comma-separated.
+- `--median PARAMETER`: report each population's median of this parameter (`Comp-NAME` for compensated values). Repeatable or comma-separated. `--median all` reports every parameter a gate uses, compensated as the gate reads it.
 - `--table N`: FCS data set index. Default 0.
 
 Several FCS files, a directory or a glob give one table with a row per file and population. `gate` takes the flags in [Several inputs](index.md#several-inputs) and the [batch table flags](batch.md#batch-table-flags).

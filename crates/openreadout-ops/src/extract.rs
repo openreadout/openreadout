@@ -72,14 +72,7 @@ pub fn extract_attachment(
     let list = ds.attachments()?;
     let a = resolve_attachment(&list, selector)?;
     let output = output.map_or_else(|| default_output(input, &a), Path::to_path_buf);
-    if output == input
-        || (output.exists()
-            && std::fs::canonicalize(&output).ok() == std::fs::canonicalize(input).ok())
-    {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
+    openreadout_core::output::refuse_dataset(&output, input, &*ds)?;
     if output.exists() && !overwrite {
         return Err(Error::Usage(format!(
             "{} exists; pass --overwrite to replace it",

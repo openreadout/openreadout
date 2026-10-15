@@ -388,7 +388,6 @@
       },
       "required": [
         "count",
-        "non_finite",
         "exact",
         "zero_fraction"
       ]

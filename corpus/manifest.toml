@@ -78376,3 +78376,61 @@ license = "MIT"
 source = "GitHub HaasCP/mocca_tutorial (commit 184c363), notebooks/tutorial_data/2022-01-26_19-37-57_gradient.D"
 attribution = "Christian Haas and mocca contributors"
 notes = "part of gh-mocca-gradient-2022-01-26-19-37-57-d (the depositor's ChemStation 3D export of DAD1.UV, UTF-16 CSV)"
+
+# ---- 2026-10-15: annotated nuclei, ground truth for stats objects (crates/openreadout-corpus-tests/tests/nuclei.rs) ----
+
+[[file]]
+id = "bbbc039-images"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "bbbc039-images.zip"
+url = "https://data.broadinstitute.org/bbbc/BBBC039/images.zip"
+sha256 = "6f30a5d4fe38c928ded972704f085975f8dc0d65d9aa366df00e5a9d449fddd7"
+size = 77915748
+license = "CC0-1.0"
+source = "Broad Bioimage Benchmark Collection BBBC039v1 (bbbc.broadinstitute.org/BBBC039), images.zip; licence (CC0) checked 2026-10-15 on the collection page"
+attribution = "Caicedo et al. 2018; Ljosa et al., Nature Methods 2012"
+notes = "200 fields of U2OS nuclei (Hoechst, 20x, 2x2 binning), 16-bit MetaMorph TIFF 696 x 520; extracted into bbbc039-images/images/"
+
+[[file]]
+id = "bbbc039-masks"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "bbbc039-masks.zip"
+url = "https://data.broadinstitute.org/bbbc/BBBC039/masks.zip"
+sha256 = "f9e6043d8ca56344a4886f96a700d804d6ee982f31e2b2cd3194af2a053c2710"
+size = 2753811
+license = "CC0-1.0"
+source = "Broad Bioimage Benchmark Collection BBBC039v1, masks.zip"
+attribution = "Caicedo et al. 2018; Ljosa et al., Nature Methods 2012"
+notes = "hand-annotated nuclei of bbbc039-images: one PNG per image whose red value colours each nucleus (touching nuclei differ), so a nucleus is a connected region of one value; extracted into bbbc039-masks/masks/"
+
+[[file]]
+id = "bbbc039-metadata"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "bbbc039-metadata.zip"
+url = "https://data.broadinstitute.org/bbbc/BBBC039/metadata.zip"
+sha256 = "a2c1f900bed9ba92a99553efd4c2ae98598433691c7401d818653ab61110deb2"
+size = 17816
+license = "CC0-1.0"
+source = "Broad Bioimage Benchmark Collection BBBC039v1, metadata.zip"
+attribution = "Caicedo et al. 2018; Ljosa et al., Nature Methods 2012"
+notes = "the training, validation and test split of bbbc039-images (metadata/*.txt); extracted into bbbc039-metadata/metadata/"
+
+[[file]]
+id = "bbbc038-stage1-train"
+format = "zip"
+role = "bundle"
+tier = "full"
+filename = "bbbc038-stage1-train.zip"
+url = "https://data.broadinstitute.org/bbbc/BBBC038/stage1_train.zip"
+sha256 = "dcb6edc2690f137406638b2309581a71522c4dff19157d118453b448dcddcb68"
+size = 82923446
+license = "CC0-1.0"
+source = "Broad Bioimage Benchmark Collection BBBC038v1 (2018 Data Science Bowl), stage1_train.zip; licence (CC0) checked 2026-10-15 on the collection page"
+attribution = "Caicedo et al., Nature Methods 2019; Ljosa et al., Nature Methods 2012"
+notes = "670 nuclei images across fluorescence, brightfield and H&E-stained tissue, PNG, with one mask PNG per nucleus (<id>/images, <id>/masks); extracted into bbbc038-stage1-train/"

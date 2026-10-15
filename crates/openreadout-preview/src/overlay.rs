@@ -1,20 +1,42 @@
 //! Overlay previews: every channel of a trace drawn in one panel with a shared y axis — the
 //! amplification and melt plots of qPCR files, whose traces say `extra.plot = "overlay"` (one
-//! channel per well).
+//! channel per well). Curves are coloured by target when the wells name a few targets (with a
+//! direct-label key), no-template controls drawn faint.
+
+use std::collections::BTreeMap;
 
 use openreadout_core::model::TraceInfo;
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
+use openreadout_figure::{
+    Anchor, AxesSpec, Baseline, Color, Domain, Figure, Panel, ScaleKind, Stroke, TextStyle,
+    category_colors, key_row,
+};
 
-use crate::canvas::{Canvas, text_width};
-use crate::color::{self, TRACE_PALETTE};
-use crate::trace::{draw_x_labels, fmt_num, x_axis};
-use crate::{PreviewOutput, PreviewRequest, TracePreview, TracePreviewChannel};
+use crate::color::to_hex;
+use crate::trace::{axis_title, x_axis};
+use crate::{Frame, FramePanel, PreviewOutput, PreviewRequest, TracePreview, TracePreviewChannel};
 
 /// Most samples per channel drawn (overlay traces are short: cycles or melt reads).
 const MAX_SAMPLES: u64 = 100_000;
 /// Most channels drawn in one overlay.
 const MAX_CHANNELS: usize = 1536;
+/// Most groups coloured apart; more are drawn in one colour.
+const MAX_GROUPS: usize = 7;
+
+fn extra_str<'a>(ch: &'a openreadout_core::model::SignalChannelInfo, k: &str) -> Option<&'a str> {
+    ch.extra
+        .get(k)
+        .and_then(serde_json::Value::as_str)
+        .filter(|s| !s.trim().is_empty())
+}
+
+fn is_control(sample: Option<&str>) -> bool {
+    sample.is_some_and(|s| {
+        let s = s.trim().to_ascii_lowercase();
+        s == "ntc" || s.starts_with("no template") || s == "blank" || s == "nac"
+    })
+}
 
 pub(crate) fn render(
     ds: &mut dyn Dataset,
@@ -22,7 +44,7 @@ pub(crate) fn render(
     sweep: u32,
     req: &PreviewRequest,
     out: &mut PreviewOutput,
-) -> Result<Canvas> {
+) -> Result<(Figure, Frame)> {
     let nch = t.channels.len();
     let channels: Vec<u32> = if req.channels.is_empty() {
         (0..nch.min(MAX_CHANNELS) as u32).collect()
@@ -44,108 +66,144 @@ pub(crate) fn render(
     }
     let len = openreadout_core::trace::sweep_samples(t, sweep);
     let n = len.min(MAX_SAMPLES);
-    let tr = ds.read_trace(t.index, sweep, 0, n)?;
-    let data: Vec<&Vec<f64>> = channels
+    let data = openreadout_core::trace::read_channels(ds, t.index, sweep, 0, n, &channels)?;
+    let ax = x_axis(t, len, n);
+    let samples = data.iter().map(Vec::len).max().unwrap_or(0);
+    let step = if samples > 1 {
+        (ax.last - ax.first) / (samples - 1) as f64
+    } else {
+        0.0
+    };
+    let theme = crate::theme(req);
+    let fs = theme.font_size;
+    let w = req.max_size.max(64) as f32;
+    let h = (w * 0.62).round().min(req.max_size as f32);
+    let mut fig = Figure::new(w, h, Some(theme.paper));
+
+    // groups: the wells' targets (or samples) when there are a few
+    let group_of = |c: u32| -> Option<String> {
+        let ch = &t.channels[c as usize];
+        extra_str(ch, "target")
+            .or_else(|| extra_str(ch, "sample"))
+            .map(str::to_string)
+    };
+    // in the order the wells first name them, coloured by the shared category rule
+    let mut groups: Vec<String> = Vec::new();
+    for &c in &channels {
+        if let Some(g) = group_of(c)
+            && !is_control(extra_str(&t.channels[c as usize], "sample"))
+            && !groups.contains(&g)
+        {
+            groups.push(g);
+        }
+    }
+    let colored = (2..=MAX_GROUPS).contains(&groups.len());
+    let group_color: BTreeMap<String, Color> = groups
         .iter()
-        .map(|&c| {
-            tr.channels
-                .get(c as usize)
-                .ok_or_else(|| Error::Other(format!("reader returned no channel {c}")))
-        })
-        .collect::<Result<_>>()?;
+        .cloned()
+        .zip(category_colors(&theme, &groups))
+        .collect();
+
     let (mut lo, mut hi) = (f64::INFINITY, f64::NEG_INFINITY);
     for v in &data {
-        for &x in *v {
+        for &x in v {
             if x.is_finite() {
                 lo = lo.min(x);
                 hi = hi.max(x);
             }
         }
     }
-    let width = req.max_size.max(64);
-    let height = (width * 2 / 3).clamp(64, req.max_size.max(64));
-    let axis_scale: i64 = if width >= 256 { 2 } else { 1 };
-    let axis_h = (5 * axis_scale + 6) as u32;
-    let mut canvas = Canvas::new(width, height, [255, 255, 255]);
-    let (px0, py0) = (4i64, 4i64);
-    let pw = i64::from(width) - 8;
-    let ph = i64::from(height) - 8 - i64::from(axis_h);
-    canvas.fill_rect(px0, py0, pw, ph, [247, 247, 247]);
-    let range = (lo.is_finite() && hi.is_finite()).then(|| {
-        let pad = if hi > lo {
-            (hi - lo) * 0.05
-        } else {
-            lo.abs().max(1.0) * 0.05
-        };
-        (lo - pad, hi + pad)
-    });
-    let mut report = Vec::with_capacity(channels.len());
-    let samples = data.iter().map(|v| v.len()).max().unwrap_or(0);
-    if let Some((lo, hi)) = range {
-        let y_of =
-            |v: f64| py0 + (ph - 1) - (((v - lo) / (hi - lo)) * (ph - 1) as f64).round() as i64;
-        let x_of = |i: usize| {
-            px0 + if samples > 1 {
-                (i as i64 * (pw - 1)) / (samples as i64 - 1)
-            } else {
-                0
-            }
-        };
-        if lo < 0.0 && hi > 0.0 {
-            let y0 = y_of(0.0);
-            canvas.line(px0, y0, px0 + pw - 1, y0, [210, 210, 210]);
-        }
-        for (k, v) in data.iter().enumerate() {
-            let col = TRACE_PALETTE[k % TRACE_PALETTE.len()];
-            for i in 1..v.len() {
-                let (a, b) = (v[i - 1], v[i]);
-                if a.is_finite() && b.is_finite() {
-                    canvas.line(x_of(i - 1), y_of(a), x_of(i), y_of(b), col);
-                } else if b.is_finite() {
-                    canvas.set(x_of(i), y_of(b), col);
-                }
-            }
-            let ch = &t.channels[channels[k] as usize];
-            report.push(TracePreviewChannel {
-                index: channels[k],
-                name: ch.name.clone(),
-                unit: ch.unit.clone(),
-                color: color::to_hex(col),
-                min: Some(lo),
-                max: Some(hi),
-            });
-        }
-        let grey = [120, 120, 120];
-        let (hs, ls) = (fmt_num(hi), fmt_num(lo));
-        let right = px0 + pw - 4;
-        canvas.text(
-            right - text_width(&hs, axis_scale),
-            py0 + 3,
-            axis_scale,
-            grey,
-            &hs,
-        );
-        canvas.text(
-            right - text_width(&ls, axis_scale),
-            py0 + ph - 3 - 5 * axis_scale,
-            axis_scale,
-            grey,
-            &ls,
-        );
-    }
-    let label: String = t
+    let key_h = if colored { fs * 2.9 } else { fs * 0.6 };
+    let name = t
         .name
         .clone()
-        .unwrap_or_else(|| format!("trace {}", t.index))
-        .chars()
-        .take(48)
-        .collect();
-    canvas.text(px0 + 4, py0 + 3, axis_scale, [90, 90, 90], &label);
-    let ax = x_axis(t, len, n);
-    draw_x_labels(&mut canvas, &ax, axis_scale, axis_h);
+        .unwrap_or_else(|| format!("trace {}", t.index));
+    let title = match t.extra.get("dye").and_then(serde_json::Value::as_str) {
+        Some(d) if !name.contains(d) => format!("{name} · {d}"),
+        _ => name,
+    };
+    let spec = AxesSpec {
+        x_label: Some(axis_title(&ax)),
+        y_label: Some(
+            t.channels
+                .first()
+                .and_then(|c| c.unit.clone())
+                .map_or_else(|| "fluorescence".to_string(), |u| format!("signal ({u})")),
+        ),
+        top: key_h,
+        ..AxesSpec::default()
+    };
+    let x_dom = Domain::linear(ax.first.min(ax.last), ax.first.max(ax.last));
+    let y_dom = Domain::of([lo, hi], 0.05, ScaleKind::Linear);
+    let panel = Panel::fit(fig.rect().inset(fs * 0.8), x_dom, y_dom, &theme, &spec);
+    fig.text(
+        fs * 0.8,
+        fs * 1.4,
+        &title,
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+    );
+    panel.axes(&mut fig, &theme, &spec);
+    let thin = (theme.line_width * if channels.len() > 24 { 0.6 } else { 0.9 }).max(0.8);
+    let mut report = Vec::with_capacity(channels.len());
+    // controls first (underneath), then the rest
+    let mut order: Vec<usize> = (0..channels.len()).collect();
+    order.sort_by_key(|&k| !is_control(extra_str(&t.channels[channels[k] as usize], "sample")));
+    for k in order {
+        let c = channels[k];
+        let ch = &t.channels[c as usize];
+        let control = is_control(extra_str(ch, "sample"));
+        let col = if control {
+            theme.faint
+        } else if colored {
+            group_of(c)
+                .and_then(|g| group_color.get(&g).copied())
+                .unwrap_or(theme.ink)
+        } else if channels.len() <= 8 {
+            theme.series(k)
+        } else {
+            theme.ink.alpha(0.55)
+        };
+        let pts = data[k]
+            .iter()
+            .enumerate()
+            .map(|(i, &v)| (ax.first + step * i as f64, v));
+        panel.line(&mut fig, pts, Stroke::new(col, thin).round());
+        report.push((
+            k,
+            TracePreviewChannel {
+                index: c,
+                name: ch.name.clone(),
+                unit: ch.unit.clone(),
+                color: to_hex(col.to_rgb()),
+                min: Some(panel.y.domain().0),
+                max: Some(panel.y.domain().1),
+            },
+        ));
+    }
+    report.sort_by_key(|(k, _)| *k);
+    if colored {
+        let mut items: Vec<(Color, String)> =
+            groups.iter().map(|g| (group_color[g], g.clone())).collect();
+        if channels
+            .iter()
+            .any(|&c| is_control(extra_str(&t.channels[c as usize], "sample")))
+        {
+            items.push((theme.faint, "no-template controls".into()));
+        }
+        key_row(
+            &mut fig,
+            &theme,
+            panel.rect.x,
+            fs * 2.9,
+            panel.rect.w,
+            &items,
+            false,
+        );
+    }
     out.notes.push(format!(
-        "{} channel(s) overlaid in one panel with a shared y axis",
-        channels.len()
+        "{} channel(s) overlaid in one panel with a shared y axis{}",
+        channels.len(),
+        if colored { ", coloured by target" } else { "" }
     ));
     out.trace = Some(TracePreview {
         trace: t.index,
@@ -155,7 +213,7 @@ pub(crate) fn render(
         sample_count: n,
         truncated: n < len,
         x_axis: Some(ax),
-        channels: report,
+        channels: report.into_iter().map(|(_, r)| r).collect(),
     });
-    Ok(canvas)
+    Ok((fig, Frame::plots(vec![FramePanel::new(panel)])))
 }

@@ -65,6 +65,9 @@ openreadout-ometiff = { workspace = true }
 openreadout-omezarr = { workspace = true }
 openreadout-arrow = { workspace = true }
 openreadout-batch = { workspace = true }
+openreadout-preview = { workspace = true }
+openreadout-plot = { workspace = true }
+openreadout-figure = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 pyo3 = { version = "0.29", features = ["abi3-py310", "extension-module"] }

@@ -48,3 +48,9 @@ EMD is covered in `docs/provenance/emd.md`.
 
 **Inferred (ours):** the two point spectra of `16x16-2_point-spectra-2x1024` fill a one-dimensional scan dimension described "Position", unit `meters`, delta exactly 1.0; the single point spectrum has the same 1.0 m delta. Every calibrated scan in the corpus (spectrum images, line profiles, the diffraction/EDS acquisition) steps 1.2e-10 to 4.3e-9 m. A delta of exactly 1 m is TIA's placeholder for positions that were never calibrated (point spectra are taken at positions picked by hand, not on a raster), and the image returned a 1 m (1e6 µm) pixel. Scan-dimension deltas now follow the rule element deltas already follow: taken as metres only below 1 mm; above, no pixel size, a note, and the delta stays in `extra.scan_dimensions`. The oracle script applies the same rule and the file's oracle was regenerated (physical size x null).
 
+
+## 2026-10-15 — frames past the offset table
+
+**Corpus files:** a fuzz input (now a seed in `fuzz/corpus/whole_ser/crash-frame-offsets`).
+**Prior art consulted:** none.
+**What was inferred from what.** A series that declares more frames than its offset table holds made the reader index past the table and panic. Reading such a frame is now a corrupt-file error.

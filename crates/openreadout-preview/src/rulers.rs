@@ -1,28 +1,28 @@
 //! Coordinate rulers, scale bar and optional grid around an image preview.
 //!
-//! The data (the downsampled plane) sits in a white frame. The top and left edges carry tick
-//! marks labelled in full-resolution (level 0) pixel coordinates of the source plane, whatever
+//! The data (the downsampled plane) sits on paper, inside a hairline frame, at whole-pixel
+//! offsets so its pixels reach the output unchanged. The top and left edges carry ticks
+//! labelled in full-resolution (level 0) pixel coordinates of the source plane, whatever
 //! pyramid level, downsample and region were drawn, so an agent can read coordinates off the
-//! picture and ask for `region {x, y, width, height}` in the same numbers. The bottom edge says
-//! so (`RULERS: FULL-RES PX`) and, when the physical pixel size is known, carries a scale bar.
+//! picture and ask for `region {x, y, width, height}` in the same numbers. Unlabelled minor
+//! ticks split each step in five (or two), so positions between labels can be read too. The
+//! bottom edge says what the numbers are and, when the physical pixel size is known, carries
+//! a scale bar.
+
+use std::sync::Arc;
 
 use openreadout_core::region::Region;
+use openreadout_figure::{
+    Anchor, Baseline, Face, Figure, Path, Raster, Rect, Stroke, TextStyle, Theme, metrics,
+    text_width,
+};
 
-use crate::canvas::{Canvas, text_cased_width, text_width};
 use crate::{ScaleBar, SourcePoint};
 
-/// Margin background.
-const PAPER: [u8; 3] = [255, 255, 255];
-/// Frame and tick colour.
-const INK: [u8; 3] = [70, 70, 70];
-/// Label colour.
-const TEXT: [u8; 3] = [20, 20, 20];
 /// Most ticks per side (the 1-2-5 series then gives 4.4–11 steps over the span).
 const MAX_TICKS: f64 = 11.0;
-/// Grid line opacity out of 256.
-const GRID_ALPHA: u32 = 96;
 /// Caption at the bottom left, telling what the ruler numbers are.
-const CAPTION: &str = "RULERS: FULL-RES PX";
+const CAPTION: &str = "full-resolution px";
 
 /// Where the data sits in source (full-resolution) pixel coordinates.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -54,23 +54,28 @@ impl Mapping {
             (y1 as u32).saturating_sub(y0).max(1),
         )
     }
-}
 
-/// Text scale for a preview whose longer side may be `max_size`: 3×5 font pixels become 2×2
-/// from 200 px and 3×3 from 1400 px, so labels survive a viewer's own downscaling.
-pub(crate) fn text_scale(max_size: u32) -> i64 {
-    match max_size {
-        0..200 => 1,
-        200..1400 => 2,
-        _ => 3,
+    /// The drawn-pixel position (relative to the data's top-left corner) of a full-resolution
+    /// point.
+    pub fn px_of(self, x: f64, y: f64) -> (f64, f64) {
+        (
+            (x - self.origin.0) / self.per_pixel.0,
+            (y - self.origin.1) / self.per_pixel.1,
+        )
     }
 }
 
-/// The frame around the data: margins in pixels, from the text scale and the widest labels.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Type size of the ruler labels for a preview whose longer side may be `max_size`.
+pub(crate) fn label_size(max_size: u32) -> f32 {
+    (max_size as f32 / 64.0).clamp(9.0, 22.0).round()
+}
+
+/// The frame around the data: margins in whole pixels, from the type size and the widest
+/// labels.
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub(crate) struct Layout {
-    /// Text scale (font pixel size).
-    pub s: i64,
+    /// Ruler label size in pixels.
+    pub fs: f32,
     pub left: u32,
     pub top: u32,
     pub right: u32,
@@ -80,17 +85,17 @@ pub(crate) struct Layout {
 impl Layout {
     /// Margins for labels up to `max_x` / `max_y` (full-resolution coordinates).
     pub fn new(max_size: u32, max_x: u32, max_y: u32) -> Self {
-        let s = text_scale(max_size);
-        let (tick, gap, pad) = (tick_len(s), s + 1, s + 1);
-        let xw = text_width(&max_x.to_string(), s);
-        let yw = text_width(&max_y.to_string(), s);
-        let row = 5 * s;
+        let fs = label_size(max_size);
+        let m = metrics(Face::Mono, fs);
+        let (tick, gap, pad) = (tick_len(fs), gap(fs), pad(fs));
+        let xw = text_width(&max_x.to_string(), Face::Mono, fs);
+        let yw = text_width(&max_y.to_string(), Face::Mono, fs);
         Layout {
-            s,
-            left: (pad + yw + gap + tick) as u32,
-            top: (pad + row + gap + tick) as u32,
-            right: (xw / 2 + pad) as u32,
-            bottom: (2 * gap + row + pad) as u32,
+            fs,
+            left: (pad + yw + gap + tick).ceil() as u32,
+            top: (pad + m.cap_height + gap + tick).ceil() as u32,
+            right: (xw / 2.0 + pad).ceil() as u32,
+            bottom: (gap * 2.0 + fs * 1.15 + pad).ceil() as u32,
         }
     }
     /// Horizontal margins.
@@ -103,8 +108,16 @@ impl Layout {
     }
 }
 
-fn tick_len(s: i64) -> i64 {
-    3 * s
+fn tick_len(fs: f32) -> f32 {
+    (fs * 0.5).round().max(3.0)
+}
+
+fn gap(fs: f32) -> f32 {
+    (fs * 0.3).round().max(2.0)
+}
+
+fn pad(fs: f32) -> f32 {
+    (fs * 0.45).round().max(2.0)
 }
 
 /// The smallest step of the series 1, 2, 5, 10, 20, 50, … that is at least `min`.
@@ -147,6 +160,14 @@ pub(crate) fn tick_step(span: f64, min_gap: f64) -> u64 {
     v.round().max(1.0) as u64
 }
 
+/// The minor step inside a major `step`: a fifth for 1× and 5× steps, a half for 2× steps,
+/// whole pixels only.
+fn minor_step(step: u64) -> Option<u64> {
+    let lead = step / 10u64.pow(step.max(1).ilog10());
+    let m = if lead == 2 { step / 2 } else { step / 5 };
+    (m >= 1 && m < step && step.is_multiple_of(m)).then_some(m)
+}
+
 /// Tick positions `(source coordinate, drawn pixel)` along an axis of `len` drawn pixels.
 pub(crate) fn ticks(origin: f64, per_pixel: f64, len: u32, step: u64) -> Vec<(u64, u32)> {
     let mut out = Vec::new();
@@ -157,7 +178,7 @@ pub(crate) fn ticks(origin: f64, per_pixel: f64, len: u32, step: u64) -> Vec<(u6
     let end = origin + f64::from(len) * per_pixel;
     let mut k = start;
     while let Some(v) = k.checked_mul(step) {
-        if v as f64 >= end || out.len() > 64 {
+        if v as f64 >= end || out.len() > 400 {
             break;
         }
         let px = ((v as f64 - origin) / per_pixel).round();
@@ -196,7 +217,7 @@ pub(crate) fn scale_bar(um_per_pixel: f64, data_w: u32) -> Option<ScaleBar> {
     })
 }
 
-fn fmt_len(v: f64) -> String {
+pub(crate) fn fmt_len(v: f64) -> String {
     if v.fract() == 0.0 {
         format!("{}", v as u64)
     } else {
@@ -205,129 +226,167 @@ fn fmt_len(v: f64) -> String {
     }
 }
 
-/// Lighten a dark pixel, darken a bright one: a grid line that shows on fluorescence (dark)
-/// and brightfield (white) data alike, and keeps grey images grey.
-fn grid_pixel(c: &mut Canvas, x: i64, y: i64) {
-    if x < 0 || y < 0 || x >= i64::from(c.width) || y >= i64::from(c.height) {
-        return;
-    }
-    let i = (y as usize * c.width as usize + x as usize) * 3;
-    let p = &mut c.rgb[i..i + 3];
-    let lum = (u32::from(p[0]) + u32::from(p[1]) + u32::from(p[2])) / 3;
-    let target = if lum < 128 { 255u32 } else { 0 };
-    for v in p.iter_mut() {
-        let old = u32::from(*v);
-        *v = ((old * (256 - GRID_ALPHA) + target * GRID_ALPHA + 128) >> 8) as u8;
-    }
-}
-
 /// What [`decorate`] drew.
 pub(crate) struct Decorated {
-    pub canvas: Canvas,
-    /// The data rectangle inside the canvas.
+    pub figure: Figure,
+    /// The data rectangle inside the figure.
     pub plot_area: Region,
     pub scale_bar: Option<ScaleBar>,
+}
+
+/// Grid lines that show on dark (fluorescence) and bright (brightfield) data alike: a faint
+/// dark line under a lighter one.
+pub(crate) fn grid_line(fig: &mut Figure, x0: f32, y0: f32, x1: f32, y1: f32) {
+    fig.line(
+        x0,
+        y0,
+        x1,
+        y1,
+        Stroke::new(openreadout_figure::Color::rgb(0, 0, 0).alpha(0.28), 2.0),
+    );
+    fig.line(
+        x0,
+        y0,
+        x1,
+        y1,
+        Stroke::new(
+            openreadout_figure::Color::rgb(255, 255, 255).alpha(0.55),
+            1.0,
+        ),
+    );
 }
 
 /// Frame `data` with rulers (and a scale bar when `um_per_source_px` is known; grid lines at
 /// the ticks when `grid`).
 pub(crate) fn decorate(
-    data: &Canvas,
+    data: Raster,
     layout: Layout,
     map: Mapping,
     um_per_source_px: Option<f64>,
     grid: bool,
+    theme: &Theme,
 ) -> Decorated {
-    let s = layout.s;
+    let fs = layout.fs;
     let (dw, dh) = (data.width, data.height);
     let (cw, ch) = (dw + layout.h(), dh + layout.v());
-    let mut c = Canvas::new(cw, ch, PAPER);
-    let (l, t) = (i64::from(layout.left), i64::from(layout.top));
-    for y in 0..dh as usize {
-        let src = y * dw as usize * 3;
-        let dst = ((y + layout.top as usize) * cw as usize + layout.left as usize) * 3;
-        c.rgb[dst..dst + dw as usize * 3].copy_from_slice(&data.rgb[src..src + dw as usize * 3]);
-    }
-    let (w, h) = (i64::from(dw), i64::from(dh));
-    // frame, one pixel outside the data
-    c.line(l - 1, t - 1, l + w, t - 1, INK);
-    c.line(l - 1, t + h, l + w, t + h, INK);
-    c.line(l - 1, t - 1, l - 1, t + h, INK);
-    c.line(l + w, t - 1, l + w, t + h, INK);
-    let (tick, gap, pad) = (tick_len(s), s + 1, s + 1);
-    let row = 5 * s;
+    let mut fig = Figure::new(cw as f32, ch as f32, Some(theme.paper));
+    let (l, t) = (layout.left as f32, layout.top as f32);
+    let (w, h) = (dw as f32, dh as f32);
+    fig.image(Rect::new(l, t, w, h), Arc::new(data), false);
+    let (tick, gap, pad) = (tick_len(fs), gap(fs), pad(fs));
+    let m = metrics(Face::Mono, fs);
+    let ink = Stroke::new(theme.muted, 1.0);
+    let minor = Stroke::new(theme.faint, 1.0);
+    let label = TextStyle::new(fs, theme.ink).face(Face::Mono);
 
     // x ruler (top)
     let max_x = map.origin.0 + f64::from(dw) * map.per_pixel.0;
-    let label_w = text_width(&(max_x.ceil() as u64).to_string(), s);
+    let label_w = f64::from(text_width(
+        &(max_x.ceil() as u64).to_string(),
+        Face::Mono,
+        fs,
+    ));
     let step_x = tick_step(
         f64::from(dw) * map.per_pixel.0,
-        (label_w + 3 * s) as f64 * map.per_pixel.0,
+        (label_w + f64::from(fs) * 1.2) * map.per_pixel.0,
     );
-    for (v, px) in ticks(map.origin.0, map.per_pixel.0, dw, step_x) {
-        let x = l + i64::from(px);
-        c.line(x, t - 1 - tick, x, t - 2, INK);
-        if grid {
-            for y in t..t + h {
-                grid_pixel(&mut c, x, y);
+    let mut grid_lines: Vec<(f32, f32, f32, f32)> = Vec::new();
+    if let Some(ms) = minor_step(step_x) {
+        let ticks_minor = ticks(map.origin.0, map.per_pixel.0, dw, ms);
+        if ticks_minor.len() < dw as usize / 4 {
+            for (v, px) in ticks_minor {
+                if v % step_x != 0 {
+                    let x = l + px as f32 + 0.5;
+                    fig.line(x, t - 1.0 - tick * 0.55, x, t - 1.0, minor.clone());
+                }
             }
         }
-        let label = v.to_string();
-        let lw = text_width(&label, s) - s;
+    }
+    let xst = label.clone().align(Anchor::Middle, Baseline::Alphabetic);
+    for (v, px) in ticks(map.origin.0, map.per_pixel.0, dw, step_x) {
+        let x = l + px as f32 + 0.5;
+        fig.line(x, t - 1.0 - tick, x, t - 1.0, ink.clone());
+        if grid {
+            grid_lines.push((x, t, x, t + h));
+        }
+        let s = v.to_string();
+        let lw = text_width(&s, Face::Mono, fs);
         // (a label wider than the whole picture, e.g. a 1 px region of a huge plane, starts at 0)
-        let lx = (x - lw / 2).clamp(0, (i64::from(cw) - lw).max(0));
-        c.text(lx, pad, s, TEXT, &label);
+        let lx = x.clamp(lw / 2.0, (cw as f32 - lw / 2.0).max(lw / 2.0));
+        fig.text(lx, pad + m.cap_height, &s, &xst);
     }
     // y ruler (left)
+    let row = f64::from(m.cap_height);
     let step_y = tick_step(
         f64::from(dh) * map.per_pixel.1,
-        (row + 4 * s) as f64 * map.per_pixel.1,
+        (row + f64::from(fs) * 1.3) * map.per_pixel.1,
     );
-    for (v, py) in ticks(map.origin.1, map.per_pixel.1, dh, step_y) {
-        let y = t + i64::from(py);
-        c.line(l - 1 - tick, y, l - 2, y, INK);
-        if grid {
-            for x in l..l + w {
-                grid_pixel(&mut c, x, y);
+    if let Some(ms) = minor_step(step_y) {
+        let ticks_minor = ticks(map.origin.1, map.per_pixel.1, dh, ms);
+        if ticks_minor.len() < dh as usize / 4 {
+            for (v, py) in ticks_minor {
+                if v % step_y != 0 {
+                    let y = t + py as f32 + 0.5;
+                    fig.line(l - 1.0 - tick * 0.55, y, l - 1.0, y, minor.clone());
+                }
             }
         }
-        let label = v.to_string();
-        let lw = text_width(&label, s) - s;
-        let ly = (y - row / 2).clamp(0, (i64::from(ch) - row).max(0));
-        c.text(l - 1 - tick - gap - lw, ly, s, TEXT, &label);
     }
+    let yst = label.clone().align(Anchor::End, Baseline::Middle);
+    for (v, py) in ticks(map.origin.1, map.per_pixel.1, dh, step_y) {
+        let y = t + py as f32 + 0.5;
+        fig.line(l - 1.0 - tick, y, l - 1.0, y, ink.clone());
+        if grid {
+            grid_lines.push((l, y, l + w, y));
+        }
+        let half = m.cap_height / 2.0;
+        let ly = y.clamp(half, (ch as f32 - half).max(half));
+        fig.text(l - 1.0 - tick - gap, ly, &v.to_string(), &yst);
+    }
+    for (x0, y0, x1, y1) in grid_lines {
+        grid_line(&mut fig, x0, y0, x1, y1);
+    }
+    // hairline frame, just outside the data
+    fig.stroke(
+        Path::rect(l - 0.5, t - 0.5, w + 1.0, h + 1.0),
+        Stroke::new(theme.rule, 1.0),
+    );
 
     // bottom row: caption left, scale bar right
-    let by = t + h + 1 + gap;
+    let mid = t + h + 1.0 + gap + fs * 0.6;
     let bar = um_per_source_px.and_then(|um| scale_bar(um * map.per_pixel.0, dw));
+    let small = TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Middle);
     let mut right_edge = l + w;
     if let Some(b) = &bar {
-        let bar_px = i64::from(b.pixels);
+        let bar_px = b.pixels as f32;
         let bx = l + w - bar_px;
-        let thick = (2 * s).max(2);
-        c.fill_rect(bx, by + (row - thick) / 2, bar_px, thick, [0, 0, 0]);
+        let thick = (fs * 0.28).round().max(2.0);
+        fig.fill_rect(Rect::new(bx, mid - thick / 2.0, bar_px, thick), theme.ink);
         // end caps
-        c.fill_rect(bx, by, s.max(1), row, [0, 0, 0]);
-        c.fill_rect(bx + bar_px - s.max(1), by, s.max(1), row, [0, 0, 0]);
+        let cap = (fs * 0.35).round().max(2.0);
+        fig.fill_rect(Rect::new(bx, mid - cap, 1.0, cap * 2.0), theme.ink);
+        fig.fill_rect(
+            Rect::new(bx + bar_px - 1.0, mid - cap, 1.0, cap * 2.0),
+            theme.ink,
+        );
         let text = format!("{} {}", fmt_len(b.length), b.unit);
-        let tw = text_cased_width(&text, s) - s;
-        let tx = bx - gap - s - tw;
-        c.text_cased(tx, by, s, TEXT, &text);
-        right_edge = tx - 2 * gap;
+        let st = TextStyle::new(fs, theme.ink).align(Anchor::End, Baseline::Middle);
+        let r = fig.text(bx - gap * 1.5, mid, &text, &st);
+        right_edge = r.x - gap * 2.0;
     }
-    if text_width(CAPTION, s) <= right_edge - (l - 1) {
-        c.text(l - 1, by, s, TEXT, CAPTION);
+    if text_width(CAPTION, Face::Sans, fs) <= right_edge - (l - 1.0) {
+        fig.text(l - 1.0, mid, CAPTION, &small);
     }
     Decorated {
-        canvas: c,
+        figure: fig,
         plot_area: Region::new(layout.left, layout.top, dw, dh),
         scale_bar: bar,
     }
 }
 
-/// The mapping reported for a canvas halved by [`Canvas::half`] (to fit a size or byte budget):
-/// the plot area shrinks, each drawn pixel covers twice the source, and the origin moves by
-/// half a source step when the plot area started on an odd column or row.
+/// The mapping reported for a raster halved by [`Raster::half`] (to fit a byte budget): the
+/// plot area shrinks, each drawn pixel covers twice the source, and the origin moves by half a
+/// source step when the plot area started on an odd column or row.
 pub(crate) fn halve(
     plot: Region,
     origin: SourcePoint,
@@ -384,6 +443,11 @@ mod tests {
         assert_eq!(tick_step(1000.0, 150.0), 200);
         assert_eq!(tick_step(5.0, 0.0), 1, "never below one pixel");
         assert_eq!(tick_step(2048.0, 0.0), 200);
+        assert_eq!(minor_step(1000), Some(200));
+        assert_eq!(minor_step(2000), Some(1000));
+        assert_eq!(minor_step(500), Some(100));
+        assert_eq!(minor_step(1), None);
+        assert_eq!(minor_step(2), Some(1));
     }
 
     #[test]
@@ -431,46 +495,50 @@ mod tests {
     fn narrow_regions_of_huge_planes_do_not_panic() {
         // a 1 × 1 px look at x = 3 999 999 999: labels wider than the picture
         let layout = Layout::new(400, u32::MAX, u32::MAX);
-        let data = Canvas::new(1, 1, [9, 9, 9]);
+        let data = Raster::new(1, 1, [9, 9, 9]);
         let map = Mapping {
             origin: (3_999_999_999.0, 3_999_999_999.0),
             per_pixel: (1.0, 1.0),
         };
-        let d = decorate(&data, layout, map, Some(0.1), true);
+        let d = decorate(data, layout, map, Some(0.1), true, &Theme::light());
         assert_eq!(d.plot_area.width, 1);
         assert!(d.scale_bar.is_none());
+        let _ = d.figure.to_raster(1.0);
     }
 
     #[test]
     fn layout_and_decoration() {
         let layout = Layout::new(400, 12_000, 800);
-        assert_eq!(layout.s, 2);
-        let data = Canvas::new(300, 200, [0, 0, 0]);
+        let data = Raster::new(300, 200, [0, 0, 0]);
         let map = Mapping {
             origin: (2000.0, 100.0),
             per_pixel: (10.0, 10.0),
         };
-        let d = decorate(&data, layout, map, Some(0.25), false);
-        assert_eq!(d.plot_area.width, 300);
-        assert_eq!(
-            (d.canvas.width, d.canvas.height),
-            (300 + layout.h(), 200 + layout.v())
+        let d = decorate(
+            data.clone(),
+            layout,
+            map,
+            Some(0.25),
+            false,
+            &Theme::light(),
         );
-        assert!(d.canvas.is_gray());
+        assert_eq!(d.plot_area.width, 300);
+        let r = d.figure.to_raster(1.0);
+        assert_eq!((r.width, r.height), (300 + layout.h(), 200 + layout.v()));
         let b = d.scale_bar.unwrap();
         // 2.5 µm per drawn px, 300 px → ≤ 150 µm → 100 µm = 40 px
         assert_eq!((b.length, b.pixels), (100.0, 40));
         // the data is copied unchanged into the plot area
-        let px = |c: &Canvas, x: u32, y: u32| {
-            let i = (y as usize * c.width as usize + x as usize) * 3;
-            c.rgb[i]
-        };
-        assert_eq!(px(&d.canvas, d.plot_area.x + 5, d.plot_area.y + 5), 0);
-        assert_eq!(px(&d.canvas, 0, d.canvas.height - 1), 255);
+        assert_eq!(r.get(d.plot_area.x + 5, d.plot_area.y + 5), Some([0, 0, 0]));
+        assert_eq!(
+            r.get(d.plot_area.x + 299, d.plot_area.y + 199),
+            Some([0, 0, 0])
+        );
         // grid lines lighten dark data
-        let g = decorate(&data, layout, map, None, true);
+        let g = decorate(data, layout, map, None, true, &Theme::light());
         assert!(g.scale_bar.is_none());
-        let lit = (0..300).any(|x| px(&g.canvas, layout.left + x, layout.top + 50) > 0);
+        let gr = g.figure.to_raster(1.0);
+        let lit = (0..300).any(|x| gr.get(layout.left + x, layout.top + 50).unwrap()[0] > 0);
         assert!(lit);
         assert_eq!(
             map.covered(300, 200, (100_000, 100_000)),

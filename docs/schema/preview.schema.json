@@ -13,7 +13,7 @@
       "type": "string"
     },
     "kind": {
-      "description": "`image`, `trace`, `spectrum` or `plate`.",
+      "description": "`image`, `trace`, `chromatogram`, `spectrum`, `plate` or `events`.",
       "type": "string"
     },
     "output": {
@@ -24,7 +24,7 @@
       ]
     },
     "encoding": {
-      "description": "`png` or `jpeg`.",
+      "description": "`png`, `jpeg` or `svg`.",
       "type": "string"
     },
     "width": {
@@ -86,6 +86,17 @@
         }
       ]
     },
+    "chromatogram": {
+      "description": "Present for chromatogram previews (a mass-spectrometry run's total-ion chromatogram).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChromatogramPreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "plate": {
       "description": "Present for plate previews.",
       "anyOf": [
@@ -97,6 +108,46 @@
         }
       ]
     },
+    "events": {
+      "description": "Present for event previews.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EventsPreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "panels": {
+      "description": "Plot panels (traces, spectra, plate curves, events): where each sits in the picture and\nthe data range it shows.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PlotPanel"
+      }
+    },
+    "marks": {
+      "description": "Marks drawn from the data (labelled peaks, action potentials).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DataMark"
+      }
+    },
+    "objects": {
+      "description": "`marks: objects`: the objects counted in the area shown, as `stats` objects (the first\n20 listed).",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true
+    },
+    "annotations": {
+      "description": "The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DrawnAnnotation"
+      }
+    },
     "notes": {
       "description": "Anything the caller should know (fallbacks, caps, implied options).",
       "type": "array",
@@ -106,6 +157,13 @@
     },
     "hint": {
       "description": "What to do next with the picture (look at it; zoom with a region read off the rulers).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "save": {
+      "description": "How to save this picture to a file (MCP: the openreadout_export call).",
       "type": [
         "string",
         "null"
@@ -164,10 +222,9 @@
           ]
         },
         "downsample": {
-          "description": "Block size of the averaging downsample (1 = none).",
-          "type": "integer",
-          "format": "uint32",
-          "minimum": 0
+          "description": "Pixels of the plane at `level` per drawn pixel, horizontally: above 1 when the plane was\nmade smaller (an area average), below 1 when it was enlarged (each source pixel drawn as\na square), 1 when drawn as is.",
+          "type": "number",
+          "format": "double"
         },
         "c": {
           "description": "Channels, z-planes and time points used.",
@@ -300,7 +357,13 @@
         "rgb",
         "contrast",
         "lut",
-        "channels"
+        "channels",
+        "axes",
+        "plot_area",
+        "source_origin",
+        "source_per_pixel",
+        "source_per_pixel_y",
+        "full_res_region"
       ]
     },
     "Region": {
@@ -484,7 +547,7 @@
           ]
         },
         "channels": {
-          "description": "One panel per channel, top to bottom.",
+          "description": "One panel per channel, top to bottom (one shared panel for overlays).",
           "type": "array",
           "items": {
             "$ref": "#/$defs/TracePreviewChannel"
@@ -502,7 +565,7 @@
       ]
     },
     "XAxis": {
-      "description": "The horizontal axis of a trace or spectrum preview (the labels at its two ends).",
+      "description": "The horizontal axis of a trace or spectrum preview.",
       "type": "object",
       "properties": {
         "quantity": {
@@ -557,7 +620,7 @@
           "type": "string"
         },
         "min": {
-          "description": "Bottom and top of the panel's y axis (the channel's finite range, padded by 5 %).",
+          "description": "Bottom of the panel's y axis.",
           "type": [
             "number",
             "null"
@@ -630,7 +693,7 @@
           "$ref": "#/$defs/XAxis"
         },
         "max_intensity": {
-          "description": "Largest intensity (the top of the plot).",
+          "description": "Largest intensity.",
           "type": [
             "number",
             "null"
@@ -651,13 +714,60 @@
         "index",
         "scan_number",
         "ms_level",
+        "rt_s",
         "style",
         "point_count",
         "x_axis"
       ]
     },
+    "ChromatogramPreview": {
+      "description": "Details of a chromatogram preview of a mass-spectrometry run (its first look).",
+      "type": "object",
+      "properties": {
+        "run": {
+          "description": "Run index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "signal": {
+          "description": "`tic` (the total ion current each scan header records) or `bpc` (base-peak intensity).",
+          "type": "string"
+        },
+        "ms1_scans": {
+          "description": "MS1 scans drawn.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "scans": {
+          "description": "Scans in the run (all MS levels).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "apex_rt_min": {
+          "description": "Retention time of the tallest point, minutes.",
+          "type": "number",
+          "format": "double"
+        },
+        "apex_intensity": {
+          "description": "Its intensity.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "run",
+        "signal",
+        "ms1_scans",
+        "scans",
+        "apex_rt_min",
+        "apex_intensity"
+      ]
+    },
     "PlatePreview": {
-      "description": "Details of a plate heat map.",
+      "description": "Details of a plate preview.",
       "type": "object",
       "properties": {
         "table": {
@@ -668,6 +778,10 @@
         },
         "layout": {
           "description": "`wide` (one column per well) or `long` (`well` or `row` + `column` columns).",
+          "type": "string"
+        },
+        "view": {
+          "description": "`heatmap` (one value per well) or `curves` (a kinetic read, one small plot per well).",
           "type": "string"
         },
         "rows": {
@@ -693,7 +807,7 @@
           "type": "string"
         },
         "min": {
-          "description": "Colour-scale ends (dark = min, yellow = max).",
+          "description": "Heat map: value at the light end of the colour scale; curves: bottom of every card's y\naxis.",
           "type": [
             "number",
             "null"
@@ -701,21 +815,466 @@
           "format": "double"
         },
         "max": {
-          "description": "Value shown at the yellow end of the scale.",
+          "description": "Heat map: value at the dark end of the colour scale; curves: top of every card's y axis.",
           "type": [
             "number",
             "null"
           ],
           "format": "double"
+        },
+        "time": {
+          "description": "Curves: the time axis every card shares, in `time_unit`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "time_unit": {
+          "description": "Curves: `s`, `min` or `h`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "grouped_by": {
+          "description": "The layout field the colours follow (e.g. `SoftMax group`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "groups": {
+          "description": "The groups, in the order of the key.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PlateGroup"
+          }
         }
       },
       "required": [
         "table",
         "layout",
+        "view",
         "rows",
         "columns",
         "wells",
         "value"
+      ]
+    },
+    "PlateGroup": {
+      "description": "One layout group of a plate preview (a SoftMax Pro group, a sample name, …).",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Group name as the file records it.",
+          "type": "string"
+        },
+        "color": {
+          "description": "Colour it is drawn in, `#RRGGBB`.",
+          "type": "string"
+        },
+        "wells": {
+          "description": "Wells in the group.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "blank": {
+          "description": "True for blank wells (drawn faint).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "color",
+        "wells"
+      ]
+    },
+    "EventsPreview": {
+      "description": "Details of an event (flow cytometry) preview.",
+      "type": "object",
+      "properties": {
+        "table": {
+          "description": "Table index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "x": {
+          "description": "Parameter on the x axis.",
+          "type": "string"
+        },
+        "y": {
+          "description": "Parameter on the y axis (absent for a histogram).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "events": {
+          "description": "Events drawn.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "total_events": {
+          "description": "Events in the table.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "scales": {
+          "description": "`linear` or `asinh` (each axis, x first).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "table",
+        "x",
+        "events",
+        "total_events",
+        "scales"
+      ]
+    },
+    "PlotPanel": {
+      "description": "One plot panel inside the picture, for mapping PNG pixels to data values and back: the\nvalue at the panel's left edge is `x[0]`, at its right edge `x[1]`, at its bottom `y[0]`\nand at its top `y[1]`, along the scale named in `x_scale` / `y_scale`.",
+      "type": "object",
+      "properties": {
+        "plot_area": {
+          "description": "The panel's rectangle in PNG pixels.",
+          "$ref": "#/$defs/PxRect"
+        },
+        "x": {
+          "description": "Values at the left and right edges.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "y": {
+          "description": "Values at the bottom and top edges.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "x_scale": {
+          "description": "`linear`, `log` or `asinh`.",
+          "type": "string"
+        },
+        "y_scale": {
+          "description": "`linear`, `log` or `asinh`.",
+          "type": "string"
+        },
+        "channel": {
+          "description": "Trace previews: the channel drawn in this panel.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "well": {
+          "description": "Plate curve previews: the well of this card.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "plot_area",
+        "x",
+        "y",
+        "x_scale",
+        "y_scale"
+      ]
+    },
+    "PxRect": {
+      "description": "A rectangle in PNG pixels (fractional).",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "Left edge.",
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "description": "Top edge.",
+          "type": "number",
+          "format": "double"
+        },
+        "width": {
+          "description": "Width.",
+          "type": "number",
+          "format": "double"
+        },
+        "height": {
+          "description": "Height.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    },
+    "DataMark": {
+      "description": "A mark drawn from the data: a labelled peak or a detected action potential.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "`peak` or `spike`.",
+          "type": "string"
+        },
+        "x": {
+          "description": "Position along the x axis, in its unit.",
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "description": "Value there, in the panel's unit.",
+          "type": "number",
+          "format": "double"
+        },
+        "label": {
+          "description": "The label drawn (e.g. the m/z or ppm), if any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "channel": {
+          "description": "Trace previews: the channel.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "kind",
+        "x",
+        "y"
+      ]
+    },
+    "DrawnAnnotation": {
+      "description": "An annotation as drawn: the request, plus where it landed in PNG pixels.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "What to draw.",
+          "$ref": "#/$defs/AnnotationType"
+        },
+        "x": {
+          "description": "point, text: position; box: corner; arrow: tail; vline, vband: x (vband from x to x2).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "y": {
+          "description": "point, text: position; box: corner; arrow: tail; hline, hband: y (hband from y to y2).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "x2": {
+          "description": "arrow: head; vband: other edge.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "y2": {
+          "description": "arrow: head; hband: other edge.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "width": {
+          "description": "box: width.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "height": {
+          "description": "box: height.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "points": {
+          "description": "polygon, line: the vertices, `[[x, y], ...]`.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "label": {
+          "description": "Text drawn with the mark (the text itself for type text).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "color": {
+          "description": "`accent` (default, warm red), `ink`, `muted`, `white` or `#RRGGBB`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "channel": {
+          "description": "Trace previews with several panels: the channel whose panel it goes in (default: the\nfirst panel).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "well": {
+          "description": "Plates: the well (e.g. `B3`) for type well, or the one card a mark goes in on a curve\ngrid (default: every card).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "drawn_color": {
+          "description": "The colour drawn, `#RRGGBB`.",
+          "type": "string"
+        },
+        "px": {
+          "description": "The mark's key points in PNG pixels: the point, the box corners, the vertices, the\narrow's tail and head, a line's or band's ends (one pair per card on a curve grid).",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "label_px": {
+          "description": "Where the label went, in PNG pixels.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PxRect"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outside": {
+          "description": "True when part of the mark lies outside what the picture shows (it is clipped).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "drawn_color",
+        "px"
+      ]
+    },
+    "AnnotationType": {
+      "description": "What an annotation draws.",
+      "oneOf": [
+        {
+          "description": "a dot at x, y (with its label beside it)",
+          "type": "string",
+          "const": "point"
+        },
+        {
+          "description": "a rectangle: corner x, y and width, height",
+          "type": "string",
+          "const": "box"
+        },
+        {
+          "description": "a closed outline through points",
+          "type": "string",
+          "const": "polygon"
+        },
+        {
+          "description": "an open line through points",
+          "type": "string",
+          "const": "line"
+        },
+        {
+          "description": "an arrow from x, y to x2, y2",
+          "type": "string",
+          "const": "arrow"
+        },
+        {
+          "description": "the label alone, at x, y",
+          "type": "string",
+          "const": "text"
+        },
+        {
+          "description": "a vertical line at x",
+          "type": "string",
+          "const": "vline"
+        },
+        {
+          "description": "a horizontal line at y",
+          "type": "string",
+          "const": "hline"
+        },
+        {
+          "description": "a vertical band from x to x2",
+          "type": "string",
+          "const": "vband"
+        },
+        {
+          "description": "a horizontal band from y to y2",
+          "type": "string",
+          "const": "hband"
+        },
+        {
+          "description": "a ring around a plate well (well)",
+          "type": "string",
+          "const": "well"
+        }
       ]
     }
   }

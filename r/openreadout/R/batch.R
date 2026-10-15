@@ -148,23 +148,49 @@ openreadout_link <- function(paths, min_confidence = NULL, formats = NULL) {
 #' The `image`, `c`, `z` and `t` columns start at 1, like the arguments of
 #' [openreadout_read_image()].
 #'
+#' `line`, `polygon` and `objects` measure one plane instead (`stats --line`, `--polygon`,
+#' `--objects`; by default channel 1, the middle z and the first time point, or what `select`
+#' picks). `line` and `polygon` are in pixel coordinates as the rulers of
+#' [openreadout_preview()] show them (starting at 0) at pyramid `level`:
+#'
+#' - `line = c(x0, y0, x1, y1)`: the intensity profile along the line per channel (min, max and
+#'   where, mean, FWHM, and the profile `values`), `line_width` pixels wide;
+#' - `polygon`: a two-column matrix of vertices; the area and the mean, sd, median, min, max
+#'   and sum per channel inside;
+#' - `objects = TRUE` counts nuclei in `region` (`c(x, y, width, height)`, `x` and `y` from 1
+#'   as in [openreadout_read_image()]), inside `polygon` or in the whole plane: how many, their
+#'   sizes, centroids and mean in every channel, and how many are positive per channel. A list
+#'   sets options: `kind` (`"nuclei"`, `"cells"`, `"spots"`), `diameter_um`, `threshold`,
+#'   `method`, `polarity`, `stain` (RGB), `split`, `min_area_um2`, `max_area_um2`, `max_objects`.
+#'
+#' Areas and lengths are also given in µm when the pixel size is known. The result is the
+#' `stats --json` data as a list (`profile`, `roi`, `objects`); `objects$objects` is a data frame.
+#'
 #' @param x A path (for a plate, the plate folder or index file) or an [openreadout_open()]
 #'   file.
 #' @param image Only this image (1 = the first; default all).
 #' @param select Plane selection (`"c=0"`, `"z=2-5"`: zero-based, as in the CLI).
 #' @param per `"channel"` (default), `"image"`, `"plane"`, `"well"` or `"field"`.
 #' @param wells With `per = "well"` or `"field"`: only these wells (`"C05"`).
+#' @param line,line_width,polygon,objects Measurements on one plane (see Details).
+#' @param level,region Pyramid level and rectangle of the measurements.
 #' @return A data frame. Pixel statistics carry an attribute `stats` with the rest of the
 #'   output; plate statistics an attribute `plate`.
 #' @examples
 #' \dontrun{
 #' openreadout_stats("run42.czi")
 #' openreadout_stats("plate/", per = "well", select = "c=0", wells = c("A01", "A02"))
+#' openreadout_stats("nuclei.czi", objects = TRUE)$objects$count
+#' openreadout_stats("run42.czi", line = c(10, 200, 400, 200), line_width = 3)$profile
 #' }
 #' @export
 openreadout_stats <- function(x, image = NULL, select = character(),
                               per = c("channel", "image", "plane", "well", "field"),
-                              wells = character()) {
+                              wells = character(), line = NULL, line_width = NULL,
+                              polygon = NULL, objects = NULL, level = 0, region = NULL) {
+  if (!is.null(line) || !is.null(polygon) || isTRUE(objects) || is.list(objects)) {
+    return(.measure(x, image, select, line, line_width, polygon, objects, level, region))
+  }
   per <- match.arg(per)
   if (per %in% c("well", "field")) {
     return(.with_file(x, function(h) {
@@ -225,4 +251,42 @@ openreadout_summarize <- function(table, by, values = NULL, replicate = NULL, te
   df <- .typed_table(s$table$columns, s$table$rows)
   attr(df, "info") <- s[setdiff(names(s), "table")]
   df
+}
+
+.measure <- function(x, image, select, line, line_width, polygon, objects, level, region) {
+  if (!is.null(line) && (!is.numeric(line) || length(line) != 4 || anyNA(line))) {
+    .openreadout_abort("line must be c(x0, y0, x1, y1)", call = sys.call(-1))
+  }
+  if (!is.null(polygon)) {
+    polygon <- as.matrix(polygon)
+    if (!is.numeric(polygon) || ncol(polygon) != 2 || nrow(polygon) < 3 || anyNA(polygon)) {
+      .openreadout_abort("polygon must be a two-column matrix of at least three vertices",
+                         call = sys.call(-1))
+    }
+  }
+  if (!is.null(region)) {
+    if (!is.numeric(region) || length(region) != 4 || anyNA(region) || any(region < 1)) {
+      .openreadout_abort("region must be c(x, y, width, height), x and y from 1", call = sys.call(-1))
+    }
+    region <- list(x = region[1] - 1, y = region[2] - 1, width = region[3], height = region[4])
+  }
+  req <- list(
+    image = if (!is.null(image)) .index0(image, "image"),
+    select = I(as.character(select)),
+    level = .count(level, "level"),
+    region = region,
+    line = if (!is.null(line)) I(as.numeric(line)),
+    line_width = line_width,
+    polygon = polygon,
+    objects = if (isTRUE(objects) || (is.list(objects) && length(objects) == 0)) {
+      structure(list(), names = character())
+    } else {
+      objects
+    }
+  )
+  out <- .with_file(x, function(h) .from_json(.ic(rs_measure(.ptr(h), .to_json(req)))))
+  if (!is.null(out$objects$objects)) {
+    out$objects$objects <- .records(out$objects$objects)
+  }
+  out
 }

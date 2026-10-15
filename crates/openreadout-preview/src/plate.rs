@@ -1,4 +1,5 @@
-//! Plate previews: a heat map of a multi-well plate table.
+//! Plate previews: a heat map of a multi-well plate table, or, for a kinetic read, a grid of
+//! small growth curves ([`crate::kinetic`]).
 //!
 //! Two layouts are recognized:
 //! - **wide**: columns named like wells (`A1`, `A01`, … `P24`); each well shows the mean of its
@@ -18,9 +19,11 @@ use openreadout_core::model::{FileInfo, TableInfo};
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 
-use crate::canvas::{Canvas, text_width};
-use crate::color::sequential;
-use crate::{PlatePreview, PreviewOutput, PreviewRequest};
+use openreadout_figure::{
+    Anchor, Baseline, Face, Figure, Path, Rect, Stroke, TextStyle, color_bar, text_width,
+};
+
+use crate::{Frame, PlatePreview, PreviewOutput, PreviewRequest};
 
 /// Most rows read from a plate table.
 const MAX_ROWS: u64 = 1_000_000;
@@ -117,8 +120,8 @@ pub fn plate_grid(
     if wide.len() < 2 && !long {
         return Err(Error::unsupported(
             "preview",
-            format!("preview of table {ti} (no well columns)"),
-            "Plate previews need columns named like wells (A1..P24) or `well` / `row`+`column` columns. Read other tables as rows with the MCP tool openreadout_table or `openreadout export FILE --format csv`.",
+            format!("a picture of table {ti}, which is not a plate (no well columns)"),
+            "Previews draw images, traces, spectra and plate tables (columns named like wells, A1..P24, or `well` / `row`+`column` columns). Read this table's rows with openreadout_table (CLI: `openreadout export FILE --format csv`).",
         ));
     }
     let rows = t.row_count.min(MAX_ROWS);
@@ -272,7 +275,16 @@ pub(crate) fn render(
     info: &FileInfo,
     req: &PreviewRequest,
     out: &mut PreviewOutput,
-) -> Result<Canvas> {
+) -> Result<(Figure, Frame)> {
+    if req.columns.len() > 1 {
+        return Err(Error::Usage(format!(
+            "a plate preview shows one value column; got {}",
+            req.columns.join(", ")
+        )));
+    }
+    if let Some(drawn) = crate::kinetic::render(ds, info, req, out)? {
+        return Ok(drawn);
+    }
     let PlateGrid {
         table: ti,
         layout,
@@ -281,7 +293,7 @@ pub(crate) fn render(
         value,
         cells,
         notes,
-    } = plate_grid(ds, info, req.table, req.column.as_deref())?;
+    } = plate_grid(ds, info, req.table, req.columns.first().map(String::as_str))?;
     out.notes.extend(notes);
     let (lo, hi) = cells
         .iter()
@@ -289,81 +301,111 @@ pub(crate) fn render(
             (a.min(*v), b.max(*v))
         });
     let range = (lo.is_finite() && hi.is_finite()).then_some((lo, hi));
-    let scale: i64 = if nc <= 12 { 2 } else { 1 };
-    let margin = 6 * scale + 8;
-    let avail = i64::from(req.max_size.max(64)) - margin - 4;
-    let cell = (avail / i64::from(nc)).clamp(6, 64);
-    let width = (margin + cell * i64::from(nc) + 4) as u32;
-    let legend_h = 5 * scale + 8;
-    let height = (margin + cell * i64::from(nr) + 4 + legend_h) as u32;
-    let mut canvas = Canvas::new(width, height, [255, 255, 255]);
-    let label = [90, 90, 90];
+    let theme = crate::theme(req);
+    let fs = theme.font_size;
+    let size = req.max_size.max(64) as f32;
+    let label = TextStyle::new(fs, theme.muted);
+    let row_w = text_width("WW", Face::Sans, fs) + fs * 0.6;
+    let top = fs * 3.2;
+    let legend_h = fs * 3.4;
+    let pad = fs * 0.8;
+    let cell = ((size - row_w - 2.0 * pad) / nc as f32)
+        .min((size * 0.8 - top - legend_h) / nr as f32)
+        .clamp(4.0, 72.0);
+    let grid_w = cell * nc as f32;
+    let grid_h = cell * nr as f32;
+    let width = (pad * 2.0 + row_w + grid_w).ceil();
+    let height = (top + grid_h + legend_h).ceil();
+    let mut fig = Figure::new(width, height, Some(theme.paper));
+    let (gx, gy) = (pad + row_w, top);
+    fig.text(
+        pad,
+        fs * 1.3,
+        &value,
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+    );
+    // column numbers and row letters, thinned when the cells are small
+    let every = |n: u32, w: f32| -> u32 {
+        let need = text_width(&n.to_string(), Face::Sans, fs) + fs * 0.4;
+        (need / w).ceil().max(1.0) as u32
+    };
+    let ce = every(nc, cell);
     for c in 0..nc {
-        let s = (c + 1).to_string();
-        let x = margin + i64::from(c) * cell + (cell - text_width(&s, scale)) / 2;
-        if cell >= text_width(&s, scale) {
-            canvas.text(x, 4, scale, label, &s);
-        }
-    }
-    for r in 0..nr {
-        let s = char::from(b'A' + (r as u8 % 26)).to_string();
-        let y = margin + i64::from(r) * cell + (cell - 5 * scale) / 2;
-        if cell >= 5 * scale {
-            canvas.text(4, y, scale, label, &s);
-        }
-    }
-    for r in 0..nr {
-        for c in 0..nc {
-            canvas.fill_rect(
-                margin + i64::from(c) * cell,
-                margin + i64::from(r) * cell,
-                cell - 1,
-                cell - 1,
-                [230, 230, 230],
+        if (c + 1) % ce == 0 || c == 0 {
+            fig.text(
+                gx + (c as f32 + 0.5) * cell,
+                top - fs * 0.5,
+                &(c + 1).to_string(),
+                &label.clone().align(Anchor::Middle, Baseline::Alphabetic),
             );
         }
     }
-    for ((r, c), v) in &cells {
-        let t = match range {
-            Some((lo, hi)) if hi > lo => (v - lo) / (hi - lo),
-            _ => 0.5,
-        };
-        canvas.fill_rect(
-            margin + i64::from(*c) * cell,
-            margin + i64::from(*r) * cell,
-            cell - 1,
-            cell - 1,
-            sequential(t),
-        );
-    }
-    // Colour scale: "<min> [ramp] <max>" under the plate.
-    if let Some((lo, hi)) = range {
-        let y = margin + cell * i64::from(nr) + 4;
-        let lo_s = crate::trace::fmt_num(lo);
-        let hi_s = crate::trace::fmt_num(hi);
-        let x = margin + canvas.text(margin, y + 1, scale, label, &lo_s) + 2 * scale;
-        let ramp_w = (i64::from(width) / 3).clamp(16, 256);
-        for i in 0..ramp_w {
-            let t = if hi > lo {
-                i as f64 / (ramp_w - 1).max(1) as f64
-            } else {
-                0.5
-            };
-            canvas.fill_rect(x + i, y, 1, 5 * scale + 2, sequential(t));
+    let re = ((fs * 1.1) / cell).ceil().max(1.0) as u32;
+    for r in 0..nr {
+        if r % re == 0 {
+            fig.text(
+                gx - fs * 0.5,
+                gy + (r as f32 + 0.5) * cell,
+                &crate::annotate::row_name(r),
+                &label.clone().align(Anchor::End, Baseline::Middle),
+            );
         }
-        canvas.text(x + ramp_w + 2 * scale, y + 1, scale, label, &hi_s);
+    }
+    let inset = (cell * 0.08).clamp(0.5, 3.0);
+    let round = cell >= 14.0;
+    let shape = |x: f32, y: f32| -> Path {
+        let (cx, cy) = (x + cell / 2.0, y + cell / 2.0);
+        if round {
+            Path::circle(cx, cy, cell / 2.0 - inset)
+        } else {
+            Path::rect(x + inset * 0.5, y + inset * 0.5, cell - inset, cell - inset)
+        }
+    };
+    let mut frame_cells = Vec::with_capacity((nr * nc) as usize);
+    let have: std::collections::BTreeMap<(u32, u32), f64> = cells.iter().copied().collect();
+    for r in 0..nr {
+        for c in 0..nc {
+            let (x, y) = (gx + c as f32 * cell, gy + r as f32 * cell);
+            frame_cells.push(((r, c), Rect::new(x, y, cell, cell)));
+            match have.get(&(r, c)) {
+                Some(v) => {
+                    let t = match range {
+                        Some((lo, hi)) if hi > lo => (v - lo) / (hi - lo),
+                        _ => 0.5,
+                    };
+                    fig.fill(shape(x, y), theme.sequential.at(t));
+                }
+                None => {
+                    fig.stroke(shape(x, y), Stroke::new(theme.rule, 1.0));
+                }
+            }
+        }
+    }
+    if let Some((lo, hi)) = range {
+        let bw = (grid_w * 0.4).clamp(80.0, 360.0);
+        color_bar(
+            &mut fig,
+            &theme,
+            Rect::new(gx, gy + grid_h + fs * 1.1, bw, fs * 0.7),
+            &theme.sequential,
+            lo,
+            hi,
+            None,
+        );
     }
     out.plate = Some(PlatePreview {
         table: ti,
         layout: layout.into(),
+        view: "heatmap".into(),
         rows: nr,
         columns: nc,
         wells: cells.len() as u32,
         value,
         min: range.map(|r| r.0),
         max: range.map(|r| r.1),
+        ..PlatePreview::default()
     });
-    Ok(canvas)
+    Ok((fig, Frame::Wells(frame_cells)))
 }
 
 /// Plate-reader tables hold one row per well, read, wavelength and time point. Keep only the

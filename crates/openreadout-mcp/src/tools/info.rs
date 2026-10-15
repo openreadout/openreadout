@@ -10,8 +10,11 @@ use rmcp::model::{CallToolResult, ContentBlock};
 use rmcp::{ErrorData as McpError, schemars, tool, tool_router};
 use serde::{Deserialize, Serialize};
 
-use super::object_output;
+use super::output_schema;
 use crate::{InstrumentServer, mcp_err, ok_json};
+
+/// Elements of each kind `view=structure` lists by default.
+const DEFAULT_ENTRIES_PER_KIND: usize = 50;
 
 /// What to return.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Deserialize, schemars::JsonSchema)]
@@ -33,7 +36,7 @@ pub enum InfoView {
 /// Arguments for `openreadout_info`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct InfoArgs {
-    /// Absolute or working-directory-relative path to the instrument file or data-set directory.
+    /// Path to the file or data-set directory.
     pub file: String,
     /// What to return.
     #[serde(default)]
@@ -54,8 +57,14 @@ pub struct InfoArgs {
     /// view=full: per-frame records per image under images[].extra.frames. Default 100; 0
     /// omits them; -1 embeds all.
     pub max_frames: Option<i64>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate (assurance.strict_refuses). Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// view=structure: list at most this many elements of each kind (0 = all). Default 50.
+    pub max_entries: Option<usize>,
+    /// view=structure: list only elements of this kind (as entries_total names them), e.g.
+    /// "attachment" or "subblock".
+    pub kind: Option<String>,
+    /// view=structure with kind: skip this many elements of that kind first (paging).
+    pub first_entry: Option<usize>,
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -135,8 +144,8 @@ fn info_thumbnail(ds: &mut dyn openreadout_core::Dataset, info: &FileInfo) -> Ve
 impl InstrumentServer {
     #[tool(
         name = "openreadout_info",
-        annotations(title = "What a file holds", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<InfoToolOutput>(),
+        annotations(title = "Read what a file holds", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        output_schema = output_schema::<InfoToolOutput>(),
         description = "What an instrument file or data-set directory holds, from its headers (fast on huge files): format, images[] (sizes, pixel type, µm/px, channels and dyes, objective), tables[], traces[], spectra[] (MS runs), plate, experiment (sample, instrument, method, operator, start) and assurance. view=summary attaches a ~384 px thumbnail of image 0 with full-resolution pixel rulers. ask answers a question in words, naming the fields it used."
     )]
     pub(crate) fn info(
@@ -163,12 +172,21 @@ impl InstrumentServer {
         }
         let (det, mut ds) = reg.open(path).map_err(live)?;
         match view {
-            InfoView::Structure => ok_json(&Listing {
-                path: a.file.clone(),
-                format: det.format_id.into(),
-                entries: ds.entries().map_err(|e| mcp_err(&e))?,
-                acquisition: openreadout_core::live::assess_dataset(ds.as_ref(), path),
-            }),
+            InfoView::Structure => {
+                let mut listing = Listing {
+                    path: a.file.clone(),
+                    format: det.format_id.into(),
+                    entries: ds.entries().map_err(|e| mcp_err(&e))?,
+                    acquisition: openreadout_core::live::assess_dataset(ds.as_ref(), path),
+                    ..Default::default()
+                };
+                listing.cap(
+                    a.max_entries.unwrap_or(DEFAULT_ENTRIES_PER_KIND),
+                    a.kind.as_deref(),
+                    a.first_entry.unwrap_or(0),
+                );
+                ok_json(&listing)
+            }
             InfoView::Explain => {
                 let mut info = ds.info().map_err(|e| mcp_err(&e))?;
                 let experiment = openreadout_core::experiment::of_dataset(ds.as_ref(), &info);

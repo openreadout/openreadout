@@ -26,6 +26,8 @@ OpenReadout is a Cargo workspace. Format readers know nothing about the command 
 | `openreadout-ometiff`, `-omezarr`, `-mzml-writer`, `-arrow` | writers; every output is read back and verified | crates.io |
 | `openreadout-ops` | command-level operations shared by the front ends: `compare`, `info --view explain`, `extract`, `--only` | crates.io |
 | `openreadout-quant`, `-assay`, `-qpcr`, `-signal`, `-batch`, `-preview` | analyses and previews built on the readers | crates.io |
+| `openreadout-figure` | the figure engine every picture is drawn with: a scene of paths, text and raster images in the OpenReadout theme, scales, plot panels and label placement, rendered in-process to PNG, JPEG or SVG (tiny-skia, skrifa); embeds the IBM Plex fonts (OFL, the one licence exception in `deny.toml`) | crates.io |
+| `openreadout-plot` | figures composed from files by `plot` / `openreadout_plot`: data selectors, panels, small multiples, annotations; saving any figure as PNG, JPEG, TIFF, SVG or PDF | crates.io |
 | `openreadout-index`, `-live` | lab-share catalog and live acquisitions | crates.io |
 | `openreadout-mcp` | MCP server over stdio (`rmcp`) | crates.io |
 | `openreadout` (`crates/openreadout-cli`) | the binary; embeds `SKILL.md` | crates.io |
@@ -36,7 +38,9 @@ OpenReadout is a Cargo workspace. Format readers know nothing about the command 
 | `openreadout-bench` | benchmarks and memory-ceiling tests | no |
 | `xtask` | repository automation (corpus, schemas, vocabulary check, skill parity, packaging); the only crate allowed network access | no |
 
-`cargo deny` checks that nothing linked into the binary can open a network connection, and that every dependency's license is compatible with MIT OR Apache-2.0.
+The Python, R and WebAssembly bindings take the arguments of the MCP tools rather than their own: preview options go through `openreadout_preview::PreviewOptions` (the `openreadout_preview` names), plot specs are the `openreadout_plot` JSON, and analyses the `openreadout_batch::analyze` options. A new tool argument then reaches every binding without a change there.
+
+`cargo deny` checks that nothing linked into the binary can open a network connection, and that every dependency's license is compatible with MIT OR Apache-2.0 (the embedded fonts are data under the SIL Open Font License).
 
 ## The two traits
 

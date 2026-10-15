@@ -68,6 +68,8 @@ openreadout-omezarr = { workspace = true }
 openreadout-arrow = { workspace = true }
 openreadout-quant = { workspace = true }
 openreadout-batch = { workspace = true }
+openreadout-preview = { workspace = true }
+openreadout-plot = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 # R bindings (MIT). No default features: plain vectors, lists and external pointers only.

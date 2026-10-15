@@ -256,7 +256,7 @@ openreadout mcp --install vscode          # VS Code / Copilot
 openreadout mcp --install gemini          # Gemini CLI
 ```
 
-Windsurf, Zed, Continue, and Cline are supported too. The server exposes 32 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_peaks`, ...) over JSON-RPC, so the client doesn't need shell access.
+Windsurf, Zed, Continue, and Cline are supported too. The server exposes 28 tools (`openreadout_info`, `openreadout_check`, `openreadout_preview`, `openreadout_export`, `openreadout_peaks`, ...) over JSON-RPC, so the client doesn't need shell access.
 
 ### Claude Code Plugin
 
@@ -298,6 +298,7 @@ The skill source is in [`skills/openreadout`](skills/openreadout).
 - **Self-healing errors** — every error carries a `hint` that says what to do next. Agents self-correct without human intervention.
 - **Assurance on every answer** — each result says whether files like it were validated against an independent reader. Agents know when to double-check.
 - **Built-in preview renderer** — `preview` writes a PNG the agent can look at. Agents can *see* the image, trace, or plate they are reasoning about.
+- **Figures in one call** — `plot` (`openreadout_plot`) draws the figure a scientist would ask for, from the files themselves: plate wells in plate positions, group means with bands, a TIC beside the spectrum at its apex, f–I curves, gated dot plots, fits. PNG for the chat, SVG or PDF for the paper.
 - **Cheap metadata** — `info` reads headers only, so a 100 GB file costs the same as a small one. `--only` returns just the fields asked for, saving tokens.
 - **Safe by default** — inputs are opened read-only and nothing connects to the network.
 
@@ -332,9 +333,12 @@ import openreadout
 with openreadout.File("cells.lif") as f:
     f.images[0]["channels"]     # same keys as `info --json`
     stack = f.to_xarray(0)      # labelled with channel names and µm
+    f.preview(composite=True)   # shows itself in Jupyter
+
+openreadout.plot(data={"file": "growth.pda"}, facet="plate").save("plate.pdf")
 ```
 
-**R** — the R package returns arrays and data frames. See the [R guide](https://openreadout.github.io/openreadout/guides/r.html).
+**R** — the R package returns arrays and data frames, and draws the same previews and figures. See the [R guide](https://openreadout.github.io/openreadout/guides/r.html).
 
 ## Comparison
 
@@ -362,6 +366,7 @@ The [documentation](https://openreadout.github.io/openreadout/) has guides for e
 
 - **Getting started:** [Install](https://openreadout.github.io/openreadout/getting-started/install.html) | [Your first file](https://openreadout.github.io/openreadout/getting-started/first-file.html) | [Reading the JSON output](https://openreadout.github.io/openreadout/getting-started/reading-json.html)
 - **Reference:** [Commands](https://openreadout.github.io/openreadout/reference/commands.html) | [MCP tools](https://openreadout.github.io/openreadout/reference/mcp.html) | [Formats](https://openreadout.github.io/openreadout/formats.html)
+- **Gallery:** [previews and figures drawn from public files](https://openreadout.github.io/openreadout/gallery.html)
 - **Guides:** [AI agents](https://openreadout.github.io/openreadout/guides/agents.html) | [Python](https://openreadout.github.io/openreadout/guides/python.html) | [R](https://openreadout.github.io/openreadout/guides/r.html) | [Recipes](https://openreadout.github.io/openreadout/recipes.html) | [Batch tables](https://openreadout.github.io/openreadout/guides/batch.html)
 - **A file that does not work:** run `openreadout report FILE` and attach the bundle to a [new-variant issue](https://github.com/openreadout/openreadout/issues/new?template=new-variant.yml). The bundle contains no data values, sample names, or paths.
 

@@ -1,5 +1,5 @@
 //! What to analyse and how: the request shared by the CLI (`openreadout analyze assay-wells`, `dose-response`, …), the
-//! MCP tools (`openreadout_assay_wells`, `openreadout_dose_response`, ...) and the Python binding
+//! MCP tool `openreadout_assay` and the Python binding
 //! (`openreadout.assay`).
 
 use serde::{Deserialize, Serialize};
@@ -22,7 +22,8 @@ pub enum Analysis {
     DoseResponse,
     /// Per-well kinetic metrics: max slope (Vmax), lag time, time to max, AUC.
     Kinetics,
-    /// Per-well growth curves: growth rate, doubling time, lag, logistic fit.
+    /// Per-well growth curves: growth rate, doubling time, lag, logistic fit; which wells grew,
+    /// crashed or regrew and when (growth_summary).
     Growth,
     /// Assay quality from control wells: Z′, signal/background, signal/noise, CVs.
     Qc,
@@ -104,14 +105,12 @@ pub enum BlankMode {
 )]
 #[serde(rename_all = "kebab-case")]
 pub enum OutlierRule {
-    /// Grubbs' test, two-sided, at alpha = threshold (default 0.05), one outlier per group of
-    /// three or more wells
+    /// two-sided Grubbs' test at alpha = threshold (0.05), one outlier per group of 3+ wells
     #[default]
     Grubbs,
-    /// modified z-score |0.6745 (x − median) / MAD| > threshold (default 3.5), groups of five
-    /// or more wells
+    /// modified z-score |0.6745 (x − median) / MAD| > threshold (3.5), groups of 5+ wells
     Mad,
-    /// no outlier flagging
+    /// no flagging
     None,
 }
 

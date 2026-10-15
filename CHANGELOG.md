@@ -4,6 +4,63 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+In short:
+
+- **Figures.** `openreadout plot` and the MCP tool `openreadout_plot` draw finished figures from lab files: growth curves in plate positions, group means, a TIC and the spectrum at its apex, f–I curves, cytometry populations, fits. A few lines of JSON name the data by file and selector, and OpenReadout picks the chart, axes, units and labels.
+- **New pictures.** A figure engine with embedded IBM Plex fonts draws every preview and plot, as PNG, JPEG, SVG or PDF, light or dark. Kinetic plates preview as growth curves in plate positions and FCS files as density plots, and an agent can put labelled points, boxes, arrows and bands on any preview.
+- **A viewer that follows the agent.** In MCP Apps hosts the viewer flies to the region the agent zoomed into, draws its marks, and lets you select a region, range, wells or events and ask about them.
+- **Measurements and answers.** Line profiles, polygon statistics and object counts on images; growth wells flagged as grew, crashed or regrew; the spectrum at a retention time.
+- **One assay tool.** The six plate-reader tools are one `openreadout_assay`, and the tool list is about a quarter smaller.
+
+### Added
+
+- `plot` (MCP `openreadout_plot`): a figure from a JSON spec. Each series names its data by file and selector (a trace, sweep and channel; a chromatogram or the spectrum at a retention time; plate wells by range or layout group; FCS parameters and gate populations; f–I curves and dose-response fits from the analyses; a table file's columns) or gives inline values. Panels, small multiples, plate positions, shared and log axes, colour rules, bands, lines, labelled points and arrows arrange it. Figures are written as PNG, SVG or PDF and verified, and the JSON summary gives each panel's axes and series and the peaks it labelled.
+- A figure engine (`openreadout-figure`) draws every picture: vector shapes and real type (IBM Plex Sans and Mono, embedded) rendered in-process to PNG, JPEG or SVG, in the paper-and-ink look of the project, light or dark.
+- `preview --annotate` (MCP `annotations`) draws labelled points, boxes, outlines, arrows, text, lines and bands in the picture's own coordinates (file pixels on images, axis units on plots, wells on plates) and reports where each landed.
+- Kinetic plate reads preview as a grid of growth curves in plate positions, coloured by the plate layout's groups, with blank wells faint. The heat map of the last time point used to hide wells that crashed and grew back.
+- Flow cytometry files preview as a density plot of two parameters (default FSC-A against SSC-A) or a histogram of one; fluorescence axes are asinh.
+- Spectra and chromatogram previews label their largest peaks, and `preview --marks spikes` marks the action potentials of a current-clamp sweep.
+- NMR data sets preview as their spectrum on a ppm axis with each multiplet labelled (the stored processed spectrum, else the FID processed), mass-spectrometry runs as their total-ion chromatogram, and voltammetry as current against potential.
+- The viewer draws `openreadout_plot` figures again in the host's theme and at the viewer's size, redraws them over a dragged x range, and reads out every series' value under the pointer.
+- `preview` writes SVG (`-o x.svg`), and `--dark` draws in the dark theme. Chromatogram and peak plots (`analyze chromatogram -o x.png`, `analyze peaks --plot`) and assay curve plots use the new engine.
+- `stats` measures one plane: an intensity profile along a line (`--line`, with FWHM), statistics inside a polygon (`--polygon`), and object counts (`--objects`), so "how many nuclei, how big, how bright, where" has an answer in one call. MCP `line`, `polygon` and `objects` on `openreadout_stats`.
+- Object counts take their settings from the image: the nuclear channel by name, the object size measured from the image and bounded by what nuclei measure in µm, background removal, Otsu's two- or three-class threshold, and a seeded watershed that cuts touching nuclei apart at their narrowest and darkest. Stained brightfield (H&E, hematoxylin, IHC) is unmixed by colour deconvolution and nuclei are found in hematoxylin. `--objects=cells` and `--objects=spots` (a Laplacian of Gaussian) count other things. Each object has its mean in every channel, and each marker channel (and DAB) says how many objects are positive. Regions of a whole slide up to 8192 × 8192 pixels are counted in tiles. Notes say when the image does not suit the count.
+- `preview --marks objects` (MCP `marks: "objects"`, with `objects` for the settings) outlines and numbers the objects with the count, and the viewer outlines them too.
+- `analyze growth` says per well whether it grew, crashed or regrew, with the crash and regrowth times, and `growth_summary` lists the wells of each pattern.
+- `spectrum --rt MIN` reads the scan at a retention time, and every spectrum lists its most intense peaks with charge, monoisotopic m/z and neutral mass.
+- `analyze nmr-peaks --auto-integrate` integrates every multiplet, and `analyze gate --median all` reports the median of every gated parameter.
+- The MCP viewer follows the agent: it shows the whole image, then flies to the region the agent previewed, and draws the agent's annotations over the data. Images zoom smoothly with a small map of the whole image. Kinetic plates show a growth curve in each well, with group headings beside their rows. FCS files with a FlowJo workspace or Gating-ML file show populations you can open. A figure from `openreadout_plot` opens in the viewer with hover values.
+- In the viewer you can select a region, a range, wells or events and ask the agent about them. The question goes to the chat with the selection in the units the tools take.
+- MCP progress notifications carry a message a host can show ("Reading 1,200 of 53,141 spectra"), from exports, chromatograms, peaks, stats, batch and indexing.
+- Python: `openreadout.plot()` returns a `Figure` and `File.preview()` (or `openreadout.preview()`) a `Preview`. Both show themselves in Jupyter and save through a verified write, and a `Figure` renders again as PNG, SVG or PDF without reading the files. `File.stats()` takes `line`, `polygon` and `objects`.
+- R: `openreadout_plot()` and `openreadout_preview()` return pictures that `plot()` draws and `file =` writes, and `openreadout_stats()` takes `line`, `polygon` and `objects`.
+- WebAssembly: `preview()` takes every `openreadout_preview` option, including annotations, marks, `dark` and `format: "svg"`.
+- `preview --axes scale-bar` (MCP `axes: "scale-bar"`) frames an image as a figure for people: the picture with a scale bar, a `title` above and a `caption` below, no rulers. `openreadout_export` saves image previews this way unless `axes` says otherwise.
+- The website has a [gallery](https://openreadout.github.io/openreadout/gallery.html) of previews and figures drawn by the binary from public files, with the command or spec behind each.
+
+### Changed
+
+- The six plate-reader MCP tools are one, `openreadout_assay`, with `analysis` (`wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc`). The tool list is about a quarter smaller.
+- SoftMax Pro groups are the replicate groups of the plate analyses.
+- A spike must rise 15 mV above the trough before it (`--min-rise-mv`, 0 for eFEL's count), and `spectrum --max-points` keeps the most intense points.
+- `preview --column` is repeatable (MCP `columns`): a plate's value column, or the parameters of an event preview.
+- Previews report `panels` (each plot panel's place and data range), `marks` and `annotations`, so a viewer can map picture pixels to data values.
+- WebAssembly: `preview()` resolves to `{ meta, data, type }` (the picture's bytes and MIME type) instead of `{ meta, png }`, previews are 768 px by default, and `axes` replaces the `axes` and `grid` booleans.
+- Image previews fill the requested size: `max_size` 768 on a 4000 × 3000 region gives a 768-pixel-wide picture, not 579. `image.downsample` is now the exact (fractional) number of source pixels per picture pixel.
+- Previews, plots and the viewer colour categories by one rule: layout groups, populations and series take ink, the accent, blue, ochre, … in the order they first appear, and blank wells are faint. The viewer takes its colours from the figure engine's theme.
+- Peak labels on previews, chromatogram plots and the viewer go only on peaks that stand clear of the noise; direct labels at line ends keep a line apart with elbow leaders; flow cytometry axes label decades (`10²`, `10³`, `−10²`); on a log axis, curves that rise from a baseline at zero (qPCR ΔRn) start where they leave the noise.
+- In `plot`, an x `range` fits y to the data it shows, end labels, peak labels and annotation labels keep out of each other's way as one set, and the viewer redraws figures on the host's own background, zooms any panel of a multi-panel figure (panels that share x zoom together), and reads out values in an aligned list with series swatches.
+- In `plot`, category names under many narrow bars go on two lines, turn 45° or upright, or name every other bar, whichever fits; a long key moves into columns beside the chart, and keys never run off the figure.
+
+### Fixed
+
+- `analyze ephys-features` gave a rheobase for cells that fire during the 0 pA step; it now reports none, with a note and `spontaneous_rate_hz`. Noise near −20 mV in depolarisation block no longer counts as spikes, and the f–I slope stops at the step of highest rate.
+- `analyze growth --wells` dropped the layout's blank wells and fell back to each well's own minimum; the blanks are now subtracted.
+- The viewer gates every event of a flow cytometry file (up to 2 million, then evenly spread windows), not the first 300,000, and its frame takes the shape of each new region the agent looks at.
+- `preview` of an FCS file draws its events again (it said it could not).
+- `index` reads symbolic links to files, and `watch` now does too (it skipped them, so a folder of links showed nothing); a skipped link to a directory gets a note naming `--follow-symlinks`, which `watch` and MCP `openreadout_index` and `openreadout_watch` now take. Plane selections such as `c=0,1,z=2` work in every command. MCP tools take a single value where they take a list and a JSON string where they take an object or a list (agents sent the `preview` of `openreadout_export` as a string), and a type error lists the tool's arguments. `preview` and `stats` point FCS and other table-only files at the tools that read them. The website's `/formats/` address works.
+- `cargo xtask r-vendor` copies the figure engine's fonts into the R source package.
+
 ## [0.3.0] - 2026-10-13
 
 In short:

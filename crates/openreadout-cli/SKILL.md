@@ -17,23 +17,25 @@ metadata:
 
 - `info` — what a file holds, from its headers (fast on multi-gigabyte files); `--view full | structure | explain | format`, `--ask "QUESTION"`.
 - `check` — integrity (exit 4 = damaged); `compare A B` — are two files (a source and its export) the same data; `planes` — plane hashes; `report` — a diagnostic bundle for a file that is refused or not validated.
-- `preview` — a PNG of an image, trace, spectrum or plate; Read the PNG to see it.
-- `stats` — pixel statistics; `--per well` for screening plates.
+- `preview` — a PNG of an image, trace, spectrum, plate (kinetic reads: one growth curve per well) or flow events; Read the PNG to see it. `--annotate` draws labelled points, boxes, arrows and bands in the picture's own coordinates, to show what you found.
+- `plot SPEC.json -o fig.png|tiff|svg|pdf` (MCP `openreadout_plot`) — a finished figure for the user from one or more files: data named by file and selector, panels, small multiples, plate positions, annotations. Spec and examples: `references/figures.md`.
+- Saving pictures: `plot` and `preview` take `-o` (`.png`, `.jpg`, `.tiff`, `.svg`, `.pdf`; `--scale`, `--dpi 300` for print). Over MCP, `openreadout_plot` and `openreadout_preview` only draw, and `openreadout_export` with `plot` or `preview` (the same arguments) and `output` saves what they drew, annotations included. A saved image is a figure for people: a scale bar instead of rulers, with `title` and `caption` if given (`axes: "rulers"` keeps the rulers; CLI: `preview --axes scale-bar --title ...`).
+- `stats` — pixel statistics; `--per well` for screening plates. On one plane: `--line X0,Y0,X1,Y1` (intensity profile, FWHM), `--polygon` (statistics inside), `--objects` (nuclei; `=cells`, `=spots`): count, density, sizes, centroids, each object's mean in every channel and how many are positive; `confidence: low` means check `preview --marks objects` before quoting the count.
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
-- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--scan N`, or `--spectrum I`, counted within one MS level with `--ms-level L`).
-- `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `assay`, `gate`.
+- `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--rt MIN` for the scan at a chromatogram apex, `--scan N`, or `--spectrum I`, counted within one MS level with `--ms-level L`), with its most intense peaks, their charge states and neutral masses.
+- `analyze KIND` — `peaks`, `chromatogram`, `nmr-peaks`, `ephys-features`, `spikes`, `qpcr`, `gate`, and the plate-reader `assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` (which wells grew, crashed or regrew, and when) and `assay-qc`.
 - `export` — OME-TIFF, OME-Zarr, CSV, Parquet, mzML, NWB, JCAMP-DX, ASM, RDML; the extension of `-o` picks the format (`-o x.ome.zarr`) unless `--format` does. `extract` writes an embedded label or thumbnail as stored.
 - `batch` — one measure over many files as one tidy table joined to a sample sheet; `summarize TABLE --by …`.
 - `link` (files of the same sample), `index` then `search` and `health` (catalog a share, query it, find damaged or duplicate files), `watch` (a running acquisition).
 - `mcp`, `self` (`formats`, `doctor`, `schema`, `skill`, `completions`, `man`).
 
-Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <command>` (MCP tools declare theirs). Formats and their known gaps: `openreadout self formats --json`. MCP tools have the commands' names (`openreadout_check`; `analyze nmr-peaks` is `openreadout_nmr_peaks`) and take the long flags as arguments with `-` as `_` (`--rt-range` is `rt_range`): a repeatable flag is a plural list (`--channel` is `channels`), and `--no-X` is `X: false`.
+Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <command>` (MCP tools declare theirs). Formats and their known gaps: `openreadout self formats --json`. MCP tools have the commands' names (`openreadout_check`; `analyze nmr-peaks` is `openreadout_nmr_peaks`; the six plate-reader analyses are `openreadout_assay` with `analysis`) and take the long flags as arguments with `-` as `_` (`--rt-range` is `rt_range`): a repeatable flag is a plural list (`--channel` is `channels`), and `--no-X` is `X: false`.
 
 ## Output
 
 - `--json` prints `{"ok": true, "schema_version": "2", "tool": {...}, "data": {...}}`; errors are `{"ok": false, "error": {"code", "message", "hint", "exit_code"}}`, and the `hint` says what to do next. Exit codes: 0 ok · 1 error (`compare`: the files differ) · 2 usage · 3 unknown format · 4 corrupt or truncated · 5 I/O · 6 known format, unsupported feature.
-- Replies are summary-first: a capped list says it was `truncated` and names the flag that pages it. `--only /pointer,…` (JSON pointers into `data`, `*` for every element) returns just those values.
+- Replies are summary-first: a capped list says it was `truncated` and names the flag that pages it. MCP per-well rows (`openreadout_assay`, `openreadout_qpcr`) show their main fields to 4 significant digits; `fields: ["all"]` gives the rest. `--only /pointer,…` (JSON pointers into `data`, `*` for every element) returns just those values.
 - Several paths, directories (`-r`) or quoted globs make a batch; `--jsonl` prints one envelope per input, and a failing file does not stop the run. `--tidy`, `--sample-sheet` and `--by` turn `info`, `stats`, `trace`, `table` and `analyze gate` into one table; check its `joins[]` (key used, unmatched rows) before the numbers.
 
 ## Worth Knowing
@@ -49,7 +51,7 @@ Flags: `openreadout <command> --help`. Output fields: `openreadout self schema <
 - **Growing files**: `acquisition.state: in_progress` means an instrument is still writing; it is not corruption.
 - **Vendor results**: when the file stores the vendor's own peak table, Cq, fit or counts (`vendor_peaks`, `cq`, `fits`, `stored_count`), those are what the vendor software reported; recomputed values are close to, not identical with, them.
 - **Missing facts**: a field absent from `experiment` was not recorded in the file.
-- **Writes**: only `export`, `report`, `-o` tables and `index` write, always to new files; exports are read back and verified before they are renamed into place and never replace a file without `--overwrite`.
+- **Writes**: only `export` (MCP: also saved figures), `report`, `-o` files and `index` write, always to new files; exports are read back and verified before they are renamed into place and never replace a file without `--overwrite`.
 
 ## In Python and R
 
@@ -62,4 +64,5 @@ Load when the question needs them:
 - `references/formats.md` — per family (microscopy, whole slides, plates, flow, ephys, NMR, IR/Raman, chromatography, MS, qPCR, plate readers): where each fact lives in the JSON, worked routes, known limits per format.
 - `references/bench-instruments.md` — ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, GenePix, gels, EPR, XRD, electrochemistry, battery cyclers, thermal analysis, rheology.
 - `references/json-shapes.md` — field lists of the main outputs.
+- `references/figures.md` — `plot` specs for common figures: plate grids and group means, TIC and the spectrum at its apex, f–I and sweeps, FCS dot plots and histograms, overlays, fits, batch tables.
 - `references/workflows.md` — end-to-end examples: an unknown file, converting for analysis, triaging a folder, MCP setup, an NMR data set.

@@ -1,22 +1,24 @@
 //! Mass-spectrum previews: centroided spectra as sticks, profile spectra as a line (min/max
-//! envelope per pixel column), m/z increasing left to right, intensity from zero to the maximum.
+//! envelope per pixel column), m/z increasing left to right, intensity from zero; the largest
+//! peaks labelled with their m/z, the precursor of a fragment scan marked.
 
 use openreadout_core::model::FileInfo;
 use openreadout_core::reader::{Dataset, SpectrumView, spectrum_by_scan};
 use openreadout_core::{Error, Result};
+use openreadout_figure::{
+    Anchor, AxesSpec, Baseline, Domain, Face, Figure, LabelPlacer, Panel, Path, Stroke, TextStyle,
+};
 
-use crate::canvas::Canvas;
-use crate::trace::{draw_x_labels, fmt_num};
-use crate::{PreviewOutput, PreviewRequest, SpectrumPreview, XAxis};
-
-const INK: [u8; 3] = [31, 119, 180];
+use crate::marks::{self, Col};
+use crate::trace::{envelope_points, fmt_num};
+use crate::{Frame, FramePanel, Marks, PreviewOutput, PreviewRequest, SpectrumPreview, XAxis};
 
 pub(crate) fn render(
     ds: &mut dyn Dataset,
     info: &FileInfo,
     req: &PreviewRequest,
     out: &mut PreviewOutput,
-) -> Result<Canvas> {
+) -> Result<(Figure, Frame)> {
     let run = req.run.unwrap_or(0);
     let r = info
         .spectra
@@ -54,21 +56,11 @@ pub(crate) fn render(
         }
         (i, ds.read_spectrum_view(run, i, view)?)
     };
-    let width = req.max_size.max(64);
-    let plot_h = (width * 3 / 8).clamp(64, 480);
-    let axis_scale: i64 = if width >= 256 { 2 } else { 1 };
-    let strip_h = (5 * axis_scale + 6) as u32;
-    let top = 4u32 + (5 * axis_scale + 4) as u32;
-    let height = top + plot_h + 4 + strip_h;
-    let mut canvas = Canvas::new(width, height, [255, 255, 255]);
-    let plot_w = u64::from(width - 8);
-    canvas.fill_rect(
-        4,
-        i64::from(top),
-        plot_w as i64,
-        i64::from(plot_h),
-        [247, 247, 247],
-    );
+    let theme = crate::theme(req);
+    let fs = theme.font_size;
+    let w = req.max_size.max(64) as f32;
+    let h = (w * 0.5).round().min(req.max_size as f32);
+    let mut fig = Figure::new(w, h, Some(theme.paper));
 
     let pts: Vec<(f64, f64)> = sp
         .mz
@@ -96,78 +88,111 @@ pub(crate) fn render(
         (lo, hi) = (lo - 0.5, hi + 0.5);
     }
     let imax = pts.iter().map(|p| p.1).fold(0.0f64, f64::max);
-    let base = i64::from(top + plot_h - 1);
-    let ph = i64::from(plot_h - 1);
-    let x_of = |m: f64| 4 + (((m - lo) / (hi - lo)) * (plot_w - 1) as f64).round() as i64;
-    let y_of = |v: f64| {
-        if imax > 0.0 {
-            base - ((v.max(0.0) / imax) * ph as f64).round() as i64
-        } else {
-            base
-        }
-    };
     let sticks = sp.centroided || pts.len() < 2;
-    if sticks {
-        for &(m, i) in &pts {
-            let x = x_of(m);
-            canvas.line(x, base, x, y_of(i), INK);
-        }
-    } else {
-        // envelope per column, joined to its neighbours
-        let mut cols: Vec<Option<(f64, f64, f64, f64)>> = vec![None; plot_w as usize];
-        let mut sorted = pts.clone();
-        sorted.sort_by(|a, b| a.0.total_cmp(&b.0));
-        for &(m, i) in &sorted {
-            let x = (x_of(m) - 4).clamp(0, plot_w as i64 - 1) as usize;
-            cols[x] = Some(match cols[x] {
-                None => (i, i, i, i),
-                Some((mn, mx, f, _)) => (mn.min(i), mx.max(i), f, i),
-            });
-        }
-        let mut prev: Option<(i64, f64)> = None;
-        for (x, c) in cols.iter().enumerate() {
-            let Some((mn, mx, first, last)) = *c else {
-                continue;
-            };
-            let px = 4 + x as i64;
-            if let Some((pxp, pl)) = prev {
-                canvas.line(pxp, y_of(pl), px, y_of(first), INK);
-            }
-            canvas.line(px, y_of(mx), px, y_of(mn), INK);
-            prev = Some((px, last));
-        }
-    }
-    if let Some(p) = sp
-        .precursor_mz
-        .filter(|p| p.is_finite() && *p >= lo && *p <= hi)
-    {
-        let x = x_of(p);
-        for y in (i64::from(top)..=base).step_by(4) {
-            canvas.set(x, y, [214, 39, 40]);
-        }
-    }
-    let title = format!(
-        "MS{} scan {} RT {}{}",
+    let labels_on = matches!(req.marks, Marks::Auto | Marks::Peaks);
+
+    // caption
+    let mut caption = format!(
+        "MS{} · scan {} · RT {}",
         sp.ms_level,
         sp.scan_number,
         sp.rt_s.map_or_else(
             || "not stated".into(),
             |t| format!("{} min", fmt_num(t / 60.0))
-        ),
-        if imax > 0.0 {
-            format!(" max {}", fmt_num(imax))
-        } else {
-            String::new()
-        }
+        )
     );
-    canvas.text(4, 3, axis_scale, [90, 90, 90], &title);
+    if let Some(p) = sp.precursor_mz.filter(|p| p.is_finite()) {
+        caption.push_str(&format!(" · precursor m/z {p:.4}"));
+    }
+    let spec = AxesSpec {
+        x_label: Some("m/z".into()),
+        y_label: Some("intensity".into()),
+        top: fs * 1.6,
+        ..AxesSpec::default()
+    };
+    let y_top = if imax > 0.0 {
+        imax * if labels_on { 1.12 } else { 1.04 }
+    } else {
+        1.0
+    };
+    let panel = Panel::fit(
+        fig.rect().inset(fs * 0.8),
+        Domain::linear(lo, hi),
+        Domain::linear(0.0, y_top),
+        &theme,
+        &spec,
+    );
+    fig.text(
+        fs * 0.8,
+        fs * 1.4,
+        &caption,
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+    );
+    panel.axes(&mut fig, &theme, &spec);
+    // precursor: a dashed accent rule under the data
+    if let Some(p) = sp
+        .precursor_mz
+        .filter(|p| p.is_finite() && *p >= lo && *p <= hi)
+    {
+        panel.rule_x(
+            &mut fig,
+            p,
+            Stroke::new(theme.accent.alpha(0.7), theme.hairline()).dashed(4.0, 3.0),
+        );
+        if let Some(px) = panel.x.px(p) {
+            let st = TextStyle::new(theme.small_size(), theme.accent)
+                .face(Face::Mono)
+                .align(Anchor::Start, Baseline::Top);
+            fig.text(px + 4.0, panel.rect.y + 2.0, "precursor", &st);
+        }
+    }
+    let ncols = panel.rect.w.max(1.0) as usize;
+    let mut cols: Vec<Option<Col>> = vec![None; ncols];
+    for &(m, i) in &pts {
+        let t = (m - lo) / (hi - lo);
+        let c = ((t * ncols as f64) as usize).min(ncols - 1);
+        match &mut cols[c] {
+            None => cols[c] = Some(Col::new(m, i)),
+            Some(col) => col.add(m, i),
+        }
+    }
+    let ink = Stroke::new(theme.ink, (theme.line_width * 0.8).max(1.0));
+    if sticks {
+        let mut path = Path::new();
+        let base = panel.rect.bottom();
+        for c in cols.iter().flatten() {
+            if let Some((px, py)) = panel.pt(c.x_at_max, c.max.max(0.0)) {
+                path.move_to(px, base).line_to(px, py.min(base - 0.5));
+            }
+        }
+        fig.shape(path, None, Some(ink), Some(panel.rect));
+    } else {
+        // profile: each column starts where the previous ended
+        let mut zeroed = cols.clone();
+        for c in zeroed.iter_mut().flatten() {
+            c.min = c.min.max(0.0);
+        }
+        panel.line_px(&mut fig, envelope_points(&zeroed, &panel), ink);
+    }
+    let mut placer = LabelPlacer::new(fig.rect());
+    if labels_on && imax > 0.0 {
+        let min_gap = (fs * 4.5) as usize;
+        let idx = marks::prominent(&cols, marks::MAX_PEAKS, min_gap.max(1), 0.02);
+        // m/z to four decimals, as mass spectrometrists quote them
+        let dec = 4;
+        let peaks: Vec<(f64, f64, String)> = idx
+            .iter()
+            .filter_map(|&i| cols[i])
+            .map(|c| (c.x_at_max, c.max, marks::peak_label(c.x_at_max, dec)))
+            .collect();
+        out.marks = marks::label_peaks(&mut fig, &panel, &theme, &peaks, None, &mut placer);
+    }
     let x_axis = XAxis {
         quantity: "mz".into(),
         unit: "m/z".into(),
         first: lo,
         last: hi,
     };
-    draw_x_labels(&mut canvas, &x_axis, axis_scale, strip_h);
     out.spectrum = Some(SpectrumPreview {
         run,
         index,
@@ -180,5 +205,8 @@ pub(crate) fn render(
         max_intensity: (imax > 0.0).then_some(imax),
         precursor_mz: sp.precursor_mz,
     });
-    Ok(canvas)
+    Ok((
+        fig,
+        Frame::plots_labelled(vec![FramePanel::new(panel)], placer.taken()),
+    ))
 }

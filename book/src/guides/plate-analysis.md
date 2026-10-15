@@ -40,7 +40,7 @@ Options shared by every subcommand:
 - `--wavelength-nm NM` picks a wavelength of a spectral read.
 - `--plot FILE.png` draws the fitted curve (`assay-curve` and `dose-response`).
 
-Each subcommand is also an MCP tool with the same arguments: `openreadout_assay_wells`, `openreadout_assay_curve`, `openreadout_dose_response`, `openreadout_kinetics`, `openreadout_growth` and `openreadout_assay_qc`. The tools take `layout` and the control wells at the top level, and the rarely needed options (`table`, `read`, `wavelength_nm`, `blank_subtraction`, `outliers`, `roles`, ...) in a `plate_options` object. In Python they are `openreadout.analyze(path, "assay", analysis=…, layout=…, **options)`. To run them over many plates, see [batch](batch.md#analyses-over-a-folder).
+Over MCP the six subcommands are one tool, `openreadout_assay`, with `analysis` set to `wells`, `curve`, `dose-response`, `kinetics`, `growth` or `qc` and the subcommand's arguments. The tool takes `layout` and the control wells at the top level, and the rarely needed options (`table`, `read`, `wavelength_nm`, `blank_subtraction`, `outliers`, `roles`, ...) in a `plate_options` object. In Python they are `openreadout.analyze(path, "assay", analysis=…, layout=…, **options)`. To run them over many plates, see [batch](batch.md#analyses-over-a-folder).
 
 **Input.** Any plate-reader export OpenReadout reads (see [Plate readers](../formats/plate-readers.md)), or a long CSV or TSV file. A long file has a `well` column and a value column named `value`, `signal`, `od`, `absorbance`, `fluorescence`, `luminescence`, `rfu`, `rlu` or similar. For kinetics it also has a time column (`time_s`, `time_min`, `time_h` or `time`). It may carry `read`, `wavelength_nm` and layout columns such as `role` and `sample`.
 
@@ -174,7 +174,7 @@ Each entry of `compounds[]` has:
 
 ## Growth curves
 
-`analyze growth` computes per well after background correction. The background is the blank wells per time point when there are blanks, else the well's own minimum, as in growthcurver.
+`analyze growth` computes per well after background correction. The background is the blank wells per time point when there are blanks, else the well's own minimum, as in growthcurver. Blank wells get no row of their own. `--wells` (MCP `wells`) narrows the wells reported, and the layout's blank wells outside it are still subtracted; a note names them.
 
 | field | meaning |
 | --- | --- |
@@ -182,8 +182,17 @@ Each entry of `compounds[]` has:
 | `doubling_time_h` | ln 2 / µmax |
 | `exp_phase_start_s`, `exp_phase_end_s` | that window |
 | `lag_time_s` | where the µmax line crosses the starting level |
-| `logistic_k`, `logistic_r_per_h`, `logistic_n0`, `logistic_doubling_time_h` | a least-squares fit of the logistic curve N(t) = K / (1 + ((K − N0)/N0) e^(−rt)), the model growthcurver fits |
+| `logistic_k`, `logistic_r_per_h`, `logistic_n0`, `logistic_doubling_time_h` | a least-squares fit of the logistic curve N(t) = K / (1 + ((K − N0)/N0) e^(−rt)), the model growthcurver fits; only for wells that grew, since a crash breaks the logistic shape |
 | `max_value`, `time_to_max_s`, `auc_h` | as named; area in value × hours |
+| `pattern` | `grew`, `no_growth`, `crashed` (fell to half its height above its lowest value, by at least 5 noise SDs, and stayed down) or `regrew` (fell, then rose again by half the fall and 10 noise SDs). Measured on a running median, so single noisy reads do not count. Growth and regrowth must also rise by a tenth of the larger rises on the plate (a note gives the value), and a fall with no growth before or after it is `no_growth`, so a flat well's noise is not read as a crash |
+| `crash_s`, `crash_value` | the high point before the fall: the decline starts there (0 when the values fall slowly from the first read, as when phage lyse the inoculum). A decline that ends within the first hour, such as condensation clearing or cells settling, is not a crash: a crash after it needs a rise of 5 noise SDs first |
+| `trough_s`, `trough_value` | the lowest point after the fall |
+| `regrowth_s` | when growth restarts: the lag time of the part after the trough |
+| `exp_phase_after_crash` | the exponential phase above is the regrowth, so the rate and doubling time are those of the cells that came back |
+
+`growth_summary` lists the wells of each pattern and the smallest, median and largest crash and regrowth times, so "how many infected wells came back, and when" is one call.
+
+Over MCP, `openreadout_assay` rows keep the main fields above (rate, doubling time in hours, lag, maximum, pattern and the crash and regrowth times) to 4 significant digits, so a whole 96-well plate fits in one reply; `fields: ["all"]` returns every field. See [Per-well rows](../reference/mcp.md#per-well-rows).
 
 The two rates answer different questions. µmax is the steepest exponential growth seen. The logistic r belongs to the best-fitting logistic curve and is smaller when the growth is not logistic. Say which one you report.
 

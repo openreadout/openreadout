@@ -448,6 +448,22 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
             .iter()
             .filter_map(|&i| spectra[i].data.map(|k| k.offset))
             .collect();
+        // A map's image has one channel per spectral point, so a point count that no intensity
+        // record holds would be listed (and allocated) channel by channel: refuse it.
+        let longest = g
+            .iter()
+            .filter_map(|&i| spectra[i].data.map(|k| k.length))
+            .max()
+            .unwrap_or(0);
+        if is_map && points.saturating_mul(4) > longest {
+            return Err(Error::corrupt(
+                FMT,
+                format!(
+                    "the map's spectrum header gives {points} points, but its intensity records hold at most {} values",
+                    longest / 4
+                ),
+            ));
+        }
         for &i in g {
             if let Some(k) = spectra[i].data
                 && k.length < points * 4

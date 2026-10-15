@@ -30,7 +30,8 @@ pub struct GateArgs {
     #[command(flatten)]
     pub tidy: super::tidy::TidyArgs,
     /// Report each population's median of this parameter (`$PnN` or `$PnS`; `Comp-NAME` for
-    /// the compensated values). Repeatable or comma-separated.
+    /// the compensated values). Repeatable or comma-separated; `all` for every parameter a gate
+    /// uses, compensated as the gate reads it.
     #[arg(long = "median", value_name = "PARAMETER", value_delimiter = ',')]
     pub medians: Vec<String>,
     /// FlowJo 10 workspace (`.wsp`).

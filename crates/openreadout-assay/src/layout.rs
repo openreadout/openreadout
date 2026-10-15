@@ -305,31 +305,43 @@ pub fn parse_well(s: &str) -> Option<(u32, u32)> {
     (col >= 1).then(|| (row, col - 1))
 }
 
+/// Most distinct wells a well list may name (the largest plates have 3456).
+pub const MAX_WELLS: usize = 1 << 14;
+
 /// Parse a well list: `A1,A2`, rectangles `A1:B3` (also `A1-B3`), separated by commas,
-/// semicolons or spaces. Rectangles are expanded row-major.
+/// semicolons or spaces. Rectangles are expanded row-major; a well named twice is kept once,
+/// where it first appears. At most [`MAX_WELLS`] wells, counting repeats.
 pub fn parse_wells(spec: &str) -> Result<Vec<(u32, u32)>, String> {
     let mut out = Vec::new();
+    let mut seen = std::collections::HashSet::new();
+    // wells named so far, repeats included, so a list of repeated ranges stays cheap
+    let mut named: u64 = 0;
+    let too_many =
+        || format!("the well list names more than {MAX_WELLS} wells; plates have at most 3456");
     for part in spec
         .split([',', ';', ' '])
         .map(str::trim)
         .filter(|p| !p.is_empty())
     {
         let range = part.split_once(':').or_else(|| part.split_once('-'));
-        if let Some((a, b)) = range {
+        let (r1, c1, r2, c2) = if let Some((a, b)) = range {
             let (r1, c1) = parse_well(a).ok_or_else(|| format!("`{a}` is not a well name"))?;
             let (r2, c2) = parse_well(b).ok_or_else(|| format!("`{b}` is not a well name"))?;
-            let (rl, rh) = (r1.min(r2), r1.max(r2));
-            let (cl, ch) = (c1.min(c2), c1.max(c2));
-            if u64::from(rh - rl + 1) * u64::from(ch - cl + 1) > 1 << 20 {
-                return Err(format!("well range `{part}` is too large"));
-            }
-            for r in rl..=rh {
-                for c in cl..=ch {
+            (r1.min(r2), c1.min(c2), r1.max(r2), c1.max(c2))
+        } else {
+            let (r, c) = parse_well(part).ok_or_else(|| format!("`{part}` is not a well name"))?;
+            (r, c, r, c)
+        };
+        named += u64::from(r2 - r1 + 1) * u64::from(c2 - c1 + 1);
+        if named > MAX_WELLS as u64 {
+            return Err(too_many());
+        }
+        for r in r1..=r2 {
+            for c in c1..=c2 {
+                if seen.insert((r, c)) {
                     out.push((r, c));
                 }
             }
-        } else {
-            out.push(parse_well(part).ok_or_else(|| format!("`{part}` is not a well name"))?);
         }
     }
     if out.is_empty() {
@@ -715,6 +727,9 @@ pub fn from_embedded(maps: &serde_json::Value) -> Option<Layout> {
         } else if t == "group" {
             // an assay group (SkanIt `Group 1`), not a replicate group
             Some(Field::Other("assay_group".into()))
+        } else if t == "softmaxgroup" {
+            // SoftMax Pro groups are its replicate groups (`99 G +`, `Blank`)
+            Some(Field::Group)
         } else {
             match field_of(title) {
                 Field::Other(_) if t.contains("layout") || t.contains("content") => {
@@ -769,6 +784,11 @@ mod tests {
         assert_eq!(parse_wells("A1:B2, C3").unwrap().len(), 5);
         assert_eq!(parse_wells("H1-H2").unwrap(), vec![(7, 0), (7, 1)]);
         assert!(parse_wells("Q").is_err());
+        // repeats are kept once; lists naming too many wells are refused, however written
+        assert_eq!(parse_wells("A1,A1:A2,A2").unwrap(), vec![(0, 0), (0, 1)]);
+        assert!(parse_wells(&vec!["A1:AF48"; 20].join(",")).is_err());
+        assert!(parse_wells("A1:ZZ9999").is_err());
+        assert_eq!(parse_wells("A1:AF48").unwrap().len(), 1536);
     }
 
     #[test]

@@ -105,6 +105,17 @@
         "$ref": "#/$defs/GrowthRow"
       }
     },
+    "growth_summary": {
+      "description": "Wells by growth pattern, with the range of crash and regrowth times (`growth`).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/GrowthSummary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "quality": {
       "description": "Assay quality from control wells (whenever positive and negative controls exist).",
       "anyOf": [
@@ -477,6 +488,8 @@
         "col",
         "role",
         "group",
+        "raw",
+        "value",
         "outlier",
         "excluded"
       ]
@@ -639,7 +652,10 @@
         "wells",
         "metric",
         "n",
-        "n_used"
+        "n_used",
+        "mean",
+        "sd",
+        "cv_percent"
       ]
     },
     "CurveReport": {
@@ -1180,6 +1196,10 @@
             "null"
           ]
         },
+        "group": {
+          "description": "Replicate group (the layout's group, else the sample name).",
+          "type": "string"
+        },
         "n_points": {
           "description": "Time points used.",
           "type": "integer",
@@ -1277,7 +1297,7 @@
           "format": "double"
         },
         "logistic_k": {
-          "description": "Logistic fit: carrying capacity K.",
+          "description": "Logistic fit (wells whose pattern is `grew`): carrying capacity K.",
           "type": [
             "number",
             "null"
@@ -1323,17 +1343,112 @@
             "null"
           ],
           "format": "double"
+        },
+        "pattern": {
+          "description": "What the curve did: `grew`, `no_growth`, `crashed` (fell to half its height and stayed\ndown) or `regrew` (fell, then grew again).",
+          "type": "string"
+        },
+        "exp_phase_after_crash": {
+          "description": "The exponential phase lies after the crash (`regrew` wells): the growth rate and\ndoubling time are those of the regrowth.",
+          "type": "boolean"
+        },
+        "crash_s": {
+          "description": "Time of the high point before the crash (s).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "crash_value": {
+          "description": "Value at that point (smoothed).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "trough_s": {
+          "description": "Time of the lowest point after the crash (s).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "trough_value": {
+          "description": "Value there (smoothed).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "regrowth_s": {
+          "description": "When growth restarts after the crash (s): the lag time of the regrowth.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
         }
       },
       "required": [
         "well",
         "role",
+        "group",
         "n_points",
         "window",
         "threshold",
         "max_value",
         "time_to_max_s",
-        "auc_h"
+        "auc_h",
+        "pattern"
+      ]
+    },
+    "GrowthSummary": {
+      "description": "The growth patterns of the wells analysed.",
+      "type": "object",
+      "properties": {
+        "wells": {
+          "description": "Wells per pattern (`grew`, `no_growth`, `crashed`, `regrew`), in plate order.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "regrowth_s": {
+          "description": "Regrowth times over the `regrew` wells (s): smallest, median, largest.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "crash_s": {
+          "description": "Crash times over the `crashed` and `regrew` wells (s): smallest, median, largest.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "wells"
       ]
     },
     "QualityReport": {

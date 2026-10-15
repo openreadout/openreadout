@@ -15,14 +15,13 @@ use crate::{InstrumentServer, mcp_err, ok_json};
 /// Arguments for `openreadout_check`.
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct CheckArgs {
-    /// Absolute or working-directory-relative path to the file or data-set directory.
+    /// Path to the file or data-set directory.
     pub file: String,
     /// Check headers and structure only (offsets, declared sizes and counts, missing parts):
     /// no decompression, decoding or checksums over the data.
     #[serde(default)]
     pub headers_only: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -53,8 +52,7 @@ pub struct CompareArgs {
     /// Metadata and geometry only, no pixels.
     #[serde(default)]
     pub no_pixels: bool,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -76,8 +74,8 @@ pub struct ReportArgs {
 impl InstrumentServer {
     #[tool(
         name = "openreadout_check",
-        annotations(title = "Check integrity", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<CheckReport>(),
+        annotations(title = "Check a file for damage", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        output_schema = crate::tools::output_schema::<CheckReport>(),
         description = "Integrity check: ok plus findings (severity, code, message) for truncation, missing planes or parts, bad blocks; a plate folder reports missing files per well; a file still being written reports acquisition_in_progress."
     )]
     pub(crate) fn check(
@@ -105,7 +103,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_compare",
         annotations(title = "Compare two files", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_ops::compare::CompareOutput>(),
+        output_schema = crate::tools::output_schema::<openreadout_ops::compare::CompareOutput>(),
         description = "Compare two files, e.g. a raw file and its export: metadata differences, geometry, channel names, physical sizes, and per-plane hashes or the largest difference within tolerance. identical says whether they hold the same data."
     )]
     pub(crate) fn compare(
@@ -133,8 +131,8 @@ impl InstrumentServer {
 
     #[tool(
         name = "openreadout_report",
-        annotations(title = "Diagnostic bundle", read_only_hint = false, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_index::report::ReportOutput>(),
+        annotations(title = "Write a diagnostic bundle", read_only_hint = false, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
+        output_schema = crate::tools::output_schema::<openreadout_index::report::ReportOutput>(),
         description = "A privacy-reviewed diagnostic bundle for a file that is refused, fails or is not validated, for a new-variant issue: no data values, free text only with include_text, and the issue_url to file it at. Nothing is sent; the user files it."
     )]
     pub(crate) fn report(

@@ -484,8 +484,10 @@ fn schema_gen() -> Result<()> {
         "peaks",
         "assay",
         "stats-wells",
+        "stats-measure",
         "batch-table",
         "summarize",
+        "plot",
         "link",
         "report",
     ] {

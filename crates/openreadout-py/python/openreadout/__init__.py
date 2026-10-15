@@ -22,8 +22,16 @@ Quick start::
         ppm = f.trace_axis(1)                         # chemical shift of each point
     peaks = openreadout.analyze("nmr/sucrose/1", "nmr-peaks")    # ``openreadout analyze``
 
+Pictures show themselves in Jupyter::
+
+    openreadout.preview("run42.czi", select="c=1", annotations=[
+        {"type": "point", "x": 812, "y": 440, "label": "nucleus"}])
+    fig = openreadout.plot(data={"file": "run.mzML", "chromatogram": "tic"}, title="TIC")
+    fig.save("tic.pdf")                               # also .png and .svg
+
 Functions and methods are named after the CLI commands (``info`` with ``view=``, ``check``,
-``stats``, ``scans``, ``analyze``, ``export``, ``batch``, ``summarize``, ``link``).
+``stats``, ``scans``, ``preview``, ``plot``, ``analyze``, ``export``, ``batch``,
+``summarize``, ``link``).
 
 Metadata is the same JSON the ``openreadout`` CLI prints
 (https://openreadout.github.io/openreadout/getting-started/reading-json.html), typed as
@@ -48,6 +56,7 @@ from ._errors import (
     UnsupportedFeatureError,
     UsageError,
 )
+from ._figure import Figure, Preview, plot
 from ._file import (
     _PATH_KINDS,
     DEFAULT_BUFFER_NAME,
@@ -83,6 +92,7 @@ __all__ = [
     "DetectResult",
     "Experiment",
     "ExportReport",
+    "Figure",
     "File",
     "FileInfo",
     "Finding",
@@ -94,6 +104,7 @@ __all__ = [
     "OpenReadoutError",
     "PathLike",
     "PhysicalSize",
+    "Preview",
     "SourceLike",
     "UnknownFormatError",
     "UnsupportedFeatureError",
@@ -106,6 +117,8 @@ __all__ = [
     "info",
     "link",
     "open",
+    "plot",
+    "preview",
     "summarize",
 ]
 
@@ -216,6 +229,15 @@ def analyze(
         return analyze_path(path, kind, options)
     with File(path, name=name) as f:
         return f.analyze(kind, **options)
+
+
+def preview(
+    path: SourceLike, *, format: str = "png", name: Optional[str] = None, **options: Any
+) -> Preview:
+    """A picture of a file (``openreadout preview``): :meth:`File.preview` on ``path``, which
+    documents ``format`` and the options. Accepts what :func:`open` accepts."""
+    with File(path, name=name) as f:
+        return f.preview(format=format, **options)
 
 
 def export(

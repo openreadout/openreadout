@@ -320,3 +320,72 @@ fn export_refuses_absurd_plane_counts() {
     }
     std::fs::remove_dir_all(&d).ok();
 }
+
+/// No writer replaces its input, however the output path is spelled: `..` through a folder
+/// that does not exist yet, `./`, a symbolic link, with or without --overwrite.
+#[test]
+fn writers_never_replace_their_input() {
+    let d = scratch("outisin");
+    let input = d.join("mini.czi");
+    std::fs::copy(fixture("mini.czi"), &input).unwrap();
+    let raw = std::fs::read(&input).unwrap();
+    let spelled = [
+        d.join("missing/../mini.czi"),
+        d.join("./mini.czi"),
+        d.join("../").join(d.file_name().unwrap()).join("mini.czi"),
+    ];
+    for out in &spelled {
+        let o = out.to_str().unwrap();
+        let i = input.to_str().unwrap();
+        let spec = format!(r#"{{"file": "{i}"}}"#);
+        for args in [
+            vec!["export", i, "--format", "ome-tiff", "-o", o, "--overwrite"],
+            vec!["preview", i, "-o", o, "--overwrite"],
+            vec!["plot", spec.as_str(), "-o", o, "--overwrite"],
+        ] {
+            let r = run(&args);
+            assert_eq!(r.status.code(), Some(2), "{args:?}: {}", stderr(&r));
+            // (plot refuses a .czi output by its name first)
+            assert!(
+                args[0] == "plot" || stderr(&r).contains("raw files are never modified"),
+                "{args:?}"
+            );
+        }
+    }
+    #[cfg(unix)]
+    {
+        let link = d.join("link.png");
+        std::os::unix::fs::symlink(&input, &link).unwrap();
+        let r = run(&[
+            "preview",
+            input.to_str().unwrap(),
+            "-o",
+            link.to_str().unwrap(),
+            "--overwrite",
+        ]);
+        assert_eq!(r.status.code(), Some(2), "{}", stderr(&r));
+    }
+    assert_eq!(std::fs::read(&input).unwrap(), raw);
+    std::fs::remove_dir_all(&d).ok();
+}
+
+/// Flags that a line, polygon or objects measurement would ignore are usage errors.
+#[test]
+fn stats_measurements_refuse_flags_they_ignore() {
+    let f = fixture("mini.czi");
+    let f = f.to_str().unwrap();
+    for args in [
+        vec!["stats", f, "--line", "0,0,5,5", "--mip", "z"],
+        vec!["stats", f, "--polygon", "0,0 5,0 5,5", "--per", "plane"],
+        vec!["stats", f, "--line", "0,0,5,5", "--bins", "8"],
+        vec!["stats", f, "--line", "0,0,5,5", "--region", "0,0,4,4"],
+        vec!["stats", f, "--line-width", "3"],
+    ] {
+        let r = run(&args);
+        assert_eq!(r.status.code(), Some(2), "{args:?}: {}", stderr(&r));
+    }
+    assert_eq!(
+        run(&["stats", f, "--line", "0,0,5,5"]).status.code(),
+        Some(0)
+    );
+}

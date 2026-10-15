@@ -207,6 +207,10 @@ pub fn vendor(root: &Path, out: Option<PathBuf>, keep_dir: bool) -> Result<()> {
             crate_manifest(&from.join("Cargo.toml"))?,
         )?;
         src_bytes += copy_dir(&from.join("src"), &to.join("src"))?;
+        // data the sources embed with include_bytes! (the figure engine's fonts)
+        if from.join("fonts").is_dir() {
+            src_bytes += copy_dir(&from.join("fonts"), &to.join("fonts"))?;
+        }
         if from.join("build.rs").is_file() {
             src_bytes += fs::copy(from.join("build.rs"), to.join("build.rs"))?;
         }

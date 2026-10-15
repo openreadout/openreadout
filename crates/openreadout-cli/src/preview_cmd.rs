@@ -1,12 +1,13 @@
-//! `openreadout preview`: render a PNG/JPEG preview of an image, trace, spectrum or plate table.
+//! `openreadout preview`: render a PNG, JPEG or SVG preview of an image, trace, spectrum, plate
+//! or event table, with optional annotations.
 
 use std::io::Write;
 use std::path::PathBuf;
 
 use openreadout_core::{Error, Registry, Result};
 use openreadout_preview::{
-    Axes, Axis, Contrast, Encoding, Lut, PreviewOutput, PreviewRequest, default_output, finish,
-    render, write_verified,
+    Annotation, Axes, Axis, Contrast, Encoding, Lut, Marks, PreviewOutput, PreviewRequest,
+    default_output, finish, render, write_verified,
 };
 
 use crate::output::{emit, fail};
@@ -17,8 +18,8 @@ pub struct PreviewArgs {
     pub file: PathBuf,
     #[command(flatten)]
     pub process: crate::commands::nmr::ProcessArgs,
-    /// Output file (`.png` or `.jpg`); `-` writes the image to stdout. Default:
-    /// `<input stem>.preview.png` next to the input.
+    /// Output file (`.png`, `.jpg`, `.svg`, or `.tiff` and `.pdf` for print); `-` writes the
+    /// image to stdout. Default: `<input stem>.preview.png` next to the input.
     #[arg(short, long)]
     pub output: Option<PathBuf>,
     /// Image index (see `info`). Default 0.
@@ -43,10 +44,17 @@ pub struct PreviewArgs {
     #[arg(long, value_name = "X,Y,W,H")]
     pub region: Option<String>,
     /// Image previews: `rulers` (coordinate rulers in full-resolution pixels and a scale bar),
-    /// `grid` (rulers plus faint grid lines over the data at the ruler ticks) or `none` (the
-    /// bare downsampled plane).
-    #[arg(long, default_value = "rulers", value_name = "rulers|grid|none")]
-    pub axes: String,
+    /// `grid` (rulers plus faint grid lines over the data at the ruler ticks), `scale-bar` (a
+    /// figure for people: the picture, a scale bar, `--title` and `--caption`) or `none` (the
+    /// bare downsampled plane). Default: rulers, or scale-bar with a title or caption.
+    #[arg(long, value_name = "rulers|grid|scale-bar|none")]
+    pub axes: Option<String>,
+    /// Image previews: a title above the picture (with `--axes scale-bar`).
+    #[arg(long)]
+    pub title: Option<String>,
+    /// Image previews: a caption under the picture (with `--axes scale-bar`).
+    #[arg(long)]
+    pub caption: Option<String>,
     /// Longest side of the output in pixels (16..=8192), rulers included.
     #[arg(long, default_value_t = openreadout_preview::DEFAULT_PREVIEW_SIZE)]
     pub max_size: u32,
@@ -56,7 +64,7 @@ pub struct PreviewArgs {
     /// `gray` or `channel-color`. Default: gray for one channel, channel colours for composites.
     #[arg(long)]
     pub lut: Option<String>,
-    /// `png` or `jpeg`. Default: from the output extension, else png.
+    /// `png`, `jpeg` or `svg`. Default: from the output extension, else png.
     #[arg(long)]
     pub format: Option<String>,
     /// JPEG quality (1–100).
@@ -83,12 +91,43 @@ pub struct PreviewArgs {
     /// Spectrum preview: the instrument's centroid list instead of the profile.
     #[arg(long)]
     pub centroid: bool,
-    /// Plate preview: table index.
+    /// Plate or event preview: table index.
     #[arg(long)]
     pub table: Option<u32>,
-    /// Plate preview (long layout): value column name.
+    /// Table column to draw; repeatable. Plates: the value column (long layout). Events (flow
+    /// cytometry): the x then y parameter (one gives a histogram; default FSC-A and SSC-A).
+    #[arg(long = "column")]
+    pub columns: Vec<String>,
+    /// Marks from the data: `auto` (label the largest peaks of spectra and chromatograms),
+    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep),
+    /// `objects` (outline and number the nuclei, cells or spots of an image, as `stats
+    /// --objects` counts them) or `none`.
+    #[arg(
+        long,
+        default_value = "auto",
+        value_name = "auto|peaks|spikes|objects|none"
+    )]
+    pub marks: String,
+    /// With `--marks objects`: how objects are found, as JSON with the fields of the MCP
+    /// `objects` option, e.g. `{"kind":"spots"}` or `{"diameter_um":8}`.
+    #[arg(long, value_name = "JSON")]
+    pub objects: Option<String>,
+    /// Annotations to draw, as JSON: one object or an array, inline or `@FILE`. Each has a
+    /// `type` (point, box, polygon, line, arrow, text, vline, hline, vband, hband, well) and
+    /// its coordinates in the preview's units (full-resolution pixels on images, axis units on
+    /// plots), e.g. `[{"type":"point","x":1200,"y":340,"label":"Purkinje cells"}]`.
+    #[arg(long, value_name = "JSON")]
+    pub annotate: Option<String>,
+    /// Draw in the dark theme.
     #[arg(long)]
-    pub column: Option<String>,
+    pub dark: bool,
+    /// Pixels per preview pixel (0.25 to 8): plots are drawn again at that size, images are
+    /// read again at `--max-size` × scale, so text, marks and pixels stay sharp in print.
+    #[arg(long)]
+    pub scale: Option<f32>,
+    /// Print resolution: recorded in .png, .jpg and .tiff files; the page size of .svg and .pdf.
+    #[arg(long)]
+    pub dpi: Option<u32>,
     /// Replace an existing output file.
     #[arg(long)]
     pub overwrite: bool,
@@ -122,11 +161,58 @@ impl PreviewArgs {
             preview_request.scan = self.scan;
             preview_request.centroid = self.centroid;
             preview_request.table = self.table;
-            preview_request.column = self.column.clone();
-            self.axes.parse::<Axes>()?.apply(&mut preview_request);
+            preview_request.columns = self.columns.clone();
+            preview_request.marks = self.marks.parse::<Marks>()?;
+            preview_request.objects = self
+                .objects
+                .as_deref()
+                .map(|j| {
+                    serde_json::from_str(j)
+                        .map_err(|e| Error::Usage(format!("--objects is not valid: {e} (fields: kind, diameter_um, diameter_px, threshold, method, polarity, stain, split, min_area_um2, max_area_um2, max_objects)")))
+                })
+                .transpose()?;
+            preview_request.annotations = match &self.annotate {
+                Some(a) => parse_annotations(a)?,
+                None => Vec::new(),
+            };
+            preview_request.dark = self.dark;
+            preview_request.title.clone_from(&self.title);
+            preview_request.caption.clone_from(&self.caption);
+            let text = self.title.is_some() || self.caption.is_some();
+            match &self.axes {
+                Some(a) => a.parse::<Axes>()?,
+                None if text => Axes::ScaleBar,
+                None => Axes::Rulers,
+            }
+            .apply(&mut preview_request);
             preview_request
         })
     }
+}
+
+/// `--annotate`: a JSON object or array, inline or `@FILE`.
+pub fn parse_annotations(arg: &str) -> Result<Vec<Annotation>> {
+    let text = match arg.strip_prefix('@') {
+        Some(path) => std::fs::read_to_string(path).map_err(|e| Error::io(path, e))?,
+        None => arg.to_string(),
+    };
+    let v: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|e| Error::Usage(format!("--annotate is not valid JSON: {e}")))?;
+    let items = match v {
+        serde_json::Value::Array(a) => a,
+        other => vec![other],
+    };
+    items
+        .into_iter()
+        .enumerate()
+        .map(|(i, v)| {
+            serde_json::from_value::<Annotation>(v).map_err(|e| {
+                Error::Usage(format!(
+                    "--annotate item {i}: {e} (fields: type, x, y, x2, y2, width, height, points, label, color, channel, well)"
+                ))
+            })
+        })
+        .collect()
 }
 
 fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option<Vec<u8>>)> {
@@ -145,10 +231,46 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
             .filter(|_| !to_stdout)
             .map_or(Encoding::Png, Encoding::from_path),
     };
+    // .tiff, .pdf, --scale and --dpi go through the figure writer
+    let figure_file = !to_stdout
+        && (a.scale.is_some()
+            || a.dpi.is_some()
+            || a.output.as_deref().is_some_and(|o| {
+                matches!(
+                    openreadout_plot::FileFormat::from_path(o),
+                    Ok(openreadout_plot::FileFormat::Tiff | openreadout_plot::FileFormat::Pdf)
+                )
+            }));
+    if figure_file && let Some(o) = &a.output {
+        openreadout_plot::FileFormat::from_path(o)?;
+    }
     let (_, ds) = reg.open(&a.file)?;
     let mut ds = a.process.wrap(ds)?;
     let info = ds.info()?;
     let rendered = render(ds.as_mut(), &info, &req)?;
+    if figure_file {
+        let scale = a.scale.unwrap_or(1.0);
+        let check = openreadout_plot::SaveOptions {
+            scale,
+            ..openreadout_plot::SaveOptions::default()
+        };
+        check.check()?;
+        if rendered.output.kind == "image" && (scale - 1.0).abs() > f32::EPSILON {
+            // read the image again at the size it is saved at, so its pixels are real
+            let mut big = req.clone();
+            big.max_size = ((req.max_size as f32 * scale).round() as u32)
+                .clamp(16, openreadout_preview::MAX_PREVIEW_SIZE);
+            let r = render(ds.as_mut(), &info, &big)?;
+            // the picture as drawn at its own size, with the pixels read at the larger size,
+            // so type, lines and outlines scale with it
+            let mut small = rendered;
+            if small.take_pixels(&r, scale) {
+                return save_figure(a, &small, scale).map(|o| (o, None));
+            }
+            return save_figure(a, &r, 1.0).map(|o| (o, None));
+        }
+        return save_figure(a, &rendered, scale).map(|o| (o, None));
+    }
     let (mut out, bytes) = finish(&rendered, encoding, a.quality)?;
     if to_stdout {
         return Ok((out, Some(bytes)));
@@ -161,6 +283,35 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
     out.output = Some(output.display().to_string());
     out.hint = Some(look_hint(&out, &output.display().to_string()));
     Ok((out, None))
+}
+
+/// Write the preview through the figure writer: TIFF and PDF, a pixel scale, a print resolution.
+fn save_figure(
+    a: &PreviewArgs,
+    r: &openreadout_preview::Rendered,
+    scale: f32,
+) -> Result<PreviewOutput> {
+    let output = a
+        .output
+        .clone()
+        .unwrap_or_else(|| default_output(&a.file, Encoding::Png));
+    let opts = openreadout_plot::SaveOptions {
+        scale,
+        dpi: a.dpi,
+        overwrite: a.overwrite,
+    };
+    let w = openreadout_plot::write(&r.figure, &output, &opts, &[a.file.as_path()])?;
+    let mut out = r.output.clone();
+    out.encoding = w.format.clone();
+    out.width = w.width;
+    out.height = w.height;
+    out.bytes = w.bytes;
+    out.verified = w.verified;
+    let written = std::fs::read(&output).map_err(|e| Error::io(&output, e))?;
+    out.xxh3 = format!("{:032x}", xxhash_rust::xxh3::xxh3_128(&written));
+    out.output = Some(w.path.clone());
+    out.hint = Some(look_hint(&out, &w.path));
+    Ok(out)
 }
 
 /// How to look at the written picture, and how to zoom into it.
@@ -211,10 +362,29 @@ fn human(o: &PreviewOutput) -> String {
             "spectrum {} (scan {}, MS{}, {} points, {})",
             s.index, s.scan_number, s.ms_level, s.point_count, s.style
         )
+    } else if let Some(c) = &o.chromatogram {
+        format!(
+            "{} of run {} ({} MS1 scans of {}), apex at {:.2} min",
+            c.signal.to_uppercase(),
+            c.run,
+            c.ms1_scans,
+            c.scans,
+            c.apex_rt_min
+        )
     } else if let Some(p) = &o.plate {
         format!(
-            "plate {}x{} from table {} ({} wells, {})",
-            p.rows, p.columns, p.table, p.wells, p.value
+            "plate {}x{} from table {} ({} wells, {}, {})",
+            p.rows, p.columns, p.table, p.wells, p.value, p.view
+        )
+    } else if let Some(e) = &o.events {
+        format!(
+            "{} of {} events: {}{}",
+            e.events,
+            e.total_events,
+            e.x,
+            e.y.as_deref()
+                .map(|y| format!(" vs {y}"))
+                .unwrap_or_default()
         )
     } else {
         String::new()

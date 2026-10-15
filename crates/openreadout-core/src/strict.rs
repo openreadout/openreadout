@@ -170,6 +170,16 @@ impl Dataset for StrictDataset {
         self.gate(Scope::Pixels)?;
         self.inner.read_region(image, index, level, region)
     }
+    fn stored_areas(
+        &mut self,
+        image: u32,
+        index: PlaneIndex,
+        level: u32,
+        region: Option<crate::region::Region>,
+    ) -> Result<Option<Vec<crate::region::Region>>> {
+        self.gate(Scope::Pixels)?;
+        self.inner.stored_areas(image, index, level, region)
+    }
     fn reads_strips(&self, image: u32, level: u32) -> bool {
         self.inner.reads_strips(image, level)
     }

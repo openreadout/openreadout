@@ -71,6 +71,7 @@ openreadout-bruker-tims = { workspace = true }
 openreadout-plate = { workspace = true }
 openreadout-qpcr = { workspace = true }
 openreadout-assay = { workspace = true }
+openreadout-plot = { workspace = true }
 openreadout-oir = { workspace = true }
 openreadout-vsi = { workspace = true }
 openreadout-wsi = { workspace = true }

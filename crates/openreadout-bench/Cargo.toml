@@ -40,7 +40,7 @@ openreadout-spikeglx = { workspace = true }
 openreadout-ometiff = { workspace = true }
 openreadout-omezarr = { workspace = true }
 openreadout-mzml-writer = { workspace = true }
-openreadout-preview = { workspace = true }
+openreadout-figure = { workspace = true }
 serde_json = { workspace = true }
 rayon = { workspace = true }
 tempfile = { workspace = true }

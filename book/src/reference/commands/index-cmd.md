@@ -12,7 +12,7 @@ The index directory holds `index.json`, `experiments.parquet`, `files.parquet`, 
 
 - `-o`, `--output INDEX_DIR`: the index directory. Created if missing. It must not be inside a crawled directory.
 - `--check headers|full|none`: integrity check per data set. Default `headers`.
-- `--follow-symlinks`: follow symbolic links. A directory reached twice is crawled once.
+- `--follow-symlinks`: follow symbolic links to directories. A directory reached twice is crawled once. Links to files are always read.
 - `--exclude GLOB`: skip entries whose name or relative path matches. Repeatable, for example `--exclude '*.tmp' --exclude 'scratch/**'`.
 - `--max-files N`: stop after this many files in this session. Rerun to continue.
 - `--max-seconds S`: stop after this many seconds in this session. Rerun to continue.

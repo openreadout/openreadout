@@ -28,20 +28,46 @@ pub const DEFAULT_IMAGE_SIZE: u32 = 768;
 pub const MAX_POINTS: u32 = 4000;
 /// Points per series when the viewer does not ask.
 pub const DEFAULT_POINTS: u32 = 1200;
-/// Most channels plotted at once.
+/// Most channels plotted at once in stacked panels.
 pub const MAX_CHANNELS: usize = 8;
+/// Most channels of a trace whose channels are overlaid in one panel (qPCR wells).
+pub const MAX_OVERLAY_CHANNELS: usize = 384;
+/// Most plotted values over all channels of one plot.
+pub const MAX_PLOT_VALUES: usize = 200_000;
 /// Most samples per channel read for one plot (the rest of a longer window is left out).
 pub const MAX_SAMPLES_READ: u64 = 20_000_000;
 /// Most flow-cytometry events sampled.
 pub const MAX_EVENTS: u64 = 50_000;
 /// Events sampled when the viewer does not ask.
 pub const DEFAULT_EVENTS: u64 = 10_000;
+/// A population view gates every event of files with at most this many; larger files are gated
+/// in [`GATED_WINDOWS`] windows spread over the run, this many events in all.
+pub const MAX_GATED_READ: u64 = 2_000_000;
+/// Events gated per read.
+pub const GATED_CHUNK: u64 = 250_000;
+/// Windows of a larger file gated for a population view.
+pub const GATED_WINDOWS: u64 = 16;
+/// Most child populations coloured in a gated view.
+pub const MAX_GATED_POPULATIONS: usize = 8;
 /// Most peaks marked on a plot.
 pub const MAX_PEAKS: usize = 60;
+/// A chromatogram peak is labelled when it is at least this share of the tallest peak's height
+/// (smaller ones can still be hovered).
+pub const LABEL_SHARE: f64 = 0.2;
+/// A labelled chromatogram peak is also at least this many noise SDs tall, by the peak picker's
+/// S/N and by the trace's point-to-point noise.
+pub const LABEL_SNR: f64 = 10.0;
 /// Most images, traces or tables listed in the outline.
 pub const MAX_OUTLINE_ITEMS: usize = 256;
 /// Most columns listed per table in the outline.
 pub const MAX_OUTLINE_COLUMNS: usize = 128;
+/// Most time points per well of a kinetic plate (longer runs are averaged into equal bins).
+pub const MAX_TIME_POINTS: usize = 240;
+/// Most rows of a plate table read for its time course.
+pub const MAX_PLATE_ROWS: u64 = 1_000_000;
+/// Most layout maps (samples, groups, ...) and wells per map returned with a plate.
+const MAX_LAYOUT_MAPS: usize = 8;
+const MAX_LAYOUT_WELLS: usize = 1536;
 
 /// What to show.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Deserialize, schemars::JsonSchema)]
@@ -66,6 +92,9 @@ pub enum ViewKind {
     Fcs,
     /// Only the outline (the file holds nothing the viewer draws).
     Summary,
+    /// An `openreadout_plot` figure drawn again from its arguments (`spec`): in the host's
+    /// theme, at the viewer's size, over a zoomed x range.
+    Figure,
 }
 
 impl ViewKind {
@@ -81,6 +110,7 @@ impl ViewKind {
             ViewKind::Plate => "plate",
             ViewKind::Fcs => "fcs",
             ViewKind::Summary => "summary",
+            ViewKind::Figure => "figure",
         }
     }
 }
@@ -105,8 +135,8 @@ pub enum FileRef {
 /// Arguments of `openreadout_view`.
 #[derive(Debug, Clone, Deserialize, schemars::JsonSchema)]
 pub struct ViewArgs {
-    /// The file.
-    pub file: FileRef,
+    /// The file (every view but `figure`).
+    pub file: Option<FileRef>,
     /// What to show (default: picked from the file).
     #[serde(default)]
     pub view: ViewKind,
@@ -171,12 +201,41 @@ pub struct ViewArgs {
     pub table: Option<u32>,
     /// Plate: value column of a long table.
     pub column: Option<String>,
+    /// Plate: the read (1-based `read` column) whose time course is returned (default the first).
+    pub read: Option<u32>,
     /// FCS: x parameter ($PnN).
     pub x: Option<String>,
     /// FCS: y parameter ($PnN); empty for a histogram of x.
     pub y: Option<String>,
     /// FCS: events to sample (default 10000, at most 50000).
     pub events: Option<u64>,
+    /// FCS: FlowJo workspace whose populations colour the events.
+    pub workspace: Option<String>,
+    /// FCS: Gating-ML 2.0 file (instead of a workspace).
+    pub gatingml: Option<String>,
+    /// FCS: workspace sample (default matched by file name).
+    pub sample: Option<String>,
+    /// FCS with gating: show the events of this population (path or unique name), coloured by
+    /// its child populations (default: all events, coloured by the top populations).
+    pub population: Option<String>,
+    /// Image: outline the objects counted as openreadout_stats objects counts them.
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Figure: the `openreadout_plot` arguments, as the agent sent them.
+    pub spec: Option<Value>,
+    /// Figure: draw in the dark theme.
+    #[serde(default)]
+    pub dark: bool,
+    /// Figure: width in CSS pixels (default the spec's), and pixels per CSS pixel (default 1,
+    /// at most 3), so the picture is sharp on the viewer's screen.
+    pub width: Option<u32>,
+    /// Figure: pixels per CSS pixel.
+    pub scale: Option<f32>,
+    /// Figure: the panel `x_range` zooms (its index in the spec's `panels`; default every
+    /// panel). Panels that share x (`share` x or both), facets and plate grids zoom together.
+    pub panel: Option<usize>,
+    /// Figure: the host's background (`#RRGGBB`), drawn in place of the theme's paper so the
+    /// figure blends into the page.
+    pub paper: Option<String>,
 }
 
 fn yes() -> bool {
@@ -222,16 +281,35 @@ fn usage(msg: impl Into<String>) -> McpError {
     mcp_err(&Error::Usage(msg.into()))
 }
 
+/// Notes on a view. The viewer shows `shown` under the picture. `model` holds the notes of the
+/// shared rendering and analysis code, worded for the model: they go into the tool result's
+/// text and `model_notes`, and the viewer leaves them out.
+#[derive(Default)]
+struct Notes {
+    shown: Vec<String>,
+    model: Vec<String>,
+}
+
+impl Notes {
+    fn push(&mut self, note: String) {
+        self.shown.push(note);
+    }
+}
+
 /// Run the view tool. `host_path` is the path a host gave for an opened file.
 pub fn call(
     registry: fn() -> Registry,
     a: &ViewArgs,
     host_path: Option<String>,
 ) -> Result<CallToolResult, McpError> {
+    if a.view == ViewKind::Figure {
+        return figure(registry, a);
+    }
     let path = match (&a.file, host_path) {
         (_, Some(p)) => p,
-        (FileRef::Path(p), None) => p.clone(),
-        (FileRef::Opened { name, resource_uri }, None) => {
+        (None, None) => return Err(usage("file is required for this view")),
+        (Some(FileRef::Path(p)), None) => p.clone(),
+        (Some(FileRef::Opened { name, resource_uri }), None) => {
             // The host's first call may come without the path; the viewer calls again and the
             // host adds it to calls from the viewer.
             let v = json!({
@@ -269,11 +347,13 @@ pub fn call(
     if a.outline {
         out.insert("outline".into(), outline(&info));
     }
-    let mut notes: Vec<String> = Vec::new();
+    let mut notes = Notes::default();
     let mut limits = Map::new();
     let mut picture: Option<(Vec<u8>, &'static str)> = None;
     let summary = match kind {
-        ViewKind::Auto | ViewKind::Summary => format!("outline of {}", info.format.name),
+        ViewKind::Auto | ViewKind::Summary | ViewKind::Figure => {
+            format!("outline of {}", info.format.name)
+        }
         ViewKind::Image => {
             let (v, bytes, mime) = image(ds.as_mut(), &info, a, &mut notes)?;
             let s = format!(
@@ -320,43 +400,147 @@ pub fn call(
             let g =
                 openreadout_preview::plate_grid(ds.as_mut(), &info, a.table, a.column.as_deref())
                     .map_err(|e| err(&e))?;
-            notes.extend(g.notes.iter().cloned());
+            notes.model.extend(g.notes.iter().cloned());
             let cells: Vec<Value> = g
                 .cells
                 .iter()
                 .map(|((r, c), v)| json!([r, c, *v as f32]))
                 .collect();
             let s = format!("plate {}x{}, {} wells", g.rows, g.columns, cells.len());
-            out.insert(
-                "plate".into(),
-                json!({
-                    "table": g.table, "layout": g.layout, "rows": g.rows, "columns": g.columns,
-                    "value": g.value, "cells": cells,
-                }),
-            );
+            let mut plate = json!({
+                "table": g.table, "layout": g.layout, "rows": g.rows, "columns": g.columns,
+                "value": g.value, "cells": cells,
+            });
+            if let Some(t) = info.tables.iter().find(|t| t.index == g.table) {
+                if let Some(groups) = well_groups(t) {
+                    plate["groups"] = groups;
+                }
+                if g.layout == "long" {
+                    match kinetics(ds.as_mut(), t, a.read, &mut limits) {
+                        Ok(Some(k)) => plate["kinetic"] = k,
+                        Ok(None) => {}
+                        Err(e) => notes.push(format!("no time course: {}", e.message)),
+                    }
+                }
+            }
+            out.insert("plate".into(), plate);
             s
         }
         ViewKind::Fcs => {
-            let ev = fcs(ds.as_mut(), &info, a, &mut notes, &mut limits)?;
+            let ev = if a.workspace.is_some() || a.gatingml.is_some() {
+                drop(ds);
+                fcs_gated(&reg, &path, a, &mut notes, &mut limits)?
+            } else {
+                fcs(ds.as_mut(), &info, a, &mut notes, &mut limits)?
+            };
             let s = format!("{} events sampled", ev["sampled"]);
             out.insert("events".into(), ev);
             s
         }
     };
-    if !notes.is_empty() {
-        out.insert("notes".into(), json!(notes));
+    if !notes.shown.is_empty() {
+        out.insert("notes".into(), json!(notes.shown));
+    }
+    let mut text = format!("viewer data: {summary}");
+    if !notes.model.is_empty() {
+        text.push_str("; notes: ");
+        text.push_str(&notes.model.join("; "));
+        out.insert("model_notes".into(), json!(notes.model));
     }
     if !limits.is_empty() {
         out.insert("limits".into(), Value::Object(limits));
     }
     let mut r = CallToolResult::structured(Value::Object(out));
-    r.content = vec![ContentBlock::text(format!("viewer data: {summary}"))];
+    r.content = vec![ContentBlock::text(text)];
     if let Some((bytes, mime)) = picture {
         r.content.push(ContentBlock::image(
             base64::engine::general_purpose::STANDARD.encode(&bytes),
             mime,
         ));
     }
+    Ok(r)
+}
+
+/// Most CSS pixels wide a figure is drawn again at.
+const MAX_FIGURE_WIDTH: u32 = 2400;
+
+/// `openreadout_plot` again, for the viewer: the agent's spec in the host's theme, at the
+/// viewer's width and pixel density, over `x_range` when the figure is a single plot. It never
+/// writes a file.
+fn figure(registry: fn() -> Registry, a: &ViewArgs) -> Result<CallToolResult, McpError> {
+    let raw = a
+        .spec
+        .clone()
+        .ok_or_else(|| usage("view figure needs spec: the openreadout_plot arguments"))?;
+    let mut spec = openreadout_plot::parse_spec(raw).map_err(|e| err(&e))?;
+    spec.theme = Some(if a.dark {
+        openreadout_plot::ThemeName::Dark
+    } else {
+        openreadout_plot::ThemeName::Light
+    });
+    spec.paper.clone_from(&a.paper);
+    if let Some(w) = a.width {
+        spec.width = Some(w.clamp(320, MAX_FIGURE_WIDTH));
+        // the height follows the content at the new width
+        spec.height = None;
+    }
+    let mut notes = Vec::new();
+    if let Some([x0, x1]) = a.x_range {
+        let range = Some([x0.min(x1), x0.max(x1)]);
+        if spec.panels.is_empty() {
+            // one plot, or its facets or wells, which share their axes
+            spec.panel.x.get_or_insert_with(Default::default).range = range;
+        } else {
+            let shared = matches!(
+                spec.share,
+                Some(openreadout_plot::Share::X | openreadout_plot::Share::Both)
+            );
+            let n = spec.panels.len();
+            match a.panel {
+                Some(i) if i >= n => notes.push(format!(
+                    "panel {i} is not in the figure (it has {n}); zoom left out"
+                )),
+                Some(i) if !shared => {
+                    spec.panels[i]
+                        .panel
+                        .x
+                        .get_or_insert_with(Default::default)
+                        .range = range;
+                }
+                _ => {
+                    for p in &mut spec.panels {
+                        p.panel.x.get_or_insert_with(Default::default).range = range;
+                    }
+                }
+            }
+        }
+    }
+    let reg = crate::with_strict(registry(), spec.strict);
+    let p = openreadout_plot::plot(&reg, &spec).map_err(|e| err(&e))?;
+    let scale = a.scale.unwrap_or(1.0).clamp(1.0, 3.0);
+    let raster = p.figure.to_raster(scale);
+    let mut bytes = raster.to_png().map_err(|e| err(&e))?;
+    let mut mime = "image/png";
+    if bytes.len() > crate::resources::PREVIEW_BUDGET {
+        bytes = raster.to_jpeg(88).map_err(|e| err(&e))?;
+        mime = "image/jpeg";
+    }
+    let v = json!({
+        "view": "figure",
+        "figure": {"width": p.output.width, "height": p.output.height, "panels": p.hover},
+        "notes": notes,
+    });
+    let mut r = CallToolResult::structured(v);
+    r.content = vec![
+        ContentBlock::text(format!(
+            "viewer data: figure {}x{} at {scale}x",
+            p.output.width, p.output.height
+        )),
+        ContentBlock::image(
+            base64::engine::general_purpose::STANDARD.encode(&bytes),
+            mime,
+        ),
+    ];
     Ok(r)
 }
 
@@ -573,7 +757,7 @@ fn image(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
 ) -> Result<(Value, Vec<u8>, &'static str), McpError> {
     use openreadout_preview as pv;
     let mut req = pv::PreviewRequest::default();
@@ -609,6 +793,10 @@ fn image(
         .parse()
         .map_err(|e| err(&e))?;
     req.axes = false;
+    if let Some(o) = &a.objects {
+        req.marks = pv::Marks::Objects;
+        req.objects = Some(o.clone());
+    }
     let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
     let (out, bytes) = pv::finish_within(
         &r,
@@ -617,9 +805,10 @@ fn image(
         crate::resources::PREVIEW_BUDGET,
     )
     .map_err(|e| err(&e))?;
-    // The rendering's own notes. Fitting the byte budget only shrinks the picture further,
-    // and the viewer loads full detail when the user zooms in, so that is not news to them.
-    notes.extend(r.output.notes.iter().cloned());
+    // The rendering's own notes are worded for the model (rulers, contrast screening).
+    // Fitting the byte budget only shrinks the picture further, and the viewer loads full
+    // detail when the user zooms in, so that is not news to anyone.
+    notes.model.extend(r.output.notes.iter().cloned());
     let mime = if out.encoding == "jpeg" {
         "image/jpeg"
     } else {
@@ -693,7 +882,7 @@ fn trace(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     let ti = a
@@ -718,6 +907,15 @@ fn trace(
             t.sweep_count
         )));
     }
+    // Voltammetry reads as current against potential, as the preview draws it.
+    if a.channels.is_empty()
+        && a.first_sample.is_none()
+        && a.count.is_none()
+        && let Some(v) = openreadout_preview::electrochem::voltammogram(ds, info, Some(ti), a.sweep)
+            .map_err(|e| err(&e))?
+    {
+        return Ok(voltammogram_plot(&v, &t, a, notes));
+    }
     let nch = t.channels.len();
     if nch == 0 {
         return Err(usage(format!("trace {ti} has no channels")));
@@ -728,17 +926,24 @@ fn trace(
         .and_then(|ax| ax.get("channel"))
         .and_then(Value::as_u64)
         .and_then(|c| u32::try_from(c).ok());
+    // Overlaid curves (qPCR wells, spectra of a series) are drawn in one panel, so many fit.
+    let overlay = t.extra.get("plot").and_then(Value::as_str) == Some("overlay");
+    let max_channels = if overlay {
+        MAX_OVERLAY_CHANNELS
+    } else {
+        MAX_CHANNELS
+    };
     let channels: Vec<u32> = if a.channels.is_empty() {
         (0..nch as u32)
             .filter(|c| Some(*c) != x_channel || nch == 1)
-            .take(MAX_CHANNELS)
+            .take(max_channels)
             .collect()
     } else {
         a.channels
             .iter()
             .copied()
             .filter(|c| (*c as usize) < nch)
-            .take(MAX_CHANNELS)
+            .take(max_channels)
             .collect()
     };
     if channels.is_empty() {
@@ -747,9 +952,9 @@ fn trace(
         )));
     }
     let signal_channels = nch - usize::from(x_channel.is_some() && nch > 1);
-    if a.channels.is_empty() && signal_channels > MAX_CHANNELS {
+    if a.channels.is_empty() && signal_channels > max_channels {
         notes.push(format!(
-            "plotting the first {MAX_CHANNELS} of {signal_channels} channels"
+            "plotting the first {max_channels} of {signal_channels} channels"
         ));
     }
     let sweep_len = openreadout_core::trace::sweep_samples(&t, sweep);
@@ -761,7 +966,8 @@ fn trace(
             "read the first {n} of {count} samples of the window; zoom in to see the rest"
         ));
     }
-    let buckets = points(a);
+    // Many channels share the point budget.
+    let buckets = points(a).min((MAX_PLOT_VALUES / channels.len()).max(16));
     let mut env: Vec<Envelope> = channels.iter().map(|_| Envelope::new(n, buckets)).collect();
     let mut xs: Option<Vec<Option<f32>>> =
         x_channel.map(|_| vec![None; env.first().map_or(0, |e| e.lo.len())]);
@@ -840,7 +1046,7 @@ fn trace(
         "trace": ti, "sweep": sweep, "sweep_count": t.sweep_count,
         "sweep_sample_count": sweep_len, "first_sample": first, "count": count, "read": n,
         "samples_per_point": per_bucket, "x": x, "series": series,
-        "overlay": t.extra.get("plot").and_then(Value::as_str) == Some("overlay"),
+        "overlay": overlay,
     });
     if let Some(xs) = xs {
         plot["xs"] = json!(xs);
@@ -848,11 +1054,49 @@ fn trace(
     Ok(plot)
 }
 
+/// A voltammogram as a plot: one series per cycle, current against potential.
+fn voltammogram_plot(
+    v: &openreadout_preview::electrochem::Voltammogram,
+    t: &TraceInfo,
+    a: &ViewArgs,
+    notes: &mut Notes,
+) -> Value {
+    for n in &v.notes {
+        notes.push(n.clone());
+    }
+    let cap = points(a);
+    let series: Vec<Value> = v
+        .cycles
+        .iter()
+        .map(|(name, pts)| {
+            let step = pts.len().div_ceil(cap).max(1);
+            let (xs, ys): (Vec<f32>, Vec<f32>) = pts
+                .iter()
+                .step_by(step)
+                .map(|p| (p.0 as f32, p.1 as f32))
+                .unzip();
+            json!({
+                "name": if name.is_empty() { v.current.1.clone() } else { format!("cycle {name}") },
+                "unit": v.current.2, "x": xs, "y": ys,
+            })
+        })
+        .collect();
+    json!({
+        "kind": "trace",
+        "voltammogram": true,
+        "trace": v.trace, "sweep": v.sweep, "sweep_count": t.sweep_count,
+        "x": {"quantity": "potential", "unit": v.potential.2, "irregular": true},
+        "y_unit": v.current.2,
+        "series": series,
+        "overlay": true,
+    })
+}
+
 fn nmr(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     use openreadout_signal::nmr;
@@ -868,7 +1112,7 @@ fn nmr(
     let req = q.request().map_err(|e| err(&e))?;
     let report = nmr::analyze(ds, info, &req).map_err(|e| err(&e))?;
     let chosen = nmr::load(ds, info, &req).map_err(|e| err(&e))?;
-    notes.extend(chosen.notes.iter().take(4).cloned());
+    notes.model.extend(chosen.notes.iter().take(4).cloned());
     let y = &chosen.spectrum.real;
     let ax = &chosen.spectrum.axis;
     let total = y.len() as u64;
@@ -920,7 +1164,7 @@ fn chromatogram(
     file: &str,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     let detector = a.trace.or_else(|| {
@@ -983,7 +1227,7 @@ fn chromatogram(
             "points": c["points"],
         }));
     }
-    notes.extend(
+    notes.model.extend(
         out["notes"]
             .as_array()
             .into_iter()
@@ -992,6 +1236,17 @@ fn chromatogram(
             .take(4)
             .map(str::to_string),
     );
+    // the point-to-point noise of the first chromatogram, for which peaks get a label
+    let step_noise = series
+        .first()
+        .and_then(|c| c["y"].as_array())
+        .map_or(0.0, |ys| {
+            let v: Vec<f64> = ys.iter().filter_map(Value::as_f64).collect();
+            let mut d: Vec<f64> = v.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+            d.sort_by(f64::total_cmp);
+            d.get(d.len() / 2)
+                .map_or(0.0, |m| 1.4826 * m / std::f64::consts::SQRT_2)
+        });
     let want_peaks = a.peaks.unwrap_or(detector.is_some());
     let mut peaks = Vec::new();
     let mut area_unit = Value::Null;
@@ -1008,12 +1263,29 @@ fn chromatogram(
                         ));
                     }
                     let all = tallest(all, MAX_PEAKS, |p| p["height"].as_f64().unwrap_or(0.0));
+                    let top = all
+                        .iter()
+                        .filter_map(|p| p["height"].as_f64())
+                        .fold(0.0, f64::max);
                     for pk in &all {
+                        let h = pk["height"].as_f64().unwrap_or(0.0);
+                        // the picker's S/N, and the height over the trace's own wiggle
+                        let snr =
+                            pk["snr"]
+                                .as_f64()
+                                .unwrap_or(f64::INFINITY)
+                                .min(if step_noise > 0.0 {
+                                    h / step_noise
+                                } else {
+                                    f64::INFINITY
+                                });
                         peaks.push(json!({
                             "x": pk["rt_min"], "from": pk["start_min"], "to": pk["end_min"],
                             "height": pk["height"], "area": pk["area"],
                             "area_percent": pk["area_percent"],
                             "label": pk["number"],
+                            // every peak can be hovered; only the prominent ones are labelled
+                            "labelled": h >= top * LABEL_SHARE && snr >= LABEL_SNR,
                         }));
                     }
                 }
@@ -1036,7 +1308,7 @@ fn spectrum(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     use openreadout_core::SpectrumView;
@@ -1161,13 +1433,258 @@ fn spectrum(
 }
 
 // ---------------------------------------------------------------------------------------------
+// Plates
+
+/// The plate layout a reader stored with a table (`extra.layout`: one map of well name → label
+/// per kind, such as samples and groups), capped to [`MAX_LAYOUT_MAPS`] maps.
+fn well_groups(t: &TableInfo) -> Option<Value> {
+    let maps = t.extra.get("layout")?.as_object()?;
+    let out: Map<String, Value> = maps
+        .iter()
+        .filter_map(|(name, m)| {
+            let wells: Map<String, Value> = m
+                .as_object()?
+                .iter()
+                .filter(|(_, v)| v.is_string())
+                .take(MAX_LAYOUT_WELLS)
+                .map(|(k, v)| (k.clone(), v.clone()))
+                .collect();
+            (!wells.is_empty()).then(|| (name.clone(), Value::Object(wells)))
+        })
+        .take(MAX_LAYOUT_MAPS)
+        .collect();
+    (!out.is_empty()).then_some(Value::Object(out))
+}
+
+/// The value of row `i` of column `c`, NaN when absent.
+fn cell(cols: &[Vec<f64>], c: Option<usize>, i: usize) -> f64 {
+    c.and_then(|c| cols.get(c))
+        .and_then(|v| v.get(i))
+        .copied()
+        .unwrap_or(f64::NAN)
+}
+
+/// The time course of every well of a long plate table (`row`/`col` or `well`, `time_s`,
+/// `value`, optionally `read` and `wavelength_nm`), on at most [`MAX_TIME_POINTS`] time points.
+/// `None` when the table holds one time point.
+fn kinetics(
+    ds: &mut dyn openreadout_core::Dataset,
+    table: &TableInfo,
+    read: Option<u32>,
+    limits: &mut Map<String, Value>,
+) -> Result<Option<Value>, McpError> {
+    let idx = |names: &[&str]| {
+        table.columns.iter().position(|c| {
+            names
+                .iter()
+                .any(|nrows| c.name.trim().eq_ignore_ascii_case(nrows))
+        })
+    };
+    let (Some(ti), Some(vi)) = (idx(&["time_s"]), idx(&["value"])) else {
+        return Ok(None);
+    };
+    let (ri, ci, wi) = (idx(&["row"]), idx(&["col", "column"]), idx(&["well"]));
+    // Well names of a `well` index column (`extra.categories`), when there is no row and column.
+    let well_names: Option<Vec<Option<(u32, u32)>>> = wi
+        .filter(|_| ri.is_none() || ci.is_none())
+        .and_then(|w| table.columns[w].extra.get("categories"))
+        .and_then(Value::as_array)
+        .map(|names| {
+            names
+                .iter()
+                .map(|nrows| nrows.as_str().and_then(parse_well))
+                .collect()
+        });
+    if (ri.is_none() || ci.is_none()) && well_names.is_none() {
+        return Ok(None);
+    }
+    let (readi, wli) = (idx(&["read"]), idx(&["wavelength_nm"]));
+    let total = table.row_count.min(MAX_PLATE_ROWS);
+    if total < table.row_count {
+        limits.insert("plate_rows_read".into(), json!(total));
+    }
+    let mut cols: Vec<Vec<f64>> = vec![Vec::new(); table.columns.len()];
+    let mut pos = 0u64;
+    while pos < total {
+        let tab = ds
+            .read_table(table.index, pos, (total - pos).min(262_144))
+            .map_err(|e| err(&e))?;
+        let got = tab.columns.first().map_or(0, Vec::len) as u64;
+        if got == 0 {
+            break;
+        }
+        let needed = [Some(ti), Some(vi), ri, ci, wi, readi, wli];
+        for (j, (dst, src)) in cols.iter_mut().zip(tab.columns).enumerate() {
+            if needed.contains(&Some(j)) {
+                dst.extend(src);
+            }
+        }
+        pos += got;
+    }
+    let nrows = cols.get(vi).map_or(0, Vec::len);
+    // Base of row and column numbers: 1 unless a 0 occurs.
+    let base = |c: Option<usize>| {
+        if c.and_then(|c| cols.get(c))
+            .is_some_and(|v| v.contains(&0.0))
+        {
+            0.0
+        } else {
+            1.0
+        }
+    };
+    let (rb, cb) = (base(ri), base(ci));
+    let position = |i: usize| -> Option<(u32, u32)> {
+        if let Some(names) = &well_names {
+            let w = cell(&cols, wi, i);
+            return (w.is_finite() && w >= 0.0)
+                .then(|| names.get(w as usize).copied().flatten())
+                .flatten();
+        }
+        let (r, c) = (cell(&cols, ri, i) - rb, cell(&cols, ci, i) - cb);
+        (r >= 0.0 && c >= 0.0 && r < 64.0 && c < 64.0 && r.fract() == 0.0 && c.fract() == 0.0)
+            .then_some((r as u32, c as u32))
+    };
+    // Which read, and its first wavelength.
+    let mut reads: Vec<u32> = (0..nrows)
+        .map(|i| cell(&cols, readi, i))
+        .filter(|r| r.is_finite() && *r >= 0.0)
+        .map(|r| r as u32)
+        .collect();
+    reads.sort_unstable();
+    reads.dedup();
+    let chosen = match read {
+        Some(r) if reads.contains(&r) || reads.is_empty() => Some(r),
+        Some(r) => {
+            return Err(usage(format!(
+                "read {r} is not in table {} (reads {reads:?})",
+                table.index
+            )));
+        }
+        None => reads.first().copied(),
+    };
+    let of_read = |i: usize| {
+        chosen.is_none_or(|r| readi.is_none() || (cell(&cols, readi, i) - f64::from(r)).abs() < 0.5)
+    };
+    let wavelength = (0..nrows)
+        .filter(|&i| of_read(i))
+        .map(|i| cell(&cols, wli, i))
+        .filter(|w| w.is_finite())
+        .fold(f64::INFINITY, f64::min);
+    let keep = |i: usize| {
+        of_read(i) && {
+            let w = cell(&cols, wli, i);
+            !wavelength.is_finite() || !w.is_finite() || w.to_bits() == wavelength.to_bits()
+        }
+    };
+    let mut times: Vec<f64> = (0..nrows)
+        .filter(|&i| keep(i))
+        .map(|i| cell(&cols, Some(ti), i))
+        .filter(|x| x.is_finite())
+        .collect();
+    times.sort_by(f64::total_cmp);
+    times.dedup();
+    if times.len() < 2 {
+        return Ok(None);
+    }
+    // The time grid: the time points themselves, or equal bins when there are too many.
+    let (t0, t1) = (times[0], times[times.len() - 1]);
+    let bucketed = times.len() > MAX_TIME_POINTS;
+    let bins = times.len().min(MAX_TIME_POINTS);
+    let slot = |x: f64| -> usize {
+        if bucketed {
+            (((x - t0) / (t1 - t0) * bins as f64) as usize).min(bins - 1)
+        } else {
+            times.partition_point(|t| *t < x).min(bins - 1)
+        }
+    };
+    let grid: Vec<f64> = if bucketed {
+        (0..bins)
+            .map(|j| t0 + (j as f64 + 0.5) * (t1 - t0) / bins as f64)
+            .collect()
+    } else {
+        times.clone()
+    };
+    if bucketed {
+        limits.insert("time_points".into(), json!(bins));
+    }
+    let mut wells: std::collections::BTreeMap<(u32, u32), Vec<(f64, u32)>> = Default::default();
+    for i in 0..nrows {
+        if !keep(i) {
+            continue;
+        }
+        let (x, v) = (cell(&cols, Some(ti), i), cell(&cols, Some(vi), i));
+        let Some(p) = position(i) else { continue };
+        if !x.is_finite() || !v.is_finite() {
+            continue;
+        }
+        let acc = wells.entry(p).or_insert_with(|| vec![(0.0, 0); bins]);
+        let s = &mut acc[slot(x)];
+        s.0 += v;
+        s.1 += 1;
+    }
+    let mut values: Vec<f32> = Vec::with_capacity(wells.len() * bins);
+    for acc in wells.values() {
+        values.extend(acc.iter().map(|(s, c)| {
+            if *c > 0 {
+                (*s / f64::from(*c)) as f32
+            } else {
+                f32::NAN
+            }
+        }));
+    }
+    let bytes: Vec<u8> = values.iter().flat_map(|x| x.to_le_bytes()).collect();
+    let described = table.extra.get("reads").and_then(Value::as_array);
+    let reads_json: Vec<Value> = reads
+        .iter()
+        .map(|r| {
+            let d = described.and_then(|d| {
+                d.iter()
+                    .find(|x| x.get("read").and_then(Value::as_u64) == Some(u64::from(*r)))
+            });
+            json!({"read": r, "label": d.and_then(|d| d.get("label")), "unit": d.and_then(|d| d.get("unit"))})
+        })
+        .collect();
+    let unit = reads_json
+        .iter()
+        .find(|r| chosen.is_some_and(|c| r["read"] == json!(c)))
+        .and_then(|r| r["unit"].as_str().map(str::to_string));
+    Ok(Some(json!({
+        "read": chosen, "reads": reads_json,
+        "wavelength_nm": wavelength.is_finite().then_some(wavelength),
+        "unit": unit,
+        "time_s": grid.iter().map(|x| (x * 1000.0).round() / 1000.0).collect::<Vec<_>>(),
+        "time_points": times.len(),
+        "wells": wells.keys().map(|(r, c)| json!([r, c])).collect::<Vec<_>>(),
+        "encoding": "f32le-base64",
+        "values": base64::engine::general_purpose::STANDARD.encode(bytes),
+    })))
+}
+
+/// `A1` / `a01` / `P24` → zero-based (row, column).
+fn parse_well(name: &str) -> Option<(u32, u32)> {
+    let name = name.trim();
+    let mut chars = name.chars();
+    let r = chars.next()?.to_ascii_uppercase();
+    let digits = chars.as_str();
+    if !r.is_ascii_uppercase()
+        || digits.is_empty()
+        || digits.len() > 2
+        || !digits.bytes().all(|b| b.is_ascii_digit())
+    {
+        return None;
+    }
+    let c: u32 = digits.parse().ok()?;
+    (c >= 1).then(|| (u32::from(r as u8 - b'A'), c - 1))
+}
+
+// ---------------------------------------------------------------------------------------------
 // Flow cytometry
 
 fn fcs(
     ds: &mut dyn openreadout_core::Dataset,
     info: &FileInfo,
     a: &ViewArgs,
-    notes: &mut Vec<String>,
+    notes: &mut Notes,
     limits: &mut Map<String, Value>,
 ) -> Result<Value, McpError> {
     let ti = a.table.unwrap_or(0);
@@ -1253,6 +1770,241 @@ fn fcs(
         "x": col(xi), "y": yi.map(col),
         "encoding": "f32le-base64",
         "xs": b64(&xs), "ys": yi.map(|_| b64(&ys)),
+    }))
+}
+
+/// Flow-cytometry events coloured by the populations of a FlowJo workspace or Gating-ML file:
+/// the events of one population (all events by default), with a bit per child population.
+fn fcs_gated(
+    reg: &Registry,
+    path: &str,
+    a: &ViewArgs,
+    notes: &mut Notes,
+    limits: &mut Map<String, Value>,
+) -> Result<Value, McpError> {
+    use openreadout_fcs::analysis as fa;
+    let gating = a
+        .workspace
+        .as_ref()
+        .or(a.gatingml.as_ref())
+        .cloned()
+        .unwrap_or_default();
+    let ti = a.table.unwrap_or(0);
+    let mut opts = json!({"table": ti});
+    if let Some(w) = &a.workspace {
+        opts["workspace"] = json!(w);
+    } else {
+        opts["gatingml"] = json!(gating);
+    }
+    if let Some(s) = &a.sample {
+        opts["sample"] = json!(s);
+    }
+    let report = analyze(reg, path, "gate", opts)?;
+    let pops = report["populations"]
+        .as_array()
+        .cloned()
+        .unwrap_or_default();
+    let field = |p: &Value, k: &str| p[k].as_str().unwrap_or_default().to_string();
+    let shown: Option<&Value> = match a.population.as_deref().map(str::trim) {
+        None | Some("" | "/") => None,
+        Some(q) => {
+            let want = if q.starts_with('/') {
+                q.to_string()
+            } else {
+                format!("/{q}")
+            };
+            let by_path = pops.iter().find(|p| field(p, "path") == want);
+            let by_name: Vec<&Value> = pops.iter().filter(|p| field(p, "name") == q).collect();
+            Some(match (by_path, by_name.as_slice()) {
+                (Some(p), _) => p,
+                (None, [p]) => *p,
+                _ => {
+                    return Err(usage(format!(
+                        "population '{q}' is not in {gating}, or its name is not unique (give its path)"
+                    )));
+                }
+            })
+        }
+    };
+    let shown_path = shown.map(|p| field(p, "path"));
+    let children: Vec<&Value> = pops
+        .iter()
+        .filter(|p| p["parent"].as_str().map(str::to_string) == shown_path)
+        .take(MAX_GATED_POPULATIONS)
+        .collect();
+    let dims_of = |p: &Value| -> Vec<String> {
+        p["dimensions"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter_map(|d| d["parameter"].as_str().map(str::to_string))
+            .collect()
+    };
+    // Axes: the ones the child gates are drawn on, else the population's own.
+    let axes = children
+        .first()
+        .map(|c| dims_of(c))
+        .filter(|d| !d.is_empty())
+        .or_else(|| shown.map(dims_of))
+        .unwrap_or_default();
+    let mut members: Vec<String> = shown_path.iter().cloned().collect();
+    members.extend(children.iter().map(|c| field(c, "path")));
+    let total_rows = report["event_count"].as_u64().unwrap_or(0);
+    // Every event is gated, chunk by chunk, when the file holds at most MAX_GATED_READ of them;
+    // a larger file is gated in GATED_WINDOWS windows spread evenly over the acquisition.
+    let windows: Vec<(u64, u64)> = if total_rows <= MAX_GATED_READ {
+        (0..total_rows.div_ceil(GATED_CHUNK).max(1))
+            .map(|k| {
+                (
+                    k * GATED_CHUNK,
+                    GATED_CHUNK.min(total_rows - k * GATED_CHUNK),
+                )
+            })
+            .collect()
+    } else {
+        let per = MAX_GATED_READ / GATED_WINDOWS;
+        (0..GATED_WINDOWS)
+            .map(|k| (k * total_rows / GATED_WINDOWS, per))
+            .collect()
+    };
+    let read: u64 = windows.iter().map(|w| w.1).sum();
+    if read < total_rows {
+        limits.insert("events_read".into(), json!(read));
+        notes.push(format!(
+            "{read} of {total_rows} events gated, in {} windows spread over the run",
+            windows.len()
+        ));
+    }
+    let mut topts = fa::TableOptions::default();
+    topts.gating_file = Some(std::path::PathBuf::from(&gating));
+    topts.sample = a.sample.clone();
+    topts.populations = members;
+    topts.compensation = Some(fa::CompensationChoice::Auto);
+    // the events of the shown population expected among those read, for an even sample
+    let shown_count = shown
+        .and_then(|p| p["count"].as_u64())
+        .unwrap_or(total_rows);
+    let expected = shown_count
+        .saturating_mul(read)
+        .checked_div(total_rows)
+        .unwrap_or(0);
+    let want = a.events.unwrap_or(DEFAULT_EVENTS).clamp(100, MAX_EVENTS);
+    let stride = expected.div_ceil(want).max(1);
+    if stride > 1 {
+        limits.insert("event_stride".into(), json!(stride));
+    }
+    let (mut xs, mut ys, mut bits) = (Vec::new(), Vec::new(), Vec::new());
+    let mut in_shown = 0u64;
+    let mut first: Option<fa::ProcessedRows> = None;
+    let mut axes_at: Option<(usize, Option<usize>)> = None;
+    for &(start, count) in &windows {
+        let rows = match fa::processed_rows(Path::new(path), ti, start, count, &topts) {
+            Ok(r) => r,
+            Err(_) if first.is_none() && topts.compensation.is_some() => {
+                // no matrix to compensate with: the values as stored
+                topts.compensation = None;
+                notes.push("values as stored (no compensation matrix)".into());
+                fa::processed_rows(Path::new(path), ti, start, count, &topts)
+                    .map_err(|e| err(&e))?
+            }
+            Err(e) => return Err(err(&e)),
+        };
+        let col = |name: &str| rows.names.iter().position(|n| n == name);
+        // the axes, found by name in the first window
+        if axes_at.is_none() {
+            let named = |n: &str| {
+                col(n).ok_or_else(|| usage(format!("no parameter named '{n}' in table {ti}")))
+            };
+            let xi = match a.x.as_deref() {
+                Some(n) => named(n)?,
+                None => axes
+                    .first()
+                    .and_then(|n| col(n))
+                    .or_else(|| col("FSC-A"))
+                    .unwrap_or(0),
+            };
+            let yi = match a.y.as_deref() {
+                Some("") => None,
+                Some(n) => Some(named(n)?),
+                None if axes.len() == 1 => None,
+                None => axes.get(1).and_then(|n| col(n)).or_else(|| col("SSC-A")),
+            };
+            axes_at = Some((xi, yi));
+        }
+        let (xi, yi) = axes_at.unwrap_or((0, None));
+        let gate_col = |p: &str| col(&format!("gate:{p}")).and_then(|i| rows.columns.get(i));
+        let inside = shown_path.as_deref().and_then(gate_col);
+        let child_cols: Vec<Option<&Vec<f64>>> = children
+            .iter()
+            .map(|c| gate_col(&field(c, "path")))
+            .collect();
+        let n = rows.columns.first().map_or(0, Vec::len);
+        let is_in = |i: usize| inside.is_none_or(|c| c.get(i).copied() == Some(1.0));
+        for i in (0..n).filter(|&i| is_in(i)) {
+            let k = in_shown;
+            in_shown += 1;
+            if !k.is_multiple_of(stride) || xs.len() as u64 >= want {
+                continue;
+            }
+            let at = |c: usize| {
+                rows.columns
+                    .get(c)
+                    .and_then(|v| v.get(i))
+                    .copied()
+                    .unwrap_or(f64::NAN) as f32
+            };
+            xs.push(at(xi));
+            if let Some(y) = yi {
+                ys.push(at(y));
+            }
+            let mut b = 0u8;
+            for (j, c) in child_cols.iter().enumerate() {
+                if c.and_then(|c| c.get(i)).copied() == Some(1.0) {
+                    b |= 1 << j;
+                }
+            }
+            bits.push(b);
+        }
+        if first.is_none() {
+            first = Some(rows);
+        }
+    }
+    let rows = first.ok_or_else(|| usage(format!("table {ti} holds no events")))?;
+    let (xi, yi) = axes_at.unwrap_or((0, None));
+    let b64 = |v: &[f32]| {
+        let bytes: Vec<u8> = v.iter().flat_map(|x| x.to_le_bytes()).collect();
+        base64::engine::general_purpose::STANDARD.encode(bytes)
+    };
+    let param =
+        |i: usize| json!({"name": rows.names[i], "label": rows.labels.get(i).cloned().flatten()});
+    let summary = |p: &Value| {
+        json!({
+            "path": p["path"], "name": p["name"], "gate_type": p["gate_type"],
+            "count": p["count"], "percent_of_parent": p["percent_of_parent"],
+            "dimensions": dims_of(p),
+        })
+    };
+    let all = json!({"path": "/", "name": "all events", "count": total_rows});
+    let listed: Vec<Value> = pops
+        .iter()
+        .take(MAX_OUTLINE_ITEMS)
+        .map(|p| json!({"path": p["path"], "name": p["name"], "count": p["count"]}))
+        .collect();
+    Ok(json!({
+        "table": ti, "total": total_rows, "sampled": xs.len(), "stride": stride,
+        "x": param(xi), "y": yi.map(param),
+        "encoding": "f32le-base64",
+        "xs": b64(&xs), "ys": yi.map(|_| b64(&ys)),
+        "compensated": rows.processing.compensation.is_some(),
+        "gating": {
+            "file": gating,
+            "sample": report["sample"]["name"],
+            "shown": shown.map_or(all, summary),
+            "in_shown_read": in_shown,
+            "children": children.iter().map(|c| summary(c)).collect::<Vec<_>>(),
+            "populations": listed,
+            "members": base64::engine::general_purpose::STANDARD.encode(&bits),
+        },
     }))
 }
 

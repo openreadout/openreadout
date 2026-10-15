@@ -29,6 +29,10 @@ pub struct WatchArgs {
     pub qc: bool,
     /// First call only: seconds without growth before `dataset_stalled` (default 120).
     pub stall_after: Option<f64>,
+    /// First call only: walk into directories behind symbolic links too (links to files are
+    /// always followed).
+    #[serde(default)]
+    pub follow_symlinks: bool,
 }
 
 /// Output of `openreadout_watch`.
@@ -45,6 +49,9 @@ pub struct WatchOutput {
     pub dropped: bool,
     /// Data sets the watcher remembers.
     pub tracked: usize,
+    /// What the watcher left out and how to include it.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub notes: Vec<String>,
 }
 
 /// Events kept per watcher for cursor polling.
@@ -67,8 +74,8 @@ pub(crate) type Watches = std::sync::Arc<
 impl InstrumentServer {
     #[tool(
         name = "openreadout_watch",
-        annotations(title = "Watch for data being acquired", read_only_hint = true, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<WatchOutput>(),
+        annotations(title = "Watch an acquisition", read_only_hint = true, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = crate::tools::output_schema::<WatchOutput>(),
         description = "Follow directories an instrument writes to: each call looks once and returns events since cursor (dataset_new, plane_new, scan_new, frame_new, dataset_complete, dataset_stalled, qc with qc=true: saturation, focus drift, dropped frames, TIC drop, error). Poll with the returned cursor; files are never locked."
     )]
     pub(crate) async fn watch(
@@ -85,7 +92,12 @@ impl InstrumentServer {
             }
             let mut dirs = a.dirs.clone();
             dirs.sort();
-            let key = format!("{}|qc={}", dirs.join("\u{1f}"), a.qc);
+            let key = format!(
+                "{}|qc={}|links={}",
+                dirs.join("\u{1f}"),
+                a.qc,
+                a.follow_symlinks
+            );
             let reg = registry();
             let mut map = watches
                 .lock()
@@ -110,6 +122,7 @@ impl InstrumentServer {
                 if let Some(s) = a.stall_after.filter(|s| s.is_finite() && *s >= 0.0) {
                     o.stall_after = std::time::Duration::from_secs_f64(s);
                 }
+                o.follow_symlinks = a.follow_symlinks;
                 if a.qc {
                     o.qc = Some(openreadout_live::qc::Rules::defaults());
                 }
@@ -137,12 +150,23 @@ impl InstrumentServer {
             let more = events.len() > limit;
             let events: Vec<_> = events.into_iter().take(limit).collect();
             let next = events.last().map_or(cursor, |e| e.seq);
+            let links = w.links_skipped();
+            let notes = if links > 0 {
+                vec![format!(
+                    "{links} symbolic link{} to a directory not watched; pass follow_symlinks: true to watch {}",
+                    if links == 1 { "" } else { "s" },
+                    if links == 1 { "it" } else { "them" },
+                )]
+            } else {
+                Vec::new()
+            };
             Ok(WatchOutput {
                 cursor: next,
                 events,
                 more,
                 dropped,
                 tracked: w.tracked(),
+                notes,
             })
         })
         .await

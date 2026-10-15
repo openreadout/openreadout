@@ -77,7 +77,7 @@ pub use output::{
 };
 pub use plot::render as render_plot;
 pub use request::{Analysis, AssayRequest, BlankMode, FitOn, Normalize, OutlierRule, Reduce};
-pub use tables::{render_text, to_csv, write_tables, write_verified};
+pub use tables::{render_text, to_csv, write_tables};
 
 /// Largest long-CSV input read (plate data is small).
 const MAX_CSV_BYTES: u64 = 64 << 20;

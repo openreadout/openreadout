@@ -1347,10 +1347,12 @@ pub fn compute_stats(
         return Err(Error::unsupported(
             "stats",
             format!("pixel statistics of a {} file", info.format.name),
-            if info.traces.is_empty() {
-                "This file holds no images; for tables use `openreadout export FILE --format csv`."
+            if !info.traces.is_empty() {
+                "This file holds sampled signals, not images: openreadout_trace (CLI `openreadout trace`) reports per-channel min, max, mean and std."
+            } else if !info.spectra.is_empty() {
+                "This file holds mass spectra, not images: use openreadout_chromatogram, openreadout_spectrum or openreadout_scans."
             } else {
-                "This file holds sampled signals; `openreadout trace FILE --json` reports per-channel statistics."
+                "This file holds tables, not images: read the rows with openreadout_table (CLI `openreadout export FILE --format csv`)."
             },
         ));
     }

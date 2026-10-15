@@ -188,11 +188,7 @@ pub fn write(
 ) -> Result<SidecarReport> {
     let file = input.path;
     let output = sidecar_path(input, out_dir);
-    if output == file {
-        return Err(Error::Usage(
-            "the sidecar path must differ from the input; raw files are never modified".into(),
-        ));
-    }
+    openreadout_core::output::refuse_inputs(&output, [file])?;
     let source = fingerprint(file)?;
     if up_to_date(&output, &source, options) {
         let bytes = std::fs::metadata(&output).map_or(0, |m| m.len());

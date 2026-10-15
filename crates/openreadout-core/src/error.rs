@@ -13,6 +13,10 @@ fn usage_hint(message: &str) -> &'static str {
         "Name the output with the extension of the format you want (.ome.tiff, .ome.zarr, .mzML, .csv, .parquet, .arrow, .nwb, .jdx, .asm.json, .rdml), or set the format explicitly."
     } else if m.contains("--overwrite") {
         "Choose another output path, or pass --overwrite to replace that file (the input is never modified)."
+    } else if m.contains(crate::output::OUTPUT_IS_INPUT) {
+        "Choose an output path that is not one of the input files; OpenReadout writes new files next to the raw data and never replaces it."
+    } else if m.contains("out of range: use") {
+        "Use a value inside the range the message gives."
     } else if m.contains("select") {
         "Selections are zero-based and repeatable: `c=0`, `z=1-3`, `t=0,2`; `openreadout info FILE --json` gives each image's size_c, size_z and size_t."
     } else if [
@@ -138,6 +142,9 @@ impl Error {
     /// A suggestion the caller (human or agent) can act on.
     pub fn hint(&self) -> Option<String> {
         match self {
+            Error::UnknownFormat { path } if path.is_dir() => Some(
+                "This folder is not a data set that one reader opens as a whole: name a file in it, or use `openreadout batch` to read every file of the folder.".into(),
+            ),
             Error::UnknownFormat { path } => {
                 let name = path.file_name().map(|n| n.to_string_lossy());
                 Some(match name.as_deref().and_then(|n| n.strip_prefix("._")) {
@@ -157,6 +164,9 @@ impl Error {
             Error::Corrupt { .. } => Some(
                 "Run `openreadout check <file>` for a full integrity report. The file may be truncated by an interrupted acquisition or copy."
                     .into(),
+            ),
+            Error::Io { source, .. } if source.kind() == std::io::ErrorKind::IsADirectory => Some(
+                "This is a folder and the command takes one file: name a file in it, or use `openreadout batch` to read every file of the folder.".into(),
             ),
             Error::Io { .. } => Some("Check that the path exists and is readable.".into()),
             Error::Usage(m) => Some(usage_hint(m).into()),
@@ -236,5 +246,20 @@ mod tests {
         assert!(hint(5).contains("c=0"));
         assert!(hint(8).contains("verification"));
         assert!(hint(10).contains("whole data set"));
+    }
+
+    /// A value out of its range is not an index: its hint does not talk about indices. An
+    /// output that is an input gets its own hint.
+    #[test]
+    fn value_ranges_and_inputs_get_their_own_hints() {
+        let hint = |m: &str| Error::Usage(m.into()).hint().unwrap_or_default();
+        let h = hint("dpi 5 is out of range: use 36 to 2400 (300 is usual for print)");
+        assert!(!h.contains("zero-based"), "{h}");
+        assert!(hint("scale 9 is out of range: use 0.25 to 8").contains("range the message gives"));
+        assert!(
+            hint("output a.tif is the input file a.tif; raw files are never modified")
+                .contains("not one of the input files")
+        );
+        assert!(hint("image index 4 out of range (0..2)").contains("zero-based"));
     }
 }

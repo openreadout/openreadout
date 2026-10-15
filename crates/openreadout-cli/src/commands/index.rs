@@ -39,7 +39,8 @@ pub struct IndexArgs {
     /// Integrity check per data set.
     #[arg(long, value_enum, default_value_t)]
     pub check: CheckArg,
-    /// Follow symbolic links (a directory reached twice is crawled once).
+    /// Follow symbolic links to directories (a directory reached twice is crawled once). Links
+    /// to files are always read.
     #[arg(long)]
     pub follow_symlinks: bool,
     /// Skip entries whose name or root-relative path matches this glob (repeatable), e.g.
@@ -384,9 +385,14 @@ pub fn health(a: &HealthArgs) -> i32 {
         Err(e) => return fail(a.json, &e),
     };
     if let Some(p) = &a.output
-        && let Err(e) = std::fs::write(p, render_markdown(&h))
+        && let Err(e) = openreadout_core::output::write_verified(
+            p,
+            render_markdown(&h).as_bytes(),
+            true,
+            &[a.index.as_path()],
+        )
     {
-        return fail(a.json, &openreadout_core::Error::io(p, e));
+        return fail(a.json, &e);
     }
     emit(a.json, &h, render_markdown)
 }

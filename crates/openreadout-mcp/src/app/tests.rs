@@ -95,6 +95,26 @@ fn view_tool_claims_only_vendor_extensions() {
     assert_eq!(t.annotations.unwrap().read_only_hint, Some(true));
 }
 
+/// `web/theme.json` is openreadout-figure's theme as the viewer reads it. When the theme
+/// changes, this test rewrites the file and fails once; commit the new file.
+#[test]
+fn viewer_colours_are_the_figure_engines() {
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/app/web/theme.json");
+    let want = openreadout_figure::Theme::tokens_json();
+    // compared without line endings: a Windows checkout may have turned LF into CRLF
+    let have = std::fs::read_to_string(&path)
+        .unwrap_or_default()
+        .replace("\r\n", "\n");
+    if have != want.replace("\r\n", "\n") {
+        std::fs::write(&path, &want).unwrap();
+        panic!(
+            "{} was out of date and has been rewritten; commit it",
+            path.display()
+        );
+    }
+    assert!(!html().contains("/*TOKENS*/"));
+}
+
 #[test]
 fn the_page_is_self_contained() {
     let r = read(RESOURCE_URI).unwrap();
@@ -137,6 +157,22 @@ fn hints_follow_the_tool_table() {
     assert_eq!(h["c"], 1);
     assert_eq!(h["z"], 4);
     assert_eq!(h["mip"], true);
+    assert!(h.get("objects").is_none());
+    // objects counted are outlined in the viewer too
+    let h = view_hint(
+        "openreadout_preview",
+        Some(&args(json!({"file": "/d/a.czi", "marks": "objects"}))),
+    )
+    .unwrap();
+    assert_eq!(h["objects"], json!({}));
+    let h = view_hint(
+        "openreadout_stats",
+        Some(&args(
+            json!({"file": "/d/a.czi", "objects": {"kind": "spots"}}),
+        )),
+    )
+    .unwrap();
+    assert_eq!(h["objects"], json!({"kind": "spots"}));
     let h = view_hint(
         "openreadout_trace",
         Some(&args(json!({"file": "a.abf", "sweep": 3, "channels": [1]}))),
@@ -186,11 +222,34 @@ fn hints_follow_the_tool_table() {
     .unwrap();
     assert_eq!(h["view"], "nmr");
     let h = view_hint(
-        "openreadout_dose_response",
-        Some(&args(json!({"file": "plate.xlsx"}))),
+        "openreadout_assay",
+        Some(&args(
+            json!({"file": "plate.xlsx", "analysis": "dose-response"}),
+        )),
     )
     .unwrap();
     assert_eq!(h["view"], "plate");
+    // the agent's annotations reach the viewer as they were given
+    let ann = json!([{"kind": "point", "x": 10, "y": 20, "label": "here"}]);
+    let h = view_hint(
+        "openreadout_preview",
+        Some(&args(
+            json!({"file": "/d/a.czi", "annotations": ann.clone()}),
+        )),
+    )
+    .unwrap();
+    assert_eq!(h["annotations"], ann);
+    // gating: the population asked about, with its workspace
+    let h = view_hint(
+        "openreadout_gate",
+        Some(&args(
+            json!({"file": "a.fcs", "workspace": "w.wsp", "populations": ["CD3+", "CD4+"]}),
+        )),
+    )
+    .unwrap();
+    assert_eq!(h["view"], "fcs");
+    assert_eq!(h["workspace"], "w.wsp");
+    assert_eq!(h["population"], "CD3+");
     // tools without a viewer, or calls without a file
     assert!(view_hint("openreadout_export", Some(&args(json!({"file": "a"})))).is_none());
     assert!(view_hint("openreadout_info", Some(&args(json!({})))).is_none());
@@ -287,6 +346,55 @@ impl openreadout_core::Dataset for Fake {
                     ..Default::default()
                 }];
             }
+            b'P' => {
+                // a kinetic plate read: 96 wells, two reads, `n` time points, long layout
+                format.family = "plate-reader".into();
+                let col = |i: u32, name: &str| ColumnInfo {
+                    index: i,
+                    name: name.into(),
+                    dtype: "f64".into(),
+                    ..Default::default()
+                };
+                let names = ["well", "row", "col", "read", "time_s", "value"];
+                let mut t = TableInfo {
+                    index: 0,
+                    row_count: u64::from(self.n) * 2 * 96,
+                    columns: (0..6).map(|i| col(i, names[i as usize])).collect(),
+                    ..Default::default()
+                };
+                let mut group = serde_json::Map::new();
+                for w in 0..96u32 {
+                    let name = format!("{}{}", char::from(b'A' + (w / 12) as u8), w % 12 + 1);
+                    group.insert(name, json!(if w % 12 == 11 { "Blank" } else { "cells" }));
+                }
+                t.extra.insert("layout".into(), json!({"Group": group}));
+                t.extra.insert("plate_rows".into(), json!(8));
+                t.extra.insert("plate_columns".into(), json!(12));
+                t.extra.insert(
+                    "reads".into(),
+                    json!([{"read": 1, "label": "OD600", "unit": "OD"}, {"read": 2, "label": "GFP"}]),
+                );
+                info.tables = vec![t];
+            }
+            b'O' => {
+                // many overlaid curves, like the wells of a qPCR run
+                let ch = |name: String| SignalChannelInfo {
+                    name,
+                    dtype: "f64".into(),
+                    scale: 1.0,
+                    ..Default::default()
+                };
+                let mut t = TraceInfo {
+                    index: 0,
+                    sample_rate_hz: 1.0,
+                    sample_count: u64::from(self.n),
+                    sweep_count: 1,
+                    channels: (0..96).map(|i| ch(format!("W{i} GAPDH"))).collect(),
+                    ..Default::default()
+                };
+                t.extra.insert("plot".into(), json!("overlay"));
+                info.traces = vec![t];
+            }
             _ => {
                 format.family = "flow-cytometry".into();
                 let col = |i: u32, name: &str| ColumnInfo {
@@ -340,7 +448,8 @@ impl openreadout_core::Dataset for Fake {
     ) -> openreadout_core::Result<Trace> {
         // pages of at most 100 000 samples, like a real reader
         let end = (first + count.min(100_000)).min(u64::from(self.n));
-        let channels = (0..10)
+        let nch = if self.kind == b'O' { 96 } else { 10 };
+        let channels = (0..nch)
             .map(|c| {
                 (first..end)
                     .map(|i| {
@@ -361,6 +470,31 @@ impl openreadout_core::Dataset for Fake {
         })
     }
     fn read_table(&mut self, _: u32, first: u64, max: u64) -> openreadout_core::Result<Table> {
+        if self.kind == b'P' {
+            let total = u64::from(self.n) * 2 * 96;
+            let end = (first + max.min(1000)).min(total);
+            let mut cols = vec![Vec::new(); 6];
+            for i in first..end {
+                let (t, rest) = (i / 192, i % 192);
+                let (read, w) = (rest / 96 + 1, rest % 96);
+                let v = [
+                    w as f64,
+                    (w / 12 + 1) as f64,
+                    (w % 12 + 1) as f64,
+                    read as f64,
+                    t as f64 * 600.0,
+                    read as f64 * 100.0 + w as f64 + t as f64 * 0.5,
+                ];
+                for (c, x) in cols.iter_mut().zip(v) {
+                    c.push(x);
+                }
+            }
+            return Ok(Table {
+                table: 0,
+                first_row: first,
+                columns: cols,
+            });
+        }
         let end = (first + max).min(u64::from(self.n));
         let col = |k: f64| (first..end).map(|i| i as f64 * k).collect();
         Ok(Table {
@@ -395,6 +529,45 @@ fn run(args: Value, host_path: Option<String>) -> CallToolResult {
     view::call(fake_registry, &a, host_path).unwrap()
 }
 
+/// A figure drawn again for the viewer: on the host's background, and zoomed on the panel the
+/// user dragged on, with y fitted to what the range shows; the other panel keeps its range.
+#[test]
+fn figure_views_zoom_one_panel_on_the_hosts_background() {
+    let line = |k: f64| {
+        json!({"values": {"x": (0..=10).map(|i| json!(i)).collect::<Vec<_>>(),
+                          "y": (0..=10).map(|i| f64::from(i) * k).collect::<Vec<_>>()}})
+    };
+    let spec = json!({"panels": [{"data": line(1.0)}, {"data": line(10.0)}]});
+    let panels =
+        |r: &CallToolResult| r.structured_content.as_ref().unwrap()["figure"]["panels"].clone();
+    let r = run(
+        json!({"view": "figure", "spec": spec, "width": 600, "x_range": [2, 4], "panel": 1,
+               "paper": "#262624", "dark": true}),
+        None,
+    );
+    let p = panels(&r);
+    let dom = |i: usize, k: &str| p[i][k]["domain"].clone();
+    assert_eq!(p[1]["spec_panel"], 1);
+    assert_eq!(dom(1, "x"), json!([2.0, 4.0]), "{p}");
+    let y = dom(1, "y");
+    assert!(
+        y[1].as_f64().unwrap() < 60.0,
+        "y fits the zoomed range: {y}"
+    );
+    assert!(
+        dom(0, "x")[1].as_f64().unwrap() >= 10.0,
+        "panel 0 keeps its range"
+    );
+    // the figure is drawn on the paper the viewer passes
+    let mut s = openreadout_plot::parse_spec(spec.clone()).unwrap();
+    s.paper = Some("#262624".into());
+    let p = openreadout_plot::plot(&Registry::new(), &s).unwrap();
+    assert_eq!(
+        p.figure.background,
+        Some(openreadout_figure::Color::hex(0x26_2624))
+    );
+}
+
 #[test]
 fn image_views_are_bounded_pictures() {
     let f = fake_file("image", b'I', 6000);
@@ -408,6 +581,8 @@ fn image_views_are_bounded_pictures() {
         .decode(&img.data)
         .unwrap();
     assert!(bytes.len() <= crate::resources::PREVIEW_BUDGET);
+    // fitting the byte budget is not something the viewer tells the user
+    assert!(v.get("notes").is_none(), "{}", v["notes"]);
     // a zoomed region maps back to full-resolution pixels
     let r = run(
         json!({"file": f, "outline": false, "region": {"x": 100, "y": 50, "width": 400, "height": 200}}),
@@ -482,6 +657,65 @@ fn events_are_sampled_and_encoded() {
     assert!(ev["y"].is_null() && ev["ys"].is_null());
     let a: view::ViewArgs = serde_json::from_value(json!({"file": f, "x": "nope"})).unwrap();
     assert!(view::call(fake_registry, &a, None).is_err());
+    let _ = std::fs::remove_file(f);
+}
+
+#[test]
+fn kinetic_plates_carry_time_courses_and_layout() {
+    let file = fake_file("plate", b'P', 500);
+    let res = run(json!({"file": file, "view": "plate"}), None);
+    let out = res.structured_content.unwrap();
+    let pl = &out["plate"];
+    assert_eq!(pl["groups"]["Group"]["A12"], "Blank");
+    let kin = &pl["kinetic"];
+    assert_eq!(kin["read"], 1);
+    assert_eq!(kin["unit"], "OD");
+    assert_eq!(kin["time_points"], 500);
+    let times = kin["time_s"].as_array().unwrap();
+    assert_eq!(times.len(), view::MAX_TIME_POINTS);
+    assert_eq!(kin["wells"].as_array().unwrap().len(), 96);
+    assert_eq!(out["limits"]["time_points"], json!(view::MAX_TIME_POINTS));
+    let vals = base64::engine::general_purpose::STANDARD
+        .decode(kin["values"].as_str().unwrap())
+        .unwrap();
+    assert_eq!(vals.len(), 96 * view::MAX_TIME_POINTS * 4);
+    // well A2 (index 1), first bin: read 1 values 101, 101.5, 102 averaged
+    let first = f32::from_le_bytes(vals[view::MAX_TIME_POINTS * 4..][..4].try_into().unwrap());
+    assert!((100.5..102.5).contains(&first), "{first}");
+    // the other read
+    let res = run(
+        json!({"file": file, "view": "plate", "read": 2, "outline": false}),
+        None,
+    );
+    assert_eq!(
+        res.structured_content.unwrap()["plate"]["kinetic"]["read"],
+        2
+    );
+    // an unknown read leaves the heat map and says why there is no time course
+    let res = run(json!({"file": file, "view": "plate", "read": 7}), None);
+    let out = res.structured_content.unwrap();
+    assert!(out["plate"].get("kinetic").is_none());
+    assert!(
+        out["notes"].to_string().contains("read 7"),
+        "{}",
+        out["notes"]
+    );
+    // a short run keeps its time points as they are
+    let short = fake_file("plate-short", b'P', 3);
+    let res = run(json!({"file": short, "view": "plate"}), None);
+    let kin = &res.structured_content.unwrap()["plate"]["kinetic"];
+    assert_eq!(kin["time_s"], json!([0.0, 600.0, 1200.0]));
+    let _ = std::fs::remove_file(file);
+    let _ = std::fs::remove_file(short);
+}
+
+#[test]
+fn overlaid_curves_are_not_capped_at_eight() {
+    let f = fake_file("overlay", b'O', 40);
+    let r = run(json!({"file": f, "view": "trace"}), None);
+    let plot = &r.structured_content.unwrap()["plot"];
+    assert_eq!(plot["overlay"], true);
+    assert_eq!(plot["series"].as_array().unwrap().len(), 96);
     let _ = std::fs::remove_file(f);
 }
 
@@ -669,7 +903,7 @@ async fn sessions_offer_the_viewer_only_when_negotiated() {
     let tools = plain.call("tools/list", json!({})).await;
     let text = tools.to_string();
     assert!(!text.contains(VIEW_TOOL) && !text.contains(RESOURCE_URI));
-    assert_eq!(tools["tools"].as_array().unwrap().len(), 32);
+    assert_eq!(tools["tools"].as_array().unwrap().len(), 28);
     let list = plain.call("resources/list", json!({})).await;
     assert!(!list.to_string().contains(RESOURCE_URI));
     let info = plain
@@ -679,6 +913,37 @@ async fn sessions_offer_the_viewer_only_when_negotiated() {
         )
         .await;
     assert!(info.get("_meta").is_none(), "{info}");
+    let _ = std::fs::remove_file(f);
+}
+
+// Models sometimes send a nested object as a JSON string: the `preview` of openreadout_export,
+// and the arguments inside it, are read as the objects they hold.
+#[tokio::test]
+async fn nested_arguments_sent_as_json_strings_are_read() {
+    let f = fake_file("nested-json", b'I', 256);
+    let out = f.with_extension("saved.png");
+    let mut s = Session::start(json!({
+        "extensions": {EXTENSION_ID: {"mimeTypes": [MIME_TYPE]}}
+    }))
+    .await;
+    let preview = json!({
+        "file": f.display().to_string(),
+        "max_size": 128,
+        "annotations": json!([{"type": "point", "x": 10, "y": 10, "label": "a"}]).to_string(),
+    })
+    .to_string();
+    let r = s
+        .call(
+            "tools/call",
+            json!({"name": "openreadout_export", "arguments": {
+                "preview": preview, "output": out.display().to_string(),
+            }}),
+        )
+        .await;
+    assert_ne!(r["isError"], json!(true), "{r}");
+    assert_eq!(r["structuredContent"]["verified"], json!(true), "{r}");
+    assert!(out.exists());
+    let _ = std::fs::remove_file(out);
     let _ = std::fs::remove_file(f);
 }
 

@@ -9,7 +9,9 @@ const f = await open(fileFromAnInput);      // File/Blob, Uint8Array, ArrayBuffe
 const info = await f.info();                // same JSON as `openreadout info --json`
 const words = await f.info({ view: "explain", ask: "Which objective?" });  // `info --view explain`
 const report = await f.check();             // integrity report
-const { meta, png } = await f.preview();    // PNG bytes of image 0 (or a trace, spectrum or plate)
+const { meta, data, type } = await f.preview();   // a picture of image 0 (or a trace, spectrum or plate)
+const marked = await f.preview({ axes: "rulers", format: "svg",
+  annotations: [{ type: "point", x: 812, y: 440, label: "nucleus" }] });
 const rows = await f.table(0, { maxRows: 10 });
 const ms2 = await f.scans({ ms_level: 2 });     // scan headers; f.spectrum({ spectrum: 0 }) for one
 ```
@@ -25,4 +27,4 @@ How bytes are read:
 
 This build does not read OME-Zarr, does not export, and has no `watch` or `index`.
 
-Guide: <https://openreadout.github.io/openreadout/guides/wasm.html>. Licensed MIT OR Apache-2.0.
+Guide: <https://openreadout.github.io/openreadout/guides/wasm.html>. Licensed MIT OR Apache-2.0; the IBM Plex fonts in the module are under the SIL Open Font License 1.1.

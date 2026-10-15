@@ -50,6 +50,9 @@ pub struct AssayOutput {
     /// One row per well (`growth`).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub growth: Vec<GrowthRow>,
+    /// Wells by growth pattern, with the range of crash and regrowth times (`growth`).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub growth_summary: Option<GrowthSummary>,
     /// Assay quality from control wells (whenever positive and negative controls exist).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub quality: Option<QualityReport>,
@@ -469,6 +472,8 @@ pub struct GrowthRow {
     /// Sample name.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sample: Option<String>,
+    /// Replicate group (the layout's group, else the sample name).
+    pub group: String,
     /// Time points used.
     pub n_points: usize,
     /// The well's own minimum, subtracted as background when the layout has no blank wells
@@ -506,7 +511,7 @@ pub struct GrowthRow {
     pub time_to_max_s: f64,
     /// Trapezoidal area under the curve (value × h).
     pub auc_h: f64,
-    /// Logistic fit: carrying capacity K.
+    /// Logistic fit (wells whose pattern is `grew`): carrying capacity K.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub logistic_k: Option<f64>,
     /// Logistic fit: N0 at the first time point.
@@ -524,6 +529,41 @@ pub struct GrowthRow {
     /// Logistic fit: residual SD.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub logistic_sigma: Option<f64>,
+    /// What the curve did: `grew`, `no_growth`, `crashed` (fell to half its height and stayed
+    /// down) or `regrew` (fell, then grew again).
+    pub pattern: String,
+    /// The exponential phase lies after the crash (`regrew` wells): the growth rate and
+    /// doubling time are those of the regrowth.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub exp_phase_after_crash: bool,
+    /// Time of the high point before the crash (s).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub crash_s: Option<f64>,
+    /// Value at that point (smoothed).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub crash_value: Option<f64>,
+    /// Time of the lowest point after the crash (s).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub trough_s: Option<f64>,
+    /// Value there (smoothed).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub trough_value: Option<f64>,
+    /// When growth restarts after the crash (s): the lag time of the regrowth.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub regrowth_s: Option<f64>,
+}
+
+/// The growth patterns of the wells analysed.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, schemars::JsonSchema)]
+pub struct GrowthSummary {
+    /// Wells per pattern (`grew`, `no_growth`, `crashed`, `regrew`), in plate order.
+    pub wells: std::collections::BTreeMap<String, Vec<String>>,
+    /// Regrowth times over the `regrew` wells (s): smallest, median, largest.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub regrowth_s: Option<[f64; 3]>,
+    /// Crash times over the `crashed` and `regrew` wells (s): smallest, median, largest.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub crash_s: Option<[f64; 3]>,
 }
 
 /// Statistics of a group of control wells.

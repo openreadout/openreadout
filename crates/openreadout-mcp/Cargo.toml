@@ -25,6 +25,7 @@ openreadout-plate = { workspace = true }
 openreadout-qpcr = { workspace = true }
 openreadout-mzml-writer = { workspace = true }
 openreadout-preview = { workspace = true }
+openreadout-plot = { workspace = true }
 openreadout-index = { workspace = true }
 openreadout-batch = { workspace = true }
 # the argument types of the analysis tools (their input schemas)
@@ -46,6 +47,10 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 schemars = { workspace = true }
 anyhow = { workspace = true }
+
+[dev-dependencies]
+# the viewer's colour tokens are checked against the figure engine's theme
+openreadout-figure = { workspace = true }
 
 [features]
 # `format: "parquet"|"arrow"` of `openreadout_export` (Apache Arrow/Parquet, pure Rust).

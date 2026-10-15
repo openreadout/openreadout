@@ -1,6 +1,6 @@
 # stats
 
-`stats` computes pixel statistics per plane, channel and image (min, max, mean, standard deviation, percentiles, histogram, zero and saturated fractions), or per well of a screening plate.
+`stats` computes pixel statistics per plane, channel and image (min, max, mean, standard deviation, percentiles, histogram, zero and saturated fractions), or per well of a screening plate. On one plane it also measures an intensity profile along a line, the statistics inside a polygon, and objects such as nuclei.
 
 ```text
 openreadout stats [OPTIONS] [FILE]...
@@ -10,7 +10,7 @@ openreadout stats [OPTIONS] [FILE]...
 
 - `--json`: print the JSON wrapper instead of text.
 - `--image N`: only this image.
-- `--select SEL`: plane selection such as `c=0`, `z=2-5`, `t=0,3`. Repeatable. The per-image aggregate covers exactly the selected planes.
+- `--select SEL`: plane selection such as `c=0`, `z=2-5`, `t=0,3`, or several axes in one, `c=0,1,z=2`. Repeatable. The per-image aggregate covers exactly the selected planes.
 - `--level N`: pyramid level, 0 = full resolution. Default 0.
 - `--region X,Y,W,H`: only this rectangle of each plane, in the pixels of `--level`.
 - `--bins N`: histogram bins, 0 = none, at most 65536. Default 64.
@@ -18,6 +18,33 @@ openreadout stats [OPTIONS] [FILE]...
 - `--mip z|t`: take the maximum-intensity projection first, then the statistics of the projections.
 - `--per channel|image|plane|well|field`: what one row is. `channel` (the default) gives channel and image aggregates, and `plane` adds one entry per plane. `well` gives one row per well and channel of a plate over its fields; `field` one row per well, field and channel.
 - `--well WELL`: with `--per well` or `--per field`, only this well (`C05`). Repeatable.
+
+### Measurements
+
+These read one plane: the selected channels (all by default), the middle z unless `--select z=N`, and t=0 unless `--select t=N`. Coordinates are pixels of `--level`, the same numbers as the rulers of a [`preview`](preview.md) at level 0. Only the rectangle around the shape is read, so a line across a whole slide costs the tiles it crosses. Lengths and areas are also given in µm and µm² when the file records the pixel size (taller-than-wide pixels included).
+
+- `--line X0,Y0,X1,Y1`: an intensity profile between two points on the plane (its edges, 0 and the width or height, included). Values are sampled every pixel by bilinear interpolation, each the mean over `--line-width PX` pixels across the line (default 1). Per channel: `min`, `max`, `mean`, the position of the maximum (`max_at_px`, `max_at_um`), the full width at half maximum of the highest peak above the line's minimum (`fwhm_px`, `fwhm_um`), and `values`: at most 200, evenly spaced from the start to the end of the line, `step_px` apart, each the mean of the samples within half a step.
+- `--polygon "X,Y X,Y X,Y …"`: the pixels whose centres are inside (even-odd rule): `area_px`, `area_um2`, and per channel `mean`, `std`, `median`, `min`, `max` and `sum` (the integrated intensity).
+- `--objects`, `--objects=cells`, `--objects=spots`: count nuclei (the default), whole cells or small bright spots in `--region`, inside `--polygon`, or in the whole plane. See [Objects](#objects).
+
+The flags of pixel statistics (`--mip`, `--per`, `--bins`, `--scale`, `--well`) do not apply to these measurements, so giving one with them is a usage error, as are `--region` with only a line or polygon and `--line-width` without `--line`. Pick the plane with `--select` instead.
+
+### Objects
+
+One call answers how many, how big, how bright and where. The settings come from the image, so the defaults usually suffice:
+
+- **What is counted.** Nuclei are found in the channel named like a DNA stain (DAPI, Hoechst, DRAQ5 …), else channel 0; `--select c=N` picks another. On RGB images, stained brightfield (H&E, hematoxylin, IHC) is unmixed into hematoxylin, eosin and DAB by colour deconvolution and nuclei are found in hematoxylin; `--stain` picks another stain or a component. Fluorescence RGB uses the brightest component. Bright objects on a dark background, or dark ones on a bright background, are told apart from the image (`--polarity` overrides).
+- **Size.** The expected diameter sets the smoothing, the background scale, how close two objects may be and the smallest object kept. By default it is measured from the image: candidate sizes come from the regions above Otsu's threshold, the scale of the strongest blobs, and a smoothed copy for textured nuclei, and the one whose segmentation gives the most compact objects wins. When the pixel size is known, only sizes a nucleus can have (3 to 30 µm; cells 6 to 150 µm) are considered, and the typical 10 µm (cells 20 µm) competes too. `--diameter UM` (or `--diameter-px PX` for images without a pixel size) sets it; it can be at most the shorter side of the area searched. Spots default to 0.5 µm and are at most 64 px across.
+- **Threshold.** The plane is smoothed at a twentieth of the diameter and the slowly varying background under objects of that size is removed (not for stain amounts, which are already relative to empty glass). The threshold is Otsu's, moved 30% of the way towards the background so dim objects are whole, or the upper of Otsu's three-class thresholds when objects stand out from a middle class such as cytoplasm and that gives clearly more compact objects. When a few objects cover a tiny part of a large background, Otsu's threshold falls inside the background noise; the threshold is then half way from the background to the objects' median brightness, and at least five robust standard deviations above the background (`sparse`). `--method otsu|triangle|local` or `--threshold V` override; `threshold_method` says which was used.
+- **Touching objects** are cut apart by a seeded watershed: one seed per peak of the distance to the background, at least a quarter diameter apart, with dark seams between objects (valleys narrower than a fifth of a diameter where the signal falls by 40%) counted as background for the distance. `--no-split` keeps them together. Holes smaller than half an object are filled, and fragments under a fifth of the expected area merge into their neighbour (`--min-area UM2` and `--max-area UM2` set the limits in µm²).
+- **Spots** are the local maxima of a Laplacian of Gaussian at the spot scale whose height above the local background is at least five robust standard deviations of the background (`--threshold` sets the height). Each spot is measured over a disc of the expected diameter.
+- **Large areas.** Regions up to 2896 × 2896 pixels are counted in one piece; larger ones (up to 8192 × 8192) in tiles with a margin of three diameters, so an object is found as it would be in one piece and counted once. For more, pass a smaller region or a coarser `--level`.
+
+The answer gives `count`, `touching_edge`, `density_per_mm2` (objects touching the edge count half), `area_fraction`, `large` (objects over twice the median area, perhaps several together), the spread of areas (`area_px`, `area_um2`) and diameters (`diameter_um`) of the objects off the edge, the expected diameter used and where it came from, and the threshold. `channels` lists every channel with its background (the median outside objects), the spread of the object means and, for markers (other channels than the one counted, and DAB), how many objects are `positive`: those above Otsu's split of the object means when they fall in two clear groups, else above the background by five robust standard deviations. `objects` lists up to `--max-objects` objects (default 100) in reading order, each with its number, centroid, area, diameter, solidity (low values suggest merged objects), mean in every channel and whether it touches the edge. `confidence` is `low` when less than half of the objects' area (`fit`) is in compact objects of the expected size (on brightfield smears, where cytoplasm and debris are counted, and on stains other than H&E such as a trichrome), when most objects are under a third of the expected area, or when more objects were found than the area holds (both signs of a threshold that cut noise or texture into pieces). The count is then a warning, not an answer, and the text output starts with LOW CONFIDENCE. `notes` say what was assumed, why the confidence is low, and when the contrast is too weak for a reliable count.
+
+Check a count against a picture before quoting it: `preview --marks objects` draws the same objects with their numbers.
+
+Methods: Otsu (IEEE SMC 1979) and its multi-level form; the triangle threshold (Zack, Rogers and Latt, J Histochem Cytochem 1977); the exact Euclidean distance transform of Felzenszwalb and Huttenlocher (Theory of Computing 2012); marker-controlled watershed (Beucher and Meyer 1993); scale selection with the normalised Laplacian of Gaussian (Lindeberg, IJCV 1998); colour deconvolution with the stain vectors of Ruifrok and Johnston (Anal Quant Cytol Histol 2001).
 
 `stats` takes the flags in [Several inputs](index.md#several-inputs) and the [batch table flags](batch.md#batch-table-flags).
 
@@ -35,6 +62,10 @@ image 0 (2 planes, uint16)    0  1127  563.500  501.363  2.550  563.500  1124.45
 ```bash
 openreadout stats stack.nd2 --mip z --select c=1 --json      # the z-MIP of channel 1
 openreadout stats slide.svs --level 2 --region 0,0,2048,2048
+openreadout stats cells.czi --objects                                   # count the nuclei
+openreadout stats slide.svs --objects --region 9000,20000,1200,800      # nuclei in H&E tissue
+openreadout stats foci.nd2 --objects=spots --select c=2 --diameter 0.4  # puncta in channel 2
+openreadout stats cells.czi --line 200,1100,1300,1100 --line-width 5    # a profile across them
 ```
 
 ## What the numbers mean
@@ -58,6 +89,6 @@ Plate layouts, replicate averaging and group tests are covered in [Plate analysi
 
 ## JSON
 
-[`stats`](../json/stats.md), [`stats --per well`](../json/stats-wells.md), [batch table](../json/batch-table.md).
+[`stats`](../json/stats.md), [`stats --per well`](../json/stats-wells.md), [measurements](../json/stats-measure.md), [batch table](../json/batch-table.md).
 
 Run `openreadout stats --help` for the full help of your installed version.

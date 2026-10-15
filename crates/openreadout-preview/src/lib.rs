@@ -1,17 +1,29 @@
-//! Deterministic previews of `OpenReadout` datasets, encoded as PNG or JPEG.
+//! Deterministic previews of `OpenReadout` datasets, drawn with the figure engine
+//! (`openreadout-figure`) and encoded as PNG, JPEG or SVG.
 //!
 //! - **Images**: one plane, a channel composite (additive, channel colours from the normalized
 //!   model) or a maximum-intensity projection over z or t, read from the pyramid level nearest the
-//!   requested size when the reader exposes levels, then block-averaged to fit and mapped to 8 bits
+//!   requested size when the reader exposes levels, then resampled to the requested size (area
+//!   average; a small image is enlarged by repeating its pixels) and mapped to 8 bits
 //!   with a contrast rule (`auto`, `min-max`, `percentile:LO,HI`, `raw`). By default the picture
 //!   is framed by coordinate rulers in full-resolution pixels (and a scale bar when the pixel
 //!   size is known), and [`ImagePreview`] reports how PNG pixels map back to source pixels, so a
 //!   viewer can read coordinates off the image and ask for a `region` of it.
-//! - **Traces**: a sparkline (min/max envelope per pixel column) of one sweep, one panel per
-//!   channel, with the x axis labelled (time, NMR chemical shift, …).
-//! - **Spectra**: one mass spectrum, as sticks (centroided) or a profile line, with its m/z range.
+//! - **Traces**: one sweep, one panel per channel (min/max envelope per pixel column, so spikes
+//!   survive any downsampling), with ticked axes in the trace's units (time, NMR chemical shift,
+//!   wavenumber, …). Spectra and chromatograms get their largest peaks labelled; current-clamp
+//!   sweeps can get their action potentials marked ([`Marks`]). qPCR curves are overlaid.
+//! - **Spectra**: one mass spectrum, as sticks (centroided) or a profile line, the largest peaks
+//!   labelled with their m/z.
 //! - **Plates**: a heat map of a multi-well plate table (columns named like wells `A1`…`P24`, or
-//!   `well` / `row` + `column` columns).
+//!   `well` / `row` + `column` columns); a kinetic read becomes a grid of small growth curves in
+//!   plate positions, coloured by the plate layout's groups.
+//! - **Events**: flow cytometry events as a density plot of two parameters (or a histogram of
+//!   one).
+//!
+//! Callers can draw their own [`Annotation`]s on any preview (points, boxes, outlines, arrows,
+//! text, lines and bands), in full-resolution pixels on images and in axis units on plots;
+//! [`PreviewOutput::annotations`] says where each one landed.
 //!
 //! Every step uses fixed-order arithmetic and no threads, so the same request produces the same
 //! bytes on every run.
@@ -38,11 +50,11 @@
 //! The drawing and encoding layers work without a file:
 //!
 //! ```
-//! use openreadout_preview::{Canvas, Encoding, encode};
+//! use openreadout_preview::{Encoding, Raster, encode};
 //!
-//! let mut canvas = Canvas::new(4, 2, [0, 0, 0]);
-//! canvas.fill_rect(0, 0, 2, 2, [255, 255, 255]);
-//! let png = encode(&canvas, Encoding::Png, 90)?;
+//! let mut raster = Raster::new(4, 2, [0, 0, 0]);
+//! raster.set(0, 0, [255, 255, 255]);
+//! let png = encode(&raster, Encoding::Png, 90)?;
 //! assert_eq!(&png[1..4], b"PNG");
 //! # Ok::<(), openreadout_core::Error>(())
 //! ```
@@ -51,14 +63,22 @@
 // Pixel and DCT arithmetic reads best with the conventional short names (x, y, w, h, r, g, b).
 #![allow(clippy::many_single_char_names)]
 
-pub mod canvas;
+mod annotate;
 pub mod color;
+pub mod electrochem;
+mod events;
+mod figure_frame;
 mod image;
-pub mod jpeg;
+mod kinetic;
+mod marks;
+mod nmr;
+mod objects;
+mod options;
 mod overlay;
 mod plate;
 mod rulers;
 mod spectrum;
+mod tic;
 mod trace;
 
 use std::path::{Path, PathBuf};
@@ -70,7 +90,9 @@ use openreadout_core::{Error, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-pub use canvas::Canvas;
+pub use annotate::{Annotation, DrawnAnnotation};
+pub use openreadout_figure::{Figure, Raster};
+pub use options::PreviewOptions;
 pub use plate::{PlateGrid, plate_grid};
 
 /// Largest `max_size` accepted (pixels on the longer side).
@@ -180,8 +202,18 @@ pub enum Axis {
 }
 
 /// What frames an image preview.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "lowercase")]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Default,
+    serde::Deserialize,
+    serde::Serialize,
+    schemars::JsonSchema,
+)]
+#[serde(rename_all = "kebab-case")]
 #[non_exhaustive]
 pub enum Axes {
     /// coordinate rulers in full-resolution pixels and a scale bar around the picture (default)
@@ -189,27 +221,31 @@ pub enum Axes {
     Rulers,
     /// rulers, plus faint grid lines over the data at the ruler ticks
     Grid,
+    /// a figure for people: the picture with a scale bar, the title and the caption; no rulers
+    ScaleBar,
     /// the bare downsampled plane
     None,
 }
 
 impl Axes {
-    /// Set `axes` and `grid` of a request.
+    /// Set `axes`, `grid` and `figure` of a request.
     pub fn apply(self, req: &mut PreviewRequest) {
         req.axes = self != Axes::None;
         req.grid = self == Axes::Grid;
+        req.figure = self == Axes::ScaleBar;
     }
 }
 
 impl FromStr for Axes {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self> {
-        match s.trim().to_ascii_lowercase().as_str() {
+        match s.trim().to_ascii_lowercase().replace('_', "-").as_str() {
             "rulers" => Ok(Axes::Rulers),
             "grid" => Ok(Axes::Grid),
+            "scale-bar" | "scalebar" => Ok(Axes::ScaleBar),
             "none" => Ok(Axes::None),
             other => Err(Error::Usage(format!(
-                "bad axes '{other}': use rulers, grid or none"
+                "bad axes '{other}': use rulers, grid, scale-bar or none"
             ))),
         }
     }
@@ -239,31 +275,36 @@ pub enum Encoding {
     /// lossy and smaller
     #[serde(alias = "jpg")]
     Jpeg,
+    /// vector: text stays text, image data is embedded as PNG
+    Svg,
 }
 
 impl Encoding {
-    /// The lowercase name (`png`, `jpeg`).
+    /// The lowercase name (`png`, `jpeg`, `svg`).
     pub fn as_str(self) -> &'static str {
         match self {
             Encoding::Png => "png",
             Encoding::Jpeg => "jpeg",
+            Encoding::Svg => "svg",
         }
     }
-    /// The MIME type (`image/png`, `image/jpeg`).
+    /// The MIME type (`image/png`, `image/jpeg`, `image/svg+xml`).
     pub fn mime(self) -> &'static str {
         match self {
             Encoding::Png => "image/png",
             Encoding::Jpeg => "image/jpeg",
+            Encoding::Svg => "image/svg+xml",
         }
     }
-    /// The usual file extension (`png`, `jpg`).
+    /// The usual file extension (`png`, `jpg`, `svg`).
     pub fn extension(self) -> &'static str {
         match self {
             Encoding::Png => "png",
             Encoding::Jpeg => "jpg",
+            Encoding::Svg => "svg",
         }
     }
-    /// From a file name: `.jpg`/`.jpeg` → JPEG, anything else → PNG.
+    /// From a file name: `.jpg`/`.jpeg` → JPEG, `.svg` → SVG, anything else → PNG.
     pub fn from_path(p: &Path) -> Self {
         match p
             .extension()
@@ -272,6 +313,7 @@ impl Encoding {
             .as_deref()
         {
             Some("jpg" | "jpeg") => Encoding::Jpeg,
+            Some("svg") => Encoding::Svg,
             _ => Encoding::Png,
         }
     }
@@ -283,8 +325,43 @@ impl FromStr for Encoding {
         match s.trim().to_ascii_lowercase().as_str() {
             "png" => Ok(Encoding::Png),
             "jpeg" | "jpg" => Ok(Encoding::Jpeg),
+            "svg" => Ok(Encoding::Svg),
             other => Err(Error::Usage(format!(
-                "bad preview format '{other}': use png or jpeg"
+                "bad preview format '{other}': use png, jpeg or svg"
+            ))),
+        }
+    }
+}
+
+/// Marks drawn from the data itself.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "lowercase")]
+#[non_exhaustive]
+pub enum Marks {
+    /// label the largest peaks of spectra and chromatograms (default)
+    #[default]
+    Auto,
+    /// label the largest peaks of any trace
+    Peaks,
+    /// mark the action potentials of current-clamp sweeps
+    Spikes,
+    /// images: outline and number the nuclei, cells or spots found (`stats` objects)
+    Objects,
+    /// no marks
+    None,
+}
+
+impl FromStr for Marks {
+    type Err = Error;
+    fn from_str(s: &str) -> Result<Self> {
+        match s.trim().to_ascii_lowercase().as_str() {
+            "auto" => Ok(Marks::Auto),
+            "peaks" => Ok(Marks::Peaks),
+            "spikes" => Ok(Marks::Spikes),
+            "objects" => Ok(Marks::Objects),
+            "none" => Ok(Marks::None),
+            other => Err(Error::Usage(format!(
+                "bad marks '{other}': use auto, peaks, spikes, objects or none"
             ))),
         }
     }
@@ -328,10 +405,20 @@ pub struct PreviewRequest {
     pub scan: Option<u64>,
     /// Spectrum preview: the instrument's centroid list instead of the profile.
     pub centroid: bool,
-    /// Plate preview: table index (default 0).
+    /// Plate or event preview: table index (default 0).
     pub table: Option<u32>,
-    /// Plate preview (long layout): the value column (default: the first non-position column).
-    pub column: Option<String>,
+    /// Table columns to draw: a plate's value column (long layout; default the first that is not
+    /// a position), or the x and y parameters of an event preview (one gives a histogram;
+    /// default FSC-A and SSC-A, else the first two).
+    pub columns: Vec<String>,
+    /// Marks drawn from the data (peak labels, action potentials, objects).
+    pub marks: Marks,
+    /// Image preview: how objects are found for `marks: objects` (setting it implies them).
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// The caller's own marks, drawn on top.
+    pub annotations: Vec<Annotation>,
+    /// Draw in the dark theme (light ink on a dark ground).
+    pub dark: bool,
     /// Image preview: frame the picture with coordinate rulers (full-resolution pixels) and a
     /// scale bar (default `true`); `false` gives the bare downsampled plane. `max_size` bounds
     /// the whole picture, rulers included.
@@ -339,6 +426,13 @@ pub struct PreviewRequest {
     /// Image preview: faint grid lines over the data at the ruler ticks (default `false`; only
     /// with `axes`).
     pub grid: bool,
+    /// Image preview: frame the picture as a figure for people instead of with rulers: a scale
+    /// bar under it, and `title` and `caption` (default `false`; only with `axes`).
+    pub figure: bool,
+    /// Image preview: a title above the picture (drawn with `figure`).
+    pub title: Option<String>,
+    /// Image preview: a caption under the picture (drawn with `figure`).
+    pub caption: Option<String>,
     /// Image preview: refuse (an `unsupported` error) to read more than this many bytes of
     /// decoded pixels in total, so a quick look never decodes a huge plane.
     pub max_read_bytes: Option<u64>,
@@ -364,12 +458,29 @@ impl Default for PreviewRequest {
             scan: None,
             centroid: false,
             table: None,
-            column: None,
+            columns: Vec::new(),
+            marks: Marks::Auto,
+            objects: None,
+            annotations: Vec::new(),
+            dark: false,
             axes: true,
             grid: false,
+            figure: false,
+            title: None,
+            caption: None,
             max_read_bytes: None,
         }
     }
+}
+
+/// The theme a request draws in, sized for its `max_size`.
+pub(crate) fn theme(req: &PreviewRequest) -> openreadout_figure::Theme {
+    let t = if req.dark {
+        openreadout_figure::Theme::dark()
+    } else {
+        openreadout_figure::Theme::light()
+    };
+    t.for_size(req.max_size as f32)
 }
 
 /// One channel of an image preview.
@@ -432,8 +543,10 @@ pub struct ImagePreview {
     /// The rectangle drawn, in the pixel coordinates of `level`, when a region was asked for.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub region: Option<openreadout_core::Region>,
-    /// Block size of the averaging downsample (1 = none).
-    pub downsample: u32,
+    /// Pixels of the plane at `level` per drawn pixel, horizontally: above 1 when the plane was
+    /// made smaller (an area average), below 1 when it was enlarged (each source pixel drawn as
+    /// a square), 1 when drawn as is.
+    pub downsample: f64,
     /// Channels, z-planes and time points used.
     pub c: Vec<u32>,
     /// Z indices used.
@@ -484,7 +597,7 @@ pub struct ImagePreview {
 }
 
 impl ImagePreview {
-    /// Update the pixel mapping for a canvas halved by [`Canvas::half`].
+    /// Update the pixel mapping for a raster halved by [`Raster::half`].
     fn halve(&mut self) {
         let (plot, origin, per) = rulers::halve(
             self.plot_area,
@@ -512,7 +625,7 @@ pub struct TracePreviewChannel {
     pub unit: Option<String>,
     /// Line colour `#RRGGBB`.
     pub color: String,
-    /// Bottom and top of the panel's y axis (the channel's finite range, padded by 5 %).
+    /// Bottom of the panel's y axis.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub min: Option<f64>,
     /// Top of the panel's y axis.
@@ -520,7 +633,7 @@ pub struct TracePreviewChannel {
     pub max: Option<f64>,
 }
 
-/// The horizontal axis of a trace or spectrum preview (the labels at its two ends).
+/// The horizontal axis of a trace or spectrum preview.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct XAxis {
     /// `time`, `chemical_shift`, `mz`, `sample`, … (the reader's `extra.axis.quantity` when set).
@@ -551,7 +664,7 @@ pub struct TracePreview {
     /// Label of the horizontal axis, when known.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub x_axis: Option<XAxis>,
-    /// One panel per channel, top to bottom.
+    /// One panel per channel, top to bottom (one shared panel for overlays).
     pub channels: Vec<TracePreviewChannel>,
 }
 
@@ -574,7 +687,7 @@ pub struct SpectrumPreview {
     pub point_count: u64,
     /// m/z range of the x axis.
     pub x_axis: XAxis,
-    /// Largest intensity (the top of the plot).
+    /// Largest intensity.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max_intensity: Option<f64>,
     /// Precursor m/z of a fragment (MS2+) scan.
@@ -582,13 +695,46 @@ pub struct SpectrumPreview {
     pub precursor_mz: Option<f64>,
 }
 
-/// Details of a plate heat map.
+/// Details of a chromatogram preview of a mass-spectrometry run (its first look).
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct ChromatogramPreview {
+    /// Run index.
+    pub run: u32,
+    /// `tic` (the total ion current each scan header records) or `bpc` (base-peak intensity).
+    pub signal: String,
+    /// MS1 scans drawn.
+    pub ms1_scans: u64,
+    /// Scans in the run (all MS levels).
+    pub scans: u64,
+    /// Retention time of the tallest point, minutes.
+    pub apex_rt_min: f64,
+    /// Its intensity.
+    pub apex_intensity: f64,
+}
+
+/// One layout group of a plate preview (a SoftMax Pro group, a sample name, …).
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct PlateGroup {
+    /// Group name as the file records it.
+    pub name: String,
+    /// Colour it is drawn in, `#RRGGBB`.
+    pub color: String,
+    /// Wells in the group.
+    pub wells: u32,
+    /// True for blank wells (drawn faint).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub blank: bool,
+}
+
+/// Details of a plate preview.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct PlatePreview {
     /// Table index.
     pub table: u32,
     /// `wide` (one column per well) or `long` (`well` or `row` + `column` columns).
     pub layout: String,
+    /// `heatmap` (one value per well) or `curves` (a kinetic read, one small plot per well).
+    pub view: String,
     /// Plate geometry, e.g. 8 × 12.
     pub rows: u32,
     /// Plate columns (e.g. 12 for a 96-well plate).
@@ -597,12 +743,108 @@ pub struct PlatePreview {
     pub wells: u32,
     /// What each cell shows (a column name, or `mean of N rows`).
     pub value: String,
-    /// Colour-scale ends (dark = min, yellow = max).
+    /// Heat map: value at the light end of the colour scale; curves: bottom of every card's y
+    /// axis.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub min: Option<f64>,
-    /// Value shown at the yellow end of the scale.
+    /// Heat map: value at the dark end of the colour scale; curves: top of every card's y axis.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max: Option<f64>,
+    /// Curves: the time axis every card shares, in `time_unit`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub time: Option<[f64; 2]>,
+    /// Curves: `s`, `min` or `h`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub time_unit: Option<String>,
+    /// The layout field the colours follow (e.g. `SoftMax group`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub grouped_by: Option<String>,
+    /// The groups, in the order of the key.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub groups: Vec<PlateGroup>,
+}
+
+/// Details of an event (flow cytometry) preview.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct EventsPreview {
+    /// Table index.
+    pub table: u32,
+    /// Parameter on the x axis.
+    pub x: String,
+    /// Parameter on the y axis (absent for a histogram).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub y: Option<String>,
+    /// Events drawn.
+    pub events: u64,
+    /// Events in the table.
+    pub total_events: u64,
+    /// `linear` or `asinh` (each axis, x first).
+    pub scales: Vec<String>,
+}
+
+/// One plot panel inside the picture, for mapping PNG pixels to data values and back: the
+/// value at the panel's left edge is `x[0]`, at its right edge `x[1]`, at its bottom `y[0]`
+/// and at its top `y[1]`, along the scale named in `x_scale` / `y_scale`.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct PlotPanel {
+    /// The panel's rectangle in PNG pixels.
+    pub plot_area: PxRect,
+    /// Values at the left and right edges.
+    pub x: [f64; 2],
+    /// Values at the bottom and top edges.
+    pub y: [f64; 2],
+    /// `linear`, `log` or `asinh`.
+    pub x_scale: String,
+    /// `linear`, `log` or `asinh`.
+    pub y_scale: String,
+    /// Trace previews: the channel drawn in this panel.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub channel: Option<u32>,
+    /// Plate curve previews: the well of this card.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub well: Option<String>,
+}
+
+/// A rectangle in PNG pixels (fractional).
+#[derive(Debug, Clone, Copy, Default, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct PxRect {
+    /// Left edge.
+    pub x: f64,
+    /// Top edge.
+    pub y: f64,
+    /// Width.
+    pub width: f64,
+    /// Height.
+    pub height: f64,
+}
+
+impl From<openreadout_figure::Rect> for PxRect {
+    fn from(r: openreadout_figure::Rect) -> Self {
+        let q = |v: f32| (f64::from(v) * 100.0).round() / 100.0;
+        PxRect {
+            x: q(r.x),
+            y: q(r.y),
+            width: q(r.w),
+            height: q(r.h),
+        }
+    }
+}
+
+/// A mark drawn from the data: a labelled peak or a detected action potential.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct DataMark {
+    /// `peak` or `spike`.
+    pub kind: String,
+    /// Position along the x axis, in its unit.
+    pub x: f64,
+    /// Value there, in the panel's unit.
+    pub y: f64,
+    /// The label drawn (e.g. the m/z or ppm), if any.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
+    /// Trace previews: the channel.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub channel: Option<u32>,
 }
 
 /// Output of `preview`: what was rendered, and where it went.
@@ -612,12 +854,12 @@ pub struct PreviewOutput {
     pub path: String,
     /// Format id of the input file.
     pub format: String,
-    /// `image`, `trace`, `spectrum` or `plate`.
+    /// `image`, `trace`, `chromatogram`, `spectrum`, `plate` or `events`.
     pub kind: String,
     /// The written file (CLI); absent when the preview is returned inline (MCP image content).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
-    /// `png` or `jpeg`.
+    /// `png`, `jpeg` or `svg`.
     pub encoding: String,
     /// Image width in pixels.
     pub width: u32,
@@ -638,22 +880,128 @@ pub struct PreviewOutput {
     /// Present for spectrum previews.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub spectrum: Option<SpectrumPreview>,
+    /// Present for chromatogram previews (a mass-spectrometry run's total-ion chromatogram).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub chromatogram: Option<ChromatogramPreview>,
     /// Present for plate previews.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plate: Option<PlatePreview>,
+    /// Present for event previews.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub events: Option<EventsPreview>,
+    /// Plot panels (traces, spectra, plate curves, events): where each sits in the picture and
+    /// the data range it shows.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub panels: Vec<PlotPanel>,
+    /// Marks drawn from the data (labelled peaks, action potentials).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub marks: Vec<DataMark>,
+    /// `marks: objects`: the objects counted in the area shown, as `stats` objects (the first
+    /// 20 listed).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
+    pub objects: Option<openreadout_core::measure::Objects>,
+    /// The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub annotations: Vec<DrawnAnnotation>,
     /// Anything the caller should know (fallbacks, caps, implied options).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub notes: Vec<String>,
     /// What to do next with the picture (look at it; zoom with a region read off the rulers).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hint: Option<String>,
+    /// How to save this picture to a file (MCP: the openreadout_export call).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub save: Option<String>,
 }
 
 impl PreviewOutput {
-    /// Halve the recorded geometry along with the canvas.
+    /// Halve the recorded geometry along with the raster.
     fn halved(&mut self) {
         if let Some(im) = &mut self.image {
             im.halve();
+        }
+        let h = |r: &mut PxRect| {
+            r.x /= 2.0;
+            r.y /= 2.0;
+            r.width /= 2.0;
+            r.height /= 2.0;
+        };
+        for p in &mut self.panels {
+            h(&mut p.plot_area);
+        }
+        for a in &mut self.annotations {
+            a.halve();
+        }
+    }
+}
+
+/// How figure pixels relate to data: what the annotations are placed in.
+#[derive(Debug, Clone)]
+pub(crate) enum Frame {
+    /// An image: the plot area and the full-resolution mapping.
+    Image {
+        plot_area: openreadout_core::Region,
+        map: rulers::Mapping,
+    },
+    /// Plot panels, each with the channel or well it shows, and where the figure's key may
+    /// take more entries (a plate grid's annotations are labelled there).
+    Plots {
+        panels: Vec<FramePanel>,
+        key: Option<KeySlot>,
+        /// Labels the preview drew itself (peak labels), which the caller's labels keep off.
+        taken: Vec<openreadout_figure::Rect>,
+    },
+    /// A plate heat map: each well's cell.
+    Wells(Vec<((u32, u32), openreadout_figure::Rect)>),
+}
+
+impl Frame {
+    /// Plot panels without a key.
+    pub(crate) fn plots(panels: Vec<FramePanel>) -> Frame {
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: Vec::new(),
+        }
+    }
+
+    /// Plot panels whose own labels occupy `taken`.
+    pub(crate) fn plots_labelled(
+        panels: Vec<FramePanel>,
+        taken: &[openreadout_figure::Rect],
+    ) -> Frame {
+        Frame::Plots {
+            panels,
+            key: None,
+            taken: taken.to_vec(),
+        }
+    }
+}
+
+/// Room at the end of a figure's key row: the next entry starts at `x`, centred on `y`, and
+/// must end before `max_x`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub(crate) struct KeySlot {
+    pub x: f32,
+    pub y: f32,
+    pub max_x: f32,
+}
+
+/// A plot panel and what it shows.
+#[derive(Debug, Clone)]
+pub(crate) struct FramePanel {
+    pub panel: openreadout_figure::Panel,
+    pub channel: Option<u32>,
+    pub well: Option<(u32, u32)>,
+}
+
+impl FramePanel {
+    pub(crate) fn new(panel: openreadout_figure::Panel) -> Self {
+        FramePanel {
+            panel,
+            channel: None,
+            well: None,
         }
     }
 }
@@ -662,9 +1010,60 @@ impl PreviewOutput {
 #[derive(Debug, Clone)]
 pub struct Rendered {
     /// The rendered pixels.
-    pub canvas: Canvas,
+    pub canvas: Raster,
+    /// The figure the pixels were rendered from (for SVG output).
+    pub figure: Figure,
     /// What was rendered (without the encoding fields filled in).
     pub output: PreviewOutput,
+}
+
+impl Rendered {
+    /// Give this picture the pixels of `big`, the same image read at `scale` times the size,
+    /// so that saving it at `scale` draws a sharper version of this picture: type, lines,
+    /// outlines and labels keep their size relative to the image, and the image has real
+    /// pixels. Returns false (and changes nothing) when `big` has no image of about that size.
+    pub fn take_pixels(&mut self, big: &Rendered, scale: f32) -> bool {
+        use openreadout_figure::Item;
+        fn largest(f: &Figure) -> Option<usize> {
+            f.items
+                .iter()
+                .enumerate()
+                .filter_map(|(i, it)| match it {
+                    Item::Image { rect, .. } => Some((i, rect.w * rect.h)),
+                    _ => None,
+                })
+                .max_by(|a, b| a.1.total_cmp(&b.1))
+                .map(|x| x.0)
+        }
+        let (Some(i), Some(j)) = (largest(&self.figure), largest(&big.figure)) else {
+            return false;
+        };
+        let Item::Image { raster, .. } = &big.figure.items[j] else {
+            return false;
+        };
+        let raster = raster.clone();
+        let Item::Image {
+            rect,
+            raster: mine,
+            smooth,
+        } = &mut self.figure.items[i]
+        else {
+            return false;
+        };
+        // the same region (the same shape), with more pixels than this picture shows. The
+        // larger picture's frame does not grow in proportion, so its image is near, not exactly
+        // at, `scale` times the size; it is then resampled smoothly to the saved size.
+        let (w, h) = (raster.width as f32, raster.height as f32);
+        let same_shape = (w / h - rect.w / rect.h).abs() <= 0.02 * rect.w / rect.h;
+        if !same_shape || w <= mine.width as f32 {
+            return false;
+        }
+        if (w - rect.w * scale).abs() > 1.0 {
+            *smooth = true;
+        }
+        *mine = raster;
+        true
+    }
 }
 
 /// Split combined selections: `["c=0,1,z=2"]` → `["c=0,1", "z=2"]` (a comma followed by
@@ -691,8 +1090,12 @@ pub fn split_select(args: &[String]) -> Vec<String> {
 
 /// Which kind of preview a request asks for.
 fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
-    if req.table.is_some() || req.column.is_some() {
-        return Ok("plate");
+    if req.table.is_some() || !req.columns.is_empty() {
+        return Ok(if events::is_events(info, req.table.unwrap_or(0)) {
+            "events"
+        } else {
+            "plate"
+        });
     }
     if req.trace.is_some() || req.sweep.is_some() || !req.channels.is_empty() {
         return Ok("trace");
@@ -713,7 +1116,11 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
     } else if !info.spectra.is_empty() {
         Ok("spectrum")
     } else if !info.tables.is_empty() {
-        Ok("plate")
+        Ok(if events::is_events(info, 0) {
+            "events"
+        } else {
+            "plate"
+        })
     } else {
         Err(Error::unsupported(
             "preview",
@@ -723,14 +1130,64 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
     }
 }
 
-/// Render a preview (no encoding yet).
-pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Result<Rendered> {
+/// Most annotations one picture takes.
+pub const MAX_ANNOTATIONS: usize = 500;
+/// Most trace channels one picture draws.
+pub const MAX_CHANNELS: usize = 64;
+/// Longest title, in characters.
+pub const MAX_TITLE_CHARS: usize = 300;
+/// Longest caption, in characters.
+pub const MAX_CAPTION_CHARS: usize = 2000;
+
+/// Refuse requests too large to draw: many annotations or channels, long titles and captions.
+fn check_limits(req: &PreviewRequest) -> Result<()> {
     if req.max_size < 16 || req.max_size > MAX_PREVIEW_SIZE {
         return Err(Error::Usage(format!(
-            "max size {} out of range (16..={MAX_PREVIEW_SIZE})",
+            "max size {} is out of range: use 16 to {MAX_PREVIEW_SIZE}",
             req.max_size
         )));
     }
+    let over = |what: &str, n: usize, max: usize, how: &str| {
+        Err(Error::Usage(format!(
+            "{n} {what} are over the limit of {max}; {how}"
+        )))
+    };
+    if req.annotations.len() > MAX_ANNOTATIONS {
+        return over(
+            "annotations",
+            req.annotations.len(),
+            MAX_ANNOTATIONS,
+            "mark the most telling ones, or zoom in with region and annotate each part",
+        );
+    }
+    let mut channels = req.channels.clone();
+    channels.sort_unstable();
+    channels.dedup();
+    if channels.len() > MAX_CHANNELS {
+        return over(
+            "channels",
+            channels.len(),
+            MAX_CHANNELS,
+            "draw fewer channels per picture",
+        );
+    }
+    for (what, text, max) in [
+        ("title", &req.title, MAX_TITLE_CHARS),
+        ("caption", &req.caption, MAX_CAPTION_CHARS),
+    ] {
+        let n = text.as_deref().map_or(0, |t| t.chars().count());
+        if n > max {
+            return Err(Error::Usage(format!(
+                "a {what} of {n} characters is over the limit of {max}; shorten it, and give the full text in your reply"
+            )));
+        }
+    }
+    Ok(())
+}
+
+/// Render a preview (no encoding yet).
+pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Result<Rendered> {
+    check_limits(req)?;
     let k = kind(info, req)?;
     let mut out = PreviewOutput {
         path: info.path.clone(),
@@ -738,14 +1195,66 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         kind: k.into(),
         ..PreviewOutput::default()
     };
-    let canvas = match k {
-        "image" => image::render(ds, info, req, &mut out)?,
-        "trace" => trace::render(ds, info, req, &mut out)?,
-        "spectrum" => spectrum::render(ds, info, req, &mut out)?,
+    // An NMR data set shows its spectrum unless the caller picked a trace, sweep or channel.
+    let nmr_default = k == "trace"
+        && info.format.family == "nmr"
+        && req.trace.is_none()
+        && req.sweep.is_none()
+        && req.channels.is_empty();
+    let mut drawn = if nmr_default {
+        nmr::render(ds, info, req, &mut out)
+    } else {
+        None
+    };
+    // A mass-spectrometry run shows its chromatogram unless a spectrum was asked for.
+    if drawn.is_none()
+        && k == "spectrum"
+        && req.run.is_none()
+        && req.spectrum.is_none()
+        && req.scan.is_none()
+        && !req.centroid
+    {
+        drawn = tic::render(ds, info, req, &mut out)?;
+        if drawn.is_some() {
+            out.kind = "chromatogram".into();
+        }
+    }
+    let (mut figure, frame) = match (k, drawn) {
+        (_, Some(drawn)) => drawn,
+        ("image", _) => image::render(ds, info, req, &mut out)?,
+        ("trace", _) if electrochem::is_voltammetry(info, req) => {
+            electrochem::render(ds, info, req, &mut out)?
+        }
+        ("trace", _) => trace::render(ds, info, req, &mut out)?,
+        ("spectrum", _) => spectrum::render(ds, info, req, &mut out)?,
+        ("events", _) => events::render(ds, info, req, &mut out)?,
         _ => plate::render(ds, info, req, &mut out)?,
     };
+    if out.kind != "image" && (req.title.is_some() || req.caption.is_some()) {
+        out.notes.push(
+            "title and caption are drawn on image previews; openreadout_plot titles and captions plots"
+                .into(),
+        );
+    }
+    if let Frame::Plots { panels, .. } = &frame {
+        out.panels = panels.iter().map(annotate::plot_panel).collect();
+    }
+    if k == "image" && (req.marks == Marks::Objects || req.objects.is_some()) {
+        objects::draw(ds, info, req, &frame, &mut figure, &mut out)?;
+    }
+    if !req.annotations.is_empty() {
+        let theme = theme(req);
+        out.annotations = annotate::draw(
+            &mut figure,
+            &frame,
+            &req.annotations,
+            &theme,
+            &mut out.notes,
+        )?;
+    }
+    figure.title = Some(title(&out));
+    let mut canvas = figure.to_raster(1.0);
     // Plots and heat maps have a minimum legible layout; below it, shrink to honour `max_size`.
-    let mut canvas = canvas;
     while canvas.width.max(canvas.height) > req.max_size {
         canvas = canvas.half();
         out.halved();
@@ -756,46 +1265,36 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
     }
     Ok(Rendered {
         canvas,
+        figure,
         output: out,
     })
 }
 
-/// Encode a canvas. PNG is stored as 8-bit greyscale when every pixel is grey, else RGB.
-pub fn encode(c: &Canvas, encoding: Encoding, jpeg_quality: u8) -> Result<Vec<u8>> {
+/// A one-line description of the picture (the SVG title).
+fn title(o: &PreviewOutput) -> String {
+    let name = Path::new(&o.path)
+        .file_name()
+        .map_or_else(|| o.path.clone(), |n| n.to_string_lossy().to_string());
+    format!("{} preview of {name}", o.kind)
+}
+
+/// Encode a raster as PNG (8-bit greyscale when every pixel is grey, else RGB) or JPEG. SVG
+/// needs the figure: use [`finish`].
+pub fn encode(c: &Raster, encoding: Encoding, jpeg_quality: u8) -> Result<Vec<u8>> {
     match encoding {
-        Encoding::Jpeg => {
-            if c.width > 65_535 || c.height > 65_535 {
-                return Err(Error::Usage("JPEG previews are limited to 65535 px".into()));
-            }
-            Ok(jpeg::encode(c, jpeg_quality))
-        }
-        Encoding::Png => {
-            let mut buf = Vec::new();
-            let gray = c.is_gray();
-            {
-                let mut e = png::Encoder::new(&mut buf, c.width, c.height);
-                e.set_color(if gray {
-                    png::ColorType::Grayscale
-                } else {
-                    png::ColorType::Rgb
-                });
-                e.set_depth(png::BitDepth::Eight);
-                e.set_compression(png::Compression::Balanced);
-                let mut w = e
-                    .write_header()
-                    .map_err(|e| Error::Other(format!("PNG encoding failed: {e}")))?;
-                let data: Vec<u8> = if gray {
-                    c.rgb.as_chunks::<3>().0.iter().map(|p| p[0]).collect()
-                } else {
-                    c.rgb.clone()
-                };
-                w.write_image_data(&data)
-                    .map_err(|e| Error::Other(format!("PNG encoding failed: {e}")))?;
-                w.finish()
-                    .map_err(|e| Error::Other(format!("PNG encoding failed: {e}")))?;
-            }
-            Ok(buf)
-        }
+        Encoding::Jpeg => c.to_jpeg(jpeg_quality),
+        Encoding::Png => c.to_png(),
+        Encoding::Svg => Err(Error::Usage(
+            "SVG is drawn from the figure, not a raster; use finish()".into(),
+        )),
+    }
+}
+
+/// Encode a figure at its own size: PNG, JPEG or SVG.
+pub fn encode_figure(f: &Figure, encoding: Encoding, jpeg_quality: u8) -> Result<Vec<u8>> {
+    match encoding {
+        Encoding::Svg => Ok(f.to_svg().into_bytes()),
+        e => encode(&f.to_raster(1.0), e, jpeg_quality),
     }
 }
 
@@ -809,7 +1308,10 @@ pub fn finish(
     encoding: Encoding,
     jpeg_quality: u8,
 ) -> Result<(PreviewOutput, Vec<u8>)> {
-    let bytes = encode(&r.canvas, encoding, jpeg_quality)?;
+    let bytes = match encoding {
+        Encoding::Svg => r.figure.to_svg().into_bytes(),
+        e => encode(&r.canvas, e, jpeg_quality)?,
+    };
     let mut out = r.output.clone();
     out.encoding = encoding.as_str().into();
     out.width = r.canvas.width;
@@ -835,7 +1337,7 @@ pub fn finish_within(
     }
     let mut cur = r.clone();
     let mut enc = encoding;
-    if enc == Encoding::Png {
+    if enc != Encoding::Jpeg {
         enc = Encoding::Jpeg;
         (out, bytes) = finish(&cur, enc, 85)?;
     }
@@ -890,7 +1392,7 @@ pub fn thumbnail(
     }
 }
 
-/// Default output path: `<input stem>.preview.<png|jpg>` next to the input.
+/// Default output path: `<input stem>.preview.<png|jpg|svg>` next to the input.
 pub fn default_output(input: &Path, encoding: Encoding) -> PathBuf {
     let stem = input
         .file_stem()
@@ -900,47 +1402,74 @@ pub fn default_output(input: &Path, encoding: Encoding) -> PathBuf {
 
 /// Write `bytes` to `output` through a temporary file that is read back and compared before it is
 /// renamed into place. Refuses to replace an existing file unless `overwrite`, and refuses to
-/// write over the input. Returns `true` (verified).
+/// write over the input however its path is spelled. Returns `true` (verified).
 pub fn write_verified(input: &Path, output: &Path, bytes: &[u8], overwrite: bool) -> Result<bool> {
-    if output == input
-        || (output.exists()
-            && std::fs::canonicalize(output).ok() == std::fs::canonicalize(input).ok())
-    {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
-    if output.exists() && !overwrite {
-        return Err(Error::Usage(format!(
-            "{} exists; pass --overwrite to replace it",
-            output.display()
-        )));
-    }
-    let tmp = output.with_file_name(format!(
-        ".{}.partial-{}",
-        output
-            .file_name()
-            .map_or_else(|| "preview".into(), |s| s.to_string_lossy().to_string()),
-        std::process::id()
-    ));
-    std::fs::write(&tmp, bytes).map_err(|e| Error::io(&tmp, e))?;
-    let same = std::fs::read(&tmp).is_ok_and(|b| b == bytes);
-    if !same {
-        let _ = std::fs::remove_file(&tmp);
-        return Err(Error::Other(
-            "read-back verification failed; preview discarded".into(),
-        ));
-    }
-    std::fs::rename(&tmp, output).map_err(|e| {
-        let _ = std::fs::remove_file(&tmp);
-        Error::io(output, e)
-    })?;
+    openreadout_core::output::write_verified(output, bytes, overwrite, &[input])?;
     Ok(true)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Saving at a larger scale keeps the picture as drawn and takes only the image's pixels
+    /// from the larger reading, so type and outlines grow with the save.
+    #[test]
+    fn a_scaled_save_takes_only_the_pixels() {
+        use std::sync::Arc;
+        let picture = |w: u32, h: u32, rect: openreadout_figure::Rect| {
+            let mut figure = Figure::new(rect.w + 20.0, rect.h + 20.0, None);
+            figure.image(rect, Arc::new(Raster::new(w, h, [9, 9, 9])), false);
+            figure.text(
+                5.0,
+                5.0,
+                "12 nuclei",
+                &openreadout_figure::TextStyle::new(12.0, openreadout_figure::Color::rgb(0, 0, 0)),
+            );
+            Rendered {
+                canvas: Raster::new(1, 1, [0, 0, 0]),
+                figure,
+                output: PreviewOutput::default(),
+            }
+        };
+        let mut small = picture(
+            100,
+            50,
+            openreadout_figure::Rect::new(10.0, 10.0, 100.0, 50.0),
+        );
+        let big = picture(
+            300,
+            150,
+            openreadout_figure::Rect::new(10.0, 10.0, 300.0, 150.0),
+        );
+        assert!(small.take_pixels(&big, 3.0));
+        assert_eq!(small.figure.width, 120.0, "the layout stays the small one");
+        let sizes: Vec<(u32, u32)> = small
+            .figure
+            .items
+            .iter()
+            .filter_map(|i| match i {
+                openreadout_figure::Item::Image { raster, .. } => {
+                    Some((raster.width, raster.height))
+                }
+                _ => None,
+            })
+            .collect();
+        assert_eq!(sizes, vec![(300, 150)]);
+        let mut other = picture(
+            100,
+            50,
+            openreadout_figure::Rect::new(10.0, 10.0, 100.0, 50.0),
+        );
+        assert!(!other.take_pixels(
+            &picture(
+                120,
+                50,
+                openreadout_figure::Rect::new(0.0, 0.0, 120.0, 50.0)
+            ),
+            3.0
+        ));
+    }
 
     #[test]
     fn parses_options() {
@@ -953,7 +1482,9 @@ mod tests {
         assert!("bright".parse::<Contrast>().is_err());
         assert_eq!("channel-color".parse::<Lut>().unwrap(), Lut::ChannelColor);
         assert_eq!("Z".parse::<Axis>().unwrap(), Axis::Z);
+        assert_eq!("spikes".parse::<Marks>().unwrap(), Marks::Spikes);
         assert_eq!(Encoding::from_path(Path::new("a.JPG")), Encoding::Jpeg);
+        assert_eq!(Encoding::from_path(Path::new("a.svg")), Encoding::Svg);
         assert_eq!(Encoding::from_path(Path::new("a")), Encoding::Png);
     }
 

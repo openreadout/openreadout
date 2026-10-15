@@ -998,7 +998,9 @@ pub fn export_dataset(
     .collect();
     let hits = search(index_dir, &req)?;
     let out_dir = &opts.output;
-    if out_dir.starts_with(index_dir) {
+    // compare real paths, so `idx/../idx/out` is caught as well as `idx/out`
+    let real = openreadout_core::output::real_path;
+    if real(out_dir).starts_with(real(index_dir)) {
         return Err(Error::Usage(
             "the output directory must not be inside the index directory".into(),
         ));

@@ -1038,6 +1038,10 @@ fn trios_facts(
         .iter()
         .map(|t| t.sweeps[0].first().map_or(0, Vec::len))
         .sum();
+    // A run saved without data points has nothing to point a measurement at.
+    if traces.is_empty() {
+        return facts;
+    }
     facts.measurement(
         MeasurementKind::Trace,
         (0..traces.len() as u32).collect(),

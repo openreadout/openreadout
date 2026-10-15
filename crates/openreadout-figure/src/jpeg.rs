@@ -4,7 +4,7 @@
 //! f64 arithmetic with literal cosine constants (no libm calls), so output bytes are identical
 //! on every platform.
 
-use crate::canvas::Canvas;
+use crate::raster::Raster as Canvas;
 
 /// Zig-zag scan: position `k` in the scan → index in natural (row-major) 8×8 order.
 const ZIGZAG: [usize; 64] = [

@@ -68,7 +68,7 @@ pub fn cmp_items(a: &Path, b: &Path) -> Ordering {
 /// Walk options.
 #[derive(Debug, Clone, Default)]
 pub struct WalkOptions {
-    /// Follow symbolic links (files and directories).
+    /// Follow symbolic links to directories. Links to files are always read.
     pub follow_symlinks: bool,
     /// Skip entries whose name, or whose path relative to their root, matches one of these.
     pub exclude: Vec<glob::Pattern>,
@@ -83,7 +83,7 @@ pub struct WalkStats {
     pub directories: u64,
     /// Hidden entries (`.name`) skipped.
     pub hidden_skipped: u64,
-    /// Symbolic links skipped (not followed).
+    /// Symbolic links to directories skipped (not followed).
     pub symlinks_skipped: u64,
     /// Entries skipped by `--exclude` (and the index directory).
     pub excluded: u64,
@@ -258,11 +258,13 @@ impl<'a> Walker<'a> {
                 continue;
             };
             let meta = if ft.is_symlink() {
-                if !self.opts.follow_symlinks {
-                    self.stats.symlinks_skipped += 1;
-                    continue;
-                }
+                // Links to files are read like files (they cannot loop); links to directories
+                // are walked only with follow_symlinks.
                 match std::fs::metadata(&path) {
+                    Ok(m) if m.is_dir() && !self.opts.follow_symlinks => {
+                        self.stats.symlinks_skipped += 1;
+                        continue;
+                    }
                     Ok(m) => m,
                     Err(e) => {
                         self.pending.push_back(WalkEvent::Error {
@@ -464,6 +466,51 @@ mod tests {
         assert!(item_key(Path::new("/r/a.txt")) < item_key(Path::new("/r/b.txt")));
         let d = dir_key(Path::new("/r/aa"));
         assert!(b.starts_with(&d));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn links_to_files_are_read_and_links_to_directories_need_follow() {
+        let base = tempfile::tempdir().unwrap();
+        let root = base.path().canonicalize().unwrap();
+        let data = root.join("data");
+        std::fs::create_dir_all(data.join("d")).unwrap();
+        std::fs::write(data.join("run.txt"), b"x").unwrap();
+        std::fs::write(data.join("d/inner.txt"), b"x").unwrap();
+        let lab = root.join("lab");
+        std::fs::create_dir_all(&lab).unwrap();
+        std::os::unix::fs::symlink(data.join("run.txt"), lab.join("linked.txt")).unwrap();
+        std::os::unix::fs::symlink(data.join("d"), lab.join("linked-dir")).unwrap();
+        let reg = Registry::new();
+        let walk = |follow: bool| -> (Vec<String>, u64) {
+            let opts = WalkOptions {
+                follow_symlinks: follow,
+                ..WalkOptions::default()
+            };
+            let mut w = Walker::new(&reg, vec![lab.clone()], opts);
+            let names = w
+                .by_ref()
+                .filter_map(|e| match e {
+                    WalkEvent::Item(i) => Some(
+                        i.path
+                            .strip_prefix(&lab)
+                            .unwrap()
+                            .to_string_lossy()
+                            .replace('\\', "/"),
+                    ),
+                    WalkEvent::Error { .. } => None,
+                })
+                .collect();
+            (names, w.stats.symlinks_skipped)
+        };
+        assert_eq!(walk(false), (vec!["linked.txt".to_string()], 1));
+        assert_eq!(
+            walk(true),
+            (
+                vec!["linked.txt".to_string(), "linked-dir/inner.txt".to_string()],
+                0
+            )
+        );
     }
 
     #[test]

@@ -124,6 +124,7 @@ pub fn run_pipeline(
     let mut req = p.request.clone();
     req.exclude.extend(p.sample_sheets.iter().cloned());
     if let Some(o) = &p.output {
+        openreadout_core::output::refuse_inputs(o, p.sample_sheets.iter().map(PathBuf::as_path))?;
         req.exclude.push(o.clone());
         if req.journal.is_none() {
             req.journal = Some(journal_path(o));
@@ -184,7 +185,25 @@ pub fn run_pipeline(
                 .as_ref()
                 .map_or_else(|| out.result.grain.clone(), |s| s.group_by.clone()),
         };
-        out.written = Some(save(out.main_table(), o, None, &meta, p.overwrite)?);
+        let inputs: Vec<&std::path::Path> = p
+            .sample_sheets
+            .iter()
+            .chain(
+                out.result
+                    .datasets
+                    .iter()
+                    .flat_map(|d| std::iter::once(&d.path).chain(&d.members)),
+            )
+            .map(PathBuf::as_path)
+            .collect();
+        out.written = Some(save(
+            out.main_table(),
+            o,
+            None,
+            &meta,
+            p.overwrite,
+            &inputs,
+        )?);
         let _ = std::fs::remove_file(journal_path(o));
     }
     Ok(out)

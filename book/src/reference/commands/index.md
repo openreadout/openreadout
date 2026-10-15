@@ -10,6 +10,7 @@
 - [`export`](export.md): convert to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, Arrow, mzML, NWB, JCAMP-DX, Allotrope ASM, RDML).
 - [`extract`](extract.md): write one embedded attachment, such as a slide label, to a new file.
 - [`preview`](preview.md): render a PNG or JPEG of an image plane, a trace, a mass spectrum or a plate.
+- [`plot`](plot.md): draw a finished figure from one or more files: traces, chromatograms and spectra, plate wells, FCS dot plots, f–I curves, fits and table columns.
 - [`stats`](stats.md): pixel statistics per plane, channel, image or plate well.
 - [`trace`](trace.md): samples and statistics of one sweep of a 1-D signal.
 - [`table`](table.md): rows of a table, such as FCS events or plate-reader values.

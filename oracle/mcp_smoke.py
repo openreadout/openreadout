@@ -20,7 +20,8 @@ all four annotation hints (readOnlyHint, destructiveHint, idempotentHint, openWo
 expected values, that every tool except openreadout_export declares an outputSchema, lists and
 reads resources and resource templates, renders every prompt, and calls every tool at least once
 over the given files (exports, attachments and report bundles go to a temporary directory; image
-exports are sent a progressToken and must report progress). Over HTTP it also checks that a
+exports are sent a progressToken and must report progress). Every structured result is checked
+against its tool's outputSchema, as Claude Code does. Over HTTP it also checks that a
 browser Origin, a foreign Host and a missing bearer token are refused. A second session declares
 MCP Apps (the io.modelcontextprotocol/ui extension) and checks the viewer: the ui:// page, the
 tools that point at it, and openreadout_view over every file, within its size caps. Exits non-zero
@@ -45,12 +46,7 @@ WRITERS = {"openreadout_export", "openreadout_extract", "openreadout_batch", "op
 # Write only new files of their own (the index directory; a diagnostic bundle only when
 # `output` is given): not read-only, not destructive.
 INDEX_WRITERS = {"openreadout_index", "openreadout_report"}
-# One tool per analysis; the plate-reader assays are one tool per `analysis`.
-ASSAY_TOOLS = {
-    "wells": "openreadout_assay_wells", "curve": "openreadout_assay_curve",
-    "dose-response": "openreadout_dose_response", "kinetics": "openreadout_kinetics",
-    "growth": "openreadout_growth", "qc": "openreadout_assay_qc",
-}
+# One tool per analysis; the plate-reader assays are one tool with `analysis`.
 # Assay arguments that the tools take under `plate_options`.
 PLATE_OPTIONS = {"table", "read", "wavelength_nm", "embedded_layout", "layout_text", "empty_wells", "roles",
                  "blank_subtraction", "outliers", "outlier_threshold", "exclude_outliers"}
@@ -59,10 +55,10 @@ EXPECTED_TOOLS = {
     "openreadout_preview", "openreadout_stats", "openreadout_trace", "openreadout_table",
     "openreadout_scans", "openreadout_spectrum", "openreadout_peaks", "openreadout_chromatogram", "openreadout_nmr_peaks",
     "openreadout_ephys_features", "openreadout_spikes", "openreadout_qpcr", "openreadout_gate",
-    *ASSAY_TOOLS.values(),
+    "openreadout_assay",
     "openreadout_export", "openreadout_batch", "openreadout_link", "openreadout_index",
     "openreadout_search", "openreadout_health", "openreadout_watch", "openreadout_extract",
-    "openreadout_summarize",
+    "openreadout_summarize", "openreadout_plot",
 }
 
 
@@ -70,7 +66,8 @@ def analysis_call(kind, file, options):
     """The tool and arguments of analysis `kind` (`peaks`, `nmr-peaks`, `assay` with `analysis`)."""
     args = dict(options)
     if kind == "assay":
-        name = ASSAY_TOOLS[args.pop("analysis", "wells")]
+        name = "openreadout_assay"
+        args.setdefault("analysis", "wells")
         plate = {k: args.pop(k) for k in list(args) if k in PLATE_OPTIONS}
         if plate:
             args["plate_options"] = plate
@@ -243,7 +240,7 @@ def synthetic_analyses(c, tmp, called):
     want = sum(1 for fsc, _ in fcs_events() if lo <= fsc < hi)
     check(t["filter"]["matched_rows"] == want and not t["rows"],
           f"table filter: {t['filter']['matched_rows']} != {want}")
-    q = result_json(analyze("qpcr", rdml), "qpcr")
+    q = result_json(analyze("qpcr", rdml, fields=["all"]), "qpcr")
     cqs = sorted((r["well"], r.get("cq")) for r in q["records"])
     check(len(cqs) == 2 and any(cq == RDML_CQ for _, cq in cqs), f"qpcr records {cqs}")
     print(f"gate: Box {box[0]['count']} events; table filter: {want} of {t['total_rows']}; "
@@ -481,8 +478,9 @@ def analysis_tools(c, tmp, called):
         name, args = analysis_call(kind, file, options)
         called.add(name)
         r = c.request("tools/call", {"name": name, "arguments": args})[0]
-        if "error" in r:
-            check(r["error"].get("data", {}).get("hint"), f"{name}: an error without a hint: {r}")
+        f = failure(r)
+        if f is not None:
+            check(f.get("hint"), f"{name}: an error without a hint: {r}")
         else:
             result_json(r, name)
 
@@ -517,11 +515,18 @@ def analysis_tools(c, tmp, called):
 
     plate = os.path.join(tmp, "smoke-plate.csv")
     vals = plate_values()
-    aw = analyze("assay", plate, analysis="wells")
+    aw = analyze("assay", plate, analysis="wells", fields=["all"])
     got = {w["well"]: w["raw"] for w in aw["wells"]}
     check(all(math.isclose(got[w], v, rel_tol=1e-9) for w, v in vals.items()), "assay-wells differ from the written values")
+    # by default the rows are lean (no row/col, values to 4 significant digits) and say so
+    lean = analyze("assay", plate, analysis="wells")
+    check(all("row" not in w for w in lean["wells"]) and any("fields" in n for n in lean.get("notes", [])),
+          "assay-wells: default rows are not lean")
+    check(all(math.isclose(w["value"], vals[w["well"]], rel_tol=1e-3) for w in lean["wells"] if "value" in w),
+          "assay-wells: lean values differ")
     stds = ";".join(f"{r}1,{r}2={conc}" for r, conc in PLATE_STD.items())
-    cv = analyze("assay", plate, analysis="curve", standards=stds, model="linear", blank_subtraction="none")
+    cv = analyze("assay", plate, analysis="curve", standards=stds, model="linear", blank_subtraction="none",
+                 fields=["all"])
     well = next(w for w in cv["wells"] if w["well"] == "C7")
     want = (vals["C7"] - 0.05) / 0.01
     check(math.isclose(well["back_calculated"], want, rel_tol=1e-6), f"assay-curve C7 {well['back_calculated']} != {want}")
@@ -560,6 +565,87 @@ def write_fcs(path):
     open(path, "wb").write(header + t + data)
 
 
+# Output schemas from tools/list, by tool name. Clients such as Claude Code check every result
+# against its tool's outputSchema and report a mismatch as an error, so every structured result
+# this script receives is checked the same way.
+OUTPUT_SCHEMAS = {}
+
+
+def schema_errors(v, s, root, path="", out=None):
+    """Where `v` breaks JSON Schema `s` (the subset schemars writes), as a list of strings."""
+    out = [] if out is None else out
+    if s is True or s is None or len(out) > 20:
+        return out
+    if s is False:
+        out.append(f"{path or '/'}: not allowed")
+        return out
+    if "$ref" in s:
+        node = root
+        for part in s["$ref"].lstrip("#/").split("/"):
+            node = node[part]
+        schema_errors(v, node, root, path, out)
+    t = s.get("type")
+    if t is not None:
+        kinds = t if isinstance(t, list) else [t]
+
+        def is_kind(k):
+            return {"null": v is None, "boolean": isinstance(v, bool), "object": isinstance(v, dict),
+                    "array": isinstance(v, list), "string": isinstance(v, str),
+                    "integer": (isinstance(v, int) and not isinstance(v, bool))
+                    or (isinstance(v, float) and v.is_integer()),
+                    "number": isinstance(v, (int, float)) and not isinstance(v, bool)}[k]
+        if not any(is_kind(k) for k in kinds):
+            out.append(f"{path or '/'}: {json.dumps(v)[:60]} is not {t}")
+            return out
+    if "enum" in s and v not in s["enum"]:
+        out.append(f"{path or '/'}: {json.dumps(v)[:60]} not in {s['enum']}")
+    if "const" in s and v != s["const"]:
+        out.append(f"{path or '/'}: {json.dumps(v)[:60]} is not {s['const']!r}")
+    if isinstance(v, (int, float)) and not isinstance(v, bool):
+        if "minimum" in s and v < s["minimum"]:
+            out.append(f"{path}: {v} < {s['minimum']}")
+        if "maximum" in s and v > s["maximum"]:
+            out.append(f"{path}: {v} > {s['maximum']}")
+    for sub in s.get("allOf", []):
+        schema_errors(v, sub, root, path, out)
+    for key in ("anyOf", "oneOf"):
+        if key in s:
+            ok = sum(not schema_errors(v, sub, root, path) for sub in s[key])
+            if ok == 0 or (key == "oneOf" and ok > 1):
+                out.append(f"{path or '/'}: matches {ok} of the {key} schemas")
+    if isinstance(v, dict):
+        props = s.get("properties", {})
+        for k in s.get("required", []):
+            if k not in v:
+                out.append(f"{path}/{k}: required but absent")
+        for k, x in v.items():
+            if k in props:
+                schema_errors(x, props[k], root, f"{path}/{k}", out)
+            elif "additionalProperties" in s:
+                schema_errors(x, s["additionalProperties"], root, f"{path}/{k}", out)
+    if isinstance(v, list):
+        prefix = s.get("prefixItems", [])
+        for i, x in enumerate(v):
+            sub = prefix[i] if i < len(prefix) else s.get("items")
+            if sub is not None:
+                schema_errors(x, sub, root, f"{path}/{i}", out)
+    return out
+
+
+def checked(method, params, m):
+    """Note the output schemas from tools/list; check a tool result against its schema."""
+    res = m.get("result") or {}
+    if method == "tools/list":
+        for t in res.get("tools", []):
+            if "outputSchema" in t:
+                OUTPUT_SCHEMAS[t["name"]] = t["outputSchema"]
+    elif method == "tools/call" and "structuredContent" in res and not res.get("isError"):
+        schema = OUTPUT_SCHEMAS.get(params["name"])
+        if schema is not None:
+            errs = schema_errors(res["structuredContent"], schema, schema)
+            check(not errs, f"{params['name']}: result does not match its outputSchema: {errs[:5]}")
+    return m
+
 
 class Stdio:
     def __init__(self, binary):
@@ -582,7 +668,7 @@ class Stdio:
                 fail(f"server closed; stderr: {self.p.stderr.read()[:2000]}")
             m = json.loads(line)
             if m.get("id") == self.seq and "method" not in m:
-                return m, notes
+                return checked(method, params, m), notes
             notes.append(m)
 
     def notify(self, method, params=None):
@@ -636,7 +722,7 @@ class Http:
             self.session = r.headers["Mcp-Session-Id"]
         notes = []
         if r.headers.get("Content-Type", "").startswith("application/json"):
-            return json.loads(r.read()), notes
+            return checked(method, params, json.loads(r.read())), notes
         for raw in r:  # server-sent events
             line = raw.decode().rstrip("\r\n")
             if not line.startswith("data:"):
@@ -647,7 +733,7 @@ class Http:
             m = json.loads(data)
             if m.get("id") == self.seq and "method" not in m:
                 r.close()
-                return m, notes
+                return checked(method, params, m), notes
             notes.append(m)
         fail(f"no response to {method}")
 
@@ -693,6 +779,17 @@ def http_security(binary):
         print("http: bearer token accepted")
     finally:
         s.close()
+
+
+def failure(r):
+    """The `{code, exit_code, hint}` of a failed call (a result with isError, or a JSON-RPC
+    error), else None."""
+    if "error" in r:
+        return r["error"].get("data") or {}
+    res = r.get("result") or {}
+    if res.get("isError"):
+        return (res.get("_meta") or {}).get("openreadout/error") or {}
+    return None
 
 
 def result_json(r, tool):
@@ -822,8 +919,11 @@ def surface(c):
     print(f"prompts: {sorted(pnames)} render")
 
     r = c.request("tools/call", {"name": "openreadout_info", "arguments": {"file": "/nonexistent.czi"}})[0]
-    err = r.get("error") or {}
-    check(err.get("data", {}).get("exit_code") == 5 and err["data"].get("hint"), f"error case: {r}")
+    # a failed call is a result with isError, so the model reads the message and the hint
+    res = r.get("result") or {}
+    text = "".join(x.get("text", "") for x in res.get("content", []))
+    check(res.get("isError") and "I/O error" in text and "\nhint: " in text
+          and failure(r).get("exit_code") == 5, f"error case: {r}")
     print("the error case OK")
 
 
@@ -857,7 +957,7 @@ def per_file(c, path, tmp, called):
     check(json.loads(contents[0]["text"])["format"]["id"] == det["format"] and contents[1]["text"], "file resource")
 
     r = call("openreadout_preview", {"file": path, "max_size": 256})[0]
-    if "result" in r:
+    if failure(r) is None:
         out = result_json(r, "preview")
         img = [x for x in r["result"]["content"] if x["type"] == "image"]
         check(len(img) == 1, "preview: expected one image block")
@@ -870,8 +970,8 @@ def per_file(c, path, tmp, called):
         blob = r["result"]["contents"][0]
         check_image(blob["blob"], blob["mimeType"], "preview resource")
     else:
-        check(r["error"]["data"]["exit_code"] in (2, 6), f"preview error: {r['error']}")
-        print("preview not available:", r["error"]["message"][:120])
+        check((failure(r) or {}).get("exit_code") in (2, 6), f"preview error: {r}")
+        print("preview not available:", json.dumps(r)[:120])
 
     if info["images"]:
         for fmt, name in (("ome-tiff", "x.ome.tiff"), ("ome-zarr", "x.ome.zarr")):
@@ -909,6 +1009,18 @@ def per_file(c, path, tmp, called):
     if info.get("traces"):
         t = result_json(call("openreadout_trace", {"file": path, "max_samples": 3})[0], "trace")
         print(f"trace: {t['sample_count']} samples, {len(t['channels'])} channels")
+        r = call("openreadout_plot", {"data": {"file": path}, "title": "smoke"})[0]
+        called.add("openreadout_plot")
+        fig = result_json(r, "plot")
+        img = [x for x in r["result"]["content"] if x["type"] == "image"]
+        check(len(img) == 1 and fig["panels"], f"plot: {len(img)} images, {fig.get('panels')}")
+        check_image(img[0]["data"], img[0]["mimeType"], "plot")
+        # plot only draws; openreadout_export saves the same figure
+        check("openreadout_export" in (fig.get("save") or ""), "plot: no save line")
+        out = os.path.join(tmp, base + ".figure.pdf")
+        w = result_json(call("openreadout_export", {"plot": {"data": {"file": path}, "title": "smoke"},
+                                                   "output": out, "overwrite": True})[0], "export plot")
+        check(w["verified"] and w["format"] == "pdf" and os.path.exists(out), f"export plot: {w}")
         fam = info["format"]["family"]
         if fam == "chromatography":
             ch = result_json(analyze("chromatogram", traces=[0])[0], "chromatogram")
@@ -956,7 +1068,7 @@ def per_file(c, path, tmp, called):
     else:
         r = call("openreadout_extract", {"file": path, "attachment": "#0",
                                            "output": os.path.join(tmp, "att.bin")})[0]
-        check(r.get("error", {}).get("data", {}).get("hint"), f"extract without attachments: {r}")
+        check((failure(r) or {}).get("hint"), f"extract without attachments: {r}")
 
 
 def index_and_search(c, tmp, called):

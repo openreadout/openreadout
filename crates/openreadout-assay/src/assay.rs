@@ -563,18 +563,6 @@ pub fn run(plate: &PlateData, req: &AssayRequest, user: Option<Layout>) -> Resul
     }
     let (mut series, wl) = collect_series(plate, read, req, &mut notes)?;
     let kinetic = is_kinetic(&series);
-    if let Some(spec) = &req.wells {
-        let keep: BTreeSet<(u32, u32)> = layout::parse_wells(spec)
-            .map_err(|m| usage(format!("wells: {m}")))?
-            .into_iter()
-            .collect();
-        series.retain(|k, _| keep.contains(k));
-        if series.is_empty() {
-            return Err(usage(format!(
-                "none of the wells `{spec}` has values in this read"
-            )));
-        }
-    }
     // layout
     let mut lay = Layout::default();
     if req.embedded_layout
@@ -588,6 +576,44 @@ pub fn run(plate: &PlateData, req: &AssayRequest, user: Option<Layout>) -> Resul
     let role_map = crate::roles::parse_role_map(&req.roles)?;
     let (role_notes, unused_roles) = crate::roles::apply_role_map(&mut lay, &role_map);
     notes.extend(role_notes);
+    // `wells` narrows the wells reported; the layout's blanks and controls outside it are still
+    // read, for blank subtraction, normalisation and Z′.
+    let mut helpers: BTreeSet<(u32, u32)> = BTreeSet::new();
+    if let Some(spec) = &req.wells {
+        let keep: BTreeSet<(u32, u32)> = layout::parse_wells(spec)
+            .map_err(|m| usage(format!("wells: {m}")))?
+            .into_iter()
+            .collect();
+        if !series.keys().any(|k| keep.contains(k)) {
+            return Err(usage(format!(
+                "none of the wells `{spec}` has values in this read"
+            )));
+        }
+        helpers = series
+            .keys()
+            .filter(|k| {
+                !keep.contains(k)
+                    && lay.wells.get(k).is_some_and(|i| {
+                        matches!(
+                            i.effective_role(),
+                            Some(Role::Blank | Role::Positive | Role::Negative)
+                        )
+                    })
+            })
+            .copied()
+            .collect();
+        series.retain(|k, _| keep.contains(k) || helpers.contains(k));
+        if !helpers.is_empty() {
+            notes.push(format!(
+                "the layout's blank and control wells outside `wells` ({}) were read for blank subtraction and controls; they have no rows here",
+                helpers
+                    .iter()
+                    .map(|&(r, c)| layout::well_name(r, c))
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            ));
+        }
+    }
     let mut wells: Vec<Well> = series
         .keys()
         .map(|&pos| {
@@ -689,6 +715,19 @@ pub fn run(plate: &PlateData, req: &AssayRequest, user: Option<Layout>) -> Resul
                 &mut out, &mut wells, &series, req, kinetic, window, &mut notes,
             )?;
         }
+    }
+    if !helpers.is_empty() {
+        let names: BTreeSet<String> = helpers
+            .iter()
+            .map(|&(r, c)| layout::well_name(r, c))
+            .collect();
+        out.wells.retain(|w| !names.contains(&w.well));
+        out.kinetics.retain(|w| !names.contains(&w.well));
+        out.growth.retain(|w| !names.contains(&w.well));
+        if let Some(s) = &mut out.growth_summary {
+            *s = growth_summary(&out.growth);
+        }
+        out.read.wells_measured -= helpers.len().min(out.read.wells_measured);
     }
     out.notes.extend(notes);
     Ok(out)
@@ -1342,10 +1381,49 @@ fn time_course(
             per_time_point: true,
         });
     }
+    // a plate-wide floor for what counts as a rise: a tenth of the larger rises on the plate,
+    // so that a flat well's noise is not read as growth or a crash
+    let min_rise = if req.analysis == Analysis::Growth {
+        let mut rises: Vec<f64> = wells
+            .iter()
+            .filter(|w| !w.excluded && w.role != Some(Role::Blank))
+            .filter_map(|w| {
+                let v: Vec<f64> = series[&w.pos]
+                    .iter()
+                    .map(|p| p.1)
+                    .filter(|v| v.is_finite())
+                    .collect();
+                let hi = v.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+                let lo = v.iter().copied().fold(f64::INFINITY, f64::min);
+                (hi > lo).then_some(hi - lo)
+            })
+            .collect();
+        rises.sort_by(f64::total_cmp);
+        let p95 = rises
+            .get((rises.len() as f64 * 0.95) as usize)
+            .or(rises.last())
+            .copied()
+            .unwrap_or(0.0);
+        if p95 > 0.0 {
+            notes.push(format!(
+                "growth and regrowth count from a rise of {:.3}, a tenth of the larger rises on this plate",
+                p95 * 0.1
+            ));
+        }
+        p95 * 0.1
+    } else {
+        0.0
+    };
     let mut missing_blank = 0usize;
+    let mut blanks_skipped = 0usize;
     let mut kin_by_well: BTreeMap<String, f64> = BTreeMap::new();
     for w in wells.iter() {
         if w.excluded {
+            continue;
+        }
+        // a blank well is the background, not a culture: it has no growth curve
+        if req.analysis == Analysis::Growth && w.role == Some(Role::Blank) {
+            blanks_skipped += 1;
             continue;
         }
         let pts = &series[&w.pos];
@@ -1417,11 +1495,18 @@ fn time_course(
                     if let Some(d) = g.doubling_time_h {
                         kin_by_well.insert(w.name.clone(), d);
                     }
-                    let l = g.logistic.as_ref();
+                    let ph = kinetics::phases(&t, &y, window, req.growth_threshold, min_rise);
+                    let ph = ph.as_ref();
+                    // a logistic curve describes a culture that grew; a crash breaks its shape
+                    let l = g
+                        .logistic
+                        .as_ref()
+                        .filter(|_| ph.is_none_or(|p| p.pattern.id() == "grew"));
                     out.growth.push(GrowthRow {
                         well: w.name.clone(),
                         role: role_id(w.role),
                         sample: w.info.sample.clone(),
+                        group: w.group.clone(),
                         n_points: g.n_points,
                         background,
                         window: g.window,
@@ -1442,6 +1527,16 @@ fn time_course(
                         logistic_doubling_time_h: l.map(|l| l.doubling_time_h),
                         logistic_t_mid_s: l.map(|l| l.t_mid_s),
                         logistic_sigma: l.map(|l| l.sigma),
+                        pattern: ph.map_or("no_growth", |p| p.pattern.id()).into(),
+                        exp_phase_after_crash: matches!(
+                            (ph.and_then(|p| p.trough_s), g.exp_phase_start_s),
+                            (Some(tr), Some(st)) if st >= tr
+                        ),
+                        crash_s: ph.and_then(|p| p.crash_s),
+                        crash_value: ph.and_then(|p| p.crash_value),
+                        trough_s: ph.and_then(|p| p.trough_s),
+                        trough_value: ph.and_then(|p| p.trough_value),
+                        regrowth_s: ph.and_then(|p| p.regrowth_s),
                     });
                 }
             }
@@ -1451,6 +1546,14 @@ fn time_course(
         notes.push(format!(
             "{missing_blank} time points had no blank value at the same time and were left out"
         ));
+    }
+    if blanks_skipped > 0 {
+        notes.push(format!(
+            "the {blanks_skipped} blank well(s) are the background and get no growth row"
+        ));
+    }
+    if req.analysis == Analysis::Growth && !out.growth.is_empty() {
+        out.growth_summary = Some(growth_summary(&out.growth));
     }
     let metric = if req.analysis == Analysis::Kinetics {
         "max_slope_per_min"
@@ -1462,6 +1565,35 @@ fn time_course(
         .filter(|s| s.n >= 2)
         .collect();
     Ok(())
+}
+
+/// Smallest, median and largest of `v` (empty: `None`).
+fn range3(mut v: Vec<f64>) -> Option<[f64; 3]> {
+    v.retain(|x| x.is_finite());
+    if v.is_empty() {
+        return None;
+    }
+    v.sort_by(f64::total_cmp);
+    let n = v.len();
+    let med = if n % 2 == 1 {
+        v[n / 2]
+    } else {
+        f64::midpoint(v[n / 2 - 1], v[n / 2])
+    };
+    Some([v[0], med, v[n - 1]])
+}
+
+fn growth_summary(rows: &[GrowthRow]) -> crate::output::GrowthSummary {
+    let mut s = crate::output::GrowthSummary::default();
+    for r in rows {
+        s.wells
+            .entry(r.pattern.clone())
+            .or_default()
+            .push(r.well.clone());
+    }
+    s.regrowth_s = range3(rows.iter().filter_map(|r| r.regrowth_s).collect());
+    s.crash_s = range3(rows.iter().filter_map(|r| r.crash_s).collect());
+    s
 }
 
 fn time_key(t: f64) -> u64 {

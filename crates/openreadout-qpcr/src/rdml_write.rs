@@ -769,11 +769,7 @@ fn counts(d: &QpcrData) -> Counts {
 /// Write `ds` as RDML 1.3 to `output`; the file is verified by reading it back before it is
 /// renamed into place. `overwrite` replaces an existing output.
 pub fn export_rdml(ds: &QpcrDataset, output: &Path, overwrite: bool) -> Result<RdmlExportReport> {
-    if output == ds.path() {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
+    openreadout_core::output::refuse_inputs(output, [ds.path()])?;
     if output.exists() && !overwrite {
         return Err(Error::Usage(format!(
             "{} exists; pass --overwrite to replace it",

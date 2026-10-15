@@ -1,6 +1,6 @@
 //! The analyses by name: one entry point, picked by `kind`, configured by `options` (the same
 //! options `openreadout_batch` takes for that measure). The MCP analysis tools
-//! (`openreadout_peaks`, `openreadout_nmr_peaks`, ..., `openreadout_dose_response`), the Python
+//! (`openreadout_peaks`, `openreadout_nmr_peaks`, ..., `openreadout_assay`), the Python
 //! `openreadout.analyze()` and the R `openreadout_analyze()` call it.
 
 use std::path::{Path, PathBuf};
@@ -119,7 +119,8 @@ pub struct GateOptions {
     #[serde(default)]
     pub table: u32,
     /// Parameters whose median over each population's events is reported under
-    /// populations[].medians (`$PnN` or `$PnS`; `Comp-NAME` for compensated values).
+    /// populations[].medians (`$PnN` or `$PnS`; `Comp-NAME` for compensated values), or
+    /// `["all"]`: every parameter a gate uses, compensated as the gate reads it.
     #[serde(default)]
     pub medians: Vec<String>,
 }
@@ -159,8 +160,7 @@ pub struct AnalyzeArgs {
     #[serde(default)]
     #[schemars(with = "Option<AnalyzeOptions>")]
     pub options: Map<String, Value>,
-    /// true: refuse (an error with exit_code 6 and a hint) values this file's assurance does not
-    /// validate. Default: the server's setting (OPENREADOUT_STRICT; off).
+    /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
 }
@@ -191,6 +191,7 @@ pub enum AnalyzeOutput {
 fn with_file<T>(
     reg: &Registry,
     file: &str,
+    progress: Option<&openreadout_core::parallel::Progress<'_>>,
     f: impl FnOnce(&mut dyn Dataset, &openreadout_core::FileInfo, &ReadContext<'_>) -> Result<T>,
 ) -> Result<T> {
     let (_, mut ds) = reg.open(Path::new(file))?;
@@ -201,7 +202,7 @@ fn with_file<T>(
         &info,
         &ReadContext {
             opener: Some(&opener),
-            progress: None,
+            progress,
         },
     )
 }
@@ -215,6 +216,16 @@ fn parse<T: serde::de::DeserializeOwned + schemars::JsonSchema>(
 
 /// Run one analysis; the PNG of an assay fit when `plot` is set.
 pub fn run(reg: &Registry, a: &AnalyzeArgs) -> Result<(AnalyzeOutput, Option<Vec<u8>>)> {
+    run_with_progress(reg, a, None)
+}
+
+/// [`run`], reporting `(done, total)` units read (spectra of chromatograms and peaks) to
+/// `progress`.
+pub fn run_with_progress(
+    reg: &Registry,
+    a: &AnalyzeArgs,
+    progress: Option<&openreadout_core::parallel::Progress<'_>>,
+) -> Result<(AnalyzeOutput, Option<Vec<u8>>)> {
     let o = &a.options;
     let out = match a.kind {
         AnalyzeKind::Qpcr => {
@@ -264,7 +275,7 @@ pub fn run(reg: &Registry, a: &AnalyzeArgs) -> Result<(AnalyzeOutput, Option<Vec
             let g: GateOptions = parse(a.kind, o)?;
             AnalyzeOutput::Gate(gate(&a.file, g)?)
         }
-        kind => with_file(reg, &a.file, |ds, info, ctx| {
+        kind => with_file(reg, &a.file, progress, |ds, info, ctx| {
             run_dataset(kind, o, ds, info, ctx)
         })?,
     };

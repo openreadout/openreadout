@@ -18,6 +18,7 @@ pub mod measure;
 pub mod nmr;
 pub mod peaks;
 pub mod plate;
+pub mod plot;
 pub mod qpcr;
 pub mod report;
 pub mod self_cmd;
@@ -71,6 +72,7 @@ pub fn run(cmd: Command) -> i32 {
         Command::Health(a) => index::health(&a),
         Command::ExportDataset(a) => index::export_dataset(&reg, &a),
         Command::Preview(a) => crate::preview_cmd::run(&reg, &a),
+        Command::Plot(a) => plot::run(&reg, &a),
         Command::Mcp(a) => crate::mcp_config::run(&a),
         Command::SelfCmd(c) => self_cmd::run(&reg, c),
     }

@@ -17,6 +17,19 @@
 //!   the µmax line crosses ln y0, y0 the mean of the first three values (at least the threshold).
 //! - **logistic fit**: N(t) = K / (1 + ((K − N0)/N0) e^(−r t)) by least squares (the model
 //!   growthcurver fits), t in hours: K, N0, r, t_mid = ln((K − N0)/N0)/r, doubling time ln 2/r.
+//! - **pattern** (crash and regrowth, [`phases`]): on a running median of the values (window 5
+//!   or a fiftieth of the points, whichever is larger) with σ the noise of the raw values
+//!   (median |Δy| / 0.6745 / √2, at least the smallest step between two reads), a decline
+//!   over the first reads that ends within the first hour (and the first quarter of the reads)
+//!   is settling (condensation clearing, cells settling), not a crash; it ends at its lowest
+//!   point before the curve rises 3σ above it. A well *crashed* when the curve falls to half
+//!   its height above its lowest value after an earlier high point, by at least 5σ (after
+//!   settling, a high point at least 5σ above the settled level); `crash_s` is the time of
+//!   that high point (the decline starts there, at 0 when the values fall slowly from the
+//!   first read). It *regrew* when, after the lowest point that follows (the trough), it rises again
+//!   by at least 10σ and by half the fall. `regrowth_s` is the lag time of the part after the
+//!   trough, by the rule above. Otherwise a well *grew* when it rose 10σ above its starting
+//!   level, else it shows *no_growth*.
 
 use crate::fit;
 use crate::stats;
@@ -173,6 +186,183 @@ pub struct Growth {
     pub auc_h: f64,
     /// Logistic fit, when it converged to a positive carrying capacity and rate.
     pub logistic: Option<LogisticGrowth>,
+}
+
+/// What a growth curve did.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Pattern {
+    /// Rose and did not crash.
+    Grew,
+    /// Did not rise above the noise.
+    NoGrowth,
+    /// Fell to half its height and did not grow again.
+    Crashed,
+    /// Fell, then grew again.
+    Regrew,
+}
+
+impl Pattern {
+    /// The pattern id.
+    pub fn id(self) -> &'static str {
+        match self {
+            Pattern::Grew => "grew",
+            Pattern::NoGrowth => "no_growth",
+            Pattern::Crashed => "crashed",
+            Pattern::Regrew => "regrew",
+        }
+    }
+}
+
+/// Crash and regrowth of one well (module docs, "pattern").
+#[derive(Debug, Clone, PartialEq)]
+pub struct Phases {
+    /// What the curve did.
+    pub pattern: Pattern,
+    /// Time of the high point before the crash (s).
+    pub crash_s: Option<f64>,
+    /// Smoothed value at that point.
+    pub crash_value: Option<f64>,
+    /// Time of the lowest point after the crash (s).
+    pub trough_s: Option<f64>,
+    /// Smoothed value there.
+    pub trough_value: Option<f64>,
+    /// When growth restarts after the trough (s): the lag time of the regrowth.
+    pub regrowth_s: Option<f64>,
+}
+
+fn running_median(y: &[f64], k: usize) -> Vec<f64> {
+    let h = k / 2;
+    (0..y.len())
+        .map(|i| {
+            let mut w: Vec<f64> = y[i.saturating_sub(h)..(i + h + 1).min(y.len())].to_vec();
+            w.sort_by(f64::total_cmp);
+            w[w.len() / 2]
+        })
+        .collect()
+}
+
+/// The longest decline over the first reads that is settling rather than a crash (s).
+const SETTLING_S: f64 = 3600.0;
+
+/// The noise σ of a series of reads: median |Δy| / 0.6745 / √2, and at least the resolution
+/// the values were stored with (the smallest step between two reads; values stored with few
+/// decimals often repeat, which would make the median step 0).
+fn noise(y: &[f64]) -> f64 {
+    let scale = y.iter().fold(0.0f64, |a, v| a.max(v.abs()));
+    // steps below this are rounding in the arithmetic, not in the stored values
+    let tiny = scale * 1e-9;
+    let mut d: Vec<f64> = y.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+    d.sort_by(f64::total_cmp);
+    let median = d.get(d.len() / 2).copied().unwrap_or(0.0) / 0.6745 / std::f64::consts::SQRT_2;
+    let step = d.iter().copied().find(|v| *v > tiny).unwrap_or(0.0);
+    median.max(step).max(tiny).max(f64::MIN_POSITIVE)
+}
+
+/// Crash and regrowth of a time series (t in seconds, values background-corrected). Growth and
+/// regrowth count when they rise by at least `min_rise` in the data's units as well as well
+/// above the noise; a fall with no growth before it or after it is no growth. 0 for no floor.
+pub fn phases(
+    t: &[f64],
+    y: &[f64],
+    window: Option<usize>,
+    threshold: Option<f64>,
+    min_rise: f64,
+) -> Option<Phases> {
+    let (t, y) = clean(t, y);
+    let n = t.len();
+    if n < 5 {
+        return None;
+    }
+    let k = (5.max(n / 50)) | 1;
+    let s = running_median(&y, k);
+    let sigma = noise(&y);
+    let floor = s.iter().copied().fold(f64::INFINITY, f64::min);
+    // settling: the values may fall over the first reads (condensation clearing, cells
+    // settling) before anything grows. That decline ends at its lowest point before the curve
+    // rises 3σ above it, within the first hour (and the first quarter of the reads). A slower
+    // decline from the first read is a crash: phage lysing the inoculum takes hours.
+    let mut settled = 0;
+    for i in 0..n {
+        if s[i] < s[settled] {
+            settled = i;
+        } else if s[i] - s[settled] > 3.0 * sigma {
+            break;
+        }
+    }
+    if t[settled] - t[0] > SETTLING_S.min((t[n - 1] - t[0]) / 4.0) {
+        settled = 0;
+    }
+    let start = s[..k.min(n)].iter().copied().fold(s[settled], f64::min);
+    let mut out = Phases {
+        pattern: Pattern::NoGrowth,
+        crash_s: None,
+        crash_value: None,
+        trough_s: None,
+        trough_value: None,
+        regrowth_s: None,
+    };
+    // the first crash: a fall to half the height above the floor, by at least 5σ (phage can
+    // lyse a culture while it is still too thin to rise by min_rise); after settling, only from
+    // a high point at least 5σ above the settled level
+    let mut hi = settled;
+    let mut crash = None;
+    for i in settled..n {
+        if s[i] > s[hi] {
+            hi = i;
+        }
+        if (settled == 0 || s[hi] - start >= 5.0 * sigma)
+            && s[i] - floor <= 0.5 * (s[hi] - floor)
+            && s[hi] - s[i] >= 5.0 * sigma
+        {
+            crash = Some((hi, i));
+            break;
+        }
+    }
+    let Some((hi, fell)) = crash else {
+        let top = s[settled..]
+            .iter()
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max);
+        out.pattern = if top - start >= (10.0 * sigma).max(min_rise) {
+            Pattern::Grew
+        } else {
+            Pattern::NoGrowth
+        };
+        return Some(out);
+    };
+    // the trough: the lowest point between the fall and the highest point after it
+    let top_after = (fell..n)
+        .max_by(|&a, &b| s[a].total_cmp(&s[b]))
+        .unwrap_or(fell);
+    let trough = (fell..=top_after)
+        .min_by(|&a, &b| s[a].total_cmp(&s[b]))
+        .unwrap_or(fell);
+    out.pattern = Pattern::Crashed;
+    out.crash_s = Some(t[hi]);
+    out.crash_value = Some(s[hi]);
+    out.trough_s = Some(t[trough]);
+    out.trough_value = Some(s[trough]);
+    let rise = s[top_after] - s[trough];
+    if top_after > trough
+        && rise >= (10.0 * sigma).max(min_rise)
+        && rise >= 0.5 * (s[hi] - s[trough])
+    {
+        out.pattern = Pattern::Regrew;
+        out.regrowth_s = growth(&t[trough..], &y[trough..], window, threshold)
+            .and_then(|g| g.lag_time_s)
+            .map(|l| l.max(t[trough]));
+    } else if s[hi] - floor < min_rise {
+        // a fall that neither followed growth nor led to regrowth: a flat well's noise
+        return Some(Phases {
+            pattern: Pattern::NoGrowth,
+            crash_s: None,
+            crash_value: None,
+            trough_s: None,
+            trough_value: None,
+            regrowth_s: None,
+        });
+    }
+    Some(out)
 }
 
 /// N(t) = K / (1 + ((K − N0)/N0) e^(−r t)) fitted to one well (t in hours from the first point).
@@ -372,5 +562,164 @@ mod tests {
         // above the 5 % threshold d ln N/dt = r (1 − N/K) ≤ 0.95 r: µmax a little below r
         let mu = g.growth_rate_per_h.unwrap();
         assert!(mu < r && mu > 0.85 * r, "{mu}");
+    }
+
+    #[test]
+    fn crash_and_regrowth() {
+        // rise to 0.2 by 3 h, crash to 0.01 by 5 h, flat, regrow from 8 h to 0.5
+        let t: Vec<f64> = (0..600).map(|i| f64::from(i) * 120.0).collect();
+        let y: Vec<f64> = t
+            .iter()
+            .enumerate()
+            .map(|(i, &s)| {
+                let h = s / 3600.0;
+                let noise = if i % 2 == 0 { 0.0005 } else { -0.0005 };
+                noise
+                    + if h < 3.0 {
+                        0.01 * (h * 1.0).exp()
+                    } else if h < 5.0 {
+                        0.2 - 0.095 * (h - 3.0)
+                    } else if h < 8.0 {
+                        0.01
+                    } else {
+                        (0.01 * (1.2 * (h - 8.0)).exp()).min(0.5)
+                    }
+            })
+            .collect();
+        let p = phases(&t, &y, None, None, 0.0).unwrap();
+        assert_eq!(p.pattern, Pattern::Regrew, "{p:?}");
+        let crash_h = p.crash_s.unwrap() / 3600.0;
+        assert!((crash_h - 3.0).abs() < 0.2, "{crash_h}");
+        let re_h = p.regrowth_s.unwrap() / 3600.0;
+        assert!(re_h > 7.5 && re_h < 11.0, "{re_h}");
+        // a curve that only rises
+        let up: Vec<f64> = t
+            .iter()
+            .map(|s| 0.01 * (s / 3600.0).exp().min(50.0))
+            .collect();
+        assert_eq!(
+            phases(&t, &up, None, None, 0.0).unwrap().pattern,
+            Pattern::Grew
+        );
+        // flat noise
+        let flat: Vec<f64> = (0..600)
+            .map(|i| if i % 2 == 0 { 0.001 } else { -0.001 })
+            .collect();
+        assert_eq!(
+            phases(&t, &flat, None, None, 0.0).unwrap().pattern,
+            Pattern::NoGrowth
+        );
+        // a flat well whose first readings settle: a fall, but from no growth
+        let settling: Vec<f64> = (0..600)
+            .map(|i| 0.008 * (-f64::from(i) / 20.0).exp() + if i % 2 == 0 { 0.0002 } else { 0.0 })
+            .collect();
+        assert_eq!(
+            phases(&t, &settling, None, None, 0.05).unwrap().pattern,
+            Pattern::NoGrowth
+        );
+    }
+
+    /// Reads every 5 min for 25 h.
+    fn hours() -> Vec<f64> {
+        (0..300).map(|i| f64::from(i) * 300.0).collect()
+    }
+
+    #[test]
+    fn a_decline_over_the_first_reads_is_settling_not_a_crash() {
+        // condensation clears over the first half hour (0.08 down to 0.01), then logistic growth
+        let t = hours();
+        let y: Vec<f64> = t
+            .iter()
+            .enumerate()
+            .map(|(i, &s)| {
+                let h = s / 3600.0;
+                let settle = 0.07 * (-h / 0.15).exp();
+                let g = 1.0 / (1.0 + 99.0 * (-0.8 * h).exp());
+                settle + g + if i % 2 == 0 { 0.001 } else { -0.001 }
+            })
+            .collect();
+        for min_rise in [0.0, 0.1] {
+            let p = phases(&t, &y, None, None, min_rise).unwrap();
+            assert_eq!(p.pattern, Pattern::Grew, "{p:?}");
+            assert_eq!(p.crash_s, None);
+        }
+        assert!(growth(&t, &y, None, None).unwrap().logistic.is_some());
+        // settling, then a real rise, crash and regrowth: the crash is the later high point
+        let y: Vec<f64> = t
+            .iter()
+            .enumerate()
+            .map(|(i, &s)| {
+                let h = s / 3600.0;
+                let settle = 0.05 * (-h / 0.15).exp();
+                let culture = if h < 4.0 {
+                    0.01 * (h * 1.0).exp()
+                } else if h < 6.0 {
+                    (0.546 - 0.27 * (h - 4.0)).max(0.01)
+                } else if h < 10.0 {
+                    0.01
+                } else {
+                    (0.01 * (1.2 * (h - 10.0)).exp()).min(0.6)
+                };
+                settle + culture + if i % 2 == 0 { 0.0005 } else { -0.0005 }
+            })
+            .collect();
+        let p = phases(&t, &y, None, None, 0.05).unwrap();
+        assert_eq!(p.pattern, Pattern::Regrew, "{p:?}");
+        let crash_h = p.crash_s.unwrap() / 3600.0;
+        assert!((crash_h - 4.0).abs() < 0.3, "{crash_h}");
+        // phage lysing the inoculum: a slow decline from the first read over 4 h, flat, then
+        // resistant cells grow from 6 h; that is a crash at 0 and regrowth
+        let y: Vec<f64> = t
+            .iter()
+            .enumerate()
+            .map(|(i, &s)| {
+                let h = s / 3600.0;
+                let v = if h < 4.0 {
+                    0.006 - 0.001 * h
+                } else if h < 6.0 {
+                    0.002
+                } else {
+                    (0.002 * (0.9 * (h - 6.0)).exp()).min(0.4)
+                };
+                v + if i % 2 == 0 { 0.0003 } else { -0.0003 }
+            })
+            .collect();
+        let p = phases(&t, &y, None, None, 0.04).unwrap();
+        assert_eq!(p.pattern, Pattern::Regrew, "{p:?}");
+        assert_eq!(p.crash_s, Some(0.0));
+    }
+
+    #[test]
+    fn values_stored_with_few_decimals_keep_a_noise_floor() {
+        // flat at 0.1 with a one-step bump to 0.1001 over four reads
+        let t = hours();
+        let mut y = vec![0.1; 300];
+        for v in &mut y[150..154] {
+            *v = 0.1001;
+        }
+        assert_eq!(
+            phases(&t, &y, None, None, 0.0).unwrap().pattern,
+            Pattern::NoGrowth
+        );
+        // exactly flat
+        assert_eq!(
+            phases(&t, &[0.1; 300], None, None, 0.0).unwrap().pattern,
+            Pattern::NoGrowth
+        );
+        // slow growth then a slight decline, read at three decimals: it grew
+        let y: Vec<f64> = t
+            .iter()
+            .map(|&s| {
+                let h = s / 3600.0;
+                let v = 0.05 + 0.4 / (1.0 + (-(h - 10.0)).exp())
+                    - if h > 20.0 { 0.01 * (h - 20.0) } else { 0.0 };
+                (v * 1000.0).round() / 1000.0
+            })
+            .collect();
+        assert_eq!(
+            phases(&t, &y, None, None, 0.0).unwrap().pattern,
+            Pattern::Grew
+        );
+        assert!(noise(&y) >= 0.001 - 1e-12, "{}", noise(&y));
     }
 }

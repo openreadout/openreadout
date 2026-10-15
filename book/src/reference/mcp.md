@@ -4,7 +4,7 @@
 
 The tools are the commands of the command line and return the same JSON as their `--json` output (the `data` part). Each result is sent twice: as `structuredContent`, checked against the tool's output schema, and as one text block with the same JSON for clients that only read text.
 
-When a client connects, the server sends short instructions. They say what OpenReadout reads (vendor binary formats and their text and XML exports), that indices are zero-based, that values are raw as stored unless a tool says it processed them, what the assurance level means, that only `openreadout_export` and `openreadout_extract` write next to the data, that tools and arguments have the command line's names, and that errors carry a code and a hint.
+When a client connects, the server sends short instructions. They say what OpenReadout reads (vendor binary formats and their text and XML exports), that indices are zero-based, that values are raw as stored unless a tool says it processed them, what the assurance level means, that only `openreadout_export` (data, and figures from `openreadout_plot` or `openreadout_preview`) and `openreadout_extract` write next to the data, that tools and arguments have the command line's names, and that errors carry a code and a hint.
 
 ## Names
 
@@ -17,7 +17,7 @@ The command pages list each flag. Flags that only make sense in a terminal or a 
 
 ## Tools
 
-The server has 32 tools.
+The server has 28 tools.
 
 | tool | what it does | command |
 | --- | --- | --- |
@@ -26,11 +26,12 @@ The server has 32 tools.
 | `openreadout_compare` | compare two files, such as a raw file and its export | [compare](commands/compare.md) |
 | `openreadout_report` | a diagnostic bundle for a file OpenReadout cannot read | [report](commands/report.md) |
 | `openreadout_preview` | a picture of the data | [preview](commands/preview.md) |
-| `openreadout_stats` | pixel statistics, or per-well statistics of a plate | [stats](commands/stats.md) |
+| `openreadout_plot` | a finished figure from one or more files | [plot](commands/plot.md) |
+| `openreadout_stats` | pixel statistics, per-well statistics of a plate, intensity profiles, polygon statistics and object counts | [stats](commands/stats.md) |
 | `openreadout_trace` | samples and statistics of one sweep of a signal or 1-D spectrum | [trace](commands/trace.md) |
 | `openreadout_table` | rows of a table | [table](commands/table.md) |
 | `openreadout_scans` | the scan headers of a mass-spectrometry run | [scans](commands/scans.md) |
-| `openreadout_spectrum` | one mass spectrum | [spectrum](commands/spectrum.md) |
+| `openreadout_spectrum` | one mass spectrum, with its most intense peaks and their charges | [spectrum](commands/spectrum.md) |
 | `openreadout_peaks` | chromatographic peaks; bands and regions of spectra | [analyze peaks](commands/analyze.md#peaks-and-chromatogram) |
 | `openreadout_chromatogram` | TIC, BPC, XIC, SRM and detector chromatograms | [analyze chromatogram](commands/analyze.md#peaks-and-chromatogram) |
 | `openreadout_nmr_peaks` | NMR peaks and integrals | [analyze nmr-peaks](commands/analyze.md#nmr-peaks) |
@@ -38,13 +39,8 @@ The server has 32 tools.
 | `openreadout_spikes` | extracellular spikes | [analyze spikes](commands/analyze.md#spikes) |
 | `openreadout_qpcr` | qPCR Cq, Tm, ΔΔCq and standard curves | [analyze qpcr](commands/analyze.md#qpcr) |
 | `openreadout_gate` | flow-cytometry gating | [analyze gate](commands/analyze.md#gate) |
-| `openreadout_assay_wells` | plate-reader wells, blanks and replicates | [analyze assay-wells](commands/analyze.md#plate-reader-assays) |
-| `openreadout_assay_curve` | a plate-reader standard curve | [analyze assay-curve](commands/analyze.md#plate-reader-assays) |
-| `openreadout_dose_response` | IC50/EC50 from a plate | [analyze dose-response](commands/analyze.md#plate-reader-assays) |
-| `openreadout_kinetics` | per-well rates of a kinetic read | [analyze kinetics](commands/analyze.md#plate-reader-assays) |
-| `openreadout_growth` | growth rate and doubling time per well | [analyze growth](commands/analyze.md#plate-reader-assays) |
-| `openreadout_assay_qc` | Z′ and other plate quality metrics | [analyze assay-qc](commands/analyze.md#plate-reader-assays) |
-| `openreadout_export` | export to an open format | [export](commands/export.md) |
+| `openreadout_assay` | plate-reader assays: wells and replicates, standard curves, IC50/EC50, kinetics, growth with crash and regrowth, Z′ | [analyze](commands/analyze.md#plate-reader-assays) |
+| `openreadout_export` | export to an open format, or save a figure | [export](commands/export.md) |
 | `openreadout_extract` | write one embedded attachment, such as a slide label, to a file | [extract](commands/extract.md) |
 | `openreadout_batch` | one measure over many files as one table | [batch](commands/batch.md) |
 | `openreadout_summarize` | group statistics of a table written earlier | [summarize](commands/summarize.md) |
@@ -84,11 +80,17 @@ A file still being written gets the same `acquisition` block as on the command l
 
 ### openreadout_preview
 
-Returns a picture as image content, followed by JSON that says what was drawn. Arguments as in [`preview`](commands/preview.md): `image`, `select`, `mip`, `composite`, `level`, `region` (`{x, y, width, height}`), `max_size` (default 768, at most 2048), `axes` (`rulers`, `grid` or `none`; default `rulers`), `contrast`, `lut` and `format`; for traces `trace`, `sweep` and `channels`; for spectra `run`, `spectrum`, `scan` and `centroid`; for plates `table` and `column`.
+Returns a picture as image content, followed by JSON that says what was drawn. Arguments as in [`preview`](commands/preview.md): `image`, `select`, `mip`, `composite`, `level`, `region` (`{x, y, width, height}`), `max_size` (default 768, at most 2048), `axes` (`rulers`, `grid`, `scale-bar` or `none`; default `rulers`), `title` and `caption` (images; they pick `scale-bar`), `contrast`, `lut` and `format`; for traces `trace`, `sweep` and `channels`; for spectra `run`, `spectrum`, `scan` and `centroid`; for plates and flow cytometry `table` and `columns`; `marks` (`auto`, `peaks`, `spikes` or `none`), `annotations` (see [Annotations](commands/preview.md#annotations)) and `dark`. With `format: "svg"` the picture still comes back as PNG, followed by the SVG text. An unknown argument is an error that lists the known ones. The tool writes nothing; its result's `save` line is the [`openreadout_export`](#saving-figures) call that saves the picture.
+
+### openreadout_plot
+
+Returns a figure as image content (PNG, or JPEG when the PNG would be over 750 kB), followed by JSON that says what was drawn: per panel the axes (label, unit, range) and the series with the file and selector each was read from, the points drawn, their ranges and the peaks or spikes marked. The arguments are the JSON spec of [`plot`](commands/plot.md): `data` (one series or a list) and the panel keys, or `panels`; `title`, `caption`, `theme`, `width` and `height`. The tool writes nothing; its result's `save` line is the [`openreadout_export`](#saving-figures) call that saves the figure. The result's `_meta["openreadout/figure"]` holds each panel's pixel rectangle, axis ranges and thinned series, for the viewer.
+
+An agent names the data rather than pasting it: `{"file": "run.raw", "rt": "apex", "peaks": 6}` is the spectrum at the TIC's apex with its six largest peaks labelled, `{"file": "plate.pda", "by": "group", "groups": ["lambda", "HK97"]}` the mean and SD of two layout groups. Small numbers the agent computed itself go in `values`, and the result counts them under `inline_series`.
 
 ### openreadout_stats
 
-Per channel and image (the default), with every plane (`per: "plane"`), or per well or field of a screening plate (`per: "well"` or `"field"`, with `wells` to choose wells). Other arguments: `image`, `select`, `level`, `region`, `bins` (default 32), `scale` (`linear` or `log`) and `mip` (`z` or `t`).
+Per channel and image (the default), with every plane (`per: "plane"`), or per well or field of a screening plate (`per: "well"` or `"field"`, with `wells` to choose wells). Other arguments: `image`, `select`, `level`, `region`, `bins` (default 32), `scale` (`linear` or `log`) and `mip` (`z` or `t`). Measurements on one plane: `line` (`[x0, y0, x1, y1]`) with `line_width`, `polygon` (`[[x, y], …]`) and `objects` (`{kind, diameter_um, diameter_px, threshold, method, polarity, stain, split, min_area_um2, max_area_um2, max_objects}`, all optional; `{}` counts nuclei), as described under [Measurements](commands/stats.md#measurements).
 
 ### openreadout_trace
 
@@ -104,7 +106,7 @@ Mass spectrometry only: IR, Raman, UV-Vis and NMR spectra are traces (`openreado
 
 `openreadout_scans` lists the scan headers of a run without decoding peaks, filtered by `ms_level`, `polarity`, `rt_range` (minutes), `precursor` (within `precursor_tol`, default 0.01 m/z, or `precursor_ppm`), `charge`, `activation` and `scan_filter`. Every match is counted. `limit` (default 100, at most 5000) and `offset` page the list, and `count: true` lists none.
 
-`openreadout_spectrum` returns one spectrum's `mz` and `intensity`, chosen by `scan`, `spectrum`, or `ms_level` and `nth`, with at most `max_points` (default 2000). `centroid: true` returns the stored centroid list.
+`openreadout_spectrum` returns one spectrum, chosen by `rt` (minutes: the scan of `ms_level`, default 1, nearest it), `scan`, or `spectrum` (counted within `ms_level` when given). `peaks` lists the `top_peaks` (default 20) most intense peaks with charge, monoisotopic m/z and neutral mass; `mz` and `intensity` keep the `max_points` (default 1000) most intense points in m/z order. `centroid: true` returns the stored centroid list.
 
 ### The analysis tools
 
@@ -112,12 +114,12 @@ Each `analyze` subcommand is a tool whose arguments are its flags. An argument t
 
 - `openreadout_peaks`: chromatographic peaks with areas, widths, tailing, plates, resolution and S/N; compound lists; bands and regions of IR, Raman, UV-Vis and NMR spectra. Arguments: those of `openreadout_chromatogram` to choose the signal, plus `smooth`, `min_snr`, `min_height`, `min_width`, `baseline`, `area_seconds`, `rt`, `window`, `pick`, `integrate`, `x_range`, `compounds` and `summary_only`. See [Chromatograms and peaks](../guides/quantitation.md).
 - `openreadout_chromatogram`: TIC, BPC, XIC and SRM chromatograms, or stored detector traces. Arguments: `tic`, `bpc`, `mz`, `ppm`, `da`, `transitions`, `transition_tol`, `traces`, `channel`, `sweep`, `run`, `ms_level`, `polarity`, `scan_filter`, `precursor`, `precursor_tol`, `rt_range`, `mz_range`, `profile`, `aggregate` and `max_points`.
-- `openreadout_nmr_peaks`: NMR peak list and region integrals. Arguments: `from`, `trace`, `sweep`, `phase`, `lb`, `size`, `baseline`, `min_snr`, `min_prominence`, `min_height_fraction`, `negative`, `range_ppm`, `max_peaks`, `integrate` and `integral_reference`. See [NMR processing](../guides/nmr.md).
+- `openreadout_nmr_peaks`: NMR peak list and region integrals. Arguments: `from`, `trace`, `sweep`, `phase`, `lb`, `size`, `baseline`, `min_snr`, `min_prominence`, `min_height_fraction`, `negative`, `range_ppm`, `max_peaks`, `integrate`, `auto_integrate` (one region per multiplet) and `integral_reference`. See [NMR processing](../guides/nmr.md).
 - `openreadout_ephys_features`: patch-clamp features per sweep and per cell. Arguments: `trace`, `channel`, `sweeps`, `peak_threshold_mv`, `dvdt_threshold` and `max_spikes`. See [Electrophysiology](../guides/ephys.md).
 - `openreadout_spikes`: extracellular spike detection per channel. Arguments: `trace`, `channels`, `sweeps`, `band_hz`, `threshold`, `sign`, `max_seconds` and `max_times`.
-- `openreadout_qpcr`: Cq and Tm per well and target, ΔΔCq and standard curves. Arguments: `well`, `target`, `sample`, `run`, `compute_cq`, `cq_method`, `threshold`, `baseline_start`, `baseline_end`, `ddcq`, `reference_targets`, `control_sample`, `standard_curve`, `undetermined_cq` and `max_records`.
-- `openreadout_gate`: population counts, percentages and medians from a FlowJo workspace or Gating-ML file. Arguments: `workspace`, `gatingml`, `sample`, `populations`, `table` and `medians`. Without `workspace` or `gatingml`, `file` is the gating file itself, described without counts.
-- The plate-reader tools `openreadout_assay_wells`, `openreadout_assay_curve`, `openreadout_dose_response`, `openreadout_kinetics`, `openreadout_growth` and `openreadout_assay_qc` take `layout`, `blank_wells`, `positive_wells` and `negative_wells`, the arguments of their analysis (`reduce`, `window`, `normalize`; `model`, `weighting`, `confidence`, `plot`; `standards`, `fit_on`, `lloq`, `uloq`; `wells`, `growth_threshold`), and the rarely needed plate options in `plate_options`: `table`, `read`, `wavelength_nm`, `embedded_layout`, `layout_text`, `empty_wells`, `roles`, `blank_subtraction`, `outliers`, `outlier_threshold` and `exclude_outliers`. `plot: true` adds the fitted curve as an image. See [Plate-reader assays](../guides/plate-analysis.md).
+- `openreadout_qpcr`: Cq and Tm per well and target, ΔΔCq and standard curves. Arguments: `well`, `target`, `sample`, `run`, `compute_cq`, `cq_method`, `threshold`, `baseline_start`, `baseline_end`, `ddcq`, `reference_targets`, `control_sample`, `standard_curve`, `undetermined_cq`, `max_records` and `fields` (see [Per-well rows](#per-well-rows)).
+- `openreadout_gate`: population counts, percentages and medians from a FlowJo workspace or Gating-ML file. Arguments: `workspace`, `gatingml`, `sample`, `populations`, `table` and `medians` (parameter names, or `["all"]` for every gated parameter). Without `workspace` or `gatingml`, `file` is the gating file itself, described without counts.
+- `openreadout_assay` takes `analysis` (`wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc`, the subcommands `assay-wells` … `assay-qc`), `layout`, `blank_wells`, `positive_wells` and `negative_wells`, the arguments of that analysis (`reduce`, `window`, `normalize`; `model`, `weighting`, `confidence`, `plot`; `standards`, `fit_on`, `lloq`, `uloq`; `wells`, `growth_threshold`), `fields` (see [Per-well rows](#per-well-rows)), and the rarely needed plate options in `plate_options`: `table`, `read`, `wavelength_nm`, `embedded_layout`, `layout_text`, `empty_wells`, `roles`, `blank_subtraction`, `outliers`, `outlier_threshold` and `exclude_outliers`. `plot: true` adds the fitted curve as an image. See [Plate-reader assays](../guides/plate-analysis.md).
 
 ### openreadout_export
 
@@ -129,6 +131,23 @@ Writes a new file, reads it back to check it, then gives it its final name. It d
 - Tables, traces and spectra: `table`, `trace`, `sweep`, `rows`, `labels` (CSV), `spectra`, `run` and `centroid`.
 
 Compression, chunk size, pyramid levels and vendor metadata embedding are command-line options only. The result has no output schema, because its shape depends on the format.
+
+#### Saving figures
+
+`openreadout_plot` and `openreadout_preview` only draw. To save what one of them drew, call `openreadout_export` with `plot` or `preview` set to the arguments of that call, instead of `file`:
+
+```json
+{"preview": {"file": "slide/Young_mouse.czi", "region": {"x": 21000, "y": 9000, "width": 6000, "height": 4500},
+             "annotations": [{"type": "point", "x": 23900, "y": 11200, "label": "Purkinje layer"}]},
+ "output": "slide/cerebellum-layers.png"}
+```
+
+- `output`: `.png`, `.jpg`, `.tiff`, `.svg` or `.pdf`. The default is `<data file stem>.figure.png` (plots) or `<stem>.preview.png` (previews) next to the data. `output` and `overwrite` given inside `plot` or `preview` are used too.
+- `scale`: pixels per figure pixel in PNG, JPEG and TIFF files (default 2, at most 8). Plots are drawn again at that size. An image preview is read again at `max_size` × `scale` (at most 8192), so the saved picture has real pixels, not enlarged ones; at the default 768 × 2 it looks the same as the picture the agent saw.
+- An image preview is saved as a figure for people: the picture with a scale bar, the agent's annotations and the preview's `title` and `caption`, without the rulers the agent read coordinates from (`axes: "scale-bar"`). Pass `axes: "rulers"` inside `preview` to keep them.
+- `dpi`: the print resolution. PNG, JPEG and TIFF files record it; SVG and PDF pages get the size the raster would print at. The result's `print_size_in` is that size in inches.
+
+The result is the saved picture as image content (at most 1568 px on its long side, the size a model reads), then the written file (`path`, `format`, `width`, `height`, `bytes`, `verified`), what was drawn (`drawn`: `plot`, or the preview's kind) and the drawing's notes and warnings. An agent can save a figure it has not drawn yet in one call and still see it.
 
 ### openreadout_extract
 
@@ -150,13 +169,13 @@ Groups files that measured the same sample, from their headers. Every link has i
 
 ### openreadout_index, openreadout_search, openreadout_health and openreadout_watch
 
-`openreadout_index` catalogs every data set under `roots` into Parquet tables in `index_dir`, reading headers only. One call stops after `max_files` (default 20000) or `max_seconds` (default 45) and returns `complete: false`; the same call again continues where it stopped. Other arguments: `check` (`headers`, `full` or `none`), `exclude`, `restart`, `full_rescan`, `pii` and `threads`. It writes only inside `index_dir`.
+`openreadout_index` catalogs every data set under `roots` into Parquet tables in `index_dir`, reading headers only. One call stops after `max_files` (default 20000) or `max_seconds` (default 45) and returns `complete: false`; the same call again continues where it stopped. Other arguments: `check` (`headers`, `full` or `none`), `exclude`, `follow_symlinks` (directories behind links; links to files are always read), `restart`, `full_rescan`, `pii` and `threads`. It writes only inside `index_dir`.
 
 `openreadout_search` queries an index with the query language of [`search`](commands/search.md), for example `format=nd2 objective=60x`. `total` counts every match; `limit` (default 50, at most 1000) caps the results, and `fields: ["all"]` returns every column.
 
 `openreadout_health` reports on the files in an index: truncated or corrupt files, formats it could not read, duplicates (confirmed by hashing their content unless `no_hash: true`), the same experiment stored twice, and personal-data findings. `max_list` (default 50) caps each list; the counts are complete.
 
-`openreadout_watch` looks once at `dirs` per call and returns the events since `cursor`: new data sets, planes and scans, completed and stalled data sets, QC findings (with `qc: true`) and errors. `stall_after` sets the seconds without growth before a data set counts as stalled. Poll with the returned `cursor`. The watcher persists between calls with the same `dirs`. It doesn't lock files. See [Lab shares, indexes and live acquisitions](../guides/lab-shares.md).
+`openreadout_watch` looks once at `dirs` per call and returns the events since `cursor`: new data sets, planes and scans, completed and stalled data sets, QC findings (with `qc: true`) and errors. `stall_after` sets the seconds without growth before a data set counts as stalled, and `follow_symlinks` walks into directories behind links (links to files are always followed; skipped directory links are named in `notes`). Poll with the returned `cursor`. The watcher persists between calls with the same `dirs`. It doesn't lock files. See [Lab shares, indexes and live acquisitions](../guides/lab-shares.md).
 
 ## Pictures
 
@@ -168,22 +187,38 @@ Image previews have rulers labelled in full-resolution pixels, and a µm scale b
 
 ## The viewer
 
-In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_stats`, `openreadout_trace`, `openreadout_scans`, `openreadout_spectrum`, `openreadout_table` or one of the analysis tools, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
+In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview), the data shows up in the chat. When the assistant calls `openreadout_info`, `openreadout_preview`, `openreadout_plot`, `openreadout_stats`, `openreadout_trace`, `openreadout_scans`, `openreadout_spectrum`, `openreadout_table`, `openreadout_gate`, `openreadout_qpcr` or one of the plate and chromatography analyses, the client opens the OpenReadout viewer next to the result. What it shows depends on the file:
 
 | data | view | what you can do |
 | --- | --- | --- |
-| images | the image plane | pick the image, channel or composite, z, time point, pyramid level and contrast; drag a box to zoom into full-resolution pixels; hover for coordinates in px and µm |
-| electrophysiology, detector traces, 1-D spectra | sweeps, one panel per channel | step through sweeps, choose channels, drag to zoom into the samples |
-| NMR | the spectrum on a ppm axis (an FID is processed first) with its peaks | drag to zoom |
-| mass spectrometry, chromatography | the TIC or a detector trace, with peaks | type m/z values for extracted-ion chromatograms, click a point to see the spectrum there, step through scans |
-| plates | a heat map of the wells | pick the table and value column, hover for a well's value |
-| flow cytometry | a density plot of two parameters, or a histogram of one | pick parameters, linear, log or arcsinh scales, and how many events to sample |
+| images | the image plane, with a scale bar and, when zoomed in, a small map of the whole image | pick the image, channel or composite, z, time point and contrast; zoom with double-click, pinch or the + and − buttons, pan with shift-drag; hover for coordinates in px and µm, mm or nm |
+| electrophysiology, detector traces, 1-D spectra | sweeps, one panel per channel | step through sweeps, choose channels, select a time range |
+| voltammetry | current against potential, one loop per cycle | select a potential range |
+| qPCR | every well's amplification curve, coloured and labelled by target | hover a curve for its well |
+| NMR | the spectrum on a ppm axis (an FID is processed first) with its peaks | select a range |
+| mass spectrometry, chromatography | the TIC or a detector trace, with peaks | type m/z values for extracted-ion chromatograms, hover a peak for its area and height, click for the spectrum at that time, click a peak in a spectrum for its chromatogram, step through scans |
+| plates | a heat map of the wells; for kinetic reads, a small growth curve in each well, coloured by the plate layout stored in the file (samples, groups) | hover a well for its curve with the rest of its group, scrub or play the time course, switch to a heat map at any time point, pick the read and what the colours mean |
+| flow cytometry | a density plot of two parameters, or a histogram of one; with a FlowJo workspace or Gating-ML file, the events of a population coloured by its child populations | pick parameters, linear, log or arcsinh scales, and how many events to sample; click a population to open it, go back up with the breadcrumb |
+| figures from `openreadout_plot` | the figure, drawn again in the client's theme and at the viewer's width | hover for every curve's value at the pointer, drag across a plot to draw it again over that x range |
 
-The viewer is one HTML page served as the resource `ui://openreadout/viewer.html`. It runs in the client's sandbox, loads nothing from the network and asks the server for data with the tool `openreadout_view`. That tool is only for the viewer: clients that support MCP Apps hide it from the assistant. Its results are kept small. Pictures are at most 1600 px on their longest side and 750 kB. Plots have at most 4000 points per series, and longer signals are drawn as the minimum and maximum of each slice, so single-sample spikes stay visible. Flow-cytometry plots sample at most 50,000 events. Each result says what was reduced.
+The viewer is one HTML page served as the resource `ui://openreadout/viewer.html`. It runs in the client's sandbox, loads nothing from the network and asks the server for data with the tool `openreadout_view`. That tool is only for the viewer: clients that support MCP Apps hide it from the assistant. Its results are kept small. Pictures are at most 1600 px on their longest side and 750 kB. Plots have at most 4000 points per series, and longer signals are drawn as the minimum and maximum of each slice, so single-sample spikes stay visible. Flow-cytometry plots sample at most 50,000 events; with gating, every event of a file of up to 2 million is gated before sampling (larger files in windows spread over the run). Each result says what was reduced. The viewer draws data in the colours of OpenReadout's pictures, and colours plate groups, populations and series by the same rule as previews and plots, so a plate looks the same in all three.
 
-The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 32 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
+The server offers the viewer only to clients that declare the extension `io.modelcontextprotocol/ui` when they connect. Other clients see the 28 tools exactly as before. Set `OPENREADOUT_MCP_APPS=off` to turn the viewer off, or `on` to offer it to a client that supports MCP Apps without declaring it.
 
-The viewer also tells the client what you are looking at (for example "image 0, channel 1, z 12, region x 400–800"), so you can ask the assistant about it.
+### Following the assistant
+
+When the assistant zooms into an image with `openreadout_preview` and `region`, the viewer shows the whole image first and then moves to the region, so you see where on the slide it is. The assistant's picture has rulers to help it navigate; the viewer shows the same view without them. When the assistant marks things on a picture or plot (`annotations`: labelled points, boxes, outlines, arrows, bands and lines), the viewer draws them on top of the data, with labels kept apart and readable on any background. A figure made with `openreadout_plot` opens in the viewer too, where you can zoom into it and hover its curves for their values.
+
+### Pointing at things
+
+You can show the assistant what you mean instead of describing it:
+
+- Drag a box on an image, click a point, or click one of the assistant's labels.
+- Drag across a plot to select a range, or click a chromatogram peak or a peak in a spectrum.
+- Click wells on a plate (shift-click to add more, drag for a block, double-click a group name for all of its wells).
+- Drag a box over flow-cytometry events, or click a population's label.
+
+A small bar opens next to the selection. Type a question and press Ask, and the question goes to the chat with the selection in full-resolution pixels, wells, minutes or m/z, the units the tools take. The viewer also keeps the assistant up to date with what you are looking at and what you selected, together with the tool calls that would look closer (for example `openreadout_preview` with that `region`, or `openreadout_assay` with those `wells`), so a plain "what is this?" in the chat works too. In clients that do not take messages from apps, the bar has only the zoom and copy actions.
 
 In apps that open files with an MCP App (the ChatGPT and Codex desktop apps), the viewer is also the file viewer for `.czi`, `.nd2`, `.lif`, `.lof`, `.oir`, `.oib`, `.oif`, `.vsi`, `.ims`, `.zvi`, `.mrxs`, `.isyntax`, `.ndpi`, `.svs`, `.dm3`, `.dm4`, `.fcs`, `.abf`, `.smr`, `.smrx`, `.wcp`, `.wiff`, `.wiff2` and `.asyr` files: opening one in a thread shows it in the viewer. OpenReadout claims only extensions that belong to one instrument format, not general ones such as `.tif`, `.csv` or `.raw`.
 
@@ -193,24 +228,36 @@ Every tool has a title and the four MCP behaviour hints:
 
 | tools | read-only | destructive | idempotent |
 | --- | --- | --- | --- |
-| info, check, compare, preview, stats, trace, table, scans, spectrum, the analysis tools, link, search, health | yes | no | yes |
+| info, check, compare, preview, plot, stats, trace, table, scans, spectrum, the analysis tools, link, search, health | yes | no | yes |
 | watch | yes | no | no |
 | index, report | no | no | yes |
 | export, extract, batch, summarize | no | yes | yes |
 
-`openreadout_export`, `openreadout_extract`, `openreadout_batch` and `openreadout_summarize` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. `openreadout_report` writes only when `output` is given. None of the tools reach the network (`openWorldHint` is `false` for all).
+`openreadout_export`, `openreadout_extract`, `openreadout_batch` and `openreadout_summarize` are marked destructive because, with `overwrite: true`, they replace an existing output file. Without it they refuse to touch an existing path. With or without it, they refuse an output that is one of the input files, however the path is spelled, and a figure that reads no file is saved only to an `output` the call names. `openreadout_report` writes only when `output` is given. None of the tools reach the network (`openWorldHint` is `false` for all).
 
 ## Progress
 
-When a request carries a `progressToken`, `openreadout_export` sends progress notifications: `progress` counts the planes or spectra read so far, and `total` the number to read. Verification of the written file follows the last notification. `openreadout_index` sends a notification after each chunk of files, with the number read so far and no `total`.
+When a request carries a `progressToken`, long calls send progress notifications whose `message` a host can show as is, such as "Reading 1,200 of 53,141 spectra": `openreadout_export` (planes, spectra, rows or samples read; verification of the written file follows the last one), `openreadout_chromatogram` and `openreadout_peaks` (spectra read), `openreadout_stats` (planes read), `openreadout_batch` (data sets measured) and `openreadout_index` (data sets read so far, without a `total`). A tool argument that takes a list also accepts a single value (`"filter": "FITC-A > 1000"`), an argument that takes an object or a list also accepts it as a JSON string (`"preview": "{\"file\": …}"`, at any depth, including inside the `plot` and `preview` of `openreadout_export`), and an argument of the wrong type gets a hint listing the tool's arguments.
 
 ## Errors
 
-Errors are JSON-RPC errors. Their `data` carries `code`, `exit_code` and `hint`, the same as the command line's [JSON errors](../getting-started/reading-json.md#the-json-wrapper):
+A call that fails returns a tool result with `isError: true`, so the model reads why. Its text is the message and the hint on the next line, the same as the command line's [JSON errors](../getting-started/reading-json.md#the-json-wrapper) but in the tools' words: a hint that names a command line, such as `openreadout trace FILE --sweep N`, names the tool and its arguments instead (`openreadout_trace` with `sweep: N`). A command no tool runs, such as `openreadout planes`, stays a command line. Notes and warnings in results are worded the same way.
 
-```json
-{"code": "io", "exit_code": 5, "hint": "Check that the path exists and is readable."}
+```text
+usage error: plot.png exists; pass `overwrite: true` to replace it
+hint: Choose another output path, or pass `overwrite: true` to replace that file (the input is never modified).
 ```
+
+The result's `_meta["openreadout/error"]` carries `code`, `exit_code` and `hint` for clients that branch on them. A call to a tool that does not exist is a JSON-RPC error.
+
+## Reply size
+
+A reply has at most 38,000 characters of text (an `openreadout_info` summary 20,000), because clients refuse longer ones or set them aside in a file the model may not be able to read. Every text block counts, the JSON and anything beside it, such as the SVG of `openreadout_preview` with `format: "svg"`. Most replies are far shorter.
+
+### Per-well rows
+
+The per-well and per-group rows of `openreadout_assay` (`growth`, `kinetics`, `wells`, `samples`) and of `openreadout_qpcr` (`records`, `relative_quantities`) keep their main fields by default, rounded to 4 significant digits (whole numbers stay whole). A field is also left out of a row when it says nothing there: false, null or empty, a role nobody assigned, a group named after its well, `raw` equal to `value`, a Cq status of `determined`. A note lists the other fields. `fields: ["all"]` returns every field at full precision; `fields` with names returns those (and the row's well, sample, target and group). A 96-well plate's growth rows and a qPCR plate's ΔΔCq records fit in one reply this way. When a plate's rows still do not fit (a 384-well plate), the list ends at a whole plate row and a note gives the `wells` argument for the rest, such as `wells: "J1:P24"`.
+Over the limit, the server first leaves out a text block beside the JSON (an SVG over the limit is replaced by a pointer to `openreadout_export`, which saves it as a file). Then it shortens the longest lists (a plate's per-well rows, a qPCR run's records), and then leaves out the largest remaining parts, such as a branch of a vendor metadata tree in `openreadout_info` with `view: "full"` and `vendor: true`, until the reply fits. A note names each list and how many items it kept, each part left out, and the arguments that narrow the call, such as `wells` for `openreadout_assay`.
 
 ## Resources and prompts
 

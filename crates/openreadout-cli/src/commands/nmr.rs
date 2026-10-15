@@ -220,6 +220,10 @@ pub struct NmrPeaksArgs {
     /// Integrate a region `A:B` (ppm); repeatable.
     #[arg(long = "integrate", value_name = "A:B", allow_hyphen_values = true)]
     pub integrate: Vec<String>,
+    /// Without --integrate: integrate every multiplet (peaks closer than 15 Hz, with 10 Hz on
+    /// each side).
+    #[arg(long, conflicts_with = "integrate")]
+    pub auto_integrate: bool,
     /// Normalise integrals so region I (0-based) equals V: `I=V` (default `0=1`).
     #[arg(long, value_name = "I=V")]
     pub integral_reference: Option<String>,
@@ -306,6 +310,7 @@ fn request(a: &NmrPeaksArgs) -> Result<NmrRequest> {
             max_peaks: a.max_peaks,
         },
         integrals,
+        auto_integrals: a.auto_integrate,
         integral_reference,
     })
 }

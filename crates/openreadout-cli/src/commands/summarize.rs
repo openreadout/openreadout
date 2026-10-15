@@ -106,6 +106,7 @@ pub fn run(a: &SummarizeArgs) -> i32 {
                     grain: s.group_by.clone(),
                 },
                 a.overwrite,
+                &[a.table.as_path()],
             )?),
             None => None,
         };

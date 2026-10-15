@@ -5,7 +5,8 @@
   -20 mV, DerivativeThreshold 10 V/s) on every sweep, with stim_start/stim_end = the stimulus
   epoch (the first step epoch whose level changes between sweeps, as pyABF's sweepEpochs lists
   it). Cell values are derived from eFEL's per-sweep numbers: rheobase = smallest positive step
-  with spike_count_stimint >= 1; input resistance = least-squares slope of
+  with spike_count_stimint >= 1, none when a step of 0 pA or less also has one (the cell fires
+  without depolarising current); input resistance = least-squares slope of
   (steady_state_voltage_stimend - voltage_base) against the step over spike-free negative steps;
   tau = median eFEL time_constant over those steps; sag = eFEL sag_ratio1 of the most negative.
 - Current clamp (NWB, `NWB_CURRENT_CLAMP`): every `CurrentClampSeries` under `/acquisition`, its
@@ -92,7 +93,8 @@ def current_clamp(eid):
         sweeps.append(row)
     one = lambda r, f: (r[f] or [None])[0]
     fire = [r for r in sweeps if r["current_pa"] > 0 and (one(r, "spike_count_stimint") or 0) >= 1]
-    rheobase = min((r["current_pa"] for r in fire), default=None)
+    at_rest = [r for r in sweeps if r["current_pa"] <= 0 and (one(r, "spike_count_stimint") or 0) >= 1]
+    rheobase = None if at_rest else min((r["current_pa"] for r in fire), default=None)
     neg = [r for r in sweeps if r["current_pa"] < 0 and (one(r, "spike_count_stimint") or 0) == 0
            and one(r, "voltage_base") is not None and one(r, "steady_state_voltage_stimend") is not None]
     rin = None

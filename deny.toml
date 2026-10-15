@@ -30,6 +30,15 @@ allow = [
     "CDLA-Permissive-2.0", # webpki-roots (TLS root store), only reachable from xtask
 ]
 confidence-threshold = 0.9
+# Fonts are data, not code: openreadout-figure embeds the IBM Plex font files unmodified, under
+# the SIL Open Font License (crates/openreadout-figure/fonts/OFL.txt). Its own code stays MIT OR
+# Apache-2.0. The MCP viewer page (crates/openreadout-mcp/src/app/web/fonts) embeds renamed
+# subsets of the same fonts under the same licence, with their own OFL.txt and a NOTICE entry; it
+# is page data, not a dependency, so it needs no exception here. No other crate may bring in
+# OFL-licensed material.
+exceptions = [
+    { allow = ["OFL-1.1"], crate = "openreadout-figure" },
+]
 
 [bans]
 multiple-versions = "warn"

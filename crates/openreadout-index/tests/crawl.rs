@@ -348,3 +348,31 @@ fn directory_datasets_are_reused_when_unchanged() {
     let m4 = index(&reg, &opts(&root, &idx), None).unwrap();
     assert_eq!(m4.crawl.unchanged, 1, "{:?}", m4.crawl);
 }
+
+/// A share of links: linked files are indexed and found by search; a linked directory is
+/// skipped with a note naming `--follow-symlinks`, and crawled with it.
+#[cfg(unix)]
+#[test]
+fn linked_files_are_indexed_and_linked_directories_need_follow() {
+    let tmp = tempfile::tempdir().unwrap();
+    let data = tmp.path().join("data");
+    std::fs::create_dir_all(data.join("more")).unwrap();
+    std::fs::write(data.join("a.tif"), synth::tiff(8, 4, 1, 1)).unwrap();
+    std::fs::write(data.join("more/b.tif"), synth::tiff(8, 4, 1, 2)).unwrap();
+    let lab = tmp.path().join("lab");
+    std::fs::create_dir(&lab).unwrap();
+    std::os::unix::fs::symlink(data.join("a.tif"), lab.join("a.tif")).unwrap();
+    std::os::unix::fs::symlink(data.join("more"), lab.join("more")).unwrap();
+    let reg = registry();
+    let idx = tmp.path().join("index");
+    let m = index(&reg, &opts(&lab, &idx), None).unwrap();
+    assert_eq!(q(&idx, "format=tiff"), ["a.tif"]);
+    let next = m.next.unwrap_or_default();
+    assert!(next.contains("--follow-symlinks"), "{next}");
+    let idx2 = tmp.path().join("index2");
+    let mut o = opts(&lab, &idx2);
+    o.follow_symlinks = true;
+    let m = index(&reg, &o, None).unwrap();
+    assert_eq!(q(&idx2, "format=tiff"), ["a.tif", "b.tif"]);
+    assert!(m.next.is_none(), "{:?}", m.next);
+}

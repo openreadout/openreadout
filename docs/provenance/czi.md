@@ -249,3 +249,11 @@ decoding and copy avoidance. The common plane-size guard also enforces the 4 GiB
 **Inferred from the file** (`strings`): every subblock's `<METADATA>` holds `<AcquisitionTime>0001-01-01T00:00:00.0000000</AcquisitionTime><FocusPosition>NaN</FocusPosition>`. The first is the smallest date the writer can store, the second is not a number; both mean the value was not recorded.
 
 **Rule implemented:** a subblock acquisition time that starts with 0001-01-01 and a stage or focus position that is not a finite number are left out.
+
+## 2026-10-13 — stored areas of a mosaic plane
+
+**Why.** Previews of `zenodo10577621-Young-mouse.czi` (Zenodo 10577621, CC-BY-4.0, an Axioscan brightfield slide) drew the scene's unscanned corners black.
+
+**Inferred from the file** (our own reader, no prior art): the black areas are where no subblock of the level is placed, so the reader leaves the plane's 0.
+
+**Rule implemented:** `stored_areas` lists the placed, stored extent of each subblock that holds the plane, the same subblocks and placement the plane read uses. Pixel values are unchanged.

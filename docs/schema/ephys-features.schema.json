@@ -121,7 +121,8 @@
       },
       "required": [
         "index",
-        "name"
+        "name",
+        "unit"
       ]
     },
     "ApSettings": {
@@ -143,12 +144,18 @@
           "type": "integer",
           "format": "uint",
           "minimum": 0
+        },
+        "min_rise_mv": {
+          "description": "Rise of a spike's peak above the lowest voltage since the previous spike's peak, mV.",
+          "type": "number",
+          "format": "double"
         }
       },
       "required": [
         "peak_threshold_mv",
         "dvdt_threshold_v_per_s",
-        "dvdt_window_samples"
+        "dvdt_window_samples",
+        "min_rise_mv"
       ]
     },
     "StimulusInfo": {
@@ -183,7 +190,9 @@
       },
       "required": [
         "output",
-        "holding"
+        "unit",
+        "holding",
+        "epoch"
       ]
     },
     "CellFeatures": {
@@ -198,8 +207,16 @@
           ],
           "format": "double"
         },
+        "spontaneous_rate_hz": {
+          "description": "Firing rate before the stimulus, over every sweep, Hz: above 0 the cell fires on its own.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
         "rheobase_pa": {
-          "description": "Smallest depolarising step that evokes at least one spike during the stimulus, pA.",
+          "description": "Smallest depolarising step that evokes at least one spike during the stimulus, pA.\nAbsent when the cell also fires during a step of 0 pA or less (it fires without\ndepolarising current, so a rheobase is not defined; `notes` says so).",
           "type": [
             "number",
             "null"
@@ -223,7 +240,7 @@
           }
         },
         "fi_slope_hz_per_pa": {
-          "description": "Least-squares slope of rate vs current over steps that fire, Hz/pA.",
+          "description": "Least-squares slope of rate vs current from the rheobase to the step with the highest\nrate (steps past it, where firing fails, are left out), Hz/pA.",
           "type": [
             "number",
             "null"
@@ -304,7 +321,20 @@
         }
       },
       "required": [
-        "fi_curve"
+        "resting_mv",
+        "rheobase_pa",
+        "rheobase_sweep",
+        "fi_curve",
+        "fi_slope_hz_per_pa",
+        "max_firing_rate_hz",
+        "input_resistance_mohm",
+        "tau_ms",
+        "capacitance_pf",
+        "sag_ratio",
+        "holding_current_pa",
+        "access_resistance_mohm",
+        "membrane_resistance_mohm",
+        "membrane_capacitance_pf"
       ]
     },
     "FiPoint": {
@@ -398,6 +428,15 @@
           "format": "uint",
           "minimum": 0
         },
+        "spike_count_before": {
+          "description": "Spikes whose peak comes before the stimulus starts.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
         "firing_rate_hz": {
           "description": "Spikes in the stimulus / stimulus duration, Hz.",
           "type": [
@@ -479,7 +518,19 @@
       },
       "required": [
         "sweep",
-        "spike_count"
+        "stimulus_start_s",
+        "stimulus_end_s",
+        "stimulus_pa",
+        "stimulus_mv",
+        "spike_count",
+        "spike_count_stimulus",
+        "firing_rate_hz",
+        "first_spike_latency_ms",
+        "isi_mean_ms",
+        "isi_cv",
+        "adaptation_index",
+        "half_width_mean_ms",
+        "amplitude_mean_mv"
       ]
     },
     "StepResponse": {
@@ -542,7 +593,16 @@
           ],
           "format": "double"
         }
-      }
+      },
+      "required": [
+        "baseline_mv",
+        "steady_state_mv",
+        "extreme_mv",
+        "input_resistance_mohm",
+        "tau_ms",
+        "sag_ratio",
+        "steady_fraction"
+      ]
     },
     "TestPulse": {
       "description": "Voltage-clamp test-pulse metrics (module docs).",
@@ -619,7 +679,15 @@
         }
       },
       "required": [
-        "delta_mv"
+        "delta_mv",
+        "holding_current_pa",
+        "peak_current_pa",
+        "steady_current_pa",
+        "access_resistance_mohm",
+        "membrane_resistance_mohm",
+        "total_resistance_mohm",
+        "tau_ms",
+        "capacitance_pf"
       ]
     },
     "Spike": {
@@ -742,8 +810,14 @@
         "threshold_mv",
         "threshold_from_dvdt",
         "amplitude_mv",
+        "half_width_ms",
         "rise_time_ms",
-        "upstroke_v_per_s"
+        "decay_time_ms",
+        "ahp_mv",
+        "ahp_depth_mv",
+        "upstroke_v_per_s",
+        "downstroke_v_per_s",
+        "isi_ms"
       ]
     }
   }

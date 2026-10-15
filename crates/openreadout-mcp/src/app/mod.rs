@@ -69,6 +69,9 @@ pub enum ToolView {
     /// `openreadout_chromatogram`, `openreadout_peaks`: the chromatogram the call asked for,
     /// with its peaks.
     Chromatogram,
+    /// `openreadout_plot`: the figure the tool drew (its image content), with the panels and
+    /// series under `_meta["openreadout/figure"]`.
+    Figure,
 }
 
 /// The tools whose results the viewer shows, and how it starts. Tools not listed here (export,
@@ -76,6 +79,7 @@ pub enum ToolView {
 pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ("openreadout_info", ToolView::Auto),
     ("openreadout_preview", ToolView::Preview),
+    ("openreadout_plot", ToolView::Figure),
     ("openreadout_stats", ToolView::Kind(view::ViewKind::Image)),
     ("openreadout_trace", ToolView::Kind(view::ViewKind::Trace)),
     (
@@ -93,27 +97,8 @@ pub const TOOL_VIEWS: &[(&str, ToolView)] = &[
     ),
     ("openreadout_spikes", ToolView::Kind(view::ViewKind::Trace)),
     ("openreadout_gate", ToolView::Kind(view::ViewKind::Fcs)),
-    (
-        "openreadout_assay_wells",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    (
-        "openreadout_assay_curve",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    (
-        "openreadout_dose_response",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    (
-        "openreadout_kinetics",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
-    ("openreadout_growth", ToolView::Kind(view::ViewKind::Plate)),
-    (
-        "openreadout_assay_qc",
-        ToolView::Kind(view::ViewKind::Plate),
-    ),
+    ("openreadout_assay", ToolView::Kind(view::ViewKind::Plate)),
+    ("openreadout_qpcr", ToolView::Auto),
 ];
 
 fn tool_view(name: &str) -> Option<ToolView> {
@@ -231,12 +216,48 @@ fn resource_meta() -> MetaObject {
     }))
 }
 
+/// The fonts the viewer draws data labels with: subsets of IBM Plex Sans and Mono, renamed as
+/// the SIL Open Font License asks of modified fonts (`web/fonts/OFL.txt`). The page loads them
+/// from bytes with the `FontFace` API, which the default MCP Apps CSP allows (it has no
+/// `font-src`, so `data:` URLs in CSS would be blocked).
+const FONTS: &[(&str, &str, &[u8])] = &[
+    (
+        "OpenReadout Sans",
+        "400",
+        include_bytes!("web/fonts/sans-regular.woff"),
+    ),
+    (
+        "OpenReadout Sans",
+        "500",
+        include_bytes!("web/fonts/sans-medium.woff"),
+    ),
+    (
+        "OpenReadout Mono",
+        "400",
+        include_bytes!("web/fonts/mono-regular.woff"),
+    ),
+];
+
 /// The page, assembled from `web/` once.
 pub fn html() -> &'static str {
     static HTML: LazyLock<String> = LazyLock::new(|| {
+        use base64::Engine as _;
+        let fonts: Vec<Value> = FONTS
+            .iter()
+            .map(|(family, weight, bytes)| {
+                json!([
+                    family,
+                    weight,
+                    base64::engine::general_purpose::STANDARD.encode(bytes)
+                ])
+            })
+            .collect();
+        let script = include_str!("web/viewer.js")
+            .replace("/*FONTS*/[]", &Value::Array(fonts).to_string())
+            .replace("/*TOKENS*/null", include_str!("web/theme.json").trim());
         include_str!("web/viewer.html")
             .replace("/*STYLE*/", include_str!("web/viewer.css"))
-            .replace("/*SCRIPT*/", include_str!("web/viewer.js"))
+            .replace("/*SCRIPT*/", &script)
     });
     &HTML
 }
@@ -255,7 +276,19 @@ pub fn read(uri: &str) -> Option<ReadResourceResult> {
 
 /// Keys of a tool's arguments that the viewer understands under the same name.
 const PASSED_KEYS: &[&str] = &[
-    "image", "level", "region", "trace", "sweep", "channels", "run", "table", "column",
+    "image",
+    "level",
+    "region",
+    "trace",
+    "sweep",
+    "channels",
+    "run",
+    "table",
+    "column",
+    "workspace",
+    "gatingml",
+    "sample",
+    "annotations",
 ];
 
 /// The arguments the viewer starts from after `tool` ran with `args`, or `None` when the tool
@@ -263,6 +296,10 @@ const PASSED_KEYS: &[&str] = &[
 pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
     use view::ViewKind as K;
     let tv = tool_view(tool)?;
+    if tv == ToolView::Figure {
+        // the figure is in the result itself
+        return Some(json!({"view": "figure"}));
+    }
     let args = args?;
     let file = args.get("file")?.as_str()?;
     let mut hint = serde_json::Map::new();
@@ -276,9 +313,27 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
     if let Some(Value::Array(sel)) = args.get("select") {
         view::select_into(sel, &mut hint);
     }
+    // objects counted (preview marks=objects, stats objects): the viewer outlines them too
+    if matches!(tv, ToolView::Preview | ToolView::Kind(K::Image)) {
+        let asked = args.get("objects").filter(|v| v.is_object());
+        if asked.is_some() || args.get("marks").and_then(Value::as_str) == Some("objects") {
+            hint.insert(
+                "objects".into(),
+                asked.cloned().unwrap_or_else(|| json!({})),
+            );
+        }
+    }
     let kind = match tv {
-        ToolView::Auto => None,
-        ToolView::Kind(k) => Some(k),
+        ToolView::Auto | ToolView::Figure => None,
+        ToolView::Kind(k) => {
+            // openreadout_gate: the first population asked about, with its children.
+            if let Some(Value::Array(p)) = args.get("populations")
+                && let Some(first) = p.first()
+            {
+                hint.insert("population".into(), first.clone());
+            }
+            Some(k)
+        }
         ToolView::Preview => {
             if args.get("run").is_some() || args.get("scan").is_some() {
                 if let Some(s) = args.get("spectrum") {

@@ -1968,6 +1968,38 @@ impl Dataset for CziDataset {
         self.read_level(image, idx, level, Some(region))
     }
 
+    fn stored_areas(
+        &mut self,
+        image: u32,
+        idx: PlaneIndex,
+        level: u32,
+        region: Option<Region>,
+    ) -> Result<Option<Vec<Region>>> {
+        let s = self.scene(image)?.clone();
+        Self::check_plane_index(&s, image, idx)?;
+        let (entries, (width, height), place) = self.level_layout(&s, image, level)?;
+        let (entries, _) = Self::plane_entries(&s, idx, entries, image)?;
+        let window = region.unwrap_or_else(|| Region::full(width, height));
+        let (ox, oy) = (i64::from(window.x), i64::from(window.y));
+        Ok(Some(
+            entries
+                .iter()
+                .filter_map(|e| {
+                    let (x, y) = place(e);
+                    let sx = e.dim('X').map_or(0, |d| d.stored_size);
+                    let sy = e.dim('Y').map_or(0, |d| d.stored_size);
+                    let (x0, y0, x1, y1) = window.overlap(x, y, u64::from(sx), u64::from(sy))?;
+                    Some(Region::new(
+                        u32::try_from(x0 - ox).ok()?,
+                        u32::try_from(y0 - oy).ok()?,
+                        u32::try_from(x1 - x0).ok()?,
+                        u32::try_from(y1 - y0).ok()?,
+                    ))
+                })
+                .collect(),
+        ))
+    }
+
     fn reads_strips(&self, _image: u32, _level: u32) -> bool {
         true
     }
