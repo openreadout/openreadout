@@ -156,9 +156,14 @@ fn prune(v: &mut Value, budget: usize) -> Vec<(String, usize)> {
         let mut target: Option<(Vec<PathPart>, usize)> = None;
         // go down the largest parts while one alone is enough to leave out; then leave out the
         // largest part at that level (the next round looks again if that was not enough)
+        let mut members = 0;
         loop {
             let Some((part, child, n)) = largest_child(cur) else {
                 break;
+            };
+            members = match cur {
+                Value::Object(o) => o.len(),
+                _ => 0,
             };
             path.push(part);
             target = Some((path.clone(), n));
@@ -170,6 +175,34 @@ fn prune(v: &mut Value, budget: usize) -> Vec<(String, usize)> {
         let Some((path, n)) = target else {
             break;
         };
+        // an object of many small members (a flat metadata table): leave out its last members
+        // together, rather than one at a time
+        if members > KEEP_WHOLE && n < over + 64 {
+            let parent = &path[..path.len() - 1];
+            let Some(Value::Object(o)) = at(v, parent) else {
+                break;
+            };
+            let mut freed = 0;
+            let mut dropped = 0;
+            while freed < over + 128 && o.len() > KEEP_WHOLE / 2 {
+                let Some(k) = o.keys().next_back().cloned() else {
+                    break;
+                };
+                if let Some(x) = o.remove(&k) {
+                    freed += k.len() + x.to_string().len() + 4;
+                    dropped += 1;
+                }
+            }
+            if dropped == 0 {
+                break;
+            }
+            o.insert(
+                "(left out)".into(),
+                Value::String(format!("{dropped} more members, {freed} characters")),
+            );
+            out.push((format!("{} ({dropped} members)", pointer(parent)), freed));
+            continue;
+        }
         let Some(node) = at(v, &path) else {
             break;
         };
@@ -370,7 +403,16 @@ mod tests {
             sc.to_string().len()
         );
         assert_eq!(sc["path"], "x");
-        assert!(sc["vendor"].as_str().unwrap().starts_with("(left out"));
+        assert!(
+            sc["vendor"]["(left out)"]
+                .as_str()
+                .unwrap()
+                .contains("more members")
+        );
+        assert!(
+            sc["vendor"].as_object().unwrap().len() > 100,
+            "most of it stays"
+        );
         let note = r.content.last().unwrap().as_text().unwrap().text.clone();
         assert!(note.contains("/vendor ("), "{note}");
 

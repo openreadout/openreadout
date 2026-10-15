@@ -836,6 +836,38 @@ mod tests {
         export_blocking(Registry::new, serde_json::from_value(v).unwrap(), None).map(|e| e.0)
     }
 
+    /// A figure is never saved over the file it shows, however the path is spelled and with
+    /// overwrite; a plot that reads no file needs an output.
+    #[test]
+    fn a_figure_never_replaces_its_input() {
+        let d = std::env::temp_dir().join(format!("openreadout-figin-{}", std::process::id()));
+        std::fs::create_dir_all(&d).unwrap();
+        let img = d.join("img.tiff");
+        std::fs::write(&img, b"raw image").unwrap();
+        let f = img.display().to_string();
+        for out in [f.clone(), d.join("new/../img.tiff").display().to_string()] {
+            for inside in [false, true] {
+                let v = if inside {
+                    serde_json::json!({"preview": {"file": f, "output": out, "overwrite": true}})
+                } else {
+                    serde_json::json!({"preview": {"file": f}, "output": out, "overwrite": true})
+                };
+                let e = export(v).unwrap_err();
+                assert_eq!(exit_code(&e), Some(2), "{out}: {e:?}");
+            }
+            let plot = serde_json::json!({"data": {"file": f}});
+            let e = export(serde_json::json!({"plot": plot, "output": out, "overwrite": true}))
+                .unwrap_err();
+            assert_eq!(exit_code(&e), Some(2), "{out}: {e:?}");
+        }
+        assert_eq!(std::fs::read(&img).unwrap(), b"raw image");
+        let plot = serde_json::json!({"data": {"values": {"x": [1, 2], "y": [3, 4]}}});
+        let e = export(serde_json::json!({"plot": plot})).unwrap_err();
+        assert_eq!(exit_code(&e), Some(2), "{e:?}");
+        assert!(!Path::new("figure.png").exists());
+        std::fs::remove_dir_all(&d).ok();
+    }
+
     /// A plot is saved as a figure file, verified, with the print size `dpi` gives; `output`
     /// put inside the plot is used too.
     #[test]
