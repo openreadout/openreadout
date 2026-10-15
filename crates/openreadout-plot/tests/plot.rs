@@ -291,8 +291,8 @@ fn single_values_where_lists_go() {
 /// room for the plots is refused, each with a usage error.
 #[test]
 fn limits_on_lists_points_and_text() {
-    let d = tempfile::tempdir().unwrap();
-    let f = plate(d.path());
+    let dir = tempfile::tempdir().unwrap();
+    let f = plate(dir.path());
     let usage = |v: serde_json::Value| {
         let e = parse_spec(v)
             .and_then(|s| plot(&Registry::new(), &s))
@@ -302,18 +302,18 @@ fn limits_on_lists_points_and_text() {
         e.to_string()
     };
     // a file named 200 times is read once
-    let p = plot(
+    let plotted = plot(
         &Registry::new(),
         &parse_spec(json!({"data": {"file": vec![f.clone(); 200]}})).unwrap(),
     )
     .unwrap();
-    assert_eq!(p.output.files.len(), 1);
+    assert_eq!(plotted.output.files.len(), 1);
     let many: Vec<String> = (0..200).map(|i| format!("{f}{i}")).collect();
     assert!(usage(json!({"data": {"file": many}})).contains("over the limit"));
     let sweeps: Vec<u32> = (0..500).collect();
     assert!(usage(json!({"data": {"file": f, "sweep": sweeps}})).contains("over the limit"));
-    let n = 4_000_000;
-    let x: Vec<f64> = (0..n).map(f64::from).collect();
+    let count = 4_000_000;
+    let x: Vec<f64> = (0..count).map(f64::from).collect();
     let big = json!({"x": x, "y": x});
     let e = usage(
         json!({"data": [{"values": big}, {"values": big}, {"values": big}, {"values": big}]}),
@@ -345,7 +345,7 @@ fn limits_on_lists_points_and_text() {
     );
     assert!(e.contains("no room"), "{e}");
     // long words wrap quickly
-    let t = std::time::Instant::now();
+    let started = std::time::Instant::now();
     let caption = vec!["x".repeat(390); 5].join(" ");
     plot(
         &Registry::new(),
@@ -355,28 +355,28 @@ fn limits_on_lists_points_and_text() {
         .unwrap(),
     )
     .unwrap();
-    assert!(t.elapsed().as_secs() < 10, "{:?}", t.elapsed());
+    assert!(started.elapsed().as_secs() < 10, "{:?}", started.elapsed());
 }
 
 /// A figure is never saved over one of the files it was drawn from.
 #[test]
 fn a_figure_never_replaces_its_input() {
-    let d = tempfile::tempdir().unwrap();
-    let f = plate(d.path());
+    let dir = tempfile::tempdir().unwrap();
+    let f = plate(dir.path());
     let spec = parse_spec(json!({"data": {"file": f}})).unwrap();
     let inputs = spec.input_files();
     assert_eq!(inputs, vec![std::path::PathBuf::from(&f)]);
-    let p = plot(&Registry::new(), &spec).unwrap();
+    let plotted = plot(&Registry::new(), &spec).unwrap();
     let o = SaveOptions {
         overwrite: true,
         ..SaveOptions::default()
     };
     // the plate file renamed to look like a figure, reached through `..`
-    let png = d.path().join("plate.png");
+    let png = dir.path().join("plate.png");
     std::fs::copy(&f, &png).unwrap();
-    let dotted = d.path().join("x/../plate.png");
+    let dotted = dir.path().join("x/../plate.png");
     let refs: Vec<&Path> = vec![png.as_path()];
-    let e = write(&p.figure, &dotted, &o, &refs).unwrap_err();
+    let e = write(&plotted.figure, &dotted, &o, &refs).unwrap_err();
     assert_eq!(e.exit_code(), 2, "{e}");
     assert_eq!(std::fs::read(&png).unwrap(), std::fs::read(&f).unwrap());
 }

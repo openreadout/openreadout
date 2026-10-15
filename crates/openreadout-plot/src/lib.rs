@@ -7,7 +7,7 @@
 //! small multiples, plate positions, shared and log axes, bands, lines, labelled points, arrows.
 //! [`plot`] reads the data through the readers and analyses, picks chart types, ranges, units and
 //! labels from it, and draws the figure with `openreadout-figure` in the OpenReadout look. The
-//! result is the [`Figure`] (save it with [`write`] as PNG, JPEG, TIFF, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
+//! result is the [`Figure`] (save it with [`write`](fn@write) as PNG, JPEG, TIFF, SVG or PDF) and a [`PlotOutput`] that says what was drawn.
 //!
 //! ```no_run
 //! use openreadout_core::Registry;
