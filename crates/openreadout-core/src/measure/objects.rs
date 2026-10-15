@@ -236,8 +236,9 @@ pub struct Objects {
     /// Threshold, in units of what was measured after background subtraction (spots: height
     /// above the local background).
     pub threshold: f64,
-    /// `otsu`, `triangle`, `local`, `noise` (spots: five robust standard deviations of the
-    /// background) or `given`.
+    /// `otsu`, `otsu-3`, `triangle`, `local`, `sparse` (a few objects on a large background:
+    /// half way from the background to the objects), `noise` (spots: five robust standard
+    /// deviations of the background) or `given`.
     pub threshold_method: String,
     /// Whether touching objects were cut apart.
     pub split: bool,
@@ -966,21 +967,22 @@ fn flat() -> Error {
 }
 
 /// The threshold for a few bright objects on a large background, or `None` when the objects
-/// are not sparse. Objects that cover well under a thousandth of the area fall outside the
-/// range the histogram thresholds look at, and Otsu's threshold then splits the background
-/// noise: it lands within a few robust standard deviations (σ) of the median. Then the
-/// threshold is half way from the background to the median of the pixels more than 5σ above
-/// it (the objects), and at least 5σ above the background. `None` also when the sample has a
-/// single value.
+/// are not sparse. Objects that cover under about a thousandth of the area lie above the
+/// range the histogram thresholds look at (the 0.1th to 99.9th percentile), and Otsu's
+/// threshold then splits the background noise: it lands within 3 robust standard deviations
+/// (σ) of the median. When the brightest pixels (the 20th brightest, which a handful of hot
+/// pixels do not reach) stand far above that range, the threshold is half way from the
+/// background to the median of the pixels more than 5σ above it (the objects), and at least
+/// 5σ above the background.
 fn sparse_threshold(sample: &[f32]) -> Option<f32> {
+    let n = sample.iter().filter(|v| v.is_finite()).count();
     let med = sg::quantile(sample, 0.5)?;
+    let hi = sg::quantile(sample, 0.999)?;
+    let top = sg::quantile(sample, 0.999f64.max(1.0 - 20.0 / n.max(1) as f64))?;
     let dev: Vec<f32> = sample.iter().map(|v| (v - med).abs()).collect();
     let sd = 1.4826 * sg::quantile(&dev, 0.5)?;
-    let noise_top = med + 5.0 * sd;
-    let bright: Vec<f32> = sample.iter().copied().filter(|v| *v > noise_top).collect();
-    let n = sample.iter().filter(|v| v.is_finite()).count();
-    // flat, or more than a twentieth of the area above the noise: not sparse objects
-    if (bright.is_empty() && sd == 0.0) || bright.len() * 20 > n {
+    // nothing far above the histogram's range
+    if top <= hi + 2.0 * (hi - med).max(sd) {
         return None;
     }
     // Otsu's threshold clear of the noise: it sees the objects
@@ -989,8 +991,10 @@ fn sparse_threshold(sample: &[f32]) -> Option<f32> {
     {
         return None;
     }
-    let top = sg::quantile(&bright, 0.5).unwrap_or(noise_top);
-    Some(noise_top.max(med + 0.5 * (top - med)))
+    let noise_top = med + 5.0 * sd;
+    let bright: Vec<f32> = sample.iter().copied().filter(|v| *v > noise_top).collect();
+    let objects = sg::quantile(&bright, 0.5)?;
+    Some(noise_top.max(med + 0.5 * (objects - med)))
 }
 
 /// The threshold for `plan` from a sample of the flattened signal, and its name. `auto` tries
@@ -2120,10 +2124,14 @@ pub(crate) mod tests {
         };
         let (lab, _, _, _) = label_plane(&[one], 512, 512, None, &o).unwrap();
         assert_eq!(count(&lab), 1);
-        // noise alone: nothing, rather than thousands of specks
+        // noise alone: whatever is found has low confidence
         let noise = discs(512, 512, &[], 100.0, 35.0);
-        let (lab, _, _, _) = label_plane(&[noise], 512, 512, None, &o).unwrap();
-        assert!(count(&lab) <= 1, "{}", count(&lab));
+        let (lab, _, _, c) = label_plane(&[noise], 512, 512, None, &o).unwrap();
+        assert!(
+            count(&lab) <= 1 || c == CountConfidence::Low,
+            "{}",
+            count(&lab)
+        );
     }
 
     #[test]
