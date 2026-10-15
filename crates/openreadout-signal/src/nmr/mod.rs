@@ -267,8 +267,10 @@ mod tests {
 
     #[test]
     fn multiplets_group_peaks_closer_than_15_hz() {
-        let mut axis = PpmAxis::default();
-        axis.reference_frequency_mhz = 400.0;
+        let axis = PpmAxis {
+            reference_frequency_mhz: 400.0,
+            ..PpmAxis::default()
+        };
         // a doublet 7 Hz apart at 7.26, a singlet at 2.10
         let p = [peak(7.26), peak(7.26 - 7.0 / 400.0), peak(2.10)];
         let r = multiplet_regions(&p, &axis);
