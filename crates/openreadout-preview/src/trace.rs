@@ -158,7 +158,7 @@ pub(crate) fn render(
     };
     let sweep_len = openreadout_core::trace::sweep_samples(&t, sweep);
     let n = sweep_len.min(MAX_TRACE_PREVIEW_SAMPLES);
-    let ax = x_axis(&t, sweep_len, n);
+    let mut ax = x_axis(&t, sweep_len, n);
     let theme = crate::theme(req);
     let width = req.max_size.max(64);
     let ncols = width as usize;
@@ -195,6 +195,29 @@ pub(crate) fn render(
     if let Some(xc) = xch {
         let tr = openreadout_core::trace::read_channels(ds, ti, sweep, 0, n, &[xc])?;
         xs = tr.into_iter().next();
+    }
+    // an irregular axis is named by the reader's extra.axis (or the x channel) and runs from
+    // its first to its last value
+    if let (Some(v), Some(xc)) = (&xs, xch) {
+        let first = v.iter().copied().find(|x| x.is_finite());
+        let last = v.iter().rev().copied().find(|x| x.is_finite());
+        if let (Some(first), Some(last)) = (first, last) {
+            let a = t.extra.get("axis");
+            let txt = |k: &str| {
+                a.and_then(|a| a.get(k))
+                    .and_then(serde_json::Value::as_str)
+                    .map(str::to_string)
+            };
+            let xc_info = &t.channels[xc as usize];
+            ax = XAxis {
+                quantity: txt("quantity").unwrap_or_else(|| xc_info.name.clone()),
+                unit: txt("unit")
+                    .or_else(|| xc_info.unit.clone())
+                    .unwrap_or_default(),
+                first,
+                last,
+            };
+        }
     }
     let (x_lo, x_hi) = match &xs {
         Some(v) => v
