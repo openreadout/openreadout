@@ -309,10 +309,20 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     let fs = theme.font_size;
     let margin = (fs * 1.3).round();
     let title_h = if spec.title.is_some() { fs * 2.6 } else { 0.0 };
-    let caption_h = if spec.caption.is_some() {
-        fs * 2.0
-    } else {
+    // a long caption wraps to the figure's width
+    let caption_lines = spec.caption.as_deref().map_or_else(Vec::new, |c| {
+        wrap_words(
+            c,
+            theme.small_size(),
+            width - 2.0 * margin,
+            TextStyle::new(theme.small_size(), theme.muted).face,
+        )
+    });
+    let caption_lh = theme.small_size() * 1.35;
+    let caption_h = if caption_lines.is_empty() {
         0.0
+    } else {
+        fs * 2.0 + caption_lh * (caption_lines.len() as f32 - 1.0)
     };
     let gap = fs * 2.2;
     let inner_w = width - 2.0 * margin;
@@ -369,10 +379,14 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         }
         y += rh + gap;
     }
-    if let Some(c) = &spec.caption {
+    if !caption_lines.is_empty() {
         let st = TextStyle::new(theme.small_size(), theme.muted)
             .align(Anchor::Start, Baseline::Alphabetic);
-        fig.text(margin, height - margin * 0.75, c, &st);
+        let last = caption_lines.len() as f32 - 1.0;
+        for (i, line) in caption_lines.iter().enumerate() {
+            let y = height - margin * 0.75 - caption_lh * (last - i as f32);
+            fig.text(margin, y, line, &st);
+        }
     }
     out.files = files;
     out.inline_series = inline_series;
@@ -385,6 +399,28 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         output: out,
         hover: Value::Array(hover),
     })
+}
+
+/// Break `text` into lines at most `max_w` pixels wide, at spaces.
+fn wrap_words(text: &str, size: f32, max_w: f32, face: Face) -> Vec<String> {
+    let mut lines: Vec<String> = Vec::new();
+    let mut cur = String::new();
+    for word in text.split_whitespace() {
+        let trial = if cur.is_empty() {
+            word.to_string()
+        } else {
+            format!("{cur} {word}")
+        };
+        if !cur.is_empty() && openreadout_figure::text_width(&trial, face, size) > max_w {
+            lines.push(std::mem::replace(&mut cur, word.to_string()));
+        } else {
+            cur = trial;
+        }
+    }
+    if !cur.is_empty() {
+        lines.push(cur);
+    }
+    lines
 }
 
 /// One data item that gives several series (wells, files) is named once, by its label.

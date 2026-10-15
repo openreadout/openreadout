@@ -1,14 +1,16 @@
 //! A size limit on what one tool call returns. Most tools answer summary-first, but some files
 //! make long lists (a qPCR plate's 384 wells in every trace, per-well fits of a whole plate).
-//! Clients refuse or spill results over about 25,000 tokens (Claude Code), and a chat host
-//! with no file tools cannot read a spilled result at all. Over the limit, the longest lists
-//! are cut until the reply fits, and a note says what was cut and how to get the rest.
+//! Clients refuse or spill results over a token limit (Claude Code: 25,000 by default), and a
+//! chat host with no file tools cannot read a spilled result at all. Over the limit, the
+//! longest lists are cut until the reply fits, and a note says what was cut and how to get the
+//! rest.
 
 use rmcp::model::{CallToolResult, ContentBlock};
 use serde_json::Value;
 
-/// Characters of JSON a result may have (about 20,000 tokens of numbers and names).
-pub const MAX_CHARS: usize = 60_000;
+/// Characters of JSON a result may have. Claude Code refused 57,771 characters of growth rows
+/// and took 40,501 characters of table rows: numbers and short names tokenize densely.
+pub const MAX_CHARS: usize = 38_000;
 
 /// Characters of an `openreadout_info` summary: what a file holds should read at a glance.
 const INFO_CHARS: usize = 20_000;
@@ -51,10 +53,25 @@ pub fn fit(result: &mut CallToolResult, tool: &str, max: usize) {
         .map(|(path, kept, of)| format!("{path} kept {kept} of {of}"))
         .collect();
     result.content.push(ContentBlock::text(format!(
-        "This reply was {} characters, over the {max} a reply may have, so its longest lists were cut: {}. To see the rest, narrow the {tool} call (a well range, target, sweep, trace, population or x range), or write everything to a file with openreadout_export or openreadout_batch (output).",
+        "This reply was {} characters, over the {max} a reply may have, so its longest lists were cut: {}. To see the rest, narrow the call ({}), or write everything to a file with openreadout_export or openreadout_batch (output).",
         before.len(),
-        lists.join("; ")
+        lists.join("; "),
+        narrowing(tool)
     )));
+}
+
+/// The arguments that narrow a call of `tool`.
+fn narrowing(tool: &str) -> &'static str {
+    match tool {
+        "openreadout_assay" => "wells, such as E1:H12",
+        "openreadout_qpcr" => "target, sample, well or max_records",
+        "openreadout_gate" => "populations",
+        "openreadout_ephys_features" => "sweeps or max_spikes",
+        "openreadout_table" => "max_rows, first_row or filter",
+        "openreadout_batch" => "limit and offset, or fields",
+        "openreadout_info" => "view=structure with kind, or openreadout_trace for one trace",
+        _ => "its selection arguments",
+    }
 }
 
 /// Cut the longest lists in `v` until it serializes to at most `budget` characters. Returns
