@@ -2356,7 +2356,7 @@ function main() {
       if (used.some(([a, b]) => tx + half > a && tx - half < b)) continue;
       used.push([tx - half, tx + half]);
       const yy = pk.height != null ? Math.max(py + 10, Y(pk.height) - 4) : py + 10;
-      txt(label, tx, yy, { mono: true, size: 10.5, align: "center", color: c.ink });
+      txt(label, tx, yy, { mono: true, size: 10.5, align: "center", color: c.ink, halo: c.bg });
       n++;
     }
   }
