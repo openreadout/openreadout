@@ -88,6 +88,8 @@ pub struct PreviewOptions {
     /// Marks from the data. Default auto: the prominent peaks of spectra and chromatograms are
     /// labelled.
     pub marks: Option<Marks>,
+    /// Images: how objects are found for `marks: objects` (as `openreadout_stats` objects).
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
     /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
     /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
     /// units on plots, wells on plates.
@@ -133,6 +135,7 @@ impl PreviewOptions {
             table: self.table,
             columns: self.columns.clone(),
             marks: self.marks.unwrap_or_default(),
+            objects: self.objects.clone(),
             annotations: self.annotations.clone(),
             dark: self.dark,
             title: self.title.clone(),

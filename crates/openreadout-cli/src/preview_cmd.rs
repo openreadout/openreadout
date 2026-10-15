@@ -99,9 +99,19 @@ pub struct PreviewArgs {
     #[arg(long = "column")]
     pub columns: Vec<String>,
     /// Marks from the data: `auto` (label the largest peaks of spectra and chromatograms),
-    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep) or `none`.
-    #[arg(long, default_value = "auto", value_name = "auto|peaks|spikes|none")]
+    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep),
+    /// `objects` (outline and number the nuclei, cells or spots of an image, as `stats
+    /// --objects` counts them) or `none`.
+    #[arg(
+        long,
+        default_value = "auto",
+        value_name = "auto|peaks|spikes|objects|none"
+    )]
     pub marks: String,
+    /// With `--marks objects`: how objects are found, as JSON with the fields of the MCP
+    /// `objects` option, e.g. `{"kind":"spots"}` or `{"diameter_um":8}`.
+    #[arg(long, value_name = "JSON")]
+    pub objects: Option<String>,
     /// Annotations to draw, as JSON: one object or an array, inline or `@FILE`. Each has a
     /// `type` (point, box, polygon, line, arrow, text, vline, hline, vband, hband, well) and
     /// its coordinates in the preview's units (full-resolution pixels on images, axis units on
@@ -153,6 +163,14 @@ impl PreviewArgs {
             preview_request.table = self.table;
             preview_request.columns = self.columns.clone();
             preview_request.marks = self.marks.parse::<Marks>()?;
+            preview_request.objects = self
+                .objects
+                .as_deref()
+                .map(|j| {
+                    serde_json::from_str(j)
+                        .map_err(|e| Error::Usage(format!("--objects is not valid: {e} (fields: kind, diameter_um, diameter_px, threshold, method, polarity, stain, split, min_area_um2, max_area_um2, max_objects)")))
+                })
+                .transpose()?;
             preview_request.annotations = match &self.annotate {
                 Some(a) => parse_annotations(a)?,
                 None => Vec::new(),

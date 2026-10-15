@@ -313,6 +313,16 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
     if let Some(Value::Array(sel)) = args.get("select") {
         view::select_into(sel, &mut hint);
     }
+    // objects counted (preview marks=objects, stats objects): the viewer outlines them too
+    if matches!(tv, ToolView::Preview | ToolView::Kind(K::Image)) {
+        let asked = args.get("objects").filter(|v| v.is_object());
+        if asked.is_some() || args.get("marks").and_then(Value::as_str) == Some("objects") {
+            hint.insert(
+                "objects".into(),
+                asked.cloned().unwrap_or_else(|| json!({})),
+            );
+        }
+    }
     let kind = match tv {
         ToolView::Auto | ToolView::Figure => None,
         ToolView::Kind(k) => {

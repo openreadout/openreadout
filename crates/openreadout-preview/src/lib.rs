@@ -72,6 +72,7 @@ mod image;
 mod kinetic;
 mod marks;
 mod nmr;
+mod objects;
 mod options;
 mod overlay;
 mod plate;
@@ -344,6 +345,8 @@ pub enum Marks {
     Peaks,
     /// mark the action potentials of current-clamp sweeps
     Spikes,
+    /// images: outline and number the nuclei, cells or spots found (`stats` objects)
+    Objects,
     /// no marks
     None,
 }
@@ -355,9 +358,10 @@ impl FromStr for Marks {
             "auto" => Ok(Marks::Auto),
             "peaks" => Ok(Marks::Peaks),
             "spikes" => Ok(Marks::Spikes),
+            "objects" => Ok(Marks::Objects),
             "none" => Ok(Marks::None),
             other => Err(Error::Usage(format!(
-                "bad marks '{other}': use auto, peaks, spikes or none"
+                "bad marks '{other}': use auto, peaks, spikes, objects or none"
             ))),
         }
     }
@@ -407,8 +411,10 @@ pub struct PreviewRequest {
     /// a position), or the x and y parameters of an event preview (one gives a histogram;
     /// default FSC-A and SSC-A, else the first two).
     pub columns: Vec<String>,
-    /// Marks drawn from the data (peak labels, action potentials).
+    /// Marks drawn from the data (peak labels, action potentials, objects).
     pub marks: Marks,
+    /// Image preview: how objects are found for `marks: objects` (setting it implies them).
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
     /// The caller's own marks, drawn on top.
     pub annotations: Vec<Annotation>,
     /// Draw in the dark theme (light ink on a dark ground).
@@ -454,6 +460,7 @@ impl Default for PreviewRequest {
             table: None,
             columns: Vec::new(),
             marks: Marks::Auto,
+            objects: None,
             annotations: Vec::new(),
             dark: false,
             axes: true,
@@ -889,6 +896,11 @@ pub struct PreviewOutput {
     /// Marks drawn from the data (labelled peaks, action potentials).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub marks: Vec<DataMark>,
+    /// `marks: objects`: the objects counted in the area shown, as `stats` objects (the first
+    /// 20 listed).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
+    pub objects: Option<openreadout_core::measure::Objects>,
     /// The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub annotations: Vec<DrawnAnnotation>,
@@ -1127,6 +1139,9 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
     }
     if let Frame::Plots { panels, .. } = &frame {
         out.panels = panels.iter().map(annotate::plot_panel).collect();
+    }
+    if k == "image" && (req.marks == Marks::Objects || req.objects.is_some()) {
+        objects::draw(ds, info, req, &frame, &mut figure, &mut out)?;
     }
     if !req.annotations.is_empty() {
         let theme = theme(req);

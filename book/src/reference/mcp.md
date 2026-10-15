@@ -90,7 +90,7 @@ An agent names the data rather than pasting it: `{"file": "run.raw", "rt": "apex
 
 ### openreadout_stats
 
-Per channel and image (the default), with every plane (`per: "plane"`), or per well or field of a screening plate (`per: "well"` or `"field"`, with `wells` to choose wells). Other arguments: `image`, `select`, `level`, `region`, `bins` (default 32), `scale` (`linear` or `log`) and `mip` (`z` or `t`). Measurements on one plane: `line` (`[x0, y0, x1, y1]`) with `line_width`, `polygon` (`[[x, y], …]`) and `objects` (`{threshold, polarity, smooth, min_area_px, max_objects, component, split}`), as described under [Measurements](commands/stats.md#measurements).
+Per channel and image (the default), with every plane (`per: "plane"`), or per well or field of a screening plate (`per: "well"` or `"field"`, with `wells` to choose wells). Other arguments: `image`, `select`, `level`, `region`, `bins` (default 32), `scale` (`linear` or `log`) and `mip` (`z` or `t`). Measurements on one plane: `line` (`[x0, y0, x1, y1]`) with `line_width`, `polygon` (`[[x, y], …]`) and `objects` (`{kind, diameter_um, diameter_px, threshold, method, polarity, stain, split, min_area_um2, max_area_um2, max_objects}`, all optional; `{}` counts nuclei), as described under [Measurements](commands/stats.md#measurements).
 
 ### openreadout_trace
 

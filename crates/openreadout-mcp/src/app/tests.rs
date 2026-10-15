@@ -154,6 +154,22 @@ fn hints_follow_the_tool_table() {
     assert_eq!(h["c"], 1);
     assert_eq!(h["z"], 4);
     assert_eq!(h["mip"], true);
+    assert!(h.get("objects").is_none());
+    // objects counted are outlined in the viewer too
+    let h = view_hint(
+        "openreadout_preview",
+        Some(&args(json!({"file": "/d/a.czi", "marks": "objects"}))),
+    )
+    .unwrap();
+    assert_eq!(h["objects"], json!({}));
+    let h = view_hint(
+        "openreadout_stats",
+        Some(&args(
+            json!({"file": "/d/a.czi", "objects": {"kind": "spots"}}),
+        )),
+    )
+    .unwrap();
+    assert_eq!(h["objects"], json!({"kind": "spots"}));
     let h = view_hint(
         "openreadout_trace",
         Some(&args(json!({"file": "a.abf", "sweep": 3, "channels": [1]}))),

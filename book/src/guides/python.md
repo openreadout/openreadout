@@ -117,11 +117,11 @@ with openreadout.File("sample.raw") as f:
 with openreadout.File("nuclei.czi") as f:
     f.stats(select="c=0", line=(10, 200, 400, 200), line_width=3)["profile"]   # min, max and where, FWHM, values
     f.stats(polygon=[(120, 80), (300, 90), (280, 260), (110, 240)])["roi"]      # area, mean, median, sum per channel
-    found = f.stats(select="c=0", objects=True)["objects"]                     # threshold, then connected objects
+    found = f.stats(objects=True)["objects"]                                   # count the nuclei
     found["count"], found["objects"][0]                                         # area and centroid of the largest
 ```
 
-`objects` also takes a dict of options: `threshold` (default Otsu's), `polarity` (`"bright"` or `"dark"`), `smooth`, `min_area_px`, `max_objects`, `component` (an RGB component) and `split` (cut touching objects apart, default true). Lengths and areas are also given in µm when the file records the pixel size.
+`objects` also takes a dict of options: `kind` (`"nuclei"`, `"cells"` or `"spots"`), `diameter_um`, `threshold`, `method`, `polarity`, `stain` (RGB), `split`, `min_area_um2`, `max_area_um2` and `max_objects`; see [Objects](../reference/commands/stats.md#objects). Lengths and areas are also given in µm when the file records the pixel size.
 
 ### Pictures
 

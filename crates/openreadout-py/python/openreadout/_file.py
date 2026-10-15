@@ -291,10 +291,11 @@ class File:
           max and where, mean, FWHM, the samples), ``line_width`` pixels wide;
         - ``polygon=[(x, y), ...]``: the ``roi`` inside it (area, mean, std, median, min, max,
           sum per channel);
-        - ``objects=True`` (or a dict of ``threshold``, ``polarity`` ``"bright"``/``"dark"``,
-          ``smooth``, ``min_area_px``, ``max_objects``, ``component``, ``split``): counts
-          nuclei, cells or spots in ``region`` or the whole plane, with their areas and
-          centroids.
+        - ``objects=True``: counts nuclei in ``region``, inside ``polygon`` or in the whole
+          plane: how many, their sizes, centroids and mean in every channel, and how many are
+          positive per channel. A dict sets options: ``kind`` (``"nuclei"``, ``"cells"``,
+          ``"spots"``), ``diameter_um``, ``threshold``, ``method``, ``polarity``, ``stain``
+          (RGB), ``split``, ``min_area_um2``, ``max_area_um2``, ``max_objects``.
 
         Areas and lengths are also given in µm when the pixel size is known."""
         if isinstance(select, str):

@@ -417,3 +417,27 @@ fn trace_channels_on_an_image_file_point_to_select() {
     assert_eq!(e.exit_code(), 6);
     assert!(e.hint().unwrap().contains("c=0-2"), "{:?}", e.hint());
 }
+
+#[test]
+fn objects_are_counted_and_outlined() {
+    let info = info();
+    let mut req = PreviewRequest::default();
+    req.select = vec!["c=1".into(), "z=0".into()];
+    let plain = render(&mut Synth, &info, &req).unwrap();
+    req.marks = openreadout_preview::Marks::Objects;
+    req.objects = Some(openreadout_core::measure::ObjectsRequest {
+        diameter_px: Some(16.0),
+        ..Default::default()
+    });
+    let marked = render(&mut Synth, &info, &req).unwrap();
+    let o = marked
+        .output
+        .objects
+        .as_ref()
+        .expect("objects in the output");
+    assert_eq!(o.count, 1, "{o:?}");
+    assert!((o.objects[0].x - 20.5).abs() < 1.5 && (o.objects[0].y - 24.5).abs() < 1.5);
+    let (_, a) = finish(&plain, Encoding::Png, 90).unwrap();
+    let (_, b) = finish(&marked, Encoding::Png, 90).unwrap();
+    assert_ne!(a, b, "the outline is drawn");
+}

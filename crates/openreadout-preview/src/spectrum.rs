@@ -89,7 +89,7 @@ pub(crate) fn render(
     }
     let imax = pts.iter().map(|p| p.1).fold(0.0f64, f64::max);
     let sticks = sp.centroided || pts.len() < 2;
-    let labels_on = req.marks != Marks::None && req.marks != Marks::Spikes;
+    let labels_on = matches!(req.marks, Marks::Auto | Marks::Peaks);
 
     // caption
     let mut caption = format!(
