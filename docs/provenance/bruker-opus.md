@@ -57,3 +57,9 @@ brukeropusreader (GPL-3.0, black box) agrees on single-absorbance files.
 **Corpus files:** the development OPUS files (opusreader2 extdata, brukeropus example, Orange, Zenodo 1309915 and 10866787). No held-out file.
 **Prior art consulted:** none new.
 **What was inferred from what.** Every file with a history block carries a line `Version X.Y Build: a, b, c yyyymmdd` (6.5, 7.2, 7.5, 7.8, 8.1, 8.2, 8.5, 8.5(SP1), 8.7 across the corpus) next to installation paths such as `OPUS_8.1.29`, which fixes the reading as the OPUS software release. It is reported as `software_version` (text, as written) and the assurance profile records writer `OPUS` and the writer version (major.minor) as descriptive features.
+
+## 2026-10-15 — malformed time zones
+
+**Corpus files:** a fuzz input (now a seed in `fuzz/corpus/whole_opus/crash-utf8-zone`).
+**Prior art consulted:** none.
+**What was inferred from what.** A time zone such as `GMTé1` made the reader split a string inside a multibyte character and panic. Zones that don't start with `+` or `-`, or whose offset overflows, are now ignored and the time is reported without an offset.

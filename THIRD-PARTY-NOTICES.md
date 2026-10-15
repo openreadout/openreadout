@@ -3016,7 +3016,7 @@ SOFTWARE.
 
 Used by:
 
-- [ruzstd 0.9.0](https://github.com/KillingSpark/zstd-rs)
+- [ruzstd 0.9.1](https://github.com/KillingSpark/zstd-rs)
 
 ```text
 MIT License

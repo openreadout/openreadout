@@ -340,12 +340,15 @@ pub(crate) fn opus_time(dat: &str, tim: &str) -> Option<String> {
         if z.is_empty() {
             return Some("Z".to_string());
         }
-        let (sign, rest) = z.split_at(1);
-        if sign != "+" && sign != "-" {
-            return None;
-        }
+        let (sign, rest) = match z.strip_prefix('+') {
+            Some(rest) => ("+", rest),
+            None => ("-", z.strip_prefix('-')?),
+        };
         let minutes = if let Some((h, mi)) = rest.split_once(':') {
-            h.parse::<u32>().ok()? * 60 + mi.parse::<u32>().ok()?
+            h.parse::<u32>()
+                .ok()?
+                .checked_mul(60)?
+                .checked_add(mi.parse::<u32>().ok()?)?
         } else {
             let h: f64 = rest.parse().ok()?;
             (h * 60.0).round() as u32
@@ -1172,6 +1175,14 @@ mod tests {
         );
         assert_eq!(opus_time("x", "y"), None);
         assert_eq!(opus_time("31/13/2020", "00:00:00"), None);
+        assert_eq!(
+            opus_time("11/05/2020", "08:59:44 (GMT\u{e9}1)").as_deref(),
+            Some("2020-05-11T08:59:44")
+        );
+        assert_eq!(
+            opus_time("11/05/2020", "08:59:44 (GMT+99999999:0)").as_deref(),
+            Some("2020-05-11T08:59:44")
+        );
     }
 
     #[test]
