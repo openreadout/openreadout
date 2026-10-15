@@ -391,7 +391,7 @@ fn draw_order(series: &[Series]) -> Vec<usize> {
 fn draw_data(fig: &mut Figure, theme: &Theme, p: &Panel, series: &[&Series], cats: &[String], ink: Ink) {
     let events: Vec<&Series> = series.iter().copied().filter(|s| matches!(s.geom, Geom::Events { .. })).collect();
     if !events.is_empty() {
-        events_layer(fig, p, theme, &events, if ink.small { 1.0 } else { 0.5 });
+        events_layer(fig, p, theme, &events, 1.0);
     }
     let n_many = series.iter().filter(|s| s.weight == Weight::Many).count();
     let mut ink = ink;
@@ -426,18 +426,16 @@ fn draw_callouts(fig: &mut Figure, theme: &Theme, p: &Panel, series: &[&Series],
         let many = s.callouts.len() > 30;
         for c in &s.callouts {
             let Some((px, py)) = p.pt(c.x, c.y) else { continue };
-            if c.text.is_empty() && px >= p.rect.x - 1.0 && px <= p.rect.right() + 1.0 {
+            if c.text.is_empty() {
+                // a spike: a tick in a raster strip along the top of the plot
+                if px < p.rect.x - 1.0 || px > p.rect.right() + 1.0 {
+                    continue;
+                }
                 let len = (p.rect.h * 0.06).clamp(4.0, theme.font_size * 0.7);
                 fig.line(px, p.rect.y, px, p.rect.y + len, Stroke::new(theme.accent, theme.hairline().max(1.0)));
                 continue;
             }
             if !p.rect.inset(-2.0).contains(px, py) {
-                continue;
-            }
-            if c.text.is_empty() {
-                // a spike: a tick in a raster strip along the top of the plot
-                let len = (p.rect.h * 0.06).clamp(4.0, theme.font_size * 0.7);
-                fig.line(px, p.rect.y, px, p.rect.y + len, Stroke::new(theme.accent, theme.hairline().max(1.0)));
                 continue;
             }
             let m = Marker::dot(if many { s.color.unwrap_or(theme.ink) } else { col }, (ink.dot * 0.9).max(4.0));
