@@ -54,31 +54,52 @@ fn facet_keys(series: &[Series]) -> Vec<String> {
     keys
 }
 
-/// Rows and columns of a grid of `n` small multiples.
-fn grid_shape(n: usize, cols: Option<u32>, aspect: f32) -> (usize, usize) {
+/// Rows and columns of a grid of `n` small multiples `width` px wide: cells about 380 px wide.
+fn grid_shape(n: usize, cols: Option<u32>, width: f32) -> (usize, usize) {
     let n = n.max(1);
     let c = match cols {
         Some(c) if c > 0 => (c as usize).min(n),
-        _ => ((n as f32 * aspect).sqrt().ceil() as usize).clamp(1, n),
+        _ => {
+            let c = ((width / 380.0).round() as usize).clamp(1, n.min(6));
+            let rows = n.div_ceil(c);
+            n.div_ceil(rows)
+        }
     };
     (n.div_ceil(c), c)
 }
 
+/// Height of one small multiple `cell_w` px wide.
+fn cell_height(cell_w: f32, cols: usize) -> f32 {
+    if cols == 1 {
+        (cell_w * 0.26).clamp(150.0, 300.0)
+    } else {
+        (cell_w * 0.62).clamp(120.0, 340.0)
+    }
+}
+
 /// The height a panel would like at `width`.
-pub(crate) fn preferred_height(p: &PanelIn, width: f32, columns: Option<u32>) -> f32 {
+pub(crate) fn preferred_height(p: &PanelIn, width: f32, columns: Option<u32>, fs: f32) -> f32 {
     match p.spec.facet {
         Some(Facet::Plate) => {
             let (r, c) = p.plate.as_ref().map_or((8, 12), |h| (h.rows.max(1), h.cols.max(1)));
-            width * (r as f32 / c as f32) * 0.92 + 120.0
+            let blocks = p.plate.as_ref().map_or(1, |h| {
+                h.row_groups.windows(2).filter(|w| w[0] != w[1]).count() + 1
+            });
+            let left = fs * 6.0;
+            let gap = ((width - left) / c as f32 * 0.07).clamp(3.0, fs * 0.6);
+            let cw = (width - left - gap * (c as f32 - 1.0)) / c as f32;
+            r as f32 * (cw * 0.78 + gap) + fs * (2.0 + 3.6) + (blocks.min(r as usize) as f32 - 1.0) * fs * 0.9
         }
         Some(Facet::Series) => {
             let n = facet_keys(&p.series).len();
-            let (rows, cols) = grid_shape(n, columns, 1.6);
+            let (rows, cols) = grid_shape(n, columns, width);
             let cell_w = width / cols as f32;
-            rows as f32 * (cell_w * 0.62).clamp(110.0, 420.0) + 90.0
+            rows as f32 * (cell_height(cell_w, cols) + fs * 2.2) + fs * 3.0
         }
         None => {
-            if width < 760.0 {
+            if p.series.iter().any(|s| matches!(s.geom, Geom::Events { .. })) {
+                width.min(900.0) * 0.82
+            } else if width < 760.0 {
                 width * 0.82
             } else {
                 width * 0.56
@@ -200,7 +221,7 @@ fn merge_range(a: Option<[f64; 2]>, b: Option<[f64; 2]>) -> Option<[f64; 2]> {
 /// Draw one panel into `area`.
 pub(crate) fn draw_panel(fig: &mut Figure, theme: &Theme, area: Rect, mut p: PanelIn, columns: Option<u32>) -> Result<PanelDrawn> {
     let (ax, ay) = prep::prepare(&mut p.series, &p.spec)?;
-    let classes = prep::assign_colors(theme, &mut p.series);
+    let classes = prep::assign_colors(theme, &mut p.series, p.spec.facet.is_some());
     let mut area = area;
     if let Some(t) = &p.title {
         let st = TextStyle::new(theme.font_size * 1.05, theme.ink).face(Face::SansMedium);
@@ -373,6 +394,11 @@ fn draw_data(fig: &mut Figure, theme: &Theme, p: &Panel, series: &[&Series], cat
         events_layer(fig, p, theme, &events, if ink.small { 1.0 } else { 0.5 });
     }
     let n_many = series.iter().filter(|s| s.weight == Weight::Many).count();
+    let mut ink = ink;
+    ink.fills = series
+        .iter()
+        .filter(|s| matches!(s.geom, Geom::Band(_)) || s.mark == MarkKind::Area)
+        .count();
     let bars: Vec<usize> = series
         .iter()
         .enumerate()
@@ -390,31 +416,43 @@ fn draw_data(fig: &mut Figure, theme: &Theme, p: &Panel, series: &[&Series], cat
 /// Markers and labels on peaks, apexes and spikes.
 fn draw_callouts(fig: &mut Figure, theme: &Theme, p: &Panel, series: &[&Series], placer: &mut LabelPlacer, ink: Ink) {
     let fs = theme.small_size();
-    let st = TextStyle::new(fs, theme.ink).halo(theme.paper, fs * 0.3);
+    let st = TextStyle::new(fs, theme.ink).halo(theme.paper, fs * 0.22);
+    let mut taken: Vec<Rect> = Vec::new();
+    // one series with callouts marks them in the accent; several, each in its own colour
+    let several = series.iter().filter(|s| s.callouts.iter().any(|c| !c.text.is_empty())).count() > 1;
     for s in series {
         let col = s.color.unwrap_or(theme.ink);
+        let col = if several { col } else { theme.accent };
         let many = s.callouts.len() > 30;
         for c in &s.callouts {
             let Some((px, py)) = p.pt(c.x, c.y) else { continue };
+            if c.text.is_empty() && px >= p.rect.x - 1.0 && px <= p.rect.right() + 1.0 {
+                let len = (p.rect.h * 0.06).clamp(4.0, theme.font_size * 0.7);
+                fig.line(px, p.rect.y, px, p.rect.y + len, Stroke::new(theme.accent, theme.hairline().max(1.0)));
+                continue;
+            }
             if !p.rect.inset(-2.0).contains(px, py) {
                 continue;
             }
             if c.text.is_empty() {
-                // a spike: a small mark above the peak
-                let d = (ink.dot * 0.55).max(2.0);
-                let y = py - d * 1.6;
-                fig.fill(
-                    Path::polygon([(px, y + d), (px - d * 0.8, y - d * 0.5), (px + d * 0.8, y - d * 0.5)]),
-                    theme.accent,
-                );
+                // a spike: a tick in a raster strip along the top of the plot
+                let len = (p.rect.h * 0.06).clamp(4.0, theme.font_size * 0.7);
+                fig.line(px, p.rect.y, px, p.rect.y + len, Stroke::new(theme.accent, theme.hairline().max(1.0)));
                 continue;
             }
-            let m = Marker::dot(if many { col } else { theme.accent }, (ink.dot * 0.9).max(4.0));
+            let m = Marker::dot(if many { s.color.unwrap_or(theme.ink) } else { col }, (ink.dot * 0.9).max(4.0));
             openreadout_figure::draw_marker(fig, &m, px, py);
             placer.reserve(Rect::new(px - m.size / 2.0, py - m.size / 2.0, m.size, m.size));
             let w = st.width(&c.text);
             let h = fs * 1.05;
-            let r = placer.place(px, py, w, h, fs * 0.45);
+            let above = Rect::new(px - w / 2.0, py - fs * 0.5 - h, w, h);
+            let r = if taken.iter().all(|t| !t.intersects(&above)) && p.rect.contains_rect(&above) {
+                placer.reserve(above);
+                above
+            } else {
+                placer.place(px, py, w, h, fs * 0.45)
+            };
+            taken.push(r);
             fig.text(r.x, r.bottom() - fs * 0.22, &c.text, &st);
             // a hairline leader when the label had to move away
             let (cx, cy) = r.center();
@@ -476,6 +514,7 @@ fn draw_marks_over(fig: &mut Figure, theme: &Theme, p: &Panel, anns: &[Annotatio
     for a in anns.iter().filter(|a| facet_ok(a, facet)) {
         let col = ann_color(theme, a);
         let st = TextStyle::new(fs, col).halo(theme.paper, fs * 0.3);
+        let plain = TextStyle::new(fs, col);
         let label = a.label.clone().unwrap_or_default();
         match (&a.x, &a.y) {
             (Some(Many(v)), None) if v.len() == 2 => {
@@ -485,7 +524,7 @@ fn draw_marks_over(fig: &mut Figure, theme: &Theme, p: &Panel, anns: &[Annotatio
                     let w = st.width(&label);
                     let x = (cx - w / 2.0).clamp(p.rect.x + 2.0, p.rect.right() - w - 2.0);
                     let y = p.rect.y + fs * 1.15;
-                    fig.text(x, y, &label, &st);
+                    fig.text(x, y, &label, &plain);
                     placer.reserve(Rect::new(x, y - fs, w, fs * 1.3));
                 }
             }
@@ -628,22 +667,33 @@ fn hover_panel(p: &Panel, title: Option<&str>, series: &[&Series]) -> Value {
 fn draw_plot(fig: &mut Figure, theme: &Theme, area: Rect, p: &PanelIn, ax: &AxisRes, ay: &AxisRes, _classes: &[(String, Color)], hover: &mut Vec<Value>, ann: &mut Vec<String>) {
     let fs = theme.font_size;
     let entries = legend_entries(&p.series);
-    let line_like = p.series.iter().all(|s| matches!(s.geom, Geom::Line(_) | Geom::Band(_)) && s.mark != MarkKind::Sticks);
+    let is_line = |s: &Series| matches!(s.geom, Geom::Line(_) | Geom::Band(_)) && !matches!(s.mark, MarkKind::Sticks | MarkKind::Area);
+    // every entry has a line whose end can carry its name
+    let line_like = entries.iter().all(|e| {
+        p.series
+            .iter()
+            .any(|s| is_line(s) && s.class.clone().unwrap_or_else(|| s.name.clone()) == e.0)
+    });
+    let hist = !p.series.is_empty() && p.series.iter().all(|s| s.mark == MarkKind::Area);
     let legend = p.spec.legend.unwrap_or(if entries.len() <= 1 {
         Legend::None
-    } else if entries.len() <= 10 && line_like && !ax.is_cat() {
+    } else if entries.len() <= 10 && (line_like || hist) && !ax.is_cat() {
         Legend::Direct
     } else {
         Legend::Key
     });
     let mut area = area;
+    if p.series.iter().any(|s| matches!(s.geom, Geom::Events { .. })) && area.w > area.h * 1.25 {
+        // dot plots read best near square
+        area = Rect::new(area.x, area.y, area.h * 1.25, area.h);
+    }
     if legend == Legend::Key && !entries.is_empty() {
         let items: Vec<(Color, String)> = entries.iter().map(|e| (e.1, e.0.clone())).collect();
         let block = entries.iter().any(|e| e.2);
         let used = key_row(fig, theme, area.x, area.y + fs * 0.6, area.w, &items, block);
         area = area.inset_sides(0.0, used.bottom() - area.y + fs * 0.6, 0.0, 0.0);
     }
-    let right = if legend == Legend::Direct {
+    let right = if legend == Legend::Direct && !hist {
         let st = TextStyle::new(fs, theme.ink);
         let w = entries.iter().map(|e| st.width(&e.0)).fold(0.0f32, f32::max);
         (w + fs * 1.6).min(area.w * 0.32)
@@ -672,14 +722,39 @@ fn draw_plot(fig: &mut Figure, theme: &Theme, area: Rect, p: &PanelIn, ax: &Axis
     let mut placer = LabelPlacer::new(panel.rect);
     draw_marks_over(fig, theme, &panel, &p.spec.annotate, None, &mut placer, false, ann);
     draw_callouts(fig, theme, &panel, &refs, &mut placer, ink);
-    if legend == Legend::Direct {
-        direct_labels(fig, theme, &panel, &p.series);
+    if legend == Legend::Direct && hist {
+        peak_labels(fig, theme, &panel, &p.series, &mut placer);
+    } else if legend == Legend::Direct {
+        direct_labels(fig, theme, &panel, &p.series, area.right());
     }
     hover.push(hover_panel(&panel, p.title.as_deref(), &refs));
 }
 
+/// Each histogram named at its highest bin.
+fn peak_labels(fig: &mut Figure, theme: &Theme, panel: &Panel, series: &[Series], placer: &mut LabelPlacer) {
+    let fs = theme.font_size;
+    for s in series {
+        let Geom::Line(pts) = &s.geom else { continue };
+        let Some(&(x, y)) = pts.iter().filter(|q| q.1.is_finite()).max_by(|a, b| a.1.total_cmp(&b.1)) else { continue };
+        let Some((px, py)) = panel.pt(x, y) else { continue };
+        let st = TextStyle::new(fs, label_color(theme, s.color.unwrap_or(theme.ink))).halo(theme.paper, fs * 0.3);
+        let w = st.width(&s.name);
+        let r = placer.place(px, py, w, fs * 1.1, fs * 0.5);
+        fig.text(r.x, r.bottom() - fs * 0.25, &s.name, &st);
+    }
+}
+
+/// Text in a series colour, readable: faint colours print muted.
+fn label_color(theme: &Theme, c: Color) -> Color {
+    if c == theme.faint || c.opacity() < 0.5 {
+        theme.muted
+    } else {
+        c.alpha(1.0)
+    }
+}
+
 /// Labels at the right end of each line (one per class), kept apart.
-fn direct_labels(fig: &mut Figure, theme: &Theme, panel: &Panel, series: &[Series]) {
+fn direct_labels(fig: &mut Figure, theme: &Theme, panel: &Panel, series: &[Series], right_edge: f32) {
     let mut groups: Vec<(String, Color, Vec<f32>)> = Vec::new();
     for s in series {
         if s.weight == Weight::Context && s.class.is_none() {
@@ -700,12 +775,19 @@ fn direct_labels(fig: &mut Figure, theme: &Theme, panel: &Panel, series: &[Serie
             None => groups.push((name, s.color.unwrap_or(theme.ink), vec![y])),
         }
     }
+    let room = (right_edge - panel.rect.right() - theme.font_size * 1.0).max(theme.font_size * 3.0);
+    let st = TextStyle::new(theme.font_size, theme.ink);
     let labels: Vec<EndLabel> = groups
         .into_iter()
         .map(|(text, color, ys)| {
             let mut ys = ys;
             ys.sort_by(f32::total_cmp);
-            EndLabel { y: ys[ys.len() / 2], text, color }
+            let mut t = text;
+            while st.width(&t) > room && t.chars().count() > 4 {
+                let n = t.chars().count();
+                t = format!("{}…", t.chars().take(n - 2).collect::<String>());
+            }
+            EndLabel { y: ys[ys.len() / 2], text: t, color: label_color(theme, color) }
         })
         .collect();
     end_labels(fig, theme, panel.rect.right(), &labels, panel.rect.y + theme.font_size * 0.5, panel.rect.bottom());
@@ -733,7 +815,7 @@ fn last_visible(p: &Panel, pts: impl Iterator<Item = (f64, f64)>) -> Option<f32>
 fn draw_facets(fig: &mut Figure, theme: &Theme, area: Rect, p: &PanelIn, ax: &AxisRes, ay: &AxisRes, classes: &[(String, Color)], columns: Option<u32>, hover: &mut Vec<Value>, ann: &mut Vec<String>) -> usize {
     let fs = theme.font_size;
     let keys = facet_keys(&p.series);
-    let (rows, cols) = grid_shape(keys.len(), columns, 1.6);
+    let (rows, cols) = grid_shape(keys.len(), columns, area.w);
     let mut area = area;
     // one key for colour classes
     let entries = legend_entries(&p.series);
@@ -764,11 +846,17 @@ fn draw_facets(fig: &mut Figure, theme: &Theme, area: Rect, p: &PanelIn, ax: &Ax
         let mut s = spec.clone();
         s.show_y = c == 0;
         s.show_x = r == rows - 1 || k + cols >= keys.len();
-        if !s.show_y {
+        // the axis names once: y on the first plot, x on the last
+        if k != 0 {
             s.y_label = None;
         }
-        if !s.show_x || c != cols - 1 && k != keys.len() - 1 {
-            s.x_label = if s.show_x && (k == keys.len() - 1 || c == cols - 1) { s.x_label } else { None };
+        if k != keys.len() - 1 {
+            s.x_label = None;
+        }
+        if rect.h < 200.0 {
+            s.y_ticks = 3;
+        } else if rect.h < 320.0 {
+            s.y_ticks = 4;
         }
         let mut sink = Vec::new();
         draw_bands(fig, theme, &panel, &p.spec.annotate, Some(key), if k == 0 { &mut notes_once } else { &mut sink });
@@ -785,8 +873,8 @@ fn draw_facets(fig: &mut Figure, theme: &Theme, area: Rect, p: &PanelIn, ax: &Ax
         draw_callouts(fig, theme, &panel, &members, &mut placer, ink);
         // facet title, above the plot
         let st = TextStyle::new(small_fs * 1.08, theme.ink).face(Face::SansMedium);
-        let ty = rect.y - if s.y_label.is_some() { fs * 1.75 } else { small_fs * 0.7 };
-        fig.text(cell.x + dl.min(fs * 0.2), ty, &shorten(key, 48), &st);
+        let ty = cell.y - small_fs * 0.55;
+        fig.text(rect.x, ty, &shorten(key, 60), &st);
         hover.push(hover_panel(&panel, Some(key), &members));
     }
     ann.extend(notes_once);
@@ -881,7 +969,7 @@ fn draw_plate(fig: &mut Figure, theme: &Theme, area: Rect, p: &PanelIn, ax: &Axi
             let pad = (cw * 0.07).clamp(3.0, 9.0);
             let panel = Panel::new(cell.inset(pad), ax.domain, ay.domain);
             draw_bands(fig, theme, &panel, &p.spec.annotate, members[0].facet.as_deref(), if drawn == 0 { ann } else { &mut sink });
-            let ink = Ink { line: (cw / 75.0).clamp(1.0, theme.line_width), dot: 3.0, small: true };
+            let ink = Ink { line: (cw / 75.0).clamp(1.0, theme.line_width), dot: 3.0, small: true, fills: 1 };
             let _ = n_many;
             for s in &members {
                 let mut s2 = (*s).clone();
@@ -911,7 +999,8 @@ fn draw_plate(fig: &mut Figure, theme: &Theme, area: Rect, p: &PanelIn, ax: &Axi
         let d = a.domain;
         let (lo, hi) = (d.lo.min(d.hi), d.lo.max(d.hi));
         let step = (hi - lo) / 4.0;
-        format!("{}–{}", format_tick(lo, step), format_tick(hi, step))
+        let (a, b) = (format_tick(lo, step).replace('-', "−"), format_tick(hi, step).replace('-', "−"));
+        if lo < 0.0 { format!("{a} to {b}") } else { format!("{a}–{b}") }
     };
     let scale_txt = format!(
         "every well on one scale: {} {}, {} {}",

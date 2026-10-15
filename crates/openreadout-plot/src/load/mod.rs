@@ -16,6 +16,7 @@ use crate::model::Series;
 use crate::spec::{SeriesSpec, Show};
 
 pub(crate) use plate::{PlateHints, seconds_in, time_unit};
+pub(crate) use signal::fmt_at;
 
 /// Shared state while loading the series of one figure.
 pub(crate) struct Ctx<'a> {
@@ -82,11 +83,10 @@ pub(crate) fn load(ctx: &mut Ctx<'_>, spec: &SeriesSpec) -> Result<Vec<Series>> 
         let mut s = load_file(ctx, spec, f)?;
         if files.len() > 1 {
             let stem = file_label(f);
+            let one = s.len() == 1;
             for x in &mut s {
                 if spec.label.is_none() {
-                    x.name = if x.name.is_empty() {
-                        stem.clone()
-                    } else if s_len_one(&x.name) {
+                    x.name = if x.name.is_empty() || one || s_len_one(&x.name) {
                         stem.clone()
                     } else {
                         format!("{stem} · {}", x.name)
@@ -234,15 +234,27 @@ pub(crate) fn top_peaks(pts: &[(f64, f64)], n: usize, min_sep: f64) -> Vec<(f64,
             .take(n)
             .collect();
     }
+    let (lo, hi) = pts
+        .iter()
+        .map(|p| p.1)
+        .filter(|v| v.is_finite())
+        .fold((f64::INFINITY, f64::NEG_INFINITY), |a, v| (a.0.min(v), a.1.max(v)));
+    let floor = 0.03 * (hi - lo);
+    let w = (pts.len() / 100).max(3);
     let mut cand: Vec<(f64, f64)> = Vec::new();
-    for i in 0..pts.len() {
+    // local maxima away from the ends that stand out from their surroundings
+    for i in 1..pts.len() - 1 {
         let y = pts[i].1;
         if !y.is_finite() {
             continue;
         }
-        let left = if i > 0 { pts[i - 1].1 } else { f64::NEG_INFINITY };
-        let right = pts.get(i + 1).map_or(f64::NEG_INFINITY, |p| p.1);
-        if y >= left && y > right || (y > left && y >= right) {
+        let (left, right) = (pts[i - 1].1, pts[i + 1].1);
+        if !(y >= left && y > right || (y > left && y >= right)) {
+            continue;
+        }
+        let lmin = pts[i.saturating_sub(w)..i].iter().map(|p| p.1).fold(f64::INFINITY, f64::min);
+        let rmin = pts[i + 1..(i + 1 + w).min(pts.len())].iter().map(|p| p.1).fold(f64::INFINITY, f64::min);
+        if y - lmin.max(rmin) >= floor {
             cand.push(pts[i]);
         }
     }

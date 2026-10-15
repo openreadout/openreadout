@@ -16,9 +16,16 @@ pub(crate) struct Quantity {
 
 impl Quantity {
     pub fn new(name: impl Into<String>, unit: Option<&str>) -> Quantity {
+        let name: String = name.into();
+        let name = name.replace('_', " ");
+        // the real part of a processed spectrum is its intensity
+        let name = match name.to_ascii_lowercase().as_str() {
+            "real" | "re" | "real part" => "intensity".to_string(),
+            _ => name,
+        };
         Quantity {
-            name: name.into(),
-            unit: unit.filter(|u| !u.trim().is_empty()).map(str::to_string),
+            name,
+            unit: unit.filter(|u| !u.trim().is_empty()).map(pretty_unit),
         }
     }
 
@@ -33,6 +40,18 @@ impl Quantity {
             Some(u) => format!("{} ({u})", self.name),
             None => self.name.clone(),
         }
+    }
+}
+
+/// Units as they are printed (IBM Plex has no superscript minus, so wavenumbers are `cm-1`).
+fn pretty_unit(u: &str) -> String {
+    match u.trim() {
+        "1/cm" | "cm-1" | "cm^-1" | "1/CM" | "CM-1" | "cm⁻¹" => "cm-1".into(),
+        "uM" => "µM".into(),
+        "uL" => "µL".into(),
+        "um" => "µm".into(),
+        "Volts" | "volts" => "V".into(),
+        other => other.to_string(),
     }
 }
 
@@ -182,6 +201,8 @@ pub(crate) struct Callout {
     pub y: f64,
     /// Text (empty: a marker only).
     pub text: String,
+    /// The text is the x position (rewritten when the axis changes unit).
+    pub auto: bool,
 }
 
 /// How strongly a series is drawn.
@@ -228,6 +249,10 @@ pub(crate) struct Series {
     /// Ticks of a transformed axis (FCS logicle): position and label.
     pub x_ticks: Option<Vec<(f64, String)>>,
     pub y_ticks: Option<Vec<(f64, String)>>,
+    /// The x range worth showing when the axis is not set (a spectrum's peaks).
+    pub x_focus: Option<(f64, f64)>,
+    /// Label this many of the highest peaks inside the axis ranges shown.
+    pub peaks: usize,
 }
 
 impl Series {
@@ -251,6 +276,8 @@ impl Series {
             y_log: false,
             x_ticks: None,
             y_ticks: None,
+            x_focus: None,
+            peaks: 0,
         }
     }
 

@@ -262,7 +262,7 @@ pub(super) fn events(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         let leaf = path.rsplit('/').find(|s| !s.is_empty()).unwrap_or(path).to_string();
         let pct = if n > 0 { 100.0 * xs.len() as f64 / n as f64 } else { 0.0 };
         let mut s = Series::new(
-            format!("{leaf} {pct:.1}%"),
+            format!("{leaf} ({pct:.1}% of events)"),
             Geom::Events { x: xs, y: ys },
             MarkKind::Points,
             Source::file(file, format!("{base_src}, population {path}")),

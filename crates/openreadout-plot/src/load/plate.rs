@@ -221,17 +221,14 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
             return Err(usage(format!("plate `by` is `well` or `group`, not `{other}`")));
         }
     };
-    let mut wells: Vec<Well> = wells
+    let wells: Vec<Well> = wells
         .into_iter()
-        .filter(|w| selected(w) && !(w.blank && (by_group || (!filtered && subtract == Subtract::Blank))))
+        .filter(|w| selected(w) && !(w.blank && by_group))
         .collect();
     if wells.is_empty() {
         return Err(usage(format!("{file}: no wells selected")));
     }
-    if subtract == Subtract::Blank && !filtered {
-        // blanks are flat at zero after subtraction: leave them out
-        wells.retain(|w| !w.blank);
-    }
+    let _ = filtered;
 
     let unit = read.unit.as_deref();
     let yname = {
@@ -301,9 +298,21 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
     }
     // per group: mean and spread
     let spread = spec.spread.unwrap_or(Spread::Sd);
+    let pooled = spec.groups.iter().any(|g| g.contains('*'));
+    let key_of = |w: &Well| -> String {
+        let g = w.group.clone().unwrap_or_else(|| "unassigned".into());
+        if pooled {
+            spec.groups
+                .iter()
+                .find(|p| glob(p, &g))
+                .map_or(g, |p| pattern_name(p))
+        } else {
+            g
+        }
+    };
     let mut order: Vec<String> = Vec::new();
     for w in &wells {
-        let g = w.group.clone().unwrap_or_else(|| "unassigned".into());
+        let g = key_of(w);
         if !order.contains(&g) {
             order.push(g);
         }
@@ -312,7 +321,7 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         for g in &order {
             let members: Vec<&Well> = wells
                 .iter()
-                .filter(|w| w.group.clone().unwrap_or_else(|| "unassigned".into()) == *g)
+                .filter(|w| key_of(w) == *g)
                 .collect();
             let n = members.iter().map(|w| w.pts.len()).max().unwrap_or(0);
             let mut band = Vec::with_capacity(n);
@@ -343,7 +352,7 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         for g in &order {
             let vs: Vec<f64> = wells
                 .iter()
-                .filter(|w| w.group.clone().unwrap_or_else(|| "unassigned".into()) == *g)
+                .filter(|w| key_of(w) == *g)
                 .filter_map(|w| w.pts.first().map(|p| p.1))
                 .filter(|v| v.is_finite())
                 .collect();
@@ -362,6 +371,11 @@ pub(super) fn wells(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<
         out.push(s);
     }
     Ok(out)
+}
+
+/// The name of a pooled group: its pattern without the wildcards.
+fn pattern_name(p: &str) -> String {
+    p.replace('*', " ").split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
 fn plate_wavelength(plate: &openreadout_assay::PlateData, read: u32) -> Option<f64> {

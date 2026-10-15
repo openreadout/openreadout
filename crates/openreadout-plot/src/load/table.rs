@@ -51,6 +51,8 @@ pub(super) fn table(ctx: &mut Ctx<'_>, spec: &SeriesSpec, path: &str) -> Result<
     let mut groups: Vec<(String, Vec<&Vec<Value>>)> = Vec::new();
     for r in &rows {
         let key = by.map_or_else(String::new, |(bi, _)| r.get(bi).map(Value::text).unwrap_or_default());
+        // file paths name their series by the file
+        let key = if key.contains('/') && key.contains('.') { super::file_label(&key) } else { key };
         match groups.iter_mut().find(|g| g.0 == key) {
             Some(g) => g.1.push(r),
             None => groups.push((key, vec![r])),
@@ -200,7 +202,7 @@ pub(super) fn inline(spec: &SeriesSpec, v: &InlineValues) -> Result<Vec<Series>>
             .into_iter()
             .zip(&v.labels)
             .filter(|(_, l)| !l.is_empty())
-            .map(|((x, y), l)| Callout { x, y, text: l.clone() })
+            .map(|((x, y), l)| Callout { x, y, text: l.clone(), auto: false })
             .collect();
     }
     if let Some(m) = spec.mark {

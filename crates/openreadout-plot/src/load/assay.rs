@@ -104,14 +104,16 @@ pub(super) fn curves(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Sho
         s.class = Some("standards".into());
         s.x_log = log;
         series.push(c);
-        series.push(s);
         if !unknowns.is_empty() {
             let mut u = Series::new("samples (back-calculated)", Geom::Points { pts: unknowns, err: Vec::new() }, MarkKind::Points, src("samples at their back-calculated concentration"))
                 .axes(xq.clone(), yq.clone());
             u.class = Some("samples".into());
             u.x_log = log;
+            u.weight = Weight::Many;
             series.push(u);
         }
+        // standards on top
+        series.push(s);
         ctx.notes.push(format!("standard curve {} r² {:.4}", fit.model, fit.r_squared));
         return Ok(series);
     }
@@ -132,16 +134,23 @@ pub(super) fn curves(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Sho
         let pts: Vec<(f64, f64)> = fit.points.iter().map(|p| (p.x, p.y)).filter(|p| p.0 > 0.0).collect();
         let lo = pts.iter().map(|p| p.0).fold(f64::INFINITY, f64::min);
         let hi = pts.iter().map(|p| p.0).fold(f64::NEG_INFINITY, f64::max);
-        let label = match c.ec50 {
-            Some(e) => format!("{} · {} {}", c.compound, if c.kind.contains("ic") { "IC50" } else { "EC50" }, short(e)),
-            None => c.compound.clone(),
-        };
+        let label = c.compound.clone();
+        let what = if c.kind.to_ascii_lowercase().contains("ic") { "IC50" } else { "EC50" };
         let src = |what: &str| Source::file(file, format!("dose-response {} ({} fit), {what}", c.compound, fit.model));
         let mut line = Series::new(label.clone(), Geom::Line(curve_points(fit, lo, hi, true)), MarkKind::Line, src("fitted curve"))
             .axes(xq.clone(), yq.clone());
         line.weight = Weight::Fit;
         line.class = Some(c.compound.clone());
         line.x_log = true;
+        if let Some(e) = c.ec50.filter(|e| *e > 0.0 && *e >= lo && *e <= hi) {
+            let unit = xq.unit.as_deref().map(|u| format!(" {u}")).unwrap_or_default();
+            line.callouts.push(crate::model::Callout {
+                x: e,
+                y: eval_fit(fit, e),
+                text: format!("{what} {}{unit}", short(e)),
+                auto: false,
+            });
+        }
         let mut p = Series::new(label, Geom::Points { pts, err: Vec::new() }, MarkKind::Points, src("wells"))
             .axes(xq.clone(), yq.clone());
         p.class = Some(c.compound.clone());

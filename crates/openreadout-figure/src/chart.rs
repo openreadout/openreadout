@@ -630,7 +630,10 @@ impl Panel {
             fig.line(r.x, r.bottom(), r.right(), r.bottom(), axis.clone());
             let ls = label.clone().align(Anchor::Middle, Baseline::Top);
             let mut last_right = f32::NEG_INFINITY;
-            for t in &xt {
+            // left to right on the page, so a reversed axis (ppm, cm⁻¹) keeps its labels
+            let mut by_px: Vec<&Tick> = xt.iter().collect();
+            by_px.sort_by(|a, b| a.px.total_cmp(&b.px));
+            for t in by_px {
                 let len = if t.major { tick } else { tick * 0.6 };
                 fig.line(t.px, r.bottom(), t.px, r.bottom() + len, axis.clone());
                 if t.major && !t.label.is_empty() {

@@ -123,7 +123,13 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         }
         spec.panels.iter().map(|p| (p.title.clone(), p.panel.clone())).collect()
     };
-    let width = spec.width.unwrap_or(DEFAULT_WIDTH).clamp(320, MAX_SIZE) as f32;
+    // a lone dot plot reads best near square
+    let lone_events = panels.len() == 1
+        && panels[0].1.data.as_ref().is_some_and(|d| {
+            d.to_vec().iter().all(|s| s.y.is_some() && s.table.is_none() && s.values.is_none() && s.show.is_none_or(|x| x == Show::Events))
+        });
+    let default_w = if lone_events { 960 } else { DEFAULT_WIDTH };
+    let width = spec.width.unwrap_or(default_w).clamp(320, MAX_SIZE) as f32;
     let theme = theme_for(spec).for_size(width.max(spec.height.unwrap_or(0) as f32).min(1600.0));
     let mut ctx = load::Ctx::new(reg);
     let mut ins: Vec<draw::PanelIn> = Vec::new();
@@ -196,7 +202,7 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     for r in 0..rows {
         let h = ins[r * cols..((r + 1) * cols).min(n)]
             .iter()
-            .map(|p| draw::preferred_height(p, col_w, facet_cols) + if p.title.is_some() { fs * 1.7 } else { 0.0 })
+            .map(|p| draw::preferred_height(p, col_w, facet_cols, fs) + if p.title.is_some() { fs * 1.7 } else { 0.0 })
             .fold(0.0f32, f32::max);
         row_h.push(h);
     }

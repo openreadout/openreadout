@@ -104,10 +104,31 @@ fn abscissa(
     Ok((Quantity::new("sample", None), (0..n).map(|i| i as f64).collect(), None))
 }
 
+/// A channel's quantity: its name, or what its unit measures when the name is only an input
+/// number (`IN 0`, `AI2`, `ADC1`).
+fn signal_name(name: &str, unit: Option<&str>) -> String {
+    let n = name.trim();
+    let generic = {
+        let letters: String = n.chars().take_while(|c| c.is_ascii_alphabetic()).collect();
+        let rest = n[letters.len()..].trim();
+        matches!(letters.to_ascii_uppercase().as_str(), "IN" | "AI" | "ADC" | "CH" | "CHANNEL")
+            && !rest.is_empty()
+            && rest.chars().all(|c| c.is_ascii_digit() || c == ' ' || c == '_')
+    };
+    if !generic {
+        return n.to_string();
+    }
+    match unit.map(str::to_ascii_lowercase).as_deref() {
+        Some("mv" | "v" | "uv" | "µv") => "voltage".into(),
+        Some("pa" | "na" | "a" | "ua" | "µa") => "current".into(),
+        _ => n.to_string(),
+    }
+}
+
 fn reversed_axis(q: &Quantity) -> bool {
     let u = q.unit.as_deref().unwrap_or("").to_ascii_lowercase();
     let n = q.name.to_ascii_lowercase();
-    u.contains("ppm") || u.contains("cm-1") || u.contains("cm⁻¹") || u == "1/cm" || n.contains("wavenumber")
+    u.contains("ppm") || u.contains("cm-1") || u == "1/cm" || n.contains("wavenumber")
 }
 
 /// A short label for a position on an axis.
@@ -125,7 +146,7 @@ pub(crate) fn fmt_at(q: &Quantity, v: f64) -> String {
         trim(format!("{v:.3}"))
     };
     match &q.unit {
-        Some(u) if n != "m/z" && !u.contains("ppm") => format!("{s} {u}"),
+        Some(u) if n != "m/z" && !u.contains("ppm") && !u.contains("cm-1") => format!("{s} {u}"),
         _ => s,
     }
 }
@@ -331,7 +352,7 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
                     ch.unit.as_deref(),
                 )
             } else {
-                Quantity::new(ch.name.clone(), ch.unit.as_deref())
+                Quantity::new(signal_name(&ch.name, ch.unit.as_deref()), ch.unit.as_deref())
             };
             let name = if overlay {
                 ch.name.clone()
@@ -376,7 +397,7 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
             if let Some(sp) = spikes.get(&sw) {
                 s.callouts = sp
                     .iter()
-                    .map(|&(x, y)| Callout { x, y, text: String::new() })
+                    .map(|&(x, y)| Callout { x, y, text: String::new(), auto: false })
                     .collect();
                 if !s.name.contains("spike") {
                     s.name = format!("{} · {} spike{}", s.name, sp.len(), if sp.len() == 1 { "" } else { "s" });
@@ -384,13 +405,14 @@ pub(super) fn trace(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str, show: Show
             } else if spec.spikes {
                 s.name = format!("{} · 0 spikes", s.name);
             }
+            s.peaks = spec.peaks.unwrap_or(0) as usize;
             if let Some(n) = spec.peaks
                 && let Geom::Line(p) = &s.geom
             {
                 let span = p.last().map_or(0.0, |l| l.0) - p.first().map_or(0.0, |f| f.0);
                 s.callouts = top_peaks(p, n as usize, span.abs() / 40.0)
                     .into_iter()
-                    .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x) })
+                    .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x), auto: true })
                     .collect();
             }
             out.push(s);
@@ -473,16 +495,17 @@ pub(super) fn chromatogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> 
         if ch.decimated {
             s.source.selector.push_str(" (most intense point per slice, 20000 slices)");
         }
+        s.peaks = spec.peaks.unwrap_or(0) as usize;
         if let Some(n) = spec.peaks {
             if n == 1 {
                 if let (Some(t), Some(v)) = (ch.apex_rt_min, ch.apex_intensity) {
-                    s.callouts.push(Callout { x: t * 60.0, y: v, text: fmt_at(&s.x, t * 60.0) });
+                    s.callouts.push(Callout { x: t * 60.0, y: v, text: fmt_at(&s.x, t * 60.0), auto: true });
                 }
             } else if let Geom::Line(p) = &s.geom {
                 let span = p.last().map_or(0.0, |l| l.0) - p.first().map_or(0.0, |f| f.0);
                 s.callouts = top_peaks(p, n as usize, span.abs() / 40.0)
                     .into_iter()
-                    .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x) })
+                    .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x), auto: true })
                     .collect();
             }
         }
@@ -579,12 +602,14 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
         Source::file(file, format!("scan {} (MS{}{})", sp.scan_number, sp.ms_level, if sp.centroided { ", centroid" } else { ", profile" })),
     )
     .axes(Quantity::new("m/z", None), Quantity::new("intensity", None));
+    s.peaks = spec.peaks.unwrap_or(0) as usize;
     if let Some(n) = spec.peaks
         && let Geom::Line(p) = &s.geom
     {
         let span = p.last().map_or(0.0, |l| l.0) - p.first().map_or(0.0, |f| f.0);
+        let base = p.iter().map(|q| q.1).fold(0.0f64, f64::max);
         let picked = if sp.centroided {
-            let mut v: Vec<(f64, f64)> = p.iter().copied().filter(|q| q.1.is_finite()).collect();
+            let mut v: Vec<(f64, f64)> = p.iter().copied().filter(|q| q.1.is_finite() && q.1 >= 0.02 * base).collect();
             v.sort_by(|a, b| b.1.total_cmp(&a.1));
             let mut out: Vec<(f64, f64)> = Vec::new();
             for c in v {
@@ -601,8 +626,20 @@ pub(super) fn spectrum(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resu
         };
         s.callouts = picked
             .into_iter()
-            .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x) })
+            .map(|(x, y)| Callout { x, y, text: fmt_at(&s.x, x), auto: true })
             .collect();
+    }
+    // the m/z range that holds the signal: every point above 1 % of the base peak
+    if let Geom::Line(p) = &s.geom {
+        let base = p.iter().map(|q| q.1).fold(0.0f64, f64::max);
+        let strong: Vec<f64> = p.iter().filter(|q| q.1 >= 0.01 * base).map(|q| q.0).collect();
+        if let (Some(&a), Some(&b)) = (
+            strong.iter().min_by(|a, b| a.total_cmp(b)),
+            strong.iter().max_by(|a, b| a.total_cmp(b)),
+        ) {
+            let pad = ((b - a) * 0.08).max(5.0);
+            s.x_focus = Some((a - pad, b + pad));
+        }
     }
     Ok(vec![s])
 }

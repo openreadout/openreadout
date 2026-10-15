@@ -57,6 +57,9 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             s.geom.scale_x(1.0 / k);
             for c in &mut s.callouts {
                 c.x /= k;
+                if c.auto {
+                    c.text = format!("{} {unit}", short_num(c.x));
+                }
             }
             s.x.unit = Some(unit.clone());
         }
@@ -113,7 +116,18 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     let x_label = xs.label.clone().unwrap_or_else(|| label_of(series.iter().map(|s| &s.x)));
     let y_label = ys.label.clone().unwrap_or_else(|| label_of(series.iter().map(|s| &s.y)));
     let ax = if cats.is_empty() {
-        let mut d = axis_domain(&xs, ext.x, ext.x_pos, x_log, !cont && x_ticks.is_none(), false);
+        let mut xr = ext.x;
+        if xs.range.is_none() && !series.is_empty() && series.iter().all(|s| s.x_focus.is_some()) {
+            let f = series
+                .iter()
+                .filter_map(|s| s.x_focus)
+                .fold((f64::INFINITY, f64::NEG_INFINITY), |a, f| (a.0.min(f.0), a.1.max(f.1)));
+            xr = (f.0.max(ext.x.0), f.1.min(ext.x.1));
+            if xr.0 >= xr.1 {
+                xr = ext.x;
+            }
+        }
+        let mut d = axis_domain(&xs, xr, ext.x_pos, x_log, !cont && x_ticks.is_none(), false);
         if x_rev {
             d = d.reversed();
         }
@@ -130,7 +144,7 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             domain: Domain::linear(-0.6, cats.len() as f64 - 0.4),
             label: xs.label.clone().unwrap_or_else(|| {
                 let l = label_of(series.iter().map(|s| &s.x));
-                if matches!(l.as_str(), "well" | "group" | "x") { String::new() } else { l }
+                if matches!(l.as_str(), "well" | "group" | "x" | "name" | "population" | "sample") { String::new() } else { l }
             }),
             unit: None,
             scale: "category".into(),
@@ -149,21 +163,87 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
         if zero_based || near_zero {
             yr.0 = yr.0.min(0.0);
         }
-        let labelled = series.iter().any(|s| s.callouts.iter().any(|c| !c.text.is_empty()));
         let span = (yr.1 - yr.0).max(f64::MIN_POSITIVE);
+        // room above for labels on the highest points
+        let labelled = series
+            .iter()
+            .any(|s| s.callouts.iter().any(|c| !c.text.is_empty() && c.y > yr.1 - 0.12 * span));
         if labelled {
             yr.1 += span * 0.1;
         }
     }
+    let stacked = spec.stack.is_some_and(|f| f > 0.0);
+    let y_ticks = if stacked { Some(Vec::new()) } else { y_ticks };
+    let y_label = if stacked && ys.label.is_none() { format!("{y_label}, offset") } else { y_label };
     let ay = AxisRes {
         domain: axis_domain(&ys, yr, ext.y_pos, y_log, y_ticks.is_none(), true),
         label: y_label,
         unit: first.and_then(|s| s.y.unit.clone()),
-        scale: scale_name(y_log, y_ticks.is_some(), first.map(|s| &s.y)),
+        scale: if stacked { "linear".into() } else { scale_name(y_log, y_ticks.is_some(), first.map(|s| &s.y)) },
         ticks: y_ticks,
         cats: Vec::new(),
     };
+    repick_peaks(series, &ax, &ay);
     Ok((ax, ay))
+}
+
+/// Peaks are picked again among the points the axes show: a zoomed window or a clipped y range
+/// (a solvent peak cut off) labels the peaks the reader can see.
+fn repick_peaks(series: &mut [Series], ax: &AxisRes, ay: &AxisRes) {
+    let (x0, x1) = (ax.domain.lo.min(ax.domain.hi), ax.domain.lo.max(ax.domain.hi));
+    let ytop = ay.domain.lo.max(ay.domain.hi);
+    for s in series.iter_mut() {
+        if s.peaks == 0 || ax.is_cat() {
+            continue;
+        }
+        let Geom::Line(p) = &s.geom else { continue };
+        let vis: Vec<(f64, f64)> = p.iter().copied().filter(|q| q.0 >= x0 && q.0 <= x1 && q.1.is_finite()).collect();
+        let fully = vis.iter().all(|q| q.1 <= ytop) && vis.len() == p.len();
+        if fully || vis.len() < 3 {
+            continue;
+        }
+        // clipped points become a plateau at the top, which is no peak
+        let vis: Vec<(f64, f64)> = vis.into_iter().map(|q| (q.0, q.1.min(ytop))).collect();
+        let span = x1 - x0;
+        let picked: Vec<(f64, f64)> = if s.mark == MarkKind::Sticks {
+            let base = vis.iter().map(|q| q.1).fold(0.0f64, f64::max);
+            let mut v: Vec<(f64, f64)> = vis.iter().copied().filter(|q| q.1 >= 0.02 * base).collect();
+            v.sort_by(|a, b| b.1.total_cmp(&a.1));
+            let mut out: Vec<(f64, f64)> = Vec::new();
+            for c in v {
+                if out.iter().all(|o| (o.0 - c.0).abs() >= span / 80.0) {
+                    out.push(c);
+                    if out.len() == s.peaks {
+                        break;
+                    }
+                }
+            }
+            out
+        } else {
+            crate::load::top_peaks(&vis, s.peaks * 2, span / 60.0)
+                .into_iter()
+                .filter(|q| q.1 < ytop * (1.0 - 1e-9))
+                .take(s.peaks)
+                .collect()
+        };
+        let time = s.x.is_time() || s.x.name.contains("time");
+        let unit = s.x.unit.clone().unwrap_or_default();
+        s.callouts = picked
+            .into_iter()
+            .map(|(x, y)| crate::model::Callout {
+                x,
+                y,
+                text: if time { format!("{} {unit}", short_num(x)) } else { crate::load::fmt_at(&s.x, x) },
+                auto: false,
+            })
+            .collect();
+    }
+}
+
+/// A position as a label: up to three decimals, trailing zeros dropped.
+fn short_num(v: f64) -> String {
+    let s = if v.abs() >= 100.0 { format!("{v:.0}") } else if v.abs() >= 10.0 { format!("{v:.1}") } else { format!("{v:.2}") };
+    if s.contains('.') { s.trim_end_matches('0').trim_end_matches('.').to_string() } else { s }
 }
 
 fn scale_name(log: bool, transformed: bool, q: Option<&Quantity>) -> String {
@@ -199,6 +279,8 @@ fn axis_domain(a: &AxisSpec, r: (f64, f64), pos: f64, log: bool, nice: bool, pad
     }
     if log {
         let lo = if r.0 > 0.0 { r.0 } else { pos };
+        // a log y axis shows at most four decades below the top: noise near zero stays out
+        let lo = if pad { lo.max(r.1 * 1e-4) } else { lo };
         return Domain::log(lo, r.1);
     }
     let (lo, hi) = if r.0 <= r.1 { r } else { (0.0, 1.0) };
@@ -206,7 +288,13 @@ fn axis_domain(a: &AxisSpec, r: (f64, f64), pos: f64, log: bool, nice: bool, pad
         let d = Domain::of([lo, hi], if pad { 0.03 } else { 0.05 }, ScaleKind::Linear);
         // keep a zero baseline at zero
         let d = if lo == 0.0 { Domain::linear(0.0, d.hi) } else { d };
-        d.nice(5)
+        let n = d.nice(5);
+        if lo < 0.0 && hi > 0.0 && -lo < 0.06 * hi {
+            // a little noise below zero: no whole tick step of empty space for it
+            Domain::linear(lo - 0.01 * (hi - lo), n.hi)
+        } else {
+            n
+        }
     } else if pad {
         let p = (hi - lo) * 0.03;
         Domain::linear(lo - if lo == 0.0 { 0.0 } else { p }, hi + p)
@@ -294,7 +382,7 @@ pub(crate) fn named_color(theme: &Theme, name: &str) -> Option<Color> {
 
 /// Give every series its colour: asked-for colours stay; colour classes share one (two classes:
 /// ink and accent); blanks and context are faint; the rest take the series palette in order.
-pub(crate) fn assign_colors(theme: &Theme, series: &mut [Series]) -> Vec<(String, Color)> {
+pub(crate) fn assign_colors(theme: &Theme, series: &mut [Series], faceted: bool) -> Vec<(String, Color)> {
     let mut classes: Vec<(String, Color)> = Vec::new();
     for s in series.iter() {
         if let (Some(c), Some(col)) = (&s.class, s.color)
@@ -329,7 +417,7 @@ pub(crate) fn assign_colors(theme: &Theme, series: &mut [Series]) -> Vec<(String
             }
         } else if s.weight == Weight::Context {
             s.color = Some(theme.faint);
-        } else if s.weight == Weight::Many {
+        } else if s.weight == Weight::Many || (faceted && s.weight == Weight::Main) {
             s.color = Some(theme.ink);
         } else {
             s.color = Some(take(&classes));

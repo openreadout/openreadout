@@ -16,6 +16,8 @@ pub(crate) struct Ink {
     pub line: f32,
     pub dot: f32,
     pub small: bool,
+    /// Filled bands and areas in the panel (fills get lighter the more overlap).
+    pub fills: usize,
 }
 
 impl Ink {
@@ -30,6 +32,7 @@ impl Ink {
             },
             dot: if small { (short / 30.0).clamp(2.5, 5.0) } else { theme.font_size * 0.42 },
             small,
+            fills: 1,
         }
     }
 }
@@ -99,7 +102,7 @@ pub(crate) fn draw_series(
         }
         (Geom::Line(pts), MarkKind::Area) => {
             let base = 0.0_f64.max(p.y_domain().lo);
-            p.fill_to(fig, pts, base, c.alpha(if s.weight == Weight::Main { 0.16 } else { 0.1 }));
+            p.fill_to(fig, pts, base, c.alpha(fill_alpha(ink.fills) * if s.weight == Weight::Main { 1.0 } else { 0.6 }));
             p.line_px(fig, line_px(p, pts), Stroke::new(c, ink.line * 0.9));
         }
         (Geom::Line(pts), MarkKind::Points | MarkKind::LinePoints) => {
@@ -113,7 +116,7 @@ pub(crate) fn draw_series(
         }
         (Geom::Band(b), _) => {
             let tri: Vec<(f64, f64, f64)> = b.iter().map(|&(x, _, lo, hi)| (x, lo, hi)).collect();
-            p.area(fig, &tri, c.alpha(0.17));
+            p.area(fig, &tri, c.alpha(fill_alpha(ink.fills)));
             let mid: Vec<(f64, f64)> = b.iter().map(|&(x, m, _, _)| (x, m)).collect();
             p.line_px(fig, line_px(p, &mid), line_stroke(s, theme, ink, n_many));
         }
@@ -134,7 +137,7 @@ pub(crate) fn draw_series(
             if m != MarkKind::Line {
                 let mk = Marker {
                     shape: Shape::Circle,
-                    size: ink.dot,
+                    size: if s.weight == Weight::Many { ink.dot * 0.75 } else { ink.dot },
                     fill: Some(c),
                     stroke: Some(Stroke::new(theme.paper, (ink.dot * 0.18).max(1.0))),
                 };
@@ -143,12 +146,14 @@ pub(crate) fn draw_series(
         }
         (Geom::Bars { cats: bc, vals, err }, _) => {
             let (k, m) = dodge.unwrap_or((0, 1));
-            let slot = 0.72 / m as f64;
+            let per_unit = (p.x.px(1.0).unwrap_or(1.0) - p.x.px(0.0).unwrap_or(0.0)).abs().max(1e-3);
+            // bars of a group sit side by side; no bar is wider than about five letters
+            let slot = (0.72 / m as f64).min(f64::from(theme.font_size * 6.2 / per_unit));
             let mut pts = Vec::new();
             let mut errs = Vec::new();
             for (i, name) in bc.iter().enumerate() {
                 let Some(ci) = cats.iter().position(|x| x == name) else { continue };
-                let x = ci as f64 - 0.36 + slot * (k as f64 + 0.5);
+                let x = ci as f64 - slot * m as f64 / 2.0 + slot * (k as f64 + 0.5);
                 let v = vals.get(i).copied().unwrap_or(f64::NAN);
                 if v.is_finite() {
                     pts.push((x, v));
@@ -162,6 +167,16 @@ pub(crate) fn draw_series(
             }
         }
         (Geom::Events { .. } | Geom::Hist(_), _) => {}
+    }
+}
+
+/// Opacity of a fill: lighter when several overlap.
+fn fill_alpha(n: usize) -> f32 {
+    match n {
+        0 | 1 => 0.17,
+        2 => 0.12,
+        3 | 4 => 0.09,
+        _ => 0.06,
     }
 }
 
@@ -198,6 +213,29 @@ fn bar_values(fig: &mut Figure, p: &Panel, theme: &Theme, pts: &[(f64, f64)], in
     }
 }
 
+/// A 3 × 3 box blur.
+fn blur(v: &[f32], w: usize, h: usize) -> Vec<f32> {
+    let mut out = vec![0f32; v.len()];
+    for y in 0..h {
+        for x in 0..w {
+            let mut s = 0.0;
+            let mut n = 0.0;
+            for dy in -1i64..=1 {
+                for dx in -1i64..=1 {
+                    let (xx, yy) = (x as i64 + dx, y as i64 + dy);
+                    if xx >= 0 && yy >= 0 && (xx as usize) < w && (yy as usize) < h {
+                        let wgt = if dx == 0 && dy == 0 { 2.0 } else { 1.0 };
+                        s += v[yy as usize * w + xx as usize] * wgt;
+                        n += wgt;
+                    }
+                }
+            }
+            out[y * w + x] = s / n * 2.0;
+        }
+    }
+    out
+}
+
 /// All event series of a panel as one picture: a density of every series, in its colour,
 /// over the panel background.
 pub(crate) fn events_layer(fig: &mut Figure, p: &Panel, theme: &Theme, series: &[&Series], scale: f32) {
@@ -208,8 +246,7 @@ pub(crate) fn events_layer(fig: &mut Figure, p: &Panel, theme: &Theme, series: &
     let mut acc: Vec<[f32; 3]> = vec![[f32::from(bg.r), f32::from(bg.g), f32::from(bg.b)]; (w * h) as usize];
     for s in series {
         let Geom::Events { x, y } = &s.geom else { continue };
-        let mut counts = vec![0u32; (w * h) as usize];
-        let mut max = 0u32;
+        let mut counts = vec![0f32; (w * h) as usize];
         for (&a, &b) in x.iter().zip(y) {
             let (Some(px), Some(py)) = (p.x.px(a), p.y.px(b)) else { continue };
             let cx = ((px - p.rect.x) * scale).floor();
@@ -218,23 +255,24 @@ pub(crate) fn events_layer(fig: &mut Figure, p: &Panel, theme: &Theme, series: &
                 continue;
             }
             let k = cy as usize * w as usize + cx as usize;
-            counts[k] += 1;
-            max = max.max(counts[k]);
+            counts[k] += 1.0;
         }
-        if max == 0 {
+        let counts = blur(&counts, w as usize, h as usize);
+        let max = counts.iter().copied().fold(0.0f32, f32::max);
+        if max <= 0.0 {
             continue;
         }
         let col = s.color.unwrap_or(theme.ink);
         let target = [f32::from(col.r), f32::from(col.g), f32::from(col.b)];
         let context = s.weight == Weight::Context;
-        let lmax = (max as f32 + 1.0).ln();
+        let lmax = (max + 1.0).ln();
         for (k, &n) in counts.iter().enumerate() {
-            if n == 0 {
+            if n < 0.04 {
                 continue;
             }
             // log density: single events stay visible, dense cores saturate
-            let t = ((n as f32 + 1.0).ln() / lmax).clamp(0.0, 1.0);
-            let a = if context { 0.18 + 0.42 * t } else { 0.35 + 0.65 * t };
+            let t = ((n + 1.0).ln() / lmax).clamp(0.0, 1.0);
+            let a = (if context { 0.22 + 0.5 * t } else { 0.3 + 0.7 * t }) * (n / 0.35).min(1.0);
             let px = &mut acc[k];
             for i in 0..3 {
                 px[i] = px[i] * (1.0 - a) + target[i] * a;
@@ -246,5 +284,5 @@ pub(crate) fn events_layer(fig: &mut Figure, p: &Panel, theme: &Theme, series: &
         let y = (k / w as usize) as i64;
         r.set(x, y, [px[0] as u8, px[1] as u8, px[2] as u8]);
     }
-    fig.image(p.rect, Arc::new(r), false);
+    fig.image(p.rect, Arc::new(r), true);
 }
