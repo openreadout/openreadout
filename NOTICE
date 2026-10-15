@@ -93,3 +93,8 @@ no ontology files are distributed; see book/src/guides/metadata.md):
   (provided "as is", without warranty)
 
 Trademarks: see TRADEMARKS.md.
+
+The MCP viewer (crates/openreadout-mcp/src/app/web/fonts) embeds subsets of IBM Plex Sans and
+IBM Plex Mono, Copyright (c) 2017 IBM Corp., under the SIL Open Font License 1.1; the licence text
+is crates/openreadout-mcp/src/app/web/fonts/OFL.txt. As the licence asks of modified fonts, the
+subsets are renamed OpenReadout Sans and OpenReadout Mono.

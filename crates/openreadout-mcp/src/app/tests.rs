@@ -193,6 +193,27 @@ fn hints_follow_the_tool_table() {
     )
     .unwrap();
     assert_eq!(h["view"], "plate");
+    // the agent's annotations reach the viewer as they were given
+    let ann = json!([{"kind": "point", "x": 10, "y": 20, "label": "here"}]);
+    let h = view_hint(
+        "openreadout_preview",
+        Some(&args(
+            json!({"file": "/d/a.czi", "annotations": ann.clone()}),
+        )),
+    )
+    .unwrap();
+    assert_eq!(h["annotations"], ann);
+    // gating: the population asked about, with its workspace
+    let h = view_hint(
+        "openreadout_gate",
+        Some(&args(
+            json!({"file": "a.fcs", "workspace": "w.wsp", "populations": ["CD3+", "CD4+"]}),
+        )),
+    )
+    .unwrap();
+    assert_eq!(h["view"], "fcs");
+    assert_eq!(h["workspace"], "w.wsp");
+    assert_eq!(h["population"], "CD3+");
     // tools without a viewer, or calls without a file
     assert!(view_hint("openreadout_export", Some(&args(json!({"file": "a"})))).is_none());
     assert!(view_hint("openreadout_info", Some(&args(json!({})))).is_none());
@@ -289,6 +310,55 @@ impl openreadout_core::Dataset for Fake {
                     ..Default::default()
                 }];
             }
+            b'P' => {
+                // a kinetic plate read: 96 wells, two reads, `n` time points, long layout
+                format.family = "plate-reader".into();
+                let col = |i: u32, name: &str| ColumnInfo {
+                    index: i,
+                    name: name.into(),
+                    dtype: "f64".into(),
+                    ..Default::default()
+                };
+                let names = ["well", "row", "col", "read", "time_s", "value"];
+                let mut t = TableInfo {
+                    index: 0,
+                    row_count: u64::from(self.n) * 2 * 96,
+                    columns: (0..6).map(|i| col(i, names[i as usize])).collect(),
+                    ..Default::default()
+                };
+                let mut group = serde_json::Map::new();
+                for w in 0..96u32 {
+                    let name = format!("{}{}", char::from(b'A' + (w / 12) as u8), w % 12 + 1);
+                    group.insert(name, json!(if w % 12 == 11 { "Blank" } else { "cells" }));
+                }
+                t.extra.insert("layout".into(), json!({"Group": group}));
+                t.extra.insert("plate_rows".into(), json!(8));
+                t.extra.insert("plate_columns".into(), json!(12));
+                t.extra.insert(
+                    "reads".into(),
+                    json!([{"read": 1, "label": "OD600", "unit": "OD"}, {"read": 2, "label": "GFP"}]),
+                );
+                info.tables = vec![t];
+            }
+            b'O' => {
+                // many overlaid curves, like the wells of a qPCR run
+                let ch = |name: String| SignalChannelInfo {
+                    name,
+                    dtype: "f64".into(),
+                    scale: 1.0,
+                    ..Default::default()
+                };
+                let mut t = TraceInfo {
+                    index: 0,
+                    sample_rate_hz: 1.0,
+                    sample_count: u64::from(self.n),
+                    sweep_count: 1,
+                    channels: (0..96).map(|i| ch(format!("W{i} GAPDH"))).collect(),
+                    ..Default::default()
+                };
+                t.extra.insert("plot".into(), json!("overlay"));
+                info.traces = vec![t];
+            }
             _ => {
                 format.family = "flow-cytometry".into();
                 let col = |i: u32, name: &str| ColumnInfo {
@@ -342,7 +412,8 @@ impl openreadout_core::Dataset for Fake {
     ) -> openreadout_core::Result<Trace> {
         // pages of at most 100 000 samples, like a real reader
         let end = (first + count.min(100_000)).min(u64::from(self.n));
-        let channels = (0..10)
+        let nch = if self.kind == b'O' { 96 } else { 10 };
+        let channels = (0..nch)
             .map(|c| {
                 (first..end)
                     .map(|i| {
@@ -363,6 +434,31 @@ impl openreadout_core::Dataset for Fake {
         })
     }
     fn read_table(&mut self, _: u32, first: u64, max: u64) -> openreadout_core::Result<Table> {
+        if self.kind == b'P' {
+            let total = u64::from(self.n) * 2 * 96;
+            let end = (first + max.min(1000)).min(total);
+            let mut cols = vec![Vec::new(); 6];
+            for i in first..end {
+                let (t, rest) = (i / 192, i % 192);
+                let (read, w) = (rest / 96 + 1, rest % 96);
+                let v = [
+                    w as f64,
+                    (w / 12 + 1) as f64,
+                    (w % 12 + 1) as f64,
+                    read as f64,
+                    t as f64 * 600.0,
+                    read as f64 * 100.0 + w as f64 + t as f64 * 0.5,
+                ];
+                for (c, x) in cols.iter_mut().zip(v) {
+                    c.push(x);
+                }
+            }
+            return Ok(Table {
+                table: 0,
+                first_row: first,
+                columns: cols,
+            });
+        }
         let end = (first + max).min(u64::from(self.n));
         let col = |k: f64| (first..end).map(|i| i as f64 * k).collect();
         Ok(Table {
@@ -486,6 +582,65 @@ fn events_are_sampled_and_encoded() {
     assert!(ev["y"].is_null() && ev["ys"].is_null());
     let a: view::ViewArgs = serde_json::from_value(json!({"file": f, "x": "nope"})).unwrap();
     assert!(view::call(fake_registry, &a, None).is_err());
+    let _ = std::fs::remove_file(f);
+}
+
+#[test]
+fn kinetic_plates_carry_time_courses_and_layout() {
+    let file = fake_file("plate", b'P', 500);
+    let res = run(json!({"file": file, "view": "plate"}), None);
+    let out = res.structured_content.unwrap();
+    let pl = &out["plate"];
+    assert_eq!(pl["groups"]["Group"]["A12"], "Blank");
+    let kin = &pl["kinetic"];
+    assert_eq!(kin["read"], 1);
+    assert_eq!(kin["unit"], "OD");
+    assert_eq!(kin["time_points"], 500);
+    let times = kin["time_s"].as_array().unwrap();
+    assert_eq!(times.len(), view::MAX_TIME_POINTS);
+    assert_eq!(kin["wells"].as_array().unwrap().len(), 96);
+    assert_eq!(out["limits"]["time_points"], json!(view::MAX_TIME_POINTS));
+    let vals = base64::engine::general_purpose::STANDARD
+        .decode(kin["values"].as_str().unwrap())
+        .unwrap();
+    assert_eq!(vals.len(), 96 * view::MAX_TIME_POINTS * 4);
+    // well A2 (index 1), first bin: read 1 values 101, 101.5, 102 averaged
+    let first = f32::from_le_bytes(vals[view::MAX_TIME_POINTS * 4..][..4].try_into().unwrap());
+    assert!((100.5..102.5).contains(&first), "{first}");
+    // the other read
+    let res = run(
+        json!({"file": file, "view": "plate", "read": 2, "outline": false}),
+        None,
+    );
+    assert_eq!(
+        res.structured_content.unwrap()["plate"]["kinetic"]["read"],
+        2
+    );
+    // an unknown read leaves the heat map and says why there is no time course
+    let res = run(json!({"file": file, "view": "plate", "read": 7}), None);
+    let out = res.structured_content.unwrap();
+    assert!(out["plate"].get("kinetic").is_none());
+    assert!(
+        out["notes"].to_string().contains("read 7"),
+        "{}",
+        out["notes"]
+    );
+    // a short run keeps its time points as they are
+    let short = fake_file("plate-short", b'P', 3);
+    let res = run(json!({"file": short, "view": "plate"}), None);
+    let kin = &res.structured_content.unwrap()["plate"]["kinetic"];
+    assert_eq!(kin["time_s"], json!([0.0, 600.0, 1200.0]));
+    let _ = std::fs::remove_file(file);
+    let _ = std::fs::remove_file(short);
+}
+
+#[test]
+fn overlaid_curves_are_not_capped_at_eight() {
+    let f = fake_file("overlay", b'O', 40);
+    let r = run(json!({"file": f, "view": "trace"}), None);
+    let plot = &r.structured_content.unwrap()["plot"];
+    assert_eq!(plot["overlay"], true);
+    assert_eq!(plot["series"].as_array().unwrap().len(), 96);
     let _ = std::fs::remove_file(f);
 }
 
