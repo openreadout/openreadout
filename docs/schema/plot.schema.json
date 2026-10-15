@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PlotOutput",
+  "description": "The result of a plot.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "Figure title.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "width": {
+      "description": "Picture size in px.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "height": {
+      "description": "Picture size in px.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "theme": {
+      "description": "`light` or `dark`.",
+      "type": "string"
+    },
+    "panels": {
+      "description": "One entry per panel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PanelOutput"
+      }
+    },
+    "files": {
+      "description": "Files the data came from.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inline_series": {
+      "description": "Series drawn from inline values (numbers the caller supplied, not read from a file).",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "output": {
+      "description": "The file written (`output`), when any.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WrittenFile"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "notes": {
+      "description": "What was done to the data (subtractions, fits, transforms).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "description": "Data that could not be drawn as asked, or values to double-check.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "width",
+    "height",
+    "theme",
+    "panels",
+    "files",
+    "inline_series"
+  ],
+  "$defs": {
+    "PanelOutput": {
+      "description": "One panel.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Panel title.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "layout": {
+          "description": "`plot`, `facets` or `plate`.",
+          "type": "string"
+        },
+        "facets": {
+          "description": "Small multiples drawn (facets and plates).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
+        "x": {
+          "description": "The x axis.",
+          "$ref": "#/$defs/AxisOutput"
+        },
+        "y": {
+          "description": "The y axis.",
+          "$ref": "#/$defs/AxisOutput"
+        },
+        "series": {
+          "description": "The series, in drawing order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SeriesOutput"
+          }
+        },
+        "annotations": {
+          "description": "Annotations drawn.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "layout",
+        "x",
+        "y",
+        "series"
+      ]
+    },
+    "AxisOutput": {
+      "description": "An axis as drawn.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Label.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Unit of the values shown (annotations use it).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "range": {
+          "description": "Range shown, `[left, right]` or `[bottom, top]`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "scale": {
+          "description": "`linear`, `log`, `category` or the transform of a flow axis (`logicle`).",
+          "type": "string"
+        },
+        "categories": {
+          "description": "Categories, left to right.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "label",
+        "scale"
+      ]
+    },
+    "SeriesOutput": {
+      "description": "One series.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name as labelled.",
+          "type": "string"
+        },
+        "file": {
+          "description": "The file read (absent for inline values).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "data": {
+          "description": "What was read: trace, sweep and channel, chromatogram, scan, wells, columns, ...",
+          "type": "string"
+        },
+        "mark": {
+          "description": "`line`, `band`, `points`, `bars`, `events`, `histogram`, `sticks`, `area`.",
+          "type": "string"
+        },
+        "points": {
+          "description": "Points (or events, wells, bars) drawn.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "x_range": {
+          "description": "x range of the data, in the axis units.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "y_range": {
+          "description": "y range of the data.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "count": {
+          "description": "Series summarized in this entry (many wells of one colour class are listed once).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
+        "class": {
+          "description": "Colour class (group, flag) when the series is coloured by one.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "color": {
+          "description": "Colour, #RRGGBB.",
+          "type": "string"
+        },
+        "marked": {
+          "description": "Labelled spots (peaks, apex, spikes): `[x, y]` in axis units with their text.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Marked"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "data",
+        "mark",
+        "points",
+        "color"
+      ]
+    },
+    "Marked": {
+      "description": "A marked spot.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "description": "x in axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "description": "y in axis units.",
+          "type": "number",
+          "format": "double"
+        },
+        "text": {
+          "description": "Text (empty for spikes).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "text"
+      ]
+    },
+    "WrittenFile": {
+      "description": "A file written.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path.",
+          "type": "string"
+        },
+        "format": {
+          "description": "`png`, `svg` or `pdf`.",
+          "type": "string"
+        },
+        "bytes": {
+          "description": "Size in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "Read back and compared after writing.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "format",
+        "bytes",
+        "verified"
+      ]
+    }
+  }
+}
