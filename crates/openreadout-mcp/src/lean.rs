@@ -356,18 +356,18 @@ fn round4(f: f64) -> f64 {
     if r.is_finite() { r } else { f }
 }
 
-/// When `v` serializes to more than `max` characters, cut the per-well list `key` at a plate-row
-/// boundary so that it fits, and return a note naming the wells shown and the `wells` argument
-/// for the rest. Rows must be in plate order with a `well` field.
-pub fn page_by_plate_row(v: &mut Value, key: &str, max: usize) -> Option<String> {
-    let size = v.to_string().len();
+/// When `reply` serializes to more than `max` characters, cut the per-well list `key` at a
+/// plate-row boundary so that it fits, and return a note naming the wells shown and the `wells`
+/// argument for the rest. Rows must be in plate order with a `well` field.
+pub fn page_by_plate_row(reply: &mut Value, key: &str, max: usize) -> Option<String> {
+    let size = reply.to_string().len();
     if size <= max {
         return None;
     }
-    let Value::Array(items) = v.get_mut(key)? else {
+    let Value::Array(items) = reply.get_mut(key)? else {
         return None;
     };
-    let n = items.len();
+    let total = items.len();
     let sizes: Vec<usize> = items.iter().map(|x| x.to_string().len() + 1).collect();
     let list: usize = sizes.iter().sum();
     // room for the rows: what the rest of the reply leaves, less space for the note
@@ -379,43 +379,39 @@ pub fn page_by_plate_row(v: &mut Value, key: &str, max: usize) -> Option<String>
     };
     let mut keep = 0usize;
     let mut used = 0usize;
-    let mut i = 0usize;
-    while i < n {
+    while keep < total {
         // one plate row: the run of items with the same row letters
-        let r = row_of(&items[i]);
-        let mut j = i;
-        let mut s = 0usize;
-        while j < n && row_of(&items[j]) == r {
-            s += sizes[j];
-            j += 1;
-        }
-        if used + s > room {
+        let letters = row_of(&items[keep]);
+        let end = (keep..total)
+            .find(|&k| row_of(&items[k]) != letters)
+            .unwrap_or(total);
+        let row_size: usize = sizes[keep..end].iter().sum();
+        if used + row_size > room {
             break;
         }
-        used += s;
-        keep = j;
-        i = j;
+        used += row_size;
+        keep = end;
     }
-    if keep == 0 || keep >= n {
+    if keep == 0 || keep >= total {
         return None;
     }
     let rest: Vec<(String, u32)> = items[keep..]
         .iter()
         .filter_map(|x| x.get("well").and_then(Value::as_str))
         .map(|w| {
-            let (r, c) = split_well(w);
-            (r.to_string(), c)
+            let (letters, col) = split_well(w);
+            (letters.to_string(), col)
         })
         .collect();
     let well = |x: &Value| x.get("well").and_then(Value::as_str).map(str::to_string);
     let first = well(items.first()?)?;
     let last = well(&items[keep - 1])?;
-    let (r0, r1) = (rest.first()?.0.clone(), rest.last()?.0.clone());
-    let c0 = rest.iter().map(|x| x.1).min()?;
-    let c1 = rest.iter().map(|x| x.1).max()?;
+    let (from_row, to_row) = (rest.first()?.0.clone(), rest.last()?.0.clone());
+    let from_col = rest.iter().map(|x| x.1).min()?;
+    let to_col = rest.iter().map(|x| x.1).max()?;
     items.truncate(keep);
     Some(format!(
-        "{key}: wells {first}–{last} here ({keep} of {n} rows, whole plate rows); the rest: wells = \"{r0}{c0}:{r1}{c1}\""
+        "{key}: wells {first}–{last} here ({keep} of {total} rows, whole plate rows); the rest: wells = \"{from_row}{from_col}:{to_row}{to_col}\""
     ))
 }
 
@@ -453,7 +449,7 @@ mod tests {
 
     fn growth_row(w: &str) -> Value {
         json!({"well": w, "role": "unassigned", "group": w, "n_points": 559, "window": 56,
-               "threshold": 0.0123456, "pattern": "grew", "growth_rate_per_h": 0.812345678,
+               "threshold": 0.012_345_6, "pattern": "grew", "growth_rate_per_h": 0.812_345_678,
                "doubling_time_h": 0.853, "doubling_time_min": 51.2, "max_value": 1.23456,
                "time_to_max_s": 26415.4, "auc_h": 7.1, "exp_phase_after_crash": false})
     }
@@ -504,8 +500,8 @@ mod tests {
 
     #[test]
     fn rounding() {
-        assert_eq!(round4(0.000123456), 0.0001235);
-        assert_eq!(round4(32.174038), 32.17);
+        assert_eq!(round4(0.000_123_456), 0.000_123_5);
+        assert_eq!(round4(32.174_038), 32.17);
         assert_eq!(round4(-1.23456), -1.235);
         assert_eq!(round4(26415.4), 26415.0);
         assert_eq!(round4(0.0), 0.0);

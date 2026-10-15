@@ -248,16 +248,13 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
             ));
         }
     };
-    let path = match output {
-        Some(o) => PathBuf::from(o),
-        None => {
+    let path = output.map_or_else(
+        || {
             let p = PathBuf::from(default_path);
-            match named {
-                Some(f) => p.with_extension(f.extension()),
-                None => p,
-            }
-        }
-    };
+            named.map_or_else(|| p.clone(), |f| p.with_extension(f.extension()))
+        },
+        PathBuf::from,
+    );
     let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite))
         .map_err(|e| mcp_err(&e))?;
     let value = to_value(&FigureExport {

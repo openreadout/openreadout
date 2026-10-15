@@ -125,7 +125,7 @@ pub struct AssayArgs {
     growth_threshold: Option<f64>,
     /// Rows show their main fields to 4 significant digits (growth: pattern, growth_rate_per_h,
     /// doubling_time_h, lag_time_s, max_value, time_to_max_s, crash_s, trough_s, regrowth_s).
-    /// fields adds others, e.g. ["auc_h", "logistic_k"]; ["all"]: every field, full precision.
+    /// fields adds others, e.g. `["auc_h", "logistic_k"]`; `["all"]`: every field, full precision.
     fields: Option<Vec<String>>,
 }
 

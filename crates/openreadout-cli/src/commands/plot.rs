@@ -82,8 +82,8 @@ fn run_plot(reg: &Registry, a: &PlotArgs) -> Result<PlotReport> {
 /// Run `plot`.
 pub fn run(reg: &Registry, a: &PlotArgs) -> i32 {
     match run_plot(reg, a) {
-        Ok(r) => emit(a.json, &r, |r| {
-            let (o, w) = (&r.plot, &r.written);
+        Ok(report) => emit(a.json, &report, |report| {
+            let (o, w) = (&report.plot, &report.written);
             let mut s = String::new();
             let unit = if matches!(w.format.as_str(), "svg" | "pdf") {
                 "units"

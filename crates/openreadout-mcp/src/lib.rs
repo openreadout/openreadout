@@ -621,46 +621,49 @@ mod tests {
     /// its size; the preview's result says how.
     #[tokio::test]
     async fn export_saves_an_annotated_preview() {
-        let s = InstrumentServer::new(synth_registry);
-        let f = synth_file("save", 3000, 2000);
+        let server = InstrumentServer::new(synth_registry);
+        let file = synth_file("save", 3000, 2000);
         let preview = serde_json::json!({
-            "file": f.display().to_string(),
+            "file": file.display().to_string(),
             "max_size": 400,
             "dark": true,
             "annotations": [{"type": "point", "x": 1500, "y": 1000, "label": "here"}],
         });
-        let r = s
+        let result = server
             .preview(Parameters(serde_json::from_value(preview.clone()).unwrap()))
             .await
             .unwrap();
-        let v = r.structured_content.unwrap();
-        let save = v["save"].as_str().unwrap();
+        let seen = result.structured_content.unwrap();
+        let save = seen["save"].as_str().unwrap();
         assert!(save.contains("preview = these arguments") && save.contains(".preview.png"));
-        let out = f.with_extension("annotated.png");
-        let a = serde_json::from_value(serde_json::json!({
+        let out = file.with_extension("annotated.png");
+        let args = serde_json::from_value(serde_json::json!({
             "preview": preview, "output": out.display().to_string(), "dpi": 300,
         }))
         .unwrap();
-        let (w, shown) = crate::tools::export::export_blocking(synth_registry, a, None).unwrap();
+        let (written, shown) =
+            crate::tools::export::export_blocking(synth_registry, args, None).unwrap();
         assert!(
-            shown.is_some_and(|(b, _)| !b.is_empty()),
+            shown.is_some_and(|(bytes, _)| !bytes.is_empty()),
             "the saved picture comes back"
         );
-        assert_eq!(w["drawn"], "image");
+        assert_eq!(written["drawn"], "image");
         // the image is read again at twice max_size (whole downsampling steps, so about twice)
-        let (saved, seen) = (w["width"].as_u64().unwrap(), v["width"].as_u64().unwrap());
+        let saved_width = written["width"].as_u64().unwrap();
+        let seen_width = seen["width"].as_u64().unwrap();
         assert!(
-            saved > seen * 3 / 2 && saved <= seen * 2 + 2,
-            "{saved} vs {seen}"
+            saved_width > seen_width * 3 / 2 && saved_width <= seen_width * 2 + 2,
+            "{saved_width} vs {seen_width}"
         );
         let png = std::fs::read(&out).unwrap();
         assert!(png.starts_with(b"\x89PNG") && png.windows(4).any(|x| x == b"pHYs"));
         // unknown preview arguments are refused, not ignored
-        let e = serde_json::from_value::<PreviewArgs>(serde_json::json!({"file": "x", "zoom": 2}))
-            .unwrap_err();
-        assert!(e.to_string().contains("zoom"), "{e}");
+        let err =
+            serde_json::from_value::<PreviewArgs>(serde_json::json!({"file": "x", "zoom": 2}))
+                .unwrap_err();
+        assert!(err.to_string().contains("zoom"), "{err}");
         let _ = std::fs::remove_file(out);
-        let _ = std::fs::remove_file(f);
+        let _ = std::fs::remove_file(file);
     }
 
     fn preview_size_limit() -> u32 {
