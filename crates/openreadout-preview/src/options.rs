@@ -53,6 +53,11 @@ pub struct PreviewOptions {
     pub max_size: Option<u32>,
     /// Image previews: what frames the picture.
     pub axes: Option<Axes>,
+    /// Image previews with axes scale-bar: a title above the picture.
+    pub title: Option<String>,
+    /// Image previews with axes scale-bar: a caption under the picture (what it shows, the
+    /// stain, the sample).
+    pub caption: Option<String>,
     /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
     pub contrast: Option<String>,
     /// Colour lookup. Default: gray for one channel, channel colours for composites.
@@ -130,9 +135,16 @@ impl PreviewOptions {
             marks: self.marks.unwrap_or_default(),
             annotations: self.annotations.clone(),
             dark: self.dark,
+            title: self.title.clone(),
+            caption: self.caption.clone(),
             ..PreviewRequest::default()
         };
-        self.axes.unwrap_or(default_axes).apply(&mut r);
+        // a title or caption asks for the figure frame, which draws them
+        let text = self.title.is_some() || self.caption.is_some();
+        let axes = self
+            .axes
+            .unwrap_or(if text { Axes::ScaleBar } else { default_axes });
+        axes.apply(&mut r);
         Ok(r)
     }
 }
@@ -159,6 +171,19 @@ mod tests {
         assert_eq!(r.annotations.len(), 1);
         let bare = PreviewOptions::from_json("").unwrap();
         assert!(!bare.request(512, Axes::None).unwrap().axes);
+    }
+
+    #[test]
+    fn a_title_asks_for_the_figure_frame() {
+        let o = PreviewOptions::from_json(r#"{"title": "Cerebellum"}"#).unwrap();
+        let r = o.request(512, Axes::Rulers).unwrap();
+        assert!(r.axes && r.figure && !r.grid);
+        assert_eq!(r.title.as_deref(), Some("Cerebellum"));
+        let o = PreviewOptions::from_json(r#"{"axes": "scale-bar"}"#).unwrap();
+        assert!(o.request(512, Axes::Rulers).unwrap().figure);
+        let o = PreviewOptions::from_json(r#"{"title": "x", "axes": "rulers"}"#).unwrap();
+        assert!(!o.request(512, Axes::None).unwrap().figure);
+        assert!(!PreviewOptions::default().request(512, Axes::Rulers).unwrap().figure);
     }
 
     #[test]

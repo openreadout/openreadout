@@ -65,15 +65,17 @@ pub const DEFAULT_MCP_PREVIEW_SIZE: u32 = 768;
 /// Largest `max_size` `openreadout_preview` accepts (larger requests are clamped).
 pub const MAX_MCP_PREVIEW_SIZE: u32 = 2048;
 
-/// Render the preview `a` asks for, with `max_size` at most `max_size_cap`.
+/// Render the preview `a` asks for, with `max_size` at most `max_size_cap`; image previews are
+/// framed by `default_axes` unless `a` says otherwise.
 pub(crate) fn render(
     registry: fn() -> Registry,
     a: &PreviewArgs,
     max_size_cap: u32,
+    default_axes: openreadout_preview::Axes,
 ) -> Result<openreadout_preview::Rendered, McpError> {
     let mut req = a
         .options
-        .request(DEFAULT_MCP_PREVIEW_SIZE, openreadout_preview::Axes::Rulers)
+        .request(DEFAULT_MCP_PREVIEW_SIZE, default_axes)
         .map_err(|e| mcp_err(&e))?;
     req.max_size = req.max_size.min(max_size_cap);
     let reg = with_strict(registry(), a.strict);
@@ -96,7 +98,7 @@ fn preview_blocking(
     a: &PreviewArgs,
 ) -> Result<(openreadout_preview::PreviewOutput, Vec<u8>, Option<String>), McpError> {
     use openreadout_preview as pv;
-    let r = render(registry, a, MAX_MCP_PREVIEW_SIZE)?;
+    let r = render(registry, a, MAX_MCP_PREVIEW_SIZE, pv::Axes::Rulers)?;
     // SVG goes back as text next to a PNG picture
     let encoding = match a.format.unwrap_or_default() {
         pv::Encoding::Svg => pv::Encoding::Png,
@@ -110,8 +112,13 @@ fn preview_blocking(
     )
     .map_err(|e| mcp_err(&e))?;
     if let Some(im) = &out.image {
+        let read = if im.axes {
+            "read off the rulers"
+        } else {
+            "inside full_res_region"
+        };
         out.hint = Some(format!(
-            "showing full-res region {}; zoom: call again with region {{x, y, width, height}} in full-res px read off the rulers; numbers come from openreadout_stats",
+            "showing full-res region {}; zoom: call again with region {{x, y, width, height}} in full-res px {read}; numbers come from openreadout_stats",
             im.full_res_region
         ));
     }

@@ -22,7 +22,8 @@ pub struct ExportArgs {
     #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
     pub plot: Option<serde_json::Value>,
     /// Save a picture: the arguments of an openreadout_preview call (file, region,
-    /// annotations, marks, dark, …); max_size up to 8192.
+    /// annotations, marks, dark, …); max_size up to 8192. Images are saved with a scale bar
+    /// and no rulers (axes scale-bar; add title, caption) unless axes says otherwise.
     #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
     pub preview: Option<serde_json::Value>,
     /// Figures: pixels per figure pixel in .png, .jpg and .tiff files (default 2, up to 8);
@@ -228,7 +229,9 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
             let args: super::preview::PreviewArgs =
                 serde_json::from_value(v).map_err(|e| usage(format!("preview: {e}")))?;
             let max = openreadout_preview::MAX_PREVIEW_SIZE;
-            let mut r = super::preview::render(registry, &args, max)?;
+            // a saved picture is for people: a scale bar, no rulers, unless axes says otherwise
+            let axes = openreadout_preview::Axes::ScaleBar;
+            let mut r = super::preview::render(registry, &args, max, axes)?;
             if r.output.kind == "image" && (scale - 1.0).abs() > f32::EPSILON {
                 // read the image again at the size it is saved at, so its pixels are real
                 let size = args
@@ -237,7 +240,7 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
                     .unwrap_or(super::preview::DEFAULT_MCP_PREVIEW_SIZE);
                 let mut big = args.clone();
                 big.options.max_size = Some(((size as f32 * scale).round() as u32).clamp(16, max));
-                r = super::preview::render(registry, &big, max)?;
+                r = super::preview::render(registry, &big, max, axes)?;
                 scale = 1.0;
             }
             let path = super::preview::default_figure_path(&args.file);

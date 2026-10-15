@@ -44,10 +44,17 @@ pub struct PreviewArgs {
     #[arg(long, value_name = "X,Y,W,H")]
     pub region: Option<String>,
     /// Image previews: `rulers` (coordinate rulers in full-resolution pixels and a scale bar),
-    /// `grid` (rulers plus faint grid lines over the data at the ruler ticks) or `none` (the
-    /// bare downsampled plane).
-    #[arg(long, default_value = "rulers", value_name = "rulers|grid|none")]
-    pub axes: String,
+    /// `grid` (rulers plus faint grid lines over the data at the ruler ticks), `scale-bar` (a
+    /// figure for people: the picture, a scale bar, `--title` and `--caption`) or `none` (the
+    /// bare downsampled plane). Default: rulers, or scale-bar with a title or caption.
+    #[arg(long, value_name = "rulers|grid|scale-bar|none")]
+    pub axes: Option<String>,
+    /// Image previews: a title above the picture (with `--axes scale-bar`).
+    #[arg(long)]
+    pub title: Option<String>,
+    /// Image previews: a caption under the picture (with `--axes scale-bar`).
+    #[arg(long)]
+    pub caption: Option<String>,
     /// Longest side of the output in pixels (16..=8192), rulers included.
     #[arg(long, default_value_t = openreadout_preview::DEFAULT_PREVIEW_SIZE)]
     pub max_size: u32,
@@ -151,7 +158,15 @@ impl PreviewArgs {
                 None => Vec::new(),
             };
             preview_request.dark = self.dark;
-            self.axes.parse::<Axes>()?.apply(&mut preview_request);
+            preview_request.title.clone_from(&self.title);
+            preview_request.caption.clone_from(&self.caption);
+            let text = self.title.is_some() || self.caption.is_some();
+            match &self.axes {
+                Some(a) => a.parse::<Axes>()?,
+                None if text => Axes::ScaleBar,
+                None => Axes::Rulers,
+            }
+            .apply(&mut preview_request);
             preview_request
         })
     }
