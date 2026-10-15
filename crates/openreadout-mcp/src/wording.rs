@@ -50,13 +50,12 @@ pub fn for_tools(s: &str) -> String {
         };
         out.push_str(&bare_flags(&rest[..start]));
         let quoted = &rest[start + 1..start + 1 + len];
-        match quoted.strip_prefix("openreadout ") {
-            Some(cmd) => out.push_str(&command(cmd)),
-            None => {
-                out.push('`');
-                out.push_str(quoted);
-                out.push('`');
-            }
+        if let Some(cmd) = quoted.strip_prefix("openreadout ") {
+            out.push_str(&command(cmd));
+        } else {
+            out.push('`');
+            out.push_str(quoted);
+            out.push('`');
         }
         rest = &rest[start + len + 2..];
     }

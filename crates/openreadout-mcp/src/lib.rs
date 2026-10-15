@@ -85,8 +85,9 @@ fn mcp_err(e: &Error) -> McpError {
     )
 }
 
-/// A failed tool call as a result with `isError`, its message and hint in the text: the model
-/// reads tool results, while clients often show it only the message of a protocol error.
+/// A failed tool call as a result with `isError`, its message and hint in the text (the model
+/// reads tool results; clients often pass on only the message of a protocol error), and
+/// `{code, exit_code, hint}` under `_meta["openreadout/error"]`.
 fn error_result(e: McpError) -> CallToolResult {
     let mut text = e.message.to_string();
     if let Some(h) = e
@@ -98,8 +99,18 @@ fn error_result(e: McpError) -> CallToolResult {
         text.push_str("\nhint: ");
         text.push_str(h);
     }
-    CallToolResult::error(vec![rmcp::model::ContentBlock::text(text)])
+    let mut r = CallToolResult::error(vec![rmcp::model::ContentBlock::text(text)]);
+    // the code and exit code for clients that branch on them, as the CLI's JSON errors have
+    if let Some(d) = e.data {
+        r.meta
+            .get_or_insert_with(rmcp::model::MetaObject::default)
+            .insert(ERROR_META_KEY.into(), d);
+    }
+    r
 }
+
+/// Result `_meta` key of a failed call: `{code, exit_code, hint}`.
+pub const ERROR_META_KEY: &str = "openreadout/error";
 
 /// A tool's `strict` argument over the server's default (`OPENREADOUT_STRICT`, `--strict`).
 fn with_strict(reg: Registry, strict: Option<bool>) -> Registry {

@@ -229,7 +229,7 @@ usage error: plot.png exists; pass `overwrite: true` to replace it
 hint: Choose another output path, or pass `overwrite: true` to replace that file (the input is never modified).
 ```
 
-A call to a tool that does not exist is a JSON-RPC error.
+The result's `_meta["openreadout/error"]` carries `code`, `exit_code` and `hint` for clients that branch on them. A call to a tool that does not exist is a JSON-RPC error.
 
 ## Reply size
 

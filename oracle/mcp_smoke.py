@@ -478,8 +478,9 @@ def analysis_tools(c, tmp, called):
         name, args = analysis_call(kind, file, options)
         called.add(name)
         r = c.request("tools/call", {"name": name, "arguments": args})[0]
-        if "error" in r:
-            check(r["error"].get("data", {}).get("hint"), f"{name}: an error without a hint: {r}")
+        f = failure(r)
+        if f is not None:
+            check(f.get("hint"), f"{name}: an error without a hint: {r}")
         else:
             result_json(r, name)
 
@@ -773,6 +774,17 @@ def http_security(binary):
         s.close()
 
 
+def failure(r):
+    """The `{code, exit_code, hint}` of a failed call (a result with isError, or a JSON-RPC
+    error), else None."""
+    if "error" in r:
+        return r["error"].get("data") or {}
+    res = r.get("result") or {}
+    if res.get("isError"):
+        return (res.get("_meta") or {}).get("openreadout/error") or {}
+    return None
+
+
 def result_json(r, tool):
     check("result" in r, f"{tool} failed: {json.dumps(r.get('error'))[:400]}")
     res = r["result"]
@@ -900,8 +912,11 @@ def surface(c):
     print(f"prompts: {sorted(pnames)} render")
 
     r = c.request("tools/call", {"name": "openreadout_info", "arguments": {"file": "/nonexistent.czi"}})[0]
-    err = r.get("error") or {}
-    check(err.get("data", {}).get("exit_code") == 5 and err["data"].get("hint"), f"error case: {r}")
+    # a failed call is a result with isError, so the model reads the message and the hint
+    res = r.get("result") or {}
+    text = "".join(x.get("text", "") for x in res.get("content", []))
+    check(res.get("isError") and "I/O error" in text and "\nhint: " in text
+          and failure(r).get("exit_code") == 5, f"error case: {r}")
     print("the error case OK")
 
 
@@ -935,7 +950,7 @@ def per_file(c, path, tmp, called):
     check(json.loads(contents[0]["text"])["format"]["id"] == det["format"] and contents[1]["text"], "file resource")
 
     r = call("openreadout_preview", {"file": path, "max_size": 256})[0]
-    if "result" in r:
+    if failure(r) is None:
         out = result_json(r, "preview")
         img = [x for x in r["result"]["content"] if x["type"] == "image"]
         check(len(img) == 1, "preview: expected one image block")
@@ -948,8 +963,8 @@ def per_file(c, path, tmp, called):
         blob = r["result"]["contents"][0]
         check_image(blob["blob"], blob["mimeType"], "preview resource")
     else:
-        check(r["error"]["data"]["exit_code"] in (2, 6), f"preview error: {r['error']}")
-        print("preview not available:", r["error"]["message"][:120])
+        check((failure(r) or {}).get("exit_code") in (2, 6), f"preview error: {r}")
+        print("preview not available:", json.dumps(r)[:120])
 
     if info["images"]:
         for fmt, name in (("ome-tiff", "x.ome.tiff"), ("ome-zarr", "x.ome.zarr")):
@@ -1040,7 +1055,7 @@ def per_file(c, path, tmp, called):
     else:
         r = call("openreadout_extract", {"file": path, "attachment": "#0",
                                            "output": os.path.join(tmp, "att.bin")})[0]
-        check(r.get("error", {}).get("data", {}).get("hint"), f"extract without attachments: {r}")
+        check((failure(r) or {}).get("hint"), f"extract without attachments: {r}")
 
 
 def index_and_search(c, tmp, called):
