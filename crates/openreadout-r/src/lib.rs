@@ -396,6 +396,101 @@ fn rs_stats(h: Robj, image: i32, select: Vec<String>, per_plane: bool) -> Robj {
     }))
 }
 
+/// Measurements on one plane (`stats --line/--polygon/--objects`), in the pixels of `level`.
+#[derive(Debug, serde::Deserialize)]
+#[serde(deny_unknown_fields)]
+struct MeasureArgs {
+    image: Option<u32>,
+    #[serde(default)]
+    select: Vec<String>,
+    #[serde(default)]
+    level: u32,
+    region: Option<openreadout_core::Region>,
+    line: Option<[f64; 4]>,
+    line_width: Option<u32>,
+    polygon: Option<Vec<[f64; 2]>>,
+    objects: Option<openreadout_core::measure::ObjectsRequest>,
+}
+
+/// `stats --line/--polygon/--objects --json` data (`request`: [`MeasureArgs`] as JSON).
+#[extendr]
+fn rs_measure(h: Robj, request: &str) -> Robj {
+    json(
+        parse::<MeasureArgs>("measure request", request).and_then(|a| {
+            let req = openreadout_core::measure::MeasureRequest {
+                image: a.image,
+                select: a.select,
+                level: a.level,
+                region: a.region,
+                line: a.line,
+                line_width: a.line_width,
+                polygon: a.polygon,
+                objects: a.objects,
+            };
+            if !req.any() {
+                return Err(CoreError::Usage(
+                    "give line, polygon or objects to measure".into(),
+                ));
+            }
+            with_ds(&h, |ds, _| {
+                let info = ds.info()?;
+                openreadout_core::measure::measure(ds, &info, &req)
+            })
+        }),
+    )
+}
+
+/// A preview picture (`options`: the `openreadout_preview` arguments plus `dark`, as JSON;
+/// `format`: png, jpeg or svg): `list(json, data)`, `data` the encoded bytes as a raw vector.
+#[extendr]
+fn rs_preview(h: Robj, options: &str, format: &str) -> Robj {
+    use openreadout_preview as pv;
+    let res = format.parse::<pv::Encoding>().and_then(|encoding| {
+        let req = pv::PreviewOptions::from_json(options)?
+            .request(pv::DEFAULT_PREVIEW_SIZE, pv::Axes::Rulers)?;
+        let (out, bytes) = with_ds(&h, |ds, _| {
+            let info = ds.info()?;
+            let rendered = pv::render(ds, &info, &req)?;
+            pv::finish(&rendered, encoding, pv::DEFAULT_JPEG_QUALITY)
+        })?;
+        let text = serde_json::to_string(&out)
+            .map_err(|e| CoreError::Other(format!("JSON serialization failed: {e}")))?;
+        Ok(list!(json = text, data = Raw::from_bytes(&bytes)))
+    });
+    done(res)
+}
+
+/// A figure from a plot spec (the `openreadout_plot` arguments as JSON), as `format` (png at
+/// `scale`, svg or pdf): `list(json, data)`. With `output` in the spec the file is written and
+/// verified too.
+#[extendr]
+fn rs_plot(spec: &str, format: &str, scale: f64) -> Robj {
+    let res = (|| {
+        if !(scale.is_finite() && (0.1..=4.0).contains(&scale)) {
+            return Err(CoreError::Usage(format!(
+                "scale must be between 0.1 and 4, not {scale}"
+            )));
+        }
+        let v: serde_json::Value = parse("plot spec", spec)?;
+        let spec = openreadout_plot::parse_spec(v)?;
+        let p = openreadout_plot::run(&registry(), &spec)?;
+        let bytes = match format {
+            "png" => p.figure.to_png(scale as f32)?,
+            "svg" => p.figure.to_svg().into_bytes(),
+            "pdf" => openreadout_plot::to_pdf(&p.figure),
+            other => {
+                return Err(CoreError::Usage(format!(
+                    "format must be png, svg or pdf, not {other:?}"
+                )));
+            }
+        };
+        let text = serde_json::to_string(&p.output)
+            .map_err(|e| CoreError::Other(format!("JSON serialization failed: {e}")))?;
+        Ok(list!(json = text, data = Raw::from_bytes(&bytes)))
+    })();
+    done(res)
+}
+
 /// `openreadout check --json` data.
 #[extendr]
 fn rs_check(h: Robj) -> Robj {
@@ -927,6 +1022,9 @@ extendr_module! {
     fn rs_info;
     fn rs_info_view;
     fn rs_stats;
+    fn rs_measure;
+    fn rs_preview;
+    fn rs_plot;
     fn rs_check;
     fn rs_ome_xml;
     fn rs_read_planes;

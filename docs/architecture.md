@@ -38,6 +38,8 @@ OpenReadout is a Cargo workspace. Format readers know nothing about the command 
 | `openreadout-bench` | benchmarks and memory-ceiling tests | no |
 | `xtask` | repository automation (corpus, schemas, vocabulary check, skill parity, packaging); the only crate allowed network access | no |
 
+The Python, R and WebAssembly bindings take the arguments of the MCP tools rather than their own: preview options go through `openreadout_preview::PreviewOptions` (the `openreadout_preview` names), plot specs are the `openreadout_plot` JSON, and analyses the `openreadout_batch::analyze` options. A new tool argument then reaches every binding without a change there.
+
 `cargo deny` checks that nothing linked into the binary can open a network connection, and that every dependency's license is compatible with MIT OR Apache-2.0 (the embedded fonts are data under the SIL Open Font License).
 
 ## The two traits

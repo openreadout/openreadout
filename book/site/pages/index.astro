@@ -1,9 +1,12 @@
 ---
 import Editorial from "../layouts/Editorial.astro";
 import formats from "../data/formats.json";
+import gallery from "../data/gallery.json";
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 const nFormats = formats.formats.length;
+// Pictures OpenReadout drew itself (book/scripts/gallery.mjs).
+const drawn = ["slide-fold", "plate-grid", "tic-spectrum", "fi"].map((n) => gallery.entries.find((e) => e.name === n)!);
 // Keep in step with the table in README.md.
 const areas = [
   ["Light microscopy", "Zeiss CZI, Nikon ND2, Leica LIF, Olympus OIR/VSI/OIB, Imaris, OME-TIFF and other TIFF variants, OME-Zarr, whole-slide images", "OME-TIFF, OME-Zarr"],
@@ -94,10 +97,31 @@ const areas = [
       <a href={base + "reference/commands/info.html"}><b>Inspect</b><span>Images, channels, traces, spectra, tables and metadata, as text or JSON.</span></a>
       <a href={base + "recipes/check-files.html"}><b>Check</b><span>Finds truncated files, missing planes and damaged structure, and exits with code 4 when a file is corrupt.</span></a>
       <a href={base + "recipes/export.html"}><b>Export</b><span>OME-TIFF, OME-Zarr, mzML, NWB, CSV, Parquet, Arrow, JCAMP-DX, Allotrope ASM and RDML. Each export is read back and verified.</span></a>
-      <a href={base + "reference/commands/preview.html"}><b>Preview</b><span>Image planes, traces, spectra and plate heat maps as PNG, with rulers and a scale bar.</span></a>
+      <a href={base + "reference/commands/preview.html"}><b>Preview</b><span>Image planes, traces, spectra, plates and cytometry as PNG or SVG, with rulers, labelled peaks and the agent's own marks.</span></a>
+      <a href={base + "reference/commands/plot.html"}><b>Plot</b><span>Finished figures from the files themselves: wells in plate positions, group means, spectra, f–I curves, gates and fits.</span></a>
       <a href={base + "recipes.html"}><b>Analyze</b><span>Chromatogram peaks, plate assays, qPCR, NMR peaks, patch-clamp features, spikes and flow gates, with documented methods.</span></a>
       <a href={base + "guides/batch.html"}><b>Batch</b><span>Runs over whole folders, indexes lab shares and watches running acquisitions.</span></a>
     </div>
+  </section>
+
+  <section class="wide drawn">
+    <h2>Pictures your agent can draw</h2>
+    <p class="lead">
+      OpenReadout draws its own previews and figures, so an agent can show you what it found without a plotting library. It can zoom into a slide
+      and label what it sees, lay out a plate's growth curves in their wells, or put a spectrum next to the chromatogram it came from.
+    </p>
+    <div class="drawn-grid">
+      {drawn.map((e) => (
+        <figure>
+          <a href={base + "gallery.html#" + e.name}>
+            <img class="g-light" src={base + e.img} width={e.width} height={e.height} alt={e.title} loading="lazy" decoding="async" />
+            <img class="g-dark" src={base + e.img.replace(/\.png$/, "-dark.png")} width={e.width} height={e.height} alt={e.title} loading="lazy" decoding="async" />
+          </a>
+          <figcaption><b>{e.title}.</b> <code>{e.commands[0].split(" ").slice(0, 2).join(" ")}</code></figcaption>
+        </figure>
+      ))}
+    </div>
+    <p><a href={base + "gallery.html"}>The gallery</a> has more, each with the command or spec that drew it.</p>
   </section>
 
   <section class="wide">
@@ -123,7 +147,7 @@ const areas = [
         <dt>Stable JSON</dt><dd>Every command takes <code>--json</code> and prints JSON with a <a href={base + "reference/json.html"}>published schema</a>.</dd>
         <dt>Exit codes</dt><dd><code>0</code> ok, <code>3</code> unknown format, <code>4</code> corrupt, <code>6</code> unsupported feature. Agents branch on the code, not the message.</dd>
         <dt>Errors with a hint</dt><dd>Each error says what to try next, so the agent can fix its own mistakes.</dd>
-        <dt>Previews</dt><dd><code>preview</code> writes a PNG the agent can look at, so it can see the image, trace or plate it is reasoning about.</dd>
+        <dt>Previews</dt><dd><code>preview</code> writes a PNG the agent can look at, so it can see the image, trace or plate it is reasoning about, and mark what it found.</dd>
         <dt>Cheap metadata</dt><dd><code>info</code> reads headers only, so a 100 GB file costs the same as a small one. <code>--only</code> returns just the fields asked for.</dd>
         <dt>Assurance</dt><dd>Each result says whether files like it were validated against an independent reader, so the agent knows when to double-check.</dd>
       </dl>
@@ -195,6 +219,54 @@ const areas = [
 </Editorial>
 
 <style>
+  .drawn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 24px;
+    align-items: start;
+  }
+  .drawn figure {
+    margin: 0;
+  }
+  .drawn figure a {
+    display: block;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .drawn img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .drawn figcaption code {
+    font-family: var(--mono);
+    font-size: 0.95em;
+    color: var(--muted);
+  }
+  .g-dark {
+    display: none !important;
+  }
+  :global(:root[data-theme="dark"]) .g-light {
+    display: none !important;
+  }
+  :global(:root[data-theme="dark"]) .g-dark {
+    display: block !important;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .g-light {
+      display: none !important;
+    }
+    :global(:root:not([data-theme="light"])) .g-dark {
+      display: block !important;
+    }
+  }
+  @media (max-width: 760px) {
+    .drawn-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
   .sr {
     position: absolute;
     width: 1px;

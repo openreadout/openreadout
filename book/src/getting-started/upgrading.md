@@ -1,8 +1,28 @@
-# Upgrading from 0.1
+# Upgrading
+
+Names change between releases without aliases, so a script or prompt written for an older release can need the changes below. The [changelog](../project/changelog.md) lists everything else.
+
+## From 0.3
+
+- The six plate-reader MCP tools are one, `openreadout_assay`, with `analysis`:
+
+  | 0.3 | 0.4 |
+  | --- | --- |
+  | `openreadout_assay_wells` | `openreadout_assay` with `analysis: "wells"` |
+  | `openreadout_assay_curve` | `openreadout_assay` with `analysis: "curve"` |
+  | `openreadout_dose_response` | `openreadout_assay` with `analysis: "dose-response"` |
+  | `openreadout_kinetics` | `openreadout_assay` with `analysis: "kinetics"` |
+  | `openreadout_growth` | `openreadout_assay` with `analysis: "growth"` |
+  | `openreadout_assay_qc` | `openreadout_assay` with `analysis: "qc"` |
+
+  The command line keeps `analyze assay-wells`, `assay-curve`, `dose-response`, `kinetics`, `growth` and `assay-qc`.
+- WebAssembly: `preview()` resolves to `{ meta, data, type }` instead of `{ meta, png }`, takes `axes: "rulers" | "grid" | "none"` instead of the `axes` and `grid` booleans, and draws at 768 px by default.
+
+## From 0.1 to 0.2
 
 OpenReadout 0.2 renames several commands, MCP tools and flags so that the command line and the MCP server use the same names, and so that each command does one thing. The JSON output is `schema_version` 2. The old names have no aliases, so a script or prompt written for 0.1 needs the changes below.
 
-## Commands
+### Commands
 
 | 0.1 | 0.2 |
 | --- | --- |
@@ -20,7 +40,7 @@ OpenReadout 0.2 renames several commands, MCP tools and flags so that the comman
 
 `info`, `check`, `preview`, `stats`, `trace`, `table`, the other `analyze` subcommands, `export`, `batch`, `link`, `index`, `search`, `watch`, `self` and `mcp` keep their names.
 
-## MCP tools
+### MCP tools
 
 An MCP tool is now `openreadout_` plus the command name, with `-` as `_`, and its arguments are the command's long flags with `-` as `_`. The [MCP tools page](../reference/mcp.md) lists all of them.
 
@@ -38,7 +58,7 @@ An MCP tool is now `openreadout_` plus the command name, with `-` as `_`, and it
 
 The analysis options that 0.1 took in `options` are now arguments of each tool.
 
-## Flags and arguments
+### Flags and arguments
 
 | command | 0.1 | 0.2 (command line / MCP) |
 | --- | --- | --- |
@@ -62,11 +82,11 @@ The analysis options that 0.1 took in `options` are now arguments of each tool.
 | `analyze assay-curve`, `dose-response` | `--preview PNG` (MCP `plot`) | `--plot PNG` / `plot` |
 | `info`, `stats`, `trace`, `table`, `batch` | `--samples`, `--layout` | `--sample-sheet` (the plate assays keep `--layout`) |
 
-## JSON output
+### JSON output
 
 The envelope's `schema_version` is `"2"`. Besides the renames above, two defaults changed what a plain call returns: `info --view full` leaves out the vendor tree unless you add `--vendor`, and `stats` leaves out the per-plane list unless you ask for `--per plane`. LIF channels are named after their dye (`DAPI`, `ALEXA 488`) rather than their display colour. The schemas are on the [JSON reference](../reference/json.html) and in `openreadout self schema`.
 
-## Plugins and integrations
+### Plugins and integrations
 
 The Claude Code plugin now comes from its own repository, openreadout/agent-plugins. Add that marketplace and install the plugin from it:
 

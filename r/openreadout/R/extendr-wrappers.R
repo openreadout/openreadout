@@ -13,6 +13,9 @@ rs_info_view <- function(h, view, ask, vendor) .Call(wrap__rs_info_view, h, view
 rs_stats <- function(h, image, select, per_plane) {
   .Call(wrap__rs_stats, h, image, select, per_plane)
 }
+rs_measure <- function(h, request) .Call(wrap__rs_measure, h, request)
+rs_preview <- function(h, options, format) .Call(wrap__rs_preview, h, options, format)
+rs_plot <- function(spec, format, scale) .Call(wrap__rs_plot, spec, format, scale)
 rs_check <- function(h) .Call(wrap__rs_check, h)
 rs_ome_xml <- function(h) .Call(wrap__rs_ome_xml, h)
 rs_read_planes <- function(h, image, c, z, t, level, region) {

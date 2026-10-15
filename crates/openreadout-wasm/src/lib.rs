@@ -36,7 +36,7 @@ use openreadout_core::reader::{DEFAULT_FRAME_RECORDS, SpectrumView, attach_frame
 use openreadout_core::source::{ByteSource, Fs, Input, MemFs, MemSource};
 use openreadout_core::trace::TraceRequest;
 use openreadout_core::{Dataset, Detection, Envelope, Error, InfoOutput, Registry, SpectrumOutput};
-use openreadout_preview::{Encoding, PreviewRequest};
+use openreadout_preview::{Axes, Encoding, PreviewOptions, PreviewRequest};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
@@ -233,6 +233,9 @@ impl ByteSource for JsCallbackSource {
         self.name.clone()
     }
 }
+
+/// Default `max_size` of a preview: the demo page shows it at about this width.
+pub const DEFAULT_WASM_PREVIEW_SIZE: u32 = 768;
 
 /// Default block size of a [`InstrumentFile::lazy`] file (1 MiB).
 pub const LAZY_BLOCK: u64 = 1 << 20;
@@ -609,29 +612,32 @@ impl InstrumentFile {
         envelope(r)
     }
 
-    /// `preview --json`: renders a PNG (fetch it with [`image`](InstrumentFile::image)).
-    /// `options` is a JSON object with any of `image`, `select` (e.g. `["c=1","z=3"]`),
-    /// `composite`, `max_size`, `trace`, `sweep`, `run`, `spectrum`, `table`, `axes` (coordinate
-    /// rulers and scale bar around image previews; default false here, unlike the CLI) and
-    /// `grid`.
+    /// `preview --json`: draws the picture (fetch it with [`image`](InstrumentFile::image)).
+    /// `options` is a JSON object with the arguments of the `openreadout_preview` MCP tool:
+    /// `image`, `select` (e.g. `["c=1","z=3"]`), `mip`, `composite`, `level`, `region`,
+    /// `max_size` (default 768), `axes` (`rulers`, `grid` or `none`; default `none` here, the
+    /// bare plane), `contrast`, `lut`, `trace`, `sweep`, `channels`, `run`, `spectrum`, `scan`,
+    /// `centroid`, `table`, `columns`, `marks`, `annotations`, plus `dark` and `format`
+    /// (`png`, `jpeg` or `svg`).
     pub fn preview(&mut self, options: Option<String>) -> String {
-        let req = match preview_request(options.as_deref()) {
+        let (req, encoding) = match preview_request(options.as_deref()) {
             Ok(r) => r,
             Err(e) => return envelope::<()>(Err(e)),
         };
-        let mut png = Vec::new();
+        let mut bytes = Vec::new();
         let r = self.with_dataset(|ds, _| {
             let info = ds.info()?;
             let rendered = openreadout_preview::render(ds, &info, &req)?;
-            let (out, bytes) = openreadout_preview::finish(&rendered, Encoding::Png, 90)?;
-            png = bytes;
+            let (out, b) = openreadout_preview::finish(&rendered, encoding, 90)?;
+            bytes = b;
             Ok(out)
         });
-        self.image = if r.is_ok() { png } else { Vec::new() };
+        self.image = if r.is_ok() { bytes } else { Vec::new() };
         envelope(r)
     }
 
-    /// The PNG from the last successful [`preview`](InstrumentFile::preview) (empty otherwise).
+    /// The picture from the last successful [`preview`](InstrumentFile::preview), encoded as it
+    /// says in `encoding` (empty otherwise).
     pub fn image(&self) -> Vec<u8> {
         self.image.clone()
     }
@@ -900,58 +906,27 @@ impl InstrumentFile {
     }
 }
 
-fn preview_request(options: Option<&str>) -> Result<PreviewRequest, Error> {
-    let mut req = PreviewRequest::default();
-    // The demo page shows the bare plane unless asked for rulers (`"axes": true`).
-    req.axes = false;
-    let Some(text) = options.filter(|t| !t.trim().is_empty()) else {
-        return Ok(req);
-    };
-    let v: serde_json::Value = serde_json::from_str(text)
+fn preview_request(options: Option<&str>) -> Result<(PreviewRequest, Encoding), Error> {
+    let text = options.filter(|t| !t.trim().is_empty()).unwrap_or("{}");
+    let mut v: serde_json::Value = serde_json::from_str(text)
         .map_err(|e| Error::Usage(format!("preview options are not JSON: {e}")))?;
     let obj = v
-        .as_object()
+        .as_object_mut()
         .ok_or_else(|| Error::Usage("preview options must be a JSON object".into()))?;
-    let u32_of = |k: &str| -> Result<Option<u32>, Error> {
-        obj.get(k)
-            .map(|x| {
-                x.as_u64()
-                    .and_then(|n| u32::try_from(n).ok())
-                    .ok_or_else(|| {
-                        Error::Usage(format!(
-                            "preview option `{k}` must be a small non-negative integer"
-                        ))
-                    })
-            })
-            .transpose()
+    let encoding = match obj.remove("format") {
+        None => Encoding::Png,
+        Some(serde_json::Value::String(f)) => f.parse()?,
+        Some(_) => {
+            return Err(Error::Usage(
+                "preview option `format` is png, jpeg or svg".into(),
+            ));
+        }
     };
-    req.image = u32_of("image")?;
-    req.trace = u32_of("trace")?;
-    req.sweep = u32_of("sweep")?;
-    req.run = u32_of("run")?;
-    req.table = u32_of("table")?;
-    if let Some(n) = u32_of("max_size")? {
-        req.max_size = n.clamp(16, 4096);
-    }
-    if let Some(n) = obj.get("spectrum").and_then(serde_json::Value::as_u64) {
-        req.spectrum = Some(n);
-    }
-    if let Some(b) = obj.get("composite").and_then(serde_json::Value::as_bool) {
-        req.composite = b;
-    }
-    if let Some(b) = obj.get("axes").and_then(serde_json::Value::as_bool) {
-        req.axes = b;
-    }
-    if let Some(b) = obj.get("grid").and_then(serde_json::Value::as_bool) {
-        req.grid = b;
-    }
-    if let Some(sel) = obj.get("select").and_then(serde_json::Value::as_array) {
-        req.select = sel
-            .iter()
-            .filter_map(|s| s.as_str().map(str::to_string))
-            .collect();
-    }
-    Ok(req)
+    let opts: PreviewOptions =
+        serde_json::from_value(v).map_err(|e| Error::Usage(format!("preview options: {e}")))?;
+    let mut req = opts.request(DEFAULT_WASM_PREVIEW_SIZE, Axes::None)?;
+    req.max_size = req.max_size.clamp(16, 4096);
+    Ok((req, encoding))
 }
 
 /// Detect, open and summarise in one call (the demo page's first request): the `info`

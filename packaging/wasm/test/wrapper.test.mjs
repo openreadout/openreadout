@@ -45,7 +45,7 @@ test("large blobs are read lazily, block by block", async () => {
   const a = await lazy.preview({ max_size: 32 });
   const b = await whole.preview({ max_size: 32 });
   assert.deepEqual(a.meta, b.meta);
-  assert.deepEqual(a.png, b.png);
+  assert.deepEqual(a.data, b.data);
   assert.ok(read > 0 && read <= LIF.length);
   assert.equal(lazy.bytesHeld, read);
   const blobLazy = await open(new Blob([LIF]), { name: "mini.lif", wholeFileLimit: 0 });
@@ -62,9 +62,21 @@ test("every command", async () => {
   assert.equal(typeof (await f.check({ headersOnly: true })).ok, "boolean");
   assert.ok(Array.isArray((await f.info({ view: "structure" })).entries));
   await assert.rejects(f.info({ view: "dump" }), (e) => e.exitCode === 2);
-  const { meta, png } = await f.preview({ max_size: 48 });
+  const { meta, data, type } = await f.preview({ max_size: 48 });
   assert.equal(meta.encoding, "png");
-  assert.deepEqual([...png.subarray(0, 4)], [0x89, 0x50, 0x4e, 0x47]);
+  assert.equal(type, "image/png");
+  assert.deepEqual([...data.subarray(0, 4)], [0x89, 0x50, 0x4e, 0x47]);
+  const svg = await f.preview({
+    max_size: 200,
+    axes: "rulers",
+    format: "svg",
+    dark: true,
+    annotations: [{ type: "point", x: 4, y: 4, label: "here" }],
+  });
+  assert.equal(svg.type, "image/svg+xml");
+  assert.match(new TextDecoder().decode(svg.data), /<svg/);
+  assert.equal(svg.meta.annotations.length, 1);
+  await assert.rejects(f.preview({ colour: "red" }), (e) => e.exitCode === 2);
   f.close();
 });
 
