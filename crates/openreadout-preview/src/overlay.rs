@@ -140,7 +140,7 @@ pub(crate) fn render(
         fs * 0.8,
         fs * 1.4,
         &title,
-        &TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Alphabetic),
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
     );
     panel.axes(&mut fig, &theme, &spec);
     let thin = (theme.line_width * if channels.len() > 24 { 0.6 } else { 0.9 }).max(0.8);

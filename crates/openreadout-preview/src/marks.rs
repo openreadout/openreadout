@@ -130,7 +130,7 @@ pub(crate) fn prominent(
             (false, false) => lmin.min(rmin),
         };
         let prom = x - base;
-        if prom >= floor {
+        if prom >= floor && prom >= local_step(&v, i) * MIN_PEAK_SNR * 1.5 {
             cands.push((i, prom));
         }
     }
@@ -148,6 +148,22 @@ pub(crate) fn prominent(
         }
     }
     out
+}
+
+/// The median step between neighbouring columns within a tenth of the axis around column `i`
+/// (at least 8 columns each side): the noise a peak there has to clear. A spike in a noisy
+/// stretch stands no taller than its neighbours' jitter, however quiet the rest of the trace.
+fn local_step(v: &[f64], i: usize) -> f64 {
+    let half = (v.len() / 10).max(8);
+    let lo = i.saturating_sub(half);
+    let hi = (i + half + 1).min(v.len());
+    let finite: Vec<f64> = v[lo..hi].iter().copied().filter(|x| x.is_finite()).collect();
+    let mut steps: Vec<f64> = finite.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+    if steps.len() < 4 {
+        return 0.0;
+    }
+    steps.sort_by(f64::total_cmp);
+    steps[steps.len() / 2]
 }
 
 /// How many decimals a peak label needs so neighbouring peaks `resolution` apart differ.

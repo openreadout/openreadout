@@ -335,7 +335,7 @@ pub(crate) fn render(
         fs * 0.8,
         fs * 1.4,
         &caption,
-        &TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Alphabetic),
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
     );
     out.events = Some(EventsPreview {
         table: ti,

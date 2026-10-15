@@ -124,9 +124,9 @@ pub(crate) fn render(
     );
     fig.text(
         fs * 0.8,
-        fs * 1.5,
+        fs * 1.4,
         &caption,
-        &TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Alphabetic),
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
     );
     panel.axes(&mut fig, &theme, &spec);
     // precursor: a dashed accent rule under the data
