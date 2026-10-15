@@ -922,8 +922,8 @@ fn preview_request(options: Option<&str>) -> Result<(PreviewRequest, Encoding), 
             ));
         }
     };
-    let opts: PreviewOptions = serde_json::from_value(v)
-        .map_err(|e| Error::Usage(format!("preview options: {e}")))?;
+    let opts: PreviewOptions =
+        serde_json::from_value(v).map_err(|e| Error::Usage(format!("preview options: {e}")))?;
     let mut req = opts.request(DEFAULT_WASM_PREVIEW_SIZE, Axes::None)?;
     req.max_size = req.max_size.clamp(16, 4096);
     Ok((req, encoding))

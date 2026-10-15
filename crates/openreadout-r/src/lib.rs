@@ -415,27 +415,29 @@ struct MeasureArgs {
 /// `stats --line/--polygon/--objects --json` data (`request`: [`MeasureArgs`] as JSON).
 #[extendr]
 fn rs_measure(h: Robj, request: &str) -> Robj {
-    json(parse::<MeasureArgs>("measure request", request).and_then(|a| {
-        let req = openreadout_core::measure::MeasureRequest {
-            image: a.image,
-            select: a.select,
-            level: a.level,
-            region: a.region,
-            line: a.line,
-            line_width: a.line_width,
-            polygon: a.polygon,
-            objects: a.objects,
-        };
-        if !req.any() {
-            return Err(CoreError::Usage(
-                "give line, polygon or objects to measure".into(),
-            ));
-        }
-        with_ds(&h, |ds, _| {
-            let info = ds.info()?;
-            openreadout_core::measure::measure(ds, &info, &req)
-        })
-    }))
+    json(
+        parse::<MeasureArgs>("measure request", request).and_then(|a| {
+            let req = openreadout_core::measure::MeasureRequest {
+                image: a.image,
+                select: a.select,
+                level: a.level,
+                region: a.region,
+                line: a.line,
+                line_width: a.line_width,
+                polygon: a.polygon,
+                objects: a.objects,
+            };
+            if !req.any() {
+                return Err(CoreError::Usage(
+                    "give line, polygon or objects to measure".into(),
+                ));
+            }
+            with_ds(&h, |ds, _| {
+                let info = ds.info()?;
+                openreadout_core::measure::measure(ds, &info, &req)
+            })
+        }),
+    )
 }
 
 /// A preview picture (`options`: the `openreadout_preview` arguments plus `dark`, as JSON;

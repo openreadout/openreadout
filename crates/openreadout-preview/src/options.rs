@@ -153,9 +153,11 @@ mod tests {
     fn unknown_keys_are_refused() {
         let e = PreviewOptions::from_json(r#"{"colour": 1}"#).unwrap_err();
         assert!(e.to_string().contains("colour"), "{e}");
-        assert!(PreviewOptions::from_json(r#"{"contrast": "loud"}"#)
-            .unwrap()
-            .request(512, Axes::Rulers)
-            .is_err());
+        assert!(
+            PreviewOptions::from_json(r#"{"contrast": "loud"}"#)
+                .unwrap()
+                .request(512, Axes::Rulers)
+                .is_err()
+        );
     }
 }

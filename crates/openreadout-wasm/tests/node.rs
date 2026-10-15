@@ -87,11 +87,13 @@ fn every_command_on_bytes() {
 #[wasm_bindgen_test]
 fn preview_annotations_dark_and_svg() {
     let mut f = InstrumentFile::from_bytes("mini.nd2", ND2.to_vec());
-    let p = data(&f.preview(Some(
-        r#"{"max_size": 200, "axes": "rulers", "dark": true, "format": "svg",
+    let p = data(
+        &f.preview(Some(
+            r#"{"max_size": 200, "axes": "rulers", "dark": true, "format": "svg",
             "annotations": [{"type": "point", "x": 4, "y": 4, "label": "here"}]}"#
-            .into(),
-    )));
+                .into(),
+        )),
+    );
     assert_eq!(p["encoding"], "svg");
     assert_eq!(p["annotations"].as_array().map(Vec::len), Some(1));
     assert!(String::from_utf8_lossy(&f.image()).contains("<svg"));

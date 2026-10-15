@@ -85,8 +85,8 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 pub use annotate::{Annotation, DrawnAnnotation};
-pub use options::PreviewOptions;
 pub use openreadout_figure::{Figure, Raster};
+pub use options::PreviewOptions;
 pub use plate::{PlateGrid, plate_grid};
 
 /// Largest `max_size` accepted (pixels on the longer side).

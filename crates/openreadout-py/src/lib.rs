@@ -524,9 +524,7 @@ impl NativeFile {
         objects: Option<String>,
     ) -> PyResult<String> {
         use openreadout_core::measure::{MeasureRequest, ObjectsRequest, measure};
-        let objects = objects
-            .map(|o| request::<ObjectsRequest>(&o))
-            .transpose()?;
+        let objects = objects.map(|o| request::<ObjectsRequest>(&o)).transpose()?;
         let req = MeasureRequest {
             image,
             select,
