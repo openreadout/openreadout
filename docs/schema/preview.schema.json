@@ -122,6 +122,14 @@
         "$ref": "#/$defs/DataMark"
       }
     },
+    "objects": {
+      "description": "`marks: objects`: the objects counted in the area shown, as `stats` objects (the first\n20 listed).",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true
+    },
     "annotations": {
       "description": "The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.",
       "type": "array",

@@ -134,7 +134,7 @@
           "format": "double"
         },
         "step_px": {
-          "description": "Distance between the returned values in pixels.",
+          "description": "Distance between the returned values in pixels (the first is at the start, the last\nat the end).",
           "type": "number",
           "format": "double"
         },
@@ -352,70 +352,96 @@
       ]
     },
     "Objects": {
-      "description": "Objects found by a threshold.",
+      "description": "Objects found in one plane.",
       "type": "object",
       "properties": {
+        "kind": {
+          "description": "What was counted.",
+          "$ref": "#/$defs/Kind"
+        },
         "measured": {
-          "description": "What was thresholded: a channel index, an RGB component (`red`, `green`, `blue`) or\n`luminance` (the mean of the RGB components).",
+          "description": "What objects were found in: a channel (`c=0 DAPI`), an RGB component, `luminance` or a\nstain (`hematoxylin`, `eosin`, `dab`).",
           "type": "string"
         },
         "region": {
           "description": "The rectangle searched, in pixels of the level read.",
           "$ref": "#/$defs/Region"
         },
-        "threshold": {
-          "description": "Threshold in raw units.",
+        "searched_um2": {
+          "description": "Area searched (the region, or the polygon) in µm².",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "expected_diameter_px": {
+          "description": "Object diameter expected, in pixels: it sets the smoothing, the background scale, how\nclose two objects may be and the smallest object kept.",
           "type": "number",
           "format": "double"
         },
-        "threshold_method": {
-          "description": "`otsu` or `given`.",
+        "expected_diameter_um": {
+          "description": "The same in µm.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "expected_diameter_from": {
+          "description": "`given`, `measured` (from the image) or `default`.",
           "type": "string"
         },
         "polarity": {
           "description": "`bright` or `dark`.",
           "$ref": "#/$defs/Polarity"
         },
-        "smooth_px": {
-          "description": "Gaussian σ in pixels.",
+        "threshold": {
+          "description": "Threshold, in units of what was measured after background subtraction (spots: height\nabove the local background).",
           "type": "number",
           "format": "double"
         },
-        "min_area_px": {
-          "description": "Smallest object kept, in pixels.",
-          "type": "integer",
-          "format": "uint64",
-          "minimum": 0
+        "threshold_method": {
+          "description": "`otsu`, `triangle`, `local`, `noise` (spots: five robust standard deviations of the\nbackground) or `given`.",
+          "type": "string"
         },
         "split": {
           "description": "Whether touching objects were cut apart.",
           "type": "boolean"
         },
         "count": {
-          "description": "Objects found (all, including those touching the edge).",
+          "description": "Objects found, including those touching the edge.",
           "type": "integer",
           "format": "uint",
           "minimum": 0
         },
         "touching_edge": {
-          "description": "Objects touching the edge of the rectangle.",
+          "description": "Objects touching the edge of the area searched.",
           "type": "integer",
           "format": "uint",
           "minimum": 0
         },
-        "large": {
-          "description": "Objects more than twice the median area: possibly several touching objects.",
-          "type": "integer",
-          "format": "uint",
-          "minimum": 0
+        "density_per_mm2": {
+          "description": "Objects per mm² (edge objects count half).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
         },
         "area_fraction": {
-          "description": "Fraction of the rectangle covered by objects.",
+          "description": "Fraction of the area searched covered by objects.",
           "type": "number",
           "format": "double"
         },
+        "large": {
+          "description": "Objects more than twice the median area: possibly several objects together.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
         "area_px": {
-          "description": "Object areas in pixels.",
+          "description": "Object areas in pixels (objects off the edge, or all when every one touches it).",
           "anyOf": [
             {
               "$ref": "#/$defs/Spread"
@@ -436,16 +462,26 @@
             }
           ]
         },
-        "median_diameter_um": {
-          "description": "Median equivalent diameter (of a disc of the same area) in µm.",
-          "type": [
-            "number",
-            "null"
-          ],
-          "format": "double"
+        "diameter_um": {
+          "description": "Diameters (of a disc of the same area) in µm.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Spread"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "channels": {
+          "description": "Every channel measured in the objects, in the order of each object's `mean`.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectChannel"
+          }
         },
         "objects": {
-          "description": "The objects, largest first.",
+          "description": "The objects in reading order (top to bottom, then left to right).",
           "type": "array",
           "items": {
             "$ref": "#/$defs/Object"
@@ -457,20 +493,42 @@
         }
       },
       "required": [
+        "kind",
         "measured",
         "region",
+        "expected_diameter_px",
+        "expected_diameter_from",
+        "polarity",
         "threshold",
         "threshold_method",
-        "polarity",
-        "smooth_px",
-        "min_area_px",
         "split",
         "count",
         "touching_edge",
-        "large",
         "area_fraction",
+        "large",
+        "channels",
         "objects",
         "truncated"
+      ]
+    },
+    "Kind": {
+      "description": "What to count.",
+      "oneOf": [
+        {
+          "description": "nuclei (default): touching nuclei are split",
+          "type": "string",
+          "const": "nuclei"
+        },
+        {
+          "description": "whole cells stained throughout (larger; touching cells are split)",
+          "type": "string",
+          "const": "cells"
+        },
+        {
+          "description": "small bright spots (puncta, foci, single molecules), found by a Laplacian of Gaussian",
+          "type": "string",
+          "const": "spots"
+        }
       ]
     },
     "Region": {
@@ -513,17 +571,17 @@
       "description": "Bright or dark objects.",
       "oneOf": [
         {
-          "description": "bright for one-channel images (fluorescence), dark for RGB (stained brightfield)",
+          "description": "from the image: dark objects on a bright background (brightfield) or bright ones",
           "type": "string",
           "const": "auto"
         },
         {
-          "description": "objects brighter than the background",
+          "description": "objects brighter than the background (fluorescence)",
           "type": "string",
           "const": "bright"
         },
         {
-          "description": "objects darker than the background",
+          "description": "objects darker than the background (brightfield)",
           "type": "string",
           "const": "dark"
         }
@@ -561,10 +619,98 @@
         "max"
       ]
     },
+    "ObjectChannel": {
+      "description": "One channel measured in every object.",
+      "type": "object",
+      "properties": {
+        "c": {
+          "description": "Channel index (`c`), or the RGB component or stain index.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "name": {
+          "description": "Channel, component or stain name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background": {
+          "description": "Median value outside the objects.",
+          "type": "number",
+          "format": "double"
+        },
+        "mean": {
+          "description": "Object means.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Spread"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "positive": {
+          "description": "Objects clearly brighter than the rest (or than the background).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Positive"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "c",
+        "background"
+      ]
+    },
+    "Positive": {
+      "description": "Objects above a threshold in one channel.",
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "description": "Threshold on the object mean.",
+          "type": "number",
+          "format": "double"
+        },
+        "method": {
+          "description": "`otsu` (the object means fall in two groups), `background` (the channel's background\nplus five robust standard deviations) or `none` (no object is clearly brighter).",
+          "type": "string"
+        },
+        "count": {
+          "description": "Objects whose mean is above it.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "fraction": {
+          "description": "The same as a fraction of all objects.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "threshold",
+        "method",
+        "count",
+        "fraction"
+      ]
+    },
     "Object": {
       "description": "One object.",
       "type": "object",
       "properties": {
+        "id": {
+          "description": "Number, in reading order (the label on a picture of the objects).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
         "x": {
           "description": "Centroid column, in pixels of the level read.",
           "type": "number",
@@ -589,27 +735,50 @@
           ],
           "format": "double"
         },
-        "mean": {
-          "description": "Mean raw value.",
-          "type": "number",
+        "diameter_um": {
+          "description": "Diameter of a disc of the same area, in µm.",
+          "type": [
+            "number",
+            "null"
+          ],
           "format": "double"
         },
-        "bbox": {
-          "description": "Bounding rectangle.",
-          "$ref": "#/$defs/Region"
+        "solidity": {
+          "description": "Area over the area of its convex hull (1 = convex; low values suggest merged objects).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
         },
-        "touches_edge": {
-          "description": "True when the object touches the edge of the measured rectangle (it may be cut).",
+        "height": {
+          "description": "Spots: height above the local background in what was measured.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "mean": {
+          "description": "Mean raw value in each channel of `channels`, in that order.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "edge": {
+          "description": "True when the object touches the edge of the area searched (it may be cut).",
           "type": "boolean"
         }
       },
       "required": [
+        "id",
         "x",
         "y",
         "area_px",
         "mean",
-        "bbox",
-        "touches_edge"
+        "edge"
       ]
     }
   }
