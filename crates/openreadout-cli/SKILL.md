@@ -19,7 +19,7 @@ metadata:
 - `check` — integrity (exit 4 = damaged); `compare A B` — are two files (a source and its export) the same data; `planes` — plane hashes; `report` — a diagnostic bundle for a file that is refused or not validated.
 - `preview` — a PNG of an image, trace, spectrum, plate (kinetic reads: one growth curve per well) or flow events; Read the PNG to see it. `--annotate` draws labelled points, boxes, arrows and bands in the picture's own coordinates, to show what you found.
 - `plot SPEC.json -o fig.png|svg|pdf` (MCP `openreadout_plot`) — a finished figure for the user from one or more files: data named by file and selector, panels, small multiples, plate positions, annotations. Spec and examples: `references/figures.md`.
-- `stats` — pixel statistics; `--per well` for screening plates. On one plane: `--line X0,Y0,X1,Y1` (intensity profile, FWHM), `--polygon` (statistics inside), `--objects` (count nuclei, cells or spots: areas in µm², centroids).
+- `stats` — pixel statistics; `--per well` for screening plates. On one plane: `--line X0,Y0,X1,Y1` (intensity profile, FWHM), `--polygon` (statistics inside), `--objects` (nuclei; `=cells`, `=spots`): count, density, sizes, centroids, each object's mean in every channel and how many are positive; `preview --marks objects` shows them.
 - `trace` — one sweep, spectrum or detector trace in physical units.
 - `table` — rows of a table: FCS events, plate reads, the vendor's own peak tables.
 - `scans` — the scan list of a mass-spectrometry run; `spectrum` — one spectrum (`--rt MIN` for the scan at a chromatogram apex, `--scan N`, or `--spectrum I`, counted within one MS level with `--ms-level L`), with its most intense peaks, their charge states and neutral masses.

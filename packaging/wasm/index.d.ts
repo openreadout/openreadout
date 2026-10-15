@@ -78,7 +78,9 @@ export interface PreviewOptions {
   centroid?: boolean;
   table?: number;
   columns?: string | string[];
-  marks?: "auto" | "peaks" | "spikes" | "none";
+  marks?: "auto" | "peaks" | "spikes" | "objects" | "none";
+  /** With `marks: "objects"`: how objects are found, as the `objects` option of `openreadout_stats`. */
+  objects?: Record<string, any>;
   annotations?: Annotation[];
   dark?: boolean;
   format?: "png" | "jpeg" | "svg";
