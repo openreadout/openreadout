@@ -26,11 +26,11 @@ The server has 27 tools.
 | `openreadout_compare` | compare two files, such as a raw file and its export | [compare](commands/compare.md) |
 | `openreadout_report` | a diagnostic bundle for a file OpenReadout cannot read | [report](commands/report.md) |
 | `openreadout_preview` | a picture of the data | [preview](commands/preview.md) |
-| `openreadout_stats` | pixel statistics, or per-well statistics of a plate | [stats](commands/stats.md) |
+| `openreadout_stats` | pixel statistics, per-well statistics of a plate, intensity profiles, polygon statistics and object counts | [stats](commands/stats.md) |
 | `openreadout_trace` | samples and statistics of one sweep of a signal or 1-D spectrum | [trace](commands/trace.md) |
 | `openreadout_table` | rows of a table | [table](commands/table.md) |
 | `openreadout_scans` | the scan headers of a mass-spectrometry run | [scans](commands/scans.md) |
-| `openreadout_spectrum` | one mass spectrum | [spectrum](commands/spectrum.md) |
+| `openreadout_spectrum` | one mass spectrum, with its most intense peaks and their charges | [spectrum](commands/spectrum.md) |
 | `openreadout_peaks` | chromatographic peaks; bands and regions of spectra | [analyze peaks](commands/analyze.md#peaks-and-chromatogram) |
 | `openreadout_chromatogram` | TIC, BPC, XIC, SRM and detector chromatograms | [analyze chromatogram](commands/analyze.md#peaks-and-chromatogram) |
 | `openreadout_nmr_peaks` | NMR peaks and integrals | [analyze nmr-peaks](commands/analyze.md#nmr-peaks) |
@@ -83,7 +83,7 @@ Returns a picture as image content, followed by JSON that says what was drawn. A
 
 ### openreadout_stats
 
-Per channel and image (the default), with every plane (`per: "plane"`), or per well or field of a screening plate (`per: "well"` or `"field"`, with `wells` to choose wells). Other arguments: `image`, `select`, `level`, `region`, `bins` (default 32), `scale` (`linear` or `log`) and `mip` (`z` or `t`).
+Per channel and image (the default), with every plane (`per: "plane"`), or per well or field of a screening plate (`per: "well"` or `"field"`, with `wells` to choose wells). Other arguments: `image`, `select`, `level`, `region`, `bins` (default 32), `scale` (`linear` or `log`) and `mip` (`z` or `t`). Measurements on one plane: `line` (`[x0, y0, x1, y1]`) with `line_width`, `polygon` (`[[x, y], …]`) and `objects` (`{threshold, polarity, smooth, min_area_px, max_objects, component, split}`), as described under [Measurements](commands/stats.md#measurements).
 
 ### openreadout_trace
 
@@ -99,7 +99,7 @@ Mass spectrometry only: IR, Raman, UV-Vis and NMR spectra are traces (`openreado
 
 `openreadout_scans` lists the scan headers of a run without decoding peaks, filtered by `ms_level`, `polarity`, `rt_range` (minutes), `precursor` (within `precursor_tol`, default 0.01 m/z, or `precursor_ppm`), `charge`, `activation` and `scan_filter`. Every match is counted. `limit` (default 100, at most 5000) and `offset` page the list, and `count: true` lists none.
 
-`openreadout_spectrum` returns one spectrum's `mz` and `intensity`, chosen by `scan`, `spectrum`, or `ms_level` and `nth`, with at most `max_points` (default 2000). `centroid: true` returns the stored centroid list.
+`openreadout_spectrum` returns one spectrum, chosen by `rt` (minutes: the scan of `ms_level`, default 1, nearest it), `scan`, or `spectrum` (counted within `ms_level` when given). `peaks` lists the `top_peaks` (default 20) most intense peaks with charge, monoisotopic m/z and neutral mass; `mz` and `intensity` keep the `max_points` (default 1000) most intense points in m/z order. `centroid: true` returns the stored centroid list.
 
 ### The analysis tools
 
@@ -107,11 +107,11 @@ Each `analyze` subcommand is a tool whose arguments are its flags. An argument t
 
 - `openreadout_peaks`: chromatographic peaks with areas, widths, tailing, plates, resolution and S/N; compound lists; bands and regions of IR, Raman, UV-Vis and NMR spectra. Arguments: those of `openreadout_chromatogram` to choose the signal, plus `smooth`, `min_snr`, `min_height`, `min_width`, `baseline`, `area_seconds`, `rt`, `window`, `pick`, `integrate`, `x_range`, `compounds` and `summary_only`. See [Chromatograms and peaks](../guides/quantitation.md).
 - `openreadout_chromatogram`: TIC, BPC, XIC and SRM chromatograms, or stored detector traces. Arguments: `tic`, `bpc`, `mz`, `ppm`, `da`, `transitions`, `transition_tol`, `traces`, `channel`, `sweep`, `run`, `ms_level`, `polarity`, `scan_filter`, `precursor`, `precursor_tol`, `rt_range`, `mz_range`, `profile`, `aggregate` and `max_points`.
-- `openreadout_nmr_peaks`: NMR peak list and region integrals. Arguments: `from`, `trace`, `sweep`, `phase`, `lb`, `size`, `baseline`, `min_snr`, `min_prominence`, `min_height_fraction`, `negative`, `range_ppm`, `max_peaks`, `integrate` and `integral_reference`. See [NMR processing](../guides/nmr.md).
+- `openreadout_nmr_peaks`: NMR peak list and region integrals. Arguments: `from`, `trace`, `sweep`, `phase`, `lb`, `size`, `baseline`, `min_snr`, `min_prominence`, `min_height_fraction`, `negative`, `range_ppm`, `max_peaks`, `integrate`, `auto_integrate` (one region per multiplet) and `integral_reference`. See [NMR processing](../guides/nmr.md).
 - `openreadout_ephys_features`: patch-clamp features per sweep and per cell. Arguments: `trace`, `channel`, `sweeps`, `peak_threshold_mv`, `dvdt_threshold` and `max_spikes`. See [Electrophysiology](../guides/ephys.md).
 - `openreadout_spikes`: extracellular spike detection per channel. Arguments: `trace`, `channels`, `sweeps`, `band_hz`, `threshold`, `sign`, `max_seconds` and `max_times`.
 - `openreadout_qpcr`: Cq and Tm per well and target, ΔΔCq and standard curves. Arguments: `well`, `target`, `sample`, `run`, `compute_cq`, `cq_method`, `threshold`, `baseline_start`, `baseline_end`, `ddcq`, `reference_targets`, `control_sample`, `standard_curve`, `undetermined_cq` and `max_records`.
-- `openreadout_gate`: population counts, percentages and medians from a FlowJo workspace or Gating-ML file. Arguments: `workspace`, `gatingml`, `sample`, `populations`, `table` and `medians`. Without `workspace` or `gatingml`, `file` is the gating file itself, described without counts.
+- `openreadout_gate`: population counts, percentages and medians from a FlowJo workspace or Gating-ML file. Arguments: `workspace`, `gatingml`, `sample`, `populations`, `table` and `medians` (parameter names, or `["all"]` for every gated parameter). Without `workspace` or `gatingml`, `file` is the gating file itself, described without counts.
 - `openreadout_assay` takes `analysis` (`wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc`, the subcommands `assay-wells` … `assay-qc`), `layout`, `blank_wells`, `positive_wells` and `negative_wells`, the arguments of that analysis (`reduce`, `window`, `normalize`; `model`, `weighting`, `confidence`, `plot`; `standards`, `fit_on`, `lloq`, `uloq`; `wells`, `growth_threshold`), and the rarely needed plate options in `plate_options`: `table`, `read`, `wavelength_nm`, `embedded_layout`, `layout_text`, `empty_wells`, `roles`, `blank_subtraction`, `outliers`, `outlier_threshold` and `exclude_outliers`. `plot: true` adds the fitted curve as an image. See [Plate-reader assays](../guides/plate-analysis.md).
 
 ### openreadout_export
@@ -197,7 +197,7 @@ Every tool has a title and the four MCP behaviour hints:
 
 ## Progress
 
-When a request carries a `progressToken`, `openreadout_export` sends progress notifications: `progress` counts the planes or spectra read so far, and `total` the number to read. Verification of the written file follows the last notification. `openreadout_index` sends a notification after each chunk of files, with the number read so far and no `total`.
+When a request carries a `progressToken`, long calls send progress notifications whose `message` a host can show as is, such as "Reading 1,200 of 53,141 spectra": `openreadout_export` (planes, spectra, rows or samples read; verification of the written file follows the last one), `openreadout_chromatogram` and `openreadout_peaks` (spectra read), `openreadout_stats` (planes read), `openreadout_batch` (data sets measured) and `openreadout_index` (data sets read so far, without a `total`). A tool argument that takes a list also accepts a single value (`"filter": "FITC-A > 1000"`), and an argument of the wrong type gets a hint listing the tool's arguments.
 
 ## Errors
 
