@@ -768,8 +768,8 @@ impl InstrumentFile {
             let point_count = sp.mz.len() as u64;
             let keep = usize::try_from(o.max_points.unwrap_or(100_000)).unwrap_or(usize::MAX);
             let truncated = sp.mz.len() > keep;
-            sp.mz.truncate(keep);
-            sp.intensity.truncate(keep);
+            let peaks = openreadout_core::scans::top_peaks(&sp, 20);
+            openreadout_core::scans::keep_most_intense(&mut sp, keep);
             Ok(SpectrumOutput {
                 path: path.clone(),
                 format: format.into(),
@@ -777,6 +777,7 @@ impl InstrumentFile {
                 view: if o.centroid { "centroid" } else { "primary" }.into(),
                 point_count,
                 truncated,
+                peaks,
                 spectrum: sp,
             })
         });

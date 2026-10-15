@@ -73,7 +73,13 @@ pub struct SpectrumArgs {
     /// Waters .raw: correct m/z with the lock-spray reference scans, given the lock compound's
     /// m/z (e.g. 556.2771), or "auto" for the Lock Mass the file records. Default: m/z as stored.
     pub lock_mass: Option<String>,
-    /// At most this many points (default 2000; point_count reports the full size).
+    /// The MS scan (of ms_level, default 1) nearest this retention time, minutes: the spectrum
+    /// at a chromatogram's apex.
+    pub rt: Option<f64>,
+    /// Most intense peaks listed under peaks[] with charge and neutral mass (default 20).
+    pub top_peaks: Option<usize>,
+    /// At most this many points, the most intense kept (default 1000; point_count reports the
+    /// full size).
     pub max_points: Option<usize>,
     /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
@@ -132,7 +138,7 @@ impl InstrumentServer {
         name = "openreadout_spectrum",
         annotations(title = "One mass spectrum", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = rmcp::handler::server::common::schema_for_output::<SpectrumOutput>(),
-        description = "One mass spectrum's mz[] and intensity[] with its metadata, picked by scan number or by zero-based spectrum index, counted within one MS level when ms_level is given."
+        description = "One mass spectrum, picked by retention time (rt, minutes: the scan nearest it), scan number or zero-based spectrum index: metadata, peaks[] (the most intense, with charge from the isotope spacing and neutral mass) and mz[]/intensity[]."
     )]
     pub(crate) fn spectrum(
         &self,
@@ -158,7 +164,32 @@ impl InstrumentServer {
         } else {
             SpectrumView::Primary
         };
-        let mut sp = match (a.spectrum, a.ms_level, a.scan) {
+        let rt_pick = match a.rt {
+            Some(rt) => {
+                if a.scan.is_some() || a.spectrum.is_some() {
+                    return Err(mcp_err(&Error::Usage(
+                        "give one of rt, scan and spectrum".into(),
+                    )));
+                }
+                let level = a.ms_level.unwrap_or(1);
+                let hit =
+                    openreadout_core::scans::nearest_scan(ds.as_mut(), a.run, rt * 60.0, level)
+                        .map_err(|e| mcp_err(&e))?
+                        .ok_or_else(|| {
+                            mcp_err(&Error::Usage(format!(
+                                "run {} has no MS{level} scan with a retention time",
+                                a.run
+                            )))
+                        })?;
+                Some(hit.0)
+            }
+            None => None,
+        };
+        let mut sp = match (
+            a.spectrum.or(rt_pick),
+            a.ms_level.filter(|_| rt_pick.is_none()),
+            a.scan,
+        ) {
             (Some(i), Some(level), _) => {
                 let count = ds
                     .info()
@@ -181,7 +212,8 @@ impl InstrumentServer {
                 openreadout_core::reader::spectrum_by_scan(ds.as_mut(), a.run, n, view)
             }
             (None, _, None) => Err(Error::Usage(
-                "give scan, or spectrum (with ms_level to count within one MS level)".into(),
+                "give rt (minutes), scan, or spectrum (with ms_level to count within one MS level)"
+                    .into(),
             )),
         }
         .map_err(|e| mcp_err(&e))?;
@@ -192,10 +224,10 @@ impl InstrumentServer {
             ))));
         }
         let point_count = sp.mz.len() as u64;
-        let cap = a.max_points.unwrap_or(2000);
+        let peaks = openreadout_core::scans::top_peaks(&sp, a.top_peaks.unwrap_or(20));
+        let cap = a.max_points.unwrap_or(1000);
         let truncated = sp.mz.len() > cap;
-        sp.mz.truncate(cap);
-        sp.intensity.truncate(cap);
+        openreadout_core::scans::keep_most_intense(&mut sp, cap);
         ok_json(&SpectrumOutput {
             path: a.file.clone(),
             format: det.format_id.into(),
@@ -203,6 +235,7 @@ impl InstrumentServer {
             view: if a.centroid { "centroid" } else { "primary" }.into(),
             point_count,
             truncated,
+            peaks,
             spectrum: sp,
         })
     }

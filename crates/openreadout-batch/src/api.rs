@@ -182,6 +182,16 @@ pub enum MeasureName {
 /// rows, default [`DEFAULT_BATCH_ROWS`], capped at [`MAX_BATCH_ROWS`]); otherwise every row
 /// unless `limit` says otherwise.
 pub fn run_batch(reg: &Registry, a: BatchToolArgs, paged: bool) -> Result<BatchOutput> {
+    run_batch_with_progress(reg, a, paged, None)
+}
+
+/// [`run_batch`], reporting `(done, total, path)` per data set to `progress`.
+pub fn run_batch_with_progress(
+    reg: &Registry,
+    a: BatchToolArgs,
+    paged: bool,
+    progress: Option<crate::run::Progress<'_>>,
+) -> Result<BatchOutput> {
     let gating = a.workspace.clone().or_else(|| a.gatingml.clone());
     let spec = {
         let mut s = MeasureSpec::default();
@@ -244,7 +254,7 @@ pub fn run_batch(reg: &Registry, a: BatchToolArgs, paged: bool) -> Result<BatchO
         s.test = test_kind(a.test.as_deref())?;
         p.summarize = Some(s);
     }
-    let r = run_pipeline(reg, measure.as_ref(), &p, None, None)?;
+    let r = run_pipeline(reg, measure.as_ref(), &p, progress, None)?;
     let limit = if paged {
         Some(
             a.limit

@@ -14,7 +14,8 @@ use openreadout_batch::analyze::AnalyzeKind;
 use openreadout_core::Error;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
-use rmcp::{ErrorData as McpError, tool, tool_router};
+use rmcp::service::RequestContext;
+use rmcp::{ErrorData as McpError, RoleServer, tool, tool_router};
 use serde_json::Value;
 
 use super::analyses::{AnalysisArgs, call};
@@ -207,6 +208,7 @@ impl InstrumentServer {
     pub(crate) async fn assay(
         &self,
         Parameters(a): Parameters<AnalysisArgs<AssayArgs>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         let analysis: Analysis = match a.options.get("analysis") {
             Some(v) => serde_json::from_value(v.clone()).map_err(|_| {
@@ -236,6 +238,6 @@ impl InstrumentServer {
         }
         let mut options = a.options;
         options.insert("analysis".into(), Value::String(analysis.id().into()));
-        call(self, AnalyzeKind::Assay, a.file, a.strict, options).await
+        call(self, AnalyzeKind::Assay, a.file, a.strict, options, &ctx).await
     }
 }

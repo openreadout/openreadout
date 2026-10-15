@@ -1031,8 +1031,12 @@ pub struct SpectrumOutput {
     pub view: String,
     /// Number of points in the full spectrum (the arrays may be shortened by `max_points`).
     pub point_count: u64,
-    /// True when `mz`/`intensity` were shortened to `max_points`.
+    /// True when `mz`/`intensity` were shortened to `max_points` (the most intense points are
+    /// kept, in m/z order).
     pub truncated: bool,
+    /// The most intense peaks of the whole spectrum, with charges from their isotope patterns.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub peaks: Vec<crate::scans::MsPeak>,
     /// The spectrum, with its arrays.
     pub spectrum: Spectrum,
 }

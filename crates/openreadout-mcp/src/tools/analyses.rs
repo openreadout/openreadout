@@ -12,10 +12,11 @@ use std::borrow::Cow;
 use std::marker::PhantomData;
 
 use base64::Engine as _;
-use openreadout_batch::analyze::{AnalyzeArgs, AnalyzeKind, run};
+use openreadout_batch::analyze::{AnalyzeArgs, AnalyzeKind, run_with_progress};
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{CallToolResult, ContentBlock};
-use rmcp::{ErrorData as McpError, tool, tool_router};
+use rmcp::service::RequestContext;
+use rmcp::{ErrorData as McpError, RoleServer, tool, tool_router};
 use serde::{Deserialize, Deserializer};
 use serde_json::{Map, Value};
 
@@ -88,6 +89,7 @@ pub(super) async fn call(
     file: String,
     strict: Option<bool>,
     options: Map<String, Value>,
+    ctx: &RequestContext<RoleServer>,
 ) -> Result<CallToolResult, McpError> {
     let registry = server.registry;
     let args = AnalyzeArgs {
@@ -96,11 +98,21 @@ pub(super) async fn call(
         options,
         strict,
     };
-    let (out, png) =
-        tokio::task::spawn_blocking(move || run(&with_strict(registry(), args.strict), &args))
-            .await
-            .map_err(|e| McpError::internal_error(format!("analysis task failed: {e}"), None))?
-            .map_err(|e| mcp_err(&e))?;
+    let (notifier, forward) = crate::progress::Notifier::for_call(ctx);
+    let (out, png) = tokio::task::spawn_blocking(move || {
+        let report = notifier.map(|n| n.shared("Reading", "spectra"));
+        run_with_progress(
+            &with_strict(registry(), args.strict),
+            &args,
+            report
+                .as_deref()
+                .map(|r| r as &openreadout_core::parallel::Progress<'_>),
+        )
+    })
+    .await
+    .map_err(|e| McpError::internal_error(format!("analysis task failed: {e}"), None))?
+    .map_err(|e| mcp_err(&e))?;
+    forward.finish().await;
     let mut r = CallToolResult::structured(to_value(&out)?);
     if let Some(bytes) = png {
         r.content.insert(
@@ -128,8 +140,9 @@ impl InstrumentServer {
     pub(crate) async fn peaks(
         &self,
         Parameters(a): Parameters<AnalysisArgs<PeaksQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Peaks, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Peaks, a.file, a.strict, a.options, &ctx).await
     }
 
     #[tool(
@@ -141,8 +154,17 @@ impl InstrumentServer {
     pub(crate) async fn chromatogram(
         &self,
         Parameters(a): Parameters<AnalysisArgs<ChromatogramQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Chromatogram, a.file, a.strict, a.options).await
+        call(
+            self,
+            AnalyzeKind::Chromatogram,
+            a.file,
+            a.strict,
+            a.options,
+            &ctx,
+        )
+        .await
     }
 
     #[tool(
@@ -154,8 +176,17 @@ impl InstrumentServer {
     pub(crate) async fn nmr_peaks(
         &self,
         Parameters(a): Parameters<AnalysisArgs<NmrQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::NmrPeaks, a.file, a.strict, a.options).await
+        call(
+            self,
+            AnalyzeKind::NmrPeaks,
+            a.file,
+            a.strict,
+            a.options,
+            &ctx,
+        )
+        .await
     }
 
     #[tool(
@@ -167,6 +198,7 @@ impl InstrumentServer {
     pub(crate) async fn ephys_features(
         &self,
         Parameters(a): Parameters<AnalysisArgs<EphysQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         call(
             self,
@@ -174,6 +206,7 @@ impl InstrumentServer {
             a.file,
             a.strict,
             a.options,
+            &ctx,
         )
         .await
     }
@@ -187,8 +220,9 @@ impl InstrumentServer {
     pub(crate) async fn spikes(
         &self,
         Parameters(a): Parameters<AnalysisArgs<SpikesQuery>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Spikes, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Spikes, a.file, a.strict, a.options, &ctx).await
     }
 
     #[tool(
@@ -200,8 +234,9 @@ impl InstrumentServer {
     pub(crate) async fn qpcr(
         &self,
         Parameters(a): Parameters<AnalysisArgs<openreadout_batch::analyze::QpcrOptions>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Qpcr, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Qpcr, a.file, a.strict, a.options, &ctx).await
     }
 
     #[tool(
@@ -213,7 +248,8 @@ impl InstrumentServer {
     pub(crate) async fn gate(
         &self,
         Parameters(a): Parameters<AnalysisArgs<openreadout_batch::analyze::GateOptions>>,
+        ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
-        call(self, AnalyzeKind::Gate, a.file, a.strict, a.options).await
+        call(self, AnalyzeKind::Gate, a.file, a.strict, a.options, &ctx).await
     }
 }

@@ -124,13 +124,34 @@ impl InstrumentServer {
     pub(crate) async fn batch(
         &self,
         Parameters(a): Parameters<BatchArgs>,
+        ctx: rmcp::service::RequestContext<rmcp::RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         let registry = self.registry;
         let a = batch_request(a)?;
-        let out = tokio::task::spawn_blocking(move || batch::run_batch(&registry(), a, true))
-            .await
-            .map_err(|e| McpError::internal_error(format!("batch task failed: {e}"), None))?
-            .map_err(|e| mcp_err(&e))?;
+        let (notifier, forward) = crate::progress::Notifier::for_call(&ctx);
+        let out = tokio::task::spawn_blocking(move || {
+            let report = notifier.map(|n| {
+                move |done: u64, total: u64, _path: &str| {
+                    n.send(
+                        done,
+                        total,
+                        crate::progress::message("Measured", done, total, "data sets"),
+                    );
+                }
+            });
+            batch::run_batch_with_progress(
+                &registry(),
+                a,
+                true,
+                report
+                    .as_ref()
+                    .map(|r| r as openreadout_batch::run::Progress<'_>),
+            )
+        })
+        .await
+        .map_err(|e| McpError::internal_error(format!("batch task failed: {e}"), None))?
+        .map_err(|e| mcp_err(&e))?;
+        forward.finish().await;
         ok_json(&out)
     }
 

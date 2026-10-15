@@ -190,6 +190,7 @@ pub enum AnalyzeOutput {
 fn with_file<T>(
     reg: &Registry,
     file: &str,
+    progress: Option<&openreadout_core::parallel::Progress<'_>>,
     f: impl FnOnce(&mut dyn Dataset, &openreadout_core::FileInfo, &ReadContext<'_>) -> Result<T>,
 ) -> Result<T> {
     let (_, mut ds) = reg.open(Path::new(file))?;
@@ -200,7 +201,7 @@ fn with_file<T>(
         &info,
         &ReadContext {
             opener: Some(&opener),
-            progress: None,
+            progress,
         },
     )
 }
@@ -214,6 +215,16 @@ fn parse<T: serde::de::DeserializeOwned + schemars::JsonSchema>(
 
 /// Run one analysis; the PNG of an assay fit when `plot` is set.
 pub fn run(reg: &Registry, a: &AnalyzeArgs) -> Result<(AnalyzeOutput, Option<Vec<u8>>)> {
+    run_with_progress(reg, a, None)
+}
+
+/// [`run`], reporting `(done, total)` units read (spectra of chromatograms and peaks) to
+/// `progress`.
+pub fn run_with_progress(
+    reg: &Registry,
+    a: &AnalyzeArgs,
+    progress: Option<&openreadout_core::parallel::Progress<'_>>,
+) -> Result<(AnalyzeOutput, Option<Vec<u8>>)> {
     let o = &a.options;
     let out = match a.kind {
         AnalyzeKind::Qpcr => {
@@ -263,7 +274,7 @@ pub fn run(reg: &Registry, a: &AnalyzeArgs) -> Result<(AnalyzeOutput, Option<Vec
             let g: GateOptions = parse(a.kind, o)?;
             AnalyzeOutput::Gate(gate(&a.file, g)?)
         }
-        kind => with_file(reg, &a.file, |ds, info, ctx| {
+        kind => with_file(reg, &a.file, progress, |ds, info, ctx| {
             run_dataset(kind, o, ds, info, ctx)
         })?,
     };

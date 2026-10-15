@@ -69,7 +69,7 @@ pub struct ScansArgs {
 
 /// Arguments of `spectrum`.
 #[derive(Debug, Clone, clap::Args)]
-#[command(group(clap::ArgGroup::new("which").required(true).args(["scan", "spectrum"])))]
+#[command(group(clap::ArgGroup::new("which").required(true).args(["rt", "scan", "spectrum"])))]
 pub struct SpectrumArgs {
     /// The mass-spectrometry file (Thermo .raw, mzML/.mzML.gz/mzMLb, mzXML, imzML, Bruker .d,
     /// Agilent .d, Waters .raw, Sciex .wiff, ANDI/MS .cdf, ChemStation .ms).
@@ -80,12 +80,16 @@ pub struct SpectrumArgs {
     /// This scan number as the instrument counts it (1-based in Thermo files).
     #[arg(long, value_name = "N", conflicts_with = "spectrum")]
     pub scan: Option<u64>,
+    /// The scan nearest this retention time in minutes (MS1, or `--ms-level`): the spectrum at
+    /// a chromatogram's apex.
+    #[arg(long, value_name = "MIN", conflicts_with_all = ["scan", "spectrum"])]
+    pub rt: Option<f64>,
     /// This zero-based spectrum index, counted within `--ms-level` when it is given.
     #[arg(long, value_name = "I")]
     pub spectrum: Option<u64>,
     /// Count `--spectrum` among the spectra of this MS level only. MS1 and MS/MS scans are
     /// interleaved, and `--ms-level 2 --spectrum 0` is the first MS/MS scan.
-    #[arg(long, value_name = "L", requires = "spectrum")]
+    #[arg(long, value_name = "L")]
     pub ms_level: Option<u32>,
     /// The instrument's stored centroid list instead of the profile when a scan has both.
     #[arg(long)]
@@ -108,6 +112,9 @@ pub struct SpectrumArgs {
 
 /// Default page size of `scans` (JSON and text).
 pub const DEFAULT_LIMIT: u64 = 50;
+
+/// Most intense peaks `spectrum` lists with their charges.
+pub const TOP_PEAKS: usize = 20;
 
 /// `--rt-range START:END` (or `START-END`) in minutes → seconds (`None` for an open side).
 pub fn parse_rt_minutes(s: &str) -> Result<(Option<f64>, Option<f64>)> {
@@ -387,13 +394,14 @@ pub fn run_scans(reg: &Registry, a: &ScansArgs) -> i32 {
 /// `openreadout spectrum --scan N | --spectrum I [--ms-level L]`: one spectrum.
 pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
     let by = match (a.scan, a.spectrum, a.ms_level) {
+        _ if a.rt.is_some() => SpectrumBy::Rt(a.rt.unwrap_or(0.0), a.ms_level.unwrap_or(1)),
         (_, Some(i), Some(level)) => SpectrumBy::Level(level, i),
         (_, Some(i), None) => SpectrumBy::Index(i),
         (Some(n), None, _) => SpectrumBy::Scan(n),
         (None, None, _) => {
             return fail(
                 a.json,
-                &Error::Usage("give --scan N or --spectrum I (with --ms-level L to count within one MS level)".into()),
+                &Error::Usage("give --rt MIN, --scan N or --spectrum I (with --ms-level L to count within one MS level)".into()),
             );
         }
     };
@@ -414,6 +422,8 @@ pub fn run_spectrum(reg: &Registry, a: &SpectrumArgs) -> i32 {
 
 /// How `spectrum` picks one spectrum.
 pub enum SpectrumBy {
+    /// The scan of this MS level nearest a retention time in minutes.
+    Rt(f64, u32),
     Scan(u64),
     Index(u64),
     /// MS level and zero-based index within that level.
@@ -446,6 +456,16 @@ pub fn spectrum(
     };
     let mut sp = match by {
         SpectrumBy::Index(i) => ds.read_spectrum_view(run, i, view)?,
+        SpectrumBy::Rt(rt, level) => {
+            let (i, _, _) =
+                openreadout_core::scans::nearest_scan(ds.as_mut(), run, rt * 60.0, level)?
+                    .ok_or_else(|| {
+                        Error::Usage(format!(
+                            "run {run} has no MS{level} scan with a retention time"
+                        ))
+                    })?;
+            ds.read_spectrum_view(run, i, view)?
+        }
         SpectrumBy::Scan(n) => {
             openreadout_core::reader::spectrum_by_scan(ds.as_mut(), run, n, view)?
         }
@@ -467,12 +487,12 @@ pub fn spectrum(
         }
     };
     let point_count = sp.mz.len() as u64;
+    let peaks = openreadout_core::scans::top_peaks(&sp, TOP_PEAKS);
     let mut truncated = false;
     if let Some(k) = max_points
         && sp.mz.len() > k
     {
-        sp.mz.truncate(k);
-        sp.intensity.truncate(k);
+        openreadout_core::scans::keep_most_intense(&mut sp, k);
         truncated = true;
     }
     Ok(SpectrumOutput {
@@ -482,6 +502,7 @@ pub fn spectrum(
         view: if centroid { "centroid" } else { "primary" }.into(),
         point_count,
         truncated,
+        peaks,
         spectrum: sp,
     })
 }
@@ -516,15 +537,34 @@ pub fn render_spectrum(o: &SpectrumOutput) -> String {
     if let Some(t) = s.total_ion_current {
         out.push_str(&format!("  total ion current: {t}\n"));
     }
-    let shown = s.mz.len().min(20);
-    for (m, i) in s.mz.iter().zip(&s.intensity).take(shown) {
-        out.push_str(&format!("  {m:>14.6}  {i:>14.2}\n"));
-    }
-    if s.mz.len() > shown {
-        out.push_str(&format!(
-            "  ... {} more points (use --json)\n",
-            s.mz.len() - shown
-        ));
+    if o.peaks.is_empty() {
+        let shown = s.mz.len().min(20);
+        for (m, i) in s.mz.iter().zip(&s.intensity).take(shown) {
+            out.push_str(&format!("  {m:>14.6}  {i:>14.2}\n"));
+        }
+        if s.mz.len() > shown {
+            out.push_str(&format!(
+                "  ... {} more points (use --json)\n",
+                s.mz.len() - shown
+            ));
+        }
+    } else {
+        out.push_str(
+            "  most intense peaks:      m/z       intensity  z  monoisotopic m/z  neutral mass\n",
+        );
+        for p in &o.peaks {
+            out.push_str(&format!(
+                "  {:>27.5}  {:>14.4e}  {}  {:>16}  {:>12}\n",
+                p.mz,
+                p.intensity,
+                p.charge.map_or_else(|| "-".into(), |z| z.to_string()),
+                p.monoisotopic_mz
+                    .map_or_else(|| "-".into(), |m| format!("{m:.5}")),
+                p.neutral_mass_da
+                    .map_or_else(|| "-".into(), |m| format!("{m:.4}"))
+            ));
+        }
+        out.push_str("  (all points: --json)\n");
     }
     out.trim_end().to_string()
 }

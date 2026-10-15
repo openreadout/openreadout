@@ -1,6 +1,8 @@
-//! Progress reporting for long exports without touching the writers: a [`Dataset`] wrapper that
-//! counts plane and spectrum reads (or, for table and trace exports, rows and samples) and
-//! reports `(done, total)` to a callback.
+//! Progress reporting. [`Notifier`] turns `(done, total)` counts into MCP progress
+//! notifications with a message a host can show as is ("Reading 1,200 of 53,141 spectra"),
+//! sent only when the client gave a `progressToken`. [`ProgressDataset`] reports exports
+//! without touching the writers: it wraps a [`Dataset`] and counts plane and spectrum reads
+//! (or, for table and trace exports, rows and samples).
 
 use openreadout_core::Result;
 use openreadout_core::model::{
@@ -9,6 +11,104 @@ use openreadout_core::model::{
 use openreadout_core::pixel::Plane;
 use openreadout_core::provenance::ProvenanceMap;
 use openreadout_core::reader::{Dataset, PlaneIndex, SpectrumView};
+
+/// `12345` as `12,345`.
+pub fn group(n: u64) -> String {
+    let d = n.to_string();
+    let mut out = String::with_capacity(d.len() + d.len() / 3);
+    for (i, c) in d.chars().enumerate() {
+        if i > 0 && (d.len() - i).is_multiple_of(3) {
+            out.push(',');
+        }
+        out.push(c);
+    }
+    out
+}
+
+/// A progress message: `Reading 1,200 of 53,141 spectra`, or `Indexing: 1,200 data sets read`
+/// without a total.
+pub fn message(what: &str, done: u64, total: u64, unit: &str) -> String {
+    if total > 0 {
+        format!("{what} {} of {} {unit}", group(done), group(total))
+    } else {
+        format!("{what}: {} {unit}", group(done))
+    }
+}
+
+/// Sends progress notifications for one tool call, when the client asked for them.
+#[derive(Clone)]
+pub struct Notifier {
+    tx: tokio::sync::mpsc::UnboundedSender<(u64, u64, String)>,
+}
+
+/// The task forwarding a call's notifications to the client; await it before answering.
+pub struct Forwarder(Option<tokio::task::JoinHandle<()>>);
+
+impl Forwarder {
+    /// Wait until every notification is sent.
+    pub async fn finish(self) {
+        if let Some(t) = self.0 {
+            let _ = t.await;
+        }
+    }
+}
+
+impl Notifier {
+    /// A notifier for the call `ctx`, or `None` when the client gave no `progressToken`.
+    pub fn for_call(
+        ctx: &rmcp::service::RequestContext<rmcp::RoleServer>,
+    ) -> (Option<Notifier>, Forwarder) {
+        let Some(tok) = ctx.meta.get_progress_token() else {
+            return (None, Forwarder(None));
+        };
+        let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel::<(u64, u64, String)>();
+        let peer = ctx.peer.clone();
+        let task = tokio::spawn(async move {
+            while let Some((done, total, msg)) = rx.recv().await {
+                let mut p = rmcp::model::ProgressNotificationParam::new(tok.clone(), done as f64)
+                    .with_message(msg);
+                if total > 0 {
+                    p = p.with_total(total as f64);
+                }
+                let _ = peer.notify_progress(p).await;
+            }
+        });
+        (Some(Notifier { tx }), Forwarder(Some(task)))
+    }
+
+    /// Send one notification now.
+    pub fn send(&self, done: u64, total: u64, msg: String) {
+        let _ = self.tx.send((done, total, msg));
+    }
+
+    /// A counter for a writer or reader loop: each call sends `what done of total unit`, at
+    /// most once per percent.
+    pub fn counter(&self, what: impl Into<String>, unit: &'static str) -> ProgressFn {
+        let n = self.clone();
+        let what = what.into();
+        throttled(move |done, total| n.send(done, total, message(&what, done, total, unit)))
+    }
+
+    /// The same as a shared callback for [`openreadout_core::parallel::ReadContext`].
+    pub fn shared(
+        &self,
+        what: impl Into<String>,
+        unit: &'static str,
+    ) -> Box<dyn Fn(u64, u64) + Send + Sync> {
+        let n = self.clone();
+        let what = what.into();
+        let last = std::sync::Mutex::new(u64::MAX);
+        Box::new(move |done, total| {
+            let pct = done.saturating_mul(100).checked_div(total).unwrap_or(100);
+            if let Ok(mut l) = last.lock()
+                && *l != pct
+            {
+                *l = pct;
+                n.send(done, total, message(&what, done, total, unit));
+            }
+        })
+    }
+}
 
 /// Called with `(units done, total units)`.
 pub type ProgressFn = Box<dyn FnMut(u64, u64) + Send>;
@@ -240,4 +340,24 @@ pub fn throttled(mut f: impl FnMut(u64, u64) + Send + 'static) -> ProgressFn {
             f(done, total);
         }
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn messages_read_naturally() {
+        assert_eq!(group(53141), "53,141");
+        assert_eq!(group(999), "999");
+        assert_eq!(group(1_000_000), "1,000,000");
+        assert_eq!(
+            message("Reading", 1200, 53141, "spectra"),
+            "Reading 1,200 of 53,141 spectra"
+        );
+        assert_eq!(
+            message("Indexing", 12, 0, "data sets read"),
+            "Indexing: 12 data sets read"
+        );
+    }
 }

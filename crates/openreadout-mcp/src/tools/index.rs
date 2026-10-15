@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 
 use openreadout_core::Error;
 use rmcp::handler::server::wrapper::Parameters;
-use rmcp::model::{CallToolResult, ProgressNotificationParam};
+use rmcp::model::CallToolResult;
 use rmcp::service::RequestContext;
 use rmcp::{ErrorData as McpError, RoleServer, schemars, tool, tool_router};
 use serde::Deserialize;
@@ -101,19 +101,7 @@ impl InstrumentServer {
         ctx: RequestContext<RoleServer>,
     ) -> Result<CallToolResult, McpError> {
         let registry = self.registry;
-        let token = ctx.meta.get_progress_token();
-        let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel::<u64>();
-        let forward = token.map(|tok| {
-            let peer = ctx.peer.clone();
-            tokio::spawn(async move {
-                while let Some(done) = rx.recv().await {
-                    let p = ProgressNotificationParam::new(tok.clone(), done as f64)
-                        .with_message(format!("read {done} files and directory data sets"));
-                    let _ = peer.notify_progress(p).await;
-                }
-            })
-        });
-        let want_progress = forward.is_some();
+        let (notifier, forward) = crate::progress::Notifier::for_call(&ctx);
         let r = tokio::task::spawn_blocking(move || {
             let reg = registry();
             let mut o = openreadout_index::IndexOptions::default();
@@ -143,8 +131,13 @@ impl InstrumentServer {
                 .build()
                 .map_err(|e| McpError::internal_error(e.to_string(), None))?;
             let cb = move |p: &openreadout_index::CrawlProgress| {
-                if want_progress {
-                    let _ = tx.send(p.stats.items);
+                if let Some(n) = &notifier {
+                    let items = p.stats.items;
+                    n.send(
+                        items,
+                        0,
+                        crate::progress::message("Indexing", items, 0, "data sets read"),
+                    );
                 }
             };
             pool.install(|| openreadout_index::index(&reg, &o, Some(&cb)))
@@ -152,9 +145,7 @@ impl InstrumentServer {
         })
         .await
         .map_err(|e| McpError::internal_error(format!("index task failed: {e}"), None))?;
-        if let Some(f) = forward {
-            let _ = f.await;
-        }
+        forward.finish().await;
         let mut m = r?;
         // Column lists are in index.json; they would only fill the agent's context here.
         for t in m.tables.values_mut() {
