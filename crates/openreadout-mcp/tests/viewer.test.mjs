@@ -214,3 +214,11 @@ test("the viewer starts from the result's hint, else the tool's file", () => {
   assert.deepEqual(v.hintFrom(null, opened), opened);
   assert.equal(v.hintFrom({}, { roots: ["/d"] }), null);
 });
+
+test("hidden elements stay hidden whatever display their class sets", async () => {
+  const { readFileSync } = await import("node:fs");
+  const css = readFileSync(new URL("../src/app/web/viewer.css", import.meta.url), "utf8");
+  assert.match(css, /^\[hidden\] \{ display: none !important; \}$/m);
+  // no rule brings a hidden element back
+  assert.doesNotMatch(css, /\[hidden\][^{]*\{[^}]*display:\s*(?!\s|none)/);
+});
