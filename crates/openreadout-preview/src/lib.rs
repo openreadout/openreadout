@@ -68,6 +68,7 @@ mod events;
 mod image;
 mod kinetic;
 mod marks;
+mod options;
 mod overlay;
 mod plate;
 mod rulers;
@@ -84,6 +85,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 pub use annotate::{Annotation, DrawnAnnotation};
+pub use options::PreviewOptions;
 pub use openreadout_figure::{Figure, Raster};
 pub use plate::{PlateGrid, plate_grid};
 
