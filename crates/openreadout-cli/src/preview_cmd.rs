@@ -275,6 +275,8 @@ fn save_figure(
     out.height = w.height;
     out.bytes = w.bytes;
     out.verified = w.verified;
+    let written = std::fs::read(&output).map_err(|e| Error::io(&output, e))?;
+    out.xxh3 = format!("{:032x}", xxhash_rust::xxh3::xxh3_128(&written));
     out.output = Some(w.path.clone());
     out.hint = Some(look_hint(&out, &w.path));
     Ok(out)
