@@ -73,6 +73,8 @@ pub struct PreviewOptions {
     pub columns: Vec<String>,
     /// Marks from the data.
     pub marks: Option<Marks>,
+    /// How objects are found for `marks: objects`.
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
     /// The caller's own marks.
     #[serde(default)]
     pub annotations: Vec<Annotation>,
@@ -116,6 +118,7 @@ impl PreviewOptions {
             table: self.table,
             columns: self.columns.clone(),
             marks: self.marks.unwrap_or_default(),
+            objects: self.objects.clone(),
             annotations: self.annotations.clone(),
             dark: self.dark,
             ..PreviewRequest::default()

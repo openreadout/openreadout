@@ -13,16 +13,10 @@
 //! - **profile**: values sampled every pixel along the line by bilinear interpolation, each
 //!   the mean over `width` pixels across the line (at most [`MAX_PROFILE_SAMPLES`] samples;
 //!   longer lines are sampled more coarsely). The statistics, peak and FWHM are of those
-//!   samples; `values` returns at most [`PROFILE_VALUES`] of them, each the mean of
-//!   consecutive samples.
+//!   samples; `values` returns at most [`PROFILE_VALUES`] of them, evenly spaced from the start
+//!   to the end, each the mean of the samples within half a step of it.
 //! - **polygon**: a pixel is inside when its centre is (even-odd rule).
-//! - **objects**: the plane (RGB: the mean of the components) is smoothed with a Gaussian of
-//!   `smooth` pixels σ, thresholded (a value, or Otsu's threshold over a 256-bin histogram),
-//!   and the pixels above it (`polarity: dark`: below it) are joined into 8-connected
-//!   objects, holes filled. With `split` (default), touching objects are cut apart where the neck between
-//!   them is at most three quarters as wide as the smaller one is deep (a distance-transform
-//!   watershed). Objects smaller than `min_area_px` are dropped. Intensities are of the raw,
-//!   unsmoothed plane.
+//! - **objects**: see [`objects`] and `segment.rs`.
 
 // x, y, w, h, c, k are the natural names in image arithmetic.
 #![allow(clippy::many_single_char_names)]
@@ -37,54 +31,23 @@ use crate::reader::{Dataset, PlaneIndex};
 use crate::region::Region;
 use crate::select::Selection;
 
+mod objects;
+mod segment;
+
+#[doc(hidden)]
+pub mod legacy;
+
+pub use objects::{
+    DEFAULT_MAX_OBJECTS, Kind, MAX_OBJECT_PIXELS, Object, ObjectChannel, Objects, ObjectsRequest,
+    Polarity, Positive, Stain, ThresholdMethod, label_plane,
+};
+
 /// Most samples taken along a profile line.
 pub const MAX_PROFILE_SAMPLES: usize = 20_000;
 /// Most profile values returned per channel.
 pub const PROFILE_VALUES: usize = 200;
 /// Most pixels a measurement reads (a 2896 × 2896 region).
 pub const MAX_MEASURE_PIXELS: u64 = 1 << 23;
-/// Objects listed by default.
-pub const DEFAULT_MAX_OBJECTS: usize = 100;
-
-/// Bright or dark objects.
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-#[serde(rename_all = "lowercase")]
-pub enum Polarity {
-    /// bright for one-channel images (fluorescence), dark for RGB (stained brightfield)
-    #[default]
-    Auto,
-    /// objects brighter than the background
-    Bright,
-    /// objects darker than the background
-    Dark,
-}
-
-/// How objects are found.
-#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize, JsonSchema)]
-pub struct ObjectsRequest {
-    /// Threshold in raw sample units. Default: Otsu's threshold of the smoothed plane.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub threshold: Option<f64>,
-    /// Default auto.
-    #[serde(default)]
-    pub polarity: Polarity,
-    /// Gaussian smoothing before the threshold, σ in pixels (0 = none). Default 1.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub smooth: Option<f64>,
-    /// Smallest object kept, in pixels. Default 10.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub min_area_px: Option<u64>,
-    /// Objects listed (largest first). Default 100; the count covers all.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub max_objects: Option<usize>,
-    /// RGB images: threshold this component (0 red, 1 green, 2 blue) instead of the mean of
-    /// the three. Stained nuclei usually stand out best in red.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub component: Option<u32>,
-    /// Cut touching objects apart at narrow necks (distance-transform watershed). Default true.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub split: Option<bool>,
-}
 
 /// What to measure. Coordinates are pixels of `level`.
 #[derive(Debug, Clone, Default)]
@@ -96,7 +59,7 @@ pub struct MeasureRequest {
     pub select: Vec<String>,
     /// Pyramid level.
     pub level: u32,
-    /// The rectangle objects are counted in (default the whole plane).
+    /// The rectangle objects are counted in (default the whole plane, or the polygon).
     pub region: Option<Region>,
     /// Profile line `[x0, y0, x1, y1]`.
     pub line: Option<[f64; 4]>,
@@ -157,7 +120,8 @@ pub struct Profile {
     /// Line length in µm, when the pixel size is recorded.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub length_um: Option<f64>,
-    /// Distance between the returned values in pixels.
+    /// Distance between the returned values in pixels (the first is at the start, the last
+    /// at the end).
     pub step_px: f64,
     /// Distance between the returned values in µm.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -204,27 +168,6 @@ pub struct Roi {
     pub channels: Vec<RoiChannel>,
 }
 
-/// One object.
-#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
-pub struct Object {
-    /// Centroid column, in pixels of the level read.
-    pub x: f64,
-    /// Centroid row.
-    pub y: f64,
-    /// Pixels.
-    pub area_px: u64,
-    /// Area in µm².
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub area_um2: Option<f64>,
-    /// Mean raw value.
-    pub mean: f64,
-    /// Bounding rectangle.
-    pub bbox: Region,
-    /// True when the object touches the edge of the measured rectangle (it may be cut).
-    #[serde(skip_serializing_if = "std::ops::Not::not")]
-    pub touches_edge: bool,
-}
-
 /// Minimum, median, mean and maximum.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct Spread {
@@ -236,49 +179,6 @@ pub struct Spread {
     pub mean: f64,
     /// Largest.
     pub max: f64,
-}
-
-/// Objects found by a threshold.
-#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
-pub struct Objects {
-    /// What was thresholded: a channel index, an RGB component (`red`, `green`, `blue`) or
-    /// `luminance` (the mean of the RGB components).
-    pub measured: String,
-    /// The rectangle searched, in pixels of the level read.
-    pub region: Region,
-    /// Threshold in raw units.
-    pub threshold: f64,
-    /// `otsu` or `given`.
-    pub threshold_method: String,
-    /// `bright` or `dark`.
-    pub polarity: Polarity,
-    /// Gaussian σ in pixels.
-    pub smooth_px: f64,
-    /// Smallest object kept, in pixels.
-    pub min_area_px: u64,
-    /// Whether touching objects were cut apart.
-    pub split: bool,
-    /// Objects found (all, including those touching the edge).
-    pub count: usize,
-    /// Objects touching the edge of the rectangle.
-    pub touching_edge: usize,
-    /// Objects more than twice the median area: possibly several touching objects.
-    pub large: usize,
-    /// Fraction of the rectangle covered by objects.
-    pub area_fraction: f64,
-    /// Object areas in pixels.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub area_px: Option<Spread>,
-    /// Object areas in µm².
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub area_um2: Option<Spread>,
-    /// Median equivalent diameter (of a disc of the same area) in µm.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub median_diameter_um: Option<f64>,
-    /// The objects, largest first.
-    pub objects: Vec<Object>,
-    /// True when `objects` lists fewer than `count`.
-    pub truncated: bool,
 }
 
 /// Measurements on one plane: a line profile, statistics inside a polygon or an object count.
@@ -396,6 +296,8 @@ struct Target<'a> {
     level_h: u32,
     downsample: f64,
     pixel_um: Option<f64>,
+    /// Pixel height in µm when it differs from the width.
+    pixel_um_y: Option<f64>,
 }
 
 fn target<'a>(info: &'a FileInfo, req: &MeasureRequest) -> Result<Target<'a>> {
@@ -451,6 +353,11 @@ fn target<'a>(info: &'a FileInfo, req: &MeasureRequest) -> Result<Target<'a>> {
         1.0
     };
     let pixel_um = im.physical_size.x.map(|p| p * downsample);
+    let pixel_um_y = im
+        .physical_size
+        .y
+        .map(|p| p * f64::from(im.size_y) / f64::from(level_h.max(1)))
+        .filter(|py| pixel_um.is_some_and(|px| (py - px).abs() > px * 1e-6));
     Ok(Target {
         im,
         z,
@@ -460,6 +367,7 @@ fn target<'a>(info: &'a FileInfo, req: &MeasureRequest) -> Result<Target<'a>> {
         level_h,
         downsample,
         pixel_um,
+        pixel_um_y,
     })
 }
 
@@ -577,7 +485,7 @@ pub fn measure(
         out.roi = Some(roi(ds, &tg, req.level, poly)?);
     }
     if let Some(o) = &req.objects {
-        out.objects = Some(objects(ds, &tg, req, o, &mut out.notes)?);
+        out.objects = Some(objects::objects(ds, &tg, req, o, &mut out.notes)?);
     }
     Ok(out)
 }
@@ -610,6 +518,13 @@ fn profile(
     let offsets: Vec<f64> = (0..width)
         .map(|k| f64::from(k) - f64::from(width - 1) / 2.0)
         .collect();
+    // µm per pixel along this line (pixels may be taller than wide)
+    let um_per_px = tg.pixel_um.map(|px| {
+        let py = tg.pixel_um_y.unwrap_or(px);
+        ((x1 - x0) * px).hypot((y1 - y0) * py) / len
+    });
+    let k_out = n.min(PROFILE_VALUES);
+    let out_step = len / (k_out - 1) as f64;
     let mut channels = Vec::new();
     for &c in &tg.channels {
         let g = read(ds, tg, level, c, r)?;
@@ -648,10 +563,10 @@ fn profile(
                 max,
                 mean,
                 max_at_px: imax as f64 * step,
-                max_at_um: tg.pixel_um.map(|p| imax as f64 * step * p),
+                max_at_um: um_per_px.map(|p| imax as f64 * step * p),
                 fwhm_px,
-                fwhm_um: fwhm_px.zip(tg.pixel_um).map(|(w, p)| w * p),
-                values: bin_means(&values, PROFILE_VALUES)
+                fwhm_um: fwhm_px.zip(um_per_px).map(|(w, p)| w * p),
+                values: resample(&values, k_out)
                     .iter()
                     .map(|v| round_sig(*v))
                     .collect(),
@@ -662,28 +577,30 @@ fn profile(
         line,
         width_px: width,
         length_px: len,
-        length_um: tg.pixel_um.map(|p| p * len),
-        step_px: len / (n.clamp(2, PROFILE_VALUES) - 1) as f64,
-        step_um: tg
-            .pixel_um
-            .map(|p| p * len / (n.clamp(2, PROFILE_VALUES) - 1) as f64),
+        length_um: um_per_px.map(|p| p * len),
+        step_px: out_step,
+        step_um: um_per_px.map(|p| p * out_step),
         samples: n,
         channels,
     })
 }
 
-/// `v` shrunk to at most `k` values, each the mean of the finite values of an equal share.
-fn bin_means(v: &[f64], k: usize) -> Vec<f64> {
-    if v.len() <= k {
+/// `k` values evenly spaced from the first sample of `v` to the last, each the mean of the
+/// finite samples within half a step of it (or as close to the ends as it is).
+fn resample(v: &[f64], k: usize) -> Vec<f64> {
+    if v.len() <= k || k < 2 {
         return v.to_vec();
     }
+    let last = (v.len() - 1) as f64;
+    let step = last / (k - 1) as f64;
     (0..k)
-        .map(|b| {
-            let (lo, hi) = (
-                b * v.len() / k,
-                ((b + 1) * v.len() / k).max(b * v.len() / k + 1),
-            );
-            let f: Vec<f64> = v[lo..hi]
+        .map(|i| {
+            let c = i as f64 * step;
+            // a window centred on the value, narrower at the ends of the line
+            let half = (step / 2.0).min(c).min(last - c);
+            let lo = (c - half).ceil().max(0.0) as usize;
+            let hi = ((c + half).floor() as usize).min(v.len() - 1);
+            let f: Vec<f64> = v[lo..=hi.max(lo)]
                 .iter()
                 .copied()
                 .filter(|x| x.is_finite())
@@ -706,6 +623,9 @@ fn fwhm(v: &[f64], imax: usize, base: f64) -> Option<f64> {
     }
     let mut left = None;
     for i in (0..imax).rev() {
+        if !v[i].is_finite() {
+            return None;
+        }
         if v[i] < half {
             let f = (half - v[i]) / (v[i + 1] - v[i]);
             left = Some(i as f64 + f);
@@ -714,6 +634,9 @@ fn fwhm(v: &[f64], imax: usize, base: f64) -> Option<f64> {
     }
     let mut right = None;
     for i in imax + 1..v.len() {
+        if !v[i].is_finite() {
+            return None;
+        }
         if v[i] < half {
             let f = (v[i - 1] - half) / (v[i - 1] - v[i]);
             right = Some((i - 1) as f64 + f);
@@ -794,7 +717,9 @@ fn roi(ds: &mut dyn Dataset, tg: &Target<'_>, level: u32, poly: &[[f64; 2]]) -> 
     Ok(Roi {
         polygon: poly.to_vec(),
         area_px: area,
-        area_um2: tg.pixel_um.map(|p| area as f64 * p * p),
+        area_um2: tg
+            .pixel_um
+            .map(|p| area as f64 * p * tg.pixel_um_y.unwrap_or(p)),
         channels,
     })
 }
@@ -811,87 +736,6 @@ fn median_sorted(v: &[f64]) -> f64 {
     }
 }
 
-/// Separable Gaussian blur with edge clamping.
-fn blur(v: &[f64], w: usize, h: usize, sigma: f64) -> Vec<f64> {
-    if sigma <= 0.0 {
-        return v.to_vec();
-    }
-    let rad = (3.0 * sigma).ceil() as isize;
-    let k: Vec<f64> = (-rad..=rad)
-        .map(|i| (-(i as f64).powi(2) / (2.0 * sigma * sigma)).exp())
-        .collect();
-    let ks: f64 = k.iter().sum();
-    let k: Vec<f64> = k.iter().map(|x| x / ks).collect();
-    let clamp = |i: isize, n: usize| i.clamp(0, n as isize - 1) as usize;
-    let mut tmp = vec![0.0; v.len()];
-    for y in 0..h {
-        for x in 0..w {
-            let mut s = 0.0;
-            for (j, kv) in k.iter().enumerate() {
-                s += kv * v[y * w + clamp(x as isize + j as isize - rad, w)];
-            }
-            tmp[y * w + x] = s;
-        }
-    }
-    let mut out = vec![0.0; v.len()];
-    for y in 0..h {
-        for x in 0..w {
-            let mut s = 0.0;
-            for (j, kv) in k.iter().enumerate() {
-                s += kv * tmp[clamp(y as isize + j as isize - rad, h) * w + x];
-            }
-            out[y * w + x] = s;
-        }
-    }
-    out
-}
-
-/// Otsu's threshold over a 256-bin histogram of the finite values.
-fn otsu(v: &[f64]) -> Option<f64> {
-    let (lo, hi) = v
-        .iter()
-        .filter(|x| x.is_finite())
-        .fold((f64::INFINITY, f64::NEG_INFINITY), |(a, b), x| {
-            (a.min(*x), b.max(*x))
-        });
-    if hi.partial_cmp(&lo) != Some(std::cmp::Ordering::Greater) {
-        return None;
-    }
-    let bins = 256usize;
-    let mut hist = vec![0u64; bins];
-    let scale = (bins - 1) as f64 / (hi - lo);
-    for x in v.iter().filter(|x| x.is_finite()) {
-        hist[((x - lo) * scale) as usize] += 1;
-    }
-    let total: u64 = hist.iter().sum();
-    let sum_all: f64 = hist
-        .iter()
-        .enumerate()
-        .map(|(i, c)| i as f64 * *c as f64)
-        .sum();
-    let (mut w0, mut sum0) = (0u64, 0.0);
-    let (mut best, mut best_i) = (-1.0, 0usize);
-    for (i, c) in hist.iter().enumerate() {
-        w0 += c;
-        if w0 == 0 {
-            continue;
-        }
-        let w1 = total - w0;
-        if w1 == 0 {
-            break;
-        }
-        sum0 += i as f64 * *c as f64;
-        let m0 = sum0 / w0 as f64;
-        let m1 = (sum_all - sum0) / w1 as f64;
-        let between = w0 as f64 * w1 as f64 * (m0 - m1).powi(2);
-        if between > best {
-            best = between;
-            best_i = i;
-        }
-    }
-    Some(lo + (best_i as f64 + 0.5) / scale)
-}
-
 fn spread(mut v: Vec<f64>) -> Option<Spread> {
     if v.is_empty() {
         return None;
@@ -905,369 +749,9 @@ fn spread(mut v: Vec<f64>) -> Option<Spread> {
     })
 }
 
-/// Background pixels that the border cannot reach (4-connected) become foreground: holes
-/// inside a nucleus or cell are part of it.
-fn fill_holes(mut fg: Vec<bool>, w: usize, h: usize) -> Vec<bool> {
-    let mut outside = vec![false; w * h];
-    let mut stack: Vec<usize> = Vec::new();
-    for x in 0..w {
-        stack.push(x);
-        stack.push((h - 1) * w + x);
-    }
-    for y in 0..h {
-        stack.push(y * w);
-        stack.push(y * w + w - 1);
-    }
-    while let Some(i) = stack.pop() {
-        if fg[i] || outside[i] {
-            continue;
-        }
-        outside[i] = true;
-        let (x, y) = (i % w, i / w);
-        if x > 0 {
-            stack.push(i - 1);
-        }
-        if x + 1 < w {
-            stack.push(i + 1);
-        }
-        if y > 0 {
-            stack.push(i - w);
-        }
-        if y + 1 < h {
-            stack.push(i + w);
-        }
-    }
-    for (f, o) in fg.iter_mut().zip(&outside) {
-        *f = !*o;
-    }
-    fg
-}
-
-/// City-block-and-diagonal (3-4 chamfer) distance of each foreground pixel to the background,
-/// in thirds of a pixel.
-fn chamfer(fg: &[bool], w: usize, h: usize) -> Vec<u16> {
-    let big = u16::MAX / 2;
-    let mut d: Vec<u16> = fg.iter().map(|f| if *f { big } else { 0 }).collect();
-    let at = |d: &[u16], x: isize, y: isize| -> u16 {
-        if x < 0 || y < 0 || x >= w as isize || y >= h as isize {
-            0
-        } else {
-            d[y as usize * w + x as usize]
-        }
-    };
-    for y in 0..h as isize {
-        for x in 0..w as isize {
-            let i = y as usize * w + x as usize;
-            if d[i] == 0 {
-                continue;
-            }
-            let m = (at(&d, x - 1, y) + 3)
-                .min(at(&d, x, y - 1) + 3)
-                .min(at(&d, x - 1, y - 1) + 4)
-                .min(at(&d, x + 1, y - 1) + 4);
-            d[i] = d[i].min(m);
-        }
-    }
-    for y in (0..h as isize).rev() {
-        for x in (0..w as isize).rev() {
-            let i = y as usize * w + x as usize;
-            if d[i] == 0 {
-                continue;
-            }
-            let m = (at(&d, x + 1, y) + 3)
-                .min(at(&d, x, y + 1) + 3)
-                .min(at(&d, x + 1, y + 1) + 4)
-                .min(at(&d, x - 1, y + 1) + 4);
-            d[i] = d[i].min(m);
-        }
-    }
-    d
-}
-
-fn find(parent: &mut [u32], mut i: u32) -> u32 {
-    while parent[i as usize] != i {
-        let p = parent[parent[i as usize] as usize];
-        parent[i as usize] = p;
-        i = p;
-    }
-    i
-}
-
-/// Label 8-connected foreground objects (1, 2, …; 0 = background) and how many labels there
-/// are. With `split`, touching objects are cut apart at narrow necks: pixels are flooded from
-/// the inside out in order of their distance to the background, and two growing regions that
-/// meet stay apart when the neck is at most three quarters as wide as the smaller one is deep
-/// (a distance-transform watershed with that persistence rule).
-fn label_objects(fg: &[bool], w: usize, h: usize, split: bool) -> (Vec<u32>, u32) {
-    const NONE: u32 = u32::MAX;
-    let d = if split {
-        chamfer(fg, w, h)
-    } else {
-        fg.iter().map(|f| u16::from(*f)).collect()
-    };
-    // pixels by decreasing distance (counting sort)
-    let top = d.iter().copied().max().unwrap_or(0) as usize;
-    let mut count = vec![0usize; top + 2];
-    for &v in &d {
-        if v > 0 {
-            count[v as usize] += 1;
-        }
-    }
-    let mut start = vec![0usize; top + 2];
-    for v in (1..=top).rev() {
-        start[v - 1] = start[v] + count[v];
-    }
-    let total = start[0];
-    let mut order = vec![0u32; total];
-    let mut fill = start.clone();
-    for (i, &v) in d.iter().enumerate() {
-        if v > 0 {
-            order[fill[v as usize]] = i as u32;
-            fill[v as usize] += 1;
-        }
-    }
-    let mut parent = vec![NONE; w * h];
-    // depth (distance at the seed) of each region root
-    let mut peak = vec![0u16; w * h];
-    let significant = |peak: u16, saddle: u16| -> bool {
-        // the neck (saddle) at most 3/4 of the depth, and at least 1.5 px shallower
-        u32::from(saddle) * 4 <= u32::from(peak) * 3 && peak.saturating_sub(saddle) >= 4
-    };
-    let mut roots: Vec<u32> = Vec::with_capacity(8);
-    for &pi in &order {
-        let i = pi as usize;
-        let (x, y) = ((i % w) as isize, (i / w) as isize);
-        roots.clear();
-        for dy in -1isize..=1 {
-            for dx in -1isize..=1 {
-                let (nx, ny) = (x + dx, y + dy);
-                if (dx == 0 && dy == 0) || nx < 0 || ny < 0 || nx >= w as isize || ny >= h as isize
-                {
-                    continue;
-                }
-                let j = ny as usize * w + nx as usize;
-                if parent[j] != NONE {
-                    let r = find(&mut parent, j as u32);
-                    if !roots.contains(&r) {
-                        roots.push(r);
-                    }
-                }
-            }
-        }
-        if roots.is_empty() {
-            parent[i] = pi;
-            peak[i] = d[i];
-            continue;
-        }
-        roots.sort_by_key(|r| std::cmp::Reverse(peak[*r as usize]));
-        let main = roots[0];
-        parent[i] = main;
-        if !split {
-            for &r in &roots[1..] {
-                parent[r as usize] = main;
-            }
-            continue;
-        }
-        // merge regions that are not significant at this saddle into the deepest one
-        let saddle = d[i];
-        for &r in &roots[1..] {
-            if !significant(peak[r as usize], saddle) {
-                parent[r as usize] = main;
-            }
-        }
-    }
-    let mut label = vec![0u32; w * h];
-    let mut ids = std::collections::HashMap::new();
-    for i in 0..w * h {
-        if parent[i] == NONE {
-            continue;
-        }
-        let r = find(&mut parent, i as u32);
-        let next = ids.len() as u32 + 1;
-        label[i] = *ids.entry(r).or_insert(next);
-    }
-    (label, ids.len() as u32)
-}
-
-fn objects(
-    ds: &mut dyn Dataset,
-    tg: &Target<'_>,
-    req: &MeasureRequest,
-    o: &ObjectsRequest,
-    notes: &mut Vec<String>,
-) -> Result<Objects> {
-    let r = match req.region {
-        Some(r) => {
-            r.check_within(
-                tg.level_w,
-                tg.level_h,
-                &format!("image {} level {}", tg.im.index, req.level),
-            )?;
-            r
-        }
-        None => Region::full(tg.level_w, tg.level_h),
-    };
-    check_size(r, "an object count")?;
-    let c = tg.channels.first().copied().unwrap_or(0);
-    if tg.channels.len() > 1 && tg.im.size_c > 1 {
-        notes.push(format!(
-            "objects were counted in channel {c}; select c=N for another"
-        ));
-    }
-    let g = read(ds, tg, req.level, c, r)?;
-    let (w, h) = (g.w, g.h);
-    let rgb = g.comps.len() > 1;
-    let component = match o.component {
-        Some(k) if !rgb => {
-            return Err(usage(format!(
-                "component={k} is for RGB images; this image has one sample per pixel (choose a channel with select c=N)"
-            )));
-        }
-        Some(k) if k as usize >= g.comps.len() => {
-            return Err(usage(format!(
-                "component={k} is out of range (the image has {} components: 0 = red, 1 = green, 2 = blue)",
-                g.comps.len()
-            )));
-        }
-        k => k,
-    };
-    let raw: Vec<f64> = match component {
-        Some(k) => g.comps[k as usize].clone(),
-        None if rgb => {
-            let k = g.comps.len().min(3);
-            (0..w * h)
-                .map(|i| g.comps[..k].iter().map(|c| c[i]).sum::<f64>() / k as f64)
-                .collect()
-        }
-        None => g.comps[0].clone(),
-    };
-    let polarity = match o.polarity {
-        Polarity::Auto if rgb => Polarity::Dark,
-        Polarity::Auto => Polarity::Bright,
-        p => p,
-    };
-    let sigma = o.smooth.unwrap_or(1.0).clamp(0.0, 50.0);
-    let smooth = blur(&raw, w, h, sigma);
-    let (threshold, method) = match o.threshold {
-        Some(t) => (t, "given"),
-        None => (
-            otsu(&smooth).ok_or_else(|| {
-                usage("the region is flat (one value): there is nothing to threshold")
-            })?,
-            "otsu",
-        ),
-    };
-    let fg: Vec<bool> = smooth
-        .iter()
-        .map(|v| match polarity {
-            Polarity::Dark => *v < threshold,
-            _ => *v > threshold,
-        })
-        .collect();
-    let min_area = o.min_area_px.unwrap_or(10).max(1);
-    let split = o.split.unwrap_or(true);
-    let fg = fill_holes(fg, w, h);
-    let (label, n_labels) = label_objects(&fg, w, h, split);
-    // per label: pixels, sums of x, y and value, bounding box, edge contact
-    let n_labels = n_labels as usize;
-    let mut n = vec![0u64; n_labels + 1];
-    let mut sx = vec![0.0f64; n_labels + 1];
-    let mut sy = vec![0.0f64; n_labels + 1];
-    let mut sv = vec![0.0f64; n_labels + 1];
-    let mut bb = vec![(usize::MAX, usize::MAX, 0usize, 0usize); n_labels + 1];
-    let mut edge = vec![false; n_labels + 1];
-    for (i, &l) in label.iter().enumerate() {
-        if l == 0 {
-            continue;
-        }
-        let l = l as usize;
-        let (x, y) = (i % w, i / w);
-        n[l] += 1;
-        sx[l] += x as f64;
-        sy[l] += y as f64;
-        sv[l] += raw[i];
-        let b = &mut bb[l];
-        *b = (b.0.min(x), b.1.min(y), b.2.max(x), b.3.max(y));
-        edge[l] |= x == 0 || y == 0 || x == w - 1 || y == h - 1;
-    }
-    let (ox, oy) = (f64::from(r.x), f64::from(r.y));
-    let mut covered = 0u64;
-    let mut found: Vec<Object> = Vec::new();
-    for l in 1..=n_labels {
-        if n[l] < min_area {
-            continue;
-        }
-        covered += n[l];
-        let (bx0, by0, bx1, by1) = bb[l];
-        found.push(Object {
-            x: ox + sx[l] / n[l] as f64 + 0.5,
-            y: oy + sy[l] / n[l] as f64 + 0.5,
-            area_px: n[l],
-            area_um2: tg.pixel_um.map(|p| n[l] as f64 * p * p),
-            mean: sv[l] / n[l] as f64,
-            bbox: Region::new(
-                r.x + bx0 as u32,
-                r.y + by0 as u32,
-                (bx1 - bx0 + 1) as u32,
-                (by1 - by0 + 1) as u32,
-            ),
-            touches_edge: edge[l] && !(w == 1 || h == 1),
-        });
-    }
-    let mut kept: Vec<Object> = found.into_iter().filter(|o| o.area_px > 0).collect();
-    kept.sort_by_key(|o| std::cmp::Reverse(o.area_px));
-    let areas: Vec<f64> = kept.iter().map(|o| o.area_px as f64).collect();
-    let area_px = spread(areas.clone());
-    let med = area_px.as_ref().map_or(0.0, |s| s.median);
-    let large = kept.iter().filter(|o| o.area_px as f64 > 2.0 * med).count();
-    let count = kept.len();
-    let touching = kept.iter().filter(|o| o.touches_edge).count();
-    let max_list = o.max_objects.unwrap_or(DEFAULT_MAX_OBJECTS);
-    let truncated = count > max_list;
-    kept.truncate(max_list);
-    let um2 = tg.pixel_um.map(|p| p * p);
-    let area_um2 = um2.and_then(|a| spread(areas.iter().map(|x| x * a).collect()));
-    let median_diameter_um = area_um2
-        .as_ref()
-        .map(|s| 2.0 * (s.median / std::f64::consts::PI).sqrt());
-    Ok(Objects {
-        measured: match component {
-            Some(k) => ["red", "green", "blue", "alpha"]
-                .get(k as usize)
-                .map_or_else(|| k.to_string(), |n| (*n).to_string()),
-            None if rgb => "luminance".into(),
-            None => c.to_string(),
-        },
-        region: r,
-        threshold,
-        threshold_method: method.into(),
-        polarity,
-        smooth_px: sigma,
-        min_area_px: min_area,
-        split,
-        count,
-        touching_edge: touching,
-        large,
-        area_fraction: covered as f64 / (w * h) as f64,
-        area_px,
-        area_um2,
-        median_diameter_um,
-        objects: kept,
-        truncated,
-    })
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn otsu_splits_two_levels() {
-        let mut v = vec![10.0; 500];
-        v.extend(vec![200.0; 100]);
-        let t = otsu(&v).unwrap();
-        assert!(t > 10.0 && t < 200.0, "{t}");
-    }
 
     #[test]
     fn fwhm_of_a_triangle() {
@@ -1290,45 +774,15 @@ mod tests {
         assert_eq!(round_sig(65535.0), 65535.0);
     }
 
-    /// Two discs of radius 20 whose centres are 34 px apart (a narrow neck), and a separate
-    /// disc with a hole.
-    fn discs() -> (Vec<bool>, usize, usize) {
-        let (w, h) = (140usize, 60usize);
-        let mut fg = vec![false; w * h];
-        for y in 0..h {
-            for x in 0..w {
-                let d =
-                    |cx: f64, cy: f64| ((x as f64 - cx).powi(2) + (y as f64 - cy).powi(2)).sqrt();
-                if d(25.0, 30.0) <= 20.0 || d(59.0, 30.0) <= 20.0 {
-                    fg[y * w + x] = true;
-                }
-                let r = d(115.0, 30.0);
-                if r <= 15.0 && r > 4.0 {
-                    fg[y * w + x] = true;
-                }
-            }
-        }
-        (fg, w, h)
-    }
-
     #[test]
-    fn touching_discs_are_split_and_holes_filled() {
-        let (fg, w, h) = discs();
-        let fg = fill_holes(fg, w, h);
-        let (labels, n) = label_objects(&fg, w, h, true);
-        assert_eq!(n, 3);
-        assert_ne!(labels[30 * w + 25], labels[30 * w + 59]);
-        assert_ne!(labels[30 * w + 115], 0, "the hole is filled");
-        let (_, n) = label_objects(&fg, w, h, false);
-        assert_eq!(n, 2);
-    }
-
-    #[test]
-    fn profile_values_are_bin_means() {
-        let v: Vec<f64> = (0..1000).map(f64::from).collect();
-        let b = bin_means(&v, 200);
-        assert_eq!(b.len(), 200);
-        assert!((b[0] - 2.0).abs() < 1e-9);
-        assert_eq!(bin_means(&v[..10], 200).len(), 10);
+    fn profile_values_are_evenly_spaced() {
+        let v: Vec<f64> = (0..1001).map(f64::from).collect();
+        let b = resample(&v, 201);
+        assert_eq!(b.len(), 201);
+        // each value is centred on its position, the ends included
+        assert!((b[0] - 0.0).abs() < 1e-9, "{}", b[0]);
+        assert!((b[1] - 5.0).abs() < 1e-9, "{}", b[1]);
+        assert!((b[200] - 1000.0).abs() < 1e-9, "{}", b[200]);
+        assert_eq!(resample(&v[..10], 200).len(), 10);
     }
 }

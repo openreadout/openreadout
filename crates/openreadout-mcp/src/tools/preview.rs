@@ -71,6 +71,8 @@ pub struct PreviewArgs {
     /// Marks from the data. Default auto: the largest peaks of spectra and chromatograms are
     /// labelled.
     pub marks: Option<openreadout_preview::Marks>,
+    /// Images: how objects are found for marks=objects (as openreadout_stats objects).
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
     /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
     /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
     /// units on plots, wells on plates.
@@ -124,6 +126,7 @@ fn preview_blocking(
         preview_request.table = a.table;
         preview_request.columns = a.columns.clone();
         preview_request.marks = a.marks.unwrap_or_default();
+        preview_request.objects = a.objects.clone();
         preview_request.annotations = a.annotations.clone();
         a.axes.apply(&mut preview_request);
         preview_request

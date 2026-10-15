@@ -82,37 +82,56 @@ pub struct StatsArgs {
     /// Statistics inside a polygon, `X,Y X,Y X,Y ...` in the pixels of `--level`.
     #[arg(long, value_name = "X,Y ...", help_heading = "Measurements")]
     pub polygon: Option<String>,
-    /// Count objects (nuclei, cells, spots) in `--region` or the whole plane: a threshold, then
-    /// connected components with their areas and centroids.
-    #[arg(long, help_heading = "Measurements")]
-    pub objects: bool,
-    /// With `--objects`: threshold in raw units (default: Otsu's).
+    /// Count objects in `--region`, `--polygon` or the whole plane: their number, sizes,
+    /// positions and mean intensity in every channel.
+    #[arg(long, value_enum, value_name = "KIND", num_args = 0..=1, default_missing_value = "nuclei", help_heading = "Measurements")]
+    pub objects: Option<KindArg>,
+    /// With `--objects`: expected object diameter in µm (default: measured from the image).
+    #[arg(long, value_name = "UM", help_heading = "Measurements")]
+    pub diameter: Option<f64>,
+    /// With `--objects`: expected object diameter in pixels, for images without a pixel size.
+    #[arg(long, value_name = "PX", help_heading = "Measurements")]
+    pub diameter_px: Option<f64>,
+    /// With `--objects`: threshold in raw units (spots: height above the local background).
     #[arg(long, help_heading = "Measurements")]
     pub threshold: Option<f64>,
-    /// With `--objects`: count bright or dark objects (default: bright, dark for RGB).
+    /// With `--objects`: how the threshold is chosen.
+    #[arg(long, value_enum, help_heading = "Measurements")]
+    pub method: Option<MethodArg>,
+    /// With `--objects`: bright or dark objects (default: from the image).
     #[arg(long, value_enum, help_heading = "Measurements")]
     pub polarity: Option<PolarityArg>,
-    /// With `--objects`: Gaussian smoothing sigma in pixels before the threshold (default 1).
-    #[arg(long, value_name = "PX", help_heading = "Measurements")]
-    pub smooth: Option<f64>,
-    /// With `--objects`: smallest object kept, in pixels (default 10).
-    #[arg(long, value_name = "PX", help_heading = "Measurements")]
-    pub min_area: Option<u64>,
-    /// With `--objects`: objects listed, largest first (default 100).
+    /// With `--objects` on an RGB image: what objects are found in (default: hematoxylin for
+    /// stained brightfield, the brightest component for fluorescence).
+    #[arg(long, value_enum, help_heading = "Measurements")]
+    pub stain: Option<StainArg>,
+    /// With `--objects`: smallest object kept, in µm² (default: a fifth of the expected area).
+    #[arg(long, value_name = "UM2", help_heading = "Measurements")]
+    pub min_area: Option<f64>,
+    /// With `--objects`: largest object kept, in µm².
+    #[arg(long, value_name = "UM2", help_heading = "Measurements")]
+    pub max_area: Option<f64>,
+    /// With `--objects`: objects listed, in reading order (default 100).
     #[arg(long, value_name = "N", help_heading = "Measurements")]
     pub max_objects: Option<usize>,
-    /// With `--objects`: keep touching objects together instead of cutting them apart at narrow
-    /// necks.
+    /// With `--objects`: keep touching objects together instead of cutting them apart.
     #[arg(long, help_heading = "Measurements")]
     pub no_split: bool,
-    /// With `--objects` on an RGB image: threshold this component (0 red, 1 green, 2 blue)
-    /// instead of the mean of the three.
-    #[arg(long, value_name = "K", help_heading = "Measurements")]
-    pub component: Option<u32>,
     #[arg(long)]
     pub json: bool,
     #[command(flatten)]
     pub tidy: super::tidy::TidyArgs,
+}
+
+/// What `--objects` counts.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub enum KindArg {
+    /// Nuclei (default); touching nuclei are cut apart.
+    Nuclei,
+    /// Whole cells stained throughout.
+    Cells,
+    /// Small bright spots (puncta, foci).
+    Spots,
 }
 
 /// Bright or dark objects.
@@ -120,8 +139,40 @@ pub struct StatsArgs {
 pub enum PolarityArg {
     /// Objects brighter than the background (fluorescence).
     Bright,
-    /// Objects darker than the background (stained brightfield).
+    /// Objects darker than the background (brightfield).
     Dark,
+}
+
+/// How the `--objects` threshold is chosen.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub enum MethodArg {
+    /// Otsu's, or the triangle method when objects are sparse.
+    Auto,
+    /// Otsu's.
+    Otsu,
+    /// The triangle method.
+    Triangle,
+    /// Each pixel against its neighbourhood.
+    Local,
+}
+
+/// What `--objects` are found in on an RGB image.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub enum StainArg {
+    /// Hematoxylin (colour deconvolution).
+    Hematoxylin,
+    /// Eosin (colour deconvolution).
+    Eosin,
+    /// DAB (colour deconvolution).
+    Dab,
+    /// The red component.
+    Red,
+    /// The green component.
+    Green,
+    /// The blue component.
+    Blue,
+    /// The mean of the components.
+    Luminance,
 }
 
 /// The measurement `--line`, `--polygon` and `--objects` ask for; `None` without them.
@@ -130,7 +181,9 @@ fn measure_request(
     region: Option<openreadout_core::Region>,
 ) -> Result<Option<openreadout_core::measure::MeasureRequest>> {
     use openreadout_core::Error;
-    use openreadout_core::measure::{MeasureRequest, ObjectsRequest, Polarity};
+    use openreadout_core::measure::{
+        Kind, MeasureRequest, ObjectsRequest, Polarity, Stain, ThresholdMethod,
+    };
     let nums = |s: &str, what: &str| -> Result<Vec<f64>> {
         s.split([',', ' ', ';'])
             .filter(|p| !p.trim().is_empty())
@@ -164,18 +217,41 @@ fn measure_request(
             Some(v.as_chunks::<2>().0.to_vec())
         }
     };
-    let objects = a.objects.then(|| ObjectsRequest {
+    let objects = a.objects.map(|k| ObjectsRequest {
+        kind: match k {
+            KindArg::Nuclei => Kind::Nuclei,
+            KindArg::Cells => Kind::Cells,
+            KindArg::Spots => Kind::Spots,
+        },
+        diameter_um: a.diameter,
+        diameter_px: a.diameter_px,
         threshold: a.threshold,
+        method: match a.method {
+            None | Some(MethodArg::Auto) => ThresholdMethod::Auto,
+            Some(MethodArg::Otsu) => ThresholdMethod::Otsu,
+            Some(MethodArg::Triangle) => ThresholdMethod::Triangle,
+            Some(MethodArg::Local) => ThresholdMethod::Local,
+        },
         polarity: match a.polarity {
             None => Polarity::Auto,
             Some(PolarityArg::Bright) => Polarity::Bright,
             Some(PolarityArg::Dark) => Polarity::Dark,
         },
-        smooth: a.smooth,
-        min_area_px: a.min_area,
-        max_objects: a.max_objects,
-        component: a.component,
+        stain: match a.stain {
+            None => Stain::Auto,
+            Some(StainArg::Hematoxylin) => Stain::Hematoxylin,
+            Some(StainArg::Eosin) => Stain::Eosin,
+            Some(StainArg::Dab) => Stain::Dab,
+            Some(StainArg::Red) => Stain::Red,
+            Some(StainArg::Green) => Stain::Green,
+            Some(StainArg::Blue) => Stain::Blue,
+            Some(StainArg::Luminance) => Stain::Luminance,
+        },
         split: a.no_split.then_some(false),
+        min_area_um2: a.min_area,
+        max_area_um2: a.max_area,
+        max_objects: a.max_objects,
+        outlines: false,
     });
     let req = MeasureRequest {
         image: a.image,
@@ -235,29 +311,89 @@ fn render_measure(o: &openreadout_core::measure::MeasureOutput) -> String {
         }
     }
     if let Some(ob) = &o.objects {
-        out.push(format!(
-            "{} objects in {} (threshold {} {}, {} touching the edge, {} large)",
-            ob.count,
-            ob.region,
-            num(Some(ob.threshold)),
-            ob.threshold_method,
-            ob.touching_edge,
-            ob.large
-        ));
-        if let Some(a) = &ob.area_px {
-            out.push(format!(
-                "  area px: median {}  min {}  max {}",
-                num(Some(a.median)),
-                num(Some(a.min)),
-                num(Some(a.max))
-            ));
-        }
-        if let Some(d) = ob.median_diameter_um {
-            out.push(format!("  median diameter {d:.2} µm"));
-        }
+        out.push(render_objects(ob));
     }
     for n in &o.notes {
         out.push(format!("note: {n}"));
+    }
+    out.join("\n")
+}
+
+fn render_objects(ob: &openreadout_core::measure::Objects) -> String {
+    let mut out = Vec::new();
+    let kind = serde_json::to_value(ob.kind)
+        .ok()
+        .and_then(|v| v.as_str().map(str::to_string))
+        .unwrap_or_default();
+    out.push(format!(
+        "{} {kind} in {} ({}; {} touching the edge{})",
+        ob.count,
+        ob.region,
+        ob.measured,
+        ob.touching_edge,
+        ob.density_per_mm2
+            .map(|d| format!(", {} per mm²", num(Some(d))))
+            .unwrap_or_default()
+    ));
+    out.push(format!(
+        "  threshold {} {}, expected diameter {} px{} ({})",
+        num(Some(ob.threshold)),
+        ob.threshold_method,
+        num(Some(ob.expected_diameter_px)),
+        ob.expected_diameter_um
+            .map(|d| format!(" = {} µm", num(Some(d))))
+            .unwrap_or_default(),
+        ob.expected_diameter_from
+    ));
+    if let Some(a) = &ob.area_um2 {
+        out.push(format!(
+            "  area µm²: median {}  min {}  max {}",
+            num(Some(a.median)),
+            num(Some(a.min)),
+            num(Some(a.max))
+        ));
+    } else if let Some(a) = &ob.area_px {
+        out.push(format!(
+            "  area px: median {}  min {}  max {}",
+            num(Some(a.median)),
+            num(Some(a.min)),
+            num(Some(a.max))
+        ));
+    }
+    if let Some(d) = &ob.diameter_um {
+        out.push(format!("  diameter µm: median {}", num(Some(d.median))));
+    }
+    for c in &ob.channels {
+        let pos = c
+            .positive
+            .as_ref()
+            .filter(|p| p.method != "none")
+            .map(|p| {
+                format!(
+                    "  positive {} ({:.0}%) above {} ({})",
+                    p.count,
+                    p.fraction * 100.0,
+                    num(Some(p.threshold)),
+                    p.method
+                )
+            })
+            .unwrap_or_default();
+        out.push(format!(
+            "  c={}{}  object mean median {}  background {}{pos}",
+            c.c,
+            c.name
+                .as_deref()
+                .map(|n| format!(" {n}"))
+                .unwrap_or_default(),
+            num(c.mean.as_ref().map(|m| m.median)),
+            num(Some(c.background))
+        ));
+    }
+    if ob.large > 0 {
+        out.push(format!(
+            "  {} objects over twice the median area (possibly several together)",
+            ob.large
+        ));
     }
     out.join("\n")
 }
