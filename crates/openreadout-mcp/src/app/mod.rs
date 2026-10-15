@@ -371,7 +371,6 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
             hint.insert("peaks".into(), json!(true));
             Some(K::Chromatogram)
         }
-        ToolView::Figure => None,
     };
     if let Some(k) = kind {
         hint.insert("view".into(), json!(k.name()));
