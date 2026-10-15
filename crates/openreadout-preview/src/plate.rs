@@ -117,8 +117,8 @@ pub fn plate_grid(
     if wide.len() < 2 && !long {
         return Err(Error::unsupported(
             "preview",
-            format!("preview of table {ti} (no well columns)"),
-            "Plate previews need columns named like wells (A1..P24) or `well` / `row`+`column` columns. Read other tables as rows with the MCP tool openreadout_table or `openreadout export FILE --format csv`.",
+            format!("a picture of table {ti}, which is not a plate (no well columns)"),
+            "Previews draw images, traces, spectra and plate tables (columns named like wells, A1..P24, or `well` / `row`+`column` columns). Read this table's rows with openreadout_table (CLI: `openreadout export FILE --format csv`).",
         ));
     }
     let rows = t.row_count.min(MAX_ROWS);
