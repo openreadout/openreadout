@@ -133,6 +133,30 @@ function legendLabel(name, max) {
   return s.length > max ? s.slice(0, max - 1) + "…" : s;
 }
 
+/** Label positions near `targets`, at least `gap` apart and within [lo, hi] when they fit,
+ * each as close to its target as the others allow (the figure engine's `spread`). */
+function spreadLabels(targets, gap, lo, hi) {
+  const order = targets.map((t, i) => i).sort((a, b) => targets[a] - targets[b]);
+  const pos = order.map((i) => Math.min(hi, Math.max(lo, targets[i])));
+  // pool adjacent violators: each block sits at the mean of its shifted targets
+  const blocks = [];
+  pos.forEach((p, k) => {
+    blocks.push({ m: p - gap * k, s: k, n: 1 });
+    while (blocks.length > 1 && blocks[blocks.length - 2].m > blocks[blocks.length - 1].m) {
+      const b = blocks.pop(), a = blocks.pop();
+      blocks.push({ m: (a.m * a.n + b.m * b.n) / (a.n + b.n), s: a.s, n: a.n + b.n });
+    }
+  });
+  for (const b of blocks) for (let k = b.s; k < b.s + b.n; k++) pos[k] = b.m + gap * k;
+  const over = pos.length ? pos[pos.length - 1] - hi : 0;
+  if (over > 0) for (let k = 0; k < pos.length; k++) pos[k] -= over;
+  const under = pos.length ? lo - pos[0] : 0;
+  if (under > 0) for (let k = 0; k < pos.length; k++) pos[k] += under;
+  const out = new Array(targets.length);
+  order.forEach((i, k) => { out[i] = pos[k]; });
+  return out;
+}
+
 /** "#rrggbb" → [r, g, b]. */
 function hexRgb(h) {
   const n = parseInt(String(h).replace("#", ""), 16);
@@ -2197,7 +2221,8 @@ function main() {
       if (Array.isArray(s.x)) x = Float64Array.from(s.x, (v) => (v == null ? NaN : v));
       else x = xs && xs.length === n ? xs : (xs = plotXs(p, n || n0));
       let color, group = null;
-      if (groups) { group = groups.names[i]; color = seriesColor(groups.distinct.indexOf(group)); }
+      if (p.voltammogram) color = alpha(colors().ink, series.length > 1 ? 0.3 + 0.7 * i / (series.length - 1) : 1); // cycles: first faint, last ink
+      else if (groups) { group = groups.names[i]; color = seriesColor(groups.distinct.indexOf(group)); }
       else if (series.length > 8) color = colors().ink;
       else color = seriesColor(i);
       return { name: s.name, unit: s.unit, color, group, x, y: s.y, lo: s.lo, hi: s.hi, style: s.style || (p.kind === "spectrum" ? "profile" : "line"), channel: s.channel, index: i };
@@ -2275,7 +2300,19 @@ function main() {
       g.beginPath();
       g.rect(left, py - 1, pw, ph + 2);
       g.clip();
-      const peaks = (p.peaks || []).map((q) => (m.kind === "chromatogram" ? Object.assign({}, q, { number: q.label, label: Number(q.x).toFixed(2) }) : q));
+      // chromatogram peaks: labelled with their time, at the trace's own top (the picker's
+      // height is above its baseline)
+      const onTrace = (x) => {
+        const s0 = pn.series[0];
+        if (!s0 || !s0.x.length) return null;
+        let best = -1, bd = Infinity;
+        for (let k = 0; k < s0.x.length; k++) { const d = Math.abs(s0.x[k] - x); if (d < bd) { bd = d; best = k; } }
+        const ys = s0.y || s0.hi;
+        let top = -Infinity;
+        for (let k = Math.max(0, best - 2); k <= Math.min(ys.length - 1, best + 2); k++) if (isFinite(ys[k]) && ys[k] > top) top = ys[k];
+        return isFinite(top) ? top : null;
+      };
+      const peaks = (p.peaks || []).map((q) => (m.kind === "chromatogram" ? Object.assign({}, q, { number: q.label, label: Number(q.x).toFixed(2), height: onTrace(q.x) ?? q.height }) : q));
       for (const s of pn.series) drawSeries(s, X, Y, py + ph, m);
       g.restore();
       // only prominent peaks are labelled (the server says which); every peak can be hovered
@@ -2315,6 +2352,8 @@ function main() {
     if (m.groups) {
       return m.groups.distinct.map((name, i) => ({ text: legendLabel(name, 22), color: seriesColor(i), members: pn.series.filter((s) => s.group === name) }));
     }
+    // cycles of a voltammogram are loops: their ends are not where a label belongs
+    if (S.data.plot && S.data.plot.voltammogram) return [];
     if (pn.series.length < 2 || pn.series.length > 8) return [];
     return pn.series.map((s) => ({ text: legendLabel(s.name, 22), color: s.color, members: [s] }));
   }
@@ -2336,12 +2375,27 @@ function main() {
       }
       return best ? { l, y: P.Y(best.v) } : null;
     }).filter(Boolean).sort((a, b) => a.y - b.y);
-    // nudge apart vertically
-    const hgt = 14;
-    for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < hgt) items[i].y = items[i - 1].y + hgt;
-    const over = items.length ? items[items.length - 1].y - (P.py + P.ph) : 0;
-    if (over > 0) for (const it of items) it.y -= over;
-    for (const it of items) txt(it.l.text, xEnd + 6, it.y, { size: 11.5, weight: 500, color: it.l.color, baseline: "middle" });
+    // spread apart vertically, as the figure engine does (end_labels): one line of type apart,
+    // as close to each line's end as the others allow
+    const hgt = 15;
+    const ys = spreadLabels(items.map((it) => it.y), hgt, P.py, P.py + P.ph);
+    const moved = items.some((it, i) => Math.abs(ys[i] - it.y) > 3);
+    const tx = xEnd + (moved ? 18 : 6);
+    const c = colors();
+    items.forEach((it, i) => {
+      if (moved) {
+        // an elbow leader from the line's end to its label
+        g.strokeStyle = alpha(it.l.color, 0.55);
+        g.lineWidth = 1;
+        g.beginPath();
+        g.moveTo(xEnd + 2, it.y);
+        g.lineTo(xEnd + 5, it.y);
+        g.lineTo(tx - 5, ys[i]);
+        g.lineTo(tx - 2, ys[i]);
+        g.stroke();
+      }
+      txt(it.l.text, tx, ys[i], { size: 11.5, weight: 500, color: it.l.color === c.faint ? c.muted : it.l.color, baseline: "middle" });
+    });
   }
 
   function drawSeries(s, X, Y, baseY, m) {
@@ -3815,7 +3869,7 @@ if (typeof module !== "undefined" && module.exports) {
     niceTicks, niceBelow, fmt, fmtTick, tickLabels, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, plotXs, sampleWindow,
     f32FromBase64, bytesFromBase64, scaleFn, scaleInv, scaleTicks, percentile, hintFrom, wellName, parseWell,
     normalizeAnnotations, placeLabels, ease, lerpRect, fitAspect, defaultGroupMap, isBlankGroup, seriesGroup,
-    callText, wellSpec, THEMES, categoryColors,
+    callText, wellSpec, THEMES, categoryColors, spreadLabels,
   };
 } else {
   main();

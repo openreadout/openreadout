@@ -87,11 +87,11 @@ pub(crate) fn is_voltammetry(info: &FileInfo, req: &PreviewRequest) -> bool {
         .is_some_and(|t| voltammetry(t) && channels(t).is_some())
 }
 
-fn axis_name(c: &SignalChannelInfo, what: &str, unit: Option<&str>) -> String {
-    let name = if c.name.eq_ignore_ascii_case(what) {
+fn axis_name(channel: &str, what: &str, unit: Option<&str>) -> String {
+    let name = if channel.eq_ignore_ascii_case(what) {
         what.to_string()
     } else {
-        format!("{what}, {}", c.name)
+        format!("{what}, {channel}")
     };
     match unit {
         Some(u) => format!("{name} ({u})"),
@@ -145,21 +145,47 @@ fn split_cycles(e: &[f64], i: &[f64], cycle: Option<&[f64]>) -> Vec<(String, Vec
     out
 }
 
-pub(crate) fn render(
+/// A voltammogram read from a file: current against potential, one run of points per cycle.
+#[derive(Debug, Clone)]
+pub struct Voltammogram {
+    /// Trace index.
+    pub trace: u32,
+    /// Trace name.
+    pub name: String,
+    /// The potential channel's index, name and unit.
+    pub potential: (u32, String, Option<String>),
+    /// The current channel's index, name and the unit the values are in (scaled from the
+    /// file's so they read with 1–3 digits).
+    pub current: (u32, String, Option<String>),
+    /// Cycles in order: name (the cycle number, or the sweep, or empty) and points.
+    pub cycles: Vec<(String, Vec<(f64, f64)>)>,
+    /// Samples read.
+    pub samples: u64,
+    /// The first sweep read.
+    pub sweep: u32,
+    /// Remarks.
+    pub notes: Vec<String>,
+}
+
+/// The voltammogram of trace `trace` (default 0): sweep `sweep`, or every sweep (files that
+/// store each cycle as a sweep). `None` when the trace is no voltammetry or lacks a potential
+/// or current channel.
+pub fn voltammogram(
     ds: &mut dyn Dataset,
     info: &FileInfo,
-    req: &PreviewRequest,
-    out: &mut PreviewOutput,
-) -> Result<(Figure, Frame)> {
-    let ti = req.trace.unwrap_or(0);
-    let t = info
-        .traces
-        .iter()
-        .find(|t| t.index == ti)
-        .cloned()
-        .ok_or_else(|| Error::Usage(format!("trace {ti} out of range")))?;
-    let (we, cur) =
-        channels(&t).ok_or_else(|| Error::Other("no potential and current channels".into()))?;
+    trace: Option<u32>,
+    sweep: Option<u32>,
+) -> Result<Option<Voltammogram>> {
+    let ti = trace.unwrap_or(0);
+    let Some(t) = info.traces.iter().find(|t| t.index == ti).cloned() else {
+        return Ok(None);
+    };
+    if info.format.family != "electrochemistry" || !voltammetry(&t) {
+        return Ok(None);
+    }
+    let Some((we, cur)) = channels(&t) else {
+        return Ok(None);
+    };
     let cyc = t
         .channels
         .iter()
@@ -167,8 +193,7 @@ pub(crate) fn render(
             c.name.eq_ignore_ascii_case("cycle") || c.name.eq_ignore_ascii_case("cycle number")
         })
         .map(|c| c.index);
-    // one sweep when asked for, else every sweep (files that store each cycle as a sweep)
-    let sweeps: Vec<u32> = match req.sweep {
+    let sweeps: Vec<u32> = match sweep {
         Some(s) if s < t.sweep_count => vec![s],
         Some(s) => {
             return Err(Error::Usage(format!(
@@ -191,23 +216,20 @@ pub(crate) fn render(
         for (k, p) in parts {
             let name = if sweeps.len() > 1 {
                 format!("{}", s + 1)
-            } else if k.is_empty() {
-                String::new()
             } else {
                 k
             };
             cycles.push((name, p));
         }
     }
+    let mut notes = Vec::new();
     if cycles.len() > MAX_CYCLES {
-        out.notes.push(format!(
+        notes.push(format!(
             "drew the last {MAX_CYCLES} of {} cycles",
             cycles.len()
         ));
         cycles.drain(..cycles.len() - MAX_CYCLES);
     }
-    let theme = crate::theme(req);
-    let fs = theme.font_size;
     let wch = &t.channels[we as usize];
     let ich = &t.channels[cur as usize];
     // currents in a unit that keeps the tick labels short
@@ -232,12 +254,43 @@ pub(crate) fn render(
             }
         }
     }
+    Ok(Some(Voltammogram {
+        trace: ti,
+        name: t.name.clone().unwrap_or_else(|| format!("trace {ti}")),
+        potential: (we, wch.name.clone(), wch.unit.clone()),
+        current: (cur, ich.name.clone(), i_unit),
+        cycles,
+        samples: drawn,
+        sweep: sweeps.first().copied().unwrap_or(0),
+        notes,
+    }))
+}
+
+pub(crate) fn render(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &PreviewRequest,
+    out: &mut PreviewOutput,
+) -> Result<(Figure, Frame)> {
+    let v = voltammogram(ds, info, req.trace, req.sweep)?
+        .ok_or_else(|| Error::Other("no potential and current channels".into()))?;
+    out.notes.extend(v.notes.iter().cloned());
+    let Voltammogram {
+        trace: ti,
+        name,
+        cycles,
+        ..
+    } = v.clone();
+    let (_, wname, wunit) = v.potential.clone();
+    let (cur, iname, i_unit) = v.current.clone();
+    let drawn = v.samples;
+    let theme = crate::theme(req);
+    let fs = theme.font_size;
     let all = cycles.iter().flat_map(|c| c.1.iter());
     let x_dom = Domain::of(all.clone().map(|p| p.0), 0.03, ScaleKind::Linear);
     let y_dom = Domain::of(all.map(|p| p.1), 0.06, ScaleKind::Linear);
 
     let w = req.max_size.max(64) as f32;
-    let name = t.name.clone().unwrap_or_else(|| format!("trace {ti}"));
     let header = fs * 1.9;
     let many = cycles.len() > 1;
     let key_h = if many { fs * 1.8 } else { 0.0 };
@@ -275,8 +328,8 @@ pub(crate) fn render(
         );
     }
     let spec = AxesSpec {
-        x_label: Some(axis_name(wch, "potential", wch.unit.as_deref())),
-        y_label: Some(axis_name(ich, "current", i_unit.as_deref())),
+        x_label: Some(axis_name(&wname, "potential", wunit.as_deref())),
+        y_label: Some(axis_name(&iname, "current", i_unit.as_deref())),
         grid: GridLines::Both,
         ..AxesSpec::default()
     };
@@ -300,9 +353,7 @@ pub(crate) fn render(
         );
     }
     out.notes.push(format!(
-        "voltammogram: {} against {}{}; pass channels to draw channels against time",
-        ich.name,
-        wch.name,
+        "voltammogram: {iname} against {wname}{}; pass channels to draw channels against time",
         if many {
             format!(", {} cycles", cycles.len())
         } else {
@@ -311,20 +362,20 @@ pub(crate) fn render(
     ));
     out.trace = Some(TracePreview {
         trace: ti,
-        sweep: sweeps.first().copied().unwrap_or(0),
-        sample_rate_hz: t.sample_rate_hz,
-        sweep_sample_count: t.sample_count,
+        sweep: v.sweep,
+        sample_rate_hz: 0.0,
+        sweep_sample_count: drawn,
         sample_count: drawn,
         truncated: false,
         x_axis: Some(XAxis {
             quantity: "potential".into(),
-            unit: wch.unit.clone().unwrap_or_default(),
+            unit: wunit.clone().unwrap_or_default(),
             first: x_dom.lo,
             last: x_dom.hi,
         }),
         channels: vec![TracePreviewChannel {
             index: cur,
-            name: ich.name.clone(),
+            name: iname.clone(),
             unit: i_unit.clone(),
             color: to_hex(theme.ink.to_rgb()),
             min: Some(y_dom.lo),

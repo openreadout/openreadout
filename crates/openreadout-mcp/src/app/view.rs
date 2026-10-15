@@ -53,7 +53,7 @@ pub const MAX_GATED_POPULATIONS: usize = 8;
 pub const MAX_PEAKS: usize = 60;
 /// A chromatogram peak is labelled when it is at least this share of the tallest peak's height
 /// (smaller ones can still be hovered).
-pub const LABEL_SHARE: f64 = 0.08;
+pub const LABEL_SHARE: f64 = 0.2;
 /// A labelled chromatogram peak is also at least this many noise SDs tall, by the peak picker's
 /// S/N and by the trace's point-to-point noise.
 pub const LABEL_SNR: f64 = 10.0;
@@ -876,6 +876,15 @@ fn trace(
             t.sweep_count
         )));
     }
+    // Voltammetry reads as current against potential, as the preview draws it.
+    if a.channels.is_empty()
+        && a.first_sample.is_none()
+        && a.count.is_none()
+        && let Some(v) = openreadout_preview::electrochem::voltammogram(ds, info, Some(ti), a.sweep)
+            .map_err(|e| err(&e))?
+    {
+        return Ok(voltammogram_plot(&v, &t, a, notes));
+    }
     let nch = t.channels.len();
     if nch == 0 {
         return Err(usage(format!("trace {ti} has no channels")));
@@ -1012,6 +1021,44 @@ fn trace(
         plot["xs"] = json!(xs);
     }
     Ok(plot)
+}
+
+/// A voltammogram as a plot: one series per cycle, current against potential.
+fn voltammogram_plot(
+    v: &openreadout_preview::electrochem::Voltammogram,
+    t: &TraceInfo,
+    a: &ViewArgs,
+    notes: &mut Notes,
+) -> Value {
+    for n in &v.notes {
+        notes.push(n.clone());
+    }
+    let cap = points(a);
+    let series: Vec<Value> = v
+        .cycles
+        .iter()
+        .map(|(name, pts)| {
+            let step = pts.len().div_ceil(cap).max(1);
+            let (xs, ys): (Vec<f32>, Vec<f32>) = pts
+                .iter()
+                .step_by(step)
+                .map(|p| (p.0 as f32, p.1 as f32))
+                .unzip();
+            json!({
+                "name": if name.is_empty() { v.current.1.clone() } else { format!("cycle {name}") },
+                "unit": v.current.2, "x": xs, "y": ys,
+            })
+        })
+        .collect();
+    json!({
+        "kind": "trace",
+        "voltammogram": true,
+        "trace": v.trace, "sweep": v.sweep, "sweep_count": t.sweep_count,
+        "x": {"quantity": "potential", "unit": v.potential.2, "irregular": true},
+        "y_unit": v.current.2,
+        "series": series,
+        "overlay": true,
+    })
 }
 
 fn nmr(

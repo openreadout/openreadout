@@ -65,7 +65,7 @@
 
 mod annotate;
 pub mod color;
-mod electrochem;
+pub mod electrochem;
 mod events;
 mod image;
 mod kinetic;
