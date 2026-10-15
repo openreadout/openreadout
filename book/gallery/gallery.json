@@ -1,0 +1,378 @@
+{
+  "about": "The figures of the gallery page (site/pages/gallery.astro) and the home page. scripts/gallery.mjs runs each entry through the openreadout binary on the public corpus files and writes public/img/gallery/NAME.png and site/data/gallery.json. $CORPUS is the corpus directory. Entries with `preview` are `openreadout preview FILE ARGS...`; `objects` counts objects with `stats --objects` and previews the plane with a point on each; `plot` is the spec of `openreadout plot`.",
+  "entries": [
+    {
+      "name": "slide-fold",
+      "section": "previews",
+      "title": "Labelled layers in a whole-slide scan",
+      "caption": "One fold of the cerebellum in a 3.7 GB slide scan of a young mouse, read as a 1,200 × 900 pixel region. The rulers are file pixels, so an agent can read coordinates off the picture and put its labels where it sees the layers.",
+      "preview": {
+        "file": "$CORPUS/zenodo10577621-Young-mouse.czi",
+        "args": [
+          "--region",
+          "43300,13300,1200,900",
+          "--level",
+          "0",
+          "--max-size",
+          "1400"
+        ],
+        "annotations": [
+          {
+            "type": "point",
+            "x": 43504,
+            "y": 13570,
+            "label": "Immature granule cells"
+          },
+          {
+            "type": "point",
+            "x": 43540,
+            "y": 13795,
+            "label": "Molecular layer"
+          },
+          {
+            "type": "point",
+            "x": 43996,
+            "y": 13921,
+            "label": "Purkinje cells"
+          },
+          {
+            "type": "point",
+            "x": 44140,
+            "y": 14074,
+            "label": "Granular layer"
+          }
+        ]
+      },
+      "wide": true
+    },
+    {
+      "name": "growth-grid",
+      "section": "previews",
+      "title": "A kinetic plate read in plate positions",
+      "caption": "A plate reader's 96 growth curves, each in its well's place and coloured by the plate layout's groups, with the blank wells faint.",
+      "preview": {
+        "file": "$CORPUS/softmax5-kinetic-phage-120308b.pda",
+        "args": [
+          "--max-size",
+          "1400"
+        ]
+      },
+      "wide": true
+    },
+    {
+      "name": "spikes",
+      "section": "previews",
+      "title": "Action potentials marked on a sweep",
+      "caption": "A current-clamp sweep of a fast-spiking interneuron with `--marks spikes`.",
+      "preview": {
+        "file": "$CORPUS/pyabf-2019-07-24-0055-fsi.abf",
+        "args": [
+          "--sweep",
+          "12",
+          "--marks",
+          "spikes",
+          "--max-size",
+          "1200"
+        ]
+      }
+    },
+    {
+      "name": "spectrum",
+      "section": "previews",
+      "title": "A mass spectrum with its peaks labelled",
+      "caption": "One scan of an Orbitrap run converted to mzML. The largest peaks carry their m/z.",
+      "preview": {
+        "file": "$CORPUS/mtbls20-caffeine-pos.mzML",
+        "args": [
+          "--spectrum",
+          "60",
+          "--max-size",
+          "1200"
+        ]
+      }
+    },
+    {
+      "name": "flow-density",
+      "section": "previews",
+      "title": "Flow cytometry as a density plot",
+      "caption": "Two fluorescence parameters of an FCS file on asinh axes.",
+      "preview": {
+        "file": "$CORPUS/flowkit-8c-e01.fcs",
+        "args": [
+          "--column",
+          "CD4 PE-Cy7 FLR-A",
+          "--column",
+          "CD8 PerCP-Cy55 FLR-A",
+          "--max-size",
+          "900"
+        ]
+      }
+    },
+    {
+      "name": "plate-grid",
+      "section": "figures",
+      "title": "96 growth curves, flagged as they grew or crashed",
+      "caption": "Blank-subtracted growth in plate positions. A colour rule at 6 h splits the wells into those that grew and those that crashed or held back, and the row and column headings come from the plate layout.",
+      "plot": {
+        "title": "Plate 1: growth in every well",
+        "data": {
+          "file": "$CORPUS/softmax5-kinetic-phage-120308b.pda",
+          "subtract": "blank",
+          "color_by": {
+            "at": 6,
+            "below": 0.1,
+            "label": "crashed or held back",
+            "else": "grew"
+          }
+        },
+        "facet": "plate",
+        "row_labels": [
+          "λ",
+          "HK97"
+        ],
+        "column_labels": [
+          "0",
+          "0",
+          "5",
+          "50",
+          "500",
+          "5k",
+          "50k",
+          "500k",
+          "5M",
+          "50M",
+          "500M",
+          "blank"
+        ],
+        "caption": "Phage per well. Data: Refardt, Bergmiller & Kümmerli, Dryad, CC0."
+      },
+      "wide": true
+    },
+    {
+      "name": "comeback",
+      "section": "figures",
+      "title": "Group means with a band",
+      "caption": "The mean of the infected wells against the uninfected ones, with a band where the cultures came back.",
+      "plot": {
+        "title": "Mean of the HK97 wells with and without phage",
+        "data": [
+          {
+            "file": "$CORPUS/softmax5-kinetic-phage-120308b.pda",
+            "wells": "E1:H2",
+            "by": "group",
+            "subtract": "blank",
+            "color": "muted",
+            "label": "no phage"
+          },
+          {
+            "file": "$CORPUS/softmax5-kinetic-phage-120308b.pda",
+            "wells": "E3:H11",
+            "by": "group",
+            "subtract": "blank",
+            "color": "accent",
+            "label": "with phage (5 to 5×10⁸ pfu)"
+          }
+        ],
+        "annotate": [
+          {
+            "x": [
+              7.4,
+              8.6
+            ],
+            "label": "came back 7.4–8.6 h"
+          }
+        ],
+        "caption": "Mean ± SD; 8 wells without phage, 36 with."
+      }
+    },
+    {
+      "name": "tic-spectrum",
+      "section": "figures",
+      "title": "A TIC and the spectrum at its apex",
+      "caption": "Two panels from one file: the total ion current with its apex labelled, and the mass spectrum at that retention time.",
+      "plot": {
+        "title": "Caffeine run: the TIC and the spectrum at its apex",
+        "panels": [
+          {
+            "title": "Total ion current",
+            "data": {
+              "file": "$CORPUS/mtbls20-caffeine-pos.mzML",
+              "peaks": 1
+            }
+          },
+          {
+            "title": "Spectrum at the apex",
+            "data": {
+              "file": "$CORPUS/mtbls20-caffeine-pos.mzML",
+              "rt": "apex",
+              "peaks": 6
+            }
+          }
+        ]
+      },
+      "wide": true
+    },
+    {
+      "name": "fi",
+      "section": "figures",
+      "title": "An f–I curve and the sweeps behind it",
+      "caption": "Spikes per current step from the patch-clamp analysis, next to four sweeps with their spikes marked.",
+      "plot": {
+        "title": "Fast-spiking interneuron: firing grows with current",
+        "panels": [
+          {
+            "title": "Spikes per current step",
+            "data": {
+              "file": "$CORPUS/pyabf-2019-07-24-0055-fsi.abf",
+              "show": "fi",
+              "mark": "bars"
+            }
+          },
+          {
+            "title": "Example sweeps",
+            "data": {
+              "file": "$CORPUS/pyabf-2019-07-24-0055-fsi.abf",
+              "show": "sweeps",
+              "sweep": [
+                4,
+                8,
+                12,
+                16
+              ],
+              "spikes": true
+            },
+            "facet": "series",
+            "x": {
+              "range": [
+                0,
+                1.6
+              ]
+            }
+          }
+        ],
+        "columns": 2
+      },
+      "wide": true
+    },
+    {
+      "name": "fcs-gates",
+      "section": "figures",
+      "title": "Gated populations from a FlowJo workspace",
+      "caption": "The CD4+ and CD8+ populations of a FlowJo workspace drawn over the events of one tube.",
+      "plot": {
+        "title": "T cells in tube E01: CD4 and CD8 populations",
+        "data": {
+          "file": "$CORPUS/flowkit-8c-e01.fcs",
+          "x": "CD4 PE-Cy7 FLR-A",
+          "y": "CD8 PerCP-Cy55 FLR-A",
+          "workspace": "$CORPUS/flowkit-8c-ics.wsp",
+          "populations": [
+            "CD4+",
+            "CD8+"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ir-overlay",
+      "section": "figures",
+      "title": "Spectra stacked, with their bands labelled",
+      "caption": "Four ATR-FTIR reference spectra from OMNIC files, offset so each stays readable.",
+      "plot": {
+        "title": "ATR-FTIR of four reference materials",
+        "data": {
+          "file": [
+            "$CORPUS/omnic-toffolo-library-zip/ATR/Calcite spar_Brazil.SPA",
+            "$CORPUS/omnic-toffolo-library-zip/ATR/Quartz alpha_synthetic_NIST.SPA",
+            "$CORPUS/omnic-toffolo-library-zip/ATR/Cellulose_Thermo Scientific.SPA",
+            "$CORPUS/omnic-toffolo-library-zip/ATR/Beeswax_Burgos_Spain.SPA"
+          ],
+          "peaks": 2
+        },
+        "stack": 0.9
+      }
+    },
+    {
+      "name": "nmr",
+      "section": "figures",
+      "title": "An NMR spectrum processed from the FID",
+      "caption": "The free induction decay of a Bruker experiment, Fourier transformed and phased, with the water signal marked.",
+      "plot": {
+        "title": "Sucrose, ¹H at 600 MHz",
+        "data": {
+          "file": "$CORPUS/nmrxiv-s275/1",
+          "process": true,
+          "peaks": 10,
+          "x_range": [
+            3.3,
+            5.6
+          ]
+        },
+        "y": {
+          "range": [
+            -20000000.0,
+            1000000000.0
+          ]
+        },
+        "annotate": [
+          {
+            "x": [
+              4.6,
+              4.95
+            ],
+            "label": "HDO",
+            "color": "muted"
+          }
+        ]
+      }
+    },
+    {
+      "name": "qpcr",
+      "section": "figures",
+      "title": "qPCR amplification on a log axis",
+      "caption": "Every well of an Applied Biosystems run, one colour per target.",
+      "plot": {
+        "title": "ABHD17C and 18S amplification",
+        "data": {
+          "file": "$CORPUS/eds-7500-abhd17c-ddct.eds"
+        },
+        "y": {
+          "log": true
+        }
+      }
+    },
+    {
+      "name": "dose-response",
+      "section": "figures",
+      "title": "Dose-response fits with their IC50s",
+      "caption": "Four-parameter fits of three compounds from a plate and its layout file.",
+      "plot": {
+        "title": "Three compounds, luminescence",
+        "data": {
+          "file": "$CORPUS/assay-synth-dose-response.csv",
+          "assay": {
+            "layout": "$CORPUS/assay-synth-dose-response-layout.csv"
+          }
+        }
+      }
+    },
+    {
+      "name": "chromatograms",
+      "section": "figures",
+      "title": "Chromatograms as small multiples",
+      "caption": "Three PDA chromatograms from AIA/ANDI files, one small plot each on a shared time axis.",
+      "plot": {
+        "title": "PDA chromatograms of three samples",
+        "data": {
+          "file": [
+            "$CORPUS/mtbls1892-B01-PDA-Ch1.CDF",
+            "$CORPUS/mtbls1892-B07-PDA-Ch1.CDF",
+            "$CORPUS/mtbls1892-B13-PDA-Ch1.CDF"
+          ]
+        },
+        "facet": "series",
+        "columns": 1
+      }
+    }
+  ]
+}
