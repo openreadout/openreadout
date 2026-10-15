@@ -157,10 +157,7 @@ fn prune(v: &mut Value, budget: usize) -> Vec<(String, usize)> {
         // go down the largest parts while one alone is enough to leave out; then leave out the
         // largest part at that level (the next round looks again if that was not enough)
         let mut members = 0;
-        loop {
-            let Some((part, child, n)) = largest_child(cur) else {
-                break;
-            };
+        while let Some((part, child, n)) = largest_child(cur) {
             members = match cur {
                 Value::Object(o) => o.len(),
                 _ => 0,

@@ -247,4 +247,19 @@ mod tests {
         assert!(hint(8).contains("verification"));
         assert!(hint(10).contains("whole data set"));
     }
+
+    /// A value out of its range is not an index: its hint does not talk about indices. An
+    /// output that is an input gets its own hint.
+    #[test]
+    fn value_ranges_and_inputs_get_their_own_hints() {
+        let hint = |m: &str| Error::Usage(m.into()).hint().unwrap_or_default();
+        let h = hint("dpi 5 is out of range: use 36 to 2400 (300 is usual for print)");
+        assert!(!h.contains("zero-based"), "{h}");
+        assert!(hint("scale 9 is out of range: use 0.25 to 8").contains("range the message gives"));
+        assert!(
+            hint("output a.tif is the input file a.tif; raw files are never modified")
+                .contains("not one of the input files")
+        );
+        assert!(hint("image index 4 out of range (0..2)").contains("zero-based"));
+    }
 }
