@@ -116,6 +116,8 @@ pub enum SchemaOf {
     BatchTable,
     /// `summarize`.
     Summarize,
+    /// `plot`: what a figure shows.
+    Plot,
     /// `link`.
     Link,
     /// `index.json` (also `index --json`); lists the columns of every table.
@@ -198,6 +200,7 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Gate => schemars::schema_for!(openreadout_core::flow::GateOutput),
         SchemaOf::BatchTable => schemars::schema_for!(openreadout_batch::BatchOutput),
         SchemaOf::Summarize => schemars::schema_for!(summarize::SummarizeOutput),
+        SchemaOf::Plot => schemars::schema_for!(openreadout_plot::PlotOutput),
         SchemaOf::Link => schemars::schema_for!(openreadout_batch::LinkOutput),
         SchemaOf::Index => schemars::schema_for!(openreadout_index::IndexManifest),
         SchemaOf::Search => schemars::schema_for!(openreadout_index::SearchOutput),

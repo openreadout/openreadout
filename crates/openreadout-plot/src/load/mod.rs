@@ -155,6 +155,20 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     if spec.assay.is_some() {
         return Ok(Show::DoseResponse);
     }
+    // a long plate CSV (`well`, `value`, maybe `time_s` and layout columns) is a plate
+    let p = Path::new(file);
+    let text_ext = p.extension().and_then(|e| e.to_str()).is_some_and(|e| {
+        matches!(e.to_ascii_lowercase().as_str(), "csv" | "tsv" | "txt")
+    });
+    if text_ext
+        && let Ok(head) = std::fs::File::open(p).and_then(|f| {
+            let mut b = Vec::new();
+            std::io::Read::read_to_end(&mut std::io::Read::take(f, 4096), &mut b).map(|_| b)
+        })
+        && openreadout_assay::PlateData::is_long_csv(&String::from_utf8_lossy(&head))
+    {
+        return Ok(Show::Wells);
+    }
     let (format, _ds, info) = ctx.open(file)?;
     if format == "fcs" {
         return Ok(if spec.y.is_some() {

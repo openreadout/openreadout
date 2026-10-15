@@ -112,7 +112,12 @@ pub(crate) fn draw_series(
             p.markers(fig, pts.iter().copied(), &Marker::dot(c, ink.dot));
         }
         (Geom::Line(pts), _) => {
-            p.line_px(fig, line_px(p, pts), line_stroke(s, theme, ink, n_many));
+            let mut st = line_stroke(s, theme, ink, n_many);
+            if pts.len() as f32 > p.rect.w * 3.0 {
+                // a dense signal drawn as its envelope: a finer pen keeps its structure
+                st.width *= 0.65;
+            }
+            p.line_px(fig, line_px(p, pts), st);
         }
         (Geom::Band(b), _) => {
             let tri: Vec<(f64, f64, f64)> = b.iter().map(|&(x, _, lo, hi)| (x, lo, hi)).collect();
