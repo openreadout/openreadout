@@ -95,7 +95,7 @@ pub fn render(out: &AssayOutput) -> Result<Option<(Vec<u8>, Vec<String>)>> {
             x_label: Some(format!("concentration{unit}")),
             y_label: Some(yl.clone()),
             grid: GridLines::Both,
-            top: fs * 3.4,
+            top: fs * 4.2,
             ..AxesSpec::default()
         };
         let panel = Panel::fit(

@@ -165,18 +165,28 @@ fn panel(
                 ],
                 Stroke::new(theme.accent, theme.hairline()),
             );
-            if let Some((x, y)) = p.pt(pe.rt_min, at(pe.rt_min)) {
-                fig.stroke(
-                    Path::segment(x, y - 2.0, x, y - fs * 0.45),
-                    Stroke::new(theme.accent, theme.hairline()),
-                );
-                fig.text(
-                    x,
-                    (y - fs * 0.6).max(p.rect.y + fs * 0.4),
-                    &pe.number.to_string(),
-                    &num,
-                );
+        }
+        // numbers at the apexes, tallest peaks first; a number that would cover another is
+        // left out (its peak keeps its baseline and shading)
+        let mut order: Vec<&crate::peaks::Peak> = pk.peaks.iter().collect();
+        order.sort_by(|a, b| b.height.total_cmp(&a.height));
+        let mut taken: Vec<openreadout_figure::Rect> = Vec::new();
+        for pe in order {
+            let Some((x, y)) = p.pt(pe.rt_min, at(pe.rt_min)) else {
+                continue;
+            };
+            let ly = (y - fs * 0.6).max(p.rect.y + fs * 0.4);
+            let label = pe.number.to_string();
+            let b = num.bounds(x, ly, &label).inset(-2.0);
+            if taken.iter().any(|t| t.intersects(&b)) {
+                continue;
             }
+            taken.push(b);
+            fig.stroke(
+                Path::segment(x, y - 2.0, x, y - fs * 0.45),
+                Stroke::new(theme.accent, theme.hairline()),
+            );
+            fig.text(x, ly, &label, &num);
         }
     }
 }
