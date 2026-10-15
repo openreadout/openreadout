@@ -150,7 +150,15 @@ pub(crate) fn render(
     // An irregular abscissa stored as a channel (a grating spectrometer's Raman-shift list, a
     // peak table's x) is the x axis, not a signal to draw.
     let xch = x_channel(&t).filter(|c| (*c as usize) < nch && nch > 1);
-    let channels: Vec<u32> = if req.channels.is_empty() {
+    // a processed NMR spectrum is read in its real part; the imaginary part is for phasing
+    let real_only = t.extra.get("kind").and_then(serde_json::Value::as_str)
+        == Some("processed_spectrum")
+        && t.channels.iter().any(|c| c.name == "imag");
+    let channels: Vec<u32> = if req.channels.is_empty() && real_only {
+        out.notes
+            .push("showing the real part; channels=[1] shows the imaginary part".into());
+        vec![0]
+    } else if req.channels.is_empty() {
         let signal: Vec<u32> = (0..nch as u32).filter(|c| xch != Some(*c)).collect();
         if signal.len() > DEFAULT_CHANNELS {
             out.notes.push(format!(

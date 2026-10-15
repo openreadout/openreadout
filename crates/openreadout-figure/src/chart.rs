@@ -538,8 +538,14 @@ impl Panel {
         );
     }
 
-    /// Vertical bars centred on `x`, `width` data units wide, from `base` to `y`.
+    /// Vertical bars centred on `x`, `width` data units wide, from `base` to `y`. On a log axis,
+    /// where zero has no position, a base at or below zero is the bottom of the axis.
     pub fn bars(&self, fig: &mut Figure, bars: &[(f64, f64)], width: f64, base: f64, fill: Color) {
+        let base = if self.y.kind == ScaleKind::Log && base <= 0.0 {
+            self.y.lo.min(self.y.hi)
+        } else {
+            base
+        };
         for &(x, y) in bars {
             self.rect_data(
                 fig,
