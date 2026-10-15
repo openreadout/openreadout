@@ -100,7 +100,7 @@
 #'   selection such as `"c=1"` or `"c=0,1,z=2"`, as in the CLI), `mip` (`"z"`, `"t"`),
 #'   `composite`, `level`, `region` (`c(x, y, width, height)`, `x` and `y` from 1 as in
 #'   [openreadout_read_image()]), `max_size` (default 1024), `axes` (`"rulers"`, `"grid"`,
-#'   `"none"`), `contrast`, `lut`, `trace`, `sweep`, `channels`, `run`, `spectrum`, `scan`,
+#'   `"scale-bar"`, `"none"`), `title`, `caption`, `contrast`, `lut`, `trace`, `sweep`, `channels`, `run`, `spectrum`, `scan`,
 #'   `centroid`, `table`, `columns`, `marks` (`"auto"`, `"peaks"`, `"spikes"`, `"none"`),
 #'   `annotations` and `dark`. Indices (`image`, `trace`, `sweep`, `channels`, `run`,
 #'   `spectrum`, `table`) start at 1.
