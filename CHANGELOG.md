@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- A figure engine (`openreadout-figure`) draws every picture: vector shapes and real type (IBM Plex Sans and Mono, embedded) rendered in-process to PNG, JPEG or SVG, in the paper-and-ink look of the project, light or dark.
+- Kinetic plate reads preview as a grid of growth curves in plate positions, coloured by the plate layout's groups, with blank wells faint. The heat map of the last time point used to hide wells that crashed and grew back.
+- Flow cytometry files preview as a density plot of two parameters (default FSC-A against SSC-A) or a histogram of one; fluorescence axes are asinh.
+- `preview --annotate` (MCP `annotations`) draws labelled points, boxes, outlines, arrows, text, lines and bands in the picture's own coordinates, and reports where each landed.
+- Spectra and chromatogram previews label their largest peaks; `preview --marks spikes` marks the action potentials of a current-clamp sweep.
+- `preview` writes SVG (`-o x.svg`), and `--dark` draws in the dark theme. Chromatogram and peak plots (`analyze chromatogram -o x.png`, `analyze peaks --plot`) and assay curve plots use the new engine.
+
+### Changed
+
+- `preview --column` is repeatable (MCP `columns`): a plate's value column, or the parameters of an event preview.
+- Previews report `panels` (each plot panel's place and data range), `marks` and `annotations`, so a viewer can map picture pixels to data values.
+
 ## [0.3.0] - 2026-10-13
 
 In short:
