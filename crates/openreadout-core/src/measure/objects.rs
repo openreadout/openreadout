@@ -332,6 +332,29 @@ fn stains(comps: &[Vec<f32>], i0: [f32; 3]) -> [Vec<f32>; 3] {
     out
 }
 
+/// The share of clearly stained pixels (optical density over 0.3) whose colour needs a
+/// negative amount of hematoxylin, eosin or DAB to be explained: high for other stains.
+fn stain_misfit(comps: &[Vec<f32>], i0: [f32; 3]) -> f64 {
+    let Some(inv) = sg::unmixing([sg::HEMATOXYLIN, sg::EOSIN, sg::DAB]) else {
+        return 0.0;
+    };
+    let (mut stained, mut bad) = (0usize, 0usize);
+    for i in (0..comps[0].len()).step_by(7) {
+        let od = [0, 1, 2].map(|k| f64::from(sg::optical_density(comps[k][i], i0[k])));
+        if od.iter().sum::<f64>() < 0.3 {
+            continue;
+        }
+        stained += 1;
+        let worst = (0..3)
+            .map(|j| od[0] * inv[0][j] + od[1] * inv[1][j] + od[2] * inv[2][j])
+            .fold(f64::INFINITY, f64::min);
+        if worst < -0.15 {
+            bad += 1;
+        }
+    }
+    if stained == 0 { 0.0 } else { bad as f64 / stained as f64 }
+}
+
 /// True for transmitted light (brightfield), where objects are darker than the background:
 /// the median sits closer to the top of the range than to the bottom, or the plane has no
 /// dark background at all (stained tissue filling the field). Fluorescence always has one.
@@ -348,7 +371,11 @@ fn looks_dark(v: &[f32]) -> bool {
 }
 
 /// Decide what to measure from a sample tile of the image (`comps`: one plane, or three RGB).
-fn signal_for(comps: &[Vec<f32>], o: &ObjectsRequest) -> Result<(Signal, String)> {
+fn signal_for(
+    comps: &[Vec<f32>],
+    o: &ObjectsRequest,
+    notes: &mut Vec<String>,
+) -> Result<(Signal, String)> {
     let rgb = comps.len() >= 3;
     if !rgb && o.stain != Stain::Auto {
         return Err(usage(
@@ -359,8 +386,15 @@ fn signal_for(comps: &[Vec<f32>], o: &ObjectsRequest) -> Result<(Signal, String)
         let lum: Vec<f32> = (0..comps[0].len())
             .map(|i| (comps[0][i] + comps[1][i] + comps[2][i]) / 3.0)
             .collect();
+        // colour pictures of fluorescence have a black background; transmitted light does not
         let brightfield = match o.polarity {
-            Polarity::Auto => looks_dark(&lum),
+            Polarity::Auto => {
+                looks_dark(&lum)
+                    || match (sg::quantile(&lum, 0.5), sg::quantile(&lum, 0.999)) {
+                        (Some(mid), Some(top)) => top > 0.0 && mid > 0.3 * top,
+                        _ => false,
+                    }
+            }
             p => p == Polarity::Dark,
         };
         let i0 = [0, 1, 2].map(|k| sg::quantile(&comps[k], 0.99).unwrap_or(255.0).max(1.0));
@@ -369,6 +403,19 @@ fn signal_for(comps: &[Vec<f32>], o: &ObjectsRequest) -> Result<(Signal, String)
             (s, _) => s,
         };
         let deconvolved = matches!(stain, Stain::Hematoxylin | Stain::Eosin | Stain::Dab);
+        if deconvolved {
+            let misfit = stain_misfit(comps, i0);
+            if misfit > 0.3 {
+                notes.push(format!(
+                    "{:.0}% of the stained pixels have colours that hematoxylin, eosin and DAB do not explain (another stain, such as a trichrome?): the {} amounts may be wrong; check a picture (preview marks=objects), or count in one colour with stain=red|green|blue",
+                    misfit * 100.0,
+                    serde_json::to_value(stain)
+                        .ok()
+                        .and_then(|v| v.as_str().map(str::to_string))
+                        .unwrap_or_default()
+                ));
+            }
+        }
         let dark = brightfield && !deconvolved;
         let name = match stain {
             Stain::Auto => "brightest component".into(),
@@ -979,7 +1026,7 @@ pub(crate) fn objects(
     let g = read(ds, tg, req.level, c, probe)?;
     let comps = grid_f32(&g);
     let rgb = comps.len() >= 3;
-    let (signal, stain_name) = signal_for(&comps, o)?;
+    let (signal, stain_name) = signal_for(&comps, o, notes)?;
     let measured = if rgb {
         stain_name
     } else {
@@ -1049,7 +1096,7 @@ pub(crate) fn objects(
             let (ws, sw, _, k) = working(&s, w, h, &plan);
             let f = scaled(&plan, k).flatten(&ws, sw, ws.len() / sw.max(1));
             // every pixel of one tile, every third of many
-            let stride = if single { 1 } else { 3 } * 1;
+            let stride = if single { 1 } else { 3 };
             let core = t.core_in_read();
             let k32 = k as u32;
             for y in (core.y / k32..(core.y + core.height) / k32).step_by(stride) {
@@ -1289,6 +1336,25 @@ pub(crate) fn objects(
             }
         })
         .collect();
+    // say when the objects do not look like what was asked for
+    if o.kind != Kind::Spots && count >= 10 {
+        let mut sol: Vec<f64> = all.iter().filter_map(|o| o.solidity).collect();
+        let irregular = median(&mut sol).is_some_and(|s| s < 0.8);
+        if large * 4 > count || irregular {
+            notes.push(format!(
+                "{} of {count} objects are over twice the median size{}: touching objects were not all separated, or the stain marks more than {}; check a picture (preview marks=objects) and set diameter_um or another channel or stain",
+                large,
+                if irregular { " and most are irregular" } else { "" },
+                kind_name(o.kind)
+            ));
+        }
+    }
+    if count == 0 {
+        notes.push(format!(
+            "no {} found above the threshold; check a picture, or set diameter_um, threshold or polarity",
+            kind_name(o.kind)
+        ));
+    }
     let max_list = o.max_objects.unwrap_or(DEFAULT_MAX_OBJECTS);
     let truncated = count > max_list;
     all.truncate(max_list);
@@ -1301,7 +1367,7 @@ pub(crate) fn objects(
         expected_diameter_px: round4(d),
         expected_diameter_um: d_um,
         expected_diameter_from: from.into(),
-        polarity: if signal.dark || matches!(signal.stain, Some(Stain::Hematoxylin | Stain::Eosin | Stain::Dab)) && signal.i0 != [0.0; 3] {
+        polarity: if signal.dark || signal.deconvolved() {
             Polarity::Dark
         } else {
             Polarity::Bright
@@ -1561,10 +1627,10 @@ pub fn label_plane(
     if comps.is_empty() || comps.iter().any(|c| c.len() != w * h) {
         return Err(usage("label_plane: each component needs w × h values"));
     }
-    let (signal, _) = signal_for(comps, o)?;
+    let mut notes = Vec::new();
+    let (signal, _) = signal_for(comps, o, &mut notes)?;
     let s = signal.of(comps);
     let background = !signal.deconvolved();
-    let mut notes = Vec::new();
     let full = Region::full(w as u32, h as u32);
     let (d, _) = diameter(o, &s, full, pixel_um, &signal, &mut notes)?;
     let mut plan = Plan::new(o.kind, d, background, o.method);
@@ -1692,8 +1758,10 @@ mod tests {
             b[i] = cb + 6.0 * rng.next();
         }
         let o = ObjectsRequest::default();
-        let (sig, name) = signal_for(&[r.clone(), g.clone(), b.clone()], &o).unwrap();
+        let mut notes = Vec::new();
+        let (sig, name) = signal_for(&[r.clone(), g.clone(), b.clone()], &o, &mut notes).unwrap();
         assert_eq!(name, "hematoxylin");
+        assert!(notes.is_empty(), "{notes:?}");
         assert!(sig.deconvolved());
         let (lab, _) = label_plane(&[r, g, b], w, h, None, &o).unwrap();
         assert_eq!(count(&lab), 9);
