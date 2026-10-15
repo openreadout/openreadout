@@ -63,12 +63,12 @@
 #![allow(clippy::many_single_char_names)]
 
 mod annotate;
-mod objects;
 pub mod color;
 mod events;
 mod image;
 mod kinetic;
 mod marks;
+mod objects;
 mod options;
 mod overlay;
 mod plate;

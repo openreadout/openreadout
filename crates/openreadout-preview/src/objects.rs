@@ -4,7 +4,9 @@
 
 use openreadout_core::measure::{Kind, MeasureRequest, Objects, ObjectsRequest, measure};
 use openreadout_core::{Dataset, FileInfo, Region, Result};
-use openreadout_figure::{Anchor, Baseline, Color, Face, Figure, Path, Pill, Rect, Stroke, TextStyle};
+use openreadout_figure::{
+    Anchor, Baseline, Color, Face, Figure, Path, Pill, Rect, Stroke, TextStyle,
+};
 
 use crate::{Frame, PreviewOutput, PreviewRequest};
 
@@ -57,7 +59,12 @@ pub(crate) fn draw(
     let y0 = (f64::from(full.y) / fy).floor() as u32;
     let x1 = ((f64::from(full.x + full.width) / fx).ceil() as u32).min(lsize.0);
     let y1 = ((f64::from(full.y + full.height) / fy).ceil() as u32).min(lsize.1);
-    let region = Region::new(x0, y0, x1.saturating_sub(x0).max(1), y1.saturating_sub(y0).max(1));
+    let region = Region::new(
+        x0,
+        y0,
+        x1.saturating_sub(x0).max(1),
+        y1.saturating_sub(y0).max(1),
+    );
     // the plane shown: its z and t, and its channel when it shows exactly one
     let mut select = vec![format!("z={}", ip.z.first().copied().unwrap_or(0))];
     select.push(format!("t={}", ip.t.first().copied().unwrap_or(0)));
@@ -97,7 +104,10 @@ pub(crate) fn draw(
     // drawing: full-resolution px of the level's px, then figure px
     let to_fig = |x: f64, y: f64| -> (f32, f32) {
         let (px, py) = map.px_of(x * fx, y * fy);
-        (plot_area.x as f32 + px as f32, plot_area.y as f32 + py as f32)
+        (
+            plot_area.x as f32 + px as f32,
+            plot_area.y as f32 + py as f32,
+        )
     };
     let area = Rect::new(
         plot_area.x as f32,

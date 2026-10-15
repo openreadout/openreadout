@@ -352,7 +352,11 @@ fn stain_misfit(comps: &[Vec<f32>], i0: [f32; 3]) -> f64 {
             bad += 1;
         }
     }
-    if stained == 0 { 0.0 } else { bad as f64 / stained as f64 }
+    if stained == 0 {
+        0.0
+    } else {
+        bad as f64 / stained as f64
+    }
 }
 
 /// True for transmitted light (brightfield), where objects are darker than the background:
@@ -478,9 +482,7 @@ fn measure_diameter(
     let background = !signal.deconvolved();
     // objects narrower than 4 pixels cannot be told apart; wider than a third of the plane
     // they cannot be counted
-    let plausible = |d: &f64| {
-        *d >= range.0.max(4.0) && *d <= range.1.min((w.min(h) as f64) / 3.0)
-    };
+    let plausible = |d: &f64| *d >= range.0.max(4.0) && *d <= range.1.min((w.min(h) as f64) / 3.0);
     // one candidate per size
     let distinct = |cands: &[f64], d: f64| cands.iter().all(|c| (c / d).max(d / c) > 1.3);
     let mut cands: Vec<f64> = Vec::new();
@@ -889,10 +891,10 @@ fn settle_threshold(
             let k = 0.7f32;
             let med = sg::quantile(sample, 0.5)?;
             let mut cands: Vec<(f32, &'static str)> = vec![(med + k * (t - med), "otsu")];
-            if let Some((lo, hi)) = sg::otsu3(sample) {
-                if hi > t {
-                    cands.push((lo + k * (hi - lo), "otsu-3"));
-                }
+            if let Some((lo, hi)) = sg::otsu3(sample)
+                && hi > t
+            {
+                cands.push((lo + k * (hi - lo), "otsu-3"));
             }
             if cands.len() == 1 {
                 return cands.pop();
@@ -1104,9 +1106,7 @@ pub(crate) fn objects(
                     let i = y as usize * sw + x as usize;
                     let (gx, gy) = (t.read.x + x * k32, t.read.y + y * k32);
                     if i < f.len()
-                        && poly.is_none_or(|p| {
-                            inside(p, f64::from(gx) + 0.5, f64::from(gy) + 0.5)
-                        })
+                        && poly.is_none_or(|p| inside(p, f64::from(gx) + 0.5, f64::from(gy) + 0.5))
                     {
                         sample.push(f[i]);
                     }
@@ -1114,17 +1114,15 @@ pub(crate) fn objects(
             }
         }
         let (pw, ph) = (probe.width as usize, probe.height as usize);
-        let (t, m) = settle_threshold(&s, pw, ph, &plan, &sample).ok_or_else(|| {
-            usage("the area is flat (one value): there is nothing to count")
-        })?;
-        if o.kind != Kind::Spots {
-            if let Some((_, sep)) = sg::otsu(&sample) {
-                if sep < 0.5 {
-                    notes.push(format!(
+        let (t, m) = settle_threshold(&s, pw, ph, &plan, &sample)
+            .ok_or_else(|| usage("the area is flat (one value): there is nothing to count"))?;
+        if o.kind != Kind::Spots
+            && let Some((_, sep)) = sg::otsu(&sample)
+            && sep < 0.5
+        {
+            notes.push(format!(
                         "weak contrast between objects and background (Otsu separability {sep:.2}): the count may be unreliable; check a picture (preview marks=objects)"
                     ));
-                }
-            }
         }
         plan.threshold = t;
         method_name = m.to_string();
@@ -1192,8 +1190,12 @@ pub(crate) fn objects(
                 || lab[i - w] != lab[i]
                 || lab[i + w] != lab[i];
             if at_rim {
-                e.hull
-                    .extend([[fx, fy], [fx + 1.0, fy], [fx, fy + 1.0], [fx + 1.0, fy + 1.0]]);
+                e.hull.extend([
+                    [fx, fy],
+                    [fx + 1.0, fy],
+                    [fx, fy + 1.0],
+                    [fx + 1.0, fy + 1.0],
+                ]);
             }
         }
         for (l, e) in a.iter_mut().enumerate().skip(1) {
@@ -1257,7 +1259,10 @@ pub(crate) fn objects(
             (2, Some("B".into())),
         ]
     } else {
-        all_channels.iter().map(|c| (*c, channel_label(tg, *c))).collect()
+        all_channels
+            .iter()
+            .map(|c| (*c, channel_label(tg, *c)))
+            .collect()
     };
     let mut all: Vec<Object> = accs
         .into_iter()
@@ -1321,11 +1326,7 @@ pub(crate) fn objects(
             let bg = &bg_samples[k];
             let background = sg::quantile(bg, 0.5).map_or(f64::NAN, f64::from);
             // positive calls for markers: other channels than the one counted, and DAB
-            let marker = if stained {
-                k == 2
-            } else {
-                rgb || c != counted
-            };
+            let marker = if stained { k == 2 } else { rgb || c != counted };
             let positive = marker.then(|| positive(&means, bg)).flatten();
             ObjectChannel {
                 c,
@@ -1434,7 +1435,11 @@ fn positive(means: &[f64], bg: &[f32]) -> Option<Positive> {
     let count = means.iter().filter(|m| **m > threshold).count();
     Some(Positive {
         threshold: round4(threshold),
-        method: if count == 0 { "none".into() } else { method.into() },
+        method: if count == 0 {
+            "none".into()
+        } else {
+            method.into()
+        },
         count,
         fraction: round4(count as f64 / means.len() as f64),
     })
@@ -1453,8 +1458,17 @@ fn tile_data(
     let g = read(ds, tg, level, c, r)?;
     let comps = grid_f32(&g);
     let measured = if comps.len() >= 3 {
-        if signal.dark || matches!(signal.stain, Some(Stain::Hematoxylin | Stain::Eosin | Stain::Dab)) {
-            let i0 = if signal.i0 == [0.0; 3] { [255.0; 3] } else { signal.i0 };
+        if signal.dark
+            || matches!(
+                signal.stain,
+                Some(Stain::Hematoxylin | Stain::Eosin | Stain::Dab)
+            )
+        {
+            let i0 = if signal.i0.iter().all(|v| *v <= 0.0) {
+                [255.0; 3]
+            } else {
+                signal.i0
+            };
             stains(&comps, i0).to_vec()
         } else {
             comps.iter().take(3).cloned().collect()
@@ -1518,7 +1532,10 @@ fn diameter(
         Some(p) => ((lo / p, hi / p), Some(typical / p)),
         None => ((0.0, f64::INFINITY), None),
     };
-    match (measure_diameter(s, w, h, o.kind, signal, range, typical_px), pixel_um) {
+    match (
+        measure_diameter(s, w, h, o.kind, signal, range, typical_px),
+        pixel_um,
+    ) {
         (Some((d, false)), _) => Ok((d, "measured")),
         (Some((d, true)), _) => Ok((d, "default")),
         (None, Some(p)) => {
@@ -1635,15 +1652,14 @@ pub fn label_plane(
     let (d, _) = diameter(o, &s, full, pixel_um, &signal, &mut notes)?;
     let mut plan = Plan::new(o.kind, d, background, o.method);
     plan.split &= o.split.unwrap_or(true);
-    plan.threshold = match o.threshold {
-        Some(t) => t as f32,
-        None => {
-            let (ws, sw, _, k) = working(&s, w, h, &plan);
-            let f = scaled(&plan, k).flatten(&ws, sw, ws.len() / sw.max(1));
-            settle_threshold(&s, w, h, &plan, &f)
-                .ok_or_else(|| usage("the plane is flat"))?
-                .0
-        }
+    plan.threshold = if let Some(t) = o.threshold {
+        t as f32
+    } else {
+        let (ws, sw, _, k) = working(&s, w, h, &plan);
+        let f = scaled(&plan, k).flatten(&ws, sw, ws.len() / sw.max(1));
+        settle_threshold(&s, w, h, &plan, &f)
+            .ok_or_else(|| usage("the plane is flat"))?
+            .0
     };
     Ok((label_tile(&s, w, h, &plan).0, d))
 }
@@ -1652,7 +1668,7 @@ pub fn label_plane(
 mod tests {
     use super::*;
     use crate::measure::{MeasureRequest, measure};
-    use crate::model::{CheckReport, ChannelInfo, FileInfo, ImageInfo, LsEntry, PhysicalSize};
+    use crate::model::{ChannelInfo, CheckReport, FileInfo, ImageInfo, LsEntry, PhysicalSize};
     use crate::pixel::Plane;
     use crate::reader::{Dataset, PlaneIndex};
     use crate::{PixelType, ProvenanceMap};
@@ -1661,13 +1677,22 @@ mod tests {
     struct Lcg(u64);
     impl Lcg {
         fn next(&mut self) -> f32 {
-            self.0 = self.0.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+            self.0 = self
+                .0
+                .wrapping_mul(6_364_136_223_846_793_005)
+                .wrapping_add(1_442_695_040_888_963_407);
             ((self.0 >> 40) as f32) / (1u64 << 24) as f32 - 0.5
         }
     }
 
     /// A `w × h` plane with discs `(cx, cy, r, value)` on `background`, plus noise.
-    fn discs(w: usize, h: usize, d: &[(f32, f32, f32, f32)], background: f32, noise: f32) -> Vec<f32> {
+    fn discs(
+        w: usize,
+        h: usize,
+        d: &[(f32, f32, f32, f32)],
+        background: f32,
+        noise: f32,
+    ) -> Vec<f32> {
         let mut rng = Lcg(7);
         (0..w * h)
             .map(|i| {
@@ -1714,7 +1739,7 @@ mod tests {
                 ..ObjectsRequest::default()
             },
         ] {
-            let (lab, d) = label_plane(&[plane.clone()], w, h, None, &o).unwrap();
+            let (lab, d) = label_plane(std::slice::from_ref(&plane), w, h, None, &o).unwrap();
             assert!((12.0..30.0).contains(&d), "{d}");
             assert_eq!(count(&lab), 9, "diameter {d}");
         }
@@ -1730,7 +1755,10 @@ mod tests {
     #[test]
     fn finds_dark_nuclei_on_a_bright_background() {
         let (w, h) = (180, 180);
-        let d: Vec<_> = nuclei().into_iter().map(|(x, y, r, v)| (x, y, r, 250.0 - v)).collect();
+        let d: Vec<_> = nuclei()
+            .into_iter()
+            .map(|(x, y, r, v)| (x, y, r, 250.0 - v))
+            .collect();
         let plane = discs(w, h, &d, 230.0, 8.0);
         let (lab, _) = label_plane(&[plane], w, h, None, &ObjectsRequest::default()).unwrap();
         assert_eq!(count(&lab), 9);
@@ -1743,7 +1771,16 @@ mod tests {
         let mut r = vec![0f32; w * h];
         let mut g = vec![0f32; w * h];
         let mut b = vec![0f32; w * h];
-        let inside = discs(w, h, &nuclei().iter().map(|n| (n.0, n.1, n.2, 1.0)).collect::<Vec<_>>(), 0.0, 0.0);
+        let inside = discs(
+            w,
+            h,
+            &nuclei()
+                .iter()
+                .map(|n| (n.0, n.1, n.2, 1.0))
+                .collect::<Vec<_>>(),
+            0.0,
+            0.0,
+        );
         let mut rng = Lcg(3);
         for i in 0..w * h {
             let (cr, cg, cb) = if i / w < 8 {
@@ -1801,7 +1838,8 @@ mod tests {
     fn requests_reject_unknown_options() {
         let e = serde_json::from_str::<ObjectsRequest>(r#"{"min_area_px": 4}"#);
         assert!(e.is_err());
-        let o: ObjectsRequest = serde_json::from_str(r#"{"kind": "spots", "diameter_um": 0.4}"#).unwrap();
+        let o: ObjectsRequest =
+            serde_json::from_str(r#"{"kind": "spots", "diameter_um": 0.4}"#).unwrap();
         assert_eq!(o.kind, Kind::Spots);
     }
 
@@ -1823,7 +1861,11 @@ mod tests {
                 .map(|(i, d)| (d.0, d.1, d.2, if i % 2 == 0 { 3000.0 } else { 200.0 }))
                 .collect();
             let marker = discs(w, h, &marked, 200.0, 30.0);
-            TwoChannels { w, h, planes: [marker, dapi] }
+            TwoChannels {
+                w,
+                h,
+                planes: [marker, dapi],
+            }
         }
 
         fn file_info(&self) -> FileInfo {
@@ -1914,7 +1956,10 @@ mod tests {
         assert_eq!(o.channels.len(), 2);
         let ki67 = o.channels[0].positive.as_ref().unwrap();
         assert_eq!(ki67.count, 5, "{ki67:?}");
-        assert!(o.channels[1].positive.is_none(), "the counted channel has no positive call");
+        assert!(
+            o.channels[1].positive.is_none(),
+            "the counted channel has no positive call"
+        );
         // 10 px radius at 0.5 µm: about 10 µm across
         let d = o.diameter_um.unwrap().median;
         assert!((8.0..12.0).contains(&d), "{d}");
@@ -1945,7 +1990,10 @@ mod tests {
             .map(|t| u64::from(t.core.width) * u64::from(t.core.height))
             .sum();
         assert_eq!(covered, 5000 * 3000);
-        assert!(t.iter().all(|t| t.read.x <= t.core.x && t.read.width >= t.core.width));
+        assert!(
+            t.iter()
+                .all(|t| t.read.x <= t.core.x && t.read.width >= t.core.width)
+        );
         assert_eq!(tiles(Region::new(0, 0, 2000, 2000), 20.0).len(), 1);
     }
 }

@@ -102,7 +102,9 @@ fn bbbc039() -> Vec<Case> {
             let (w, h, spp, m) = read_png(&dir.join("bbbc039-masks/masks").join(png_name));
             let red: Vec<u32> = m.chunks_exact(spp).map(|p| u32::from(p[0])).collect();
             let truth = label_by_value(&red, w, h);
-            let tif = dir.join("bbbc039-images/images").join(format!("{stem}.tif"));
+            let tif = dir
+                .join("bbbc039-images/images")
+                .join(format!("{stem}.tif"));
             let (_, mut ds) = reg.open(&tif).expect("open BBBC039 TIFF");
             let info = ds.info().expect("info");
             let im = &info.images[0];
@@ -334,14 +336,23 @@ fn nuclei_against_annotations() {
         })
         .collect();
     let secs = t0.elapsed().as_secs_f64();
-    if let (Some(d), Ok(show)) = (std::env::var_os("NUCLEI_DUMP"), std::env::var("NUCLEI_SHOW")) {
-        for c in cases.iter().filter(|c| show.split(',').any(|s| c.name.starts_with(s))) {
-            overlay(c, &predict(c), &Path::new(&d).join(format!("{}.png", &c.name[..12.min(c.name.len())])));
+    if let (Some(d), Ok(show)) = (
+        std::env::var_os("NUCLEI_DUMP"),
+        std::env::var("NUCLEI_SHOW"),
+    ) {
+        for c in cases
+            .iter()
+            .filter(|c| show.split(',').any(|s| c.name.starts_with(s)))
+        {
+            overlay(
+                c,
+                &predict(c),
+                &Path::new(&d).join(format!("{}.png", &c.name[..12.min(c.name.len())])),
+            );
         }
     }
     if let Some(d) = std::env::var_os("NUCLEI_DUMP") {
-        let mut tsv =
-            String::from("group\timage\ttruth\tfound\ttp\tfp\tfn\td_used\td_truth\n");
+        let mut tsv = String::from("group\timage\ttruth\tfound\ttp\tfp\tfn\td_used\td_truth\n");
         for (c, s, d) in &results {
             tsv.push_str(&format!(
                 "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{:.1}\t{:.1}\n",
@@ -380,7 +391,11 @@ fn nuclei_against_annotations() {
         });
         let p = s.tp as f64 / s.found.max(1) as f64;
         let r = s.tp as f64 / s.truth.max(1) as f64;
-        let f1 = if p + r > 0.0 { 2.0 * p * r / (p + r) } else { 0.0 };
+        let f1 = if p + r > 0.0 {
+            2.0 * p * r / (p + r)
+        } else {
+            0.0
+        };
         let errs: Vec<f64> = rs
             .iter()
             .filter(|r| r.1.truth > 0)
@@ -432,8 +447,14 @@ fn overlay(c: &Case, pred: &[u32], out: &Path) {
         let rim = |lab: &[u32]| {
             let (x, y) = (i % w, i / w);
             lab[i] != 0
-                && (x == 0 || y == 0 || x + 1 == w || y + 1 == h
-                    || lab[i - 1] != lab[i] || lab[i + 1] != lab[i] || lab[i - w] != lab[i] || lab[i + w] != lab[i])
+                && (x == 0
+                    || y == 0
+                    || x + 1 == w
+                    || y + 1 == h
+                    || lab[i - 1] != lab[i]
+                    || lab[i + 1] != lab[i]
+                    || lab[i - w] != lab[i]
+                    || lab[i + w] != lab[i])
         };
         if rim(pred) {
             rgb.extend([255, 40, 40]);
@@ -454,7 +475,10 @@ fn overlay(c: &Case, pred: &[u32], out: &Path) {
     let mut e = png::Encoder::new(std::io::BufWriter::new(f), w as u32, h as u32);
     e.set_color(png::ColorType::Rgb);
     e.set_depth(png::BitDepth::Eight);
-    e.write_header().expect("png header").write_image_data(&rgb).expect("png data");
+    e.write_header()
+        .expect("png header")
+        .write_image_data(&rgb)
+        .expect("png data");
 }
 
 /// Lowest F1 at IoU 0.5 accepted per group.

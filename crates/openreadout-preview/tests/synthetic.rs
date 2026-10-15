@@ -423,7 +423,11 @@ fn objects_are_counted_and_outlined() {
         ..Default::default()
     });
     let marked = render(&mut Synth, &info, &req).unwrap();
-    let o = marked.output.objects.as_ref().expect("objects in the output");
+    let o = marked
+        .output
+        .objects
+        .as_ref()
+        .expect("objects in the output");
     assert_eq!(o.count, 1, "{o:?}");
     assert!((o.objects[0].x - 20.5).abs() < 1.5 && (o.objects[0].y - 24.5).abs() < 1.5);
     let (_, a) = finish(&plain, Encoding::Png, 90).unwrap();

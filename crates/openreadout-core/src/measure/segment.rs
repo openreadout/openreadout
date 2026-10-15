@@ -144,7 +144,11 @@ pub(crate) fn quantile(v: &[f32], q: f64) -> Option<f32> {
     let mut s: Vec<f32> = if v.len() > 1_000_000 {
         // a strided sample is plenty for a quantile
         let step = v.len() / 500_000;
-        v.iter().step_by(step).copied().filter(|x| x.is_finite()).collect()
+        v.iter()
+            .step_by(step)
+            .copied()
+            .filter(|x| x.is_finite())
+            .collect()
     } else {
         v.iter().copied().filter(|x| x.is_finite()).collect()
     };
@@ -697,21 +701,45 @@ pub(crate) fn unmixing(stains: [[f64; 3]; 3]) -> Option<[[f64; 3]; 3]> {
     if det.abs() < 1e-6 {
         return None;
     }
-    let c = |r1: usize, c1: usize, r2: usize, c2: usize| m[r1][c1] * m[r2][c2] - m[r1][c2] * m[r2][c1];
+    let c =
+        |r1: usize, c1: usize, r2: usize, c2: usize| m[r1][c1] * m[r2][c2] - m[r1][c2] * m[r2][c1];
     // inverse = adjugate / det; od (row vector) · inv = concentrations
     Some([
-        [c(1, 1, 2, 2) / det, -c(0, 1, 2, 2) / det, c(0, 1, 1, 2) / det],
-        [-c(1, 0, 2, 2) / det, c(0, 0, 2, 2) / det, -c(0, 0, 1, 2) / det],
-        [c(1, 0, 2, 1) / det, -c(0, 0, 2, 1) / det, c(0, 0, 1, 1) / det],
+        [
+            c(1, 1, 2, 2) / det,
+            -c(0, 1, 2, 2) / det,
+            c(0, 1, 1, 2) / det,
+        ],
+        [
+            -c(1, 0, 2, 2) / det,
+            c(0, 0, 2, 2) / det,
+            -c(0, 0, 1, 2) / det,
+        ],
+        [
+            c(1, 0, 2, 1) / det,
+            -c(0, 0, 2, 1) / det,
+            c(0, 0, 1, 1) / det,
+        ],
     ])
 }
 
 /// The outline of the pixels of label `l` around the pixel `start` (its first pixel in row
 /// order), as the corners of the pixel edges between the object and the rest, simplified to
 /// within `tol` pixels. Coordinates are pixel corners (pixel `(x, y)` spans x..x+1, y..y+1).
-pub(crate) fn outline(lab: &[u32], w: usize, h: usize, l: u32, start: usize, tol: f64) -> Vec<[f64; 2]> {
+pub(crate) fn outline(
+    lab: &[u32],
+    w: usize,
+    h: usize,
+    l: u32,
+    start: usize,
+    tol: f64,
+) -> Vec<[f64; 2]> {
     let inside = |x: isize, y: isize| -> bool {
-        x >= 0 && y >= 0 && x < w as isize && y < h as isize && lab[y as usize * w + x as usize] == l
+        x >= 0
+            && y >= 0
+            && x < w as isize
+            && y < h as isize
+            && lab[y as usize * w + x as usize] == l
     };
     // walk the boundary with the object on the right: directions 0 right, 1 down, 2 left, 3 up
     let (sx, sy) = ((start % w) as isize, (start / w) as isize);
@@ -896,7 +924,10 @@ mod tests {
         let c: Vec<f64> = (0..3)
             .map(|j| (0..3).map(|k| od[k] * inv[k][j]).sum())
             .collect();
-        assert!((c[0] - 0.8).abs() < 1e-9 && c[1].abs() < 1e-9 && c[2].abs() < 1e-9, "{c:?}");
+        assert!(
+            (c[0] - 0.8).abs() < 1e-9 && c[1].abs() < 1e-9 && c[2].abs() < 1e-9,
+            "{c:?}"
+        );
     }
 
     #[test]

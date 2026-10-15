@@ -95,7 +95,11 @@ pub struct PreviewArgs {
     /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep),
     /// `objects` (outline and number the nuclei, cells or spots of an image, as `stats
     /// --objects` counts them) or `none`.
-    #[arg(long, default_value = "auto", value_name = "auto|peaks|spikes|objects|none")]
+    #[arg(
+        long,
+        default_value = "auto",
+        value_name = "auto|peaks|spikes|objects|none"
+    )]
     pub marks: String,
     /// With `--marks objects`: how objects are found, as JSON with the fields of the MCP
     /// `objects` option, e.g. `{"kind":"spots"}` or `{"diameter_um":8}`.
