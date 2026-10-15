@@ -885,23 +885,47 @@ pub struct EndLabel {
     pub color: Color,
 }
 
-/// Direct labels to the right of `x` (pixels), spread so they do not overlap, each joined to
-/// its line's end by a short leader when it had to move.
+/// Direct labels to the right of `x` (pixels), one line of type apart, kept between `lo` and
+/// `hi` when they fit (a stack taller than that grows upwards past `lo`). When any label had to
+/// move off its line's end, every label steps out a little further and the moved ones get an
+/// elbow leader: level with the line's end, a slanted run, level again into the label, so a
+/// crowded stack still reads line by line.
 pub fn end_labels(fig: &mut Figure, theme: &Theme, x: f32, labels: &[EndLabel], lo: f32, hi: f32) {
     let fs = theme.font_size;
+    let gap = fs * 1.3;
     let ys: Vec<f32> = labels.iter().map(|l| l.y).collect();
-    let pos = spread(&ys, fs * 1.15, lo, hi);
+    let need = gap * labels.len().saturating_sub(1) as f32;
+    let lo = lo.min(hi - need).max(fs * 0.6);
+    let pos = spread(&ys, gap, lo, hi);
+    let moved = |a: f32, b: f32| (a - b).abs() > fs * 0.25;
+    let any_moved = labels.iter().zip(&pos).any(|(l, &y)| moved(l.y, y));
+    let tx = x + if any_moved { fs * 1.6 } else { fs * 0.5 };
     for (l, &y) in labels.iter().zip(&pos) {
-        let tx = x + fs * 0.9;
-        if (y - l.y).abs() > fs * 0.3 {
+        if moved(l.y, y) {
+            let run = fs * 0.3;
             fig.stroke(
-                Path::polyline([(x + 2.0, l.y), (tx - 3.0, y)]),
-                Stroke::new(l.color.alpha(0.6), theme.hairline()),
+                Path::polyline([
+                    (x + 2.0, l.y),
+                    (x + 2.0 + run, l.y),
+                    (tx - run - 2.0, y),
+                    (tx - 3.0, y),
+                ]),
+                Stroke::new(l.color.alpha(0.55), theme.hairline()),
+            );
+        } else if any_moved {
+            fig.stroke(
+                Path::segment(x + 2.0, l.y, tx - 3.0, y),
+                Stroke::new(l.color.alpha(0.55), theme.hairline()),
             );
         }
         let st = TextStyle::new(fs, l.color).align(Anchor::Start, Baseline::Middle);
         fig.text(tx, y, &l.text, &st);
     }
+}
+
+/// How far right of the panel [`end_labels`] puts its text, at most (room to reserve).
+pub fn end_label_indent(theme: &Theme) -> f32 {
+    theme.font_size * 1.6
 }
 
 /// A row of keys (a short line or block in each colour, then its text) starting at `(x, y)`
