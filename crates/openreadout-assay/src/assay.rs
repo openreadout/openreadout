@@ -1382,9 +1382,15 @@ fn time_course(
         });
     }
     let mut missing_blank = 0usize;
+    let mut blanks_skipped = 0usize;
     let mut kin_by_well: BTreeMap<String, f64> = BTreeMap::new();
     for w in wells.iter() {
         if w.excluded {
+            continue;
+        }
+        // a blank well is the background, not a culture: it has no growth curve
+        if req.analysis == Analysis::Growth && w.role == Some(Role::Blank) {
+            blanks_skipped += 1;
             continue;
         }
         let pts = &series[&w.pos];
@@ -1458,7 +1464,11 @@ fn time_course(
                     }
                     let ph = kinetics::phases(&t, &y, window, req.growth_threshold);
                     let ph = ph.as_ref();
-                    let l = g.logistic.as_ref();
+                    // a logistic curve describes a culture that grew; a crash breaks its shape
+                    let l = g
+                        .logistic
+                        .as_ref()
+                        .filter(|_| ph.is_none_or(|p| p.pattern.id() == "grew"));
                     out.growth.push(GrowthRow {
                         well: w.name.clone(),
                         role: role_id(w.role),
@@ -1502,6 +1512,11 @@ fn time_course(
     if missing_blank > 0 {
         notes.push(format!(
             "{missing_blank} time points had no blank value at the same time and were left out"
+        ));
+    }
+    if blanks_skipped > 0 {
+        notes.push(format!(
+            "the {blanks_skipped} blank well(s) are the background and get no growth row"
         ));
     }
     if req.analysis == Analysis::Growth && !out.growth.is_empty() {
