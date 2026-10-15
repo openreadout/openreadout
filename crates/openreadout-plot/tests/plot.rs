@@ -237,10 +237,11 @@ fn misplaced_keys_say_where_they_go() {
         .unwrap_err()
         .to_string();
     assert!(e.contains("data.x") && e.contains("on the panel"), "{e}");
-    let e = parse_spec(
-        json!({"panels": [{"data": [{"file": "a"}, {"file": "b", "title": "t"}]}]}),
-    )
-    .unwrap_err()
-    .to_string();
-    assert!(e.contains("panels[0].data[1]") && e.contains("`title`"), "{e}");
+    let e = parse_spec(json!({"panels": [{"data": [{"file": "a"}, {"file": "b", "title": "t"}]}]}))
+        .unwrap_err()
+        .to_string();
+    assert!(
+        e.contains("panels[0].data[1]") && e.contains("`title`"),
+        "{e}"
+    );
 }

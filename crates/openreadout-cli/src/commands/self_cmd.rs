@@ -186,17 +186,13 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Preview => out::<openreadout_preview::PreviewOutput>(),
         SchemaOf::Stats => out::<openreadout_core::stats::StatsOutput>(),
         SchemaOf::StatsWells => out::<openreadout_core::plate::WellStatsOutput>(),
-        SchemaOf::StatsMeasure => {
-            out::<openreadout_core::measure::MeasureOutput>()
-        }
+        SchemaOf::StatsMeasure => out::<openreadout_core::measure::MeasureOutput>(),
         SchemaOf::Trace => out::<openreadout_core::trace::TraceSlice>(),
         SchemaOf::Table => out::<openreadout_core::model::TableSlice>(),
         SchemaOf::Scans => out::<openreadout_core::ScanList>(),
         SchemaOf::Spectrum => out::<SpectrumOutput>(),
         SchemaOf::Peaks => out::<openreadout_quant::analyze::PeaksOutput>(),
-        SchemaOf::Chromatogram => {
-            out::<openreadout_quant::extract::ChromatogramOutput>()
-        }
+        SchemaOf::Chromatogram => out::<openreadout_quant::extract::ChromatogramOutput>(),
         SchemaOf::NmrPeaks => out::<openreadout_signal::nmr::NmrReport>(),
         SchemaOf::EphysFeatures => out::<openreadout_signal::ephys::CellReport>(),
         SchemaOf::Spikes => out::<openreadout_signal::ephys::SpikesReport>(),
@@ -210,15 +206,11 @@ fn schema(of: SchemaOf) -> String {
         SchemaOf::Index => out::<openreadout_index::IndexManifest>(),
         SchemaOf::Search => out::<openreadout_index::SearchOutput>(),
         SchemaOf::Health => out::<openreadout_index::HealthReport>(),
-        SchemaOf::ExportDataset => {
-            out::<openreadout_index::ExportDatasetReport>()
-        }
+        SchemaOf::ExportDataset => out::<openreadout_index::ExportDatasetReport>(),
         SchemaOf::Watch => out::<openreadout_live::watch::WatchEvent>(),
         SchemaOf::Formats => out::<FormatsOutput>(),
         SchemaOf::Doctor => out::<doctor::DoctorReport>(),
-        SchemaOf::Envelope => {
-            out::<openreadout_core::Envelope<serde_json::Value>>()
-        }
+        SchemaOf::Envelope => out::<openreadout_core::Envelope<serde_json::Value>>(),
     };
     serde_json::to_string_pretty(&s).expect("schema serializes")
 }

@@ -185,11 +185,23 @@ mod tests {
         fit(&mut r, "openreadout_qpcr", MAX_CHARS);
         let sc = r.structured_content.as_ref().unwrap();
         assert!(sc.to_string().len() <= MAX_CHARS);
-        assert_eq!(sc["traces"].as_array().unwrap().len(), 3, "short lists stay whole");
+        assert_eq!(
+            sc["traces"].as_array().unwrap().len(),
+            3,
+            "short lists stay whole"
+        );
         assert_eq!(sc["few"], json!([1, 2, 3]));
-        let text: Vec<&str> = r.content.iter().filter_map(|c| c.as_text().map(|t| t.text.as_str())).collect();
+        let text: Vec<&str> = r
+            .content
+            .iter()
+            .filter_map(|c| c.as_text().map(|t| t.text.as_str()))
+            .collect();
         assert_eq!(serde_json::from_str::<Value>(text[0]).unwrap(), *sc);
-        assert!(text[1].contains("/records kept") && text[1].contains("of 2000"), "{}", text[1]);
+        assert!(
+            text[1].contains("/records kept") && text[1].contains("of 2000"),
+            "{}",
+            text[1]
+        );
     }
 
     #[test]

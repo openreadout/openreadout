@@ -156,7 +156,9 @@ fn check_data(at: &str, data: &Value) -> Result<()> {
                     )));
                 }
             }
-            for k in ["title", "caption", "annotate", "facet", "legend", "output", "panels"] {
+            for k in [
+                "title", "caption", "annotate", "facet", "legend", "output", "panels",
+            ] {
                 if m.contains_key(k) {
                     return Err(Error::Usage(format!(
                         "{at}: `{k}` belongs on the panel or the figure, next to `data`, not inside it"

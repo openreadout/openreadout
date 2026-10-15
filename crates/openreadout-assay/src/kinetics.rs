@@ -556,7 +556,10 @@ mod tests {
             .iter()
             .map(|s| 0.01 * (s / 3600.0).exp().min(50.0))
             .collect();
-        assert_eq!(phases(&t, &up, None, None, 0.0).unwrap().pattern, Pattern::Grew);
+        assert_eq!(
+            phases(&t, &up, None, None, 0.0).unwrap().pattern,
+            Pattern::Grew
+        );
         // flat noise
         let flat: Vec<f64> = (0..600)
             .map(|i| if i % 2 == 0 { 0.001 } else { -0.001 })

@@ -89,7 +89,12 @@ fn mcp_err(e: &Error) -> McpError {
 /// reads tool results, while clients often show it only the message of a protocol error.
 fn error_result(e: McpError) -> CallToolResult {
     let mut text = e.message.to_string();
-    if let Some(h) = e.data.as_ref().and_then(|d| d.get("hint")).and_then(|h| h.as_str()) {
+    if let Some(h) = e
+        .data
+        .as_ref()
+        .and_then(|d| d.get("hint"))
+        .and_then(|h| h.as_str())
+    {
         text.push_str("\nhint: ");
         text.push_str(h);
     }

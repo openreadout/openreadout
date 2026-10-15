@@ -107,20 +107,34 @@ fn command(cmd: &str) -> String {
                 _ => None,
             };
             match assay {
-                Some(a) => ("openreadout_assay".to_string(), vec![format!("analysis: \"{a}\"")], &words[2..]),
-                None => (format!("openreadout_{}", kind.replace('-', "_")), Vec::new(), &words[2..]),
+                Some(a) => (
+                    "openreadout_assay".to_string(),
+                    vec![format!("analysis: \"{a}\"")],
+                    &words[2..],
+                ),
+                None => (
+                    format!("openreadout_{}", kind.replace('-', "_")),
+                    Vec::new(),
+                    &words[2..],
+                ),
             }
         }
         ("self", Some("formats")) => return "the `openreadout://formats` resource".into(),
         ("help", _) => return "the tool's input schema".into(),
         ("self" | "mcp" | "--version", _) => return format!("`openreadout {cmd}`"),
         (c, _) if c.starts_with('-') => return format!("`openreadout {cmd}`"),
-        (c, _) => (format!("openreadout_{}", c.replace('-', "_")), Vec::new(), &words[1..]),
+        (c, _) => (
+            format!("openreadout_{}", c.replace('-', "_")),
+            Vec::new(),
+            &words[1..],
+        ),
     };
     let mut i = 0;
     while i < rest.len() {
         let w = rest[i];
-        let name = w.strip_prefix("--").or_else(|| (w == "-o").then_some("output"));
+        let name = w
+            .strip_prefix("--")
+            .or_else(|| (w == "-o").then_some("output"));
         match name {
             Some("json" | "jsonl") => {}
             Some(n) => {
@@ -170,7 +184,10 @@ mod tests {
             for_tools("`openreadout self formats` lists them; `openreadout info --view structure`"),
             "the `openreadout://formats` resource lists them; `openreadout_info` with `view: structure`"
         );
-        assert_eq!(for_tools("a range 1--2 and `x --y`"), "a range 1--2 and `x --y`");
+        assert_eq!(
+            for_tools("a range 1--2 and `x --y`"),
+            "a range 1--2 and `x --y`"
+        );
     }
 
     #[test]
@@ -183,6 +200,9 @@ mod tests {
         assert_eq!(sc["notes"][0], "pass `sample` NAME");
         assert_eq!(sc["x"]["hint"], "see `openreadout_check`");
         let text = r.content[0].as_text().unwrap().text.clone();
-        assert_eq!(serde_json::from_str::<serde_json::Value>(&text).unwrap(), *sc);
+        assert_eq!(
+            serde_json::from_str::<serde_json::Value>(&text).unwrap(),
+            *sc
+        );
     }
 }

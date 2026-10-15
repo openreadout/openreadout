@@ -75,7 +75,9 @@ fn plate_one_growth_patterns() {
     let Some(f) = file("softmax5-kinetic-phage-120308b.pda") else {
         return;
     };
-    let o = run(json!({"file": f, "data": {"subtract": "blank", "color_by": "growth"}, "facet": "plate"}));
+    let o = run(
+        json!({"file": f, "data": {"subtract": "blank", "color_by": "growth"}, "facet": "plate"}),
+    );
     let p = &o.panels[0];
     let wells = |c: &str| {
         p.series
