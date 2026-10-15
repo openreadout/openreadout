@@ -8,7 +8,13 @@
 
 use std::sync::OnceLock;
 
-use ttf_parser::{Face as TtfFace, GlyphId, OutlineBuilder};
+use skrifa::charmap::Charmap;
+use skrifa::instance::{LocationRef, Size};
+use skrifa::metrics::GlyphMetrics;
+use skrifa::outline::{DrawSettings, OutlinePen};
+use skrifa::raw::TableProvider;
+use skrifa::raw::tables::gpos::{PairPos, PositionLookup};
+use skrifa::{FontRef, GlyphId, MetadataProvider, OutlineGlyphCollection};
 
 use crate::path::Path;
 
@@ -62,66 +68,100 @@ fn font(cell: &'static OnceLock<Option<Font>>, woff: &[u8]) -> Option<&'static F
     cell.get_or_init(|| Font::load(woff)).as_ref()
 }
 
-/// A parsed font and the kerning lookups of its `kern` feature.
+/// A parsed font: its character map, advances, outlines, vertical metrics and the pair
+/// adjustments of its `kern` feature, all in font units.
 struct Font {
-    face: TtfFace<'static>,
-    kern_lookups: Vec<u16>,
+    charmap: Charmap<'static>,
+    advances: GlyphMetrics<'static>,
+    outlines: OutlineGlyphCollection<'static>,
+    kerning: Vec<PairPos<'static>>,
     units_per_em: f32,
+    cap_height: Option<f32>,
+    x_height: Option<f32>,
+    ascent: f32,
+    descent: f32,
 }
 
 impl Font {
     fn load(woff: &[u8]) -> Option<Font> {
         // The font data lives as long as the process: one copy per face, made once.
         let data: &'static [u8] = Box::leak(woff_to_sfnt(woff)?.into_boxed_slice());
-        let face = TtfFace::parse(data, 0).ok()?;
-        let mut kern_lookups = Vec::new();
-        if let Some(gpos) = face.tables().gpos {
-            for feature in gpos.features {
-                if feature.tag == ttf_parser::Tag::from_bytes(b"kern") {
-                    kern_lookups.extend(feature.lookup_indices);
+        let font = FontRef::new(data).ok()?;
+        let loc = LocationRef::default();
+        let m = font.metrics(Size::unscaled(), loc);
+        let mut kerning = Vec::new();
+        if let Ok(gpos) = font.gpos()
+            && let (Ok(features), Ok(lookups)) = (gpos.feature_list(), gpos.lookup_list())
+        {
+            let mut indices: Vec<u16> = Vec::new();
+            for rec in features.feature_records() {
+                if rec.feature_tag() == skrifa::Tag::new(b"kern")
+                    && let Ok(f) = rec.feature(features.offset_data())
+                {
+                    indices.extend(
+                        f.lookup_list_indices()
+                            .iter()
+                            .map(skrifa::raw::types::BigEndian::get),
+                    );
+                }
+            }
+            indices.sort_unstable();
+            indices.dedup();
+            for i in indices {
+                if let Ok(PositionLookup::Pair(lookup)) = lookups.lookups().get(usize::from(i)) {
+                    kerning.extend(lookup.subtables().iter().flatten());
                 }
             }
         }
-        kern_lookups.sort_unstable();
-        kern_lookups.dedup();
-        let units_per_em = f32::from(face.units_per_em().max(1));
         Some(Font {
-            face,
-            kern_lookups,
-            units_per_em,
+            charmap: font.charmap(),
+            advances: font.glyph_metrics(Size::unscaled(), loc),
+            outlines: font.outline_glyphs(),
+            kerning,
+            units_per_em: f32::from(m.units_per_em.max(1)),
+            cap_height: m.cap_height,
+            x_height: m.x_height,
+            ascent: m.ascent,
+            descent: -m.descent,
         })
     }
 
-    fn kern(&self, left: GlyphId, right: GlyphId) -> i16 {
-        use ttf_parser::gpos::{PairAdjustment, PositioningSubtable};
-        let Some(gpos) = self.face.tables().gpos else {
-            return 0;
-        };
-        for &li in &self.kern_lookups {
-            let Some(lookup) = gpos.lookups.get(li) else {
-                continue;
-            };
-            for sub in lookup.subtables.into_iter::<PositioningSubtable>() {
-                let PositioningSubtable::Pair(pair) = sub else {
-                    continue;
-                };
-                let Some(ci) = pair.coverage().get(left) else {
-                    continue;
-                };
-                let found = match pair {
-                    PairAdjustment::Format1 { sets, .. } => {
-                        sets.get(ci).and_then(|set| set.get(right))
-                    }
-                    PairAdjustment::Format2 {
-                        classes, matrix, ..
-                    } => matrix.get((classes.0.get(left), classes.1.get(right))),
-                };
-                if let Some((first, _)) = found {
-                    return first.x_advance;
+    /// The horizontal adjustment between two glyphs, in font units.
+    fn kern(&self, left: GlyphId, right: GlyphId) -> f32 {
+        for pair in &self.kerning {
+            let found = match pair {
+                PairPos::Format1(f) => {
+                    let Some(ci) = f.coverage().ok().and_then(|c| c.get(left)) else {
+                        continue;
+                    };
+                    let Ok(set) = f.pair_sets().get(usize::from(ci)) else {
+                        continue;
+                    };
+                    set.pair_value_records()
+                        .iter()
+                        .flatten()
+                        .find(|r| GlyphId::from(r.second_glyph()) == right)
+                        .and_then(|r| r.value_record1().x_advance())
                 }
+                PairPos::Format2(f) => {
+                    if f.coverage().ok().and_then(|c| c.get(left)).is_none() {
+                        continue;
+                    }
+                    let (Ok(c1), Ok(c2)) = (f.class_def1(), f.class_def2()) else {
+                        continue;
+                    };
+                    f.class1_records()
+                        .get(usize::from(c1.get(left)))
+                        .ok()
+                        .and_then(|r| r.class2_records().get(usize::from(c2.get(right))).ok())
+                        .and_then(|r| r.value_record1().x_advance())
+                }
+            };
+            if let Some(v) = found {
+                return f32::from(v);
             }
         }
-        0
+        0.0
     }
 }
 
@@ -200,11 +240,11 @@ struct Placed {
 /// The font that draws `c` for `face`: the face itself, else Plex Sans.
 fn glyph_for(face: Face, c: char) -> Option<(&'static Font, GlyphId)> {
     let f = face.font()?;
-    if let Some(g) = f.face.glyph_index(c) {
+    if let Some(g) = f.charmap.map(c) {
         return Some((f, g));
     }
     let sans = Face::Sans.font()?;
-    sans.face.glyph_index(c).map(|g| (sans, g))
+    sans.charmap.map(c).map(|g| (sans, g))
 }
 
 /// Lay out a line of text: glyph positions and the total advance, in pixels at `size`.
@@ -222,10 +262,10 @@ fn layout(text: &str, face: Face, size: f32) -> (Vec<Placed>, f32) {
         if let Some((pf, pg)) = prev
             && std::ptr::eq(pf, font)
         {
-            x += f32::from(font.kern(pg, glyph)) * k;
+            x += font.kern(pg, glyph) * k;
         }
         out.push(Placed { font, glyph, x });
-        x += f32::from(font.face.glyph_hor_advance(glyph).unwrap_or(0)) * k;
+        x += font.advances.advance_width(glyph).unwrap_or(0.0) * k;
         prev = Some((font, glyph));
     }
     (out, x)
@@ -261,16 +301,11 @@ pub fn metrics(face: Face, size: f32) -> Metrics {
         return fallback;
     };
     let k = size / f.units_per_em;
-    let face = &f.face;
     Metrics {
-        cap_height: face
-            .capital_height()
-            .map_or(fallback.cap_height, |v| f32::from(v) * k),
-        x_height: face
-            .x_height()
-            .map_or(fallback.x_height, |v| f32::from(v) * k),
-        ascent: f32::from(face.ascender()) * k,
-        descent: -f32::from(face.descender()) * k,
+        cap_height: f.cap_height.map_or(fallback.cap_height, |v| v * k),
+        x_height: f.x_height.map_or(fallback.x_height, |v| v * k),
+        ascent: f.ascent * k,
+        descent: f.descent * k,
     }
 }
 
@@ -281,7 +316,7 @@ struct Outline<'a> {
     k: f32,
 }
 
-impl OutlineBuilder for Outline<'_> {
+impl OutlinePen for Outline<'_> {
     fn move_to(&mut self, x: f32, y: f32) {
         self.path.move_to(self.x + x * self.k, self.y - y * self.k);
     }
@@ -322,7 +357,12 @@ pub fn text_path(text: &str, face: Face, size: f32, x: f32, y: f32) -> Path {
             y,
             k: size / g.font.units_per_em,
         };
-        let _ = g.font.face.outline_glyph(g.glyph, &mut o);
+        if let Some(glyph) = g.font.outlines.get(g.glyph) {
+            let _ = glyph.draw(
+                DrawSettings::unhinted(Size::unscaled(), LocationRef::default()),
+                &mut o,
+            );
+        }
     }
     path
 }

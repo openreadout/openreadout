@@ -26,7 +26,7 @@ OpenReadout is a Cargo workspace. Format readers know nothing about the command 
 | `openreadout-ometiff`, `-omezarr`, `-mzml-writer`, `-arrow` | writers; every output is read back and verified | crates.io |
 | `openreadout-ops` | command-level operations shared by the front ends: `compare`, `info --view explain`, `extract`, `--only` | crates.io |
 | `openreadout-quant`, `-assay`, `-qpcr`, `-signal`, `-batch`, `-preview` | analyses and previews built on the readers | crates.io |
-| `openreadout-figure` | the figure engine every picture is drawn with: a scene of paths, text and raster images in the OpenReadout theme, scales, plot panels and label placement, rendered in-process to PNG, JPEG or SVG (tiny-skia, ttf-parser); embeds the IBM Plex fonts (OFL, the one licence exception in `deny.toml`) | crates.io |
+| `openreadout-figure` | the figure engine every picture is drawn with: a scene of paths, text and raster images in the OpenReadout theme, scales, plot panels and label placement, rendered in-process to PNG, JPEG or SVG (tiny-skia, skrifa); embeds the IBM Plex fonts (OFL, the one licence exception in `deny.toml`) | crates.io |
 | `openreadout-index`, `-live` | lab-share catalog and live acquisitions | crates.io |
 | `openreadout-mcp` | MCP server over stdio (`rmcp`) | crates.io |
 | `openreadout` (`crates/openreadout-cli`) | the binary; embeds `SKILL.md` | crates.io |

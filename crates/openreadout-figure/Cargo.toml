@@ -20,7 +20,7 @@ include = ["/src", "/fonts", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
 openreadout-core = { workspace = true }
 png = { workspace = true }
 tiny-skia = { workspace = true }
-ttf-parser = { workspace = true }
+skrifa = { workspace = true }
 miniz_oxide = { workspace = true }
 
 [dev-dependencies]

@@ -66,7 +66,16 @@ pub(crate) fn prominent(
     if !(lo.is_finite() && hi.is_finite()) || hi <= lo {
         return Vec::new();
     }
-    let floor = (hi - lo) * min_share;
+    // noise: the median step between neighbouring columns; a peak must stand well above it
+    let finite: Vec<f64> = v.iter().copied().filter(|x| x.is_finite()).collect();
+    let mut steps: Vec<f64> = finite.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+    steps.sort_by(f64::total_cmp);
+    let noise = if steps.len() >= 50 {
+        steps[steps.len() / 2]
+    } else {
+        0.0
+    };
+    let floor = ((hi - lo) * min_share).max(noise * 8.0);
     let len = v.len();
     let mut cands: Vec<(usize, f64)> = Vec::new();
     for i in 0..len {
@@ -121,6 +130,9 @@ pub(crate) fn prominent(
         }
     }
     cands.sort_by(|a, b| b.1.total_cmp(&a.1).then(a.0.cmp(&b.0)));
+    // and at least a tenth as prominent as the most prominent peak
+    let top = cands.first().map_or(0.0, |c| c.1);
+    cands.retain(|c| c.1 >= top * 0.1);
     let mut out: Vec<usize> = Vec::new();
     for (i, _) in cands {
         if out.len() >= n {

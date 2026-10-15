@@ -180,7 +180,7 @@ png = "0.18"
 # figures: anti-aliased vector rasterizer (BSD-3-Clause) and font parser (MIT/Apache-2.0); the
 # embedded IBM Plex fonts are WOFF files, inflated at first use (miniz_oxide, above)
 tiny-skia = { version = "0.12", default-features = false, features = ["std"] }
-ttf-parser = { version = "0.25", default-features = false, features = ["std", "opentype-layout"] }
+skrifa = { version = "0.48", default-features = false, features = ["std"] }
 # spreadsheets (plate-reader XLSX/XLS exports), pure Rust
 calamine = { version = "0.36", default-features = false }
 # zarr (pure Rust; only the filesystem store and gzip codec, no C codecs such as blosc/zstd-sys)
