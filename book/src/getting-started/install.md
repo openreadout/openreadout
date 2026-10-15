@@ -69,9 +69,9 @@ openreadout 0.1.0
 $ openreadout self doctor
 openreadout 0.1.0 (x86_64-unknown-linux-gnu, release)
   features: mcp
-  mcp server: available (27 tools)
+  mcp server: available (28 tools)
   threads: 4
-  formats (97): czi, lif, nd2, thermo-raw, fcs, imzml, mzml, mzxml, mzmlb, bruker-tdf, ...
+  formats (104): czi, lif, nd2, thermo-raw, fcs, imzml, mzml, mzxml, mzmlb, bruker-tdf, ...
 self-test:
   ok   detect tiff                  tiff (Definite)
   ok   tiff info and planes         16x8 uint16, 2 planes bit-exact
