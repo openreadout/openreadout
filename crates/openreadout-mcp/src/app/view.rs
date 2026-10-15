@@ -203,6 +203,8 @@ pub struct ViewArgs {
     /// FCS with gating: show the events of this population (path or unique name), coloured by
     /// its child populations (default: all events, coloured by the top populations).
     pub population: Option<String>,
+    /// Image: outline the objects counted as openreadout_stats objects counts them.
+    pub objects: Option<openreadout_core::measure::ObjectsRequest>,
 }
 
 fn yes() -> bool {
@@ -671,6 +673,10 @@ fn image(
         .parse()
         .map_err(|e| err(&e))?;
     req.axes = false;
+    if let Some(o) = &a.objects {
+        req.marks = pv::Marks::Objects;
+        req.objects = Some(o.clone());
+    }
     let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
     let (out, bytes) = pv::finish_within(
         &r,

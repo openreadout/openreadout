@@ -145,7 +145,7 @@ pub(crate) fn draw(
             }
         }
     }
-    // the count, top left of the picture
+    // the count, top left of the picture (bare pictures, as the viewer shows, go without)
     let caption = caption(&objs);
     let fs = theme.font_size;
     let pill = Pill {
@@ -154,9 +154,11 @@ pub(crate) fn draw(
         stroke: None,
         pad: ((fs * 0.6).round(), (fs * 0.3).round()),
     };
-    let (w, h) = pill.size(&caption);
-    let r = Rect::new(area.x + 6.0, area.y + 6.0, w.min(area.w - 12.0), h);
-    pill.draw(fig, r, &caption);
+    if req.axes {
+        let (w, h) = pill.size(&caption);
+        let r = Rect::new(area.x + 6.0, area.y + 6.0, w.min(area.w - 12.0), h);
+        pill.draw(fig, r, &caption);
+    }
     // the JSON: the summary and the first objects, in full-resolution pixels
     for ob in &mut objs.objects {
         ob.outline.clear();
