@@ -590,8 +590,8 @@ mod tests {
         let args = |axes: openreadout_preview::Axes, region: Option<openreadout_core::Region>| {
             let v = serde_json::json!({"file": f.display().to_string(), "max_size": 400});
             let mut a: PreviewArgs = serde_json::from_value(v).unwrap();
-            a.axes = axes;
-            a.region = region;
+            a.options.axes = Some(axes);
+            a.options.region = region;
             Parameters(a)
         };
         let r = s

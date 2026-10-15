@@ -3333,7 +3333,7 @@ function main() {
       const X = (v) => a.x + ((p.x.reversed ? xb - fx(v) : fx(v) - xa) / (xb - xa)) * a.w;
       const Y = (v) => a.y + (1 - (fy(v) - ya) / (yb - ya)) * a.h;
       const inside = (qx, qy) => qx >= a.x - 0.5 && qx <= a.x + a.w + 0.5 && qy >= a.y - 0.5 && qy <= a.y + a.h + 0.5;
-      const unx = p.x.log ? Math.pow(10, xv) : xv, uny = p.y.log ? Math.pow(10, yv) : yv;
+      const xAt = p.x.log ? Math.pow(10, xv) : xv, yAt = p.y.log ? Math.pow(10, yv) : yv;
       // A few lines: every series' value at the nearest x it has, the cursor snapped to it.
       const lines = p.series.length <= 8 && p.series.every((s) => s.x.length > 3);
       if (lines) {
@@ -3355,7 +3355,7 @@ function main() {
           rows.push({ s, i: bi, cx, cy });
         }
         rows.sort((q, r) => q.cy - r.cy);
-        if (rows.length) return { p, x: snapX, y: uny, rows, rule: X(snapX) };
+        if (rows.length) return { p, x: snapX, y: yAt, rows, rule: X(snapX) };
       }
       // Otherwise the nearest point of any series, in picture pixels.
       let best = null;
@@ -3369,7 +3369,7 @@ function main() {
           if (!best || d < best.d) best = { d, s, i, cx: qx, cy: qy };
         }
       }
-      return { p, x: unx, y: uny, best: best && Math.sqrt(best.d) * L.k < 40 ? best : null };
+      return { p, x: xAt, y: yAt, best: best && Math.sqrt(best.d) * L.k < 40 ? best : null };
     }
     return null;
   }

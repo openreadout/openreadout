@@ -87,6 +87,19 @@ fn domain_for(name: &str, v: &[f64]) -> (Domain, &'static str) {
     }
 }
 
+/// `290172` → `290,172`.
+fn thousands(n: u64) -> String {
+    let s = n.to_string();
+    let mut out = String::new();
+    for (i, c) in s.chars().enumerate() {
+        if i > 0 && (s.len() - i).is_multiple_of(3) {
+            out.push(',');
+        }
+        out.push(c);
+    }
+    out
+}
+
 /// The step between neighbouring recorded values when the parameter is stored on a grid
 /// (integer channels, a coarse ADC), from up to 20,000 values; 0 when it looks continuous.
 fn resolution(v: &[f64]) -> f64 {
@@ -326,10 +339,14 @@ pub(crate) fn render(
     }
     let caption = format!(
         "{} events{}",
-        n,
-        y_name
-            .as_deref()
-            .map_or_else(String::new, |_| " · darker = more events".into())
+        thousands(n),
+        y_name.as_deref().map_or_else(String::new, |_| {
+            if req.dark {
+                " · brighter = more events".into()
+            } else {
+                " · darker = more events".into()
+            }
+        })
     );
     fig.text(
         fs * 0.8,

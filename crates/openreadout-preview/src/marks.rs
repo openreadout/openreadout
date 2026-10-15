@@ -157,7 +157,11 @@ fn local_step(v: &[f64], i: usize) -> f64 {
     let half = (v.len() / 10).max(8);
     let lo = i.saturating_sub(half);
     let hi = (i + half + 1).min(v.len());
-    let finite: Vec<f64> = v[lo..hi].iter().copied().filter(|x| x.is_finite()).collect();
+    let finite: Vec<f64> = v[lo..hi]
+        .iter()
+        .copied()
+        .filter(|x| x.is_finite())
+        .collect();
     let mut steps: Vec<f64> = finite.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
     if steps.len() < 4 {
         return 0.0;

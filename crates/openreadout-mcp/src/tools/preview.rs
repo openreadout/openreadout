@@ -11,74 +11,21 @@ use serde::Deserialize;
 
 use crate::{InstrumentServer, mcp_err, resources, to_value, with_strict};
 
-/// Arguments for `openreadout_preview`.
+/// Arguments for `openreadout_preview`: the file, the encoding, and the preview options the
+/// bindings share ([`openreadout_preview::PreviewOptions`]).
 #[derive(Debug, Deserialize, schemars::JsonSchema)]
 pub struct PreviewArgs {
     /// Path to the file.
     pub file: String,
-    /// Image index (default 0).
-    pub image: Option<u32>,
-    /// Plane selection such as `c=1`, `z=4`, `t=0` or combined `c=0,1,z=2`. Default: c=0, the
-    /// middle z, t=0. Several channels imply a composite.
-    #[serde(default)]
-    pub select: Vec<String>,
-    /// Maximum-intensity projection, over the selected range if any.
-    pub mip: Option<openreadout_preview::Axis>,
-    /// Blend all (or the selected) channels additively in their colours.
-    #[serde(default)]
-    pub composite: bool,
-    /// Pyramid level to read (default: the level nearest max_size, or the level at which
-    /// `region` renders at about max_size).
-    pub level: Option<u32>,
-    /// Zoom: only this rectangle, `{x, y, width, height}` in full-resolution pixels (or in the
-    /// pixels of `level` when a level is given). Whole-slide images: look at the overview
-    /// first, then at regions of it.
-    pub region: Option<openreadout_core::Region>,
-    /// Longest side in pixels, rulers included (default 768, max 2048).
-    pub max_size: Option<u32>,
-    /// Image previews: what frames the picture.
-    #[serde(default)]
-    pub axes: openreadout_preview::Axes,
-    /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
-    pub contrast: Option<String>,
-    /// Colour lookup. Default: gray for one channel, channel colours for composites.
-    pub lut: Option<openreadout_preview::Lut>,
     /// Encoding. Default png (sent as JPEG when a PNG would be too large); svg also returns
     /// the vector drawing as text.
     pub format: Option<openreadout_preview::Encoding>,
-    /// Trace preview: trace index (see openreadout_info traces[]).
-    pub trace: Option<u32>,
-    /// Trace preview: sweep index.
-    pub sweep: Option<u32>,
-    /// Trace preview: channel indices (default: the first 8).
-    #[serde(default)]
-    pub channels: Vec<u32>,
-    /// Spectrum preview: run index.
-    pub run: Option<u32>,
-    /// Spectrum preview: zero-based spectrum index.
-    pub spectrum: Option<u64>,
-    /// Spectrum preview: instrument scan number instead of an index.
-    pub scan: Option<u64>,
-    /// Spectrum preview: the instrument's centroid list instead of the profile.
-    #[serde(default)]
-    pub centroid: bool,
-    /// Plate or flow-cytometry preview: table index.
-    pub table: Option<u32>,
-    /// Table columns: a plate's value column, or the x and y parameters of a flow-cytometry
-    /// density plot (one gives a histogram; default FSC-A, SSC-A).
-    #[serde(default)]
-    pub columns: Vec<String>,
-    /// Marks from the data. Default auto: the largest peaks of spectra and chromatograms are
-    /// labelled.
-    pub marks: Option<openreadout_preview::Marks>,
-    /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
-    /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
-    /// units on plots, wells on plates.
-    #[serde(default)]
-    pub annotations: Vec<openreadout_preview::Annotation>,
     /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
+    /// What to draw and how.
+    #[serde(flatten)]
+    pub options: openreadout_preview::PreviewOptions,
 }
 
 /// Default `max_size` of `openreadout_preview`.
@@ -95,39 +42,11 @@ fn preview_blocking(
     fn parse<T>(r: openreadout_core::Result<T>) -> Result<T, McpError> {
         r.map_err(|e| mcp_err(&e))
     }
-    let req = {
-        let mut preview_request = pv::PreviewRequest::default();
-        preview_request.image = a.image;
-        preview_request.select = a.select.clone();
-        preview_request.mip = a.mip;
-        preview_request.composite = a.composite;
-        preview_request.level = a.level;
-        preview_request.region = a.region;
-        preview_request.max_size = a
-            .max_size
-            .unwrap_or(DEFAULT_MCP_PREVIEW_SIZE)
-            .min(MAX_MCP_PREVIEW_SIZE);
-        preview_request.contrast = parse(
-            a.contrast
-                .as_deref()
-                .unwrap_or("auto")
-                .parse::<pv::Contrast>(),
-        )?;
-        preview_request.lut = a.lut;
-        preview_request.trace = a.trace;
-        preview_request.sweep = a.sweep;
-        preview_request.channels = a.channels.clone();
-        preview_request.run = a.run;
-        preview_request.spectrum = a.spectrum;
-        preview_request.scan = a.scan;
-        preview_request.centroid = a.centroid;
-        preview_request.table = a.table;
-        preview_request.columns = a.columns.clone();
-        preview_request.marks = a.marks.unwrap_or_default();
-        preview_request.annotations = a.annotations.clone();
-        a.axes.apply(&mut preview_request);
-        preview_request
-    };
+    let mut req = parse(
+        a.options
+            .request(DEFAULT_MCP_PREVIEW_SIZE, pv::Axes::Rulers),
+    )?;
+    req.max_size = req.max_size.min(MAX_MCP_PREVIEW_SIZE);
     // SVG goes back as text next to a PNG picture
     let encoding = match a.format.unwrap_or_default() {
         pv::Encoding::Svg => pv::Encoding::Png,
