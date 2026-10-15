@@ -22,7 +22,8 @@ pub enum Analysis {
     DoseResponse,
     /// Per-well kinetic metrics: max slope (Vmax), lag time, time to max, AUC.
     Kinetics,
-    /// Per-well growth curves: growth rate, doubling time, lag, logistic fit.
+    /// Per-well growth curves: growth rate, doubling time, lag, logistic fit; which wells grew,
+    /// crashed or regrew and when (growth_summary).
     Growth,
     /// Assay quality from control wells: Z′, signal/background, signal/noise, CVs.
     Qc,

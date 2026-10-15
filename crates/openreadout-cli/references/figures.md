@@ -1,6 +1,6 @@
 # Figures with `plot` / `openreadout_plot`
 
-One call draws a finished figure. Name the data by file and selector; put only numbers you computed yourself in `values`. The JSON reply lists what was drawn (files, selectors, ranges, marked peaks); check it against the question before you describe the picture. Annotation coordinates are in the units the axes show (the reply's `x.unit`, e.g. hours on a plate time axis). Full spec: `openreadout plot --help` and the `plot` reference page.
+One call draws a finished figure. A `file` on the figure is the file of every series that names none. Name the data by file and selector; put only numbers you computed yourself in `values`. The JSON reply lists what was drawn (files, selectors, ranges, marked peaks); check it against the question before you describe the picture. Annotation coordinates are in the units the axes show (the reply's `x.unit`, e.g. hours on a plate time axis). Full spec: `openreadout plot --help` and the `plot` reference page.
 
 ## Plates
 
@@ -11,7 +11,7 @@ One call draws a finished figure. Name the data by file and selector; put only n
  "column_labels": ["0", "0", "5", "50", "500", "5k", "50k", "500k", "5M", "50M", "500M", "blank"]}
 ```
 
-- Layout groups come from the file (`groups`, with `*` patterns). `color_by` also takes `group`, `row`, `column` or classes `{"crashed": "E3:H11,A9:D11"}`.
+- Layout groups come from the file (`groups`, with `*` patterns). `color_by` also takes `group`, `row`, `column`, `growth` (each well's pattern from the growth analysis: grew, crashed, crashed then regrew, no growth) or classes `{"crashed": "E3:H11,A9:D11"}`.
 - Group means with spread and a marked time window:
 
 ```json

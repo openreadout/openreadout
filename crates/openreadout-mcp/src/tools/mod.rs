@@ -38,13 +38,71 @@ pub(crate) fn router() -> ToolRouter<InstrumentServer> {
         + InstrumentServer::watch_router()
 }
 
-/// The output schema of a tool whose result has several shapes (an untagged enum): its
-/// `anyOf`, under `"type": "object"` as MCP requires of an output schema.
-fn object_output<T: schemars::JsonSchema + std::any::Any>()
--> std::sync::Arc<rmcp::model::JsonObject> {
-    let mut o = rmcp::handler::server::common::schema_for_output::<T>()
-        .as_ref()
-        .clone();
+/// The output schema of a tool: how `T` is serialized (a field skipped when empty is not
+/// required), with `"type": "object"` at the top as MCP requires (a result with several shapes
+/// is an `anyOf` under it). Numbers may be `null`, because serde_json writes NaN and infinity as
+/// `null`. Clients such as Claude Code check every result against this schema and turn a
+/// mismatch into an error, so it must describe what the tool sends, not what it would accept.
+pub(crate) fn output_schema<T: schemars::JsonSchema>() -> std::sync::Arc<rmcp::model::JsonObject> {
+    let schema = schemars::generate::SchemaSettings::draft2020_12()
+        .for_serialize()
+        .into_generator()
+        .into_root_schema_for::<T>();
+    let mut v = serde_json::to_value(schema).unwrap_or_default();
+    nullable_numbers(&mut v);
+    let mut o = match v {
+        serde_json::Value::Object(o) => o,
+        _ => rmcp::model::JsonObject::new(),
+    };
+    o.remove("title");
+    o.remove("description");
     o.insert("type".into(), serde_json::json!("object"));
     std::sync::Arc::new(o)
+}
+
+/// Let every `"type": "number"` in a schema also be `null`.
+fn nullable_numbers(v: &mut serde_json::Value) {
+    match v {
+        serde_json::Value::Object(o) => {
+            match o.get_mut("type") {
+                Some(t) if t == "number" => *t = serde_json::json!(["number", "null"]),
+                Some(serde_json::Value::Array(a))
+                    if a.iter().any(|x| x == "number") && !a.iter().any(|x| x == "null") =>
+                {
+                    a.push(serde_json::json!("null"));
+                }
+                _ => {}
+            }
+            for x in o.values_mut() {
+                nullable_numbers(x);
+            }
+        }
+        serde_json::Value::Array(a) => a.iter_mut().for_each(nullable_numbers),
+        _ => {}
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::output_schema;
+
+    #[derive(serde::Serialize, schemars::JsonSchema)]
+    #[allow(dead_code)]
+    struct Shape {
+        #[serde(skip_serializing_if = "std::ops::Not::not")]
+        flag: bool,
+        value: f64,
+    }
+
+    #[test]
+    fn output_schemas_describe_what_is_sent() {
+        let s = output_schema::<Shape>();
+        // A field left out when false is not required; a number may be NaN, sent as null.
+        assert_eq!(s["required"], serde_json::json!(["value"]));
+        assert_eq!(
+            s["properties"]["value"]["type"],
+            serde_json::json!(["number", "null"])
+        );
+        assert_eq!(s["type"], "object");
+    }
 }

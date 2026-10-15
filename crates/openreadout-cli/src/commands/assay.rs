@@ -31,7 +31,8 @@ pub enum AssayCommand {
     /// time, time to max, mean slope, AUC.
     Kinetics(TimeArgs),
     /// Per-well growth curves (OD over time): maximum growth rate and doubling time from the
-    /// exponential phase, lag time, and a logistic fit (K, r, N0).
+    /// exponential phase, lag time, a logistic fit (K, r, N0) for wells that grew, and whether
+    /// each well grew, crashed or crashed and regrew (with when), counted in growth_summary.
     Growth(GrowthArgs),
     /// Assay quality from control wells: Z′, signal/background, signal/noise, SSMD, CVs.
     #[command(name = "assay-qc")]

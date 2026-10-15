@@ -293,8 +293,7 @@
       },
       "required": [
         "x",
-        "y",
-        "text"
+        "y"
       ]
     },
     "WrittenFile": {

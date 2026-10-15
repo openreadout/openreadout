@@ -17,7 +17,7 @@ openreadout plot [OPTIONS] <SPEC>
 
 ## The spec
 
-A figure is one panel, with the panel's keys at the top level, or several in `panels` (side by side, `columns` per row). Each panel has `data`: one series spec or a list of them, drawn in order.
+A figure is one panel, with the panel's keys at the top level, or several in `panels` (side by side, `columns` per row). Each panel has `data`: one series spec or a list of them, drawn in order. A `file` on the figure or on a panel is the file of every series there that names none, so a figure of one file names it once: `{"file": "cell.abf", "panels": [{"data": {"show": "fi"}}, {"data": {"show": "sweeps"}}]}`. A `file` alone draws that file's default view. A key in the wrong place, such as `show` at the top level or an axis object inside `data`, is an error that says where it goes. A long `caption` wraps.
 
 ```json
 {"title": "Plate 1: growth in every well",
@@ -74,7 +74,7 @@ Every series also takes `mark` (`line`, `points`, `line_points`, `bars`, `area`,
 - `table`: a `.csv`, `.tsv`, `.jsonl`, `.json` or `.parquet` file, such as `batch -o` writes. `x` and `y` are column names, `error` a column of error-bar half-widths, `by` the column that splits rows into series and `where` filters rows (`["parent=CD8+"]`). Text in `x` gives bars over categories.
 - `values`: `{"x": [...], "y": [...], "error": [...], "labels": [...], "x_unit": "...", "y_unit": "..."}` for a few numbers you computed. x may be category names. The result counts these series under `inline_series`, so a reader can tell drawn data from computed data.
 
-Plate groups come from the layout the file stores (SoftMax Pro groups, Gen5 well IDs, a long CSV's `sample` column). `by: "group"` draws the mean of each group with its spread (`sd`, `sem`, `range` or `none`). With `groups` patterns that contain `*`, each pattern pools its matching groups into one series: `"groups": ["99.9 * +", "99 * +"]`. A `color_by` rule flags wells by their value at one point on the x axis, in the unit the axis shows: `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}`. Blank wells are drawn faint.
+Plate groups come from the layout the file stores (SoftMax Pro groups, Gen5 well IDs, a long CSV's `sample` column). `by: "group"` draws the mean of each group with its spread (`sd`, `sem`, `range` or `none`). With `groups` patterns that contain `*`, each pattern pools its matching groups into one series: `"groups": ["99.9 * +", "99 * +"]`. A `color_by` rule flags wells by their value at one point on the x axis, in the unit the axis shows: `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}`. `color_by: "growth"` colours each well by its pattern in the growth analysis (`analyze growth`): grew, crashed, crashed then regrew, or no growth. Blank wells are drawn faint.
 
 `peaks: N` labels the N highest peaks that the axes show, so a narrowed `x_range` or a clipped `y` range (a solvent peak cut off) labels the peaks you can see.
 

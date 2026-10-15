@@ -73,7 +73,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_table",
         annotations(title = "Read table rows", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<TableSlice>(),
+        output_schema = crate::tools::output_schema::<TableSlice>(),
         description = "Rows of a table {columns, labels, rows, total_rows, truncated}: FCS events ($PnN columns), plate reads (well, row, col, read, wavelength_nm, time_s, value), event, spike or peak tables (including the vendor's own integration results). Values are raw; FCS can be compensated, transformed and given 0/1 population columns from a workspace or Gating-ML file. filter with count=true counts the events meeting conditions."
     )]
     pub(crate) fn table(

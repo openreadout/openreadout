@@ -10,7 +10,7 @@ use rmcp::model::{CallToolResult, ContentBlock};
 use rmcp::{ErrorData as McpError, schemars, tool, tool_router};
 use serde::{Deserialize, Serialize};
 
-use super::object_output;
+use super::output_schema;
 use crate::{InstrumentServer, mcp_err, ok_json};
 
 /// Elements of each kind `view=structure` lists by default.
@@ -145,7 +145,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_info",
         annotations(title = "Read what a file holds", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<InfoToolOutput>(),
+        output_schema = output_schema::<InfoToolOutput>(),
         description = "What an instrument file or data-set directory holds, from its headers (fast on huge files): format, images[] (sizes, pixel type, µm/px, channels and dyes, objective), tables[], traces[], spectra[] (MS runs), plate, experiment (sample, instrument, method, operator, start) and assurance. view=summary attaches a ~384 px thumbnail of image 0 with full-resolution pixel rulers. ask answers a question in words, naming the fields it used."
     )]
     pub(crate) fn info(

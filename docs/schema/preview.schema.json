@@ -342,7 +342,13 @@
         "rgb",
         "contrast",
         "lut",
-        "channels"
+        "channels",
+        "axes",
+        "plot_area",
+        "source_origin",
+        "source_per_pixel",
+        "source_per_pixel_y",
+        "full_res_region"
       ]
     },
     "Region": {
@@ -693,6 +699,7 @@
         "index",
         "scan_number",
         "ms_level",
+        "rt_s",
         "style",
         "point_count",
         "x_axis"

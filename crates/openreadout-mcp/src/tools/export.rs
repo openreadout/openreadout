@@ -514,7 +514,7 @@ impl InstrumentServer {
             idempotent_hint = true,
             open_world_hint = false
         ),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_core::model::ExtractOutput>(),
+        output_schema = crate::tools::output_schema::<openreadout_core::model::ExtractOutput>(),
         description = "Write one attachment a file embeds (a slide label or thumbnail, a preview image, time stamps) to a new file as stored, verified. openreadout_info view=structure lists them."
     )]
     pub(crate) fn extract(

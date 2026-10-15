@@ -608,8 +608,7 @@
         "y",
         "area_px",
         "mean",
-        "bbox",
-        "touches_edge"
+        "bbox"
       ]
     }
   }
