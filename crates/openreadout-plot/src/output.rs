@@ -22,28 +22,15 @@ pub struct PlotOutput {
     pub files: Vec<String>,
     /// Series drawn from inline values (numbers the caller supplied, not read from a file).
     pub inline_series: usize,
-    /// The file written (`output`), when any.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub output: Option<WrittenFile>,
     /// What was done to the data (subtractions, fits, transforms).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub notes: Vec<String>,
     /// Data that could not be drawn as asked, or values to double-check.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub warnings: Vec<String>,
-}
-
-/// A file written.
-#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
-pub struct WrittenFile {
-    /// Path.
-    pub path: String,
-    /// `png`, `svg` or `pdf`.
-    pub format: String,
-    /// Size in bytes.
-    pub bytes: u64,
-    /// Read back and compared after writing.
-    pub verified: bool,
+    /// How to save this figure to a file (MCP: the openreadout_export call).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub save: Option<String>,
 }
 
 /// One panel.

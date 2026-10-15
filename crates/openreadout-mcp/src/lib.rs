@@ -37,6 +37,7 @@ mod budget;
 mod coerce;
 #[cfg(feature = "http")]
 mod http;
+mod lean;
 mod progress;
 mod resources;
 mod schema_compact;
@@ -166,7 +167,7 @@ impl InstrumentServer {
 }
 
 /// Server instructions sent at initialization.
-pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories without vendor software: microscopy and slides, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, spectroscopy, mass spectrometry, chromatography, plate readers, qPCR and bench instruments, in the vendors' binary formats and in their text and XML exports. Its readers know each format's layout, units and conventions, so questions about these files need no hand-written parser. Each file reports an assurance level that says how far its variant was checked against an independent reader, and strict=true refuses values that are not validated. Indices are zero-based. Values are raw as stored unless a tool says it processed them. Only openreadout_export and openreadout_extract write next to the data, always to new files that are read back and verified. openreadout_index, openreadout_batch, openreadout_summarize, openreadout_plot and openreadout_report write only to paths you give them. Tools are the CLI's commands and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
+pub const INSTRUCTIONS: &str = "OpenReadout reads raw lab-instrument files and data-set directories without vendor software: microscopy and slides, screening plates, electron microscopy, flow cytometry, electrophysiology, NMR, spectroscopy, mass spectrometry, chromatography, plate readers, qPCR and bench instruments, in the vendors' binary formats and in their text and XML exports. Its readers know each format's layout, units and conventions, so questions about these files need no hand-written parser. Each file reports an assurance level that says how far its variant was checked against an independent reader, and strict=true refuses values that are not validated. Indices are zero-based. Values are raw as stored unless a tool says it processed them. Only openreadout_export (data, and figures from openreadout_plot or openreadout_preview) and openreadout_extract write next to the data, always to new files that are read back and verified. openreadout_index, openreadout_batch, openreadout_summarize and openreadout_report write only to paths you give them. Tools are the CLI's commands and arguments are its flags (analyze nmr-peaks --range-ppm is openreadout_nmr_peaks with range_ppm). Errors carry a code and a hint.";
 
 // The trait's methods are async; resources and prompts are answered without awaiting.
 #[allow(clippy::unused_async_trait_impl)]
@@ -616,6 +617,43 @@ mod tests {
         let _ = std::fs::remove_file(big);
     }
 
+    /// A preview with annotations, as the agent saw it, saved by openreadout_export at twice
+    /// its size; the preview's result says how.
+    #[tokio::test]
+    async fn export_saves_an_annotated_preview() {
+        let s = InstrumentServer::new(synth_registry);
+        let f = synth_file("save", 3000, 2000);
+        let preview = serde_json::json!({
+            "file": f.display().to_string(),
+            "max_size": 400,
+            "dark": true,
+            "annotations": [{"type": "point", "x": 1500, "y": 1000, "label": "here"}],
+        });
+        let r = s
+            .preview(Parameters(serde_json::from_value(preview.clone()).unwrap()))
+            .await
+            .unwrap();
+        let v = r.structured_content.unwrap();
+        let save = v["save"].as_str().unwrap();
+        assert!(save.contains("preview = these arguments") && save.contains(".preview.png"));
+        let out = f.with_extension("annotated.png");
+        let a = serde_json::from_value(serde_json::json!({
+            "preview": preview, "output": out.display().to_string(), "dpi": 300,
+        }))
+        .unwrap();
+        let w = crate::tools::export::export_blocking(synth_registry, a, None).unwrap();
+        assert_eq!(w["drawn"], "image");
+        assert_eq!(w["width"], v["width"].as_u64().unwrap() * 2);
+        let png = std::fs::read(&out).unwrap();
+        assert!(png.starts_with(b"\x89PNG") && png.windows(4).any(|x| x == b"pHYs"));
+        // unknown preview arguments are refused, not ignored
+        let e = serde_json::from_value::<PreviewArgs>(serde_json::json!({"file": "x", "zoom": 2}))
+            .unwrap_err();
+        assert!(e.to_string().contains("zoom"), "{e}");
+        let _ = std::fs::remove_file(out);
+        let _ = std::fs::remove_file(f);
+    }
+
     fn preview_size_limit() -> u32 {
         openreadout_preview::DEFAULT_THUMBNAIL_SIZE
     }
@@ -692,6 +730,19 @@ mod tests {
         );
         let meta = r.meta.unwrap();
         assert!(meta.get(crate::tools::plot::FIGURE_META_KEY).is_some());
+        // it says how to save it, and only openreadout_export writes
+        assert!(
+            v["save"]
+                .as_str()
+                .is_some_and(|s| s.starts_with("openreadout_export with plot")),
+            "{v}"
+        );
+        let e = serde_json::from_value::<crate::tools::plot::PlotArgs>(
+            serde_json::json!({"data": {"values": {"y": [1]}}, "output": "f.png"}),
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(e.contains("openreadout_export"), "{e}");
         // an unknown key names the known ones
         let e =
             serde_json::from_value::<crate::tools::plot::PlotArgs>(serde_json::json!({"dta": {}}))

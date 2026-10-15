@@ -181,8 +181,7 @@ def plot(spec: Union[Mapping[str, Any], str, PathLike, None] = None, /, **kwargs
     and ``theme`` (``"light"`` or ``"dark"``) arrange it. The full reference is
     https://openreadout.github.io/openreadout/reference/commands/plot.html.
 
-    Paths may be :class:`os.PathLike`. With ``output`` the figure is also written (PNG at
-    twice the size, SVG or PDF) and verified.
+    Paths may be :class:`os.PathLike`. Save the result with :meth:`Figure.save`.
     """
     if spec is None:
         body: Dict[str, Any] = {}

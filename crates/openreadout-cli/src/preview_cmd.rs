@@ -18,8 +18,8 @@ pub struct PreviewArgs {
     pub file: PathBuf,
     #[command(flatten)]
     pub process: crate::commands::nmr::ProcessArgs,
-    /// Output file (`.png`, `.jpg` or `.svg`); `-` writes the image to stdout. Default:
-    /// `<input stem>.preview.png` next to the input.
+    /// Output file (`.png`, `.jpg`, `.svg`, or `.tiff` and `.pdf` for print); `-` writes the
+    /// image to stdout. Default: `<input stem>.preview.png` next to the input.
     #[arg(short, long)]
     pub output: Option<PathBuf>,
     /// Image index (see `info`). Default 0.
@@ -104,6 +104,13 @@ pub struct PreviewArgs {
     /// Draw in the dark theme.
     #[arg(long)]
     pub dark: bool,
+    /// Draw the picture again at this many pixels per preview pixel (0.25 to 8): sharp text
+    /// and marks for print. Image data keeps the detail of `--max-size`.
+    #[arg(long)]
+    pub scale: Option<f32>,
+    /// Print resolution: recorded in .png, .jpg and .tiff files; the page size of .svg and .pdf.
+    #[arg(long)]
+    pub dpi: Option<u32>,
     /// Replace an existing output file.
     #[arg(long)]
     pub overwrite: bool,
@@ -191,10 +198,26 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
             .filter(|_| !to_stdout)
             .map_or(Encoding::Png, Encoding::from_path),
     };
+    // .tiff, .pdf, --scale and --dpi go through the figure writer
+    let figure_file = !to_stdout
+        && (a.scale.is_some()
+            || a.dpi.is_some()
+            || a.output.as_deref().is_some_and(|o| {
+                matches!(
+                    openreadout_plot::FileFormat::from_path(o),
+                    Ok(openreadout_plot::FileFormat::Tiff | openreadout_plot::FileFormat::Pdf)
+                )
+            }));
+    if figure_file && let Some(o) = &a.output {
+        openreadout_plot::FileFormat::from_path(o)?;
+    }
     let (_, ds) = reg.open(&a.file)?;
     let mut ds = a.process.wrap(ds)?;
     let info = ds.info()?;
     let rendered = render(ds.as_mut(), &info, &req)?;
+    if figure_file {
+        return save_figure(a, &rendered).map(|o| (o, None));
+    }
     let (mut out, bytes) = finish(&rendered, encoding, a.quality)?;
     if to_stdout {
         return Ok((out, Some(bytes)));
@@ -207,6 +230,36 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
     out.output = Some(output.display().to_string());
     out.hint = Some(look_hint(&out, &output.display().to_string()));
     Ok((out, None))
+}
+
+/// Write the preview through the figure writer: TIFF and PDF, a pixel scale, a print resolution.
+fn save_figure(a: &PreviewArgs, r: &openreadout_preview::Rendered) -> Result<PreviewOutput> {
+    let output = a
+        .output
+        .clone()
+        .unwrap_or_else(|| default_output(&a.file, Encoding::Png));
+    if output == a.file
+        || std::fs::canonicalize(&output).ok() == std::fs::canonicalize(&a.file).ok()
+    {
+        return Err(Error::Usage(
+            "output path must differ from the input; raw files are never modified".into(),
+        ));
+    }
+    let opts = openreadout_plot::SaveOptions {
+        scale: a.scale.unwrap_or(1.0),
+        dpi: a.dpi,
+        overwrite: a.overwrite,
+    };
+    let w = openreadout_plot::write(&r.figure, &output, &opts)?;
+    let mut out = r.output.clone();
+    out.encoding = w.format.clone();
+    out.width = w.width;
+    out.height = w.height;
+    out.bytes = w.bytes;
+    out.verified = w.verified;
+    out.output = Some(w.path.clone());
+    out.hint = Some(look_hint(&out, &w.path));
+    Ok(out)
 }
 
 /// How to look at the written picture, and how to zoom into it.

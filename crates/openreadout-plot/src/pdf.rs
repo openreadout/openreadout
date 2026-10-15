@@ -1,6 +1,7 @@
 //! A figure as a one-page vector PDF: paths are filled and stroked as PDF paths, text is drawn
 //! as glyph outlines (so no font is embedded and the look is exact), raster images become
-//! Flate-compressed image objects. One figure pixel is one PDF point.
+//! Flate-compressed image objects. One figure unit is `points_per_unit` PDF points (1 unless a
+//! print size is asked for).
 
 use std::fmt::Write as _;
 
@@ -104,13 +105,21 @@ fn path_ops(out: &mut String, p: &Path, h: f32, rot: Option<(f32, f32, f32)>) {
     }
 }
 
-/// The figure as PDF bytes.
-pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
+/// The figure as PDF bytes, one figure unit to `points_per_unit` points.
+pub(crate) fn pdf(fig: &Figure, points_per_unit: f32) -> Vec<u8> {
     let (w, h) = (fig.width, fig.height);
+    let k = if points_per_unit.is_finite() && points_per_unit > 0.0 {
+        points_per_unit
+    } else {
+        1.0
+    };
     let mut doc = Doc {
         objects: Vec::new(),
     };
     let mut content = String::new();
+    if k != 1.0 {
+        let _ = writeln!(content, "{k:.6} 0 0 {k:.6} 0 0 cm");
+    }
     let mut alphas: Vec<u8> = Vec::new();
     let mut images: Vec<usize> = Vec::new();
     let gs = |a: u8, alphas: &mut Vec<u8>| -> String {
@@ -241,8 +250,8 @@ pub(crate) fn pdf(fig: &Figure) -> Vec<u8> {
     doc.add(
         format!(
             "<< /Type /Page /Parent {pages_id} 0 R /MediaBox [0 0 {} {}] /Contents {content_id} 0 R /Resources {res} >>",
-            num(w),
-            num(h)
+            num(w * k),
+            num(h * k)
         )
         .into_bytes(),
     );
@@ -307,7 +316,7 @@ mod tests {
             Stroke::new(t.accent.alpha(0.5), 2.0).dashed(4.0, 2.0),
         );
         f.text(20.0, 50.0, "OD600 (λ)", &TextStyle::new(14.0, t.ink));
-        let b = pdf(&f);
+        let b = pdf(&f, 1.0);
         assert!(b.starts_with(b"%PDF-1.4"));
         assert!(b.ends_with(b"%%EOF\n"));
         let s = String::from_utf8_lossy(&b);

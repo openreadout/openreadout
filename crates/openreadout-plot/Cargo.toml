@@ -24,6 +24,8 @@ openreadout-quant = { workspace = true }
 openreadout-signal = { workspace = true }
 openreadout-qpcr = { workspace = true }
 miniz_oxide = { workspace = true }
+png = { workspace = true }
+tiff = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 schemars = { workspace = true }

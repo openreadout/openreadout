@@ -60,6 +60,16 @@ pub(crate) fn output_schema<T: schemars::JsonSchema>() -> std::sync::Arc<rmcp::m
     std::sync::Arc::new(o)
 }
 
+/// The output schema of a tool whose per-well rows are trimmed by `crate::lean`: any field of
+/// those rows may be missing.
+pub(crate) fn lean_output_schema<T: schemars::JsonSchema>(
+    rows: &[crate::lean::Rows],
+) -> std::sync::Arc<rmcp::model::JsonObject> {
+    let mut o = (*output_schema::<T>()).clone();
+    crate::lean::relax_schema(&mut o, rows);
+    std::sync::Arc::new(o)
+}
+
 /// Let every `"type": "number"` in a schema also be `null`.
 fn nullable_numbers(v: &mut serde_json::Value) {
     match v {

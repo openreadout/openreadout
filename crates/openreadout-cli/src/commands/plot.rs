@@ -15,10 +15,17 @@ pub struct PlotArgs {
     /// the JSON text itself, e.g. `'{"data": {"file": "run.mzML", "peaks": 1}}'`.
     #[arg(value_name = "SPEC")]
     pub spec: String,
-    /// Write the figure here (.png at 2×, .svg or .pdf), verified after writing. Overrides
-    /// the spec's `output`.
+    /// Write the figure here: .png, .jpg, .tiff (at `--scale`), .svg or .pdf, verified after
+    /// writing.
     #[arg(short, long, value_name = "FILE")]
-    pub output: Option<PathBuf>,
+    pub output: PathBuf,
+    /// Pixels per figure unit of .png, .jpg and .tiff files (0.25 to 8).
+    #[arg(long, default_value_t = openreadout_plot::DEFAULT_SCALE)]
+    pub scale: f32,
+    /// Print resolution: recorded in raster files, and the page size of .svg and .pdf (figure
+    /// units × scale ÷ dpi inches).
+    #[arg(long)]
+    pub dpi: Option<u32>,
     /// Replace an existing output file.
     #[arg(long)]
     pub overwrite: bool,
@@ -42,35 +49,50 @@ fn spec_of(a: &PlotArgs) -> Result<openreadout_plot::PlotSpec> {
     {
         m.insert("theme".into(), serde_json::Value::String(t.clone()));
     }
-    let mut spec = openreadout_plot::parse_spec(v)?;
-    if let Some(o) = &a.output {
-        spec.output = Some(o.display().to_string());
-    }
-    spec.overwrite |= a.overwrite;
-    if spec.output.is_none() {
-        return Err(Error::Usage(
-            "plot needs somewhere to write the figure: -o FILE (.png, .svg or .pdf)".into(),
-        ));
-    }
-    Ok(spec)
+    openreadout_plot::parse_spec(v)
+}
+
+/// What `plot` prints: what was drawn and the file written.
+#[derive(serde::Serialize)]
+struct PlotReport {
+    #[serde(flatten)]
+    plot: openreadout_plot::PlotOutput,
+    written: openreadout_plot::WrittenFile,
+}
+
+fn run_plot(reg: &Registry, a: &PlotArgs) -> Result<PlotReport> {
+    let spec = spec_of(a)?;
+    let opts = openreadout_plot::SaveOptions {
+        scale: a.scale,
+        dpi: a.dpi,
+        overwrite: a.overwrite,
+    };
+    // check the file name before reading any data
+    openreadout_plot::FileFormat::from_path(&a.output)?;
+    let p = openreadout_plot::plot(reg, &spec)?;
+    let written = openreadout_plot::write(&p.figure, &a.output, &opts)?;
+    Ok(PlotReport {
+        plot: p.output,
+        written,
+    })
 }
 
 /// Run `plot`.
 pub fn run(reg: &Registry, a: &PlotArgs) -> i32 {
-    let spec = match spec_of(a) {
-        Ok(s) => s,
-        Err(e) => return fail(a.json, &e),
-    };
-    match openreadout_plot::run(reg, &spec) {
-        Ok(p) => emit(a.json, &p.output, |o| {
+    match run_plot(reg, a) {
+        Ok(r) => emit(a.json, &r, |r| {
+            let (o, w) = (&r.plot, &r.written);
             let mut s = String::new();
-            if let Some(w) = &o.output {
-                let _ = writeln!(
-                    s,
-                    "wrote {} ({} × {} px, {} bytes, verified)",
-                    w.path, o.width, o.height, w.bytes
-                );
-            }
+            let unit = if matches!(w.format.as_str(), "svg" | "pdf") {
+                "units"
+            } else {
+                "px"
+            };
+            let _ = writeln!(
+                s,
+                "wrote {} ({} × {} {unit}, {} bytes, verified)",
+                w.path, w.width, w.height, w.bytes
+            );
             for p in &o.panels {
                 let _ = writeln!(
                     s,
