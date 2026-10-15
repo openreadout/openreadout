@@ -1,5 +1,5 @@
 ---
-// Layout of the editorial pages (home, how it works): the site header and footer around a long
+// Layout of the editorial pages (home, how it works, gallery): the site header and footer around a long
 // single column, without the documentation sidebar. Colours and type come from tokens.css; the
 // theme choice is shared with the documentation (Starlight's `starlight-theme` key).
 import "../styles/tokens.css";
@@ -8,7 +8,7 @@ import "../styles/editorial.css";
 interface Props {
   title: string;
   description: string;
-  page: "home" | "how";
+  page: "home" | "how" | "gallery";
 }
 const { title, description, page } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
@@ -17,6 +17,7 @@ const nav = [
   ["Docs", "getting-started/install.html"],
   ["Recipes", "recipes.html"],
   ["Formats", "formats.html"],
+  ["Gallery", "gallery.html"],
   ["How it works", "how-it-works.html"],
   ["Try it", "demo/"],
 ];
@@ -54,7 +55,7 @@ const nav = [
         </a>
         <nav aria-label="Sections">
           {nav.map(([label, href]) => (
-            <a href={base + href} aria-current={page === "how" && href.startsWith("how") ? "page" : undefined}>{label}</a>
+            <a href={base + href} aria-current={(page === "how" && href.startsWith("how")) || (page === "gallery" && href.startsWith("gallery")) ? "page" : undefined}>{label}</a>
           ))}
         </nav>
         <div class="tools">
@@ -87,6 +88,7 @@ const nav = [
           <b>Learn</b>
           <a href={base + "recipes.html"}>Recipes</a>
           <a href={base + "formats.html"}>Formats</a>
+          <a href={base + "gallery.html"}>Gallery</a>
           <a href={base + "how-it-works.html"}>How it works</a>
           <a href={base + "reference/commands.html"}>Command reference</a>
         </div>

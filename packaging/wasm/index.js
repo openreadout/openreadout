@@ -3,7 +3,7 @@
 //   import { open } from "openreadout-wasm";
 //   const f = await open(file);            // a File/Blob, Uint8Array, ArrayBuffer or {size, read}
 //   const info = await f.info();           // the `data` of `openreadout info --json`
-//   const { png } = await f.preview();     // PNG bytes
+//   const { data, type } = await f.preview();  // the picture's bytes and MIME type
 //
 // Nothing is uploaded or fetched: the module has no network code. Bytes come from the object
 // you pass. Blobs up to `wholeFileLimit` (default 256 MiB) are read at once; larger ones are
@@ -117,14 +117,16 @@ export class InstrumentFile {
     return this._run((f) => f.check(headersOnly)).then(unwrap);
   }
   /**
-   * `preview`: resolves to `{ meta, png }` where `png` is a Uint8Array. Options: `image`,
-   * `select` (e.g. `["c=1","z=3"]`), `composite`, `max_size`, `trace`, `sweep`, `run`,
-   * `spectrum`, `table`.
+   * `preview`: resolves to `{ meta, data, type }`: the `preview --json` data, the picture as a
+   * Uint8Array and its MIME type. Options are those of the `openreadout_preview` MCP tool
+   * (`image`, `select`, `region`, `max_size`, `axes`, `trace`, `sweep`, `columns`, `marks`,
+   * `annotations`, ...), plus `dark` and `format` (`png`, `jpeg` or `svg`).
    */
   async preview(options = {}) {
     const json = JSON.stringify(options);
     const meta = unwrap(await this._run((f) => f.preview(json)));
-    return { meta, png: this._inner.image() };
+    const type = { png: "image/png", jpeg: "image/jpeg", svg: "image/svg+xml" }[meta.encoding];
+    return { meta, data: this._inner.image(), type };
   }
   /** Rows of table `table` (FCS events, plate-reader values). */
   table(table = 0, { firstRow = 0, maxRows = 100 } = {}) {

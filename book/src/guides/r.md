@@ -56,7 +56,24 @@ Data:
 - `openreadout_trace(x, trace, sweep, first_sample, n_max)`: one row per sample, with the x axis and one column per channel in physical units.
 - `openreadout_scans(x, run, ms_level, ...)`: the scan headers of a mass-spectrometry run.
 - `openreadout_spectrum(x, scan, spectrum, run, centroid)`: one mass spectrum.
-- `openreadout_stats(x, image, select, per, wells)`: pixel statistics per channel, image or plane; `per = "well"` (or `"field"`) gives per-well statistics of a screening plate.
+- `openreadout_stats(x, image, select, per, wells)`: pixel statistics per channel, image or plane; `per = "well"` (or `"field"`) gives per-well statistics of a screening plate. `line`, `polygon` and `objects` measure one plane: an intensity profile, the statistics inside a polygon, or a count of nuclei, cells or spots with their areas and centroids.
+
+Pictures:
+
+- `openreadout_preview(x, ..., format, file)`: a picture of an image plane, trace, spectrum, plate or cytometry run, with the options of the MCP tool `openreadout_preview` (`region`, `select`, `marks`, `annotations`, `dark`, ...). `plot()` draws it on the current graphics device (with the png package installed).
+- `openreadout_plot(spec, ..., format, scale, file)`: a figure from a plot spec, the JSON of [`openreadout plot`](../reference/commands/plot.md), given as a list, JSON text or a file. `format` is `"png"`, `"svg"` or `"pdf"`.
+
+Both return the encoded picture (`$data`, a raw vector) with what was drawn (`$meta`), and write it to `file` through a verified write when asked:
+
+```r
+p <- openreadout_preview("slide.czi", region = c(43301, 13301, 1200, 900),
+  annotations = list(list(type = "point", x = 43996, y = 13921, label = "Purkinje cells")))
+plot(p)
+fig <- openreadout_plot(data = list(file = "growth.pda", wells = "A1:H12"), facet = "plate",
+                        format = "pdf", file = "plate.pdf")
+nuclei <- openreadout_stats("nuclei.czi", select = "c=0", objects = TRUE)$objects
+nuclei$count
+```
 
 Analyses:
 
@@ -79,7 +96,9 @@ Some numbers keep the file's own numbering:
 - the `index` fields in the metadata lists from `openreadout_info()` start at 0;
 - pyramid `level` 0 is full resolution;
 - the `image`, `channel` and `sweep` columns of `openreadout_batch()` start at 0, because it is the same table the command line writes;
-- `select` strings use the command line's syntax, such as `"c=0"`.
+- `select` strings use the command line's syntax, such as `"c=0"`;
+- pixel coordinates in annotations, `line` and `polygon` are those of the preview's rulers, which start at 0;
+- a plot spec is the JSON of the command line, so the indices in it start at 0.
 
 ## Images
 

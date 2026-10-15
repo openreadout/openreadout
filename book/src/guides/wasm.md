@@ -12,8 +12,19 @@ import { open } from "openreadout-wasm";
 const f = await open(file);              // a File or Blob, bytes, or { size, read(offset, length) }
 const info = await f.info();             // the `data` of `info --json`
 const report = await f.check();          // the `data` of `check --json`
-const { meta, png } = await f.preview(); // a preview image and what was drawn
+const { meta, data, type } = await f.preview(); // the picture, its MIME type and what was drawn
 f.close();
+```
+
+`preview` takes the options of the [`openreadout_preview`](../reference/mcp.md) tool, plus `dark` and `format` (`png`, `jpeg` or `svg`). Images come without rulers unless you ask for `axes: "rulers"`. Annotations are drawn in the picture's own coordinates, and `meta.annotations` says where each one landed:
+
+```js
+const { data, type, meta } = await f.preview({
+  axes: "rulers",
+  format: "svg",
+  annotations: [{ type: "point", x: 812, y: 440, label: "nucleus" }],
+});
+img.src = URL.createObjectURL(new Blob([data], { type }));
 ```
 
 `open` takes a `File` or `Blob`, a byte array, or a range reader: an object with a `size` and a `read(offset, length)` method that the page implements, for example with HTTP range requests. Blobs up to 256 MiB are read whole. For larger ones the readers fetch only the blocks they need, so `info` on a multi-gigabyte file reads only a few megabytes.
@@ -48,6 +59,7 @@ Errors are thrown as `InstrumentError`, with `code`, `exitCode` and `hint` field
 
 - the OME-Zarr reader
 - writing files: `export` and the other writers
+- `plot`, `stats` and the analyses, which read files by path
 - `watch`, `index` and the MCP server
 - multi-threaded decoding (it all runs on the calling thread)
 - the check for files still being written, because there is no modification time
@@ -91,7 +103,7 @@ scripts/wasm.sh test         # tests in Node
 scripts/wasm.sh demo         # the demo page, after `npm run build` in book/
 ```
 
-`scripts/wasm.sh build` runs `wasm-opt` to shrink the module when binaryen is installed (`cd packaging/wasm && npm install` provides it).
+`scripts/wasm.sh build` runs `wasm-opt` to shrink the module when binaryen is installed (`cd packaging/wasm && npm install` provides it). The module is about 12 MB, 5 MB gzipped. The figure engine that draws previews, with its embedded fonts, is about 1 MB of that.
 
 On macOS, some Rust toolchains ship a `rust-lld` that fails with `Library not loaded: @rpath/libLLVM.dylib`. A small linker wrapper fixes this without changing the toolchain:
 

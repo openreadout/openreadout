@@ -39,7 +39,7 @@ with openreadout.File("mini.nd2") as f:
 
 `openreadout.info(path)` returns the header metadata without keeping the file open. Like [`openreadout info --view`](../reference/commands/info.md), it takes a view: `view="full"` adds the vendor metadata tree and the provenance of each field, `view="structure"` lists the container's elements, `view="explain"` describes the file in sentences (`ask=` answers a question), and `view="format"` returns only the format.
 
-The functions and methods are named after the CLI commands: `info`, `File.check()`, `File.stats()`, `File.scans()`, `analyze`, `export`, `batch` and `link`. The `read_*` methods return NumPy arrays.
+The functions and methods are named after the CLI commands: `info`, `File.check()`, `File.stats()`, `File.scans()`, `preview`, `plot`, `analyze`, `export`, `batch` and `link`. The `read_*` methods return NumPy arrays.
 
 `mini.nd2` is a small file in the repository at [`crates/openreadout-cli/tests/fixtures/mini.nd2`](https://github.com/openreadout/openreadout/blob/main/crates/openreadout-cli/tests/fixtures/mini.nd2).
 
@@ -109,6 +109,54 @@ with openreadout.File("sample.raw") as f:
 
 `rt_s` is `None` when the file gives no retention time for a scan.
 
+### Measurements on a plane
+
+`File.stats()` gives pixel statistics per channel, image or plane, like [`openreadout stats`](../reference/commands/stats.md). With `line`, `polygon` or `objects` it measures one plane instead, in the pixels of `level` (the numbers on a preview's rulers):
+
+```python
+with openreadout.File("nuclei.czi") as f:
+    f.stats(select="c=0", line=(10, 200, 400, 200), line_width=3)["profile"]   # min, max and where, FWHM, values
+    f.stats(polygon=[(120, 80), (300, 90), (280, 260), (110, 240)])["roi"]      # area, mean, median, sum per channel
+    found = f.stats(select="c=0", objects=True)["objects"]                     # threshold, then connected objects
+    found["count"], found["objects"][0]                                         # area and centroid of the largest
+```
+
+`objects` also takes a dict of options: `threshold` (default Otsu's), `polarity` (`"bright"` or `"dark"`), `smooth`, `min_area_px`, `max_objects`, `component` (an RGB component) and `split` (cut touching objects apart, default true). Lengths and areas are also given in µm when the file records the pixel size.
+
+### Pictures
+
+`File.preview()` draws what [`openreadout preview`](../reference/commands/preview.md) draws and `openreadout.plot()` what [`openreadout plot`](../reference/commands/plot.md) draws. Both return objects that show themselves in Jupyter and save to a file through a verified write. The [gallery](/openreadout/gallery.html) shows what they look like.
+
+```python
+with openreadout.File("slide.czi") as f:
+    p = f.preview(region=(43300, 13300, 1200, 900), annotations=[
+        {"type": "point", "x": 43996, "y": 13921, "label": "Purkinje cells"},
+    ])
+p                        # shown in the notebook
+p.annotations[0]         # where the point landed, in picture pixels
+p.save("fold.png")
+
+openreadout.preview("cell.abf", sweep=12, marks="spikes", format="svg").save("sweep.svg")
+```
+
+The preview options are those of the [`openreadout_preview`](../reference/mcp.md) tool, plus `dark` and `format` (`"png"`, `"jpeg"` or `"svg"`). Annotations are drawn in the picture's own coordinates: file pixels on images, axis units on plots, wells on plates.
+
+`openreadout.plot()` takes a figure spec as a dict, as JSON text, as a `.json` file, or as keyword arguments:
+
+```python
+fig = openreadout.plot(
+    data={"file": "growth.pda", "subtract": "blank",
+          "color_by": {"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}},
+    facet="plate", title="Growth in every well",
+)
+fig                       # PNG at twice the size, sharp on high-density screens
+fig.summary["panels"][0]  # axes, series and labels, as `plot --json` reports them
+fig.save("plate.pdf")     # or .png (scale=2 by default) and .svg
+svg = fig.svg()
+```
+
+The figure is drawn once. `png(scale)`, `svg()`, `pdf()` and `save()` render it again without reading the files.
+
 ### Analyses
 
 `openreadout.analyze(path, kind, **options)` runs the analyses of [`openreadout analyze`](../reference/commands/analyze.md): `kind` is `"peaks"`, `"chromatogram"`, `"nmr-peaks"`, `"ephys-features"`, `"spikes"`, `"qpcr"`, `"assay"` or `"gate"`. It returns the same dict as the command's `--json` data. The keyword arguments are the arguments of that analysis's MCP tool (see [MCP tools](../reference/mcp.md); for `"assay"`, `analysis=` picks the analysis and the plate options are plain keyword arguments); write the option `from` as `from_=`. A dose-response fit on a test plate from the repository:
@@ -126,6 +174,7 @@ for c in r["compounds"]:
 More examples:
 
 ```python
+openreadout.analyze("growth.pda", "assay", analysis="growth")["growth_summary"]  # wells that grew, crashed or regrew
 openreadout.analyze("run.raw", "chromatogram", mz=[195.0877], ppm=5)  # rt_min and intensity as NumPy arrays
 openreadout.analyze("run.D", "peaks", traces=[0], min_snr=10)
 openreadout.analyze("nmr/1", "nmr-peaks", from_="fid", integrate=[(3.2, 3.9)])
