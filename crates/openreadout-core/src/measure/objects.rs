@@ -88,6 +88,7 @@ pub enum Stain {
 
 /// How objects are found. Everything is optional; the defaults suit nuclei.
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
 pub struct ObjectsRequest {
     /// Default nuclei.
     #[serde(default)]
@@ -1579,4 +1580,304 @@ pub fn label_plane(
         }
     };
     Ok((label_tile(&s, w, h, &plan).0, d))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::measure::{MeasureRequest, measure};
+    use crate::model::{CheckReport, ChannelInfo, FileInfo, ImageInfo, LsEntry, PhysicalSize};
+    use crate::pixel::Plane;
+    use crate::reader::{Dataset, PlaneIndex};
+    use crate::{PixelType, ProvenanceMap};
+
+    /// A small random-number generator for reproducible noise.
+    struct Lcg(u64);
+    impl Lcg {
+        fn next(&mut self) -> f32 {
+            self.0 = self.0.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+            ((self.0 >> 40) as f32) / (1u64 << 24) as f32 - 0.5
+        }
+    }
+
+    /// A `w × h` plane with discs `(cx, cy, r, value)` on `background`, plus noise.
+    fn discs(w: usize, h: usize, d: &[(f32, f32, f32, f32)], background: f32, noise: f32) -> Vec<f32> {
+        let mut rng = Lcg(7);
+        (0..w * h)
+            .map(|i| {
+                let (x, y) = ((i % w) as f32 + 0.5, (i / w) as f32 + 0.5);
+                let mut v = background;
+                for &(cx, cy, r, val) in d {
+                    if (x - cx).hypot(y - cy) <= r {
+                        v = val;
+                    }
+                }
+                v + noise * rng.next()
+            })
+            .collect()
+    }
+
+    fn count(lab: &[u32]) -> usize {
+        let mut v: Vec<u32> = lab.iter().copied().filter(|l| *l > 0).collect();
+        v.sort_unstable();
+        v.dedup();
+        v.len()
+    }
+
+    /// Nine nuclei of radius 10: a separate grid of six, and a chain of three that touch.
+    fn nuclei() -> Vec<(f32, f32, f32, f32)> {
+        let mut d = Vec::new();
+        for (i, cx) in [30.0, 80.0, 130.0].into_iter().enumerate() {
+            d.push((cx, 30.0, 10.0, 200.0 + 20.0 * i as f32));
+            d.push((cx, 80.0, 10.0, 150.0));
+        }
+        d.push((40.0, 140.0, 10.0, 180.0));
+        d.push((59.0, 140.0, 10.0, 190.0));
+        d.push((78.0, 141.0, 10.0, 170.0));
+        d
+    }
+
+    #[test]
+    fn counts_and_splits_bright_nuclei() {
+        let (w, h) = (180, 180);
+        let plane = discs(w, h, &nuclei(), 20.0, 10.0);
+        for o in [
+            ObjectsRequest::default(),
+            ObjectsRequest {
+                diameter_px: Some(20.0),
+                ..ObjectsRequest::default()
+            },
+        ] {
+            let (lab, d) = label_plane(&[plane.clone()], w, h, None, &o).unwrap();
+            assert!((12.0..30.0).contains(&d), "{d}");
+            assert_eq!(count(&lab), 9, "diameter {d}");
+        }
+        // kept together without the watershed
+        let o = ObjectsRequest {
+            diameter_px: Some(20.0),
+            split: Some(false),
+            ..ObjectsRequest::default()
+        };
+        assert_eq!(count(&label_plane(&[plane], w, h, None, &o).unwrap().0), 7);
+    }
+
+    #[test]
+    fn finds_dark_nuclei_on_a_bright_background() {
+        let (w, h) = (180, 180);
+        let d: Vec<_> = nuclei().into_iter().map(|(x, y, r, v)| (x, y, r, 250.0 - v)).collect();
+        let plane = discs(w, h, &d, 230.0, 8.0);
+        let (lab, _) = label_plane(&[plane], w, h, None, &ObjectsRequest::default()).unwrap();
+        assert_eq!(count(&lab), 9);
+    }
+
+    #[test]
+    fn finds_hematoxylin_nuclei_in_stained_tissue() {
+        // pink (eosin) tissue with purple (hematoxylin) nuclei, on glass at the top
+        let (w, h) = (180, 180);
+        let mut r = vec![0f32; w * h];
+        let mut g = vec![0f32; w * h];
+        let mut b = vec![0f32; w * h];
+        let inside = discs(w, h, &nuclei().iter().map(|n| (n.0, n.1, n.2, 1.0)).collect::<Vec<_>>(), 0.0, 0.0);
+        let mut rng = Lcg(3);
+        for i in 0..w * h {
+            let (cr, cg, cb) = if i / w < 8 {
+                (245.0, 245.0, 245.0)
+            } else if inside[i] > 0.5 {
+                (90.0, 60.0, 150.0)
+            } else {
+                (235.0, 150.0, 200.0)
+            };
+            r[i] = cr + 6.0 * rng.next();
+            g[i] = cg + 6.0 * rng.next();
+            b[i] = cb + 6.0 * rng.next();
+        }
+        let o = ObjectsRequest::default();
+        let (sig, name) = signal_for(&[r.clone(), g.clone(), b.clone()], &o).unwrap();
+        assert_eq!(name, "hematoxylin");
+        assert!(sig.deconvolved());
+        let (lab, _) = label_plane(&[r, g, b], w, h, None, &o).unwrap();
+        assert_eq!(count(&lab), 9);
+    }
+
+    #[test]
+    fn finds_spots_above_the_noise() {
+        let (w, h) = (120, 120);
+        let mut d = Vec::new();
+        for i in 0..5 {
+            for j in 0..4 {
+                d.push((15.0 + 22.0 * i as f32, 15.0 + 28.0 * j as f32, 1.5, 300.0));
+            }
+        }
+        let plane = discs(w, h, &d, 100.0, 20.0);
+        let o = ObjectsRequest {
+            kind: Kind::Spots,
+            ..ObjectsRequest::default()
+        };
+        let (lab, _) = label_plane(&[plane], w, h, None, &o).unwrap();
+        assert_eq!(count(&lab), 20);
+    }
+
+    #[test]
+    fn flat_and_tiny_planes_fail_cleanly() {
+        let o = ObjectsRequest::default();
+        assert!(label_plane(&[vec![5.0; 100]], 10, 10, None, &o).is_err());
+        assert!(label_plane(&[vec![1.0]], 1, 1, None, &o).is_err());
+        assert!(label_plane(&[vec![1.0; 3]], 2, 2, None, &o).is_err());
+        assert!(label_plane(&[], 0, 0, None, &o).is_err());
+        let mut nan = discs(40, 40, &[(20.0, 20.0, 6.0, 100.0)], 0.0, 1.0);
+        nan[5] = f32::NAN;
+        let _ = label_plane(&[nan], 40, 40, None, &o);
+    }
+
+    #[test]
+    fn requests_reject_unknown_options() {
+        let e = serde_json::from_str::<ObjectsRequest>(r#"{"min_area_px": 4}"#);
+        assert!(e.is_err());
+        let o: ObjectsRequest = serde_json::from_str(r#"{"kind": "spots", "diameter_um": 0.4}"#).unwrap();
+        assert_eq!(o.kind, Kind::Spots);
+    }
+
+    /// Two 16-bit channels: DAPI nuclei in channel 1, a marker in half of them in channel 0.
+    struct TwoChannels {
+        w: usize,
+        h: usize,
+        planes: [Vec<f32>; 2],
+    }
+
+    impl TwoChannels {
+        fn new() -> TwoChannels {
+            let (w, h) = (180, 180);
+            let n = nuclei();
+            let dapi = discs(w, h, &n, 100.0, 20.0);
+            let marked: Vec<_> = n
+                .iter()
+                .enumerate()
+                .map(|(i, d)| (d.0, d.1, d.2, if i % 2 == 0 { 3000.0 } else { 200.0 }))
+                .collect();
+            let marker = discs(w, h, &marked, 200.0, 30.0);
+            TwoChannels { w, h, planes: [marker, dapi] }
+        }
+
+        fn file_info(&self) -> FileInfo {
+            let mut im = ImageInfo::new(0, self.w as u32, self.h as u32, PixelType::Uint16);
+            im.size_c = 2;
+            im.physical_size = PhysicalSize::micrometres(Some(0.5), Some(0.5), None);
+            im.channels = vec![
+                ChannelInfo {
+                    index: 0,
+                    name: Some("Ki67".into()),
+                    ..ChannelInfo::default()
+                },
+                ChannelInfo {
+                    index: 1,
+                    name: Some("DAPI".into()),
+                    ..ChannelInfo::default()
+                },
+            ];
+            FileInfo {
+                path: "two.tif".into(),
+                size_bytes: 1,
+                format: crate::model::FormatDescriptor {
+                    id: "tiff".into(),
+                    name: "TIFF".into(),
+                    vendor: String::new(),
+                    extensions: vec![],
+                    family: "microscopy".into(),
+                    can_read: true,
+                    can_write: false,
+                    confidence: crate::provenance::Confidence::High,
+                    known_gaps: vec![],
+                },
+                format_version: None,
+                images: vec![im.finish()],
+                tables: vec![],
+                spectra: vec![],
+                traces: vec![],
+                plane_count: 2,
+                notes: vec![],
+            }
+        }
+    }
+
+    impl Dataset for TwoChannels {
+        fn info(&self) -> Result<FileInfo> {
+            Ok(self.file_info())
+        }
+        fn vendor_metadata(&self) -> Result<serde_json::Value> {
+            Ok(serde_json::Value::Null)
+        }
+        fn provenance(&self) -> ProvenanceMap {
+            ProvenanceMap::new()
+        }
+        fn entries(&self) -> Result<Vec<LsEntry>> {
+            Ok(vec![])
+        }
+        fn read_plane(&mut self, _: u32, i: PlaneIndex) -> Result<Plane> {
+            let data = self.planes[i.c as usize]
+                .iter()
+                .flat_map(|v| (v.clamp(0.0, 65535.0) as u16).to_le_bytes())
+                .collect();
+            Ok(Plane {
+                width: self.w as u32,
+                height: self.h as u32,
+                pixel_type: PixelType::Uint16,
+                samples_per_pixel: 1,
+                data,
+            })
+        }
+        fn check(&mut self) -> Result<CheckReport> {
+            Ok(CheckReport::new("tiff", "two.tif"))
+        }
+    }
+
+    #[test]
+    fn one_call_counts_nuclei_and_marker_positive_cells() {
+        let mut ds = TwoChannels::new();
+        let info = ds.info().unwrap();
+        let req = MeasureRequest {
+            objects: Some(ObjectsRequest::default()),
+            ..MeasureRequest::default()
+        };
+        let out = measure(&mut ds, &info, &req).unwrap();
+        let o = out.objects.unwrap();
+        assert_eq!(o.measured, "c=1 DAPI");
+        assert_eq!(o.count, 9);
+        assert_eq!(o.objects.len(), 9);
+        assert_eq!(o.channels.len(), 2);
+        let ki67 = o.channels[0].positive.as_ref().unwrap();
+        assert_eq!(ki67.count, 5, "{ki67:?}");
+        assert!(o.channels[1].positive.is_none(), "the counted channel has no positive call");
+        // 10 px radius at 0.5 µm: about 10 µm across
+        let d = o.diameter_um.unwrap().median;
+        assert!((8.0..12.0).contains(&d), "{d}");
+        assert!(o.density_per_mm2.unwrap() > 0.0);
+        // numbered in reading order
+        assert!(o.objects.windows(2).all(|p| p[0].y <= p[1].y + 12.0));
+        // in a polygon around the top row only
+        let req = MeasureRequest {
+            polygon: Some(vec![[0.0, 0.0], [180.0, 0.0], [180.0, 55.0], [0.0, 55.0]]),
+            objects: Some(ObjectsRequest {
+                diameter_um: Some(10.0),
+                ..ObjectsRequest::default()
+            }),
+            ..MeasureRequest::default()
+        };
+        let o = measure(&mut ds, &info, &req).unwrap().objects.unwrap();
+        assert_eq!(o.count, 3);
+        assert_eq!(o.expected_diameter_from, "given");
+    }
+
+    #[test]
+    fn tiles_count_each_object_once() {
+        let r = Region::new(0, 0, 5000, 3000);
+        let t = tiles(r, 20.0);
+        assert_eq!(t.len(), 6);
+        let covered: u64 = t
+            .iter()
+            .map(|t| u64::from(t.core.width) * u64::from(t.core.height))
+            .sum();
+        assert_eq!(covered, 5000 * 3000);
+        assert!(t.iter().all(|t| t.read.x <= t.core.x && t.read.width >= t.core.width));
+        assert_eq!(tiles(Region::new(0, 0, 2000, 2000), 20.0).len(), 1);
+    }
 }

@@ -157,10 +157,11 @@ openreadout_link <- function(paths, min_confidence = NULL, formats = NULL) {
 #'   where, mean, FWHM, and the profile `values`), `line_width` pixels wide;
 #' - `polygon`: a two-column matrix of vertices; the area and the mean, sd, median, min, max
 #'   and sum per channel inside;
-#' - `objects = TRUE`, or a list of `threshold`, `polarity` (`"bright"`, `"dark"`), `smooth`,
-#'   `min_area_px`, `max_objects`, `component`, `split`: counts nuclei, cells or spots in
-#'   `region` (`c(x, y, width, height)`, `x` and `y` from 1 as in [openreadout_read_image()]) or
-#'   the whole plane, with their areas and centroids.
+#' - `objects = TRUE` counts nuclei in `region` (`c(x, y, width, height)`, `x` and `y` from 1
+#'   as in [openreadout_read_image()]), inside `polygon` or in the whole plane: how many, their
+#'   sizes, centroids and mean in every channel, and how many are positive per channel. A list
+#'   sets options: `kind` (`"nuclei"`, `"cells"`, `"spots"`), `diameter_um`, `threshold`,
+#'   `method`, `polarity`, `stain` (RGB), `split`, `min_area_um2`, `max_area_um2`, `max_objects`.
 #'
 #' Areas and lengths are also given in µm when the pixel size is known. The result is the
 #' `stats --json` data as a list (`profile`, `roi`, `objects`); `objects$objects` is a data frame.
@@ -179,7 +180,7 @@ openreadout_link <- function(paths, min_confidence = NULL, formats = NULL) {
 #' \dontrun{
 #' openreadout_stats("run42.czi")
 #' openreadout_stats("plate/", per = "well", select = "c=0", wells = c("A01", "A02"))
-#' openreadout_stats("nuclei.czi", select = "c=0", objects = TRUE)$objects$count
+#' openreadout_stats("nuclei.czi", objects = TRUE)$objects$count
 #' openreadout_stats("run42.czi", line = c(10, 200, 400, 200), line_width = 3)$profile
 #' }
 #' @export

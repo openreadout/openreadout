@@ -75,8 +75,9 @@ test_that("stats measures a line, a polygon and objects", {
   prof <- openreadout_stats(f, select = "z=2", line = c(0, h / 2, w - 1, h / 2))$profile
   expect_lte(prof$channels[[1]]$max, max(img))
   expect_gte(prof$channels[[1]]$min, min(img))
-  obj <- openreadout_stats(f, select = "z=2", objects = list(min_area_px = 4))$objects
+  obj <- openreadout_stats(f, select = "z=2", objects = list(diameter_px = 6))$objects
   expect_gte(obj$count, 0)
+  expect_equal(obj$expected_diameter_from, "given")
   expect_equal(openreadout_stats(f, select = "z=2", objects = TRUE)$objects$count,
                openreadout_stats(f, select = "z=2", objects = list())$objects$count)
   expect_error(openreadout_stats(f, line = c(0, 0, 1)), class = "openreadout_usage_error")

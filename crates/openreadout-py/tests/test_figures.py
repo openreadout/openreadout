@@ -125,8 +125,9 @@ def test_stats_line_polygon_objects(corpus):
         roi = f.stats(select=["z=2"], polygon=[(0, 0), (w, 0), (w, h), (0, h)])["roi"]
         assert roi["area_px"] == pytest.approx(w * h, rel=0.01)
         assert roi["channels"][0]["mean"] == pytest.approx(plane.mean(), rel=0.01)
-        obj = f.stats(select=["z=2"], objects={"min_area_px": 4})["objects"]
+        obj = f.stats(select=["z=2"], objects={"diameter_px": 6})["objects"]
         assert obj["count"] >= 0 and "threshold" in obj
+        assert obj["expected_diameter_from"] == "given"
         assert (
             f.stats(select=["z=2"], objects=True)["objects"]["count"]
             == f.stats(select=["z=2"], objects={})["objects"]["count"]

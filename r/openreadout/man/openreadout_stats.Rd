@@ -58,10 +58,11 @@ picks). \code{line} and \code{polygon} are in pixel coordinates as the rulers of
 where, mean, FWHM, and the profile \code{values}), \code{line_width} pixels wide;
 \item \code{polygon}: a two-column matrix of vertices; the area and the mean, sd, median, min, max
 and sum per channel inside;
-\item \code{objects = TRUE}, or a list of \code{threshold}, \code{polarity} (\code{"bright"}, \code{"dark"}), \code{smooth},
-\code{min_area_px}, \code{max_objects}, \code{component}, \code{split}: counts nuclei, cells or spots in
-\code{region} (\code{c(x, y, width, height)}, \code{x} and \code{y} from 1 as in \code{\link[=openreadout_read_image]{openreadout_read_image()}}) or
-the whole plane, with their areas and centroids.
+\item \code{objects = TRUE} counts nuclei in \code{region} (\code{c(x, y, width, height)}, \code{x} and \code{y} from 1
+as in \code{\link[=openreadout_read_image]{openreadout_read_image()}}), inside \code{polygon} or in the whole plane: how many, their
+sizes, centroids and mean in every channel, and how many are positive per channel. A list
+sets options: \code{kind} (\code{"nuclei"}, \code{"cells"}, \code{"spots"}), \code{diameter_um}, \code{threshold},
+\code{method}, \code{polarity}, \code{stain} (RGB), \code{split}, \code{min_area_um2}, \code{max_area_um2}, \code{max_objects}.
 }
 
 Areas and lengths are also given in µm when the pixel size is known. The result is the
@@ -71,7 +72,7 @@ Areas and lengths are also given in µm when the pixel size is known. The result
 \dontrun{
 openreadout_stats("run42.czi")
 openreadout_stats("plate/", per = "well", select = "c=0", wells = c("A01", "A02"))
-openreadout_stats("nuclei.czi", select = "c=0", objects = TRUE)$objects$count
+openreadout_stats("nuclei.czi", objects = TRUE)$objects$count
 openreadout_stats("run42.czi", line = c(10, 200, 400, 200), line_width = 3)$profile
 }
 }
