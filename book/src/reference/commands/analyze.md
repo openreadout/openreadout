@@ -117,6 +117,7 @@ The input is a Bruker experiment directory, a Varian `.fid` directory, a JEOL `.
 - `--range-ppm A:B`: only pick peaks between two shifts, in ppm.
 - `--max-peaks N`: keep at most this many peaks. Default 1000.
 - `--integrate A:B`: integrate a region in ppm. Repeatable.
+- `--auto-integrate`: without `--integrate`, integrate every multiplet (peaks closer than 15 Hz, with 10 Hz on each side).
 - `--integral-reference I=V`: normalize integrals so that region I equals V. Default `0=1`.
 
 The `--process-*` flags of `trace`, `export` and `preview` take the same values as `--phase`, `--lb`, `--size` and `--baseline`.
@@ -136,6 +137,7 @@ openreadout analyze ephys-features [OPTIONS] <FILE>
 - `--sweeps LIST`: sweeps to analyse, such as `0,3,5-9`. Default: all.
 - `--peak-threshold-mv MV`: voltage a spike must cross upward. Default −20 mV.
 - `--dvdt-threshold V_PER_S`: dV/dt that defines spike onset. Default 10 V/s.
+- `--min-rise-mv MV`: how far a spike's peak must rise above the lowest voltage since the previous spike. Default 15 mV; 0 counts every crossing of `--peak-threshold-mv`, as eFEL does.
 - `--max-spikes N`: rows in the per-spike table. Default 25 with `--json`, every spike with `--csv`.
 - `--csv sweeps|spikes|fi`: print one tidy table as CSV instead.
 

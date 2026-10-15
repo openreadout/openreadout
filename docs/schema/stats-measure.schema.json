@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "MeasureOutput",
-  "description": "The answer to a [`MeasureRequest`].",
+  "description": "Measurements on one plane: a line profile, statistics inside a polygon or an object count.",
   "type": "object",
   "properties": {
     "path": {

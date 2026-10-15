@@ -281,7 +281,7 @@ pub struct Objects {
     pub truncated: bool,
 }
 
-/// The answer to a [`MeasureRequest`].
+/// Measurements on one plane: a line profile, statistics inside a polygon or an object count.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct MeasureOutput {
     /// The file.
