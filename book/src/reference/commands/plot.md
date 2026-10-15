@@ -66,7 +66,7 @@ A series names its data by `file` and selector, by a `table` file and its column
 | `wells` | Plate reads: a curve per well (kinetic), or values per well | `wells` (`A1:H11`), `groups` (layout groups, `*` matches any text), `by` (`well` or `group`), `spread`, `subtract` (`blank`, `first`), `read`, `color_by` |
 | `events` | FCS events, x against y, coloured by gate population | `x`, `y`, `populations`, `workspace` or `gatingml`, `compensate`, `transform` |
 | `histogram` | One FCS parameter or table column | `x`, `populations`, `transform` |
-| `dose_response`, `standard_curve` | Points and fitted curves from [`analyze assay`](analyze.md#assay) | `assay`: the assay arguments without `file` (`layout`, `standards`, `model`, `normalize`, …) |
+| `dose_response`, `standard_curve` | Points and fitted curves from the [plate-reader assays](analyze.md#plate-reader-assays) | `assay`: their arguments without `file` (`layout`, `standards`, `model`, `normalize`, …) |
 | `amplification`, `melt` | qPCR curves, coloured by target | `wells`, `target` |
 
 Every series also takes `mark` (`line`, `points`, `line_points`, `bars`, `area`, `sticks`, `density`), `label` and `color` (`ink`, `accent`, `muted`, `faint`, `blue`, `ochre`, `green`, `purple`, `teal`, `brown` or `#RRGGBB`). A `label` on a data item that gives several series (wells, files) names them once, as one colour class.

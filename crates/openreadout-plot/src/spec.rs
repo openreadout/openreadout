@@ -174,9 +174,9 @@ pub enum Show {
     Histogram,
     /// Patch-clamp f–I: spikes in the stimulus (or y=rate_hz) against injected current.
     Fi,
-    /// Dose-response points and fitted curves per compound (openreadout_assay).
+    /// Dose-response points and fitted curves per compound.
     DoseResponse,
-    /// Standard curve: standards, fit and back-calculated samples (openreadout_assay).
+    /// Standard curve: standards, fit and back-calculated samples.
     StandardCurve,
     /// qPCR amplification curves.
     Amplification,
@@ -308,7 +308,7 @@ pub struct SeriesSpec {
     pub compensate: Option<String>,
     /// qPCR: target name.
     pub target: Option<String>,
-    /// DoseResponse, StandardCurve: openreadout_assay arguments without file (layout, standards,
+    /// dose_response, standard_curve: the plate-reader assay arguments without file (layout, standards,
     /// model, normalize, reduce, …).
     pub assay: Option<serde_json::Map<String, serde_json::Value>>,
 }
