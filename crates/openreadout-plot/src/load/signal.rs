@@ -232,18 +232,19 @@ pub(super) fn trace(
             ))
         })?,
         // a processed spectrum (a ppm axis) before the FID it came from
-        _ => info
-            .traces
-            .iter()
-            .find(|t| {
-                t.extra
-                    .get("axis")
-                    .and_then(|a| a.get("unit"))
-                    .and_then(Value::as_str)
-                    .is_some_and(|u| u.contains("ppm"))
-            })
-            .unwrap_or(&info.traces[0])
-            .index,
+        _ => {
+            info.traces
+                .iter()
+                .find(|t| {
+                    t.extra
+                        .get("axis")
+                        .and_then(|a| a.get("unit"))
+                        .and_then(Value::as_str)
+                        .is_some_and(|u| u.contains("ppm"))
+                })
+                .unwrap_or(&info.traces[0])
+                .index
+        }
     };
     let t = info
         .traces
@@ -422,14 +423,13 @@ pub(super) fn trace(
                 .collect();
             let yq = if overlay {
                 Quantity::new(
-                    t.extra
-                        .get("quantity")
-                        .and_then(Value::as_str)
-                        .unwrap_or(if trace_kind(&t).contains("derivative") {
+                    t.extra.get("quantity").and_then(Value::as_str).unwrap_or(
+                        if trace_kind(&t).contains("derivative") {
                             "−dF/dT"
                         } else {
                             "fluorescence"
-                        }),
+                        },
+                    ),
                     ch.unit.as_deref(),
                 )
             } else {

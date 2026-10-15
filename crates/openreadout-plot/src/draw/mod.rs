@@ -864,7 +864,8 @@ pub(crate) fn check_annotations(anns: &[Annotation]) -> Result<()> {
     Ok(())
 }
 
-fn hover_panel(p: &Panel, title: Option<&str>, series: &[&Series]) -> Value {
+/// A panel for the viewer's hover read-outs: at most `cap` points per series.
+fn hover_panel(p: &Panel, title: Option<&str>, series: &[&Series], cap: usize) -> Value {
     let dom = |d: Domain| json!({"lo": d.lo, "hi": d.hi, "log": d.kind == openreadout_figure::ScaleKind::Log, "reversed": d.reversed});
     let ss: Vec<Value> = series
         .iter()
@@ -881,7 +882,7 @@ fn hover_panel(p: &Panel, title: Option<&str>, series: &[&Series]) -> Value {
                     .collect(),
                 _ => Vec::new(),
             };
-            let cap = if series.len() > 24 { 120 } else { 400 };
+            let cap = if series.len() > 24 { cap.min(60) } else { cap };
             let step = pts.len().div_ceil(cap).max(1);
             let pts: Vec<[f64; 2]> = pts
                 .iter()
@@ -998,7 +999,7 @@ fn draw_plot(
     } else if legend == Legend::Direct {
         direct_labels(fig, theme, &panel, &p.series, area.right());
     }
-    hover.push(hover_panel(&panel, p.title.as_deref(), &refs));
+    hover.push(hover_panel(&panel, p.title.as_deref(), &refs, 400));
 }
 
 /// Each histogram named at its highest bin.
@@ -1223,7 +1224,7 @@ fn draw_facets(
         let st = TextStyle::new(small_fs * 1.08, theme.ink).face(Face::SansMedium);
         let ty = cell.y - small_fs * 0.55;
         fig.text(rect.x, ty, &shorten(key, 60), &st);
-        hover.push(hover_panel(&panel, Some(key), &members));
+        hover.push(hover_panel(&panel, Some(key), &members, 200));
     }
     ann.extend(notes_once);
     keys.len()
@@ -1399,7 +1400,12 @@ fn draw_plate(
                 true,
                 &mut sink,
             );
-            hover.push(hover_panel(&panel, members[0].facet.as_deref(), &members));
+            hover.push(hover_panel(
+                &panel,
+                members[0].facet.as_deref(),
+                &members,
+                60,
+            ));
             if first_panel.is_none() {
                 first_panel = Some(panel);
             }
