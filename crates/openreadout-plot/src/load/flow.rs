@@ -109,18 +109,6 @@ fn find(r: &Read, want: &str, file: &str) -> Result<usize> {
         })
 }
 
-fn superscript(n: i32) -> String {
-    let digits = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
-    let mut s = String::new();
-    if n < 0 {
-        s.push('⁻');
-    }
-    for c in n.abs().to_string().chars() {
-        s.push(digits[c.to_digit(10).unwrap_or(0) as usize]);
-    }
-    s
-}
-
 /// Transform a column for display: the asked transform, else logicle for fluorescence and
 /// linear for scatter and time.
 fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
@@ -193,7 +181,7 @@ fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
         let v = 10f64.powi(d);
         let p = prep.apply(v);
         if p.is_finite() && d >= 2 {
-            ticks.push((p, format!("10{}", superscript(d))));
+            ticks.push((p, format!("10{}", openreadout_figure::superscript(d))));
         }
     }
     if wanted != "log" && sorted.first().is_some_and(|&lo| lo < -1000.0) {

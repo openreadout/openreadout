@@ -436,13 +436,21 @@ fn shorten(s: &str, n: usize) -> String {
     }
 }
 
-/// Order: context first, then the many, then the main data and fits.
+/// Order: context first, then the many, then the main data and fits; markers over lines, so
+/// points on a fitted curve stay visible.
 fn draw_order(series: &[Series]) -> Vec<usize> {
-    let rank = |s: &Series| match s.weight {
-        Weight::Context => 0,
-        Weight::Many => 1,
-        Weight::Main => 2,
-        Weight::Fit => 2,
+    let rank = |s: &Series| {
+        let w = match s.weight {
+            Weight::Context => 0,
+            Weight::Many => 1,
+            Weight::Main | Weight::Fit => 2,
+        };
+        let points = matches!(s.mark, MarkKind::Points | MarkKind::LinePoints);
+        if points && s.weight != Weight::Context {
+            w + 3
+        } else {
+            w
+        }
     };
     let mut idx: Vec<usize> = (0..series.len()).collect();
     idx.sort_by_key(|&i| rank(&series[i]));

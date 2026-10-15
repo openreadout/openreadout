@@ -85,6 +85,21 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             }
         }
     }
+    // curves rising out of a baseline of noise around zero, on a log axis: show each from
+    // where it last leaves the noise, on an axis that starts there
+    let floor = if (ys.log || series.iter().any(|s| s.y_log)) && ys.range.is_none() {
+        let top = series
+            .iter()
+            .map(|s| s.geom.extent().y.1)
+            .filter(|v| v.is_finite())
+            .fold(f64::NEG_INFINITY, f64::max);
+        log_floor(series).filter(|f| *f < top)
+    } else {
+        None
+    };
+    if let Some(f) = floor {
+        hide_below(series, f);
+    }
     // categories
     let mut cats: Vec<String> = Vec::new();
     for s in series.iter() {
@@ -179,6 +194,9 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             || matches!(s.geom, Geom::Bars { .. })
     });
     let mut yr = ext.y;
+    if let Some(f) = floor {
+        yr.0 = f;
+    }
     if !y_log && yr.0 <= yr.1 && y_ticks.is_none() {
         let near_zero = yr.0 >= 0.0 && yr.0 < 0.35 * yr.1;
         if zero_based || near_zero {
@@ -216,6 +234,69 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     };
     repick_peaks(series, &ax, &ay);
     Ok((ax, ay))
+}
+
+/// The noise floor of lines that start from a baseline at zero (baseline-subtracted
+/// amplification curves): five noise standard deviations. Each line's noise comes from the
+/// steps between its first 15 % of points (a robust spread, so a slow drift counts little); the
+/// lines whose early points sit within three noise SDs of zero are the ones that start there,
+/// and the lower quartile of their noise sets the floor. `None` when no line starts at zero,
+/// where a log axis shows the baselines well.
+pub(crate) fn log_floor(series: &[Series]) -> Option<f64> {
+    let mut noises = Vec::new();
+    for s in series {
+        let Geom::Line(pts) = &s.geom else { continue };
+        if pts.len() < 8 {
+            continue;
+        }
+        let k = (pts.len() * 15 / 100).max(4);
+        let early: Vec<f64> = pts[..k]
+            .iter()
+            .map(|p| p.1)
+            .filter(|v| v.is_finite())
+            .collect();
+        if early.len() < 4 {
+            continue;
+        }
+        let mut sorted = early.clone();
+        sorted.sort_by(f64::total_cmp);
+        let level = sorted[sorted.len() / 2];
+        let mut steps: Vec<f64> = early.windows(2).map(|w| (w[1] - w[0]).abs()).collect();
+        steps.sort_by(f64::total_cmp);
+        let noise = 1.4826 * steps[steps.len() / 2] / std::f64::consts::SQRT_2;
+        if noise > 0.0 && level.abs() < 3.0 * noise {
+            noises.push(noise);
+        }
+    }
+    if noises.is_empty() {
+        return None;
+    }
+    noises.sort_by(f64::total_cmp);
+    Some(5.0 * noises[noises.len() / 4])
+}
+
+/// Blank each line's points before it last rises above `floor`, so the noise under the floor
+/// draws nothing and every curve enters the panel once.
+fn hide_below(series: &mut [Series], floor: f64) {
+    for s in series.iter_mut() {
+        let Geom::Line(pts) = &mut s.geom else {
+            continue;
+        };
+        if let Some(last_low) = pts.iter().rposition(|p| p.1.is_nan() || p.1 < floor) {
+            for p in pts.iter_mut().take(last_low) {
+                p.1 = f64::NAN;
+            }
+            // the line starts where it crosses the floor, on the panel's bottom edge
+            let next = pts.get(last_low + 1).copied();
+            let p = &mut pts[last_low];
+            *p = match next {
+                Some((x1, y1)) if p.1.is_finite() && y1 > p.1 => {
+                    (p.0 + (floor - p.1) / (y1 - p.1) * (x1 - p.0), floor)
+                }
+                _ => (p.0, f64::NAN),
+            };
+        }
+    }
 }
 
 /// Peaks are picked again among the points the axes show: a zoomed window or a clipped y range
