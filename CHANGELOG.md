@@ -4,6 +4,26 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- `stats` measures one plane: an intensity profile along a line (`--line`, with FWHM), statistics inside a polygon (`--polygon`), and object counts (`--objects`: threshold, holes filled, touching objects cut apart, with areas and centroids), so "how many nuclei" has an answer. MCP `line`, `polygon` and `objects` on `openreadout_stats`.
+- `analyze growth` says per well whether it grew, crashed or regrew, with the crash and regrowth times, and `growth_summary` lists the wells of each pattern.
+- `spectrum --rt MIN` reads the scan at a retention time, and every spectrum lists its most intense peaks with charge, monoisotopic m/z and neutral mass.
+- `analyze nmr-peaks --auto-integrate` integrates every multiplet; `analyze gate --median all` reports the median of every gated parameter.
+- MCP progress notifications carry a message a host can show ("Reading 1,200 of 53,141 spectra"), from exports, chromatograms, peaks, stats, batch and indexing.
+
+### Changed
+
+- The six plate-reader MCP tools are one, `openreadout_assay`, with `analysis` (`wells`, `curve`, `dose-response`, `kinetics`, `growth`, `qc`). The tool list is about a quarter smaller.
+- SoftMax Pro groups are the replicate groups of the plate analyses.
+- A spike must rise 15 mV above the trough before it (`--min-rise-mv`, 0 for eFEL's count), and `spectrum --max-points` keeps the most intense points.
+
+### Fixed
+
+- `analyze ephys-features` gave a rheobase for cells that fire during the 0 pA step; it now reports none, with a note and `spontaneous_rate_hz`. Noise near −20 mV in depolarisation block no longer counts as spikes, and the f–I slope stops at the step of highest rate.
+- `analyze growth --wells` dropped the layout's blank wells and fell back to each well's own minimum; the blanks are now subtracted.
+- `index` reads symbolic links to files. Plane selections such as `c=0,1,z=2` work in every command. MCP tools take a single value where they take a list, and a type error lists the tool's arguments. `preview` and `stats` point FCS and other table-only files at the tools that read them. The website's `/formats/` address works.
+
 ## [0.3.0] - 2026-10-13
 
 In short:
