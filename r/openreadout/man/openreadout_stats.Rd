@@ -9,7 +9,13 @@ openreadout_stats(
   image = NULL,
   select = character(),
   per = c("channel", "image", "plane", "well", "field"),
-  wells = character()
+  wells = character(),
+  line = NULL,
+  line_width = NULL,
+  polygon = NULL,
+  objects = NULL,
+  level = 0,
+  region = NULL
 )
 }
 \arguments{
@@ -23,6 +29,10 @@ file.}
 \item{per}{\code{"channel"} (default), \code{"image"}, \code{"plane"}, \code{"well"} or \code{"field"}.}
 
 \item{wells}{With \code{per = "well"} or \code{"field"}: only these wells (\code{"C05"}).}
+
+\item{line, line_width, polygon, objects}{Measurements on one plane (see Details).}
+
+\item{level, region}{Pyramid level and rectangle of the measurements.}
 }
 \value{
 A data frame. Pixel statistics carry an attribute \code{stats} with the rest of the
@@ -38,10 +48,30 @@ plates), one row per well and channel (\code{per = "well"}) or per well, field a
 \details{
 The \code{image}, \code{c}, \code{z} and \code{t} columns start at 1, like the arguments of
 \code{\link[=openreadout_read_image]{openreadout_read_image()}}.
+
+\code{line}, \code{polygon} and \code{objects} measure one plane instead (\code{stats --line}, \code{--polygon},
+\code{--objects}; by default channel 1, the middle z and the first time point, or what \code{select}
+picks). \code{line} and \code{polygon} are in pixel coordinates as the rulers of
+\code{\link[=openreadout_preview]{openreadout_preview()}} show them (starting at 0) at pyramid \code{level}:
+\itemize{
+\item \code{line = c(x0, y0, x1, y1)}: the intensity profile along the line per channel (min, max and
+where, mean, FWHM, and the profile \code{values}), \code{line_width} pixels wide;
+\item \code{polygon}: a two-column matrix of vertices; the area and the mean, sd, median, min, max
+and sum per channel inside;
+\item \code{objects = TRUE}, or a list of \code{threshold}, \code{polarity} (\code{"bright"}, \code{"dark"}), \code{smooth},
+\code{min_area_px}, \code{max_objects}, \code{component}, \code{split}: counts nuclei, cells or spots in
+\code{region} (\code{c(x, y, width, height)}, \code{x} and \code{y} from 1 as in \code{\link[=openreadout_read_image]{openreadout_read_image()}}) or
+the whole plane, with their areas and centroids.
+}
+
+Areas and lengths are also given in µm when the pixel size is known. The result is the
+\code{stats --json} data as a list (\code{profile}, \code{roi}, \code{objects}); \code{objects$objects} is a data frame.
 }
 \examples{
 \dontrun{
 openreadout_stats("run42.czi")
 openreadout_stats("plate/", per = "well", select = "c=0", wells = c("A01", "A02"))
+openreadout_stats("nuclei.czi", select = "c=0", objects = TRUE)$objects$count
+openreadout_stats("run42.czi", line = c(10, 200, 400, 200), line_width = 3)$profile
 }
 }

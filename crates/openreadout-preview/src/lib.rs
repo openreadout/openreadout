@@ -68,6 +68,7 @@ mod events;
 mod image;
 mod kinetic;
 mod marks;
+mod options;
 mod overlay;
 mod plate;
 mod rulers;
@@ -85,6 +86,7 @@ use serde::{Deserialize, Serialize};
 
 pub use annotate::{Annotation, DrawnAnnotation};
 pub use openreadout_figure::{Figure, Raster};
+pub use options::PreviewOptions;
 pub use plate::{PlateGrid, plate_grid};
 
 /// Largest `max_size` accepted (pixels on the longer side).

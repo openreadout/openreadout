@@ -37,7 +37,8 @@ test("a dropped CZI is explained, summarised, checked and previewed", async () =
   assert.ok(m.explain.summary.length > 0);
   assert.equal(JSON.parse(m.info).format.id, "czi");
   assert.equal(m.check.ok, true);
-  assert.deepEqual([...m.preview.png.subarray(0, 4)], [0x89, 0x50, 0x4e, 0x47]);
+  assert.equal(m.preview.type, "image/png");
+  assert.deepEqual([...m.preview.data.subarray(0, 4)], [0x89, 0x50, 0x4e, 0x47]);
 });
 
 test("an unreadable file shows the CLI's error and hint", async () => {

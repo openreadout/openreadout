@@ -16,7 +16,7 @@ BugReports: https://github.com/openreadout/openreadout/issues
 Encoding: UTF-8
 Depends: R (>= 4.2)
 Imports: jsonlite
-Suggests: arrow, digest, testthat (>= 3.0.0), tibble, withr
+Suggests: arrow, digest, jpeg, png, testthat (>= 3.0.0), tibble, withr
 Config/testthat/edition: 3
 SystemRequirements: Cargo (Rust's package manager), rustc >= 1.91, xz
 Roxygen: list(markdown = TRUE)

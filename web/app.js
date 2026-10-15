@@ -84,7 +84,9 @@ export function model(r) {
       : { error: r.check.error },
     info: r.info.ok ? JSON.stringify(r.info.value, null, 2) : null,
     infoError: r.info.ok ? null : r.info.error,
-    preview: r.preview.ok ? { png: r.preview.value.png, meta: r.preview.value.meta } : { error: r.preview.error },
+    preview: r.preview.ok
+      ? { data: r.preview.value.data, type: r.preview.value.type, meta: r.preview.value.meta }
+      : { error: r.preview.error },
   };
 }
 
@@ -130,7 +132,7 @@ function render(doc, out, m) {
   const preview = el(doc, "section", { class: "card", "aria-labelledby": "h-preview" }, el(doc, "h3", { id: "h-preview" }, "Preview"));
   if (m.preview.error) preview.append(errorBox(doc, m.preview.error));
   else {
-    const url = URL.createObjectURL(new Blob([m.preview.png], { type: "image/png" }));
+    const url = URL.createObjectURL(new Blob([m.preview.data], { type: m.preview.type }));
     preview.append(el(doc, "img", { src: url, alt: `Preview of ${m.title}`, width: String(m.preview.meta.width), height: String(m.preview.meta.height) }));
   }
 
