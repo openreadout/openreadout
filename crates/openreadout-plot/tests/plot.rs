@@ -237,6 +237,17 @@ fn misplaced_keys_say_where_they_go() {
         .unwrap_err()
         .to_string();
     assert!(e.contains("data.x") && e.contains("on the panel"), "{e}");
+    let e = parse_spec(json!({"data": {"file": "r.raw", "tic": true}}))
+        .unwrap_err()
+        .to_string();
+    assert!(
+        e.contains("unknown field `tic`") && e.contains("chromatogram"),
+        "{e}"
+    );
+    let e = parse_spec(json!({"data": {"file": "a"}, "panels": [], "y": {"lable": "OD"}}))
+        .unwrap_err()
+        .to_string();
+    assert!(e.contains("y: unknown field `lable`"), "{e}");
     let e = parse_spec(json!({"panels": [{"data": [{"file": "a"}, {"file": "b", "title": "t"}]}]}))
         .unwrap_err()
         .to_string();

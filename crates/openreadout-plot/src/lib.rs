@@ -104,6 +104,7 @@ pub fn parse_spec(v: Value) -> Result<PlotSpec> {
         if let Some(d) = m.get("data") {
             check_data("data", d)?;
         }
+        check_panel_parts("", m)?;
         if let Some(Value::Array(ps)) = m.get("panels") {
             for (i, p) in ps.iter().enumerate() {
                 if let Value::Object(pm) = p {
@@ -119,11 +120,29 @@ pub fn parse_spec(v: Value) -> Result<PlotSpec> {
                     if let Some(d) = pm.get("data") {
                         check_data(&format!("panels[{i}].data"), d)?;
                     }
+                    check_panel_parts(&format!("panels[{i}]."), pm)?;
                 }
             }
         }
     }
     serde_json::from_value(v).map_err(|e| Error::Usage(format!("plot spec: {e}")))
+}
+
+/// Check a panel's axes and annotations on their own, so that an error names the key.
+fn check_panel_parts(at: &str, m: &serde_json::Map<String, Value>) -> Result<()> {
+    for axis in ["x", "y"] {
+        if let Some(v) = m.get(axis) {
+            serde_json::from_value::<AxisSpec>(v.clone())
+                .map_err(|e| Error::Usage(format!("{at}{axis}: {e}")))?;
+        }
+    }
+    if let Some(Value::Array(a)) = m.get("annotate") {
+        for (i, v) in a.iter().enumerate() {
+            serde_json::from_value::<Annotation>(v.clone())
+                .map_err(|e| Error::Usage(format!("{at}annotate[{i}]: {e}")))?;
+        }
+    }
+    Ok(())
 }
 
 /// For a key that belongs to a series, where to put it.
