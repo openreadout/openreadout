@@ -225,9 +225,12 @@ fn is_blank_label(s: &str) -> bool {
 
 /// The layout field to colour by: 2–8 groups (blanks aside) covering the most wells; a field
 /// named like a group wins ties.
-fn choose_grouping(t: &TableInfo) -> Option<(String, BTreeMap<(u32, u32), String>)> {
+/// A layout field and its label per well.
+type Grouping = (String, BTreeMap<(u32, u32), String>);
+
+fn choose_grouping(t: &TableInfo) -> Option<Grouping> {
     let layout = t.extra.get("layout")?.as_object()?;
-    let mut best: Option<(usize, bool, String, BTreeMap<(u32, u32), String>)> = None;
+    let mut best: Option<((usize, bool), Grouping)> = None;
     for (key, map) in layout {
         let Some(map) = map.as_object() else { continue };
         let mut wells = BTreeMap::new();
@@ -236,7 +239,7 @@ fn choose_grouping(t: &TableInfo) -> Option<(String, BTreeMap<(u32, u32), String
                 parse_well(w),
                 v.as_str()
                     .map(str::to_string)
-                    .or_else(|| v.as_f64().map(|x| format_value(x))),
+                    .or_else(|| v.as_f64().map(format_value)),
             ) {
                 wells.insert(p, v);
             }
@@ -249,11 +252,11 @@ fn choose_grouping(t: &TableInfo) -> Option<(String, BTreeMap<(u32, u32), String
         }
         let groupish = key.to_ascii_lowercase().contains("group");
         let score = (wells.len(), groupish);
-        if best.as_ref().is_none_or(|b| score > (b.0, b.1)) {
-            best = Some((wells.len(), groupish, key.clone(), wells));
+        if best.as_ref().is_none_or(|b| score > b.0) {
+            best = Some((score, (key.clone(), wells)));
         }
     }
-    best.map(|(_, _, k, w)| (k, w))
+    best.map(|(_, g)| g)
 }
 
 /// Wells the layout marks blank: a `Role` (or similar) of blank, or a blank-like group name.
@@ -662,5 +665,5 @@ fn block_label(
     let st = TextStyle::new(theme.font_size * 1.05, color.unwrap_or(theme.ink))
         .face(Face::SansMedium)
         .align(Anchor::Start, Baseline::Middle);
-    fig.text(x, (y0 + y1) / 2.0, &short(name), &st);
+    fig.text(x, f32::midpoint(y0, y1), &short(name), &st);
 }

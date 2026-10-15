@@ -847,22 +847,19 @@ pub(crate) fn render(
         _ => (im.size_x, im.size_y),
     };
     let full_res_region = map.covered(ow as u32, oh as u32, read_end);
-    let (figure, plot_area, scale_bar) = match layout {
-        Some(l) => {
-            let theme = crate::theme(req);
-            let d = rulers::decorate(canvas, l, map, im.physical_size.x, req.grid, &theme);
-            (d.figure, d.plot_area, d.scale_bar)
-        }
-        None => {
-            let (w, h) = (ow as f32, oh as f32);
-            let mut f = Figure::new(w, h, None);
-            f.image(
-                Rect::new(0.0, 0.0, w, h),
-                std::sync::Arc::new(canvas),
-                false,
-            );
-            (f, Region::new(0, 0, ow as u32, oh as u32), None)
-        }
+    let (figure, plot_area, scale_bar) = if let Some(l) = layout {
+        let theme = crate::theme(req);
+        let d = rulers::decorate(canvas, l, map, im.physical_size.x, req.grid, &theme);
+        (d.figure, d.plot_area, d.scale_bar)
+    } else {
+        let (w, h) = (ow as f32, oh as f32);
+        let mut f = Figure::new(w, h, None);
+        f.image(
+            Rect::new(0.0, 0.0, w, h),
+            std::sync::Arc::new(canvas),
+            false,
+        );
+        (f, Region::new(0, 0, ow as u32, oh as u32), None)
     };
     let frame = crate::Frame::Image { plot_area, map };
     out.image = Some(ImagePreview {

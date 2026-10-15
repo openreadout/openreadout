@@ -288,7 +288,7 @@ impl Scale {
                 let Some(px) = self.px(v) else { continue };
                 if kept
                     .iter()
-                    .all(|(w, q, _)| *w != v && (q - px).abs() >= min_gap)
+                    .all(|(w, q, _)| w.to_bits() != v.to_bits() && (q - px).abs() >= min_gap)
                 {
                     kept.push((v, px, p));
                 }

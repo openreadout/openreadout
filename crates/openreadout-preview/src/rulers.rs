@@ -57,7 +57,7 @@ impl Mapping {
 
     /// The drawn-pixel position (relative to the data's top-left corner) of a full-resolution
     /// point.
-    pub fn to_px(&self, x: f64, y: f64) -> (f64, f64) {
+    pub fn px_of(self, x: f64, y: f64) -> (f64, f64) {
         (
             (x - self.origin.0) / self.per_pixel.0,
             (y - self.origin.1) / self.per_pixel.1,
@@ -67,7 +67,7 @@ impl Mapping {
 
 /// Type size of the ruler labels for a preview whose longer side may be `max_size`.
 pub(crate) fn label_size(max_size: u32) -> f32 {
-    (max_size as f32 / 70.0).clamp(8.0, 22.0).round()
+    (max_size as f32 / 64.0).clamp(9.0, 22.0).round()
 }
 
 /// The frame around the data: margins in whole pixels, from the type size and the widest
@@ -165,7 +165,7 @@ pub(crate) fn tick_step(span: f64, min_gap: f64) -> u64 {
 fn minor_step(step: u64) -> Option<u64> {
     let lead = step / 10u64.pow(step.max(1).ilog10());
     let m = if lead == 2 { step / 2 } else { step / 5 };
-    (m >= 1 && m < step && step % m == 0).then_some(m)
+    (m >= 1 && m < step && step.is_multiple_of(m)).then_some(m)
 }
 
 /// Tick positions `(source coordinate, drawn pixel)` along an axis of `len` drawn pixels.

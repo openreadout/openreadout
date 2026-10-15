@@ -349,13 +349,13 @@ fn image_space(plot: openreadout_core::Region, map: crate::rulers::Mapping) -> S
     let m3 = map;
     Space {
         to_px: Box::new(move |x, y| {
-            let (px, py) = m.to_px(x, y);
+            let (px, py) = m.px_of(x, y);
             (ox + px as f32, oy + py as f32)
         }),
         area: Rect::new(ox, oy, plot.width as f32, plot.height as f32),
         on_image: true,
-        x_only: Box::new(move |x| ox + m2.to_px(x, 0.0).0 as f32),
-        y_only: Box::new(move |y| oy + m3.to_px(0.0, y).1 as f32),
+        x_only: Box::new(move |x| ox + m2.px_of(x, 0.0).0 as f32),
+        y_only: Box::new(move |y| oy + m3.px_of(0.0, y).1 as f32),
     }
 }
 
@@ -425,8 +425,8 @@ pub(crate) fn draw(
     let fs = theme.font_size;
     let mut labels = Labels {
         pill: Pill {
-            text: TextStyle::new(fs, Color::hex(0x1D1F24)).face(Face::SansMedium),
-            fill: Color::hex(0xF7F5F0).alpha(0.92),
+            text: TextStyle::new(fs, Color::rgb(29, 31, 36)).face(Face::SansMedium),
+            fill: Color::rgb(247, 245, 240).alpha(0.92),
             stroke: None,
             pad: ((fs * 0.6).round(), (fs * 0.3).round()),
         },
@@ -528,10 +528,10 @@ pub(crate) fn draw(
             Frame::Wells(cells) => {
                 let w = a.well.as_deref().and_then(parse_well_name);
                 match (a.kind, w) {
-                    (AnnotationType::Well, Some(w)) | (AnnotationType::Point, Some(w)) => {
+                    (AnnotationType::Well | AnnotationType::Point, Some(w)) => {
                         if let Some((_, r)) = cells.iter().find(|(p, _)| *p == w) {
                             let r = r.inset(-2.5);
-                            ring(fig, r, color, theme, false);
+                            ring(fig, r, color, theme, true);
                             d.px = vec![corner(r.x, r.y), corner(r.right(), r.bottom())];
                             if let Some(l) = a.label.as_deref() {
                                 let b = labels.put(fig, false, r.right(), r.y, l, color, 3.0);
@@ -647,16 +647,15 @@ fn key_entry(
     Some(Rect::new(x, y - fs * 0.6, b.right() - x, fs * 1.2))
 }
 
-/// A rounded ring around a rectangle.
-fn ring(fig: &mut Figure, r: Rect, color: Color, theme: &Theme, on_image: bool) {
+/// A ring around a rectangle: a circle (`round`, for plate wells) or a rounded rectangle.
+fn ring(fig: &mut Figure, r: Rect, color: Color, theme: &Theme, round: bool) {
     let w = (theme.line_width * 1.3).max(2.0);
-    let path = Path::round_rect(r.x, r.y, r.w, r.h, (r.h.min(r.w) * 0.12).min(8.0));
-    if on_image {
-        fig.stroke(
-            path.clone(),
-            Stroke::new(Color::rgb(255, 255, 255).alpha(0.7), w + 2.5),
-        );
-    }
+    let path = if round {
+        let (cx, cy) = r.center();
+        Path::circle(cx, cy, r.w.max(r.h) / 2.0)
+    } else {
+        Path::round_rect(r.x, r.y, r.w, r.h, (r.h.min(r.w) * 0.12).min(8.0))
+    };
     fig.stroke(path, Stroke::new(color, w));
 }
 

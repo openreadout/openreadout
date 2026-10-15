@@ -168,8 +168,8 @@ pub(crate) fn render(
         panel = Panel::fit(fig.rect().inset(fs * 0.8), xd, yd, &theme, &spec);
         panel.axes(&mut fig, &theme, &spec);
         // density: a grid of bins over the panel, coloured by log count
-        let bw = (panel.rect.w / 3.0).clamp(16.0, 300.0) as usize;
-        let bh = (panel.rect.h / 3.0).clamp(16.0, 300.0) as usize;
+        let bw = panel.rect.w.round().clamp(16.0, 1600.0) as usize;
+        let bh = panel.rect.h.round().clamp(16.0, 1600.0) as usize;
         let mut counts = vec![0u32; bw * bh];
         let r = panel.rect;
         for (&x, &y) in xs.iter().zip(&ys) {
@@ -182,17 +182,30 @@ pub(crate) fn render(
                 }
             }
         }
-        // a light 3 × 3 smoothing, so single events read as soft dots rather than noise
+        // one bin per pixel, smoothed with a 5 × 5 binomial kernel (two passes), so single
+        // events read as soft dots and dense populations as smooth clouds
+        let k = [1.0, 4.0, 6.0, 4.0, 1.0];
+        let mut tmp = vec![0f64; bw * bh];
+        for j in 0..bh {
+            for i in 0..bw {
+                let mut s = 0f64;
+                for (d, w) in k.iter().enumerate() {
+                    let x = i as i64 + d as i64 - 2;
+                    if x >= 0 && (x as usize) < bw {
+                        s += w * f64::from(counts[j * bw + x as usize]);
+                    }
+                }
+                tmp[j * bw + i] = s / 16.0;
+            }
+        }
         let mut dens = vec![0f64; bw * bh];
         for j in 0..bh {
             for i in 0..bw {
                 let mut s = 0f64;
-                for (dj, wj) in [(-1i64, 1.0), (0, 2.0), (1, 1.0)] {
-                    for (di, wi) in [(-1i64, 1.0), (0, 2.0), (1, 1.0)] {
-                        let (x, y) = (i as i64 + di, j as i64 + dj);
-                        if x >= 0 && y >= 0 && (x as usize) < bw && (y as usize) < bh {
-                            s += wj * wi * f64::from(counts[y as usize * bw + x as usize]);
-                        }
+                for (d, w) in k.iter().enumerate() {
+                    let y = j as i64 + d as i64 - 2;
+                    if y >= 0 && (y as usize) < bh {
+                        s += w * tmp[y as usize * bw + i];
                     }
                 }
                 dens[j * bw + i] = s / 16.0;
@@ -202,7 +215,7 @@ pub(crate) fn render(
         let ltop = top.ln_1p();
         let mut img = Raster::new(bw as u32, bh as u32, theme.paper.to_rgb());
         for (k, &c) in dens.iter().enumerate() {
-            if c > 0.02 {
+            if c > 0.01 {
                 let t = 0.1 + 0.9 * c.ln_1p() / ltop;
                 let col = theme.sequential.at(t).to_rgb();
                 img.rgb[k * 3..k * 3 + 3].copy_from_slice(&col);

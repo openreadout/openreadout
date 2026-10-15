@@ -519,8 +519,7 @@ fn spikes(
         &st,
     );
     notes.push(format!(
-        "{}: action potentials are upward crossings of −20 mV (as openreadout_ephys_features counts them)",
-        text
+        "{text}: action potentials are upward crossings of −20 mV (as openreadout_ephys_features counts them)"
     ));
     out
 }
