@@ -6,7 +6,8 @@ build-backend = "maturin"
 name = "openreadout"
 description = "Read raw lab-instrument files without vendor software, from Python"
 readme = "crates/openreadout-py/README.md"
-license = "MIT OR Apache-2.0"
+# The code is MIT OR Apache-2.0; the IBM Plex fonts compiled into the extension are OFL-1.1 (NOTICE).
+license = "(MIT OR Apache-2.0) AND OFL-1.1"
 requires-python = ">=3.10"
 dynamic = ["version"]
 authors = [{ name = "The OpenReadout Authors", email = "openreadout@gmail.com" }]

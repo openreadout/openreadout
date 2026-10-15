@@ -482,6 +482,72 @@ impl NativeFile {
         })?;
         serde_json::to_string(&out).map_err(json_err)
     }
+    /// A preview picture: `options` is a JSON object with the arguments of the
+    /// `openreadout_preview` MCP tool (plus `dark`), `format` is `png`, `jpeg` or `svg`.
+    /// Returns the `preview --json` data as JSON and the encoded bytes.
+    #[pyo3(signature = (options, format="png"))]
+    fn preview<'py>(
+        &self,
+        py: Python<'py>,
+        options: String,
+        format: &str,
+    ) -> PyResult<(String, Bound<'py, PyBytes>)> {
+        use openreadout_preview as pv;
+        let encoding: pv::Encoding = format.parse().map_err(|e| to_py(py, e))?;
+        let req = pv::PreviewOptions::from_json(&options)
+            .and_then(|o| o.request(pv::DEFAULT_PREVIEW_SIZE, pv::Axes::Rulers))
+            .map_err(|e| to_py(py, e))?;
+        let (out, bytes) = self.with_ds_opt(py, true, |ds| {
+            let info = ds.info()?;
+            let rendered = pv::render(ds, &info, &req)?;
+            pv::finish(&rendered, encoding, pv::DEFAULT_JPEG_QUALITY)
+        })?;
+        Ok((
+            serde_json::to_string(&out).map_err(json_err)?,
+            PyBytes::new(py, &bytes),
+        ))
+    }
+    /// Measurements on one plane (`stats --line/--polygon/--objects --json` data) as JSON.
+    /// `objects` is the JSON of the object-count options, or `None` for no count.
+    #[pyo3(signature = (image=None, select=Vec::new(), level=0, region=None, line=None, line_width=None, polygon=None, objects=None))]
+    #[allow(clippy::too_many_arguments)]
+    fn measure_json(
+        &self,
+        py: Python<'_>,
+        image: Option<u32>,
+        select: Vec<String>,
+        level: u32,
+        region: Option<(u32, u32, u32, u32)>,
+        line: Option<[f64; 4]>,
+        line_width: Option<u32>,
+        polygon: Option<Vec<[f64; 2]>>,
+        objects: Option<String>,
+    ) -> PyResult<String> {
+        use openreadout_core::measure::{MeasureRequest, ObjectsRequest, measure};
+        let objects = objects
+            .map(|o| request::<ObjectsRequest>(&o))
+            .transpose()?;
+        let req = MeasureRequest {
+            image,
+            select,
+            level,
+            region: region.map(|(x, y, w, h)| Region::new(x, y, w, h)),
+            line,
+            line_width,
+            polygon,
+            objects,
+        };
+        if !req.any() {
+            return Err(PyValueError::new_err(
+                "give line, polygon or objects to measure",
+            ));
+        }
+        let out = self.with_ds_opt(py, true, |ds| {
+            let info = ds.info()?;
+            measure(ds, &info, &req)
+        })?;
+        serde_json::to_string(&out).map_err(json_err)
+    }
     /// `info --view full --json` data: the summary with per-frame records, the vendor metadata
     /// tree (with `vendor`) and the provenance map, as a JSON string.
     fn full_json(&self, py: Python<'_>, vendor: bool) -> PyResult<String> {
@@ -1150,12 +1216,78 @@ fn link_json(py: Python<'_>, request_json: String) -> PyResult<String> {
     serde_json::to_string(&out).map_err(json_err)
 }
 
+/// A drawn figure: render it as PNG, SVG or PDF as often as needed without reading the data
+/// again.
+#[pyclass(module = "openreadout._native")]
+struct NativeFigure {
+    figure: openreadout_figure::Figure,
+    summary: String,
+}
+
+#[pymethods]
+impl NativeFigure {
+    /// What was drawn (`plot --json` data) as JSON.
+    #[getter]
+    fn summary_json(&self) -> &str {
+        &self.summary
+    }
+    /// Width and height in figure units (PNG pixels at scale 1).
+    #[getter]
+    #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+    fn size(&self) -> (u32, u32) {
+        (
+            self.figure.width.round() as u32,
+            self.figure.height.round() as u32,
+        )
+    }
+    /// PNG bytes at `scale` (2 for a sharp picture on high-density screens).
+    #[pyo3(signature = (scale=1.0))]
+    fn png<'py>(&self, py: Python<'py>, scale: f32) -> PyResult<Bound<'py, PyBytes>> {
+        if !(scale.is_finite() && (0.1..=4.0).contains(&scale)) {
+            return Err(PyValueError::new_err(format!(
+                "scale must be between 0.1 and 4, not {scale}"
+            )));
+        }
+        let bytes = py
+            .detach(|| self.figure.to_png(scale))
+            .map_err(|e| to_py(py, e))?;
+        Ok(PyBytes::new(py, &bytes))
+    }
+    /// SVG document text (text stays text).
+    fn svg(&self, py: Python<'_>) -> String {
+        py.detach(|| self.figure.to_svg())
+    }
+    /// A one-page vector PDF.
+    fn pdf<'py>(&self, py: Python<'py>) -> Bound<'py, PyBytes> {
+        let bytes = py.detach(|| openreadout_plot::to_pdf(&self.figure));
+        PyBytes::new(py, &bytes)
+    }
+}
+
+/// A figure from a plot spec (the arguments of the `openreadout_plot` MCP tool, as JSON). When
+/// the spec has `output`, that file is written and verified too.
+#[pyfunction]
+fn plot(py: Python<'_>, spec_json: String) -> PyResult<NativeFigure> {
+    let v: serde_json::Value = request(&spec_json)?;
+    let p = py
+        .detach(|| {
+            let spec = openreadout_plot::parse_spec(v)?;
+            openreadout_plot::run(&registry(), &spec)
+        })
+        .map_err(|e| to_py(py, e))?;
+    Ok(NativeFigure {
+        summary: serde_json::to_string(&p.output).map_err(json_err)?,
+        figure: p.figure,
+    })
+}
+
 #[pymodule]
 fn _native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(batch_json, m)?)?;
     m.add_function(wrap_pyfunction!(summarize_json, m)?)?;
     m.add_function(wrap_pyfunction!(link_json, m)?)?;
     m.add_class::<NativeFile>()?;
+    m.add_class::<NativeFigure>()?;
     m.add_function(wrap_pyfunction!(open, m)?)?;
     m.add_function(wrap_pyfunction!(open_bytes, m)?)?;
     m.add_function(wrap_pyfunction!(open_fileobj, m)?)?;
@@ -1165,6 +1297,7 @@ fn _native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(formats_json, m)?)?;
     m.add_function(wrap_pyfunction!(analyze_json, m)?)?;
     m.add_function(wrap_pyfunction!(export_rdml_json, m)?)?;
+    m.add_function(wrap_pyfunction!(plot, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
 }

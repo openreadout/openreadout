@@ -12,6 +12,7 @@ from typing import (
     Any,
     Dict,
     List,
+    Mapping,
     Optional,
     Sequence,
     Tuple,
@@ -24,6 +25,7 @@ import numpy as np
 
 from . import _native
 from ._errors import UsageError
+from ._figure import Preview
 from ._types import CheckReport, Experiment, ExportReport, FileInfo, ImageInfo, LsEntry, Source
 
 if TYPE_CHECKING:  # optional dependencies, imported lazily at call time
@@ -252,7 +254,7 @@ class File:
     def stats(
         self,
         image: Optional[int] = None,
-        select: Sequence[str] = (),
+        select: Union[str, Sequence[str]] = (),
         level: int = 0,
         region: Optional[Tuple[int, int, int, int]] = None,
         bins: int = 0,
@@ -261,6 +263,10 @@ class File:
         mip: Optional[str] = None,
         per: Optional[str] = None,
         wells: Sequence[str] = (),
+        line: Optional[Sequence[float]] = None,
+        line_width: Optional[int] = None,
+        polygon: Optional[Sequence[Sequence[float]]] = None,
+        objects: Union[bool, Mapping[str, Any], None] = None,
     ) -> Dict[str, Any]:
         """Pixel statistics, the same JSON as ``openreadout stats --json`` (its ``data``):
         ``planes`` (per plane; omitted with ``per_plane=False``), ``channels`` (per image ×
@@ -276,7 +282,30 @@ class File:
         ``max``, ``median``, ``p1``, ``p99``, ``planes``, ``planes_missing``, ...), one per
         (well, channel), or per (well, field, channel) with ``per="field"``. ``select`` and
         ``wells`` (well names such as ``"C05"``) narrow them. Planes never acquired are left
-        out; missing plane files are skipped and counted."""
+        out; missing plane files are skipped and counted.
+
+        ``line``, ``polygon`` and ``objects`` measure one plane instead (``stats --line``,
+        ``--polygon``, ``--objects``), in the pixels of ``level``:
+
+        - ``line=(x0, y0, x1, y1)``: the intensity ``profile`` along the line per channel (min,
+          max and where, mean, FWHM, the samples), ``line_width`` pixels wide;
+        - ``polygon=[(x, y), ...]``: the ``roi`` inside it (area, mean, std, median, min, max,
+          sum per channel);
+        - ``objects=True`` (or a dict of ``threshold``, ``polarity`` ``"bright"``/``"dark"``,
+          ``smooth``, ``min_area_px``, ``max_objects``, ``component``, ``split``): counts
+          nuclei, cells or spots in ``region`` or the whole plane, with their areas and
+          centroids.
+
+        Areas and lengths are also given in µm when the pixel size is known."""
+        if isinstance(select, str):
+            select = [select]
+        counting = objects is not None and objects is not False
+        if line is not None or polygon is not None or counting:
+            if per is not None or wells or mip is not None or bins:
+                raise UsageError(
+                    "line, polygon and objects measure one plane: drop per, wells, mip and bins"
+                )
+            return self._measure(image, select, level, region, line, line_width, polygon, objects)
         if per is not None:
             if per not in ("well", "field"):
                 raise UsageError(f"per must be 'well' or 'field', not {per!r}")
@@ -304,6 +333,72 @@ class File:
             )
         )
         return out
+
+    def _measure(
+        self,
+        image: Optional[int],
+        select: Sequence[str],
+        level: int,
+        region: Optional[Tuple[int, int, int, int]],
+        line: Optional[Sequence[float]],
+        line_width: Optional[int],
+        polygon: Optional[Sequence[Sequence[float]]],
+        objects: Union[bool, Mapping[str, Any], None],
+    ) -> Dict[str, Any]:
+        if line is not None and len(line) != 4:
+            raise UsageError("line is (x0, y0, x1, y1)")
+        verts = None
+        if polygon is not None:
+            verts = [(float(p[0]), float(p[1])) for p in polygon]
+            if len(verts) < 3:
+                raise UsageError("polygon needs at least three (x, y) vertices")
+        objects_json = None
+        if objects is not None and objects is not False:
+            objects_json = json.dumps({} if objects is True else dict(objects))
+        return cast(
+            Dict[str, Any],
+            json.loads(
+                self._n.measure_json(
+                    image,
+                    list(select),
+                    level,
+                    None if region is None else (region[0], region[1], region[2], region[3]),
+                    None
+                    if line is None
+                    else (float(line[0]), float(line[1]), float(line[2]), float(line[3])),
+                    line_width,
+                    verts,
+                    objects_json,
+                )
+            ),
+        )
+
+    def preview(self, *, format: str = "png", **options: Any) -> Preview:
+        """A picture of the file (``openreadout preview``), as the agent tool
+        ``openreadout_preview`` draws it: an image plane (with rulers in file pixels and a scale
+        bar), a trace or chromatogram with its largest peaks labelled, a mass spectrum, a plate
+        heat map or a grid of growth curves in plate positions, or a flow-cytometry density
+        plot. Shows itself in Jupyter.
+
+        ``format`` is ``"png"``, ``"jpeg"`` or ``"svg"``. The options are those of
+        ``openreadout_preview``: ``image``, ``select`` (``"c=1"``, ``["c=0,1", "z=4"]``),
+        ``mip`` (``"z"``/``"t"``), ``composite``, ``level``, ``region`` (``(x, y, width,
+        height)`` or a dict), ``max_size`` (default 1024), ``axes`` (``"rulers"``, ``"grid"``,
+        ``"none"``), ``contrast``, ``lut``, ``trace``, ``sweep``, ``channels``, ``run``,
+        ``spectrum``, ``scan``, ``centroid``, ``table``, ``columns``, ``marks`` (``"auto"``,
+        ``"peaks"``, ``"spikes"``, ``"none"``), ``annotations`` and ``dark``.
+
+        ``annotations`` is a list of dicts drawn on top in the picture's own coordinates
+        (file pixels on images, axis units on plots, wells on plates), e.g.
+        ``{"type": "point", "x": 812, "y": 440, "label": "Purkinje layer"}``; types are point,
+        box, polygon, line, arrow, text, vline, hline, vband, hband and well.
+        :attr:`Preview.annotations` says where each one landed.
+        """
+        if "region" in options and isinstance(options["region"], (tuple, list)):
+            x, y, w, h = options["region"]
+            options["region"] = {"x": x, "y": y, "width": w, "height": h}
+        meta, data = self._n.preview(_options_json(options), format)
+        return Preview(cast(Dict[str, Any], json.loads(meta)), bytes(data))
 
     @property
     def experiment(self) -> Optional[Experiment]:
