@@ -176,7 +176,14 @@ pub(crate) fn raster(fig: &Figure, scale: f32) -> Raster {
 }
 
 fn draw_image(pm: &mut Pixmap, rect: Rect, r: &Raster, smooth: bool, k: f32) {
-    if r.width == 0 || r.height == 0 || rect.w <= 0.0 || rect.h <= 0.0 {
+    // `Raster` fields are public, so a raster may hold fewer bytes than its size says
+    let needed = u64::from(r.width) * u64::from(r.height) * 3;
+    if r.width == 0
+        || r.height == 0
+        || rect.w <= 0.0
+        || rect.h <= 0.0
+        || (r.rgb.len() as u64) < needed
+    {
         return;
     }
     let (x, y) = (rect.x * k, rect.y * k);

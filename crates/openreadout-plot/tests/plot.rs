@@ -145,7 +145,7 @@ fn inline_values_and_every_output_format() {
         ("pdf", b"%PDF"),
     ] {
         let path = d.path().join(format!("f.{ext}"));
-        let w = write(&p.figure, &path, &SaveOptions::default()).unwrap();
+        let w = write(&p.figure, &path, &SaveOptions::default(), &[]).unwrap();
         assert!(w.verified && FileFormat::from_name(ext).unwrap().as_str() == w.format);
         let bytes = std::fs::read(&path).unwrap();
         assert!(
@@ -153,7 +153,7 @@ fn inline_values_and_every_output_format() {
             "{ext}"
         );
         // never over an existing file without overwrite
-        assert!(write(&p.figure, &path, &SaveOptions::default()).is_err());
+        assert!(write(&p.figure, &path, &SaveOptions::default(), &[]).is_err());
     }
     let (svg, ..) = encode(&p.figure, FileFormat::Svg, &SaveOptions::default()).unwrap();
     assert!(String::from_utf8_lossy(&svg).contains("IFNγ+"));
@@ -258,4 +258,125 @@ fn misplaced_keys_say_where_they_go() {
         e.contains("panels[0].data[1]") && e.contains("`title`"),
         "{e}"
     );
+}
+
+/// One-element lists written as the element alone (R's `auto_unbox`) are read as lists.
+#[test]
+fn single_values_where_lists_go() {
+    let spec = parse_spec(json!({
+        "data": {"values": {"x": "a", "y": 2.5, "error": 0.1, "labels": "only"}, "mark": "bars"},
+        "column_labels": "dose",
+        "row_labels": "row",
+    }))
+    .unwrap();
+    let v = spec.panel.data.as_ref().unwrap().to_vec()[0]
+        .values
+        .clone()
+        .unwrap();
+    assert_eq!(
+        (v.x.len(), v.y, v.error, v.labels.len()),
+        (1, vec![2.5], vec![0.1], 1)
+    );
+    assert_eq!(spec.panel.column_labels, vec!["dose".to_string()]);
+    plot(&Registry::new(), &spec).unwrap();
+    let spec = parse_spec(
+        json!({"data": {"table": "t.csv", "x": "a", "y": "b", "where": "a=1", "groups": "g"}}),
+    )
+    .unwrap();
+    let s = &spec.panel.data.as_ref().unwrap().to_vec()[0];
+    assert_eq!((s.where_.len(), s.groups.len()), (1, 1));
+}
+
+/// Lists are deduplicated and capped, the data read is budgeted, and text that would leave no
+/// room for the plots is refused, each with a usage error.
+#[test]
+fn limits_on_lists_points_and_text() {
+    let d = tempfile::tempdir().unwrap();
+    let f = plate(d.path());
+    let usage = |v: serde_json::Value| {
+        let e = parse_spec(v)
+            .and_then(|s| plot(&Registry::new(), &s))
+            .map(|_| ())
+            .unwrap_err();
+        assert_eq!(e.exit_code(), 2, "{e}");
+        e.to_string()
+    };
+    // a file named 200 times is read once
+    let p = plot(
+        &Registry::new(),
+        &parse_spec(json!({"data": {"file": vec![f.clone(); 200]}})).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(p.output.files.len(), 1);
+    let many: Vec<String> = (0..200).map(|i| format!("{f}{i}")).collect();
+    assert!(usage(json!({"data": {"file": many}})).contains("over the limit"));
+    let sweeps: Vec<u32> = (0..500).collect();
+    assert!(usage(json!({"data": {"file": f, "sweep": sweeps}})).contains("over the limit"));
+    let n = 4_000_000;
+    let x: Vec<f64> = (0..n).map(f64::from).collect();
+    let big = json!({"x": x, "y": x});
+    let e = usage(
+        json!({"data": [{"values": big}, {"values": big}, {"values": big}, {"values": big}]}),
+    );
+    assert!(e.contains("data points"), "{e}");
+    let panels: Vec<_> = (0..30)
+        .map(|_| json!({"data": {"values": {"x": [1], "y": [1]}}}))
+        .collect();
+    assert!(usage(json!({"panels": panels})).contains("panels"));
+    let anns: Vec<_> = (0..600)
+        .map(|i| json!({"x": i, "y": 1, "label": "a"}))
+        .collect();
+    assert!(
+        usage(json!({"data": {"values": {"x": [1], "y": [1]}}, "annotate": anns}))
+            .contains("annotations")
+    );
+    let words = "word ".repeat(20_000);
+    assert!(
+        usage(json!({"data": {"values": {"x": [1], "y": [1]}}, "caption": words}))
+            .contains("caption")
+    );
+    assert!(
+        usage(json!({"data": {"values": {"x": [1], "y": [1]}}, "title": "t".repeat(400)}))
+            .contains("title")
+    );
+    // a caption that fits the limit but not a short figure
+    let e = usage(
+        json!({"data": {"values": {"x": [1], "y": [1]}}, "caption": "word ".repeat(390), "width": 320, "height": 200}),
+    );
+    assert!(e.contains("no room"), "{e}");
+    // long words wrap quickly
+    let t = std::time::Instant::now();
+    let caption = vec!["x".repeat(390); 5].join(" ");
+    plot(
+        &Registry::new(),
+        &parse_spec(
+            json!({"data": {"values": {"x": [1], "y": [1]}}, "caption": caption, "height": 1500}),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert!(t.elapsed().as_secs() < 10, "{:?}", t.elapsed());
+}
+
+/// A figure is never saved over one of the files it was drawn from.
+#[test]
+fn a_figure_never_replaces_its_input() {
+    let d = tempfile::tempdir().unwrap();
+    let f = plate(d.path());
+    let spec = parse_spec(json!({"data": {"file": f}})).unwrap();
+    let inputs = spec.input_files();
+    assert_eq!(inputs, vec![std::path::PathBuf::from(&f)]);
+    let p = plot(&Registry::new(), &spec).unwrap();
+    let o = SaveOptions {
+        overwrite: true,
+        ..SaveOptions::default()
+    };
+    // the plate file renamed to look like a figure, reached through `..`
+    let png = d.path().join("plate.png");
+    std::fs::copy(&f, &png).unwrap();
+    let dotted = d.path().join("x/../plate.png");
+    let refs: Vec<&Path> = vec![png.as_path()];
+    let e = write(&p.figure, &dotted, &o, &refs).unwrap_err();
+    assert_eq!(e.exit_code(), 2, "{e}");
+    assert_eq!(std::fs::read(&png).unwrap(), std::fs::read(&f).unwrap());
 }

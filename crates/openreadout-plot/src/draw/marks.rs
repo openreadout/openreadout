@@ -343,12 +343,12 @@ pub(crate) fn events_layer(
     let bg = theme.paper;
     let mut r = Raster::new(w, h, bg.to_rgb());
     let mut acc: Vec<[f32; 3]> =
-        vec![[f32::from(bg.r), f32::from(bg.g), f32::from(bg.b)]; (w * h) as usize];
+        vec![[f32::from(bg.r), f32::from(bg.g), f32::from(bg.b)]; w as usize * h as usize];
     for s in series {
         let Geom::Events { x, y } = &s.geom else {
             continue;
         };
-        let mut counts = vec![0f32; (w * h) as usize];
+        let mut counts = vec![0f32; w as usize * h as usize];
         for (&a, &b) in x.iter().zip(y) {
             let (Some(px), Some(py)) = (p.x.px(a), p.y.px(b)) else {
                 continue;

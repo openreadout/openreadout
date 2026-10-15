@@ -125,6 +125,42 @@ impl InstrumentServer {
     }
 }
 
+/// Refuse arguments a measurement (line, polygon, objects) would ignore: `ignored` names the
+/// pixel-statistics arguments that are set. A region bounds objects only, and `line_width`
+/// needs a line.
+pub(crate) fn check_measure_args(
+    m: &openreadout_core::measure::MeasureRequest,
+    ignored: &[(&str, bool)],
+    line_width: bool,
+) -> openreadout_core::Result<()> {
+    if !m.any() {
+        if line_width {
+            return Err(Error::Usage(
+                "line_width is the width of a line profile: give line as well".into(),
+            ));
+        }
+        return Ok(());
+    }
+    let set: Vec<&str> = ignored.iter().filter(|x| x.1).map(|x| x.0).collect();
+    if !set.is_empty() {
+        return Err(Error::Usage(format!(
+            "{} apply to pixel statistics, not to line, polygon or objects, which measure one plane: pick the plane with select (`z=4`, `c=1`), or call again without line, polygon and objects",
+            set.join(", ")
+        )));
+    }
+    if m.region.is_some() && m.objects.is_none() {
+        return Err(Error::Usage(
+            "region bounds an objects count; a line or polygon is given in full-plane pixels of level, so drop region".into(),
+        ));
+    }
+    if line_width && m.line.is_none() {
+        return Err(Error::Usage(
+            "line_width is the width of a line profile: give line as well".into(),
+        ));
+    }
+    Ok(())
+}
+
 /// `openreadout_stats` (blocking), reporting planes read to `report`.
 fn stats_blocking(
     reg: &openreadout_core::Registry,
@@ -151,6 +187,17 @@ fn stats_blocking(
         polygon: a.polygon.clone(),
         objects: a.objects.clone(),
     };
+    let ignored = [
+        ("mip", a.mip.is_some()),
+        ("per", a.per != StatsPer::Channel),
+        ("bins", a.bins.is_some()),
+        (
+            "scale",
+            a.scale != openreadout_core::stats::HistogramScale::Linear,
+        ),
+        ("wells", !a.wells.is_empty()),
+    ];
+    check_measure_args(&measure, &ignored, a.line_width.is_some()).map_err(|e| mcp_err(&e))?;
     if measure.any() {
         let out = openreadout_core::measure::measure(ds.as_mut(), &info, &measure)
             .map_err(|e| mcp_err(&e))?;
@@ -190,4 +237,30 @@ fn stats_blocking(
     )
     .map_err(|e| mcp_err(&e))?;
     ok_json(&out)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use openreadout_core::measure::MeasureRequest;
+
+    /// Arguments a measurement would ignore are refused as usage errors.
+    #[test]
+    fn measurements_refuse_arguments_they_ignore() {
+        let line = MeasureRequest {
+            line: Some([0.0, 0.0, 10.0, 10.0]),
+            ..MeasureRequest::default()
+        };
+        let e = check_measure_args(&line, &[("mip", true), ("bins", false)], false).unwrap_err();
+        assert_eq!(e.exit_code(), 2);
+        assert!(e.to_string().contains("mip apply"), "{e}");
+        check_measure_args(&line, &[("mip", false)], true).unwrap();
+        let region = MeasureRequest {
+            region: Some(openreadout_core::Region::new(0, 0, 4, 4)),
+            ..line.clone()
+        };
+        assert!(check_measure_args(&region, &[], false).is_err());
+        assert!(check_measure_args(&MeasureRequest::default(), &[], true).is_err());
+        check_measure_args(&MeasureRequest::default(), &[("mip", true)], false).unwrap();
+    }
 }

@@ -1081,14 +1081,64 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
     }
 }
 
-/// Render a preview (no encoding yet).
-pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Result<Rendered> {
+/// Most annotations one picture takes.
+pub const MAX_ANNOTATIONS: usize = 500;
+/// Most trace channels one picture draws.
+pub const MAX_CHANNELS: usize = 64;
+/// Longest title, in characters.
+pub const MAX_TITLE_CHARS: usize = 300;
+/// Longest caption, in characters.
+pub const MAX_CAPTION_CHARS: usize = 2000;
+
+/// Refuse requests too large to draw: many annotations or channels, long titles and captions.
+fn check_limits(req: &PreviewRequest) -> Result<()> {
     if req.max_size < 16 || req.max_size > MAX_PREVIEW_SIZE {
         return Err(Error::Usage(format!(
             "max size {} is out of range: use 16 to {MAX_PREVIEW_SIZE}",
             req.max_size
         )));
     }
+    let over = |what: &str, n: usize, max: usize, how: &str| {
+        Err(Error::Usage(format!(
+            "{n} {what} are over the limit of {max}; {how}"
+        )))
+    };
+    if req.annotations.len() > MAX_ANNOTATIONS {
+        return over(
+            "annotations",
+            req.annotations.len(),
+            MAX_ANNOTATIONS,
+            "mark the most telling ones, or zoom in with region and annotate each part",
+        );
+    }
+    let mut channels = req.channels.clone();
+    channels.sort_unstable();
+    channels.dedup();
+    if channels.len() > MAX_CHANNELS {
+        return over(
+            "channels",
+            channels.len(),
+            MAX_CHANNELS,
+            "draw fewer channels per picture",
+        );
+    }
+    for (what, text, max) in [
+        ("title", &req.title, MAX_TITLE_CHARS),
+        ("caption", &req.caption, MAX_CAPTION_CHARS),
+    ] {
+        let n = text.as_deref().map_or(0, |t| t.chars().count());
+        if n > max {
+            return Err(Error::Usage(format!(
+                "a {what} of {n} characters is over the limit of {max}; shorten it, and give the full text in your reply"
+            )));
+        }
+    }
+    Ok(())
+}
+
+/// Render a preview (no encoding yet).
+pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Result<Rendered> {
+    check_limits(req)?;
     let k = kind(info, req)?;
     let mut out = PreviewOutput {
         path: info.path.clone(),

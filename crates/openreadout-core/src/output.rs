@@ -14,29 +14,19 @@ use crate::{Error, Result};
 /// The phrase every "output is an input" error carries; the usage hint keys on it.
 pub const OUTPUT_IS_INPUT: &str = "raw files are never modified";
 
-/// True when `a` and `b` name the same file or directory: the same spelling, the same
-/// canonical path, or (on Unix) the same device and inode. Paths that do not exist are equal
-/// only when spelled the same.
+/// True when `a` and `b` name the same file or directory: the same spelling, the same real
+/// path (see [`real_path`]; `missing/../x` is `x`, because writing it creates `missing`), or
+/// (on Unix) the same device and inode.
 pub fn same_file(a: &Path, b: &Path) -> bool {
-    if a == b {
+    if a == b || real_path(a) == real_path(b) {
         return true;
     }
-    let (Ok(ma), Ok(mb)) = (std::fs::metadata(a), std::fs::metadata(b)) else {
-        return false;
-    };
     #[cfg(unix)]
-    {
+    if let (Ok(ma), Ok(mb)) = (std::fs::metadata(a), std::fs::metadata(b)) {
         use std::os::unix::fs::MetadataExt;
-        if ma.dev() == mb.dev() && ma.ino() == mb.ino() {
-            return true;
-        }
+        return ma.dev() == mb.dev() && ma.ino() == mb.ino();
     }
-    #[cfg(not(unix))]
-    let _ = (&ma, &mb);
-    matches!(
-        (std::fs::canonicalize(a), std::fs::canonicalize(b)),
-        (Ok(x), Ok(y)) if x == y
-    )
+    false
 }
 
 /// `p` with symbolic links and `..` resolved, also when `p` does not exist yet: the deepest
@@ -166,7 +156,9 @@ mod tests {
         std::fs::write(&input, b"raw").unwrap();
         let dotted = d.path().join("data/../data/x.ome.tiff");
         let dot = d.path().join("data/./x.ome.tiff");
-        for out in [&input, &dotted, &dot] {
+        // writing through a folder that does not exist yet creates it, then lands on the input
+        let missing = d.path().join("data/new/../x.ome.tiff");
+        for out in [&input, &dotted, &dot, &missing] {
             let e = refuse_inputs(out, [input.as_path()]).unwrap_err();
             assert_eq!(e.exit_code(), 2, "{}", out.display());
             assert!(e.to_string().contains(OUTPUT_IS_INPUT));

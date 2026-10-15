@@ -945,6 +945,13 @@ fn edge_point(r: Rect, x: f32, y: f32) -> (f32, f32) {
 /// Check the annotations make sense before drawing them.
 pub(crate) fn check_annotations(anns: &[Annotation]) -> Result<()> {
     use crate::spec::OneOrMany::{Many, One};
+    if anns.len() > crate::MAX_ANNOTATIONS {
+        return Err(crate::load::usage(format!(
+            "{} annotations are over the limit of {} per panel; mark the most telling ones",
+            anns.len(),
+            crate::MAX_ANNOTATIONS
+        )));
+    }
     for (i, a) in anns.iter().enumerate() {
         let ok = matches!(
             (&a.x, &a.y),

@@ -3,3 +3,7 @@
 SKILL.md text eol=lf
 skills/** text eol=lf
 crates/openreadout-cli/references/** text eol=lf
+crates/openreadout-mcp/src/app/web/*.json text eol=lf
+crates/openreadout-mcp/src/app/web/*.html text eol=lf
+crates/openreadout-mcp/src/app/web/*.css text eol=lf
+crates/openreadout-mcp/src/app/web/*.js text eol=lf

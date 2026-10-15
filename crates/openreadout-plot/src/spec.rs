@@ -28,8 +28,9 @@ impl<T: Clone> OneOrMany<T> {
     }
 }
 
-/// A list that also takes a single value: R's `jsonlite::toJSON(auto_unbox = TRUE)` and agents
-/// both write one-element lists as the element alone.
+/// A list of scalars that also takes a single value: R's `jsonlite::toJSON(auto_unbox = TRUE)`
+/// and agents both write one-element lists as the element alone. (Lists of objects, `panels`
+/// and `annotate`, are lists in R too, and keep serde's error paths.)
 fn one_or_many<'de, D, T>(d: D) -> std::result::Result<Vec<T>, D::Error>
 where
     D: Deserializer<'de>,
@@ -57,8 +58,7 @@ pub struct PlotSpec {
     #[serde(flatten)]
     pub panel: PanelSpec,
     /// Several panels, side by side (see columns); instead of a top-level `data`.
-    #[serde(default, deserialize_with = "one_or_many")]
-    #[schemars(with = "Vec<PanelItem>")]
+    #[serde(default)]
     pub panels: Vec<PanelItem>,
     /// Panels (or facets of a single panel) per row. Default: all panels in one row; facets in
     /// a near-square grid.
@@ -132,8 +132,7 @@ pub struct PanelSpec {
     /// The y axis.
     pub y: Option<AxisSpec>,
     /// Bands, lines, labelled points, arrows and notes, in the units the axes show.
-    #[serde(default, deserialize_with = "one_or_many")]
-    #[schemars(with = "Vec<Annotation>")]
+    #[serde(default)]
     pub annotate: Vec<Annotation>,
     /// How series are named: `direct` labels at the line ends, a `key` row, or `none`. Default
     /// direct when it fits, else key.

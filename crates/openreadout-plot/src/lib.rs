@@ -54,6 +54,8 @@ pub const MAX_PANELS: usize = 24;
 pub const MAX_LIST: usize = 96;
 /// Most data points a figure may hold, over all its series.
 pub const MAX_POINTS: usize = 12_000_000;
+/// Most annotations in one panel.
+pub const MAX_ANNOTATIONS: usize = 500;
 /// Longest title, in characters.
 pub const MAX_TITLE_CHARS: usize = 300;
 /// Longest caption, in characters.
