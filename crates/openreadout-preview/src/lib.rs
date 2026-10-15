@@ -845,8 +845,10 @@ pub struct PreviewOutput {
     /// Marks drawn from the data (labelled peaks, action potentials).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub marks: Vec<DataMark>,
-    /// `marks: objects`: the objects counted in the area shown (the first 20 listed).
+    /// `marks: objects`: the objects counted in the area shown, as `stats` objects (the first
+    /// 20 listed).
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
     pub objects: Option<openreadout_core::measure::Objects>,
     /// The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
