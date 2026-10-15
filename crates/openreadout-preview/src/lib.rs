@@ -1085,7 +1085,7 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
 pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Result<Rendered> {
     if req.max_size < 16 || req.max_size > MAX_PREVIEW_SIZE {
         return Err(Error::Usage(format!(
-            "max size {} out of range (16..={MAX_PREVIEW_SIZE})",
+            "max size {} is out of range: use 16 to {MAX_PREVIEW_SIZE}",
             req.max_size
         )));
     }
@@ -1303,41 +1303,9 @@ pub fn default_output(input: &Path, encoding: Encoding) -> PathBuf {
 
 /// Write `bytes` to `output` through a temporary file that is read back and compared before it is
 /// renamed into place. Refuses to replace an existing file unless `overwrite`, and refuses to
-/// write over the input. Returns `true` (verified).
+/// write over the input however its path is spelled. Returns `true` (verified).
 pub fn write_verified(input: &Path, output: &Path, bytes: &[u8], overwrite: bool) -> Result<bool> {
-    if output == input
-        || (output.exists()
-            && std::fs::canonicalize(output).ok() == std::fs::canonicalize(input).ok())
-    {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
-    if output.exists() && !overwrite {
-        return Err(Error::Usage(format!(
-            "{} exists; pass --overwrite to replace it",
-            output.display()
-        )));
-    }
-    let tmp = output.with_file_name(format!(
-        ".{}.partial-{}",
-        output
-            .file_name()
-            .map_or_else(|| "preview".into(), |s| s.to_string_lossy().to_string()),
-        std::process::id()
-    ));
-    std::fs::write(&tmp, bytes).map_err(|e| Error::io(&tmp, e))?;
-    let same = std::fs::read(&tmp).is_ok_and(|b| b == bytes);
-    if !same {
-        let _ = std::fs::remove_file(&tmp);
-        return Err(Error::Other(
-            "read-back verification failed; preview discarded".into(),
-        ));
-    }
-    std::fs::rename(&tmp, output).map_err(|e| {
-        let _ = std::fs::remove_file(&tmp);
-        Error::io(output, e)
-    })?;
+    openreadout_core::output::write_verified(output, bytes, overwrite, &[input])?;
     Ok(true)
 }
 

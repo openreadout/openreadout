@@ -78,40 +78,19 @@ pub fn to_csv<T: Serialize>(rows: &[T]) -> Result<String> {
     Ok(out)
 }
 
-/// Write `bytes` to `path` via a temporary file, read it back, compare, rename.
-pub fn write_verified(path: &Path, bytes: &[u8], overwrite: bool) -> Result<()> {
-    if path.exists() && !overwrite {
-        return Err(Error::Usage(format!(
-            "{} exists; pass --overwrite to replace it",
-            path.display()
-        )));
-    }
-    if let Some(parent) = path.parent().filter(|p| !p.as_os_str().is_empty()) {
-        std::fs::create_dir_all(parent).map_err(|e| Error::io(parent, e))?;
-    }
-    let name = path
-        .file_name()
-        .map_or_else(|| "out".into(), |n| n.to_string_lossy().into_owned());
-    let tmp = path.with_file_name(format!(".{name}.tmp-{}", std::process::id()));
-    std::fs::write(&tmp, bytes).map_err(|e| Error::io(&tmp, e))?;
-    let back = std::fs::read(&tmp).map_err(|e| Error::io(&tmp, e))?;
-    if back != bytes {
-        let _ = std::fs::remove_file(&tmp);
-        return Err(Error::Other(format!(
-            "{}: read-back differs from what was written",
-            tmp.display()
-        )));
-    }
-    std::fs::rename(&tmp, path).map_err(|e| Error::io(path, e))
-}
-
-/// Write the tidy tables of `out` under `prefix`; returns the paths written.
-pub fn write_tables(out: &AssayOutput, prefix: &Path, overwrite: bool) -> Result<Vec<PathBuf>> {
+/// Write the tidy tables of `out` under `prefix`; returns the paths written. A table path that
+/// is one of `inputs` is refused.
+pub fn write_tables(
+    out: &AssayOutput,
+    prefix: &Path,
+    overwrite: bool,
+    inputs: &[&Path],
+) -> Result<Vec<PathBuf>> {
     let mut written = Vec::new();
     let base = prefix.to_string_lossy().into_owned();
     let mut put = |suffix: &str, text: String| -> Result<()> {
         let p = PathBuf::from(format!("{base}.{suffix}.csv"));
-        write_verified(&p, text.as_bytes(), overwrite)?;
+        openreadout_core::output::write_verified(&p, text.as_bytes(), overwrite, inputs)?;
         written.push(p);
         Ok(())
     };
@@ -410,12 +389,19 @@ mod tests {
     }
 
     #[test]
-    fn verified_write() {
+    fn a_table_never_replaces_an_input() {
         let d = tempfile::tempdir().unwrap();
-        let p = d.path().join("x.csv");
-        write_verified(&p, b"a\n", false).unwrap();
-        assert!(write_verified(&p, b"b\n", false).is_err());
-        write_verified(&p, b"b\n", true).unwrap();
-        assert_eq!(std::fs::read(&p).unwrap(), b"b\n");
+        let mut out = AssayOutput::default();
+        out.wells.push(Default::default());
+        // `run.wells.csv` is the plate file itself, spelled through `..`
+        let input = d.path().join("run.wells.csv");
+        std::fs::write(&input, b"raw").unwrap();
+        let prefix = d.path().join("sub/../run");
+        std::fs::create_dir(d.path().join("sub")).unwrap();
+        let e = write_tables(&out, &prefix, true, &[&input]).unwrap_err();
+        assert_eq!(e.exit_code(), 2);
+        assert_eq!(std::fs::read(&input).unwrap(), b"raw");
+        let w = write_tables(&out, &d.path().join("other"), false, &[&input]).unwrap();
+        assert_eq!(w.len(), 1);
     }
 }

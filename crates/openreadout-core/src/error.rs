@@ -13,6 +13,10 @@ fn usage_hint(message: &str) -> &'static str {
         "Name the output with the extension of the format you want (.ome.tiff, .ome.zarr, .mzML, .csv, .parquet, .arrow, .nwb, .jdx, .asm.json, .rdml), or set the format explicitly."
     } else if m.contains("--overwrite") {
         "Choose another output path, or pass --overwrite to replace that file (the input is never modified)."
+    } else if m.contains(crate::output::OUTPUT_IS_INPUT) {
+        "Choose an output path that is not one of the input files; OpenReadout writes new files next to the raw data and never replaces it."
+    } else if m.contains("out of range: use") {
+        "Use a value inside the range the message gives."
     } else if m.contains("select") {
         "Selections are zero-based and repeatable: `c=0`, `z=1-3`, `t=0,2`; `openreadout info FILE --json` gives each image's size_c, size_z and size_t."
     } else if [

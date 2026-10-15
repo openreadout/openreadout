@@ -267,11 +267,7 @@ pub fn export(
     output: &Path,
     opts: &CsvOptions,
 ) -> Result<CsvReport> {
-    if output == input {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
+    openreadout_core::output::refuse_dataset(output, input, &*ds)?;
     let info = ds.info()?;
     let wants_trace = opts.table.is_none() && (opts.trace.is_some() || opts.sweep.is_some());
     if !info.traces.is_empty() && (info.tables.is_empty() || wants_trace) {

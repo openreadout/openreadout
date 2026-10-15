@@ -370,6 +370,7 @@ pub(super) fn trace(
         let n_sw = (openreadout_core::trace::sweep_samples(&t, sw) as usize)
             .max(usize::from(n_total != 0));
         let n_read = n_sw.min(MAX_SAMPLES);
+        ctx.spend(n_read.saturating_mul(channels.len().max(1)))?;
         if n_sw > MAX_SAMPLES {
             ctx.warnings.push(format!(
                 "{}: sweep {sw} has {n_sw} samples; drew the first {MAX_SAMPLES} (set x_range to choose a window)",

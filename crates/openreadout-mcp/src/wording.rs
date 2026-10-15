@@ -3,6 +3,9 @@
 //! calling tools needs the tool and argument names instead (`openreadout_trace` with
 //! `sweep: N`, `overwrite: true`).
 
+use std::collections::{BTreeMap, BTreeSet};
+use std::sync::OnceLock;
+
 /// Rewrite the notes and warnings of a tool result (`notes`, `warnings`, `note`, `hint`, `next`
 /// anywhere in its JSON) in tool words, keeping its text block the same JSON.
 pub fn result_notes(result: &mut rmcp::model::CallToolResult) {
@@ -90,9 +93,65 @@ fn bare_flags(s: &str) -> String {
     out
 }
 
-/// One quoted command line (after `openreadout `) as a tool call.
+/// The argument names of every tool, from the tool input schemas.
+fn tool_args() -> &'static BTreeMap<String, BTreeSet<String>> {
+    static ARGS: OnceLock<BTreeMap<String, BTreeSet<String>>> = OnceLock::new();
+    ARGS.get_or_init(|| {
+        crate::tools::router()
+            .list_all()
+            .into_iter()
+            .map(|t| {
+                let mut names = BTreeSet::new();
+                properties(
+                    &serde_json::Value::Object((*t.input_schema).clone()),
+                    &mut names,
+                );
+                (t.name.to_string(), names)
+            })
+            .collect()
+    })
+}
+
+/// The property names of a schema, including those of the schemas it combines.
+fn properties(schema: &serde_json::Value, out: &mut BTreeSet<String>) {
+    if let Some(p) = schema.get("properties").and_then(|p| p.as_object()) {
+        out.extend(p.keys().cloned());
+    }
+    for k in ["allOf", "anyOf", "oneOf"] {
+        for s in schema
+            .get(k)
+            .and_then(|v| v.as_array())
+            .into_iter()
+            .flatten()
+        {
+            properties(s, out);
+        }
+    }
+}
+
+/// A command-line flag whose tool argument has another name.
+fn renamed(tool: &str, flag: &str) -> Option<&'static str> {
+    Some(match (tool, flag) {
+        ("openreadout_chromatogram", "trace") => "traces",
+        ("openreadout_index", "output") => "index_dir",
+        _ => return None,
+    })
+}
+
+/// Positional arguments of a command line that are a tool argument (most name the file, which
+/// the agent already has).
+fn positional(tool: &str) -> Option<&'static str> {
+    match tool {
+        "openreadout_index" => Some("roots"),
+        _ => None,
+    }
+}
+
+/// One quoted command line (after `openreadout `) as a tool call. A command no tool runs, or
+/// one with a flag no tool argument matches, stays as the command line.
 fn command(cmd: &str) -> String {
     let words: Vec<&str> = cmd.split_whitespace().collect();
+    let as_cli = || format!("`openreadout {cmd}`");
     let Some(&first) = words.first() else {
         return "`openreadout`".into();
     };
@@ -120,14 +179,17 @@ fn command(cmd: &str) -> String {
         }
         ("self", Some("formats")) => return "the `openreadout://formats` resource".into(),
         ("help", _) => return "the tool's input schema".into(),
-        ("self" | "mcp" | "--version", _) => return format!("`openreadout {cmd}`"),
-        (c, _) if c.starts_with('-') => return format!("`openreadout {cmd}`"),
+        (c, _) if c.starts_with('-') => return as_cli(),
         (c, _) => (
             format!("openreadout_{}", c.replace('-', "_")),
             Vec::new(),
             &words[1..],
         ),
     };
+    let Some(known) = tool_args().get(&tool) else {
+        return as_cli();
+    };
+    let mut positionals = Vec::new();
     let mut i = 0;
     while i < rest.len() {
         let w = rest[i];
@@ -138,6 +200,10 @@ fn command(cmd: &str) -> String {
             Some("json" | "jsonl") => {}
             Some(n) => {
                 let n = n.replace('-', "_");
+                let n = renamed(&tool, &n).map_or(n, str::to_string);
+                if !known.contains(&n) {
+                    return as_cli();
+                }
                 match rest.get(i + 1) {
                     Some(v) if !v.starts_with('-') => {
                         args.push(format!("{n}: {v}"));
@@ -146,9 +212,15 @@ fn command(cmd: &str) -> String {
                     _ => args.push(format!("{n}: true")),
                 }
             }
+            None if !w.starts_with('-') => positionals.push(w),
             None => {}
         }
         i += 1;
+    }
+    if let Some(p) = positional(&tool)
+        && !positionals.is_empty()
+    {
+        args.insert(0, format!("{p}: [{}]", positionals.join(", ")));
     }
     if args.is_empty() {
         format!("`{tool}`")
@@ -187,6 +259,75 @@ mod tests {
             for_tools("a range 1--2 and `x --y`"),
             "a range 1--2 and `x --y`"
         );
+    }
+
+    /// Commands no tool runs stay command lines; flags take the tool's argument names.
+    #[test]
+    fn rewrites_name_real_tools_and_arguments() {
+        assert_eq!(
+            for_tools("see `openreadout planes FILE --dump-dir DIR`"),
+            "see `openreadout planes FILE --dump-dir DIR`"
+        );
+        assert_eq!(
+            for_tools("`openreadout analyze chromatogram --trace N`"),
+            "`openreadout_chromatogram` with `traces: N`"
+        );
+        assert_eq!(
+            for_tools("`openreadout index DIR -o INDEX_DIR`"),
+            "`openreadout_index` with `roots: [DIR], index_dir: INDEX_DIR`"
+        );
+        assert_eq!(
+            for_tools("`openreadout export-dataset`"),
+            "`openreadout export-dataset`"
+        );
+    }
+
+    /// Every command line quoted in the source, rewritten, names a tool that exists and
+    /// arguments of that tool (or stays a command line).
+    #[test]
+    fn every_rewritten_hint_names_a_real_tool_and_arguments() {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+        let mut quoted = std::collections::BTreeSet::new();
+        let mut dirs = vec![root];
+        while let Some(d) = dirs.pop() {
+            for e in std::fs::read_dir(&d).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() && !p.ends_with("target") && !p.ends_with("tests") {
+                    dirs.push(p);
+                } else if p.extension().is_some_and(|x| x == "rs") {
+                    let text = std::fs::read_to_string(&p).unwrap();
+                    for part in text.split('`').skip(1).step_by(2) {
+                        if part.starts_with("openreadout ") && !part.contains('\n') {
+                            quoted.insert(part.to_string());
+                        }
+                    }
+                }
+            }
+        }
+        assert!(quoted.len() > 50, "{}", quoted.len());
+        let args = super::tool_args();
+        for q in &quoted {
+            let out = for_tools(&format!("`{q}`"));
+            let Some(rest) = out.strip_prefix("`openreadout_") else {
+                continue;
+            };
+            let (tool, rest) = rest.split_once('`').unwrap();
+            let tool = format!("openreadout_{tool}");
+            let known = args
+                .get(&tool)
+                .unwrap_or_else(|| panic!("{q} -> {out}: no tool {tool}"));
+            if let Some(list) = rest.strip_prefix(" with `") {
+                let list = list.trim_end_matches('`');
+                for arg in list.split(", ").filter_map(|a| a.split_once(": ")) {
+                    let name = arg.0.trim_start_matches('[');
+                    assert!(
+                        known.contains(name)
+                            || !name.chars().all(|c| c.is_ascii_lowercase() || c == '_'),
+                        "{q} -> {out}: {tool} has no argument {name}"
+                    );
+                }
+            }
+        }
     }
 
     #[test]

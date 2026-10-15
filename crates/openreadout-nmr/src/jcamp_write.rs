@@ -557,6 +557,7 @@ pub fn export_jcamp(
     output: &Path,
     opts: &JcampExportOptions,
 ) -> Result<JcampExportReport> {
+    openreadout_core::output::refuse_dataset(output, input, &*ds)?;
     let info = ds.info()?;
     let exp = openreadout_core::experiment::of_dataset(&*ds, &info);
     if info.traces.is_empty() {

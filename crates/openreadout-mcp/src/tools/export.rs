@@ -198,12 +198,21 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
             })
         })
         .transpose()?;
+    // the files the figure is drawn from, which the saved figure must not replace
+    let mut inputs: Vec<PathBuf> = Vec::new();
     let (figure, default_path, drawn, notes, warnings) = match (&a.plot, &a.preview) {
         (Some(p), None) => {
             let v = lift_output(p, &mut output, &mut overwrite);
             check_name(output.as_deref(), named)?;
             let spec = openreadout_plot::parse_spec(v).map_err(|e| mcp_err(&e))?;
+            inputs = spec.input_files();
+            refuse_inputs(output.as_deref(), &inputs)?;
             let p = super::plot::draw(registry, &spec)?;
+            if output.is_none() && p.output.files.is_empty() {
+                return Err(usage(
+                    "this plot reads no file, so there is no folder to save it next to: give output (a .png, .svg or .pdf path)".into(),
+                ));
+            }
             let path = super::plot::default_figure_path(&p.output.files);
             (
                 p.figure,
@@ -228,6 +237,8 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
             }
             let args: super::preview::PreviewArgs =
                 serde_json::from_value(v).map_err(|e| usage(format!("preview: {e}")))?;
+            inputs.push(PathBuf::from(&args.file));
+            refuse_inputs(output.as_deref(), &inputs)?;
             let max = openreadout_preview::MAX_PREVIEW_SIZE;
             // a saved picture is for people: a scale bar, no rulers, unless axes says otherwise
             let axes = openreadout_preview::Axes::ScaleBar;
@@ -259,7 +270,8 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
         },
         PathBuf::from,
     );
-    let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite))
+    let inputs: Vec<&Path> = inputs.iter().map(PathBuf::as_path).collect();
+    let written = openreadout_plot::write(&figure, &path, &opts(scale, overwrite), &inputs)
         .map_err(|e| mcp_err(&e))?;
     let value = to_value(&FigureExport {
         written,
@@ -268,6 +280,18 @@ fn export_figure(registry: fn() -> Registry, a: ExportArgs) -> Result<Exported, 
         warnings,
     })?;
     Ok((value, Some(shown(&figure)?)))
+}
+
+/// Refuse an output that is one of the inputs, before anything is read or drawn.
+fn refuse_inputs(output: Option<&str>, inputs: &[PathBuf]) -> Result<(), McpError> {
+    match output {
+        Some(o) => openreadout_core::output::refuse_inputs(
+            Path::new(o),
+            inputs.iter().map(PathBuf::as_path),
+        )
+        .map_err(|e| mcp_err(&e)),
+        None => Ok(()),
+    }
 }
 
 /// Longest side of the picture of a saved figure returned to the agent.
@@ -409,11 +433,7 @@ fn export_open(
     let output = a.output.as_ref().map(PathBuf::from);
     let usage = |m: &str| mcp_err(&Error::Usage(m.to_string()));
     let check_out = |o: &PathBuf| {
-        if *o == input {
-            Err(usage("output must differ from the input"))
-        } else {
-            Ok(())
-        }
+        openreadout_core::output::refuse_dataset(o, &input, &*ds).map_err(|e| mcp_err(&e))
     };
     match format {
         "nwb" => {
@@ -490,9 +510,7 @@ fn export_columnar(
         let info = ds.info().map_err(|e| mcp_err(&e))?;
         openreadout_arrow::default_output(input, &info, &o)
     };
-    if out == input {
-        return Err(usage("output must differ from the input".into()));
-    }
+    openreadout_core::output::refuse_dataset(&out, input, &*ds).map_err(|e| mcp_err(&e))?;
     let mut wrapped;
     let ds: &mut dyn openreadout_core::reader::Dataset = match progress {
         Some(p) => {
@@ -676,11 +694,7 @@ fn export_data(
         },
         PathBuf::from,
     );
-    if output == input {
-        return Err(mcp_err(&Error::Usage(
-            "output must differ from the input".into(),
-        )));
-    }
+    openreadout_core::output::refuse_dataset(&output, &input, &*ds).map_err(|e| mcp_err(&e))?;
     let total = progress::planes_to_export(&info, a.image, &a.select);
     let mut wrapped;
     let dsr: &mut dyn openreadout_core::reader::Dataset = match &notifier {

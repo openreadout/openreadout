@@ -480,6 +480,7 @@ pub fn export_ome_tiff_with(
     opts: &ExportOptions,
     ctx: &ReadContext<'_>,
 ) -> Result<ExportReport> {
+    openreadout_core::output::refuse_dataset(output, input, &*ds)?;
     if output.exists() && !opts.overwrite {
         return Err(Error::Usage(format!(
             "{} exists; pass --overwrite to replace it",

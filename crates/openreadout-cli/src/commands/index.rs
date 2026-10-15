@@ -385,9 +385,14 @@ pub fn health(a: &HealthArgs) -> i32 {
         Err(e) => return fail(a.json, &e),
     };
     if let Some(p) = &a.output
-        && let Err(e) = std::fs::write(p, render_markdown(&h))
+        && let Err(e) = openreadout_core::output::write_verified(
+            p,
+            render_markdown(&h).as_bytes(),
+            true,
+            &[a.index.as_path()],
+        )
     {
-        return fail(a.json, &openreadout_core::Error::io(p, e));
+        return fail(a.json, &e);
     }
     emit(a.json, &h, render_markdown)
 }

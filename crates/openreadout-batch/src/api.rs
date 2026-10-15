@@ -354,6 +354,7 @@ pub fn run_summarize(a: SummarizeToolArgs) -> Result<SummarizeToolOutput> {
                 grain: summary.group_by.clone(),
             },
             a.overwrite,
+            &[std::path::Path::new(&a.table)],
         )?),
         None => None,
     };

@@ -51,33 +51,7 @@ pub(crate) struct FigureLayout {
 /// Lines of `text` at most `max_w` pixels wide, broken at spaces; the last kept line ends in
 /// `…` when lines are dropped.
 pub(crate) fn wrap(text: &str, face: Face, size: f32, max_w: f32, max_lines: usize) -> Vec<String> {
-    let mut lines: Vec<String> = Vec::new();
-    let mut cur = String::new();
-    for word in text.split_whitespace() {
-        let trial = if cur.is_empty() {
-            word.to_string()
-        } else {
-            format!("{cur} {word}")
-        };
-        if !cur.is_empty() && text_width(&trial, face, size) > max_w {
-            lines.push(std::mem::replace(&mut cur, word.to_string()));
-        } else {
-            cur = trial;
-        }
-    }
-    if !cur.is_empty() {
-        lines.push(cur);
-    }
-    if lines.len() > max_lines {
-        lines.truncate(max_lines);
-        if let Some(last) = lines.last_mut() {
-            while !last.is_empty() && text_width(&format!("{last} …"), face, size) > max_w {
-                last.pop();
-            }
-            last.push_str(" …");
-        }
-    }
-    lines
+    openreadout_figure::wrap_text(text, face, size, max_w, max_lines)
 }
 
 fn line_h(fs: f32) -> f32 {

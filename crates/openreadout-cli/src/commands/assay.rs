@@ -3,7 +3,7 @@
 //! replicates, standard curves, dose-response, kinetics, growth curves and assay quality
 //! (crate `openreadout-assay`, book/src/guides/plate-analysis.md).
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use openreadout_assay::fit::{Model, Weighting};
 use openreadout_assay::{
@@ -377,15 +377,23 @@ pub fn run(reg: &Registry, command: &AssayCommand) -> i32 {
         let mut req = req;
         req.roles = role_map(common).map_err(Error::Usage)?;
         let mut out = openreadout_assay::analyze_file(reg, &common.file, &req)?;
+        let inputs: Vec<&Path> = std::iter::once(common.file.as_path())
+            .chain(common.layout.as_deref())
+            .collect();
         if let Some(prefix) = &common.csv {
-            for p in openreadout_assay::write_tables(&out, prefix, common.overwrite)? {
+            for p in openreadout_assay::write_tables(&out, prefix, common.overwrite, &inputs)? {
                 out.written.push(p.display().to_string());
             }
         }
         if let Some(png) = &plot {
             match openreadout_assay::render_plot(&out)? {
                 Some((bytes, notes)) => {
-                    openreadout_assay::write_verified(png, &bytes, common.overwrite)?;
+                    openreadout_core::output::write_verified(
+                        png,
+                        &bytes,
+                        common.overwrite,
+                        &inputs,
+                    )?;
                     out.written.push(png.display().to_string());
                     out.notes.extend(notes);
                 }

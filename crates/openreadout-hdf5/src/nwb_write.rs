@@ -242,6 +242,7 @@ pub fn export_nwb(
     output: &Path,
     opts: &NwbExportOptions,
 ) -> Result<NwbExportReport> {
+    openreadout_core::output::refuse_dataset(output, input, &*ds)?;
     let info = ds.info()?;
     let experiment = openreadout_core::experiment::of_dataset(&*ds, &info);
     if info.traces.is_empty() {

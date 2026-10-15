@@ -289,19 +289,12 @@ fn save_figure(
         .output
         .clone()
         .unwrap_or_else(|| default_output(&a.file, Encoding::Png));
-    if output == a.file
-        || std::fs::canonicalize(&output).ok() == std::fs::canonicalize(&a.file).ok()
-    {
-        return Err(Error::Usage(
-            "output path must differ from the input; raw files are never modified".into(),
-        ));
-    }
     let opts = openreadout_plot::SaveOptions {
         scale,
         dpi: a.dpi,
         overwrite: a.overwrite,
     };
-    let w = openreadout_plot::write(&r.figure, &output, &opts)?;
+    let w = openreadout_plot::write(&r.figure, &output, &opts, &[a.file.as_path()])?;
     let mut out = r.output.clone();
     out.encoding = w.format.clone();
     out.width = w.width;

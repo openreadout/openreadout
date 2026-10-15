@@ -87,6 +87,7 @@ pub mod limits;
 pub mod live;
 pub mod measure;
 pub mod model;
+pub mod output;
 pub mod parallel;
 pub mod pixel;
 pub mod plate;
