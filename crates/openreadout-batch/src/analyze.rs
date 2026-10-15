@@ -119,7 +119,8 @@ pub struct GateOptions {
     #[serde(default)]
     pub table: u32,
     /// Parameters whose median over each population's events is reported under
-    /// populations[].medians (`$PnN` or `$PnS`; `Comp-NAME` for compensated values).
+    /// populations[].medians (`$PnN` or `$PnS`; `Comp-NAME` for compensated values), or
+    /// `["all"]`: every parameter a gate uses, compensated as the gate reads it.
     #[serde(default)]
     pub medians: Vec<String>,
 }

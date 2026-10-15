@@ -325,6 +325,44 @@ fn median_params(
         .map(|s| s.matrix_prefix.as_str())
         .filter(|p| !p.is_empty())
         .unwrap_or("Comp-");
+    // `all`: every parameter a gate uses (except time), compensated as the gate reads it
+    if wanted.len() == 1 && wanted[0].trim().eq_ignore_ascii_case("all") {
+        let mut seen: Vec<String> = Vec::new();
+        for pop in &strategy.populations {
+            for d in &pop.dimensions {
+                let crate::gating::DimensionSource::Parameter(p) = &d.source else {
+                    continue;
+                };
+                if p.eq_ignore_ascii_case("time") || find(p).is_none() {
+                    continue;
+                }
+                let name = match d.compensation {
+                    crate::gating::CompensationRef::Uncompensated => p.clone(),
+                    _ => format!("{prefix}{p}"),
+                };
+                if !seen.contains(&name) {
+                    seen.push(name);
+                }
+            }
+        }
+        let mut out = Vec::new();
+        for name in seen {
+            let one = median_params(
+                std::slice::from_ref(&name),
+                names,
+                labels,
+                sample,
+                strategy,
+                file_m,
+            )
+            .or_else(|_| {
+                let raw = name.strip_prefix(prefix).unwrap_or(&name).to_string();
+                median_params(&[raw], names, labels, sample, strategy, file_m)
+            })?;
+            out.extend(one);
+        }
+        return Ok(out);
+    }
     let mut out = Vec::new();
     for w in wanted.iter().flat_map(|w| w.split(',')).map(str::trim) {
         if w.is_empty() {

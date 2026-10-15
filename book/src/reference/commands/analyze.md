@@ -256,7 +256,7 @@ Without an FCS file, the gating file is described (samples, compensation, transf
 - `--gatingml XML`: Gating-ML 2.0 document.
 - `--sample NAME`: workspace sample. Default: the sample whose name or file matches FILE.
 - `--population PATH`: report only this population and its descendants. Repeatable.
-- `--median PARAMETER`: report each population's median of this parameter (`Comp-NAME` for compensated values). Repeatable or comma-separated.
+- `--median PARAMETER`: report each population's median of this parameter (`Comp-NAME` for compensated values). Repeatable or comma-separated. `--median all` reports every parameter a gate uses, compensated as the gate reads it.
 - `--table N`: FCS data set index. Default 0.
 
 Several FCS files, a directory or a glob give one table with a row per file and population. `gate` takes the flags in [Several inputs](index.md#several-inputs) and the [batch table flags](batch.md#batch-table-flags).
