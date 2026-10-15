@@ -19,7 +19,7 @@ openreadout analyze <SUBCOMMAND> [OPTIONS] <FILE>...
 | `assay-curve` | `openreadout_assay_curve` | a standard curve and back-calculated concentrations | [Plate analysis](../../guides/plate-analysis.md) |
 | `dose-response` | `openreadout_dose_response` | IC50/EC50 per compound | [Plate analysis](../../guides/plate-analysis.md) |
 | `kinetics` | `openreadout_kinetics` | per-well rates of a kinetic read | [Plate analysis](../../guides/plate-analysis.md) |
-| `growth` | `openreadout_growth` | growth rate and doubling time per well | [Plate analysis](../../guides/plate-analysis.md) |
+| `growth` | `openreadout_growth` | growth rate, doubling time, crash and regrowth per well | [Plate analysis](../../guides/plate-analysis.md) |
 | `assay-qc` | `openreadout_assay_qc` | Z′ and other plate quality metrics | [Plate analysis](../../guides/plate-analysis.md) |
 
 Every subcommand takes `--json`. The guides describe the methods and how they were validated. To run any of these over many files as one table, use [`batch`](batch.md).

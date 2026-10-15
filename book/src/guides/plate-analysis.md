@@ -174,7 +174,7 @@ Each entry of `compounds[]` has:
 
 ## Growth curves
 
-`analyze growth` computes per well after background correction. The background is the blank wells per time point when there are blanks, else the well's own minimum, as in growthcurver.
+`analyze growth` computes per well after background correction. The background is the blank wells per time point when there are blanks, else the well's own minimum, as in growthcurver. `--wells` (MCP `wells`) narrows the wells reported, and the layout's blank wells outside it are still subtracted; a note names them.
 
 | field | meaning |
 | --- | --- |
@@ -184,6 +184,13 @@ Each entry of `compounds[]` has:
 | `lag_time_s` | where the µmax line crosses the starting level |
 | `logistic_k`, `logistic_r_per_h`, `logistic_n0`, `logistic_doubling_time_h` | a least-squares fit of the logistic curve N(t) = K / (1 + ((K − N0)/N0) e^(−rt)), the model growthcurver fits |
 | `max_value`, `time_to_max_s`, `auc_h` | as named; area in value × hours |
+| `pattern` | `grew`, `no_growth`, `crashed` (fell to half its height above its lowest value, by at least 5 noise SDs, and stayed down) or `regrew` (fell, then rose again by half the fall and 10 noise SDs). Measured on a running median, so single noisy reads do not count |
+| `crash_s`, `crash_value` | the high point before the fall: the decline starts there (0 when the values fall from the first read) |
+| `trough_s`, `trough_value` | the lowest point after the fall |
+| `regrowth_s` | when growth restarts: the lag time of the part after the trough |
+| `exp_phase_after_crash` | the exponential phase above is the regrowth, so the rate and doubling time are those of the cells that came back |
+
+`growth_summary` lists the wells of each pattern and the smallest, median and largest crash and regrowth times, so "how many infected wells came back, and when" is one call.
 
 The two rates answer different questions. µmax is the steepest exponential growth seen. The logistic r belongs to the best-fitting logistic curve and is smaller when the growth is not logistic. Say which one you report.
 

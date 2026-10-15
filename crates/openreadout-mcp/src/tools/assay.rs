@@ -252,7 +252,7 @@ impl InstrumentServer {
         name = "openreadout_growth",
         annotations(title = "Growth curves", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = object_output::<openreadout_assay::AssayOutput>(),
-        description = "Plate-reader growth curves (OD over time): per well the maximum growth rate and doubling time from the exponential phase, lag time, and a logistic fit (K, r, N0)."
+        description = "Plate-reader growth curves (OD over time): per well the maximum growth rate and doubling time from the exponential phase, lag time, a logistic fit (K, r, N0), and whether it grew, crashed or regrew (crash and regrowth times); growth_summary lists the wells of each pattern."
     )]
     pub(crate) async fn growth(
         &self,
