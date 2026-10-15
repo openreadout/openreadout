@@ -118,7 +118,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_batch",
         annotations(title = "Measure many files", read_only_hint = false, destructive_hint = true, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_batch::BatchOutput>(),
+        output_schema = crate::tools::output_schema::<openreadout_batch::BatchOutput>(),
         description = "One measure over many files as one tidy table, optionally joined to sample sheets or plate maps (the join key is chosen from the data and reported in joins[] with unmatched rows) and summarized by group (by; test against a control). Analyses (peaks, chromatogram, nmr-peaks, ephys-features, spikes, qpcr, gate, assay) take the arguments of their tools as options. Inputs (paths): files, directories, globs or an index query. Returns at most limit rows (page with offset; output writes them all to a file); a failing file is a row with error. openreadout_summarize regroups a table written by an earlier output."
     )]
     pub(crate) async fn batch(
@@ -158,7 +158,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_summarize",
         annotations(title = "Summarize a table by group", read_only_hint = false, destructive_hint = true, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<batch::SummarizeToolOutput>(),
+        output_schema = crate::tools::output_schema::<batch::SummarizeToolOutput>(),
         description = "Group statistics of a table written by an earlier openreadout_batch output (or any CSV, TSV, JSON Lines, JSON or Parquet table): n, mean, sd, sem, median, min, max and CV % per group of `by`, optionally averaging replicates first and testing every group against a control."
     )]
     pub(crate) async fn summarize(
@@ -175,7 +175,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_link",
         annotations(title = "Link files of the same sample", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_batch::LinkOutput>(),
+        output_schema = crate::tools::output_schema::<openreadout_batch::LinkOutput>(),
         description = "Groups files that measured the same sample across instruments and formats (sample id, barcode, plate well + plate, a conversion naming its source, the same acquisition or the same spectra), from headers; every link has its evidence and a confidence (high/medium/low; links below min_confidence are listed in weak_links)."
     )]
     pub(crate) async fn link(

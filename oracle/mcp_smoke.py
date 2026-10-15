@@ -20,7 +20,8 @@ all four annotation hints (readOnlyHint, destructiveHint, idempotentHint, openWo
 expected values, that every tool except openreadout_export declares an outputSchema, lists and
 reads resources and resource templates, renders every prompt, and calls every tool at least once
 over the given files (exports, attachments and report bundles go to a temporary directory; image
-exports are sent a progressToken and must report progress). Over HTTP it also checks that a
+exports are sent a progressToken and must report progress). Every structured result is checked
+against its tool's outputSchema, as Claude Code does. Over HTTP it also checks that a
 browser Origin, a foreign Host and a missing bearer token are refused. A second session declares
 MCP Apps (the io.modelcontextprotocol/ui extension) and checks the viewer: the ui:// page, the
 tools that point at it, and openreadout_view over every file, within its size caps. Exits non-zero
@@ -57,7 +58,7 @@ EXPECTED_TOOLS = {
     "openreadout_assay",
     "openreadout_export", "openreadout_batch", "openreadout_link", "openreadout_index",
     "openreadout_search", "openreadout_health", "openreadout_watch", "openreadout_extract",
-    "openreadout_summarize",
+    "openreadout_summarize", "openreadout_plot",
 }
 
 
@@ -556,6 +557,87 @@ def write_fcs(path):
     open(path, "wb").write(header + t + data)
 
 
+# Output schemas from tools/list, by tool name. Clients such as Claude Code check every result
+# against its tool's outputSchema and report a mismatch as an error, so every structured result
+# this script receives is checked the same way.
+OUTPUT_SCHEMAS = {}
+
+
+def schema_errors(v, s, root, path="", out=None):
+    """Where `v` breaks JSON Schema `s` (the subset schemars writes), as a list of strings."""
+    out = [] if out is None else out
+    if s is True or s is None or len(out) > 20:
+        return out
+    if s is False:
+        out.append(f"{path or '/'}: not allowed")
+        return out
+    if "$ref" in s:
+        node = root
+        for part in s["$ref"].lstrip("#/").split("/"):
+            node = node[part]
+        schema_errors(v, node, root, path, out)
+    t = s.get("type")
+    if t is not None:
+        kinds = t if isinstance(t, list) else [t]
+
+        def is_kind(k):
+            return {"null": v is None, "boolean": isinstance(v, bool), "object": isinstance(v, dict),
+                    "array": isinstance(v, list), "string": isinstance(v, str),
+                    "integer": (isinstance(v, int) and not isinstance(v, bool))
+                    or (isinstance(v, float) and v.is_integer()),
+                    "number": isinstance(v, (int, float)) and not isinstance(v, bool)}[k]
+        if not any(is_kind(k) for k in kinds):
+            out.append(f"{path or '/'}: {json.dumps(v)[:60]} is not {t}")
+            return out
+    if "enum" in s and v not in s["enum"]:
+        out.append(f"{path or '/'}: {json.dumps(v)[:60]} not in {s['enum']}")
+    if "const" in s and v != s["const"]:
+        out.append(f"{path or '/'}: {json.dumps(v)[:60]} is not {s['const']!r}")
+    if isinstance(v, (int, float)) and not isinstance(v, bool):
+        if "minimum" in s and v < s["minimum"]:
+            out.append(f"{path}: {v} < {s['minimum']}")
+        if "maximum" in s and v > s["maximum"]:
+            out.append(f"{path}: {v} > {s['maximum']}")
+    for sub in s.get("allOf", []):
+        schema_errors(v, sub, root, path, out)
+    for key in ("anyOf", "oneOf"):
+        if key in s:
+            ok = sum(not schema_errors(v, sub, root, path) for sub in s[key])
+            if ok == 0 or (key == "oneOf" and ok > 1):
+                out.append(f"{path or '/'}: matches {ok} of the {key} schemas")
+    if isinstance(v, dict):
+        props = s.get("properties", {})
+        for k in s.get("required", []):
+            if k not in v:
+                out.append(f"{path}/{k}: required but absent")
+        for k, x in v.items():
+            if k in props:
+                schema_errors(x, props[k], root, f"{path}/{k}", out)
+            elif "additionalProperties" in s:
+                schema_errors(x, s["additionalProperties"], root, f"{path}/{k}", out)
+    if isinstance(v, list):
+        prefix = s.get("prefixItems", [])
+        for i, x in enumerate(v):
+            sub = prefix[i] if i < len(prefix) else s.get("items")
+            if sub is not None:
+                schema_errors(x, sub, root, f"{path}/{i}", out)
+    return out
+
+
+def checked(method, params, m):
+    """Note the output schemas from tools/list; check a tool result against its schema."""
+    res = m.get("result") or {}
+    if method == "tools/list":
+        for t in res.get("tools", []):
+            if "outputSchema" in t:
+                OUTPUT_SCHEMAS[t["name"]] = t["outputSchema"]
+    elif method == "tools/call" and "structuredContent" in res and not res.get("isError"):
+        schema = OUTPUT_SCHEMAS.get(params["name"])
+        if schema is not None:
+            errs = schema_errors(res["structuredContent"], schema, schema)
+            check(not errs, f"{params['name']}: result does not match its outputSchema: {errs[:5]}")
+    return m
+
 
 class Stdio:
     def __init__(self, binary):
@@ -578,7 +660,7 @@ class Stdio:
                 fail(f"server closed; stderr: {self.p.stderr.read()[:2000]}")
             m = json.loads(line)
             if m.get("id") == self.seq and "method" not in m:
-                return m, notes
+                return checked(method, params, m), notes
             notes.append(m)
 
     def notify(self, method, params=None):
@@ -632,7 +714,7 @@ class Http:
             self.session = r.headers["Mcp-Session-Id"]
         notes = []
         if r.headers.get("Content-Type", "").startswith("application/json"):
-            return json.loads(r.read()), notes
+            return checked(method, params, json.loads(r.read())), notes
         for raw in r:  # server-sent events
             line = raw.decode().rstrip("\r\n")
             if not line.startswith("data:"):
@@ -643,7 +725,7 @@ class Http:
             m = json.loads(data)
             if m.get("id") == self.seq and "method" not in m:
                 r.close()
-                return m, notes
+                return checked(method, params, m), notes
             notes.append(m)
         fail(f"no response to {method}")
 
@@ -905,6 +987,12 @@ def per_file(c, path, tmp, called):
     if info.get("traces"):
         t = result_json(call("openreadout_trace", {"file": path, "max_samples": 3})[0], "trace")
         print(f"trace: {t['sample_count']} samples, {len(t['channels'])} channels")
+        r = call("openreadout_plot", {"data": {"file": path}, "title": "smoke"})[0]
+        called.add("openreadout_plot")
+        fig = result_json(r, "plot")
+        img = [x for x in r["result"]["content"] if x["type"] == "image"]
+        check(len(img) == 1 and fig["panels"], f"plot: {len(img)} images, {fig.get('panels')}")
+        check_image(img[0]["data"], img[0]["mimeType"], "plot")
         fam = info["format"]["family"]
         if fam == "chromatography":
             ch = result_json(analyze("chromatogram", traces=[0])[0], "chromatogram")

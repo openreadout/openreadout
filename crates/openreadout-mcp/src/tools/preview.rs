@@ -159,7 +159,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_preview",
         annotations(title = "Draw a picture of the data", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = rmcp::handler::server::common::schema_for_output::<openreadout_preview::PreviewOutput>(),
+        output_schema = crate::tools::output_schema::<openreadout_preview::PreviewOutput>(),
         description = "A picture of the data as image content plus what was drawn: an image plane (default channel 0, middle z), a composite, a max projection (mip=z), a region (only the tiles needed are read), a trace or spectrum plot (largest peaks labelled; marks=spikes marks action potentials), a plate heat map or, for kinetic reads, per-well growth curves coloured by layout group, or a flow-cytometry density plot. Image pictures carry rulers in full-resolution pixels and a µm scale bar, so a region read off the rulers zooms in. annotations draw your own labelled points, boxes, outlines, arrows, lines and bands in the picture's coordinates, to show the user what you found."
     )]
     pub(crate) async fn preview(

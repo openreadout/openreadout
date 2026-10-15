@@ -20,7 +20,7 @@ use rmcp::{ErrorData as McpError, RoleServer, tool, tool_router};
 use serde::{Deserialize, Deserializer};
 use serde_json::{Map, Value};
 
-use super::object_output;
+use super::output_schema;
 use crate::{InstrumentServer, mcp_err, to_value, with_strict};
 
 /// The arguments of an analysis tool: `file`, `strict`, and the analysis's options `Q` at the
@@ -134,7 +134,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_peaks",
         annotations(title = "Find and integrate peaks", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_quant::analyze::PeaksOutput>(),
+        output_schema = output_schema::<openreadout_quant::analyze::PeaksOutput>(),
         description = "Detect and integrate peaks: chromatograms (detector traces, TIC, XIC, SRM) with retention time, area, height, widths, tailing, plates, resolution, S/N and area % (purity); one peak near rt; a compound list; bands and regions of IR, Raman, UV-Vis and NMR spectra (x_range, integrate). Takes the openreadout_chromatogram arguments to choose the signal."
     )]
     pub(crate) async fn peaks(
@@ -148,7 +148,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_chromatogram",
         annotations(title = "Extract chromatograms", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_quant::extract::ChromatogramOutput>(),
+        output_schema = output_schema::<openreadout_quant::extract::ChromatogramOutput>(),
         description = "Chromatograms from mass spectra and detector signals: TIC, BPC, extracted-ion (mz with ppm or da), SRM/MRM transitions, stored chromatograms and UV/DAD/FID/TCD traces (traces). Per chromatogram: apex time and intensity, integral, and thinned arrays. Answers 'when does m/z X elute'."
     )]
     pub(crate) async fn chromatogram(
@@ -170,7 +170,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_nmr_peaks",
         annotations(title = "Find NMR peaks and integrals", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_signal::nmr::NmrReport>(),
+        output_schema = output_schema::<openreadout_signal::nmr::NmrReport>(),
         description = "NMR peak list (ppm, height, width, S/N) and integrals of given regions or of every multiplet (auto_integrate), from the vendor's processed spectrum or a spectrum processed from the FID (from=fid: group delay, apodization, zero filling, FT, phase, baseline)."
     )]
     pub(crate) async fn nmr_peaks(
@@ -192,7 +192,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_ephys_features",
         annotations(title = "Measure patch-clamp features", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_signal::ephys::CellReport>(),
+        output_schema = output_schema::<openreadout_signal::ephys::CellReport>(),
         description = "Patch-clamp features: action potentials per sweep, rheobase, f-I slope, input resistance, membrane time constant, capacitance, sag; in voltage clamp, holding current and access resistance."
     )]
     pub(crate) async fn ephys_features(
@@ -214,7 +214,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_spikes",
         annotations(title = "Detect extracellular spikes", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_signal::ephys::SpikesReport>(),
+        output_schema = output_schema::<openreadout_signal::ephys::SpikesReport>(),
         description = "Extracellular spike detection per channel: band-pass, threshold at K x MAD noise, spike counts, rates and times."
     )]
     pub(crate) async fn spikes(
@@ -228,7 +228,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_qpcr",
         annotations(title = "Analyse a qPCR run", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_qpcr::QpcrReport>(),
+        output_schema = output_schema::<openreadout_qpcr::QpcrReport>(),
         description = "Real-time PCR (RDML, .eds, .rex, ...): one record per well and target with sample, task, Cq and Tm; compute_cq recomputes Cq, ddcq gives 2^-ΔΔCq fold changes, standard_curve fits efficiency per target."
     )]
     pub(crate) async fn qpcr(
@@ -242,7 +242,7 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_gate",
         annotations(title = "Count gated populations", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = object_output::<openreadout_core::flow::GateOutput>(),
+        output_schema = output_schema::<openreadout_core::flow::GateOutput>(),
         description = "Flow-cytometry gating from a FlowJo workspace (workspace) or Gating-ML 2.0 file (gatingml): the event count, percentage and medians of every population of the FCS file. Without workspace or gatingml, file is the gating file and the answer describes its samples and gate tree."
     )]
     pub(crate) async fn gate(
