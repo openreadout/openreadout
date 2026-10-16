@@ -5,7 +5,7 @@
 use openreadout_core::measure::{Kind, MeasureRequest, Objects, ObjectsRequest, measure};
 use openreadout_core::{Dataset, FileInfo, Region, Result};
 use openreadout_figure::{
-    Anchor, Baseline, Color, Face, Figure, Path, Pill, Rect, Stroke, TextStyle,
+    Anchor, Baseline, Color, Face, Figure, Layer, Path, Pill, Rect, Stroke, TextStyle,
 };
 
 use crate::{Frame, PreviewOutput, PreviewRequest};
@@ -122,39 +122,41 @@ pub(crate) fn draw(
     let width = (theme.hairline() * 1.6).max(1.2);
     let rim = Stroke::new(Color::rgb(255, 255, 255).alpha(0.55), width + 1.6).round();
     let screen_d = objs.expected_diameter_px * fx / map.per_pixel.0;
-    for ob in &objs.objects {
-        let color = if ob.edge { muted } else { accent };
-        let path = if objs.kind == Kind::Spots || ob.outline.len() < 3 {
-            let (cx, cy) = to_fig(ob.x, ob.y);
-            Path::circle(cx, cy, ((screen_d / 2.0) as f32).max(3.0))
-        } else {
-            Path::polygon(ob.outline.iter().map(|p| to_fig(p[0], p[1])))
-        };
-        if !path_near(&path, area) {
-            continue;
-        }
-        fig.stroke(path.clone(), rim.clone());
-        let mut st = Stroke::new(color, width).round();
-        if ob.edge {
-            st = st.dashed(width * 3.0, width * 2.0);
-        }
-        fig.stroke(path, st);
-    }
-    // numbers, when they fit
-    let count = objs.objects.len();
-    if count <= MAX_NUMBERED && screen_d >= 14.0 {
-        let fs = (theme.small_size() * 0.9).max(9.0);
-        let st = TextStyle::new(fs, Color::rgb(29, 31, 36))
-            .face(Face::Mono)
-            .align(Anchor::Middle, Baseline::Middle)
-            .halo(Color::rgb(255, 255, 255).alpha(0.85), (fs * 0.22).max(2.0));
+    fig.group(Layer::Annotation, "objects", |fig| {
         for ob in &objs.objects {
-            let (cx, cy) = to_fig(ob.x, ob.y);
-            if area.contains(cx, cy) {
-                fig.text(cx, cy, &ob.id.to_string(), &st);
+            let color = if ob.edge { muted } else { accent };
+            let path = if objs.kind == Kind::Spots || ob.outline.len() < 3 {
+                let (cx, cy) = to_fig(ob.x, ob.y);
+                Path::circle(cx, cy, ((screen_d / 2.0) as f32).max(3.0))
+            } else {
+                Path::polygon(ob.outline.iter().map(|p| to_fig(p[0], p[1])))
+            };
+            if !path_near(&path, area) {
+                continue;
+            }
+            fig.stroke(path.clone(), rim.clone());
+            let mut st = Stroke::new(color, width).round();
+            if ob.edge {
+                st = st.dashed(width * 3.0, width * 2.0);
+            }
+            fig.stroke(path, st);
+        }
+        // numbers, when they fit
+        let count = objs.objects.len();
+        if count <= MAX_NUMBERED && screen_d >= 14.0 {
+            let fs = (theme.small_size() * 0.9).max(9.0);
+            let st = TextStyle::new(fs, Color::rgb(29, 31, 36))
+                .face(Face::Mono)
+                .align(Anchor::Middle, Baseline::Middle)
+                .halo(Color::rgb(255, 255, 255).alpha(0.85), (fs * 0.22).max(2.0));
+            for ob in &objs.objects {
+                let (cx, cy) = to_fig(ob.x, ob.y);
+                if area.contains(cx, cy) {
+                    fig.text(cx, cy, &ob.id.to_string(), &st);
+                }
             }
         }
-    }
+    });
     // the count, top left of the picture (bare pictures, as the viewer shows, go without)
     let caption = caption(&objs);
     let fs = theme.font_size;
@@ -167,7 +169,9 @@ pub(crate) fn draw(
     if req.axes {
         let (w, h) = pill.size(&caption);
         let r = Rect::new(area.x + 6.0, area.y + 6.0, w.min(area.w - 12.0), h);
-        pill.draw(fig, r, &caption);
+        fig.group(Layer::Annotation, "object count", |fig| {
+            pill.draw(fig, r, &caption);
+        });
     }
     // the JSON: the summary and the first objects, in full-resolution pixels
     for ob in &mut objs.objects {

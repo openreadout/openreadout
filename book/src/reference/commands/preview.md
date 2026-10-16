@@ -29,6 +29,8 @@ The same request on the same file always gives the same bytes.
 - `--overwrite`: replace an existing output file.
 - `--json`: print the report as JSON.
 
+An SVG preview is layered for editing, like one from [`plot`](plot.md): the image, the rulers or axes, each series, the scale bar, the annotations and the caption are named groups that drawing programs show as layers.
+
 ### Images
 
 - `--image N`: image index. Default 0.
@@ -77,7 +79,7 @@ openreadout preview cell.abf --sweep 10 --marks spikes -o sweep10.png
 
 ## Zooming into large images
 
-Image previews have rulers along the top and left edges in full-resolution pixel coordinates, whatever level was drawn. Read coordinates off the picture and pass them back as `--region X,Y,W,H` to zoom in. `preview` then reads the coarsest pyramid level that still shows the region at `--max-size`, so zooming into any part of a whole-slide image reads only a few tiles. The JSON report maps picture pixels back to source pixels (`image.plot_area`, `source_origin`, `source_per_pixel`).
+Image previews have rulers along the top and left edges in full-resolution pixel coordinates, even when a coarser pyramid level was drawn. Read coordinates off the picture and pass them back as `--region X,Y,W,H` to zoom in. `preview` then reads the coarsest pyramid level that still shows the region at `--max-size`, so zooming into any part of a whole-slide image reads only a few tiles. The JSON report maps picture pixels back to source pixels (`image.plot_area`, `source_origin`, `source_per_pixel`).
 
 ## Kinetic plates
 

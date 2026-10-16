@@ -191,7 +191,7 @@ openreadout export '$input_name'
     <help><![CDATA[
 **What it does**
 
-Converts a raw instrument file to an open format, without the vendor's software:
+Converts a raw instrument file to an open format, without vendor software:
 
 - **OME-TIFF**: images (CZI, ND2, LIF, OIR, VSI, whole-slide TIFF, ...) as BigTIFF with OME-XML
   metadata; pyramidal and tiled when the source has a pyramid.

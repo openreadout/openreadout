@@ -8,6 +8,8 @@ openreadout plot [OPTIONS] <SPEC>
 
 `SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG, JPEG or TIFF (at twice the pixel size unless `--scale` says otherwise), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place. `plot` refuses an output that is one of the files the figure reads (or the spec file), however the path is spelled: through `..`, a symbolic link or a hard link.
 
+An SVG is layered for editing. Each panel, series (its line, band and markers together), axis, grid, annotation, key, title and caption is a named group, so Inkscape and Illustrator open the figure as layers, and a web page can style one series with `.series[data-series="NAME"]`. Ids end in a short code made from the figure, so two figures on one HTML page don't clash.
+
 ## Flags
 
 - `-o`, `--output FILE`: `.png`, `.jpg`, `.tiff`, `.svg` or `.pdf`. Required.

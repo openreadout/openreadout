@@ -6,7 +6,7 @@
 use openreadout_core::model::FileInfo;
 use openreadout_core::reader::Dataset;
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Domain, Figure, GridLines, LabelPlacer, Panel, Rect, Stroke,
+    Anchor, AxesSpec, Baseline, Domain, Figure, GridLines, LabelPlacer, Layer, Panel, Rect, Stroke,
     TextStyle, superscript,
 };
 use openreadout_signal::nmr::{self, NmrRequest, PeakOptions};
@@ -138,21 +138,25 @@ pub(crate) fn render(
         panel_h,
     );
     let panel = Panel::new(rect, x_dom, y_dom);
-    fig.text(
-        fs * 0.8,
-        fs * 1.4,
-        &caption,
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            fs * 0.8,
+            fs * 1.4,
+            &caption,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     panel.axes(&mut fig, &theme, &spec);
     if y_dom.lo < 0.0 {
         panel.rule_y(&mut fig, 0.0, Stroke::new(theme.rule, theme.hairline()));
     }
-    panel.line_px(
-        &mut fig,
-        envelope_points(&cols, &panel),
-        Stroke::new(theme.ink, theme.line_width * 0.85),
-    );
+    fig.group(Layer::Series, "spectrum", |fig| {
+        panel.line_px(
+            fig,
+            envelope_points(&cols, &panel),
+            Stroke::new(theme.ink, theme.line_width * 0.85),
+        );
+    });
 
     // peaks: one label per multiplet, at its tallest line, tallest multiplets first
     let (peaks, _sd) = nmr::pick_peaks(&s.real[..n], &ax, &PeakOptions::default());
