@@ -1,6 +1,8 @@
 {
  "id": "pydicom-data-gdcm-us-aloka-16",
  "file": "gdcm-US-ALOKA-16.dcm",
+ "size": 873140,
+ "sha256": "f1a2d5f7c4ffe87dc589b12738084099fe44a436f6980f5d7e96a026ad356d65",
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [
@@ -13,8 +15,8 @@
    "size_t": 1,
    "pixel_type": "uint16",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 382.6530650258064,
+    "y": 382.6530650258064
    },
    "planes": [
     {

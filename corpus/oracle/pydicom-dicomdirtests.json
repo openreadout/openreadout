@@ -1,6 +1,7 @@
 {
  "id": "pydicom-dicomdirtests",
  "file": "pydicom-dicomdirtests",
+ "size": 207880,
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [
@@ -13,8 +14,8 @@
    "size_t": 1,
    "pixel_type": "float",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 100.0,
+    "y": 100.0
    },
    "planes": [
     {
@@ -35,8 +36,8 @@
    "size_t": 1,
    "pixel_type": "float",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 100.0,
+    "y": 100.0
    },
    "planes": [
     {
@@ -57,8 +58,8 @@
    "size_t": 1,
    "pixel_type": "float",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 100.0,
+    "y": 100.0
    },
    "planes": [
     {

@@ -89,6 +89,23 @@ def _is_dicom(q: Path) -> bool:
     return head[128:132] == b"DICM"
 
 
+def _fallback_spacing(ds):
+    """Row and column spacing in mm when Pixel Spacing is absent: Imager Pixel Spacing
+    (projection radiography), else the first ultrasound region calibrated in cm both ways."""
+    v = getattr(ds, "ImagerPixelSpacing", None)
+    if v and len(v) >= 2 and float(v[0]) > 0 and float(v[1]) > 0:
+        return [float(v[0]), float(v[1])]
+    for r in getattr(ds, "SequenceOfUltrasoundRegions", None) or []:
+        try:
+            if int(r.PhysicalUnitsXDirection) == 3 and int(r.PhysicalUnitsYDirection) == 3:
+                dx, dy = float(r.PhysicalDeltaX), float(r.PhysicalDeltaY)
+                if dx > 0 and dy > 0:
+                    return [dy * 10.0, dx * 10.0]
+        except AttributeError:
+            continue
+    return None
+
+
 def _fg(ds, f, seq, attr=None):
     """A functional-group item (per frame first, then shared)."""
     for top in ("PerFrameFunctionalGroupsSequence", "SharedFunctionalGroupsSequence"):
@@ -331,6 +348,7 @@ def dicom(p: Path) -> dict:
             out = "uint8" if int(ds0.RedPaletteColorLookupTableDescriptor[2]) <= 8 else "uint16"
         sp = _fg(ds0, 0, "PixelMeasuresSequence", "PixelSpacing")
         spacing = sp.PixelSpacing if sp is not None else getattr(ds0, "PixelSpacing", None)
+        spacing = spacing or _fallback_spacing(ds0)
         img = {"index": len(images), "size_x": int(ds0.Columns), "size_y": int(ds0.Rows), "size_z": sz, "size_c": sc, "size_t": st,
                "pixel_type": out, "physical_size_um": {"x": um(spacing[1]) if spacing else None, "y": um(spacing[0]) if spacing else None},
                "planes": []}
@@ -455,6 +473,15 @@ def paravision(p: Path) -> dict:
             raw_fg = [raw_fg]
         fg = [(int(x[0]), str(x[1]).strip("<>")) for x in raw_fg]
         nframes = frames.shape[-1]
+        if np.iscomplexobj(frames) and any(n == "FG_COMPLEX" for _, n in fg):
+            # brukerapi folds the real and imaginary frame group into complex values. Unfold
+            # it: the other groups keep their order, and FG_COMPLEX index 0 is real, 1 imaginary.
+            k = next(i for i, (_, n) in enumerate(fg) if n == "FG_COMPLEX")
+            rest = [c for i, (c, _) in enumerate(fg) if i != k]
+            split = frames.reshape(tuple(core) + tuple(rest), order="F")
+            both = np.stack([split.real, split.imag], axis=len(core) + k)
+            frames = both.reshape(tuple(core) + (-1,), order="F")
+            nframes = frames.shape[-1]
         if not fg or int(np.prod([c for c, _ in fg])) != nframes:
             fg = [(nframes, "frames")]
         axes = {"z": [], "t": [], "c": []}
@@ -490,8 +517,11 @@ def paravision(p: Path) -> dict:
                     plane = fr[:, :, z] if len(core) == 3 else fr
                     planes.append({"c": c, "z": z, "t": t, "xxh3": h(np.asarray(plane, np.float32).T)})
         ext = np.atleast_1d(ds._parameter_value("VisuCoreExtent", None))
-        phys = {"x": float(ext[0]) / core[0] * 1000 if ext is not None else None,
-                "y": float(ext[1]) / core[1] * 1000 if ext is not None and len(core) > 1 else None}
+        desc = ds._parameter_value("VisuCoreDimDesc", None)
+        desc = [] if desc is None else [desc] if isinstance(desc, str) else list(np.atleast_1d(desc))
+        spatial = [i >= len(desc) or str(desc[i]).strip("<>") == "spatial" for i in range(len(core))]
+        phys = {"x": float(ext[0]) / core[0] * 1000 if ext is not None and spatial[0] else None,
+                "y": float(ext[1]) / core[1] * 1000 if ext is not None and len(core) > 1 and spatial[1] else None}
         images.append({"index": len(images), "size_x": int(core[0]), "size_y": int(core[1]), "size_z": nz, "size_c": nc, "size_t": nt,
                        "pixel_type": "float", "physical_size_um": phys, "planes": planes})
         _ = visu

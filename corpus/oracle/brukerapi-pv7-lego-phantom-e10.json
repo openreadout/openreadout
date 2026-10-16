@@ -1,6 +1,7 @@
 {
  "id": "brukerapi-pv7-lego-phantom-e10",
  "file": "10",
+ "size": 2127835,
  "max_planes_hashed": 64,
  "reader": "brukerapi",
  "images": [

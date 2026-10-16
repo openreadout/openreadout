@@ -340,6 +340,12 @@ impl<'a> Parser<'a> {
                 }
                 (dictionary_vr(tag), u32_at(&h[4..8], enc.little), pos + 8)
             };
+            // An explicit UN for a tag the dictionary knows holds its value in implicit VR
+            // little endian form, so it reads with the dictionary's VR (PS3.5 §6.2.2).
+            let (vr, value_enc) = match dictionary_vr(tag) {
+                d if &vr == b"UN" && &d != b"UN" => (d, Encoding::IMPLICIT_LE),
+                _ => (vr, enc),
+            };
             let is_pixels = matches!(tag, PIXEL_DATA | FLOAT_PIXEL_DATA | DOUBLE_PIXEL_DATA);
             if len == UNDEFINED {
                 if is_pixels {
@@ -358,7 +364,7 @@ impl<'a> Parser<'a> {
                 // SQ, or UN / an unknown implicit tag holding an implicit-VR sequence
                 // (PS3.5 §6.2.2).
                 let inner = if &vr == b"SQ" {
-                    enc
+                    value_enc
                 } else {
                     Encoding::IMPLICIT_LE
                 };
@@ -409,11 +415,11 @@ impl<'a> Parser<'a> {
                 ));
             }
             if &vr == b"SQ" {
-                let (items, _) = self.items(value_at, Some(next), depth + 1, enc)?;
+                let (items, _) = self.items(value_at, Some(next), depth + 1, value_enc)?;
                 out.push(Element {
                     tag,
                     vr,
-                    little: enc.little,
+                    little: value_enc.little,
                     value: Value::Seq(items),
                 });
             } else if is_pixels || len > MAX_INLINE {
@@ -434,7 +440,7 @@ impl<'a> Parser<'a> {
                 out.push(Element {
                     tag,
                     vr,
-                    little: enc.little,
+                    little: value_enc.little,
                     value: Value::Bytes(bytes),
                 });
             }
@@ -749,6 +755,16 @@ mod tests {
         assert_eq!(seq.len(), 1);
         assert_eq!(seq[0][0].tag, 0x0008_1150);
         assert_eq!(items[2].tag, 0x0028_0010);
+    }
+
+    #[test]
+    fn un_elements_of_known_tags_read_with_the_dictionary_vr() {
+        // Pixel Spacing written as UN, as in pydicom's rtdose_rle.dcm
+        let ds = el(0x0028_0030, b"UN", b"0.5\\0.25");
+        let src = Bytes::Mem(Arc::new(ds));
+        let items = Parser::new(&src, Encoding::EXPLICIT_LE).top(0).unwrap();
+        assert_eq!(&items[0].vr, b"DS");
+        assert_eq!(items[0].numbers(), vec![0.5, 0.25]);
     }
 
     #[test]

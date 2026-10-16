@@ -1,6 +1,8 @@
 {
  "id": "pydicom-data-color3d-jpeg-baseline",
  "file": "color3d_jpeg_baseline.dcm",
+ "size": 6143990,
+ "sha256": "c8798b8abf8ae0a18e8c9952e7c7f75f3cc8465234b1b63f9e3ba3bebb9d5625",
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [
@@ -13,8 +15,8 @@
    "size_t": 120,
    "pixel_type": "uint8",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 510.4970559477806,
+    "y": 510.4970559477806
    },
    "planes": [
     {

@@ -1,6 +1,8 @@
 {
  "id": "pydicom-data-obxxxx1a-rle-2frame",
  "file": "OBXXXX1A_rle_2frame.dcm",
+ "size": 91754,
+ "sha256": "65bee869c507f535edea93a446a26e941fb9cbc3819e4d73395f11eef56d4687",
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [
@@ -13,8 +15,8 @@
    "size_t": 2,
    "pixel_type": "uint16",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 262.2878766196998,
+    "y": 262.2878766196998
    },
    "planes": [
     {

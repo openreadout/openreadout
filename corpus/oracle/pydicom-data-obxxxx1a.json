@@ -1,6 +1,8 @@
 {
  "id": "pydicom-data-obxxxx1a",
  "file": "OBXXXX1A.dcm",
+ "size": 486008,
+ "sha256": "164a460bebdc15fbe391ad4bfe4c84672eb2bad57adfe7dad372fd7367b0f63e",
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [
@@ -13,8 +15,8 @@
    "size_t": 1,
    "pixel_type": "uint16",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 262.2878766196998,
+    "y": 262.2878766196998
    },
    "planes": [
     {

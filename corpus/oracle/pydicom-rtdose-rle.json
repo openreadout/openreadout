@@ -1,6 +1,8 @@
 {
  "id": "pydicom-rtdose-rle",
  "file": "rtdose_rle.dcm",
+ "size": 6816,
+ "sha256": "2f83e3a2ef0de355570c38860b233fc2fa6c37626c81ad080d8661c03a413522",
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [

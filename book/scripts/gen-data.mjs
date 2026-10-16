@@ -35,12 +35,14 @@ const PAGE = {
   "biologic-mpr": "biologic-eclab", "biologic-mpt": "biologic-eclab",
   "neware-nda": "neware", "neware-ndax": "neware",
   plate: "plate-readers",
+  paravision: "bruker-paravision",
 };
 
 // The fields the site groups formats under (the CLI's families are finer).
 const FIELD = {
   microscopy: "Light microscopy",
   "electron-microscopy": "Electron microscopy",
+  "medical-imaging": "Medical imaging",
   "mass-spectrometry": "Mass spectrometry",
   chromatography: "Chromatography",
   spectroscopy: "IR, Raman and UV-Vis",

@@ -1,6 +1,8 @@
 {
  "id": "pydicom-examples-palette",
  "file": "examples_palette.dcm",
+ "size": 283486,
+ "sha256": "c6f5b60e1711d6009f7a944873969d4c8d4fcbd6ad96099a3a1a20f32a95a2bb",
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [
@@ -13,8 +15,8 @@
    "size_t": 1,
    "pixel_type": "uint16",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 262.2878766196998,
+    "y": 262.2878766196998
    },
    "planes": [
     {

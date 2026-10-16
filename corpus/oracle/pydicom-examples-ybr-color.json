@@ -1,6 +1,8 @@
 {
  "id": "pydicom-examples-ybr-color",
  "file": "examples_ybr_color.dcm",
+ "size": 224902,
+ "sha256": "6fa3a087d3c631b43216a8abec8aac8d2d73751c5bf5885708d1150b09283f72",
  "max_planes_hashed": 64,
  "reader": "pydicom 3.0.2",
  "images": [
@@ -13,8 +15,8 @@
    "size_t": 30,
    "pixel_type": "uint8",
    "physical_size_um": {
-    "x": null,
-    "y": null
+    "x": 510.4970559477806,
+    "y": 510.4970559477806
    },
    "planes": [
     {
