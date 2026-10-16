@@ -201,6 +201,10 @@ pub const TERMS: &[(&str, &str)] = &[
     ),
     ("OBI:0003829", "luminescence detection assay"),
     ("OBI:0001501", "fluorescence detection assay"),
+    // DNA sequencers (Illumina, Oxford Nanopore, PacBio), checked on EBI OLS 2026-10-15
+    ("OBI:0400103", "DNA sequencer"),
+    ("OBI:0000626", "DNA sequencing assay"),
+    ("OBI:0000734", "DNA sequencing by synthesis assay"),
 ];
 
 /// Units the model emits: `(symbol as written, UCUM code)`. Arbitrary units (optical density,
