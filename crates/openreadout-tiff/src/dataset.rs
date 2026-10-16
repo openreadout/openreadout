@@ -53,6 +53,14 @@ pub enum Flavor {
     NisElements,
     /// Thermo Fisher EER electron-event movies (Falcon cameras).
     Eer,
+    /// Cytiva Amersham Imager, ImageQuant 800 and ImageQuant LAS 4000 gel and blot images.
+    CytivaImager,
+    /// Thermo Fisher iBright gel and blot images.
+    IBright,
+    /// Uvitec Alliance and Vilber FusionCapt gel and blot images.
+    UvitecVilber,
+    /// Sartorius Incucyte live-cell image exports.
+    Incucyte,
     Plain,
 }
 
@@ -75,6 +83,10 @@ impl Flavor {
             Flavor::MetamorphNd => "metamorph-nd",
             Flavor::NisElements => "nis-elements",
             Flavor::Eer => "thermo-eer",
+            Flavor::CytivaImager => "cytiva-imager",
+            Flavor::IBright => "thermo-ibright",
+            Flavor::UvitecVilber => "uvitec-vilber",
+            Flavor::Incucyte => "incucyte",
             Flavor::Plain => "plain",
         }
     }
@@ -166,6 +178,8 @@ pub struct TiffDataset {
     pub(crate) chunks: ChunkCache,
     /// Molecular Dynamics GEL encoding: planes are returned as counts (float32).
     pub(crate) md_gel: Option<crate::mdgel::MdGel>,
+    /// Settings of a gel or blot imager or an Incucyte export, for the experiment.
+    pub(crate) imager: Option<crate::imagers::ImagerSettings>,
 }
 
 const NUMERIC_KEY_LIMIT: usize = 64;
@@ -292,6 +306,7 @@ impl TiffDataset {
             sub_layouts: HashMap::new(),
             chunks: ChunkCache::new(REGION_CHUNK_CACHE_BYTES),
             md_gel: None,
+            imager: None,
         })
     }
 
@@ -439,6 +454,28 @@ impl TiffDataset {
             if !self.series.is_empty() {
                 return Ok(());
             }
+        }
+        if let Some(kind) = crate::imagers::kind_of(page0) {
+            self.flavor = kind.flavor();
+            self.build_plain()?;
+            let s = match kind {
+                crate::imagers::ImagerKind::IBright => crate::imagers::ibright(page0),
+                _ => crate::imagers::cytiva(page0, kind),
+            };
+            self.apply_imager(page0, s);
+            return Ok(());
+        }
+        if let Some(s) = self.glp_settings(page0) {
+            self.flavor = Flavor::UvitecVilber;
+            self.build_plain()?;
+            self.apply_imager(page0, s);
+            return Ok(());
+        }
+        if crate::incucyte::is_incucyte(page0) {
+            self.flavor = Flavor::Incucyte;
+            self.build_plain()?;
+            self.apply_incucyte();
+            return Ok(());
         }
         self.flavor = if page0.field(tags::MICROMANAGER_META).is_some() {
             Flavor::MicroManager
@@ -1176,6 +1213,13 @@ impl Dataset for TiffDataset {
 
     fn check(&mut self) -> Result<CheckReport> {
         Ok(crate::check::run(self))
+    }
+
+    fn experiment(&self) -> Option<openreadout_core::experiment::Experiment> {
+        let s = self.imager.as_ref()?;
+        let images: Vec<_> = self.series.iter().map(|s| s.info.clone()).collect();
+        let e = s.experiment(&images);
+        (!e.is_empty()).then_some(e)
     }
 
     fn frames(&self, image: u32, limit: Option<usize>) -> Result<(u64, Vec<Value>)> {

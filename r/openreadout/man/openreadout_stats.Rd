@@ -15,7 +15,8 @@ openreadout_stats(
   polygon = NULL,
   objects = NULL,
   level = 0,
-  region = NULL
+  region = NULL,
+  lanes = NULL
 )
 }
 \arguments{
@@ -30,7 +31,7 @@ file.}
 
 \item{wells}{With \code{per = "well"} or \code{"field"}: only these wells (\code{"C05"}).}
 
-\item{line, line_width, polygon, objects}{Measurements on one plane (see Details).}
+\item{line, line_width, polygon, objects, lanes}{Measurements on one plane (see Details).}
 
 \item{level, region}{Pyramid level and rectangle of the measurements.}
 }
@@ -62,7 +63,11 @@ and sum per channel inside;
 as in \code{\link[=openreadout_read_image]{openreadout_read_image()}}), inside \code{polygon} or in the whole plane: how many, their
 sizes, centroids and mean in every channel, and how many are positive per channel. A list
 sets options: \code{kind} (\code{"nuclei"}, \code{"cells"}, \code{"spots"}), \code{diameter_um}, \code{threshold},
-\code{method}, \code{polarity}, \code{stain} (RGB), \code{split}, \code{min_area_um2}, \code{max_area_um2}, \code{max_objects}.
+\code{method}, \code{polarity}, \code{stain} (RGB), \code{split}, \code{min_area_um2}, \code{max_area_um2}, \code{max_objects};
+\item \code{lanes = TRUE} finds the lanes and bands of a gel or blot in \code{region} or the whole plane:
+each lane's total volume and each band's row, height and background-subtracted volume. A
+list sets options: \code{count}, \code{width_px}, \code{polarity}, \code{min_share}, \code{ladder}
+(\code{list(lane = 1, sizes = c(250, 150, 100))}), \code{profiles}.
 }
 
 Areas and lengths are also given in µm when the pixel size is known. The result is the

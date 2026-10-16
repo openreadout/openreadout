@@ -3499,6 +3499,7 @@ Used by:
 - [openreadout-arrow 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-assay 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-batch 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-benchtop 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-biophys 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-blackrock 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-bruker-tims 0.3.0](https://github.com/openreadout/openreadout)

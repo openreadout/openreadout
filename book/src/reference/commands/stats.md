@@ -1,6 +1,6 @@
 # stats
 
-`stats` computes pixel statistics per plane, channel and image (min, max, mean, standard deviation, percentiles, histogram, zero and saturated fractions), or per well of a screening plate. On one plane it also measures an intensity profile along a line, the statistics inside a polygon, and objects such as nuclei.
+`stats` computes pixel statistics per plane, channel and image (min, max, mean, standard deviation, percentiles, histogram, zero and saturated fractions), or per well of a screening plate. On one plane it also measures an intensity profile along a line, the statistics inside a polygon, objects such as nuclei, and the lanes and bands of a gel or blot.
 
 ```text
 openreadout stats [OPTIONS] [FILE]...
@@ -26,6 +26,7 @@ These read one plane: the selected channels (all by default), the middle z unles
 - `--line X0,Y0,X1,Y1`: an intensity profile between two points on the plane (its edges, 0 and the width or height, included). Values are sampled every pixel by bilinear interpolation, each the mean over `--line-width PX` pixels across the line (default 1). Per channel: `min`, `max`, `mean`, the position of the maximum (`max_at_px`, `max_at_um`), the full width at half maximum of the highest peak above the line's minimum (`fwhm_px`, `fwhm_um`), and `values`: at most 200, evenly spaced from the start to the end of the line, `step_px` apart, each the mean of the samples within half a step.
 - `--polygon "X,Y X,Y X,Y …"`: the pixels whose centres are inside (even-odd rule): `area_px`, `area_um2`, and per channel `mean`, `std`, `median`, `min`, `max` and `sum` (the integrated intensity).
 - `--objects`, `--objects=cells`, `--objects=spots`: count nuclei (the default), whole cells or small bright spots in `--region`, inside `--polygon`, or in the whole plane. See [Objects](#objects).
+- `--lanes`, `--lanes=N`: find the lanes and bands of a gel or blot in `--region` or the whole plane, `N` lanes when given. `--lane-width PX` sets the lane width, `--polarity bright|dark` the bands, `--ladder LANE:SIZES` (with `--ladder-unit`) sizes every band from a marker lane, and `--profiles` adds each lane's profile. See [Lanes](#lanes).
 
 The flags of pixel statistics (`--mip`, `--per`, `--bins`, `--scale`, `--well`) do not apply to these measurements, so giving one with them is a usage error, as are `--region` with only a line or polygon and `--line-width` without `--line`. Pick the plane with `--select` instead.
 
@@ -45,6 +46,21 @@ The answer gives `count`, `touching_edge`, `density_per_mm2` (objects touching t
 Check a count against a picture before quoting it: `preview --marks objects` draws the same objects with their numbers.
 
 Methods: Otsu (IEEE SMC 1979) and its multi-level form; the triangle threshold (Zack, Rogers and Latt, J Histochem Cytochem 1977); the exact Euclidean distance transform of Felzenszwalb and Huttenlocher (Theory of Computing 2012); marker-controlled watershed (Beucher and Meyer 1993); scale selection with the normalised Laplacian of Gaussian (Lindeberg, IJCV 1998); colour deconvolution with the stain vectors of Ruifrok and Johnston (Anal Quant Cytol Histol 2001).
+
+### Lanes
+
+`--lanes` answers "how strong is each band, and in which lane" for a gel or blot image (Image Lab `.scn`, Typhoon `.gel`, TIFF exports of imagers), the way densitometry software does it. Lanes run top to bottom; rotate a sideways image first.
+
+- **Signal.** Bright bands on a dark ground (fluorescence, chemiluminescence) are measured as stored; a channel named for emitted light (chemiluminescence, fluorescence, IRDye, phosphor) is always taken as bright bands. Dark bands on a light ground (Coomassie, silver, colorimetric) are measured as the plane's largest value minus the value. The side of the median that the histogram's long tail lies on decides between them; `--polarity` overrides. Planes over 4 million pixels are binned by block means; coordinates stay full-resolution pixels.
+- **Lanes.** Each column's band signal is the column minus its rolling-ball background over an eighth of the rows, so the long features (the edges of a gel or membrane, the ground, smears) drop out and the short ones (bands) stay. The column profile is the mean of each column's brightest tenth of band signal, smoothed. The autocorrelation of that profile gives the lane pitch. Lanes are its maxima at least 0.6 pitches apart that rise a sixth of the profile's range above the valleys around them, each centred on the signal within half a pitch. A gap of two or more pitches between lanes gets evenly spaced lanes, so an empty lane keeps its number. `--lanes=N` keeps the `N` most prominent. Lanes are 0.7 pitches wide unless `--lane-width` says otherwise. Rows where the lanes' signal stays within a tenth of its upper level of its lowest (the ground around a membrane) are left out. `lane_contrast` (1 − the gaps' signal over the lanes') says how clearly the lanes stand out: below 0.15 they are a guess, and a note says so.
+- **Profile and background.** A lane's profile is the mean across the middle 80% of its width, row by row. Its background is a rolling-ball background: a grey-scale opening by a tenth of the lane's length, smoothed, kept under the profile.
+- **Bands** are maxima of profile minus background that stand at least four robust standard deviations of the profile's noise, 5% of the lane's highest band (`min_share` in MCP) and 3% of the image's strongest band above the background, away from the first and last 3% of the lane. A band runs to where it falls to 5% of its height, or to the valley before the next band. A step of the background as large as the band, such as a membrane's bright edge, is not a band. Nor are the wells: bands in the top 10% of the lanes that three quarters of the lanes (at least three) share within 1.5% of the lanes' length, above further bands in most of them, are left out with a note.
+- **Volume** is the sum of profile minus background over the band's rows times the lane width: stored units × pixels, as densitometry software reports it. `fraction_of_lane` is the band's share of its lane's band volume, and `relative` its share of the image's strongest band. A band with pixels at the saturation level (the detector's ceiling when the file records one, else the pixel type's) has `saturated_px` above zero and a note: its volume is a lower bound. Each lane's `total_volume` is its whole background-subtracted signal, for normalising to a total-protein stain.
+- **Sizes.** `--ladder 1:250,150,100,75,50` pairs the marker lane's bands, top down, with the sizes given, largest first. Every band then gets a size by linear interpolation of log(size) against its row between the neighbouring marker bands, extrapolated from the end pair outside them. When the marker lane has more or fewer bands than sizes, the top ones are paired and a note says so.
+
+Check the lanes against a picture before quoting volumes: `preview --marks lanes` draws the same lanes, profiles and bands. When the image holds more than the gel (a membrane on a light ground, a tray, labels), pass `--region` around the lanes; when lanes touch or a few saturated lanes dominate, pass `--lanes=N`.
+
+![A western blot with five lanes boxed and numbered, each lane's profile drawn in it, and the bands marked with their share of the strongest band](../../img/formats/blot-lanes.png)
 
 `stats` takes the flags in [Several inputs](index.md#several-inputs) and the [batch table flags](batch.md#batch-table-flags).
 
@@ -66,6 +82,8 @@ openreadout stats cells.czi --objects                                   # count 
 openreadout stats slide.svs --objects --region 9000,20000,1200,800      # nuclei in H&E tissue
 openreadout stats foci.nd2 --objects=spots --select c=2 --diameter 0.4  # puncta in channel 2
 openreadout stats cells.czi --line 200,1100,1300,1100 --line-width 5    # a profile across them
+openreadout stats blot.scn --lanes                                       # lanes, bands, volumes
+openreadout stats gel.scn --lanes=10 --ladder 1:250,150,100,75,50 --ladder-unit kDa
 ```
 
 ## What the numbers mean

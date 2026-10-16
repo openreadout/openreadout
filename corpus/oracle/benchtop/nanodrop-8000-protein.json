@@ -1,0 +1,398 @@
+{
+ "id": "nanodrop-8000-protein",
+ "readers": {
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_NANODROP_8000"
+ },
+ "format": "nanodrop",
+ "measurements": [
+  {
+   "id": "7febcd99-8970-46a8-af13-aa6da6d3bac4",
+   "sample": "baz",
+   "location": "A1",
+   "time": "2020-05-26T15:36:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     3.177,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     1.961,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     16.2,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     3.177,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "0db24942-1edc-4940-bd57-2f25dce8ccbd",
+   "sample": "baz",
+   "location": "B1",
+   "time": "2020-05-26T15:36:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     3.409,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     2.104,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     16.2,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     3.409,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "0b3957d1-162c-4c1f-9b22-b8e9e550f71a",
+   "sample": "baz",
+   "location": "C1",
+   "time": "2020-05-26T15:36:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     3.43,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     2.117,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     16.2,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     3.43,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a7c5364e-5f20-4463-acde-3fbbd9a54e27",
+   "sample": "baz",
+   "location": "D1",
+   "time": "2020-05-26T15:36:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     3.144,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     1.941,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     16.2,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     3.144,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "7eb50368-bd24-43c2-ac46-a372154f2d3b",
+   "sample": "baz",
+   "location": "E1",
+   "time": "2020-05-26T15:36:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     3.397,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     2.097,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     16.2,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     3.397,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "2f0df17e-00d8-45fb-8bf2-ac90b0212d3c",
+   "sample": "baz",
+   "location": "F1",
+   "time": "2020-05-26T15:36:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     3.239,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     1.999,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     16.2,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     3.239,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "62ca14b1-cbb2-4a68-8942-d1a0fda0a750",
+   "sample": "baz",
+   "location": "G1",
+   "time": "2020-05-26T15:36:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     3.286,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     2.028,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     16.2,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     3.286,
+     "mAU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [
+  {
+   "name": "A260/280",
+   "value": 0.59,
+   "sources": [
+    "7febcd99-8970-46a8-af13-aa6da6d3bac4"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.58,
+   "sources": [
+    "0db24942-1edc-4940-bd57-2f25dce8ccbd"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.57,
+   "sources": [
+    "0b3957d1-162c-4c1f-9b22-b8e9e550f71a"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.57,
+   "sources": [
+    "a7c5364e-5f20-4463-acde-3fbbd9a54e27"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.58,
+   "sources": [
+    "7eb50368-bd24-43c2-ac46-a372154f2d3b"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.58,
+   "sources": [
+    "2f0df17e-00d8-45fb-8bf2-ac90b0212d3c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.59,
+   "sources": [
+    "62ca14b1-cbb2-4a68-8942-d1a0fda0a750"
+   ]
+  }
+ ],
+ "model": "Nanodrop 8000",
+ "serial": null
+}

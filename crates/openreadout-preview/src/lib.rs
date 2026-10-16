@@ -71,6 +71,7 @@ mod events;
 mod figure_frame;
 mod image;
 mod kinetic;
+mod lanes;
 mod marks;
 mod nmr;
 mod objects;
@@ -79,6 +80,7 @@ mod overlay;
 mod plate;
 mod rulers;
 mod sequencing;
+mod samples;
 mod spectrum;
 mod tic;
 mod trace;
@@ -404,6 +406,8 @@ pub enum Marks {
     Spikes,
     /// images: outline and number the nuclei, cells or spots found (`stats` objects)
     Objects,
+    /// gels and blots: box and number the lanes, draw their profiles and bands (`stats` lanes)
+    Lanes,
     /// no marks
     None,
 }
@@ -416,9 +420,10 @@ impl FromStr for Marks {
             "peaks" => Ok(Marks::Peaks),
             "spikes" => Ok(Marks::Spikes),
             "objects" => Ok(Marks::Objects),
+            "lanes" => Ok(Marks::Lanes),
             "none" => Ok(Marks::None),
             other => Err(Error::Usage(format!(
-                "bad marks '{other}': use auto, peaks, spikes, objects or none"
+                "bad marks '{other}': use auto, peaks, spikes, objects, lanes or none"
             ))),
         }
     }
@@ -477,6 +482,8 @@ pub struct PreviewRequest {
     pub marks: Marks,
     /// Image preview: how objects are found for `marks: objects` (setting it implies them).
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Image preview: how lanes are found for `marks: lanes` (setting it implies them).
+    pub lanes: Option<openreadout_core::measure::LanesRequest>,
     /// The caller's own marks, drawn on top.
     pub annotations: Vec<Annotation>,
     /// Draw in the dark theme (light ink on a dark ground).
@@ -525,6 +532,7 @@ impl Default for PreviewRequest {
             columns: Vec::new(),
             marks: Marks::Auto,
             objects: None,
+            lanes: None,
             annotations: Vec::new(),
             dark: false,
             axes: true,
@@ -1063,6 +1071,10 @@ pub struct PreviewOutput {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
     pub objects: Option<openreadout_core::measure::Objects>,
+    /// `marks: lanes`: the lanes and bands found in the area shown, as `stats` lanes.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[schemars(with = "Option<serde_json::Map<String, serde_json::Value>>")]
+    pub lanes: Option<openreadout_core::measure::Lanes>,
     /// The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub annotations: Vec<DrawnAnnotation>,
@@ -1398,6 +1410,10 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
             out.kind = "chromatogram".into();
         }
     }
+    if drawn.is_none() && samples::applies(info, req) {
+        drawn = Some(samples::render(ds, info, req, &mut out)?);
+        out.kind = "samples".into();
+    }
     let (mut figure, frame) = match (k, drawn) {
         (_, Some(drawn)) => drawn,
         ("image", _) => render_image(ds, info, req, &mut out)?,
@@ -1420,6 +1436,9 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
     }
     if k == "image" && (req.marks == Marks::Objects || req.objects.is_some()) {
         objects::draw(ds, info, req, &frame, &mut figure, &mut out)?;
+    }
+    if k == "image" && (req.marks == Marks::Lanes || req.lanes.is_some()) {
+        lanes::draw(ds, info, req, &frame, &mut figure, &mut out);
     }
     if !req.annotations.is_empty() {
         let theme = theme(req);

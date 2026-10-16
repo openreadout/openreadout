@@ -267,6 +267,7 @@ class File:
         line_width: Optional[int] = None,
         polygon: Optional[Sequence[Sequence[float]]] = None,
         objects: Union[bool, Mapping[str, Any], None] = None,
+        lanes: Union[bool, Mapping[str, Any], None] = None,
     ) -> Dict[str, Any]:
         """Pixel statistics, the same JSON as ``openreadout stats --json`` (its ``data``):
         ``planes`` (per plane; omitted with ``per_plane=False``), ``channels`` (per image ×
@@ -295,18 +296,27 @@ class File:
           plane: how many, their sizes, centroids and mean in every channel, and how many are
           positive per channel. A dict sets options: ``kind`` (``"nuclei"``, ``"cells"``,
           ``"spots"``), ``diameter_um``, ``threshold``, ``method``, ``polarity``, ``stain``
-          (RGB), ``split``, ``min_area_um2``, ``max_area_um2``, ``max_objects``.
+          (RGB), ``split``, ``min_area_um2``, ``max_area_um2``, ``max_objects``;
+        - ``lanes=True``: the ``lanes`` of a gel or blot in ``region`` or the whole plane, each
+          with its total volume and its bands (row, height, background-subtracted volume, share
+          of the lane and of the strongest band). A dict sets options: ``count``, ``width_px``,
+          ``polarity``, ``min_share``, ``ladder`` (``{"lane": 1, "sizes": [250, 150, 100]}``),
+          ``profiles``.
 
         Areas and lengths are also given in µm when the pixel size is known."""
         if isinstance(select, str):
             select = [select]
         counting = objects is not None and objects is not False
-        if line is not None or polygon is not None or counting:
+        laning = lanes is not None and lanes is not False
+        if line is not None or polygon is not None or counting or laning:
             if per is not None or wells or mip is not None or bins:
                 raise UsageError(
-                    "line, polygon and objects measure one plane: drop per, wells, mip and bins"
+                    "line, polygon, objects and lanes measure one plane: "
+                    "drop per, wells, mip and bins"
                 )
-            return self._measure(image, select, level, region, line, line_width, polygon, objects)
+            return self._measure(
+                image, select, level, region, line, line_width, polygon, objects, lanes
+            )
         if per is not None:
             if per not in ("well", "field"):
                 raise UsageError(f"per must be 'well' or 'field', not {per!r}")
@@ -345,6 +355,7 @@ class File:
         line_width: Optional[int],
         polygon: Optional[Sequence[Sequence[float]]],
         objects: Union[bool, Mapping[str, Any], None],
+        lanes: Union[bool, Mapping[str, Any], None] = None,
     ) -> Dict[str, Any]:
         if line is not None and len(line) != 4:
             raise UsageError("line is (x0, y0, x1, y1)")
@@ -356,6 +367,9 @@ class File:
         objects_json = None
         if objects is not None and objects is not False:
             objects_json = json.dumps({} if objects is True else dict(objects))
+        lanes_json = None
+        if lanes is not None and lanes is not False:
+            lanes_json = json.dumps({} if lanes is True else dict(lanes))
         return cast(
             Dict[str, Any],
             json.loads(
@@ -370,6 +384,7 @@ class File:
                     line_width,
                     verts,
                     objects_json,
+                    lanes_json,
                 )
             ),
         )

@@ -1931,6 +1931,7 @@ dependencies = [
  "openreadout-arrow",
  "openreadout-assay",
  "openreadout-batch",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
@@ -2075,6 +2076,7 @@ dependencies = [
  "flate2",
  "openreadout-abf",
  "openreadout-agilent-ms",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-ce",
  "openreadout-codecs",
@@ -2114,6 +2116,14 @@ dependencies = [
  "serde_json",
  "tempfile",
  "weezl 0.2.1",
+]
+
+[[package]]
+name = "openreadout-benchtop"
+version = "0.3.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
 ]
 
 [[package]]
@@ -2221,6 +2231,7 @@ dependencies = [
  "openreadout-agilent-ms",
  "openreadout-assay",
  "openreadout-batch",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
@@ -2730,6 +2741,7 @@ dependencies = [
  "openreadout-agilent-ms",
  "openreadout-arrow",
  "openreadout-batch",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
@@ -2820,6 +2832,7 @@ dependencies = [
  "openreadout-agilent-ms",
  "openreadout-arrow",
  "openreadout-batch",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
@@ -2977,6 +2990,7 @@ dependencies = [
  "js-sys",
  "openreadout-abf",
  "openreadout-agilent-ms",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",

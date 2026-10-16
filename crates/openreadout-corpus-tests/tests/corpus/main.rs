@@ -31,6 +31,7 @@ use crate::tables::{check_plate, check_tables};
 use crate::traces::check_traces;
 
 mod abif_oracle;
+mod benchtop_oracle;
 mod biacore_oracle;
 mod chip_oracle;
 mod chromeleon_oracle;
@@ -584,6 +585,8 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("abif")
     } else if chip_oracle::FORMATS.contains(&format) {
         Some("chip")
+    } else if benchtop_oracle::FORMATS.contains(&format) {
+        Some("benchtop")
     } else if series_oracle::FORMATS.contains(&format) {
         Some("series")
     } else if hyperspec_oracle::FORMATS.contains(&format) {
@@ -678,6 +681,8 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         abif_oracle::compare_file(id, path, &o)
     } else if chip_oracle::FORMATS.contains(&format) {
         chip_oracle::compare_file(format, path, &o)
+    } else if benchtop_oracle::FORMATS.contains(&format) {
+        benchtop_oracle::compare_file(id, path, &o)
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::compare_file(format, id, path, &o)
     } else if hyperspec_oracle::FORMATS.contains(&format) {

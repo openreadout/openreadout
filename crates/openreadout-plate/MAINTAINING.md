@@ -37,7 +37,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `plate` | [format note](../../docs/formats/plate-readers.md), [provenance log](../../docs/provenance/plate-readers.md) | medium | prior art | 76 / 71 | 25 | 2 / 1 |
+| `plate` | [format note](../../docs/formats/plate-readers.md), [provenance log](../../docs/provenance/plate-readers.md) | medium | prior art | 77 / 72 | 26 | 2 / 1 |
 
 ### Source map
 
@@ -58,6 +58,7 @@ Microplate-reader exports (`plate`): the text, CSV and workbook files plate-read
 | [`src/vendors/gen5.rs`](src/vendors/gen5.rs) | Agilent BioTek Gen5 text/XLSX exports (Synergy, Cytation, Epoch, ELx readers) |
 | [`src/vendors/gen5_xpt.rs`](src/vendors/gen5_xpt.rs) | Agilent BioTek Gen5 experiment files (`.xpt`): a compound file (MS-CFB) whose `SUBSETS/<n>/DATA` streams hold one plate each as an MFC archive (docs/formats/plate-readers.md, |
 | [`src/vendors/generic.rs`](src/vendors/generic.rs) | Any delimited text or workbook with plate matrices but no recognised exporter: a line of consecutive column numbers followed by lines starting with increasing row letters |
+| [`src/vendors/incucyte.rs`](src/vendors/incucyte.rs) | Sartorius Incucyte metric exports (Incucyte Zoom, S3, SX5 software: "Export Data" of one metric) |
 | [`src/vendors/mod.rs`](src/vendors/mod.rs) | One module per export dialect, plus helpers they share |
 | [`src/vendors/skanit.rs`](src/vendors/skanit.rs) | Thermo Scientific SkanIt XLSX reports (Varioskan, Multiskan, Fluoroskan, Luminoskan) |
 | [`src/vendors/softmax.rs`](src/vendors/softmax.rs) | Molecular Devices SoftMax Pro text exports (`##BLOCKS= n`, blocks ending in `~End`) |
@@ -92,7 +93,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `plate` | acquisition | `absorbance` | tables | 39 | 40 | `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc`, `bmg-mars-pherastar-abs` |
 | `plate` | acquisition | `endpoint read` | tables | 47 | 50 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
 | `plate` | acquisition | `fluorescence` | tables | 23 | 26 | `bmg-mars-fi-transcreener`, `bmg-smart-control-fi`, `bmg-table-bostock-calcein-kinetic` |
-| `plate` | acquisition | `kinetic read` | tables | 19 | 21 | `bmg-table-bostock-calcein-kinetic`, `bmg-table-rpazuki-od600-kinetic`, `gen5-abs-kinetic-meanv-4pl` |
+| `plate` | acquisition | `imaging` | tables | 1 | 1 | `incucyte-incucytedrc-mda-mb-468` |
+| `plate` | acquisition | `kinetic read` | tables | 20 | 22 | `bmg-table-bostock-calcein-kinetic`, `bmg-table-rpazuki-od600-kinetic`, `gen5-abs-kinetic-meanv-4pl` |
 | `plate` | acquisition | `luminescence` | tables | 11 | 12 | `bmg-mars-lum-1536`, `envision-lum-384`, `envision-text-dse-ctg-lum384-semicolon` |
 | `plate` | acquisition | `spectrum read` | tables | 5 | 5 | `bmg-table-kelp-pigments-absspectrum`, `bmg-table-tjlane-absspectrum-semicolon`, `bmg-table-wehi-emscan-averaged` |
 | `plate` | acquisition | `unknown` | tables | 1 | 3 | `assay-synth-dose-response` |
@@ -105,14 +107,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `plate` | dialect | `envision` | metadata, tables | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
 | `plate` | dialect | `gen5` | metadata, tables | 18 | 20 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
 | `plate` | dialect | `generic` | metadata, tables | 2 | 2 | `assay-synth-dose-response`, `assay-synth-elisa-5pl` |
+| `plate` | dialect | `incucyte` | metadata, tables | 1 | 1 | `incucyte-incucytedrc-mda-mb-468` |
 | `plate` | dialect | `kaleido` | metadata, tables | 1 | 1 | `kaleido-abs-endpoint` |
 | `plate` | dialect | `skanit` | metadata, tables | 2 | 2 | `skanit-elisa-steps`, `skanit-luciferase` |
 | `plate` | dialect | `softmax-pro` | metadata, tables | 16 | 17 | `softmax-abs-endpoint-plates`, `softmax-fl-kinetic-plates`, `softmax-lum-endpoint-utf16` |
 | `plate` | dialect | `tecan-i-control` | metadata, tables | 9 | 11 | `tecan-icontrol-csv-kinetic-wellr`, `tecan-icontrol-de-multiread-kinetic-sgt`, `tecan-icontrol-f200-txt` |
 | `plate` | dialect | `tecan-magellan` | metadata, tables | 2 | 2 | `magellan-elisa-384`, `magellan-pro-compact` |
-| `plate` | field | `experiment.acquisition.started_at` | descriptive | 57 | 62 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
+| `plate` | field | `experiment.acquisition.started_at` | descriptive | 58 | 63 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
 | `plate` | field | `experiment.instrument.model` | descriptive | 56 | 61 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
-| `plate` | field | `tables[].extra.reads[].mode` | descriptive | 69 | 74 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
+| `plate` | field | `tables[].extra.reads[].mode` | descriptive | 70 | 75 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
 | `plate` | instrument | `CLARIOstar` | descriptive | 9 | 9 | `bmg-mars-lum-1536`, `bmg-table-bostock-calcein-kinetic`, `bmg-table-kelp-pigments-absspectrum` |
 | `plate` | instrument | `Cytation3` | descriptive | 0 | 1 |  |
 | `plate` | instrument | `Cytation5` | descriptive | 2 | 2 | `gen5xpt-cytation5-elisa-ifng`, `gen5xpt-cytation5-elisa-region` |
@@ -138,12 +141,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `plate` | layout | `container softmax-pro-document` | tables | 8 | 9 | `softmax7-elisa2wl-ha-0513`, `softmax7-elisa2wl-ha-0630`, `softmax7-lum-7skexp53` |
 | `plate` | layout | `container text (comma)` | tables | 21 | 21 | `assay-synth-dose-response`, `assay-synth-elisa-5pl`, `bmg-mars-abs-384-qc` |
 | `plate` | layout | `container text (semicolon)` | tables | 2 | 2 | `bmg-table-tjlane-absspectrum-semicolon`, `envision-text-dse-ctg-lum384-semicolon` |
-| `plate` | layout | `container text (tab)` | tables | 16 | 16 | `envision-text-dse-lum1536-tab`, `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum` |
+| `plate` | layout | `container text (tab)` | tables | 17 | 17 | `envision-text-dse-lum1536-tab`, `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum` |
 | `plate` | layout | `container xlsx` | tables | 13 | 15 | `bmg-smart-control-fi`, `magellan-elisa-384`, `magellan-pro-compact` |
 | `plate` | layout | `export format PlateFormat` | metadata, tables | 3 | 3 | `softmax-abs-endpoint-plates`, `softmax-fl-kinetic-plates`, `softmax-spectramax340-kinetic-partial` |
 | `plate` | layout | `export format TimeFormat` | metadata, tables | 1 | 1 | `softmax-lum-endpoint-utf16` |
 | `plate` | writer | `EnVision Workstation` | descriptive | 7 | 7 | `envision-abs-a450`, `envision-fluor-htrf`, `envision-lum-384` |
 | `plate` | writer | `Gen5` | descriptive | 18 | 20 | `gen5-abs-kinetic-meanv-4pl`, `gen5-abs-spectrum`, `gen5-abs-stdcurve-linear` |
+| `plate` | writer | `Incucyte` | descriptive | 1 | 1 | `incucyte-incucytedrc-mda-mb-468` |
 | `plate` | writer | `Kaleido` | descriptive | 1 | 1 | `kaleido-abs-endpoint` |
 | `plate` | writer | `MARS` | descriptive | 11 | 11 | `bmg-mars-abs-384-qc`, `bmg-mars-fi-transcreener`, `bmg-mars-lum-1536` |
 | `plate` | writer | `Magellan` | descriptive | 2 | 2 | `magellan-elisa-384`, `magellan-pro-compact` |
@@ -166,7 +170,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 5 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_plate_xlsx`, `whole_plate`
-- corpus inputs by tier: heldout 10, smoke 73, standard 5
+- corpus inputs by tier: heldout 10, smoke 74, standard 5
 - golden snapshots: [`corpus/snapshots/plate.jsonl`](../../corpus/snapshots/plate.jsonl)
 
 ### Open new-variant intakes

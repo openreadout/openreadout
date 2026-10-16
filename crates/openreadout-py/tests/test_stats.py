@@ -70,3 +70,23 @@ def test_stats_equal_the_cli_json(corpus):
     assert py["images"] == cli["images"]
     assert py["channels"] == cli["channels"]
     assert py["planes"] == cli["planes"]
+
+
+def test_lanes_of_a_blot(corpus):
+    # four lanes of a tubulin loading control, one band each
+    with openreadout.open(corpus("scn-zenodo6723849-tubulin.scn")) as f:
+        lanes = f.stats(lanes=True)["lanes"]
+        assert lanes["count"] == 4
+        assert [len(lane["bands"]) for lane in lanes["lanes"]] == [1, 1, 1, 1]
+        with_profiles = f.stats(lanes={"count": 4, "profiles": True})["lanes"]
+        assert len(with_profiles["lanes"][0]["profile"]) > 0
+        with pytest.raises(openreadout.UsageError):
+            f.stats(lanes=True, per="well")
+
+
+def test_nanodrop_samples(corpus):
+    with openreadout.open(corpus("nanodrop-8000-dna.txt")) as f:
+        table = f.info["tables"][0]
+        conc = next(c for c in table["columns"] if c["name"] == "concentration")
+        assert conc["unit"] == "ng/µL"
+        assert table["row_count"] == 6

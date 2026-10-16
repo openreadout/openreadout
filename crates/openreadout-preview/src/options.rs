@@ -100,6 +100,8 @@ pub struct PreviewOptions {
     pub marks: Option<Marks>,
     /// Images: how objects are found for `marks: objects` (as `openreadout_stats` objects).
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Gels and blots: how lanes are found for `marks: lanes` (as `openreadout_stats` lanes).
+    pub lanes: Option<openreadout_core::measure::LanesRequest>,
     /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
     /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
     /// units on plots, wells on plates.
@@ -148,6 +150,7 @@ impl PreviewOptions {
             columns: self.columns.clone(),
             marks: self.marks.unwrap_or_default(),
             objects: self.objects.clone(),
+            lanes: self.lanes.clone(),
             annotations: self.annotations.clone(),
             dark: self.dark,
             title: self.title.clone(),

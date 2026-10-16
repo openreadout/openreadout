@@ -112,7 +112,7 @@ fn mode_fields(
             "RLU",
             "Alpha",
         ),
-        Mode::Fluorescence | Mode::Unknown => (
+        Mode::Fluorescence | Mode::Unknown | Mode::Imaging => (
             "fluorescence",
             "fluorescence emission profile data cube",
             "fluorescence emission spectrum data cube",
@@ -523,6 +523,13 @@ fn read_back(doc: &Value) -> Counts {
 /// Write `ds` as ASM JSON to `output` (temporary file, read back and verified, then renamed).
 pub fn export_asm(ds: &PlateDataset, output: &Path, overwrite: bool) -> Result<AsmExportReport> {
     let input = ds.path();
+    if ds.export().kind == crate::model::Kind::Incucyte {
+        return Err(Error::unsupported(
+            crate::FORMAT_ID,
+            "Allotrope ASM of an Incucyte export (ASM's plate-reader model has no image-analysis metric)",
+            "Export the long-form table instead: --format csv or --format parquet.",
+        ));
+    }
     openreadout_core::output::refuse_inputs(output, [input])?;
     if output.exists() && !overwrite {
         return Err(Error::Usage(format!(

@@ -808,6 +808,13 @@ function main() {
       const img = await decode(im).catch(() => null);
       if (!img) { overlay("Could not decode the picture.", true); return; }
       await showImage(d, img);
+    } else if (d.view === "summary" && im) {
+      // a samples export (NanoDrop, Qubit): the server's picture of it
+      const img = await decode(im).catch(() => null);
+      S.img = null;
+      S.picture = img ? { img } : null;
+      overlay(null);
+      invalidate();
     } else {
       S.img = null;
       S.picture = null;
@@ -1513,7 +1520,7 @@ function main() {
     S.layout = null;
     g = bctx;
     if (!d) return;
-    if (d.view === "image" || d.view === "static") drawImageView();
+    if (d.view === "image" || d.view === "static" || (d.view === "summary" && S.picture)) drawImageView();
     else if (d.view === "figure") drawFigure();
     else if (d.plot) drawPlot();
     else if (d.plate) drawPlate();
@@ -1929,7 +1936,7 @@ function main() {
   }
 
   function drawImageView() {
-    if (S.data.view === "static") return drawStatic();
+    if (S.data.view !== "image") return drawStatic();
     const I = S.img;
     if (!I) return;
     const fill = root.classList.contains("fill");

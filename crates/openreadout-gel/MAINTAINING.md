@@ -1,6 +1,6 @@
 # Maintaining `openreadout-gel`
 
-Bio-Rad Image Lab `.scn` gel and blot images (`biorad-scn`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Layout: [docs/formats/biorad-scn.md](../../docs/formats/biorad-scn.md); provenance: [docs/provenance/biorad-scn.md](../../docs/provenance/biorad-scn.md).
+Bio-Rad Image Lab `.scn` (`biorad-scn`) and Syngene GeneSys `.sgd` (`syngene-sgd`) gel and blot images. Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Layouts: [docs/formats/biorad-scn.md](../../docs/formats/biorad-scn.md), [docs/formats/syngene-sgd.md](../../docs/formats/syngene-sgd.md); provenance: [docs/provenance/biorad-scn.md](../../docs/provenance/biorad-scn.md), [docs/provenance/syngene-sgd.md](../../docs/provenance/syngene-sgd.md).
 
 ## Decode pipeline
 
@@ -9,21 +9,31 @@ Bio-Rad Image Lab `.scn` gel and blot images (`biorad-scn`). Project-wide proces
 3. **Headers** (`scn.rs` `scan`): the XML parts (DOCTYPE stripped, `strip_doctype`) give each scan's size, pixel size, imager, application (chemiluminescence, IRDye, colorimetric, stains), exposure, filters, user, dates and the audit log. **Variants branch here**: the Image Lab version and the imager decide which XML elements exist; `technique_of` and `emission_band` map the application to the normalized technique.
 4. **Pixels** (`scn.rs` `read_plane`): the raw 16-bit little-endian image part of each `ScanRef`, checked against width × height.
 
+GeneSys `.sgd`:
+
+1. **Detect** (`lib.rs` `SyngeneReader::sniff_input`): a compound file with `Detector/MultiImage/MultiData` or a `Detector/GeneSnap/<capture>/PixelData` stream; the `.sgd` extension alone gives a likely match.
+2. **Container** (`openreadout_core::cfb`): the MS-CFB directory and FAT; streams are read by sector chain.
+3. **Captures** (`sgd.rs` `SgdDataset::open`): the capture list (`parse_multi_data`), each 26-byte `PixelData` header (`parse_pixel_header`), the `Capture` settings (`parse_capture`) and the `Description` time and user (`parse_description`). **Variants branch here**: the stream size decides 8 or 16 bits; the GeneSys version and the imager decide which texts `Capture` holds.
+4. **Pixels** (`sgd.rs` `read_plane`): the samples after the header, read through the stream's sector chain.
+
 ## Invariants and checks
 
 - Every MIME part's declared length lies inside the file; XML headers parse; image data sizes equal width × height × 2. `check_headers` does this without reading pixels; `check` also reads every image.
+- `.sgd`: every `PixelData` stream is exactly 26 + width × height × 1 or 2 bytes, and every capture `MultiData` lists has pixels. A capture that breaks either is left out and reported; the sample code is only a warning. All reads go through bounded cursors (`Cur`), so a damaged stream gives a finding, not a panic.
 
 ## Debugging a new file
 
 - `openreadout info FILE --view structure` lists the MIME parts with offsets and sizes; `info --view full --json` → `vendor` has the XML headers.
 - A new Image Lab version: diff the XML part names and elements (`ls`, `vendor`) with a corpus file of the nearest version (Image Lab 3.0.1 to 6.1.0 are in the corpus).
 - `tests/synthetic.rs` builds multipart files from the format note.
+- `.sgd`: `info --view structure` lists the streams of each capture; `vendor` has every capture's settings. A new GeneSys version: hex-dump its `Capture` stream next to one from the corpus and compare the order of the texts. `tests/sgd.rs` reads the synthetic file `fuzz/seeds.py` (`mini_sgd`) writes.
 
 ## Fragile spots
 
 - Scans imported from Typhoon/Molecular Dynamics `.gel` carry a square-root encoding (`scaler/moldyn`) that is reported, not applied; no corpus file exercises it.
 - Multi-channel fluorescent multiplex files have no public sample; each scan image tag would become its own image.
 - Lane and band analyses and molecular-weight calibrations are not stored in any file seen; other parts stay in the vendor tree.
+- `.sgd`: the exposure unit (seconds) is inferred from one file's exposure series, and no independent reader decodes the samples (the planes were checked once against a depositor's TIFF export). The fields of `Capture` between the texts are not understood; a GeneSys version that inserts a text there breaks the order `parse_capture` expects.
 
 <!-- BEGIN GENERATED guide -->
 ## Facts (generated)
@@ -35,15 +45,17 @@ Bio-Rad Image Lab `.scn` gel and blot images (`biorad-scn`). Project-wide proces
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `biorad-scn` | [format note](../../docs/formats/biorad-scn.md), [provenance log](../../docs/provenance/biorad-scn.md) | high | reverse engineered | 13 / 13 | 11 | - |
+| `syngene-sgd` | [format note](../../docs/formats/syngene-sgd.md), [provenance log](../../docs/provenance/syngene-sgd.md) | low | reverse engineered | 2 / 2 | 2 | - |
 
 ### Source map
 
 | file | what it does (its module documentation) |
 | --- | --- |
-| [`src/assurance.rs`](src/assurance.rs) | Assurance profile (`docs/assurance.md`) of the Bio-Rad Image Lab `.scn` reader: the variant features of a scan file and the feature values the development corpus validates |
+| [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the Bio-Rad Image Lab `.scn` and Syngene GeneSys `.sgd` readers: the variant features of a file and the feature values the development… |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for gel and blot documentation images |
 | [`src/mime.rs`](src/mime.rs) | A MIME multipart walker (RFC 2046) over a byte source: part headers are read and parsed, bodies are only located (offset and length), so a large image part is never loaded to parse |
 | [`src/scn.rs`](src/scn.rs) | Bio-Rad Image Lab `.scn`: a MIME multipart document of XML headers and raw 16-bit images |
+| [`src/sgd.rs`](src/sgd.rs) | Syngene GeneSys `.sgd` (G:Box and PXi imagers): a compound file with one storage per capture, each holding the raw samples (`PixelData`), the capture settings (`Capture`) and the… |
 
 ### Where variants branch
 
@@ -51,7 +63,9 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature writer_version `format!("Image Lab {v}")`
 - feature sample_layout `im.pixel_type.ome_name()`
+- feature writer_version `format!("GeneSys {v}")`
 - feature acquisition `n` (descriptive)
+- feature instrument `m` (descriptive)
 - undecoded "damaged parts"
 - calibration "Molecular Dynamics square-root encoding"
 
@@ -75,13 +89,25 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `biorad-scn` | writer_version | `Image Lab 5.2` | metadata, pixels | 3 | 3 | `scn-zenodo13882568-lamp1`, `scn-zenodo3517804-p27`, `scn-zenodo7803294-fbxo7` |
 | `biorad-scn` | writer_version | `Image Lab 6.0` | metadata, pixels | 4 | 4 | `scn-zenodo10419859-paf1`, `scn-zenodo11355396-geldoc`, `scn-zenodo15237267-lchc-marker` |
 | `biorad-scn` | writer_version | `Image Lab 6.1` | metadata, pixels | 1 | 1 | `scn-zenodo21792158-porcelli` |
+| `syngene-sgd` | acquisition | `ECL` | descriptive | 2 | 2 | `sgd-dataverse-tw68ad-gbox`, `sgd-zenodo3975844-pxi6` |
+| `syngene-sgd` | acquisition | `No Light` | descriptive | 1 | 1 | `sgd-zenodo3975844-pxi6` |
+| `syngene-sgd` | acquisition | `Visible Marker` | descriptive | 1 | 1 | `sgd-zenodo3975844-pxi6` |
+| `syngene-sgd` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `sgd-dataverse-tw68ad-gbox`, `sgd-zenodo3975844-pxi6` |
+| `syngene-sgd` | field | `experiment.instrument.model` | descriptive | 2 | 2 | `sgd-dataverse-tw68ad-gbox`, `sgd-zenodo3975844-pxi6` |
+| `syngene-sgd` | instrument | `G:Box mini 6` | descriptive | 1 | 1 | `sgd-dataverse-tw68ad-gbox` |
+| `syngene-sgd` | instrument | `PXi 6` | descriptive | 1 | 1 | `sgd-zenodo3975844-pxi6` |
+| `syngene-sgd` | sample_layout | `uint16` | pixels | 0 | 2 |  |
+| `syngene-sgd` | sample_layout | `uint8` | pixels | 0 | 1 |  |
+| `syngene-sgd` | writer_version | `GeneSys 1.5` | metadata, pixels | 1 | 1 | `sgd-zenodo3975844-pxi6` |
+| `syngene-sgd` | writer_version | `GeneSys 1.6` | metadata, pixels | 1 | 1 | `sgd-dataverse-tw68ad-gbox` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
-- integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_scn`
-- corpus inputs by tier: heldout 5, smoke 6, standard 7
-- golden snapshots: [`corpus/snapshots/biorad-scn.jsonl`](../../corpus/snapshots/biorad-scn.jsonl)
+- integration tests: [`tests/sgd.rs`](tests/sgd.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
+- committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- fuzz targets (`fuzz/fuzz_targets/`): `whole_scn`, `whole_sgd`
+- corpus inputs by tier: heldout 5, smoke 7, standard 8
+- golden snapshots: [`corpus/snapshots/biorad-scn.jsonl`](../../corpus/snapshots/biorad-scn.jsonl), [`corpus/snapshots/syngene-sgd.jsonl`](../../corpus/snapshots/syngene-sgd.jsonl)
 
 ### Open new-variant intakes
 

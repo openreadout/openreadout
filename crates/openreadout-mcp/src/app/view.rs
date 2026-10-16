@@ -224,6 +224,8 @@ pub struct ViewArgs {
     pub population: Option<String>,
     /// Image: outline the objects counted as openreadout_stats objects counts them.
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Image: draw the lanes and bands of a gel or blot as openreadout_stats lanes finds them.
+    pub lanes: Option<openreadout_core::measure::LanesRequest>,
     /// Figure: the `openreadout_plot` arguments, as the agent sent them.
     pub spec: Option<Value>,
     /// Figure: draw in the dark theme.
@@ -366,6 +368,13 @@ pub fn call(
     let mut limits = Map::new();
     let mut picture: Option<(Vec<u8>, &'static str)> = None;
     let summary = match kind {
+        ViewKind::Summary if is_samples(&info) => {
+            picture = Some(samples_picture(ds.as_mut(), &info)?);
+            format!(
+                "{} samples ({}), as the preview draws them",
+                info.tables[0].row_count, info.format.name
+            )
+        }
         ViewKind::Auto | ViewKind::Summary | ViewKind::Figure => {
             format!("outline of {}", info.format.name)
         }
@@ -713,9 +722,46 @@ pub fn sequencing_figure(path: &str, info: &FileInfo) -> Option<Value> {
     None
 }
 
+/// A table of sample measurements (NanoDrop, Qubit): `tables[0].extra.kind` is `samples`.
+fn is_samples(info: &FileInfo) -> bool {
+    info.tables
+        .first()
+        .is_some_and(|t| t.extra.get("kind").and_then(Value::as_str) == Some("samples"))
+}
+
+/// The preview of a samples table, for the summary view.
+fn samples_picture(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &FileInfo,
+) -> Result<(Vec<u8>, &'static str), McpError> {
+    use openreadout_preview as pv;
+    let mut req = pv::PreviewRequest::default();
+    req.max_size = DEFAULT_IMAGE_SIZE.clamp(64, MAX_IMAGE_SIZE);
+    let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
+    let (out, bytes) = pv::finish_within(
+        &r,
+        pv::Encoding::Png,
+        pv::DEFAULT_JPEG_QUALITY,
+        crate::resources::PREVIEW_BUDGET,
+    )
+    .map_err(|e| err(&e))?;
+    Ok((
+        bytes,
+        if out.encoding == "jpeg" {
+            "image/jpeg"
+        } else {
+            "image/png"
+        },
+    ))
+}
+
 /// The view for [`ViewKind::Auto`].
 pub fn auto_kind(info: &FileInfo) -> ViewKind {
     let views = available(info);
+    // NanoDrop, Qubit: the samples picture (spectra beside concentrations and ratios) first.
+    if is_samples(info) {
+        return ViewKind::Summary;
+    }
     // qPCR runs: the amplification curves say more than a plate of one number; so do the
     // electropherograms of a chip or tape run.
     if matches!(info.format.family.as_str(), "qpcr" | "electrophoresis")
@@ -876,6 +922,10 @@ fn image(
     if let Some(o) = &a.objects {
         req.marks = pv::Marks::Objects;
         req.objects = Some(o.clone());
+    }
+    if let Some(l) = &a.lanes {
+        req.marks = pv::Marks::Lanes;
+        req.lanes = Some(l.clone());
     }
     let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
     let (out, bytes) = pv::finish_within(

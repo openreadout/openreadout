@@ -47,6 +47,7 @@ default-members = [
     "crates/openreadout-fplc",
     "crates/openreadout-biophys",
     "crates/openreadout-gel",
+    "crates/openreadout-benchtop",
     "crates/openreadout-epr",
     "crates/openreadout-xrd",
     "crates/openreadout-ce",
@@ -129,6 +130,7 @@ openreadout-spectro = { path = "crates/openreadout-spectro", version = "0.3.0" }
 openreadout-fplc = { path = "crates/openreadout-fplc", version = "0.3.0" }
 openreadout-biophys = { path = "crates/openreadout-biophys", version = "0.3.0" }
 openreadout-gel = { path = "crates/openreadout-gel", version = "0.3.0" }
+openreadout-benchtop = { path = "crates/openreadout-benchtop", version = "0.3.0" }
 openreadout-epr = { path = "crates/openreadout-epr", version = "0.3.0" }
 openreadout-xrd = { path = "crates/openreadout-xrd", version = "0.3.0" }
 openreadout-ce = { path = "crates/openreadout-ce", version = "0.3.0" }

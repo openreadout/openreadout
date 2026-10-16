@@ -918,6 +918,10 @@ def tiff(p: Path) -> dict:
                 series, kind = ome_series, "ome"
         # Leica SCN: every <image> of the collection is an image (overview and scanned regions)
         pick = series if kind in ("ome", "generic", "uniform", "shaped", "mmstack", "scn") else series[:1]
+        # Incucyte raw exports: the second page is a 1 x 1 page carrying the metadata (tag 60020)
+        sw = str(tf.pages[0].tags.valueof(305) or "").lower()
+        if sw.startswith("incucyte") and len(tf.pages) > 1 and 60020 in tf.pages[1].tags:
+            pick = series[:1]
         images = []
         for s in pick:
             images.extend(_series_images(s, len(images)))
@@ -2782,6 +2786,40 @@ def _zvi_olefile(p: Path) -> dict:
             "images": [{"index": 0, "size_x": w, "size_y": hh, "size_z": len(zs), "size_c": len(cs) if spp == 1 else 1,
                         "size_t": len(ts), "samples_per_pixel": spp, "pixel_type": "uint16" if dt is np.uint16 else "uint8",
                         "planes": planes[:MAX_PLANES]}]}
+
+
+def syngene_sgd(p: Path) -> dict:
+    """Syngene GeneSys `.sgd`: olefile (BSD-2-Clause, run as a black box) lists the capture storages
+    (`Detector/MultiImage/MultiData` order, then any other `Detector/GeneSnap/*/PixelData`) and
+    reads each 26-byte PixelData header (width, height); the bytes per sample follow from the
+    stream size. No independent reader decodes the samples, so no planes are recorded: the corpus
+    test compares the image count, geometry and pixel type (docs/provenance/syngene-sgd.md)."""
+    import struct
+    import olefile
+    with olefile.OleFileIO(str(p)) as o:
+        names = []
+        if o.exists("Detector/MultiImage/MultiData"):
+            b = o.openstream("Detector/MultiImage/MultiData").read()
+            n = struct.unpack_from("<I", b, 2)[0]
+            i = 6
+            for _ in range(n):
+                k = struct.unpack_from("<I", b, i)[0]
+                names.append(b[i + 4:i + 4 + k].decode("ascii"))
+                i += 4 + k
+        stored = sorted({e[2] for e in o.listdir() if len(e) == 4 and e[:2] == ["Detector", "GeneSnap"] and e[3] == "PixelData"},
+                        key=lambda s: (s.rstrip("0123456789"), int(s[len(s.rstrip("0123456789")):] or -1)))
+        names = [n for n in names if n in stored] + [n for n in stored if n not in names]
+        images = []
+        for k, name in enumerate(names):
+            path = f"Detector/GeneSnap/{name}/PixelData"
+            size = o.get_size(path)
+            head = o.openstream(path).read(26)
+            w, h = struct.unpack_from("<II", head, 2)
+            bps = (size - 26) // (w * h)
+            images.append({"index": k, "name": name, "size_x": w, "size_y": h, "size_z": 1, "size_c": 1, "size_t": 1,
+                           "samples_per_pixel": 1, "pixel_type": "uint16" if bps == 2 else "uint8",
+                           "physical_size_um": {}, "planes": [], "stream_size": size})
+    return {"reader": f"olefile {olefile.__version__} (stream listing and PixelData headers; samples not decoded)", "images": images}
 
 
 def biorad_scn(p: Path) -> dict:
@@ -6203,6 +6241,8 @@ def main():
                 data = thermo(p, export)  # the given export (mzML, mzXML or ANDI-MS)
             elif ext == ".pl2" and export is not None:
                 data = pl2_plx(p, export)
+            elif ext == ".sgd":
+                data = syngene_sgd(p)
             elif ext == ".scn" and _is_image_lab(p):
                 data = biorad_scn(p)
             elif ext == ".wiff":

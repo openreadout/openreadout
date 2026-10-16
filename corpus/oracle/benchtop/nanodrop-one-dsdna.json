@@ -1,0 +1,479 @@
+{
+ "id": "nanodrop-one-dsdna",
+ "readers": {
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_NANODROP_ONE"
+ },
+ "format": "nanodrop",
+ "measurements": [
+  {
+   "id": "0a781cfe-4268-4738-a0d9-00ef88ce6138",
+   "sample": "Sample 1",
+   "location": null,
+   "time": "2023-07-19T15:27:29+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     14.309,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     715.462,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.812,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "f33919f0-fb44-447f-bd69-5eb9705656e1",
+   "sample": "Sample 1",
+   "location": null,
+   "time": "2023-07-19T15:27:29+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     7.601,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     715.462,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.812,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "ef0f2e84-7e10-457f-ba78-11a6db011eda",
+   "sample": "Sample 2",
+   "location": null,
+   "time": "2023-07-19T15:27:48+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     17.128,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     856.375,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.956,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a1cd22af-7e39-4c72-b2ab-ff181c70ccc6",
+   "sample": "Sample 2",
+   "location": null,
+   "time": "2023-07-19T15:27:48+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     8.975,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     856.375,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.956,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d4996752-309e-4439-9435-aa57973aac44",
+   "sample": "Sample 1",
+   "location": null,
+   "time": "2023-07-12T17:52:34+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "mass concentration",
+     1011.898,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "3078504f-f96a-431b-9d8e-e3980986bb42",
+   "sample": "Sample 1",
+   "location": null,
+   "time": "2023-07-12T17:52:34+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "mass concentration",
+     1011.898,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "f24cb1f0-b39d-4633-b94b-94ed9c50fb75",
+   "sample": "Sample 2",
+   "location": null,
+   "time": "2023-07-12T17:52:54+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "mass concentration",
+     1079.211,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "5bf70962-6909-4254-81b3-0958356e43c8",
+   "sample": "Sample 2",
+   "location": null,
+   "time": "2023-07-12T17:52:54+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "mass concentration",
+     1079.211,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "c4f1b983-6ad4-4a0b-beed-45789479632b",
+   "sample": "Sample 3",
+   "location": null,
+   "time": "2023-07-19T15:28:05+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     22.811,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     1140.574,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.943,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "e12f02a7-820a-407e-9723-3d6ffe34c643",
+   "sample": "Sample 3",
+   "location": null,
+   "time": "2023-07-19T15:28:05+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     11.917,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     1140.574,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.943,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "52e1419b-2800-4918-8f7f-b92fe032a9de",
+   "sample": "Sample 4",
+   "location": null,
+   "time": "2023-07-19T15:28:20+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     23.477,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     1173.866,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     1.286,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "0a969a81-8e8b-476c-b583-e3cf6ae9cc73",
+   "sample": "Sample 4",
+   "location": null,
+   "time": "2023-07-19T15:28:20+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     12.31,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     1173.866,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     1.286,
+     "mAU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [
+  {
+   "name": "A260/A280",
+   "value": 1.882,
+   "sources": [
+    "0a781cfe-4268-4738-a0d9-00ef88ce6138",
+    "f33919f0-fb44-447f-bd69-5eb9705656e1"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 1.954,
+   "sources": [
+    "0a781cfe-4268-4738-a0d9-00ef88ce6138"
+   ]
+  },
+  {
+   "name": "A260/A280",
+   "value": 1.908,
+   "sources": [
+    "ef0f2e84-7e10-457f-ba78-11a6db011eda",
+    "a1cd22af-7e39-4c72-b2ab-ff181c70ccc6"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 2.086,
+   "sources": [
+    "ef0f2e84-7e10-457f-ba78-11a6db011eda"
+   ]
+  },
+  {
+   "name": "A260/A280",
+   "value": 1.903,
+   "sources": [
+    "d4996752-309e-4439-9435-aa57973aac44",
+    "3078504f-f96a-431b-9d8e-e3980986bb42"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 2.068,
+   "sources": [
+    "d4996752-309e-4439-9435-aa57973aac44"
+   ]
+  },
+  {
+   "name": "A260/A280",
+   "value": 1.926,
+   "sources": [
+    "f24cb1f0-b39d-4633-b94b-94ed9c50fb75",
+    "5bf70962-6909-4254-81b3-0958356e43c8"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 2.17,
+   "sources": [
+    "f24cb1f0-b39d-4633-b94b-94ed9c50fb75"
+   ]
+  },
+  {
+   "name": "A260/A280",
+   "value": 1.914,
+   "sources": [
+    "c4f1b983-6ad4-4a0b-beed-45789479632b",
+    "e12f02a7-820a-407e-9723-3d6ffe34c643"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 2.151,
+   "sources": [
+    "c4f1b983-6ad4-4a0b-beed-45789479632b"
+   ]
+  },
+  {
+   "name": "A260/A280",
+   "value": 1.907,
+   "sources": [
+    "52e1419b-2800-4918-8f7f-b92fe032a9de",
+    "0a969a81-8e8b-476c-b583-e3cf6ae9cc73"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 2.064,
+   "sources": [
+    "52e1419b-2800-4918-8f7f-b92fe032a9de"
+   ]
+  }
+ ],
+ "model": "NanoDrop One",
+ "serial": null
+}

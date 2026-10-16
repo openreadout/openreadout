@@ -66,6 +66,8 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_gpr` | GenePix Results `.gpr` (ATF): header records, titles, feature rows |
 | `whole_abif` | Applied Biosystems ABIF `.ab1`/`.fsa`: directory entries, element types, base calls, the instrument's size map and peak table, fragment sizing |
 | `whole_bioanalyzer`, `whole_tapestation` | Agilent Bioanalyzer XML exports; TapeStation XML with its electropherogram CSV (bundle): samples, peaks, standard curves, base64 signals, lane CSV rows, sizing |
+| `whole_nanodrop`, `whole_qubit` | NanoDrop exports (8000, Eight with spectra, One, One UV-Vis spectrum blocks) and Qubit 4 and Flex CSV exports: layouts, delimited lines, decimal commas, dates, units |
+| `measure_lanes` | the lane and band analysis of `stats --lanes` on an 8-bit plane (first byte: width; second: lane count, polarity, ladder) |
 | `whole_itc` | MicroCal `.itc` text: header, injection lines, block markers, data rows |
 | `whole_pod5`, `whole_fast5`, `whole_fastq`, `whole_bam` | DNA sequencer files: POD5 (FlatBuffer footer, Arrow IPC tables, VBZ rows), FAST5 (HDF5, deflate and VBZ), FASTQ (plain or gzip), BAM (BGZF, records, tags) |
 | `whole_illumina_bcl`, `whole_illumina_cbcl` | Illumina run folders: RunInfo and RunParameters XML, InterOp metric files, filter, BCL or CBCL and locations files, as a bundle |
@@ -87,6 +89,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_ta001` | TA Instruments `.001`: UTF-16 header, signal count, records, end record |
 | `whole_trios` | TA Instruments TRIOS `.tri`: header strings, step objects, typed properties, signal records with flag arrays, parallel-plate moduli |
 | `whole_scn` | Bio-Rad Image Lab `.scn`: MIME multipart parts (nested, with and without lengths), XML headers, 16-bit image data |
+| `whole_sgd` | Syngene GeneSys `.sgd`: compound-file structure, capture list, `PixelData` headers, `Capture`/`Description` streams, pixel reads through sector chains |
 | `whole_unicorn_res`, `whole_unicorn_zip` | Cytiva ÄKTA / UNICORN results: `.res` block directory and descriptors; UNICORN 6/7 export zips with nested padded zips and MS-NRBF records |
 | `whole_rdml`, `whole_eds`, `whole_rex`, `whole_pcrd`, `whole_ixo`, `whole_qpcr_export` | qPCR: RDML (zip or XML), Applied Biosystems `.eds` (zip; seeds in the SDS, 7500 and JSON layouts, written by hand), Rotor-Gene `.rex`, Bio-Rad `.pcrd` (detection and refusal only), LightCycler 480 `.ixo` (a small synthetic object stream with a zlib acquisition store), results exports as text (a CFX CSV; the `.xls` path goes through calamine, see Known issues) |
 | `whole_abf`, `whole_atf`, `whole_neuralynx`, `whole_blackrock`, `whole_intan`, `whole_plexon`, `whole_pl2`, `whole_heka`, `whole_spike2` (`.smr` and `.smrx`), `whole_winwcp`, `whole_openephys`, `whole_tdt` (`.tsq` + `.tev` block), `whole_axona` (`.set` + `.bin` + tetrode file), `whole_mcs_raw`; `whole_spikeglx` | electrophysiology (Plexon: magic-only committed seeds; the corpus files are share-alike and seed `local-seeds/` only); SpikeGLX `.meta` + `.bin` |

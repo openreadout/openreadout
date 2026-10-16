@@ -119,6 +119,9 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_biophys::ZetasizerReader))
         .with(Box::new(openreadout_biophys::GprReader))
         .with(Box::new(openreadout_gel::ImageLabReader))
+        .with(Box::new(openreadout_gel::SyngeneReader))
+        .with(Box::new(openreadout_benchtop::NanoDropReader))
+        .with(Box::new(openreadout_benchtop::QubitReader))
         .with(Box::new(openreadout_fplc::UnicornResReader))
         .with(Box::new(openreadout_fplc::UnicornZipReader))
         .with(Box::new(openreadout_epr::Bes3tReader))
@@ -524,7 +527,7 @@ impl NativeFile {
     }
     /// Measurements on one plane (`stats --line/--polygon/--objects --json` data) as JSON.
     /// `objects` is the JSON of the object-count options, or `None` for no count.
-    #[pyo3(signature = (image=None, select=Vec::new(), level=0, region=None, line=None, line_width=None, polygon=None, objects=None))]
+    #[pyo3(signature = (image=None, select=Vec::new(), level=0, region=None, line=None, line_width=None, polygon=None, objects=None, lanes=None))]
     #[allow(clippy::too_many_arguments)]
     fn measure_json(
         &self,
@@ -537,9 +540,11 @@ impl NativeFile {
         line_width: Option<u32>,
         polygon: Option<Vec<[f64; 2]>>,
         objects: Option<String>,
+        lanes: Option<String>,
     ) -> PyResult<String> {
-        use openreadout_core::measure::{MeasureRequest, ObjectsRequest, measure};
+        use openreadout_core::measure::{LanesRequest, MeasureRequest, ObjectsRequest, measure};
         let objects = objects.map(|o| request::<ObjectsRequest>(&o)).transpose()?;
+        let lanes = lanes.map(|o| request::<LanesRequest>(&o)).transpose()?;
         let req = MeasureRequest {
             image,
             select,
@@ -549,10 +554,11 @@ impl NativeFile {
             line_width,
             polygon,
             objects,
+            lanes,
         };
         if !req.any() {
             return Err(PyValueError::new_err(
-                "give line, polygon or objects to measure",
+                "give line, polygon, objects or lanes to measure",
             ));
         }
         let out = self.with_ds_opt(py, true, |ds| {

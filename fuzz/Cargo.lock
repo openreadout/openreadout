@@ -1432,6 +1432,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-benchtop"
+version = "0.3.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+]
+
+[[package]]
 name = "openreadout-biophys"
 version = "0.3.0"
 dependencies = [
@@ -1610,6 +1618,7 @@ dependencies = [
  "openreadout-agilent-ms",
  "openreadout-assay",
  "openreadout-batch",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",

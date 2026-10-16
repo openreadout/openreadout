@@ -322,6 +322,11 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
                 asked.cloned().unwrap_or_else(|| json!({})),
             );
         }
+        // lanes found (preview marks=lanes, stats lanes): the viewer draws them too
+        let lanes = args.get("lanes").filter(|v| v.is_object());
+        if lanes.is_some() || args.get("marks").and_then(Value::as_str) == Some("lanes") {
+            hint.insert("lanes".into(), lanes.cloned().unwrap_or_else(|| json!({})));
+        }
     }
     let kind = match tv {
         ToolView::Auto | ToolView::Figure => None,

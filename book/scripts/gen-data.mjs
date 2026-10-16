@@ -60,6 +60,8 @@ const FIELD = {
   microarray: "Bench biophysics",
   "gel-imaging": "Bench biophysics",
   electrophoresis: "Electrophoresis",
+  spectrophotometer: "Bench biophysics",
+  fluorometer: "Bench biophysics",
   epr: "Materials and electrochemistry",
   diffraction: "Materials and electrochemistry",
   electrochemistry: "Materials and electrochemistry",

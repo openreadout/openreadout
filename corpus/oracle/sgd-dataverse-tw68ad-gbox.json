@@ -1,0 +1,24 @@
+{
+ "id": "sgd-dataverse-tw68ad-gbox",
+ "file": "sgd-dataverse-tw68ad-gbox.sgd",
+ "size": 12219392,
+ "sha256": "307286f2db81ae5c04837ff15d3c0d7546caa1e3df45019670054135b960c1dd",
+ "max_planes_hashed": 64,
+ "reader": "olefile 0.47 (stream listing and PixelData headers; samples not decoded)",
+ "images": [
+  {
+   "index": 0,
+   "name": "RawData",
+   "size_x": 2748,
+   "size_y": 2199,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "planes": [],
+   "stream_size": 12085730
+  }
+ ]
+}

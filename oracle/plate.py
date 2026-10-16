@@ -36,6 +36,7 @@ VENDORS = {
     "kaleido-": "REVVITY_KALEIDO",
     "magellan-": "TECAN_MAGELLAN",
     "skanit-": "THERMO_SKANIT",
+    "incucyte-": "INCUCYTE_TEXT",
 }
 SUFFIXES = {".txt", ".csv", ".xlsx", ".xls"}
 
@@ -792,8 +793,64 @@ def bmg_smart_table_summary(path: Path) -> dict:
     return out
 
 
+def incucyte_summary(path: Path) -> dict:
+    """Independent reader for Sartorius Incucyte metric exports (allotropy has no Incucyte
+    parser). Key lines (`Vessel Name:`/`Label:`, `Metric:`, ...), then either a table `Date Time`,
+    `Elapsed` (hours), one column per well (`B2`), one row per scan, or per scan a `Time Stamp:`
+    line (`Elapsed:` hours) followed by a plate matrix (column numbers, then rows `A`, `B`, ...).
+    Columns that are not wells are not read. Every value is mode `imaging`; `times_s` lists the
+    scans' elapsed times in seconds."""
+    rows = _text_rows(path)
+    values, times = [], []
+
+    def num(c):
+        try:
+            return float(c.strip().replace(",", "."))
+        except ValueError:
+            return None
+
+    i = 0
+    while i < len(rows):
+        r = [c.strip() for c in rows[i]]
+        if r and r[0].lower().startswith("date time"):
+            wells = [parse_well(c) if c else None for c in r]
+            for row in rows[i + 1:]:
+                if len(row) < 2 or num(row[1]) is None:
+                    continue
+                t = num(row[1]) * 3600
+                for w, c in zip(wells[2:], row[2:]):
+                    v = num(c) if w else None
+                    if v is not None:
+                        values.append((*w, v))
+                        times.append(t)
+            break
+        if r and r[0].lower().startswith("time stamp"):
+            joined = "\t".join(r)
+            m = re.search(r"Elapsed:\s*([0-9.,]+)", joined)
+            t = num(m.group(1)) * 3600 if m else None
+            cols = [int(c) if c.isdigit() else None for c in (x.strip() for x in rows[i + 1])]
+            j = i + 2
+            while j < len(rows) and rows[j] and re.fullmatch(r"[A-Z]{1,2}", rows[j][0].strip() or "-"):
+                for c, cell in zip(cols[1:], rows[j][1:]):
+                    v = num(cell)
+                    if c and v is not None:
+                        w = parse_well(f"{rows[j][0].strip()}{c}")
+                        values.append((*w, v))
+                        if t is not None:
+                            times.append(t)
+                j += 1
+            i = j
+            continue
+        i += 1
+    out = {"groups": _groups({"imaging": values}) if values else [], "header": {}}
+    for g in out["groups"]:
+        g["times_s"] = sorted(set(times))
+    return out
+
+
 TEXT_DIALECTS = {"GEN5_TEXT": gen5_text_summary, "GEN5_XLSX": gen5_xlsx_summary, "BMG_CSV": bmg_csv_summary,
-                 "BMG_SMART_TABLE": bmg_smart_table_summary, "ENVISION_CSV": envision_csv_summary}
+                 "BMG_SMART_TABLE": bmg_smart_table_summary, "ENVISION_CSV": envision_csv_summary,
+                 "INCUCYTE_TEXT": incucyte_summary}
 
 
 def plate(p: Path) -> dict:

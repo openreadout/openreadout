@@ -735,7 +735,10 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("gpr", "genepix-gpr"),
         ],
     ),
-    ("gel", &[("", "biorad-scn")]),
+    ("gel", &[("sgd", "syngene-sgd"), ("", "biorad-scn")]),
+    // NanoDrop and Qubit exports: one module per instrument; lib/model/table/text are checked
+    // against both documents
+    ("benchtop", &[("nanodrop", "nanodrop"), ("qubit", "qubit")]),
     // BES3T and ESP/WinEPR share one note
     ("epr", &[("", "bruker-epr")]),
     // one module per format; lib.rs/common.rs are checked against the shared note

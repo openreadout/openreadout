@@ -2,6 +2,11 @@
 
 Where the numbers live for protein purification, biophysics, gels, EPR, X-ray diffraction, electrochemistry, battery cycling, thermal analysis, rheology and capillary electrophoresis. All of these are `traces[]` and `tables[]` in `info`; read curves with `trace` (`--trace N`, `--channel NAME`, `--x-range A:B` on the trace's own axis) and tables with `table --table K`. Values are as stored: no baseline, no Kα2 stripping, no iR compensation, no DSC sensitivity calibration; time axes are seconds from the run start.
 
+## Nucleic acid and protein quantification
+
+- **NanoDrop** (8000 `.txt`, Eight `.txt`/`.tsv`, One `.csv` and UV-Vis spectra `.tsv`) and **Qubit** (4, Flex `.csv`): table 0 `samples`, one row per measurement: `sample`, `measured_at`, `concentration` (NanoDrop) or `tube_concentration`/`sample_concentration` (Qubit) with the unit in the column's `unit`, `a260`, `a280`, `a260_a280`, `a260_a230`, RFU columns. Text such as `Out of range` is in `<column>_note`. NanoDrop spectra are trace 0, one sweep per sample on a wavelength axis (`trace --sweep N`). Many exports into one table: `batch table FOLDER -o all.csv` (one row per sample, with a `path` column).
+- **Incucyte** metric exports (`.txt`): a kinetic plate (`plate` format), so `analyze growth` and the plate previews apply; the metric is the read (`mode: imaging`, unit `%` for confluence).
+
 ## Protein purification and biophysics
 
 - **ÄKTA/UNICORN** (`.res`, `.zip`): one trace per curve; pick it by `info` → `traces[].extra.kind` (`uv`, `conductivity`, `concentration_b`, `ph`, `pressure`). The axis is volume in ml from the method start (UNICORN's own zero is the last injection; `info` notes it), so `argmax_axis_value` is an elution volume and `--x-range 10:20` is in ml. Fractions, injections and UNICORN's own peak tables are `tables[]` by `name`: quote them rather than re-integrating.
@@ -11,7 +16,7 @@ Where the numbers live for protein purification, biophysics, gels, EPR, X-ray di
 - **Octet BLI** (`.frd`, one biosensor per file): trace 0 channel `response` (nm), channel `step` numbers the assay steps; table 0 lists the steps (type, sample, concentration, start/end). kon/koff/KD are not in `.frd` files.
 - **Zetasizer** (`.dts`): table 0 has one row per record (`record`, `kind`, `sample_name`, `measured_at`, `z_average` in nm, `pdi`, intensity peak means and areas, zeta potential, mobility, conductivity). Peak widths and the number and volume peaks are withheld (finding `size_values_withheld`): use the Zetasizer export for those.
 - **GenePix** `.gpr`: table 0 with GenePix's own column names (`F635 Median`, `B635 Median`, `Flags`; `Name`/`ID` are categories); count spots with `table FILE --filter 'F635 Median > 1000' --count`.
-- **Image Lab** `.scn` gels and blots: `images[0].channels[0].exposure_ms`, `experiment.instrument`; `extra.zero_is` says whether dark bands are low values. Band intensities: `stats FILE --region X,Y,W,H`.
+- **Gels and blots** (Image Lab `.scn`, Typhoon `.gel`, imager TIFFs): `images[0].channels[0].exposure_ms`, `experiment.instrument`. Band quantification: `stats FILE --lanes` gives each lane's `total_volume` and its bands' `volume`, `fraction_of_lane` and `relative` (to the strongest band), background-subtracted; `saturated_px > 0` means the volume is a lower bound. `--lanes=N` when you know the lane count, `--ladder 1:250,150,100` for sizes, `--region` to leave out wells or a marker strip. Look at `preview --marks lanes` before quoting volumes.
 
 ## EPR, X-ray diffraction
 

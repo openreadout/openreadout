@@ -174715,6 +174715,1400 @@
         14,
         14
       ]
+    },
+    {
+      "id": "nanodrop-8000-custom-mrna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-dna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-dna-2",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-protein",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-protein-plate",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-eight-decimal-comma",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "nanodrop-eight-dsdna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "nanodrop-eight-rna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-eight-tab-aligned",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "nanodrop-one-dsdna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-one",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-one-uvvis-nanodrop-r",
+      "format": "nanodrop",
+      "source": "github:beabock/nanodrop",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-spectra",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "incucyte-incucytedrc-mda-mb-468",
+      "format": "plate",
+      "source": "github:chapmandu2/incucytedrc",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "incucyte",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Incucyte",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "imaging",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "container text (tab)",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
+      "id": "qubit-flex-rna-br",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-flex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "qubit-flex-sep-header",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-flex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "qubit4-dsdna-hs",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "qubit4-out-of-range",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "sgd-dataverse-tw68ad-gbox",
+      "format": "syngene-sgd",
+      "source": "harvard dataverse doi",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "GeneSys 1.6",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "G:Box mini 6",
+          []
+        ],
+        [
+          "acquisition",
+          "ECL",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "sgd-zenodo3975844-pxi6",
+      "format": "syngene-sgd",
+      "source": "zenodo:3975844",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "GeneSys 1.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "No Light",
+          []
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "PXi 6",
+          []
+        ],
+        [
+          "acquisition",
+          "ECL",
+          []
+        ],
+        [
+          "acquisition",
+          "Visible Marker",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "imager-zenodo10050244-alliance-q9",
+      "format": "tiff",
+      "source": "zenodo:10050244",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Alliance Q9 Mini",
+          []
+        ],
+        [
+          "dialect",
+          "uvitec-vilber",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        6,
+        11
+      ]
+    },
+    {
+      "id": "imager-zenodo14251737-ibright",
+      "format": "tiff",
+      "source": "zenodo:14251737",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "iBright(TM) Imager",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "iBright",
+          []
+        ],
+        [
+          "dialect",
+          "thermo-ibright",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        6,
+        11
+      ]
+    },
+    {
+      "id": "imager-zenodo14653475-las4000",
+      "format": "tiff",
+      "source": "zenodo:14653475",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "ImageQuant LAS 4000",
+          []
+        ],
+        [
+          "dialect",
+          "cytiva-imager",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        6,
+        11
+      ]
+    },
+    {
+      "id": "imager-zenodo20292756-iq800-colorimetric",
+      "format": "tiff",
+      "source": "zenodo:20292756",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Amersham ImageQuant",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Amersham ImageQuant 800",
+          []
+        ],
+        [
+          "instrument",
+          "Amersham ImageQuant 800",
+          []
+        ],
+        [
+          "dialect",
+          "cytiva-imager",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        6,
+        11
+      ]
+    },
+    {
+      "id": "imager-zenodo20606993-amersham680-marker",
+      "format": "tiff",
+      "source": "zenodo:20606993",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Amersham Imager",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Amersham Imager 680",
+          []
+        ],
+        [
+          "instrument",
+          "Amersham Imager 680",
+          []
+        ],
+        [
+          "dialect",
+          "cytiva-imager",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        6,
+        11
+      ]
+    },
+    {
+      "id": "imager-zenodo20606993-amersham680-poi",
+      "format": "tiff",
+      "source": "zenodo:20606993",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Amersham Imager",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Amersham Imager 680",
+          []
+        ],
+        [
+          "instrument",
+          "Amersham Imager 680",
+          []
+        ],
+        [
+          "dialect",
+          "cytiva-imager",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        6,
+        11
+      ]
+    },
+    {
+      "id": "imager-zenodo5593025-fusion-truncated",
+      "format": "tiff",
+      "source": "zenodo:5593025",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "plain",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "none",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": "incucyte-zenodo14106341-phase",
+      "format": "tiff",
+      "source": "zenodo:14106341",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "IncuCyte",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "IncuCyte 2019",
+          []
+        ],
+        [
+          "instrument",
+          "IncuCyte S3",
+          []
+        ],
+        [
+          "dialect",
+          "incucyte",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "lzw",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        9,
+        13
+      ]
+    },
+    {
+      "id": "incucyte-zenodo19661347-rgb",
+      "format": "tiff",
+      "source": "zenodo:19661347",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "Incucyte",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "Incucyte 2023",
+          []
+        ],
+        [
+          "dialect",
+          "incucyte",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "lzw",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "interleaved samples",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "strips",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        9,
+        13
+      ]
     }
   ],
   "heldout": {

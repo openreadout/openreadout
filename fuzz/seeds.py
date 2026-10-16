@@ -137,6 +137,12 @@ COMMITTED_CUTS = [
     ("whole_cary", "cary-pyspecdata-ras-stability4.bsk", 128 * 1024),  # CC0-1.0
     ("whole_itc", "itc-zenodo6608282-d25-50um.itc", 16 * 1024),  # CC0-1.0
     ("whole_uvprobe", "figshare29858651-uvprobe-substrate.spc", 32 * 1024),  # CC-BY-4.0
+    ("whole_nanodrop", "nanodrop-8000-dna.txt", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-eight-dsdna.txt", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-one-dsdna.csv", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-one-uvvis-nanodrop-r.tsv", 16 * 1024),  # MIT (nanodRop)
+    ("whole_qubit", "qubit4-out-of-range.csv", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_qubit", "qubit-flex-sep-header.csv", 16 * 1024),  # MIT (allotropy test data)
 ]
 # (target, [(corpus file, bytes to keep), ...]) joined by BUNDLE_SEP in the target's order
 OIF = "olympus-fv/zenodo4421962-oif/Bead12/"
@@ -536,6 +542,26 @@ def mini_unicorn_zip() -> bytes:
 
 def new_format_seeds() -> None:
     """Structure-level seeds for the sub-parser targets of the newer readers."""
+    # A gel of four lanes with two bands each: width byte (+8), options byte, 8-bit rows
+    # (fuzz_targets/measure_lanes.rs).
+    import math
+
+    w, h = 56, 64
+    gel = bytearray()
+    for y in range(h):
+        for x in range(w):
+            v = 20.0
+            for cx in (8, 22, 36, 50):
+                if abs(x - cx) <= 4:
+                    v += 180 * math.exp(-((y - 16) ** 2) / 8) + 90 * math.exp(-((y - 40) ** 2) / 8)
+            gel.append(min(255, int(v)))
+    put("measure_lanes", "synthetic-4-lanes.bin", bytes([w - 8, 0]) + bytes(gel))
+    # An Incucyte metric export, wells as columns (a decimal comma and an ERROR cell).
+    put("whole_plate", "synthetic-incucyte-wells.txt", (
+        "Vessel Name: synthetic\nMetric: Phase Object Confluence (Percent)\nCell Type: none\n"
+        "Passage: 1\nNotes: \nAnalysis: synthetic seed\n\nDate Time\tElapsed\tA1\tA2\tB1\n"
+        "01/02/2026 08:00:00\t0\t10.5\t11.2\t9.8\n01/02/2026 12:00:00\t4\t15.1\t16,0\t12.2\n"
+        "01/02/2026 16:00:00\t8\t22.4\t23.9\tERROR\n").encode())
     put("whole_unicorn_res", "mini.res", mini_unicorn_res())
     put("whole_unicorn_zip", "mini-export.zip", mini_unicorn_zip())
     # ASDF: SQZ, DIF and DUP forms of one short table (JCAMP-DX 4.24 compression rules).
@@ -836,6 +862,135 @@ def mini_tapestation() -> bytes:
     return xml + BUNDLE_SEP + csv
 
 
+def mini_cfb(files: dict[str, bytes]) -> bytes:
+    """A version-3 compound file (512-byte sectors, mini-stream cutoff 0 so every stream lives in
+    regular sectors) holding `files` (paths with `/`; storages are implied). MS-CFB layout."""
+    nodes = [{"name": "Root Entry", "kind": 5, "children": [], "data": b""}]
+    index = {"": 0}
+    for path, data in files.items():
+        parts = path.split("/")
+        for i in range(len(parts)):
+            cur, parent = "/".join(parts[: i + 1]), "/".join(parts[:i])
+            if cur not in index:
+                leaf = i == len(parts) - 1
+                nodes.append({"name": parts[i], "kind": 2 if leaf else 1, "children": [], "data": data if leaf else b""})
+                index[cur] = len(nodes) - 1
+                nodes[index[parent]]["children"].append(index[cur])
+    end, free, nostream = 0xFFFFFFFE, 0xFFFFFFFF, 0xFFFFFFFF
+    n_dir = (len(nodes) * 128 + 511) // 512
+    fat = [0xFFFFFFFD] + [i + 2 for i in range(n_dir - 1)] + [end]
+    starts = []
+    body = b""
+    for n in nodes:
+        k = (len(n["data"]) + 511) // 512 if n["kind"] == 2 else 0
+        if k == 0:
+            starts.append(end)
+            continue
+        first = len(fat)
+        starts.append(first)
+        fat += [first + j + 1 for j in range(k - 1)] + [end]
+        body += n["data"].ljust(k * 512, b"\0")
+    assert len(fat) <= 128, "mini_cfb holds at most 128 sectors"
+    fat += [free] * (128 - len(fat))
+    directory = b""
+    for i, n in enumerate(nodes):
+        sib = nostream
+        for m in nodes:
+            ch = m["children"]
+            if i in ch and ch.index(i) + 1 < len(ch):
+                sib = ch[ch.index(i) + 1]
+        name = n["name"].encode("utf-16-le")
+        e = name.ljust(64, b"\0") + struct.pack("<HBB", len(name) + 2, n["kind"], 1)
+        e += struct.pack("<III", nostream, sib, n["children"][0] if n["children"] else nostream)
+        e += bytes(16 + 4 + 16) + struct.pack("<III", starts[i], len(n["data"]), 0)
+        directory += e
+    directory = directory.ljust(n_dir * 512, b"\0")
+    h = bytes.fromhex("d0cf11e0a1b11ae1") + bytes(16) + struct.pack("<HHHHH", 0x3E, 3, 0xFFFE, 9, 6) + bytes(6)
+    h += struct.pack("<IIIIIIIII", 0, 1, 1, 0, 0, end, 0, end, 0)
+    h += struct.pack("<I", 0) + struct.pack("<I", free) * 108
+    return h + struct.pack("<128I", *fat) + directory + body
+
+
+def mini_sgd() -> bytes:
+    """A GeneSys file with one 4 x 3 16-bit capture (docs/formats/syngene-sgd.md)."""
+    def text(s: str) -> bytes:
+        return struct.pack("<I", len(s)) + s.encode()
+    pixels = struct.pack("<HIIIIII", 2, 4, 3, 1, 1, 1, 4) + struct.pack("<12H", *range(100, 1300, 100))
+    capture = (struct.pack("<H", 15) + bytes(8) + b"\x01" + text("GeneSys Version: 1.6.1.0") + struct.pack("<dH", 9.5, 0)
+               + text("No Light") + text("Synoptics 6.0MP") + text("ART-694 #1") + text("G:Box mini 6") + struct.pack("<H", 11)
+               + text("No Filter") + bytes(8) + text("ECL"))
+    desc = struct.pack("<HIHQ", 5, 1663601689, 0, 0) + text("user")
+    multi = struct.pack("<HI", 5, 1) + text("RawData") + struct.pack("<I", 1)
+    return mini_cfb({"Detector/GeneSnap/RawData/PixelData": pixels, "Detector/GeneSnap/RawData/Capture": capture,
+                     "Detector/GeneSnap/RawData/Description": desc, "Detector/MultiImage/MultiData": multi})
+
+
+def mini_tiff(pages: list) -> bytes:
+    """A little-endian classic TIFF: each page is (width, height, bits, samples, extra tags as
+    (tag, type, count, value bytes)), uncompressed, one strip."""
+    out = bytearray(b"II*\0" + bytes(4))
+    offsets = []
+    for w, h, bits, data, tags in pages:
+        strip = len(out)
+        out += data
+        entries = [(256, 4, 1, struct.pack("<I", w)), (257, 4, 1, struct.pack("<I", h)), (258, 3, 1, struct.pack("<H", bits)),
+                   (259, 3, 1, struct.pack("<H", 1)), (273, 4, 1, struct.pack("<I", strip)), (277, 3, 1, struct.pack("<H", 1)),
+                   (278, 4, 1, struct.pack("<I", h)), (279, 4, 1, struct.pack("<I", len(data)))] + tags
+        if not any(t[0] == 262 for t in tags):
+            entries.append((262, 3, 1, struct.pack("<H", 1)))
+        entries.sort()
+        blobs = []
+        for tag, typ, cnt, val in entries:
+            if len(val) > 4:
+                if len(out) % 2:
+                    out += b"\0"
+                blobs.append(struct.pack("<I", len(out)))
+                out += val
+            else:
+                blobs.append(val.ljust(4, b"\0"))
+        if len(out) % 2:
+            out += b"\0"
+        offsets.append(len(out))
+        out += struct.pack("<H", len(entries))
+        for (tag, typ, cnt, _), b in zip(entries, blobs):
+            out += struct.pack("<HHI", tag, typ, cnt) + b
+        out += bytes(4)
+    struct.pack_into("<I", out, 4, offsets[0])
+    for a, b in zip(offsets, offsets[1:]):
+        n = struct.unpack_from("<H", out, a)[0]
+        struct.pack_into("<I", out, a + 2 + 12 * n, b)
+    return bytes(out)
+
+
+def imager_seeds() -> None:
+    """Gel and blot imager and Incucyte TIFFs (docs/formats/tiff.md § Gel and blot imagers,
+    § Incucyte) and a GeneSys .sgd, all synthetic."""
+    def ascii_tag(tag: int, s: str) -> tuple:
+        b = s.encode("latin-1") + b"\0"
+        return (tag, 2, len(b), b)
+
+    def p(s: str) -> bytes:
+        return bytes([len(s)]) + s.encode("latin-1")
+
+    px16 = struct.pack("<8H", *range(1000, 1800, 100))
+    desc = ("Comment = \r\nMethod = Chemiluminescence\r\nExposure time = 5.0 s\r\nDate time = 2023:10:31 07:47:31\r\n"
+            "Temperature = -25\r\nBinning = 8x\r\nSerial number = 1\r\nInstrument = Amersham Imager 680\r\nDark offset = 1000\r\nInvert = No")
+    put("whole_tiff", "imager-amersham.tif", mini_tiff([(4, 2, 16, px16, [(262, 3, 1, struct.pack("<H", 0)), ascii_tag(270, desc),
+                                                                           ascii_tag(272, "Amersham Imager 680")])]))
+    glp = (p("_GLP_BPL_") + bytes([7, 0, 0, 0, 1, 0, 0]) + p("Thursday, 13 February 2020") + p("02:00:38") + p("C:\\Images\\b.Tif")
+           + p("Alliance  Q9 Mini 18.02 - SN ") + p("0 min 11 sec 200 msec ") + p("Q45191") + p("C:\\U\\Blue.prt")
+           + p("7: Chemiluminescence (-20)") + p("-24.55 \xb0C"))
+    glp = glp.ljust((len(glp) + 7) // 8 * 8, b"\0")
+    put("whole_tiff", "imager-glp.tif", mini_tiff([(4, 2, 16, px16, [(1808, 5, len(glp) // 8, glp)])]))
+    xml = ("<ImageInfo><AcqInfo><ObjectiveMagnification>10</ObjectiveMagnification><FullResPixelSpacing>1.244 \xb5m</FullResPixelSpacing>"
+           "<ImageType>HD Phase Image</ImageType><CameraSettings><ExpTime>0.46 msec</ExpTime></CameraSettings>"
+           "<TimeStamp>07/22/2020 13:33:44</TimeStamp></AcqInfo><DeviceInfo><HardwareName>IncuCyte S3</HardwareName></DeviceInfo></ImageInfo>")
+    sw = ascii_tag(305, "IncuCyte 2019B")
+    put("whole_tiff", "incucyte.tif", mini_tiff([(4, 2, 8, bytes(range(8)), [sw]),
+                                                  (1, 1, 8, b"\0", [(254, 4, 1, struct.pack("<I", 1)), sw, ascii_tag(60020, xml)])]))
+    put("whole_sgd", "mini.sgd", mini_sgd())
+
+
 def main() -> None:
     try:
         import numpy as np
@@ -852,6 +1007,7 @@ def main() -> None:
     put("nd2_chunk_map", "mini.nd2", mini_nd2())
     put("whole_lif", "mini-v2.lif", mini_lif())
     put("whole_lif", "mini-v1.lif", mini_lif(version=1))
+    imager_seeds()
     put("lif_container", "mini-v2.lif", mini_lif())
 
     img8 = bytes((x * 7 + y * 3) & 0xFF for y in range(8) for x in range(8))
