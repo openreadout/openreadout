@@ -946,15 +946,22 @@ fn select<'a>(
         .iter()
         .filter(|j| j.id != CHANGES_JOB && j.id != SUMMARY_JOB)
         .filter(|j| mode != Mode::Jobs || chosen.contains(&j.id))
+        .filter(|j| {
+            // --quick shows only the jobs it takes steps from.
+            mode != Mode::Quick
+                || cfg
+                    .jobs
+                    .get(&j.id)
+                    .and_then(|r| r.local.as_ref())
+                    .is_some_and(|l| !l.quick.is_empty())
+        })
         .map(|job| {
             let local = cfg.jobs.get(&job.id).and_then(|r| r.local.as_ref());
             let pick = match local {
                 None => Err("no local rules in ci.toml (runs only in CI)".to_string()),
                 Some(l) => match mode {
                     Mode::Jobs => Ok(l),
-                    Mode::Quick if l.quick.is_empty() => Err("no quick steps".into()),
-                    Mode::Quick => Ok(l),
-                    Mode::Full => Ok(l),
+                    Mode::Quick | Mode::Full => Ok(l),
                     Mode::Changed if l.full_only => Err("runs only with --full".into()),
                     Mode::Changed => match changed {
                         Some(c) if !c.get(&job.id).copied().unwrap_or(false) => {
