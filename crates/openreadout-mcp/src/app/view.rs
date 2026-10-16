@@ -650,8 +650,11 @@ pub fn available(info: &FileInfo) -> Vec<ViewKind> {
 /// The view for [`ViewKind::Auto`].
 pub fn auto_kind(info: &FileInfo) -> ViewKind {
     let views = available(info);
-    // qPCR runs: the amplification curves say more than a plate of one number.
-    if info.format.family == "qpcr" && views.contains(&ViewKind::Trace) {
+    // qPCR runs: the amplification curves say more than a plate of one number; so do the
+    // electropherograms of a chip or tape run.
+    if matches!(info.format.family.as_str(), "qpcr" | "electrophoresis")
+        && views.contains(&ViewKind::Trace)
+    {
         return ViewKind::Trace;
     }
     views.first().copied().unwrap_or(ViewKind::Summary)

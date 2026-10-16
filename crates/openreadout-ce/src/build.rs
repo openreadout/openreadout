@@ -414,14 +414,14 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
         (7, "laser_power", "mW", 1.0),
         (8, "temperature", "°C", 1.0),
     ];
-    let mut mch = Vec::new();
+    let mut mon_channels = Vec::new();
     let mut mval: Vec<Vec<f64>> = Vec::new();
     for (num, name, unit, scale) in monitors {
         if let Some(v) = a.get("DATA", num).and_then(Item::shorts) {
             let mut c = SeriesChannel::new(name, Some(unit), "int16");
             c.extra
                 .insert("stored_as".into(), json!(format!("DATA{num}")));
-            mch.push(c);
+            mon_channels.push(c);
             mval.push(v.into_iter().map(|x| x * scale).collect());
         }
     }
@@ -438,7 +438,7 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
         extra.insert("kind".into(), json!("run_monitor"));
         traces.push(SeriesTrace {
             name: "run monitor".into(),
-            channels: mch,
+            channels: mon_channels,
             sweeps: vec![mval],
             sample_rate_hz: 0.0,
             start_s: None,
