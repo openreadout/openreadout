@@ -21,6 +21,8 @@ const BY_EXTENSION: &[(&str, &str)] = &[
     (".dx", "jcamp"),
     (".json", "asm"),
     (".rdml", "rdml"),
+    // FASTQ export writes a directory of `.fastq.gz` files, named `<input>_fastq` by default
+    ("_fastq", "fastq"),
 ];
 
 /// The extension each format's default output name ends in.
