@@ -19,7 +19,7 @@
 #![allow(clippy::many_single_char_names)]
 
 use std::cmp::Reverse;
-use std::collections::BinaryHeap;
+use std::collections::{BTreeSet, BinaryHeap, HashMap};
 
 /// Gaussian blur with σ in pixels (edges repeat the border value). σ ≤ 0 (or not a number)
 /// copies; σ beyond the plane's size is cut to it, which blurs it nearly flat anyway.
@@ -514,6 +514,191 @@ pub(crate) fn watershed(m: &[f32], fg: &[bool], seeds: &[u32], w: usize, h: usiz
     lab
 }
 
+/// When a piece that the watershed cut off is joined back to a neighbour.
+#[derive(Debug, Clone, Copy)]
+pub(crate) struct JoinRule {
+    /// Pieces smaller than this many pixels are checked; larger ones stay as they are.
+    pub small: usize,
+    /// A border is a dark seam, and the piece stays, when the median signal along it is at
+    /// least this share (0..1) below the mean of the dimmer of the two pieces.
+    pub seam: f32,
+    /// The piece joins a neighbour only if that leaves the neighbour at most this much less
+    /// convex (solidity, area over the area of the convex hull, 0..1).
+    pub convexity: f64,
+}
+
+/// The border between two pieces: the signal at each pair of touching pixels (the dimmer of
+/// the two).
+type Border = Vec<f32>;
+
+/// Join pieces smaller than `rule.small` to a neighbour when nothing in the picture
+/// separates them: the border is not a dark seam, and the two together are about as convex
+/// as the neighbour alone. Such pieces are slivers or wedges of one nucleus that texture
+/// (dark chromatin between bright patches) cut off. A small nucleus that touches a larger
+/// one stays, because the pair is less convex than either. The smallest piece goes first,
+/// into the neighbour that stays most convex. `f` is the signal. Labels keep their numbers;
+/// [`tidy_labels`] renumbers them.
+pub(crate) fn join_small_pieces(lab: &mut [u32], w: usize, h: usize, f: &[f32], rule: &JoinRule) {
+    let n = lab.iter().copied().max().unwrap_or(0) as usize;
+    if n < 2 || lab.len() != w * h || f.len() != w * h {
+        return;
+    }
+    let mut area = vec![0usize; n + 1];
+    let mut sum = vec![0f64; n + 1];
+    for (&l, &v) in lab.iter().zip(f) {
+        area[l as usize] += 1;
+        sum[l as usize] += f64::from(v);
+    }
+    let mut borders: HashMap<(u32, u32), Border> = HashMap::new();
+    for y in 0..h {
+        for x in 0..w {
+            let i = y * w + x;
+            for j in [(x + 1 < w).then_some(i + 1), (y + 1 < h).then_some(i + w)]
+                .into_iter()
+                .flatten()
+            {
+                let (a, b) = (lab[i], lab[j]);
+                if a != 0 && b != 0 && a != b {
+                    borders.entry(key(a, b)).or_default().push(f[i].min(f[j]));
+                }
+            }
+        }
+    }
+    let mut next: Vec<BTreeSet<u32>> = vec![BTreeSet::new(); n + 1];
+    for &(a, b) in borders.keys() {
+        next[a as usize].insert(b);
+        next[b as usize].insert(a);
+    }
+    let mut pieces = Pieces {
+        area,
+        sum,
+        hulls: region_hulls(lab, w, h, n),
+        borders,
+        next,
+    };
+    let mut parent: Vec<u32> = (0..=n as u32).collect();
+    // smallest pieces first; a pass can make a piece joinable that was not before, so passes
+    // repeat until nothing changes
+    loop {
+        let mut order: Vec<usize> = (1..=n)
+            .filter(|&l| parent[l] == l as u32 && pieces.area[l] > 0 && pieces.area[l] < rule.small)
+            .collect();
+        order.sort_by_key(|&l| (pieces.area[l], l));
+        let mut changed = false;
+        for p in order {
+            if parent[p] != p as u32 || pieces.area[p] >= rule.small {
+                continue;
+            }
+            if let Some(q) = pieces.best_neighbour(p, rule) {
+                pieces.join(q, p as u32);
+                parent[p] = q;
+                changed = true;
+            }
+        }
+        if !changed {
+            break;
+        }
+    }
+    for l in lab.iter_mut() {
+        while *l != 0 && parent[*l as usize] != *l {
+            *l = parent[*l as usize];
+        }
+    }
+}
+
+/// The pieces of [`join_small_pieces`]: each one's area, signal sum and convex hull, the
+/// borders between them and each one's neighbours.
+struct Pieces {
+    area: Vec<usize>,
+    sum: Vec<f64>,
+    hulls: Vec<Vec<[f64; 2]>>,
+    borders: HashMap<(u32, u32), Border>,
+    next: Vec<BTreeSet<u32>>,
+}
+
+impl Pieces {
+    /// The neighbour piece `p` may join and that stays most convex with it, if any.
+    fn best_neighbour(&mut self, p: usize, rule: &JoinRule) -> Option<u32> {
+        let mut best: Option<(f64, u32)> = None;
+        for &q in &self.next[p] {
+            let qi = q as usize;
+            let Some(e) = self.borders.get_mut(&key(p as u32, q)) else {
+                continue;
+            };
+            if darkness(e, &self.sum, &self.area, p, qi) >= rule.seam {
+                continue;
+            }
+            let alone = solidity(self.area[qi], &self.hulls[qi]);
+            let mut pts: Vec<[f64; 2]> = self.hulls[qi]
+                .iter()
+                .chain(&self.hulls[p])
+                .copied()
+                .collect();
+            let together = solidity(self.area[qi] + self.area[p], &convex_hull(&mut pts));
+            let loss = alone - together;
+            if loss <= rule.convexity
+                && best.is_none_or(|(l, b)| loss.total_cmp(&l).then(q.cmp(&b)).is_lt())
+            {
+                best = Some((loss, q));
+            }
+        }
+        best.map(|(_, q)| q)
+    }
+
+    /// Piece `b` joins piece `a`.
+    fn join(&mut self, a: u32, b: u32) {
+        let (ai, bi) = (a as usize, b as usize);
+        let mut pts: Vec<[f64; 2]> = self.hulls[ai]
+            .iter()
+            .chain(&self.hulls[bi])
+            .copied()
+            .collect();
+        self.hulls[ai] = convex_hull(&mut pts);
+        self.borders.remove(&key(a, b));
+        self.next[ai].remove(&b);
+        self.area[ai] += self.area[bi];
+        self.sum[ai] += self.sum[bi];
+        for c in std::mem::take(&mut self.next[bi]) {
+            self.next[c as usize].remove(&b);
+            if c == a {
+                continue;
+            }
+            if let Some(old) = self.borders.remove(&key(b, c)) {
+                self.borders.entry(key(a, c)).or_default().extend(old);
+                self.next[ai].insert(c);
+                self.next[c as usize].insert(a);
+            }
+        }
+    }
+}
+
+/// The key of the border between labels `a` and `b`.
+fn key(a: u32, b: u32) -> (u32, u32) {
+    (a.min(b), a.max(b))
+}
+
+/// Area over the area of the convex hull (`hull`, its corners in order), at most 1.
+fn solidity(area: usize, hull: &[[f64; 2]]) -> f64 {
+    (area as f64 / polygon_area(hull).max(1.0)).min(1.0)
+}
+
+/// How dark the border `e` between pieces `a` and `b` is: how far its median signal lies
+/// below the mean of the dimmer piece, as a share of that mean (0 when not below).
+fn darkness(e: &mut Border, sum: &[f64], area: &[usize], a: usize, b: usize) -> f32 {
+    if e.is_empty() {
+        return 0.0;
+    }
+    let k = e.len() / 2;
+    let mid = *e.select_nth_unstable_by(k, f32::total_cmp).1;
+    let mean = |l: usize| (sum[l] / area[l].max(1) as f64) as f32;
+    let dim = mean(a).min(mean(b));
+    if dim > 0.0 {
+        (1.0 - mid / dim).max(0.0)
+    } else {
+        0.0
+    }
+}
+
 /// Renumber labels 1..n in order of first appearance, dropping regions under `min_area` pixels
 /// (they merge into the neighbour they share the longest border with, or vanish when they
 /// touch none). Returns the label image and the count.
@@ -525,7 +710,7 @@ pub(crate) fn tidy_labels(lab: &mut [u32], w: usize, h: usize, min_area: usize) 
     }
     // small regions: the neighbour with the longest shared border
     let mut target: Vec<u32> = (0..=n as u32).collect();
-    let mut border: std::collections::HashMap<(u32, u32), usize> = std::collections::HashMap::new();
+    let mut border: HashMap<(u32, u32), usize> = HashMap::new();
     for i in 0..w * h {
         let a = lab[i];
         if a == 0 || area[a as usize] >= min_area {
@@ -849,10 +1034,49 @@ fn simplify(p: &[[f64; 2]], tol: f64) -> Vec<[f64; 2]> {
         .collect()
 }
 
-/// Area of the convex hull of a set of points (Andrew's monotone chain).
-pub(crate) fn hull_area(pts: &mut [[f64; 2]]) -> f64 {
+/// The convex hull of each labelled region (`n` labels), from the corners of its rim pixels.
+fn region_hulls(lab: &[u32], w: usize, h: usize, n: usize) -> Vec<Vec<[f64; 2]>> {
+    let mut pts: Vec<Vec<[f64; 2]>> = vec![Vec::new(); n + 1];
+    for (i, &l) in lab.iter().enumerate() {
+        if l == 0 {
+            continue;
+        }
+        let (x, y) = (i % w, i / w);
+        let rim = x == 0
+            || y == 0
+            || x + 1 == w
+            || y + 1 == h
+            || lab[i - 1] != l
+            || lab[i + 1] != l
+            || lab[i - w] != l
+            || lab[i + w] != l;
+        if rim {
+            let (fx, fy) = (x as f64, y as f64);
+            pts[l as usize].extend([
+                [fx, fy],
+                [fx + 1.0, fy],
+                [fx, fy + 1.0],
+                [fx + 1.0, fy + 1.0],
+            ]);
+        }
+    }
+    pts.iter_mut().map(|p| convex_hull(p)).collect()
+}
+
+/// The area of a polygon given by its corners in order.
+fn polygon_area(p: &[[f64; 2]]) -> f64 {
+    let mut a = 0.0;
+    for i in 0..p.len() {
+        let (u, v) = (p[i], p[(i + 1) % p.len()]);
+        a += u[0] * v[1] - v[0] * u[1];
+    }
+    a.abs() / 2.0
+}
+
+/// The corners of the convex hull of a set of points, in order (Andrew's monotone chain).
+fn convex_hull(pts: &mut [[f64; 2]]) -> Vec<[f64; 2]> {
     if pts.len() < 3 {
-        return 0.0;
+        return pts.to_vec();
     }
     pts.sort_by(|a, b| a[0].total_cmp(&b[0]).then(a[1].total_cmp(&b[1])));
     let cross = |o: [f64; 2], a: [f64; 2], b: [f64; 2]| {
@@ -873,12 +1097,12 @@ pub(crate) fn hull_area(pts: &mut [[f64; 2]]) -> f64 {
         hull.push(p);
     }
     hull.pop();
-    let mut a = 0.0;
-    for i in 0..hull.len() {
-        let (p, q) = (hull[i], hull[(i + 1) % hull.len()]);
-        a += p[0] * q[1] - q[0] * p[1];
-    }
-    a.abs() / 2.0
+    hull
+}
+
+/// Area of the convex hull of a set of points.
+pub(crate) fn hull_area(pts: &mut [[f64; 2]]) -> f64 {
+    polygon_area(&convex_hull(pts))
 }
 
 #[cfg(test)]
@@ -931,6 +1155,69 @@ mod tests {
             (c[0] - 0.8).abs() < 1e-9 && c[1].abs() < 1e-9 && c[2].abs() < 1e-9,
             "{c:?}"
         );
+    }
+
+    /// Label k for the pixels of the k-th disc `(cx, cy, r)` (later discs win), 0 elsewhere.
+    fn disc_labels(w: usize, h: usize, d: &[(f32, f32, f32)]) -> Vec<u32> {
+        (0..w * h)
+            .map(|i| {
+                let (x, y) = ((i % w) as f32 + 0.5, (i / w) as f32 + 0.5);
+                d.iter()
+                    .enumerate()
+                    .rev()
+                    .find(|(_, (cx, cy, r))| (x - cx).hypot(y - cy) <= *r)
+                    .map_or(0, |(k, _)| k as u32 + 1)
+            })
+            .collect()
+    }
+
+    const JOIN: JoinRule = JoinRule {
+        small: 150,
+        seam: 0.3,
+        convexity: 0.08,
+    };
+
+    #[test]
+    fn a_sliver_of_a_nucleus_joins_it() {
+        // a disc of radius 10 with its right edge labelled apart, the signal even
+        let (w, h) = (30, 30);
+        let mut lab = disc_labels(w, h, &[(15.0, 15.0, 10.0)]);
+        for (i, l) in lab.iter_mut().enumerate() {
+            if *l == 1 && i % w >= 21 {
+                *l = 2;
+            }
+        }
+        let f = vec![100f32; w * h];
+        join_small_pieces(&mut lab, w, h, &f, &JOIN);
+        assert!(lab.iter().all(|l| *l <= 1), "the sliver stays apart");
+    }
+
+    #[test]
+    fn a_small_nucleus_beside_a_large_one_stays() {
+        // a disc of radius 12 touched by one of radius 6: together they are far from convex
+        let (w, h) = (50, 34);
+        let mut lab = disc_labels(w, h, &[(17.0, 17.0, 12.0), (34.5, 17.0, 6.0)]);
+        let f = vec![100f32; w * h];
+        join_small_pieces(&mut lab, w, h, &f, &JOIN);
+        assert!(lab.contains(&1) && lab.contains(&2));
+    }
+
+    #[test]
+    fn a_piece_behind_a_dark_seam_stays() {
+        // a sliver of a disc, but the border with the rest is dark
+        let (w, h) = (30, 30);
+        let mut lab = disc_labels(w, h, &[(15.0, 15.0, 10.0)]);
+        let mut f = vec![100f32; w * h];
+        for (i, l) in lab.iter_mut().enumerate() {
+            if *l == 1 && i % w >= 21 {
+                *l = 2;
+            }
+            if i % w == 20 || i % w == 21 {
+                f[i] = 20.0;
+            }
+        }
+        join_small_pieces(&mut lab, w, h, &f, &JOIN);
+        assert!(lab.contains(&2));
     }
 
     #[test]
