@@ -57,3 +57,12 @@ summary; Picard `IlluminaBasecallsToFastq` (MIT) for FASTQ from the base calls.
   clusters included (flag 0), 4,091,904 clusters = the filter file's count = `s.locs` count (one
   locations file per flow cell on patterned flow cells). MiSeq BCL: u32 cluster count 673,257,
   one byte per cluster; filter v3 with the same count, `L001/s_1_1101.locs` with x, y in pixels.
+
+## 2026-10-16 — experiment fields
+
+- Corpus: `seq-nfcore-miseq-k9h97`, `seq-nfcore-novaseq-hmtfydrxx`. No new prior art.
+- `RunInfo.xml` `Run/Date` of the MiSeq run is a date without a time (`220422`). It is no longer
+  given as `acquisition.started_at`, which holds a full timestamp; a note in `experiment.notes`
+  gives the date. The NovaSeq date (`6/24/2020 4:30:24 PM`) still is.
+- Each experiment value now names where it came from: `RunInfo.xml` and `RunParameters.xml`
+  elements, or the format itself for the vendor, the instrument kind, the technique and the assay.

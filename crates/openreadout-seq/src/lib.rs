@@ -50,6 +50,26 @@ pub use illumina::{IlluminaRun, IlluminaRunReader};
 pub use nanopore::{Fast5Reader, Pod5Reader};
 pub use reads::{BamReader, FastqReader};
 
+/// Give every value of `e` that has no origin yet the one `origin` names for its path
+/// (`instrument.vendor`, `method.parameters.cycles`, ...).
+pub(crate) fn cover(
+    e: &mut openreadout_core::experiment::Experiment,
+    origin: impl Fn(&str) -> (openreadout_core::provenance::Source, &'static str),
+) {
+    for path in e.value_paths() {
+        if e.origin_of(&path).is_none() {
+            let (source, from) = origin(&path);
+            e.provenance.insert(
+                path,
+                openreadout_core::experiment::Origin {
+                    source,
+                    from: from.into(),
+                },
+            );
+        }
+    }
+}
+
 /// Format id of FASTQ files.
 pub const FASTQ_FORMAT_ID: &str = reads::FASTQ_FORMAT_ID;
 /// Format id of BAM files.

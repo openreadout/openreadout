@@ -497,6 +497,8 @@ impl Dataset for ReadsDataset {
         let mut e = Experiment::default();
         let facts = self.header_facts();
         let names = Self::name_facts(&s.first_name);
+        // the platform comes from the header's @RG PL, else from the style of the read names
+        let platform_in_header = facts.get("platform").and_then(Value::as_str).is_some();
         let platform = facts
             .get("platform")
             .and_then(Value::as_str)
@@ -563,6 +565,18 @@ impl Dataset for ReadsDataset {
                 ..Sample::default()
             });
         }
+        crate::cover(&mut e, |path| match path {
+            "sample.id" => (Source::Spec, "@RG SM"),
+            "instrument.model" => (Source::Spec, "@RG PM"),
+            "instrument.software" => (Source::Spec, "@PG PN"),
+            "instrument.vendor" | "method.parameters.platform" if platform_in_header => {
+                (Source::Spec, "@RG PL")
+            }
+            "instrument.vendor" | "method.parameters.platform" => (Source::Inferred, "read names"),
+            "instrument.serial" | "method.parameters.flowcell" => (Source::Inferred, "read names"),
+            // the instrument kind, the technique and the assay follow from the format itself
+            _ => (Source::Inferred, "format"),
+        });
         Some(e)
     }
 }

@@ -570,6 +570,20 @@ impl Dataset for NanoporeDataset {
                 ..Sample::default()
             });
         }
+        crate::cover(&mut e, |path| match path {
+            "sample.id" => (Source::VendorImpl, "run info sample_id"),
+            "instrument.serial" => (Source::VendorImpl, "run info system_name or position"),
+            "instrument.software" => (Source::VendorImpl, "run info software"),
+            "method.name" => (Source::VendorImpl, "run info protocol"),
+            "acquisition.started_at" => (
+                Source::VendorImpl,
+                "run info acquisition start time, else tracking_id exp_start_time",
+            ),
+            p if p.starts_with("method.parameters.") => (Source::VendorImpl, "run info"),
+            // the vendor, the instrument kind, the technique and the assay follow from the
+            // format itself
+            _ => (Source::Inferred, "format"),
+        });
         Some(e)
     }
 }

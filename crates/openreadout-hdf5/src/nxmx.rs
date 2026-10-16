@@ -786,6 +786,13 @@ impl Dataset for NxmxDataset {
         let mut e = openreadout_core::diffraction::experiment(&[self.image_info()])?;
         if let Some(t) = &self.ended_at {
             e.acquisition.get_or_insert_with(Default::default).ended_at = Some(t.clone());
+            e.provenance.insert(
+                "acquisition.ended_at".into(),
+                openreadout_core::experiment::Origin {
+                    source: Source::Spec,
+                    from: "/entry/end_time".into(),
+                },
+            );
         }
         Some(e)
     }

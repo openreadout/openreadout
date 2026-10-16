@@ -50,6 +50,7 @@ An SVG preview is layered for editing, like one from [`plot`](plot.md): the imag
 ### Traces, spectra, plates and events
 
 - `--trace N`, `--sweep N`, `--channel N`: the trace, sweep and channels to draw (`--channel` is repeatable; default the first 8).
+- `--x-range A:B`: only this window of a trace's x axis, in its units: base positions of a Sanger read, bp of a sized electropherogram, minutes, ppm.
 - `--run N`, `--spectrum N`, `--scan N`: the mass spectrum to draw, by zero-based index or instrument scan number.
 - `--centroid`: draw the instrument's centroid list instead of the profile.
 - `--table N`, `--column NAME`: the table, and the column to draw: a plate's value column (long layout), or the x and then the y parameter of flow cytometry events (`--column` is repeatable; one parameter gives a histogram; default FSC-A against SSC-A).

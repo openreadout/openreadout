@@ -1186,8 +1186,16 @@ impl Dataset for IlluminaRun {
             }
         }
         e.method = Some(method);
+        // A run date without a time (MiSeq `220422`) is not a start time: it goes in a note.
+        let date = self.date_iso();
+        let started_at = date.clone().filter(|d| d.contains('T'));
+        if let (Some(d), None) = (&date, &started_at) {
+            e.notes.push(format!(
+                "RunInfo.xml records the run date ({d}) without a time"
+            ));
+        }
         e.acquisition = Some(Acquisition {
-            started_at: self.date_iso(),
+            started_at,
             operator: self.params.as_ref().and_then(|p| p.operator.clone()),
             ..Acquisition::default()
         });
@@ -1202,6 +1210,24 @@ impl Dataset for IlluminaRun {
                 ..Sample::default()
             });
         }
+        crate::cover(&mut e, |path| match path {
+            "sample.barcode" => (
+                Source::VendorImpl,
+                "RunParameters.xml LibraryTubeSerialBarcode",
+            ),
+            "instrument.software" | "instrument.software_version" => (
+                Source::VendorImpl,
+                "RunParameters.xml ApplicationName, ApplicationVersion",
+            ),
+            "method.name" => (Source::VendorImpl, "RunParameters.xml ExperimentName"),
+            "acquisition.operator" => (Source::VendorImpl, "RunParameters.xml"),
+            p if p.starts_with("method.parameters.") => {
+                (Source::VendorImpl, "RunInfo.xml, RunParameters.xml")
+            }
+            // the vendor, the instrument kind, the technique and the assay follow from the
+            // format itself
+            _ => (Source::Inferred, "format"),
+        });
         Some(e)
     }
 }
