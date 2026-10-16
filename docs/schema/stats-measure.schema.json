@@ -82,6 +82,17 @@
         }
       ]
     },
+    "lanes": {
+      "description": "Lanes and bands.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Lanes"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "notes": {
       "description": "What was assumed.",
       "type": "array",
@@ -806,6 +817,251 @@
         "y",
         "area_px",
         "mean"
+      ]
+    },
+    "Lanes": {
+      "description": "Lanes and bands of one plane.",
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "Lanes found.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "lane_contrast": {
+          "description": "How far the lanes stand out from the gaps between them: 1 − gap signal / lane signal of\nthe column profile (0 = not at all; below 0.15 the lanes are a guess).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "polarity": {
+          "description": "`bright` or `dark` bands, as measured.",
+          "type": "string"
+        },
+        "pitch_px": {
+          "description": "Distance between neighbouring lane centres, pixels.",
+          "type": "number",
+          "format": "double"
+        },
+        "width_px": {
+          "description": "Lane width, pixels.",
+          "type": "number",
+          "format": "double"
+        },
+        "y_range": {
+          "description": "Rows the lanes span: first and last (full-resolution pixels).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "c": {
+          "description": "The channel measured.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "bin": {
+          "description": "Full-resolution pixels per analysed pixel (1 unless the plane was binned).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "saturation_level": {
+          "description": "The value counted as saturated, when the pixel type has one.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "band_count": {
+          "description": "Bands found over all lanes.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "size_unit": {
+          "description": "Unit of band sizes (from the ladder).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "profile_step_px": {
+          "description": "Distance between profile values, pixels (with `profiles: true`).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "lanes": {
+          "description": "The lanes, left to right.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Lane"
+          }
+        }
+      },
+      "required": [
+        "count",
+        "polarity",
+        "pitch_px",
+        "width_px",
+        "y_range",
+        "c",
+        "bin",
+        "band_count",
+        "lanes"
+      ]
+    },
+    "Lane": {
+      "description": "One lane.",
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "Lane number, 1 = leftmost.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "x": {
+          "description": "Centre column (full-resolution pixels).",
+          "type": "number",
+          "format": "double"
+        },
+        "x_range": {
+          "description": "Left and right edges.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "empty": {
+          "description": "True when no band was found (or the lane was placed in a gap between found lanes).",
+          "type": "boolean"
+        },
+        "total_volume": {
+          "description": "Background-subtracted volume of the whole lane (stored units × pixels): the total\nsignal, e.g. for normalising to a total-protein stain.",
+          "type": "number",
+          "format": "double"
+        },
+        "band_volume": {
+          "description": "Sum of the band volumes.",
+          "type": "number",
+          "format": "double"
+        },
+        "bands": {
+          "description": "The bands, top first.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Band"
+          }
+        },
+        "profile": {
+          "description": "The profile from the top down, `profile_step_px` apart (with `profiles: true`).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "background": {
+          "description": "Its background, at the same rows.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "number",
+        "x",
+        "x_range",
+        "total_volume",
+        "band_volume",
+        "bands"
+      ]
+    },
+    "Band": {
+      "description": "One band.",
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "Band number in its lane, from the top.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "y": {
+          "description": "Row of the band's maximum (full-resolution pixels).",
+          "type": "number",
+          "format": "double"
+        },
+        "y_range": {
+          "description": "First and last row of the band.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "height": {
+          "description": "Height of the maximum above the background, in stored units.",
+          "type": "number",
+          "format": "double"
+        },
+        "volume": {
+          "description": "Background-subtracted volume: stored units × pixels.",
+          "type": "number",
+          "format": "double"
+        },
+        "fraction_of_lane": {
+          "description": "Share of the lane's band volume.",
+          "type": "number",
+          "format": "double"
+        },
+        "relative": {
+          "description": "Volume relative to the strongest band of the image (1 = the strongest band).",
+          "type": "number",
+          "format": "double"
+        },
+        "size": {
+          "description": "Size from the ladder, in its unit.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "saturated_px": {
+          "description": "Pixels of the band at the saturation level: its volume is a lower bound.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "number",
+        "y",
+        "y_range",
+        "height",
+        "volume",
+        "fraction_of_lane",
+        "relative"
       ]
     }
   }

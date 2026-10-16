@@ -141,6 +141,14 @@
       ],
       "additionalProperties": true
     },
+    "lanes": {
+      "description": "`marks: lanes`: the lanes and bands found in the area shown, as `stats` lanes.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true
+    },
     "annotations": {
       "description": "The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.",
       "type": "array",
