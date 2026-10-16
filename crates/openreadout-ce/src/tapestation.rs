@@ -574,7 +574,7 @@ pub(crate) fn parse(xml: &str, csv: Option<&str>, csv_name: Option<&str>) -> Res
         obs.feature(K::WriterVersion, v, &[]);
     }
     obs.feature(
-        K::Derivation,
+        K::Record,
         "size by ladder aligned on the markers",
         &[Scope::Traces],
     );

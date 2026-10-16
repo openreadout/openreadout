@@ -538,7 +538,7 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
                     software.as_deref().unwrap_or("Data Collection sizing")
                 ));
                 obs.feature(
-                    K::Derivation,
+                    K::Record,
                     "fragment size from the instrument",
                     &[Scope::Traces],
                 );
@@ -548,7 +548,7 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
                     "fragments sized here by Local Southern against the size standard ({how}){ladder_note}"
                 ));
                 obs.feature(
-                    K::Derivation,
+                    K::Record,
                     "fragment size by Local Southern",
                     &[Scope::Traces],
                 );

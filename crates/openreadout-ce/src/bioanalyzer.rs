@@ -508,7 +508,7 @@ pub(crate) fn parse(xml: &str) -> Result<SeriesFile> {
         obs.feature(K::WriterVersion, v, &[]);
     }
     obs.feature(
-        K::Derivation,
+        K::Record,
         "size by point-to-point standard curve",
         &[Scope::Traces],
     );

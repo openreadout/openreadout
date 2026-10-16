@@ -122,3 +122,7 @@ every peak (0.07 bp at most on these files).
 | `size_with` | size a run against a ladder |
 | `from_matches` | the sizing given by matched fragments |
 | `best_of` | size against the best-fitting ladder |
+| `FastqExportReport` | what a FASTQ export wrote: `input`, `output`, `format`, `reads`, `bases`, `names`, `verified`, `notes` |
+| `export_fastq` | write the base calls as FASTQ (Phred+33), verified by reading back |
+| `default_fastq_output` | `<input stem>.fastq` next to the input |
+| `base_call_tables` | the base-call tables of a file |
