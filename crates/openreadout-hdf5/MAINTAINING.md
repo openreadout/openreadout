@@ -171,7 +171,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - committed fixtures: 11 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `nxmx_links`, `whole_hdf5`, `whole_ims`, `whole_nwb`
 - corpus inputs by tier: heldout 8, smoke 19, standard 36
-- golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl), [`corpus/snapshots/hdf5.jsonl`](../../corpus/snapshots/hdf5.jsonl)
+- golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl), [`corpus/snapshots/nxmx.jsonl`](../../corpus/snapshots/nxmx.jsonl), [`corpus/snapshots/hdf5.jsonl`](../../corpus/snapshots/hdf5.jsonl)
 
 ### Open new-variant intakes
 

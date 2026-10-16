@@ -77,6 +77,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_cbf`, `whole_smv`
 - corpus inputs by tier: smoke 2, standard 5
+- golden snapshots: [`corpus/snapshots/cbf.jsonl`](../../corpus/snapshots/cbf.jsonl), [`corpus/snapshots/smv.jsonl`](../../corpus/snapshots/smv.jsonl)
 
 ### Open new-variant intakes
 
