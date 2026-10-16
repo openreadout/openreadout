@@ -36,11 +36,19 @@ pub mod illumina;
 #[doc(hidden)]
 pub mod nanopore;
 #[doc(hidden)]
+pub mod reads;
+#[doc(hidden)]
 pub mod table;
 
 pub use illumina::fastq::{FastqFile, FastqOptions, FastqReport, export_fastq};
 pub use illumina::{IlluminaRun, IlluminaRunReader};
 pub use nanopore::{Fast5Reader, Pod5Reader};
+pub use reads::{BamReader, FastqReader};
+
+/// Format id of FASTQ files.
+pub const FASTQ_FORMAT_ID: &str = reads::FASTQ_FORMAT_ID;
+/// Format id of BAM files.
+pub const BAM_FORMAT_ID: &str = reads::BAM_FORMAT_ID;
 
 /// Format id of Illumina run folders.
 pub const ILLUMINA_RUN_FORMAT_ID: &str = illumina::FORMAT_ID;

@@ -2820,6 +2820,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-seq"
+version = "0.3.0"
+dependencies = [
+ "arrow-array",
+ "arrow-buffer",
+ "arrow-ipc",
+ "arrow-schema",
+ "flate2",
+ "hdf5-pure",
+ "openreadout-core",
+ "openreadout-hdf5",
+ "roxmltree",
+ "ruzstd",
+ "serde_json",
+ "tempfile",
+ "xxhash-rust",
+]
+
+[[package]]
 name = "openreadout-signal"
 version = "0.3.0"
 dependencies = [

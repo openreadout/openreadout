@@ -12,6 +12,10 @@ fn print_files() {
             Box::new(openreadout_seq::Pod5Reader)
         } else if f.ends_with(".fast5") || f.ends_with("single-read") {
             Box::new(openreadout_seq::Fast5Reader)
+        } else if f.ends_with(".bam") {
+            Box::new(openreadout_seq::BamReader)
+        } else if f.contains(".fastq") || f.contains(".fq") {
+            Box::new(openreadout_seq::FastqReader)
         } else {
             Box::new(openreadout_seq::IlluminaRunReader)
         };
