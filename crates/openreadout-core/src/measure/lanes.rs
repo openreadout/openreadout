@@ -10,23 +10,29 @@
 //!    light background (Coomassie, silver, colorimetric) are measured as `max − value`, with
 //!    `max` the largest value of the plane. `polarity: auto` picks the side of the median the
 //!    long tail of the histogram lies on.
-//! 2. **Lanes.** Lanes run top to bottom. The column profile is the mean signal of each column
-//!    above the plane's 5th percentile, smoothed. Its autocorrelation gives the lane pitch;
-//!    lanes are the profile's local maxima at least 0.6 pitches apart that rise above the
-//!    surrounding valleys by a sixth of the profile's range. Gaps of two or more pitches between
-//!    found lanes get evenly spaced lanes (empty lanes are lanes too). `count` keeps the most
-//!    prominent `count` lanes. Each lane is 0.7 pitches wide unless `width_px` says otherwise.
+//! 2. **Lanes.** Lanes run top to bottom. The column profile is the mean of each column's
+//!    brightest tenth above the plane's 5th percentile, smoothed. Its autocorrelation gives the
+//!    lane pitch; lanes are the profile's local maxima at least 0.6 pitches apart that rise
+//!    above the surrounding valleys by a sixth of the profile's range, each centred on the
+//!    signal within half a pitch. Gaps of two or more pitches between found lanes get evenly
+//!    spaced lanes (empty lanes are lanes too). `count` keeps the most prominent `count` lanes.
+//!    Each lane is 0.7 pitches wide unless `width_px` says otherwise. The lanes span the rows
+//!    where their mean signal exceeds a tenth of its 90th percentile (the gel or membrane, not
+//!    the ground around it). `lane_contrast` says how far the lanes stand out from the gaps.
 //! 3. **Profile.** The mean signal across the middle 80 % of the lane's width, per row.
 //! 4. **Background.** A rolling-ball background of the profile (a grey-scale opening by a
-//!    window of a tenth of the lane's length, then smoothed), so smears and uneven blot
-//!    background are not counted as band.
-//! 5. **Bands.** Local maxima of profile − background that stand above the noise (four times
-//!    the robust standard deviation of the profile's differences) and above `min_share` of the
-//!    lane's highest band. A band extends to where the signal falls to 5 % of its height or to
-//!    the valley between it and the next band. **Volume** = the sum of profile − background
-//!    over the band's rows × the lane width, in stored units × pixels (the densitometric
-//!    volume, as gel-analysis programs report it). A band is `saturated` when any pixel of it
-//!    reaches the saturation level: its volume is then a lower bound.
+//!    window of a tenth of the lane's length, then smoothed, keeping its convex corners), so
+//!    smears and uneven blot background are not counted as band.
+//! 5. **Bands.** Local maxima of profile − background away from the first and last 3 % of the
+//!    lane that stand above the noise (four times the robust standard deviation of the
+//!    profile's differences), above `min_share` of the lane's highest band and above 3 % of the
+//!    image's strongest band. A band extends to where the signal falls to 5 % of its height or
+//!    to the valley between it and the next band; one whose background steps by more than its
+//!    height (a membrane edge) is not a band. Bands in the top 15 % of the lanes that three
+//!    quarters of the lanes share are the wells and are left out. **Volume** = the sum of
+//!    profile − background over the band's rows × the lane width, in stored units × pixels (the
+//!    densitometric volume, as gel-analysis programs report it). A band is `saturated` when any
+//!    pixel of it reaches the saturation level: its volume is then a lower bound.
 //! 6. **Ladder.** With `ladder` (the lane number and the marker sizes, largest first), the
 //!    ladder lane's bands are paired top-down with the sizes and every band gets a size by
 //!    linear interpolation of log(size) against migration distance between the neighbouring
@@ -818,6 +824,11 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
             background,
         });
     }
+    drop_wells(
+        &mut out_lanes,
+        [oy + ya as f64 * scale, oy + yb as f64 * scale],
+        notes,
+    );
     let max_vol = out_lanes
         .iter()
         .flat_map(|l| l.bands.iter().map(|b| b.volume))
@@ -1003,6 +1014,58 @@ fn lane_bands(
         background: bg,
         total,
     }
+}
+
+/// Leave out the wells: bands in the top 15 % of the lanes that at least three quarters of the
+/// lanes (three or more) have at the same row, within 1.5 % of the lanes' length. Sample wells
+/// fill with dye or glow under the imager and read as a band at the top of every lane.
+fn drop_wells(lanes: &mut [Lane], y_range: [f64; 2], notes: &mut Vec<String>) {
+    let len = (y_range[1] - y_range[0]).max(1.0);
+    let top = y_range[0] + 0.15 * len;
+    let tol = 0.015 * len;
+    let n = lanes.len();
+    if n < 3 {
+        return;
+    }
+    let candidates: Vec<f64> = lanes
+        .iter()
+        .flat_map(|l| l.bands.iter().map(|b| b.y))
+        .filter(|y| *y <= top)
+        .collect();
+    let mut wells: Vec<f64> = Vec::new();
+    for y in candidates {
+        let lanes_with = lanes
+            .iter()
+            .filter(|l| l.bands.iter().any(|b| (b.y - y).abs() <= tol))
+            .count();
+        if lanes_with * 4 >= n * 3 && !wells.iter().any(|w| (w - y).abs() <= tol) {
+            wells.push(y);
+        }
+    }
+    if wells.is_empty() {
+        return;
+    }
+    let mut dropped = 0;
+    for l in lanes.iter_mut() {
+        let before = l.bands.len();
+        l.bands
+            .retain(|b| !wells.iter().any(|w| (b.y - w).abs() <= tol));
+        dropped += before - l.bands.len();
+        for (k, b) in l.bands.iter_mut().enumerate() {
+            b.number = k as u32 + 1;
+        }
+        l.band_volume = l.bands.iter().map(|b| b.volume).sum();
+        l.empty = l.bands.is_empty();
+    }
+    wells.sort_by(f64::total_cmp);
+    notes.push(format!(
+        "{dropped} band(s) at the top of the lanes, at row(s) {} that nearly every lane shares, were taken for the wells and left out (pass a region below them to be sure)",
+        wells
+            .iter()
+            .map(|w| format!("{w:.0}"))
+            .collect::<Vec<_>>()
+            .join(", ")
+    ));
 }
 
 /// A pixel position to a tenth of a pixel.
