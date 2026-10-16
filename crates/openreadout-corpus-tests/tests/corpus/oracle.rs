@@ -422,6 +422,10 @@ pub(crate) struct OracleImage {
     /// `images[].extra.modulo` when present (tifffile's modulo axes).
     #[serde(default)]
     pub(crate) modulo: BTreeMap<String, u32>,
+    /// Diffraction geometry in our names (`wavelength_a`, `distance_mm`, `beam_center_px`, ...),
+    /// compared with `images[].extra.diffraction` (numbers and number pairs, relative 1e-6).
+    #[serde(default)]
+    pub(crate) check_diffraction: BTreeMap<String, serde_json::Value>,
 }
 #[derive(Deserialize)]
 pub(crate) struct OracleLevel {

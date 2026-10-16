@@ -247,6 +247,33 @@ pub(crate) fn compare_images(
                 ));
             }
         }
+        for (k, want) in &o.check_diffraction {
+            let ours = im.extra.get("diffraction").and_then(|d| d.get(k));
+            let nums = |v: &serde_json::Value| -> Vec<f64> {
+                match v {
+                    serde_json::Value::Array(a) => {
+                        a.iter().filter_map(serde_json::Value::as_f64).collect()
+                    }
+                    other => other.as_f64().into_iter().collect(),
+                }
+            };
+            let same = ours.is_some_and(|o2| {
+                let (a, b) = (nums(o2), nums(want));
+                !b.is_empty()
+                    && a.len() == b.len()
+                    && a.iter()
+                        .zip(&b)
+                        .all(|(x, y)| (x - y).abs() <= 1e-6 * y.abs().max(1e-9))
+            });
+            if same {
+                names_ok += 1;
+            } else {
+                problems.push(format!(
+                    "image {}: diffraction.{k} {ours:?} != oracle {want}",
+                    o.index
+                ));
+            }
+        }
         if !o.modulo.is_empty() {
             let ours: BTreeMap<String, u32> = im
                 .extra

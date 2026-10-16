@@ -1222,6 +1222,13 @@ impl Dataset for TiffDataset {
         (!e.is_empty()).then_some(e)
     }
 
+    fn sum_planes(&mut self, image: u32, c: u32, z: u32, ts: &[u32]) -> Result<Plane> {
+        if image == 0 && c == 0 && z == 0 && self.flavor == Flavor::Eer {
+            return self.eer_sum(ts);
+        }
+        openreadout_core::reader::sum_planes_by_reading(self, image, c, z, ts)
+    }
+
     fn frames(&self, image: u32, limit: Option<usize>) -> Result<(u64, Vec<Value>)> {
         if image == 0 && self.flavor == Flavor::MetamorphStk {
             return Ok(self.stk_frames(limit));

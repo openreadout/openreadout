@@ -234,17 +234,134 @@ fn bitunshuffle(typesize: usize, src: &[u8], dest: &mut [u8]) {
     }
     let row = n / 8;
     let done = n * typesize;
-    dest[..done].fill(0);
+    // Eight bit rows of byte `j` give, at byte `g` of each row, an 8 × 8 bit matrix whose
+    // transpose is byte `j` of elements 8g..8g+8.
     for j in 0..typesize {
-        for k in 0..8 {
-            let bits = &src[(j * 8 + k) * row..(j * 8 + k + 1) * row];
-            for i in 0..n {
-                let bit = (bits[i / 8] >> (i % 8)) & 1;
-                dest[i * typesize + j] |= bit << k;
+        let rows = &src[j * 8 * row..(j + 1) * 8 * row];
+        for g in 0..row {
+            let mut x = 0u64;
+            for k in 0..8 {
+                x |= u64::from(rows[k * row + g]) << (8 * k);
+            }
+            let y = transpose8(x).to_le_bytes();
+            for (i, b) in y.iter().enumerate() {
+                dest[(g * 8 + i) * typesize + j] = *b;
             }
         }
     }
     dest[done..].copy_from_slice(&src[done..]);
+}
+
+/// Transpose an 8 × 8 bit matrix stored as eight bytes (row `r` in byte `r`, column `c` in
+/// bit `c`): bit `8r + c` moves to bit `8c + r`.
+fn transpose8(mut x: u64) -> u64 {
+    let t = (x ^ (x >> 7)) & 0x00AA_00AA_00AA_00AA;
+    x ^= t ^ (t << 7);
+    let t = (x ^ (x >> 14)) & 0x0000_CCCC_0000_CCCC;
+    x ^= t ^ (t << 14);
+    let t = (x ^ (x >> 28)) & 0x0000_0000_F0F0_F0F0;
+    x ^ t ^ (t << 28)
+}
+
+/// The HDF5 bitshuffle filter (registered filter id 32008, bitshuffle library framing): with
+/// LZ4 (`compression` 2), a big-endian u64 decoded size and u32 block size in bytes, then per
+/// block of whole elements a big-endian u32 compressed size and an LZ4 block holding the
+/// bit-shuffled block; the elements left over after the last whole block of 8 are stored as
+/// they are at the end. Without compression (`compression` 0) the chunk is the bit-shuffled
+/// data itself, cut into blocks of `block_elems` elements (0: the library's default).
+/// `expected` is the decoded size when known (0: take it from the chunk).
+pub fn bitshuffle_decode(
+    src: &[u8],
+    elem_size: usize,
+    compression: u32,
+    block_elems: usize,
+    expected: usize,
+) -> Result<Vec<u8>> {
+    let e = |d: &str| CodecError::Decode {
+        codec: "bitshuffle",
+        detail: d.into(),
+    };
+    if elem_size == 0 {
+        return Err(e("element size 0"));
+    }
+    let be = |at: usize, n: usize| -> Option<u64> {
+        let s = src.get(at..at.checked_add(n)?)?;
+        Some(s.iter().fold(0u64, |a, &b| a << 8 | u64::from(b)))
+    };
+    let (total, block_bytes, mut at) = match compression {
+        0 => (
+            if expected == 0 { src.len() } else { expected },
+            block_elems.saturating_mul(elem_size),
+            0usize,
+        ),
+        2 => {
+            let total = usize::try_from(be(0, 8).ok_or_else(|| e("header truncated"))?)
+                .map_err(|_| e("declared size too large"))?;
+            let block = be(8, 4).ok_or_else(|| e("header truncated"))? as usize;
+            (total, block, 12)
+        }
+        other => {
+            return Err(CodecError::Decode {
+                codec: "bitshuffle",
+                detail: format!("compression {other} (only none and LZ4 are decoded)"),
+            });
+        }
+    };
+    if total > MAX_DECODED || (expected != 0 && total != expected) {
+        return Err(e("declared size does not match the chunk"));
+    }
+    // LZ4 expands at most about 255 times: a larger declared size is not this chunk's.
+    if compression == 2 && total > src.len().saturating_mul(256).saturating_add(64) {
+        return Err(e("declared size is larger than the chunk can hold"));
+    }
+    if !total.is_multiple_of(elem_size) {
+        return Err(e("decoded size is not a whole number of elements"));
+    }
+    let n = total / elem_size;
+    // The library's default block: 8 KiB of elements, a multiple of 8, at least 128.
+    let block_n = if block_bytes == 0 {
+        ((8192 / elem_size) / 8 * 8).max(128)
+    } else {
+        block_bytes / elem_size
+    };
+    if block_n == 0 || !block_n.is_multiple_of(8) {
+        return Err(e("block size is not a multiple of 8 elements"));
+    }
+    let mut out = vec![0u8; total];
+    let mut done = 0usize; // elements decoded
+    let tail = n % 8;
+    while done + 8 <= n {
+        let this = block_n.min((n - tail) - done);
+        let bytes = this * elem_size;
+        let shuffled: std::borrow::Cow<'_, [u8]> = if compression == 2 {
+            let c = be(at, 4).ok_or_else(|| e("block header truncated"))? as usize;
+            at += 4;
+            let end = at.checked_add(c).ok_or_else(|| e("block size overflows"))?;
+            let s = src
+                .get(at..end)
+                .ok_or_else(|| e("block runs past the chunk"))?;
+            at = end;
+            std::borrow::Cow::Owned(lz4_block_decode(s, bytes)?)
+        } else {
+            let s = src
+                .get(at..at + bytes)
+                .ok_or_else(|| e("chunk shorter than its data"))?;
+            at += bytes;
+            std::borrow::Cow::Borrowed(s)
+        };
+        if shuffled.len() != bytes {
+            return Err(e("block decoded to the wrong size"));
+        }
+        let dest = &mut out[done * elem_size..done * elem_size + bytes];
+        bitunshuffle(elem_size, &shuffled, dest);
+        done += this;
+    }
+    let rest = tail * elem_size;
+    let s = src
+        .get(at..at + rest)
+        .ok_or_else(|| e("chunk ends before its last elements"))?;
+    out[done * elem_size..].copy_from_slice(s);
+    Ok(out)
 }
 
 /// A Snappy raw block (public format description, `format_description.txt`): a varint decoded
@@ -579,6 +696,73 @@ mod tests {
         let mut out = vec![0u8; 6];
         bitunshuffle(2, &[1, 2, 3, 4, 5, 6], &mut out);
         assert_eq!(out, [1, 2, 3, 4, 5, 6]);
+    }
+
+    #[test]
+    fn transpose8_matches_bit_by_bit() {
+        for seed in [1u64, 0x0123_4567_89ab_cdef, u64::MAX, 0x8000_0000_0000_0001] {
+            let t = transpose8(seed);
+            for r in 0..8 {
+                for c in 0..8 {
+                    assert_eq!(seed >> (8 * r + c) & 1, t >> (8 * c + r) & 1);
+                }
+            }
+        }
+    }
+
+    /// Bit-shuffle `vals` (u16) the slow way.
+    fn shuffle_u16(vals: &[u16]) -> Vec<u8> {
+        let n = vals.len();
+        let mut out = vec![0u8; n * 2];
+        for (i, v) in vals.iter().enumerate() {
+            for j in 0..2 {
+                for k in 0..8 {
+                    if v.to_le_bytes()[j] >> k & 1 == 1 {
+                        out[(j * 8 + k) * n / 8 + i / 8] |= 1 << (i % 8);
+                    }
+                }
+            }
+        }
+        out
+    }
+
+    #[cfg(feature = "lz4")]
+    #[test]
+    fn bitshuffle_lz4_chunks_with_a_tail() {
+        // 21 u16 values: two blocks of 8 (block size 16 bytes), then 5 left over stored raw.
+        let vals: Vec<u16> = (0..21).map(|i| (i * 977 + 3) as u16).collect();
+        let mut c = Vec::new();
+        c.extend_from_slice(&(42u64).to_be_bytes());
+        c.extend_from_slice(&(16u32).to_be_bytes());
+        for b in 0..2 {
+            let block = shuffle_u16(&vals[b * 8..b * 8 + 8]);
+            let z = lz4_flex::block::compress(&block);
+            c.extend_from_slice(&(z.len() as u32).to_be_bytes());
+            c.extend_from_slice(&z);
+        }
+        for v in &vals[16..] {
+            c.extend_from_slice(&v.to_le_bytes());
+        }
+        let out = bitshuffle_decode(&c, 2, 2, 0, 42).unwrap();
+        let back: Vec<u16> = out
+            .chunks(2)
+            .map(|c| u16::from_le_bytes([c[0], c[1]]))
+            .collect();
+        assert_eq!(back, vals);
+        assert!(bitshuffle_decode(&c[..c.len() - 1], 2, 2, 0, 42).is_err());
+        assert!(bitshuffle_decode(&c, 2, 2, 0, 40).is_err());
+        assert!(bitshuffle_decode(&c, 2, 3, 0, 42).is_err());
+        // fuzz finding: a declared size that is not a whole number of elements
+        assert!(bitshuffle_decode(&c, 4, 2, 0, 42).is_err());
+        // uncompressed: the shuffled data itself
+        let raw = shuffle_u16(&vals[..16]);
+        let out = bitshuffle_decode(&raw, 2, 0, 16, 32).unwrap();
+        assert_eq!(
+            out.chunks(2)
+                .map(|c| u16::from_le_bytes([c[0], c[1]]))
+                .collect::<Vec<_>>(),
+            vals[..16]
+        );
     }
 
     #[test]

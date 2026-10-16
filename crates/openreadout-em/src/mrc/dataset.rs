@@ -69,6 +69,8 @@ pub struct MrcDataset {
     ext: Vec<u8>,
     ext_kind: ExtKind,
     layout: Layout,
+    /// The SerialEM `.mdoc` next to the file (`stack.mrc.mdoc`), when there is one.
+    mdoc: Option<(PathBuf, crate::mdoc::Mdoc)>,
 }
 
 fn pixel_type(h: &MrcHeader) -> PixelType {
@@ -194,7 +196,10 @@ impl MrcDataset {
         let ext_kind = classify_ext(&header, &ext);
         let extension = ext_lower(path);
         let layout = header.layout(&extension);
+        let mdoc = crate::mdoc::sidecar_of(fs, path)
+            .and_then(|p| crate::mdoc::read(fs, &p).ok().map(|m| (p, m)));
         Ok(MrcDataset {
+            mdoc,
             path: path.to_path_buf(),
             gzip: None,
             blob,
@@ -244,6 +249,47 @@ impl MrcDataset {
     }
 
     fn records(&self, limit: Option<usize>) -> (u64, Vec<Value>) {
+        let (n, mut recs) = self.ext_records(limit);
+        let Some((_, m)) = &self.mdoc else {
+            return (n, recs);
+        };
+        // The mdoc's `[ZValue = N]` sections describe section N of the stack.
+        let by_z: std::collections::HashMap<i64, Map<String, Value>> = m
+            .sections
+            .iter()
+            .zip(m.records())
+            .filter(|(s, _)| s.kind == "ZValue")
+            .map(|(s, r)| (s.index, r))
+            .collect();
+        if by_z.is_empty() {
+            return (n, recs);
+        }
+        let nz = usize::try_from(self.header.nz.max(0)).unwrap_or(0);
+        let (size_z, _) = self.sizes();
+        let size_z = size_z.max(1) as usize;
+        if recs.is_empty() {
+            let take = limit.map_or(nz, |l| l.min(nz));
+            recs = (0..take)
+                .map(|s| json!({"section": s, "t": s / size_z, "z": s % size_z}))
+                .collect();
+        }
+        for r in &mut recs {
+            let Some(o) = r.as_object_mut() else { continue };
+            let Some(sec) = o.get("section").and_then(Value::as_i64) else {
+                continue;
+            };
+            if let Some(extra) = by_z.get(&sec) {
+                for (k, v) in extra {
+                    if k != "section" && k != "section_kind" {
+                        o.entry(k.clone()).or_insert_with(|| v.clone());
+                    }
+                }
+            }
+        }
+        (n.max(nz as u64), recs)
+    }
+
+    fn ext_records(&self, limit: Option<usize>) -> (u64, Vec<Value>) {
         let e = self.header.endian();
         let nz = usize::try_from(self.header.nz.max(0)).unwrap_or(0);
         let (len, decode): (usize, RecordDecoder) = match self.ext_kind {
@@ -409,6 +455,14 @@ impl MrcDataset {
         }
         if matches!(h.mode, Mode::ComplexInt16 | Mode::ComplexFloat32) {
             ex.insert("complex".into(), Value::Bool(true));
+        }
+        if let Some((p, m)) = &self.mdoc {
+            let mut s = m.summary();
+            s.insert(
+                "file".into(),
+                json!(p.file_name().map(|n| n.to_string_lossy().to_string())),
+            );
+            im.extra.insert("mdoc".into(), Value::Object(s));
         }
         im.finish()
     }
@@ -581,6 +635,13 @@ impl Dataset for MrcDataset {
         }
         if let Some(p) = &h.stamp_problem {
             notes.push(p.clone());
+        }
+        if let Some((p, m)) = &self.mdoc {
+            notes.push(format!(
+                "SerialEM metadata from {}: {} section(s); per-section tilt angle, dose and stage in the frame records (`info --view full`, plot show frames)",
+                p.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default(),
+                m.sections.len()
+            ));
         }
         Ok(FileInfo {
             path: self.path.display().to_string(),

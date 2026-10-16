@@ -262,7 +262,7 @@
           }
         },
         "projection": {
-          "description": "`max-z` or `max-t` for a maximum-intensity projection.",
+          "description": "`max-z` or `max-t` for a maximum-intensity projection, `sum-z` or `sum-t` for a sum.",
           "type": [
             "string",
             "null"
@@ -281,7 +281,7 @@
           "type": "string"
         },
         "lut": {
-          "description": "`gray`, `channel-color` or `rgb`.",
+          "description": "`gray`, `inverted`, `channel-color` or `rgb`.",
           "type": "string"
         },
         "channels": {
@@ -339,6 +339,17 @@
             "width": 0,
             "height": 0
           }
+        },
+        "fft_inset": {
+          "description": "Where the power-spectrum inset is drawn (`fft`), in PNG pixels.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Region"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "scale_bar": {
           "description": "The scale bar drawn, when the physical pixel size is known.",
@@ -1081,7 +1092,7 @@
       "type": "object",
       "properties": {
         "kind": {
-          "description": "`peak` or `spike`.",
+          "description": "`peak`, `spike`, `resolution_ring` (x: resolution in Å, y: radius in full-resolution\npixels) or `beam_center` (x, y: full-resolution pixels).",
           "type": "string"
         },
         "x": {

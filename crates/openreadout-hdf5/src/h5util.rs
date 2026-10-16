@@ -22,6 +22,8 @@ pub const FILTER_DEFLATE: u16 = 1;
 pub const FILTER_SHUFFLE: u16 = 2;
 pub const FILTER_FLETCHER32: u16 = 3;
 pub const FILTER_LZ4: u16 = 32004;
+/// The bitshuffle filter (Dectris EIGER data, usually with LZ4).
+pub const FILTER_BITSHUFFLE: u16 = 32008;
 
 /// Longest attribute text kept in JSON output.
 const MAX_ATTR_TEXT: usize = 64 << 10;
@@ -495,6 +497,7 @@ impl PlaneDataset {
                     FILTER_SHUFFLE => "shuffle".into(),
                     FILTER_FLETCHER32 => "fletcher32".into(),
                     FILTER_LZ4 => "lz4".into(),
+                    FILTER_BITSHUFFLE => "bitshuffle".into(),
                     other => format!("filter {other}"),
                 })
                 .collect(),
@@ -727,6 +730,13 @@ fn unfilter(
         data = match *id {
             FILTER_DEFLATE => openreadout_codecs::zlib_decode(&data, 0).map_err(codec)?,
             FILTER_LZ4 => openreadout_codecs::hdf5_lz4_decode(&data).map_err(codec)?,
+            FILTER_BITSHUFFLE => {
+                // client data: version (2 values), element size, block size, compression
+                let es = cd.get(2).map_or(bps, |v| *v as usize).max(1);
+                let block = cd.get(3).map_or(0, |v| *v as usize);
+                let comp = cd.get(4).copied().unwrap_or(0);
+                openreadout_codecs::bitshuffle_decode(&data, es, comp, block, 0).map_err(codec)?
+            }
             FILTER_SHUFFLE => {
                 let ts = cd.first().map_or(bps, |v| *v as usize).max(1);
                 unshuffle(&data, ts)
@@ -740,7 +750,7 @@ fn unfilter(
                 return Err(Error::unsupported(
                     format,
                     format!("HDF5 filter {other} ({what})"),
-                    "Chunks compressed with deflate, shuffle, fletcher32 and LZ4 (32004) are decoded; re-save the file with one of those.",
+                    "Chunks compressed with deflate, shuffle, fletcher32, LZ4 (32004) and bitshuffle (32008, plain or with LZ4) are decoded; re-save the file with one of those.",
                 ));
             }
         };

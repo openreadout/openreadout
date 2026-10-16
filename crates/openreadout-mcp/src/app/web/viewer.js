@@ -1266,12 +1266,17 @@ function main() {
       }
       const slices = sliceCount();
       if (slices > 1 && im.view !== "orthogonal") {
-        if (!im.projection) add(slider(im.view && im.view !== "native" ? "Slice" : "Z", slices - 1, im.z[0] || 0, (v) => reloadPlane({ z: v })));
-        const mip = el("input", { type: "checkbox", checked: !!im.projection, on: { change: () => reloadPlane({ mip: mip.checked || undefined }) } });
+        if (im.projection !== "max-z") add(slider(im.view && im.view !== "native" ? "Slice" : "Z", slices - 1, im.z[0] || 0, (v) => reloadPlane({ z: v })));
+        const mip = el("input", { type: "checkbox", checked: im.projection === "max-z", on: { change: () => reloadPlane({ mip: mip.checked || undefined }) } });
         add(el("label", {}, mip, "Max projection"));
       }
-      if ((info.size_t || 1) > 1) add(slider("T", info.size_t - 1, im.t[0] || 0, (v) => reloadPlane({ t: v })));
-      const contrasts = [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["raw", "Full range"]];
+      if ((info.size_t || 1) > 1) {
+        const summed = im.projection === "sum-t";
+        if (!summed) add(slider("T", info.size_t - 1, im.t[0] || 0, (v) => reloadPlane({ t: v })));
+        const sum = el("input", { type: "checkbox", checked: summed, on: { change: () => reloadPlane(sum.checked ? { sum_t: true, t: undefined } : { sum_t: undefined, t: 0 }) } });
+        add(el("label", {}, sum, "Sum frames"));
+      }
+      const contrasts = [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["log", "Log"], ["raw", "Full range"]];
       (info.windows || []).forEach((w, i) => contrasts.push([`window:file:${i}`, w.name ? `Window: ${w.name}` : `Window ${w.center}/${w.width}`]));
       if (info.value_unit === "HU") {
         [["soft-tissue", "Soft tissue"], ["brain", "Brain"], ["bone", "Bone"], ["lung", "Lung"], ["liver", "Liver"], ["subdural", "Subdural"]]
@@ -1646,6 +1651,17 @@ function main() {
     return ((S.outline || {}).images || []).find((x) => x.index === idx) || {};
   }
 
+  /** Diffraction images: the resolution (Å) at full-resolution pixel (x, y), from the
+   * geometry in `extra.diffraction` (flat detector normal to the beam), or null. */
+  function resolutionAt(x, y) {
+    const g = imageInfo().diffraction;
+    if (!g || !g.wavelength_a || !g.distance_mm || !g.beam_center_px || !g.pixel_size_mm || g.two_theta_deg) return null;
+    const r = Math.hypot(x - g.beam_center_px[0], y - g.beam_center_px[1]) * g.pixel_size_mm[0];
+    if (!(r > 0)) return null;
+    const s = Math.sin(Math.atan(r / g.distance_mm) / 2);
+    return s > 0 ? g.wavelength_a / (2 * s) : null;
+  }
+
   function physical() {
     const ps = imageInfo().physical_size || {};
     if (!(ps.x > 0)) return null;
@@ -1659,7 +1675,7 @@ function main() {
 
   function planeKey(args, im) {
     const a = args || {};
-    return JSON.stringify([im ? im.image : a.image || 0, im ? im.c : a.c, im ? im.z : a.z, im ? im.t : a.t, !!(im ? im.composite : a.composite), a.channels || null, !!(im ? im.projection : a.mip), a.contrast || "auto"]);
+    return JSON.stringify([im ? im.image : a.image || 0, im ? im.c : a.c, im ? im.z : a.z, im ? im.t : a.t, !!(im ? im.composite : a.composite), a.channels || null, (im ? im.projection : a.mip ? "max-z" : a.sum_t ? "sum-t" : null), a.contrast || "auto"]);
   }
 
   function fullRect() {
@@ -3613,6 +3629,11 @@ function main() {
       if (hitAnn && hitAnn.a.label) s = `${hitAnn.a.label}\n` + s;
       const rows = [{ key: "x", value: fmtInt(p.x), unit: "px" }, { key: "y", value: fmtInt(p.y), unit: "px" }];
       if (ps) rows.push({ key: "position", value: `${fmtLength(p.x * ps.x)}, ${fmtLength(p.y * ps.y)}` });
+      const res = resolutionAt(p.x, p.y);
+      if (res) {
+        s += `\nresolution ${fmt(res, 3)} Å`;
+        rows.push({ key: "resolution", value: fmt(res, 3), unit: "Å" });
+      }
       S.hover.tip = { head: hitAnn && hitAnn.a.label ? { value: legendLabel(hitAnn.a.label, 40) } : null, rows };
       return s;
     }

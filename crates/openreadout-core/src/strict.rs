@@ -99,6 +99,10 @@ impl Dataset for StrictDataset {
         self.gate(Scope::Pixels)?;
         self.inner.read_plane(image, index)
     }
+    fn sum_planes(&mut self, image: u32, c: u32, z: u32, ts: &[u32]) -> Result<Plane> {
+        self.gate(Scope::Pixels)?;
+        self.inner.sum_planes(image, c, z, ts)
+    }
     fn check(&mut self) -> Result<CheckReport> {
         self.inner.check()
     }

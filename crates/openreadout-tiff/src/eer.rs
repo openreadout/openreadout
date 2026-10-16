@@ -299,6 +299,77 @@ impl TiffDataset {
         Ok(())
     }
 
+    /// The sum of frames `ts`: every frame's events added straight into one count per pixel,
+    /// without decoding each frame to a plane first.
+    pub(crate) fn eer_sum(
+        &mut self,
+        ts: &[u32],
+    ) -> openreadout_core::Result<openreadout_core::Plane> {
+        let series = self
+            .series
+            .first()
+            .ok_or_else(|| Error::Usage("no image".into()))?;
+        let n = series.planes.len();
+        let mut pages = Vec::with_capacity(ts.len());
+        for &t in ts {
+            match series.planes.get(t as usize) {
+                Some(Some(PlaneSrc::Page { file: 0, page, .. })) => pages.push(*page),
+                _ => {
+                    return Err(Error::Usage(format!(
+                        "frame t={t} out of range (the movie has {n} frames)"
+                    )));
+                }
+            }
+        }
+        if pages.is_empty() {
+            return Err(Error::Usage("no frames to sum".into()));
+        }
+        let first = self.layout(0, pages[0])?;
+        let (w, h) = (first.width as usize, first.height as usize);
+        let mut acc = vec![
+            0u32;
+            w.checked_mul(h)
+                .ok_or_else(|| Error::corrupt(FORMAT_ID, "frame size overflows"))?
+        ];
+        for page in pages {
+            let layout = self.layout(0, page)?;
+            let coding = layout.eer.ok_or_else(|| {
+                Error::corrupt(FORMAT_ID, format!("page {page} is not EER-coded"))
+            })?;
+            if (layout.width as usize, layout.height as usize) != (w, h) {
+                return Err(Error::corrupt(
+                    FORMAT_ID,
+                    format!("page {page} has another size"),
+                ));
+            }
+            let Some((_, src)) = self.files[0].opened.as_mut() else {
+                return Err(Error::corrupt(FORMAT_ID, "the file is not open"));
+            };
+            let rows_per = layout.chunk_height.max(1) as usize;
+            for (i, (&off, &bytes)) in layout.offsets.iter().zip(&layout.byte_counts).enumerate() {
+                let y0 = i.saturating_mul(rows_per);
+                let rows = h.saturating_sub(y0).min(rows_per);
+                if off == 0 || bytes == 0 || rows == 0 {
+                    continue;
+                }
+                let raw = src.read_at(off, bytes)?;
+                let base = y0 * w;
+                let strip = &mut acc[base..base + rows * w];
+                crate::eer::walk(&raw, rows * w, coding, |p| {
+                    strip[p] = strip[p].saturating_add(1);
+                })
+                .map_err(|e| Error::corrupt_at(FORMAT_ID, off, format!("page {page}: {e}")))?;
+            }
+        }
+        Ok(openreadout_core::Plane {
+            width: w as u32,
+            height: h as u32,
+            pixel_type: openreadout_core::PixelType::Float,
+            samples_per_pixel: 1,
+            data: acc.iter().flat_map(|&v| (v as f32).to_le_bytes()).collect(),
+        })
+    }
+
     /// The frame pages (the size and compression of page 0) and the other pages.
     fn frame_pages(&self, l: &PageLayout) -> (Vec<usize>, Vec<usize>) {
         let mut pages = Vec::new();

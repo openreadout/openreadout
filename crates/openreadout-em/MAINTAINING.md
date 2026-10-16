@@ -1,12 +1,14 @@
 # Maintaining `openreadout-em`
 
-Electron-microscopy readers, one module directory per format: MRC / CCP4 / MAP (`mrc`, `mrc/`), Gatan Digital Micrograph DM3/DM4/DM5 (`dm`, `dm/`; DM5 is HDF5, `dm/dm5.rs`), TIA / ES Vision series `.ser` with `.emi` (`ser`, `ser/`), Velox and NCEM/Berkeley EMD (`emd`, `emd/`; Berkeley in `emd/berkeley.rs`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: `docs/formats/{em,mrc,dm,ser,emd}.md`; provenance: `docs/provenance/{mrc,dm,ser,emd}.md`. **Clean room**: FEI1/FEI2 extended-header decoding comes from mrcfile (BSD-3) and corpus files.
+Electron-microscopy readers, one module directory per format: MRC / CCP4 / MAP (`mrc`, `mrc/`), Gatan Digital Micrograph DM3/DM4/DM5 (`dm`, `dm/`; DM5 is HDF5, `dm/dm5.rs`), TIA / ES Vision series `.ser` with `.emi` (`ser`, `ser/`), Velox and NCEM/Berkeley EMD (`emd`, `emd/`; Berkeley in `emd/berkeley.rs`), SerialEM `.mdoc` metadata (`mdoc`, `mdoc/`; also read as the sidecar of an MRC stack). The MRC writer behind `export --format mrc` is `mrc/write.rs`. Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: `docs/formats/{em,mrc,dm,ser,emd}.md`; provenance: `docs/provenance/{mrc,dm,ser,emd}.md`. **Clean room**: FEI1/FEI2 extended-header decoding comes from mrcfile (BSD-3) and corpus files.
 
 ## Decode pipeline
 
 Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE and Unix timestamps).
 
 - **MRC** (`mrc/header.rs`, `mrc/ext.rs`, `mrc/dataset.rs`): the 1024-byte MRC2014 header (open CCP-EM specification): MODE, NX/NY/NZ, MX/MY/MZ, CELLA, MAPC/MAPR/MAPS, the machine stamp (byte order, with detection of wrong stamps `wrong_stamp_is_detected_and_corrected`), NVERSION, labels; then NSYMBT bytes of extended header: **extended-header kinds branch here** (`ExtKind`: FEI1/FEI2 blocks, SerialEM `SERI`, Agard integer/real records, CCP4 symmetry text); then NZ sections. Layout (`Layout`: image, image stack, volume, volume stack) from ISPG and MZ. 4-bit packed mode 101 is unpacked (`unpack_4bit`).
+- **mdoc** (`mdoc/mod.rs`, `mdoc/dataset.rs`): `key = value` lines, `[T = ...]` titles and `[Kind = N]` sections (`Mdoc::parse`); section records in our names with the dose accumulated in `DateTime` order (`records`); on its own a table of sections, next to an MRC file (`sidecar_of`) merged into the MRC frame records by `[ZValue = N]` → section N.
+- **MRC export** (`mrc/write.rs`): sections streamed to a temporary file (frames summed through `Dataset::sum_planes` with `group`), the header written last with the value range, read back through `MrcDataset` and compared section by section.
 - **DM** (`dm/tags.rs`, `dm/dataset.rs`): a big-endian header (**version 3 or 4 branches**: DM4 has 64-bit lengths and per-tag lengths), a tree of tag groups and data tags whose values use the header's byte order; images from `ImageList` (`ImageData`: `Data`, `DataType`, `Dimensions`, `Calibrations`; `ImageTags`: microscope and acquisition). Large arrays are referenced, not copied.
 - **SER** (`ser/file.rs`, `ser/dataset.rs`, `ser/emi.rs`): header (byte order `II`, series id 0x0197; **versions 0x0210 and 0x0220 branch** on 4- vs 8-byte offsets), dimension array, offset arrays, elements (1-D spectra or 2-D images) with tags; the `.emi` sidecar's `<ObjectInfo>` XML only.
 - **EMD** (`emd/dataset.rs`, `emd/spectra.rs`): HDF5 through `hdf5-pure`; `Data/Image/<id>` images with their JSON `Metadata`, EDS spectra (`Data/Spectrum`), spectrum images assembled from uint16 X-ray event streams (`decode_stream`: 65535 ends a pixel), STEM-EELS spectrum images. NCEM/Berkeley EMD 0.2 is recognised and refused.
@@ -22,7 +24,7 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 
 - `openreadout info FILE --view structure` lists the MRC header/extended header/sections, the DM tag tree, the SER elements or the EMD HDF5 tree; `info --view full --json` → `vendor` has the header fields and tag trees by their stored names.
 - `tests/synthetic_mrc.rs` and `tests/synthetic_emd.rs` build files; DM and SER have unit tests in their modules (`parses_scalars_strings_structs_and_arrays`, `parses_header_elements_and_tags`).
-- Oracles: mrcfile (MRC; Bio-Formats second opinion, which flips rows and treats stacks as Z — adjudicated), dm3_lib (DM), ncempy (SER) and h5py (EMD), all in `oracle/gen.py`.
+- Oracles: mdocfile (mdoc, `oracle/diffraction.py`); mrcfile (MRC; Bio-Formats second opinion, which flips rows and treats stacks as Z — adjudicated), dm3_lib (DM), ncempy (SER) and h5py (EMD), all in `oracle/gen.py`.
 
 ## Fragile spots
 
@@ -44,6 +46,7 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 | `dm` | [format note](../../docs/formats/dm.md), [provenance log](../../docs/provenance/dm.md) | high | prior art | 114 / 114 | 39 | 2 / 0 |
 | `ser` | [format note](../../docs/formats/ser.md), [provenance log](../../docs/provenance/ser.md) | high | prior art | 22 / 22 | 5 | 1 / 0 |
 | `emd` | [format note](../../docs/formats/emd.md), [provenance log](../../docs/provenance/emd.md) | high | prior art | 37 / 37 | 14 | 1 / 0 |
+| `mdoc` | [format note](../../docs/formats/mdoc.md), [provenance log](../../docs/provenance/mdoc.md) | medium | prior art | 4 / 4 | 4 | - |
 
 ### Source map
 
@@ -59,10 +62,13 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 | [`src/emd/mod.rs`](src/emd/mod.rs) | EMD (HDF5-based) reader: Thermo Fisher Velox EMD images through the pure-Rust `hdf5-pure` crate |
 | [`src/emd/spectra.rs`](src/emd/spectra.rs) | Velox EDS data: detector spectra (`Data/Spectrum/<id>`) and the X-ray event streams (`Data/SpectrumStream/<id>`) from which spectrum images are assembled |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for electron-microscopy formats, registered as separate formats: |
+| [`src/mdoc/dataset.rs`](src/mdoc/dataset.rs) | `Dataset` for a SerialEM `.mdoc` file on its own: one table with a row per section, the files the sections name, and the experiment (voltage, pixel spacing, tilt range, dose) |
+| [`src/mdoc/mod.rs`](src/mdoc/mod.rs) | SerialEM `.mdoc` metadata files: `key = value` lines in sections (`[ZValue = N]` for each image of a tilt series or stack, `[FrameSet = N]` for a saved movie, `[MontSection = N]` |
 | [`src/mrc/dataset.rs`](src/mrc/dataset.rs) | `Dataset` for MRC/CCP4 files: normalized metadata, listing, plane reads, integrity checks |
 | [`src/mrc/ext.rs`](src/mrc/ext.rs) | Extended headers: FEI1/FEI2 metadata blocks (layout from mrcfile's BSD-licensed `dtypes.py`), SerialEM `SERI` section records and Agard-style integer/real records (IMOD… |
 | [`src/mrc/header.rs`](src/mrc/header.rs) | The 1024-byte MRC2014 main header (CCP-EM specification; see `docs/formats/mrc.md`) |
 | [`src/mrc/mod.rs`](src/mrc/mod.rs) | MRC / CCP4 / MAP reader (MRC2014, CCP-EM specification) |
+| [`src/mrc/write.rs`](src/mrc/write.rs) | MRC2014 export: one image of any reader as an MRC file, sections streamed to a temporary file, read back through our own MRC reader and compared plane by plane, then renamed into |
 | [`src/ser/dataset.rs`](src/ser/dataset.rs) | `Dataset` for TIA series files: one image per `.ser` (elements as T, or as rows for 1-D elements), metadata from the `.emi` sidecar when present |
 | [`src/ser/emi.rs`](src/ser/emi.rs) | The `.emi` sidecar: only its embedded `<ObjectInfo>` XML document is read |
 | [`src/ser/file.rs`](src/ser/file.rs) | TIA / ES Vision series file (`.ser`) structure: header, dimension array, offset arrays, element headers and tags (see `docs/formats/ser.md`) |
@@ -73,6 +79,7 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 
 The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these features (each value is looked up in the validated table below; a value never confirmed makes the file `unvalidated` for the feature's outputs) and reports these structures and assumptions:
 
+- feature layout `format!("sections {k}")`
 - feature format_version `version`
 - feature sample_layout `im.pixel_type.ome_name()`
 - feature sample_layout `format!("mode {m}")`
@@ -186,15 +193,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `emd` | layout | `eels spectrum image` | metadata, pixels | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
 | `emd` | layout | `multi-frame` | pixels | 4 | 4 | `rsciio-emd-fei-example-tem-stack`, `zenodo13893137-alcumg-haadf`, `zenodo20131712-0017-SI-Nano-1.4um` |
 
-… 71 more values: the generated table in `src/assurance.rs` has all of them.
+… 75 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic_emd.rs`](tests/synthetic_emd.rs), [`tests/synthetic_mrc.rs`](tests/synthetic_mrc.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_dm`, `whole_emd`, `whole_mrc`, `whole_ser`
-- corpus inputs by tier: heldout 22, smoke 134, standard 62
-- golden snapshots: [`corpus/snapshots/mrc.jsonl`](../../corpus/snapshots/mrc.jsonl), [`corpus/snapshots/dm.jsonl`](../../corpus/snapshots/dm.jsonl), [`corpus/snapshots/ser.jsonl`](../../corpus/snapshots/ser.jsonl), [`corpus/snapshots/emd.jsonl`](../../corpus/snapshots/emd.jsonl)
+- fuzz targets (`fuzz/fuzz_targets/`): `whole_dm`, `whole_emd`, `whole_mdoc`, `whole_mrc`, `whole_ser`
+- corpus inputs by tier: heldout 22, smoke 136, standard 66
+- golden snapshots: [`corpus/snapshots/mrc.jsonl`](../../corpus/snapshots/mrc.jsonl), [`corpus/snapshots/dm.jsonl`](../../corpus/snapshots/dm.jsonl), [`corpus/snapshots/ser.jsonl`](../../corpus/snapshots/ser.jsonl), [`corpus/snapshots/emd.jsonl`](../../corpus/snapshots/emd.jsonl), [`corpus/snapshots/mdoc.jsonl`](../../corpus/snapshots/mdoc.jsonl)
 
 ### Open new-variant intakes
 

@@ -3510,6 +3510,7 @@ Used by:
 - [openreadout-core 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-czi 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-dcimg 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-diffraction 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-echem 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-em 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-ephys 0.3.0](https://github.com/openreadout/openreadout)

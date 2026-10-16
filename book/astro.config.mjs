@@ -87,6 +87,7 @@ export default defineConfig({
             { label: "Electron microscopy", slug: "formats/em" },
             { label: "DNA sequencers", slug: "formats/sequencing" },
             { label: "Medical imaging", slug: "formats/medical" },
+            { label: "Structural biology", slug: "formats/structural-biology" },
           ],
         },
         {

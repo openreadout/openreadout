@@ -44,6 +44,13 @@ pub struct PreviewOptions {
     /// `native` (as stored). Default: medical images in their acquisition plane, others native.
     /// With a view, `z` and `mip: z` count slices of that view.
     pub view: Option<crate::View>,
+    /// Sum projection, over the selected range if any: a movie's frames added up (e.g. sum t,
+    /// select t=0-39).
+    pub sum: Option<Axis>,
+    /// Images: a power-spectrum (FFT) inset in the top-right corner: Thon rings of a cryo-EM
+    /// micrograph, the spots of a lattice.
+    #[serde(default)]
+    pub fft: bool,
     /// Blend all (or the selected) channels additively in their colours.
     #[serde(default)]
     pub composite: bool,
@@ -63,12 +70,14 @@ pub struct PreviewOptions {
     /// Image previews with axes scale-bar: a caption under the picture (what it shows, the
     /// stain, the sample).
     pub caption: Option<String>,
-    /// `auto` (default; the file's display window when it has one), `min-max`,
-    /// `percentile:LO,HI` (e.g. `percentile:1,99`), `raw`, or a display window
-    /// `window:CENTER,WIDTH` (`window:40,400`), `window:file`, or a CT preset `window:soft-tissue`,
-    /// `brain`, `subdural`, `stroke`, `bone`, `lung`, `mediastinum`, `liver`.
+    /// `auto` (default; the file's display window when it has one, `log:90,99.95` on diffraction
+    /// images), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`), `log` (`log:50,99.9`)
+    /// or `log:LO,HI`, `raw`, or a display window `window:CENTER,WIDTH` (`window:40,400`),
+    /// `window:file`, or a CT preset `window:soft-tissue`, `brain`, `subdural`, `stroke`, `bone`,
+    /// `lung`, `mediastinum`, `liver`.
     pub contrast: Option<String>,
-    /// Colour lookup. Default: gray for one channel, channel colours for composites.
+    /// Colour lookup. Default: gray for one channel (inverted on diffraction images), channel
+    /// colours for composites.
     pub lut: Option<Lut>,
     /// Trace preview: trace index (see openreadout_info traces[]).
     pub trace: Option<u32>,
@@ -96,7 +105,7 @@ pub struct PreviewOptions {
     #[schemars(with = "Vec<String>")]
     pub columns: Vec<String>,
     /// Marks from the data. Default auto: the prominent peaks of spectra and chromatograms are
-    /// labelled.
+    /// labelled; diffraction images get resolution rings.
     pub marks: Option<Marks>,
     /// Images: how objects are found for `marks: objects` (as `openreadout_stats` objects).
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
@@ -129,6 +138,8 @@ impl PreviewOptions {
             select: self.select.clone(),
             mip: self.mip,
             view: self.view,
+            sum: self.sum,
+            fft: self.fft,
             composite: self.composite,
             level: self.level,
             region: self.region,

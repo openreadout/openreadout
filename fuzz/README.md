@@ -46,6 +46,8 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_ims`, `whole_nwb`, `whole_hdf5` | Imaris, NWB 2.x and generic HDF5 |
 | `whole_mrc`, `whole_dm`, `whole_emd`; `whole_ser` | electron microscopy; TIA `.ser` + `.emi` |
 | `whole_dicom`, `whole_nifti`; `whole_paravision`; `codec_jpegls` | medical imaging: DICOM files, NIfTI (and gzip); a ParaVision experiment (`acqp`, `method`, `pdata/1/visu_pars`, `pdata/1/2dseq`); JPEG-LS streams |
+| `whole_mdoc` | SerialEM `.mdoc` metadata |
+| `whole_cbf`, `whole_smv`; `nxmx_links` | diffraction images (CBF/miniCBF, SMV); the external-link scan of NeXus master files |
 | `whole_thermo`, `whole_mzml`, `whole_mzxml`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry; gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
 | `whole_chemstation`, `whole_waters`; `whole_andi`, `whole_shimadzu`; `whole_sciex` | ChemStation `.D` and MassLynx `.raw` directories; ANDI netCDF, Shimadzu `.lcd`; Sciex `.wiff` + `.wiff.scan` |
 | `whole_baf` | Bruker BAF `.d`: `analysis.baf`, then `Calibrator.ami` (seed: the synthetic fixture) |
@@ -107,7 +109,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `tims_frame` | TDF frame blobs (zstd, four byte planes) and TSF line spectra; first 4 bytes: scan count or peak count, byte 4: which |
 | `jcamp_asdf` | JCAMP-DX ASDF (SQZ/DIF/DUP) tables, grouped decoding and the line lexer |
 | `mzml_binary` | base64, zlib/zstd and MS-Numpress arrays; the first byte picks value type, compression and byte order |
-| `codec_zstd0`, `codec_zstd1`, `codec_hilo`, `codec_jpegxr`, `codec_lzw`, `codec_zlib`, `codec_jpeg`, `codec_jpeg2000`, `codec_packbits`, `codec_lzma2`, `codec_webp`, `codec_jpegxl`, `codec_chunked` | each `openreadout-codecs` entry point (first 3 bytes: expected decoded length or, for JPEG, the frame-size bound; WebP and JPEG XL decode with a 64 MiB limit; `codec_jpeg` also drives the `jpeg_markers` scanner and, with 12-bit seeds, the 12-bit decoder) |
+| `codec_zstd0`, `codec_zstd1`, `codec_hilo`, `codec_jpegxr`, `codec_lzw`, `codec_zlib`, `codec_jpeg`, `codec_jpeg2000`, `codec_packbits`, `codec_lzma2`, `codec_webp`, `codec_jpegxl`, `codec_chunked`, `codec_bitshuffle` | each `openreadout-codecs` entry point (first 3 bytes: expected decoded length or, for JPEG, the frame-size bound; WebP and JPEG XL decode with a 64 MiB limit; `codec_jpeg` also drives the `jpeg_markers` scanner and, with 12-bit seeds, the 12-bit decoder) |
 | `ome_xml` | OME-XML builder from a JSON `FileInfo` (asserts the output is well-formed 7-bit XML) |
 | `selection` | `--select` parser |
 

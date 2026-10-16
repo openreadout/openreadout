@@ -1,0 +1,25 @@
+{
+ "id": "empiar11841-yeast3-montage-mdoc",
+ "file": "empiar11841-Yeast3.mrc.mdoc",
+ "size": 20506,
+ "sha256": "dafc7556c8d9e164273db716d4525f61d1c14be43bfabe4b2f4f3efa0d48ec5e",
+ "max_planes_hashed": 64,
+ "reader": "mdocfile ?",
+ "kind": "mdoc",
+ "section_count": 25,
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 25,
+   "parameter_names": [],
+   "column_hashes": {
+    "tilt_angle_deg": "b0a7e7bda041eaee6f489849c89d0fb6",
+    "exposure_dose_e_per_a2": "68ac297d87ba6fb2f24858a3a3e3018f",
+    "exposure_time_s": "9fcdc7c3bcfcd3ab26bfedf5daacd5af",
+    "defocus_um": "68ac297d87ba6fb2f24858a3a3e3018f",
+    "magnification": "3419d69ce847e8f7fa9e3ea5ec5a48e3",
+    "pixel_spacing_a": "53a0651edd60ba269bba1b26579386c9"
+   }
+  }
+ ]
+}

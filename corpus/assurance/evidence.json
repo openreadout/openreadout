@@ -43096,6 +43096,250 @@
       ]
     },
     {
+      "id": "dials-centroid-0001-cbf",
+      "format": "cbf",
+      "source": "github:dials/data-files",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "PILATUS 6M-F",
+          []
+        ],
+        [
+          "codec",
+          "byte_offset",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "PILATUS_1.2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        19
+      ]
+    },
+    {
+      "id": "dials-centroid-0002-cbf",
+      "format": "cbf",
+      "source": "github:dials/data-files",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "PILATUS 6M-F",
+          []
+        ],
+        [
+          "codec",
+          "byte_offset",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "PILATUS_1.2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        19
+      ]
+    },
+    {
+      "id": "zenodo3245362-anticd20-b10a-0002-cbf",
+      "format": "cbf",
+      "source": "zenodo:3245362",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "PILATUS 6M Prosport+",
+          []
+        ],
+        [
+          "codec",
+          "byte_offset",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "PILATUS_1.2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        19
+      ]
+    },
+    {
+      "id": "zenodo4771118-tdh-pilatus2m-cbf",
+      "format": "cbf",
+      "source": "zenodo:4771118",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "PILATUS 2M",
+          []
+        ],
+        [
+          "codec",
+          "byte_offset",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "PILATUS_1.2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        19
+      ]
+    },
+    {
       "id": "figshare25112837-fig2-aud-smrx",
       "format": "ced-spike2",
       "source": "figshare 10.25378/plus.25112837",
@@ -97762,6 +98006,132 @@
       ]
     },
     {
+      "id": "empiar10674-stack-0000-tif-mdoc",
+      "format": "mdoc",
+      "source": "empiar:10674",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "sections FrameSet",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "empiar10751-g3-ts-001-mdoc",
+      "format": "mdoc",
+      "source": "empiar:10751",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "sections ZValue",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "empiar10987-l4-ts-01-mdoc",
+      "format": "mdoc",
+      "source": "empiar:10987",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "sections ZValue",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "empiar11841-yeast3-montage-mdoc",
+      "format": "mdoc",
+      "source": "empiar:11841",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "sections ZValue",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        3
+      ]
+    },
+    {
       "id": "itc-bitc-adh10",
       "format": "microcal-itc",
       "source": "github:choderalab/bayesian-itc",
@@ -122990,6 +123360,144 @@
       ]
     },
     {
+      "id": "zenodo3383611-therm-6-1-master",
+      "format": "nxmx",
+      "source": "zenodo:3383611",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NXmx",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Eiger 16M",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 bitshuffle",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "data at /data",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        20
+      ]
+    },
+    {
+      "id": "zenodo3383611-therm-6-1-nxs",
+      "format": "nxmx",
+      "source": "zenodo:3383611",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NXmx",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Eiger 16M",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 bitshuffle",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "data at /data",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        20
+      ]
+    },
+    {
+      "id": "zenodo4327001-wtb2-1-master",
+      "format": "nxmx",
+      "source": "zenodo:4327001",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NXmx",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Eiger 16M",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        20
+      ]
+    },
+    {
       "id": "figshare12325037-vcfs-prox1-ctnt-x20-f1",
       "format": "oib",
       "source": "figshare 12325037 'figure 6. c-f / + vcf / 190821_vcfs_prox1_ctnt_x20_f1'",
@@ -144379,6 +144887,99 @@
       "inferred": [
         1,
         1
+      ]
+    },
+    {
+      "id": "zenodo1321880-mordenite-cred-00005-smv",
+      "format": "smv",
+      "source": "zenodo:1321880",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "beam centre pixels (fast, slow)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        15
+      ]
+    },
+    {
+      "id": "zenodo15992324-scmin-001-smv",
+      "format": "smv",
+      "source": "zenodo:15992324",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "beam centre ADSC (mm, X slow, Y fast)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        15
+      ]
+    },
+    {
+      "id": "zenodo4737864-biotin-cetad-007-smv",
+      "format": "smv",
+      "source": "zenodo:4737864",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "beam centre ADSC (mm, X slow, Y fast)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        15
       ]
     },
     {

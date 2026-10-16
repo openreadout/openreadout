@@ -14,7 +14,8 @@
   "Bench biophysics",
   "Electrophoresis",
   "Materials and electrochemistry",
-  "Containers"
+  "Containers",
+  "Structural biology"
  ],
  "formats": [
   {
@@ -456,6 +457,45 @@
    ],
    "page": "dcimg",
    "field": "Light microscopy"
+  },
+  {
+   "id": "cbf",
+   "name": "CBF / imgCIF",
+   "vendor": "open standard (IUCr imgCIF; PILATUS/EIGER miniCBF)",
+   "extensions": [
+    "cbf"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Byte-offset and uncompressed binary sections are decoded; packed, canonical and other CBFlib compressions are refused (exit 6)",
+    "Full imgCIF: only the wavelength is taken from the CIF categories; the axis and detector-geometry categories are listed raw (`info --view full`), not turned into a beam centre or distance",
+    "Each file is one image: the files of a rotation sweep are not grouped (use `batch` over them)"
+   ],
+   "page": "cbf",
+   "field": "Structural biology"
+  },
+  {
+   "id": "smv",
+   "name": "SMV (ADSC style)",
+   "vendor": "ADSC and others (open layout)",
+   "extensions": [
+    "img",
+    "smv"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Uncompressed 16- and 32-bit images only; compressed SMV variants are refused (exit 6)",
+    "The beam centre follows the ADSC convention (millimetres, X along the slow axis) except on files that name the TimePix detector at Stockholm University (pixels); Rigaku-style headers keep their keys raw and get no beam centre",
+    "Each file is one image: the files of a rotation sweep are not grouped (use `batch` over them)"
+   ],
+   "page": "smv",
+   "field": "Structural biology"
   },
   {
    "id": "rdml",
@@ -1300,6 +1340,24 @@
    "field": "Electron microscopy"
   },
   {
+   "id": "mdoc",
+   "name": "SerialEM metadata (mdoc)",
+   "vendor": "SerialEM (open text format)",
+   "extensions": [
+    "mdoc"
+   ],
+   "family": "electron-microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Metadata only: the images live in the stack or movie files the mdoc names; open those (an MRC stack next to its mdoc gets the mdoc's tilt angles and doses as frame records)",
+    "Navigator (`.nav`) files, which use the same syntax, are not read"
+   ],
+   "page": "mdoc",
+   "field": "Electron microscopy"
+  },
+  {
    "id": "dm",
    "name": "Gatan Digital Micrograph (DM3/DM4/DM5)",
    "vendor": "Gatan",
@@ -1384,6 +1442,26 @@
    ],
    "page": "ims",
    "field": "Light microscopy"
+  },
+  {
+   "id": "nxmx",
+   "name": "NeXus NXmx (EIGER master and data HDF5)",
+   "vendor": "open standard (NeXus NXmx; DECTRIS file writer)",
+   "extensions": [
+    "h5",
+    "nxs"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Images come from the data files the master links to (`/entry/data/data_NNNNNN`); a virtual dataset (`/entry/data/data` in `.nxs` files) is not read, its source files are",
+    "Multi-module detectors are read as the stored full frame; per-module geometry (`NXdetector_module` offsets and orientations) is listed raw, not applied",
+    "The detector's pixel mask (`pixel_mask`) is reported, not applied: masked pixels keep the value the detector wrote (its maximum when the mask was applied on the detector)"
+   ],
+   "page": "nxmx",
+   "field": "Structural biology"
   },
   {
    "id": "nwb",

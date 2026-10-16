@@ -1,0 +1,25 @@
+{
+ "id": "empiar10751-g3-ts-001-mdoc",
+ "file": "empiar10751-G3_TS_001.mrc.mdoc",
+ "size": 27367,
+ "sha256": "f3ee46ab287373ca2f7f9eecd20ff22a015f2c1fb7050c7f5a3dbff569d37b1f",
+ "max_planes_hashed": 64,
+ "reader": "mdocfile ?",
+ "kind": "mdoc",
+ "section_count": 41,
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 41,
+   "parameter_names": [],
+   "column_hashes": {
+    "tilt_angle_deg": "874e8294314d2ef2bf0915406f7cf351",
+    "exposure_dose_e_per_a2": "e635ff467aac1eb1f68aede66c1b9d1e",
+    "exposure_time_s": "8a8adf102574181f77346c7f571806f1",
+    "defocus_um": "68285643d131078c87e437d4b37aa917",
+    "magnification": "9b7d282e7692976c09315c0996e9b0af",
+    "pixel_spacing_a": "5169a2d7b799daed5c750f6a80b6fece"
+   }
+  }
+ ]
+}

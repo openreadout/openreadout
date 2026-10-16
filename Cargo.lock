@@ -1940,6 +1940,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2241,6 +2242,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2314,6 +2316,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-diffraction"
+version = "0.3.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
 name = "openreadout-echem"
 version = "0.3.0"
 dependencies = [
@@ -2332,6 +2343,8 @@ dependencies = [
  "hdf5-pure",
  "openreadout-core",
  "roxmltree",
+ "schemars",
+ "serde",
  "serde_json",
  "tempfile",
 ]
@@ -2505,6 +2518,7 @@ dependencies = [
  "openreadout-batch",
  "openreadout-ce",
  "openreadout-core",
+ "openreadout-em",
  "openreadout-fcs",
  "openreadout-figure",
  "openreadout-hdf5",
@@ -2750,6 +2764,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2841,6 +2856,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2998,6 +3014,7 @@ dependencies = [
  "openreadout-chrom",
  "openreadout-core",
  "openreadout-czi",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",

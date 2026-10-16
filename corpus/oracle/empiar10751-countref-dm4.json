@@ -1,0 +1,39 @@
+{
+ "id": "empiar10751-countref-dm4",
+ "file": "empiar10751-CountRef_G3_TS_001_001_0.0.dm4",
+ "size": 57547667,
+ "sha256": "503f7a19ecb83c89443a6a21f7708962de782f7dde90cf25d5a12a827dd901a7",
+ "max_planes_hashed": 64,
+ "reader": "dm3_lib (pyDM3reader, MIT) tag dictionary + NumPy",
+ "images": [
+  {
+   "index": 0,
+   "image_list_index": 1,
+   "name": "",
+   "size_x": 3838,
+   "size_y": 3710,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "data_type": 2,
+   "physical_size_um": {
+    "x": 0.00017811278998851776,
+    "y": 0.00017811278998851776,
+    "z": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e71f48198a7ddfc3059aaae107e86fcb"
+    }
+   ],
+   "pixel_type": "float"
+  }
+ ],
+ "file_version": 4,
+ "thumbnails": [
+  0
+ ]
+}

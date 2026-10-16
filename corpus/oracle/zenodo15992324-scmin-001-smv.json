@@ -1,0 +1,44 @@
+{
+ "id": "zenodo15992324-scmin-001-smv",
+ "file": "zenodo15992324-ScMin-xtal-04_001.img",
+ "size": 8389120,
+ "sha256": "1297ad7a07bc56342c99ebd5e98626a6371114611fb4c554b0b7f46b88198bb6",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0 (DtrekImage)",
+ "kind": "smv",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a8cd6a1a88e62bf8200027138ed406fa"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 0.0251000002,
+    "distance_mm": 960.0,
+    "oscillation_width_deg": 0.900000036,
+    "exposure_s": 3.0,
+    "oscillation_start_deg": 0.0,
+    "pixel_size_mm": [
+     0.0280000009,
+     0.0280000009
+    ],
+    "beam_center_px": [
+     1023.9999992285715,
+     1023.9999992285715
+    ]
+   }
+  }
+ ]
+}

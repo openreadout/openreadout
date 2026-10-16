@@ -58,6 +58,7 @@ openreadout-ephys = { workspace = true }
 openreadout-mzml = { workspace = true }
 openreadout-bruker-tims = { workspace = true }
 openreadout-chrom = { workspace = true }
+openreadout-diffraction = { workspace = true }
 openreadout-em = { workspace = true }
 openreadout-medical = { workspace = true }
 openreadout-zarr = { workspace = true }

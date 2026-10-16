@@ -77,6 +77,7 @@ pub mod assurance;
 pub mod batch;
 pub mod bytes;
 pub mod cfb;
+pub mod diffraction;
 pub mod envelope;
 pub mod error;
 pub mod experiment;

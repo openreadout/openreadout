@@ -5,6 +5,7 @@ mod assay;
 mod columns;
 mod flow;
 mod image;
+mod frames;
 mod plate;
 mod signal;
 mod table;
@@ -171,6 +172,7 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
                 columns::histogram(ctx, spec, file)?
             }
         }
+        Show::Frames => frames::frames(ctx, spec, file)?,
         Show::DoseResponse | Show::StandardCurve => assay::curves(ctx, spec, file, show)?,
         Show::Profile => image::profile(ctx, spec, file)?,
     };
@@ -253,8 +255,11 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     if plate {
         return Ok(Show::Wells);
     }
+    if info.images.first().is_some_and(|im| im.size_t > 1) || format == "mdoc" {
+        return Ok(Show::Frames);
+    }
     Err(usage(format!(
-        "{file}: nothing to plot by default ({format} file without traces, spectra or plate tables); set `show`, or use openreadout_preview for images"
+        "{file}: nothing to plot by default ({format} file without traces, spectra, plate tables or frames); set `show`, or use openreadout_preview for images"
     )))
 }
 

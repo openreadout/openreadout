@@ -6212,11 +6212,21 @@ def main():
             import spectro
 
             import medical  # DICOM, NIfTI, ParaVision (oracle/medical.py)
+            import diffraction  # CBF, SMV, NeXus NXmx and SerialEM mdoc (oracle/diffraction.py)
 
-            if medical.kind(p):
+            # SMV before medical: an SMV `.img` would otherwise pass for an Analyze image
+            if ext == ".img" and p.is_file() and p.open("rb").read(1) == b"{":
+                data = diffraction.smv(p)
+            elif medical.kind(p):
                 data = medical.oracle(p)
             elif _hcs.is_hcs(p):
                 data = _hcs.hcs_plate(p)
+            elif ext == ".cbf":
+                data = diffraction.cbf(p)
+            elif ext == ".nxs" or p.name.lower().endswith("_master.h5"):
+                data = diffraction.nxmx(p, MAX_PLANES)
+            elif ext == ".mdoc":
+                data = diffraction.mdoc(p)
             elif p.is_file() and (sk := spectro.kind(p)):
                 data = getattr(spectro, sk)(p, MAX_SWEEPS)
             elif p.is_dir() and (p / "AcqData" / "MSScan.bin").exists():

@@ -170,6 +170,14 @@ The reserved camera and STEM parameters (bytes 474–489, 494–517, 551–570) 
 | `zenodo10526574-IPPK-TS08-rec` | 0 (IMOD signed) | 274 × 477 × 67 | 1 | 1 2 3 | 44 44 | spaces / 0 | 0 |
 | `zenodo2578866-HAADF-aligned` | 2 | 296 × 276 × 39 | 0 | 1 2 3 | 44 41 | – / 0 | 0 |
 
+## SerialEM `.mdoc` sidecar
+
+When `<file>.mdoc` lies next to the file (SerialEM appends `.mdoc` to the image file's full name), its `[ZValue = N]` sections extend the frame record of section N (tilt angle, dose and accumulated dose, defocus, stage, sub-frame file), and `images[0].extra.mdoc` holds its summary. See `docs/formats/mdoc.md`.
+
+## Export (`export --format mrc`)
+
+`export_mrc` writes one channel of any image as MRC2014 (`write.rs`): time points become an image stack (ISPG 0, MZ 1, `.mrcs` by default), z planes a volume (ISPG 1, MZ = NZ, `.mrc`). `--group-frames N` (MCP `group_frames`) sums every N time points into one section through `Dataset::sum_planes`, the dose fractions of an electron-event movie (the last section holds what is left). MODE follows the samples: uint16 → 6; uint8 → 6 (MRC2014 mode 0 is signed); int16 → 1; int8 → 0; sums of uint8 frames that fit 16 bits → 6; everything else → 2 (float32). CELLA is the pixel size (Å) × the grid when the source records one; DMIN/DMAX/DMEAN/RMS are computed over what was written; one label names the source. Sections stream to a temporary file, which is read back through this reader and compared section by section (xxh3) before it is renamed into place.
+
 ## Vocabulary (every public identifier in `openreadout-em/src/mrc` must appear here)
 
 | identifier | meaning |
@@ -182,3 +190,4 @@ The reserved camera and STEM parameters (bytes 474–489, 494–517, 551–570) 
 | `Layout` (`ImageStack`, `Volume`, `VolumeStack`), `layout` | section organisation |
 | `bytes_unsigned`, `section_bytes`, `data_offset`, `axis_map`, `cell_step_angstrom`, `file_axis_steps_angstrom`, `stats_undetermined` | header-derived geometry and flags |
 | `looks_like_mrc`, `has_map_id` | detection helpers |
+| `write`, `export_mrc`, `default_output`, `MrcExportOptions` (`image`, `select`, `group`, `overwrite`), `MrcExportReport` (`input`, `output`, `format`, `image`, `sections_written`, `planes_read`, `group`, `layout`, `mode`, `pixel_size_a`, `bytes_written`, `verified`, `notes`) | MRC export (§ Export) |

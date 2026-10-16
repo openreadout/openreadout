@@ -649,6 +649,55 @@ def synthetic_fixture_seeds() -> None:
     put("whole_baf", "synthetic.bundle", BUNDLE_SEP.join([(b / "analysis.baf").read_bytes(), (b / "Calibrator.ami").read_bytes()]))
 
 
+def structural_seeds() -> None:
+    """Diffraction and cryo-EM seeds: CBF and SMV images written here (byte-offset coded
+    counts with a PILATUS header; an ADSC header), a SerialEM mdoc cut from EMPIAR-10751 (CC0)
+    and a bitshuffle/LZ4 chunk made with hdf5plugin when it is installed."""
+    def byte_offset(vals):
+        out, prev = bytearray(), 0
+        for v in vals:
+            d = v - prev
+            if -127 <= d <= 127:
+                out += struct.pack("<b", d)
+            elif -32767 <= d <= 32767:
+                out += b"\x80" + struct.pack("<h", d)
+            else:
+                out += b"\x80" + struct.pack("<h", -32768) + struct.pack("<i", d)
+            prev = v
+        return bytes(out)
+    vals = [((i * 37) % 11) - 1 if i % 9 else 900 for i in range(64)]
+    coded = byte_offset(vals)
+    head = ("###CBF: VERSION 1.5\r\ndata_seed\r\n_array_data.header_convention \"PILATUS_1.2\"\r\n"
+            "_array_data.header_contents\r\n;\r\n# Detector: PILATUS 2M, S/N 1\r\n# Pixel_size 172e-6 m x 172e-6 m\r\n"
+            "# Wavelength 1.0 A\r\n# Detector_distance 0.2 m\r\n# Beam_xy (4.0, 4.0) pixels\r\n# Count_cutoff 800 counts\r\n;\r\n"
+            "_array_data.data\r\n;\r\n--CIF-BINARY-FORMAT-SECTION--\r\nContent-Type: application/octet-stream;\r\n"
+            "     conversions=\"x-CBF_BYTE_OFFSET\"\r\n"
+            f"X-Binary-Size: {len(coded)}\r\nX-Binary-Element-Type: \"signed 32-bit integer\"\r\n"
+            "X-Binary-Number-of-Elements: 64\r\nX-Binary-Size-Fastest-Dimension: 8\r\nX-Binary-Size-Second-Dimension: 8\r\n\r\n").encode()
+    put("whole_cbf", "pilatus-8x8.cbf", head + b"\x0c\x1a\x04\xd5" + coded + b"\r\n--CIF-BINARY-FORMAT-SECTION----\r\n;\r\n")
+    smv = (b"{\nHEADER_BYTES=  512;\nDIM=2;\nBYTE_ORDER=little_endian;\nTYPE=unsigned_short;\nSIZE1=8;\nSIZE2=8;\n"
+           b"PIXEL_SIZE=0.1;\nDISTANCE=100;\nWAVELENGTH=1.0;\nBEAM_CENTER_X=0.4;\nBEAM_CENTER_Y=0.4;\n}\n").ljust(512, b" ")
+    put("whole_smv", "adsc-8x8.img", smv + struct.pack("<64H", *range(64)))
+    md = corpus("empiar10751-G3_TS_001.mrc.mdoc")  # CC0 (EMPIAR)
+    if md:
+        put("whole_mdoc", "tilt-series.mdoc", md[:4096])
+    put("whole_mdoc", "frameset.mdoc", b"T = SerialEM: Digitized on a Krios\nVoltage = 300\n\n[FrameSet = 0]\nTiltAngle = 0.5\n"
+        b"ExposureDose = 2.5\nSubFramePath = W:\\frames\\stack_0000.tif\nDateTime = 15-Jul-19  13:54:01\n")
+    put("nxmx_links", "link.bin", bytes(5) + b"data_000001" + struct.pack("<H", 27) + b"\x00Therm_6_1_000001.h5\x00/data\x00")
+    try:
+        import io
+        import h5py
+        import hdf5plugin
+        import numpy as np
+        buf = io.BytesIO()
+        with h5py.File(buf, "w") as f:
+            d = f.create_dataset("x", data=(np.arange(1000) % 251).astype("<u2"), chunks=(1000,), **hdf5plugin.Bitshuffle())
+            chunk = d.id.read_direct_chunk((0,))[1]
+        put("codec_bitshuffle", "u16-lz4.bin", struct.pack("<I", 2000)[:3] + bytes([1]) + chunk)
+    except ImportError:
+        pass
+
+
 def ephys_new_seeds() -> None:
     """TDT, Axona and MC_DataTool seeds: the committed synthetic TDT block
     (oracle/make_tdt_fixtures.py) and minimal sessions written here (the corpus files of these
@@ -1153,6 +1202,7 @@ def main() -> None:
     synthetic_fixture_seeds()
     ephys_new_seeds()
     sequencing_seeds()
+    structural_seeds()
     put("codec_packbits", "runs.bin", struct.pack("<I", 64)[:3] + bytes([0xFD, 7, 2, 1, 2, 3, 0x81, 9]))
     # LZMA2 of b"hello hello hello hello, lzma2!" (CPython lzma, FORMAT_RAW, preset 6)
     put("codec_lzma2", "hello.bin", struct.pack("<I", 31)[:3] + bytes.fromhex("e0001e00145d00341949ee8de9560ae7799a19124543a9df4c4c4000"))

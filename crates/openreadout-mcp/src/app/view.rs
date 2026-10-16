@@ -162,8 +162,11 @@ pub struct ViewArgs {
     /// Image volumes: `axial`, `coronal`, `sagittal`, `orthogonal`, `xz`, `yz` or `native`
     /// (default: medical images in their acquisition plane). `z` then counts slices of it.
     pub plane: Option<String>,
-    /// Image: `auto`, `min-max`, `percentile:LO,HI`, `raw` or `window:CENTER,WIDTH` (`window:file`,
-    /// `window:bone`, ...).
+    /// Image: add up the time points (a movie's dose image).
+    #[serde(default)]
+    pub sum_t: bool,
+    /// Image: `auto`, `min-max`, `percentile:LO,HI`, `log`, `raw` or `window:CENTER,WIDTH`
+    /// (`window:file`, `window:bone`, ...).
     pub contrast: Option<String>,
     /// Image: only this rectangle, in full-resolution pixels.
     pub region: Option<openreadout_core::Region>,
@@ -808,6 +811,7 @@ fn outline(info: &FileInfo) -> Value {
                 "windows": im.extra.get("windows"),
                 "value_unit": im.extra.get("value_unit"),
                 "plane": im.extra.get("orientation").and_then(|o| o.get("plane")),
+                "diffraction": im.extra.get("diffraction"),
             })
         })
         .collect();
@@ -895,7 +899,14 @@ fn image(
     if let Some(z) = a.z.filter(|_| !a.mip) {
         select.push(format!("z={z}"));
     }
-    if let Some(t) = a.t {
+    // An electron-event movie's single frames are a few scattered counts: it opens summed.
+    let event_movie = info
+        .images
+        .iter()
+        .find(|im| im.index == a.image.unwrap_or(0))
+        .is_some_and(|im| im.extra.contains_key("eer"));
+    let sum_t = a.sum_t || (event_movie && a.t.is_none());
+    if let Some(t) = a.t.filter(|_| !sum_t) {
         select.push(format!("t={t}"));
     }
     req.select = select;
@@ -906,6 +917,7 @@ fn image(
         .map(str::parse::<pv::View>)
         .transpose()
         .map_err(|e| err(&e))?;
+    req.sum = sum_t.then_some(pv::Axis::T);
     req.level = a.level;
     req.region = a.region;
     req.max_size = a

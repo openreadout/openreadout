@@ -72,6 +72,7 @@ A series names its data by `file` and selector, by a `table` file and its column
 | `profile` | Image values along a line, against distance in mm or µm (pixels without a pixel size) | `line` (`[[x0, y0], [x1, y1]]` in full-resolution pixels), `image`, `select` (`z=12`) |
 | `dose_response`, `standard_curve` | Points and fitted curves from the [plate-reader assays](analyze.md#plate-reader-assays) | `assay`: their arguments without `file` (`layout`, `standards`, `model`, `normalize`, …) |
 | `amplification`, `melt` | qPCR curves, coloured by target | `wells`, `target` |
+| `frames` | One value per frame of a movie or image series, or per section of a SerialEM `.mdoc` | `y`: a value the frames record (`dose`, `tilt_angle_deg`, `cumulative_dose_e_per_a2`, …) or `mean`, `sum`, `max`, `min` of the pixels; `x`: `t` (default) or a recorded value; `channel`, `x_range` |
 
 Every series also takes `mark` (`line`, `points`, `line_points`, `bars`, `area`, `sticks`, `density`), `label` and `color` (`ink`, `accent`, `muted`, `faint`, `blue`, `ochre`, `green`, `purple`, `teal`, `brown` or `#RRGGBB`). A `label` on a data item that gives several series (wells, files) names them once, as one colour class.
 

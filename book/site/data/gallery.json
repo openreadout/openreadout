@@ -244,6 +244,46 @@
    "commands": [
     "openreadout plot chromatograms.json -o chromatograms.png"
    ]
+  },
+  {
+   "name": "diffraction",
+   "section": "previews",
+   "wide": false,
+   "title": "A diffraction image with resolution rings",
+   "caption": "One image of an EIGER 2X 16M sweep (NeXus master and bitshuffle-compressed data file), shrunk by the maximum so single-pixel spots survive, with log contrast, the module gaps as no data and resolution rings from the recorded wavelength, distance and beam centre.",
+   "img": "img/gallery/diffraction.png",
+   "width": 1337,
+   "height": 1376,
+   "commands": [
+    "openreadout preview Therm_6_1_master.h5 --max-size 1400 -o diffraction.png"
+   ]
+  },
+  {
+   "name": "cryoem-micrograph",
+   "section": "previews",
+   "wide": false,
+   "title": "An electron-event movie summed into a micrograph",
+   "caption": "All 648 frames of a Falcon 4i EER movie added up into the dose image, with the power spectrum of its middle as an inset: apoferritin particles at a carbon edge, and the Thon rings that tell the defocus.",
+   "img": "img/gallery/cryoem-micrograph.png",
+   "width": 1400,
+   "height": 1376,
+   "commands": [
+    "openreadout preview empiar13509-glacios_00817_1-7.eer --sum t --fft --max-size 1400 -o cryoem-micrograph.png"
+   ]
+  },
+  {
+   "name": "tilt-scheme",
+   "section": "figures",
+   "wide": false,
+   "title": "The dose a tilt series collected, tilt by tilt",
+   "caption": "A SerialEM tilt series' metadata: each tilt's accumulated dose against its angle shows the dose-symmetric order, 0° first and then alternating outwards.",
+   "img": "img/gallery/tilt-scheme.png",
+   "width": 960,
+   "height": 594,
+   "spec": "{\n  \"title\": \"Dose-symmetric tilt series\",\n  \"data\": {\n    \"file\": \"empiar10751-G3_TS_001.mrc.mdoc\",\n    \"x\": \"tilt_angle_deg\",\n    \"y\": \"cumulative_dose_e_per_a2\",\n    \"mark\": \"points\"\n  }\n}",
+   "commands": [
+    "openreadout plot tilt-scheme.json -o tilt-scheme.png"
+   ]
   }
  ]
 }

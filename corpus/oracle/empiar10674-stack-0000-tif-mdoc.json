@@ -1,0 +1,24 @@
+{
+ "id": "empiar10674-stack-0000-tif-mdoc",
+ "file": "empiar10674-stack_0000.tif.mdoc",
+ "size": 835,
+ "sha256": "f674603278ae666b0d6dc7ef1a4c967c8a0a031118e6e672f70f5835ba981ed1",
+ "max_planes_hashed": 64,
+ "reader": "mdocfile ?",
+ "kind": "mdoc",
+ "section_count": 1,
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [],
+   "column_hashes": {
+    "tilt_angle_deg": "47596ae15b422c1cbb45ab1a7137f866",
+    "exposure_dose_e_per_a2": "2c0a8a99dc147d5445c3b49d035665b2",
+    "exposure_time_s": "deb5429dbac0bdefbb165b42e644bae5",
+    "defocus_um": "1aeaca5457b51c43df229bd6101a08d7",
+    "magnification": "5d39e334c5990ec8bb49e02a19e9e201"
+   }
+  }
+ ]
+}

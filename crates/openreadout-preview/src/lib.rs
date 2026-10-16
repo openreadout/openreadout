@@ -65,9 +65,11 @@
 
 mod annotate;
 pub mod color;
+mod diffraction;
 pub mod electrochem;
 mod electrophoresis;
 mod events;
+mod fft_inset;
 mod figure_frame;
 mod image;
 mod kinetic;
@@ -134,6 +136,10 @@ pub enum Contrast {
     Window(f64, f64),
     /// The n-th display window the file stores (`images[].extra.windows`).
     StoredWindow(usize),
+    /// Logarithmic: the given percentiles → black and full colour, brightness by the logarithm
+    /// of the value above the low one (diffraction images: faint spots and strong ones both
+    /// show).
+    Log(f64, f64),
 }
 
 /// Named CT display windows: `(name, center, width)` in Hounsfield units.
@@ -148,6 +154,9 @@ pub const WINDOW_PRESETS: &[(&str, f64, f64)] = &[
     ("liver", 60.0, 150.0),
 ];
 
+/// Percentiles of `log` contrast without numbers: the median (the background) and the 99.9th.
+pub const LOG_PERCENTILES: (f64, f64) = (50.0, 99.9);
+
 impl FromStr for Contrast {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self> {
@@ -156,6 +165,7 @@ impl FromStr for Contrast {
             "auto" => Ok(Contrast::Auto),
             "min-max" | "minmax" => Ok(Contrast::MinMax),
             "raw" => Ok(Contrast::Raw),
+            "log" => Ok(Contrast::Log(LOG_PERCENTILES.0, LOG_PERCENTILES.1)),
             _ if s.starts_with("window") => {
                 let bad = || {
                     let names: Vec<&str> = WINDOW_PRESETS.iter().map(|p| p.0).collect();
@@ -192,10 +202,13 @@ impl FromStr for Contrast {
             _ => {
                 let bad = || {
                     Error::Usage(format!(
-                        "bad contrast '{s}': use auto, min-max, raw, percentile:LO,HI (e.g. percentile:1,99) or window:CENTER,WIDTH (window:brain, window:bone, ...)"
+                        "bad contrast '{s}': use auto, min-max, raw, percentile:LO,HI (e.g. percentile:1,99), log or log:LO,HI, or window:CENTER,WIDTH (window:brain, window:bone, ...)"
                     ))
                 };
-                let spec = s.strip_prefix("percentile:").ok_or_else(bad)?;
+                let (log, spec) = match s.strip_prefix("log:") {
+                    Some(rest) => (true, rest),
+                    None => (false, s.strip_prefix("percentile:").ok_or_else(bad)?),
+                };
                 let (a, b) = spec.split_once(',').ok_or_else(bad)?;
                 let (a, b): (f64, f64) = (
                     a.trim().parse().map_err(|_| bad())?,
@@ -204,7 +217,11 @@ impl FromStr for Contrast {
                 if !(0.0..=100.0).contains(&a) || !(0.0..=100.0).contains(&b) || a >= b {
                     return Err(bad());
                 }
-                Ok(Contrast::Percentile(a, b))
+                Ok(if log {
+                    Contrast::Log(a, b)
+                } else {
+                    Contrast::Percentile(a, b)
+                })
             }
         }
     }
@@ -219,6 +236,7 @@ impl std::fmt::Display for Contrast {
             Contrast::Raw => f.write_str("raw"),
             Contrast::Window(c, w) => write!(f, "window:{c},{w}"),
             Contrast::StoredWindow(n) => write!(f, "window:file:{n}"),
+            Contrast::Log(a, b) => write!(f, "log:{a},{b}"),
         }
     }
 }
@@ -234,6 +252,8 @@ pub enum Lut {
     /// black to the channel's colour
     #[serde(alias = "channel-colour", alias = "color")]
     ChannelColor,
+    /// white to black: dark marks on a light ground (diffraction images)
+    Inverted,
 }
 
 impl FromStr for Lut {
@@ -242,14 +262,15 @@ impl FromStr for Lut {
         match s.trim().to_ascii_lowercase().as_str() {
             "gray" | "grey" => Ok(Lut::Gray),
             "channel-color" | "channel-colour" | "color" => Ok(Lut::ChannelColor),
+            "inverted" => Ok(Lut::Inverted),
             other => Err(Error::Usage(format!(
-                "bad lut '{other}': use gray or channel-color"
+                "bad lut '{other}': use gray, inverted or channel-color"
             ))),
         }
     }
 }
 
-/// Axis of a maximum-intensity projection.
+/// Axis of a projection (maximum or sum).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Deserialize, schemars::JsonSchema)]
 #[serde(rename_all = "lowercase")]
 #[non_exhaustive]
@@ -408,6 +429,9 @@ pub enum Marks {
     Objects,
     /// gels and blots: box and number the lanes, draw their profiles and bands (`stats` lanes)
     Lanes,
+    /// diffraction images: resolution rings and the beam centre (auto draws them when the
+    /// geometry is known)
+    Rings,
     /// no marks
     None,
 }
@@ -421,9 +445,10 @@ impl FromStr for Marks {
             "spikes" => Ok(Marks::Spikes),
             "objects" => Ok(Marks::Objects),
             "lanes" => Ok(Marks::Lanes),
+            "rings" => Ok(Marks::Rings),
             "none" => Ok(Marks::None),
             other => Err(Error::Usage(format!(
-                "bad marks '{other}': use auto, peaks, spikes, objects, lanes or none"
+                "bad marks '{other}': use auto, peaks, spikes, objects, lanes, rings or none"
             ))),
         }
     }
@@ -442,6 +467,10 @@ pub struct PreviewRequest {
     /// Which plane of a volume to show (default: the stored planes, or for medical images the
     /// anatomical plane they were acquired in, oriented the radiology way).
     pub view: Option<View>,
+    /// Sum projection axis (the frames of a movie added up: its dose image).
+    pub sum: Option<Axis>,
+    /// Image preview: a power-spectrum (FFT) inset in the top-right corner.
+    pub fft: bool,
     /// Blend all (or the selected) channels additively in their colours.
     pub composite: bool,
     /// Pyramid level (default: the level nearest `max_size`).
@@ -514,6 +543,8 @@ impl Default for PreviewRequest {
             select: Vec::new(),
             mip: None,
             view: None,
+            sum: None,
+            fft: false,
             composite: false,
             level: None,
             region: None,
@@ -712,7 +743,7 @@ pub struct ImagePreview {
     pub z: Vec<u32>,
     /// Time indices used.
     pub t: Vec<u32>,
-    /// `max-z` or `max-t` for a maximum-intensity projection.
+    /// `max-z` or `max-t` for a maximum-intensity projection, `sum-z` or `sum-t` for a sum.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub projection: Option<String>,
     /// True when channels were blended into one colour image.
@@ -721,7 +752,7 @@ pub struct ImagePreview {
     pub rgb: bool,
     /// Contrast rule applied (`auto` resolved to what it did, e.g. `percentile:0.1,99.9`).
     pub contrast: String,
-    /// `gray`, `channel-color` or `rgb`.
+    /// `gray`, `inverted`, `channel-color` or `rgb`.
     pub lut: String,
     /// One entry per channel drawn.
     pub channels: Vec<PreviewChannel>,
@@ -750,6 +781,9 @@ pub struct ImagePreview {
     /// back as `region` to zoom.
     #[serde(default)]
     pub full_res_region: openreadout_core::Region,
+    /// Where the power-spectrum inset is drawn (`fft`), in PNG pixels.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fft_inset: Option<openreadout_core::Region>,
     /// The scale bar drawn, when the physical pixel size is known.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scale_bar: Option<ScaleBar>,
@@ -1003,7 +1037,8 @@ impl From<openreadout_figure::Rect> for PxRect {
 /// A mark drawn from the data: a labelled peak or a detected action potential.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct DataMark {
-    /// `peak` or `spike`.
+    /// `peak`, `spike`, `resolution_ring` (x: resolution in Å, y: radius in full-resolution
+    /// pixels) or `beam_center` (x, y: full-resolution pixels).
     pub kind: String,
     /// Position along the x axis, in its unit.
     pub x: f64,
