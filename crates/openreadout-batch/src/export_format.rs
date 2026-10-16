@@ -21,6 +21,8 @@ const BY_EXTENSION: &[(&str, &str)] = &[
     (".dx", "jcamp"),
     (".json", "asm"),
     (".rdml", "rdml"),
+    (".mrcs", "mrc"),
+    (".mrc", "mrc"),
 ];
 
 /// The extension each format's default output name ends in.
@@ -35,6 +37,7 @@ const DEFAULT_EXTENSION: &[(&str, &str)] = &[
     ("jcamp", ".jdx"),
     ("asm", ".asm.json"),
     ("rdml", ".rdml"),
+    ("mrc", ".mrc"),
 ];
 
 /// Words in both error messages. `Error::hint` looks for them to choose the hint.
@@ -54,6 +57,7 @@ pub fn canonical(name: &str) -> Option<&'static str> {
         "jcamp" | "jcamp-dx" | "jdx" => "jcamp",
         "asm" | "allotrope" => "asm",
         "rdml" => "rdml",
+        "mrc" | "mrcs" => "mrc",
         _ => return None,
     })
 }

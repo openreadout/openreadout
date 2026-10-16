@@ -7,6 +7,7 @@
 mod dataset;
 mod ext;
 mod header;
+pub mod write;
 
 use std::path::Path;
 
@@ -16,6 +17,7 @@ use openreadout_core::reader::{Dataset, Detection, FormatReader, has_extension};
 use openreadout_core::source::Input;
 
 pub use dataset::MrcDataset;
+pub use write::{MrcExportOptions, MrcExportReport, export_mrc};
 pub use ext::{FEI1_BLOCK_LEN, FEI2_BLOCK_LEN};
 pub use header::{HEADER_LEN, IMOD_STAMP, Layout, Mode, MrcHeader, has_map_id, looks_like_mrc};
 

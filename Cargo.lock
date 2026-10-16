@@ -2291,6 +2291,8 @@ dependencies = [
  "hdf5-pure",
  "openreadout-core",
  "roxmltree",
+ "schemars",
+ "serde",
  "serde_json",
  "tempfile",
 ]

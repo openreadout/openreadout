@@ -68,6 +68,10 @@ pub struct ExportArgs {
     /// Replace an existing output file (or OME-Zarr store).
     #[arg(long)]
     pub overwrite: bool,
+    /// MRC: sum every N time points into one section (the dose fractions of an electron-event
+    /// movie, e.g. 40 EER frames per fraction).
+    #[arg(long, value_name = "N")]
+    pub group_frames: Option<u32>,
     /// Embed the vendor metadata tree (as JSON) in an OME `StructuredAnnotation`
     /// (OME-Zarr: in `OME/METADATA.ome.xml` of multi-image stores).
     #[arg(long)]
@@ -137,6 +141,10 @@ pub enum ExportFormat {
     /// RDML 1.3 (Real-time PCR Data Markup Language): qPCR files (RDML, .eds, .rex) with plate
     /// setup, Cq, curves and melt data.
     Rdml,
+    /// MRC2014: one channel of an image as an image stack (movie frames, or fractions with
+    /// `--group-frames`) or a volume (z planes).
+    #[value(alias = "mrcs")]
+    Mrc,
 }
 
 impl ExportFormat {
@@ -153,6 +161,7 @@ impl ExportFormat {
             ExportFormat::Nwb => "nwb",
             ExportFormat::Jcamp => "jcamp",
             ExportFormat::Rdml => "rdml",
+            ExportFormat::Mrc => "mrc",
         }
     }
 
@@ -237,6 +246,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
         select,
         compression,
         overwrite,
+        group_frames,
         embed_vendor,
         chunk_size,
         levels,
@@ -256,6 +266,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
         select,
         compression,
         overwrite,
+        group_frames,
         embed_vendor,
         chunk_size,
         levels,
@@ -299,6 +310,8 @@ struct ExportRequest {
     /// `None`: the target format's default.
     compression: Option<Compression>,
     overwrite: bool,
+    /// MRC: frames summed per section.
+    group_frames: Option<u32>,
     embed_vendor: bool,
     chunk_size: u32,
     levels: Option<u32>,
@@ -334,6 +347,7 @@ pub enum ExportOutput {
     Nwb(openreadout_hdf5::NwbExportReport),
     Jcamp(openreadout_nmr::JcampExportReport),
     Rdml(openreadout_qpcr::RdmlExportReport),
+    Mrc(openreadout_em::mrc::MrcExportReport),
     PerImage(plate::PerImageExport),
 }
 
@@ -374,6 +388,9 @@ impl batch::Item for ExportOutput {
             }
             ExportOutput::Rdml(r) => {
                 format!("{} reactions -> {}", r.reactions, name(&r.output))
+            }
+            ExportOutput::Mrc(r) => {
+                format!("{} sections -> {}", r.sections_written, name(&r.output))
             }
             ExportOutput::PerImage(r) => format!("{} files -> {}", r.files.len(), name(&r.output)),
         })
@@ -521,6 +538,22 @@ fn render_export(r: &ExportOutput) -> String {
             r.bytes_written,
             r.verified
         ),
+        ExportOutput::Mrc(r) => format!(
+            "wrote {} (MRC mode {}, {} {} section(s) from {} plane(s){}, {} bytes, verified={}){}",
+            r.output,
+            r.mode,
+            r.sections_written,
+            r.layout,
+            r.planes_read,
+            if r.group > 1 { format!(", {} frames per section", r.group) } else { String::new() },
+            r.bytes_written,
+            r.verified,
+            r.notes.iter().fold(String::new(), |mut acc, n| {
+                acc.push_str("\n  note: ");
+                acc.push_str(n);
+                acc
+            })
+        ),
         ExportOutput::Rdml(r) => format!(
             "wrote {} (RDML {}: {} run(s), {} reactions, {} data elements, {} Cq values, {} amplification and {} melt points; {} bytes, verified={}){}",
             r.output,
@@ -596,6 +629,27 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             "OME-Zarr export supports --compression none or deflate (gzip), not lzw".into(),
         ));
     }
+    if req.group_frames.is_some() && requested != Some(ExportFormat::Mrc) {
+        return Err(Error::Usage(
+            "--group-frames applies to --format mrc (frame fractions of a movie)".into(),
+        ));
+    }
+    if requested == Some(ExportFormat::Mrc) {
+        let (_, mut ds) = reg.open(file)?;
+        let info = ds.info()?;
+        let stack = info
+            .images
+            .get(req.image.unwrap_or(0) as usize)
+            .is_some_and(|im| im.size_t > 1);
+        let output =
+            explicit.unwrap_or_else(|| openreadout_em::mrc::write::default_output(&name_base, stack));
+        let mut o = openreadout_em::mrc::MrcExportOptions::default();
+        o.image = req.image;
+        o.select = req.select.clone();
+        o.group = req.group_frames;
+        o.overwrite = req.overwrite;
+        return openreadout_em::mrc::export_mrc(ds.as_mut(), file, &output, &o).map(ExportOutput::Mrc);
+    }
     if requested == Some(ExportFormat::Rdml) {
         let qds = qpcr::open(reg, file)?;
         let output = explicit.unwrap_or_else(|| openreadout_qpcr::default_rdml_output(&name_base));
@@ -669,6 +723,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         ExportFormat::Mzml => openreadout_mzml_writer::default_output(&name_base),
         ExportFormat::Asm => name_base.with_file_name(format!("{stem}.asm.json")),
         ExportFormat::Rdml => openreadout_qpcr::default_rdml_output(&name_base),
+        ExportFormat::Mrc => unreachable!("handled above"),
         ExportFormat::Csv => openreadout_batch::csv::default_output(&name_base, &req.csv),
         ExportFormat::Parquet | ExportFormat::Arrow | ExportFormat::Nwb | ExportFormat::Jcamp => {
             unreachable!("handled above")
@@ -792,6 +847,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Mzml
         | ExportFormat::Asm
         | ExportFormat::Rdml
+        | ExportFormat::Mrc
         | ExportFormat::Parquet
         | ExportFormat::Arrow
         | ExportFormat::Nwb
