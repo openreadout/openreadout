@@ -201,7 +201,7 @@ impl InstrumentServer {
         name = "openreadout_peaks",
         annotations(title = "Find and integrate peaks", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = output_schema::<openreadout_quant::analyze::PeaksOutput>(),
-        description = "Detect and integrate peaks: chromatograms (detector traces, TIC, XIC, SRM) with retention time, area, height, widths, tailing, plates, resolution, S/N and area % (purity); one peak near rt; a compound list; bands and regions of IR, Raman, UV-Vis and NMR spectra (x_range, integrate). Takes the openreadout_chromatogram arguments to choose the signal."
+        description = "Detect and integrate peaks: chromatograms (detector traces, TIC, XIC, SRM) with retention time, area, height, widths, tailing, plates, resolution, S/N and area % (purity); one peak near rt; a compound list; bands and regions of IR, Raman, UV-Vis and NMR spectra and peaks of sized electropherograms in bp (x_range, integrate). Takes the openreadout_chromatogram arguments to choose the signal."
     )]
     pub(crate) async fn peaks(
         &self,

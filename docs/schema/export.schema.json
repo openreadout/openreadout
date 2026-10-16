@@ -31,6 +31,9 @@
       "$ref": "#/$defs/RdmlExportReport"
     },
     {
+      "$ref": "#/$defs/FastqExportReport"
+    },
+    {
       "$ref": "#/$defs/PerImageExport"
     }
   ],
@@ -1047,6 +1050,63 @@
         "bytes_written",
         "verified",
         "notes"
+      ]
+    },
+    "FastqExportReport": {
+      "description": "Output of `export --format fastq`.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The input file.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The FASTQ file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `fastq`.",
+          "type": "string"
+        },
+        "reads": {
+          "description": "Records written (one per read).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "bases": {
+          "description": "Bases written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "names": {
+          "description": "The record names.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verified": {
+          "description": "True once the file was read back and matched.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "Anything the caller should know.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "reads",
+        "bases",
+        "names",
+        "verified"
       ]
     },
     "PerImageExport": {

@@ -86,7 +86,7 @@ impl FormatReader for AbifReader {
             can_write: false,
             confidence: assurance::ABIF.confidence,
             known_gaps: vec![
-                "Fragment sizes are computed here (Local Southern against the size standard the file names, else the best-fitting standard for the standard's dye); the instrument software's own sizing is not stored in the file".into(),
+                "Fragment sizes are the instrument's when the file stores its size map (Data Collection 3 and later), else computed here by Local Southern against the size standard the file names, or the best-fitting standard for the standard's dye".into(),
                 "Base calls are the basecaller's (PBAS2/PCON2/PLOC2); edited calls, when they differ, are a second table".into(),
                 "Values above 32767 that the instrument lists apart (OvrI/OvrV) are not merged into the raw trace".into(),
                 "Legacy and user element types (scan rate, feature tables) are kept as bytes in the vendor tree".into(),
