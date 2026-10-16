@@ -39,7 +39,7 @@ lies at run distance `(n − i) / n`.
 
 - **One trace per well** with a signal: channel 0 `size` (bp or nt) is the abscissa
   (`extra.axis` irregular), channel 1 the signal (FU), channel 2 the well's own position
-  (`time` in s for the Bioanalyzer, `run_distance` in % for the TapeStation). Only the ladder's
+  (`time` in s for the Bioanalyzer, `run_distance` in % for the TapeStation; `extra.role: position`). Only the ladder's
   range is sized (`extra.sized_range`). `extra` has `well`, `sample`, `category`, `rin` or
   `din`. Bioanalyzer sizes come from the file's standard curve, point to point over aligned
   migration time, as the instrument sizes (`sized_by: instrument`); TapeStation sizes are this

@@ -944,6 +944,14 @@ fn trace(
     let channels: Vec<u32> = if a.channels.is_empty() {
         (0..nch as u32)
             .filter(|c| Some(*c) != x_channel || nch == 1)
+            // a channel holding each sample's own position (migration time) is not a signal
+            .filter(|c| {
+                t.channels[*c as usize]
+                    .extra
+                    .get("role")
+                    .and_then(Value::as_str)
+                    != Some("position")
+            })
             .take(max_channels)
             .collect()
     } else {
@@ -966,8 +974,30 @@ fn trace(
         ));
     }
     let sweep_len = openreadout_core::trace::sweep_samples(&t, sweep);
-    let first = a.first_sample.unwrap_or(0).min(sweep_len);
-    let count = a.count.unwrap_or(sweep_len - first).min(sweep_len - first);
+    // A whole Sanger read is unreadable at once: open on about 80 bases where the calls
+    // become reliable, as the preview does; zooming out shows the rest.
+    let read_window =
+        if kind == Some("sanger_trace") && a.first_sample.is_none() && a.count.is_none() {
+            sanger_window(ds, info, &t)
+        } else {
+            None
+        };
+    let first = a
+        .first_sample
+        .or(read_window.map(|w| w.0))
+        .unwrap_or(0)
+        .min(sweep_len);
+    let count = a
+        .count
+        .or(read_window.map(|w| w.1))
+        .unwrap_or(sweep_len - first)
+        .min(sweep_len - first);
+    if read_window.is_some() {
+        notes.push(
+            "showing about 80 bases where the calls become reliable; zoom out for the whole read"
+                .into(),
+        );
+    }
     let n = count.min(MAX_SAMPLES_READ);
     if n < count {
         notes.push(format!(
@@ -1070,6 +1100,38 @@ fn trace(
         plot["xs"] = json!(xs);
     }
     Ok(plot)
+}
+
+/// The scans of about 80 bases of a Sanger read, from the first run of 20 calls averaging
+/// quality 20 or more: (first scan, scan count). `None` without a base-call table.
+fn sanger_window(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &FileInfo,
+    t: &TraceInfo,
+) -> Option<(u64, u64)> {
+    let k = t.extra.get("base_calls_table").and_then(Value::as_u64)?;
+    let tab = info.tables.iter().find(|x| u64::from(x.index) == k)?;
+    let col = |name: &str| tab.columns.iter().position(|c| c.name == name);
+    let (sc, qc) = (col("scan")?, col("quality"));
+    let rows = ds.read_table(tab.index, 0, tab.row_count).ok()?;
+    let scans = rows.columns.get(sc)?;
+    let q: Vec<f64> = qc
+        .and_then(|c| rows.columns.get(c).cloned())
+        .unwrap_or_default();
+    let n = scans.len();
+    if n < 2 {
+        return None;
+    }
+    let start = (0..n.saturating_sub(20))
+        .find(|&i| {
+            q.get(i..i + 20)
+                .is_some_and(|w| w.iter().sum::<f64>() / 20.0 >= 20.0)
+        })
+        .unwrap_or(0);
+    let end = (start + 80).min(n - 1);
+    let a = scans[start].max(0.0) as u64;
+    let b = scans[end].max(0.0) as u64;
+    (b > a).then_some((a.saturating_sub(10), b - a + 20))
 }
 
 /// A voltammogram as a plot: one series per cycle, current against potential.

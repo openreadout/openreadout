@@ -1281,8 +1281,11 @@ function main() {
         t.channels.forEach((ch, c) => {
           const on = shown.includes(c);
           const name = ch.name || `ch ${c}`;
+          // a series with its own colour (a dye, a base) keeps it on the chip
+          const own = p.series.find((s) => s.channel === c && s.palette != null);
+          const swatch = own ? seriesColor(own.palette) : seriesColor(shown.indexOf(c) >= 0 ? shown.indexOf(c) : c);
           const chip = el("button", { type: "button", className: "chip", title: name },
-            el("span", { className: "swatch", style: `background:${seriesColor(shown.indexOf(c) >= 0 ? shown.indexOf(c) : c)}` }), legendLabel(name, 24));
+            el("span", { className: "swatch", style: `background:${swatch}` }), legendLabel(name, 24));
           chip.setAttribute("aria-pressed", String(on));
           chip.addEventListener("click", () => {
             const next = on ? shown.filter((x) => x !== c) : shown.concat([c]).sort((a, b) => a - b);

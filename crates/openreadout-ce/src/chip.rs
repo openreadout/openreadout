@@ -155,7 +155,9 @@ pub(crate) fn sized_trace(
         rows.iter().map(|r| r.1).collect(),
     ];
     if let Some((n, u, _)) = own_x {
-        channels.push(SeriesChannel::new(n, Some(u), "float64"));
+        let mut c = SeriesChannel::new(n, Some(u), "float64");
+        c.extra.insert("role".into(), json!("position"));
+        channels.push(c);
         values.push(rows.iter().map(|r| r.2).collect());
     }
     let mut extra = extra;
