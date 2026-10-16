@@ -15,7 +15,11 @@ pub const FORMATS: &[&str] = &["nanodrop", "qubit"];
 
 /// ng/µL per unit (the mass concentrations both sides write), or `None`.
 fn per_ng_ul(unit: &str) -> Option<f64> {
-    let u = unit.replace('μ', "µ").replace("ul", "µL").replace("uL", "µL").replace("ml", "mL");
+    let u = unit
+        .replace('μ', "µ")
+        .replace("ul", "µL")
+        .replace("uL", "µL")
+        .replace("ml", "mL");
     Some(match u.as_str() {
         "pg/µL" => 1e-3,
         "ng/µL" | "µg/mL" | "ug/mL" => 1.0,
@@ -70,11 +74,14 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
             .columns
             .iter()
             .map(|c| {
-                c.extra.get("categories").and_then(Value::as_array).map(|a| {
-                    a.iter()
-                        .map(|v| v.as_str().unwrap_or_default().to_string())
-                        .collect()
-                })
+                c.extra
+                    .get("categories")
+                    .and_then(Value::as_array)
+                    .map(|a| {
+                        a.iter()
+                            .map(|v| v.as_str().unwrap_or_default().to_string())
+                            .collect()
+                    })
             })
             .collect(),
         cols: data.columns,
@@ -88,7 +95,13 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
     let ms = oracle["measurements"].as_array().unwrap_or(&empty);
     let mut groups: Vec<Vec<&Value>> = Vec::new();
     for m in ms {
-        let key = |m: &Value| (m["sample"].clone(), m["location"].clone(), m["time"].clone());
+        let key = |m: &Value| {
+            (
+                m["sample"].clone(),
+                m["location"].clone(),
+                m["time"].clone(),
+            )
+        };
         match groups.last_mut() {
             Some(g) if key(g[0]) == key(m) && !g.iter().any(|x| same_wavelength(x, m)) => g.push(m),
             _ => groups.push(vec![m]),
@@ -140,16 +153,27 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
                         if ok {
                             checked += 1;
                         } else {
-                            problems.push(format!("row {i} {ours_name}: {o} {ou}, allotropy {v} {u}"));
+                            problems
+                                .push(format!("row {i} {ours_name}: {o} {ou}, allotropy {v} {u}"));
                         }
                     }
-                    other => problems.push(format!("row {i} {ours_name}: {other:?}, allotropy {v} {u}")),
+                    other => {
+                        problems.push(format!("row {i} {ours_name}: {other:?}, allotropy {v} {u}"))
+                    }
                 }
             }
         };
         conc("mass concentration", "concentration", &mut problems);
-        conc("original sample concentration", "sample_concentration", &mut problems);
-        conc("qubit tube concentration", "tube_concentration", &mut problems);
+        conc(
+            "original sample concentration",
+            "sample_concentration",
+            &mut problems,
+        );
+        conc(
+            "qubit tube concentration",
+            "tube_concentration",
+            &mut problems,
+        );
         for (wl, col) in [(260.0, "a260"), (280.0, "a280")] {
             if let Some((_, v, _, _)) = values
                 .iter()
@@ -179,9 +203,10 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
         }
         let ids: Vec<&str> = g.iter().filter_map(|m| m["id"].as_str()).collect();
         for c in calc {
-            let mine = c["sources"]
-                .as_array()
-                .is_some_and(|s| s.iter().any(|x| x.as_str().is_some_and(|x| ids.contains(&x))));
+            let mine = c["sources"].as_array().is_some_and(|s| {
+                s.iter()
+                    .any(|x| x.as_str().is_some_and(|x| ids.contains(&x)))
+            });
             if !mine {
                 continue;
             }
@@ -235,24 +260,36 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
                 .map_err(|e| format!("trace read failed: {e}"))?;
             let y = &trace.channels[0];
             if y.len() as u64 != s["points"].as_u64().unwrap_or(0) {
-                problems.push(format!("spectrum {k}: {} points, pandas {}", y.len(), s["points"]));
+                problems.push(format!(
+                    "spectrum {k}: {} points, pandas {}",
+                    y.len(),
+                    s["points"]
+                ));
                 continue;
             }
             let first = axis["first"].as_f64().unwrap_or(f64::NAN);
             let step = axis["step"].as_f64().unwrap_or(f64::NAN);
             for p in s["samples"].as_array().unwrap_or(&empty) {
                 let i = p[0].as_u64().unwrap_or(0) as usize;
-                let (x, v) = (p[1].as_f64().unwrap_or(f64::NAN), p[2].as_f64().unwrap_or(f64::NAN));
+                let (x, v) = (
+                    p[1].as_f64().unwrap_or(f64::NAN),
+                    p[2].as_f64().unwrap_or(f64::NAN),
+                );
                 let ox = first + step * i as f64;
                 if !(close(ox, x) && close(y[i], v)) {
-                    problems.push(format!("spectrum {k} point {i}: ({ox}, {}) vs ({x}, {v})", y[i]));
+                    problems.push(format!(
+                        "spectrum {k} point {i}: ({ox}, {}) vs ({x}, {v})",
+                        y[i]
+                    ));
                     break;
                 }
             }
             if let Some(name) = s["name"].as_str() {
                 let ours_name = ours.text("sample", k);
                 if ours_name.as_deref().map(str::trim) != Some(name.trim()) {
-                    problems.push(format!("spectrum {k}: sample {ours_name:?}, pandas {name:?}"));
+                    problems.push(format!(
+                        "spectrum {k}: sample {ours_name:?}, pandas {name:?}"
+                    ));
                 }
             }
             spectra += 1;
