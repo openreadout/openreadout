@@ -39,6 +39,11 @@ pub struct PreviewOptions {
     pub select: Vec<String>,
     /// Maximum-intensity projection, over the selected range if any.
     pub mip: Option<Axis>,
+    /// Volumes: the plane to show. `axial`, `coronal`, `sagittal` (radiological orientation),
+    /// `orthogonal` (all three, crossing at the middle or the selected z), `xz`, `yz`, or
+    /// `native` (as stored). Default: medical images in their acquisition plane, others native.
+    /// With a view, `z` and `mip: z` count slices of that view.
+    pub view: Option<crate::View>,
     /// Blend all (or the selected) channels additively in their colours.
     #[serde(default)]
     pub composite: bool,
@@ -58,7 +63,10 @@ pub struct PreviewOptions {
     /// Image previews with axes scale-bar: a caption under the picture (what it shows, the
     /// stain, the sample).
     pub caption: Option<String>,
-    /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
+    /// `auto` (default; the file's display window when it has one), `min-max`,
+    /// `percentile:LO,HI` (e.g. `percentile:1,99`), `raw`, or a display window
+    /// `window:CENTER,WIDTH` (`window:40,400`), `window:file`, or a CT preset `window:soft-tissue`,
+    /// `brain`, `subdural`, `stroke`, `bone`, `lung`, `mediastinum`, `liver`.
     pub contrast: Option<String>,
     /// Colour lookup. Default: gray for one channel, channel colours for composites.
     pub lut: Option<Lut>,
@@ -118,6 +126,7 @@ impl PreviewOptions {
             image: self.image,
             select: self.select.clone(),
             mip: self.mip,
+            view: self.view,
             composite: self.composite,
             level: self.level,
             region: self.region,

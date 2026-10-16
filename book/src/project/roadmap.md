@@ -12,4 +12,4 @@ OpenReadout reads the raw files that lab instruments write and turns them into J
 
 - Rewriting raw acquisition files in place. The raw file is the primary record.
 - Encrypted or deliberately obfuscated formats, such as Sciex `.wiff2` (see the [clean-room policy](clean-room.md)).
-- Sequencing and clinical formats that are already well served, such as FASTQ, BAM, VCF and DICOM.
+- Sequencing formats that are already well served, such as FASTQ, BAM and VCF.

@@ -36,10 +36,11 @@ An SVG preview is layered for editing, like one from [`plot`](plot.md): the imag
 - `--image N`: image index. Default 0.
 - `--select SEL`: planes, such as `c=1`, `z=4` or `c=0,1,z=2`. Repeatable. Default: channel 0, the middle z, t 0. Several channels imply `--composite`.
 - `--mip z|t`: maximum-intensity projection over z or t, limited to the selected range.
+- `--view axial|coronal|sagittal|orthogonal|xz|yz|native`: cut a volume along another plane. `axial`, `coronal` and `sagittal` follow the scanner's axes and are shown the radiological way (patient left on the right of the picture), `orthogonal` puts the three side by side with lines where they cross, and `xz` and `yz` cut along the stored axes. Default: medical images in the plane they were acquired in, others `native` (as stored). `--select z=N` and `--mip z` then count slices of the view, and voxels that are not square are stretched to their true shape.
 - `--composite`: blend all (or the selected) channels in their colours.
 - `--level N`: pyramid level. Default: the level nearest `--max-size`.
 - `--region X,Y,W,H`: only this rectangle, in full-resolution pixels (or in the pixels of `--level` when one is given).
-- `--contrast auto|min-max|percentile:LO,HI|raw`: `auto` stretches the 0.1–99.9 percentiles. Default `auto`.
+- `--contrast auto|min-max|percentile:LO,HI|raw|window:...`: `auto` stretches the 0.1–99.9 percentiles, except for medical images, which get the file's display window (or the soft-tissue window for CT in Hounsfield units without one). `window:CENTER,WIDTH` sets a window in the image's values, `window:file` uses the file's own, and `window:soft-tissue`, `brain`, `subdural`, `stroke`, `bone`, `lung`, `mediastinum` or `liver` are the usual CT presets. Default `auto`.
 - `--lut gray|channel-color`: default gray for one channel, channel colours for composites.
 - `--axes rulers|grid|scale-bar|none`: `rulers` (default) frames the picture with rulers in full-resolution pixels and a scale bar, `grid` adds faint grid lines at the ruler ticks, `scale-bar` makes a figure for people (the picture, a scale bar, and the title and caption), `none` gives the bare plane.
 - `--title TEXT`, `--caption TEXT`: a title above the picture and a caption under it, beside the scale bar. Either one picks `--axes scale-bar` unless `--axes` is given. A title has at most 300 characters and a caption 2,000; a caption longer than its lines allow ends in `…`.

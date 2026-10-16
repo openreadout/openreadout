@@ -1238,7 +1238,7 @@ function main() {
       const im = d.image;
       const info = imageInfo();
       if ((o.images || []).length > 1) {
-        add(select("Image", o.images.map((x) => [x.index, `${x.index}${x.name ? " · " + x.name : ""}`]), im.image, (v) => { S.img = null; S.ann = null; load({ image: Number(v), c: undefined, z: undefined, t: undefined, composite: undefined }); }));
+        add(select("Image", o.images.map((x) => [x.index, `${x.index}${x.name ? " · " + x.name : ""}`]), im.image, (v) => { S.img = null; S.ann = null; load({ image: Number(v), c: undefined, z: undefined, t: undefined, composite: undefined, plane: undefined }); }));
       }
       const nc = info.size_c || im.channels.length || 1;
       if (nc > 1 && !im.rgb) {
@@ -1251,14 +1251,26 @@ function main() {
         add(select("Channel", opts, im.composite ? "all" : im.c[0], (v) =>
           v === "all" ? reloadPlane({ composite: true, channels: undefined, c: undefined }) : reloadPlane({ composite: undefined, c: Number(v) })));
       }
-      if ((info.size_z || 1) > 1) {
-        if (!im.projection) add(slider("Z", info.size_z - 1, im.z[0] || 0, (v) => reloadPlane({ z: v })));
+      const views = (info.size_z || 1) > 1 && !im.rgb && (info.levels || []).length <= 1;
+      if (views) {
+        const named = info.plane ? [["axial", "Axial"], ["coronal", "Coronal"], ["sagittal", "Sagittal"]] : [["xz", "XZ"], ["yz", "YZ"]];
+        add(select("View", [["native", "As stored"], ...named, ["orthogonal", "Orthogonal"]], im.view || "native",
+          (v) => { S.img = null; load({ plane: v, z: undefined, mip: undefined, region: undefined }); }));
+      }
+      const slices = sliceCount();
+      if (slices > 1 && im.view !== "orthogonal") {
+        if (!im.projection) add(slider(im.view && im.view !== "native" ? "Slice" : "Z", slices - 1, im.z[0] || 0, (v) => reloadPlane({ z: v })));
         const mip = el("input", { type: "checkbox", checked: !!im.projection, on: { change: () => reloadPlane({ mip: mip.checked || undefined }) } });
         add(el("label", {}, mip, "Max projection"));
       }
       if ((info.size_t || 1) > 1) add(slider("T", info.size_t - 1, im.t[0] || 0, (v) => reloadPlane({ t: v })));
-      add(select("Contrast", [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["raw", "Full range"]],
-        S.args.contrast || "auto", (v) => reloadPlane({ contrast: v === "auto" ? undefined : v })));
+      const contrasts = [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["raw", "Full range"]];
+      (info.windows || []).forEach((w, i) => contrasts.push([`window:file:${i}`, w.name ? `Window: ${w.name}` : `Window ${w.center}/${w.width}`]));
+      if (info.value_unit === "HU") {
+        [["soft-tissue", "Soft tissue"], ["brain", "Brain"], ["bone", "Bone"], ["lung", "Lung"], ["liver", "Liver"], ["subdural", "Subdural"]]
+          .forEach(([k, t]) => contrasts.push([`window:${k}`, `CT ${t}`]));
+      }
+      add(select("Contrast", contrasts, S.args.contrast || "auto", (v) => reloadPlane({ contrast: v === "auto" ? undefined : v })));
       add(el("span", { className: "group" },
         button("−", () => zoomBy(1 / 2), false, "Zoom out (−)"),
         button("+", () => zoomBy(2), false, "Zoom in (+)"),
@@ -1614,6 +1626,12 @@ function main() {
   }
 
   // ---------- images: deep zoom with the agent's annotations
+
+  /** Slices of the plane shown: the view's when one is shown, else the image's z planes. */
+  function sliceCount() {
+    const im = (S.data || {}).image || {};
+    return im.view_slices || imageInfo().size_z || 1;
+  }
 
   function imageInfo() {
     const d = S.data || {};
@@ -3943,9 +3961,8 @@ function main() {
     if (!step) return;
     e.preventDefault();
     if (d.view === "image" && d.image && !d.image.projection) {
-      const info = imageInfo();
       const z = (d.image.z[0] || 0) + step;
-      if (z >= 0 && z < (info.size_z || 1)) reloadPlane({ z });
+      if (z >= 0 && z < sliceCount()) reloadPlane({ z });
     } else if (d.plot && d.plot.kind === "trace") {
       const s = d.plot.sweep + step;
       if (s >= 0 && s < d.plot.sweep_count) load({ sweep: s }, { keepZoom: true });

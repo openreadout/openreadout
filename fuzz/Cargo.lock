@@ -1493,6 +1493,7 @@ dependencies = [
  "jxl-oxide",
  "lz4_flex",
  "openreadout-jpegxr",
+ "pure_jpegls",
  "rust-j2k",
  "ruzstd",
  "thiserror",
@@ -1629,6 +1630,7 @@ dependencies = [
  "openreadout-hdf5",
  "openreadout-intan",
  "openreadout-lif",
+ "openreadout-medical",
  "openreadout-mzml",
  "openreadout-nd2",
  "openreadout-neuralynx",
@@ -1730,6 +1732,19 @@ dependencies = [
  "openreadout-tiff",
  "png",
  "roxmltree 0.21.1",
+ "serde_json",
+]
+
+[[package]]
+name = "openreadout-medical"
+version = "0.3.0"
+dependencies = [
+ "flate2",
+ "miniz_oxide 0.9.1",
+ "openreadout-codecs",
+ "openreadout-core",
+ "schemars",
+ "serde",
  "serde_json",
 ]
 
@@ -2128,6 +2143,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "pure_jpegls"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "480f6d9c01d5eb952d227ef21e7e1395ae6332df183f70d532ea8dd18d0850fa"
+dependencies = [
+ "thiserror",
 ]
 
 [[package]]

@@ -1,0 +1,113 @@
+{
+ "id": "openslide-dicom-leica-4-slide",
+ "file": "openslide-dicom-leica-4",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 23374,
+   "size_y": 22079,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "planes": [],
+   "physical_size_um": {
+    "x": 1.05105387047,
+    "y": 1.05105387047
+   },
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 5843,
+     "size_y": 5519,
+     "planes": []
+    },
+    {
+     "level": 2,
+     "size_x": 1460,
+     "size_y": 1379,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "c671bfc2ec6432fab30eb71efd2cf76b",
+       "mean": 243.2162703103632
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1491,
+   "size_y": 605,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 39.26701843739,
+    "y": 39.26701843739
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "14b805330ffd6550f9ceeaa4cff3f2db",
+     "mean": 195.02598843751213
+    }
+   ],
+   "samples_per_pixel": 3
+  },
+  {
+   "index": 2,
+   "size_x": 1920,
+   "size_y": 1813,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 22.751709446310002,
+    "y": 22.751709446310002
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9891a0cb348822d1fafd160930d0b6d2",
+     "mean": 243.00202999555677
+    }
+   ],
+   "samples_per_pixel": 3
+  },
+  {
+   "index": 3,
+   "size_x": 608,
+   "size_y": 547,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 39.26701843739,
+    "y": 39.26701843739
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "709a5a7145fce98c6671e872a8638005",
+     "mean": 174.8124889749511
+    }
+   ],
+   "samples_per_pixel": 3
+  }
+ ]
+}

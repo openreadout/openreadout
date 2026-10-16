@@ -26,6 +26,8 @@ const BY_EXTENSION: &[(&str, &str)] = &[
     // FASTQ export of an Illumina run writes a directory of `.fastq.gz` files, named
     // `<input>_fastq` by default
     ("_fastq", "fastq"),
+    (".nii.gz", "nifti"),
+    (".nii", "nifti"),
 ];
 
 /// The extension each format's default output name ends in.
@@ -41,6 +43,7 @@ const DEFAULT_EXTENSION: &[(&str, &str)] = &[
     ("asm", ".asm.json"),
     ("rdml", ".rdml"),
     ("fastq", ".fastq"),
+    ("nifti", ".nii.gz"),
 ];
 
 /// Words in both error messages. `Error::hint` looks for them to choose the hint.
@@ -61,6 +64,7 @@ pub fn canonical(name: &str) -> Option<&'static str> {
         "asm" | "allotrope" => "asm",
         "rdml" => "rdml",
         "fastq" | "fq" => "fastq",
+        "nifti" | "nii" => "nifti",
         _ => return None,
     })
 }
@@ -91,7 +95,7 @@ pub fn resolve(requested: Option<&'static str>, output: &Path, flag: &str) -> Re
         (Some(asked), _) => Ok(asked),
         (None, Some(implied)) => Ok(implied),
         (None, None) => Err(Error::Usage(format!(
-            "{OUTPUT_NAME_PHRASE}{shown}` does not say which format to export: give {flag} (ome-tiff, ome-zarr, mzml, csv, parquet, arrow, nwb, jcamp, asm, rdml or fastq), or end the name in {}",
+            "{OUTPUT_NAME_PHRASE}{shown}` does not say which format to export: give {flag} (ome-tiff, ome-zarr, nifti, mzml, csv, parquet, arrow, nwb, jcamp, asm, rdml or fastq), or end the name in {}",
             DEFAULT_EXTENSION
                 .iter()
                 .map(|(_, ext)| *ext)

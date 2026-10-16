@@ -792,6 +792,15 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
         "em",
         &[("mrc", "mrc"), ("dm", "dm"), ("ser", "ser"), ("emd", "emd")],
     ),
+    // one module directory per format; lib.rs/util.rs/assurance.rs are checked against all three
+    (
+        "medical",
+        &[
+            ("dicom", "dicom"),
+            ("nifti", "nifti"),
+            ("paravision", "bruker-paravision"),
+        ],
+    ),
 ];
 
 /// `.rs` files under `dir`, recursively, with their path relative to `dir` (`/`-separated, no

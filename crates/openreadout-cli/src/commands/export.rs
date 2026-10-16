@@ -142,6 +142,10 @@ pub enum ExportFormat {
     /// a Sanger read (`.ab1`) gives one `.fastq` file.
     #[value(alias = "fq")]
     Fastq,
+    /// NIfTI-1 (`.nii.gz`, or `.nii`): one volume with its voxel size and scanner orientation
+    /// (medical and other volumetric images).
+    #[value(alias = "nii")]
+    Nifti,
 }
 
 impl ExportFormat {
@@ -159,6 +163,7 @@ impl ExportFormat {
             ExportFormat::Jcamp => "jcamp",
             ExportFormat::Rdml => "rdml",
             ExportFormat::Fastq => "fastq",
+            ExportFormat::Nifti => "nifti",
         }
     }
 
@@ -342,6 +347,7 @@ pub enum ExportOutput {
     Rdml(openreadout_qpcr::RdmlExportReport),
     RunFastq(openreadout_seq::FastqReport),
     ReadFastq(openreadout_ce::FastqExportReport),
+    Nifti(openreadout_medical::NiftiExportReport),
     PerImage(plate::PerImageExport),
 }
 
@@ -390,6 +396,9 @@ impl batch::Item for ExportOutput {
                 name(&r.output)
             ),
             ExportOutput::ReadFastq(r) => format!("{} bases -> {}", r.bases, name(&r.output)),
+            ExportOutput::Nifti(r) => {
+                format!("{} planes -> {}", r.planes_written, name(&r.output))
+            }
             ExportOutput::PerImage(r) => format!("{} files -> {}", r.files.len(), name(&r.output)),
         })
     }
@@ -547,6 +556,21 @@ fn render_export(r: &ExportOutput) -> String {
                 acc.push_str("\n  note: ");
                 acc.push_str(n);
                 acc
+            })
+        ),
+        ExportOutput::Nifti(r) => format!(
+            "wrote {} (NIfTI-1 {}, dims {:?}, voxel {:?}, affine from {}, {} planes, {} bytes, verified={}){}",
+            r.output,
+            r.datatype,
+            r.dims,
+            r.pixdim,
+            r.affine_from,
+            r.planes_written,
+            r.bytes_written,
+            r.verified,
+            r.notes.iter().fold(String::new(), |mut s, n| {
+                let _ = std::fmt::Write::write_fmt(&mut s, format_args!("\n  note: {n}"));
+                s
             })
         ),
         ExportOutput::Rdml(r) => format!(
@@ -713,6 +737,17 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             return openreadout_hdf5::export_nwb(ds.as_mut(), file, &output, &opts)
                 .map(ExportOutput::Nwb);
         }
+        ExportFormat::Nifti => {
+            reject_flags(req, "NIfTI")?;
+            let output =
+                explicit.unwrap_or_else(|| openreadout_medical::default_nifti_output(&name_base));
+            openreadout_core::output::refuse_inputs(&output, [file])?;
+            let mut o = openreadout_medical::NiftiExportOptions::default();
+            o.image = req.image;
+            o.overwrite = req.overwrite;
+            return openreadout_medical::export_nifti(ds.as_mut(), file, &output, &o)
+                .map(ExportOutput::Nifti);
+        }
         ExportFormat::Jcamp => {
             let opts = jcamp_options(req)?;
             let output = explicit
@@ -740,7 +775,8 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Arrow
         | ExportFormat::Nwb
         | ExportFormat::Jcamp
-        | ExportFormat::Fastq => {
+        | ExportFormat::Fastq
+        | ExportFormat::Nifti => {
             unreachable!("handled above")
         }
     });
@@ -866,7 +902,8 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Parquet
         | ExportFormat::Arrow
         | ExportFormat::Nwb
-        | ExportFormat::Jcamp => unreachable!("handled above"),
+        | ExportFormat::Jcamp
+        | ExportFormat::Nifti => unreachable!("handled above"),
     }
     .map(ExportOutput::Image)
 }

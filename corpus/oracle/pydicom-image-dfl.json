@@ -1,0 +1,30 @@
+{
+ "id": "pydicom-image-dfl",
+ "file": "image_dfl.dcm",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9e8f916ed4902e9090ae7bebc741f72d",
+     "mean": 127.115966796875
+    }
+   ]
+  }
+ ]
+}

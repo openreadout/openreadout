@@ -79254,4 +79254,1468 @@ license_checked = "GitHub API repos/jwfoley/bioanalyzeR/license (MIT), 2026-10-1
 source = "jwfoley/bioanalyzeR example data (inst/extdata), pinned to commit 39388173"
 attribution = "Agilent Technologies (demo runs); exported by Joseph W. Foley"
 notes = "The electropherogram CSV of agilent-tapestation-hsd1000."
+# ---- Medical imaging: DICOM (pydicom test files, MIT; NCI Imaging Data Commons, CC BY; OpenSlide DICOM WSI, CC0),
+# NIfTI (nibabel test data, MIT; OpenNeuro, CC0) and Bruker ParaVision (BrukerAPI test data, CC BY 4.0).
+
+[[file]]
+id = "pydicom-ct-small"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/CT_small.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/CT_small.dcm"
+sha256 = "3dd31e5cc835b3f2cdd46c9da1982f59251e78518fefa8163d914631c66437d6"
+size = 39206
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), CT_small.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "CT, 128x128, explicit VR little endian, int16 with intercept -1024 (Hounsfield units), downsized from NEMA WG04 CT1_UNC"
+
+[[file]]
+id = "pydicom-mr-small"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/MR_small.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_small.dcm"
+sha256 = "3f27d1c22f1a66e80d7bb7c911e8610fd0bb70325a76746a7adb1c0ddefcf2bb"
+size = 9830
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_small.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR, 64x64, explicit VR little endian"
+
+[[file]]
+id = "pydicom-mr-small-bigendian"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/MR_small_bigendian.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_small_bigendian.dcm"
+sha256 = "3e4c8c9fe70de4f3be149bbd673fa56f211c8e8e2ff9bac63f70f9dc31b5d108"
+size = 9708
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_small_bigendian.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR_small in explicit VR big endian"
+
+[[file]]
+id = "pydicom-mr-small-implicit"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/MR_small_implicit.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_small_implicit.dcm"
+sha256 = "6077442c42a56fc7fcc7db8411a657dded9fc109e6d3275765c4de358292b299"
+size = 9702
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_small_implicit.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR_small in implicit VR little endian"
+
+[[file]]
+id = "pydicom-mr-small-rle"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/MR_small_RLE.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_small_RLE.dcm"
+sha256 = "2e5cb60878dc0acc494298ccdad28fce2cf14c51096e5d8cedab40248ea02e6c"
+size = 7790
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_small_RLE.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR_small, RLE lossless"
+
+[[file]]
+id = "pydicom-mr-small-jp2klossless"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/MR_small_jp2klossless.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_small_jp2klossless.dcm"
+sha256 = "4c0049e0355b560c8c846538d827afbdae5311b20fc5e5a93a3892e109bb140d"
+size = 6008
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_small_jp2klossless.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR_small, JPEG 2000 lossless"
+
+[[file]]
+id = "pydicom-mr-small-jpeg-ls-lossless"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/MR_small_jpeg_ls_lossless.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_small_jpeg_ls_lossless.dcm"
+sha256 = "b2b69dd2ae854bf7dfada6745709cd5d8a4573ea12387adbbdc56e8be6056206"
+size = 6124
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_small_jpeg_ls_lossless.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR_small, JPEG-LS lossless"
+
+[[file]]
+id = "pydicom-mr-small-padded"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/MR_small_padded.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_small_padded.dcm"
+sha256 = "b46e32d8430f1e86e7fc03b9542e06ffc40a591890a3acc644c301d6a2f0e57f"
+size = 9958
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_small_padded.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR_small with trailing padding after the pixel data"
+
+[[file]]
+id = "pydicom-jpeg2000"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/JPEG2000.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/JPEG2000.dcm"
+sha256 = "5be539024e6803029a7b73c0f8e72e88d032e3a0bc05922c0c047344780aa8e1"
+size = 3308
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), JPEG2000.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "NM, JPEG 2000 lossy, signed 16-bit"
+lossy = true
+
+[[file]]
+id = "pydicom-jpgextended"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/JPGExtended.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/JPGExtended.dcm"
+sha256 = "13d217617fcadc22c069ec7b18e94731d346c5d83703bc152f692877cab5085f"
+size = 9844
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), JPGExtended.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "NM, JPEG extended 12-bit (process 4), lossy"
+lossy = true
+
+[[file]]
+id = "pydicom-jpeglsnearlossless-08"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/JPEGLSNearLossless_08.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/JPEGLSNearLossless_08.dcm"
+sha256 = "9dc95a64bc671d410dce98da56832c2424ecfae2c1712735142e595567763bee"
+size = 644
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), JPEGLSNearLossless_08.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "JPEG-LS near-lossless, 8-bit"
+lossy = true
+
+[[file]]
+id = "pydicom-jpeglsnearlossless-16"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/JPEGLSNearLossless_16.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/JPEGLSNearLossless_16.dcm"
+sha256 = "dcefcc3f6b95688027ebc1d432d06aee639b6c0fddb2b35f80cd2cf1ec3c4e80"
+size = 738
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), JPEGLSNearLossless_16.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "JPEG-LS near-lossless, 16-bit"
+lossy = true
+
+[[file]]
+id = "pydicom-sc-rgb-jpeg-dcmd"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/SC_rgb_jpeg_dcmd.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/SC_rgb_jpeg_dcmd.dcm"
+sha256 = "1d22b5d7bc796dedc78624f724121afd7773f709209ee16a72d5896afc21d475"
+size = 197506
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), SC_rgb_jpeg_dcmd.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "secondary capture, RGB, JPEG baseline YBR_FULL_422"
+lossy = true
+
+[[file]]
+id = "pydicom-sc-jpeg-no-color-transform"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/SC_jpeg_no_color_transform.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/SC_jpeg_no_color_transform.dcm"
+sha256 = "0c9a6d9fea4e4bef22daedd3ab1bfbabebeec18c3296c7e0c8ec3f6a9f42474b"
+size = 4316
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), SC_jpeg_no_color_transform.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "secondary capture, JPEG baseline with RGB components (no colour transform)"
+lossy = true
+
+[[file]]
+id = "pydicom-sc-rgb-rle"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/SC_rgb_rle.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/SC_rgb_rle.dcm"
+sha256 = "3f98ee352e75b10ccd6d279ca30b0cb1e363a0c9dde318803f0ec660111327d6"
+size = 2006
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), SC_rgb_rle.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "secondary capture, RGB, RLE"
+
+[[file]]
+id = "pydicom-sc-rgb-small-odd-big-endian"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/SC_rgb_small_odd_big_endian.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/SC_rgb_small_odd_big_endian.dcm"
+sha256 = "b316df65a66d9ea7e49fba9f3d43c524c4924bd2f4f0ff1f08a00236b9128d7f"
+size = 1444
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), SC_rgb_small_odd_big_endian.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "3x3 RGB, explicit VR big endian, 8-bit samples in an OW value"
+
+[[file]]
+id = "pydicom-sc-ybr-full-422-uncompressed"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/SC_ybr_full_422_uncompressed.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/SC_ybr_full_422_uncompressed.dcm"
+sha256 = "08f6f4935ae225282d8481f297d37b1cf33be8c3d99028f310a9a3f9e8aaf284"
+size = 21686
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), SC_ybr_full_422_uncompressed.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "native YBR_FULL_422 (Y Y Cb Cr per pixel pair)"
+
+[[file]]
+id = "pydicom-examples-palette"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/examples_palette.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/examples_palette.dcm"
+sha256 = "c6f5b60e1711d6009f7a944873969d4c8d4fcbd6ad96099a3a1a20f32a95a2bb"
+size = 283486
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), examples_palette.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "palette colour, 16-bit palette"
+
+[[file]]
+id = "pydicom-examples-ybr-color"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/examples_ybr_color.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/examples_ybr_color.dcm"
+sha256 = "6fa3a087d3c631b43216a8abec8aac8d2d73751c5bf5885708d1150b09283f72"
+size = 224902
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), examples_ybr_color.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "ultrasound cine, 30 frames, JPEG baseline YBR_FULL_422"
+lossy = true
+
+[[file]]
+id = "pydicom-examples-rgb-color"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/examples_rgb_color.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/examples_rgb_color.dcm"
+sha256 = "bdd7f166ccef2dbd7ea9fc601ac25811f45aa623493b86cec0979b47109b83d4"
+size = 231710
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), examples_rgb_color.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "RGB, explicit VR little endian"
+
+[[file]]
+id = "pydicom-examples-overlay"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/examples_overlay.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/examples_overlay.dcm"
+sha256 = "112539bc17c0e281987397e827dff9e99890109866d570f08761f83b8f55c277"
+size = 321700
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), examples_overlay.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR with an overlay plane"
+
+[[file]]
+id = "pydicom-image-dfl"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/image_dfl.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/image_dfl.dcm"
+sha256 = "0029ebbba17e7c6f081408d433cd28b5d1cfee0eeb4cff509b4d972ffa9daf27"
+size = 4637
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), image_dfl.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "deflated explicit VR little endian data set"
+
+[[file]]
+id = "pydicom-rtdose"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/rtdose.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/rtdose.dcm"
+sha256 = "1d6cc092146d093e086a6bcccef4ebb7d097941343f5cd3b6395d157b64e37e4"
+size = 7568
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), rtdose.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "RT dose, 15 frames along GridFrameOffsetVector, implicit VR, DoseGridScaling"
+
+[[file]]
+id = "pydicom-rtdose-rle"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/rtdose_rle.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/rtdose_rle.dcm"
+sha256 = "2f83e3a2ef0de355570c38860b233fc2fa6c37626c81ad080d8661c03a413522"
+size = 6816
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), rtdose_rle.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "RT dose, 15 frames, RLE lossless"
+
+[[file]]
+id = "pydicom-explvr-bigendnometa"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/ExplVR_BigEndNoMeta.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/ExplVR_BigEndNoMeta.dcm"
+sha256 = "a56be8c8c52f0d1cf55d7c2ced6abc6f22b799cbf556b84b856055a7a7565949"
+size = 434
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), ExplVR_BigEndNoMeta.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "explicit VR big endian data set without preamble or meta group"
+
+[[file]]
+id = "pydicom-test-sr"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/test-SR.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/test-SR.dcm"
+sha256 = "eebf00a37e97503b5a65022f9c2f89db6e8dac4cc632682aa3456aee1b6c177e"
+size = 6796
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), test-SR.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "structured report: no pixel data"
+
+[[file]]
+id = "pydicom-liver-1frame"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom/liver_1frame.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/liver_1frame.dcm"
+sha256 = "8ac3546185d0c18c193438b47b16c4ef323f0ebe0e8fd071ee1e6d43edef1978"
+size = 37084
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), liver_1frame.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "segmentation, one 1-bit frame"
+
+[[file]]
+id = "pydicom-mr-truncated"
+format = "dicom"
+role = "corrupt"
+tier = "smoke"
+filename = "pydicom/MR_truncated.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/MR_truncated.dcm"
+sha256 = "a3f26c279dd214951d32a1548362df3c93f9730135fa893a01552c0e632f587f"
+size = 9630
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT; test files described in src/pydicom/data/test_files/README.txt), 2026-10-15"
+source = "pydicom test files (github.com/pydicom/pydicom, commit a6374203fe84), MR_truncated.dcm"
+attribution = "pydicom contributors; NEMA WG04 and the sources listed in the test files README"
+notes = "MR_small cut short inside the pixel data"
+
+[[file]]
+id = "pydicom-data-emri-small"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/emri_small.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/emri_small.dcm"
+sha256 = "151233ec63f64ebb63b979df51aa827cd612a53422c073f6ef341770c7bc9a56"
+size = 84256
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), emri_small.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "enhanced MR, 10 frames with per-frame plane positions"
+
+[[file]]
+id = "pydicom-data-emri-small-rle"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/emri_small_RLE.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/emri_small_RLE.dcm"
+sha256 = "93c19bca3fb6b7202dcd067de8d16cb6b3f7c6e9a0632e474aab81175ee45266"
+size = 49022
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), emri_small_RLE.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "enhanced MR, RLE"
+
+[[file]]
+id = "pydicom-data-emri-small-big-endian"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/emri_small_big_endian.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/emri_small_big_endian.dcm"
+sha256 = "8e18ed3542bc4df70dc6acda87eab5095b19e2b4c1b7fb72ba457e7c217b1ab7"
+size = 84256
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), emri_small_big_endian.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "enhanced MR, explicit VR big endian"
+
+[[file]]
+id = "pydicom-data-emri-small-jpeg-2k-lossless"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/emri_small_jpeg_2k_lossless.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/emri_small_jpeg_2k_lossless.dcm"
+sha256 = "b2b4063359a08ed3b0afa9f4e4f72f84af79e5116515b446d9a30da9dc7f1888"
+size = 40324
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), emri_small_jpeg_2k_lossless.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "enhanced MR, JPEG 2000 lossless"
+
+[[file]]
+id = "pydicom-data-emri-small-jpeg-ls-lossless"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/emri_small_jpeg_ls_lossless.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/emri_small_jpeg_ls_lossless.dcm"
+sha256 = "24de03c9c0f8b5aa75d7fbcc894f94e612b66702175b4936589a0849ec9f87b4"
+size = 42834
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), emri_small_jpeg_ls_lossless.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "enhanced MR, JPEG-LS lossless"
+
+[[file]]
+id = "pydicom-data-ect-supplemental"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/eCT_Supplemental.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/eCT_Supplemental.dcm"
+sha256 = "0a4c3aa02d1b0b4826daa5ffe85ef13be83c1433842a9a98b901e075136dd86f"
+size = 1052902
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), eCT_Supplemental.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "enhanced CT, 2 frames, rescale in the shared functional groups"
+
+[[file]]
+id = "pydicom-data-liver"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/liver.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/liver.dcm"
+sha256 = "4f8fb316b6df067bdf2ef7bc2385fd571ad5be67e171aed3ed902a71293d9d5c"
+size = 102630
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), liver.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "segmentation, 3 frames of 1-bit samples, two segments"
+
+[[file]]
+id = "pydicom-data-liver-rle"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/liver_rle.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/liver_rle.dcm"
+sha256 = "33c04d95bdbfd05c56812f9d0a8705ad038acbe1a61c740f3cac2b6af2de4fbb"
+size = 19316
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), liver_rle.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "segmentation, RLE with 1-bit samples"
+
+[[file]]
+id = "pydicom-data-liver-deflate"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/liver_deflate.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/liver_deflate.dcm"
+sha256 = "125601ebad68bed95b2e726557a3732397604b171ad84e808818b92019b13e42"
+size = 7322
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), liver_deflate.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "segmentation, deflated image frame compression (1.2.840.10008.1.2.8.1)"
+
+[[file]]
+id = "pydicom-data-obxxxx1a"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/OBXXXX1A.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/OBXXXX1A.dcm"
+sha256 = "164a460bebdc15fbe391ad4bfe4c84672eb2bad57adfe7dad372fd7367b0f63e"
+size = 486008
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), OBXXXX1A.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "palette colour, 8-bit indices, 16-bit palette"
+
+[[file]]
+id = "pydicom-data-obxxxx1a-rle-2frame"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/OBXXXX1A_rle_2frame.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/OBXXXX1A_rle_2frame.dcm"
+sha256 = "65bee869c507f535edea93a446a26e941fb9cbc3819e4d73395f11eef56d4687"
+size = 91754
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), OBXXXX1A_rle_2frame.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "palette colour, 2 frames, RLE"
+
+[[file]]
+id = "pydicom-data-gdcm-us-aloka-16"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/gdcm-US-ALOKA-16.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/gdcm-US-ALOKA-16.dcm"
+sha256 = "f1a2d5f7c4ffe87dc589b12738084099fe44a436f6980f5d7e96a026ad356d65"
+size = 873140
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), gdcm-US-ALOKA-16.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "ultrasound with segmented 16-bit palettes"
+
+[[file]]
+id = "pydicom-data-mlut-18"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/mlut_18.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/mlut_18.dcm"
+sha256 = "9c65b39df55dc46a4670f76e0ec1093d097206ed46c2d7e23b8051c87ef0228b"
+size = 533476
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), mlut_18.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "Modality LUT Sequence instead of rescale"
+
+[[file]]
+id = "pydicom-data-parametric-map-float"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/parametric_map_float.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/parametric_map_float.dcm"
+sha256 = "957f34397c26d82f7a90cad7a653ce0f7238f4be6aa9dfa9a33bae5dc2ce7e23"
+size = 67860
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), parametric_map_float.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "parametric map, float pixel data (7FE0,0008)"
+
+[[file]]
+id = "pydicom-data-parametric-map-double-float"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/parametric_map_double_float.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/parametric_map_double_float.dcm"
+sha256 = "a41e0b78b05e543a2448e22435858f9ca8d5f94807d7b391b93b4bca80e23a22"
+size = 133396
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), parametric_map_double_float.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "parametric map, double float pixel data (7FE0,0009)"
+
+[[file]]
+id = "pydicom-data-jpeg-ll"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/JPEG-LL.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/JPEG-LL.dcm"
+sha256 = "c9d000c75d92b143ce1c0421471a7e9a69c8996d98b2589e533e311615a10079"
+size = 118986
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), JPEG-LL.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "NM, JPEG lossless process 14 SV1, 16-bit"
+
+[[file]]
+id = "pydicom-data-jpglosslessp14sv1-1s-1f-8b"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/JPGLosslessP14SV1_1s_1f_8b.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/JPGLosslessP14SV1_1s_1f_8b.dcm"
+sha256 = "1978d4f058e52d3239fae33f261b3dc74605fdd9f89031fffd57bea6218d0dbf"
+size = 215050
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), JPGLosslessP14SV1_1s_1f_8b.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "JPEG lossless process 14 SV1, 8-bit"
+
+[[file]]
+id = "pydicom-data-htj2klossless-08-rgb"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/HTJ2KLossless_08_RGB.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/HTJ2KLossless_08_RGB.dcm"
+sha256 = "38f8e8adf46b928a12f1905df1405bc8a32c10286733c47562c75be84ceae00e"
+size = 393228
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), HTJ2KLossless_08_RGB.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "High-Throughput JPEG 2000 lossless, RGB"
+
+[[file]]
+id = "pydicom-data-htj2k-08-rgb"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/HTJ2K_08_RGB.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/HTJ2K_08_RGB.dcm"
+sha256 = "9a7ae1960f18315c4d58876c2a8333a704e89ca3697edd5b69f600773220eb90"
+size = 235614
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), HTJ2K_08_RGB.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "High-Throughput JPEG 2000 lossy, RGB"
+lossy = true
+
+[[file]]
+id = "pydicom-data-sc-rgb-32bit-2frame"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/SC_rgb_32bit_2frame.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/SC_rgb_32bit_2frame.dcm"
+sha256 = "33f78c27519f23e0410e9c5d24f55380a431255f00ff95e12a26fd45765a7920"
+size = 241290
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), SC_rgb_32bit_2frame.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "RGB, 32-bit samples, 2 frames"
+
+[[file]]
+id = "pydicom-data-mr2-j2kr"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "pydicom-data/MR2_J2KR.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/MR2_J2KR.dcm"
+sha256 = "707f0a1b648b79f17b61e241af31fb9edea7fe596681a4bcab6cce890300a9a5"
+size = 589212
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), MR2_J2KR.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "MR, JPEG 2000 lossless, 12-bit with rescale and windows"
+
+[[file]]
+id = "pydicom-data-mr2-j2ki"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "pydicom-data/MR2_J2KI.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/MR2_J2KI.dcm"
+sha256 = "8319846e6ad6dc70dbbaf61748b1987a6807fd02db3da24e7989fd5a5ce19e4e"
+size = 113550
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), MR2_J2KI.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "MR, JPEG 2000 lossy, 12-bit with rescale"
+lossy = true
+
+[[file]]
+id = "pydicom-data-rg1-j2ki"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "pydicom-data/RG1_J2KI.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/RG1_J2KI.dcm"
+sha256 = "744d01372fdda4e21b507bb7f97329065de961f4f263342079b369b430064d65"
+size = 676846
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), RG1_J2KI.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "radiograph, MONOCHROME1, JPEG 2000 lossy, 15-bit"
+lossy = true
+
+[[file]]
+id = "pydicom-data-us1-j2ki"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "pydicom-data/US1_J2KI.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/US1_J2KI.dcm"
+sha256 = "22340375674ff253196ce8a147acf0458bea3f105ff2c6af81f0eb119729605b"
+size = 59140
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), US1_J2KI.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "ultrasound, YBR_ICT JPEG 2000 lossy"
+lossy = true
+
+[[file]]
+id = "pydicom-data-693-j2kr"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/693_J2KR.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/693_J2KR.dcm"
+sha256 = "c392d8bd1f952ed2d9387d5143d34c5a29ac9d74566688169731a50ac6a82aa2"
+size = 107060
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), 693_J2KR.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "JPEG 2000 lossless where Bits Stored differs from the codestream precision"
+
+[[file]]
+id = "pydicom-data-bad-sequence"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-data/bad_sequence.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/bad_sequence.dcm"
+sha256 = "0677915e5c3e8c98498eb3d1b726ccf38ba0d8ada657c8ca7fe1b8b9b5890f4f"
+size = 184266
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), bad_sequence.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "JPEG lossless with an implicit-VR sequence of VR UN"
+
+[[file]]
+id = "pydicom-data-mr-siemens-dicom-withoverlays"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "pydicom-data/MR-SIEMENS-DICOM-WithOverlays.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/MR-SIEMENS-DICOM-WithOverlays.dcm"
+sha256 = "094faf56c63bff84c30567e29de0c67d7c5a8ae05cf880ac12175491b6b645d2"
+size = 510928
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), MR-SIEMENS-DICOM-WithOverlays.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "Siemens MR with overlays and private elements"
+
+[[file]]
+id = "pydicom-data-color3d-jpeg-baseline"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "pydicom-data/color3d_jpeg_baseline.dcm"
+url = "https://raw.githubusercontent.com/pydicom/pydicom-data/abc42b90985fb6cf385aa4af766d2c9c94a257a4/data_store/data/color3d_jpeg_baseline.dcm"
+sha256 = "c8798b8abf8ae0a18e8c9952e7c7f75f3cc8465234b1b63f9e3ba3bebb9d5625"
+size = 6143990
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom-data/blob/master/LICENSE (MIT), 2026-10-15"
+source = "pydicom-data (github.com/pydicom/pydicom-data, commit abc42b90985f), color3d_jpeg_baseline.dcm"
+attribution = "pydicom contributors; GDCM, DCMTK and NEMA WG04 sample data"
+notes = "ultrasound 3D colour, 120 frames, JPEG baseline YBR_FULL_422"
+lossy = true
+
+[[file]]
+id = "pydicom-dicomdirtests"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "pydicom-dicomdirtests"
+url = ""
+license = "MIT"
+license_checked = "https://github.com/pydicom/pydicom/blob/main/LICENSE (MIT), 2026-10-15"
+source = "pydicom test files, dicomdirtests (commit a6374203fe84)"
+attribution = "pydicom contributors"
+notes = "media with a DICOMDIR: three patients, CR, CT and MR series of 16x16 downsized images"
+parts_url = "https://raw.githubusercontent.com/pydicom/pydicom/a6374203fe842a2936647cf75ed749227a384ccb/src/pydicom/data/test_files/dicomdirtests/"
+parts = [
+  "DICOMDIR  b9bf631bb20f9276118bafab094291bae3721bccd25bf4bef18474aae5d60498",
+  "77654033/CR1/6154  aa4e9ecd9af652e5e17e4452527f079b8e05c776c580b818dc099082713bf750",
+  "77654033/CR2/6247  eaef958bbd3c38298f34930cf0013c0f5079cc052dcbe82ef26f14f8b113ba69",
+  "77654033/CR3/6278  c0447f73d8c0d72b58a83b6192cb0f81f8cf80cc3a1571d02ff8f970559cd9ac",
+  "77654033/CT2/17106  678df720411e86df67031c28e16192cd31e2062a3f090d657b9f16ce86db3f1d",
+  "77654033/CT2/17136  5b2d0734bfd387e93aea75cf5cdb73a5670cf5914937de636ff69ef5dc720573",
+  "77654033/CT2/17166  049b221c9b2ee9a4bdd843dddf561dce1db9ad1924f1b83d87bc3c6e74cc9ab7",
+  "77654033/CT2/17196  e4796e51480a8c73ed717c3300d7384ec92d63e6322edd080d33665ab37365f0",
+  "98892001/CT2N/6293  de2970da0589ca948fba863bf0e93f4c18a1695bd3ec2fe8fa73905b53ac5e67",
+  "98892001/CT2N/6924  1dc34028e07707750d1c19dc17b9497f44591580827cc7adf2b8c679f5f9f3b1",
+  "98892001/CT5N/2062  27f8126485634a817f0941cc727094e8cfacb18341fbc317d175ff373804118b",
+  "98892001/CT5N/2392  02b0af20eeae95f6d42554c53a630babaa5ed2519657208137d3c7418b6acb81",
+  "98892001/CT5N/2693  6020fdffd513017e7b2d5dc52435b2bbf27209aabee183a30207a149dccecb2e",
+  "98892001/CT5N/3023  4f7f4f2b3c79acdd5e0fc23fdd9f6bae6e6da9dccfadd1f9147b7bff53756653",
+  "98892001/CT5N/3353  5eaa662118b8d87601a14231893cb7ecf1737a434c95120cfb4076cfce667b18",
+  "98892003/MR1/15820  619698c0a15f9963d0c4d271f6d11ae685a83ec1eb7d06547a16e48abbc70821",
+  "98892003/MR1/4919  1a0fc2ec617623aeeccf4492bc605ace4efb33cebce7fe4dd54bce472b1c8635",
+  "98892003/MR1/5641  fb809e867ae98a1c995d41f0d458fb7aa2cf117b8b7331559bd0134653c984e8",
+  "98892003/MR2/15970  9e0a67482a96aa4b864beb5cb805141e80f564cb31691b80b2804b9aca792ef9",
+  "98892003/MR2/4950  7b4a4fa8f14f54161da62b31376b6c7bf2722b3be274d7127f77c6021d8461ea",
+  "98892003/MR2/4981  014452406b454e77a337881baa5ed216ccf414b67bc95738f87cd749218014b5",
+  "98892003/MR2/5011  b4a40fd746873b9fa6308412cc5e7dbb81c73738132c1847c450c7cd1c1c7f7c",
+  "98892003/MR2/6273  8af490bd29676bf011b3b3cef8c83cb91cd28e927fc2b3b109fd2bf8ecd94510",
+  "98892003/MR2/6605  4ddd5c3f8901bd960d202472ab31bc8b04394adf0556461ed0edad73ee12f7c4",
+  "98892003/MR2/6935  4a9438a4e630b004367b62aefad9b060a3b1f72a2d66f48e911611e0158ec271",
+  "98892003/MR700/4467  3181382d6088f51e8e71ee8baa689511dff00b9f0e67993ae1fafdf282011fb5",
+  "98892003/MR700/4528  6374a59a71999669091ef21313cc54a115868076f6c36697f6ddf2f808f82981",
+  "98892003/MR700/4558  f66d562922b918c91313e615c8b4ed1b5f956bf11aec2721fb54aef9915fffad",
+  "98892003/MR700/4588  1fae746c1218cc8c7c2b14344147048d7b4631b63632b07608eec393e568fac0",
+  "98892003/MR700/4618  832d42b0736191fc52ae3ca0838849c06e4456611d84b19c4c92e3e271b04086",
+  "98892003/MR700/4648  f019089942455d1f316a11d0c9c454c84adc1c041847d3b9ff3f670b21e5afff",
+  "98892003/MR700/4678  3749d65d14223185c3105849588f98ad2a962aab1b142488b20e7d451da85ee6",
+]
+
+[[file]]
+id = "idc-cmb-crc-ct-head"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "idc-cmb-crc-ct-head"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection CMB-CRC: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection CMB-CRC, series 0d1c7527-8c80-403e-bddb-23695ad7abad (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, CMB-CRC collection"
+notes = "head CT, UNENHANCED Head 5.0, 33 axial slices: brain and bone windows"
+parts_url = "https://idc-open-data.s3.amazonaws.com/0d1c7527-8c80-403e-bddb-23695ad7abad/"
+parts = [
+  "007acf12-8385-4dd9-90bb-7adfb9f1e482.dcm  4e6e1d199b4f67cb0309885fe5f95d33952f6c4293c017d1a647c14e88ce2221",
+  "0d15d9b6-8ca5-434c-b9f3-85363e491379.dcm  5fe2eabad4ee146717b5395c70d28e81b811582a1db11b26fd274e407a0e38a5",
+  "14f570e7-950f-49d9-b91e-bd3c9a5d2c2f.dcm  d6c1c060bf8ae0ebf6acea92f6c0e1942a1db90f3732b858ade360bc1bb09890",
+  "16e420fa-7568-4bd0-a53a-0e9e4f91284d.dcm  1ee0d9da8ab064fcaa006b20982f14c21a2f8e3bc67b18d046186b20652bcd8c",
+  "1aba1555-fb5c-4c55-95c4-3bb1fcbe3a5d.dcm  9e4c561eb0e7f4f003c0c7781ca43bbf3178f17b1e1111cdcfa29de49228aa67",
+  "1da617aa-16e6-49b7-b636-b3e949c5f197.dcm  34844b87b6a2405eba2a64f1cd6b73fe089463ab6ca1538e36450eb599f596a1",
+  "1e1a41bb-d6f1-4cc8-840a-1174c487941d.dcm  1b4840075281496ddba118a84a89f299d9444da54b27002bf9284597bc720952",
+  "2706c853-79ba-4b4b-9222-c7e108a451be.dcm  d9be8002e56d9b27b4aada5eb2987a6d1a97ec5665be331452f6422a9624ad5d",
+  "3680cbb0-b9a7-4c89-88ac-db897cd1956d.dcm  3b2c4d19cce45ce0cf27ac430f858a4673bf7c228218055c759d7d148d73b841",
+  "3fa9d07c-74da-4ccc-9d3f-0c36df79f4fa.dcm  83b2af554e5ff89b9ecde977cdd49075d92197adbb0aba0d198fd5cd154a2ff0",
+  "499bc2ad-1be8-479a-beef-2b7086cecba0.dcm  d139a28f96de6c482e037257b381afacb75b8d880935e9b5dc0b28beee279c8d",
+  "534db7f8-a8da-44ea-962a-527f8eba635c.dcm  4e86a249f82b6a6971ac58b16a372aa752f976cae52ca12d1348970cde404e64",
+  "64865281-2f2c-4814-bbd8-eb7649e7b09b.dcm  f0c59c1fe7c35b2f6cbf26abd7b8ce7aea9d4602b262860fc8ffabd7294fdcc2",
+  "66cbb843-350f-4671-9734-b53333ce8e15.dcm  86d47160a2d1698774958f0f8329299e491b7aced5733d9351ac41e452e0eb37",
+  "6a0de8be-096f-4c86-a3b4-bdc1c94a0b9e.dcm  6136edcc7952d881f2571a30eb4f097eccf8b444fbbf7e795de926d0cb52ba90",
+  "6cb63986-d280-4b0c-8823-c968bf9c97b2.dcm  bf59f130ae4ee6bcc6b03ef3f4fc252795897cd4e05fa8bea308582d8ce7c0bc",
+  "7c95df78-f927-4244-b16b-23c74c790741.dcm  9fd25e5c10daed08163f04c948a7efafc6aaf0c1aff29f1af884f269d3accecb",
+  "85630477-8995-4812-af23-0fa73783e1ad.dcm  d2a57f731aa3e7fed97ce8972e100a93c1e24d5ad2ecffc4a6d15956518296db",
+  "8719ed8b-9f13-41b5-8321-bea18cfd4614.dcm  30de0de6fcb01d71b0a722219fbcf47471b7d38ce2dc1fe13bd4566b7129f3aa",
+  "8ffbbd1c-7fbd-452c-92fa-33911ada9006.dcm  7eb449cc0b1132ab555f257e1caef9f983c33da998f6533f1802f4c0868854ea",
+  "919b6082-7d69-4226-8e99-508031663918.dcm  8c3037289c19bcbc3ab9b06ac64b57d25c49b3fbf65832cf1babd9198f8c5d0a",
+  "999c08e8-d4a0-45c1-b621-f6734eb728e6.dcm  ac552421942a2cd9510238dc6a2695f83c84296a1e02a5eed11ac5dcaf797f76",
+  "a58ad114-8f00-4a87-855f-b3b90059487a.dcm  3a14d9c9910f1ae6eb27b839452fa6210941396e97be54b06a9105fff47a382c",
+  "a7371a47-cbb2-4260-b45f-4bba1091f471.dcm  3d1a39f489e67c512bcd8c5a71de4f6f6e89d38bff94fedd3e57b3342999ec2d",
+  "adc85bbd-ba03-4c66-b0e6-576f90142730.dcm  f4c5e2c5de96f5ca6c646858588f97933fec4d3196c980bda9661952dda1c400",
+  "ae82c1f5-e9c8-4518-897d-647ed3c0ef27.dcm  0b1c656922342dfaae7d80ccef53960e15a3007811351c2adf78672dd52b4df3",
+  "b6bee033-8f78-4205-8da5-bd8b38993261.dcm  00fdc0fff1487cc833a9b547894b2b9ba921110eede6470234096901769c6e7e",
+  "c113b95a-91aa-401f-93d4-9467ff59e14a.dcm  b126f991af246572031493a1b687cb76481c276f7e53ab2176c6a1fb623e1170",
+  "e884e01b-e373-4ed7-b76e-d05e998628de.dcm  c26157022f3cbbfa1f08bdfed5dc7bc434c8056085702b0b5c90cab0966b5eff",
+  "e89b6c00-4b30-4816-a36f-5cff443b56a1.dcm  c3c8ed198862da159e0ef45f676b05b437880085448545cb712eb6cc3cdf624c",
+  "f0ebb3ff-a59f-4cf6-8746-08be6430b206.dcm  df2bf19155a042c1754d7881a391f456814306fea33a61a21172449e718e4b97",
+  "f6494b3f-54ea-4da5-a434-0057923cb9f7.dcm  f773e7d8bd91c558256f339c2e1db235d183dba2448662b46ea9a752e372f264",
+  "f9994c92-b931-45e3-b0ae-3dfc94d330b4.dcm  fa4e536140a3e870d17ebc6a7f6adbc9e2e72afb34a140fbb78b3f9d14af7b80",
+]
+
+[[file]]
+id = "idc-stageii-colorectal-ct-venous"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "idc-stageii-colorectal-ct-venous"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection StageII-Colorectal-CT: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection StageII-Colorectal-CT, series e797228e-78ca-447c-98fc-62fba11e260f (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, StageII-Colorectal-CT collection"
+notes = "abdominal CT, venous phase 5.0 B30f, 41 axial slices"
+parts_url = "https://idc-open-data.s3.amazonaws.com/e797228e-78ca-447c-98fc-62fba11e260f/"
+parts = [
+  "01321867-1ecc-4284-8072-d186ece4ff1f.dcm  40f53d90b8ab3d37c06e89865fef14ba4eb55b004ee29c8ed9c39222e8a99c7d",
+  "06b0d7bb-fb0f-43bb-ab0f-06e4546155ef.dcm  ec843bfbf8d9083d3be7c9f9d65044c1386dad2f98a1a4ed3761e7ff964868e7",
+  "093d8dde-8351-49a7-90e3-baf8e7249012.dcm  848ea5a05cb6b6e6ce3efd411727bdc6dd7a718c10433be382676e5a66699433",
+  "1c69570e-40c9-4d28-b79e-d562277d68ee.dcm  f723bf55a1dd0284aeb3edc8c0f14897761cfc081eac27624c7964fa5182763e",
+  "1d258bee-4323-407b-a142-da4f611c0f9d.dcm  1f54d2106a01f4ff76ca497e280b775f40793c2b8a0a5bd8fdb1a84f8dbb8c18",
+  "1fe6eed8-f249-4dd7-bfc3-4d666a068073.dcm  dcaf752216d9e99f2f60f2220b2b05f5e2cf7c403795d33713880b0607aa8d82",
+  "27800f40-2c16-464f-af22-7d9fabd10f99.dcm  d4acdcf0aaca602aac28440f22d84496407378d4cee96d277c141f3bd2455278",
+  "2d9dcb09-3f19-4e4f-840c-1057a678e425.dcm  88cae0d200fd729622fd1fca404a97234b1ce942d32f0e29ca6fb3861e59b3e0",
+  "34a30df1-e4ad-4482-9484-369559b5c290.dcm  5dd535c32710796ed8963d7aea5eeb5c914ec713bfb7678a94603cb5e46ff7dc",
+  "3d8cf48e-aca1-44cb-b99a-a5ae69afc71d.dcm  76881edfa3b16f0da4d818e0128e9dbe622c0b62740402a52942cb9845279c84",
+  "3ed17d62-c769-4d0b-908a-44d4e8861849.dcm  965281897e0f9577e0cecca81562916567930607b798f59e0a4b054a41409680",
+  "46148ceb-3931-498a-8a35-cdadf89bb198.dcm  3d230e2dcb25cb017da856faaddfab7c0d785fe40652c0dbd9b9b525742c1a0b",
+  "4d31a055-1341-4d5f-8d38-9631d46ab68a.dcm  51c418c6c10250275834bb0078d6ad6ca913bf397554813dfdab2c1068e2d23c",
+  "62dfa017-9c89-4565-9149-12bf2fd707f3.dcm  5728f2029937edcf57342518f84dc8e02f8ff0c26ca9689f2d17e470a6f7b27a",
+  "68f593cf-14c3-466b-b172-a61a26832ec5.dcm  464392be105bd15d06d45802161f1b8ae3bf559d1872584d50be3082ff4c0cac",
+  "6e55b80d-0229-41eb-aab8-7d93908592d7.dcm  a0c440770a7c4f2fadbdde8aa5b9641c4eb5737f9347b4259a660d758eba4f24",
+  "72a63071-666d-461c-a250-566f8eaf6d0b.dcm  356b30473484d2c8cebf9cfc1d0a69530faaeece1234b018cbbaf630820368c3",
+  "7844e3f8-5422-4bb8-b17e-f47415047642.dcm  8087c31860bc2005a0cc3eaf736542dc46ff3290af0f4e4d100e3cb6cc92beac",
+  "7f86dcff-6539-44a6-9c15-1d37adadbf82.dcm  39f8df5b7967a9018e9ea330ea4814c23a140e0f7b742241048ad0d33f004b18",
+  "8258b171-a002-4d55-8c4a-68423fc88739.dcm  29c8eaea69bcf18be0ba8fb58b00bff2cfc08374fb9723d82f98dc89b70215f3",
+  "877b5293-b58a-4549-aa7d-1a238d157df8.dcm  e8556d999f6536ab0908028c5bae2967e788363449c5b8bb628b623d111ec875",
+  "8deb98fa-cc4e-43d9-bdfe-6d61e512a0cd.dcm  6821099dfbfcd3f45a45ee65e20ed106bb8d43397c3456c79d036718694ad706",
+  "8f370c1f-c248-4a24-bcf4-bd222ae176a7.dcm  da7144c511fec5b00763558682c95e34fcf571d94e0586cc0c085a74fca243a5",
+  "93c76acb-c15d-4bc3-bdde-a6a1cfe1f6c5.dcm  22c47ec1b9d060f7f2e4da9b37cf37325820320f8ccb99da823554c0eb2d3a17",
+  "97603ef8-1695-4c3a-9e55-ff852ee43922.dcm  b34442502a3c0b172f4c544a08f3f60eb545a4e7362c97d7a52d74176e7efffc",
+  "9ba173db-f55b-47af-b93d-ec6e661a66db.dcm  8d1973834ac4a09968b40c2a54b4a6774ac9b8736f876e43bf3dd434329f8f29",
+  "9c552b4f-c000-4682-9357-2d11a167844c.dcm  833c474f27c849692ca1dce9624560ec0fd7e813d88ac34f5fb386b8125a98ac",
+  "a3d5dd16-b8b4-465c-a28d-e867f5efe8e1.dcm  0390ae45928e9d4fea1dfa1ff59ef5103c7bc017197267eac24c7d1fa2386755",
+  "a6b5e3cf-b3de-414a-98d2-f0802bd23aee.dcm  7e1d73fc6d40c87934ac71a58c6cb543e87f293c478c329be0394bff40a645e4",
+  "a96faf1d-c775-439a-8e00-e28e5c9422ec.dcm  8590bcd519a399b57631c6ead8297c230c8453706b451f956207fef7156703d1",
+  "c07b5692-f4db-4c3d-8045-ee2d716e4a4b.dcm  f3ab904516ecfe62ed629e68a26671c3a7576b7f6fcc2de0346ec9ef95672c71",
+  "c33c01c7-bb60-4eb5-8bbf-669c28c0632a.dcm  94a960b61d271c882ff6e34a1603dd0306009310341c3d2efd355c03bf10bbed",
+  "c77a1102-804e-4345-8bf6-c72d3ab4eb47.dcm  f66e00b12959b82510a5870c7c08c222e8749b48ee534bbac88959c398b1f95f",
+  "dbae43b2-a3a7-4b84-907e-4f2659500c3c.dcm  e00b500535efc6bdb5f9af86b16fd438c0f3abfd22d1c69a47485f0382380732",
+  "e0fdf9ea-f959-43e3-80c7-2f6912527f57.dcm  adccad56dbb4e933db269912bce2ba380945490cdb79ca3b76173981f744da39",
+  "ecfa5021-35e6-4f34-a47e-3f42257fbce4.dcm  a7714634c84a9a4dd39cb9df27d5f9b7e076a8d78d0f9e25badd7ef19bfa8fc3",
+  "ee1d11c9-d2e2-45c0-b189-b36b28e39a76.dcm  149703b755751fc43814f05c6fd2995f9c7e8b87ae4e5dc87ce6865cda6d5c81",
+  "f306e71e-a1c3-4cbd-a545-f7d79ad89557.dcm  83d0e4acc257a19db69ef82e64823325b9ec494a4fd9731dbd4a3612aee5e841",
+  "fe5ebb80-92c3-4eda-865b-ca20b877cae0.dcm  916abd69183d14a560d71b06d2c01e7214844c64998954e544afbc97c21434a9",
+  "fef6fcc8-a102-46f1-bbe3-060990dcfca8.dcm  ef7a0ed1c7524edf5937c39d5a783bed529a57cbc771e8b4598f09e74bb601d4",
+  "ff03d81f-032e-4d26-9f51-0f16a62c6f52.dcm  770af28b0900a9987168638f6448550c23e7e7065d3be30392ffe45f1f3f2878",
+]
+
+[[file]]
+id = "idc-upenn-gbm-mr-t1-post"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "idc-upenn-gbm-mr-t1-post"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection UPENN-GBM: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection UPENN-GBM, series ae8313fc-62a4-4446-9bcf-3943a3a55e69 (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, UPENN-GBM collection"
+notes = "brain MR, AX T1 POST (CaPTk processed), 32 axial slices"
+parts_url = "https://idc-open-data.s3.amazonaws.com/ae8313fc-62a4-4446-9bcf-3943a3a55e69/"
+parts = [
+  "0b4f9b6b-7c4c-481d-b0f4-d7996ec0ae41.dcm  a2818020c44d220d42c370fc5d26adf0dcb8d9c1668fc0429f0d64ea0f906d79",
+  "11d7ec83-bd80-4f1a-9584-3905ee529cbc.dcm  c705b5ac32efe53529346cae4b3bbcca4d8ccf15bfd00d9861389372ad1d191d",
+  "1278e852-b3b9-4ce3-85a4-0b60ae74c2fa.dcm  139a0965ff30d0b95d82773ef5d8a650633dfc15e61865ef08cdd30c6b3b14b1",
+  "13a84a08-bece-42a0-a144-a9d7aacd28dc.dcm  d99798ef1eaf94fe224503d128184673f2c2cb15fecfba44a4644409c4248eed",
+  "1b44c974-f3c6-4154-9388-03327c91a38e.dcm  423b038af2006a3da4480fdccb27523184b2b40df3f934ab2f5bc4e976125480",
+  "1d17516e-d1e2-4a01-9117-58d129f32866.dcm  f821ab71ceb3e4ffe40ed02efa10181316a668df44c6ca639f7be512278f3682",
+  "32c630a7-dcdc-4a75-a3ca-0896faad4a61.dcm  1f05527570d36945fd76685a90ef8febf6fcb5d8b22981fe523a339dfd512531",
+  "349ac999-9265-43bb-8aa0-37746244cfca.dcm  15e30b511dc1625261f408ca066bfcd16ea986f8184cc9ba0921ca01de58f8cc",
+  "3e14e58d-9c2e-4712-b6e3-3a6f6b1f2a5c.dcm  188be579d0ea0513ae30122baf6aa3d700b409c0881a9f691da87cde06b09977",
+  "4328aaac-f717-4952-9fed-82e1dcd6f72f.dcm  4f1795269fc6f0a292a467463739502fd3ad10c5d53cade09de0daf41f464db2",
+  "4a6c2586-878a-4950-9bf4-3ca4b63095ed.dcm  d6b679f2e897b6575d041e8874c1150eef9624129e3586674cc570bafd43306d",
+  "54600df7-d22e-4169-af83-565517646faa.dcm  e8e7038b96f377fd9b97c4e1ff7ec1586a034da569a9e56187e41ba5df533a4d",
+  "56e82ca1-8b16-4f93-8490-e22eed77ad1d.dcm  3b8d211941fd70956455ac4d44b3783e2a10b13e9713ed125c3526a3cd229001",
+  "58b9687a-3f4d-4794-8768-a893de2a4845.dcm  378aee9b4b592def770c4aae22b18e7b2ae74c74da4aaab467bf67abd8d6cd8f",
+  "5f717238-ebfe-43f8-8938-55111eb257eb.dcm  4a974ff5d91d51acc05696203d16a6b38a65eb7d45d6ae4aa7e3b69605e57aed",
+  "7998e2c7-e68b-4832-bc8f-511d5eea391f.dcm  40e6d59536dbf6b36e5d87a0f7ad971236d11bea20dab506434c438c0a599eeb",
+  "809b30b4-ead5-4541-8db4-1dd0de343e1b.dcm  7c667829f6ec80afdc63e2efa2c47833d20394429ce0b2e6a249c2393b27b5ea",
+  "82b31ddd-42d2-4be5-b8f1-de8fa48bea7e.dcm  692ad73388734c410c16dba1b780d076c6923a3f4a5a78fbd5dec8f473e03055",
+  "85931b69-e9ea-471a-8f55-63895ce6bb43.dcm  de88ca3679ff185bec1e3943e5a05c2dbef2bff9f17c6013cef96582f543580b",
+  "8c493a98-c545-4337-8daa-4f78cc93b5a9.dcm  c9503d03096c21d4981bce7a7922d17d9769e467c313017af87dbf5cb251cd28",
+  "98210570-0d10-4d28-a5b5-702e2f921e24.dcm  ef4493a46922d6d650d11883e8b9bef2fe9142cd352d7f7aa0acc7010a2632c6",
+  "99f50bf7-fe51-482c-9074-0459d2d7e9f2.dcm  c75336970b393e880e0a4d846e349e5aaa93682c816e2c3e8e8db84513ea3f44",
+  "a865fa30-bdc0-4c4b-9b2e-25069ebbbcb8.dcm  3f4d11c62004eed8432fe92e75dc4614e48dd597bc2ba71a2afb2ee47b8b23a2",
+  "ac26e600-69a6-48bb-8ef9-3880c69e7da7.dcm  a4c751caedac83616770025522600a17e13f912e8335117e904af17ae574ccd1",
+  "bfec3a23-d9be-434f-b07f-38ca8905c2d8.dcm  c76007c42551aa539996135f5b22f7427d4a4aade5a9ceecad8303f1c7b35b1d",
+  "c84667c0-2f59-4f30-8038-720b96833723.dcm  0168078935ce62e378fe76f7d0092cca581e53fc808dbd36259c595a84066542",
+  "d3c53a7f-61a9-4a5c-8791-355a3e53f231.dcm  8ebc7b58cbfe376b73faec03092f3b27659a2607c5751765961950a423f2b8ba",
+  "d49402a1-0b11-4510-ba71-73b866ee39fa.dcm  9d1b56095b24026e241b79adb694f601c524d65477f038054fbb7a0da8864e8b",
+  "e426c5b3-5bfa-4486-b20f-76417d3c0166.dcm  af8fa615d4fc22ba8a8e550da541a372f4667641dd4aed813d123373ec8e3c09",
+  "e6bb471f-a4cd-417f-80c8-e5ce9ad0a78b.dcm  74cd2fef1754e52b185ceaea105a9542c8136bc22340ac104e1b8229b480b67b",
+  "ef7d79d9-06c1-4bf1-b4ba-abd71588947d.dcm  cafc8e192d2b0fed3eca73346e98faa87e7c612d8039c82df3fa2ac8d4c864f6",
+  "fc54fdef-9e16-4336-909a-346228fd70c5.dcm  b047d4443b49ac6723f3c7947756b3d2822a45866bc02d7aa7c427c16ce8c184",
+]
+
+[[file]]
+id = "idc-rider-phantom-pet"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "idc-rider-phantom-pet"
+url = ""
+license = "CC-BY-3.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection RIDER Phantom PET-CT: CC BY 3.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection RIDER Phantom PET-CT, series ac03df39-7578-4415-b89e-cc47a9fdfb5f (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, RIDER Phantom PET-CT collection"
+notes = "PET phantom, 3D FBP H10 CB12, 47 slices with per-slice rescale slopes (BQML)"
+parts_url = "https://idc-open-data.s3.amazonaws.com/ac03df39-7578-4415-b89e-cc47a9fdfb5f/"
+parts = [
+  "03fcc7f7-48d2-457f-bc44-f0158fee3526.dcm  1cf1afbdf36687103e3cb37ef430656f35dc6fd416d6e94bacb0ae2982e6fb69",
+  "0a360758-8455-41c3-bcbd-609066843354.dcm  2024367fb52639167bceb98769facf0c7e8d03b7abbdd971146281d0e42345ca",
+  "0fd4cc9c-619a-4fd1-8d1b-0fd5520e9399.dcm  bcfb99b7a8ea2960eeb87a37cd4e6a8b4c0c7cbe54017d7832d766d542fda209",
+  "1606c65e-3c4e-4d24-9152-6510aa7ef337.dcm  0c4c8a66435c509e5a3d93896bfe67faf36cd5abf18911d7bb8aa985fdd2bdc3",
+  "19289d95-ee0f-48b8-934e-863ab42e96f6.dcm  4a6c175b43e4a454f349bf096382cbd2886988e4b46edffa6e5463af70d4dbf6",
+  "208a8c67-51e1-4009-af82-85e2a87be91c.dcm  5595d5a2f9aa1999978d4a02f468a45386dc389615d95b84a6007b496a39f2c0",
+  "2159a8aa-75d7-45cb-8dd1-4083be02a321.dcm  42da893b366392394b6f51202f33ef375ccc0d53cf63d00b16dd5b44c620bd79",
+  "21968717-67e7-4a22-bf74-1a4102341fbb.dcm  97c1dda964045ae947d6c3975dc29932aff122bc0dceca2769a850cf5ec6b270",
+  "284f5d3c-0e3e-4fe0-8934-ce9d2d65eb4e.dcm  433e342213ea2af2e901f69f5788b41965b89bc5fb4483f20136f6d83ee3d99a",
+  "2871c262-7a9f-45c8-b813-2028173f6f6e.dcm  90f966279e83526fcaa15e50f950ebadf7f2812fba752b498a5c0f136ecb444b",
+  "2ae300c3-b9bb-4fed-9751-65615bb7a809.dcm  3f96c2f7c0bcb124c9112ffedfff19dd795a7ab1cf3a13d4f4d8bdff56ca4c0c",
+  "32334039-7a6e-4ae8-b680-60a634dae859.dcm  fa22de8a3db43d620250275d35e47be0a3bbc0b7f8f8a4ee6d853d2c67f95f69",
+  "4272ab27-830b-4581-a0c8-7fda86e0af6f.dcm  124732662b471377023531e24638af4e67ae78edd232c94d06156a528d37fbd1",
+  "4554fd07-5ae7-418d-bb2f-b7cb1b806823.dcm  1233e13928cfa9771fe5bdc35b5fd9c734c250a747b9faadd3aa252a2fab4d82",
+  "468e62ee-c98e-466c-aa4b-c823385e82be.dcm  3890d113e70f15a0e26fa2b05f0e7e0978d2f4b25543f079b03619182cc2be19",
+  "46cda0c1-5c25-484e-8bd8-c60427c74e74.dcm  d3c6a72dc7dd10f34a5cbd891dc5ddf6409d3fdbc4aa8b7de5b2e6b8a5a60d62",
+  "53ddcc59-e01b-46aa-be74-afc1dd74b4e5.dcm  a3ca2f0f4ee1dd8a61478ce4cd698d620e43e395cae3e35cf2e384b21de5458b",
+  "587755e2-94d1-49a6-9a36-bc372d9cd535.dcm  867fdce4b78afc69e2ebf9b416a759ed3df996a05b488b120c4642e30bc451a6",
+  "649a30f1-7a97-4ec1-b74a-7a6a6c4d5497.dcm  0b135bdfaf29c4589f82c9deb59fecd207a516e873733787cb4533ec61d59bc0",
+  "6f7e41f7-3040-487c-b4f5-4d61b3c8798f.dcm  7c844a695ff06ff1738267bf45c2bb9e34b74322847ce22e152761ec63fd9421",
+  "716a18dc-d44c-41d9-b5a6-d2e0dc00f41e.dcm  e9cf1f090d73f831f69617b4cf1c2632b925b6dd99033ccdb69d249f1a232ecc",
+  "7783580c-f2ed-49c7-8e51-0d4eccc38ea8.dcm  1a74a47e758b5522b8d14e1cdc66e505d3e31890a5d9de7666af8d8cb2a921d3",
+  "79fc1c3b-4149-48ec-9339-bfb04d048357.dcm  8ab04e3038d6856007bccd9acc0bbafc73161b802bcf9c31b55b45043d7ecde7",
+  "7be00811-26cd-4cb7-be68-ed0f8b4c705e.dcm  7deb794322a176df90f897f650fede321d971e2014e6b3cc3fa4aafc218a681d",
+  "7bf28578-6719-4013-b321-6290293ee671.dcm  351ec39e210ae37024260c3a4b9d64a8d762fce690a6e02cddbafaff979e5923",
+  "7f1c0de1-8b3f-48df-aab6-964af1dc3c59.dcm  c1d85c4f437670713a745c50ae5fd1d77b4509b04bffe3f6e9929c4c6dafa742",
+  "80fa0ea8-4bff-4a5b-b79c-e1dee853cb27.dcm  aef6fd9baaddc29d335d9a5d2b5e09ded1e75f42f1795f4590191bb27628ed93",
+  "8264e130-5006-4d28-8edb-b6fe77a66eb8.dcm  e0eded3656b1c6aa9f1bb85d6501888a58f3f036ba726322a62ae6a273ab2638",
+  "881ac487-1d6b-4ecb-9173-8b13e548c88f.dcm  733eee7fce58c3a744c8b2867be19b1d5837fb8165e16904ed2bb58f4a47a014",
+  "91199c8c-5964-495b-9149-dc7669096966.dcm  788cebba05ad9abc6e684a0563588146ae1702c8206dd2f40ee01e54e4f6b8c6",
+  "915ff526-19c9-4ba3-b5bc-59ddbdec9731.dcm  8626d2d643596ac2c538fff5560ae7861a600de1bb93cccf3dfba590f2ee97ba",
+  "95e5576b-517e-40df-82c9-64bd6e75f70f.dcm  5e9fa79206ec7ff9e496d034f8866d2ee8bb5e205f135f01e6ba11a9f3b8859e",
+  "95edba0e-ed24-48cf-8eb0-5166c5708c38.dcm  d03af425d36dc00bbd418c71899f84baa8cedf1aaabcde240f3ede5264d70220",
+  "9ddc7d53-77da-4a86-952c-9b65b400a425.dcm  cf8e223b084e335eeeb6b141a7e9ef9df8b3301cdbfd85f73dc9c31082d3b0c6",
+  "a36699ae-acda-4d8c-984a-6b27925b0769.dcm  a9c9acba78d18a4fea17bb43e6504f6c71313bbd4367b0449e72e46476801d2d",
+  "aa8fd931-f97c-4924-bc6d-64387cbd38c4.dcm  5566f989d2dbcfd8e012722107254eb45e0ba469fc6db7cb7b7cb0164ac62d27",
+  "b313d731-cf94-4123-8559-964f8fa501d6.dcm  fb4b7ba10e2e3852e45698339d66fe27685b004a2302d8dffedd50b609dc34ef",
+  "c8a185a0-360d-4fa0-91ee-fa7d3033b1ee.dcm  e11c97649f830a1bfe85bb35f31e0c8dab5140bca1dc84683f3858ef38df399d",
+  "ca2144d9-40c4-4cbf-8185-0c30d92b215b.dcm  b1c30eb61964ebaf1f28d27111d6c441c012758bd161af3608e8efd9c04fdf65",
+  "d178e0f6-0cee-40dd-aaad-58f23bc3e07c.dcm  193bef69cf3e0a56465e474b8259471be057c66282e3ea9c814caa420f6e516c",
+  "e37f7512-0d49-4cdd-bd59-9c443a44f849.dcm  50088def5840ae5def0581b0e9ee5150ca4f587da16ed6c368ac52445c88181c",
+  "e80837b7-6e7f-42ee-b4f6-5a960b50e3cb.dcm  e95926bb046078096f80ddec0096170ee5121dcdc044fbd02a2c443c35a7bd99",
+  "e8334f1f-b3e3-4c09-b524-92bd4e1ccd39.dcm  081dfd644b43cde061575fe7825dda70b8b16eeaef2e68cfed4aae45bee7a02e",
+  "e951b43a-0ce0-451f-924a-e35143071ffb.dcm  8baaa50b2e7fce278713565615fb4713f937bb659e290907a9a41b9328a696b6",
+  "f354b19b-b42e-4d5d-8245-4e774990a95a.dcm  30af263653966136718c1885c0dec6fcabcd411a8bce7f3c2146368349e305bc",
+  "f644f171-fee9-466c-ac9c-f7cc9aff3633.dcm  5f5576993fd12b3d165637cc3f69f06725317c25b25f597dcce46c8ec041840c",
+  "fbc6f6f3-da86-45a1-86f1-b9674bd54477.dcm  b17e7579f9d4a974f4d93208941b824e071a58bed39ed32e46979f167fcbbb8c",
+]
+
+[[file]]
+id = "idc-remind-us"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "idc-remind-us"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection ReMIND: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection ReMIND, series 3d4c6472-d248-4c33-9ee6-43333e68822a (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, ReMIND collection"
+notes = "intra-operative ultrasound, US_pre_imri, one instance"
+parts_url = "https://idc-open-data.s3.amazonaws.com/3d4c6472-d248-4c33-9ee6-43333e68822a/"
+parts = [
+  "3caf9c40-ed4d-4015-8d71-a40eaf2ee5d9.dcm  41a3cbb1b1c1c9ec67b64b9363e92e8d134d47a028ed7c46fa498a691ef8fdd6",
+]
+
+[[file]]
+id = "idc-rider-pilot-dx"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "idc-rider-pilot-dx"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection RIDER Pilot: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection RIDER Pilot, series 4d87e81e-19cd-4a12-8d55-3e9c5abe372e (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, RIDER Pilot collection"
+notes = "chest radiographs, PA and lateral, two DX instances"
+parts_url = "https://idc-open-data.s3.amazonaws.com/4d87e81e-19cd-4a12-8d55-3e9c5abe372e/"
+parts = [
+  "63c4f89e-7f34-4343-92f8-c12f693688ca.dcm  37ea85063ee7a3c1e616b2f3d24ff01ef40ab10b653a4b72085e790088ef16ee",
+  "ae036f42-4885-4043-b65c-bbdb85699ae3.dcm  fe1fb585048064ec868e286da02246223354a43805cd8ff2e7841894c5699ccf",
+]
+
+[[file]]
+id = "idc-varepop-nm"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "idc-varepop-nm"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection VAREPOP-APOLLO: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection VAREPOP-APOLLO, series 3e915859-015b-4c8f-9a67-f17db1bef1e1 (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, VAREPOP-APOLLO collection"
+notes = "nuclear medicine, Stress IQ reconstruction, one multi-frame instance"
+parts_url = "https://idc-open-data.s3.amazonaws.com/3e915859-015b-4c8f-9a67-f17db1bef1e1/"
+parts = [
+  "e3577f45-0b62-46e0-9b4a-983fc811a403.dcm  abc77c4e6239f4b0a605d4f4ad77e730e3c67d6057dea0265b591d7180b62de5",
+]
+
+[[file]]
+id = "idc-varepop-rf"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "idc-varepop-rf"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection VAREPOP-APOLLO: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection VAREPOP-APOLLO, series 585cfdb0-412c-4738-baa2-384c51f7056d (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, VAREPOP-APOLLO collection"
+notes = "fluoroscopy cine, Fluoro_Barium 2fps, one multi-frame instance"
+parts_url = "https://idc-open-data.s3.amazonaws.com/585cfdb0-412c-4738-baa2-384c51f7056d/"
+parts = [
+  "69b694a5-9ed5-4da4-84f4-2bb0c4f862aa.dcm  1e77d4263416e80c11d564eb4b8e7b9aba8da0f97f7be55833bc2cdbfc8a4751",
+]
+
+[[file]]
+id = "idc-upenn-gbm-seg"
+format = "dicom"
+role = "input"
+tier = "smoke"
+filename = "idc-upenn-gbm-seg"
+url = ""
+license = "CC-BY-4.0"
+license_checked = "https://portal.imaging.datacommons.cancer.gov (collection UPENN-GBM: CC BY 4.0), 2026-10-15"
+source = "NCI Imaging Data Commons, collection UPENN-GBM, series 7092fda7-2054-4be8-ab76-ba1f94f2abd5 (public bucket idc-open-data)"
+attribution = "The Cancer Imaging Archive / NCI Imaging Data Commons, UPENN-GBM collection"
+notes = "segmentation (SEG), AIMI Brain MRI AI segmentation, one multi-frame 1-bit instance"
+parts_url = "https://idc-open-data.s3.amazonaws.com/7092fda7-2054-4be8-ab76-ba1f94f2abd5/"
+parts = [
+  "9fb01b00-ae02-4d26-82b2-4fa3374df63d.dcm  7ba4869e0d36f8aa12f5b78ac28a667347a904c1370fe07ebb296850791f2759",
+]
+
+
+[[file]]
+id = "openslide-dicom-leica-4"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "openslide-dicom-Leica-4.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/DICOM/Leica-4.zip"
+sha256 = "71bd6db778d8565b28aa358d1abce0c55985c149183630c2ed31d1f8757185bb"
+size = 85348848
+license = "CC0-1.0"
+license_checked = "https://openslide.cs.cmu.edu/download/openslide-testdata/DICOM/index.yaml (CC0-1.0), 2026-10-15"
+source = "OpenSlide test data, DICOM/Leica-4.zip"
+attribution = "OpenSlide project and the contributors named in index.yaml"
+notes = "DICOM whole-slide image, extracted into openslide-dicom-leica-4/ by corpus fetch"
+
+[[file]]
+id = "openslide-dicom-leica-4-slide"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "openslide-dicom-leica-4"
+url = ""
+license = "CC0-1.0"
+source = "OpenSlide test data, DICOM/Leica-4.zip"
+attribution = "OpenSlide project"
+notes = "brightfield slide, TILED_SPARSE, JPEG, Leica GT450, a DICOMDIR that lists one of six instances"
+lossy = true
+bundle = "openslide-dicom-leica-4"
+
+[[file]]
+id = "openslide-dicom-cmu-1-jp2k-33005-v2"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "openslide-dicom-CMU-1-JP2K-33005-v2.zip"
+url = "https://openslide.cs.cmu.edu/download/openslide-testdata/DICOM/CMU-1-JP2K-33005-v2.zip"
+sha256 = "c43d3ae4f5f14cf801ff4178825b4450dcaa8270d8ee1e574efef3140264fb7a"
+size = 127346479
+license = "CC0-1.0"
+license_checked = "https://openslide.cs.cmu.edu/download/openslide-testdata/DICOM/index.yaml (CC0-1.0), 2026-10-15"
+source = "OpenSlide test data, DICOM/CMU-1-JP2K-33005-v2.zip"
+attribution = "OpenSlide project and the contributors named in index.yaml"
+notes = "DICOM whole-slide image, extracted into openslide-dicom-cmu-1-jp2k-33005-v2/ by corpus fetch"
+
+[[file]]
+id = "openslide-dicom-cmu-1-jp2k-33005-v2-slide"
+format = "dicom"
+role = "input"
+tier = "standard"
+filename = "openslide-dicom-cmu-1-jp2k-33005-v2"
+url = ""
+license = "CC0-1.0"
+source = "OpenSlide test data, DICOM/CMU-1-JP2K-33005-v2.zip"
+attribution = "OpenSlide project"
+notes = "conversion of CMU-1-JP2K-33005.svs: TILED_FULL, JPEG 2000 YBR_ICT, dual-personality BigTIFF"
+lossy = true
+bundle = "openslide-dicom-cmu-1-jp2k-33005-v2"
+
+[[file]]
+id = "nibabel-anatomical"
+format = "nifti"
+role = "input"
+tier = "smoke"
+filename = "nibabel/anatomical.nii"
+url = "https://raw.githubusercontent.com/nipy/nibabel/e3026a823b46413bfba50f427b2dbeab4172e810/nibabel/tests/data/anatomical.nii"
+sha256 = "1c089f37b6597a38bb4157a1e1b3f7f13f1bc9d4e7a8cfdfaf91d85cd8f66594"
+size = 68002
+license = "MIT"
+license_checked = "https://github.com/nipy/nibabel/blob/master/COPYING (MIT, examples and data included), 2026-10-15"
+source = "nibabel test data (github.com/nipy/nibabel, commit e3026a823b46), anatomical.nii"
+attribution = "nibabel developers"
+notes = "SPM-normalized anatomical volume, big-endian int16, sform"
+
+[[file]]
+id = "nibabel-functional"
+format = "nifti"
+role = "input"
+tier = "smoke"
+filename = "nibabel/functional.nii"
+url = "https://raw.githubusercontent.com/nipy/nibabel/e3026a823b46413bfba50f427b2dbeab4172e810/nibabel/tests/data/functional.nii"
+sha256 = "0591d9f8c21f1a0af46567c47f96307ae8faf6b70771a881f4cc477502af7b26"
+size = 43192
+license = "MIT"
+license_checked = "https://github.com/nipy/nibabel/blob/master/COPYING (MIT, examples and data included), 2026-10-15"
+source = "nibabel test data (github.com/nipy/nibabel, commit e3026a823b46), functional.nii"
+attribution = "nibabel developers"
+notes = "SPM functional series, 20 time points, int16 with scl_slope/scl_inter"
+
+[[file]]
+id = "nibabel-example4d"
+format = "nifti"
+role = "input"
+tier = "smoke"
+filename = "nibabel/example4d.nii.gz"
+url = "https://raw.githubusercontent.com/nipy/nibabel/e3026a823b46413bfba50f427b2dbeab4172e810/nibabel/tests/data/example4d.nii.gz"
+sha256 = "42097dfbab9d2a036b41ae5c97a359591cf2cf5c3f8dc6ca6455c0b8a7f22696"
+size = 346451
+license = "MIT"
+license_checked = "https://github.com/nipy/nibabel/blob/master/COPYING (MIT, examples and data included), 2026-10-15"
+source = "nibabel test data (github.com/nipy/nibabel, commit e3026a823b46), example4d.nii.gz"
+attribution = "nibabel developers"
+notes = "FSL 4-D example, gzip, int16"
+
+[[file]]
+id = "nibabel-example-nifti2"
+format = "nifti"
+role = "input"
+tier = "smoke"
+filename = "nibabel/example_nifti2.nii.gz"
+url = "https://raw.githubusercontent.com/nipy/nibabel/e3026a823b46413bfba50f427b2dbeab4172e810/nibabel/tests/data/example_nifti2.nii.gz"
+sha256 = "a53e59e70eb0d8275a4fe347422a89551aee92d0eb1137a3444b1932a28c3fe2"
+size = 21160
+license = "MIT"
+license_checked = "https://github.com/nipy/nibabel/blob/master/COPYING (MIT, examples and data included), 2026-10-15"
+source = "nibabel test data (github.com/nipy/nibabel, commit e3026a823b46), example_nifti2.nii.gz"
+attribution = "nibabel developers"
+notes = "NIfTI-2, gzip, int16"
+
+[[file]]
+id = "nibabel-standard"
+format = "nifti"
+role = "input"
+tier = "smoke"
+filename = "nibabel/standard.nii.gz"
+url = "https://raw.githubusercontent.com/nipy/nibabel/e3026a823b46413bfba50f427b2dbeab4172e810/nibabel/tests/data/standard.nii.gz"
+sha256 = "f9556106668e78b5a3ef56a0e7bcaa06a9d6a4f9a5aab0cd5548e198095a0bbd"
+size = 143
+license = "MIT"
+license_checked = "https://github.com/nipy/nibabel/blob/master/COPYING (MIT, examples and data included), 2026-10-15"
+source = "nibabel test data (github.com/nipy/nibabel, commit e3026a823b46), standard.nii.gz"
+attribution = "nibabel developers"
+notes = "tiny uint8 volume, no units"
+
+[[file]]
+id = "nibabel-reoriented-anat-moved"
+format = "nifti"
+role = "input"
+tier = "smoke"
+filename = "nibabel/reoriented_anat_moved.nii"
+url = "https://raw.githubusercontent.com/nipy/nibabel/e3026a823b46413bfba50f427b2dbeab4172e810/nibabel/tests/data/reoriented_anat_moved.nii"
+sha256 = "fd54cf0ce7b52935ed63e02490a07c4f5d949ab2572d13d2626001aeecab17cf"
+size = 48400
+license = "MIT"
+license_checked = "https://github.com/nipy/nibabel/blob/master/COPYING (MIT, examples and data included), 2026-10-15"
+source = "nibabel test data (github.com/nipy/nibabel, commit e3026a823b46), reoriented_anat_moved.nii"
+attribution = "nibabel developers"
+notes = "big-endian float32 volume whose columns run toward the patient's right"
+
+[[file]]
+id = "openneuro-ds000001-sub-01-t1w"
+format = "nifti"
+role = "input"
+tier = "smoke"
+filename = "openneuro/openneuro-ds000001-sub-01_T1w.nii.gz"
+url = "https://s3.amazonaws.com/openneuro.org/ds000001/sub-01/anat/sub-01_T1w.nii.gz"
+sha256 = "bdb7022ae229c5b8edd16425928c9243c562f84082b9b8e6f97cdba8b9354a98"
+size = 5663237
+license = "CC0-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds000001/dataset_description.json (License: CC0), 2026-10-15"
+source = "OpenNeuro ds000001 (Balloon Analog Risk-taking Task), sub-01"
+attribution = "Schonberg et al. 2012; OpenNeuro"
+notes = "T1-weighted brain MRI (defaced), 160x192x192, 1 x 1.33 x 1.33 mm, FSL 5.0"
+
+[[file]]
+id = "openneuro-ds000001-sub-01-bold"
+format = "nifti"
+role = "input"
+tier = "standard"
+filename = "openneuro/openneuro-ds000001-sub-01_bold.nii.gz"
+url = "https://s3.amazonaws.com/openneuro.org/ds000001/sub-01/func/sub-01_task-balloonanalogrisktask_run-01_bold.nii.gz"
+sha256 = "59de83eccb6e2a14b2ba862269537ab6bf95dff9fe7164bc0a0bd20bb3f83519"
+size = 47241449
+license = "CC0-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds000001/dataset_description.json (License: CC0), 2026-10-15"
+source = "OpenNeuro ds000001 (Balloon Analog Risk-taking Task), sub-01"
+attribution = "Schonberg et al. 2012; OpenNeuro"
+notes = "BOLD fMRI run, 64x64x33, 300 volumes, TR 2 s"
+
+[[file]]
+id = "brukerapi-pv7"
+format = "zip"
+role = "bundle"
+tier = "standard"
+filename = "brukerapi-20210128_122257_LEGO_PHANTOM_API_TEST_1_1.zip"
+url = "https://zenodo.org/api/records/4522220/files/20210128_122257_LEGO_PHANTOM_API_TEST_1_1.zip/content"
+sha256 = "3c4e5834b5f6a536d2ae211d7370fd0a86f57c5c4f17ad069a8921995a64b035"
+size = 618113772
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/4522220 (CC BY 4.0), 2026-10-15"
+source = "The BrukerAPI test data (Zenodo 4522220), ParaVision 7.0.0 phantom study"
+attribution = "Tomáš Pšorn, Jiří Starčuk, Pilsen MR group (brukerapi)"
+notes = "ParaVision 7.0.0 LEGO phantom study, extracted into brukerapi-pv7/ by corpus fetch"
+
+[[file]]
+id = "brukerapi-pv7-lego-phantom-e6"
+format = "bruker-paravision"
+role = "input"
+tier = "standard"
+filename = "brukerapi-pv7/20210128_122257_LEGO_PHANTOM_API_TEST_1_1/6"
+url = ""
+license = "CC-BY-4.0"
+source = "The BrukerAPI test data (Zenodo 4522220), ParaVision 7.0.0, experiment 6"
+attribution = "Tomáš Pšorn, Jiří Starčuk, Pilsen MR group (brukerapi)"
+notes = "B1 map: FG_ECHO (amplitude, phase) x FG_SLICE (5), 32-bit, slope 4.66e-8"
+bundle = "brukerapi-pv7"
+
+[[file]]
+id = "brukerapi-pv7-lego-phantom-e10"
+format = "bruker-paravision"
+role = "input"
+tier = "standard"
+filename = "brukerapi-pv7/20210128_122257_LEGO_PHANTOM_API_TEST_1_1/10"
+url = ""
+license = "CC-BY-4.0"
+source = "The BrukerAPI test data (Zenodo 4522220), ParaVision 7.0.0, experiment 10"
+attribution = "Tomáš Pšorn, Jiří Starčuk, Pilsen MR group (brukerapi)"
+notes = "DTI EPI: FG_DIFFUSION (7), 16-bit"
+bundle = "brukerapi-pv7"
+
+[[file]]
+id = "brukerapi-pv7-lego-phantom-e20"
+format = "bruker-paravision"
+role = "input"
+tier = "standard"
+filename = "brukerapi-pv7/20210128_122257_LEGO_PHANTOM_API_TEST_1_1/20"
+url = ""
+license = "CC-BY-4.0"
+source = "The BrukerAPI test data (Zenodo 4522220), ParaVision 7.0.0, experiment 20"
+attribution = "Tomáš Pšorn, Jiří Starčuk, Pilsen MR group (brukerapi)"
+notes = "flow map: FG_FLOW (2), 16-bit"
+bundle = "brukerapi-pv7"
+
+[[file]]
+id = "brukerapi-pv7-lego-phantom-e35"
+format = "bruker-paravision"
+role = "input"
+tier = "standard"
+filename = "brukerapi-pv7/20210128_122257_LEGO_PHANTOM_API_TEST_1_1/35"
+url = ""
+license = "CC-BY-4.0"
+source = "The BrukerAPI test data (Zenodo 4522220), ParaVision 7.0.0, experiment 35"
+attribution = "Tomáš Pšorn, Jiří Starčuk, Pilsen MR group (brukerapi)"
+notes = "single-pulse spectroscopy: a 2048-point spectrum (a trace)"
+bundle = "brukerapi-pv7"
+
+[[file]]
+id = "brukerapi-pv7-lego-phantom-study"
+format = "bruker-paravision"
+role = "input"
+tier = "standard"
+filename = "brukerapi-pv7/20210128_122257_LEGO_PHANTOM_API_TEST_1_1"
+url = ""
+license = "CC-BY-4.0"
+source = "The BrukerAPI test data (Zenodo 4522220), ParaVision 7.0.0 study folder"
+attribution = "Tomáš Pšorn, Jiří Starčuk, Pilsen MR group (brukerapi)"
+notes = "the whole study: one image per reconstruction"
+bundle = "brukerapi-pv7"
 

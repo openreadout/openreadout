@@ -21,6 +21,7 @@ openreadout-ometiff = { path = "../crates/openreadout-ometiff" }
 openreadout-abf = { path = "../crates/openreadout-abf" }
 openreadout-blackrock = { path = "../crates/openreadout-blackrock" }
 openreadout-em = { path = "../crates/openreadout-em" }
+openreadout-medical = { path = "../crates/openreadout-medical" }
 openreadout-fcs = { path = "../crates/openreadout-fcs" }
 openreadout-intan = { path = "../crates/openreadout-intan" }
 openreadout-neuralynx = { path = "../crates/openreadout-neuralynx" }
@@ -1097,6 +1098,8 @@ name = "whole_pod5"
 path = "fuzz_targets/whole_pod5.rs"
 name = "whole_abif"
 path = "fuzz_targets/whole_abif.rs"
+name = "whole_dicom"
+path = "fuzz_targets/whole_dicom.rs"
 test = false
 doc = false
 bench = false
@@ -1106,6 +1109,8 @@ name = "whole_fast5"
 path = "fuzz_targets/whole_fast5.rs"
 name = "whole_bioanalyzer"
 path = "fuzz_targets/whole_bioanalyzer.rs"
+name = "whole_nifti"
+path = "fuzz_targets/whole_nifti.rs"
 test = false
 doc = false
 bench = false
@@ -1113,6 +1118,8 @@ bench = false
 [[bin]]
 name = "whole_fastq"
 path = "fuzz_targets/whole_fastq.rs"
+name = "whole_paravision"
+path = "fuzz_targets/whole_paravision.rs"
 test = false
 doc = false
 bench = false
@@ -1150,6 +1157,8 @@ name = "seq_interop"
 path = "fuzz_targets/seq_interop.rs"
 name = "whole_tapestation"
 path = "fuzz_targets/whole_tapestation.rs"
+name = "codec_jpegls"
+path = "fuzz_targets/codec_jpegls.rs"
 test = false
 doc = false
 bench = false

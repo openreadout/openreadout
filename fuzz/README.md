@@ -45,6 +45,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_zarr_zip`; `whole_zarr` | OME-Zarr zip store; directory store (`.zgroup`, `.zattrs`, `0/.zarray`, one chunk, v3 `zarr.json` files). No-ops on macOS: `zarrs` registers codecs with `inventory` initializers that Apple's linker rejects under sanitizer coverage; they run in CI (Linux) |
 | `whole_ims`, `whole_nwb`, `whole_hdf5` | Imaris, NWB 2.x and generic HDF5 |
 | `whole_mrc`, `whole_dm`, `whole_emd`; `whole_ser` | electron microscopy; TIA `.ser` + `.emi` |
+| `whole_dicom`, `whole_nifti`; `whole_paravision`; `codec_jpegls` | medical imaging: DICOM files, NIfTI (and gzip); a ParaVision experiment (`acqp`, `method`, `pdata/1/visu_pars`, `pdata/1/2dseq`); JPEG-LS streams |
 | `whole_thermo`, `whole_mzml`, `whole_mzxml`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry; gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
 | `whole_chemstation`, `whole_waters`; `whole_andi`, `whole_shimadzu`; `whole_sciex` | ChemStation `.D` and MassLynx `.raw` directories; ANDI netCDF, Shimadzu `.lcd`; Sciex `.wiff` + `.wiff.scan` |
 | `whole_baf` | Bruker BAF `.d`: `analysis.baf`, then `Calibrator.ami` (seed: the synthetic fixture) |

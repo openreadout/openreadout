@@ -69,6 +69,7 @@ A series names its data by `file` and selector, by a `table` file and its column
 | `wells` | Plate reads: a curve per well (kinetic), or values per well | `wells` (`A1:H11`), `groups` (layout groups, `*` matches any text), `by` (`well` or `group`), `spread`, `subtract` (`blank`, `first`), `read`, `color_by` |
 | `events` | FCS events, x against y, coloured by gate population | `x`, `y`, `populations`, `workspace` or `gatingml`, `compensate`, `transform` |
 | `histogram` | One FCS parameter or table column | `x`, `populations`, `transform` |
+| `profile` | Image values along a line, against distance in mm or µm (pixels without a pixel size) | `line` (`[[x0, y0], [x1, y1]]` in full-resolution pixels), `image`, `select` (`z=12`) |
 | `dose_response`, `standard_curve` | Points and fitted curves from the [plate-reader assays](analyze.md#plate-reader-assays) | `assay`: their arguments without `file` (`layout`, `standards`, `model`, `normalize`, …) |
 | `amplification`, `melt` | qPCR curves, coloured by target | `wells`, `target` |
 

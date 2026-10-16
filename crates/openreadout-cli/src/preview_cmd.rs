@@ -32,6 +32,12 @@ pub struct PreviewArgs {
     /// Maximum-intensity projection over `z` (or `t`), limited to the selected range if any.
     #[arg(long, value_name = "AXIS")]
     pub mip: Option<String>,
+    /// Volumes: `axial`, `coronal`, `sagittal` (radiological orientation), `orthogonal` (the
+    /// three planes side by side), `xz`, `yz` or `native` (as stored). Default: medical images
+    /// in their acquisition plane, others native. `--select z=N` and `--mip z` then count
+    /// slices of the view.
+    #[arg(long, value_name = "VIEW")]
+    pub view: Option<String>,
     /// Blend all (or the selected) channels additively in their colours.
     #[arg(long)]
     pub composite: bool,
@@ -58,7 +64,10 @@ pub struct PreviewArgs {
     /// Longest side of the output in pixels (16..=8192), rulers included.
     #[arg(long, default_value_t = openreadout_preview::DEFAULT_PREVIEW_SIZE)]
     pub max_size: u32,
-    /// `auto` (0.1–99.9 percentiles; raw for 8-bit RGB), `min-max`, `percentile:LO,HI` or `raw`.
+    /// `auto` (0.1–99.9 percentiles; raw for 8-bit RGB; the file's display window for medical
+    /// images), `min-max`, `percentile:LO,HI`, `raw`, or `window:CENTER,WIDTH` (`window:file`,
+    /// or a CT preset: `window:soft-tissue`, `brain`, `subdural`, `stroke`, `bone`, `lung`,
+    /// `mediastinum`, `liver`).
     #[arg(long, default_value = "auto")]
     pub contrast: String,
     /// `gray` or `channel-color`. Default: gray for one channel, channel colours for composites.
@@ -146,6 +155,11 @@ impl PreviewArgs {
             preview_request.image = self.image;
             preview_request.select = self.select.clone();
             preview_request.mip = self.mip.as_deref().map(str::parse::<Axis>).transpose()?;
+            preview_request.view = self
+                .view
+                .as_deref()
+                .map(str::parse::<openreadout_preview::View>)
+                .transpose()?;
             preview_request.composite = self.composite;
             preview_request.level = self.level;
             preview_request.region = self

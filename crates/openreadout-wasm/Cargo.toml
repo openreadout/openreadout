@@ -57,6 +57,7 @@ openreadout-ce = { workspace = true }
 openreadout-epr = { workspace = true }
 openreadout-fplc = { workspace = true }
 openreadout-em = { workspace = true }
+openreadout-medical = { workspace = true }
 openreadout-nmr = { workspace = true }
 openreadout-hdf5 = { workspace = true }
 openreadout-preview = { workspace = true }

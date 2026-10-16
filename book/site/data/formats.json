@@ -3,6 +3,7 @@
  "fields": [
   "Light microscopy",
   "Electron microscopy",
+  "Medical imaging",
   "Mass spectrometry",
   "Chromatography",
   "IR, Raman and UV-Vis",
@@ -1142,6 +1143,67 @@
    ],
    "page": "cellvoyager",
    "field": "Light microscopy"
+  },
+  {
+   "id": "bruker-paravision",
+   "name": "Bruker ParaVision (2dseq)",
+   "vendor": "Bruker BioSpin preclinical MRI",
+   "extensions": [],
+   "family": "medical-imaging",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Raw k-space (fid, rawdata.job*) is not reconstructed; only pdata/<procno>/2dseq is read",
+    "Frames stored transposed (VisuCoreTransposition) are returned as stored",
+    "ParaVision 5 data without visu_pars are not read"
+   ],
+   "page": "bruker-paravision",
+   "field": "Medical imaging"
+  },
+  {
+   "id": "dicom",
+   "name": "DICOM",
+   "vendor": "NEMA open standard (CT, MR, PET, ultrasound, X-ray, whole-slide microscopy)",
+   "extensions": [
+    "dcm",
+    "dicom",
+    "ima"
+   ],
+   "family": "medical-imaging",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Video transfer syntaxes (MPEG-2, MPEG-4, HEVC) are not decoded",
+    "Colour JPEG-LS and segmented palette lookup tables are not decoded",
+    "Whole-slide images: only the first focal plane and optical path are read",
+    "Structured reports, RT structure sets and plans, presentation states and other objects without pixel data are listed, not interpreted",
+    "VOI LUT sequences and presentation states are reported, not applied; previews use the window centre and width"
+   ],
+   "page": "dicom",
+   "field": "Medical imaging"
+  },
+  {
+   "id": "nifti",
+   "name": "NIfTI-1 / NIfTI-2 / Analyze 7.5",
+   "vendor": "NIfTI Data Format Working Group open standard (neuroimaging); Analyze 7.5 (Mayo Clinic)",
+   "extensions": [
+    "nii",
+    "hdr",
+    "img"
+   ],
+   "family": "medical-imaging",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "medium",
+   "known_gaps": [
+    "binary (1-bit), float128 and complex256 data types are not decoded",
+    "dimensions 6 and 7 are folded into T",
+    "header extensions are listed, not decoded (AFNI, XCEDE, DICOM extensions)"
+   ],
+   "page": "nifti",
+   "field": "Medical imaging"
   },
   {
    "id": "tiff",

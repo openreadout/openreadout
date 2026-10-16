@@ -82,6 +82,7 @@ mod sequencing;
 mod spectrum;
 mod tic;
 mod trace;
+mod volume;
 
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
@@ -97,6 +98,7 @@ pub use electrophoresis::series_index_of;
 pub use openreadout_figure::{Figure, Raster};
 pub use options::PreviewOptions;
 pub use plate::{PlateGrid, plate_grid};
+pub use volume::View;
 
 /// Largest `max_size` accepted (pixels on the longer side).
 pub const MAX_PREVIEW_SIZE: u32 = 8192;
@@ -125,7 +127,24 @@ pub enum Contrast {
     Percentile(f64, f64),
     /// The pixel type's full range (0–255 for uint8, 0–65535 for uint16, 0–1 for floats).
     Raw,
+    /// A display window: values from `center - width / 2` (black) to `center + width / 2`
+    /// (white), in the image's values (Hounsfield units for CT).
+    Window(f64, f64),
+    /// The n-th display window the file stores (`images[].extra.windows`).
+    StoredWindow(usize),
 }
+
+/// Named CT display windows: `(name, center, width)` in Hounsfield units.
+pub const WINDOW_PRESETS: &[(&str, f64, f64)] = &[
+    ("soft-tissue", 40.0, 400.0),
+    ("brain", 40.0, 80.0),
+    ("subdural", 75.0, 215.0),
+    ("stroke", 40.0, 40.0),
+    ("bone", 400.0, 1800.0),
+    ("lung", -600.0, 1500.0),
+    ("mediastinum", 50.0, 350.0),
+    ("liver", 60.0, 150.0),
+];
 
 impl FromStr for Contrast {
     type Err = Error;
@@ -135,10 +154,43 @@ impl FromStr for Contrast {
             "auto" => Ok(Contrast::Auto),
             "min-max" | "minmax" => Ok(Contrast::MinMax),
             "raw" => Ok(Contrast::Raw),
+            _ if s.starts_with("window") => {
+                let bad = || {
+                    let names: Vec<&str> = WINDOW_PRESETS.iter().map(|p| p.0).collect();
+                    Error::Usage(format!(
+                        "bad contrast '{s}': use window:CENTER,WIDTH (e.g. window:40,400), window:file (the file's own window; window:file:2 for the third), or a preset: window:{}",
+                        names.join(", window:")
+                    ))
+                };
+                let spec = s.strip_prefix("window:").ok_or_else(bad)?.trim();
+                if let Some(rest) = spec.strip_prefix("file") {
+                    let n = match rest.strip_prefix(':') {
+                        Some(n) => n.trim().parse().map_err(|_| bad())?,
+                        None if rest.is_empty() => 0,
+                        None => return Err(bad()),
+                    };
+                    return Ok(Contrast::StoredWindow(n));
+                }
+                if let Some((_, c, w)) = WINDOW_PRESETS
+                    .iter()
+                    .find(|p| p.0 == spec.replace('_', "-"))
+                {
+                    return Ok(Contrast::Window(*c, *w));
+                }
+                let (c, w) = spec.split_once(',').ok_or_else(bad)?;
+                let (c, w): (f64, f64) = (
+                    c.trim().parse().map_err(|_| bad())?,
+                    w.trim().parse().map_err(|_| bad())?,
+                );
+                if !c.is_finite() || !w.is_finite() || w <= 0.0 {
+                    return Err(bad());
+                }
+                Ok(Contrast::Window(c, w))
+            }
             _ => {
                 let bad = || {
                     Error::Usage(format!(
-                        "bad contrast '{s}': use auto, min-max, raw or percentile:LO,HI (e.g. percentile:1,99)"
+                        "bad contrast '{s}': use auto, min-max, raw, percentile:LO,HI (e.g. percentile:1,99) or window:CENTER,WIDTH (window:brain, window:bone, ...)"
                     ))
                 };
                 let spec = s.strip_prefix("percentile:").ok_or_else(bad)?;
@@ -163,6 +215,8 @@ impl std::fmt::Display for Contrast {
             Contrast::MinMax => f.write_str("min-max"),
             Contrast::Percentile(a, b) => write!(f, "percentile:{a},{b}"),
             Contrast::Raw => f.write_str("raw"),
+            Contrast::Window(c, w) => write!(f, "window:{c},{w}"),
+            Contrast::StoredWindow(n) => write!(f, "window:file:{n}"),
         }
     }
 }
@@ -380,6 +434,9 @@ pub struct PreviewRequest {
     pub select: Vec<String>,
     /// Maximum-intensity projection axis.
     pub mip: Option<Axis>,
+    /// Which plane of a volume to show (default: the stored planes, or for medical images the
+    /// anatomical plane they were acquired in, oriented the radiology way).
+    pub view: Option<View>,
     /// Blend all (or the selected) channels additively in their colours.
     pub composite: bool,
     /// Pyramid level (default: the level nearest `max_size`).
@@ -449,6 +506,7 @@ impl Default for PreviewRequest {
             image: None,
             select: Vec::new(),
             mip: None,
+            view: None,
             composite: false,
             level: None,
             region: None,
@@ -477,6 +535,93 @@ impl Default for PreviewRequest {
             max_read_bytes: None,
         }
     }
+}
+
+/// An image preview, through a view of the volume when one applies ([`volume`]).
+fn render_image(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &PreviewRequest,
+    out: &mut PreviewOutput,
+) -> Result<(Figure, Frame)> {
+    let image = req.image.unwrap_or(0);
+    let Some(im) = info.images.iter().find(|i| i.index == image) else {
+        return image::render(ds, info, req, out);
+    };
+    let Some(view) = volume::effective(info, im, req.view) else {
+        return image::render(ds, info, req, out);
+    };
+    let sel = openreadout_core::select::Selection::parse(&split_select(&req.select))?;
+    let mut req = req.clone();
+    let select_z = sel.z.first().copied();
+    if view == View::Orthogonal {
+        // the z selection places the crosshair; the composite itself is one plane
+        let join = |a: &str, v: &[u32]| {
+            (!v.is_empty()).then(|| {
+                format!(
+                    "{a}={}",
+                    v.iter().map(u32::to_string).collect::<Vec<_>>().join(",")
+                )
+            })
+        };
+        req.select = [join("c", &sel.c), join("t", &sel.t)]
+            .into_iter()
+            .flatten()
+            .collect();
+        if req.mip.is_some() {
+            return Err(Error::Usage(
+                "an orthogonal view shows three slices; project with view axial, coronal or sagittal and mip z".into(),
+            ));
+        }
+        if req.axes && !req.figure {
+            // rulers would count composite pixels; frame it as a figure with a scale bar
+            req.figure = true;
+            req.grid = false;
+            out.notes
+                .push("orthogonal views are framed with a scale bar, not rulers".into());
+        }
+    }
+    let (mut vds, vim, marks, notes) = volume::ViewDataset::new(ds, info, image, view, select_z)?;
+    out.notes.extend(notes);
+    let slices = vim.size_z;
+    let mut vinfo = info.clone();
+    if let Some(slot) = vinfo.images.iter_mut().find(|i| i.index == image) {
+        *slot = vim;
+    }
+    let (mut figure, frame) = image::render(&mut vds, &vinfo, &req, out)?;
+    // the view's own marks (panel names, crosshairs), under the caller's annotations
+    if !marks.is_empty() {
+        let theme = theme(&req);
+        annotate::draw(&mut figure, &frame, &marks, &theme, &mut Vec::new())?;
+    }
+    let drawn = (figure, frame);
+    if let Some(p) = out.image.as_mut() {
+        p.view = Some(
+            match vds.view() {
+                View::Axial => "axial",
+                View::Coronal => "coronal",
+                View::Sagittal => "sagittal",
+                View::Orthogonal => "orthogonal",
+                View::Xz => "xz",
+                View::Yz => "yz",
+                View::Native => "native",
+            }
+            .into(),
+        );
+        p.crosshair = vds.point();
+        p.view_slices = Some(slices);
+    }
+    if req.view.is_none() {
+        out.notes.push(format!(
+            "shown as a radiological {} view (view: native shows the stored orientation)",
+            out.image
+                .as_ref()
+                .and_then(|p| p.view.clone())
+                .unwrap_or_default()
+        ));
+    }
+    let _ = vds.ortho_step();
+    Ok(drawn)
 }
 
 /// The theme a request draws in, sized for its `max_size`.
@@ -600,6 +745,17 @@ pub struct ImagePreview {
     /// The scale bar drawn, when the physical pixel size is known.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scale_bar: Option<ScaleBar>,
+    /// The plane of the volume shown, when it is not the stored planes: `axial`, `coronal`,
+    /// `sagittal`, `orthogonal`, `xz` or `yz`. Rulers, regions and annotations then count the
+    /// pixels of that view.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub view: Option<String>,
+    /// Orthogonal views: the voxel (x, y, z of the stored planes) the three planes cross at.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub crosshair: Option<[u32; 3]>,
+    /// With a view: how many slices it has (the range of `z`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub view_slices: Option<u32>,
 }
 
 impl ImagePreview {
@@ -1244,7 +1400,7 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
     }
     let (mut figure, frame) = match (k, drawn) {
         (_, Some(drawn)) => drawn,
-        ("image", _) => image::render(ds, info, req, &mut out)?,
+        ("image", _) => render_image(ds, info, req, &mut out)?,
         ("trace", _) if electrochem::is_voltammetry(info, req) => {
             electrochem::render(ds, info, req, &mut out)?
         }

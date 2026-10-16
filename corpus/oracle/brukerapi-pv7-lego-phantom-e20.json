@@ -1,0 +1,36 @@
+{
+ "id": "brukerapi-pv7-lego-phantom-e20",
+ "file": "20",
+ "size": 2091821,
+ "max_planes_hashed": 64,
+ "reader": "brukerapi",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 2,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 312.5,
+    "y": 312.5
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e89ce6d70828d7cea600ed9a5ba5e88e"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "deb85259ed3d2f2f528fb9fb126e6b48"
+    }
+   ]
+  }
+ ]
+}

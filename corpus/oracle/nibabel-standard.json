@@ -1,0 +1,66 @@
+{
+ "id": "nibabel-standard",
+ "file": "standard.nii.gz",
+ "max_planes_hashed": 64,
+ "reader": "nibabel 5.4.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 4,
+   "size_y": 5,
+   "size_z": 7,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 1000.0,
+    "y": 3000.0,
+    "z": 2000.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9ca63d1656b942351d525b8e78b204b1"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "fcf11c4157b8162ce39b698bed89e2f6"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "202802172e49e703791cb2d86aabb6b2"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "fd2f8d4c5e21b774d7aa1e214710a040"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "ec81b595463f276616411a4f7dad5b65"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "570036bb1cd563d0e394454c6ace7819"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "d80e315025b0100db0aa72b88c9d1b3b"
+    }
+   ]
+  }
+ ]
+}

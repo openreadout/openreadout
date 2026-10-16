@@ -17,6 +17,7 @@
 //! | `patient_id` | `mrn_keyword` | `MRN`, `patient id`, `medical record`, `hospital number`, `NHS number`, `PID` followed by an identifier with 3+ digits; or a field named like a patient/MRN id holding such an identifier |
 //! | `date_of_birth` | `dob_keyword` | `DOB`, `date of birth`, `birth date`, `born`, `Geburtsdatum` followed by a date; or a field named like a birth date holding a date |
 //! | `free_text` | `comment_field` | a comment/description/remark/annotation field with three or more words (may contain anything; flagged for review) |
+//! | any | `reader_declared` | an element the reader withheld and listed under `extra.personal_data` (DICOM patient names, IDs and birth dates; ParaVision subject names): the reader flags it, so the value is never seen |
 //!
 //! Values are never stored in the index: a flag is `{field, kind, rule}`. Redaction replaces a
 //! flagged value with `redacted:` and the first 16 hex digits of HMAC-SHA256(salt, value), so
@@ -150,6 +151,7 @@ const GENERIC: &[&str] = &[
     "custom",
     "example",
     "public domain",
+    "withheld",
 ];
 
 /// Words that make a value a role, shared account or organisation rather than a person.
@@ -804,8 +806,66 @@ pub fn scan(doc: &Value) -> Vec<Finding> {
             }
         }
     }
+    // Elements a reader withheld because they identify a person (DICOM patient names and
+    // IDs, ParaVision subject names): flagged by the reader, so the value never reaches us.
+    declared(doc, String::new(), &mut out);
     out.sort_by(|a, b| a.field.cmp(&b.field).then(a.kind.cmp(b.kind)));
     out
+}
+
+/// The kinds a reader may declare, as static names.
+const DECLARED_KINDS: &[&str] = &[
+    "person_name",
+    "patient_id",
+    "date_of_birth",
+    "address",
+    "phone",
+    "email",
+    "free_text",
+    "burned_in_text",
+];
+
+/// `personal_data` lists a reader puts in `extra` (`[{field, kind}]`, values withheld), as
+/// findings with the rule `reader_declared` and no value.
+fn declared(v: &Value, path: String, out: &mut Vec<Finding>) {
+    match v {
+        Value::Object(m) => {
+            for (k, x) in m {
+                let p = if path.is_empty() {
+                    k.clone()
+                } else {
+                    format!("{path}.{k}")
+                };
+                if k == "personal_data"
+                    && let Some(items) = x.as_array()
+                {
+                    for (i, item) in items.iter().enumerate() {
+                        let kind = item.get("kind").and_then(Value::as_str).unwrap_or("");
+                        let Some(kind) = DECLARED_KINDS.iter().find(|k| **k == kind) else {
+                            continue;
+                        };
+                        let field = format!("{p}[{i}]");
+                        if !out.iter().any(|f| f.field == field) {
+                            out.push(Finding {
+                                field,
+                                kind,
+                                rule: "reader_declared",
+                                value: String::new(),
+                            });
+                        }
+                    }
+                    continue;
+                }
+                declared(x, p, out);
+            }
+        }
+        Value::Array(a) => {
+            for (i, x) in a.iter().enumerate() {
+                declared(x, format!("{path}[{i}]"), out);
+            }
+        }
+        _ => {}
+    }
 }
 
 /// The parts of a name, lower case: words split at CamelCase humps (`JaneRoe` → `jane`,

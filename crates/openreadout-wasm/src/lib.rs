@@ -92,6 +92,11 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_qpcr::RexReader))
         .with(Box::new(openreadout_qpcr::IxoReader))
         .with(Box::new(openreadout_qpcr::ExportReader))
+        // medical imaging before TIFF: DICOM whole-slide files can be dual-personality TIFF,
+        // and ParaVision folders hold DICOM exports
+        .with(Box::new(openreadout_medical::ParavisionReader))
+        .with(Box::new(openreadout_medical::DicomReader))
+        .with(Box::new(openreadout_medical::NiftiReader))
         .with(Box::new(openreadout_tiff::TiffReader))
         .with(Box::new(openreadout_em::MrcReader))
         .with(Box::new(openreadout_em::DmReader))

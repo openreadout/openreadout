@@ -36,6 +36,8 @@ Readers used (all run as black boxes):
         mode (oracle/plate.py); Tecan i-control exports -> an independent reader in plate.py
   TIFF family (.tif .tiff .btf .tf2 .tf8 .svs .ndpi .lsm .qptiff .stk, *.companion.ome; .ndpis sets: each listed NDPI)
         -> tifffile (BSD-3); see tiff() for the series/axes mapping
+  DICOM files and folders, .nii/.nii.gz/.hdr/.img, Bruker ParaVision 2dseq -> oracle/medical.py
+        (pydicom, nibabel, brukerapi; MIT)
   .nd   (MetaMorph series) -> Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box), planes
         cross-checked with tifffile on the member STK/TIFF files
   .dcimg -> Bio-Formats 8.5.0 bfconvert (GPL, black box; rows flipped back to stored order),
@@ -6171,7 +6173,11 @@ def main():
             dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
             import spectro
 
-            if _hcs.is_hcs(p):
+            import medical  # DICOM, NIfTI, ParaVision (oracle/medical.py)
+
+            if medical.kind(p):
+                data = medical.oracle(p)
+            elif _hcs.is_hcs(p):
                 data = _hcs.hcs_plate(p)
             elif p.is_file() and (sk := spectro.kind(p)):
                 data = getattr(spectro, sk)(p, MAX_SWEEPS)
