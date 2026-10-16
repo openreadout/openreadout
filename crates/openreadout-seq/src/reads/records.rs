@@ -59,7 +59,10 @@ impl<R: Read> Read for Counting<R> {
 }
 
 /// A source of records.
-pub trait Records: Send {
+pub trait Records
+where
+    Self: Send,
+{
     /// Read the next record into `rec`; false at the end.
     fn next_rec(&mut self, rec: &mut Rec) -> Result<bool>;
     /// Bytes of the file consumed so far.

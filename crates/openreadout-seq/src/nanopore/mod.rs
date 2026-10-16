@@ -114,7 +114,10 @@ pub struct RunMeta {
 }
 
 /// Decodes one read's raw ADC samples.
-pub trait SignalSource: Send + std::fmt::Debug {
+pub trait SignalSource
+where
+    Self: Send + std::fmt::Debug,
+{
     /// The raw samples of read `read` (index into the reads list).
     fn raw(&mut self, read: usize) -> Result<Vec<i16>>;
 }
