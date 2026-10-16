@@ -103,6 +103,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_nanodrop`, `whole_qubit`
 - corpus inputs by tier: smoke 7, standard 8
+- golden snapshots: [`corpus/snapshots/nanodrop.jsonl`](../../corpus/snapshots/nanodrop.jsonl), [`corpus/snapshots/qubit.jsonl`](../../corpus/snapshots/qubit.jsonl)
 
 ### Open new-variant intakes
 

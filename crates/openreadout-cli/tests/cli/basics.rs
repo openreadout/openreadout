@@ -103,6 +103,7 @@ fn formats_lists_all_readers() {
             "malvern-zetasizer-dts",
             "genepix-gpr",
             "biorad-scn",
+            "syngene-sgd",
             "nanodrop",
             "qubit",
             "cytiva-unicorn-res",

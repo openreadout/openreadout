@@ -1840,6 +1840,64 @@
    "field": "Bench biophysics"
   },
   {
+   "id": "syngene-sgd",
+   "name": "Syngene GeneSys (.sgd)",
+   "vendor": "Syngene",
+   "extensions": [
+    "sgd"
+   ],
+   "family": "gel-imaging",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Validated on two development files (GeneSys 1.5.6.0 on a PXi 6, 1.6.1.0 on a G:Box mini 6); no independent reader decodes the samples, so pixel values are checked only through the correlation with one depositor's TIFF export",
+    "The exposure is reported in seconds, an inference from how the signal grows across one file's exposure series",
+    "Annotations, band and spot-blot analyses, the view and rotation settings and the thumbnail are listed by `info --view structure`, not decoded"
+   ],
+   "page": "syngene-sgd",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "nanodrop",
+   "name": "Thermo Fisher NanoDrop exports",
+   "vendor": "Thermo Fisher Scientific",
+   "extensions": [
+    "txt",
+    "tsv",
+    "csv"
+   ],
+   "family": "spectrophotometer",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Native NanoDrop workbooks (.twbk, .sql) and Excel saves of the exports are not read: export the data as text",
+    "The NanoDrop 8000's standards table (a second table after a blank line) is kept as text in the vendor metadata, not parsed",
+    "Ratios of the One's UV-Vis spectrum export are read off the spectrum without the nucleic-acid application's 340 nm baseline correction"
+   ],
+   "page": "nanodrop",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "qubit",
+   "name": "Thermo Fisher Qubit exports",
+   "vendor": "Thermo Fisher Scientific",
+   "extensions": [
+    "csv"
+   ],
+   "family": "fluorometer",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Excel saves of the exports are not read: export the data as CSV",
+    "Concentrations are the Qubit's own, as stored; the standard curve is not refitted"
+   ],
+   "page": "qubit",
+   "field": "Bench biophysics"
+  },
+  {
    "id": "cytiva-unicorn-res",
    "name": "Cytiva ÄKTA UNICORN result (.res)",
    "vendor": "Cytiva (GE Healthcare, Amersham Biosciences)",
