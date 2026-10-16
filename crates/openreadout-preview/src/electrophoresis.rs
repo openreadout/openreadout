@@ -30,6 +30,9 @@ const MAX_WINDOW_BASES: usize = 2000;
 /// Peaks labelled per dye panel of an electropherogram.
 const MAX_FRAGMENT_LABELS: usize = 10;
 
+/// Bars of a bar row: (x, height).
+type Bars = Vec<(f64, f64)>;
+
 /// The theme series colour (index into `Theme::series`) that shows a base or a dye the way
 /// analysis software does, in the figure engine's palette: A green, C blue, G ink, T red; FAM
 /// blue, VIC/HEX/JOE green, NED/TAMRA ochre (yellow on screen), PET/ROX red, LIZ brown (orange
@@ -179,7 +182,7 @@ struct BaseAxis {
 
 impl BaseAxis {
     fn new(scans: Vec<f64>) -> Option<BaseAxis> {
-        if scans.len() < 2 || scans.windows(2).any(|w| !(w[1] > w[0])) {
+        if scans.len() < 2 || scans.windows(2).any(|w| w[1] <= w[0] || w[1].is_nan()) {
             return None;
         }
         let mut d: Vec<f64> = scans.windows(2).map(|w| w[1] - w[0]).collect();
@@ -265,14 +268,13 @@ fn sanger(
     let right = fs * 1.2;
     let plot_w = w - left - right;
     // the window, in bases
-    let (lo, hi) = match req.x_range {
-        Some([a, b]) => {
-            let (a, b) = (a.min(b), a.max(b));
-            let a = a.max(0.5).min(n as f64 + 0.5);
-            let b = b.max(a + 1.0).min(a + MAX_WINDOW_BASES as f64);
-            (a, b)
-        }
-        None => {
+    let (lo, hi) = if let Some([a, b]) = req.x_range {
+        let (a, b) = (a.min(b), a.max(b));
+        let a = a.max(0.5).min(n as f64 + 0.5);
+        let b = b.max(a + 1.0).min(a + MAX_WINDOW_BASES as f64);
+        (a, b)
+    } else {
+        {
             let per = ((plot_w / BASE_PX) as usize).clamp(20, 160);
             let start = quality.as_deref().map_or(0, good_start);
             let first = start + 1;
@@ -475,7 +477,7 @@ fn sanger(
         let q_hi = q.iter().copied().fold(40.0, f64::max);
         let qp = Panel::new(rect, x_dom, Domain::linear(0.0, q_hi));
         let width = 0.72;
-        let (good, poor): (Vec<(f64, f64)>, Vec<(f64, f64)>) = (first_base..=last_base)
+        let (good, poor): (Bars, Bars) = (first_base..=last_base)
             .map(|i| (i as f64, q[i - 1]))
             .partition(|(_, v)| *v >= 20.0);
         qp.bars(&mut fig, &good, width, 0.0, theme.muted.alpha(0.5));
@@ -525,7 +527,7 @@ fn sanger(
             marks_out.push(DataMark {
                 kind: "base".into(),
                 x: i as f64,
-                y: q_or(&quality, i),
+                y: q_or(quality.as_ref(), i),
                 label: Some(bases[i - 1].clone()),
                 channel: None,
             });
@@ -533,8 +535,7 @@ fn sanger(
     }
     out.marks = marks_out;
     out.notes.push(format!(
-        "bases {}–{} of {n}; x_range [a, b] (base positions) shows another window",
-        first_base, last_base
+        "bases {first_base}–{last_base} of {n}; x_range [a, b] (base positions) shows another window"
     ));
     out.trace = Some(TracePreview {
         trace: t.index,
@@ -554,10 +555,8 @@ fn sanger(
     Ok((fig, Frame::plots_labelled(panels, placer.taken())))
 }
 
-fn q_or(q: &Option<Vec<f64>>, i: usize) -> f64 {
-    q.as_ref()
-        .and_then(|q| q.get(i - 1).copied())
-        .unwrap_or(f64::NAN)
+fn q_or(q: Option<&Vec<f64>>, i: usize) -> f64 {
+    q.and_then(|q| q.get(i - 1).copied()).unwrap_or(f64::NAN)
 }
 
 /// A fragment run's peaks to label in one dye: (size, height, label), tallest first.
@@ -944,7 +943,7 @@ fn wells(
     let small = theme.small_size();
     let w = req.max_size.max(320) as f32;
     let n = chosen.len();
-    let cols = if n == 1 { 1 } else { n.min(4).max(2) };
+    let cols = if n == 1 { 1 } else { n.clamp(2, 4) };
     let rows = n.div_ceil(cols);
     let header = fs * 1.9;
     let title_h = fs * 1.6;

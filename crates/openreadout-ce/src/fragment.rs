@@ -2,6 +2,7 @@
 //! carry the instrument software's own sizing: a size for every scan (`SMap` 2) and its peak
 //! table (`Peak` 1–25). Older files carry only the traces, and the reader sizes them itself
 //! against the size standard (see [`crate::sizing`]). Notes: `docs/formats/abif.md`.
+#![allow(clippy::many_single_char_names)] // numeric code: x, y, scans, sizes, indices
 
 use std::collections::BTreeMap;
 
@@ -74,7 +75,11 @@ fn peak_col(a: &Abif, k: i32) -> Option<Vec<f64>> {
 }
 
 /// The instrument's peak table, when the file has one: one row per peak of every dye.
-fn instrument_peaks(a: &Abif, dyes: &[Dye]) -> Option<(SeriesTable, Vec<(i32, f64, f64, f64)>)> {
+/// Rows of the instrument's peak table: dye number, apex scan, height, ladder length (0: none).
+type PeakRows = Vec<(i32, f64, f64, f64)>;
+
+/// The instrument's peak table, when the file has one: one row per peak of every dye.
+fn instrument_peaks(a: &Abif, dyes: &[Dye]) -> Option<(SeriesTable, PeakRows)> {
     let dye = peak_col(a, 1)?;
     let n = dye.len();
     let col = |k: i32| peak_col(a, k).filter(|v| v.len() == n);
@@ -88,7 +93,7 @@ fn instrument_peaks(a: &Abif, dyes: &[Dye]) -> Option<(SeriesTable, Vec<(i32, f6
         .iter()
         .map(|d| {
             dyes.iter()
-                .find(|x| f64::from(x.number) == *d)
+                .find(|x| (f64::from(x.number) - *d).abs() < 0.5)
                 .and_then(|x| x.name.clone())
                 .unwrap_or_else(|| format!("dye {d}"))
         })
@@ -221,12 +226,11 @@ pub(crate) fn size_run(
                     (Some(l), Some(t)) => ladders::sizes_for(l, t),
                     _ => matches.iter().map(|m| m.size).collect(),
                 };
-                let (short, product) = match named {
-                    Some(l) => (l.name.to_string(), l.product.to_string()),
-                    None => {
-                        let t = std_name.clone().unwrap_or_else(|| "size standard".into());
-                        (t.clone(), t)
-                    }
+                let (short, product) = if let Some(l) = named {
+                    (l.name.to_string(), l.product.to_string())
+                } else {
+                    let t = std_name.clone().unwrap_or_else(|| "size standard".into());
+                    (t.clone(), t)
                 };
                 ladder = Some(sizing::from_matches(&short, &product, &all, matches));
             }

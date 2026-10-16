@@ -1,5 +1,6 @@
 //! What the Agilent chip and tape readers share: gzip-compressed exports, point-to-point sizing
 //! against a ladder, and a sample's sized electropherogram as a trace.
+#![allow(clippy::many_single_char_names)] // numeric code: x, y, scans, sizes, indices
 
 use std::collections::BTreeMap;
 
@@ -15,7 +16,7 @@ pub(crate) fn plain(bytes: Vec<u8>, format: &'static str) -> Result<Vec<u8>> {
     if bytes.len() >= 2 && bytes[0] == 0x1f && bytes[1] == 0x8b {
         let mut out = Vec::new();
         let mut d = flate2::read::MultiGzDecoder::new(&bytes[..]);
-        let mut chunk = [0u8; 1 << 16];
+        let mut chunk = vec![0u8; 1 << 16];
         loop {
             let n = std::io::Read::read(&mut d, &mut chunk).map_err(|e| {
                 Error::corrupt(format, format!("the gzip stream does not decode: {e}"))
@@ -59,7 +60,7 @@ impl Curve {
     pub(crate) fn new(mut pts: Vec<(f64, f64)>) -> Curve {
         pts.retain(|(x, s)| x.is_finite() && s.is_finite());
         pts.sort_by(|a, b| a.0.total_cmp(&b.0));
-        pts.dedup_by(|a, b| a.0 == b.0);
+        pts.dedup_by(|a, b| a.0.total_cmp(&b.0).is_eq());
         Curve {
             points: pts,
             log: false,
@@ -85,7 +86,7 @@ impl Curve {
             return None;
         }
         if k == p.len() {
-            return (x == p[k - 1].0).then_some(p[k - 1].1);
+            return x.total_cmp(&p[k - 1].0).is_eq().then_some(p[k - 1].1);
         }
         let (a, b) = (p[k - 1], p[k]);
         let t = (x - a.0) / (b.0 - a.0);

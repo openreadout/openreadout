@@ -13,6 +13,7 @@ use serde_json::Value;
 pub const FORMATS: &[&str] = &["agilent-bioanalyzer-xml", "agilent-tapestation"];
 
 /// Linear interpolation of `y` over `x` (any order) at `at`.
+#[allow(clippy::many_single_char_names)]
 fn interp(x: &[f64], y: &[f64], at: f64) -> Option<f64> {
     let mut p: Vec<(f64, f64)> = x.iter().copied().zip(y.iter().copied()).collect();
     p.sort_by(|a, b| a.0.total_cmp(&b.0));

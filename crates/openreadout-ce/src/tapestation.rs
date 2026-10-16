@@ -1,6 +1,7 @@
 //! Agilent TapeStation exports (TapeStation Analysis software): the XML of results and metadata
 //! and, next to it, `<name>_Electropherogram.csv` with one column of signal per lane. Layout:
 //! `docs/formats/agilent-electrophoresis.md`.
+#![allow(clippy::many_single_char_names)] // numeric code: x, y, scans, sizes, indices
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -27,6 +28,7 @@ pub(crate) fn looks_like(head: &[u8]) -> bool {
 
 /// The electropherogram CSV that belongs to an XML export: `X.xml` (or `X.xml.gz`) →
 /// `X_Electropherogram.csv` (or `.csv.gz`). Candidates, plain first.
+#[allow(clippy::case_sensitive_file_extension_comparisons)] // the name is lowercased first
 pub(crate) fn csv_candidates(xml: &Path) -> Vec<PathBuf> {
     let name = xml
         .file_name()
@@ -212,14 +214,13 @@ pub(crate) fn parse(xml: &str, csv: Option<&str>, csv_name: Option<&str>) -> Res
     let mut findings = Vec::new();
     let mut notes = Vec::new();
     // the CSV's lanes, by well
-    let lanes = match csv {
-        Some(c) => lanes(c)?,
-        None => {
-            notes.push(
-                "the electropherogram CSV next to the XML (<name>_Electropherogram.csv) is missing: results only, no signal".into(),
-            );
-            Vec::new()
-        }
+    let lanes = if let Some(c) = csv {
+        lanes(c)?
+    } else {
+        notes.push(
+            "the electropherogram CSV next to the XML (<name>_Electropherogram.csv) is missing: results only, no signal".into(),
+        );
+        Vec::new()
     };
     let mut traces = Vec::new();
     for s in &samples {

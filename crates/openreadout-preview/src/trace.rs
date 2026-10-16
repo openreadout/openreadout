@@ -260,7 +260,7 @@ pub(crate) fn render(
     let (x_lo, x_hi) = match req.x_range {
         Some([a, b]) => {
             let (a, b) = (a.min(b).max(x_lo), a.max(b).min(x_hi));
-            if !(b > a) {
+            if b <= a || b.is_nan() || a.is_nan() {
                 return Err(Error::Usage(format!(
                     "x_range does not overlap the trace's axis ({} to {})",
                     fmt_num(x_lo),

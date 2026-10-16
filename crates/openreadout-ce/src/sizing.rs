@@ -9,6 +9,7 @@
 //! change of slope, a cost on the log ratio; per ladder length skipped inside the run or at its
 //! ends, a cost; per tall unmatched peak between two matches, a cost; per peak whose height is
 //! far from the ladder's typical height, a cost. The assignment with the lowest total wins.
+#![allow(clippy::many_single_char_names)] // numeric code: x, y, scans, sizes, indices
 
 use crate::ladders::Ladder;
 
@@ -91,7 +92,7 @@ pub fn baseline(y: &[f64]) -> Vec<f64> {
         .map(|i| {
             let lo = knots[i.saturating_sub(1)].1;
             let hi = knots[(i + 1).min(knots.len() - 1)].1;
-            (knots[i].0, knots[i].1.min((lo + hi) / 2.0))
+            (knots[i].0, knots[i].1.min(f64::midpoint(lo, hi)))
         })
         .collect();
     let mut out = Vec::with_capacity(n);
@@ -353,12 +354,12 @@ pub fn local_southern(m: &[LadderMatch], scan: f64) -> Option<f64> {
     let lower = k.checked_sub(1).and_then(fit);
     let upper = fit(k);
     match (lower, upper) {
-        (Some(a), Some(b)) => Some((a + b) / 2.0),
+        (Some(a), Some(b)) => Some(f64::midpoint(a, b)),
         (Some(a), None) | (None, Some(a)) => Some(a),
         (None, None) => {
             let (a, b) = (m[k], m[k + 1]);
             let t = (scan - a.scan) / (b.scan - a.scan);
-            t.is_finite().then(|| a.size + t * (b.size - a.size))
+            t.is_finite().then_some(a.size + t * (b.size - a.size))
         }
     }
 }
@@ -517,7 +518,7 @@ mod tests {
             s.mean_abs_residual
         );
         // a scan between two fragments sizes between them
-        let mid = (truth[7] + truth[8]) / 2.0;
+        let mid = f64::midpoint(truth[7], truth[8]);
         let v = s.size_at(mid).unwrap();
         assert!(v > 200.0 && v < 250.0, "{v}");
         assert!(s.size_at(truth[0] - 10.0).is_none());
@@ -558,7 +559,7 @@ mod tests {
 
     #[test]
     fn southern_through_three_points_is_exact_on_its_curve() {
-        let f = |m: f64| 3000.0 / (m - 100.0) * -1.0 + 600.0;
+        let f = |m: f64| 600.0 - 3000.0 / (m - 100.0);
         let ms = [400.0, 900.0, 1600.0];
         let v = southern3(ms, ms.map(f), 1200.0).unwrap();
         assert!((v - f(1200.0)).abs() < 1e-6);

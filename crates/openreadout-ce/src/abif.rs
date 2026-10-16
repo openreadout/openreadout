@@ -36,24 +36,15 @@ pub(crate) struct Item {
 impl Item {
     /// `DATA9`, `S/N%1`, …
     pub(crate) fn key(&self) -> String {
-        format!("{}{}", name_text(&self.name), self.number)
+        format!("{}{}", name_text(self.name), self.number)
     }
 
     /// Values of a 16-bit signed array (element type 4) or unsigned (3).
     pub(crate) fn shorts(&self) -> Option<Vec<f64>> {
+        let pairs = self.data.as_chunks::<2>().0.iter();
         match self.etype {
-            4 => Some(
-                self.data
-                    .chunks_exact(2)
-                    .map(|c| f64::from(i16::from_be_bytes([c[0], c[1]])))
-                    .collect(),
-            ),
-            3 => Some(
-                self.data
-                    .chunks_exact(2)
-                    .map(|c| f64::from(u16::from_be_bytes([c[0], c[1]])))
-                    .collect(),
-            ),
+            4 => Some(pairs.map(|c| f64::from(i16::from_be_bytes(*c))).collect()),
+            3 => Some(pairs.map(|c| f64::from(u16::from_be_bytes(*c))).collect()),
             _ => None,
         }
     }
@@ -65,21 +56,29 @@ impl Item {
             1 => d.iter().map(|&b| f64::from(b)).collect(),
             3 | 4 => return self.shorts(),
             5 => d
-                .chunks_exact(4)
-                .map(|c| f64::from(i32::from_be_bytes([c[0], c[1], c[2], c[3]])))
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .map(|c| f64::from(i32::from_be_bytes(*c)))
                 .collect(),
             7 => d
-                .chunks_exact(4)
-                .map(|c| f64::from(f32::from_be_bytes([c[0], c[1], c[2], c[3]])))
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .map(|c| f64::from(f32::from_be_bytes(*c)))
                 .collect(),
             8 => d
-                .chunks_exact(8)
-                .map(|c| f64::from_be_bytes([c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7]]))
+                .as_chunks::<8>()
+                .0
+                .iter()
+                .map(|c| f64::from_be_bytes(*c))
                 .collect(),
             13 => d.iter().map(|&b| f64::from(u8::from(b != 0))).collect(),
             // thumbprint: two 32-bit integers and two bytes
             12 => d
-                .chunks_exact(10)
+                .as_chunks::<10>()
+                .0
+                .iter()
                 .flat_map(|c| {
                     [
                         f64::from(i32::from_be_bytes([c[0], c[1], c[2], c[3]])),
@@ -175,16 +174,16 @@ impl Item {
 }
 
 /// The text of a tag name: printable ASCII as is, other bytes as `\xNN`.
-pub(crate) fn name_text(n: &[u8; 4]) -> String {
-    n.iter()
-        .map(|&b| {
-            if (0x20..0x7f).contains(&b) {
-                char::from(b).to_string()
-            } else {
-                format!("\\x{b:02x}")
-            }
-        })
-        .collect()
+pub(crate) fn name_text(n: [u8; 4]) -> String {
+    use std::fmt::Write as _;
+    n.iter().fold(String::new(), |mut s, &b| {
+        if (0x20..0x7f).contains(&b) {
+            s.push(char::from(b));
+        } else {
+            let _ = write!(s, "\\x{b:02x}");
+        }
+        s
+    })
 }
 
 /// UTF-8 when the bytes are valid UTF-8, else Latin-1, with trailing blanks removed.
@@ -197,7 +196,11 @@ pub(crate) fn decode_text(b: &[u8]) -> String {
 }
 
 fn hex(b: &[u8]) -> String {
-    b.iter().map(|x| format!("{x:02x}")).collect()
+    use std::fmt::Write as _;
+    b.iter().fold(String::new(), |mut s, x| {
+        let _ = write!(s, "{x:02x}");
+        s
+    })
 }
 
 /// Our name for an element type.
@@ -363,7 +366,7 @@ pub(crate) fn parse(b: &[u8]) -> Result<Abif> {
         let raw_count = be_i32(e, 12).unwrap_or(0);
         let size = be_i32(e, 16).unwrap_or(0);
         let off = be_i32(e, 20).unwrap_or(0);
-        let key = format!("{}{number}", name_text(&name));
+        let key = format!("{}{number}", name_text(name));
         let (Ok(count), Ok(size)) = (u32::try_from(raw_count), usize::try_from(size)) else {
             out.findings.push(Finding::error(
                 "bad_entry",
@@ -381,19 +384,17 @@ pub(crate) fn parse(b: &[u8]) -> Result<Abif> {
                 ));
                 continue;
             };
-            match o.checked_add(size).and_then(|end| b.get(o..end)) {
-                Some(d) => (d.to_vec(), Some(o as u64)),
-                None => {
-                    out.findings.push(Finding::error(
-                        "data_out_of_file",
-                        format!(
-                            "{key}: {size} bytes at byte {o} run past the end of the file ({} bytes)",
-                            b.len()
-                        ),
-                    ));
-                    continue;
-                }
-            }
+            let Some(d) = o.checked_add(size).and_then(|end| b.get(o..end)) else {
+                out.findings.push(Finding::error(
+                    "data_out_of_file",
+                    format!(
+                        "{key}: {size} bytes at byte {o} run past the end of the file ({} bytes)",
+                        b.len()
+                    ),
+                ));
+                continue;
+            };
+            (d.to_vec(), Some(o as u64))
         };
         if let Some(es) = element_size(etype)
             && u64::from(count).checked_mul(es) != Some(size as u64)

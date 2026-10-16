@@ -790,7 +790,7 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
         obs.feature(K::Record, format!("{} trace", t.name), &[Scope::Traces]);
     }
     if !tables.is_empty() && kind == RunKind::Sanger {
-        obs.feature(K::Record, "base calls".to_string(), &[Scope::Tables]);
+        obs.feature(K::Record, "base calls", &[Scope::Tables]);
     }
 
     let format_version = Some(format!("{}.{:02}", a.version / 100, a.version % 100));

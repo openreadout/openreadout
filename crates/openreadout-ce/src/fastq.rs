@@ -98,8 +98,8 @@ pub fn export_fastq(
         .map(|c| cats.get(*c as usize).map_or("N", String::as_str))
         .collect();
     let mut notes = Vec::new();
-    let qual: String = match col("quality") {
-        Some(q) => rows.columns[q]
+    let qual: String = if let Some(q) = col("quality") {
+        rows.columns[q]
             .iter()
             .map(|v| {
                 let v = if v.is_finite() {
@@ -109,13 +109,10 @@ pub fn export_fastq(
                 };
                 char::from(33 + v.round() as u8)
             })
-            .collect(),
-        None => {
-            notes.push(
-                "the file has no quality values; every base is written with quality 0".into(),
-            );
-            "!".repeat(seq.chars().count())
-        }
+            .collect()
+    } else {
+        notes.push("the file has no quality values; every base is written with quality 0".into());
+        "!".repeat(seq.chars().count())
     };
     if qual.bytes().all(|c| c == b'!') && !seq.is_empty() {
         notes.push("every quality value is 0 (the basecaller gave none)".into());
