@@ -29,6 +29,8 @@
 //! export. The parser modules are public only so that tests and fuzz targets can reach them.
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
+// Byte-layout code reads best with the short names of the format documents (b, n, p, t, x, y).
+#![allow(clippy::many_single_char_names, clippy::needless_range_loop)]
 
 mod assurance;
 #[doc(hidden)]

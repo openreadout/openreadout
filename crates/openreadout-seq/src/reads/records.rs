@@ -132,7 +132,10 @@ impl FastqRecords {
         if self.line.len() > MAX_RECORD {
             return Err(Error::corrupt(
                 self.format,
-                format!("record {}: a line longer than {MAX_RECORD} bytes", self.record),
+                format!(
+                    "record {}: a line longer than {MAX_RECORD} bytes",
+                    self.record
+                ),
             ));
         }
         while matches!(self.line.last(), Some(b'\n' | b'\r')) {
@@ -170,9 +173,12 @@ impl Records for FastqRecords {
         );
         rec.seq.clear();
         loop {
-            let l = self
-                .line()?
-                .ok_or_else(|| bad(format!("record {}: ends before its '+' line (truncated)", self.record)))?;
+            let l = self.line()?.ok_or_else(|| {
+                bad(format!(
+                    "record {}: ends before its '+' line (truncated)",
+                    self.record
+                ))
+            })?;
             if l.first() == Some(&b'+') {
                 break;
             }
@@ -184,9 +190,12 @@ impl Records for FastqRecords {
         rec.qual.clear();
         let mut min = u8::MAX;
         while rec.qual.len() < rec.seq.len() {
-            let l = self
-                .line()?
-                .ok_or_else(|| bad(format!("record {}: quality ends early (truncated)", self.record)))?;
+            let l = self.line()?.ok_or_else(|| {
+                bad(format!(
+                    "record {}: quality ends early (truncated)",
+                    self.record
+                ))
+            })?;
             for &c in &l {
                 if !(33..=126).contains(&c) {
                     return Err(bad(format!(
@@ -249,8 +258,12 @@ impl std::fmt::Debug for BamRecords {
 const FORMAT_BAM: &str = "bam";
 
 fn read_exact_or(r: &mut dyn BufRead, buf: &mut [u8], what: &str) -> Result<()> {
-    r.read_exact(buf)
-        .map_err(|e| Error::corrupt(FORMAT_BAM, format!("{what}: {e} (the file is truncated or not BAM)")))
+    r.read_exact(buf).map_err(|e| {
+        Error::corrupt(
+            FORMAT_BAM,
+            format!("{what}: {e} (the file is truncated or not BAM)"),
+        )
+    })
 }
 
 fn le_i32(b: &[u8]) -> i32 {
@@ -263,11 +276,17 @@ impl BamRecords {
         let mut magic = [0u8; 8];
         read_exact_or(r.as_mut(), &mut magic, "header")?;
         if &magic[..4] != b"BAM\x01" {
-            return Err(Error::corrupt(FORMAT_BAM, "no BAM magic (BAM\\1) after decompression"));
+            return Err(Error::corrupt(
+                FORMAT_BAM,
+                "no BAM magic (BAM\\1) after decompression",
+            ));
         }
         let l_text = le_i32(&magic[4..8]);
         if !(0..=MAX_RECORD as i32).contains(&l_text) {
-            return Err(Error::corrupt(FORMAT_BAM, format!("header text of {l_text} bytes")));
+            return Err(Error::corrupt(
+                FORMAT_BAM,
+                format!("header text of {l_text} bytes"),
+            ));
         }
         let mut text = vec![0u8; l_text as usize];
         read_exact_or(r.as_mut(), &mut text, "header text")?;
@@ -275,14 +294,20 @@ impl BamRecords {
         read_exact_or(r.as_mut(), &mut four, "reference count")?;
         let n_ref = le_i32(&four);
         if !(0..=50_000_000).contains(&n_ref) {
-            return Err(Error::corrupt(FORMAT_BAM, format!("{n_ref} reference sequences")));
+            return Err(Error::corrupt(
+                FORMAT_BAM,
+                format!("{n_ref} reference sequences"),
+            ));
         }
         let mut refs = Vec::with_capacity((n_ref as usize).min(1 << 16));
         for _ in 0..n_ref {
             read_exact_or(r.as_mut(), &mut four, "reference name length")?;
             let l = le_i32(&four);
             if !(1..=1 << 16).contains(&l) {
-                return Err(Error::corrupt(FORMAT_BAM, format!("reference name of {l} bytes")));
+                return Err(Error::corrupt(
+                    FORMAT_BAM,
+                    format!("reference name of {l} bytes"),
+                ));
             }
             let mut name = vec![0u8; l as usize];
             read_exact_or(r.as_mut(), &mut name, "reference name")?;
@@ -354,10 +379,8 @@ fn aux(mut b: &[u8], rec: &mut Rec) {
         };
         match &tag {
             b"np" => rec.passes = int(),
-            b"rq" => {
-                if ty == b'f' {
-                    rec.accuracy = Some(f64::from(f32::from_le_bytes([v[0], v[1], v[2], v[3]])));
-                }
+            b"rq" if ty == b'f' => {
+                rec.accuracy = Some(f64::from(f32::from_le_bytes([v[0], v[1], v[2], v[3]])));
             }
             _ => {}
         }
@@ -395,7 +418,10 @@ impl Records for BamRecords {
         let flag = u16::from_le_bytes([b[14], b[15]]);
         let l_seq = le_i32(&b[16..20]);
         if l_seq < 0 {
-            return Err(Error::corrupt(FORMAT_BAM, format!("record {}: negative length", self.record)));
+            return Err(Error::corrupt(
+                FORMAT_BAM,
+                format!("record {}: negative length", self.record),
+            ));
         }
         let l_seq = l_seq as usize;
         let name_end = 32 + l_name;
@@ -419,7 +445,7 @@ impl Records for BamRecords {
         }
         rec.qual.clear();
         let q = &b[seq_end..qual_end];
-        if !(q.first() == Some(&0xFF)) {
+        if q.first() != Some(&0xFF) {
             rec.qual.extend_from_slice(q);
         }
         rec.flag = Some(flag);
@@ -443,7 +469,10 @@ impl Records for BamRecords {
 /// pseudo-bin 37450 and the count of reads without coordinates).
 pub fn bai_counts(b: &[u8]) -> Option<(u64, u64)> {
     let mut at = 0usize;
-    let u32_at = |at: usize| b.get(at..at + 4).map(|s| u32::from_le_bytes([s[0], s[1], s[2], s[3]]));
+    let u32_at = |at: usize| {
+        b.get(at..at + 4)
+            .map(|s| u32::from_le_bytes([s[0], s[1], s[2], s[3]]))
+    };
     let u64_at = |at: usize| {
         b.get(at..at + 8)
             .map(|s| u64::from_le_bytes([s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7]]))

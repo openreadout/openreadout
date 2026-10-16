@@ -229,9 +229,11 @@ impl ReadsDataset {
             m.insert("instrument".into(), json!(parts[0]));
             m.insert("run_number".into(), json!(parts[1]));
             m.insert("flowcell".into(), json!(parts[2]));
-        } else if let Some(movie) = n.split('/').next().filter(|s| {
-            s.starts_with('m') && s.matches('_').count() >= 2 && n.contains('/')
-        }) {
+        } else if let Some(movie) = n
+            .split('/')
+            .next()
+            .filter(|s| s.starts_with('m') && s.matches('_').count() >= 2 && n.contains('/'))
+        {
             m.insert("name_style".into(), json!("pacbio"));
             m.insert("movie".into(), json!(movie));
         } else if n.len() == 36 && n.matches('-').count() == 4 {
@@ -324,7 +326,11 @@ impl Dataset for ReadsDataset {
         for t in [&mut t1, &mut t2, &mut t3] {
             t.extra.insert(
                 "basis".into(),
-                json!(if s.complete { "every read" } else { "the reads info scanned" }),
+                json!(if s.complete {
+                    "every read"
+                } else {
+                    "the reads info scanned"
+                }),
             );
         }
         let notes = if s.complete || exact {
@@ -466,7 +472,9 @@ impl Dataset for ReadsDataset {
                         s.stats.reads,
                         s.stats.bases,
                         s.stats.n50().unwrap_or(0),
-                        sum["percent_q30"].as_f64().map_or("-".into(), |v| format!("{}", tidy(v, 4)))
+                        sum["percent_q30"]
+                            .as_f64()
+                            .map_or("-".into(), |v| format!("{}", tidy(v, 4)))
                     ),
                 ));
                 if let (Some((m, u)), ReadFormat::Bam) = (self.bai, self.format) {
@@ -567,8 +575,9 @@ fn looks_like_fastq(b: &[u8]) -> bool {
     };
     t.first() == Some(&b'@')
         && !s.is_empty()
-        && s.iter()
-            .all(|c| c.is_ascii_alphabetic() || *c == b'\r' || *c == b'.' || *c == b'-' || *c == b'*')
+        && s.iter().all(|c| {
+            c.is_ascii_alphabetic() || *c == b'\r' || *c == b'.' || *c == b'-' || *c == b'*'
+        })
         && p.first() == Some(&b'+')
 }
 
@@ -685,7 +694,11 @@ impl FormatReader for FastqReader {
     }
 
     fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
-        Ok(Box::new(open_reads(self.descriptor(), ReadFormat::Fastq, input)?))
+        Ok(Box::new(open_reads(
+            self.descriptor(),
+            ReadFormat::Fastq,
+            input,
+        )?))
     }
 
     fn reads_any_source(&self) -> bool {
@@ -738,7 +751,11 @@ impl FormatReader for BamReader {
     }
 
     fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
-        Ok(Box::new(open_reads(self.descriptor(), ReadFormat::Bam, input)?))
+        Ok(Box::new(open_reads(
+            self.descriptor(),
+            ReadFormat::Bam,
+            input,
+        )?))
     }
 
     fn reads_any_source(&self) -> bool {

@@ -104,13 +104,19 @@ impl SignalSource for Fast5Signal {
             return Err(corrupt(format!("{}: {n} samples", p.signal)));
         }
         let Ok(Layout::Chunked { .. }) = ds.layout() else {
-            return Err(corrupt(format!("{}: VBZ data that is not chunked", p.signal)));
+            return Err(corrupt(format!(
+                "{}: VBZ data that is not chunked",
+                p.signal
+            )));
         };
         let mut chunks = ds
             .chunks()
             .map_err(|e| corrupt(format!("{}: {e}", p.signal)))?;
         chunks.sort_by_key(|c| c.offset.first().copied().unwrap_or(0));
-        let f = self.fs.open(&self.path).map_err(|e| Error::io(&self.path, e))?;
+        let f = self
+            .fs
+            .open(&self.path)
+            .map_err(|e| Error::io(&self.path, e))?;
         let flen = f.size().map_err(|e| Error::io(&self.path, e))?;
         let mut out = Vec::with_capacity(n);
         for c in chunks {
@@ -124,7 +130,9 @@ impl SignalSource for Fast5Signal {
             f.read_exact_at(c.address, &mut raw)
                 .map_err(|e| Error::io(&self.path, e))?;
             let v = if c.filter_mask & 1 == 1 {
-                raw.chunks_exact(2)
+                raw.as_chunks::<2>()
+                    .0
+                    .iter()
                     .map(|b| i16::from_le_bytes([b[0], b[1]]))
                     .collect()
             } else {
@@ -280,18 +288,20 @@ pub fn open(input: &Input) -> Result<Fast5> {
     let compression = paths
         .first()
         .and_then(|(_, p, _)| file.dataset(&p.signal).ok())
-        .map(|d| {
-            let f = d.filter_pipeline();
-            if f.iter().any(|x| x.id == FILTER_VBZ) {
-                "vbz"
-            } else if f.iter().any(|x| x.id == 1) {
-                "gzip"
-            } else {
-                "none"
-            }
-            .to_string()
-        })
-        .unwrap_or_else(|| "none".into());
+        .map_or_else(
+            || "none".into(),
+            |d| {
+                let f = d.filter_pipeline();
+                if f.iter().any(|x| x.id == FILTER_VBZ) {
+                    "vbz"
+                } else if f.iter().any(|x| x.id == 1) {
+                    "gzip"
+                } else {
+                    "none"
+                }
+                .to_string()
+            },
+        );
     let tags = |a: &BTreeMap<String, AttrValue>| -> Vec<(String, String)> {
         a.iter()
             .filter_map(|(k, v)| attr_text(v).map(|t| (k.clone(), t)))

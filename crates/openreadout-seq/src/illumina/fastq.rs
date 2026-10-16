@@ -39,7 +39,9 @@ pub struct FastqOptions {
 }
 
 /// One FASTQ file written.
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
+#[derive(
+    Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
+)]
 pub struct FastqFile {
     /// Path of the file.
     pub path: String,
@@ -89,9 +91,7 @@ struct Out {
 impl Out {
     fn write(&mut self, rec: &[u8]) -> Result<()> {
         self.hash.update(rec);
-        self.w
-            .write_all(rec)
-            .map_err(|e| Error::io(&self.tmp, e))
+        self.w.write_all(rec).map_err(|e| Error::io(&self.tmp, e))
     }
 }
 
@@ -201,7 +201,10 @@ pub fn export_fastq(run: &IlluminaRun, out_dir: &Path, opts: &FastqOptions) -> R
                     if (v.len() as u64) < count {
                         return Err(Error::corrupt(
                             FORMAT_ID,
-                            format!("lane {lane} tile {tile} cycle {c}: {} base calls for {count} clusters", v.len()),
+                            format!(
+                                "lane {lane} tile {tile} cycle {c}: {} base calls for {count} clusters",
+                                v.len()
+                            ),
                         ));
                     }
                     cyc.push(v);
@@ -221,7 +224,9 @@ pub fn export_fastq(run: &IlluminaRun, out_dir: &Path, opts: &FastqOptions) -> R
                     let (x, y) = locs
                         .as_ref()
                         .and_then(|l| l.get(ci))
-                        .map_or((0, 0), |(x, y)| (fastq_coordinate(*x), fastq_coordinate(*y)));
+                        .map_or((0, 0), |(x, y)| {
+                            (fastq_coordinate(*x), fastq_coordinate(*y))
+                        });
                     let mut index = String::new();
                     for (_, a, b, indexed) in &reads {
                         if *indexed {
@@ -325,7 +330,9 @@ fn read_back(p: &Path) -> Result<(u64, u128)> {
     let mut line = Vec::new();
     loop {
         line.clear();
-        let n = r.read_until(b'\n', &mut line).map_err(|e| Error::io(p, e))?;
+        let n = r
+            .read_until(b'\n', &mut line)
+            .map_err(|e| Error::io(p, e))?;
         if n == 0 {
             break;
         }

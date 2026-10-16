@@ -17,8 +17,8 @@ use openreadout_core::experiment::{
     Acquisition, Experiment, ExperimentInstrument, Method, Origin, Quantity, Sample,
 };
 use openreadout_core::model::{
-    CheckReport, DetectConfidence, FileInfo, Finding, FormatDescriptor, LsEntry,
-    SignalChannelInfo, Table, Trace, TraceInfo,
+    CheckReport, DetectConfidence, FileInfo, Finding, FormatDescriptor, LsEntry, SignalChannelInfo,
+    Table, Trace, TraceInfo,
 };
 use openreadout_core::pixel::Plane;
 use openreadout_core::provenance::{ProvenanceMap, Source};
@@ -242,7 +242,8 @@ impl NanoporeDataset {
                 }
             }
             if let Some(ms) = run.started_ms {
-                t.extra.insert("acquisition_start".into(), json!(iso_ms(ms)));
+                t.extra
+                    .insert("acquisition_start".into(), json!(iso_ms(ms)));
             }
         }
         if runs.len() > 1 {
@@ -333,7 +334,9 @@ impl Dataset for NanoporeDataset {
                     offset: 0.0,
                     extra: BTreeMap::from([(
                         "calibration".into(),
-                        json!("per read: pA = (adc + calibration_offset) × calibration_scale (table 0)"),
+                        json!(
+                            "per read: pA = (adc + calibration_offset) × calibration_scale (table 0)"
+                        ),
                     )]),
                 }],
                 start_s: Some(0.0),
@@ -482,7 +485,10 @@ impl Dataset for NanoporeDataset {
                 Err(e) => {
                     bad += 1;
                     if bad <= 10 {
-                        r.push(Finding::error("signal_unreadable", format!("read {i}: {e}")));
+                        r.push(Finding::error(
+                            "signal_unreadable",
+                            format!("read {i}: {e}"),
+                        ));
                     }
                 }
             }
@@ -539,7 +545,9 @@ impl Dataset for NanoporeDataset {
             ("sequencing_kit", &run.sequencing_kit),
         ] {
             if let Some(v) = v {
-                method.parameters.insert(k.into(), Quantity::plain(v.clone()));
+                method
+                    .parameters
+                    .insert(k.into(), Quantity::plain(v.clone()));
             }
         }
         e.method = Some(method);
@@ -696,11 +704,13 @@ impl FormatReader for Fast5Reader {
         extra.insert("signal_compression".into(), json!(f.compression));
         extra.insert(
             "layout".into(),
-            json!(if f.reads.len() == 1 && f.version.as_deref().is_none_or(|v| v.starts_with('0')) {
-                "single-read"
-            } else {
-                "multi-read"
-            }),
+            json!(
+                if f.reads.len() == 1 && f.version.as_deref().is_none_or(|v| v.starts_with('0')) {
+                    "single-read"
+                } else {
+                    "multi-read"
+                }
+            ),
         );
         if f.basecalled > 0 {
             extra.insert("basecalled_reads".into(), json!(f.basecalled));

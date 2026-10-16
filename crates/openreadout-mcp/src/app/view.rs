@@ -665,7 +665,12 @@ pub fn sequencing_figure(path: &str, info: &FileInfo) -> Option<Value> {
     if info.format.family != "sequencing" {
         return None;
     }
-    let kind = |t: &TableInfo| t.extra.get("kind").and_then(Value::as_str).map(str::to_string);
+    let kind = |t: &TableInfo| {
+        t.extra
+            .get("kind")
+            .and_then(Value::as_str)
+            .map(str::to_string)
+    };
     if let Some(t) = info.traces.first()
         && t.extra.get("kind").and_then(Value::as_str) == Some("run_quality_by_cycle")
     {
@@ -687,7 +692,12 @@ pub fn sequencing_figure(path: &str, info: &FileInfo) -> Option<Value> {
         }));
         return Some(json!({"panels": panels, "columns": 1, "share": "x"}));
     }
-    if info.tables.first().and_then(kind).is_some_and(|k| k == "fastq_reads" || k == "bam_records") {
+    if info
+        .tables
+        .first()
+        .and_then(kind)
+        .is_some_and(|k| k == "fastq_reads" || k == "bam_records")
+    {
         return Some(json!({
             "panels": [
                 {"title": "read lengths", "data": {"file": path, "show": "histogram", "x": "length"}},

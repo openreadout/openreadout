@@ -110,7 +110,9 @@ pub fn fast5_chunk(chunk: &[u8], params: &[u32]) -> Result<Vec<i16>, String> {
     let size = params.get(1).copied().unwrap_or(2);
     let zigzag = params.get(2).copied().unwrap_or(1) != 0;
     if size != 2 {
-        return Err(format!("VBZ chunk of {size}-byte integers (only 2-byte signal is read)"));
+        return Err(format!(
+            "VBZ chunk of {size}-byte integers (only 2-byte signal is read)"
+        ));
     }
     let (n_bytes, body) = if version >= 1 {
         let h = chunk.get(..4).ok_or("VBZ chunk shorter than its header")?;
@@ -151,7 +153,7 @@ mod tests {
     #[test]
     fn streamvbyte_first_values() {
         // control 0x01: value 0 has two bytes; 0x036a = 874 → +437, 0x15 = 21 → -11
-        let b = hex("01000000006a0315");
+        let b = hex("016a0315");
         let v = streamvbyte_decode(&b, 2).unwrap();
         assert_eq!(v, vec![874, 21]);
         assert_eq!(integrate(v.into_iter(), 2), vec![437, 426]);

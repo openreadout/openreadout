@@ -205,10 +205,7 @@ fn run_quality(
     }
     caption(&mut fig, &theme, &parts.join(" · "), w);
     let reads = read_labels(info);
-    let total_cycles = info
-        .traces
-        .first()
-        .map_or(0.0, |t| t.sample_count as f64);
+    let total_cycles = info.traces.first().map_or(0.0, |t| t.sample_count as f64);
     let x_dom = Domain::linear(0.5, total_cycles.max(1.0) + 0.5);
     let lanes: Vec<u16> = {
         let mut l: Vec<u16> = cyc.get("lane").iter().map(|x| *x as u16).collect();
@@ -293,7 +290,11 @@ fn run_quality(
     for (k, lane) in lanes.iter().enumerate() {
         let color = theme.series(k);
         let pts = lane_series("percent_q30", *lane);
-        p1.line(&mut fig, pts.iter().copied(), Stroke::new(color, theme.line_width));
+        p1.line(
+            &mut fig,
+            pts.iter().copied(),
+            Stroke::new(color, theme.line_width),
+        );
         if let Some((x, y)) = pts.iter().rev().find(|p| p.1.is_finite())
             && let Some((px, py)) = p1.pt(*x, *y)
         {
@@ -305,8 +306,15 @@ fn run_quality(
             });
         }
     }
-    end_labels(&mut fig, &theme, p1.rect.right() + fs * 0.3, &labels, p1.rect.y, p1.rect.bottom());
-    panels.push(FramePanel::new(p1.clone()));
+    end_labels(
+        &mut fig,
+        &theme,
+        p1.rect.right() + fs * 0.3,
+        &labels,
+        p1.rect.y,
+        p1.rect.bottom(),
+    );
+    panels.push(FramePanel::new(p1));
     // ---- row 2 left: intensity by cycle (mean of lanes), per channel
     let int_names: Vec<String> = cyc
         .names
@@ -318,10 +326,15 @@ fn run_quality(
     if !int_names.is_empty() {
         let series: Vec<(String, Vec<(f64, f64)>)> = int_names
             .iter()
-            .map(|n| (n.trim_start_matches("intensity_").to_ascii_uppercase(), mean_series(n)))
+            .map(|n| {
+                (
+                    n.trim_start_matches("intensity_").to_ascii_uppercase(),
+                    mean_series(n),
+                )
+            })
             .collect();
-        let (lo, hi) = finite_range(series.iter().flat_map(|s| s.1.iter().map(|p| p.1)))
-            .unwrap_or((0.0, 1.0));
+        let (lo, hi) =
+            finite_range(series.iter().flat_map(|s| s.1.iter().map(|p| p.1))).unwrap_or((0.0, 1.0));
         let _ = lo;
         let y = Domain::linear(0.0, hi.max(1.0) * 1.08).nice(4);
         let spec = AxesSpec {
@@ -343,7 +356,11 @@ fn run_quality(
         let mut lab = Vec::new();
         for (k, (name, pts)) in series.iter().enumerate() {
             let color = channel_color(&theme, name, k);
-            p.line(&mut fig, pts.iter().copied(), Stroke::new(color, theme.line_width * 0.9));
+            p.line(
+                &mut fig,
+                pts.iter().copied(),
+                Stroke::new(color, theme.line_width * 0.9),
+            );
             if let Some((x, yv)) = pts.iter().rev().find(|p| p.1.is_finite())
                 && let Some((_, py)) = p.pt(*x, *yv)
             {
@@ -354,7 +371,14 @@ fn run_quality(
                 });
             }
         }
-        end_labels(&mut fig, &theme, p.rect.right() + fs * 0.3, &lab, p.rect.y, p.rect.bottom());
+        end_labels(
+            &mut fig,
+            &theme,
+            p.rect.right() + fs * 0.3,
+            &lab,
+            p.rect.y,
+            p.rect.bottom(),
+        );
         panels.push(FramePanel::new(p));
     }
     // ---- row 2 right: cluster density and pass filter per lane (first read's rows)
@@ -405,7 +429,13 @@ fn run_quality(
                 let xi = k as f64 + 1.0;
                 p.bars(&mut fig, &[(xi, *d)], 0.62, 0.0, theme.faint);
                 if pfp.is_finite() {
-                    p.bars(&mut fig, &[(xi, d * pfp / 100.0)], 0.62, 0.0, theme.series(k));
+                    p.bars(
+                        &mut fig,
+                        &[(xi, d * pfp / 100.0)],
+                        0.62,
+                        0.0,
+                        theme.series(k),
+                    );
                 }
                 let mut top_v = *d;
                 if let Some((a, b)) = spread(*lane).filter(|(a, b)| b > a) {
@@ -450,7 +480,7 @@ fn run_quality(
         if !series.is_empty() {
             let hi = finite_range(series.iter().flat_map(|s| s.1.iter().map(|p| p.1)))
                 .map_or(100.0, |r| r.1);
-            let y = Domain::linear(0.0, (hi * 1.05).min(100.0).max(30.0)).nice(4);
+            let y = Domain::linear(0.0, (hi * 1.05).clamp(30.0, 100.0)).nice(4);
             let spec = AxesSpec {
                 y_label: Some("% of base calls".into()),
                 x_label: Some("cycle".into()),
@@ -470,7 +500,11 @@ fn run_quality(
             let mut lab = Vec::new();
             for (k, (name, pts)) in series.iter().enumerate() {
                 let color = base_color(&theme, name, k);
-                p.line(&mut fig, pts.iter().copied(), Stroke::new(color, theme.line_width * 0.9));
+                p.line(
+                    &mut fig,
+                    pts.iter().copied(),
+                    Stroke::new(color, theme.line_width * 0.9),
+                );
                 if let Some((x, yv)) = pts.iter().rev().find(|p| p.1.is_finite())
                     && let Some((_, py)) = p.pt(*x, *yv)
                 {
@@ -481,7 +515,14 @@ fn run_quality(
                     });
                 }
             }
-            end_labels(&mut fig, &theme, p.rect.right() + fs * 0.3, &lab, p.rect.y, p.rect.bottom());
+            end_labels(
+                &mut fig,
+                &theme,
+                p.rect.right() + fs * 0.3,
+                &lab,
+                p.rect.y,
+                p.rect.bottom(),
+            );
             panels.push(FramePanel::new(p));
         }
     }
@@ -514,7 +555,12 @@ fn run_quality(
                 y,
                 &spec,
             );
-            p.band_x(&mut fig, 30.0, f64::from(max_q) + 1.0, theme.band.alpha(0.35));
+            p.band_x(
+                &mut fig,
+                30.0,
+                f64::from(max_q) + 1.0,
+                theme.band.alpha(0.35),
+            );
             let width = if by_q.len() <= 8 { 2.4 } else { 0.85 };
             for (q, n) in &by_q {
                 let color = if *q >= 30 { theme.accent } else { theme.ink };
@@ -543,10 +589,10 @@ fn run_quality(
 /// Conventional colours for bases (A green, C blue, G black/ink, T red, N grey).
 fn base_color(theme: &openreadout_figure::Theme, b: &str, k: usize) -> Color {
     match b {
-        "A" => Color::hex(0x2E8B57),
-        "C" => Color::hex(0x2F6DB5),
+        "A" => Color::hex(0x002E_8B57),
+        "C" => Color::hex(0x002F_6DB5),
         "G" => theme.ink,
-        "T" => Color::hex(0xC8452D),
+        "T" => Color::hex(0x00C8_452D),
         "N" => theme.faint,
         _ => theme.series(k),
     }
@@ -555,9 +601,9 @@ fn base_color(theme: &openreadout_figure::Theme, b: &str, k: usize) -> Color {
 /// Channel colours: bases as above, `RED`/`GREEN`/`BLUE` image channels as their colour.
 fn channel_color(theme: &openreadout_figure::Theme, c: &str, k: usize) -> Color {
     match c {
-        "RED" => Color::hex(0xC8452D),
-        "GREEN" => Color::hex(0x2E8B57),
-        "BLUE" => Color::hex(0x2F6DB5),
+        "RED" => Color::hex(0x00C8_452D),
+        "GREEN" => Color::hex(0x002E_8B57),
+        "BLUE" => Color::hex(0x002F_6DB5),
         other => base_color(theme, other, k),
     }
 }
@@ -576,7 +622,11 @@ fn squiggle(
         return None;
     }
     let read = req.sweep.unwrap_or(0).min(n_reads - 1);
-    let rate = if t.sample_rate_hz > 0.0 { t.sample_rate_hz } else { 1.0 };
+    let rate = if t.sample_rate_hz > 0.0 {
+        t.sample_rate_hz
+    } else {
+        1.0
+    };
     let n = openreadout_core::trace::sweep_samples(t, read);
     let samples = read_channels(ds, t.index, read, 0, n, &[0]).ok()?;
     let sig = samples.into_iter().next()?;
@@ -615,7 +665,11 @@ fn squiggle(
     if let Some(wl) = val("well") {
         parts.push(format!("well {wl:.0}"));
     }
-    parts.push(format!("{} s at {} kHz", format_value(sig.len() as f64 / rate), format_value(rate / 1000.0)));
+    parts.push(format!(
+        "{} s at {} kHz",
+        format_value(sig.len() as f64 / rate),
+        format_value(rate / 1000.0)
+    ));
     caption(&mut fig, &theme, &parts.join(" · "), w);
     let margin = fs * 0.8;
     let top = fs * 2.4;
@@ -656,7 +710,11 @@ fn squiggle(
     let zn = ((0.4 * rate) as usize).clamp(200, 2000).min(sig.len());
     let z0 = (sig.len() / 5).min(sig.len() - zn);
     let (zx0, zx1) = (z0 as f64 / rate, (z0 + zn) as f64 / rate);
-    p1.line_px(&mut fig, env.points(&p1), Stroke::new(theme.ink, theme.line_width * 0.6));
+    p1.line_px(
+        &mut fig,
+        env.points(&p1),
+        Stroke::new(theme.ink, theme.line_width * 0.6),
+    );
     p1.band_x(&mut fig, zx0, zx1, theme.accent.alpha(0.28));
     p1.rule_x(&mut fig, zx0, Stroke::new(theme.accent, theme.hairline()));
     p1.rule_x(&mut fig, zx1, Stroke::new(theme.accent, theme.hairline()));
@@ -702,7 +760,10 @@ fn squiggle(
             &mut fig,
             &theme,
             Rect::new(margin, top + h1 + h2 + 2.0 * gap, full_w, h3),
-            &format!("Read durations of the file ({} reads; this one in red)", durs.len()),
+            &format!(
+                "Read durations of the file ({} reads; this one in red)",
+                durs.len()
+            ),
             xd,
             Domain::linear(0.0, 1.0),
             &spec3,
@@ -734,7 +795,10 @@ fn squiggle(
             .collect();
         let mut counts = vec![0f64; bins];
         for d in &durs {
-            let k = edges.partition_point(|e| e <= d).saturating_sub(1).min(bins - 1);
+            let k = edges
+                .partition_point(|e| e <= d)
+                .saturating_sub(1)
+                .min(bins - 1);
             counts[k] += 1.0;
         }
         let cmax = counts.iter().copied().fold(0.0, f64::max);
@@ -759,7 +823,15 @@ fn squiggle(
         );
         for (k, c) in counts.iter().enumerate() {
             if *c > 0.0 {
-                p3.rect_data(&mut fig, edges[k], 0.0, edges[k + 1], *c, Some(theme.ink.alpha(0.75)), None);
+                p3.rect_data(
+                    &mut fig,
+                    edges[k],
+                    0.0,
+                    edges[k + 1],
+                    *c,
+                    Some(theme.ink.alpha(0.75)),
+                    None,
+                );
             }
         }
         if let Some(d) = val("duration") {
@@ -830,7 +902,11 @@ fn reads(
     if let Some(r) = num("reads") {
         let est = num("reads_estimated").filter(|_| !exact);
         parts.push(match est {
-            Some(e) => format!("≈ {} reads (first {} read)", format_value(e), format_value(r)),
+            Some(e) => format!(
+                "≈ {} reads (first {} read)",
+                format_value(e),
+                format_value(r)
+            ),
             None => format!("{} reads", format_value(r)),
         });
     }
@@ -859,7 +935,11 @@ fn reads(
     let h1 = (h - top - margin - gap) * 0.55;
     let h2 = h - top - margin - gap - h1;
     // ---- length histogram
-    let (from, to, cnt) = (lens.get("length_from"), lens.get("length_to"), lens.get("reads"));
+    let (from, to, cnt) = (
+        lens.get("length_from"),
+        lens.get("length_to"),
+        lens.get("reads"),
+    );
     let lo = from.first().copied().unwrap_or(0.0);
     let hi = to.last().copied().unwrap_or(1.0) + 1.0;
     let log = lt.extra.get("bins").and_then(Value::as_str) == Some("logarithmic");
@@ -885,17 +965,30 @@ fn reads(
     );
     for i in 0..cnt.len().min(from.len()).min(to.len()) {
         if cnt[i] > 0.0 {
-            p1.rect_data(&mut fig, from[i], 0.0, to[i] + 1.0, cnt[i], Some(theme.ink.alpha(0.8)), None);
+            p1.rect_data(
+                &mut fig,
+                from[i],
+                0.0,
+                to[i] + 1.0,
+                cnt[i],
+                Some(theme.ink.alpha(0.8)),
+                None,
+            );
         }
     }
     if let Some(n50) = num("length_n50") {
-        p1.rule_x(&mut fig, n50, Stroke::new(theme.accent, theme.line_width).dashed(4.0, 3.0));
+        p1.rule_x(
+            &mut fig,
+            n50,
+            Stroke::new(theme.accent, theme.line_width).dashed(4.0, 3.0),
+        );
         if let Some((px, py)) = p1.pt(n50, cmax * 1.05) {
             fig.text(
                 px + fs * 0.3,
                 py,
                 &format!("N50 {}", si(n50)),
-                &TextStyle::new(theme.small_size(), theme.accent).align(Anchor::Start, Baseline::Middle),
+                &TextStyle::new(theme.small_size(), theme.accent)
+                    .align(Anchor::Start, Baseline::Middle),
             );
         }
     }
@@ -908,7 +1001,11 @@ fn reads(
         let (q, n) = (qc.get("mean_quality"), qc.get("reads"));
         let qmax = q.iter().copied().fold(0.0, f64::max).max(40.0);
         let qmin = q.iter().copied().fold(f64::INFINITY, f64::min);
-        let qlo = if qmin.is_finite() { ((qmin - 2.0) / 5.0).floor().max(0.0) * 5.0 } else { 0.0 };
+        let qlo = if qmin.is_finite() {
+            ((qmin - 2.0) / 5.0).floor().max(0.0) * 5.0
+        } else {
+            0.0
+        };
         let nmax = n.iter().copied().fold(0.0, f64::max);
         let spec = AxesSpec {
             y_label: Some("reads".into()),
@@ -925,7 +1022,11 @@ fn reads(
             &spec,
         );
         for (qq, nn) in q.iter().zip(n) {
-            let c = if *qq >= 30.0 { theme.accent } else { theme.ink.alpha(0.8) };
+            let c = if *qq >= 30.0 {
+                theme.accent
+            } else {
+                theme.ink.alpha(0.8)
+            };
             p.rect_data(&mut fig, *qq, 0.0, qq + 0.9, *nn, Some(c), None);
         }
         panels.push(FramePanel::new(p));
@@ -952,7 +1053,11 @@ fn reads(
             Domain::linear(0.0, (qhi * 1.1).max(40.0)).nice(4),
             &spec,
         );
-        p.rule_y(&mut fig, 30.0, Stroke::new(theme.accent, theme.hairline()).dashed(4.0, 3.0));
+        p.rule_y(
+            &mut fig,
+            30.0,
+            Stroke::new(theme.accent, theme.hairline()).dashed(4.0, 3.0),
+        );
         if let Some((px, py)) = p.pt(xmax.max(2.0), 30.0) {
             fig.text(
                 px,
@@ -968,7 +1073,8 @@ fn reads(
     out.kind = "reads".into();
     if !exact {
         out.notes.push(
-            "from the reads info scanned at the start of the file; `check` reads every record".into(),
+            "from the reads info scanned at the start of the file; `check` reads every record"
+                .into(),
         );
     }
     Some((fig, Frame::plots(panels)))

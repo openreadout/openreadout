@@ -16994,6 +16994,89 @@
       ]
     },
     {
+      "id": "seq-bam-illumina-paired-sorted",
+      "format": "bam",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-pacbio-alz-ccs",
+      "format": "bam",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order unknown",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "pcrd-cfx-primerpickr",
       "format": "bio-rad-pcrd",
       "source": "figshare:31082878",
@@ -69389,6 +69472,226 @@
       ]
     },
     {
+      "id": "seq-fast5-multi-zip",
+      "format": "fast5",
+      "source": "github:nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "multi-read",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MinKNOW 3.4.0-rc3",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "seq-fast5-single-read",
+      "format": "fast5",
+      "source": "github:nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "multi-read",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MinKNOW 3.6.0-rc2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "seq-fast5-vbz-reads",
+      "format": "fast5",
+      "source": "github:nanoporetech/ont_fast5_api",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "multi-read",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MinKNOW 3.6.0-rc2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "seq-fastq-illumina-test1",
+      "format": "fastq",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-pacbio-hifi",
+      "format": "fastq",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "fcsparser-cyflow-cube-8",
       "format": "fcs",
       "source": "github:eyurtsev/fcsparser",
@@ -75728,6 +76031,175 @@
       "inferred": [
         1,
         16
+      ]
+    },
+    {
+      "id": "seq-nfcore-miseq-k9h97",
+      "format": "illumina-run",
+      "source": "nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CorrectedIntMetricsOut v2",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "ErrorMetricsOut v3",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "ExtractionMetricsOut v2",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "QMetricsOut v4",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "TileMetricsOut v2",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "MiSeq",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "codec",
+          "bcl",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": "seq-nfcore-novaseq-hmtfydrxx",
+      "format": "illumina-run",
+      "source": "nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CorrectedIntMetricsOut v4",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "ExtendedTileMetricsOut v3",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "ExtractionMetricsOut v3",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "IndexMetricsOut v2",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "QMetricsOut v7",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "TileMetricsOut v3",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "NovaSeq 6000",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "writer_version",
+          "RTA 3.4",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "cbcl",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        8
       ]
     },
     {
@@ -129251,6 +129723,86 @@
       "inferred": [
         13,
         13
+      ]
+    },
+    {
+      "id": "seq-pod5-hg002-10reads",
+      "format": "pod5",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.39",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MinKNOW 24.02.10 (Bream 7.9.4, Core 5.9.7, Dorado 7.3.9+b2176f600)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "seq-pod5-multi-fast5-zip-v6",
+      "format": "pod5",
+      "source": "github nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.46",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "python-pod5-converter",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
       ]
     },
     {

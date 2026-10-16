@@ -34,11 +34,18 @@ pub enum ColType {
     /// List of a child type (`large`: 64-bit offsets).
     List { large: bool, item: Box<ColType> },
     /// Map of entries (a struct of key and value).
-    Map { key: Box<ColType>, value: Box<ColType> },
+    Map {
+        key: Box<ColType>,
+        value: Box<ColType>,
+    },
     /// Struct of children.
     Struct(Vec<ColType>),
     /// Dictionary-encoded values: integer indices into dictionary `id`.
-    Dict { id: i64, index_bits: u8, value: Box<ColType> },
+    Dict {
+        id: i64,
+        index_bits: u8,
+        value: Box<ColType>,
+    },
     /// Anything else (decoded as nothing; its buffers are skipped).
     Other(u8),
 }
@@ -114,10 +121,8 @@ fn field_type(f: arrow_ipc::Field<'_>, depth: usize) -> ColType {
     if depth > 8 {
         return ColType::Other(255);
     }
-    let children: Vec<arrow_ipc::Field<'_>> = f
-        .children()
-        .map(|c| c.iter().collect())
-        .unwrap_or_default();
+    let children: Vec<arrow_ipc::Field<'_>> =
+        f.children().map(|c| c.iter().collect()).unwrap_or_default();
     let base = match f.type_type() {
         Type::Int => f.type_as_int().map_or(ColType::Other(2), |i| ColType::Int {
             bits: int_bits(i),
@@ -174,7 +179,9 @@ fn field_type(f: arrow_ipc::Field<'_>, depth: usize) -> ColType {
                 _ => ColType::Other(17),
             }
         }
-        Type::Struct_ => ColType::Struct(children.iter().map(|c| field_type(*c, depth + 1)).collect()),
+        Type::Struct_ => {
+            ColType::Struct(children.iter().map(|c| field_type(*c, depth + 1)).collect())
+        }
         t => ColType::Other(t.0),
     };
     if let Some(d) = f.dictionary() {
@@ -209,10 +216,10 @@ pub fn parse_footer(file: &[u8], tail_offset: u64, total_len: u64) -> IpcResult<
     let schema = footer.schema().ok_or("Arrow footer has no schema")?;
     let mut fields = Vec::new();
     if let Some(fs) = schema.fields() {
-        for f in fs.iter() {
+        for f in fs {
             let mut extension = None;
             if let Some(md) = f.custom_metadata() {
-                for kv in md.iter() {
+                for kv in md {
                     if kv.key() == Some("ARROW:extension:name") {
                         extension = kv.value().map(str::to_string);
                     }
@@ -227,7 +234,7 @@ pub fn parse_footer(file: &[u8], tail_offset: u64, total_len: u64) -> IpcResult<
     }
     let mut metadata = Vec::new();
     if let Some(md) = schema.custom_metadata() {
-        for kv in md.iter() {
+        for kv in md {
             metadata.push((
                 kv.key().unwrap_or_default().to_string(),
                 kv.value().unwrap_or_default().to_string(),
@@ -300,7 +307,12 @@ pub fn parse_message(meta: &[u8]) -> IpcResult<BatchMeta> {
     }
     let len = le_u32(meta, at).ok_or("truncated Arrow message")? as usize;
     let body = meta
-        .get(at + 4..(at + 4).checked_add(len).ok_or("bad Arrow message length")?)
+        .get(
+            at + 4
+                ..(at + 4)
+                    .checked_add(len)
+                    .ok_or("bad Arrow message length")?,
+        )
         .ok_or("Arrow message runs past its block")?;
     let msg = root_as_message(body).map_err(|e| format!("Arrow message is damaged: {e}"))?;
     let (rb, dict_id) = if let Some(rb) = msg.header_as_record_batch() {
@@ -309,7 +321,10 @@ pub fn parse_message(meta: &[u8]) -> IpcResult<BatchMeta> {
         if db.isDelta() {
             return Err("delta dictionaries are not read".into());
         }
-        (db.data().ok_or("dictionary batch without data")?, Some(db.id()))
+        (
+            db.data().ok_or("dictionary batch without data")?,
+            Some(db.id()),
+        )
     } else {
         return Err("Arrow block is not a record batch".into());
     };
@@ -428,7 +443,10 @@ impl<'a> BatchReader<'a> {
 
     fn offsets(data: &[u8], large: bool, len: usize) -> IpcResult<Vec<u64>> {
         let w = if large { 8 } else { 4 };
-        let need = len.checked_add(1).and_then(|n| n.checked_mul(w)).ok_or("overflow")?;
+        let need = len
+            .checked_add(1)
+            .and_then(|n| n.checked_mul(w))
+            .ok_or("overflow")?;
         if len == 0 && data.is_empty() {
             return Ok(vec![0]);
         }
@@ -440,7 +458,8 @@ impl<'a> BatchReader<'a> {
             .take(len + 1)
             .map(|c| {
                 if large {
-                    i64::from_le_bytes([c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7]]).max(0) as u64
+                    i64::from_le_bytes([c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7]]).max(0)
+                        as u64
                 } else {
                     i64::from(i32::from_le_bytes([c[0], c[1], c[2], c[3]])).max(0) as u64
                 }
@@ -523,7 +542,9 @@ impl<'a> BatchReader<'a> {
                 let mut out = Vec::with_capacity(len);
                 for i in 0..len {
                     let (a, b) = (o[i] as usize, o[i + 1] as usize);
-                    let s = d.get(a..b).ok_or("Arrow binary value runs past its buffer")?;
+                    let s = d
+                        .get(a..b)
+                        .ok_or("Arrow binary value runs past its buffer")?;
                     out.push(Self::valid(v, nulls, i).then(|| s.to_vec()));
                 }
                 Ok(Column::Bytes(out))
@@ -540,7 +561,8 @@ impl<'a> BatchReader<'a> {
                     let (a, b) = (o[i] as usize, o[i + 1] as usize);
                     let s = items.get(a..b).ok_or("Arrow list runs past its values")?;
                     out.push(
-                        Self::valid(v, nulls, i).then(|| s.iter().map(|x| x.unwrap_or(0)).collect()),
+                        Self::valid(v, nulls, i)
+                            .then(|| s.iter().map(|x| x.unwrap_or(0)).collect()),
                     );
                 }
                 Ok(Column::IntList(out))
@@ -567,9 +589,10 @@ impl<'a> BatchReader<'a> {
                     if b > k.len() || b > val.len() || a > b {
                         return Err("Arrow map runs past its entries".into());
                     }
-                    out.push(Self::valid(v, nulls, i).then(|| {
-                        (a..b).map(|j| (text(&k[j]), text(&val[j]))).collect()
-                    }));
+                    out.push(
+                        Self::valid(v, nulls, i)
+                            .then(|| (a..b).map(|j| (text(&k[j]), text(&val[j]))).collect()),
+                    );
                 }
                 Ok(Column::Map(out))
             }

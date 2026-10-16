@@ -67,10 +67,17 @@ fn observe_illumina(info: &FileInfo) -> Observations {
             o.feature(K::Instrument, m, &[Scope::Metadata]);
         }
         if let Some(v) = a::extra_str(&t.extra, "rta_version") {
-            o.feature(K::WriterVersion, format!("RTA {}", major_minor(v)), &[Scope::Tables]);
+            o.feature(
+                K::WriterVersion,
+                format!("RTA {}", major_minor(v)),
+                &[Scope::Tables],
+            );
         }
     }
-    if let Some(bc) = info.tables.iter().find(|t| t.name.as_deref() == Some("base calls"))
+    if let Some(bc) = info
+        .tables
+        .iter()
+        .find(|t| t.name.as_deref() == Some("base calls"))
         && let Some(s) = a::extra_str(&bc.extra, "storage")
     {
         o.feature(K::Codec, s, &[Scope::Tables]);
@@ -125,29 +132,73 @@ fn major_minor(v: &str) -> String {
 // BEGIN GENERATED illumina-run (cargo xtask assurance-audit --write; do not edit)
 const ILLUMINA_RUN_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
-const ILLUMINA_RUN_VALIDATED: &[Validated] = &[];
+const ILLUMINA_RUN_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "bcl", 1, 1, 1),
+    a::row(K::Codec, "cbcl", 1, 1, 1),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 2),
+    a::row(K::FormatVersion, "CorrectedIntMetricsOut v2", 1, 1, 1),
+    a::row(K::FormatVersion, "CorrectedIntMetricsOut v4", 1, 1, 1),
+    a::row(K::FormatVersion, "ErrorMetricsOut v3", 1, 1, 1),
+    a::row(K::FormatVersion, "ExtendedTileMetricsOut v3", 1, 1, 1),
+    a::row(K::FormatVersion, "ExtractionMetricsOut v2", 1, 1, 1),
+    a::row(K::FormatVersion, "ExtractionMetricsOut v3", 1, 1, 1),
+    a::row(K::FormatVersion, "IndexMetricsOut v2", 1, 1, 1),
+    a::row(K::FormatVersion, "QMetricsOut v4", 1, 1, 1),
+    a::row(K::FormatVersion, "QMetricsOut v7", 1, 1, 1),
+    a::row(K::FormatVersion, "TileMetricsOut v2", 1, 1, 1),
+    a::row(K::FormatVersion, "TileMetricsOut v3", 1, 1, 1),
+    a::row(K::Instrument, "MiSeq", 1, 1, 1),
+    a::row(K::Instrument, "NovaSeq 6000", 1, 1, 1),
+    a::row(K::WriterVersion, "RTA 3.4", 1, 1, 1),
+];
 // END GENERATED illumina-run
 
 // BEGIN GENERATED pod5 (cargo xtask assurance-audit --write; do not edit)
 const POD5_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
-const POD5_VALIDATED: &[Validated] = &[];
+const POD5_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "vbz", 2, 2, 2),
+    a::row(K::FormatVersion, "0.3.39", 1, 1, 1),
+    a::row(K::FormatVersion, "0.3.46", 1, 1, 1),
+    a::row(K::Writer, "MinKNOW 24.02.10 (Bream 7.9.4, Core 5.9.7, Dorado 7.3.9+b2176f600)", 1, 1, 1),
+    a::row(K::Writer, "python-pod5-converter", 1, 1, 1),
+];
 // END GENERATED pod5
 
 // BEGIN GENERATED fast5 (cargo xtask assurance-audit --write; do not edit)
-const FAST5_CONFIDENCE: Confidence = Confidence::Low;
+const FAST5_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
-const FAST5_VALIDATED: &[Validated] = &[];
+const FAST5_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "gzip", 2, 1, 2),
+    a::row(K::Codec, "vbz", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
+    a::row(K::FormatVersion, "1.0", 1, 1, 1),
+    a::row(K::FormatVersion, "2", 1, 1, 1),
+    a::row(K::FormatVersion, "2.0", 1, 1, 1),
+    a::row(K::Layout, "multi-read", 3, 2, 3),
+    a::row(K::Writer, "MinKNOW 3.4.0-rc3", 1, 1, 1),
+    a::row(K::Writer, "MinKNOW 3.6.0-rc2", 2, 2, 2),
+];
 // END GENERATED fast5
 
 // BEGIN GENERATED fastq (cargo xtask assurance-audit --write; do not edit)
 const FASTQ_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
-const FASTQ_VALIDATED: &[Validated] = &[];
+const FASTQ_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "compression gzip", 2, 1, 2),
+    a::row(K::SampleLayout, "quality_encoding phred+33", 2, 1, 2),
+];
 // END GENERATED fastq
 
 // BEGIN GENERATED bam (cargo xtask assurance-audit --write; do not edit)
 const BAM_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
-const BAM_VALIDATED: &[Validated] = &[];
+const BAM_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "compression bgzf", 2, 1, 2),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 1),
+    a::row(K::Instrument, "platform ILLUMINA", 1, 1, 1),
+    a::row(K::Instrument, "platform PACBIO", 1, 1, 1),
+    a::row(K::Layout, "sort_order coordinate", 1, 1, 1),
+    a::row(K::Layout, "sort_order unknown", 1, 1, 1),
+];
 // END GENERATED bam

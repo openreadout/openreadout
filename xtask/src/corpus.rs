@@ -667,13 +667,13 @@ fn unzip(archive: &Path, dir: &Path) -> Result<()> {
     let tarball = name.ends_with(".tar.gz") || name.ends_with(".tgz");
     let ok = !tarball
         && std::process::Command::new("unzip")
-        .arg("-o")
-        .arg("-q")
-        .arg(archive)
-        .arg("-d")
-        .arg(dir)
-        .status()
-        .is_ok_and(|s| s.success());
+            .arg("-o")
+            .arg("-q")
+            .arg(archive)
+            .arg("-d")
+            .arg(dir)
+            .status()
+            .is_ok_and(|s| s.success());
     if ok {
         return Ok(());
     }

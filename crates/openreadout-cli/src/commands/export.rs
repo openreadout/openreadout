@@ -622,7 +622,12 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         ));
     }
     if requested == Some(ExportFormat::Fastq) {
-        let rows = req.csv.rows.as_deref().map(openreadout_batch::csv::parse_rows).transpose()?;
+        let rows = req
+            .csv
+            .rows
+            .as_deref()
+            .map(openreadout_batch::csv::parse_rows)
+            .transpose()?;
         let out = explicit.unwrap_or_else(|| openreadout_seq::default_fastq_output(&name_base));
         return openreadout_seq::export_run_fastq(file, Some(&out), rows, req.overwrite)
             .map(ExportOutput::Fastq);
@@ -991,4 +996,3 @@ fn extract(
         overwrite,
     )
 }
-

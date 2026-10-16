@@ -142,7 +142,10 @@ impl ReadStats {
             self.qual_bases += qual.len() as u64;
             let mean_err = err / qual.len() as f64;
             let q = -10.0 * mean_err.max(1e-10).log10();
-            *self.read_quality.entry(q.floor().max(0.0) as u32).or_default() += 1;
+            *self
+                .read_quality
+                .entry(q.floor().max(0.0) as u32)
+                .or_default() += 1;
             q
         };
         ReadValues {
@@ -282,7 +285,7 @@ impl ReadStats {
             e
         } else {
             let w = (hi - lo + 1).div_ceil(nbins);
-            let mut e: Vec<u64> = (0..).map(|i| lo + i * w).take_while(|x| *x <= hi).collect();
+            let mut e: Vec<u64> = (0..=(hi - lo) / w).map(|i| lo + i * w).collect();
             e.push(e.last().copied().unwrap_or(lo) + w);
             e
         };
@@ -299,8 +302,10 @@ impl ReadStats {
             t.col("bases").push(Some(s as f64));
         }
         t.extra.insert("kind".into(), json!("length_histogram"));
-        t.extra
-            .insert("bins".into(), json!(if log { "logarithmic" } else { "linear" }));
+        t.extra.insert(
+            "bins".into(),
+            json!(if log { "logarithmic" } else { "linear" }),
+        );
         t
     }
 
@@ -314,7 +319,8 @@ impl ReadStats {
             t.col("mean_quality").push(Some(f64::from(*q)));
             t.col("reads").push(Some(*n as f64));
         }
-        t.extra.insert("kind".into(), json!("read_quality_histogram"));
+        t.extra
+            .insert("kind".into(), json!("read_quality_histogram"));
         t
     }
 }

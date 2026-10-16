@@ -76,10 +76,12 @@ impl RunInfo {
 
     /// The read structure as the conversion tools write it (`151T8B8B151T`).
     pub fn read_structure(&self) -> String {
-        self.reads
-            .iter()
-            .map(|r| format!("{}{}", r.cycles, if r.indexed { 'B' } else { 'T' }))
-            .collect()
+        let mut s = String::new();
+        for r in &self.reads {
+            s.push_str(&r.cycles.to_string());
+            s.push(if r.indexed { 'B' } else { 'T' });
+        }
+        s
     }
 }
 
@@ -219,7 +221,10 @@ pub fn parse_runparameters(text: &str) -> Option<RunParameters> {
         experiment: first_text(&doc, &["ExperimentName"]),
         instrument_type: first_text(&doc, &["InstrumentType"]),
         flowcell_mode: first_text(&doc, &["FlowCellMode", "FlowCellType", "Mode"]),
-        chemistry: first_text(&doc, &["Chemistry", "ChemistryVersion", "ReagentKitVersion"]),
+        chemistry: first_text(
+            &doc,
+            &["Chemistry", "ChemistryVersion", "ReagentKitVersion"],
+        ),
         library_tube: first_text(&doc, &["LibraryTubeSerialBarcode", "LibraryTubeID"]),
         run_start: first_text(&doc, &["RunStartDate", "RunStartTime"]),
         operator: first_text(&doc, &["Username", "UserName", "OperatorName"]),
@@ -229,7 +234,11 @@ pub fn parse_runparameters(text: &str) -> Option<RunParameters> {
 
 /// The instrument model from the control software's name, else from the leading letters of
 /// the instrument id (inferred: the convention seen across public run folders).
-pub fn instrument_model(app: Option<&str>, kind: Option<&str>, id: Option<&str>) -> Option<(String, bool)> {
+pub fn instrument_model(
+    app: Option<&str>,
+    kind: Option<&str>,
+    id: Option<&str>,
+) -> Option<(String, bool)> {
     if let Some(k) = kind.filter(|k| !k.is_empty()) {
         return Some((k.to_string(), true));
     }
@@ -240,7 +249,10 @@ pub fn instrument_model(app: Option<&str>, kind: Option<&str>, id: Option<&str>)
             if let Some(m) = a.strip_suffix(suffix) {
                 let m = m.trim();
                 // the software names the family (`NovaSeq`); the id prefix the model in it
-                if let Some(full) = by_id.as_ref().filter(|f| f.starts_with(m) && f.len() > m.len()) {
+                if let Some(full) = by_id
+                    .as_ref()
+                    .filter(|f| f.starts_with(m) && f.len() > m.len())
+                {
                     return Some((full.clone(), false));
                 }
                 return Some((m.to_string(), true));

@@ -83,7 +83,9 @@ pub fn parse_cbcl_header(b: &[u8], name: &str) -> Result<CbclHeader> {
     if bits_per_base != 2 || bits_per_quality != 2 {
         return Err(Error::unsupported(
             FORMAT_ID,
-            format!("{name}: CBCL with {bits_per_base} bits per base and {bits_per_quality} per quality"),
+            format!(
+                "{name}: CBCL with {bits_per_base} bits per base and {bits_per_quality} per quality"
+            ),
             "Only CBCL files with 2-bit bases and 2-bit quality bins (every instrument seen so far) are decoded; the InterOp metrics are still read.",
         ));
     }
@@ -208,11 +210,11 @@ impl BaseCalls {
             if storage.is_none() {
                 let first = lane_dir.join(format!("C{}.1", cs[0]));
                 let names = list(fs, &first);
-                if names.iter().any(|n| n.ends_with(".cbcl")) {
+                if names.iter().any(|n| ends_with_ci(n, ".cbcl")) {
                     storage = Some(CallStorage::Cbcl);
                 } else if names
                     .iter()
-                    .any(|n| n.ends_with(".bcl") || n.ends_with(".bcl.gz"))
+                    .any(|n| ends_with_ci(n, ".bcl") || ends_with_ci(n, ".bcl.gz"))
                 {
                     storage = Some(CallStorage::Bcl);
                 }
@@ -266,7 +268,10 @@ impl BaseCalls {
 
     /// The file holding cycle `cycle` of `tile` in `lane`.
     pub fn cycle_file(&self, fs: &Fs, lane: u16, tile: u32, cycle: u32) -> Option<PathBuf> {
-        let d = self.dir.join(format!("L{lane:03}")).join(format!("C{cycle}.1"));
+        let d = self
+            .dir
+            .join(format!("L{lane:03}"))
+            .join(format!("C{cycle}.1"));
         match self.storage {
             CallStorage::Bcl => {
                 let p = d.join(format!("s_{lane}_{tile}.bcl"));
@@ -308,7 +313,7 @@ impl BaseCalls {
         match self.storage {
             CallStorage::Bcl => {
                 let f = fs.open(&p).map_err(|e| Error::io(&p, e))?;
-                if !name.ends_with(".gz") {
+                if !ends_with_ci(&name, ".gz") {
                     let mut head = [0u8; 4];
                     f.read_exact_at(0, &mut head)
                         .map_err(|e| Error::corrupt(FORMAT_ID, format!("{name}: {e}")))?;
@@ -372,7 +377,9 @@ impl BaseCalls {
                     return Err(Error::corrupt_at(
                         FORMAT_ID,
                         t.offset,
-                        format!("{name}: tile {tile} block runs past the end of the file (truncated)"),
+                        format!(
+                            "{name}: tile {tile} block runs past the end of the file (truncated)"
+                        ),
                     ));
                 }
                 if u64::from(t.raw_len) > MAX_TILE_BYTES {
@@ -428,7 +435,13 @@ impl BaseCalls {
     }
 
     /// The CBCL header of one cycle of a lane and surface (for `check` and the structure view).
-    pub fn cbcl_header(&self, fs: &Fs, lane: u16, surface: u32, cycle: u32) -> Result<(PathBuf, CbclHeader, u64)> {
+    pub fn cbcl_header(
+        &self,
+        fs: &Fs,
+        lane: u16,
+        surface: u32,
+        cycle: u32,
+    ) -> Result<(PathBuf, CbclHeader, u64)> {
         let p = self
             .dir
             .join(format!("L{lane:03}"))
@@ -441,6 +454,12 @@ impl BaseCalls {
         let h = parse_cbcl_header(&hb, &p.display().to_string())?;
         Ok((p, h, size))
     }
+}
+
+/// `name` ends with `suffix`, ignoring ASCII case.
+fn ends_with_ci(name: &str, suffix: &str) -> bool {
+    name.len() >= suffix.len()
+        && name.as_bytes()[name.len() - suffix.len()..].eq_ignore_ascii_case(suffix.as_bytes())
 }
 
 /// The surface digit of a tile number (`2101` → 2, `11101` → 1).
@@ -474,7 +493,10 @@ fn decode_nibbles(z: &[u8], skip: u64, take: u64, name: &str) -> Result<Vec<u8>>
     if end - start < take as usize {
         return Err(Error::corrupt(
             FORMAT_ID,
-            format!("{name}: tile block holds {} of {take} clusters", end - start),
+            format!(
+                "{name}: tile block holds {} of {take} clusters",
+                end - start
+            ),
         ));
     }
     Ok(out[start..end].to_vec())
@@ -483,7 +505,10 @@ fn decode_nibbles(z: &[u8], skip: u64, take: u64, name: &str) -> Result<Vec<u8>>
 /// Parse a filter file.
 pub fn parse_filter(b: &[u8], name: &str) -> Result<Vec<bool>> {
     if b.len() < 12 {
-        return Err(Error::corrupt(FORMAT_ID, format!("{name}: filter file shorter than its header")));
+        return Err(Error::corrupt(
+            FORMAT_ID,
+            format!("{name}: filter file shorter than its header"),
+        ));
     }
     let word = |at: usize| u32::from_le_bytes([b[at], b[at + 1], b[at + 2], b[at + 3]]);
     let (zero, version, n) = (word(0), word(4), word(8) as usize);
@@ -498,7 +523,10 @@ pub fn parse_filter(b: &[u8], name: &str) -> Result<Vec<bool>> {
     if body.len() < n {
         return Err(Error::corrupt(
             FORMAT_ID,
-            format!("{name}: filter file lists {n} clusters but holds {}", body.len()),
+            format!(
+                "{name}: filter file lists {n} clusters but holds {}",
+                body.len()
+            ),
         ));
     }
     Ok(body[..n].iter().map(|x| x & 1 == 1).collect())
@@ -507,18 +535,26 @@ pub fn parse_filter(b: &[u8], name: &str) -> Result<Vec<bool>> {
 /// Parse a `.locs` file into `(x, y)` pixel positions.
 pub fn parse_locs(b: &[u8], name: &str) -> Result<Vec<(f32, f32)>> {
     if b.len() < 12 {
-        return Err(Error::corrupt(FORMAT_ID, format!("{name}: locations file shorter than its header")));
+        return Err(Error::corrupt(
+            FORMAT_ID,
+            format!("{name}: locations file shorter than its header"),
+        ));
     }
     let n = u32::from_le_bytes([b[8], b[9], b[10], b[11]]) as usize;
     let body = &b[12..];
     if body.len() / 8 < n {
         return Err(Error::corrupt(
             FORMAT_ID,
-            format!("{name}: locations file lists {n} clusters but holds {}", body.len() / 8),
+            format!(
+                "{name}: locations file lists {n} clusters but holds {}",
+                body.len() / 8
+            ),
         ));
     }
     Ok(body
-        .chunks_exact(8)
+        .as_chunks::<8>()
+        .0
+        .iter()
         .take(n)
         .map(|c| {
             (
@@ -590,7 +626,10 @@ mod tests {
         let mut e = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::fast());
         e.write_all(&[0x21, 0x43, 0x65]).unwrap();
         let z = e.finish().unwrap();
-        assert_eq!(decode_nibbles(&z, 0, 6, "t").unwrap(), vec![1, 2, 3, 4, 5, 6]);
+        assert_eq!(
+            decode_nibbles(&z, 0, 6, "t").unwrap(),
+            vec![1, 2, 3, 4, 5, 6]
+        );
         assert_eq!(decode_nibbles(&z, 1, 3, "t").unwrap(), vec![2, 3, 4]);
         assert!(decode_nibbles(&z, 4, 5, "t").is_err());
     }

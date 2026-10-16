@@ -56,7 +56,7 @@ struct Fb<'a> {
     b: &'a [u8],
 }
 
-impl<'a> Fb<'a> {
+impl Fb<'_> {
     fn u32_at(&self, at: usize) -> Option<u32> {
         let s = self.b.get(at..at.checked_add(4)?)?;
         Some(u32::from_le_bytes([s[0], s[1], s[2], s[3]]))
@@ -154,6 +154,9 @@ fn read_range(f: &SourceFile, offset: u64, len: u64, what: &str) -> Result<Vec<u
     Ok(b)
 }
 
+/// One decoded signal batch: its index, the signal bytes and the sample count of each row.
+type CachedBatch = (usize, Vec<Option<Vec<u8>>>, Vec<Option<i64>>);
+
 /// The signal table: its location and record batches, read batch by batch.
 #[derive(Debug)]
 pub struct Pod5Signal {
@@ -165,7 +168,7 @@ pub struct Pod5Signal {
     signal_col: usize,
     samples_col: usize,
     vbz: bool,
-    cache: Option<(usize, Vec<Option<Vec<u8>>>, Vec<Option<i64>>)>,
+    cache: Option<CachedBatch>,
     /// Signal rows of each read.
     rows: Vec<Vec<u64>>,
 }
@@ -231,7 +234,9 @@ impl SignalSource for Pod5Signal {
         for row in rows {
             let bi = self.starts.partition_point(|s| *s <= row).saturating_sub(1);
             if bi >= self.ipc.batches.len() {
-                return Err(corrupt(format!("signal row {row} is past the signal table")));
+                return Err(corrupt(format!(
+                    "signal row {row} is past the signal table"
+                )));
             }
             self.batch(bi)?;
             let Some((_, sig, samples)) = &self.cache else {
@@ -255,7 +260,9 @@ impl SignalSource for Pod5Signal {
             } else {
                 out.extend(
                     bytes
-                        .chunks_exact(2)
+                        .as_chunks::<2>()
+                        .0
+                        .iter()
                         .map(|c| i16::from_le_bytes([c[0], c[1]])),
                 );
             }
@@ -325,7 +332,10 @@ fn text(c: Option<&Column>, i: usize) -> Option<String> {
 /// A 16-byte UUID as text.
 pub fn uuid(b: &[u8]) -> String {
     if b.len() != 16 {
-        return b.iter().map(|x| format!("{x:02x}")).collect();
+        return b.iter().fold(String::new(), |mut s, x| {
+            s.push_str(&format!("{x:02x}"));
+            s
+        });
     }
     let h: Vec<String> = b.iter().map(|x| format!("{x:02x}")).collect();
     format!(
@@ -352,7 +362,9 @@ pub fn open(input: &Input) -> Result<Pod5> {
     if &tail[24..32] != SIGNATURE {
         return Err(Error::Corrupt {
             format: FORMAT_ID,
-            detail: "no POD5 signature at the end of the file: it is truncated or still being written".into(),
+            detail:
+                "no POD5 signature at the end of the file: it is truncated or still being written"
+                    .into(),
             offset: Some(size),
         });
     }
@@ -405,7 +417,8 @@ pub fn open(input: &Input) -> Result<Pod5> {
         if ipc::field_index(&t, "acquisition_id").is_none() {
             continue;
         }
-        let cols = ipc::read_all(&b, &mut t).map_err(|e| corrupt(format!("run info table: {e}")))?;
+        let cols =
+            ipc::read_all(&b, &mut t).map_err(|e| corrupt(format!("run info table: {e}")))?;
         let n = t.batches.iter().map(|b| b.rows).sum::<u64>() as usize;
         for i in 0..n {
             let g = |name: &str| text(col(&cols, &t, name), i);
@@ -461,8 +474,8 @@ pub fn open(input: &Input) -> Result<Pod5> {
         };
         let run_name = text(col(&rc, &rt, "run_info"), i);
         let run = run_name.as_ref().and_then(|r| run_index.get(r).copied());
-        let channel = ints(col(&rc, &rt, "channel_32bit"), i)
-            .or_else(|| ints(col(&rc, &rt, "channel"), i));
+        let channel =
+            ints(col(&rc, &rt, "channel_32bit"), i).or_else(|| ints(col(&rc, &rt, "channel"), i));
         let rate = run
             .and_then(|r| runs.get(r))
             .and_then(|r: &RunMeta| r.sample_rate);
@@ -550,9 +563,6 @@ mod tests {
             let b: Vec<u8> = (0..n).map(|i| i.wrapping_mul(29)).collect();
             let _ = parse_footer(&b);
         }
-        assert_eq!(
-            uuid(&[0u8; 16]),
-            "00000000-0000-0000-0000-000000000000"
-        );
+        assert_eq!(uuid(&[0u8; 16]), "00000000-0000-0000-0000-000000000000");
     }
 }

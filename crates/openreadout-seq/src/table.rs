@@ -55,12 +55,11 @@ impl Col {
     /// Push a text value.
     pub fn push_text(&mut self, t: &str) {
         let cats = self.categories.get_or_insert_with(Vec::new);
-        let code = match cats.iter().position(|c| c == t) {
-            Some(i) => i,
-            None => {
-                cats.push(t.to_string());
-                cats.len() - 1
-            }
+        let code = if let Some(i) = cats.iter().position(|c| c == t) {
+            i
+        } else {
+            cats.push(t.to_string());
+            cats.len() - 1
         };
         self.values.push(code as f64);
     }

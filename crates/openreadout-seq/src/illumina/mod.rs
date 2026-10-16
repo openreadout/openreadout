@@ -20,8 +20,8 @@ use openreadout_core::experiment::{
     Acquisition, Experiment, ExperimentInstrument, Method, Origin, Quantity, Sample,
 };
 use openreadout_core::model::{
-    CheckReport, DetectConfidence, FileInfo, Finding, FormatDescriptor, LsEntry,
-    SignalChannelInfo, Table, Trace, TraceInfo,
+    CheckReport, DetectConfidence, FileInfo, Finding, FormatDescriptor, LsEntry, SignalChannelInfo,
+    Table, Trace, TraceInfo,
 };
 use openreadout_core::pixel::Plane;
 use openreadout_core::provenance::{ProvenanceMap, Source};
@@ -69,7 +69,9 @@ pub struct IlluminaRunReader;
 /// `RunParameters.xml` inside it.
 fn run_root(fs: &Fs, path: &Path) -> Option<PathBuf> {
     if fs.is_dir(path) {
-        return fs.is_file(&path.join("RunInfo.xml")).then(|| path.to_path_buf());
+        return fs
+            .is_file(&path.join("RunInfo.xml"))
+            .then(|| path.to_path_buf());
     }
     let name = path.file_name()?.to_str()?;
     if name.eq_ignore_ascii_case("RunInfo.xml") || name.eq_ignore_ascii_case("RunParameters.xml") {
@@ -214,7 +216,8 @@ impl IlluminaRun {
                         rd.filter_map(std::result::Result::ok)
                             .filter_map(|e| {
                                 let n = e.file_name().to_string_lossy().into_owned();
-                                let c: u32 = n.strip_prefix('C')?.strip_suffix(".1")?.parse().ok()?;
+                                let c: u32 =
+                                    n.strip_prefix('C')?.strip_suffix(".1")?.parse().ok()?;
                                 Some((c, e.path().join(names[0])))
                             })
                             .filter(|(_, p)| fs.is_file(p))
@@ -244,11 +247,15 @@ impl IlluminaRun {
             }
         }
         let calls = BaseCalls::discover(&fs, &root);
-        let markers = ["RTAComplete.txt", "CopyComplete.txt", "SequenceComplete.txt"]
-            .iter()
-            .filter(|n| fs.is_file(&root.join(n)))
-            .map(|n| (*n).to_string())
-            .collect();
+        let markers = [
+            "RTAComplete.txt",
+            "CopyComplete.txt",
+            "SequenceComplete.txt",
+        ]
+        .iter()
+        .filter(|n| fs.is_file(&root.join(n)))
+        .map(|n| (*n).to_string())
+        .collect();
         let mut me = IlluminaRun {
             descriptor: IlluminaRunReader.descriptor(),
             root,
@@ -284,7 +291,10 @@ impl IlluminaRun {
     fn channel_names(&self) -> Vec<String> {
         let n = self.metrics.channels;
         if n == 4 && self.run.image_channels.is_empty() {
-            return ["A", "C", "G", "T"].iter().map(|s| (*s).to_string()).collect();
+            return ["A", "C", "G", "T"]
+                .iter()
+                .map(|s| (*s).to_string())
+                .collect();
         }
         if self.run.image_channels.len() == n {
             return self
@@ -395,8 +405,11 @@ impl IlluminaRun {
                         .map(|(s, n)| s / f64::from(*n))
                 }));
                 let phasing = mean_sd(tiles.iter().filter_map(|t| t.phasing.get(&read).copied()));
-                let prephasing =
-                    mean_sd(tiles.iter().filter_map(|t| t.prephasing.get(&read).copied()));
+                let prephasing = mean_sd(
+                    tiles
+                        .iter()
+                        .filter_map(|t| t.prephasing.get(&read).copied()),
+                );
                 let occupied = mean_sd(tiles.iter().filter_map(|t| {
                     let (o, n) = (t.occupied?, t.clusters?);
                     (n > 0.0).then(|| o / n * 100.0)
@@ -503,7 +516,9 @@ impl IlluminaRun {
                 }
                 let pq30 = (qn > 0).then(|| q30 as f64 / qn as f64 * 100.0);
                 let meanq = (qn > 0).then(|| qs / qn as f64);
-                let err = ct.and_then(|c| (c.error_tiles > 0).then(|| c.error_sum / f64::from(c.error_tiles)));
+                let err = ct.and_then(|c| {
+                    (c.error_tiles > 0).then(|| c.error_sum / f64::from(c.error_tiles))
+                });
                 let calls = ct.map(|c| c.calls).unwrap_or_default();
                 let ncalls: u64 = calls.iter().sum();
                 let pct = |i: usize| (ncalls > 0).then(|| calls[i] as f64 / ncalls as f64 * 100.0);
@@ -535,14 +550,13 @@ impl IlluminaRun {
                         cyc.col(n).push(*v);
                     }
                 }
-                let mut k = 0;
-                for v in [pq30, meanq, err]
+                for (k, v) in [pq30, meanq, err]
                     .into_iter()
                     .chain(ints.iter().copied())
                     .chain([pct(1), pct(2), pct(3), pct(4), pct(0)])
+                    .enumerate()
                 {
                     tr[k].push(v.unwrap_or(f64::NAN));
-                    k += 1;
                 }
             }
             cycle_trace.insert(lane, tr);
@@ -572,9 +586,15 @@ impl IlluminaRun {
             let mut ch = digits.chars().filter_map(|c| c.to_digit(10));
             let surface = ch.next();
             let swath = ch.next();
-            let q = t.q30.values().fold((0u64, 0u64), |a, b| (a.0 + b.0, a.1 + b.1));
+            let q = t
+                .q30
+                .values()
+                .fold((0u64, 0u64), |a, b| (a.0 + b.0, a.1 + b.1));
             let err = {
-                let (s, n) = t.error.values().fold((0.0, 0u32), |a, b| (a.0 + b.0, a.1 + b.1));
+                let (s, n) = t
+                    .error
+                    .values()
+                    .fold((0.0, 0u32), |a, b| (a.0 + b.0, a.1 + b.1));
                 (n > 0).then(|| s / f64::from(n))
             };
             let al = mean_sd(t.aligned.values().copied()).map(|a| a.0);
@@ -583,17 +603,23 @@ impl IlluminaRun {
             tiles.col("surface").push(surface.map(f64::from));
             tiles.col("swath").push(swath.map(f64::from));
             tiles.col("density").push(t.density.map(|d| d / 1000.0));
-            tiles.col("density_pf").push(t.density_pf.map(|d| d / 1000.0));
+            tiles
+                .col("density_pf")
+                .push(t.density_pf.map(|d| d / 1000.0));
             tiles.col("clusters").push(t.clusters);
             tiles.col("clusters_pf").push(t.clusters_pf);
-            tiles.col("percent_pf").push(match (t.clusters, t.clusters_pf) {
-                (Some(n), Some(p)) if n > 0.0 => Some(p / n * 100.0),
-                _ => None,
-            });
-            tiles.col("percent_occupied").push(match (t.occupied, t.clusters) {
-                (Some(o), Some(n)) if n > 0.0 => Some(o / n * 100.0),
-                _ => None,
-            });
+            tiles
+                .col("percent_pf")
+                .push(match (t.clusters, t.clusters_pf) {
+                    (Some(n), Some(p)) if n > 0.0 => Some(p / n * 100.0),
+                    _ => None,
+                });
+            tiles
+                .col("percent_occupied")
+                .push(match (t.occupied, t.clusters) {
+                    (Some(o), Some(n)) if n > 0.0 => Some(o / n * 100.0),
+                    _ => None,
+                });
             tiles
                 .col("percent_q30")
                 .push((q.1 > 0).then(|| q.0 as f64 / q.1 as f64 * 100.0));
@@ -625,7 +651,12 @@ impl IlluminaRun {
         if !m.q_bins.is_empty() {
             hist.extra.insert(
                 "bins".into(),
-                json!(m.q_bins.iter().map(|b| json!({"low": b.low, "high": b.high, "value": b.value})).collect::<Vec<_>>()),
+                json!(
+                    m.q_bins
+                        .iter()
+                        .map(|b| json!({"low": b.low, "high": b.high, "value": b.value}))
+                        .collect::<Vec<_>>()
+                ),
             );
         }
         // ---- index counts
@@ -680,13 +711,20 @@ impl IlluminaRun {
             );
             bc.extra.insert(
                 "cycles".into(),
-                json!(c.cycles.iter().map(|(l, cs)| json!({"lane": l, "cycles": cs.len()})).collect::<Vec<_>>()),
+                json!(
+                    c.cycles
+                        .iter()
+                        .map(|(l, cs)| json!({"lane": l, "cycles": cs.len()}))
+                        .collect::<Vec<_>>()
+                ),
             );
         }
         bc.extra.insert("kind".into(), json!("base_calls"));
         bc.extra.insert(
             "note".into(),
-            json!("cluster counts are read from the filter files when the table is read, not by info"),
+            json!(
+                "cluster counts are read from the filter files when the table is read, not by info"
+            ),
         );
         self.tables = vec![summary, cyc, tiles, hist, index, bc];
         self.cycle_trace = cycle_trace;
@@ -729,7 +767,9 @@ impl IlluminaRun {
     fn model(&self) -> Option<(String, bool)> {
         runinfo::instrument_model(
             self.params.as_ref().and_then(|p| p.application.as_deref()),
-            self.params.as_ref().and_then(|p| p.instrument_type.as_deref()),
+            self.params
+                .as_ref()
+                .and_then(|p| p.instrument_type.as_deref()),
             self.run.instrument.as_deref(),
         )
     }
@@ -750,7 +790,13 @@ impl Dataset for IlluminaRun {
             extra.insert("sweep_lanes".into(), json!(lanes));
             extra.insert(
                 "reads".into(),
-                json!(self.run.layout().iter().map(|(r, a, b)| json!({"read": r, "first_cycle": a, "last_cycle": b})).collect::<Vec<_>>()),
+                json!(
+                    self.run
+                        .layout()
+                        .iter()
+                        .map(|(r, a, b)| json!({"read": r, "first_cycle": a, "last_cycle": b}))
+                        .collect::<Vec<_>>()
+                ),
             );
             traces.push(TraceInfo {
                 index: 0,
@@ -778,7 +824,8 @@ impl Dataset for IlluminaRun {
         }
         let mut notes = Vec::new();
         if self.markers.iter().all(|m| m != "RTAComplete.txt") {
-            notes.push("no RTAComplete.txt: the run may still be in progress or was stopped".into());
+            notes
+                .push("no RTAComplete.txt: the run may still be in progress or was stopped".into());
         }
         for (f, why) in &self.metrics.skipped {
             notes.push(format!("{f}: {why}"));
@@ -806,7 +853,15 @@ impl Dataset for IlluminaRun {
             }
             t.extra.insert(
                 "reads".into(),
-                json!(self.run.reads.iter().map(|r| json!({"read": r.number, "cycles": r.cycles, "indexed": r.indexed})).collect::<Vec<_>>()),
+                json!(
+                    self.run
+                        .reads
+                        .iter()
+                        .map(
+                            |r| json!({"read": r.number, "cycles": r.cycles, "indexed": r.indexed})
+                        )
+                        .collect::<Vec<_>>()
+                ),
             );
             if let Some(p) = &self.params {
                 for (k, v) in [
@@ -822,10 +877,8 @@ impl Dataset for IlluminaRun {
                     }
                 }
             }
-            t.extra.insert(
-                "interop_versions".into(),
-                json!(self.metrics.versions),
-            );
+            t.extra
+                .insert("interop_versions".into(), json!(self.metrics.versions));
             t.extra
                 .insert("completion_markers".into(), json!(self.markers));
         }
@@ -849,15 +902,24 @@ impl Dataset for IlluminaRun {
 
     fn provenance(&self) -> ProvenanceMap {
         let mut p = ProvenanceMap::new();
-        for k in ["tables[0]", "tables[1]", "tables[2]", "tables[3]", "tables[4]"] {
+        for k in [
+            "tables[0]",
+            "tables[1]",
+            "tables[2]",
+            "tables[3]",
+            "tables[4]",
+        ] {
             p.insert(k.into(), Source::VendorImpl);
         }
         p.insert("tables[5]".into(), Source::PriorArt);
         p.insert("traces[0]".into(), Source::VendorImpl);
-        p.insert("tables[0].extra.instrument_model".into(), match self.model() {
-            Some((_, true)) => Source::VendorImpl,
-            _ => Source::Inferred,
-        });
+        p.insert(
+            "tables[0].extra.instrument_model".into(),
+            match self.model() {
+                Some((_, true)) => Source::VendorImpl,
+                _ => Source::Inferred,
+            },
+        );
         p
     }
 
@@ -1095,10 +1157,9 @@ impl Dataset for IlluminaRun {
             "read_structure".into(),
             Quantity::plain(self.run.read_structure()),
         );
-        method.parameters.insert(
-            "cycles".into(),
-            Quantity::plain(self.run.total_cycles()),
-        );
+        method
+            .parameters
+            .insert("cycles".into(), Quantity::plain(self.run.total_cycles()));
         method
             .parameters
             .insert("lanes".into(), Quantity::plain(self.run.lane_count));

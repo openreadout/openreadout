@@ -157,7 +157,8 @@ impl<'a> Rd<'a> {
     }
     fn text(&mut self) -> Option<String> {
         let n = self.u16()? as usize;
-        self.take(n).map(|s| String::from_utf8_lossy(s).into_owned())
+        self.take(n)
+            .map(|s| String::from_utf8_lossy(s).into_owned())
     }
 }
 
@@ -294,13 +295,13 @@ impl InterOp {
             );
             return;
         }
-        let recs: Vec<&[u8]> =
-            records(name, b, 2, size as usize, &mut self.problems).collect();
+        let recs: Vec<&[u8]> = records(name, b, 2, size as usize, &mut self.problems).collect();
         for r in recs {
             let mut c = Rd::new(r);
             let lane = c.u16();
             if ver == 1 {
-                let (Some(lane), Some(tile), Some(code), Some(v)) = (lane, c.u16(), c.u16(), c.f32())
+                let (Some(lane), Some(tile), Some(code), Some(v)) =
+                    (lane, c.u16(), c.u16(), c.f32())
                 else {
                     continue;
                 };
@@ -356,7 +357,7 @@ impl InterOp {
         let tile32 = ver >= 7;
         let base = if tile32 { 8 } else { 6 };
         let size = size as usize;
-        if !(4..=7).contains(&ver) || size < base || (size - base) % 4 != 0 {
+        if !(4..=7).contains(&ver) || size < base || !(size - base).is_multiple_of(4) {
             self.skipped.insert(
                 name.into(),
                 format!("quality metrics version {ver} (record size {size}) is not decoded"),
@@ -379,7 +380,11 @@ impl InterOp {
         for r in recs {
             let mut c = Rd::new(r);
             let lane = c.u16();
-            let tile = if tile32 { c.u32() } else { c.u16().map(u32::from) };
+            let tile = if tile32 {
+                c.u32()
+            } else {
+                c.u16().map(u32::from)
+            };
             let cycle = c.u16();
             let (Some(lane), Some(tile), Some(cycle)) = (lane, tile, cycle) else {
                 continue;
@@ -440,7 +445,11 @@ impl InterOp {
         for r in recs {
             let mut c = Rd::new(r);
             let lane = c.u16();
-            let tile = if tile32 { c.u32() } else { c.u16().map(u32::from) };
+            let tile = if tile32 {
+                c.u32()
+            } else {
+                c.u16().map(u32::from)
+            };
             let (Some(lane), Some(tile), Some(cycle), Some(rate)) = (lane, tile, c.u16(), c.f32())
             else {
                 continue;
@@ -496,7 +505,11 @@ impl InterOp {
         for r in recs {
             let mut c = Rd::new(r);
             let lane = c.u16();
-            let tile = if tile32 { c.u32() } else { c.u16().map(u32::from) };
+            let tile = if tile32 {
+                c.u32()
+            } else {
+                c.u16().map(u32::from)
+            };
             let (Some(lane), Some(tile), Some(cycle)) = (lane, tile, c.u16()) else {
                 continue;
             };
@@ -550,7 +563,11 @@ impl InterOp {
         for r in recs {
             let mut c = Rd::new(r);
             let lane = c.u16();
-            let tile = if tile32 { c.u32() } else { c.u16().map(u32::from) };
+            let tile = if tile32 {
+                c.u32()
+            } else {
+                c.u16().map(u32::from)
+            };
             let (Some(lane), Some(tile), Some(cycle)) = (lane, tile, c.u16()) else {
                 continue;
             };
@@ -589,7 +606,11 @@ impl InterOp {
                 break;
             }
             let lane = c.u16();
-            let tile = if ver == 2 { c.u32() } else { c.u16().map(u32::from) };
+            let tile = if ver == 2 {
+                c.u32()
+            } else {
+                c.u16().map(u32::from)
+            };
             let read = c.u16();
             let index = c.text();
             let count = if ver == 2 {
@@ -599,11 +620,19 @@ impl InterOp {
             };
             let sample = c.text();
             let project = c.text();
-            let (Some(lane), Some(_), Some(_), Some(index), Some(count), Some(sample), Some(project)) =
-                (lane, tile, read, index, count, sample, project)
+            let (
+                Some(lane),
+                Some(_),
+                Some(_),
+                Some(index),
+                Some(count),
+                Some(sample),
+                Some(project),
+            ) = (lane, tile, read, index, count, sample, project)
             else {
-                self.problems
-                    .push(format!("{name}: ends inside a record (the rest is left out)"));
+                self.problems.push(format!(
+                    "{name}: ends inside a record (the rest is left out)"
+                ));
                 break;
             };
             *sums.entry((lane, index, sample, project)).or_default() += count;

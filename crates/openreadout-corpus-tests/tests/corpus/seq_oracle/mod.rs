@@ -37,7 +37,9 @@ pub fn compare_file(format: &str, id: &str, path: &Path, o: &Value) -> Result<St
             let r = signal(&openreadout_seq::Fast5Reader, path, o, false)?;
             if id == "seq-fast5-multi-zip" {
                 cross_check_pod5(path)?;
-                return Ok(format!("{r}; pA equal pod5's reading of the POD5 conversion"));
+                return Ok(format!(
+                    "{r}; pA equal pod5's reading of the POD5 conversion"
+                ));
             }
             Ok(r)
         }
@@ -75,9 +77,8 @@ fn illumina(path: &Path, o: &Value) -> Result<String, String> {
         let read = r["read"].as_f64().unwrap_or(0.0);
         for l in r["lanes"].as_array().unwrap_or(&empty) {
             let lane = l["lane"].as_f64().unwrap_or(0.0);
-            let row = (0..t.columns[0].len()).find(|&i| {
-                column(st, &t, "read")[i] == read && column(st, &t, "lane")[i] == lane
-            });
+            let row = (0..t.columns[0].len())
+                .find(|&i| column(st, &t, "read")[i] == read && column(st, &t, "lane")[i] == lane);
             let Some(i) = row else {
                 problems.push(format!("no summary row for read {read} lane {lane}"));
                 continue;
@@ -159,8 +160,9 @@ fn compare_fastq(
     use std::io::{BufRead, BufReader};
     let n = o["hashed_records"].as_u64().unwrap_or(2000);
     let dir = tempfile::tempdir().map_err(|e| e.to_string())?;
-    let report = openreadout_seq::export_run_fastq(path, Some(dir.path()), Some((0, Some(n - 1))), false)
-        .map_err(|e| format!("FASTQ export failed: {e}"))?;
+    let report =
+        openreadout_seq::export_run_fastq(path, Some(dir.path()), Some((0, Some(n - 1))), false)
+            .map_err(|e| format!("FASTQ export failed: {e}"))?;
     if !report.verified {
         problems.push("FASTQ export not verified".into());
     }
@@ -226,7 +228,13 @@ fn compare_fastq(
 
 fn read_meta(
     ds: &mut dyn Dataset,
-) -> Result<(openreadout_core::model::FileInfo, openreadout_core::model::Table), String> {
+) -> Result<
+    (
+        openreadout_core::model::FileInfo,
+        openreadout_core::model::Table,
+    ),
+    String,
+> {
     let info = ds.info().map_err(|e| e.to_string())?;
     let t = ds
         .read_table(0, 0, info.tables[0].row_count)
@@ -234,9 +242,16 @@ fn read_meta(
     Ok((info, t))
 }
 
-fn text_col(info: &openreadout_core::model::TableInfo, t: &openreadout_core::model::Table, name: &str, i: usize) -> String {
+fn text_col(
+    info: &openreadout_core::model::TableInfo,
+    t: &openreadout_core::model::Table,
+    name: &str,
+    i: usize,
+) -> String {
     let c = info.columns.iter().position(|c| c.name == name);
-    let cats = c.and_then(|c| info.columns[c].extra.get("categories")).and_then(Value::as_array);
+    let cats = c
+        .and_then(|c| info.columns[c].extra.get("categories"))
+        .and_then(Value::as_array);
     let code = column(info, t, name).get(i).copied().unwrap_or(-1.0);
     cats.and_then(|a| a.get(code as usize))
         .and_then(Value::as_str)
@@ -320,15 +335,14 @@ fn signal(reader: &dyn FormatReader, path: &Path, o: &Value, pod5: bool) -> Resu
         let our_sum: f64 = v.iter().sum();
         let (our_lo, our_hi) = v
             .iter()
-            .fold((f64::INFINITY, f64::NEG_INFINITY), |(a, b), x| (a.min(*x), b.max(*x)));
+            .fold((f64::INFINITY, f64::NEG_INFINITY), |(a, b), x| {
+                (a.min(*x), b.max(*x))
+            });
         // pod5 converts in single precision: compare to 1e-5 relative
         if !close(our_sum, sum, 1e-6, 1e-3)
             || !close(our_lo, lo, 1e-5, 1e-4)
             || !close(our_hi, hi, 1e-5, 1e-4)
-            || first
-                .iter()
-                .zip(v)
-                .any(|(a, b)| !close(*a, *b, 1e-5, 1e-4))
+            || first.iter().zip(v).any(|(a, b)| !close(*a, *b, 1e-5, 1e-4))
         {
             problems.push(format!(
                 "read {i}: signal sum {our_sum} vs {sum}, min {our_lo} vs {lo}, max {our_hi} vs {hi}"
@@ -336,7 +350,10 @@ fn signal(reader: &dyn FormatReader, path: &Path, o: &Value, pod5: bool) -> Resu
         }
     }
     if problems.is_empty() {
-        Ok(format!("{} reads, {samples} samples in pA agree", reads.len()))
+        Ok(format!(
+            "{} reads, {samples} samples in pA agree",
+            reads.len()
+        ))
     } else {
         Err(problems.join("; "))
     }
@@ -358,9 +375,14 @@ fn cross_check_pod5(path: &Path) -> Result<(), String> {
         let Some(i) = (0..t.columns[0].len())
             .find(|&i| Some(text_col(ti, &t, "read_id", i).as_str()) == r["read_id"].as_str())
         else {
-            return Err(format!("read {} of the POD5 conversion is not in the FAST5", r["read_id"]));
+            return Err(format!(
+                "read {} of the POD5 conversion is not in the FAST5",
+                r["read_id"]
+            ));
         };
-        let tr = ds.read_trace(0, i as u32, 0, 32).map_err(|e| e.to_string())?;
+        let tr = ds
+            .read_trace(0, i as u32, 0, 32)
+            .map_err(|e| e.to_string())?;
         for (a, b) in tr.channels[0]
             .iter()
             .zip(r["signal_first"].as_array().into_iter().flatten())
@@ -392,11 +414,12 @@ fn reads(format: &str, path: &Path, o: &Value) -> Result<String, String> {
     if !exact {
         return Err("the corpus files are small enough for info to read whole".into());
     }
-    let mut cmp = |ours: &Value, theirs: &Value, what: &str, tol: f64| match (num(ours), num(theirs)) {
-        (Some(a), Some(b)) if close(a, b, tol, 1e-9) => {}
-        (None, None) => {}
-        (a, b) => problems.push(format!("{what}: {a:?} vs pysam {b:?}")),
-    };
+    let mut cmp =
+        |ours: &Value, theirs: &Value, what: &str, tol: f64| match (num(ours), num(theirs)) {
+            (Some(a), Some(b)) if close(a, b, tol, 1e-9) => {}
+            (None, None) => {}
+            (a, b) => problems.push(format!("{what}: {a:?} vs pysam {b:?}")),
+        };
     if format == "bam" {
         cmp(&s["records"], &o["records"], "records", 0.0);
         cmp(&s["reads"], &o["primary"], "primary records", 0.0);

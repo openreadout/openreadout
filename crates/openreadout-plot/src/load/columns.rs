@@ -60,7 +60,10 @@ pub(super) fn histogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Res
         ));
     }
     let col = &t.columns[c];
-    let table_name = t.name.clone().unwrap_or_else(|| format!("table {}", t.index));
+    let table_name = t
+        .name
+        .clone()
+        .unwrap_or_else(|| format!("table {}", t.index));
     let yname = if info.format.family == "sequencing" && table_name == "reads" {
         "reads"
     } else {

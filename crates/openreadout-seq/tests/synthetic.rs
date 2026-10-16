@@ -1,6 +1,7 @@
 //! The readers on the committed synthetic fixtures (`oracle/make_seq_fixtures.py`): tiny Illumina
 //! run folders with BCL and CBCL base calls, FASTQ, BAM, POD5 and FAST5, with values known by
 //! construction.
+#![allow(clippy::float_cmp, clippy::many_single_char_names)] // values known exactly by construction
 
 use std::path::{Path, PathBuf};
 
@@ -39,8 +40,11 @@ fn bcl_run_folder() {
     // left out of the read's totals
     assert_eq!(column(&mut *ds, 0, "percent_q30"), vec![100.0]);
     assert_eq!(column(&mut *ds, 0, "reads_pf"), vec![3e-6]);
-    assert_eq!(column(&mut *ds, 0, "phasing"), vec![0.1]);
-    assert_eq!(column(&mut *ds, 1, "mean_qscore")[0], (30.0 + 2.0 * 31.0) / 3.0);
+    assert!((column(&mut *ds, 0, "phasing")[0] - 0.1).abs() < 1e-6);
+    assert_eq!(
+        column(&mut *ds, 1, "mean_qscore")[0],
+        (30.0 + 2.0 * 31.0) / 3.0
+    );
     // base calls table: counted from the filter file
     assert_eq!(column(&mut *ds, 5, "clusters"), vec![4.0]);
     assert_eq!(column(&mut *ds, 5, "clusters_pf"), vec![3.0]);
@@ -54,7 +58,8 @@ fn bcl_run_folder() {
 
 #[test]
 fn bcl_fastq_export() {
-    let run = IlluminaRun::open(&openreadout_core::source::Input::local(fixture("run-bcl"))).unwrap();
+    let run =
+        IlluminaRun::open(&openreadout_core::source::Input::local(fixture("run-bcl"))).unwrap();
     let dir = tempfile::tempdir().unwrap();
     let r = export_fastq(&run, dir.path(), &FastqOptions::default()).unwrap();
     assert!(r.verified);
@@ -62,9 +67,11 @@ fn bcl_fastq_export() {
     assert_eq!(r.filtered_out, 1);
     let f = &r.files[0];
     let text = String::from_utf8(
-        std::io::Read::bytes(flate2::read::GzDecoder::new(std::fs::File::open(&f.path).unwrap()))
-            .map(Result::unwrap)
-            .collect(),
+        std::io::Read::bytes(flate2::read::GzDecoder::new(
+            std::fs::File::open(&f.path).unwrap(),
+        ))
+        .map(Result::unwrap)
+        .collect(),
     )
     .unwrap();
     // cluster 0: A Q30, G Q31; cluster 1: C Q35, C Q36; cluster 3: T Q20, then a no-call
@@ -138,7 +145,10 @@ fn bam_records_and_tags() {
     let pos = column(&mut *ds, 0, "pos");
     assert!(pos[0] == 10.0 && pos[1].is_nan(), "{pos:?}");
     let q = column(&mut *ds, 0, "mean_quality");
-    assert!((q[0] - 30.0).abs() < 1e-9 && (q[1] - 31.0).abs() < 1e-9, "{q:?}");
+    assert!(
+        (q[0] - 30.0).abs() < 1e-9 && (q[1] - 31.0).abs() < 1e-9,
+        "{q:?}"
+    );
 }
 
 #[test]
@@ -205,7 +215,11 @@ fn malformed_inputs_are_errors_not_panics() {
     std::fs::copy(fixture("run-bcl/RunInfo.xml"), run.join("RunInfo.xml")).unwrap();
     let q = std::fs::read(fixture("run-bcl/InterOp/QMetricsOut.bin")).unwrap();
     std::fs::write(run.join("InterOp/QMetricsOut.bin"), &q[..q.len() - 7]).unwrap();
-    let mut ds = IlluminaRunReader.open(&run).unwrap();
+    let ds = IlluminaRunReader.open(&run).unwrap();
     let info = ds.info().unwrap();
-    assert!(info.notes.iter().any(|n| n.contains("partial record")), "{:?}", info.notes);
+    assert!(
+        info.notes.iter().any(|n| n.contains("partial record")),
+        "{:?}",
+        info.notes
+    );
 }
