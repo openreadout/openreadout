@@ -566,12 +566,13 @@ fn run_quality(
                 let color = if *q >= 30 { theme.accent } else { theme.ink };
                 p.bars(&mut fig, &[(f64::from(*q), n / 1e9)], width, 0.0, color);
             }
-            let q30: f64 = by_q.range(30..).map(|(_, n)| n).sum();
+            // The header gives % ≥ Q30 as the run summary counts it (without the last cycle of
+            // each read), so the band is labelled without a second, slightly different number.
             if let Some((px, py)) = p.pt(30.0, hi * 1.08) {
                 fig.text(
                     px + fs * 0.3,
                     py,
-                    &format!("≥ Q30: {:.1}%", q30 / total * 100.0),
+                    "≥ Q30",
                     &TextStyle::new(theme.small_size(), theme.accent)
                         .align(Anchor::Start, Baseline::Middle),
                 );
