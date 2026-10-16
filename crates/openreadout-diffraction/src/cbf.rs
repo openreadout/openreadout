@@ -474,6 +474,15 @@ fn read_section(file: &SourceFile, at: u64, file_len: u64, index: usize) -> Resu
             ),
         ));
     }
+    if conversion == Conversion::ByteOffset && product > binary_size {
+        return Err(Error::corrupt_at(
+            FORMAT_ID,
+            at,
+            format!(
+                "section {index}: {product} byte-offset values cannot fit in {binary_size} bytes (at least one byte each)"
+            ),
+        ));
+    }
     Ok(Section {
         marker_offset: at,
         data_offset: at + start as u64 + 4,

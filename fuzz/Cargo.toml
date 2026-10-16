@@ -47,6 +47,7 @@ openreadout-oif = { path = "../crates/openreadout-oif" }
 openreadout-plexon = { path = "../crates/openreadout-plexon" }
 openreadout-ephys = { path = "../crates/openreadout-ephys" }
 openreadout-dcimg = { path = "../crates/openreadout-dcimg" }
+openreadout-diffraction = { path = "../crates/openreadout-diffraction" }
 openreadout-hcs = { path = "../crates/openreadout-hcs" }
 openreadout-spectro = { path = "../crates/openreadout-spectro" }
 openreadout-biophys = { path = "../crates/openreadout-biophys" }
@@ -1086,6 +1087,41 @@ bench = false
 [[bin]]
 name = "whole_uvprobe"
 path = "fuzz_targets/whole_uvprobe.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_cbf"
+path = "fuzz_targets/whole_cbf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_smv"
+path = "fuzz_targets/whole_smv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mdoc"
+path = "fuzz_targets/whole_mdoc.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_bitshuffle"
+path = "fuzz_targets/codec_bitshuffle.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "nxmx_links"
+path = "fuzz_targets/nxmx_links.rs"
 test = false
 doc = false
 bench = false
