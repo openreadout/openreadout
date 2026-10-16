@@ -448,6 +448,11 @@ pub(crate) fn render(
                 f.to_uppercase().collect::<String>() + c.as_str()
             })
         });
+    // an image-analysis metric (Incucyte) is named by the read itself: `Phase Object Confluence`
+    let mode = match mode {
+        Some(m) if m == "Imaging" => t.name.clone().or(Some(m)),
+        m => m,
+    };
     let measure = match (mode, series.wavelength_nm) {
         (Some(m), Some(wl)) => format!("{m} at {} nm", format_value(wl)),
         (Some(m), None) => m,

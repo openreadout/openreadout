@@ -6,6 +6,7 @@ pub(crate) mod envision;
 pub(crate) mod gen5;
 pub(crate) mod gen5_xpt;
 pub(crate) mod generic;
+pub(crate) mod incucyte;
 pub(crate) mod skanit;
 pub(crate) mod softmax;
 pub(crate) mod softmax_pda;

@@ -78674,3 +78674,19 @@ license_checked = "https://github.com/beabock/nanodRop/blob/d5088583/LICENSE, 20
 source = "beabock/nanodRop (R package) example data inst/extdata/nanodrop_example.tsv, commit d5088583"
 attribution = "Beatrice Bock"
 notes = "NanoDrop One UV-Vis spectrum export: 24 measurement blocks (sample and repeat), 190-850 nm at 0.5 nm, //WLCalib lines. Ground truth: pandas."
+
+[[file]]
+id = "incucyte-incucytedrc-mda-mb-468"
+format = "plate"
+family = "plate-reader"
+role = "input"
+tier = "smoke"
+filename = "incucyte-incucytedrc-mda-mb-468.txt"
+url = "https://raw.githubusercontent.com/chapmandu2/IncucyteDRC/7028854eb45842db903a2286e39ace8d5fce0a5d/inst/extdata/example_data.txt"
+sha256 = "6696eb8289a1fbd06f818bf6b53bdebaf80a953ec21394bc560c5d746a3c3edb"
+size = 39963
+license = "GPL-2.0-only"
+license_checked = "https://github.com/chapmandu2/IncucyteDRC/blob/7028854eb45842db903a2286e39ace8d5fce0a5d/DESCRIPTION, 2026-10-15"
+source = "chapmandu2/IncucyteDRC (R package) example data inst/extdata/example_data.txt, commit 7028854eb458"
+attribution = "Phil Chapman (CRUK Manchester Institute)"
+notes = "Incucyte Zoom metric export (Label/Analysis Job key lines): Phase Object Confluence (Percent), MDA-MB-468 cells, 60 wells B2-G11 as columns, 71 scans over 280 h, day-first dates. Only the data file is used; the package's code is not read. Ground truth: oracle/plate.py incucyte_summary."
