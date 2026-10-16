@@ -41,6 +41,29 @@ pub(crate) static EMD: AssuranceProfile = AssuranceProfile {
     basis: Basis::PriorArt,
 };
 
+pub(crate) static MDOC: AssuranceProfile = AssuranceProfile {
+    format_id: "mdoc",
+    observe: observe_mdoc,
+    validated: MDOC_VALIDATED,
+    confidence: MDOC_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_mdoc(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    for t in &info.tables {
+        if let Some(k) = t
+            .extra
+            .get("mdoc")
+            .and_then(|m| m.get("section_kind"))
+            .and_then(|v| v.as_str())
+        {
+            o.feature(K::Layout, format!("sections {k}"), &[Scope::Metadata]);
+        }
+    }
+    o
+}
+
 fn truncated(o: &mut Observations, info: &FileInfo) {
     if info
         .notes
@@ -395,3 +418,10 @@ const EMD_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "Velox 3.24", 1, 1, 1),
 ];
 // END GENERATED emd
+
+// BEGIN GENERATED mdoc (cargo xtask assurance-audit --write; do not edit)
+const MDOC_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const MDOC_VALIDATED: &[Validated] = &[
+];
+// END GENERATED mdoc

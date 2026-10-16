@@ -63,6 +63,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_tiff::TiffReader))
         .with(Box::new(openreadout_zarr::ZarrReader))
         .with(Box::new(openreadout_em::MrcReader))
+        .with(Box::new(openreadout_em::MdocReader))
         .with(Box::new(openreadout_em::DmReader))
         .with(Box::new(openreadout_em::SerReader))
         .with(Box::new(openreadout_em::EmdReader))

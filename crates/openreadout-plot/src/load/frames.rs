@@ -12,6 +12,14 @@ use crate::spec::{MarkKind, SeriesSpec};
 
 /// Pixel statistics a frame series can show.
 const STATS: &[&str] = &["mean", "sum", "max", "min"];
+/// Units our frame-record names end in.
+const UNIT_SUFFIXES: &[(&str, &str)] = &[
+    ("_e_per_a2", "e/Å²"),
+    ("_deg", "°"),
+    ("_um", "µm"),
+    ("_s", "s"),
+    ("_a", "Å"),
+];
 /// Frames read for pixel statistics at most.
 const MAX_FRAMES: usize = 20_000;
 
@@ -28,7 +36,10 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
             im.size_c
         )));
     }
-    let n = im.size_t.max(1) as usize;
+    // Frames are the time points, or the sections of a z stack (a tilt series saved as a
+    // volume) when there is one time point.
+    let along_z = im.size_t <= 1 && im.size_z > 1;
+    let n = if along_z { im.size_z } else { im.size_t.max(1) } as usize;
     let (_, records) = ds.frames(im.index, None)?;
     // The fields the frames record, in the order the first record has them.
     let fields: Vec<String> = records
@@ -77,10 +88,14 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         for t in 0..n {
             let p = ds.read_plane(
                 im.index,
-                PlaneIndex {
-                    c,
-                    z: im.size_z / 2,
-                    t: t as u32,
+                if along_z {
+                    PlaneIndex { c, z: t as u32, t: 0 }
+                } else {
+                    PlaneIndex {
+                        c,
+                        z: im.size_z / 2,
+                        t: t as u32,
+                    }
                 },
             )?;
             let bps = p.pixel_type.bytes_per_sample();
@@ -120,11 +135,10 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         )));
     }
     let unit_of = |name: &str| -> Option<String> {
-        if let Some(u) = name.strip_suffix("_deg").map(|_| "°") {
-            return Some(u.into());
-        }
-        if name.ends_with("_s") {
-            return Some("s".into());
+        for (suffix, unit) in UNIT_SUFFIXES {
+            if name.ends_with(suffix) {
+                return Some((*unit).into());
+            }
         }
         records
             .first()
@@ -137,7 +151,11 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         match name {
             "t" => "frame".into(),
             "dose" => "dose per frame".into(),
-            other => other.trim_end_matches("_deg").trim_end_matches("_s").to_string(),
+            other => UNIT_SUFFIXES
+                .iter()
+                .find_map(|(suffix, _)| other.strip_suffix(suffix))
+                .unwrap_or(other)
+                .to_string(),
         }
     };
     let mark = if pts.len() > 200 {
