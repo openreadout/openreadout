@@ -82,6 +82,38 @@ pub enum Column {
     Skipped,
 }
 
+impl Column {
+    /// Rows decoded (0 for a skipped column).
+    pub fn len(&self) -> usize {
+        match self {
+            Column::Int(v) => v.len(),
+            Column::Float(v) => v.len(),
+            Column::Bool(v) => v.len(),
+            Column::Bytes(v) => v.len(),
+            Column::IntList(v) => v.len(),
+            Column::Map(v) => v.len(),
+            Column::Text(v) => v.len(),
+            Column::Skipped => 0,
+        }
+    }
+
+    /// True when no row was decoded.
+    pub fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
+}
+
+/// Rows of a table: what its batches declare, but no more than its longest decoded column (a
+/// damaged file can declare billions of rows its columns do not hold).
+pub fn row_count(ipc: &IpcFile, cols: &[Column]) -> usize {
+    let declared = ipc
+        .batches
+        .iter()
+        .fold(0u64, |a, b| a.saturating_add(b.rows));
+    let decoded = cols.iter().map(Column::len).max().unwrap_or(0);
+    usize::try_from(declared).unwrap_or(usize::MAX).min(decoded)
+}
+
 /// One record batch of a file: its location and row count.
 #[derive(Debug, Clone, Copy)]
 pub struct BatchBlock {

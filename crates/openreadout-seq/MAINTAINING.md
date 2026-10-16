@@ -124,7 +124,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
-- committed fixtures: 27 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- committed fixtures: 28 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `seq_interop`, `seq_vbz`, `whole_bam`, `whole_fast5`, `whole_fastq`, `whole_illumina_bcl`, `whole_illumina_cbcl`, `whole_pod5`
 - corpus inputs by tier: smoke 8, standard 3
 - golden snapshots: [`corpus/snapshots/illumina-run.jsonl`](../../corpus/snapshots/illumina-run.jsonl), [`corpus/snapshots/pod5.jsonl`](../../corpus/snapshots/pod5.jsonl), [`corpus/snapshots/fast5.jsonl`](../../corpus/snapshots/fast5.jsonl), [`corpus/snapshots/fastq.jsonl`](../../corpus/snapshots/fastq.jsonl), [`corpus/snapshots/bam.jsonl`](../../corpus/snapshots/bam.jsonl)

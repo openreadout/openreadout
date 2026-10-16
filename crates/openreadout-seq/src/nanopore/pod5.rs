@@ -419,7 +419,7 @@ pub fn open(input: &Input) -> Result<Pod5> {
         }
         let cols =
             ipc::read_all(&b, &mut t).map_err(|e| corrupt(format!("run info table: {e}")))?;
-        let n = t.batches.iter().map(|b| b.rows).sum::<u64>() as usize;
+        let n = ipc::row_count(&t, &cols);
         for i in 0..n {
             let g = |name: &str| text(col(&cols, &t, name), i);
             let map = |name: &str| match col(&cols, &t, name) {
@@ -452,7 +452,7 @@ pub fn open(input: &Input) -> Result<Pod5> {
             runs.push(r);
         }
     }
-    let n = rt.batches.iter().map(|b| b.rows).sum::<u64>() as usize;
+    let n = ipc::row_count(&rt, &rc);
     let mut reads = Vec::with_capacity(n);
     let mut rows = Vec::with_capacity(n);
     for i in 0..n {

@@ -635,7 +635,8 @@ impl InterOp {
                 ));
                 break;
             };
-            *sums.entry((lane, index, sample, project)).or_default() += count;
+            let n = sums.entry((lane, index, sample, project)).or_default();
+            *n = n.saturating_add(count);
         }
         self.index = sums
             .into_iter()
@@ -673,6 +674,29 @@ pub const METRICS_FORMAT: &str = FORMAT_ID;
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Two v2 index records of one sample whose counts add past u64::MAX (found by fuzz target
+    /// seq_interop): the sum saturates instead of panicking.
+    #[test]
+    fn index_counts_saturate() {
+        let mut b = vec![2u8];
+        for _ in 0..2 {
+            b.extend_from_slice(&1u16.to_le_bytes()); // lane
+            b.extend_from_slice(&1101u32.to_le_bytes()); // tile
+            b.extend_from_slice(&1u16.to_le_bytes()); // read
+            b.extend_from_slice(&1u16.to_le_bytes()); // index
+            b.push(b'A');
+            b.extend_from_slice(&u64::MAX.to_le_bytes()); // count
+            b.extend_from_slice(&1u16.to_le_bytes()); // sample
+            b.push(b's');
+            b.extend_from_slice(&1u16.to_le_bytes()); // project
+            b.push(b'p');
+        }
+        let mut io = InterOp::default();
+        io.add_index("i", &b);
+        assert_eq!(io.index.len(), 1);
+        assert_eq!(io.index[0].clusters, u64::MAX);
+    }
 
     #[test]
     fn q_v7_bins_and_records() {

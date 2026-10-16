@@ -336,6 +336,14 @@ incremental = false
 [profile.dev.package.image-webp]
 overflow-checks = false
 
+# pure_jpegls 2.0.0 multiplies the run-interruption error without overflow checks (run_mode.rs:236;
+# found by fuzz target codec_jpegls on 2026-10-16). Release builds wrap and clamp the sample into
+# range, so a hostile JPEG-LS stream decodes to wrong pixels instead of failing; build it the same
+# way everywhere so debug builds and the fuzzer do not panic on it (reproducer:
+# fuzz/known-upstream/pure_jpegls-2.0.0-run-mode-overflow.jls).
+[profile.dev.package.pure_jpegls]
+overflow-checks = false
+
 # calamine 0.36.1 multiplies cell-reference digits without overflow checks (fuzz target
 # whole_plate_xlsx; reproducer fuzz/known-upstream/calamine-0.36.1-cell-reference-overflow.xlsx).
 # Release builds wrap and the plate reader rejects the reference. The plate reader's

@@ -65,3 +65,10 @@ with `vbz_h5py_plugin` (ONT, MPL-2.0).
   `digitisation`, `offset`, `range`, `sampling_rate`; `context_tags` and `tracking_id` attribute
   sets; `Analyses/Basecall_1D_*/BaseCalled_template/Fastq`. pA = (raw + offset) × range /
   digitisation, which reproduces pod5's conversion of the same reads.
+
+## 2026-10-16 — damaged POD5 row counts
+
+- Input: a fuzzer-made POD5 (`crates/openreadout-seq/tests/fixtures/malformed/file-fuzz-pod5-declared-rows.pod5`). No new prior art.
+- A table's row count is what its record batches declare, capped at its longest decoded column. A
+  damaged file that declares billions of rows no longer makes the reader allocate and loop over
+  them.

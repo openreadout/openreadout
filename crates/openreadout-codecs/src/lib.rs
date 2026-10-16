@@ -1072,6 +1072,19 @@ mod tests {
         assert!(webp_decode_limited(&d, 1 << 20).is_err());
     }
 
+    /// A JPEG-LS stream whose run-interruption error overflows pure_jpegls' i32 arithmetic: no
+    /// panic in any build (the workspace turns off overflow checks for pure_jpegls).
+    #[cfg(feature = "jpegls")]
+    #[test]
+    fn jpegls_run_mode_overflow_does_not_panic() {
+        let p = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../fuzz/known-upstream/pure_jpegls-2.0.0-run-mode-overflow.jls");
+        let Ok(d) = std::fs::read(p) else {
+            return;
+        };
+        let _ = jpegls_decode_limited(&d, 1 << 20);
+    }
+
     /// OpenJPEG-encoded fixtures (imagecodecs 2026.8.16) and OpenJPEG's own decodes of them:
     /// lossless 14-bit grey (exact), a JP2-wrapped lossless RGB (exact) and an irreversible
     /// 9/7 + ICT RGB (within one grey level).
