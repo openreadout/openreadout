@@ -182,7 +182,9 @@ fn hints_follow_the_tool_table() {
     assert_eq!(h["lanes"], json!({}));
     let h = view_hint(
         "openreadout_stats",
-        Some(&args(json!({"file": "/d/blot.scn", "lanes": {"count": 10}}))),
+        Some(&args(
+            json!({"file": "/d/blot.scn", "lanes": {"count": 10}}),
+        )),
     )
     .unwrap();
     assert_eq!(h["lanes"], json!({"count": 10}));
