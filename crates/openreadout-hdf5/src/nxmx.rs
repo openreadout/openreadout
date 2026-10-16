@@ -285,6 +285,8 @@ pub struct NxmxDataset {
     notes: Vec<String>,
     problems: Vec<(&'static str, String)>,
     chunks: TileCache<u64, Vec<u8>>,
+    /// The master was opened without any of its data files.
+    data_missing: bool,
 }
 
 impl std::fmt::Debug for NxmxDataset {
@@ -353,6 +355,7 @@ impl NxmxDataset {
             notes,
             problems: Vec::new(),
             chunks: TileCache::new(CHUNK_CACHE_BYTES),
+            data_missing: false,
         };
         ds.read_data_files()?;
         ds.read_geometry();
@@ -433,11 +436,28 @@ impl NxmxDataset {
         }
         self.frames = first;
         if self.data.is_empty() {
-            return Err(Error::unsupported(
-                NXMX_FORMAT_ID,
-                "no readable data file",
-                "the master links its images from `<prefix>_data_NNNNNN.h5` (or `<prefix>_NNNNNN.h5`) files; put them next to the master file",
-            ));
+            // A master on its own: the image's size from the detector description, no pixels.
+            let f = &self.file;
+            let spec = "/entry/instrument/detector/detectorSpecific";
+            let n = |k: &str| number_at(f, &format!("{spec}/{k}")).map(|(v, _)| v);
+            let (Some(w), Some(h)) = (n("x_pixels_in_detector"), n("y_pixels_in_detector")) else {
+                return Err(Error::unsupported(
+                    NXMX_FORMAT_ID,
+                    "no readable data file",
+                    "the master links its images from `<prefix>_data_NNNNNN.h5` (or `<prefix>_NNNNNN.h5`) files; put them next to the master file",
+                ));
+            };
+            let images = n("nimages").unwrap_or(1.0).max(1.0) * n("ntrigger").unwrap_or(1.0).max(1.0);
+            self.width = w as u32;
+            self.height = h as u32;
+            self.frames = images as u64;
+            self.pixel_type = match n("bit_depth_image").map(|b| b as u32) {
+                Some(8) => PixelType::Uint8,
+                Some(32) => PixelType::Uint32,
+                _ => PixelType::Uint16,
+            };
+            self.data_missing = true;
+            self.notes.push("no data file next to the master: geometry and image size only (from detectorSpecific); reading pixels needs the data files".into());
         }
         Ok(())
     }
@@ -541,9 +561,9 @@ impl NxmxDataset {
         if let Some((axis, values, width)) = best {
             g.scan_axis = Some(axis.clone());
             g.oscillation_start_deg = values.first().copied();
-            g.oscillation_width_deg = width.or_else(|| {
-                (values.len() > 1).then(|| values[1] - values[0])
-            });
+            g.oscillation_width_deg = width
+                .or_else(|| (values.len() > 1).then(|| values[1] - values[0]))
+                .map(tidy);
             if values.len() as u64 == self.frames && self.frames > 1 {
                 self.angles = Some((axis, values));
             }
@@ -795,6 +815,13 @@ impl Dataset for NxmxDataset {
                 "image {image} plane c={} z={} t={} out of range (one image; c<1, z<1, t<{})",
                 idx.c, idx.z, idx.t, self.frames
             )));
+        }
+        if self.data_missing {
+            return Err(Error::unsupported(
+                NXMX_FORMAT_ID,
+                "pixels of a master file without its data files",
+                "put the `<prefix>_data_NNNNNN.h5` (or `<prefix>_NNNNNN.h5`) files the master names next to it",
+            ));
         }
         let (i, local) = self
             .locate(u64::from(idx.t))

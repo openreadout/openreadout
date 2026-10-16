@@ -6171,8 +6171,18 @@ def main():
             dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
             import spectro
 
+            import diffraction  # CBF, SMV, NeXus NXmx and SerialEM mdoc (oracle/diffraction.py)
+
             if _hcs.is_hcs(p):
                 data = _hcs.hcs_plate(p)
+            elif ext == ".cbf":
+                data = diffraction.cbf(p)
+            elif ext == ".img" and p.open("rb").read(1) == b"{":
+                data = diffraction.smv(p)
+            elif ext == ".nxs" or p.name.lower().endswith("_master.h5"):
+                data = diffraction.nxmx(p, MAX_PLANES)
+            elif ext == ".mdoc":
+                data = diffraction.mdoc(p)
             elif p.is_file() and (sk := spectro.kind(p)):
                 data = getattr(spectro, sk)(p, MAX_SWEEPS)
             elif p.is_dir() and (p / "AcqData" / "MSScan.bin").exists():

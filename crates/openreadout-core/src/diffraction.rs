@@ -240,13 +240,13 @@ pub fn experiment(images: &[ImageInfo]) -> Option<crate::experiment::Experiment>
         }
         let _ = write!(what, ", {} × {} px", im.size_x, im.size_y);
         if let Some(w) = g.wavelength_a {
-            let _ = write!(what, ", λ {w} Å");
+            let _ = write!(what, ", λ {} Å", short(w));
         }
         if let Some(d) = g.distance_mm {
             let _ = write!(what, ", {} mm", (d * 100.0).round() / 100.0);
         }
         if let Some(w) = g.oscillation_width_deg.filter(|w| *w > 0.0) {
-            let _ = write!(what, ", {w}° per image");
+            let _ = write!(what, ", {}° per image", short(w));
         }
         if let Some(r) = g.corner_resolution(im.size_x, im.size_y) {
             let _ = write!(what, ", {:.2} Å in the corners", r);
@@ -259,6 +259,14 @@ pub fn experiment(images: &[ImageInfo]) -> Option<crate::experiment::Experiment>
         );
     }
     Some(f.build())
+}
+
+/// `v` with at most 4 significant decimals, trailing zeros dropped (0.9795, 0.15, 0.02501).
+fn short(v: f64) -> String {
+    let digits = if v.abs() >= 1.0 { 4 } else { (4.0 - v.abs().log10().floor()).clamp(4.0, 10.0) as usize };
+    let s = format!("{v:.digits$}");
+    let s = s.trim_end_matches('0').trim_end_matches('.');
+    s.to_string()
 }
 
 /// Electron wavelength in ångström for an accelerating voltage in volts (relativistic).
