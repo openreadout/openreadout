@@ -74,7 +74,7 @@ paths = [".github/**"]
 requires = ["actionlint", "zizmor"]
 
 [jobs.corpus-fetch]
-paths = ["corpus/manifest.toml", "xtask/src/corpus.rs", "xtask/src/zipmember.rs"]
+paths = ["corpus/manifest.toml", "xtask/src/corpus.rs", "xtask/src/corpus/**", "xtask/src/zipmember.rs"]
 with = ["corpus-smoke", "python", "examples", "r-package"]
 
 [jobs.corpus-smoke]

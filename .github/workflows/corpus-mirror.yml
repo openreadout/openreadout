@@ -17,7 +17,7 @@ on:
     paths:
       - "corpus/manifest.toml"
       - "xtask/src/corpus.rs"
-      - "xtask/src/mirror.rs"
+      - "xtask/src/corpus/**"
       - ".github/workflows/corpus-mirror.yml"
   workflow_dispatch:
 

@@ -9,6 +9,10 @@ ignore = [
     # `paste` (compile-time proc macro, no known vulnerability) is archived/unmaintained.
     # Only reachable through `zarrs` (OME-Zarr export); revisit when zarrs drops it.
     { id = "RUSTSEC-2024-0436", reason = "unmaintained compile-time macro pulled in by zarrs; no vulnerability" },
+    # Every zip 8.x release was yanked when zip 9 came out (2026-10, no advisory, no yank
+    # message). calamine 0.36.1, the newest, still requires zip ^8.6, so `cargo update -p zip`
+    # has nothing to move to. Remove this when calamine moves to zip 9.
+    { crate = "zip@8.6.0", reason = "all zip 8.x versions are yanked and calamine 0.36 requires ^8.6; no advisory" },
 ]
 
 [licenses]
