@@ -168,11 +168,12 @@ fn from_rust_j2k(img: &rust_j2k::Image) -> Result<Raster> {
         .iter()
         .map(|c| upsampled(c, w, h))
         .collect::<Result<Vec<_>>>()?;
+    let signed = first.signed;
     for c in comps {
-        if c.signed {
+        if c.signed != signed {
             return Err(CodecError::Unsupported {
                 codec: "jpeg2000",
-                detail: "signed samples".into(),
+                detail: "signed and unsigned components in one image".into(),
             });
         }
         if c.bit_depth != depth {
@@ -188,7 +189,12 @@ fn from_rust_j2k(img: &rust_j2k::Image) -> Result<Raster> {
         let mut v = vec![0u8; px * n];
         for (ci, c) in planes.iter().enumerate() {
             for (dst, &s) in v.iter_mut().skip(ci).step_by(n).zip(c.iter()) {
-                *dst = s.clamp(0, 255) as u8;
+                // signed samples keep their two's-complement bit pattern
+                *dst = if signed {
+                    s.clamp(-128, 127) as i8 as u8
+                } else {
+                    s.clamp(0, 255) as u8
+                };
             }
         }
         v
@@ -197,7 +203,11 @@ fn from_rust_j2k(img: &rust_j2k::Image) -> Result<Raster> {
         for (ci, c) in planes.iter().enumerate() {
             let pairs = v.as_chunks_mut::<2>().0;
             for (dst, &s) in pairs.iter_mut().skip(ci).step_by(n).zip(c.iter()) {
-                *dst = (s.clamp(0, 65535) as u16).to_le_bytes();
+                *dst = if signed {
+                    (s.clamp(-32768, 32767) as i16).to_le_bytes()
+                } else {
+                    (s.clamp(0, 65535) as u16).to_le_bytes()
+                };
             }
         }
         v

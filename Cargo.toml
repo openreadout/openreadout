@@ -32,6 +32,7 @@ default-members = [
     "crates/openreadout-ephys",
     "crates/openreadout-chrom",
     "crates/openreadout-em",
+    "crates/openreadout-medical",
     "crates/openreadout-nmr",
     "crates/openreadout-signal",
     "crates/openreadout-ometiff",
@@ -111,6 +112,7 @@ openreadout-plexon = { path = "crates/openreadout-plexon", version = "0.3.0" }
 openreadout-ephys = { path = "crates/openreadout-ephys", version = "0.3.0" }
 openreadout-chrom = { path = "crates/openreadout-chrom", version = "0.3.0" }
 openreadout-em = { path = "crates/openreadout-em", version = "0.3.0" }
+openreadout-medical = { path = "crates/openreadout-medical", version = "0.3.0" }
 openreadout-nmr = { path = "crates/openreadout-nmr", version = "0.3.0" }
 openreadout-signal = { path = "crates/openreadout-signal", version = "0.3.0" }
 openreadout-ometiff = { path = "crates/openreadout-ometiff", version = "0.3.0" }
@@ -166,6 +168,8 @@ jpeg-decoder = { version = "0.3.2", default-features = false, features = ["platf
 dicom-toolkit-jpeg2000 = { version = "0.5", default-features = false, features = ["std"] }
 # JPEG 2000 with OpenJPEG-style mid-point reconstruction; pure Rust, no dependencies, no unsafe
 rust-j2k = "0.3"
+# DICOM JPEG-LS (lossless and near-lossless); pure Rust, no unsafe, depends only on thiserror
+pure_jpegls = "2.0"
 # TIFF WebP (50001) tiles; image-rs, pure Rust, forbid(unsafe_code)
 image-webp = "0.2"
 # TIFF JPEG XL (50002/52546) tiles; pure Rust, conformance-tested against libjxl; no thread
