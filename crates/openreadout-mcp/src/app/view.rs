@@ -1268,9 +1268,9 @@ fn sanger_window(
         })
         .unwrap_or(0);
     let end = (start + 80).min(n - 1);
-    let a = scans[start].max(0.0) as u64;
-    let b = scans[end].max(0.0) as u64;
-    (b > a).then_some((a.saturating_sub(10), b - a + 20))
+    let first = scans[start].max(0.0) as u64;
+    let last = scans[end].max(0.0) as u64;
+    (last > first).then_some((first.saturating_sub(10), last - first + 20))
 }
 
 /// A voltammogram as a plot: one series per cycle, current against potential.
