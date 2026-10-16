@@ -40,7 +40,10 @@ pub mod reads;
 #[doc(hidden)]
 pub mod table;
 
-pub use illumina::fastq::{FastqFile, FastqOptions, FastqReport, export_fastq};
+pub use illumina::fastq::{
+    FastqFile, FastqOptions, FastqReport, default_output as default_fastq_output, export_fastq,
+    export_run_fastq,
+};
 pub use illumina::{IlluminaRun, IlluminaRunReader};
 pub use nanopore::{Fast5Reader, Pod5Reader};
 pub use reads::{BamReader, FastqReader};

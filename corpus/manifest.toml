@@ -78434,3 +78434,211 @@ license = "CC0-1.0"
 source = "Broad Bioimage Benchmark Collection BBBC038v1 (2018 Data Science Bowl), stage1_train.zip; licence (CC0) checked 2026-10-15 on the collection page"
 attribution = "Caicedo et al., Nature Methods 2019; Ljosa et al., Nature Methods 2012"
 notes = "670 nuclei images across fluorescence, brightfield and H&E-stained tissue, PNG, with one mask PNG per nucleus (<id>/images, <id>/masks); extracted into bbbc038-stage1-train/"
+
+# ---- DNA sequencers (openreadout-seq): Illumina run folders, Oxford Nanopore POD5 and FAST5, FASTQ, BAM
+
+[[file]]
+id = "seq-nfcore-miseq-k9h97-tar"
+format = "tar.gz"
+role = "bundle"
+tier = "smoke"
+filename = "seq-nfcore-miseq-k9h97.tar.gz"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/1c96a82d46b9f73ff37015c4fdf42f410670a5d6/testdata/MiSeq/220422_M11111_0222_000000000-K9H97.tar.gz"
+sha256 = "8502d4dfae37b7b05f4c6e0f4f5905ea4745682dfcbea509476e4f9a19f2b8d7"
+size = 42674625
+license = "MIT"
+license_checked = "https://github.com/nf-core/test-datasets/blob/1c96a82d46b9f73ff37015c4fdf42f410670a5d6/LICENSE (MIT, GitHub licence API), 2026-10-15"
+source = "GitHub nf-core/test-datasets (branch demultiplex, commit 1c96a82), testdata/MiSeq/220422_M11111_0222_000000000-K9H97.tar.gz"
+attribution = "nf-core (test data of nf-core/demultiplex)"
+notes = "MiSeq run folder, unpacked into 220422_M11111_0222_000000000-K9H97/ by corpus fetch"
+unpack = true
+
+[[file]]
+id = "seq-nfcore-miseq-k9h97"
+format = "illumina-run"
+role = "input"
+tier = "smoke"
+bundle = "seq-nfcore-miseq-k9h97-tar"
+filename = "220422_M11111_0222_000000000-K9H97"
+license = "MIT"
+source = "nf-core/test-datasets, testdata/MiSeq/220422_M11111_0222_000000000-K9H97.tar.gz"
+attribution = "nf-core (test data of nf-core/demultiplex)"
+notes = "MiSeq, one lane, one 110-cycle read; InterOp tile v2, Q v4, error v3, extraction v2, corrected intensity v2 for 19 tiles x 2 surfaces; BCL files of tile 1101 only (673,257 clusters, 617,038 passing filter); no RunParameters.xml. Ground truth: interop (black box) and Picard IlluminaBasecallsToFastq."
+
+[[file]]
+id = "seq-nfcore-novaseq-hmtfydrxx-tar"
+format = "tar.gz"
+role = "bundle"
+tier = "standard"
+filename = "seq-nfcore-novaseq-hmtfydrxx.tar.gz"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/1c96a82d46b9f73ff37015c4fdf42f410670a5d6/testdata/NovaSeq6000/200624_A00834_0183_BHMTFYDRXX.tar.gz"
+sha256 = "fca157be73799777639fca8a9046ef7904cc1a6b47b77ef52a51d5f785bb7498"
+size = 96656084
+license = "MIT"
+license_checked = "https://github.com/nf-core/test-datasets/blob/1c96a82d46b9f73ff37015c4fdf42f410670a5d6/LICENSE (MIT, GitHub licence API), 2026-10-15"
+source = "GitHub nf-core/test-datasets (branch demultiplex, commit 1c96a82), testdata/NovaSeq6000/200624_A00834_0183_BHMTFYDRXX.tar.gz"
+attribution = "nf-core (test data of nf-core/demultiplex)"
+notes = "NovaSeq 6000 run folder, unpacked into 200624_A00834_0183_BHMTFYDRXX/ by corpus fetch"
+unpack = true
+
+[[file]]
+id = "seq-nfcore-novaseq-hmtfydrxx"
+format = "illumina-run"
+role = "input"
+tier = "standard"
+bundle = "seq-nfcore-novaseq-hmtfydrxx-tar"
+filename = "200624_A00834_0183_BHMTFYDRXX"
+license = "MIT"
+source = "nf-core/test-datasets, testdata/NovaSeq6000/200624_A00834_0183_BHMTFYDRXX.tar.gz"
+attribution = "nf-core (test data of nf-core/demultiplex)"
+notes = "NovaSeq 6000 SP flow cell, RTA 3.4.4, two lanes, reads 36 + 10 + 10; InterOp tile v3, Q v7 (3 bins), extraction v3, corrected intensity v4, extended tile v3, index v2, by-cycle copies; CBCL of tile 1_2101 only (4,091,904 clusters, 3,405,706 passing filter). Ground truth: interop (black box) and Picard IlluminaBasecallsToFastq."
+
+[[file]]
+id = "seq-pod5-hg002-10reads"
+format = "pod5"
+role = "input"
+tier = "smoke"
+filename = "seq-pod5-hg002-10reads.pod5"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/data/genomics/homo_sapiens/nanopore/pod5/HG002_PAW70337_giab_10reads.pod5"
+sha256 = "d0f5c132eaac336ab136ceacba5c81b45b1bb2a5b940393e889fb461ad724270"
+size = 2254320
+license = "MIT"
+license_checked = "https://github.com/nf-core/test-datasets/blob/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/LICENSE (MIT, GitHub licence API), 2026-10-15"
+source = "GitHub nf-core/test-datasets (branch modules, commit 618f154), data/genomics/homo_sapiens/nanopore/pod5/HG002_PAW70337_giab_10reads.pod5: 10 reads of ONT open data giab_2025.01 (CC BY 4.0)"
+attribution = "nf-core; Oxford Nanopore Technologies open data (HG002, flow cell PAW70337)"
+notes = "PromethION 48, R10.4.1 (FLO-PRO114M, SQK-LSK114), 5 kHz, MinKNOW 24.02.10; POD5 0.3.39 written by pod5_subset; VBZ signal. Ground truth: pod5 (black box)."
+
+[[file]]
+id = "seq-pod5-multi-fast5-zip-v6"
+format = "pod5"
+role = "input"
+tier = "smoke"
+filename = "seq-pod5-multi-fast5-zip-v6.pod5"
+url = "https://media.githubusercontent.com/media/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/multi_fast5_zip_v6.pod5"
+sha256 = "94b7c0e854f67137100048b55b28d1544f01d226ddf3c3bb908c726725163900"
+size = 1324272
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-15"
+source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/multi_fast5_zip_v6.pod5 (Git LFS)"
+attribution = "Oxford Nanopore Technologies (pod5 test data)"
+notes = "the 10 reads of multi_fast5_zip.fast5 converted to POD5 (MinION, 4 kHz, R9.4.1). Ground truth: pod5 (black box)."
+
+[[file]]
+id = "seq-pod5-multi-fast5-zip-v0"
+format = "pod5"
+role = "input"
+tier = "standard"
+filename = "seq-pod5-multi-fast5-zip-v0.pod5"
+url = "https://media.githubusercontent.com/media/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/multi_fast5_zip_v0.pod5"
+sha256 = "9eb656f0061f1621b205b4c5f4d9694b03cad4480c66e2a2d8ea4423f53ea243"
+size = 1321288
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-15"
+source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/multi_fast5_zip_v0.pod5 (Git LFS)"
+attribution = "Oxford Nanopore Technologies (pod5 test data)"
+notes = "the same 10 reads in the earliest POD5 table version. Ground truth: pod5 (black box)."
+
+[[file]]
+id = "seq-fast5-multi-zip"
+format = "fast5"
+role = "input"
+tier = "smoke"
+filename = "seq-fast5-multi-zip.fast5"
+url = "https://raw.githubusercontent.com/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/multi_fast5_zip.fast5"
+sha256 = "1cba8fbda99d4246e5b6bc02e5aa6940ef3668dd6af201d6c56442556e8185b1"
+size = 2404555
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-15"
+source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/multi_fast5_zip.fast5"
+attribution = "Oxford Nanopore Technologies (pod5 test data)"
+notes = "multi-read FAST5 1.0, 10 reads, gzip-compressed signal, MinKNOW 3.4 live basecalls in Analyses. Ground truth: h5py; the same reads as seq-pod5-multi-fast5-zip-v6."
+
+[[file]]
+id = "seq-fast5-vbz-reads"
+format = "fast5"
+role = "input"
+tier = "smoke"
+filename = "seq-fast5-vbz-reads.fast5"
+url = "https://raw.githubusercontent.com/nanoporetech/ont_fast5_api/bbabb444a80e8dad7996aff47c782e3d45423ff5/test/data/vbz_reads/vbz_reads.fast5"
+sha256 = "a6ddc69f9cb6af89df05aa1fc7376805776a7fdf75fcd480ef90c51fa1eb0bff"
+size = 48528
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/ont_fast5_api/blob/bbabb444a80e8dad7996aff47c782e3d45423ff5/LICENSE.md (MPL-2.0), 2026-10-15"
+source = "GitHub nanoporetech/ont_fast5_api (commit bbabb44), test/data/vbz_reads/vbz_reads.fast5"
+attribution = "Oxford Nanopore Technologies (ont_fast5_api test data)"
+notes = "multi-read FAST5 2.0, 4 reads of 20 samples, VBZ-compressed signal (filter 32020, parameters 1,2,1,1). Ground truth: h5py with vbz_h5py_plugin."
+
+[[file]]
+id = "seq-fast5-single-read"
+format = "fast5"
+role = "input"
+tier = "standard"
+filename = "seq-fast5-single-read.fast5"
+url = "https://raw.githubusercontent.com/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/single_read_fast5/fe85b517-62ee-4a33-8767-41cab5d5ab39.fast5.single-read"
+sha256 = "2520e7fd78b0fb86f4c31f7aa49281b3a9d0b3a320302fd503038afbaa540a44"
+size = 15424
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-15"
+source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/single_read_fast5/fe85b517-62ee-4a33-8767-41cab5d5ab39.fast5.single-read"
+attribution = "Oxford Nanopore Technologies (pod5 test data)"
+notes = "one read as written by ont_fast5_api (read_<id> group, gzip signal). Ground truth: h5py."
+
+[[file]]
+id = "seq-fastq-illumina-test1"
+format = "fastq"
+role = "input"
+tier = "standard"
+filename = "seq-fastq-illumina-test1.fastq.gz"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/data/genomics/homo_sapiens/illumina/fastq/test_1.fastq.gz"
+sha256 = "bae22d1ab233d9a746d7f6413dbc99f3c4a24b278eba97286940b3460f4dac97"
+size = 16013759
+license = "MIT"
+license_checked = "https://github.com/nf-core/test-datasets/blob/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/LICENSE (MIT, GitHub licence API), 2026-10-15"
+source = "GitHub nf-core/test-datasets (branch modules, commit 618f154), data/genomics/homo_sapiens/illumina/fastq/test_1.fastq.gz"
+attribution = "nf-core (modules test data)"
+notes = "gzip FASTQ, 266,736 simulated 100 bp Illumina reads (read 1 of a pair). Ground truth: pysam, Biopython."
+
+[[file]]
+id = "seq-fastq-pacbio-hifi"
+format = "fastq"
+role = "input"
+tier = "smoke"
+filename = "seq-fastq-pacbio-hifi.fastq.gz"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/data/genomics/homo_sapiens/pacbio/fastq/test_hifi.fastq.gz"
+sha256 = "b781b597fe7b73dddfd592e67c182134698d2e2c221e19264434ae71144e4f53"
+size = 3078692
+license = "MIT"
+license_checked = "https://github.com/nf-core/test-datasets/blob/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/LICENSE (MIT, GitHub licence API), 2026-10-15"
+source = "GitHub nf-core/test-datasets (branch modules, commit 618f154), data/genomics/homo_sapiens/pacbio/fastq/test_hifi.fastq.gz"
+attribution = "nf-core (modules test data)"
+notes = "gzip FASTQ of 204 PacBio HiFi reads (N50 about 18.5 kb). Ground truth: pysam, Biopython."
+
+[[file]]
+id = "seq-bam-pacbio-alz-ccs"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-pacbio-alz-ccs.bam"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/data/genomics/homo_sapiens/pacbio/bam/alz.ccs.bam"
+sha256 = "895eb1b97a560076e907a3449a0c58d90310129fba8e847a24b273a0bdf7313e"
+size = 6515241
+license = "MIT"
+license_checked = "https://github.com/nf-core/test-datasets/blob/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/LICENSE (MIT, GitHub licence API), 2026-10-15"
+source = "GitHub nf-core/test-datasets (branch modules, commit 618f154), data/genomics/homo_sapiens/pacbio/bam/alz.ccs.bam"
+attribution = "nf-core (modules test data)"
+notes = "unaligned PacBio CCS BAM from a Sequel II (ccs 6.0.0), 3,365 reads with np and rq tags. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-illumina-paired-sorted"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-illumina-paired-sorted.bam"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/data/genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam"
+sha256 = "1ab90e4d913e6078c5c5234322b3db4e0de1f5a09e923c21891b1f9e5a37cc77"
+size = 179552
+license = "MIT"
+license_checked = "https://github.com/nf-core/test-datasets/blob/618f1541382c4ad49eff566dadf13d5ccbd0ebb4/LICENSE (MIT, GitHub licence API), 2026-10-15"
+source = "GitHub nf-core/test-datasets (branch modules, commit 618f154), data/genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam"
+attribution = "nf-core (modules test data)"
+notes = "coordinate-sorted Illumina paired-end alignments (bwa mem 0.7.17), 5,644 records with 2 supplementary. Ground truth: pysam."

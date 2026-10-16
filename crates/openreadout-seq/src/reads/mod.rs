@@ -343,7 +343,7 @@ impl Dataset for ReadsDataset {
                 .header_facts()
                 .get("sam_version")
                 .and_then(Value::as_str)
-                .map(|v| format!("SAM {v}")),
+                .map(str::to_string),
             images: vec![],
             tables: vec![info0, t1.info(1), t2.info(2), t3.info(3)],
             spectra: vec![],

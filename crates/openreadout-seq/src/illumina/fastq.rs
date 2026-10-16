@@ -39,10 +39,10 @@ pub struct FastqOptions {
 }
 
 /// One FASTQ file written.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
 pub struct FastqFile {
     /// Path of the file.
-    pub path: PathBuf,
+    pub path: String,
     /// Lane.
     pub lane: u16,
     /// `R1`, `R2`, `I1`, ….
@@ -56,8 +56,14 @@ pub struct FastqFile {
 }
 
 /// What [`export_fastq`] wrote.
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
 pub struct FastqReport {
+    /// The run folder.
+    pub input: String,
+    /// The directory the files were written to.
+    pub output: String,
+    /// `fastq`.
+    pub format: String,
     /// Files written, in lane and read order.
     pub files: Vec<FastqFile>,
     /// Clusters written per lane (each cluster is one record in every read's file).
@@ -130,7 +136,12 @@ pub fn export_fastq(run: &IlluminaRun, out_dir: &Path, opts: &FastqOptions) -> R
     } else {
         run.run.run_id.clone()
     };
-    let mut report = FastqReport::default();
+    let mut report = FastqReport {
+        input: run.root().display().to_string(),
+        output: out_dir.display().to_string(),
+        format: "fastq".into(),
+        ..FastqReport::default()
+    };
     let lanes: Vec<u16> = calls
         .tiles
         .keys()
@@ -278,7 +289,7 @@ pub fn export_fastq(run: &IlluminaRun, out_dir: &Path, opts: &FastqOptions) -> R
             }
             std::fs::rename(&tmp, &path).map_err(|e| Error::io(&path, e))?;
             report.files.push(FastqFile {
-                path,
+                path: path.display().to_string(),
                 lane,
                 read,
                 records,
@@ -322,4 +333,38 @@ fn read_back(p: &Path) -> Result<(u64, u128)> {
         lines += 1;
     }
     Ok((lines / 4, h.digest128()))
+}
+
+/// The default output directory of a run's FASTQ: `<run folder>_fastq` beside it.
+pub fn default_output(run_dir: &Path) -> PathBuf {
+    let name = run_dir
+        .file_name()
+        .map_or_else(|| "run".to_string(), |n| n.to_string_lossy().into_owned());
+    run_dir.with_file_name(format!("{name}_fastq"))
+}
+
+/// Export the run folder at `input` (the folder or its `RunInfo.xml`) as FASTQ: into
+/// `output` (default [`default_output`]), the clusters `rows` (zero-based, inclusive; `None`
+/// for every cluster) of each lane.
+pub fn export_run_fastq(
+    input: &Path,
+    output: Option<&Path>,
+    rows: Option<(u64, Option<u64>)>,
+    overwrite: bool,
+) -> Result<FastqReport> {
+    let run = IlluminaRun::open(&openreadout_core::source::Input::local(input))?;
+    let out = output.map_or_else(|| default_output(run.root()), Path::to_path_buf);
+    let mut o = FastqOptions {
+        overwrite,
+        ..FastqOptions::default()
+    };
+    if let Some((a, b)) = rows {
+        if a > 0 {
+            return Err(Error::Usage(
+                "FASTQ export writes the first clusters of each lane: give rows as 0-N (the first N+1 clusters), or leave rows out for every cluster".into(),
+            ));
+        }
+        o.max_reads = b.map(|b| b + 1);
+    }
+    export_fastq(&run, &out, &o)
 }

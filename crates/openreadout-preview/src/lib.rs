@@ -77,6 +77,7 @@ mod options;
 mod overlay;
 mod plate;
 mod rulers;
+mod sequencing;
 mod spectrum;
 mod tic;
 mod trace;
@@ -1201,8 +1202,17 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         && req.trace.is_none()
         && req.sweep.is_none()
         && req.channels.is_empty();
+    // A sequencing data set shows its own view (run quality, a read's squiggle, read lengths)
+    // unless the caller picked a table, a trace other than a nanopore read, or channels.
+    let seq_default = info.format.family == "sequencing"
+        && req.table.is_none()
+        && req.columns.is_empty()
+        && req.channels.is_empty()
+        && req.trace.is_none_or(|t| t == 0);
     let mut drawn = if nmr_default {
         nmr::render(ds, info, req, &mut out)
+    } else if seq_default {
+        sequencing::render(ds, info, req, &mut out)
     } else {
         None
     };

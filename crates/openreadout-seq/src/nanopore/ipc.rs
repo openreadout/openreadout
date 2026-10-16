@@ -342,6 +342,7 @@ pub fn parse_message(meta: &[u8]) -> IpcResult<BatchMeta> {
 }
 
 /// Decodes the columns of one batch from its body.
+#[derive(Debug)]
 pub struct BatchReader<'a> {
     body: &'a [u8],
     meta: &'a BatchMeta,

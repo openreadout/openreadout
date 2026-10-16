@@ -833,7 +833,7 @@ impl Dataset for IlluminaRun {
             path: self.root.display().to_string(),
             size_bytes: self.bytes_read,
             format: self.descriptor.clone(),
-            format_version: self.run.version.as_ref().map(|v| format!("RunInfo {v}")),
+            format_version: self.run.version.clone(),
             images: vec![],
             tables,
             spectra: vec![],

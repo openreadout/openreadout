@@ -38,8 +38,10 @@ pub struct ExportArgs {
     /// or `arrow` (Arrow IPC file) for a table, a trace (all sweeps) or mass spectra
     /// (`spectra=true`), `nwb` (NWB 2.x; electrophysiology traces), `jcamp` (JCAMP-DX 5.01; NMR
     /// FIDs and spectra, other 1-D spectra and chromatograms), `asm` (Allotrope Simple Model
-    /// plate-reader JSON) or `rdml` (RDML 1.3; qPCR files). Without it, the extension of
-    /// `output` decides; it must not contradict `output`.
+    /// plate-reader JSON), `rdml` (RDML 1.3; qPCR files) or `fastq` (an Illumina run folder's
+    /// base calls: a directory of gzip FASTQ, one file per lane and read; rows `0-N` writes the
+    /// first N+1 clusters of each lane). Without it, the extension of `output` decides; it must
+    /// not contradict `output`.
     pub format: Option<String>,
     /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.csv`,
     /// `.asm.json`, `.rdml`, `.parquet`, `.arrow`, `.nwb` or `.jdx`. Its extension sets the
@@ -610,6 +612,14 @@ fn export_data(
             return export_open(registry, &a, "arrow", open_progress("Arrow"));
         }
         Some("nwb") => return export_open(registry, &a, "nwb", open_progress("NWB")),
+        Some("fastq" | "fq") => {
+            let input = input_path(&a)?;
+            let rows = a.rows.as_deref().map(parse_rows).transpose()?;
+            let out = a.output.as_ref().map(PathBuf::from);
+            let r = openreadout_seq::export_run_fastq(&input, out.as_deref(), rows, a.overwrite)
+                .map_err(|e| mcp_err(&e))?;
+            return to_value(&r);
+        }
         Some("jcamp" | "jcamp-dx" | "jdx") => {
             return export_open(registry, &a, "jcamp", open_progress("JCAMP-DX"));
         }
@@ -665,7 +675,7 @@ fn export_data(
         "rdml" => return export_rdml(registry, &a),
         other => {
             return Err(mcp_err(&Error::Usage(format!(
-                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|parquet|arrow|nwb|jcamp)"
+                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|parquet|arrow|nwb|jcamp|fastq)"
             ))));
         }
     };

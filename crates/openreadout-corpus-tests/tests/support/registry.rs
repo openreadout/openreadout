@@ -110,6 +110,13 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_thermal::NgbReader))
         .with(Box::new(openreadout_thermal::TaReader))
         .with(Box::new(openreadout_thermal::TriosReader))
+        // DNA sequencers: Illumina run folders, nanopore signal (FAST5 before generic HDF5),
+        // FASTQ and BAM read files
+        .with(Box::new(openreadout_seq::IlluminaRunReader))
+        .with(Box::new(openreadout_seq::Pod5Reader))
+        .with(Box::new(openreadout_seq::Fast5Reader))
+        .with(Box::new(openreadout_seq::FastqReader))
+        .with(Box::new(openreadout_seq::BamReader))
         // loose: any other HDF5 file (after EMD, Imaris and NWB, which claim theirs definitely)
         .with(Box::new(openreadout_hdf5::Hdf5Reader))
         // last: text/CSV/XLSX exports; the generic plate-matrix fallback is the loosest sniff

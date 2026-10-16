@@ -625,7 +625,7 @@ impl FormatReader for Pod5Reader {
                 "contents": p.footer.contents.iter().map(|c| json!({"offset": c.offset, "length": c.length, "content_type": c.content})).collect::<Vec<_>>(),
             }),
         );
-        let version = Some(format!("POD5 {}", p.footer.pod5_version));
+        let version = Some(p.footer.pod5_version.clone());
         let mut runs = p.runs;
         if let Some(r) = runs.first_mut()
             && r.software.is_none()
@@ -704,7 +704,7 @@ impl FormatReader for Fast5Reader {
         if f.basecalled > 0 {
             extra.insert("basecalled_reads".into(), json!(f.basecalled));
         }
-        let version = f.version.as_ref().map(|v| format!("FAST5 {v}"));
+        let version = f.version.clone();
         Ok(Box::new(NanoporeDataset::new(
             self.descriptor(),
             input.path(),

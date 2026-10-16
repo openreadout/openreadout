@@ -248,8 +248,8 @@ impl ReadStats {
         t
     }
 
-    /// Table of read counts per length bin (at most about 200 bins, evenly spaced, or
-    /// logarithmic when lengths span more than two decades).
+    /// Table of read counts per length bin (about two bins per square root of the reads, 20 to
+    /// 200, evenly spaced, or logarithmic when lengths span more than two decades).
     pub fn length_table(&self) -> MemTable {
         let mut t = MemTable::new(
             "read lengths",
@@ -265,12 +265,15 @@ impl ReadStats {
             return t;
         };
         let log = lo > 0 && hi as f64 / lo.max(1) as f64 > 100.0;
-        let edges: Vec<u64> = if hi - lo < 200 {
+        // about two bins per square root of the reads, 20 to 200 of them
+        let nbins = ((self.reads as f64).sqrt() * 2.0).clamp(20.0, 200.0) as u64;
+        let edges: Vec<u64> = if hi - lo < nbins {
             (lo..=hi + 1).collect()
         } else if log {
             let (a, b) = ((lo.max(1) as f64).ln(), ((hi + 1) as f64).ln());
-            let mut e: Vec<u64> = (0..=100)
-                .map(|i| (a + (b - a) * f64::from(i) / 100.0).exp().round() as u64)
+            let k = nbins.min(100) as i32;
+            let mut e: Vec<u64> = (0..=k)
+                .map(|i| (a + (b - a) * f64::from(i) / f64::from(k)).exp().round() as u64)
                 .collect();
             e.dedup();
             if e.last().is_some_and(|x| *x <= hi) {
@@ -278,7 +281,7 @@ impl ReadStats {
             }
             e
         } else {
-            let w = (hi - lo + 1).div_ceil(200);
+            let w = (hi - lo + 1).div_ceil(nbins);
             let mut e: Vec<u64> = (0..).map(|i| lo + i * w).take_while(|x| *x <= hi).collect();
             e.push(e.last().copied().unwrap_or(lo) + w);
             e

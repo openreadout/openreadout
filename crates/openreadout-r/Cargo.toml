@@ -32,6 +32,7 @@ openreadout-spectro = { workspace = true }
 openreadout-biophys = { workspace = true }
 openreadout-gel = { workspace = true }
 openreadout-thermal = { workspace = true }
+openreadout-seq = { workspace = true }
 openreadout-echem = { workspace = true }
 openreadout-xrd = { workspace = true }
 openreadout-epr = { workspace = true }
