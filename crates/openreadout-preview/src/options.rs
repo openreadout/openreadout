@@ -39,6 +39,13 @@ pub struct PreviewOptions {
     pub select: Vec<String>,
     /// Maximum-intensity projection, over the selected range if any.
     pub mip: Option<Axis>,
+    /// Sum projection, over the selected range if any: a movie's frames added up (e.g. sum t,
+    /// select t=0-39).
+    pub sum: Option<Axis>,
+    /// Images: a power-spectrum (FFT) inset in the top-right corner: Thon rings of a cryo-EM
+    /// micrograph, the spots of a lattice.
+    #[serde(default)]
+    pub fft: bool,
     /// Blend all (or the selected) channels additively in their colours.
     #[serde(default)]
     pub composite: bool,
@@ -58,9 +65,11 @@ pub struct PreviewOptions {
     /// Image previews with axes scale-bar: a caption under the picture (what it shows, the
     /// stain, the sample).
     pub caption: Option<String>,
-    /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
+    /// `auto` (default; `log:90,99.95` on diffraction images), `min-max`, `percentile:LO,HI`
+    /// (e.g. `percentile:1,99`), `log` (`log:50,99.9`) or `log:LO,HI`, or `raw`.
     pub contrast: Option<String>,
-    /// Colour lookup. Default: gray for one channel, channel colours for composites.
+    /// Colour lookup. Default: gray for one channel (inverted on diffraction images), channel
+    /// colours for composites.
     pub lut: Option<Lut>,
     /// Trace preview: trace index (see openreadout_info traces[]).
     pub trace: Option<u32>,
@@ -86,7 +95,7 @@ pub struct PreviewOptions {
     #[schemars(with = "Vec<String>")]
     pub columns: Vec<String>,
     /// Marks from the data. Default auto: the prominent peaks of spectra and chromatograms are
-    /// labelled.
+    /// labelled; diffraction images get resolution rings.
     pub marks: Option<Marks>,
     /// Images: how objects are found for `marks: objects` (as `openreadout_stats` objects).
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
@@ -116,6 +125,8 @@ impl PreviewOptions {
             image: self.image,
             select: self.select.clone(),
             mip: self.mip,
+            sum: self.sum,
+            fft: self.fft,
             composite: self.composite,
             level: self.level,
             region: self.region,

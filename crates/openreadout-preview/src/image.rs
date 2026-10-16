@@ -9,6 +9,7 @@ use openreadout_core::select::Selection;
 use openreadout_core::{Error, Result};
 
 use crate::color::{self, Rgb};
+use crate::diffraction::{self as dif, Diffraction};
 use crate::figure_frame::{self, FigureLayout};
 use crate::rulers::{self, Layout, Mapping};
 use crate::{
@@ -434,7 +435,7 @@ fn finding_notes(im: &ImageInfo, found: &[(u32, Finding)]) -> Vec<String> {
 fn display_range(bands: &[&Band], c: Contrast, pt: PixelType, screened: Screened) -> (f64, f64) {
     let (lo, hi) = match c {
         Contrast::Raw => raw_range(pt),
-        Contrast::Auto | Contrast::MinMax | Contrast::Percentile(..) => {
+        Contrast::Auto | Contrast::MinMax | Contrast::Percentile(..) | Contrast::Log(..) => {
             let finite = || {
                 bands
                     .iter()
@@ -454,7 +455,9 @@ fn display_range(bands: &[&Band], c: Contrast, pt: PixelType, screened: Screened
             }
             vals.sort_by(f64::total_cmp);
             match c {
-                Contrast::Percentile(a, b) => (percentile(&vals, a), percentile(&vals, b)),
+                Contrast::Percentile(a, b) | Contrast::Log(a, b) => {
+                    (percentile(&vals, a), percentile(&vals, b))
+                }
                 _ => (vals[0], vals[vals.len() - 1]),
             }
         }
@@ -467,6 +470,34 @@ fn level_of(v: f32, lo: f64, hi: f64) -> f32 {
         return 0.0;
     }
     ((f64::from(v) - lo) / (hi - lo)).clamp(0.0, 1.0) as f32
+}
+
+/// Brightness of `v` under logarithmic contrast: `ln(1 + v - lo) / ln(1 + hi - lo)`.
+fn log_level_of(v: f32, lo: f64, hi: f64) -> f32 {
+    if !v.is_finite() {
+        return 0.0;
+    }
+    let x = (f64::from(v) - lo).max(0.0);
+    ((x.ln_1p()) / (hi - lo).max(1e-12).ln_1p()).clamp(0.0, 1.0) as f32
+}
+
+/// What a diffraction preview did differently, in one note.
+fn dif_note(g: &Diffraction, contrast: Contrast, lut: Lut) -> String {
+    let mut parts = vec!["diffraction image: shrunk by the maximum of each block so single-pixel spots stay visible".to_string()];
+    if matches!(contrast, Contrast::Log(..)) {
+        parts.push(format!("{contrast} contrast"));
+    }
+    if lut == Lut::Inverted {
+        parts.push("dark spots on a light ground".into());
+    }
+    let geo = &g.geometry;
+    if geo.negative_is_masked || !geo.masked_values.is_empty() {
+        parts.push("pixels without a measurement (module gaps, bad pixels) in pale blue-grey".into());
+    }
+    if let Some(o) = geo.overload {
+        parts.push(format!("overloads (≥ {o}) in red"));
+    }
+    parts.join("; ")
 }
 
 /// Pick the single index of an axis, or all of them for a projection axis.
@@ -495,7 +526,7 @@ fn axis_indices(
         [] => Ok(vec![default]),
         [one] => Ok(vec![*one]),
         _ => Err(Error::Usage(format!(
-            "a preview shows one {name} at a time; pass --mip {name} to project several"
+            "a preview shows one {name} at a time; pass --mip {name} (maximum) or --sum {name} to project several"
         ))),
     }
 }
@@ -645,6 +676,12 @@ pub(crate) fn render(
     }
     let sel = Selection::parse(&split_select(&req.select))?;
     let rgb = im.samples_per_pixel == 3;
+    if req.mip.is_some() && req.sum.is_some() {
+        return Err(Error::Usage(
+            "pass mip (maximum) or sum, not both".into(),
+        ));
+    }
+    let projection = req.mip.or(req.sum);
     let mut composite = req.composite;
     if sel.c.len() > 1 && !composite {
         composite = true;
@@ -656,14 +693,21 @@ pub(crate) fn render(
             "composites blend single-sample channels; this image stores RGB planes, preview one channel (c=N) at a time".into(),
         ));
     }
+    // Diffraction images: masked pixels as no data, spots kept when shrinking, log contrast,
+    // dark spots on a light ground.
+    let geo = (!rgb && !composite)
+        .then(|| Diffraction::of(&im))
+        .flatten();
     let lut = req.lut.unwrap_or(if composite {
         Lut::ChannelColor
+    } else if geo.is_some() {
+        Lut::Inverted
     } else {
         Lut::Gray
     });
-    if composite && lut == Lut::Gray {
+    if composite && matches!(lut, Lut::Gray | Lut::Inverted) {
         return Err(Error::Usage(
-            "--lut gray cannot show a composite; drop --lut or preview one channel".into(),
+            "--lut gray and inverted cannot show a composite; drop --lut or preview one channel".into(),
         ));
     }
     let c_list: Vec<u32> = if composite {
@@ -696,9 +740,9 @@ pub(crate) fn render(
         &sel.z,
         im.size_z,
         im.size_z / 2,
-        req.mip == Some(Axis::Z),
+        projection == Some(Axis::Z),
     )?;
-    let t_list = axis_indices("t", &sel.t, im.size_t, 0, req.mip == Some(Axis::T))?;
+    let t_list = axis_indices("t", &sel.t, im.size_t, 0, projection == Some(Axis::T))?;
 
     // The frame: `max_size` bounds the whole picture, so the data gets what the margins leave.
     let has_bar = im.physical_size.x.is_some_and(|v| v.is_finite() && v > 0.0);
@@ -764,28 +808,54 @@ pub(crate) fn render(
     let spp = im.samples_per_pixel.max(1) as usize;
     let mut first_dims: Option<(u32, u32)> = None;
     let mut out_dims = (1usize, 1usize);
-    let contrast = resolve_contrast(req.contrast, im.pixel_type, rgb);
+    let contrast = match (req.contrast, &geo) {
+        (Contrast::Auto, Some(_)) => Contrast::Log(dif::AUTO_LOG.0, dif::AUTO_LOG.1),
+        (c, _) => resolve_contrast(c, im.pixel_type, rgb),
+    };
     // Auto contrast (not what it resolved to for RGB) may leave fill and clipping out.
     let auto_contrast = req.contrast == Contrast::Auto && contrast != Contrast::Raw;
     let mut per_channel: Vec<(u32, Vec<Band>, Screened)> = Vec::new();
+    // The power-spectrum inset, from the first channel's plane as read.
+    let mut spectrum: Option<(usize, Vec<f32>)> = None;
     let mut found: Vec<(u32, Finding)> = Vec::new();
     for &c in &c_list {
         let mut acc: Option<Vec<f32>> = None;
         let mut dims = (0u32, 0u32);
+        // A sum over time of a whole full-resolution plane: the reader adds the frames
+        // (electron-event movies add their events without decoding each frame).
+        let reader_sum = req.sum == Some(Axis::T)
+            && t_list.len() > 1
+            && region.is_none()
+            && level == 0
+            && spp == 1
+            && budget.is_none();
+        let t_groups: Vec<Vec<u32>> = if reader_sum {
+            vec![t_list.clone()]
+        } else {
+            t_list.iter().map(|&t| vec![t]).collect()
+        };
         for &z in &z_list {
-            for &t in &t_list {
-                let p = read_plane(
-                    ds,
-                    image,
-                    PlaneIndex { c, z, t },
-                    &mut level,
-                    &mut region,
-                    region0,
-                    auto_level,
-                    budget,
-                    &mut out.notes,
-                )?;
+            for group in &t_groups {
+                let t = group[0];
+                let p = if group.len() > 1 {
+                    ds.sum_planes(image, c, z, group)?
+                } else {
+                    read_plane(
+                        ds,
+                        image,
+                        PlaneIndex { c, z, t },
+                        &mut level,
+                        &mut region,
+                        region0,
+                        auto_level,
+                        budget,
+                        &mut out.notes,
+                    )?
+                };
                 let mut s = samples(&p)?;
+                if let Some(g) = &geo {
+                    g.mask(&mut s);
+                }
                 // Areas of a mosaic with no stored tiles read as 0; draw them as background.
                 if let Some(areas) =
                     ds.stored_areas(image, PlaneIndex { c, z, t }, level, region)?
@@ -813,9 +883,15 @@ pub(crate) fn render(
                                 "planes of one image differ in size; cannot project".into(),
                             ));
                         }
-                        for (x, y) in a.iter_mut().zip(s) {
-                            // NaN-aware maximum (f32::max ignores a NaN operand)
-                            *x = x.max(y);
+                        if req.sum.is_some() {
+                            for (x, y) in a.iter_mut().zip(s) {
+                                *x += y;
+                            }
+                        } else {
+                            for (x, y) in a.iter_mut().zip(s) {
+                                // NaN-aware maximum (f32::max ignores a NaN operand)
+                                *x = x.max(y);
+                            }
                         }
                         a
                     }
@@ -823,6 +899,20 @@ pub(crate) fn render(
             }
         }
         let mut acc = acc.unwrap_or_default();
+        if req.fft && spectrum.is_none() && spp == 1 && !composite {
+            // pixel size at the level read, in ångström
+            let k = level_dims(&im, level)
+                .map_or(1.0, |(lw, _)| f64::from(im.size_x) / f64::from(lw.max(1)));
+            let pixel_a = im.physical_size.x.map(|um| um * 1e4 * k);
+            let bin = crate::fft_inset::bin_for(dims.0.min(dims.1) as usize, pixel_a);
+            spectrum = crate::fft_inset::power_spectrum(&acc, dims.0 as usize, dims.1 as usize, bin);
+            if spectrum.is_none() {
+                out.notes.push(format!(
+                    "no power-spectrum inset: the plane read is smaller than {} px",
+                    crate::fft_inset::MIN_SIDE
+                ));
+            }
+        }
         let (screened, finding) = screen_samples(&mut acc, &im, auto_contrast);
         found.extend(finding.map(|f| (c, f)));
         match first_dims {
@@ -847,7 +937,14 @@ pub(crate) fn render(
         }
         let (w, h) = (dims.0 as usize, dims.1 as usize);
         let bands = (0..spp)
-            .map(|s| resample(&acc, w, h, spp, s, out_dims.0, out_dims.1))
+            .map(|s| {
+                if geo.is_some() {
+                    let (w2, h2, v) = dif::resample_max(&acc, w, h, out_dims.0, out_dims.1);
+                    Band { w: w2, h: h2, v }
+                } else {
+                    resample(&acc, w, h, spp, s, out_dims.0, out_dims.1)
+                }
+            })
             .collect();
         per_channel.push((c, bands, screened));
     }
@@ -870,7 +967,7 @@ pub(crate) fn render(
         let (lo, hi) = display_range(&refs, contrast, im.pixel_type, *screened);
         let (col, source): (Rgb, &str) = if rgb {
             ([255, 255, 255], "rgb")
-        } else if lut == Lut::Gray {
+        } else if matches!(lut, Lut::Gray | Lut::Inverted) {
             ([255, 255, 255], "lut")
         } else {
             let (c, s) = color::channel_color(ch, pos);
@@ -890,10 +987,30 @@ pub(crate) fn render(
             }
         } else {
             let band = &bands[0];
+            let log = matches!(contrast, Contrast::Log(..));
+            let inverted = lut == Lut::Inverted;
             for i in 0..ow * oh {
-                let l = level_of(band.v[i], lo, hi);
+                let v = band.v[i];
+                let mut l = if log {
+                    log_level_of(v, lo, hi)
+                } else {
+                    level_of(v, lo, hi)
+                };
+                if inverted {
+                    l = 1.0 - l;
+                }
+                let c = match &geo {
+                    Some(g) if !v.is_finite() => dif::NO_DATA,
+                    Some(g) if g.overloaded(v) => dif::OVERLOAD,
+                    _ => [
+                        col[0] as f32 * l,
+                        col[1] as f32 * l,
+                        col[2] as f32 * l,
+                    ]
+                    .map(|x| x.round().clamp(0.0, 255.0) as u8),
+                };
                 for k in 0..3 {
-                    acc[i * 3 + k] += f32::from(col[k]) * l;
+                    acc[i * 3 + k] += f32::from(c[k]);
                 }
             }
         }
@@ -908,6 +1025,17 @@ pub(crate) fn render(
     }
     for (o, a) in canvas.rgb.iter_mut().zip(&acc) {
         *o = a.round().clamp(0.0, 255.0) as u8;
+    }
+    if req.fft && (rgb || composite) {
+        out.notes
+            .push("the power-spectrum inset is drawn on single-channel images".into());
+    }
+    let inset = spectrum.and_then(|(side, ps)| paint_inset(&mut canvas, side, &ps));
+    if let Some(r) = inset {
+        out.notes.push(format!(
+            "power-spectrum inset (top right, {}×{} px): the averaged log power spectrum of tiles from the middle of the plane read, zero frequency in its middle; it covers part of the picture",
+            r.width, r.height
+        ));
     }
     // Map drawn pixels back to full-resolution pixels: level scale × resampling step.
     let level_size = if level == 0 {
@@ -947,7 +1075,7 @@ pub(crate) fn render(
     };
     let full_res_region = map.covered(ow as u32, oh as u32, read_end);
     let rulers_drawn = matches!(layout, Some(Framing::Rulers(_)));
-    let (figure, plot_area, scale_bar) = if let Some(l) = &layout {
+    let (mut figure, plot_area, scale_bar) = if let Some(l) = &layout {
         let theme = crate::theme(req);
         let d = match l {
             Framing::Rulers(l) => {
@@ -968,6 +1096,37 @@ pub(crate) fn render(
         );
         (f, Region::new(0, 0, ow as u32, oh as u32), None)
     };
+    if let Some(g) = &geo {
+        out.notes.push(dif_note(g, contrast, lut));
+        if matches!(req.marks, crate::Marks::Auto | crate::Marks::Rings) {
+            let shown = full_res_region;
+            let marks = dif::draw_rings(
+                &mut figure,
+                plot_area,
+                map,
+                shown,
+                &g.geometry,
+                &crate::theme(req),
+            );
+            if marks.iter().all(|m| m.kind != "resolution_ring") && req.marks == crate::Marks::Rings {
+                out.notes.push("no resolution rings: they need the wavelength, the detector distance, the beam centre and square pixels, on a detector normal to the beam".into());
+            }
+            out.marks.extend(marks);
+        }
+    } else if req.marks == crate::Marks::Rings {
+        out.notes
+            .push("resolution rings are drawn on diffraction images (extra.diffraction)".into());
+    }
+    let fft_inset = inset.map(|r| {
+        let r = Region::new(plot_area.x + r.x, plot_area.y + r.y, r.width, r.height);
+        let theme = crate::theme(req);
+        let st = openreadout_figure::TextStyle::new(theme.small_size(), openreadout_figure::Color::rgb(255, 255, 255))
+            .face(openreadout_figure::Face::SansMedium)
+            .halo(openreadout_figure::Color::rgb(29, 31, 36), 2.0)
+            .align(openreadout_figure::Anchor::Start, openreadout_figure::Baseline::Top);
+        figure.text(r.x as f32 + 4.0, r.y as f32 + 3.0, "FFT", &st);
+        r
+    });
     let frame = crate::Frame::Image { plot_area, map };
     out.image = Some(ImagePreview {
         image,
@@ -979,12 +1138,12 @@ pub(crate) fn render(
         c: c_list,
         z: z_list,
         t: t_list,
-        projection: req.mip.map(|a| {
+        projection: projection.map(|a| {
+            let op = if req.sum.is_some() { "sum" } else { "max" };
             match a {
-                Axis::Z => "max-z",
-                Axis::T => "max-t",
+                Axis::Z => format!("{op}-z"),
+                Axis::T => format!("{op}-t"),
             }
-            .to_string()
         }),
         composite,
         rgb,
@@ -993,6 +1152,8 @@ pub(crate) fn render(
             "rgb".into()
         } else if lut == Lut::Gray {
             "gray".into()
+        } else if lut == Lut::Inverted {
+            "inverted".into()
         } else {
             "channel-color".into()
         },
@@ -1008,8 +1169,38 @@ pub(crate) fn render(
         source_per_pixel_y: map.per_pixel.1,
         full_res_region,
         scale_bar,
+        fft_inset,
     });
     Ok((figure, frame))
+}
+
+/// Paint the power spectrum (`side`² values in 0..=1) into the top-right corner of `canvas`
+/// with a light border; returns where, in canvas pixels.
+fn paint_inset(canvas: &mut Raster, side: usize, ps: &[f32]) -> Option<Region> {
+    let (cw, ch) = (canvas.width as usize, canvas.height as usize);
+    let s = ((cw.min(ch) as f32 * 0.3) as usize).clamp(48, 360);
+    let m = (cw.min(ch) / 80).max(3);
+    if s + 2 * m + 2 > cw.min(ch) {
+        return None;
+    }
+    let band = resample(ps, side, side, 1, 0, s, s);
+    let (x0, y0) = (cw - m - s, m);
+    // a 1-pixel light frame around it
+    for y in y0.saturating_sub(1)..(y0 + s + 1).min(ch) {
+        for x in x0.saturating_sub(1)..(x0 + s + 1).min(cw) {
+            let i = (y * cw + x) * 3;
+            canvas.rgb[i..i + 3].copy_from_slice(&[247, 245, 240]);
+        }
+    }
+    for y in 0..s {
+        for x in 0..s {
+            let v = band.v[y * s + x];
+            let g = if v.is_finite() { (v * 255.0).round().clamp(0.0, 255.0) as u8 } else { 0 };
+            let i = ((y0 + y) * cw + x0 + x) * 3;
+            canvas.rgb[i..i + 3].copy_from_slice(&[g, g, g]);
+        }
+    }
+    Some(Region::new(x0 as u32, y0 as u32, s as u32, s as u32))
 }
 
 #[cfg(test)]

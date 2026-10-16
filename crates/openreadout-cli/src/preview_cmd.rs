@@ -30,8 +30,16 @@ pub struct PreviewArgs {
     #[arg(long = "select")]
     pub select: Vec<String>,
     /// Maximum-intensity projection over `z` (or `t`), limited to the selected range if any.
-    #[arg(long, value_name = "AXIS")]
+    #[arg(long, value_name = "AXIS", conflicts_with = "sum")]
     pub mip: Option<String>,
+    /// Sum projection over `t` (or `z`), limited to the selected range if any: a movie's frames
+    /// added up (`--sum t --select t=0-39`).
+    #[arg(long, value_name = "AXIS")]
+    pub sum: Option<String>,
+    /// Image previews: a power-spectrum (FFT) inset in the top-right corner (Thon rings of a
+    /// cryo-EM micrograph, the spots of a lattice).
+    #[arg(long)]
+    pub fft: bool,
     /// Blend all (or the selected) channels additively in their colours.
     #[arg(long)]
     pub composite: bool,
@@ -58,10 +66,12 @@ pub struct PreviewArgs {
     /// Longest side of the output in pixels (16..=8192), rulers included.
     #[arg(long, default_value_t = openreadout_preview::DEFAULT_PREVIEW_SIZE)]
     pub max_size: u32,
-    /// `auto` (0.1–99.9 percentiles; raw for 8-bit RGB), `min-max`, `percentile:LO,HI` or `raw`.
+    /// `auto` (0.1–99.9 percentiles; raw for 8-bit RGB; log on diffraction images), `min-max`,
+    /// `percentile:LO,HI`, `log` or `log:LO,HI`, or `raw`.
     #[arg(long, default_value = "auto")]
     pub contrast: String,
-    /// `gray` or `channel-color`. Default: gray for one channel, channel colours for composites.
+    /// `gray`, `inverted` or `channel-color`. Default: gray for one channel (inverted on
+    /// diffraction images), channel colours for composites.
     #[arg(long)]
     pub lut: Option<String>,
     /// `png`, `jpeg` or `svg`. Default: from the output extension, else png.
@@ -99,13 +109,14 @@ pub struct PreviewArgs {
     #[arg(long = "column")]
     pub columns: Vec<String>,
     /// Marks from the data: `auto` (label the largest peaks of spectra and chromatograms),
-    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep),
+    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep), `rings`
+    /// (resolution rings on a diffraction image; auto draws them),
     /// `objects` (outline and number the nuclei, cells or spots of an image, as `stats
     /// --objects` counts them) or `none`.
     #[arg(
         long,
         default_value = "auto",
-        value_name = "auto|peaks|spikes|objects|none"
+        value_name = "auto|peaks|spikes|objects|rings|none"
     )]
     pub marks: String,
     /// With `--marks objects`: how objects are found, as JSON with the fields of the MCP
@@ -143,6 +154,8 @@ impl PreviewArgs {
             preview_request.image = self.image;
             preview_request.select = self.select.clone();
             preview_request.mip = self.mip.as_deref().map(str::parse::<Axis>).transpose()?;
+            preview_request.sum = self.sum.as_deref().map(str::parse::<Axis>).transpose()?;
+            preview_request.fft = self.fft;
             preview_request.composite = self.composite;
             preview_request.level = self.level;
             preview_request.region = self

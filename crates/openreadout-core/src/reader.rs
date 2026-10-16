@@ -258,6 +258,13 @@ pub trait Dataset: Send {
             "This format has no embedded attachments; `info --view structure` lists what the file contains.",
         ))
     }
+    /// The sum of the time points `ts` of image `image` at channel `c` and plane `z`, as 32-bit
+    /// float samples (a movie's frames added up: its dose image). The default reads and adds
+    /// every plane; readers whose frames are sparse (electron-event movies) add their events
+    /// directly.
+    fn sum_planes(&mut self, image: u32, c: u32, z: u32, ts: &[u32]) -> Result<Plane> {
+        sum_planes_by_reading(self, image, c, z, ts)
+    }
     /// Per-frame acquisition records of image `image` (acquisition time, stage position,
     /// detector state, ...), too numerous for `info`. Each record is a JSON object in the
     /// reader's documented vocabulary. At most `limit` records are returned (`None` = all);
@@ -320,6 +327,50 @@ pub trait Dataset: Send {
     fn is_strict(&self) -> bool {
         false
     }
+}
+
+/// [`Dataset::sum_planes`] by reading every plane and adding its samples.
+pub fn sum_planes_by_reading<D: Dataset + ?Sized>(
+    ds: &mut D,
+    image: u32,
+    c: u32,
+    z: u32,
+    ts: &[u32],
+) -> Result<Plane> {
+    let mut acc: Vec<f32> = Vec::new();
+    let (mut w, mut h) = (0u32, 0u32);
+    for &t in ts {
+        let p = ds.read_plane(image, PlaneIndex { c, z, t })?;
+        if p.samples_per_pixel != 1 {
+            return Err(Error::Usage(
+                "frames with several samples per pixel (RGB) are not summed".into(),
+            ));
+        }
+        let bps = p.pixel_type.bytes_per_sample();
+        let n = p.width as usize * p.height as usize;
+        if acc.is_empty() {
+            (w, h) = (p.width, p.height);
+            acc = vec![0f32; n];
+        } else if (p.width, p.height) != (w, h) {
+            return Err(Error::Other(format!(
+                "frame t={t} is {}x{}, the first {w}x{h}: frames of different sizes are not summed",
+                p.width, p.height
+            )));
+        }
+        for (a, c) in acc.iter_mut().zip(p.data.chunks_exact(bps)) {
+            *a += p.pixel_type.sample_f64(c) as f32;
+        }
+    }
+    if ts.is_empty() {
+        return Err(Error::Usage("no frames to sum".into()));
+    }
+    Ok(Plane {
+        width: w,
+        height: h,
+        pixel_type: crate::PixelType::Float,
+        samples_per_pixel: 1,
+        data: acc.iter().flat_map(|v| v.to_le_bytes()).collect(),
+    })
 }
 
 /// Read the spectrum with instrument scan number `scan` of run `run`: through
