@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail when a change adds a crate version that has a security advisory or is yanked.
+"""Fail when a change adds a crate version that has a security advisory.
 
     python3 scripts/ci/advisories.py [--base REV]
 
@@ -9,8 +9,8 @@ pull request happened to run next. So pull requests only answer for what they ad
 compares Cargo.lock with the base, runs `cargo deny check advisories`, and fails only for
 advisories against crate versions that are new in this change. Advisories for crates already on
 main are listed as notes; advisories.yml checks all of Cargo.lock daily and on every Cargo.lock
-change on main, and files them as an issue. Yanked versions are treated the same way: a crate
-yanked from crates.io fails the pull request that adds it, not one that happens to run later.
+change on main, and files them as an issue. Yanked versions are warnings in deny.toml, so they
+fail no pull request; advisories.yml lists them in the same issue.
 
 The base is the first parent in GitHub Actions (CI checks out a pull request's merge commit with
 `fetch-depth: 2`) and the merge base with origin/main elsewhere. Needs git and cargo-deny.

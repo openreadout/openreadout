@@ -1,8 +1,9 @@
 name: Advisories
 
-# Checks every crate in Cargo.lock against the RustSec advisory database: daily, when Cargo.lock
-# or deny.toml changes on main, and on manual runs. A new advisory opens an issue, or adds a
-# comment to the open one, instead of failing whichever pull request runs next. Pull requests
+# Checks every crate in Cargo.lock against the RustSec advisory database, and for yanked
+# versions: daily, when Cargo.lock or deny.toml changes on main, and on manual runs. A new
+# advisory or yanked crate opens an issue, or adds a comment to the open one, instead of failing
+# whichever pull request runs next. Pull requests
 # check only the crates they add (scripts/ci/advisories.py in ci.yml's `repo` job). Dependabot
 # security updates, when switched on in the repository settings, open the fixing pull requests.
 on:
@@ -49,7 +50,8 @@ jobs:
           } > advisories.md
           cat advisories.md
           cat advisories.md >> "$GITHUB_STEP_SUMMARY"
-          if grep -q 'exit [1-9]' advisories.md; then echo "failed=true" >> "$GITHUB_OUTPUT"; fi
+          # Yanked crates are warnings (deny.toml), so they don't change the exit code; report them too.
+          if grep -qE 'exit [1-9]|\[yanked\]' advisories.md; then echo "failed=true" >> "$GITHUB_OUTPUT"; fi
       - name: Open or update the advisories issue
         if: steps.deny.outputs.failed == 'true'
         env:
