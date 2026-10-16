@@ -30,8 +30,8 @@ use crate::spectra::{check_chromatogram_traces, check_chromatograms, check_spect
 use crate::tables::{check_plate, check_tables};
 use crate::traces::check_traces;
 
-mod biacore_oracle;
 mod abif_oracle;
+mod biacore_oracle;
 mod chromeleon_oracle;
 mod fplc_oracle;
 mod gpr_oracle;

@@ -28,7 +28,7 @@ pub struct ExportArgs {
     #[arg(long = "format", value_enum)]
     pub to: Option<ExportFormat>,
     /// Output path. Defaults to the input name with `.ome.tiff`, `.ome.zarr`, `.csv`, `.mzML`,
-    /// `.asm.json`, `.parquet`, `.arrow`, `.nwb`, `.jdx` or `.rdml`. Without `--format`, its
+    /// `.asm.json`, `.parquet`, `.arrow`, `.nwb`, `.jdx`, `.rdml` or `.fastq`. Without `--format`, its
     /// extension picks the format (`.tif` and `.tiff` mean OME-TIFF, `.zarr` OME-Zarr,
     /// `.json` ASM).
     #[arg(short, long)]
@@ -137,6 +137,9 @@ pub enum ExportFormat {
     /// RDML 1.3 (Real-time PCR Data Markup Language): qPCR files (RDML, .eds, .rex) with plate
     /// setup, Cq, curves and melt data.
     Rdml,
+    /// FASTQ (Phred+33): the base calls of a Sanger read (`.ab1`).
+    #[value(alias = "fq")]
+    Fastq,
 }
 
 impl ExportFormat {
@@ -153,6 +156,7 @@ impl ExportFormat {
             ExportFormat::Nwb => "nwb",
             ExportFormat::Jcamp => "jcamp",
             ExportFormat::Rdml => "rdml",
+            ExportFormat::Fastq => "fastq",
         }
     }
 
@@ -334,6 +338,7 @@ pub enum ExportOutput {
     Nwb(openreadout_hdf5::NwbExportReport),
     Jcamp(openreadout_nmr::JcampExportReport),
     Rdml(openreadout_qpcr::RdmlExportReport),
+    Fastq(openreadout_ce::FastqExportReport),
     PerImage(plate::PerImageExport),
 }
 
@@ -375,6 +380,7 @@ impl batch::Item for ExportOutput {
             ExportOutput::Rdml(r) => {
                 format!("{} reactions -> {}", r.reactions, name(&r.output))
             }
+            ExportOutput::Fastq(r) => format!("{} bases -> {}", r.bases, name(&r.output)),
             ExportOutput::PerImage(r) => format!("{} files -> {}", r.files.len(), name(&r.output)),
         })
     }
@@ -539,6 +545,18 @@ fn render_export(r: &ExportOutput) -> String {
                 acc
             })
         ),
+        ExportOutput::Fastq(r) => format!(
+            "wrote {} (FASTQ: {} read(s), {} bases; verified={}){}",
+            r.output,
+            r.reads,
+            r.bases,
+            r.verified,
+            r.notes.iter().fold(String::new(), |mut acc, n| {
+                acc.push_str("\n  note: ");
+                acc.push_str(n);
+                acc
+            })
+        ),
     }
 }
 
@@ -627,6 +645,9 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         t
     } else {
         match openreadout_batch::csv::default_export_format(&ds.info()?) {
+            // a table or trace asked for goes to CSV even from a file whose default is FASTQ
+            "fastq" if req.csv.table.is_some() || req.csv.trace.is_some() => ExportFormat::Csv,
+            "fastq" => ExportFormat::Fastq,
             "mzml" => ExportFormat::Mzml,
             "csv" => ExportFormat::Csv,
             _ => ExportFormat::OmeTiff,
@@ -636,6 +657,12 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         .file_stem()
         .map_or_else(|| "export".into(), |s| s.to_string_lossy().to_string());
     match to {
+        ExportFormat::Fastq => {
+            let output =
+                explicit.unwrap_or_else(|| openreadout_ce::default_fastq_output(&name_base));
+            return openreadout_ce::export_fastq(ds.as_mut(), file, &output, req.overwrite)
+                .map(ExportOutput::Fastq);
+        }
         ExportFormat::Parquet | ExportFormat::Arrow => {
             return export_columnar(ds.as_mut(), file, &name_base, explicit, req, to);
         }
@@ -670,7 +697,11 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         ExportFormat::Asm => name_base.with_file_name(format!("{stem}.asm.json")),
         ExportFormat::Rdml => openreadout_qpcr::default_rdml_output(&name_base),
         ExportFormat::Csv => openreadout_batch::csv::default_output(&name_base, &req.csv),
-        ExportFormat::Parquet | ExportFormat::Arrow | ExportFormat::Nwb | ExportFormat::Jcamp => {
+        ExportFormat::Parquet
+        | ExportFormat::Arrow
+        | ExportFormat::Nwb
+        | ExportFormat::Jcamp
+        | ExportFormat::Fastq => {
             unreachable!("handled above")
         }
     });
@@ -792,6 +823,7 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Mzml
         | ExportFormat::Asm
         | ExportFormat::Rdml
+        | ExportFormat::Fastq
         | ExportFormat::Parquet
         | ExportFormat::Arrow
         | ExportFormat::Nwb

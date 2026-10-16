@@ -2132,6 +2132,8 @@ name = "openreadout-ce"
 version = "0.3.0"
 dependencies = [
  "openreadout-core",
+ "schemars",
+ "serde",
  "serde_json",
  "tempfile",
 ]
@@ -2463,6 +2465,7 @@ dependencies = [
  "openreadout-arrow",
  "openreadout-assay",
  "openreadout-batch",
+ "openreadout-ce",
  "openreadout-core",
  "openreadout-fcs",
  "openreadout-figure",

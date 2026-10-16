@@ -42,6 +42,7 @@
 mod abif;
 mod assurance;
 mod build;
+mod fastq;
 mod fragment;
 pub mod ladders;
 pub mod sizing;
@@ -53,6 +54,8 @@ use openreadout_core::model::{DetectConfidence, FormatDescriptor};
 use openreadout_core::reader::{Dataset, Detection, FormatReader, has_extension};
 use openreadout_core::series::{SeriesDataset, read_all};
 use openreadout_core::source::Input;
+
+pub use fastq::{FastqExportReport, base_call_tables, default_fastq_output, export_fastq};
 
 /// Format id of Applied Biosystems ABIF files.
 pub const ABIF_FORMAT_ID: &str = abif::FORMAT_ID;

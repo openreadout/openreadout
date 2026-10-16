@@ -141,6 +141,28 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
             }
         }
     }
+    // the FASTQ export holds the same read as Biopython's FASTQ (Phred+33)
+    if !seq.is_empty() {
+        let dir = tempfile::tempdir().map_err(|e| format!("temp dir: {e}"))?;
+        let out = dir.path().join("read.fastq");
+        openreadout_ce::export_fastq(ds.as_mut(), path, &out, false)
+            .map_err(|e| format!("FASTQ export: {e}"))?;
+        let text = std::fs::read_to_string(&out).map_err(|e| format!("read FASTQ: {e}"))?;
+        let lines: Vec<&str> = text.lines().collect();
+        let quals: String = oracle["quality"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter_map(Value::as_u64)
+            .map(|q| char::from(33 + q.min(93) as u8))
+            .collect();
+        if lines.get(1) != Some(&seq) {
+            problems.push("FASTQ sequence differs from Biopython's".into());
+        }
+        if oracle["quality"].is_array() && lines.get(3) != Some(&quals.as_str()) {
+            problems.push("FASTQ qualities differ from Biopython's".into());
+        }
+    }
     // sample and run start
     let exp = openreadout_core::experiment::of_dataset(ds.as_ref(), &info);
     if let Some(name) = oracle["tags"]["SMPL1"]["text"].as_str() {
@@ -173,14 +195,19 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
             .map_err(|e| format!("read sized trace: {e}"))?;
         let size = &tr.channels[0];
         for r in rows {
-            let (want, dp) = (r[1].as_f64().unwrap_or(f64::NAN), r[3].as_f64().unwrap_or(-1.0));
+            let (want, dp) = (
+                r[1].as_f64().unwrap_or(f64::NAN),
+                r[3].as_f64().unwrap_or(-1.0),
+            );
             let i = dp - first;
             if i < 0.0 || i as usize >= size.len() {
                 continue;
             }
             let ours = size[i as usize];
             if (ours - want).abs() > 0.006 {
-                problems.push(format!("peak at {dp}: size {ours:.3} vs PeakScanner {want}"));
+                problems.push(format!(
+                    "peak at {dp}: size {ours:.3} vs PeakScanner {want}"
+                ));
                 break;
             }
             sized_peaks += 1;

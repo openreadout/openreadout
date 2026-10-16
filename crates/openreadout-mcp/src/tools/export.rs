@@ -38,11 +38,11 @@ pub struct ExportArgs {
     /// or `arrow` (Arrow IPC file) for a table, a trace (all sweeps) or mass spectra
     /// (`spectra=true`), `nwb` (NWB 2.x; electrophysiology traces), `jcamp` (JCAMP-DX 5.01; NMR
     /// FIDs and spectra, other 1-D spectra and chromatograms), `asm` (Allotrope Simple Model
-    /// plate-reader JSON) or `rdml` (RDML 1.3; qPCR files). Without it, the extension of
+    /// plate-reader JSON), `rdml` (RDML 1.3; qPCR files) or `fastq` (base calls of a Sanger read; its default). Without it, the extension of
     /// `output` decides; it must not contradict `output`.
     pub format: Option<String>,
     /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.csv`,
-    /// `.asm.json`, `.rdml`, `.parquet`, `.arrow`, `.nwb` or `.jdx`. Its extension sets the
+    /// `.asm.json`, `.rdml`, `.fastq`, `.parquet`, `.arrow`, `.nwb` or `.jdx`. Its extension sets the
     /// format when `format` is not given. Figures: .png, .jpg, .tiff, .svg or .pdf (default
     /// `<data file stem>.figure.png` or `.preview.png` next to the data).
     pub output: Option<String>,
@@ -375,6 +375,19 @@ fn export_rdml(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json:
     to_value(&r)
 }
 
+/// `format = "fastq"`: the base calls of a Sanger read.
+fn export_fastq(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
+    let input = input_path(a)?;
+    let (_, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+    let output = a.output.as_ref().map_or_else(
+        || openreadout_ce::default_fastq_output(&input),
+        PathBuf::from,
+    );
+    let r = openreadout_ce::export_fastq(ds.as_mut(), &input, &output, a.overwrite)
+        .map_err(|e| mcp_err(&e))?;
+    to_value(&r)
+}
+
 /// `format = "asm"`: a plate-reader export to Allotrope Simple Model JSON.
 fn export_asm(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
     let input = input_path(a)?;
@@ -587,7 +600,13 @@ fn export_data(
     if requested.is_none() {
         let (_, ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
         let info = ds.info().map_err(|e| mcp_err(&e))?;
-        requested = Some(openreadout_batch::csv::default_export_format(&info).to_string());
+        let d = openreadout_batch::csv::default_export_format(&info);
+        // a table or trace asked for goes to CSV even from a file whose default is FASTQ
+        let rows_asked = a.table.is_some() || a.trace.is_some() || a.rows.is_some();
+        requested = Some(if d == "fastq" && rows_asked { "csv" } else { d }.to_string());
+    }
+    if requested.as_deref() == Some("fastq") {
+        return export_fastq(&reg, &a);
     }
     let open_progress = |name: &str| {
         let unit = if a.spectra {
@@ -665,7 +684,7 @@ fn export_data(
         "rdml" => return export_rdml(registry, &a),
         other => {
             return Err(mcp_err(&Error::Usage(format!(
-                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|parquet|arrow|nwb|jcamp)"
+                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|fastq|parquet|arrow|nwb|jcamp)"
             ))));
         }
     };
