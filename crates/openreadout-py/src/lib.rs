@@ -82,6 +82,11 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_hcs::HarmonyReader))
         .with(Box::new(openreadout_hcs::ImageXpressReader))
         .with(Box::new(openreadout_hcs::CellVoyagerReader))
+        // medical imaging before TIFF: DICOM whole-slide files can be dual-personality TIFF,
+        // and ParaVision folders hold DICOM exports
+        .with(Box::new(openreadout_medical::ParavisionReader))
+        .with(Box::new(openreadout_medical::DicomReader))
+        .with(Box::new(openreadout_medical::NiftiReader))
         .with(Box::new(openreadout_tiff::TiffReader))
         .with(Box::new(openreadout_zarr::ZarrReader))
         .with(Box::new(openreadout_em::MrcReader))

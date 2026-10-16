@@ -1,0 +1,30 @@
+{
+ "id": "pydicom-jpeglsnearlossless-16",
+ "file": "JPEGLSNearLossless_16.dcm",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 10,
+   "size_y": 50,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "94eb6c3b034c1cdec7a515edc9680c7e",
+     "mean": 12014.5
+    }
+   ]
+  }
+ ]
+}

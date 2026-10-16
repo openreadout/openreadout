@@ -137,6 +137,10 @@ pub enum ExportFormat {
     /// RDML 1.3 (Real-time PCR Data Markup Language): qPCR files (RDML, .eds, .rex) with plate
     /// setup, Cq, curves and melt data.
     Rdml,
+    /// NIfTI-1 (`.nii.gz`, or `.nii`): one volume with its voxel size and scanner orientation
+    /// (medical and other volumetric images).
+    #[value(alias = "nii")]
+    Nifti,
 }
 
 impl ExportFormat {
@@ -153,6 +157,7 @@ impl ExportFormat {
             ExportFormat::Nwb => "nwb",
             ExportFormat::Jcamp => "jcamp",
             ExportFormat::Rdml => "rdml",
+            ExportFormat::Nifti => "nifti",
         }
     }
 
@@ -334,6 +339,7 @@ pub enum ExportOutput {
     Nwb(openreadout_hdf5::NwbExportReport),
     Jcamp(openreadout_nmr::JcampExportReport),
     Rdml(openreadout_qpcr::RdmlExportReport),
+    Nifti(openreadout_medical::NiftiExportReport),
     PerImage(plate::PerImageExport),
 }
 
@@ -374,6 +380,9 @@ impl batch::Item for ExportOutput {
             }
             ExportOutput::Rdml(r) => {
                 format!("{} reactions -> {}", r.reactions, name(&r.output))
+            }
+            ExportOutput::Nifti(r) => {
+                format!("{} planes -> {}", r.planes_written, name(&r.output))
             }
             ExportOutput::PerImage(r) => format!("{} files -> {}", r.files.len(), name(&r.output)),
         })
@@ -521,6 +530,18 @@ fn render_export(r: &ExportOutput) -> String {
             r.bytes_written,
             r.verified
         ),
+        ExportOutput::Nifti(r) => format!(
+            "wrote {} (NIfTI-1 {}, dims {:?}, voxel {:?}, affine from {}, {} planes, {} bytes, verified={}){}",
+            r.output,
+            r.datatype,
+            r.dims,
+            r.pixdim,
+            r.affine_from,
+            r.planes_written,
+            r.bytes_written,
+            r.verified,
+            r.notes.iter().map(|n| format!("\n  note: {n}")).collect::<String>()
+        ),
         ExportOutput::Rdml(r) => format!(
             "wrote {} (RDML {}: {} run(s), {} reactions, {} data elements, {} Cq values, {} amplification and {} melt points; {} bytes, verified={}){}",
             r.output,
@@ -647,6 +668,17 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             return openreadout_hdf5::export_nwb(ds.as_mut(), file, &output, &opts)
                 .map(ExportOutput::Nwb);
         }
+        ExportFormat::Nifti => {
+            reject_flags(req, "NIfTI")?;
+            let output =
+                explicit.unwrap_or_else(|| openreadout_medical::default_nifti_output(&name_base));
+            openreadout_core::output::refuse_inputs(&output, [file])?;
+            let mut o = openreadout_medical::NiftiExportOptions::default();
+            o.image = req.image;
+            o.overwrite = req.overwrite;
+            return openreadout_medical::export_nifti(ds.as_mut(), file, &output, &o)
+                .map(ExportOutput::Nifti);
+        }
         ExportFormat::Jcamp => {
             let opts = jcamp_options(req)?;
             let output = explicit
@@ -670,7 +702,11 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         ExportFormat::Asm => name_base.with_file_name(format!("{stem}.asm.json")),
         ExportFormat::Rdml => openreadout_qpcr::default_rdml_output(&name_base),
         ExportFormat::Csv => openreadout_batch::csv::default_output(&name_base, &req.csv),
-        ExportFormat::Parquet | ExportFormat::Arrow | ExportFormat::Nwb | ExportFormat::Jcamp => {
+        ExportFormat::Parquet
+        | ExportFormat::Arrow
+        | ExportFormat::Nwb
+        | ExportFormat::Jcamp
+        | ExportFormat::Nifti => {
             unreachable!("handled above")
         }
     });
@@ -795,7 +831,8 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Parquet
         | ExportFormat::Arrow
         | ExportFormat::Nwb
-        | ExportFormat::Jcamp => unreachable!("handled above"),
+        | ExportFormat::Jcamp
+        | ExportFormat::Nifti => unreachable!("handled above"),
     }
     .map(ExportOutput::Image)
 }

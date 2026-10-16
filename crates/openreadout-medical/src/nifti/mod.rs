@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 
 use openreadout_core::Result;
 use openreadout_core::model::{DetectConfidence, FormatDescriptor};
-use openreadout_core::reader::{Dataset, Detection, FormatReader, has_extension};
+use openreadout_core::reader::{Dataset, Detection, FormatReader};
 use openreadout_core::source::{Fs, Input};
 
 use dataset::NiftiDataset;
@@ -142,9 +142,4 @@ impl FormatReader for NiftiReader {
     fn reads_any_source(&self) -> bool {
         true
     }
-}
-
-/// True for names NIfTI files are written with (used by `export` to pick the format).
-pub(crate) fn is_nifti_name(path: &Path) -> bool {
-    has_extension(path, &["nii"]) || lower_name(path).ends_with(".nii.gz")
 }

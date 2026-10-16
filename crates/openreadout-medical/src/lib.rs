@@ -54,4 +54,7 @@ mod util;
 
 pub use dicom::DicomReader;
 pub use nifti::NiftiReader;
+pub use nifti::write::{
+    NiftiExportOptions, NiftiExportReport, default_nifti_output, export_nifti,
+};
 pub use paravision::ParavisionReader;

@@ -1,0 +1,65 @@
+{
+ "id": "brukerapi-pv7-lego-phantom-e10",
+ "file": "10",
+ "max_planes_hashed": 64,
+ "reader": "brukerapi",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 96,
+   "size_y": 64,
+   "size_z": 1,
+   "size_c": 7,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 416.6666666666667,
+    "y": 625.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "49595b8d341b403531f30db3aea6de5b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d5a51a7b887081836ab012865446b6eb"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "ae83fe8b413b0d55b65e026bd4594b6c"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "136de7b770579523195b85a20c08e1f0"
+    },
+    {
+     "c": 4,
+     "z": 0,
+     "t": 0,
+     "xxh3": "23ad6760ac4127aafaec5ba4133e620a"
+    },
+    {
+     "c": 5,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5f05ccdd1dd1d677f7518bd0abfc16bb"
+    },
+    {
+     "c": 6,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cd53e4e0ad96b29f757d43914e596980"
+    }
+   ]
+  }
+ ]
+}

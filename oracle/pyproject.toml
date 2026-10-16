@@ -97,6 +97,17 @@ dependencies = [
     # Quantitation oracles (chromatogram extraction, peak picking and integration): pyOpenMS
     # (BSD-3) PeakPickerMRM / PeakIntegrator; SciPy (above) find_peaks/peak_widths second opinion.
     "pyopenms>=3.2",
+    # Medical imaging (oracle/medical.py): pydicom (MIT) with the pylibjpeg decoders (MIT; the
+    # libjpeg plugin is GPL-3.0 and run only) and pyjpegls (MIT); nibabel (MIT) for NIfTI and
+    # Analyze; brukerapi (MIT) for Bruker ParaVision 2dseq.
+    "pydicom>=3.0",
+    "pylibjpeg>=2.0",
+    "pylibjpeg-libjpeg>=2.3",
+    "pylibjpeg-openjpeg>=2.4",
+    "pylibjpeg-rle>=2.1",
+    "pyjpegls>=1.5",
+    "nibabel>=5.3",
+    "brukerapi>=0.4.6",
 ]
 
 # allotropy 0.1.146 pins rainbow-api 1.0.10, while the chromatography oracle needs rainbow-api

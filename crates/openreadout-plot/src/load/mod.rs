@@ -3,6 +3,7 @@
 
 mod assay;
 mod flow;
+mod image;
 mod plate;
 mod signal;
 mod table;
@@ -164,6 +165,7 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
         Show::Events => flow::events(ctx, spec, file)?,
         Show::Histogram => flow::histogram(ctx, spec, file)?,
         Show::DoseResponse | Show::StandardCurve => assay::curves(ctx, spec, file, show)?,
+        Show::Profile => image::profile(ctx, spec, file)?,
     };
     if let Some(l) = &spec.label
         && series.len() == 1
@@ -182,6 +184,9 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
 fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     if spec.assay.is_some() {
         return Ok(Show::DoseResponse);
+    }
+    if spec.line.is_some() {
+        return Ok(Show::Profile);
     }
     // a long plate CSV (`well`, `value`, maybe `time_s` and layout columns) is a plate
     let p = Path::new(file);

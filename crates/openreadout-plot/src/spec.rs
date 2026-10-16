@@ -231,6 +231,8 @@ pub enum Show {
     Amplification,
     /// qPCR melt curves (−dF/dT).
     Melt,
+    /// Image values along a line (line, image, select), against distance in mm or µm.
+    Profile,
 }
 
 #[allow(missing_docs)]
@@ -364,6 +366,15 @@ pub struct SeriesSpec {
     /// dose_response, standard_curve: the plate-reader assay arguments without file (layout, standards,
     /// model, normalize, reduce, …).
     pub assay: Option<serde_json::Map<String, serde_json::Value>>,
+
+    /// Profile: the line `[[x0, y0], [x1, y1]]` in the image's full-resolution pixels.
+    pub line: Option<[[f64; 2]; 2]>,
+    /// Profile: image index (default 0).
+    pub image: Option<u32>,
+    /// Profile: the plane, e.g. `z=12` or `c=1,t=3` (default c=0, the middle z, t=0).
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
+    pub select: Vec<String>,
 }
 
 /// Inline values.

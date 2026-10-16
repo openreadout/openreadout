@@ -21,6 +21,7 @@ openreadout-ometiff = { path = "../crates/openreadout-ometiff" }
 openreadout-abf = { path = "../crates/openreadout-abf" }
 openreadout-blackrock = { path = "../crates/openreadout-blackrock" }
 openreadout-em = { path = "../crates/openreadout-em" }
+openreadout-medical = { path = "../crates/openreadout-medical" }
 openreadout-fcs = { path = "../crates/openreadout-fcs" }
 openreadout-intan = { path = "../crates/openreadout-intan" }
 openreadout-neuralynx = { path = "../crates/openreadout-neuralynx" }
@@ -1086,6 +1087,34 @@ bench = false
 [[bin]]
 name = "whole_uvprobe"
 path = "fuzz_targets/whole_uvprobe.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_dicom"
+path = "fuzz_targets/whole_dicom.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_nifti"
+path = "fuzz_targets/whole_nifti.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_paravision"
+path = "fuzz_targets/whole_paravision.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_jpegls"
+path = "fuzz_targets/codec_jpegls.rs"
 test = false
 doc = false
 bench = false

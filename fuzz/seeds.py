@@ -58,6 +58,15 @@ COMMITTED_CUTS = [
     ("whole_tiff", "ome-artificial-single-channel.ome.tiff", 80 * 1024),  # CC-BY-4.0
     ("whole_mrc", "mrcfile-emd-3197.map", 64 * 1024),  # CC0-1.0
     ("whole_dm", "zenodo8190744-EELS-STO.dm3", 64 * 1024),  # CC-BY-4.0
+    ("whole_dicom", "pydicom/CT_small.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom/MR_small_RLE.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom/JPEG2000.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom-data/emri_small_jpeg_ls_lossless.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom-data/liver_deflate.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom/image_dfl.dcm", 64 * 1024),  # MIT
+    ("whole_nifti", "nibabel/functional.nii", 64 * 1024),  # MIT
+    ("whole_nifti", "nibabel/example_nifti2.nii.gz", 64 * 1024),  # MIT
+    ("codec_jpegls", "pydicom/JPEGLSNearLossless_16.dcm", 64 * 1024),  # MIT (whole file; the stream starts inside it)
     ("whole_emd", "zenodo20040988-0050-STEM-15.4nm.emd", 96 * 1024),  # CC-BY-4.0
     ("whole_jcamp", "jcamp-lancashire-pktab1.jdx", 16 * 1024),  # public domain
     ("whole_jcamp", "jcamp-lancashire-compound.jdx", 32 * 1024),  # public domain
@@ -140,6 +149,7 @@ COMMITTED_BUNDLES = [
     ("whole_bruker", [("nmrglue-test-data/bruker_1d/acqus", 16 * 1024), ("nmrglue-test-data/bruker_1d/fid", 16 * 1024)]),  # BSD-3-Clause
     ("whole_varian", [("nmrpy-test2.fid/procpar", 32 * 1024), ("nmrpy-test2.fid/fid", 8 * 1024)]),  # BSD-3-Clause
     ("whole_imzml", [("imzml-example-continuous.imzML", 32 * 1024), ("imzml-example-continuous.ibd", 16 * 1024)]),  # Apache-2.0
+    ("whole_paravision", [("brukerapi-pv7/20210128_122257_LEGO_PHANTOM_API_TEST_1_1/20/" + n, cut) for n, cut in [("acqp", 64 * 1024), ("method", 64 * 1024), ("pdata/1/visu_pars", 64 * 1024), ("pdata/1/2dseq", 16 * 1024)]]),  # CC-BY-4.0
     ("whole_tims", [("timsrust-test-dda.d/analysis.tdf", 32 * 1024), ("timsrust-test-dda.d/analysis.tdf_bin", 4 * 1024)]),  # Apache-2.0
     ("whole_vsi", [("zenodo6094961-vsi-multifile/data/vsi-ets-test-jpg2k.vsi", 48 * 1024), ("zenodo6094961-vsi-multifile/data/_vsi-ets-test-jpg2k_/stack1/frame_t_0.ets", 32 * 1024)]),  # CC-BY-4.0
     ("whole_chemstation", [("chromhandler-CA10_100uM.D/dad1A.ch", 8 * 1024), ("entab-carotenoid_extract.d/dad1.uv", 16 * 1024), ("entab-carotenoid_extract.d/MSD1.MS", 16 * 1024)]),  # MIT

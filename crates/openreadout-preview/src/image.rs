@@ -170,6 +170,17 @@ fn fitted(w: u32, h: u32, fit: u32) -> (usize, usize) {
     (side(w), side(h))
 }
 
+/// The height a plane of `h` rows is drawn at so its pixels keep their physical aspect
+/// (`physical_size.y / physical_size.x`); `h` when the pixels are square or not calibrated.
+fn aspect_height(im: &ImageInfo, h: u32) -> u32 {
+    match (im.physical_size.x, im.physical_size.y) {
+        (Some(x), Some(y)) if x > 0.0 && y > 0.0 && ((y / x) - 1.0).abs() > 0.01 => {
+            ((f64::from(h) * y / x).round() as u32).clamp(1, 1 << 16)
+        }
+        _ => h,
+    }
+}
+
 /// `(level, width, height)` of every pyramid level the reader describes (level 0 first).
 /// Levels with fewer z planes than the image (Imaris downsamples z too) are left out: the
 /// picture's z index counts level-0 planes.
@@ -227,12 +238,60 @@ fn level_dims(im: &ImageInfo, level: u32) -> Option<(u32, u32)> {
         .map(|(_, w, h)| (w, h))
 }
 
-fn resolve_contrast(c: Contrast, pt: PixelType, rgb: bool) -> Contrast {
-    match c {
+/// The display windows a file stores (`images[].extra.windows`): `(center, width)`.
+fn stored_windows(im: &ImageInfo) -> Vec<(f64, f64)> {
+    im.extra
+        .get("windows")
+        .and_then(serde_json::Value::as_array)
+        .map(|v| {
+            v.iter()
+                .filter_map(|w| {
+                    let c = w.get("center")?.as_f64()?;
+                    let wd = w.get("width")?.as_f64()?;
+                    (c.is_finite() && wd.is_finite() && wd > 0.0).then_some((c, wd))
+                })
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
+fn resolve_contrast(
+    c: Contrast,
+    im: &ImageInfo,
+    rgb: bool,
+    notes: &mut Vec<String>,
+) -> Result<Contrast> {
+    let pt = im.pixel_type;
+    let hu = im.extra.get("value_unit").and_then(serde_json::Value::as_str) == Some("HU");
+    Ok(match c {
         Contrast::Auto if rgb && pt == PixelType::Uint8 => Contrast::Raw,
+        // medical images carry their display window; CT without one gets the soft-tissue preset
+        Contrast::Auto if !rgb => match stored_windows(im).first() {
+            Some(&(center, width)) => {
+                notes.push(format!(
+                    "contrast: the file's display window (center {center}, width {width}); contrast window:brain, window:bone, ... for presets"
+                ));
+                Contrast::Window(center, width)
+            }
+            None if hu => {
+                notes.push("contrast: CT soft-tissue window (center 40 HU, width 400 HU); contrast window:bone, window:brain, window:lung, ... for others".into());
+                Contrast::Window(40.0, 400.0)
+            }
+            None => Contrast::Percentile(AUTO_PERCENTILES.0, AUTO_PERCENTILES.1),
+        },
         Contrast::Auto => Contrast::Percentile(AUTO_PERCENTILES.0, AUTO_PERCENTILES.1),
+        Contrast::StoredWindow(n) => {
+            let w = stored_windows(im);
+            let &(center, width) = w.get(n).ok_or_else(|| {
+                Error::Usage(format!(
+                    "window:file:{n}: the image stores {} display windows (images[].extra.windows)",
+                    w.len()
+                ))
+            })?;
+            Contrast::Window(center, width)
+        }
         other => other,
-    }
+    })
 }
 
 fn raw_range(pt: PixelType) -> (f64, f64) {
@@ -434,6 +493,8 @@ fn finding_notes(im: &ImageInfo, found: &[(u32, Finding)]) -> Vec<String> {
 fn display_range(bands: &[&Band], c: Contrast, pt: PixelType, screened: Screened) -> (f64, f64) {
     let (lo, hi) = match c {
         Contrast::Raw => raw_range(pt),
+        Contrast::Window(c, w) => (c - w / 2.0, c + w / 2.0),
+        Contrast::StoredWindow(_) => raw_range(pt),
         Contrast::Auto | Contrast::MinMax | Contrast::Percentile(..) => {
             let finite = || {
                 bands
@@ -764,7 +825,9 @@ pub(crate) fn render(
     let spp = im.samples_per_pixel.max(1) as usize;
     let mut first_dims: Option<(u32, u32)> = None;
     let mut out_dims = (1usize, 1usize);
-    let contrast = resolve_contrast(req.contrast, im.pixel_type, rgb);
+    let contrast = resolve_contrast(req.contrast, &im, rgb, &mut out.notes)?;
+    // MONOCHROME1: low values are drawn bright
+    let inverted = im.extra.get("display_inverted").and_then(serde_json::Value::as_bool) == Some(true);
     // Auto contrast (not what it resolved to for RGB) may leave fill and clipping out.
     let auto_contrast = req.contrast == Contrast::Auto && contrast != Contrast::Raw;
     let mut per_channel: Vec<(u32, Vec<Band>, Screened)> = Vec::new();
@@ -828,14 +891,17 @@ pub(crate) fn render(
         match first_dims {
             None => {
                 first_dims = Some(dims);
+                // pixels that are not square (MRI, reformatted CT) are drawn to scale: rows
+                // are stretched by the ratio of the pixel height to its width
+                let shown = (dims.0, aspect_height(&im, dims.1));
                 let fit = if let Some(Framing::Figure(f)) = &layout {
-                    f.fit(req.max_size, dims.0, dims.1)
+                    f.fit(req.max_size, shown.0, shown.1)
                 } else if layout.is_some() {
                     fit
                 } else {
-                    fit.min(dims.0.max(dims.1))
+                    fit.min(shown.0.max(shown.1))
                 };
-                out_dims = fitted(dims.0, dims.1, fit);
+                out_dims = fitted(shown.0, shown.1, fit);
             }
             Some(d) if d != dims => {
                 return Err(Error::Other(format!(
@@ -892,6 +958,7 @@ pub(crate) fn render(
             let band = &bands[0];
             for i in 0..ow * oh {
                 let l = level_of(band.v[i], lo, hi);
+                let l = if inverted && band.v[i].is_finite() { 1.0 - l } else { l };
                 for k in 0..3 {
                     acc[i * 3 + k] += f32::from(col[k]) * l;
                 }
@@ -1008,6 +1075,9 @@ pub(crate) fn render(
         source_per_pixel_y: map.per_pixel.1,
         full_res_region,
         scale_bar,
+        view: None,
+        crosshair: None,
+        view_slices: None,
     });
     Ok((figure, frame))
 }

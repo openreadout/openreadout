@@ -1,66 +1,6 @@
-//! Helpers shared by the readers: bounded positional reads, number formatting, small
-//! geometry.
+//! Helpers shared by the readers: number formatting and small geometry.
 
-use std::path::{Path, PathBuf};
-
-use openreadout_core::source::{Fs, SourceFile};
-use openreadout_core::{Error, Result};
 use serde_json::Value;
-
-/// An open file with its length; every read is bounds-checked against the length.
-#[derive(Debug)]
-pub(crate) struct Blob {
-    pub(crate) path: PathBuf,
-    file: SourceFile,
-    pub(crate) len: u64,
-}
-
-impl Blob {
-    pub(crate) fn open(fs: &Fs, path: &Path) -> Result<Self> {
-        let file = fs.open(path).map_err(|e| Error::io(path, e))?;
-        let len = file.metadata().map_err(|e| Error::io(path, e))?.len();
-        Ok(Blob {
-            path: path.to_path_buf(),
-            file,
-            len,
-        })
-    }
-
-    /// Read exactly `len` bytes at `offset`; a range past the end of the file is a corrupt-file
-    /// error naming `format`.
-    pub(crate) fn read_at(&self, format: &'static str, offset: u64, len: u64) -> Result<Vec<u8>> {
-        let end = offset
-            .checked_add(len)
-            .ok_or_else(|| Error::corrupt_at(format, offset, "byte range overflows"))?;
-        if end > self.len {
-            return Err(Error::corrupt_at(
-                format,
-                offset,
-                format!(
-                    "{} needs bytes {offset}..{end} but has only {} bytes (truncated?)",
-                    self.path.display(),
-                    self.len
-                ),
-            ));
-        }
-        let n = usize::try_from(len)
-            .map_err(|_| Error::corrupt_at(format, offset, "byte range too large"))?;
-        let mut buf = vec![0u8; n];
-        self.file
-            .read_exact_at(offset, &mut buf)
-            .map_err(|e| Error::io(&self.path, e))?;
-        Ok(buf)
-    }
-
-    /// Read up to `len` bytes at `offset` (fewer at the end of the file).
-    pub(crate) fn read_upto(&self, offset: u64, len: u64) -> Result<Vec<u8>> {
-        if offset >= self.len {
-            return Ok(Vec::new());
-        }
-        let n = len.min(self.len - offset);
-        self.read_at("io", offset, n)
-    }
-}
 
 /// A finite float as JSON, rounded to 15 significant digits (no binary noise); `null` for
 /// NaN and infinities.

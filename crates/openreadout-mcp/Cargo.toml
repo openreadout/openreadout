@@ -35,6 +35,7 @@ openreadout-live = { workspace = true }
 rayon = { workspace = true }
 openreadout-hdf5 = { workspace = true }
 openreadout-nmr = { workspace = true }
+openreadout-medical = { workspace = true }
 openreadout-signal = { workspace = true }
 openreadout-arrow = { workspace = true, optional = true }
 rmcp = { workspace = true }

@@ -84,6 +84,7 @@ openreadout-plexon = { workspace = true }
 openreadout-ephys = { workspace = true }
 openreadout-chrom = { workspace = true }
 openreadout-em = { workspace = true }
+openreadout-medical = { workspace = true }
 openreadout-nmr = { workspace = true }
 openreadout-signal = { workspace = true }
 openreadout-ometiff = { workspace = true }

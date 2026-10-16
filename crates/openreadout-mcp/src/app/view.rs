@@ -159,7 +159,11 @@ pub struct ViewArgs {
     /// Image: maximum-intensity projection over z.
     #[serde(default)]
     pub mip: bool,
-    /// Image: `auto`, `min-max`, `percentile:LO,HI` or `raw`.
+    /// Image volumes: `axial`, `coronal`, `sagittal`, `orthogonal`, `xz`, `yz` or `native`
+    /// (default: medical images in their acquisition plane). `z` then counts slices of it.
+    pub plane: Option<String>,
+    /// Image: `auto`, `min-max`, `percentile:LO,HI`, `raw` or `window:CENTER,WIDTH` (`window:file`,
+    /// `window:bone`, ...).
     pub contrast: Option<String>,
     /// Image: only this rectangle, in full-resolution pixels.
     pub region: Option<openreadout_core::Region>,
@@ -688,6 +692,11 @@ fn outline(info: &FileInfo) -> Value {
                 "size_c": im.size_c, "size_t": im.size_t,
                 "pixel_type": im.pixel_type, "samples_per_pixel": im.samples_per_pixel,
                 "physical_size": im.physical_size, "levels": levels, "channels": channels,
+                // medical images: display windows, value unit and anatomical orientation, for
+                // the window presets and the view menu
+                "windows": im.extra.get("windows"),
+                "value_unit": im.extra.get("value_unit"),
+                "plane": im.extra.get("orientation").and_then(|o| o.get("plane")),
             })
         })
         .collect();
@@ -780,6 +789,12 @@ fn image(
     }
     req.select = select;
     req.mip = a.mip.then_some(pv::Axis::Z);
+    req.view = a
+        .plane
+        .as_deref()
+        .map(str::parse::<pv::View>)
+        .transpose()
+        .map_err(|e| err(&e))?;
     req.level = a.level;
     req.region = a.region;
     req.max_size = a

@@ -19,7 +19,10 @@ include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
 openreadout-core = { workspace = true }
 openreadout-codecs = { workspace = true }
 miniz_oxide = { workspace = true }
+serde = { workspace = true }
 serde_json = { workspace = true }
+schemars = { workspace = true }
+flate2 = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }

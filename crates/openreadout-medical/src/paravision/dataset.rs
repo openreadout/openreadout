@@ -46,7 +46,6 @@ fn axis_of(group: &str) -> char {
 struct Group {
     count: u32,
     name: String,
-    comment: String,
 }
 
 /// One reconstruction, parsed.
@@ -143,11 +142,7 @@ impl Recon {
                             Atom::Text(t) | Atom::Word(t) => t.clone(),
                             _ => String::new(),
                         };
-                        let comment = match s.get(2) {
-                            Some(Atom::Text(t)) => t.clone(),
-                            _ => String::new(),
-                        };
-                        Some(Group { count, name, comment })
+                        Some(Group { count, name })
                     })
                     .collect()
             })
@@ -166,7 +161,6 @@ impl Recon {
             vec![Group {
                 count: frames,
                 name: if core.len() == 3 { "FG_CYCLE".into() } else { "frames".into() },
-                comment: String::new(),
             }]
         };
         for (i, g) in groups.iter().enumerate() {
