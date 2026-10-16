@@ -78,8 +78,8 @@ flag, zstd level. Deflate chunks are decoded by `hdf5-pure`.
   sample rate, flow-cell product, flow cell, kit; started at; sample id.
 - **Preview**: the read's whole signal, a zoom where single samples show, and the durations of
   the file's reads (`preview --sweep N` for read N).
-- **Export**: `export --format parquet` writes every read's samples (a `sweep` column, time and
-  current); `--table 0` the reads table.
+- **Export**: `export --format parquet --trace 0` writes every read's samples (a `sweep` column,
+  time and current); without `--trace`, the reads table.
 
 ## Validation
 

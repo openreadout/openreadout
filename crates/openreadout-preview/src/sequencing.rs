@@ -748,8 +748,8 @@ fn squiggle(
     if (2..50).contains(&durs.len()) {
         // few reads: one tick per read, this read in the accent
         let (dlo, dhi) = finite_range(durs.iter().copied())?;
-        let _ = dlo;
-        let xd = Domain::linear(0.0, dhi * 1.04).nice(5);
+        let pad = ((dhi - dlo) * 0.1).max(dhi * 0.02);
+        let xd = Domain::linear((dlo - pad).max(0.0), dhi + pad).nice(5);
         let spec3 = AxesSpec {
             x_label: Some("read duration (s)".into()),
             show_y: false,
@@ -1058,13 +1058,13 @@ fn reads(
             30.0,
             Stroke::new(theme.accent, theme.hairline()).dashed(4.0, 3.0),
         );
-        if let Some((px, py)) = p.pt(xmax.max(2.0), 30.0) {
+        if let Some((px, py)) = p.pt(1.0, 30.0) {
             fig.text(
-                px,
-                py - fs * 0.3,
+                px + fs * 0.3,
+                py + fs * 0.3,
                 "Q30",
                 &TextStyle::new(theme.small_size(), theme.accent)
-                    .align(Anchor::End, Baseline::Alphabetic),
+                    .align(Anchor::Start, Baseline::Top),
             );
         }
         p.line(&mut fig, pts, Stroke::new(theme.ink, theme.line_width));

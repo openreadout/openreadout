@@ -55,7 +55,8 @@ $ openreadout preview HG002.pod5 --sweep 3
 ![A nanopore read's raw signal](../img/gallery/squiggle.png)
 
 Table 0 lists the reads (channel, well, start, duration, end reason, open-pore level), and
-`openreadout export HG002.pod5 --format parquet` writes every read's samples to Parquet.
+`openreadout export HG002.pod5 --format parquet --trace 0` writes every read's samples to Parquet
+(a `sweep` column numbers the reads; without `--trace` it writes the reads table).
 
 ## Read files
 
@@ -70,8 +71,8 @@ bases ≥ Q30 and GC; it says when counts are estimated, and `check` reads every
 columns of the run summary per run:
 
 ```console
-$ openreadout batch info runs/*/ -o runs.csv
-$ openreadout batch table runs/*/ --table 0 --parameter percent_q30 -o q30.csv
+$ openreadout batch info 'runs/*/' -o runs.csv
+$ openreadout batch table 'runs/*/' --set table=0 --set 'parameters=["percent_q30", "yield"]' -o q30.csv
 ```
 
 ## Not read
