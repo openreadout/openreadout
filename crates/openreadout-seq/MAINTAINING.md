@@ -84,14 +84,12 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
 | `bam` | codec | `compression bgzf` | tables | 2 | 2 | `seq-bam-illumina-paired-sorted`, `seq-bam-pacbio-alz-ccs` |
-| `bam` | field | `experiment.instrument.model` | descriptive | 1 | 1 | `seq-bam-pacbio-alz-ccs` |
 | `bam` | instrument | `platform ILLUMINA` | tables | 1 | 1 | `seq-bam-illumina-paired-sorted` |
 | `bam` | instrument | `platform PACBIO` | tables | 1 | 1 | `seq-bam-pacbio-alz-ccs` |
 | `bam` | layout | `sort_order coordinate` | tables | 1 | 1 | `seq-bam-illumina-paired-sorted` |
 | `bam` | layout | `sort_order unknown` | tables | 1 | 1 | `seq-bam-pacbio-alz-ccs` |
 | `fast5` | codec | `gzip` | traces | 2 | 2 | `seq-fast5-multi-zip`, `seq-fast5-single-read` |
 | `fast5` | codec | `vbz` | traces | 1 | 1 | `seq-fast5-vbz-reads` |
-| `fast5` | field | `experiment.acquisition.started_at` | descriptive | 3 | 3 | `seq-fast5-multi-zip`, `seq-fast5-single-read`, `seq-fast5-vbz-reads` |
 | `fast5` | format_version | `1.0` | metadata, traces | 1 | 1 | `seq-fast5-multi-zip` |
 | `fast5` | format_version | `2` | metadata, traces | 1 | 1 | `seq-fast5-single-read` |
 | `fast5` | format_version | `2.0` | metadata, traces | 1 | 1 | `seq-fast5-vbz-reads` |

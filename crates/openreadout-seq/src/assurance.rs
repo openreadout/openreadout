@@ -171,7 +171,6 @@ const FAST5_CONFIDENCE: Confidence = Confidence::Medium;
 const FAST5_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "gzip", 2, 1, 2),
     a::row(K::Codec, "vbz", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
     a::row(K::FormatVersion, "1.0", 1, 1, 1),
     a::row(K::FormatVersion, "2", 1, 1, 1),
     a::row(K::FormatVersion, "2.0", 1, 1, 1),
@@ -195,7 +194,6 @@ const BAM_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
 const BAM_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "compression bgzf", 2, 1, 2),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 1),
     a::row(K::Instrument, "platform ILLUMINA", 1, 1, 1),
     a::row(K::Instrument, "platform PACBIO", 1, 1, 1),
     a::row(K::Layout, "sort_order coordinate", 1, 1, 1),

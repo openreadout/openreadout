@@ -140,7 +140,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `tiff` | dialect | `ventana-bif` | metadata, pixels | 1 | 1 | `openslide-ventana-1` |
 | `tiff` | dialect | `zeiss-lsm` | metadata, pixels | 41 | 41 | `figshare13281014-CS1-W195A-1`, `figshare14910291-5-PLA-containing-1-3-wt-of-200-nm-NR-lab`, `figshare16639537-Fig-5a-Normal-Chow-20x-1-800` |
 | `tiff` | field | `experiment.acquisition.started_at` | descriptive | 76 | 76 | `empiar11906-falcon4i-eer`, `empiar13509-falcon4i-eer`, `figshare13281014-CS1-W195A-1` |
-| `tiff` | field | `experiment.instrument.model` | descriptive | 28 | 28 | `ome-ndpi-manuel-test3`, `ome-ndpi-manuel-test3-dapi`, `ome-ndpi-manuel-test3-fitc` |
+| `tiff` | field | `experiment.instrument.model` | descriptive | 28 | 28 | `imager-zenodo10050244-alliance-q9`, `imager-zenodo14251737-ibright`, `imager-zenodo14653475-las4000` |
 | `tiff` | format_version | `6.0` | metadata, pixels | 170 | 171 | `aics-OverViewScan-ome-tiff`, `aics-s-1-t-1-c-1-z-1-ome-tiff`, `aics-s-3-t-1-c-3-z-5-ome-tiff` |
 | `tiff` | format_version | `6.0+BigTIFF` | metadata, pixels | 17 | 17 | `aics-tiff-actk`, `empiar11906-falcon4i-eer`, `empiar12080-falcon4-eer` |
 | `tiff` | format_version | `MetaMorph ND 1.0` | metadata, pixels | 1 | 1 | `metamorph-figshare7583960-nd` |
