@@ -1,0 +1,25 @@
+name: Nightly
+
+# Fuzzes every target for 60 s on main each night, in parallel shards (fuzz.yml), and files each
+# crash as an issue (one per target; a known cause is not reported twice). Pull requests fuzz only
+# the targets they can reach, for 15 s (ci.yml). The run also saves the fuzz build cache that pull
+# requests restore.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fuzz:
+    name: fuzz every target
+    uses: ./.github/workflows/fuzz.yml # zizmor: ignore[self-repository] (actionlint knows only ./)
+    permissions:
+      contents: read
+      issues: write
+    with:
+      all: true
+      seconds: 60
+      max-shards: 10

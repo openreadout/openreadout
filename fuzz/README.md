@@ -148,7 +148,7 @@ dependency (one here, three in `crates/openreadout-codecs/tests/fixtures/malform
 
 ### Last recorded run per target (to 2026-09-24)
 
-One libFuzzer worker (`-fork=1`, AddressSanitizer, debug assertions on) for every run. Campaign 2 (2026-09-23) ran every target that existed then for 3 minutes; campaign 3 (2026-09-24) ran every target added or substantially changed since then for 90 seconds, and a second round the same day reran the targets whose readers had changed (the shared zip reader, spectral bands, the auto baseline, qPCR, OpenLab CDS, Gen5, Shimadzu, WiRE, Harmony, the CZI/VSI/NDPI pyramids, ND2) for another 90 seconds each. The table shows the last run of each target that existed on 2026-09-24; targets added later have no long run recorded yet. In CI, the `fuzz-smoke` job runs on Linux. Pull requests fuzz the targets their changes could affect (`affected.py`) for 15 s each, and the weekly run fuzzes all targets for 60 s each.
+One libFuzzer worker (`-fork=1`, AddressSanitizer, debug assertions on) for every run. Campaign 2 (2026-09-23) ran every target that existed then for 3 minutes; campaign 3 (2026-09-24) ran every target added or substantially changed since then for 90 seconds, and a second round the same day reran the targets whose readers had changed (the shared zip reader, spectral bands, the auto baseline, qPCR, OpenLab CDS, Gen5, Shimadzu, WiRE, Harmony, the CZI/VSI/NDPI pyramids, ND2) for another 90 seconds each. The table shows the last run of each target that existed on 2026-09-24; targets added later have no long run recorded yet. In CI, `.github/workflows/fuzz.yml` runs on Linux in parallel shards (`ci.py`). Pull requests fuzz the targets their changes could affect (`affected.py`) for 15 s each, and the nightly run fuzzes all targets for 60 s each and files crashes as issues (docs/maintaining.md, Continuous integration).
 
 | area | targets | last recorded run | notes |
 | --- | --- | --- | --- |
@@ -157,7 +157,7 @@ One libFuzzer worker (`-fork=1`, AddressSanitizer, debug assertions on) for ever
 | Other light microscopy | `whole_oir`, `whole_zvi`, `whole_ims` | 3 min (campaign 2, 2026-09-23) |  |
 | OIB, OIF, DCIMG, VSI | `whole_oib`, `whole_oif`, `whole_dcimg`, `whole_vsi` | 90 s each (campaign 3, 2026-09-24; 891,332 executions): `whole_vsi`: 1 cause found and fixed (plane-size check overflow); clean on rerun | `whole_oib` and `whole_oif` are new; `whole_vsi` rerun after the pyramid-factor change |
 | TIFF family | `whole_tiff` | 90 s each (campaign 3, 2026-09-24; 203,212 executions): no crash | rerun after the JPEG 2000, WebP, JPEG XL, old-style JPEG and MetaMorph additions |
-| OME-Zarr | `whole_zarr`, `whole_zarr_zip` | **no run recorded**: no-ops on macOS (`zarrs` does not link under sanitizer coverage with Apple's linker); they run only in CI's Linux `fuzz-smoke` job, which has not run while GitHub Actions is disabled |  |
+| OME-Zarr | `whole_zarr`, `whole_zarr_zip` | **no run recorded**: no-ops on macOS (`zarrs` does not link under sanitizer coverage with Apple's linker); they run only in CI on Linux |  |
 | Screening plates | `whole_hcs_harmony`, `whole_hcs_cellvoyager`, `whole_hcs_imagexpress` | 90 s each (campaign 3, 2026-09-24; 151,731 executions): no crash |  |
 | Electron microscopy | `whole_mrc`, `whole_dm`, `whole_emd`, `whole_ser` | 3 min (campaign 2, 2026-09-23) |  |
 | HDF5, NWB | `whole_hdf5`, `whole_nwb` | 90 s each (campaign 3, 2026-09-24; 53,183 executions): no crash | `whole_hdf5` 3 min (campaign 2, 2026-09-23); `whole_nwb` rerun after the NWB depth work |

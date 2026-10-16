@@ -27,7 +27,9 @@ DYNAMIC = re.compile(r"include_(?:str|bytes)!\(\s*(?:concat|env)!")
 
 
 def git(*args: str) -> str:
-    return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout
+    return subprocess.run(
+        ["git", *args], cwd=ROOT, check=True, capture_output=True, text=True
+    ).stdout
 
 
 def embedded_files() -> tuple[set[str], list[str]]:
@@ -64,7 +66,9 @@ def main() -> int:
             continue
         bad.append(f"{path} ({index}, {attr or 'no attributes'})")
     if bad:
-        print("Embedded text files without `eol=lf` in .gitattributes (Windows would check them out with CRLF):")
+        print(
+            "Embedded text files without `eol=lf` in .gitattributes (Windows would check them out with CRLF):"
+        )
         for b in bad:
             print(f"  {b}")
         return 1

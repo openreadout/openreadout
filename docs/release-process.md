@@ -4,7 +4,7 @@ How to cut an OpenReadout release, what the release workflow produces, and how e
 
 ## 1. Prepare
 
-1. `main` is green (CI: `check`, `corpus-smoke`, `python-tests`, `cross-build`, `publish-dry-run`, `third-party-notices`, `release-check`).
+1. `main` is green: `ci passed` succeeded on the last CI run on `main` (pushes to main run every job, including the release builds), and no open `fuzz-crash` or `security` issue should block the release.
 2. Optional full dry run: *Actions > Release > Run workflow* on `main`. `workflow_dispatch` builds every artifact (archives, `.mcpb` bundles, wheels, sdists, SBOMs, Homebrew/Scoop/winget manifests, the Docker image) and uploads them to the run as `release-dry-run`; it creates no release and publishes nothing.
 3. Bump the version everywhere it is written:
    ```bash

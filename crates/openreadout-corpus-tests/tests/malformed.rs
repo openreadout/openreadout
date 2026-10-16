@@ -26,7 +26,8 @@
 //!
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test malformed -- --nocapture`
 //! Env: `OPENREADOUT_CORPUS_DIR` overrides `corpus/files`; `CORPUS_ONLY=<substring>` filters
-//! ids; `CORPUS_FORMAT=<id>[,<id>...]` filters formats.
+//! ids; `CORPUS_FORMAT=<id>[,<id>...]` filters formats; `MALFORMED_SHARD=k/n` checks the k-th of
+//! n parts (CI runs two in parallel).
 //! The CLI binary is taken from the same target directory (built on demand).
 #![cfg(feature = "corpus")]
 
@@ -398,6 +399,18 @@ fn check_input(
     failures
 }
 
+/// `MALFORMED_SHARD=k/n` checks only the k-th of n parts of the inputs (by a hash of the id, so
+/// each input is in exactly one part). CI runs the parts as parallel jobs. Unset or empty: all.
+fn shard_from_env() -> Option<(u64, u64)> {
+    let s = std::env::var("MALFORMED_SHARD").ok().filter(|s| !s.is_empty())?;
+    let parsed = s
+        .split_once('/')
+        .and_then(|(k, n)| Some((k.parse::<u64>().ok()?, n.parse::<u64>().ok()?)))
+        .filter(|&(k, n)| k >= 1 && k <= n);
+    assert!(parsed.is_some(), "MALFORMED_SHARD={s:?}: expected k/n with 1 <= k <= n");
+    parsed
+}
+
 #[test]
 fn malformed_matrix() {
     let root = root();
@@ -410,6 +423,7 @@ fn malformed_matrix() {
     let formats: Option<Vec<String>> = std::env::var("CORPUS_FORMAT")
         .ok()
         .map(|s| s.split(',').map(str::to_string).collect());
+    let shard = shard_from_env();
     let reg = registry::registry();
     let bin = cli_binary();
     let work_root =
@@ -423,6 +437,7 @@ fn malformed_matrix() {
         .filter(|e| {
             only.as_ref().is_none_or(|o| e.id.contains(o.as_str()))
                 && formats.as_ref().is_none_or(|f| f.contains(&e.format))
+                && shard.is_none_or(|(k, n)| seed_for(&e.id) % n == k - 1)
                 && files_dir.join(&e.filename).exists()
         })
         .collect();

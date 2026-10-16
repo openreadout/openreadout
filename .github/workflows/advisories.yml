@@ -1,0 +1,81 @@
+name: Advisories
+
+# Checks every crate in Cargo.lock against the RustSec advisory database: daily, when Cargo.lock
+# or deny.toml changes on main, and on manual runs. A new advisory opens an issue, or adds a
+# comment to the open one, instead of failing whichever pull request runs next. Pull requests
+# check only the crates they add (scripts/ci/advisories.py in ci.yml's `repo` job). Dependabot
+# security updates, when switched on in the repository settings, open the fixing pull requests.
+on:
+  schedule:
+    - cron: "41 4 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "Cargo.lock"
+      - "fuzz/Cargo.lock"
+      - "deny.toml"
+      - ".github/workflows/advisories.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  advisories:
+    name: cargo deny check advisories
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: cargo-deny
+      - name: Check the workspace and the fuzz targets
+        id: deny
+        run: |
+          set +e
+          {
+            echo '### cargo deny check advisories'
+            echo '```'
+            cargo deny check advisories 2>&1
+            echo "workspace: exit $?"
+            cargo deny --manifest-path fuzz/Cargo.toml check advisories 2>&1
+            echo "fuzz: exit $?"
+            echo '```'
+          } > advisories.md
+          cat advisories.md
+          cat advisories.md >> "$GITHUB_STEP_SUMMARY"
+          if grep -q 'exit [1-9]' advisories.md; then echo "failed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Open or update the advisories issue
+        if: steps.deny.outputs.failed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="Security advisories for dependencies"
+          # The advisory ids found, so a daily run comments only when they change.
+          ids="advisories: $(grep -oE '(RUSTSEC|GHSA)-[0-9A-Za-z-]+' advisories.md | sort -u | tr '\n' ' ')"
+          gh label create security --color D93F0B --description "Security advisories and fixes" --force || true
+          {
+            echo "cargo deny found advisories for crates in Cargo.lock ($RUN_URL)."
+            echo
+            echo "Update the crate (\`cargo update -p NAME\`), or add the advisory to \`[advisories] ignore\` in deny.toml with a reason."
+            echo
+            echo "<!-- $ids -->"
+            cat advisories.md
+          } > body.md
+          n=$(gh issue list --state open --label security --search "\"$title\" in:title" --json number,title \
+                --jq "map(select(.title == \"$title\")) | .[0].number // empty")
+          if [ -z "$n" ]; then
+            gh issue create --title "$title" --label security --body-file body.md
+          elif ! gh issue view "$n" --json body,comments --jq '([.body] + [.comments[].body]) | last' | grep -qF -- "<!-- $ids -->"; then
+            gh issue comment "$n" --body-file body.md
+          else
+            echo "issue #$n already lists these advisories"
+          fi
+          exit 1

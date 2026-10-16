@@ -2,3 +2,12 @@
 # 5 minutes instead of stalling CI; the whole suite runs in seconds.
 [profile.default]
 slow-timeout = { period = "60s", terminate-after = 5 }
+
+# The corpus suite (`cargo nextest run --cargo-profile corpus --profile corpus -p
+# openreadout-corpus-tests --features corpus`): some tests read every smoke-tier file of a family,
+# and the malformed-file matrix first builds the CLI and then damages each input several ways,
+# so they get 30 minutes. Output is printed for failures only; the corpus test writes its table
+# to the file in CORPUS_REPORT.
+[profile.corpus]
+slow-timeout = { period = "120s", terminate-after = 15 }
+failure-output = "final"
