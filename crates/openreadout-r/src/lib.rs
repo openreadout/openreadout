@@ -48,6 +48,8 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_oif::OibReader))
         .with(Box::new(openreadout_oif::OifReader))
         .with(Box::new(openreadout_dcimg::DcimgReader))
+        .with(Box::new(openreadout_diffraction::CbfReader))
+        .with(Box::new(openreadout_diffraction::SmvReader))
         .with(Box::new(openreadout_qpcr::RdmlReader))
         .with(Box::new(openreadout_qpcr::EdsReader))
         .with(Box::new(openreadout_qpcr::PcrdReader))
@@ -80,13 +82,20 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_hcs::HarmonyReader))
         .with(Box::new(openreadout_hcs::ImageXpressReader))
         .with(Box::new(openreadout_hcs::CellVoyagerReader))
+        // medical imaging before TIFF: DICOM whole-slide files can be dual-personality TIFF,
+        // and ParaVision folders hold DICOM exports
+        .with(Box::new(openreadout_medical::ParavisionReader))
+        .with(Box::new(openreadout_medical::DicomReader))
+        .with(Box::new(openreadout_medical::NiftiReader))
         .with(Box::new(openreadout_tiff::TiffReader))
         .with(Box::new(openreadout_zarr::ZarrReader))
         .with(Box::new(openreadout_em::MrcReader))
+        .with(Box::new(openreadout_em::MdocReader))
         .with(Box::new(openreadout_em::DmReader))
         .with(Box::new(openreadout_em::SerReader))
         .with(Box::new(openreadout_em::EmdReader))
         .with(Box::new(openreadout_hdf5::ImsReader))
+        .with(Box::new(openreadout_hdf5::NxmxReader))
         .with(Box::new(openreadout_hdf5::NwbReader))
         .with(Box::new(openreadout_nmr::BrukerReader))
         .with(Box::new(openreadout_nmr::JcampReader))
@@ -112,6 +121,9 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_biophys::ZetasizerReader))
         .with(Box::new(openreadout_biophys::GprReader))
         .with(Box::new(openreadout_gel::ImageLabReader))
+        .with(Box::new(openreadout_gel::SyngeneReader))
+        .with(Box::new(openreadout_benchtop::NanoDropReader))
+        .with(Box::new(openreadout_benchtop::QubitReader))
         .with(Box::new(openreadout_fplc::UnicornResReader))
         .with(Box::new(openreadout_fplc::UnicornZipReader))
         .with(Box::new(openreadout_epr::Bes3tReader))
@@ -121,6 +133,9 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_xrd::BrmlReader))
         .with(Box::new(openreadout_xrd::RasReader))
         .with(Box::new(openreadout_xrd::RasxReader))
+        .with(Box::new(openreadout_ce::AbifReader))
+        .with(Box::new(openreadout_ce::BioanalyzerReader))
+        .with(Box::new(openreadout_ce::TapeStationReader))
         .with(Box::new(openreadout_echem::MprReader))
         .with(Box::new(openreadout_echem::MptReader))
         .with(Box::new(openreadout_echem::GamryReader))
@@ -130,6 +145,13 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_thermal::NgbReader))
         .with(Box::new(openreadout_thermal::TaReader))
         .with(Box::new(openreadout_thermal::TriosReader))
+        // DNA sequencers: Illumina run folders, nanopore signal (FAST5 before generic HDF5),
+        // FASTQ and BAM read files
+        .with(Box::new(openreadout_seq::IlluminaRunReader))
+        .with(Box::new(openreadout_seq::Pod5Reader))
+        .with(Box::new(openreadout_seq::Fast5Reader))
+        .with(Box::new(openreadout_seq::FastqReader))
+        .with(Box::new(openreadout_seq::BamReader))
         // loose: any other HDF5 file (after EMD, Imaris and NWB, which claim theirs definitely)
         .with(Box::new(openreadout_hdf5::Hdf5Reader))
         // last: text/CSV/XLSX exports; the generic plate-matrix fallback is the loosest sniff
@@ -410,9 +432,10 @@ struct MeasureArgs {
     line_width: Option<u32>,
     polygon: Option<Vec<[f64; 2]>>,
     objects: Option<openreadout_core::measure::ObjectsRequest>,
+    lanes: Option<openreadout_core::measure::LanesRequest>,
 }
 
-/// `stats --line/--polygon/--objects --json` data (`request`: [`MeasureArgs`] as JSON).
+/// `stats --line/--polygon/--objects/--lanes --json` data (`request`: [`MeasureArgs`] as JSON).
 #[extendr]
 fn rs_measure(h: Robj, request: &str) -> Robj {
     json(
@@ -426,10 +449,11 @@ fn rs_measure(h: Robj, request: &str) -> Robj {
                 line_width: a.line_width,
                 polygon: a.polygon,
                 objects: a.objects,
+                lanes: a.lanes,
             };
             if !req.any() {
                 return Err(CoreError::Usage(
-                    "give line, polygon or objects to measure".into(),
+                    "give line, polygon, objects or lanes to measure".into(),
                 ));
             }
             with_ds(&h, |ds, _| {

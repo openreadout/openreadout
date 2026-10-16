@@ -50,6 +50,8 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_oif::OibReader))
         .with(Box::new(openreadout_oif::OifReader))
         .with(Box::new(openreadout_dcimg::DcimgReader))
+        .with(Box::new(openreadout_diffraction::CbfReader))
+        .with(Box::new(openreadout_diffraction::SmvReader))
         .with(Box::new(openreadout_qpcr::RdmlReader))
         .with(Box::new(openreadout_qpcr::EdsReader))
         .with(Box::new(openreadout_qpcr::PcrdReader))
@@ -82,13 +84,20 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_hcs::HarmonyReader))
         .with(Box::new(openreadout_hcs::ImageXpressReader))
         .with(Box::new(openreadout_hcs::CellVoyagerReader))
+        // medical imaging before TIFF: DICOM whole-slide files can be dual-personality TIFF,
+        // and ParaVision folders hold DICOM exports
+        .with(Box::new(openreadout_medical::ParavisionReader))
+        .with(Box::new(openreadout_medical::DicomReader))
+        .with(Box::new(openreadout_medical::NiftiReader))
         .with(Box::new(openreadout_tiff::TiffReader))
         .with(Box::new(openreadout_zarr::ZarrReader))
         .with(Box::new(openreadout_em::MrcReader))
+        .with(Box::new(openreadout_em::MdocReader))
         .with(Box::new(openreadout_em::DmReader))
         .with(Box::new(openreadout_em::SerReader))
         .with(Box::new(openreadout_em::EmdReader))
         .with(Box::new(openreadout_hdf5::ImsReader))
+        .with(Box::new(openreadout_hdf5::NxmxReader))
         .with(Box::new(openreadout_hdf5::NwbReader))
         .with(Box::new(openreadout_nmr::BrukerReader))
         .with(Box::new(openreadout_nmr::JcampReader))
@@ -114,6 +123,9 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_biophys::ZetasizerReader))
         .with(Box::new(openreadout_biophys::GprReader))
         .with(Box::new(openreadout_gel::ImageLabReader))
+        .with(Box::new(openreadout_gel::SyngeneReader))
+        .with(Box::new(openreadout_benchtop::NanoDropReader))
+        .with(Box::new(openreadout_benchtop::QubitReader))
         .with(Box::new(openreadout_fplc::UnicornResReader))
         .with(Box::new(openreadout_fplc::UnicornZipReader))
         .with(Box::new(openreadout_epr::Bes3tReader))
@@ -123,6 +135,9 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_xrd::BrmlReader))
         .with(Box::new(openreadout_xrd::RasReader))
         .with(Box::new(openreadout_xrd::RasxReader))
+        .with(Box::new(openreadout_ce::AbifReader))
+        .with(Box::new(openreadout_ce::BioanalyzerReader))
+        .with(Box::new(openreadout_ce::TapeStationReader))
         .with(Box::new(openreadout_echem::MprReader))
         .with(Box::new(openreadout_echem::MptReader))
         .with(Box::new(openreadout_echem::GamryReader))
@@ -132,6 +147,13 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_thermal::NgbReader))
         .with(Box::new(openreadout_thermal::TaReader))
         .with(Box::new(openreadout_thermal::TriosReader))
+        // DNA sequencers: Illumina run folders, nanopore signal (FAST5 before generic HDF5),
+        // FASTQ and BAM read files
+        .with(Box::new(openreadout_seq::IlluminaRunReader))
+        .with(Box::new(openreadout_seq::Pod5Reader))
+        .with(Box::new(openreadout_seq::Fast5Reader))
+        .with(Box::new(openreadout_seq::FastqReader))
+        .with(Box::new(openreadout_seq::BamReader))
         // loose: any other HDF5 file (after EMD, Imaris and NWB, which claim theirs definitely)
         .with(Box::new(openreadout_hdf5::Hdf5Reader))
         // last: text/CSV/XLSX exports; the generic plate-matrix fallback is the loosest sniff
@@ -509,7 +531,7 @@ impl NativeFile {
     }
     /// Measurements on one plane (`stats --line/--polygon/--objects --json` data) as JSON.
     /// `objects` is the JSON of the object-count options, or `None` for no count.
-    #[pyo3(signature = (image=None, select=Vec::new(), level=0, region=None, line=None, line_width=None, polygon=None, objects=None))]
+    #[pyo3(signature = (image=None, select=Vec::new(), level=0, region=None, line=None, line_width=None, polygon=None, objects=None, lanes=None))]
     #[allow(clippy::too_many_arguments)]
     fn measure_json(
         &self,
@@ -522,9 +544,11 @@ impl NativeFile {
         line_width: Option<u32>,
         polygon: Option<Vec<[f64; 2]>>,
         objects: Option<String>,
+        lanes: Option<String>,
     ) -> PyResult<String> {
-        use openreadout_core::measure::{MeasureRequest, ObjectsRequest, measure};
+        use openreadout_core::measure::{LanesRequest, MeasureRequest, ObjectsRequest, measure};
         let objects = objects.map(|o| request::<ObjectsRequest>(&o)).transpose()?;
+        let lanes = lanes.map(|o| request::<LanesRequest>(&o)).transpose()?;
         let req = MeasureRequest {
             image,
             select,
@@ -534,10 +558,11 @@ impl NativeFile {
             line_width,
             polygon,
             objects,
+            lanes,
         };
         if !req.any() {
             return Err(PyValueError::new_err(
-                "give line, polygon or objects to measure",
+                "give line, polygon, objects or lanes to measure",
             ));
         }
         let out = self.with_ds_opt(py, true, |ds| {

@@ -38,13 +38,17 @@ pub struct ExportArgs {
     /// or `arrow` (Arrow IPC file) for a table, a trace (all sweeps) or mass spectra
     /// (`spectra=true`), `nwb` (NWB 2.x; electrophysiology traces), `jcamp` (JCAMP-DX 5.01; NMR
     /// FIDs and spectra, other 1-D spectra and chromatograms), `asm` (Allotrope Simple Model
-    /// plate-reader JSON) or `rdml` (RDML 1.3; qPCR files). Without it, the extension of
+    /// plate-reader JSON), `rdml` (RDML 1.3; qPCR files), `fastq` (base calls: a Sanger read,
+    /// its default, gives one file; an Illumina run folder gives a directory of gzip FASTQ, one
+    /// file per lane and read, and rows `0-N` writes the first N+1 clusters of each lane),
+    /// `nifti` (NIfTI-1 `.nii.gz`; one volume with voxel size and scanner orientation) or `mrc`
+    /// (MRC2014; EM movies, stacks and diffraction images). Without it, the extension of
     /// `output` decides; it must not contradict `output`.
     pub format: Option<String>,
     /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.csv`,
-    /// `.asm.json`, `.rdml`, `.parquet`, `.arrow`, `.nwb` or `.jdx`. Its extension sets the
-    /// format when `format` is not given. Figures: .png, .jpg, .tiff, .svg or .pdf (default
-    /// `<data file stem>.figure.png` or `.preview.png` next to the data).
+    /// `.asm.json`, `.rdml`, `.fastq`, `.parquet`, `.arrow`, `.nwb`, `.jdx`, `.nii.gz` or `.mrc`. Its
+    /// extension sets the format when `format` is not given. Figures: .png, .jpg, .tiff, .svg or
+    /// .pdf (default `<data file stem>.figure.png` or `.preview.png` next to the data).
     pub output: Option<String>,
     /// Replace an existing output file or directory.
     #[serde(default)]
@@ -54,6 +58,8 @@ pub struct ExportArgs {
     /// Images: plane selection strings such as `c=0`, `z=2-5`, `t=0,3`.
     #[serde(default)]
     pub select: Vec<String>,
+    /// MRC: sum every N time points into one section (dose fractions of a movie).
+    pub group_frames: Option<u32>,
     /// Images: export this source pyramid level as the full resolution (default 0).
     #[serde(default)]
     pub level: u32,
@@ -375,6 +381,57 @@ fn export_rdml(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json:
     to_value(&r)
 }
 
+/// `format = "fastq"`: the base calls of an Illumina run folder or of a Sanger read.
+fn export_fastq(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
+    let input = input_path(a)?;
+    let run_folder = reg
+        .detect(&input)
+        .is_ok_and(|(r, _)| r.descriptor().id == openreadout_seq::ILLUMINA_RUN_FORMAT_ID);
+    if run_folder {
+        let rows = a.rows.as_deref().map(parse_rows).transpose()?;
+        let out = a.output.as_ref().map(PathBuf::from);
+        let r = openreadout_seq::export_run_fastq(&input, out.as_deref(), rows, a.overwrite)
+            .map_err(|e| mcp_err(&e))?;
+        return to_value(&r);
+    }
+    let (_, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+    let output = a.output.as_ref().map_or_else(
+        || openreadout_ce::default_fastq_output(&input),
+        PathBuf::from,
+    );
+    let r = openreadout_ce::export_fastq(ds.as_mut(), &input, &output, a.overwrite)
+        .map_err(|e| mcp_err(&e))?;
+    to_value(&r)
+}
+
+/// `format = "mrc"`: one channel of an image to MRC2014 (frames summed with `group_frames`).
+fn export_mrc(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
+    let input = input_path(a)?;
+    let reg = with_strict(registry(), a.strict);
+    let (_, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+    let stack = ds
+        .info()
+        .ok()
+        .and_then(|i| {
+            i.images
+                .get(a.image.unwrap_or(0) as usize)
+                .map(|im| im.size_t > 1)
+        })
+        .unwrap_or(false);
+    let output = a.output.as_ref().map_or_else(
+        || openreadout_em::mrc::write::default_output(&input, stack),
+        PathBuf::from,
+    );
+    let mut o = openreadout_em::mrc::MrcExportOptions::default();
+    o.image = a.image;
+    o.select = a.select.clone();
+    o.group = a.group_frames;
+    o.overwrite = a.overwrite;
+    let r = openreadout_em::mrc::export_mrc(ds.as_mut(), &input, &output, &o)
+        .map_err(|e| mcp_err(&e))?;
+    to_value(&r)
+}
+
 /// `format = "asm"`: a plate-reader export to Allotrope Simple Model JSON.
 fn export_asm(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
     let input = input_path(a)?;
@@ -455,6 +512,21 @@ fn export_open(
             let out = output.unwrap_or_else(|| openreadout_hdf5::default_nwb_output(&input, &o));
             check_out(&out)?;
             let r = openreadout_hdf5::export_nwb(ds.as_mut(), &input, &out, &o)
+                .map_err(|e| mcp_err(&e))?;
+            to_value(&r)
+        }
+        "nifti" => {
+            if a.table.is_some() || a.spectra || a.trace.is_some() {
+                return Err(usage(
+                    "NIfTI export writes one image: use image, not table/trace/spectra",
+                ));
+            }
+            let mut o = openreadout_medical::NiftiExportOptions::default();
+            o.image = a.image;
+            o.overwrite = a.overwrite;
+            let out = output.unwrap_or_else(|| openreadout_medical::default_nifti_output(&input));
+            check_out(&out)?;
+            let r = openreadout_medical::export_nifti(ds.as_mut(), &input, &out, &o)
                 .map_err(|e| mcp_err(&e))?;
             to_value(&r)
         }
@@ -587,7 +659,13 @@ fn export_data(
     if requested.is_none() {
         let (_, ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
         let info = ds.info().map_err(|e| mcp_err(&e))?;
-        requested = Some(openreadout_batch::csv::default_export_format(&info).to_string());
+        let d = openreadout_batch::csv::default_export_format(&info);
+        // a table or trace asked for goes to CSV even from a file whose default is FASTQ
+        let rows_asked = a.table.is_some() || a.trace.is_some() || a.rows.is_some();
+        requested = Some(if d == "fastq" && rows_asked { "csv" } else { d }.to_string());
+    }
+    if requested.as_deref() == Some("fastq") {
+        return export_fastq(&reg, &a);
     }
     let open_progress = |name: &str| {
         let unit = if a.spectra {
@@ -610,6 +688,7 @@ fn export_data(
             return export_open(registry, &a, "arrow", open_progress("Arrow"));
         }
         Some("nwb") => return export_open(registry, &a, "nwb", open_progress("NWB")),
+        Some("nifti" | "nii") => return export_open(registry, &a, "nifti", open_progress("NIfTI")),
         Some("jcamp" | "jcamp-dx" | "jdx") => {
             return export_open(registry, &a, "jcamp", open_progress("JCAMP-DX"));
         }
@@ -663,9 +742,10 @@ fn export_data(
         "ome-zarr" | "omezarr" | "zarr" => true,
         "asm" | "allotrope" => return export_asm(registry, &a),
         "rdml" => return export_rdml(registry, &a),
+        "mrc" | "mrcs" => return export_mrc(registry, &a),
         other => {
             return Err(mcp_err(&Error::Usage(format!(
-                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|parquet|arrow|nwb|jcamp)"
+                "unknown export format '{other}' (ome-tiff|ome-zarr|nifti|mzml|csv|asm|rdml|fastq|parquet|arrow|nwb|jcamp|mrc)"
             ))));
         }
     };
@@ -792,7 +872,7 @@ impl InstrumentServer {
             idempotent_hint = true,
             open_world_hint = false
         ),
-        description = "Convert to an open format, or save a figure, as a new file read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR). Figures: plot or preview = the arguments of that call, output .png, .jpg, .tiff, .svg or .pdf (scale, dpi for print); the picture comes back too. Sends progress with a progressToken."
+        description = "Convert to an open format, or save a figure, as a new file read back and verified; the source is never touched. format: ome-tiff (images, default; pyramidal when the source is), ome-zarr (multiscale; plates as OME-NGFF HCS), mzml (mass spectra, default), csv (one table or one sweep of a trace, default for tables and traces), parquet or arrow (tables, traces with every sweep, spectra=true for MS points), nwb (electrophysiology), jcamp (NMR, IR/Raman, chromatograms), asm (plate readers), rdml (qPCR), nifti (volumes: CT, MRI). Figures: plot or preview = the arguments of that call, output .png, .jpg, .tiff, .svg or .pdf (scale, dpi for print); the picture comes back too. Sends progress with a progressToken."
     )]
     pub(crate) async fn export(
         &self,

@@ -15,7 +15,7 @@
   "interface": {
     "displayName": "OpenReadout",
     "shortDescription": "Read lab-instrument files",
-    "longDescription": "Read raw files from microscopes, mass spectrometers, chromatographs, flow cytometers, NMR and IR/Raman spectrometers, electrophysiology rigs, plate readers and qPCR machines without the vendor software. Get metadata, previews, figures, integrity checks and the usual analyses, and export to OME-TIFF, OME-Zarr, mzML, Parquet, NWB and other open formats. Runs locally with the openreadout program on your PATH, makes no network connections, and never modifies the files it reads.",
+    "longDescription": "Read raw files from microscopes, mass spectrometers, chromatographs, flow cytometers, NMR and IR/Raman spectrometers, electrophysiology rigs, plate readers, qPCR machines, DNA sequencers, medical scanners and diffraction detectors without the vendor software. Get metadata, previews, figures, integrity checks and the usual analyses, and export to OME-TIFF, OME-Zarr, mzML, Parquet, NWB and other open formats. Runs locally with the openreadout program on your PATH, makes no network connections, and never modifies the files it reads.",
     "developerName": "OpenReadout",
     "category": "Research",
     "capabilities": ["Read", "Write"],

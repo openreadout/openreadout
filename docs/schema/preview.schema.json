@@ -141,6 +141,14 @@
       ],
       "additionalProperties": true
     },
+    "lanes": {
+      "description": "`marks: lanes`: the lanes and bands found in the area shown, as `stats` lanes.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true
+    },
     "annotations": {
       "description": "The caller's annotations as drawn: each as given, plus where it landed in PNG pixels.",
       "type": "array",
@@ -254,7 +262,7 @@
           }
         },
         "projection": {
-          "description": "`max-z` or `max-t` for a maximum-intensity projection.",
+          "description": "`max-z` or `max-t` for a maximum-intensity projection, `sum-z` or `sum-t` for a sum.",
           "type": [
             "string",
             "null"
@@ -273,7 +281,7 @@
           "type": "string"
         },
         "lut": {
-          "description": "`gray`, `channel-color` or `rgb`.",
+          "description": "`gray`, `inverted`, `channel-color` or `rgb`.",
           "type": "string"
         },
         "channels": {
@@ -332,6 +340,17 @@
             "height": 0
           }
         },
+        "fft_inset": {
+          "description": "Where the power-spectrum inset is drawn (`fft`), in PNG pixels.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Region"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "scale_bar": {
           "description": "The scale bar drawn, when the physical pixel size is known.",
           "anyOf": [
@@ -342,6 +361,36 @@
               "type": "null"
             }
           ]
+        },
+        "view": {
+          "description": "The plane of the volume shown, when it is not the stored planes: `axial`, `coronal`,\n`sagittal`, `orthogonal`, `xz` or `yz`. Rulers, regions and annotations then count the\npixels of that view.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "crosshair": {
+          "description": "Orthogonal views: the voxel (x, y, z of the stored planes) the three planes cross at.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "view_slices": {
+          "description": "With a view: how many slices it has (the range of `z`).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
         }
       },
       "required": [
@@ -1043,7 +1092,7 @@
       "type": "object",
       "properties": {
         "kind": {
-          "description": "`peak` or `spike`.",
+          "description": "`peak`, `spike`, `resolution_ring` (x: resolution in Å, y: radius in full-resolution\npixels) or `beam_center` (x, y: full-resolution pixels).",
           "type": "string"
         },
         "x": {

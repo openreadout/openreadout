@@ -13,6 +13,7 @@ corpus-derived seed is listed below with its license (see fuzz/README.md). Keep 
 
 from __future__ import annotations
 
+import gzip
 import os
 import struct
 import sys
@@ -58,6 +59,15 @@ COMMITTED_CUTS = [
     ("whole_tiff", "ome-artificial-single-channel.ome.tiff", 80 * 1024),  # CC-BY-4.0
     ("whole_mrc", "mrcfile-emd-3197.map", 64 * 1024),  # CC0-1.0
     ("whole_dm", "zenodo8190744-EELS-STO.dm3", 64 * 1024),  # CC-BY-4.0
+    ("whole_dicom", "pydicom/CT_small.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom/MR_small_RLE.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom/JPEG2000.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom-data/emri_small_jpeg_ls_lossless.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom-data/liver_deflate.dcm", 64 * 1024),  # MIT
+    ("whole_dicom", "pydicom/image_dfl.dcm", 64 * 1024),  # MIT
+    ("whole_nifti", "nibabel/functional.nii", 64 * 1024),  # MIT
+    ("whole_nifti", "nibabel/example_nifti2.nii.gz", 64 * 1024),  # MIT
+    ("codec_jpegls", "pydicom/JPEGLSNearLossless_16.dcm", 64 * 1024),  # MIT (whole file; the stream starts inside it)
     ("whole_emd", "zenodo20040988-0050-STEM-15.4nm.emd", 96 * 1024),  # CC-BY-4.0
     ("whole_jcamp", "jcamp-lancashire-pktab1.jdx", 16 * 1024),  # public domain
     ("whole_jcamp", "jcamp-lancashire-compound.jdx", 32 * 1024),  # public domain
@@ -127,6 +137,12 @@ COMMITTED_CUTS = [
     ("whole_cary", "cary-pyspecdata-ras-stability4.bsk", 128 * 1024),  # CC0-1.0
     ("whole_itc", "itc-zenodo6608282-d25-50um.itc", 16 * 1024),  # CC0-1.0
     ("whole_uvprobe", "figshare29858651-uvprobe-substrate.spc", 32 * 1024),  # CC-BY-4.0
+    ("whole_nanodrop", "nanodrop-8000-dna.txt", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-eight-dsdna.txt", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-one-dsdna.csv", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-one-uvvis-nanodrop-r.tsv", 16 * 1024),  # MIT (nanodRop)
+    ("whole_qubit", "qubit4-out-of-range.csv", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_qubit", "qubit-flex-sep-header.csv", 16 * 1024),  # MIT (allotropy test data)
 ]
 # (target, [(corpus file, bytes to keep), ...]) joined by BUNDLE_SEP in the target's order
 OIF = "olympus-fv/zenodo4421962-oif/Bead12/"
@@ -140,6 +156,7 @@ COMMITTED_BUNDLES = [
     ("whole_bruker", [("nmrglue-test-data/bruker_1d/acqus", 16 * 1024), ("nmrglue-test-data/bruker_1d/fid", 16 * 1024)]),  # BSD-3-Clause
     ("whole_varian", [("nmrpy-test2.fid/procpar", 32 * 1024), ("nmrpy-test2.fid/fid", 8 * 1024)]),  # BSD-3-Clause
     ("whole_imzml", [("imzml-example-continuous.imzML", 32 * 1024), ("imzml-example-continuous.ibd", 16 * 1024)]),  # Apache-2.0
+    ("whole_paravision", [("brukerapi-pv7/20210128_122257_LEGO_PHANTOM_API_TEST_1_1/20/" + n, cut) for n, cut in [("acqp", 64 * 1024), ("method", 64 * 1024), ("pdata/1/visu_pars", 64 * 1024), ("pdata/1/2dseq", 16 * 1024)]]),  # CC-BY-4.0
     ("whole_tims", [("timsrust-test-dda.d/analysis.tdf", 32 * 1024), ("timsrust-test-dda.d/analysis.tdf_bin", 4 * 1024)]),  # Apache-2.0
     ("whole_vsi", [("zenodo6094961-vsi-multifile/data/vsi-ets-test-jpg2k.vsi", 48 * 1024), ("zenodo6094961-vsi-multifile/data/_vsi-ets-test-jpg2k_/stack1/frame_t_0.ets", 32 * 1024)]),  # CC-BY-4.0
     ("whole_chemstation", [("chromhandler-CA10_100uM.D/dad1A.ch", 8 * 1024), ("entab-carotenoid_extract.d/dad1.uv", 16 * 1024), ("entab-carotenoid_extract.d/MSD1.MS", 16 * 1024)]),  # MIT
@@ -525,6 +542,26 @@ def mini_unicorn_zip() -> bytes:
 
 def new_format_seeds() -> None:
     """Structure-level seeds for the sub-parser targets of the newer readers."""
+    # A gel of four lanes with two bands each: width byte (+8), options byte, 8-bit rows
+    # (fuzz_targets/measure_lanes.rs).
+    import math
+
+    w, h = 56, 64
+    gel = bytearray()
+    for y in range(h):
+        for x in range(w):
+            v = 20.0
+            for cx in (8, 22, 36, 50):
+                if abs(x - cx) <= 4:
+                    v += 180 * math.exp(-((y - 16) ** 2) / 8) + 90 * math.exp(-((y - 40) ** 2) / 8)
+            gel.append(min(255, int(v)))
+    put("measure_lanes", "synthetic-4-lanes.bin", bytes([w - 8, 0]) + bytes(gel))
+    # An Incucyte metric export, wells as columns (a decimal comma and an ERROR cell).
+    put("whole_plate", "synthetic-incucyte-wells.txt", (
+        "Vessel Name: synthetic\nMetric: Phase Object Confluence (Percent)\nCell Type: none\n"
+        "Passage: 1\nNotes: \nAnalysis: synthetic seed\n\nDate Time\tElapsed\tA1\tA2\tB1\n"
+        "01/02/2026 08:00:00\t0\t10.5\t11.2\t9.8\n01/02/2026 12:00:00\t4\t15.1\t16,0\t12.2\n"
+        "01/02/2026 16:00:00\t8\t22.4\t23.9\tERROR\n").encode())
     put("whole_unicorn_res", "mini.res", mini_unicorn_res())
     put("whole_unicorn_zip", "mini-export.zip", mini_unicorn_zip())
     # ASDF: SQZ, DIF and DUP forms of one short table (JCAMP-DX 4.24 compression rules).
@@ -612,6 +649,55 @@ def synthetic_fixture_seeds() -> None:
     put("whole_baf", "synthetic.bundle", BUNDLE_SEP.join([(b / "analysis.baf").read_bytes(), (b / "Calibrator.ami").read_bytes()]))
 
 
+def structural_seeds() -> None:
+    """Diffraction and cryo-EM seeds: CBF and SMV images written here (byte-offset coded
+    counts with a PILATUS header; an ADSC header), a SerialEM mdoc cut from EMPIAR-10751 (CC0)
+    and a bitshuffle/LZ4 chunk made with hdf5plugin when it is installed."""
+    def byte_offset(vals):
+        out, prev = bytearray(), 0
+        for v in vals:
+            d = v - prev
+            if -127 <= d <= 127:
+                out += struct.pack("<b", d)
+            elif -32767 <= d <= 32767:
+                out += b"\x80" + struct.pack("<h", d)
+            else:
+                out += b"\x80" + struct.pack("<h", -32768) + struct.pack("<i", d)
+            prev = v
+        return bytes(out)
+    vals = [((i * 37) % 11) - 1 if i % 9 else 900 for i in range(64)]
+    coded = byte_offset(vals)
+    head = ("###CBF: VERSION 1.5\r\ndata_seed\r\n_array_data.header_convention \"PILATUS_1.2\"\r\n"
+            "_array_data.header_contents\r\n;\r\n# Detector: PILATUS 2M, S/N 1\r\n# Pixel_size 172e-6 m x 172e-6 m\r\n"
+            "# Wavelength 1.0 A\r\n# Detector_distance 0.2 m\r\n# Beam_xy (4.0, 4.0) pixels\r\n# Count_cutoff 800 counts\r\n;\r\n"
+            "_array_data.data\r\n;\r\n--CIF-BINARY-FORMAT-SECTION--\r\nContent-Type: application/octet-stream;\r\n"
+            "     conversions=\"x-CBF_BYTE_OFFSET\"\r\n"
+            f"X-Binary-Size: {len(coded)}\r\nX-Binary-Element-Type: \"signed 32-bit integer\"\r\n"
+            "X-Binary-Number-of-Elements: 64\r\nX-Binary-Size-Fastest-Dimension: 8\r\nX-Binary-Size-Second-Dimension: 8\r\n\r\n").encode()
+    put("whole_cbf", "pilatus-8x8.cbf", head + b"\x0c\x1a\x04\xd5" + coded + b"\r\n--CIF-BINARY-FORMAT-SECTION----\r\n;\r\n")
+    smv = (b"{\nHEADER_BYTES=  512;\nDIM=2;\nBYTE_ORDER=little_endian;\nTYPE=unsigned_short;\nSIZE1=8;\nSIZE2=8;\n"
+           b"PIXEL_SIZE=0.1;\nDISTANCE=100;\nWAVELENGTH=1.0;\nBEAM_CENTER_X=0.4;\nBEAM_CENTER_Y=0.4;\n}\n").ljust(512, b" ")
+    put("whole_smv", "adsc-8x8.img", smv + struct.pack("<64H", *range(64)))
+    md = corpus("empiar10751-G3_TS_001.mrc.mdoc")  # CC0 (EMPIAR)
+    if md:
+        put("whole_mdoc", "tilt-series.mdoc", md[:4096])
+    put("whole_mdoc", "frameset.mdoc", b"T = SerialEM: Digitized on a Krios\nVoltage = 300\n\n[FrameSet = 0]\nTiltAngle = 0.5\n"
+        b"ExposureDose = 2.5\nSubFramePath = W:\\frames\\stack_0000.tif\nDateTime = 15-Jul-19  13:54:01\n")
+    put("nxmx_links", "link.bin", bytes(5) + b"data_000001" + struct.pack("<H", 27) + b"\x00Therm_6_1_000001.h5\x00/data\x00")
+    try:
+        import io
+        import h5py
+        import hdf5plugin
+        import numpy as np
+        buf = io.BytesIO()
+        with h5py.File(buf, "w") as f:
+            d = f.create_dataset("x", data=(np.arange(1000) % 251).astype("<u2"), chunks=(1000,), **hdf5plugin.Bitshuffle())
+            chunk = d.id.read_direct_chunk((0,))[1]
+        put("codec_bitshuffle", "u16-lz4.bin", struct.pack("<I", 2000)[:3] + bytes([1]) + chunk)
+    except ImportError:
+        pass
+
+
 def ephys_new_seeds() -> None:
     """TDT, Axona and MC_DataTool seeds: the committed synthetic TDT block
     (oracle/make_tdt_fixtures.py) and minimal sessions written here (the corpus files of these
@@ -633,6 +719,327 @@ def ephys_new_seeds() -> None:
         b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
 
 
+def _bgzf(data: bytes) -> bytes:
+    """BGZF: gzip members with the `BC` extra subfield (block size - 1), then the empty EOF block."""
+    out = b""
+    for i in range(0, max(len(data), 1), 60000):
+        chunk = data[i:i + 60000]
+        c = zlib.compressobj(6, zlib.DEFLATED, -15)
+        z = c.compress(chunk) + c.flush()
+        block = (b"\x1f\x8b\x08\x04" + bytes(4) + b"\x00\xff" + struct.pack("<H", 6) + b"BC"
+                 + struct.pack("<HH", 2, 25 + len(z) + 1) + z
+                 + struct.pack("<II", zlib.crc32(chunk), len(chunk)))
+        out += block
+    eof = bytes.fromhex("1f8b08040000000000ff0600424302001b0003000000000000000000")
+    return out + eof
+
+
+def mini_bam() -> bytes:
+    text = b"@HD\tVN:1.6\tSO:unsorted\n@RG\tID:r\tPL:PACBIO\tSM:s\n"
+    body = b"BAM\x01" + struct.pack("<i", len(text)) + text + struct.pack("<i", 1)
+    body += struct.pack("<i", 4) + b"ref\x00" + struct.pack("<i", 100)
+    for k, seq in enumerate([b"ACGTACGTAC", b"GGGCCCAATT"]):
+        name = f"m1_1_1/{k}/ccs".encode() + b"\x00"
+        packed = bytes(("=ACMGRSVTWYHKDBN".index(chr(seq[i])) << 4) | ("=ACMGRSVTWYHKDBN".index(chr(seq[i + 1])))
+                       for i in range(0, len(seq), 2))
+        qual = bytes([30 + k] * len(seq))
+        aux = b"npC" + bytes([5]) + b"rqf" + struct.pack("<f", 0.999)
+        rec = struct.pack("<iiBBHHHiiii", -1 if k else 0, -1 if k else 9, len(name), 255, 4680, 0, 4 if k else 0,
+                          len(seq), -1, -1, 0) + name + packed + qual + aux
+        body += struct.pack("<i", len(rec)) + rec
+    return _bgzf(body)
+
+
+def mini_run_bcl() -> list[bytes]:
+    runinfo = b"""<?xml version="1.0"?>
+<RunInfo Version="2"><Run Id="220101_M00001_0001_000000000-AAAAA" Number="1">
+<Flowcell>000000000-AAAAA</Flowcell><Instrument>M00001</Instrument><Date>220101</Date>
+<Reads><Read Number="1" NumCycles="2" IsIndexedRead="N" /></Reads>
+<FlowcellLayout LaneCount="1" SurfaceCount="1" SwathCount="1" TileCount="1" /></Run></RunInfo>
+"""
+    params = b"<?xml version=\"1.0\"?><RunParameters><Setup><ApplicationName>MiSeq Control Software</ApplicationName><ApplicationVersion>2.6</ApplicationVersion></Setup><RTAVersion>1.18.54</RTAVersion><ExperimentName>seed</ExperimentName></RunParameters>"
+    tile = bytes([2, 10]) + b"".join(struct.pack("<HHHf", 1, 1101, code, v)
+                                     for code, v in [(100, 1.2e6), (101, 1.1e6), (102, 4.0), (103, 3.0), (200, 0.001), (201, 0.002), (300, 1.5)])
+    q = bytes([4, 206]) + b"".join(struct.pack("<HHH", 1, 1101, c) + struct.pack("<50I", *([0] * 29 + [1, 2] + [0] * 19)) for c in (1, 2))
+    err = bytes([3, 30]) + b"".join(struct.pack("<HHHfIIIII", 1, 1101, c, 0.5, 1, 0, 0, 0, 0) for c in (1, 2))
+    ext = bytes([2, 38]) + b"".join(struct.pack("<HHH4f4HQ", 1, 1101, c, 2.0, 2.0, 2.0, 2.0, 300, 200, 100, 50, 0) for c in (1, 2))
+    cor = bytes([2, 48]) + b"".join(struct.pack("<HHH9H5If", 1, 1101, c, *([100] * 9), 0, 1, 1, 1, 1, 5.0) for c in (1, 2))
+    etile = bytes([1, 10]) + struct.pack("<HHHf", 1, 1101, 0, 3.0)
+    index = bytes([1]) + struct.pack("<HHH", 1, 1101, 1) + struct.pack("<H", 8) + b"ACGTACGT" + struct.pack("<I", 2) \
+        + struct.pack("<H", 1) + b"s" + struct.pack("<H", 1) + b"p"
+    filt = struct.pack("<III", 0, 3, 4) + bytes([1, 1, 0, 1])
+    bcl1 = struct.pack("<I", 4) + bytes([(30 << 2) | 0, (35 << 2) | 1, 0, (20 << 2) | 3])
+    bcl2 = struct.pack("<I", 4) + bytes([(31 << 2) | 2, (36 << 2) | 1, (12 << 2) | 0, 0])
+    locs = struct.pack("<IfI", 1, 1.0, 4) + struct.pack("<8f", 10.0, 11.0, 20.5, 21.25, 30.0, 31.0, 1418.95, 2.0)
+    return [runinfo, params, tile, q, err, ext, cor, etile, index, filt, bcl1, bcl2, locs]
+
+
+def mini_run_cbcl() -> list[bytes]:
+    runinfo = b"""<?xml version="1.0"?>
+<RunInfo Version="5"><Run Id="200101_A00001_0001_BAAAAAAAXX" Number="1"><Flowcell>AAAAAAAXX</Flowcell>
+<Instrument>A00001</Instrument><Date>1/1/2020 1:00:00 PM</Date><Reads><Read Number="1" NumCycles="2" IsIndexedRead="N"/></Reads>
+<FlowcellLayout LaneCount="1" SurfaceCount="2" SwathCount="1" TileCount="1"><TileSet TileNamingConvention="FourDigit"><Tiles><Tile>1_2101</Tile></Tiles></TileSet></FlowcellLayout>
+<ImageChannels><Name>RED</Name><Name>GREEN</Name></ImageChannels></Run></RunInfo>
+"""
+    tile = bytes([3, 15]) + struct.pack("<f", 1.38) + struct.pack("<HIBff", 1, 2101, ord("t"), 4.0, 3.0) \
+        + struct.pack("<HIBIf", 1, 2101, ord("r"), 1, 0.0)
+    q = bytes([7, 20, 1, 3, 2, 17, 11, 18, 29, 25, 30, 40, 37]) + b"".join(
+        struct.pack("<HIH3I", 1, 2101, c, 1, 1, 2) for c in (1, 2))
+    filt = struct.pack("<III", 0, 3, 4) + bytes([1, 0, 1, 1])
+    cbcls = []
+    for nib in (bytes([0x9D, 0x0E]), bytes([0xE1, 0x09])):
+        z = zlib.compressobj(6, zlib.DEFLATED, 31)
+        block = z.compress(nib) + z.flush()
+        header = struct.pack("<HI", 1, 65) + bytes([2, 2]) + struct.pack("<I", 4) \
+            + b"".join(struct.pack("<II", a, b) for a, b in [(0, 0), (1, 11), (2, 25), (3, 37)]) \
+            + struct.pack("<I", 1) + struct.pack("<IIII", 2101, 4, 2, len(block)) + bytes([0])
+        cbcls.append(header + block)
+    locs = struct.pack("<IfI", 1, 1.0, 4) + struct.pack("<8f", 0.0, 0.0, 1.8, 0.0, 3.6, 0.0, 5.4, 0.0)
+    return [runinfo, tile, q, filt, cbcls[0], cbcls[1], locs]
+
+
+def sequencing_seeds() -> None:
+    """DNA sequencer seeds: synthetic run folders (BCL and CBCL), FASTQ and BAM written here, the
+    VBZ FAST5 of ont_fast5_api's test data (MPL-2.0) and, when the `pod5` package is installed, a
+    one-read POD5 file it writes."""
+    put("whole_illumina_bcl", "mini.bundle", BUNDLE_SEP.join(mini_run_bcl()))
+    put("whole_illumina_cbcl", "mini.bundle", BUNDLE_SEP.join(mini_run_cbcl()))
+    run = mini_run_bcl()
+    for i, name in [(2, "tile-v2.bin"), (3, "q-v4.bin"), (4, "error-v3.bin"), (5, "extraction-v2.bin"), (6, "corrected-v2.bin"), (8, "index-v1.bin")]:
+        put("seq_interop", name, run[i])
+    cb = mini_run_cbcl()
+    put("seq_interop", "tile-v3.bin", cb[1])
+    put("seq_interop", "q-v7.bin", cb[2])
+    put("seq_interop", "cbcl-header.bin", cb[4][:65])
+    fq = b"@r1 1:N:0:ACGT\nACGTNACGTA\n+\nIIIII#IIII\n@r2\nGGCC\nAATT\n+r2\nIIII\n!!!!\n"
+    put("whole_fastq", "mini.fastq", fq)
+    put("whole_fastq", "mini.fastq.gz", gzip.compress(fq, mtime=0))
+    put("whole_bam", "mini.bam", mini_bam())
+    vbz = corpus("seq-fast5-vbz-reads.fast5")  # MPL-2.0 (ont_fast5_api test data)
+    if vbz is not None:
+        put("whole_fast5", "vbz-reads.fast5", vbz)
+    # VBZ rows: the worked example of docs/provenance/nanopore.md (19 samples), zstd-compressed
+    raw = bytes.fromhex("c001000002020207ca0807270a620200000000000000000000")
+    try:
+        import pyzstd
+        z = pyzstd.compress(raw)
+        put("seq_vbz", "pod5-row-19.bin", struct.pack("<H", 19) + z)
+        put("seq_vbz", "fast5-chunk-19.bin", struct.pack("<H", 19) + struct.pack("<I", 38) + z)
+    except ImportError:
+        put("seq_vbz", "raw-19.bin", struct.pack("<H", 19) + raw)
+    try:
+        import numpy as np
+        import pod5
+        import tempfile, uuid, datetime
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "mini.pod5"
+            run_info = pod5.RunInfo(
+                acquisition_id="a", acquisition_start_time=datetime.datetime(2024, 1, 1), adc_max=2047, adc_min=-2048,
+                context_tags={"sample_frequency": "4000"}, experiment_name="e", flow_cell_id="F", flow_cell_product_code="FLO",
+                protocol_name="p", protocol_run_id="r", protocol_start_time=datetime.datetime(2024, 1, 1), sample_id="s",
+                sample_rate=4000, sequencing_kit="k", sequencer_position="1", sequencer_position_type="minion",
+                software="seed", system_name="h", system_type="t", tracking_id={"run_id": "r"})
+            with pod5.Writer(p) as w:
+                w.add_read(pod5.Read(
+                    read_id=uuid.UUID(int=1), end_reason=pod5.EndReason(pod5.EndReasonEnum.SIGNAL_POSITIVE, False),
+                    calibration=pod5.Calibration(offset=10.0, scale=0.2), pore=pod5.Pore(channel=1, well=1, pore_type="p"),
+                    read_number=1, start_sample=0, median_before=200.0, num_minknow_events=1,
+                    tracked_scaling=pod5.pod5_types.ShiftScalePair(0.0, 1.0), predicted_scaling=pod5.pod5_types.ShiftScalePair(0.0, 1.0),
+                    num_reads_since_mux_change=0, time_since_mux_change=0.0, run_info=run_info,
+                    signal=np.arange(64, dtype=np.int16) * 3))
+            put("whole_pod5", "mini.pod5", p.read_bytes())
+    except Exception as e:  # noqa: BLE001
+        print(f"pod5 seed: {e}", file=sys.stderr)
+
+
+def abif_shrink(data: bytes, keep: int) -> bytes:
+    """An ABIF file rewritten with every array cut to its first `keep` elements (the directory
+    and every tag kept, so the seed is a complete small file)."""
+    count, off = struct.unpack(">i", data[18:22])[0], struct.unpack(">i", data[26:30])[0]
+    items = []
+    for k in range(count):
+        e = data[off + 28 * k: off + 28 * k + 28]
+        name, num, et, es, n, size, doff, _ = struct.unpack(">4sihhiiii", e)
+        body = e[20:20 + size] if size <= 4 else data[doff:doff + size]
+        if n > keep and size > 4 and es > 0 and size == n * es:
+            n, body = keep, body[: keep * es]
+        items.append((name, num, et, es, n, body))
+    blob, entries = b"", b""
+    for name, num, et, es, n, body in items:
+        if len(body) <= 4:
+            entries += struct.pack(">4sihhii", name, num, et, es, n, len(body)) + body.ljust(4, b"\0") + bytes(4)
+        else:
+            entries += struct.pack(">4sihhiiii", name, num, et, es, n, len(body), 128 + len(blob), 0)
+            blob += body
+    head = b"ABIF" + data[4:6] + struct.pack(">4sihhiiii", b"tdir", 1, 1023, 28, len(items), len(entries), 128 + len(blob), 0)
+    return head.ljust(128, b"\0") + blob + entries
+
+
+def mini_bioanalyzer() -> bytes:
+    """A Bioanalyzer XML export with one ladder well: three ladder peaks and 40 signal values."""
+    import base64
+
+    sig = base64.b64encode(struct.pack("<40f", *[abs(20 - i) * 0.5 for i in range(40)])).decode()
+    curve = "".join(f"<LadderPeak><MigrationTime>{t}</MigrationTime><FragmentSize>{s}</FragmentSize></LadderPeak>" for t, s in [(20, 25), (25, 200), (30, 1000)])
+    peak = "<PeakMolecular><MigrationTime>25</MigrationTime><AlignedMigrationTime>25</AlignedMigrationTime><FragmentSize>200</FragmentSize><Height>10</Height><Observations>Lower Marker</Observations></PeakMolecular>"
+    return (
+        "<Chipset><Method/><Chips><Chip><AssayHeader><Class>RNA</Class><Title>RNA Nano</Title></AssayHeader>"
+        "<AssayBody><DAAssaySetpoints><DAMAssayInfoMolecular><SizeUnit>nt</SizeUnit><ConcentrationUnit>ng/µl</ConcentrationUnit></DAMAssayInfoMolecular></DAAssaySetpoints></AssayBody>"
+        "<ChipInformation><CreationDate>2020-01-01T00:00:00</CreationDate></ChipInformation><Files><File><Samples><Sample>"
+        "<WellNumber>1</WellNumber><Name>L</Name><Category>Ladder</Category><HasData>true</HasData><DAResultStructures>"
+        f"<DARIntegrator><Channel><PeaksMolecular>{peak}</PeaksMolecular></Channel></DARIntegrator>"
+        f"<DARStandardCurve><Channel><LadderPeaks>{curve}</LadderPeaks></Channel></DARStandardCurve>"
+        "<DARRIN><Channel><RIN>9.5</RIN></Channel></DARRIN></DAResultStructures><DASignals><DetectorChannels><Channel><SignalData>"
+        "<ChannelID>RedFluorescence</ChannelID><XStart>20</XStart><XStep>0.25</XStep><XStartAligned>20</XStartAligned><XStepAligned>0.25</XStepAligned>"
+        f"<NumberOfSamples>40</NumberOfSamples><ProcessedSignal>{sig}</ProcessedSignal></SignalData></Channel></DetectorChannels></DASignals>"
+        "</Sample></Samples></File></Files></Chip></Chips></Chipset>"
+    ).encode()
+
+
+def mini_tapestation() -> bytes:
+    """A TapeStation XML export and its electropherogram CSV (two lanes), as a bundle."""
+    def peaks(rows):
+        return "".join(f"<Peak><Size>{s}</Size><RunDistance>{d}</RunDistance><Observations>{o}</Observations></Peak>" for s, d, o in rows)
+    xml = (
+        "<?xml version=\"1.0\"?><File><FileInformation><Assay>D1000</Assay><RunEndDate>18-Sep-2020 6:29 AM</RunEndDate></FileInformation>"
+        "<ScreenTapes><ScreenTape><ScreenTapeID>T</ScreenTapeID></ScreenTape></ScreenTapes><Assay><Units><MolecularWeightUnit>bp</MolecularWeightUnit></Units></Assay><Samples>"
+        f"<Sample><WellNumber>A1</WellNumber><Comment>Ladder</Comment><Observations>Ladder</Observations><ScreenTapeID>T</ScreenTapeID><Peaks>{peaks([(25, 80, 'Lower Marker'), (100, 50, ''), (1500, 10, 'Upper Marker')])}</Peaks></Sample>"
+        f"<Sample><WellNumber>B1</WellNumber><Comment>s</Comment><ScreenTapeID>T</ScreenTapeID><DIN>8.1</DIN><Peaks>{peaks([(25, 82, 'Lower Marker'), (1500, 12, 'Upper Marker')])}</Peaks></Sample>"
+        "</Samples></File>"
+    ).encode()
+    csv = ("A1: Ladder,B1: s\n" + "".join(f"{i % 7},{i % 5}\n" for i in range(60))).encode()
+    return xml + BUNDLE_SEP + csv
+
+
+def mini_cfb(files: dict[str, bytes]) -> bytes:
+    """A version-3 compound file (512-byte sectors, mini-stream cutoff 0 so every stream lives in
+    regular sectors) holding `files` (paths with `/`; storages are implied). MS-CFB layout."""
+    nodes = [{"name": "Root Entry", "kind": 5, "children": [], "data": b""}]
+    index = {"": 0}
+    for path, data in files.items():
+        parts = path.split("/")
+        for i in range(len(parts)):
+            cur, parent = "/".join(parts[: i + 1]), "/".join(parts[:i])
+            if cur not in index:
+                leaf = i == len(parts) - 1
+                nodes.append({"name": parts[i], "kind": 2 if leaf else 1, "children": [], "data": data if leaf else b""})
+                index[cur] = len(nodes) - 1
+                nodes[index[parent]]["children"].append(index[cur])
+    end, free, nostream = 0xFFFFFFFE, 0xFFFFFFFF, 0xFFFFFFFF
+    n_dir = (len(nodes) * 128 + 511) // 512
+    fat = [0xFFFFFFFD] + [i + 2 for i in range(n_dir - 1)] + [end]
+    starts = []
+    body = b""
+    for n in nodes:
+        k = (len(n["data"]) + 511) // 512 if n["kind"] == 2 else 0
+        if k == 0:
+            starts.append(end)
+            continue
+        first = len(fat)
+        starts.append(first)
+        fat += [first + j + 1 for j in range(k - 1)] + [end]
+        body += n["data"].ljust(k * 512, b"\0")
+    assert len(fat) <= 128, "mini_cfb holds at most 128 sectors"
+    fat += [free] * (128 - len(fat))
+    directory = b""
+    for i, n in enumerate(nodes):
+        sib = nostream
+        for m in nodes:
+            ch = m["children"]
+            if i in ch and ch.index(i) + 1 < len(ch):
+                sib = ch[ch.index(i) + 1]
+        name = n["name"].encode("utf-16-le")
+        e = name.ljust(64, b"\0") + struct.pack("<HBB", len(name) + 2, n["kind"], 1)
+        e += struct.pack("<III", nostream, sib, n["children"][0] if n["children"] else nostream)
+        e += bytes(16 + 4 + 16) + struct.pack("<III", starts[i], len(n["data"]), 0)
+        directory += e
+    directory = directory.ljust(n_dir * 512, b"\0")
+    h = bytes.fromhex("d0cf11e0a1b11ae1") + bytes(16) + struct.pack("<HHHHH", 0x3E, 3, 0xFFFE, 9, 6) + bytes(6)
+    h += struct.pack("<IIIIIIIII", 0, 1, 1, 0, 0, end, 0, end, 0)
+    h += struct.pack("<I", 0) + struct.pack("<I", free) * 108
+    return h + struct.pack("<128I", *fat) + directory + body
+
+
+def mini_sgd() -> bytes:
+    """A GeneSys file with one 4 x 3 16-bit capture (docs/formats/syngene-sgd.md)."""
+    def text(s: str) -> bytes:
+        return struct.pack("<I", len(s)) + s.encode()
+    pixels = struct.pack("<HIIIIII", 2, 4, 3, 1, 1, 1, 4) + struct.pack("<12H", *range(100, 1300, 100))
+    capture = (struct.pack("<H", 15) + bytes(8) + b"\x01" + text("GeneSys Version: 1.6.1.0") + struct.pack("<dH", 9.5, 0)
+               + text("No Light") + text("Synoptics 6.0MP") + text("ART-694 #1") + text("G:Box mini 6") + struct.pack("<H", 11)
+               + text("No Filter") + bytes(8) + text("ECL"))
+    desc = struct.pack("<HIHQ", 5, 1663601689, 0, 0) + text("user")
+    multi = struct.pack("<HI", 5, 1) + text("RawData") + struct.pack("<I", 1)
+    return mini_cfb({"Detector/GeneSnap/RawData/PixelData": pixels, "Detector/GeneSnap/RawData/Capture": capture,
+                     "Detector/GeneSnap/RawData/Description": desc, "Detector/MultiImage/MultiData": multi})
+
+
+def mini_tiff(pages: list) -> bytes:
+    """A little-endian classic TIFF: each page is (width, height, bits, samples, extra tags as
+    (tag, type, count, value bytes)), uncompressed, one strip."""
+    out = bytearray(b"II*\0" + bytes(4))
+    offsets = []
+    for w, h, bits, data, tags in pages:
+        strip = len(out)
+        out += data
+        entries = [(256, 4, 1, struct.pack("<I", w)), (257, 4, 1, struct.pack("<I", h)), (258, 3, 1, struct.pack("<H", bits)),
+                   (259, 3, 1, struct.pack("<H", 1)), (273, 4, 1, struct.pack("<I", strip)), (277, 3, 1, struct.pack("<H", 1)),
+                   (278, 4, 1, struct.pack("<I", h)), (279, 4, 1, struct.pack("<I", len(data)))] + tags
+        if not any(t[0] == 262 for t in tags):
+            entries.append((262, 3, 1, struct.pack("<H", 1)))
+        entries.sort()
+        blobs = []
+        for tag, typ, cnt, val in entries:
+            if len(val) > 4:
+                if len(out) % 2:
+                    out += b"\0"
+                blobs.append(struct.pack("<I", len(out)))
+                out += val
+            else:
+                blobs.append(val.ljust(4, b"\0"))
+        if len(out) % 2:
+            out += b"\0"
+        offsets.append(len(out))
+        out += struct.pack("<H", len(entries))
+        for (tag, typ, cnt, _), b in zip(entries, blobs):
+            out += struct.pack("<HHI", tag, typ, cnt) + b
+        out += bytes(4)
+    struct.pack_into("<I", out, 4, offsets[0])
+    for a, b in zip(offsets, offsets[1:]):
+        n = struct.unpack_from("<H", out, a)[0]
+        struct.pack_into("<I", out, a + 2 + 12 * n, b)
+    return bytes(out)
+
+
+def imager_seeds() -> None:
+    """Gel and blot imager and Incucyte TIFFs (docs/formats/tiff.md § Gel and blot imagers,
+    § Incucyte) and a GeneSys .sgd, all synthetic."""
+    def ascii_tag(tag: int, s: str) -> tuple:
+        b = s.encode("latin-1") + b"\0"
+        return (tag, 2, len(b), b)
+
+    def p(s: str) -> bytes:
+        return bytes([len(s)]) + s.encode("latin-1")
+
+    px16 = struct.pack("<8H", *range(1000, 1800, 100))
+    desc = ("Comment = \r\nMethod = Chemiluminescence\r\nExposure time = 5.0 s\r\nDate time = 2023:10:31 07:47:31\r\n"
+            "Temperature = -25\r\nBinning = 8x\r\nSerial number = 1\r\nInstrument = Amersham Imager 680\r\nDark offset = 1000\r\nInvert = No")
+    put("whole_tiff", "imager-amersham.tif", mini_tiff([(4, 2, 16, px16, [(262, 3, 1, struct.pack("<H", 0)), ascii_tag(270, desc),
+                                                                           ascii_tag(272, "Amersham Imager 680")])]))
+    glp = (p("_GLP_BPL_") + bytes([7, 0, 0, 0, 1, 0, 0]) + p("Thursday, 13 February 2020") + p("02:00:38") + p("C:\\Images\\b.Tif")
+           + p("Alliance  Q9 Mini 18.02 - SN ") + p("0 min 11 sec 200 msec ") + p("Q45191") + p("C:\\U\\Blue.prt")
+           + p("7: Chemiluminescence (-20)") + p("-24.55 \xb0C"))
+    glp = glp.ljust((len(glp) + 7) // 8 * 8, b"\0")
+    put("whole_tiff", "imager-glp.tif", mini_tiff([(4, 2, 16, px16, [(1808, 5, len(glp) // 8, glp)])]))
+    xml = ("<ImageInfo><AcqInfo><ObjectiveMagnification>10</ObjectiveMagnification><FullResPixelSpacing>1.244 \xb5m</FullResPixelSpacing>"
+           "<ImageType>HD Phase Image</ImageType><CameraSettings><ExpTime>0.46 msec</ExpTime></CameraSettings>"
+           "<TimeStamp>07/22/2020 13:33:44</TimeStamp></AcqInfo><DeviceInfo><HardwareName>IncuCyte S3</HardwareName></DeviceInfo></ImageInfo>")
+    sw = ascii_tag(305, "IncuCyte 2019B")
+    put("whole_tiff", "incucyte.tif", mini_tiff([(4, 2, 8, bytes(range(8)), [sw]),
+                                                  (1, 1, 8, b"\0", [(254, 4, 1, struct.pack("<I", 1)), sw, ascii_tag(60020, xml)])]))
+    put("whole_sgd", "mini.sgd", mini_sgd())
+
+
 def main() -> None:
     try:
         import numpy as np
@@ -649,6 +1056,7 @@ def main() -> None:
     put("nd2_chunk_map", "mini.nd2", mini_nd2())
     put("whole_lif", "mini-v2.lif", mini_lif())
     put("whole_lif", "mini-v1.lif", mini_lif(version=1))
+    imager_seeds()
     put("lif_container", "mini-v2.lif", mini_lif())
 
     img8 = bytes((x * 7 + y * 3) & 0xFF for y in range(8) for x in range(8))
@@ -771,6 +1179,18 @@ def main() -> None:
             blobs.append(b"" if data is None else data[:cut])
         if any(blobs):
             put(target, safe(parts[0][0]) + ".bundle", BUNDLE_SEP.join(blobs))
+    # ABIF: the directory sits at the end, so seeds are whole files with short arrays
+    for name, keep in [
+        ("abif-biopython-3730.ab1", 600),  # BSD-3-Clause (Biopython)
+        ("abif-biopython-fsa.fsa", 600),  # BSD-3-Clause (Biopython)
+        ("abif-fraggler-multiplex.fsa", 1500),  # MIT (Fraggler)
+    ]:
+        data = corpus(name)
+        if data is not None:
+            put("whole_abif", safe(name), abif_shrink(data, keep))
+    # Agilent exports: the corpus files are Agilent's demo runs (hold tier), so seeds are synthetic
+    put("whole_bioanalyzer", "mini.xml", mini_bioanalyzer())
+    put("whole_tapestation", "mini.bundle", mini_tapestation())
     put("whole_jcamp", "mini.jdx", MINI_JCAMP)
     # Plexon corpus files are share-alike (LOCAL_CUTS); committed seeds are magic-only headers.
     put("whole_plexon", "magic.plx", b"PLEX" + bytes(252))
@@ -781,6 +1201,8 @@ def main() -> None:
     new_format_seeds()
     synthetic_fixture_seeds()
     ephys_new_seeds()
+    sequencing_seeds()
+    structural_seeds()
     put("codec_packbits", "runs.bin", struct.pack("<I", 64)[:3] + bytes([0xFD, 7, 2, 1, 2, 3, 0x81, 9]))
     # LZMA2 of b"hello hello hello hello, lzma2!" (CPython lzma, FORMAT_RAW, preset 6)
     put("codec_lzma2", "hello.bin", struct.pack("<I", 31)[:3] + bytes.fromhex("e0001e00145d00341949ee8de9560ae7799a19124543a9df4c4c4000"))

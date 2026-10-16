@@ -3,6 +3,7 @@
  "fields": [
   "Light microscopy",
   "Electron microscopy",
+  "Medical imaging",
   "Mass spectrometry",
   "Chromatography",
   "IR, Raman and UV-Vis",
@@ -11,8 +12,11 @@
   "Electrophysiology",
   "Plate readers and qPCR",
   "Bench biophysics",
+  "Electrophoresis",
+  "DNA sequencers",
   "Materials and electrochemistry",
-  "Containers"
+  "Containers",
+  "Structural biology"
  ],
  "formats": [
   {
@@ -454,6 +458,45 @@
    ],
    "page": "dcimg",
    "field": "Light microscopy"
+  },
+  {
+   "id": "cbf",
+   "name": "CBF / imgCIF",
+   "vendor": "open standard (IUCr imgCIF; PILATUS/EIGER miniCBF)",
+   "extensions": [
+    "cbf"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Byte-offset and uncompressed binary sections are decoded; packed, canonical and other CBFlib compressions are refused (exit 6)",
+    "Full imgCIF: only the wavelength is taken from the CIF categories; the axis and detector-geometry categories are listed raw (`info --view full`), not turned into a beam centre or distance",
+    "Each file is one image: the files of a rotation sweep are not grouped (use `batch` over them)"
+   ],
+   "page": "cbf",
+   "field": "Structural biology"
+  },
+  {
+   "id": "smv",
+   "name": "SMV (ADSC style)",
+   "vendor": "ADSC and others (open layout)",
+   "extensions": [
+    "img",
+    "smv"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Uncompressed 16- and 32-bit images only; compressed SMV variants are refused (exit 6)",
+    "The beam centre follows the ADSC convention (millimetres, X along the slow axis) except on files that name the TimePix detector at Stockholm University (pixels); Rigaku-style headers keep their keys raw and get no beam centre",
+    "Each file is one image: the files of a rotation sweep are not grouped (use `batch` over them)"
+   ],
+   "page": "smv",
+   "field": "Structural biology"
   },
   {
    "id": "rdml",
@@ -1143,6 +1186,67 @@
    "field": "Light microscopy"
   },
   {
+   "id": "bruker-paravision",
+   "name": "Bruker ParaVision (2dseq)",
+   "vendor": "Bruker BioSpin preclinical MRI",
+   "extensions": [],
+   "family": "medical-imaging",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Raw k-space (fid, rawdata.job*) is not reconstructed; only pdata/<procno>/2dseq is read",
+    "Frames stored transposed (VisuCoreTransposition) are returned as stored",
+    "ParaVision 5 data without visu_pars are not read"
+   ],
+   "page": "bruker-paravision",
+   "field": "Medical imaging"
+  },
+  {
+   "id": "dicom",
+   "name": "DICOM",
+   "vendor": "NEMA open standard (CT, MR, PET, ultrasound, X-ray, whole-slide microscopy)",
+   "extensions": [
+    "dcm",
+    "dicom",
+    "ima"
+   ],
+   "family": "medical-imaging",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Video transfer syntaxes (MPEG-2, MPEG-4, HEVC) are not decoded",
+    "Colour JPEG-LS and segmented palette lookup tables are not decoded",
+    "Whole-slide images: only the first focal plane and optical path are read",
+    "Structured reports, RT structure sets and plans, presentation states and other objects without pixel data are listed, not interpreted",
+    "VOI LUT sequences and presentation states are reported, not applied; previews use the window centre and width"
+   ],
+   "page": "dicom",
+   "field": "Medical imaging"
+  },
+  {
+   "id": "nifti",
+   "name": "NIfTI-1 / NIfTI-2 / Analyze 7.5",
+   "vendor": "NIfTI Data Format Working Group open standard (neuroimaging); Analyze 7.5 (Mayo Clinic)",
+   "extensions": [
+    "nii",
+    "hdr",
+    "img"
+   ],
+   "family": "medical-imaging",
+   "can_read": true,
+   "can_write": true,
+   "confidence": "medium",
+   "known_gaps": [
+    "binary (1-bit), float128 and complex256 data types are not decoded",
+    "dimensions 6 and 7 are folded into T",
+    "header extensions are listed, not decoded (AFNI, XCEDE, DICOM extensions)"
+   ],
+   "page": "nifti",
+   "field": "Medical imaging"
+  },
+  {
    "id": "tiff",
    "name": "TIFF family (TIFF, BigTIFF, OME-TIFF, ImageJ, SVS, NDPI, LSM, QPTIFF, Leica SCN, Ventana BIF, Micro-Manager, MetaMorph STK/.nd, Thermo Fisher EER)",
    "vendor": "open standard (TIFF 6.0 / OME); Leica Aperio, Hamamatsu, Zeiss, PerkinElmer, Molecular Devices MetaMorph, Thermo Fisher (Falcon EER) conventions",
@@ -1237,6 +1341,24 @@
    "field": "Electron microscopy"
   },
   {
+   "id": "mdoc",
+   "name": "SerialEM metadata (mdoc)",
+   "vendor": "SerialEM (open text format)",
+   "extensions": [
+    "mdoc"
+   ],
+   "family": "electron-microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Metadata only: the images live in the stack or movie files the mdoc names; open those (an MRC stack next to its mdoc gets the mdoc's tilt angles and doses as frame records)",
+    "Navigator (`.nav`) files, which use the same syntax, are not read"
+   ],
+   "page": "mdoc",
+   "field": "Electron microscopy"
+  },
+  {
    "id": "dm",
    "name": "Gatan Digital Micrograph (DM3/DM4/DM5)",
    "vendor": "Gatan",
@@ -1321,6 +1443,26 @@
    ],
    "page": "ims",
    "field": "Light microscopy"
+  },
+  {
+   "id": "nxmx",
+   "name": "NeXus NXmx (EIGER master and data HDF5)",
+   "vendor": "open standard (NeXus NXmx; DECTRIS file writer)",
+   "extensions": [
+    "h5",
+    "nxs"
+   ],
+   "family": "diffraction",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Images come from the data files the master links to (`/entry/data/data_NNNNNN`); a virtual dataset (`/entry/data/data` in `.nxs` files) is not read, its source files are",
+    "Multi-module detectors are read as the stored full frame; per-module geometry (`NXdetector_module` offsets and orientations) is listed raw, not applied",
+    "The detector's pixel mask (`pixel_mask`) is reported, not applied: masked pixels keep the value the detector wrote (its maximum when the mask was applied on the detector)"
+   ],
+   "page": "nxmx",
+   "field": "Structural biology"
   },
   {
    "id": "nwb",
@@ -1840,6 +1982,64 @@
    "field": "Bench biophysics"
   },
   {
+   "id": "syngene-sgd",
+   "name": "Syngene GeneSys (.sgd)",
+   "vendor": "Syngene",
+   "extensions": [
+    "sgd"
+   ],
+   "family": "gel-imaging",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Validated on two development files (GeneSys 1.5.6.0 on a PXi 6, 1.6.1.0 on a G:Box mini 6); no independent reader decodes the samples, so pixel values are checked only through the correlation with one depositor's TIFF export",
+    "The exposure is reported in seconds, an inference from how the signal grows across one file's exposure series",
+    "Annotations, band and spot-blot analyses, the view and rotation settings and the thumbnail are listed by `info --view structure`, not decoded"
+   ],
+   "page": "syngene-sgd",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "nanodrop",
+   "name": "Thermo Fisher NanoDrop exports",
+   "vendor": "Thermo Fisher Scientific",
+   "extensions": [
+    "txt",
+    "tsv",
+    "csv"
+   ],
+   "family": "spectrophotometer",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Native NanoDrop workbooks (.twbk, .sql) and Excel saves of the exports are not read: export the data as text",
+    "The NanoDrop 8000's standards table (a second table after a blank line) is kept as text in the vendor metadata, not parsed",
+    "Ratios of the One's UV-Vis spectrum export are read off the spectrum without the nucleic-acid application's 340 nm baseline correction"
+   ],
+   "page": "nanodrop",
+   "field": "Bench biophysics"
+  },
+  {
+   "id": "qubit",
+   "name": "Thermo Fisher Qubit exports",
+   "vendor": "Thermo Fisher Scientific",
+   "extensions": [
+    "csv"
+   ],
+   "family": "fluorometer",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Excel saves of the exports are not read: export the data as CSV",
+    "Concentrations are the Qubit's own, as stored; the standard curve is not refitted"
+   ],
+   "page": "qubit",
+   "field": "Bench biophysics"
+  },
+  {
    "id": "cytiva-unicorn-res",
    "name": "Cytiva ÄKTA UNICORN result (.res)",
    "vendor": "Cytiva (GE Healthcare, Amersham Biosciences)",
@@ -2012,6 +2212,67 @@
    ],
    "page": "xrd",
    "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "abif",
+   "name": "Applied Biosystems ABIF",
+   "vendor": "Applied Biosystems (Thermo Fisher Scientific)",
+   "extensions": [
+    "ab1",
+    "abi",
+    "fsa",
+    "hid"
+   ],
+   "family": "electrophoresis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Fragment sizes are the instrument's when the file stores its size map (Data Collection 3 and later), else computed here by Local Southern against the size standard the file names, or the best-fitting standard for the standard's dye",
+    "Base calls are the basecaller's (PBAS2/PCON2/PLOC2); edited calls, when they differ, are a second table",
+    "Values above 32767 that the instrument lists apart (OvrI/OvrV) are not merged into the raw trace",
+    "Legacy and user element types (scan rate, feature tables) are kept as bytes in the vendor tree"
+   ],
+   "page": "abif",
+   "field": "Electrophoresis"
+  },
+  {
+   "id": "agilent-bioanalyzer-xml",
+   "name": "Agilent 2100 Bioanalyzer XML export",
+   "vendor": "Agilent",
+   "extensions": [
+    "xml"
+   ],
+   "family": "electrophoresis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Native .xad files are not read: export the chip from 2100 Expert as XML (File > Export)",
+    "Each well's processed signal is sized over the ladder's range only; signal outside it is left out",
+    "The raw (unprocessed) signal and the gel image are not read"
+   ],
+   "page": "agilent-electrophoresis",
+   "field": "Electrophoresis"
+  },
+  {
+   "id": "agilent-tapestation",
+   "name": "Agilent TapeStation export",
+   "vendor": "Agilent",
+   "extensions": [
+    "xml"
+   ],
+   "family": "electrophoresis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Native run files (.D1000, .RNA, ...) are not read: export the XML and the electropherogram CSV from TapeStation Analysis",
+    "Lane signals are sized here against the ladder (aligned on the markers), not by the instrument; peak and region sizes are the instrument's",
+    "Without the electropherogram CSV next to the XML, only the results are read"
+   ],
+   "page": "agilent-electrophoresis",
+   "field": "Electrophoresis"
   },
   {
    "id": "biologic-mpr",
@@ -2193,6 +2454,100 @@
    ],
    "page": "ta-trios",
    "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "illumina-run",
+   "name": "Illumina run folder",
+   "vendor": "Illumina",
+   "extensions": [],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "InterOp metrics are summarised from tile, quality, error, extraction, corrected-intensity, extended-tile and index files; phasing from empirical-phasing files, event, image, registration and FWHM grid metrics are listed but not decoded",
+    "Base calls: BCL (.bcl, .bcl.gz) and CBCL with 2-bit bases and quality bins; NextSeq 500/550 per-lane .bcl.bgzf files are not decoded",
+    "FASTQ export writes every read of the run per lane without demultiplexing (index reads are written to their own files); adapter trimming and sample sheets are not applied"
+   ],
+   "page": "illumina-run",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "pod5",
+   "name": "Oxford Nanopore POD5",
+   "vendor": "Oxford Nanopore Technologies",
+   "extensions": [
+    "pod5"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Base calls are not in POD5; basecalled reads come as FASTQ or BAM (read those files)",
+    "The read-id index tables are not used; reads are listed in the order of the reads table",
+    "Files written by pod5 before 0.1 (dictionaries of structs in the reads table) are refused (exit 6)"
+   ],
+   "page": "nanopore",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "fast5",
+   "name": "Oxford Nanopore FAST5",
+   "vendor": "Oxford Nanopore Technologies",
+   "extensions": [
+    "fast5"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Signal compressed with deflate or VBZ (filter 32020, version 1) is read; other HDF5 filters are refused",
+    "Base calls stored in Analyses groups are counted, not read; the end reason of FAST5 2.x is reported as its stored code"
+   ],
+   "page": "nanopore",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "fastq",
+   "name": "FASTQ",
+   "vendor": "",
+   "extensions": [
+    "fastq",
+    "fq",
+    "fastq.gz",
+    "fq.gz"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "info estimates read counts of files larger than its scan (32 MB of file); check counts every read",
+    "Read names are not returned in tables; sequences and qualities are summarised, not listed"
+   ],
+   "page": "sequence-reads",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "bam",
+   "name": "BAM (binary alignment/map)",
+   "vendor": "",
+   "extensions": [
+    "bam"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Summaries count primary records as reads; secondary and supplementary alignments are listed in table 0 but not counted",
+    "Alignments are not interpreted (no CIGAR, coverage or pileup): use samtools for that",
+    "CRAM is not read"
+   ],
+   "page": "sequence-reads",
+   "field": "DNA sequencers"
   },
   {
    "id": "hdf5",

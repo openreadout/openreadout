@@ -63,6 +63,8 @@ pub mod dm;
 #[doc(hidden)]
 pub mod emd;
 #[doc(hidden)]
+pub mod mdoc;
+#[doc(hidden)]
 pub mod mrc;
 #[doc(hidden)]
 pub mod ser;
@@ -70,5 +72,6 @@ mod util;
 
 pub use dm::DmReader;
 pub use emd::EmdReader;
+pub use mdoc::MdocReader;
 pub use mrc::MrcReader;
 pub use ser::SerReader;

@@ -9,8 +9,9 @@ use openreadout_core::model::{FileInfo, TableInfo};
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, Baseline, Color, Domain, Envelope, Face, Figure, Panel, Path, Rect, ScaleKind, Stroke,
-    TextStyle, category_colors, format_tick, format_value, is_blank_label, key_row, text_width,
+    Anchor, Baseline, Color, Domain, Envelope, Face, Figure, Layer, Panel, Path, Rect, ScaleKind,
+    Stroke, TextStyle, category_colors, format_tick, format_value, is_blank_label, key_row,
+    text_width,
 };
 
 use crate::annotate::row_name;
@@ -448,6 +449,11 @@ pub(crate) fn render(
                 f.to_uppercase().collect::<String>() + c.as_str()
             })
         });
+    // an image-analysis metric (Incucyte) is named by the read itself: `Phase Object Confluence`
+    let mode = match mode {
+        Some(m) if m == "Imaging" => t.name.clone().or(Some(m)),
+        m => m,
+    };
     let measure = match (mode, series.wavelength_nm) {
         (Some(m), Some(wl)) => format!("{m} at {} nm", format_value(wl)),
         (Some(m), None) => m,
@@ -458,12 +464,14 @@ pub(crate) fn render(
         "{measure} over {} {unit}, one card per well",
         format_tick(x_dom.hi - x_dom.lo, (x_dom.hi - x_dom.lo) / 10.0)
     );
-    fig.text(
-        pad,
-        fs * 1.4,
-        &title,
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            pad,
+            fs * 1.4,
+            &title,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     let mut key: Vec<(Color, String)> = group_names
         .iter()
         .map(|n| (color_of_group[n], short(n)))
@@ -485,16 +493,18 @@ pub(crate) fn render(
     let every = ((text_width("24", Face::Sans, fs * 0.9) + fs * 0.4) / (card_w + gap))
         .ceil()
         .max(1.0) as u32;
-    for c in 0..nc {
-        if c == 0 || (c + 1) % every == 0 {
-            fig.text(
-                grid_x + c as f32 * (card_w + gap) + card_w / 2.0,
-                grid_y - fs * 0.45,
-                &(c + 1).to_string(),
-                &label.clone().align(Anchor::Middle, Baseline::Alphabetic),
-            );
+    fig.group(Layer::Axis, "columns", |fig| {
+        for c in 0..nc {
+            if c == 0 || (c + 1) % every == 0 {
+                fig.text(
+                    grid_x + c as f32 * (card_w + gap) + card_w / 2.0,
+                    grid_y - fs * 0.45,
+                    &(c + 1).to_string(),
+                    &label.clone().align(Anchor::Middle, Baseline::Alphabetic),
+                );
+            }
         }
-    }
+    });
     // cards
     let mut panels = Vec::new();
     let mut y = grid_y;
@@ -521,12 +531,14 @@ pub(crate) fn render(
             block_start = row_group[r as usize].clone().map(|n| (y, n));
         }
         if r % row_every == 0 {
-            fig.text(
-                grid_x - fs * 0.45,
-                y + card_h / 2.0,
-                &row_name(r),
-                &label.clone().align(Anchor::End, Baseline::Middle),
-            );
+            fig.group(Layer::Axis, &format!("row {}", row_name(r)), |fig| {
+                fig.text(
+                    grid_x - fs * 0.45,
+                    y + card_h / 2.0,
+                    &row_name(r),
+                    &label.clone().align(Anchor::End, Baseline::Middle),
+                );
+            });
         }
         for c in 0..nc {
             let x = grid_x + c as f32 * (card_w + gap);
@@ -537,24 +549,30 @@ pub(crate) fn render(
             } else {
                 theme.paper
             };
-            fig.shape(
-                Path::round_rect(card.x, card.y, card.w, card.h, radius),
-                Some(fill),
-                Some(Stroke::new(theme.rule, 1.0)),
-                None,
-            );
             let inner = card.inset(inset);
             let panel = Panel::new(inner, x_dom, y_dom);
-            if let Some(s) = present {
-                let mut env = Envelope::new((inner.w.max(1.0) * 1.5) as usize, x_dom.lo, x_dom.hi);
-                for (tm, v) in s {
-                    env.push(tm / div, *v);
+            let well = format!("{}{}", row_name(r), c + 1);
+            fig.group(Layer::Panel, &well, |fig| {
+                fig.shape(
+                    Path::round_rect(card.x, card.y, card.w, card.h, radius),
+                    Some(fill),
+                    Some(Stroke::new(theme.rule, 1.0)),
+                    None,
+                );
+                if let Some(s) = present {
+                    let mut env =
+                        Envelope::new((inner.w.max(1.0) * 1.5) as usize, x_dom.lo, x_dom.hi);
+                    for (tm, v) in s {
+                        env.push(tm / div, *v);
+                    }
+                    let col = well_color((r, c));
+                    let lw = (card_w / 55.0).clamp(0.9, 1.8)
+                        * if blanks.contains(&(r, c)) { 0.8 } else { 1.0 };
+                    fig.group(Layer::Series, &well, |fig| {
+                        panel.line_px(fig, env.points(&panel), Stroke::new(col, lw).round());
+                    });
                 }
-                let col = well_color((r, c));
-                let lw = (card_w / 55.0).clamp(0.9, 1.8)
-                    * if blanks.contains(&(r, c)) { 0.8 } else { 1.0 };
-                panel.line_px(&mut fig, env.points(&panel), Stroke::new(col, lw).round());
-            }
+            });
             panels.push(FramePanel {
                 well: Some((r, c)),
                 ..FramePanel::new(panel)
@@ -583,12 +601,15 @@ pub(crate) fn render(
         format_tick(y_dom.lo, ystep),
         format_tick(y_dom.hi, ystep),
     );
-    fig.text(
-        grid_x,
-        y - gap + fs * 1.5,
-        &axes_note,
-        &TextStyle::new(theme.small_size(), theme.muted).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Annotation, "scale", |fig| {
+        fig.text(
+            grid_x,
+            y - gap + fs * 1.5,
+            &axes_note,
+            &TextStyle::new(theme.small_size(), theme.muted)
+                .align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
 
     let mut groups: Vec<PlateGroup> = group_names
         .iter()
@@ -659,5 +680,7 @@ fn block_label(
     let st = TextStyle::new(theme.font_size * 1.05, color.unwrap_or(theme.ink))
         .face(Face::SansMedium)
         .align(Anchor::Start, Baseline::Middle);
-    fig.text(x, f32::midpoint(y0, y1), &short(name), &st);
+    fig.group(Layer::Annotation, name, |fig| {
+        fig.text(x, f32::midpoint(y0, y1), &short(name), &st);
+    });
 }

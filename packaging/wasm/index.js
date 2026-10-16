@@ -120,7 +120,8 @@ export class InstrumentFile {
    * `preview`: resolves to `{ meta, data, type }`: the `preview --json` data, the picture as a
    * Uint8Array and its MIME type. Options are those of the `openreadout_preview` MCP tool
    * (`image`, `select`, `region`, `max_size`, `axes`, `trace`, `sweep`, `columns`, `marks`,
-   * `annotations`, ...), plus `dark` and `format` (`png`, `jpeg` or `svg`).
+   * `annotations`, ...), plus `dark`, `format` (`png`, `jpeg` or `svg`) and `scale` (1 to 4
+   * pixels per figure pixel, for high-density screens).
    */
   async preview(options = {}) {
     const json = JSON.stringify(options);

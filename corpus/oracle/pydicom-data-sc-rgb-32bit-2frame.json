@@ -1,0 +1,38 @@
+{
+ "id": "pydicom-data-sc-rgb-32bit-2frame",
+ "file": "SC_rgb_32bit_2frame.dcm",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 100,
+   "size_y": 100,
+   "size_z": 2,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint32",
+   "physical_size_um": {
+    "x": 1000.0,
+    "y": 1000.0
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "30d05d38f55f83526579a85c15131978",
+     "mean": 2150852249.3
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "e0c5fb39d8365e15001f1d2715faa52e",
+     "mean": 2144115045.7
+    }
+   ],
+   "samples_per_pixel": 3
+  }
+ ]
+}

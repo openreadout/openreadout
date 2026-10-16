@@ -30,8 +30,22 @@ pub struct PreviewArgs {
     #[arg(long = "select")]
     pub select: Vec<String>,
     /// Maximum-intensity projection over `z` (or `t`), limited to the selected range if any.
-    #[arg(long, value_name = "AXIS")]
+    #[arg(long, value_name = "AXIS", conflicts_with = "sum")]
     pub mip: Option<String>,
+    /// Volumes: `axial`, `coronal`, `sagittal` (radiological orientation), `orthogonal` (the
+    /// three planes side by side), `xz`, `yz` or `native` (as stored). Default: medical images
+    /// in their acquisition plane, others native. `--select z=N` and `--mip z` then count
+    /// slices of the view.
+    #[arg(long, value_name = "VIEW")]
+    pub view: Option<String>,
+    /// Sum projection over `t` (or `z`), limited to the selected range if any: a movie's frames
+    /// added up (`--sum t --select t=0-39`).
+    #[arg(long, value_name = "AXIS")]
+    pub sum: Option<String>,
+    /// Image previews: a power-spectrum (FFT) inset in the top-right corner (Thon rings of a
+    /// cryo-EM micrograph, the spots of a lattice).
+    #[arg(long)]
+    pub fft: bool,
     /// Blend all (or the selected) channels additively in their colours.
     #[arg(long)]
     pub composite: bool,
@@ -58,10 +72,14 @@ pub struct PreviewArgs {
     /// Longest side of the output in pixels (16..=8192), rulers included.
     #[arg(long, default_value_t = openreadout_preview::DEFAULT_PREVIEW_SIZE)]
     pub max_size: u32,
-    /// `auto` (0.1–99.9 percentiles; raw for 8-bit RGB), `min-max`, `percentile:LO,HI` or `raw`.
+    /// `auto` (0.1–99.9 percentiles; raw for 8-bit RGB; the file's display window for medical
+    /// images; log on diffraction images), `min-max`, `percentile:LO,HI`, `log` or `log:LO,HI`,
+    /// `raw`, or `window:CENTER,WIDTH` (`window:file`, or a CT preset: `window:soft-tissue`,
+    /// `brain`, `subdural`, `stroke`, `bone`, `lung`, `mediastinum`, `liver`).
     #[arg(long, default_value = "auto")]
     pub contrast: String,
-    /// `gray` or `channel-color`. Default: gray for one channel, channel colours for composites.
+    /// `gray`, `inverted` or `channel-color`. Default: gray for one channel (inverted on
+    /// diffraction images), channel colours for composites.
     #[arg(long)]
     pub lut: Option<String>,
     /// `png`, `jpeg` or `svg`. Default: from the output extension, else png.
@@ -79,6 +97,9 @@ pub struct PreviewArgs {
     /// Trace preview: channel index; repeatable. Default: the first 8.
     #[arg(long = "channel")]
     pub channels: Vec<u32>,
+    /// Trace preview: only this window of the x axis, `A:B` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
+    #[arg(long = "x-range", value_name = "A:B", allow_hyphen_values = true)]
+    pub x_range: Option<String>,
     /// Spectrum preview: run index.
     #[arg(long)]
     pub run: Option<u32>,
@@ -99,19 +120,25 @@ pub struct PreviewArgs {
     #[arg(long = "column")]
     pub columns: Vec<String>,
     /// Marks from the data: `auto` (label the largest peaks of spectra and chromatograms),
-    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep),
+    /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep), `rings`
+    /// (resolution rings on a diffraction image; auto draws them),
     /// `objects` (outline and number the nuclei, cells or spots of an image, as `stats
-    /// --objects` counts them) or `none`.
+    /// --objects` counts them), `lanes` (the lanes and bands of a gel or blot, as `stats
+    /// --lanes` finds them) or `none`.
     #[arg(
         long,
         default_value = "auto",
-        value_name = "auto|peaks|spikes|objects|none"
+        value_name = "auto|peaks|spikes|objects|lanes|rings|none"
     )]
     pub marks: String,
     /// With `--marks objects`: how objects are found, as JSON with the fields of the MCP
     /// `objects` option, e.g. `{"kind":"spots"}` or `{"diameter_um":8}`.
     #[arg(long, value_name = "JSON")]
     pub objects: Option<String>,
+    /// With `--marks lanes`: how lanes are found, as JSON with the fields of the MCP `lanes`
+    /// option, e.g. `{"count":10}` or `{"ladder":{"lane":1,"sizes":[250,150,100,75,50]}}`.
+    #[arg(long, value_name = "JSON")]
+    pub lanes: Option<String>,
     /// Annotations to draw, as JSON: one object or an array, inline or `@FILE`. Each has a
     /// `type` (point, box, polygon, line, arrow, text, vline, hline, vband, hband, well) and
     /// its coordinates in the preview's units (full-resolution pixels on images, axis units on
@@ -143,6 +170,13 @@ impl PreviewArgs {
             preview_request.image = self.image;
             preview_request.select = self.select.clone();
             preview_request.mip = self.mip.as_deref().map(str::parse::<Axis>).transpose()?;
+            preview_request.view = self
+                .view
+                .as_deref()
+                .map(str::parse::<openreadout_preview::View>)
+                .transpose()?;
+            preview_request.sum = self.sum.as_deref().map(str::parse::<Axis>).transpose()?;
+            preview_request.fft = self.fft;
             preview_request.composite = self.composite;
             preview_request.level = self.level;
             preview_request.region = self
@@ -156,6 +190,11 @@ impl PreviewArgs {
             preview_request.trace = self.trace;
             preview_request.sweep = self.sweep;
             preview_request.channels = self.channels.clone();
+            preview_request.x_range = self
+                .x_range
+                .as_deref()
+                .map(crate::commands::peaks::parse_x_range)
+                .transpose()?;
             preview_request.run = self.run;
             preview_request.spectrum = self.spectrum;
             preview_request.scan = self.scan;
@@ -169,6 +208,14 @@ impl PreviewArgs {
                 .map(|j| {
                     serde_json::from_str(j)
                         .map_err(|e| Error::Usage(format!("--objects is not valid: {e} (fields: kind, diameter_um, diameter_px, threshold, method, polarity, stain, split, min_area_um2, max_area_um2, max_objects)")))
+                })
+                .transpose()?;
+            preview_request.lanes = self
+                .lanes
+                .as_deref()
+                .map(|j| {
+                    serde_json::from_str(j)
+                        .map_err(|e| Error::Usage(format!("--lanes is not valid: {e} (fields: count, width_px, polarity, min_share, ladder, profiles)")))
                 })
                 .transpose()?;
             preview_request.annotations = match &self.annotate {

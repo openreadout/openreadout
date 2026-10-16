@@ -21,6 +21,7 @@ openreadout-ometiff = { path = "../crates/openreadout-ometiff" }
 openreadout-abf = { path = "../crates/openreadout-abf" }
 openreadout-blackrock = { path = "../crates/openreadout-blackrock" }
 openreadout-em = { path = "../crates/openreadout-em" }
+openreadout-medical = { path = "../crates/openreadout-medical" }
 openreadout-fcs = { path = "../crates/openreadout-fcs" }
 openreadout-intan = { path = "../crates/openreadout-intan" }
 openreadout-neuralynx = { path = "../crates/openreadout-neuralynx" }
@@ -47,6 +48,7 @@ openreadout-oif = { path = "../crates/openreadout-oif" }
 openreadout-plexon = { path = "../crates/openreadout-plexon" }
 openreadout-ephys = { path = "../crates/openreadout-ephys" }
 openreadout-dcimg = { path = "../crates/openreadout-dcimg" }
+openreadout-diffraction = { path = "../crates/openreadout-diffraction" }
 openreadout-hcs = { path = "../crates/openreadout-hcs" }
 openreadout-spectro = { path = "../crates/openreadout-spectro" }
 openreadout-biophys = { path = "../crates/openreadout-biophys" }
@@ -54,10 +56,13 @@ openreadout-gel = { path = "../crates/openreadout-gel" }
 openreadout-thermal = { path = "../crates/openreadout-thermal" }
 openreadout-echem = { path = "../crates/openreadout-echem" }
 openreadout-xrd = { path = "../crates/openreadout-xrd" }
+openreadout-seq = { path = "../crates/openreadout-seq" }
+openreadout-ce = { path = "../crates/openreadout-ce" }
 openreadout-epr = { path = "../crates/openreadout-epr" }
 openreadout-fplc = { path = "../crates/openreadout-fplc" }
 openreadout-zarr = { path = "../crates/openreadout-zarr" }
 openreadout-hdf5 = { path = "../crates/openreadout-hdf5" }
+openreadout-benchtop = { path = "../crates/openreadout-benchtop" }
 openreadout-quant = { path = "../crates/openreadout-quant" }
 serde_json = { version = "1", features = ["preserve_order"] }
 roxmltree = "0.20"
@@ -74,6 +79,17 @@ debug = 1
 # builds wrap and then reject the code as invalid; build it the same way everywhere so debug builds
 # and the fuzzer do not panic on it (reproducer: fuzz/known-upstream/image-webp-0.2.4-huffman-overflow.webp).
 [profile.release.package.image-webp]
+overflow-checks = false
+
+# pure_jpegls 2.0.0 adds and multiplies sample errors without overflow checks (run_mode.rs:236,
+# context.rs:236; found by fuzz target codec_jpegls on 2026-10-16). Release builds wrap and clamp
+# the sample into range, so a hostile JPEG-LS stream decodes to wrong pixels instead of failing;
+# build it the same way everywhere so debug builds and the fuzzer do not panic on it (reproducers:
+# fuzz/known-upstream/pure_jpegls-2.0.0-*.jls). `cargo fuzz build -a` turns debug assertions on
+# through RUSTFLAGS, which turns overflow checks on unless cargo passes `-C overflow-checks=off`,
+# and cargo passes it only when the profile's overflow checks differ from its debug assertions.
+[profile.release.package.pure_jpegls]
+debug-assertions = true
 overflow-checks = false
 
 [[bin]]
@@ -363,7 +379,6 @@ test = false
 doc = false
 bench = false
 
-
 [[bin]]
 name = "codec_packbits"
 path = "fuzz_targets/codec_packbits.rs"
@@ -607,6 +622,7 @@ name = "whole_zarr"
 path = "fuzz_targets/whole_zarr.rs"
 test = false
 doc = false
+bench = false
 
 [[bin]]
 name = "batch_sheet"
@@ -740,6 +756,7 @@ path = "fuzz_targets/whole_qpcr_export.rs"
 test = false
 doc = false
 bench = false
+
 [[bin]]
 name = "whole_chromeleon"
 path = "fuzz_targets/whole_chromeleon.rs"
@@ -848,6 +865,13 @@ bench = false
 [[bin]]
 name = "whole_scn"
 path = "fuzz_targets/whole_scn.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_sgd"
+path = "fuzz_targets/whole_sgd.rs"
 test = false
 doc = false
 bench = false
@@ -1086,6 +1110,167 @@ bench = false
 [[bin]]
 name = "whole_uvprobe"
 path = "fuzz_targets/whole_uvprobe.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_pod5"
+path = "fuzz_targets/whole_pod5.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_abif"
+path = "fuzz_targets/whole_abif.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_dicom"
+path = "fuzz_targets/whole_dicom.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_nanodrop"
+path = "fuzz_targets/whole_nanodrop.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_cbf"
+path = "fuzz_targets/whole_cbf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_fast5"
+path = "fuzz_targets/whole_fast5.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_bioanalyzer"
+path = "fuzz_targets/whole_bioanalyzer.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_nifti"
+path = "fuzz_targets/whole_nifti.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_qubit"
+path = "fuzz_targets/whole_qubit.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_smv"
+path = "fuzz_targets/whole_smv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_fastq"
+path = "fuzz_targets/whole_fastq.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_paravision"
+path = "fuzz_targets/whole_paravision.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mdoc"
+path = "fuzz_targets/whole_mdoc.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_bam"
+path = "fuzz_targets/whole_bam.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_bitshuffle"
+path = "fuzz_targets/codec_bitshuffle.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_illumina_bcl"
+path = "fuzz_targets/whole_illumina_bcl.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_illumina_cbcl"
+path = "fuzz_targets/whole_illumina_cbcl.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "seq_vbz"
+path = "fuzz_targets/seq_vbz.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "seq_interop"
+path = "fuzz_targets/seq_interop.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_tapestation"
+path = "fuzz_targets/whole_tapestation.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "codec_jpegls"
+path = "fuzz_targets/codec_jpegls.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "measure_lanes"
+path = "fuzz_targets/measure_lanes.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "nxmx_links"
+path = "fuzz_targets/nxmx_links.rs"
 test = false
 doc = false
 bench = false

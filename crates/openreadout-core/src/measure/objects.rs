@@ -867,8 +867,8 @@ pub(crate) fn label_tile(s: &[f32], w: usize, h: usize, p: &Plan) -> (Vec<u32>, 
 
 /// Nuclei and cells: threshold the flattened signal, fill holes smaller than half an object,
 /// split touching objects by a watershed of the distance to the background (and to dark
-/// seams) from one seed per distance peak, and merge specks under the smallest size into
-/// their neighbour.
+/// seams) from one seed per distance peak, join pieces that texture cut off an object back
+/// to it, and merge specks under the smallest size into their neighbour.
 fn label_objects(s: &[f32], w: usize, h: usize, p: &Plan) -> Vec<u32> {
     let f = p.flatten(s, w, h);
     let mut fg = foreground(&f, w, h, p);
@@ -876,28 +876,60 @@ fn label_objects(s: &[f32], w: usize, h: usize, p: &Plan) -> Vec<u32> {
     sg::fill_holes(&mut fg, w, h, (expected * 0.5) as usize);
     let mut lab = if p.split {
         // dark seams between touching objects: valleys narrower than a fifth of an object
-        // where the signal falls by 40% or more from the ridges around them (a black
-        // top-hat); cut there before measuring the distance to the background
+        // where the signal falls from the ridges around them (a black top-hat) by 40% or
+        // more, and by more than it falls inside the objects; cut there before measuring
+        // the distance to the background
         let r = ((p.d * 0.1).round() as usize).max(1);
         let closed = sg::rank_filter(&sg::rank_filter(&f, w, h, r, true), w, h, r, false);
         let t = p.threshold.abs().max(f32::EPSILON);
-        let cut: Vec<bool> = fg
+        let fall: Vec<f32> = closed
             .iter()
-            .zip(closed.iter().zip(&f))
-            .map(|(g, (c, v))| *g && (c - v) < 0.4 * c.max(t))
+            .zip(&f)
+            .map(|(c, v)| (c - v) / c.max(t))
             .collect();
+        let texture = texture(&fall, &sg::distance(&fg, w, h), p.d);
+        let seam = SEAM_FALL.max(texture + SEAM_OVER_TEXTURE);
+        let cut: Vec<bool> = fg.iter().zip(&fall).map(|(g, x)| *g && *x < seam).collect();
         let dist = sg::distance(&cut, w, h);
         // seeds: peaks of the smoothed distance at least a quarter diameter apart
         let m = sg::gaussian(&dist, w, h, (p.d * 0.08).max(0.7));
         let radius = ((p.d * 0.25).round() as usize).max(1);
         let floor = (p.d * 0.05) as f32;
         let (seeds, _) = sg::seeds(&m, &fg, w, h, radius, floor);
-        sg::watershed(&m, &fg, &seeds, w, h)
+        let mut lab = sg::watershed(&m, &fg, &seeds, w, h);
+        let rule = sg::JoinRule {
+            small: (expected * 0.4) as usize,
+            seam: (texture + SEAM_OVER_TEXTURE).max(0.2),
+            convexity: 0.08,
+        };
+        sg::join_small_pieces(&mut lab, w, h, &f, &rule);
+        lab
     } else {
         sg::components(&fg, w, h).0
     };
     sg::tidy_labels(&mut lab, w, h, p.min_area);
     lab
+}
+
+/// A seam falls at least this far below the ridges around it (a share of their height).
+const SEAM_FALL: f32 = 0.4;
+
+/// In textured objects (chromatin at high magnification), a seam also falls this much
+/// further than the signal falls inside the objects.
+const SEAM_OVER_TEXTURE: f32 = 0.2;
+
+/// How far the signal falls inside objects: the 95th percentile of `fall` (the black top-hat
+/// as a share of the ridges around it) over the pixels more than an eighth of the diameter
+/// `d` from the background (`depth`). Near 0 for smooth nuclei; about 0.3 for 63x DAPI with
+/// bright chromocentres.
+fn texture(fall: &[f32], depth: &[f32], d: f64) -> f32 {
+    let inner: Vec<f32> = fall
+        .iter()
+        .zip(depth)
+        .filter(|(_, z)| f64::from(**z) > d / 8.0)
+        .map(|(x, _)| *x)
+        .collect();
+    sg::quantile(&inner, 0.95).unwrap_or(0.0).clamp(0.0, 1.0)
 }
 
 fn foreground(f: &[f32], w: usize, h: usize, p: &Plan) -> Vec<bool> {
@@ -2060,6 +2092,95 @@ pub(crate) mod tests {
         };
         let (lab, _, _, _) = label_plane(&[plane], w, h, None, &o).unwrap();
         assert_eq!(count(&lab), 20);
+    }
+
+    /// Nuclei like DAPI at high magnification: discs `(cx, cy, r)` of a middle level with
+    /// bright chromocentres scattered inside and a dark band of chromatin across each, on a
+    /// dark background with noise. `gap` puts a dark line along `x = gap` (between two
+    /// touching nuclei), at the background level.
+    fn textured(w: usize, h: usize, nuclei: &[(f32, f32, f32)], gap: Option<f32>) -> Vec<f32> {
+        let mut rng = Lcg(11);
+        // chromocentres: offsets within the unit disc, the same pattern in every nucleus
+        let spots: Vec<(f32, f32)> = (0..40)
+            .map(|_| (1.6 * rng.next(), 1.6 * rng.next()))
+            .filter(|(x, y)| x.hypot(*y) < 0.8)
+            .collect();
+        (0..w * h)
+            .map(|i| {
+                let (x, y) = ((i % w) as f32 + 0.5, (i / w) as f32 + 0.5);
+                let mut v = 20.0;
+                for (k, &(cx, cy, r)) in nuclei.iter().enumerate() {
+                    if (x - cx).hypot(y - cy) > r {
+                        continue;
+                    }
+                    v = 120.0;
+                    if spots
+                        .iter()
+                        .any(|(sx, sy)| (x - cx - sx * r).hypot(y - cy - sy * r) < 0.1 * r)
+                    {
+                        v = 240.0;
+                    }
+                    // a dark band through the middle, at a different angle in each nucleus
+                    let a = 0.7 * k as f32;
+                    if ((x - cx) * a.sin() - (y - cy) * a.cos()).abs() < 0.05 * r {
+                        v = 60.0;
+                    }
+                }
+                if gap.is_some_and(|g| (x - g).abs() < 1.5) && v > 20.0 {
+                    v = 25.0;
+                }
+                v + 8.0 * rng.next()
+            })
+            .collect()
+    }
+
+    #[test]
+    fn texture_does_not_cut_nuclei() {
+        // six separate textured nuclei, 60 px across
+        let (w, h) = (300, 200);
+        let mut n = Vec::new();
+        for cx in [50.0, 150.0, 250.0] {
+            for cy in [50.0, 150.0] {
+                n.push((cx, cy, 30.0));
+            }
+        }
+        let plane = textured(w, h, &n, None);
+        for o in [
+            ObjectsRequest::default(),
+            ObjectsRequest {
+                diameter_px: Some(60.0),
+                ..ObjectsRequest::default()
+            },
+        ] {
+            let (lab, d, _, _) = label_plane(std::slice::from_ref(&plane), w, h, None, &o).unwrap();
+            assert_eq!(count(&lab), 6, "diameter {d}");
+        }
+    }
+
+    #[test]
+    fn touching_textured_nuclei_are_cut_apart() {
+        // two pairs of textured nuclei: one pair touches along a dark gap, the other
+        // overlaps at a narrow waist
+        let (w, h) = (300, 200);
+        let n = [
+            (50.0, 60.0, 30.0),
+            (108.0, 60.0, 30.0),
+            (180.0, 140.0, 30.0),
+            (232.0, 140.0, 30.0),
+        ];
+        let plane = textured(w, h, &n, Some(79.0));
+        let o = ObjectsRequest {
+            diameter_px: Some(60.0),
+            ..ObjectsRequest::default()
+        };
+        let (lab, _, _, _) = label_plane(&[plane], w, h, None, &o).unwrap();
+        assert_eq!(count(&lab), 4);
+        // each nucleus is one object, apart from its partner
+        let at = |x: usize, y: usize| lab[y * w + x];
+        for (a, b) in [((50, 60), (108, 60)), ((180, 140), (232, 140))] {
+            assert_ne!(at(a.0, a.1), 0);
+            assert_ne!(at(a.0, a.1), at(b.0, b.1));
+        }
     }
 
     #[test]

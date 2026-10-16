@@ -8,6 +8,8 @@ openreadout plot [OPTIONS] <SPEC>
 
 `SPEC` is a `.json` file or the JSON text itself. The figure is drawn in the OpenReadout look (IBM Plex, paper and ink, a warm accent, direct labels), light or dark, and written to `-o` as PNG, JPEG or TIFF (at twice the pixel size unless `--scale` says otherwise), SVG or PDF. Every write goes to a temporary file that is read back and compared before it is renamed into place. `plot` refuses an output that is one of the files the figure reads (or the spec file), however the path is spelled: through `..`, a symbolic link or a hard link.
 
+An SVG is layered for editing. Each panel, series (its line, band and markers together), axis, grid, annotation, key, title and caption is a named group, so Inkscape and Illustrator open the figure as layers, and a web page can style one series with `.series[data-series="NAME"]`. Ids end in a short code made from the figure, so two figures on one HTML page don't clash.
+
 ## Flags
 
 - `-o`, `--output FILE`: `.png`, `.jpg`, `.tiff`, `.svg` or `.pdf`. Required.
@@ -67,8 +69,10 @@ A series names its data by `file` and selector, by a `table` file and its column
 | `wells` | Plate reads: a curve per well (kinetic), or values per well | `wells` (`A1:H11`), `groups` (layout groups, `*` matches any text), `by` (`well` or `group`), `spread`, `subtract` (`blank`, `first`), `read`, `color_by` |
 | `events` | FCS events, x against y, coloured by gate population | `x`, `y`, `populations`, `workspace` or `gatingml`, `compensate`, `transform` |
 | `histogram` | One FCS parameter or table column | `x`, `populations`, `transform` |
+| `profile` | Image values along a line, against distance in mm or µm (pixels without a pixel size) | `line` (`[[x0, y0], [x1, y1]]` in full-resolution pixels), `image`, `select` (`z=12`) |
 | `dose_response`, `standard_curve` | Points and fitted curves from the [plate-reader assays](analyze.md#plate-reader-assays) | `assay`: their arguments without `file` (`layout`, `standards`, `model`, `normalize`, …) |
 | `amplification`, `melt` | qPCR curves, coloured by target | `wells`, `target` |
+| `frames` | One value per frame of a movie or image series, or per section of a SerialEM `.mdoc` | `y`: a value the frames record (`dose`, `tilt_angle_deg`, `cumulative_dose_e_per_a2`, …) or `mean`, `sum`, `max`, `min` of the pixels; `x`: `t` (default) or a recorded value; `channel`, `x_range` |
 
 Every series also takes `mark` (`line`, `points`, `line_points`, `bars`, `area`, `sticks`, `density`), `label` and `color` (`ink`, `accent`, `muted`, `faint`, `blue`, `ochre`, `green`, `purple`, `teal`, `brown` or `#RRGGBB`). A `label` on a data item that gives several series (wells, files) names them once, as one colour class.
 

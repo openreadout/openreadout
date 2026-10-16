@@ -34,7 +34,7 @@ mod save;
 mod spec;
 
 use openreadout_core::{Error, Registry, Result};
-use openreadout_figure::{Anchor, Baseline, Color, Face, Figure, Rect, TextStyle, Theme};
+use openreadout_figure::{Anchor, Baseline, Color, Face, Figure, Layer, Rect, TextStyle, Theme};
 use serde_json::Value;
 
 pub use output::{AxisOutput, Marked, PanelOutput, PlotOutput, SeriesOutput};
@@ -468,7 +468,9 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
     fig.title.clone_from(&spec.title);
     if let Some(t) = &spec.title {
         let st = TextStyle::new(theme.title_size(), theme.ink).face(Face::SansMedium);
-        fig.text(margin, margin + theme.title_size() * 0.9, t, &st);
+        fig.group(Layer::Title, t, |fig| {
+            fig.text(margin, margin + theme.title_size() * 0.9, t, &st);
+        });
     }
     let mut out = PlotOutput {
         title: spec.title.clone(),
@@ -488,8 +490,13 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         for c in 0..cols {
             let Some((index, p)) = it.next() else { break };
             let x = margin + c as f32 * (col_w + gap);
-            let drawn =
-                draw::draw_panel(&mut fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)?;
+            let name = p
+                .title
+                .clone()
+                .unwrap_or_else(|| format!("panel {}", index + 1));
+            let drawn = fig.group(Layer::Panel, &name, |fig| {
+                draw::draw_panel(fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)
+            })?;
             out.panels.push(drawn.summary);
             // which spec panel each hover panel (a facet, a well) belongs to, for the viewer's zoom
             hover.extend(drawn.hover.into_iter().map(|mut v| {
@@ -505,10 +512,12 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         let st = TextStyle::new(theme.small_size(), theme.muted)
             .align(Anchor::Start, Baseline::Alphabetic);
         let last = caption_lines.len() as f32 - 1.0;
-        for (i, line) in caption_lines.iter().enumerate() {
-            let y = height - margin * 0.75 - caption_lh * (last - i as f32);
-            fig.text(margin, y, line, &st);
-        }
+        fig.group(Layer::Caption, "caption", |fig| {
+            for (i, line) in caption_lines.iter().enumerate() {
+                let y = height - margin * 0.75 - caption_lh * (last - i as f32);
+                fig.text(margin, y, line, &st);
+            }
+        });
     }
     out.files = files;
     out.inline_series = inline_series;

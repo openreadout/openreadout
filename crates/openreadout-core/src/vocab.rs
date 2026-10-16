@@ -72,6 +72,12 @@ pub const TERMS: &[(&str, &str)] = &[
     ("CHMO:0001014", "ion-exchange chromatography"),
     // gel and blot imaging (Bio-Rad Image Lab), checked on EBI OLS 2026-09-26
     ("CHMO:0001021", "gel electrophoresis"),
+    // capillary electrophoresis (ABIF), checked on EBI OLS 2026-10-15
+    ("CHMO:0001024", "capillary electrophoresis"),
+    ("CHMO:0001032", "capillary gel electrophoresis"),
+    ("OBI:0000695", "chain termination sequencing assay"),
+    ("OBI:0400103", "DNA sequencer"),
+    ("OBI:0001132", "capillary electrophoresis instrument"),
     ("OBI:0000854", "western blot assay"),
     // calorimetry (MicroCal ITC), checked on EBI OLS 2026-09-26
     ("CHMO:0000683", "isothermal titration calorimetry"),
@@ -135,6 +141,9 @@ pub const TERMS: &[(&str, &str)] = &[
     ("CHMO:0000156", "X-ray diffraction"),
     ("CHMO:0000158", "powder X-ray diffraction"),
     ("CHMO:0002105", "X-ray diffractometer"),
+    // area-detector diffraction images, checked on EBI OLS 2026-10-15
+    ("CHMO:0000159", "single crystal X-ray diffraction"),
+    ("CHMO:0000142", "electron diffraction"),
     // electrochemistry, checked on EBI OLS 2026-09-26
     ("CHMO:0000005", "chrono-amperometry"),
     ("CHMO:0000017", "chrono-potentiometry"),
@@ -201,6 +210,10 @@ pub const TERMS: &[(&str, &str)] = &[
     ),
     ("OBI:0003829", "luminescence detection assay"),
     ("OBI:0001501", "fluorescence detection assay"),
+    // DNA sequencers (Illumina, Oxford Nanopore, PacBio), checked on EBI OLS 2026-10-15;
+    // "DNA sequencer" (OBI:0400103) is listed with capillary electrophoresis above
+    ("OBI:0000626", "DNA sequencing assay"),
+    ("OBI:0000734", "DNA sequencing by synthesis assay"),
 ];
 
 /// Units the model emits: `(symbol as written, UCUM code)`. Arbitrary units (optical density,
@@ -251,6 +264,7 @@ pub const UNITS: &[(&str, &str)] = &[
     // X-ray diffraction
     ("°", "deg"),
     ("mA", "mA"),
+    ("eV", "eV"),
     // electrochemistry
     ("cm²", "cm2"),
     ("mg", "mg"),
@@ -265,6 +279,9 @@ pub const UNITS: &[(&str, &str)] = &[
     // thermal analysis
     ("µV", "uV"),
     ("N", "N"),
+    // capillary electrophoresis
+    ("µW", "uW"),
+    ("bp", "{bp}"),
 ];
 
 /// The curated term with this id, or `None` when it is not in [`TERMS`].

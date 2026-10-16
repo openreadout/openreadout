@@ -173,6 +173,21 @@ fn hints_follow_the_tool_table() {
     )
     .unwrap();
     assert_eq!(h["objects"], json!({"kind": "spots"}));
+    // lanes found are drawn in the viewer too
+    let h = view_hint(
+        "openreadout_preview",
+        Some(&args(json!({"file": "/d/blot.scn", "marks": "lanes"}))),
+    )
+    .unwrap();
+    assert_eq!(h["lanes"], json!({}));
+    let h = view_hint(
+        "openreadout_stats",
+        Some(&args(
+            json!({"file": "/d/blot.scn", "lanes": {"count": 10}}),
+        )),
+    )
+    .unwrap();
+    assert_eq!(h["lanes"], json!({"count": 10}));
     let h = view_hint(
         "openreadout_trace",
         Some(&args(json!({"file": "a.abf", "sweep": 3, "channels": [1]}))),
@@ -971,6 +986,34 @@ async fn sessions_without_initialize_get_cache_hints() {
         assert!(
             matches!(list["cacheScope"].as_str(), Some("public" | "private")),
             "{method}: {list}"
+        );
+    }
+}
+
+fn seq_registry() -> Registry {
+    Registry::new()
+        .with(Box::new(openreadout_seq::IlluminaRunReader))
+        .with(Box::new(openreadout_seq::FastqReader))
+}
+
+/// A sequencing run or read file opens on a figure: quality by cycle per lane, or read lengths
+/// and qualities.
+#[test]
+fn sequencing_files_open_on_a_figure() {
+    let fixtures =
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../openreadout-seq/tests/fixtures");
+    for (name, panels) in [("run-bcl", 3), ("mini.fastq", 2)] {
+        let a: view::ViewArgs = serde_json::from_value(json!({
+            "file": fixtures.join(name).display().to_string(), "width": 600
+        }))
+        .unwrap();
+        let r = view::call(seq_registry, &a, None).unwrap();
+        let s = r.structured_content.as_ref().unwrap();
+        assert_eq!(s["view"], "figure", "{name}: {s}");
+        assert_eq!(
+            s["figure"]["panels"].as_array().map_or(0, Vec::len),
+            panels,
+            "{name}: {s}"
         );
     }
 }

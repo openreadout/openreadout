@@ -97,7 +97,7 @@ openreadout
     <help><![CDATA[
 **What it does**
 
-Reads a raw laboratory instrument file without the vendor's software and reports what is in it
+Reads a raw laboratory instrument file without vendor software and reports what is in it
 as JSON:
 
 - **Metadata** (``openreadout info``): the format, and depending on the file the images

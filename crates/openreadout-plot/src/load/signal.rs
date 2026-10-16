@@ -46,6 +46,12 @@ fn str_of<'a>(v: &'a serde_json::Map<String, Value>, k: &str) -> Option<&'a str>
     v.get(k).and_then(Value::as_str)
 }
 
+/// Traces whose series are named by channel (a dye or a base), not by the trace: the dye
+/// channels of an electropherogram or Sanger trace.
+fn named_by_channel(t: &TraceInfo) -> bool {
+    matches!(trace_kind(t), "electropherogram" | "sanger_trace")
+}
+
 fn trace_kind(t: &TraceInfo) -> &str {
     t.extra.get("kind").and_then(Value::as_str).unwrap_or("")
 }
@@ -308,7 +314,27 @@ pub(super) fn trace(
             )));
         }
     } else {
-        let c = spec.channel.unwrap_or_else(|| {
+        // a channel named by `y` (an Illumina run's `percent_q30`, `intensity_a`, ...)
+        let by_name = match (&spec.channel, &spec.y) {
+            (None, Some(y)) => Some(
+                t.channels
+                    .iter()
+                    .find(|c| c.name.eq_ignore_ascii_case(y))
+                    .map(|c| c.index)
+                    .ok_or_else(|| {
+                        usage(format!(
+                            "{file}: trace {ti} has no channel {y}; channels: {}",
+                            t.channels
+                                .iter()
+                                .map(|c| c.name.as_str())
+                                .collect::<Vec<_>>()
+                                .join(", ")
+                        ))
+                    })?,
+            ),
+            _ => None,
+        };
+        let c = spec.channel.or(by_name).unwrap_or_else(|| {
             if show == Show::Sweeps || spec.spikes {
                 t.channels
                     .iter()
@@ -319,7 +345,18 @@ pub(super) fn trace(
                     })
                     .map_or(0, |c| c.index)
             } else {
-                0
+                // the first signal: an irregular abscissa stored as a channel (a sized
+                // electropherogram's bp, a Raman shift list) is the x axis, not a signal
+                let axis = t
+                    .extra
+                    .get("axis")
+                    .filter(|a| a.get("irregular").and_then(Value::as_bool) == Some(true))
+                    .and_then(|a| a.get("channel"))
+                    .and_then(Value::as_u64);
+                t.channels
+                    .iter()
+                    .find(|c| Some(u64::from(c.index)) != axis)
+                    .map_or(0, |c| c.index)
             }
         });
         if !t.channels.iter().any(|ch| ch.index == c) {
@@ -446,9 +483,9 @@ pub(super) fn trace(
             } else if sweeps.len() > 1 || show == Show::Sweeps {
                 match stim.get(&sw) {
                     Some(p) => format!("{:+} pA", p.round()),
-                    None => format!("sweep {sw}"),
+                    None => sweep_label(&t, sw),
                 }
-            } else if let Some(n) = &t.name {
+            } else if let Some(n) = t.name.as_ref().filter(|_| !named_by_channel(&t)) {
                 n.clone()
             } else {
                 ch.name.clone()
@@ -483,7 +520,7 @@ pub(super) fn trace(
             } else if sweeps.len() > 1 {
                 s.facet = Some(match stim.get(&sw) {
                     Some(p) => format!("sweep {sw} · {:+} pA", p.round()),
-                    None => format!("sweep {sw}"),
+                    None => sweep_label(&t, sw),
                 });
             }
             if let Some(sp) = spikes.get(&sw) {
@@ -929,4 +966,14 @@ pub(super) fn fi(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec
     .axes(Quantity::new("injected current", Some("pA")), yq);
     let _ = Path::new(file);
     Ok(vec![s])
+}
+
+/// How a sweep is named: by its lane in a sequencing run (`extra.sweep_lanes`), else `sweep N`.
+fn sweep_label(t: &openreadout_core::model::TraceInfo, sw: u32) -> String {
+    t.extra
+        .get("sweep_lanes")
+        .and_then(Value::as_array)
+        .and_then(|a| a.get(sw as usize))
+        .and_then(Value::as_u64)
+        .map_or_else(|| format!("sweep {sw}"), |l| format!("lane {l}"))
 }

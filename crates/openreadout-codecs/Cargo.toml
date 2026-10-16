@@ -16,9 +16,10 @@ documentation = "https://docs.rs/openreadout-codecs"
 include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
 
 [features]
-default = ["zstd", "jpeg", "jpegxr", "jpeg2000", "jpegxl", "webp", "lzw", "deflate", "lz4"]
+default = ["zstd", "jpeg", "jpegls", "jpegxr", "jpeg2000", "jpegxl", "webp", "lzw", "deflate", "lz4"]
 zstd = ["dep:ruzstd"]
 jpeg = ["dep:jpeg-decoder"]
+jpegls = ["dep:pure_jpegls"]
 jpegxr = ["dep:openreadout-jpegxr"]
 jpeg2000 = ["dep:rust-j2k", "dep:dicom-toolkit-jpeg2000"]
 jpegxl = ["dep:jxl-oxide"]
@@ -36,6 +37,7 @@ jpeg-decoder = { workspace = true, optional = true }
 openreadout-jpegxr = { workspace = true, optional = true }
 dicom-toolkit-jpeg2000 = { workspace = true, optional = true }
 rust-j2k = { workspace = true, optional = true }
+pure_jpegls = { workspace = true, optional = true }
 weezl = { workspace = true, optional = true }
 jxl-oxide = { workspace = true, optional = true }
 image-webp = { workspace = true, optional = true }

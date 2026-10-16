@@ -109,6 +109,8 @@ fn sniff_text(text: &str) -> Option<model::Kind> {
         Some(Kind::Kaleido)
     } else if vendors::tecan::sniff_icontrol(text) {
         Some(Kind::TecanIControl)
+    } else if vendors::incucyte::sniff(text) {
+        Some(Kind::Incucyte)
     } else {
         None
     }
@@ -195,6 +197,13 @@ pub(crate) fn load(fs: &Fs, path: &Path) -> Result<model::Export> {
         parse_kind(kind, &book, &file_name)
     };
     ex.finish();
+    if ex.blocks.iter().all(|b| b.obs.is_empty()) && ex.kind == model::Kind::Incucyte {
+        return Err(Error::unsupported(
+            FORMAT_ID,
+            "an Incucyte export without a column per well (group means, standard deviations or per-image values)",
+            "Export the metric with one column per well (Incucyte: Export Data, values per well) and read that file.",
+        ));
+    }
     if ex.blocks.iter().all(|b| b.obs.is_empty()) && ex.kind == model::Kind::Generic {
         return Err(Error::UnknownFormat {
             path: path.to_path_buf(),
@@ -364,6 +373,7 @@ fn parse_kind(kind: model::Kind, book: &sheet::Book, file_name: &str) -> model::
         Kind::TecanIControl => vendors::tecan::parse_icontrol(book),
         Kind::TecanMagellan => vendors::tecan::parse_magellan(book),
         Kind::SkanIt => vendors::skanit::parse(book),
+        Kind::Incucyte => vendors::incucyte::parse(book),
         Kind::Generic => vendors::generic::parse(book),
     }
 }

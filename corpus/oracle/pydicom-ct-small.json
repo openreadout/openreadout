@@ -1,0 +1,30 @@
+{
+ "id": "pydicom-ct-small",
+ "file": "CT_small.dcm",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {
+    "x": 661.468,
+    "y": 661.468
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6b6fe27334d18b058755f21b981efe17",
+     "mean": -119.0738525390625
+    }
+   ]
+  }
+ ]
+}

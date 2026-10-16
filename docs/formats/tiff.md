@@ -20,6 +20,8 @@ One reader (`tiff`, crate `openreadout-tiff`) handles the TIFF container and eve
 | `metaseries` (`MetaSeries`) | `Software` = `MetaSeries` and a `<MetaData>` description | as `plain`, with the MetaSeries calibration, name, time and objective |
 | `imagej` (`ImageJ`) | description starts with `ImageJ=` key/value lines | one hyperstack |
 | `micro-manager` (`MicroManager`) | tag 51123 on a file with no OME-XML/ImageJ description | as `plain` |
+| `cytiva-imager` (`CytivaImager`), `thermo-ibright` (`IBright`), `uvitec-vilber` (`UvitecVilber`) | gel and blot imager tags (§ Gel and blot imagers) | as `plain`, with the imager's settings |
+| `incucyte` (`Incucyte`) | `Software` starts `IncuCyte` (§ Incucyte) | as `plain`, without the metadata page |
 | `plain` (`Plain`) | anything else | pages grouped by identical geometry, each group one image with its pages as Z |
 | `metamorph-nd` (`MetamorphNd`) | the opened file is a `.nd` text file starting with `"NDInfoFile"` | one per stage position; wavelengths as C, time points as T, each file's planes as Z |
 | `hamamatsu-ndpis` (no `Flavor`: `NdpisDataset`) | the opened file is a text file whose first line is `[NanoZoomer Digital Pathology Image Set]` | one; each listed NDPI is a channel (§ NDPI sets) |
@@ -91,7 +93,7 @@ A tile in the last row of tiles may decode to fewer rows than the tile height wh
 | 24-bit floats (format 3) | `float` | `Float24` (1 sign, 7 exponent bits biased by 63, 16 mantissa bits, in the file's byte order; widened exactly) |
 | 32/64-bit complex integers (format 5: two int16 / int32) | `complex` / `double-complex` | `ComplexInt` (widened exactly) |
 
-A 24-bit integer is a packed sample like a 12-bit one (most significant bit first, whatever the file's byte order), while a 24-bit float is stored in the file's byte order: GDAL's `int24.tif` decoded this way equals its `int12.tif` (the same test image), and `float24.tif` equals tifffile. Packed, half-float, 24-bit float and complex-integer samples are decoded with no compression, LZW, deflate, PackBits or zstd; the horizontal predictor is undone on complex integers, the floating-point predictor on half and 24-bit floats; other combinations exit 6. `check` and `info` report other bit depths (33 bits and more, 64-bit floats in format 1) as unsupported samples. 12-bit JPEG pages (compression 7, BitsPerSample 12, unsigned) are read as uint16: the JPEG decoder returns whole 16-bit samples holding 0–4095, so nothing is unpacked.
+A 24-bit integer is a packed sample like a 12-bit one (most significant bit first, even in a little-endian file), while a 24-bit float is stored in the file's byte order: GDAL's `int24.tif` decoded this way equals its `int12.tif` (the same test image), and `float24.tif` equals tifffile. Packed, half-float, 24-bit float and complex-integer samples are decoded with no compression, LZW, deflate, PackBits or zstd; the horizontal predictor is undone on complex integers, the floating-point predictor on half and 24-bit floats; other combinations exit 6. `check` and `info` report other bit depths (33 bits and more, 64-bit floats in format 1) as unsupported samples. 12-bit JPEG pages (compression 7, BitsPerSample 12, unsigned) are read as uint16: the JPEG decoder returns whole 16-bit samples holding 0–4095, so nothing is unpacked.
 
 ### Regions and pyramid levels
 
@@ -289,6 +291,8 @@ Falcon 4, 4i and C cameras write movies as EER files (`.eer`): a BigTIFF (little
 
 **Metadata.** Tag 65001 of page 0 is an XML block `<metadata><item name=".." unit="..">value</item>…</metadata>` (`parse_items`: numbers as numbers, `Yes`/`No` as booleans; `extra.eer.acquisition`, units in `extra.eer.units`). Used: `sensorPixelSize.width`/`.height` (unit `m`) → physical size X/Y (the nominal pixel size at the specimen, e.g. 7.06e-11 m; the 2022 writer omits it); `exposureTime` (s) / `numberOfFrames` → `time_increment_s` and the channel's `exposure_ms`; `timestamp` → `acquired_at` (ISO 8601 with its offset, as stored); `commercialName` (`cameraName`) → detector. `extra.eer` also has `compression`, `run_length_bits`, `subpixel_bits`. Tag 65002 of each page is the frame's block (`frameID`, `dose` in e/pixel, `timestamp`, `rleCodeLength`, `nrOfSubPixelPerDirection`, `orientation`, `pixelFormat`, `decompressionAlgorithmVersion`): `info --view full` lists it per frame (`extra.frames`); the 2022 writer has none.
 
+**Summed frames.** `Dataset::sum_planes` (preview `--sum t`, MRC export `--group-frames`) adds the events of the frames it is given straight into one count per pixel, strip by strip, without decoding each frame to a plane (`eer_sum`); a 648-frame 4096 × 4096 movie sums in seconds. Frame records with `dose` feed `plot` with `show: frames`.
+
 **Dose check.** The frame `dose` is the frame's event count divided by the pixel count, to 6 decimals, in every frame of the corpus files that record it: `check` decodes every frame (`eer_event_counts`) and reports `eer_dose_mismatch` when they differ by more than 1e-6, `eer_bad_frame` for a stream that does not decode, and the event total (`eer_events`, info).
 
 **Gain references** (`.gain`) are ordinary TIFFs (4096 × 4096 float32, LZW) whose tag 65001 holds an EER metadata block after an XML declaration; they are read as plain TIFF and the block is copied to `extra.eer.acquisition`.
@@ -309,6 +313,75 @@ units, lab name, preparation date, the sample-info pairs, the stored pixel type)
 as `acquired_at`. Other `MDFileTag` values are reported and left as stored. A `.gel` re-saved by
 ImageJ has lost these tags and is an ordinary TIFF. Image Lab `.scn` files imported from `.gel`
 scans keep their square-root samples as stored (`openreadout-gel`).
+
+## Gel and blot imagers (Cytiva, Thermo Fisher iBright, Uvitec, Vilber)
+
+These imagers save ordinary single-page TIFF files (16-bit grey, sometimes 8-bit RGB) and write
+their settings into text tags. The pages are read as `plain`; the sub-format adds the settings.
+Stored values are never changed. Layouts were read from public files (`docs/provenance/tiff.md`,
+2026-10-15).
+
+| sub-format | detected by | settings |
+| --- | --- | --- |
+| `cytiva-imager` (`CytivaImager`) | `Model` or `Software` starts `Amersham`, or the description has `Instrument = Amersham`; or `Model` starts `ImageQuant LAS` | `ImageDescription` lines `Key = Value` (Amersham Imager 600/680, ImageQuant 800) or `Key=Value` (ImageQuant LAS 4000, after a `Comment :` line) |
+| `thermo-ibright` (`IBright`) | `Software` starts `iBright` | none: the instrument only |
+| `uvitec-vilber` (`UvitecVilber`) | tag 1808 holds a block starting with the one-byte-length text `_GLP_BPL_` (Uvitec Alliance, Vilber FusionCapt) | the block's length-prefixed texts |
+
+What the reader returns:
+
+- **Instrument**: manufacturer (`Cytiva`, `Thermo Fisher Scientific`, `Uvitec` or `Vilber`, from
+  the product name), model (`Instrument`, the `Model` tag, `iBright`, or the GLP product name
+  without its trailing version), software and its version (`Ver.2.0.0`, `V2.0.0`, the GLP product
+  version). A LAS 4000 file whose `Software` is another program (Photoshop) was re-saved: that
+  program goes to `extra.imager.saved_by`, not the instrument, and tag 306 is not used as the
+  acquisition time.
+- **Channel**: name = `Method`, else `Imaging mode`, else `LED&Filter` (Cytiva), or the GLP mode
+  without its number and bracket (`7: Chemiluminescence (-20)` → `Chemiluminescence`);
+  `exposure_ms` from `Exposure time` (`5.0 s`, `10sec`) or the GLP exposure
+  (`0 min 11 sec 200 msec`). `Automatic` and `RGB Auto` give no exposure.
+- **`acquired_at`**: Cytiva `Date time` (`YYYY:MM:DD HH:MM:SS`, local); GLP date and time when the
+  date is written in English (`Thursday, 13 February 2020`); a date in another language is kept as
+  `extra.imager.date_text` with a note.
+- **`images[].extra.imager`**: `mode`, `light`, `filter`, `binning`, `exposure_s`,
+  `exposure_setting` (the text), `exposure_mode`, `ccd_temperature_c` (`Temperature`,
+  `CCD Temperature`, or the GLP temperature text), `dark_offset`, `inverted` (`Invert`,
+  `Inverted`), `display_range` (`Range low`, `Range high`), `time_zone`, `orientation`,
+  `image_split`, `od_conversion`, `iris`, `lens`, `tray_position`, `white_is_zero`, `saved_by`,
+  and every description pair as written under `settings`. GLP files add `product`, `date_text`,
+  `time_text`, `original_path`, `protocol` and `texts` (every text of the block's first record).
+- **Notes**: PhotometricInterpretation WhiteIsZero (Amersham and ImageQuant 800 files use it:
+  values grow with signal and viewers that follow the tag draw bands dark), `Invert = Yes` (the
+  software inverted the image before saving), and the dark offset the values include.
+- **Experiment**: serial number (`Serial number`, GLP serial), method parameters
+  `exposure_time` (s), `mode`, `light`, `filter`, `binning`, `ccd_temperature` (°C); a mode naming
+  chemiluminescence makes the technique and assay western blot (OBI:0000854), one naming gel
+  documentation or a stain gel electrophoresis (CHMO:0001021), others leave them unnamed.
+
+The GLP block is stored with type RATIONAL; the reader reads its bytes from the file again (at
+most 1 MiB). It holds a second record for another image in some files; only the first is read.
+Tag 1807 (a colour look-up table) is not used. A tag whose value lies past the end of the file is
+skipped (the file then reads as `plain` with a truncation note).
+
+## Incucyte
+
+`Software` starting `IncuCyte` or `Incucyte` selects the `incucyte` sub-format (`Incucyte`). A raw
+export has a second page of 1 × 1 pixels (NewSubfileType 1, also reached through tag 60000 of page
+0) whose tag 60020 is an `<ImageInfo>` XML document in Windows-1252; tags 60010 (a version) and
+60011 (the source path on the instrument) are not used. That page is not an image, a level or an
+attachment. From the XML:
+
+| element | becomes |
+| --- | --- |
+| `AcqInfo/FullResPixelSpacing` (`1.244 µm`) | physical size X and Y |
+| `AcqInfo/ObjectiveMagnification` | `objective.nominal_magnification` |
+| `AcqInfo/ImageType` (`HD Phase Image`) | channel name |
+| `AcqInfo/CameraSettings/ExpTime` (`0.46 msec`) | channel `exposure_ms` |
+| `AcqInfo/TimeStamp` (`MM/DD/YYYY HH:MM:SS`) | `acquired_at` (local) |
+| `DeviceInfo/HardwareName`, `ControllerSerialNumber`, `Camera/Model` | instrument model, serial (experiment), detector |
+| `Location/WellorSector`, `UnityBasedImageIndex`, `ImagesPerWellorSector`, `FocusPosition`, `ExpGain`, `GantryTemperature`, `DrawerTemperature`, `ScanInfo/VesselID`, `ScanType`, `ScanDateTime`, `Labware/Name`, `OpticalModule/Name`, `FirmwareInfo/Version` | `images[].extra.incucyte`: `well`, `image_in_well`, `images_per_well`, `focus_position_um`, `camera_gain`, `gantry_temperature_c`, `drawer_temperature_c`, `vessel_id`, `scan_type`, `scan_time`, `labware`, `optical_module`, `firmware_version` (also `image_type`, `exposure_s`) |
+
+Tag 306 of an Incucyte file is the export time, so it is never the acquisition time. The 8-bit RGB
+exports "for viewing" have no metadata page and read as plain RGB images with a note.
 
 ## Micro-Manager
 
@@ -372,6 +445,9 @@ Codes (EER: `eer_bad_frame`, `eer_dose_mismatch`, `eer_events`, § EER): `trunca
 | `NdFile`, `parse_nd`, `version`, `start_time`, `time_points`, `timelapse`, `stages`, `waves`, `wave_do_z`, `wave_in_file_name`, `z_steps`, `z_step_um`, `image_count`, `channel_count`, `file_stem` | MetaMorph `.nd` series (above; `keys`, `description`, `name` as elsewhere) |
 | `NisElements`, `NisPage`, `parse_nis`, `NIS_TAG_TIME`, `NIS_TAG_PIXEL_SIZE`, `NIS_TAG_STAGE`, `NIS_TAG_METADATA`, `time_ms`, `unknown` | NIS-Elements TIFF export tags (`pixel_size_um`, `stage_um` as above) |
 | `SequenceName`, `SequenceAxis` { `Position`, `Time`, `Z`, `Channel` }, `parse_sequence_name`, `prefix`, `indices`, `extension`, `index`, `axes` | NIS-Elements export file names |
+| `CytivaImager`, `IBright`, `UvitecVilber`, `Incucyte` | the imager sub-formats (`Flavor`; § Gel and blot imagers, § Incucyte) |
+| `ImagerKind` { `Amersham`, `Las`, `IBright` }, `kind_of`, `flavor`, `ImagerSettings`, `vendor`, `model`, `serial`, `software`, `software_version`, `detector`, `acquired_at`, `replaces_time`, `exposure_s`, `mode`, `params`, `extra`, `notes`, `origins`, `Param`, `name`, `value`, `unit`, `from`, `key_values`, `leading_number`, `duration_s`, `cytiva`, `ibright`, `glp`, `glp_strings`, `GLP_TAG`, `technique_of`, `experiment`, `raw_field`, `glp_settings`, `apply_imager`, `imager` | gel and blot imager settings (§ Gel and blot imagers) |
+| `IncucyteInfo`, `parse_info`, `is_incucyte`, `INCUCYTE_INFO_TAG`, `pixel_size_um`, `magnification`, `image_type`, `hardware`, `camera`, `apply_incucyte`, `incucyte` | Incucyte metadata page (§ Incucyte) |
 | `MdGel`, `file_tag`, `scale`, `stored`, `units`, `meta`, `prepared_at`, `sample_info`, `linearize`, `info`, `MD_FILE_TAG`, `MD_SCALE_PIXEL`, `MD_LAB_NAME`, `MD_SAMPLE_INFO`, `MD_PREP_DATE`, `MD_PREP_TIME`, `MD_FILE_UNITS`, `md_gel`, `apply_md_gel` | Molecular Dynamics GEL (§ Molecular Dynamics GEL) |
 
 ### Performance / robustness merge (2026-09-23)

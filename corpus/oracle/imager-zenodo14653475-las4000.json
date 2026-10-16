@@ -1,0 +1,43 @@
+{
+ "id": "imager-zenodo14653475-las4000",
+ "file": "imager-zenodo14653475-las4000.tif",
+ "size": 3166056,
+ "sha256": "fae3e0f7a42fa733d584625aedd461e27364881c7fc969b469d9035fb1666cbd",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    1024,
+    1536
+   ],
+   "size_x": 1536,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "894e446b94e6153a04bc224d029a8911"
+    }
+   ]
+  }
+ ]
+}

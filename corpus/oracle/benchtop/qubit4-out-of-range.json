@@ -1,0 +1,303 @@
+{
+ "id": "qubit4-out-of-range",
+ "readers": {
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_QUBIT4"
+ },
+ "format": "qubit",
+ "measurements": [
+  {
+   "id": "b3990e6a-bc21-4e00-93b3-454ccb3c8d89",
+   "sample": "Sample_#231104-010659",
+   "location": null,
+   "time": "2023-04-11T01:06:59+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     106.0,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     56.12,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     26516.64,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     21.2,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     5615.1,
+     "RFU"
+    ]
+   ]
+  },
+  {
+   "id": "488998b7-d509-49c7-83d1-177b4162f616",
+   "sample": "Sample_#231104-010649",
+   "location": null,
+   "time": "2023-04-11T01:06:49+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     49.3,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     56.12,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     26516.64,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     9.86,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     2620.19,
+     "RFU"
+    ]
+   ]
+  },
+  {
+   "id": "d79da311-5b84-493f-84a9-4b43bf6fb218",
+   "sample": "Sample_#231104-010638",
+   "location": null,
+   "time": "2023-04-11T01:06:38+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     100.0,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     56.12,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     26516.64,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     20.0,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     5301.86,
+     "RFU"
+    ]
+   ]
+  },
+  {
+   "id": "c2be3750-0905-4f59-9716-87b8cc98c152",
+   "sample": "Sample_#231104-010630",
+   "location": null,
+   "time": "2023-04-11T01:06:30+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     72.7,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     56.12,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     26516.64,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     14.5,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     3848.81,
+     "RFU"
+    ]
+   ]
+  },
+  {
+   "id": "4b3bb9cd-7eba-479f-b3d7-a9d8f64b51a8",
+   "sample": "Sample_#231104-004644",
+   "location": null,
+   "time": "2023-04-11T00:46:44+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     97.4,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     56.12,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     26516.64,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     19.5,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     5146.53,
+     "RFU"
+    ]
+   ]
+  },
+  {
+   "id": "46c2073f-c2bf-4216-8384-fb8993cbfc80",
+   "sample": "Sample_#231104-004155",
+   "location": null,
+   "time": "2023-04-11T00:41:55+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "standard 1 concentration",
+     56.12,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     26516.64,
+     "RFU"
+    ],
+    [
+     "fluorescence",
+     44282.53,
+     "RFU"
+    ]
+   ]
+  },
+  {
+   "id": "6051e266-3309-4503-b150-aa704d8b8505",
+   "sample": "Sample_#231104-004150",
+   "location": null,
+   "time": "2023-04-11T00:41:50+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     344.0,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     56.12,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     26516.64,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     68.8,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     18227.08,
+     "RFU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [],
+ "model": "Qubit 4",
+ "serial": null
+}

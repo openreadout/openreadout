@@ -1,0 +1,32 @@
+{
+ "id": "pydicom-data-jpglosslessp14sv1-1s-1f-8b",
+ "file": "JPGLosslessP14SV1_1s_1f_8b.dcm",
+ "size": 215050,
+ "sha256": "1978d4f058e52d3239fae33f261b3dc74605fdd9f89031fffd57bea6218d0dbf",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1024,
+   "size_y": 768,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 254.76696592378156,
+    "y": 254.76696592378156
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "07180f05a566538008dcb08c4893b7e5",
+     "mean": 17.25782648722331
+    }
+   ]
+  }
+ ]
+}

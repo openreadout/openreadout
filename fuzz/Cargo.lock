@@ -1432,6 +1432,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-benchtop"
+version = "0.3.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+]
+
+[[package]]
 name = "openreadout-biophys"
 version = "0.3.0"
 dependencies = [
@@ -1459,6 +1467,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-ce"
+version = "0.3.0"
+dependencies = [
+ "base64 0.23.1",
+ "flate2",
+ "openreadout-core",
+ "roxmltree 0.21.1",
+ "schemars",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "openreadout-chrom"
 version = "0.3.0"
 dependencies = [
@@ -1480,6 +1501,7 @@ dependencies = [
  "jxl-oxide",
  "lz4_flex",
  "openreadout-jpegxr",
+ "pure_jpegls",
  "rust-j2k",
  "ruzstd",
  "thiserror",
@@ -1522,6 +1544,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-diffraction"
+version = "0.3.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+]
+
+[[package]]
 name = "openreadout-echem"
 version = "0.3.0"
 dependencies = [
@@ -1538,6 +1568,8 @@ dependencies = [
  "hdf5-pure",
  "openreadout-core",
  "roxmltree 0.21.1",
+ "schemars",
+ "serde",
  "serde_json",
 ]
 
@@ -1596,14 +1628,17 @@ dependencies = [
  "openreadout-agilent-ms",
  "openreadout-assay",
  "openreadout-batch",
+ "openreadout-benchtop",
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
+ "openreadout-ce",
  "openreadout-chrom",
  "openreadout-codecs",
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -1615,6 +1650,7 @@ dependencies = [
  "openreadout-hdf5",
  "openreadout-intan",
  "openreadout-lif",
+ "openreadout-medical",
  "openreadout-mzml",
  "openreadout-nd2",
  "openreadout-neuralynx",
@@ -1627,6 +1663,7 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-quant",
  "openreadout-sciex",
+ "openreadout-seq",
  "openreadout-signal",
  "openreadout-spectro",
  "openreadout-spikeglx",
@@ -1716,6 +1753,19 @@ dependencies = [
  "openreadout-tiff",
  "png",
  "roxmltree 0.21.1",
+ "serde_json",
+]
+
+[[package]]
+name = "openreadout-medical"
+version = "0.3.0"
+dependencies = [
+ "flate2",
+ "miniz_oxide 0.9.1",
+ "openreadout-codecs",
+ "openreadout-core",
+ "schemars",
+ "serde",
  "serde_json",
 ]
 
@@ -1862,6 +1912,23 @@ version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
+]
+
+[[package]]
+name = "openreadout-seq"
+version = "0.3.0"
+dependencies = [
+ "arrow-ipc",
+ "flate2",
+ "hdf5-pure",
+ "openreadout-core",
+ "openreadout-hdf5",
+ "roxmltree 0.21.1",
+ "ruzstd",
+ "schemars",
+ "serde",
+ "serde_json",
+ "xxhash-rust",
 ]
 
 [[package]]
@@ -2114,6 +2181,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "pure_jpegls"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "480f6d9c01d5eb952d227ef21e7e1395ae6332df183f70d532ea8dd18d0850fa"
+dependencies = [
+ "thiserror",
 ]
 
 [[package]]

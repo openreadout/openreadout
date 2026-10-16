@@ -1,0 +1,98 @@
+{
+ "id": "qubit4-dsdna-hs",
+ "readers": {
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_QUBIT4"
+ },
+ "format": "qubit",
+ "measurements": [
+  {
+   "id": "5ef96ccd-7608-40df-ad1b-84e21b89ea2f",
+   "sample": "Sample_#231212-064054",
+   "location": null,
+   "time": "2023-12-12T06:40:54+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     30.4,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     49.43,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     21133.11,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     6.08,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     1303.11,
+     "RFU"
+    ]
+   ]
+  },
+  {
+   "id": "ae31a3e0-b2e3-49c7-904f-2a46faf17e9d",
+   "sample": "Sample_#231212-020958",
+   "location": null,
+   "time": "2023-12-12T02:09:58+00:00",
+   "values": [
+    [
+     "sample volume setting",
+     1.0,
+     "μL"
+    ],
+    [
+     "dilution factor",
+     200.0,
+     "(unitless)"
+    ],
+    [
+     "qubit tube concentration",
+     560.0,
+     "ng/mL"
+    ],
+    [
+     "standard 1 concentration",
+     49.43,
+     "RFU"
+    ],
+    [
+     "standard 2 concentration",
+     21133.11,
+     "RFU"
+    ],
+    [
+     "original sample concentration",
+     112.0,
+     "ng/µL"
+    ],
+    [
+     "fluorescence",
+     23709.42,
+     "RFU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [],
+ "model": "Qubit 4",
+ "serial": null
+}

@@ -1,0 +1,3 @@
+# openreadout-benchtop
+
+Readers for the exports of small bench instruments: Thermo Fisher NanoDrop spectrophotometers (8000, Eight, One, and the One's UV-Vis spectra) and Qubit fluorometers (Qubit 4, Qubit Flex). Each export becomes a table of samples with units, and NanoDrop spectra become absorbance traces. This crate is part of [OpenReadout](https://github.com/openreadout/openreadout), which reads raw lab-instrument files without vendor software, prints JSON, exports to open formats and runs as an MCP server. Documentation: <https://openreadout.github.io/openreadout/formats/nanodrop.html>. Licensed MIT OR Apache-2.0.

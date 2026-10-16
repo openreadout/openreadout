@@ -18,6 +18,7 @@
 //! | `zstd` | [`zstd_decode`], [`zstd1_decode`] (Zstandard, via `ruzstd`) |
 //! | `jpeg` | [`jpeg_decode`], [`jpeg_decode_tiff`] and their `_limited` forms (baseline, progressive, lossless) |
 //! | `jpegxr` | [`jpegxr_decode`] (JPEG XR, as in CZI files; `openreadout-jpegxr`, a safe port of jxrlib) |
+//! | `jpegls` | [`jpegls_decode_limited`] (JPEG-LS lossless and near-lossless, single component; `pure_jpegls`) |
 //! | `jpeg2000` | [`jpeg2000_decode`] and [`jpeg2000_decode_limited`] (`rust-j2k`, fallback `dicom-toolkit-jpeg2000`) |
 //! | `lzw` | [`lzw_decode`] (TIFF LZW) |
 //! | `deflate` | [`zlib_decode`] |
@@ -48,6 +49,8 @@ mod blosc;
 mod chunked;
 #[cfg(feature = "jpeg2000")]
 mod j2k;
+#[cfg(feature = "jpegls")]
+mod jls;
 #[cfg(feature = "jpeg")]
 mod jpeg12;
 #[cfg(feature = "jpegxl")]
@@ -59,8 +62,8 @@ mod lzma;
 mod webp;
 
 pub use blosc::{
-    BloscCompressor, BloscHeader, blosc_decode, blosc_header, blosclz_decode, hdf5_lz4_decode,
-    lz4_block_decode, lz4_sized_decode, snappy_decode,
+    BloscCompressor, BloscHeader, bitshuffle_decode, blosc_decode, blosc_header, blosclz_decode,
+    hdf5_lz4_decode, lz4_block_decode, lz4_sized_decode, snappy_decode,
 };
 pub use chunked::chunked_decode;
 pub use lzma::lzma2_decode;
@@ -522,6 +525,7 @@ fn jpeg_decode_with(
 /// `rust-j2k` (pure Rust, no `unsafe`, OpenJPEG-style mid-point reconstruction), with
 /// `dicom-toolkit-jpeg2000` for codestreams it does not support (see `j2k.rs`). The caller
 /// converts colour: components come back as coded (after the codestream's own RCT/ICT).
+/// Signed components (DICOM CT) come back as the two's-complement bit pattern of i8 or i16.
 pub fn jpeg2000_decode(data: &[u8]) -> Result<Raster> {
     jpeg2000_decode_limited(data, MAX_UNSIZED_OUTPUT)
 }
@@ -539,6 +543,25 @@ pub fn jpeg2000_decode_limited(data: &[u8], max_bytes: usize) -> Result<Raster> 
         Err(CodecError::NotCompiled {
             codec: "jpeg2000",
             feature: "jpeg2000",
+        })
+    }
+}
+
+/// Decode a JPEG-LS stream (ITU-T T.87: lossless and near-lossless, one component), refusing
+/// (before decoding) an image that would decode to more than `max_bytes` (counted at 2 bytes
+/// per sample). Precisions up to 8 bits come back as u8, above as little-endian u16. Colour
+/// (multi-component) streams are refused with [`CodecError::Unsupported`].
+pub fn jpegls_decode_limited(data: &[u8], max_bytes: usize) -> Result<Raster> {
+    #[cfg(feature = "jpegls")]
+    {
+        jls::decode(data, max_bytes)
+    }
+    #[cfg(not(feature = "jpegls"))]
+    {
+        let _ = (data, max_bytes);
+        Err(CodecError::NotCompiled {
+            codec: "jpeg-ls",
+            feature: "jpegls",
         })
     }
 }
@@ -1047,6 +1070,24 @@ mod tests {
             return;
         };
         assert!(webp_decode_limited(&d, 1 << 20).is_err());
+    }
+
+    /// JPEG-LS streams whose sample errors overflow pure_jpegls' i32 arithmetic: no panic in any
+    /// build (the workspace turns off overflow checks for pure_jpegls).
+    #[cfg(feature = "jpegls")]
+    #[test]
+    fn jpegls_overflows_do_not_panic() {
+        let dir =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fuzz/known-upstream");
+        for name in [
+            "pure_jpegls-2.0.0-run-mode-overflow.jls",
+            "pure_jpegls-2.0.0-context-overflow.jls",
+        ] {
+            let Ok(d) = std::fs::read(dir.join(name)) else {
+                continue;
+            };
+            let _ = jpegls_decode_limited(&d, 1 << 20);
+        }
     }
 
     /// OpenJPEG-encoded fixtures (imagecodecs 2026.8.16) and OpenJPEG's own decodes of them:

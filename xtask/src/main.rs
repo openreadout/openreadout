@@ -735,11 +735,23 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("gpr", "genepix-gpr"),
         ],
     ),
-    ("gel", &[("", "biorad-scn")]),
+    ("gel", &[("sgd", "syngene-sgd"), ("", "biorad-scn")]),
+    // NanoDrop and Qubit exports: one module per instrument; lib/model/table/text are checked
+    // against both documents
+    ("benchtop", &[("nanodrop", "nanodrop"), ("qubit", "qubit")]),
     // BES3T and ESP/WinEPR share one note
     ("epr", &[("", "bruker-epr")]),
     // one module per format; lib.rs/common.rs are checked against the shared note
     ("xrd", &[("", "xrd")]),
+    (
+        "ce",
+        &[
+            ("bioanalyzer", "agilent-electrophoresis"),
+            ("tapestation", "agilent-electrophoresis"),
+            ("chip", "agilent-electrophoresis"),
+            ("", "abif"),
+        ],
+    ),
     // one module per vendor; lib.rs is checked against every document
     (
         "echem",
@@ -761,13 +773,50 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     // Imaris, NWB and generic HDF5 share h5util.rs/lib.rs (checked against both documents)
     (
         "hdf5",
-        &[("ims", "ims"), ("nwb", "hdf5"), ("generic", "hdf5")],
+        &[
+            ("ims", "ims"),
+            ("nwb", "hdf5"),
+            ("generic", "hdf5"),
+            ("nxmx", "nxmx"),
+        ],
+    ),
+    // DNA sequencers: one module directory per family; lib.rs, table.rs and assurance.rs are
+    // checked against all three documents
+    (
+        "seq",
+        &[
+            ("illumina", "illumina-run"),
+            ("nanopore", "nanopore"),
+            ("reads", "sequence-reads"),
+            // format ids, for `repo::doc_of`; no source file starts with these
+            ("pod5", "nanopore"),
+            ("fast5", "nanopore"),
+            ("fastq", "sequence-reads"),
+            ("bam", "sequence-reads"),
+        ],
     ),
     // one module directory per format; lib.rs/util.rs are checked against all four documents
     (
         "em",
-        &[("mrc", "mrc"), ("dm", "dm"), ("ser", "ser"), ("emd", "emd")],
+        &[
+            ("mrc", "mrc"),
+            ("dm", "dm"),
+            ("ser", "ser"),
+            ("emd", "emd"),
+            ("mdoc", "mdoc"),
+        ],
     ),
+    // one module directory per format; lib.rs/util.rs/assurance.rs are checked against all three
+    (
+        "medical",
+        &[
+            ("dicom", "dicom"),
+            ("nifti", "nifti"),
+            ("paravision", "bruker-paravision"),
+        ],
+    ),
+    // one module per format; lib.rs/common.rs/assurance.rs are checked against both documents
+    ("diffraction", &[("cbf", "cbf"), ("smv", "smv")]),
 ];
 
 /// `.rs` files under `dir`, recursively, with their path relative to `dir` (`/`-separated, no

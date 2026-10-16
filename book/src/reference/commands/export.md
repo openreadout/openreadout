@@ -12,9 +12,10 @@ Each export is written under a temporary name, read back and compared with the s
 
 ### Target and output
 
-- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. Without it, the extension of `-o` sets the format, or the file's kind when there is no `-o`; see [Export formats](#export-formats).
+- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `nifti`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp`, `rdml`, `fastq` or `mrc`. Without it, the extension of `-o` sets the format, or the file's kind when there is no `-o`; see [Export formats](#export-formats).
 - `-o`, `--output PATH`: output path. Default: the input name with the target's extension. With several inputs, or with `--per-image`, a directory.
 - `--overwrite`: replace an existing output file or OME-Zarr store.
+- `--group-frames N`: MRC only: sum every N time points into one section (the dose fractions of an electron-event movie).
 - `--compression MODE`: images `none`, `deflate` (default) or `lzw`; Parquet `none`, `snappy` (default) or `lz4`; Arrow `none` (default) or `lz4`.
 - `--json`: print the export report as JSON.
 
@@ -75,6 +76,7 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 | --- | --- | --- |
 | `ome-tiff` | images (default) | `<stem>.ome.tiff` |
 | `ome-zarr` | images, plates | `<stem>.ome.zarr` |
+| `nifti` | volumes (medical images first) | `<stem>.nii.gz` |
 | `csv` | tables, traces, NMR and 1-D spectra (default) | `<stem>.csv` |
 | `parquet`, `arrow` | tables, traces, mass spectra | `<stem>.parquet`, `<stem>.arrow` |
 | `mzml` | mass spectrometry (default) | `<stem>.mzML` |
@@ -82,10 +84,13 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 | `jcamp` | NMR, 1-D spectra, chromatograms | `<stem>.jdx` |
 | `asm` | plate-reader exports | `<stem>.asm.json` |
 | `rdml` | qPCR (RDML, `.eds`, `.rex`) | `<stem>.rdml` (`<stem>.export.rdml` for an RDML input) |
+| `fastq` | base calls: a Sanger read (default for `.ab1`), an Illumina run folder | `<stem>.fastq`; `<run folder>_fastq/` for a run |
+| `mrc` | one channel of an image: movies, stacks, diffraction sweeps | `<stem>.mrcs` for frames, `<stem>.mrc` otherwise |
 
 - **OME-TIFF** is one BigTIFF file with OME-XML in the first IFD. Pyramids go in SubIFDs. With a pyramid, a level, a region, or a plane above 4 GiB, the file is tiled and written block by block, so a whole-slide image exports in bounded memory.
 - **OME-Zarr** is an OME-NGFF 0.5 (Zarr v3) store with 5-D `t, c, z, y, x` arrays. Several images become a `bioformats2raw.layout` collection; a screening plate becomes an HCS plate. Except for plates, `OME/METADATA.ome.xml` keeps what OME-NGFF has no place for: objective, instrument, acquisition mode, exposures. With a pyramid copied from the source, a level, a region, or a plane above 256 MiB, the store is written block by block.
 - **What differs from the source.** OME-NGFF has no samples axis, so the red, green and blue samples of an RGB image become three OME-Zarr channels, named `<channel> (R)`, `(G)` and `(B)`. OME-Zarr channels whose source records no colour get a display colour. OME-TIFF takes 1-sample int8 to int32, uint8 to uint32, float and double images and 3-sample uint8, uint16 and float images, and leaves out the label images of an OME-Zarr source. Other sample counts go to OME-Zarr. Neither format is written for 64-bit integer or complex images (exit 6). Pixels are copied as OpenReadout decodes them, so the export of a JPEG-compressed slide holds OpenReadout's decoded values, which can differ from another JPEG decoder's by a few grey levels.
+- **NIfTI** is NIfTI-1, gzip-compressed for `.nii.gz`: one image (`--image`) with x, y, z, t and channels as the fifth dimension, in the values `info` reports (rescaled, so CT is in Hounsfield units). The voxel size is always written. The orientation comes from the DICOM geometry or the source NIfTI header and is written as both qform and sform. The report's `affine_from` says `dicom`, `nifti`, or `none` when the source records no orientation.
 - **CSV** of a table writes column names on line 1 and raw stored values. FCS values are not compensated or scaled. CSV of a trace starts with a `time_s` column (or the trace's own axis, such as `chemical_shift_ppm`) followed by one column per channel in physical units.
 - **Parquet and Arrow** keep each column's stored type. Units, labels, provenance and the source's `info` are stored as field and file metadata.
 - **mzML** is indexed mzML 1.1.0, one spectrum per scan of the chosen run. An mzML source also keeps its spectrum ids (when it names their nativeID format), its chromatograms (TIC, SRM traces) and its exact instrument, component and software terms. Other sources get a TIC from the written spectra and, for SRM/MRM runs (Thermo, Sciex, Agilent, Shimadzu), one SRM chromatogram per transition, as msconvert writes them. They were checked against ProteoWizard exports of Thermo, Sciex, Agilent and Shimadzu runs. Optical spectra in an mzML source (a PDA detector's, over wavelength) are left out; the report counts them in `spectra_skipped` and says why in `warnings`. A run with chromatograms and no spectra (an MRM-only mzML, a Waters MRM `.raw`) is written as its chromatograms alone, a Waters MRM table as a TIC and one SRM chromatogram per transition.
@@ -93,8 +98,10 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 - **JCAMP-DX** is version 5.01 or 6.00. Values round-trip exactly when they are integer multiples of one factor; the report says whether they did.
 - **ASM** is Allotrope Simple Model plate-reader JSON, one document per plate and well.
 - **RDML** is RDML 1.3 with the plate setup, Cq values, amplification curves and melt data.
+- **FASTQ** uses Phred+33 qualities. A Sanger read gives one record from the basecaller's calls. An Illumina run gives a directory with one gzipped file per lane and read, from the BCL or CBCL base calls of clusters that pass the filter; `--rows 0-N` writes the first N+1 clusters of each lane.
+- **MRC** is MRC2014: time points become an image stack, z planes a volume, with the pixel size in the cell dimensions. `--group-frames N` sums every N frames into one section. uint8 and uint16 samples are written as mode 6 (uint16), int16 as mode 1, the rest as float32.
 
-With `-o` and no `--format`, the output's extension picks the format: `.ome.tiff`, `.ome.tif`, `.tiff` and `.tif` give OME-TIFF, `.ome.zarr` and `.zarr` OME-Zarr, `.mzML` mzML, `.csv` CSV, `.parquet` Parquet, `.arrow` and `.feather` Arrow, `.nwb` NWB, `.jdx` and `.dx` JCAMP-DX, `.json` ASM and `.rdml` RDML. `export x.lif -o x.ome.zarr` writes OME-Zarr. An extension that names no format, or one that contradicts `--format` (`-o x.ome.zarr --format ome-tiff`), exits 2 and writes nothing. With `--format`, an output name without one of these extensions is fine.
+With `-o` and no `--format`, the output's extension picks the format: `.ome.tiff`, `.ome.tif`, `.tiff` and `.tif` give OME-TIFF, `.ome.zarr` and `.zarr` OME-Zarr, `.nii` and `.nii.gz` NIfTI, `.mzML` mzML, `.csv` CSV, `.parquet` Parquet, `.arrow` and `.feather` Arrow, `.nwb` NWB, `.jdx` and `.dx` JCAMP-DX, `.json` ASM, `.rdml` RDML, `.fastq` and `.fq` FASTQ (and a name ending in `_fastq`, the directory an Illumina run's FASTQ goes to), and `.mrc` and `.mrcs` MRC. `export x.lif -o x.ome.zarr` writes OME-Zarr. An extension that names no format, or one that contradicts `--format` (`-o x.ome.zarr --format ome-tiff`), exits 2 and writes nothing. With `--format`, an output name without one of these extensions is fine.
 
 A combination that does not fit, such as an image file `--format csv`, exits 6.
 

@@ -1,0 +1,30 @@
+{
+ "id": "pydicom-data-parametric-map-float",
+ "file": "parametric_map_float.dcm",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 661.468,
+    "y": 661.468
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d331e52de2a7b7115b6f8425e6258d53",
+     "mean": 0.586980307681106
+    }
+   ]
+  }
+ ]
+}

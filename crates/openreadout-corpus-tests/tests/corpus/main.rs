@@ -30,7 +30,10 @@ use crate::spectra::{check_chromatogram_traces, check_chromatograms, check_spect
 use crate::tables::{check_plate, check_tables};
 use crate::traces::check_traces;
 
+mod abif_oracle;
+mod benchtop_oracle;
 mod biacore_oracle;
+mod chip_oracle;
 mod chromeleon_oracle;
 mod fplc_oracle;
 mod gpr_oracle;
@@ -43,6 +46,7 @@ mod oracle;
 #[path = "../qpcr_oracle/mod.rs"]
 mod qpcr_oracle;
 mod seahorse_oracle;
+mod seq_oracle;
 mod series_oracle;
 mod shimadzu_oracle;
 mod spectra;
@@ -268,6 +272,8 @@ fn family_scopes(format: &str, oracle_text: &str) -> Vec<&'static str> {
         vec!["metadata", "traces"]
     } else if format == "genepix-gpr" {
         vec!["metadata", "tables"]
+    } else if format == "abif" || chip_oracle::FORMATS.contains(&format) {
+        vec!["metadata", "tables", "traces"]
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::scopes(format)
     } else if hyperspec_oracle::FORMATS.contains(&format) {
@@ -575,10 +581,18 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("seahorse")
     } else if gpr_oracle::FORMATS.contains(&format) {
         Some("gpr")
+    } else if abif_oracle::FORMATS.contains(&format) {
+        Some("abif")
+    } else if chip_oracle::FORMATS.contains(&format) {
+        Some("chip")
+    } else if benchtop_oracle::FORMATS.contains(&format) {
+        Some("benchtop")
     } else if series_oracle::FORMATS.contains(&format) {
         Some("series")
     } else if hyperspec_oracle::FORMATS.contains(&format) {
         Some("hyperspec")
+    } else if seq_oracle::FORMATS.contains(&format) {
+        Some("seq")
     } else {
         None
     }
@@ -663,10 +677,18 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         seahorse_oracle::compare_file(id, path, &o)
     } else if gpr_oracle::FORMATS.contains(&format) {
         gpr_oracle::compare_file(id, path, &o)
+    } else if abif_oracle::FORMATS.contains(&format) {
+        abif_oracle::compare_file(id, path, &o)
+    } else if chip_oracle::FORMATS.contains(&format) {
+        chip_oracle::compare_file(format, path, &o)
+    } else if benchtop_oracle::FORMATS.contains(&format) {
+        benchtop_oracle::compare_file(id, path, &o)
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::compare_file(format, id, path, &o)
     } else if hyperspec_oracle::FORMATS.contains(&format) {
         hyperspec_oracle::compare_file(format, id, path, &o)
+    } else if seq_oracle::FORMATS.contains(&format) {
+        seq_oracle::compare_file(format, id, path, &o)
     } else {
         qpcr_oracle::compare_file(format, id, path, &o)
     })

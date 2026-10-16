@@ -8,8 +8,8 @@ use openreadout_core::Result;
 use openreadout_core::model::FileInfo;
 use openreadout_core::reader::Dataset;
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Domain, Face, Figure, GridLines, LabelPlacer, Panel, Path, Rect,
-    ScaleKind, Stroke, TextStyle,
+    Anchor, AxesSpec, Baseline, Domain, Face, Figure, GridLines, LabelPlacer, Layer, Panel, Path,
+    Rect, ScaleKind, Stroke, TextStyle,
 };
 
 use crate::marks::{self, Col};
@@ -96,12 +96,14 @@ pub(crate) fn render(
     } else {
         "Base peak intensity"
     };
-    fig.text(
-        fs * 0.8,
-        fs * 1.4,
-        &format!("{what} · {} MS1 scans of {scans}", pts.len()),
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            fs * 0.8,
+            fs * 1.4,
+            &format!("{what} · {} MS1 scans of {scans}", pts.len()),
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     let spec = AxesSpec {
         y_label: Some("intensity".into()),
         x_label: Some("retention time (min)".into()),
@@ -123,11 +125,13 @@ pub(crate) fn render(
     );
     let panel = Panel::new(rect, x_dom, y_dom);
     panel.axes(&mut fig, &theme, &spec);
-    panel.line_px(
-        &mut fig,
-        envelope_points(&cols, &panel),
-        Stroke::new(theme.ink, theme.line_width * 0.85),
-    );
+    fig.group(Layer::Series, signal, |fig| {
+        panel.line_px(
+            fig,
+            envelope_points(&cols, &panel),
+            Stroke::new(theme.ink, theme.line_width * 0.85),
+        );
+    });
     // the apex, labelled in the accent; the other prominent peaks in ink
     let mut placer = LabelPlacer::new(fig.rect());
     let mut data_marks = Vec::new();
@@ -140,8 +144,10 @@ pub(crate) fn render(
         let ly = py - fs * 0.5;
         let b = st.bounds(px, ly, &label);
         let b = Rect::new(b.x.max(rect.x).min(rect.right() - b.w), b.y, b.w, b.h);
-        fig.fill(Path::circle(px, py, fs * 0.22), theme.accent);
-        fig.text(b.x + b.w / 2.0, ly, &label, &st);
+        fig.group(Layer::Annotation, "apex", |fig| {
+            fig.fill(Path::circle(px, py, fs * 0.22), theme.accent);
+            fig.text(b.x + b.w / 2.0, ly, &label, &st);
+        });
         placer.reserve(Rect::new(b.x - 2.0, b.y - 2.0, b.w + 4.0, b.h + 4.0));
         data_marks.push(crate::DataMark {
             kind: "peak".into(),

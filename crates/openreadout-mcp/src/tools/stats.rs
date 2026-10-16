@@ -72,6 +72,10 @@ pub struct StatsArgs {
     /// `{}` counts nuclei with settings taken from the image (size, threshold, H&E colour
     /// deconvolution). Found in a DNA-stain channel unless `select` names one.
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Lanes and bands of a gel or blot in `region` or the whole plane: each lane's total and
+    /// each band's row and background-subtracted volume (with `ladder`, its size). `{}` finds
+    /// the lanes; preview marks=lanes draws them.
+    pub lanes: Option<openreadout_core::measure::LanesRequest>,
     /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
@@ -89,7 +93,7 @@ enum StatsToolOutput {
     Images(openreadout_core::stats::StatsOutput),
     /// per=well|field.
     Wells(openreadout_core::plate::WellStatsOutput),
-    /// line, polygon or objects.
+    /// line, polygon, objects or lanes.
     Measure(openreadout_core::measure::MeasureOutput),
 }
 
@@ -99,7 +103,7 @@ impl InstrumentServer {
         name = "openreadout_stats",
         annotations(title = "Measure pixels", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = output_schema::<StatsToolOutput>(),
-        description = "Pixel statistics per channel and image: count, min, max, mean, std, percentiles p1–p99, zero and saturated fractions (at the detector's 2^bits−1 when recorded), histogram; RGB images also per component. per=plane adds every plane; per=well or field gives rows per well of a screening plate. mip='z' measures the maximum-intensity projection; whole slides: a coarser level and/or a region. Measurements on one plane: line (intensity profile, FWHM), polygon (statistics inside), objects (count nuclei, cells or spots; preview marks=objects shows them)."
+        description = "Pixel statistics per channel and image: count, min, max, mean, std, percentiles p1–p99, zero and saturated fractions (at the detector's 2^bits−1 when recorded), histogram; RGB images also per component. per=plane adds every plane; per=well or field gives rows per well of a screening plate. mip='z' measures the maximum-intensity projection; whole slides: a coarser level and/or a region. Measurements on one plane: line (intensity profile, FWHM), polygon (statistics inside), objects (count nuclei, cells or spots; preview marks=objects shows them), lanes (gel and blot lanes, band volumes and sizes; preview marks=lanes)."
     )]
     pub(crate) async fn stats(
         &self,
@@ -148,9 +152,9 @@ pub(crate) fn check_measure_args(
             set.join(", ")
         )));
     }
-    if m.region.is_some() && m.objects.is_none() {
+    if m.region.is_some() && m.objects.is_none() && m.lanes.is_none() {
         return Err(Error::Usage(
-            "region bounds an objects count; a line or polygon is given in full-plane pixels of level, so drop region".into(),
+            "region bounds an objects count or lanes; a line or polygon is given in full-plane pixels of level, so drop region".into(),
         ));
     }
     if line_width && m.line.is_none() {
@@ -186,6 +190,7 @@ fn stats_blocking(
         line_width: a.line_width,
         polygon: a.polygon.clone(),
         objects: a.objects.clone(),
+        lanes: a.lanes.clone(),
     };
     let ignored = [
         ("mip", a.mip.is_some()),

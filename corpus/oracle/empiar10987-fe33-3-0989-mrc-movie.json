@@ -1,0 +1,77 @@
+{
+ "id": "empiar10987-fe33-3-0989-mrc-movie",
+ "file": "empiar10987-FE33_3_0989_9.0_Dec09_22.12.09.mrc",
+ "size": 117850624,
+ "sha256": "b801d734887b109c2b21c34d1a263a7b8f9ab46058a4cc8c3cca2bb8f0bf65d1",
+ "max_planes_hashed": 64,
+ "reader": "mrcfile 1.5.4",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 4092,
+   "size_y": 5760,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 5,
+   "pixel_type": "uint8",
+   "layout": "image-stack",
+   "physical_size_um": {
+    "x": 0.00016399999713618033,
+    "y": 0.00016399998982747396,
+    "z": null
+   },
+   "mrcfile_voxel_size_angstrom": [
+    1.6399999856948853,
+    1.6399998664855957,
+    1.6399999856948853
+   ],
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a6890a36136a8cf05df9b3c1ab03db07"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "9b738b9c312dec59bd5a08edfa048e63"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "f86d16798dd46cb1e35145351319e063"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "ee7e8064dd96490201b1dfacc0b97e9c"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "f2613fdd54e58fddbe4a6960a9d01157"
+    }
+   ]
+  }
+ ],
+ "header": {
+  "mode": 0,
+  "ispg": 0,
+  "nsymbt": 0,
+  "exttyp": "    ",
+  "nversion": 0,
+  "mapcrs": [
+   1,
+   2,
+   3
+  ],
+  "imod_stamp": true,
+  "imod_flags": 12
+ },
+ "fei_first_block": null
+}

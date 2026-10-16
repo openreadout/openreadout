@@ -372,7 +372,7 @@ fn channel_for(label: &str, reads: &[Read]) -> Channel {
                 c.settings.extend(s.settings.clone());
             }
         }
-        Mode::Unknown => {}
+        Mode::Unknown | Mode::Imaging => {}
     }
     c
 }

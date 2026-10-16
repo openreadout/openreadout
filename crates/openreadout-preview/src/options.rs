@@ -39,6 +39,18 @@ pub struct PreviewOptions {
     pub select: Vec<String>,
     /// Maximum-intensity projection, over the selected range if any.
     pub mip: Option<Axis>,
+    /// Volumes: the plane to show. `axial`, `coronal`, `sagittal` (radiological orientation),
+    /// `orthogonal` (all three, crossing at the middle or the selected z), `xz`, `yz`, or
+    /// `native` (as stored). Default: medical images in their acquisition plane, others native.
+    /// With a view, `z` and `mip: z` count slices of that view.
+    pub view: Option<crate::View>,
+    /// Sum projection, over the selected range if any: a movie's frames added up (e.g. sum t,
+    /// select t=0-39).
+    pub sum: Option<Axis>,
+    /// Images: a power-spectrum (FFT) inset in the top-right corner: Thon rings of a cryo-EM
+    /// micrograph, the spots of a lattice.
+    #[serde(default)]
+    pub fft: bool,
     /// Blend all (or the selected) channels additively in their colours.
     #[serde(default)]
     pub composite: bool,
@@ -58,9 +70,14 @@ pub struct PreviewOptions {
     /// Image previews with axes scale-bar: a caption under the picture (what it shows, the
     /// stain, the sample).
     pub caption: Option<String>,
-    /// `auto` (default), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`) or `raw`.
+    /// `auto` (default; the file's display window when it has one, `log:90,99.95` on diffraction
+    /// images), `min-max`, `percentile:LO,HI` (e.g. `percentile:1,99`), `log` (`log:50,99.9`)
+    /// or `log:LO,HI`, `raw`, or a display window `window:CENTER,WIDTH` (`window:40,400`),
+    /// `window:file`, or a CT preset `window:soft-tissue`, `brain`, `subdural`, `stroke`, `bone`,
+    /// `lung`, `mediastinum`, `liver`.
     pub contrast: Option<String>,
-    /// Colour lookup. Default: gray for one channel, channel colours for composites.
+    /// Colour lookup. Default: gray for one channel (inverted on diffraction images), channel
+    /// colours for composites.
     pub lut: Option<Lut>,
     /// Trace preview: trace index (see openreadout_info traces[]).
     pub trace: Option<u32>,
@@ -69,6 +86,8 @@ pub struct PreviewOptions {
     /// Trace preview: channel indices (default: the first 8).
     #[serde(default)]
     pub channels: Vec<u32>,
+    /// Trace preview: only this window of the x axis, `[a, b]` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
+    pub x_range: Option<[f64; 2]>,
     /// Spectrum preview: run index.
     pub run: Option<u32>,
     /// Spectrum preview: zero-based spectrum index.
@@ -86,10 +105,12 @@ pub struct PreviewOptions {
     #[schemars(with = "Vec<String>")]
     pub columns: Vec<String>,
     /// Marks from the data. Default auto: the prominent peaks of spectra and chromatograms are
-    /// labelled.
+    /// labelled; diffraction images get resolution rings.
     pub marks: Option<Marks>,
     /// Images: how objects are found for `marks: objects` (as `openreadout_stats` objects).
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Gels and blots: how lanes are found for `marks: lanes` (as `openreadout_stats` lanes).
+    pub lanes: Option<openreadout_core::measure::LanesRequest>,
     /// Your own marks, drawn on top and reported back with their pixel positions. Coordinates
     /// as the picture shows them: full-resolution pixels on images (the ruler numbers), axis
     /// units on plots, wells on plates.
@@ -116,6 +137,9 @@ impl PreviewOptions {
             image: self.image,
             select: self.select.clone(),
             mip: self.mip,
+            view: self.view,
+            sum: self.sum,
+            fft: self.fft,
             composite: self.composite,
             level: self.level,
             region: self.region,
@@ -128,6 +152,7 @@ impl PreviewOptions {
             trace: self.trace,
             sweep: self.sweep,
             channels: self.channels.clone(),
+            x_range: self.x_range,
             run: self.run,
             spectrum: self.spectrum,
             scan: self.scan,
@@ -136,6 +161,7 @@ impl PreviewOptions {
             columns: self.columns.clone(),
             marks: self.marks.unwrap_or_default(),
             objects: self.objects.clone(),
+            lanes: self.lanes.clone(),
             annotations: self.annotations.clone(),
             dark: self.dark,
             title: self.title.clone(),

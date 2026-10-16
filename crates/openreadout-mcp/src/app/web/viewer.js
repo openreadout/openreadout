@@ -808,6 +808,13 @@ function main() {
       const img = await decode(im).catch(() => null);
       if (!img) { overlay("Could not decode the picture.", true); return; }
       await showImage(d, img);
+    } else if (d.view === "summary" && im) {
+      // a samples export (NanoDrop, Qubit): the server's picture of it
+      const img = await decode(im).catch(() => null);
+      S.img = null;
+      S.picture = img ? { img } : null;
+      overlay(null);
+      invalidate();
     } else {
       S.img = null;
       S.picture = null;
@@ -1238,7 +1245,7 @@ function main() {
       const im = d.image;
       const info = imageInfo();
       if ((o.images || []).length > 1) {
-        add(select("Image", o.images.map((x) => [x.index, `${x.index}${x.name ? " · " + x.name : ""}`]), im.image, (v) => { S.img = null; S.ann = null; load({ image: Number(v), c: undefined, z: undefined, t: undefined, composite: undefined }); }));
+        add(select("Image", o.images.map((x) => [x.index, `${x.index}${x.name ? " · " + x.name : ""}`]), im.image, (v) => { S.img = null; S.ann = null; load({ image: Number(v), c: undefined, z: undefined, t: undefined, composite: undefined, plane: undefined }); }));
       }
       const nc = info.size_c || im.channels.length || 1;
       if (nc > 1 && !im.rgb) {
@@ -1251,14 +1258,31 @@ function main() {
         add(select("Channel", opts, im.composite ? "all" : im.c[0], (v) =>
           v === "all" ? reloadPlane({ composite: true, channels: undefined, c: undefined }) : reloadPlane({ composite: undefined, c: Number(v) })));
       }
-      if ((info.size_z || 1) > 1) {
-        if (!im.projection) add(slider("Z", info.size_z - 1, im.z[0] || 0, (v) => reloadPlane({ z: v })));
-        const mip = el("input", { type: "checkbox", checked: !!im.projection, on: { change: () => reloadPlane({ mip: mip.checked || undefined }) } });
+      const views = (info.size_z || 1) > 1 && !im.rgb && (info.levels || []).length <= 1;
+      if (views) {
+        const named = info.plane ? [["axial", "Axial"], ["coronal", "Coronal"], ["sagittal", "Sagittal"]] : [["xz", "XZ"], ["yz", "YZ"]];
+        add(select("View", [["native", "As stored"], ...named, ["orthogonal", "Orthogonal"]], im.view || "native",
+          (v) => { S.img = null; load({ plane: v, z: undefined, mip: undefined, region: undefined }); }));
+      }
+      const slices = sliceCount();
+      if (slices > 1 && im.view !== "orthogonal") {
+        if (im.projection !== "max-z") add(slider(im.view && im.view !== "native" ? "Slice" : "Z", slices - 1, im.z[0] || 0, (v) => reloadPlane({ z: v })));
+        const mip = el("input", { type: "checkbox", checked: im.projection === "max-z", on: { change: () => reloadPlane({ mip: mip.checked || undefined }) } });
         add(el("label", {}, mip, "Max projection"));
       }
-      if ((info.size_t || 1) > 1) add(slider("T", info.size_t - 1, im.t[0] || 0, (v) => reloadPlane({ t: v })));
-      add(select("Contrast", [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["raw", "Full range"]],
-        S.args.contrast || "auto", (v) => reloadPlane({ contrast: v === "auto" ? undefined : v })));
+      if ((info.size_t || 1) > 1) {
+        const summed = im.projection === "sum-t";
+        if (!summed) add(slider("T", info.size_t - 1, im.t[0] || 0, (v) => reloadPlane({ t: v })));
+        const sum = el("input", { type: "checkbox", checked: summed, on: { change: () => reloadPlane(sum.checked ? { sum_t: true, t: undefined } : { sum_t: undefined, t: 0 }) } });
+        add(el("label", {}, sum, "Sum frames"));
+      }
+      const contrasts = [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["log", "Log"], ["raw", "Full range"]];
+      (info.windows || []).forEach((w, i) => contrasts.push([`window:file:${i}`, w.name ? `Window: ${w.name}` : `Window ${w.center}/${w.width}`]));
+      if (info.value_unit === "HU") {
+        [["soft-tissue", "Soft tissue"], ["brain", "Brain"], ["bone", "Bone"], ["lung", "Lung"], ["liver", "Liver"], ["subdural", "Subdural"]]
+          .forEach(([k, t]) => contrasts.push([`window:${k}`, `CT ${t}`]));
+      }
+      add(select("Contrast", contrasts, S.args.contrast || "auto", (v) => reloadPlane({ contrast: v === "auto" ? undefined : v })));
       add(el("span", { className: "group" },
         button("−", () => zoomBy(1 / 2), false, "Zoom out (−)"),
         button("+", () => zoomBy(2), false, "Zoom in (+)"),
@@ -1281,8 +1305,11 @@ function main() {
         t.channels.forEach((ch, c) => {
           const on = shown.includes(c);
           const name = ch.name || `ch ${c}`;
+          // a series with its own colour (a dye, a base) keeps it on the chip
+          const own = p.series.find((s) => s.channel === c && s.palette != null);
+          const swatch = own ? seriesColor(own.palette) : seriesColor(shown.indexOf(c) >= 0 ? shown.indexOf(c) : c);
           const chip = el("button", { type: "button", className: "chip", title: name },
-            el("span", { className: "swatch", style: `background:${seriesColor(shown.indexOf(c) >= 0 ? shown.indexOf(c) : c)}` }), legendLabel(name, 24));
+            el("span", { className: "swatch", style: `background:${swatch}` }), legendLabel(name, 24));
           chip.setAttribute("aria-pressed", String(on));
           chip.addEventListener("click", () => {
             const next = on ? shown.filter((x) => x !== c) : shown.concat([c]).sort((a, b) => a - b);
@@ -1498,7 +1525,7 @@ function main() {
     S.layout = null;
     g = bctx;
     if (!d) return;
-    if (d.view === "image" || d.view === "static") drawImageView();
+    if (d.view === "image" || d.view === "static" || (d.view === "summary" && S.picture)) drawImageView();
     else if (d.view === "figure") drawFigure();
     else if (d.plot) drawPlot();
     else if (d.plate) drawPlate();
@@ -1612,10 +1639,27 @@ function main() {
 
   // ---------- images: deep zoom with the agent's annotations
 
+  /** Slices of the plane shown: the view's when one is shown, else the image's z planes. */
+  function sliceCount() {
+    const im = (S.data || {}).image || {};
+    return im.view_slices || imageInfo().size_z || 1;
+  }
+
   function imageInfo() {
     const d = S.data || {};
     const idx = d.image ? d.image.image : S.args.image || 0;
     return ((S.outline || {}).images || []).find((x) => x.index === idx) || {};
+  }
+
+  /** Diffraction images: the resolution (Å) at full-resolution pixel (x, y), from the
+   * geometry in `extra.diffraction` (flat detector normal to the beam), or null. */
+  function resolutionAt(x, y) {
+    const g = imageInfo().diffraction;
+    if (!g || !g.wavelength_a || !g.distance_mm || !g.beam_center_px || !g.pixel_size_mm || g.two_theta_deg) return null;
+    const r = Math.hypot(x - g.beam_center_px[0], y - g.beam_center_px[1]) * g.pixel_size_mm[0];
+    if (!(r > 0)) return null;
+    const s = Math.sin(Math.atan(r / g.distance_mm) / 2);
+    return s > 0 ? g.wavelength_a / (2 * s) : null;
   }
 
   function physical() {
@@ -1631,7 +1675,7 @@ function main() {
 
   function planeKey(args, im) {
     const a = args || {};
-    return JSON.stringify([im ? im.image : a.image || 0, im ? im.c : a.c, im ? im.z : a.z, im ? im.t : a.t, !!(im ? im.composite : a.composite), a.channels || null, !!(im ? im.projection : a.mip), a.contrast || "auto"]);
+    return JSON.stringify([im ? im.image : a.image || 0, im ? im.c : a.c, im ? im.z : a.z, im ? im.t : a.t, !!(im ? im.composite : a.composite), a.channels || null, (im ? im.projection : a.mip ? "max-z" : a.sum_t ? "sum-t" : null), a.contrast || "auto"]);
   }
 
   function fullRect() {
@@ -1908,7 +1952,7 @@ function main() {
   }
 
   function drawImageView() {
-    if (S.data.view === "static") return drawStatic();
+    if (S.data.view !== "image") return drawStatic();
     const I = S.img;
     if (!I) return;
     const fill = root.classList.contains("fill");
@@ -2253,6 +2297,7 @@ function main() {
       else x = xs && xs.length === n ? xs : (xs = plotXs(p, n || n0));
       let color, group = null;
       if (p.voltammogram) color = alpha(colors().ink, series.length > 1 ? 0.3 + 0.7 * i / (series.length - 1) : 1); // cycles: first faint, last ink
+      else if (s.palette != null) color = seriesColor(s.palette); // a base or dye's colour (electrophoresis)
       else if (groups) { group = groups.names[i]; color = seriesColor(groups.distinct.indexOf(group)); }
       else if (series.length > 8) color = colors().ink;
       else color = seriesColor(i);
@@ -3584,6 +3629,11 @@ function main() {
       if (hitAnn && hitAnn.a.label) s = `${hitAnn.a.label}\n` + s;
       const rows = [{ key: "x", value: fmtInt(p.x), unit: "px" }, { key: "y", value: fmtInt(p.y), unit: "px" }];
       if (ps) rows.push({ key: "position", value: `${fmtLength(p.x * ps.x)}, ${fmtLength(p.y * ps.y)}` });
+      const res = resolutionAt(p.x, p.y);
+      if (res) {
+        s += `\nresolution ${fmt(res, 3)} Å`;
+        rows.push({ key: "resolution", value: fmt(res, 3), unit: "Å" });
+      }
       S.hover.tip = { head: hitAnn && hitAnn.a.label ? { value: legendLabel(hitAnn.a.label, 40) } : null, rows };
       return s;
     }
@@ -3939,9 +3989,8 @@ function main() {
     if (!step) return;
     e.preventDefault();
     if (d.view === "image" && d.image && !d.image.projection) {
-      const info = imageInfo();
       const z = (d.image.z[0] || 0) + step;
-      if (z >= 0 && z < (info.size_z || 1)) reloadPlane({ z });
+      if (z >= 0 && z < sliceCount()) reloadPlane({ z });
     } else if (d.plot && d.plot.kind === "trace") {
       const s = d.plot.sweep + step;
       if (s >= 0 && s < d.plot.sweep_count) load({ sweep: s }, { keepZoom: true });

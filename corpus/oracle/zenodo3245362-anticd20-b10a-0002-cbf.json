@@ -1,0 +1,50 @@
+{
+ "id": "zenodo3245362-anticd20-b10a-0002-cbf",
+ "file": "zenodo3245362-B10a_1_0002.cbf",
+ "size": 6235271,
+ "sha256": "c018584836d5a2127a2a062beba6e9f35f56b37d440000fe9dd7f5de133773eb",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0",
+ "kind": "cbf",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2463,
+   "size_y": 2527,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a06dcef00d06de6e2fd2e41900d81b6f"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 1.23985,
+    "distance_mm": 1010.5,
+    "beam_center_px": [
+     1311.22,
+     1213.35
+    ],
+    "pixel_size_mm": [
+     0.17200000000000001,
+     0.17200000000000001
+    ],
+    "oscillation_start_deg": 45.0,
+    "oscillation_width_deg": 0.15,
+    "exposure_s": 3.9975,
+    "overload": 1108070.0
+   }
+  }
+ ],
+ "counts": {
+  "min": -2,
+  "max": 2018,
+  "negative": 528032
+ }
+}

@@ -1,0 +1,113 @@
+{
+ "id": "openslide-dicom-cmu-1-jp2k-33005-v2-slide",
+ "file": "openslide-dicom-cmu-1-jp2k-33005-v2",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 46000,
+   "size_y": 32893,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "planes": [],
+   "physical_size_um": {
+    "x": 0.499,
+    "y": 0.499
+   },
+   "levels": [
+    {
+     "level": 1,
+     "size_x": 11500,
+     "size_y": 8223,
+     "planes": []
+    },
+    {
+     "level": 2,
+     "size_x": 2875,
+     "size_y": 2055,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "3bfedc1d3560b03894072162a2209394",
+       "mean": 226.41400952078706
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "size_x": 1024,
+   "size_y": 732,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 22.416015625,
+    "y": 22.416015625
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e5556cba51f664ea062d54275bcd803c",
+     "mean": 226.37082337204006
+    }
+   ],
+   "samples_per_pixel": 3
+  },
+  {
+   "index": 2,
+   "size_x": 387,
+   "size_y": 463,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "901ee26e7cf5cbbd5b8b42eee4f58459",
+     "mean": 102.48635737048014
+    }
+   ],
+   "samples_per_pixel": 3
+  },
+  {
+   "index": 3,
+   "size_x": 1280,
+   "size_y": 431,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 58.932714617169,
+    "y": 58.932714617169
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "9539e042d5de0877c8292fc699986218",
+     "mean": 179.04948520881672
+    }
+   ],
+   "samples_per_pixel": 3
+  }
+ ]
+}

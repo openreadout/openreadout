@@ -11,6 +11,8 @@ extend-exclude = [
   "corpus/manifest.toml",  # corpus catalogue: depositors' file names, titles and attributions, verbatim
   "fuzz/corpus/**",        # fuzz seeds: bytes of corpus files
   "**/tests/fixtures/**",  # test input files
+  "web/samples/*.*",       # the demo page's sample files, instrument data from the corpus
+  "!web/samples/NOTICE.txt",
   "oracle/schema/*.xsd",   # third-party OME schema, kept verbatim
   "*.lock",
   "book/book",             # website build output
@@ -37,9 +39,11 @@ extend-ignore-re = [
 [default.extend-words]
 universite = "universite"  # "Universite catholique de Louvain", OpenJPEG copyright holder in the libisyntax license notice
 # Format and standard names
+ned = "ned"    # NED, an Applied Biosystems fluorescent dye (fragment analysis, ABIF files)
 nd = "nd"      # Nikon ND2 (`nd2`, `Nd2Reader`) and the NIS-Elements `.nd` sequence format
 ome = "ome"    # Open Microscopy Environment (OME-TIFF, OME-XML, OME-Zarr)
 pn = "pn"      # FCS parameter keywords `$PnN`, `$PnS`, `$PnR`, ... (FCS 3.1 standard)
+ot = "ot"      # DICOM modality code OT ("other")
 ser = "ser"    # FEI/TIA `.ser` electron-microscopy files; Bruker NMR `ser` data files
 varian = "varian"  # Varian (now Agilent) NMR spectrometer data
 gti = "gti"    # `GTI$...` FCS vendor keyword namespace (Guava Technologies cytometers)

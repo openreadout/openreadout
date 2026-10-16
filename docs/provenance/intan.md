@@ -20,7 +20,7 @@ Intan Technologies publishes its data file formats as application notes. Header 
 
 **Differences from Neo, on purpose:** we report the time of the first sample (first time index / rate) as `start_s` (Neo starts at 0); temperature is °C = v / 100 as the PDF says (Neo uses 0.001).
 
-**2026-09-22, stimulation sign (corpus: `intan-rhs-stim-intantestfile.rhs`, `intan-rhs-fpc-multistim-240514-082243.rhs`):** the first oracle comparison differed only in the hash of the stimulation-current channels. The values matched, but a zero-magnitude word with the sign bit set decoded to −0.0 A (we negated the float), while Neo produces +0.0 (it negates the integer magnitude). The hashes cover the f64 bytes, so they differed. We now negate the integer step count before scaling. Stimulation words decode to +0.0 when the magnitude is zero, whatever the sign bit, and every sweep × channel hash matches.
+**2026-09-22, stimulation sign (corpus: `intan-rhs-stim-intantestfile.rhs`, `intan-rhs-fpc-multistim-240514-082243.rhs`):** the first oracle comparison differed only in the hash of the stimulation-current channels. The values matched, but a zero-magnitude word with the sign bit set decoded to −0.0 A (we negated the float), while Neo produces +0.0 (it negates the integer magnitude). The hashes cover the f64 bytes, so they differed. We now negate the integer step count before scaling. A stimulation word with zero magnitude now decodes to +0.0 even when its sign bit is set, and every sweep × channel hash matches.
 
 ## 2026-09-23 — "one file per signal type" and "one file per channel" layouts (Richard Zimring with Claude as assistant)
 

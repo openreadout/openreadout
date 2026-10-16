@@ -1,0 +1,44 @@
+{
+ "id": "zenodo1321880-mordenite-cred-00005-smv",
+ "file": "zenodo1321880-mordenite_cRED_2-00005.img",
+ "size": 533024,
+ "sha256": "b6ed4a87dd207b24450540d7ca5d03b40e85d031e1da87a6089f1e4a07cb6e91",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0 (DtrekImage)",
+ "kind": "smv",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 516,
+   "size_y": 516,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "39eaff113053e90a2aa02c76c5573974"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 0.0251,
+    "distance_mm": 439.4754,
+    "oscillation_width_deg": 0.2336,
+    "exposure_s": 0.5,
+    "oscillation_start_deg": -42.9656,
+    "pixel_size_mm": [
+     0.055,
+     0.055
+    ],
+    "beam_center_px": [
+     256.36,
+     249.04
+    ]
+   }
+  }
+ ]
+}

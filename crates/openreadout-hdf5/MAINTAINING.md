@@ -1,31 +1,34 @@
 # Maintaining `openreadout-hdf5`
 
-HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (`ims`, `ims.rs`), Neurodata Without Borders 2.x (`nwb`, `nwb.rs`, `nwb_tables.rs`; also the NWB writer `nwb_write.rs` behind `export --format nwb`) and a generic HDF5 fallback (`hdf5`, `generic.rs`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: [docs/formats/ims.md](../../docs/formats/ims.md), [docs/formats/hdf5.md](../../docs/formats/hdf5.md); provenance: [docs/provenance/ims.md](../../docs/provenance/ims.md), [docs/provenance/hdf5.md](../../docs/provenance/hdf5.md).
+HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (`ims`, `ims.rs`), Neurodata Without Borders 2.x (`nwb`, `nwb.rs`, `nwb_tables.rs`; also the NWB writer `nwb_write.rs` behind `export --format nwb`), NeXus NXmx diffraction data (`nxmx`, `nxmx.rs`: EIGER master and data files) and a generic HDF5 fallback (`hdf5`, `generic.rs`). Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Notes: [docs/formats/ims.md](../../docs/formats/ims.md), [docs/formats/hdf5.md](../../docs/formats/hdf5.md), [docs/formats/nxmx.md](../../docs/formats/nxmx.md); provenance: [docs/provenance/nxmx.md](../../docs/provenance/nxmx.md), [docs/provenance/ims.md](../../docs/provenance/ims.md), [docs/provenance/hdf5.md](../../docs/provenance/hdf5.md).
 
 ## Decode pipeline
 
 1. **Detect** (`h5util.rs` `looks_like_hdf5`; registry order matters): Imaris and NWB claim their files definitely (Imaris by the `ImarisDataSet` marker in its first bytes; NWB by `NWBFile` in the root attributes); `Hdf5Reader` is registered after EMD, Imaris and NWB and takes any other HDF5 file.
-2. **HDF5 access** (`h5util.rs`): `open_h5` over a byte source (`H5Source`), attribute text and JSON, a bounded tree walk (`walk_limit`), and a plane reader for 3-D (z, y, x) datasets (`PlaneDataset`) that decodes chunks itself — so the LZ4 filter 32004 Imaris writes works and one z plane touches only its chunks (`chunk_shape`, `read_plane`, `read_plane_region`, `unfilter`, `unshuffle`). **Chunk filters branch here** (`filter_names`: deflate, shuffle, fletcher32, LZ4; others exit 6).
+2. **HDF5 access** (`h5util.rs`): `open_h5` over a byte source (`H5Source`), attribute text and JSON, a bounded tree walk (`walk_limit`), and a plane reader for 3-D (z, y, x) datasets (`PlaneDataset`) that decodes chunks itself — so the LZ4 filter 32004 Imaris writes works and one z plane touches only its chunks (`chunk_shape`, `read_plane`, `read_plane_region`, `unfilter`, `unshuffle`). **Chunk filters branch here** (`filter_names`: deflate, shuffle, fletcher32, LZ4, bitshuffle 32008 with or without LZ4; others exit 6).
 3. **Imaris** (`ims.rs`): `DataSet/ResolutionLevel N/TimePoint T/Channel C/Data` volumes (pyramid levels), `DataSetInfo` metadata (image size, extents in µm, channel colours and names, times; `ims_color`, `ims_datetime`, `unit_um`). **Imaris versions branch** on the file's version attribute and how `DataSetInfo` stores sizes.
 4. **NWB** (`nwb.rs`, `nwb_tables.rs`): session fields; `TimeSeries`, `ElectricalSeries`, `SpatialSeries` under `acquisition/` and `processing/` as traces (time base from `starting_time` + `rate` or `timestamps`; irregular series get a `time` channel; electrode metadata per channel); every `DynamicTable`, units' spike times and `SpikeEventSeries` as numeric tables (text columns as category codes, ragged columns as counts).
-5. **Generic** (`generic.rs`): structure only: groups, datasets (shape, type), attributes.
+5. **NXmx** (`nxmx.rs`): detection by name (`*_master.h5` definite; `.nxs` and data files after a look inside or at the siblings); the external links `/entry/data/data_NNNNNN` read from the master's bytes (`external_data_links`, because `hdf5-pure` does not resolve external links); each data file's 3-D dataset through `PlaneDataset`; the geometry into `extra.diffraction` (`openreadout_core::diffraction`). **Masters branch** between the DECTRIS file writer (`detectorSpecific`, `goniometer`) and beamline NXmx (`transformations`); a master alone opens with sizes from `detectorSpecific`.
+6. **Generic** (`generic.rs`): structure only: groups, datasets (shape, type), attributes.
 
 ## Invariants and checks
 
 - Imaris: HDF5 parses; `DataSet/ResolutionLevel/TimePoint/Channel` groups numbered without gaps; every level × time × channel has a `Data` dataset of the image's sample type at least as large as the level's size; the last plane of every level-0 volume and the first of every other level decode.
 - NWB: root is an `NWBFile` with the required session fields; every series has rank-1/2 numeric data, a time base and a readable last sample; electrode rows inside the electrodes table; `channel_conversion` has one factor per channel; every table's last row reads; ragged indices are non-decreasing offsets inside their data.
+- NXmx: an NXmx entry; every linked data file present, of one image size and type, numbered in order (`image_nr_low/high`); the first and last image of each decode; the geometry fields present.
 - Generic: the superblock and object tree parse; the file is at least as long as the superblock's end-of-file address.
 
 ## Debugging a new file
 
 - `openreadout info FILE --view structure` lists the HDF5 tree (groups, datasets with shape/type/filters, attributes) for all three readers — the first command for any HDF5 variant.
 - `tests/fixtures.rs` reads the committed `.ims`/NWB/HDF5 fixtures against their oracle JSON; `tests/nwb_export.rs` round-trips the NWB writer (also checked by `oracle/nwb_validate.py` with pynwb).
-- Oracles: h5py-based readers in `oracle/gen.py` (`ims`, `nwb`).
+- Oracles: h5py-based readers in `oracle/gen.py` (`ims`, `nwb`) and `oracle/diffraction.py` (`nxmx`, with hdf5plugin for bitshuffle).
 
 ## Fragile spots
 
 - `hdf5-pure` is a young dependency: a new HDF5 feature (a message type, a newer superblock or B-tree version) shows as a parse error in every reader of this crate at once.
 - Imaris: only the first data set is read when a file declares several; Scene/Scene8 objects are listed, not decoded; Imaris 3 files are TIFF.
+- NXmx: the external-link scan reads link messages from raw bytes; a writer that stores the link value differently (a dense link heap that compresses, an absolute path) needs a look at `external_data_links`. Virtual datasets are not read. Per-module detector geometry is not applied.
 - NWB: PatchClampSeries, ImageSeries and optical-physiology series are listed, not decoded; NWB 1.x and the Zarr backend are not read.
 
 <!-- BEGIN GENERATED guide -->
@@ -39,6 +42,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | --- | --- | --- | --- | --- | --- | --- |
 | `ims` | [format note](../../docs/formats/ims.md), [provenance log](../../docs/provenance/ims.md) | high | vendor docs | 26 / 26 | 21 | 1 / 0 |
 | `nwb` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | high | open spec | 22 / 21 | 19 | 1 / 0 |
+| `nxmx` | [format note](../../docs/formats/nxmx.md), [provenance log](../../docs/provenance/nxmx.md) | medium | open spec | 3 / 3 | 2 | - |
 | `hdf5` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | medium | open spec | 4 / 4 | 4 | - |
 
 ### Source map
@@ -50,10 +54,11 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | [`src/h5util.rs`](src/h5util.rs) | Shared HDF5 helpers on top of `hdf5-pure`: detection, attribute text, a tree walk, and a plane reader for 3-D (z, y, x) datasets that decodes chunks itself so that filters |
 | [`src/ims.rs`](src/ims.rs) | Imaris `.ims` (HDF5): `DataSet/ResolutionLevel N/TimePoint T/Channel C/Data` volumes, `DataSetInfo` metadata |
 | [`src/ims_scene.rs`](src/ims_scene.rs) | Imaris scene objects (`Scene8/Content/<Object>`): the statistics Imaris computed for filaments, spots, surfaces and cells, pivoted into one table per object category, and the |
-| [`src/lib.rs`](src/lib.rs) | HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (pyramids, LZ4/deflate chunks), NWB 2.x (session fields, plain `TimeSeries` as traces) and a |
+| [`src/lib.rs`](src/lib.rs) | HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes (pyramids, LZ4/deflate chunks), NWB 2.x (session fields, plain `TimeSeries` as traces), |
 | [`src/nwb.rs`](src/nwb.rs) | Neurodata Without Borders (NWB 2.x, HDF5): session fields; `TimeSeries`, `ElectricalSeries` and `SpatialSeries` under `acquisition/` and `processing/`, and the intracellular |
 | [`src/nwb_tables.rs`](src/nwb_tables.rs) | NWB tables: every `DynamicTable` (electrodes, units, trials, …), the spike times of a units table, and `SpikeEventSeries`, as numeric tables |
 | [`src/nwb_write.rs`](src/nwb_write.rs) | NWB 2.x writer (`export --format nwb`): the traces of an electrophysiology file (ABF sweeps, Neuralynx, Blackrock, SpikeGLX, Intan, ...) as plain `TimeSeries` under… |
+| [`src/nxmx.rs`](src/nxmx.rs) | NeXus NXmx diffraction data (DECTRIS EIGER and JUNGFRAU master files, beamline `.nxs` files): the experiment in `/entry` (beam, detector, goniometer) and the images in data |
 
 ### Where variants branch
 
@@ -61,6 +66,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature codec `"hdf5 unfiltered"`
 - feature codec `name`
+- feature codec `format!("hdf5 {name}")`
+- feature layout `format!("data at {obj}")`
 - feature layout `"resolution_levels"`
 - feature record `format!("scene statistics: {object}")`
 - feature record `format!("scene records: {object}")`
@@ -152,14 +159,19 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `nwb` | record | `VectorData` | tables | 7 | 7 | `dandi000006-anm372907-20170613`, `dandi000034-mouse412804-155542`, `dandi000221-hi198-060619` |
 | `nwb` | record | `VoltageClampSeries` | traces | 0 | 1 |  |
 | `nwb` | record | `VoltageClampStimulusSeries` | traces | 0 | 1 |  |
+| `nxmx` | codec | `hdf5 bitshuffle` | pixels | 2 | 2 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs` |
+| `nxmx` | format_version | `NXmx` | metadata, pixels | 3 | 3 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo4327001-wtb2-1-master` |
+| `nxmx` | instrument | `Eiger 16M` | descriptive | 3 | 3 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo4327001-wtb2-1-master` |
+| `nxmx` | layout | `data at /data` | pixels | 2 | 2 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs` |
+| `nxmx` | sample_layout | `uint16` | pixels | 2 | 3 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/nwb_export.rs`](tests/nwb_export.rs)
 - committed fixtures: 11 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_hdf5`, `whole_ims`, `whole_nwb`
-- corpus inputs by tier: heldout 8, smoke 17, standard 35
-- golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl), [`corpus/snapshots/hdf5.jsonl`](../../corpus/snapshots/hdf5.jsonl)
+- fuzz targets (`fuzz/fuzz_targets/`): `nxmx_links`, `whole_hdf5`, `whole_ims`, `whole_nwb`
+- corpus inputs by tier: heldout 8, smoke 19, standard 36
+- golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl), [`corpus/snapshots/nxmx.jsonl`](../../corpus/snapshots/nxmx.jsonl), [`corpus/snapshots/hdf5.jsonl`](../../corpus/snapshots/hdf5.jsonl)
 
 ### Open new-variant intakes
 

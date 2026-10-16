@@ -104,6 +104,19 @@ fn preview_annotations_dark_and_svg() {
 }
 
 #[wasm_bindgen_test]
+fn preview_scale_draws_more_pixels_at_the_same_layout() {
+    let mut f = InstrumentFile::from_bytes("mini.nd2", ND2.to_vec());
+    let one = data(&f.preview(Some(r#"{"max_size": 100, "axes": "rulers"}"#.into())));
+    let two = data(&f.preview(Some(
+        r#"{"max_size": 100, "axes": "rulers", "scale": 2}"#.into(),
+    )));
+    assert_eq!(two["width"], one["width"].as_u64().unwrap() * 2);
+    assert_eq!(two["image"]["plot_area"], one["image"]["plot_area"]);
+    let bad = parse(&f.preview(Some(r#"{"scale": 9}"#.into())));
+    assert_eq!(bad["error"]["exit_code"], 2);
+}
+
+#[wasm_bindgen_test]
 fn traces_from_bytes() {
     let mut f = InstrumentFile::from_bytes("synthetic-timeseries.nwb", NWB.to_vec());
     let info = data(&f.info(None, None));

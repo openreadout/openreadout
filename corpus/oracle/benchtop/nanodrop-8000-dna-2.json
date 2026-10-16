@@ -1,0 +1,787 @@
+{
+ "id": "nanodrop-8000-dna-2",
+ "readers": {
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_NANODROP_8000"
+ },
+ "format": "nanodrop",
+ "measurements": [
+  {
+   "id": "1ea9ed5c-bae6-492e-a771-65f6e3e94609",
+   "sample": "alpha",
+   "location": "A1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     10.854,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     542.7,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     0.016,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     10.854,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "1744d20e-1724-4696-b8cd-deed52406a37",
+   "sample": "alpha",
+   "location": "A1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.978,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     10.854,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "4b04a1e5-7968-4afd-a353-564ad6698ba5",
+   "sample": "bravo",
+   "location": "B1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     11.625,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     581.2,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     0.006,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     11.625,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "abc135e7-1c52-40fa-a336-a2932d801568",
+   "sample": "bravo",
+   "location": "B1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.413,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     11.625,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "9229b5f5-3368-4a65-93fd-81ec71ac3a92",
+   "sample": "charlie",
+   "location": "C1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.233,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     311.6,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     -0.023,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     6.233,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "864262dd-4aa5-4f89-bb9d-c4bc424ab786",
+   "sample": "charlie",
+   "location": "C1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.376,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     6.233,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "c6df4343-b125-4f0c-8393-fac9e7217255",
+   "sample": "delta",
+   "location": "D1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     9.693,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     484.6,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     0.012,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.693,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "95fa3560-17e9-4689-8d3b-165641582af2",
+   "sample": "delta",
+   "location": "D1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.315,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.693,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "c8d058e3-e8e2-42b9-88e6-51f8ad670e6a",
+   "sample": "echo",
+   "location": "E1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     9.28,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     464.0,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     0.007,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.28,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "56b34802-9fd3-44c5-983e-fc7ffa5e8274",
+   "sample": "echo",
+   "location": "E1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.049,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.28,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "b3256c5c-237f-40ac-a76e-2fb40430846e",
+   "sample": "foxtrot",
+   "location": "F1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.396,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     319.8,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     0.014,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     6.396,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "29bae7cb-59c0-4632-bb32-3a2efdca1b7b",
+   "sample": "foxtrot",
+   "location": "F1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.464,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     6.396,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "7be86c13-0927-4d20-b205-3054e45426c9",
+   "sample": "golf",
+   "location": "G1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     8.936,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     446.8,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     0.023,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     8.936,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "7f83f1b7-2700-4c95-969f-38721938a858",
+   "sample": "golf",
+   "location": "G1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     4.871,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     8.936,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "b9178a60-6818-4140-8023-73a073170a1c",
+   "sample": "hotel",
+   "location": "H1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     9.728,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     486.4,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     0.095,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.728,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "5194ae9a-55b6-48af-8013-377e72f3cd77",
+   "sample": "hotel",
+   "location": "H1",
+   "time": "2022-04-06T16:20:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.328,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.728,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "641a71c2-49c5-48ac-8e27-3c83bb3fdf21",
+   "sample": "india",
+   "location": "A2",
+   "time": "2022-04-06T16:22:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     9.97,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     498.5,
+     "ng/µL"
+    ],
+    [
+     "conc. factor",
+     50.0,
+     "ng/µL"
+    ],
+    [
+     "340 raw",
+     -0.032,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.97,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "f64c57f8-3c8f-42fd-93b0-71b59e5277b2",
+   "sample": "india",
+   "location": "A2",
+   "time": "2022-04-06T16:22:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.449,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     9.97,
+     "mAU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [
+  {
+   "name": "A260/280",
+   "value": 1.82,
+   "sources": [
+    "1ea9ed5c-bae6-492e-a771-65f6e3e94609",
+    "1744d20e-1724-4696-b8cd-deed52406a37"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.23,
+   "sources": [
+    "1ea9ed5c-bae6-492e-a771-65f6e3e94609"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.81,
+   "sources": [
+    "4b04a1e5-7968-4afd-a353-564ad6698ba5",
+    "abc135e7-1c52-40fa-a336-a2932d801568"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.24,
+   "sources": [
+    "4b04a1e5-7968-4afd-a353-564ad6698ba5"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "9229b5f5-3368-4a65-93fd-81ec71ac3a92",
+    "864262dd-4aa5-4f89-bb9d-c4bc424ab786"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.29,
+   "sources": [
+    "9229b5f5-3368-4a65-93fd-81ec71ac3a92"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.82,
+   "sources": [
+    "c6df4343-b125-4f0c-8393-fac9e7217255",
+    "95fa3560-17e9-4689-8d3b-165641582af2"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.25,
+   "sources": [
+    "c6df4343-b125-4f0c-8393-fac9e7217255"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.84,
+   "sources": [
+    "c8d058e3-e8e2-42b9-88e6-51f8ad670e6a",
+    "56b34802-9fd3-44c5-983e-fc7ffa5e8274"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.27,
+   "sources": [
+    "c8d058e3-e8e2-42b9-88e6-51f8ad670e6a"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "b3256c5c-237f-40ac-a76e-2fb40430846e",
+    "29bae7cb-59c0-4632-bb32-3a2efdca1b7b"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.25,
+   "sources": [
+    "b3256c5c-237f-40ac-a76e-2fb40430846e"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "7be86c13-0927-4d20-b205-3054e45426c9",
+    "7f83f1b7-2700-4c95-969f-38721938a858"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.23,
+   "sources": [
+    "7be86c13-0927-4d20-b205-3054e45426c9"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "b9178a60-6818-4140-8023-73a073170a1c",
+    "5194ae9a-55b6-48af-8013-377e72f3cd77"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.18,
+   "sources": [
+    "b9178a60-6818-4140-8023-73a073170a1c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "641a71c2-49c5-48ac-8e27-3c83bb3fdf21",
+    "f64c57f8-3c8f-42fd-93b0-71b59e5277b2"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 2.24,
+   "sources": [
+    "641a71c2-49c5-48ac-8e27-3c83bb3fdf21"
+   ]
+  }
+ ],
+ "model": "Nanodrop 8000",
+ "serial": null
+}

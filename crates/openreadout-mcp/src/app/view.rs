@@ -159,7 +159,14 @@ pub struct ViewArgs {
     /// Image: maximum-intensity projection over z.
     #[serde(default)]
     pub mip: bool,
-    /// Image: `auto`, `min-max`, `percentile:LO,HI` or `raw`.
+    /// Image volumes: `axial`, `coronal`, `sagittal`, `orthogonal`, `xz`, `yz` or `native`
+    /// (default: medical images in their acquisition plane). `z` then counts slices of it.
+    pub plane: Option<String>,
+    /// Image: add up the time points (a movie's dose image).
+    #[serde(default)]
+    pub sum_t: bool,
+    /// Image: `auto`, `min-max`, `percentile:LO,HI`, `log`, `raw` or `window:CENTER,WIDTH`
+    /// (`window:file`, `window:bone`, ...).
     pub contrast: Option<String>,
     /// Image: only this rectangle, in full-resolution pixels.
     pub region: Option<openreadout_core::Region>,
@@ -220,6 +227,8 @@ pub struct ViewArgs {
     pub population: Option<String>,
     /// Image: outline the objects counted as openreadout_stats objects counts them.
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Image: draw the lanes and bands of a gel or blot as openreadout_stats lanes finds them.
+    pub lanes: Option<openreadout_core::measure::LanesRequest>,
     /// Figure: the `openreadout_plot` arguments, as the agent sent them.
     pub spec: Option<Value>,
     /// Figure: draw in the dark theme.
@@ -327,6 +336,17 @@ pub fn call(
     let reg = registry();
     let (det, mut ds) = reg.open(Path::new(&path)).map_err(|e| err(&e))?;
     let info = ds.info().map_err(|e| err(&e))?;
+    // a sequencing run or read file: its overview is a figure (quality by cycle per lane, read
+    // lengths), drawn by the figure view from plot arguments made here
+    if a.view == ViewKind::Auto
+        && let Some(spec) = sequencing_figure(&path, &info)
+    {
+        drop(ds);
+        let mut b = a.clone();
+        b.view = ViewKind::Figure;
+        b.spec = Some(spec);
+        return figure(registry, &b);
+    }
     let kind = match a.view {
         ViewKind::Auto => auto_kind(&info),
         k => k,
@@ -351,6 +371,13 @@ pub fn call(
     let mut limits = Map::new();
     let mut picture: Option<(Vec<u8>, &'static str)> = None;
     let summary = match kind {
+        ViewKind::Summary if is_samples(&info) => {
+            picture = Some(samples_picture(ds.as_mut(), &info)?);
+            format!(
+                "{} samples ({}), as the preview draws them",
+                info.tables[0].row_count, info.format.name
+            )
+        }
         ViewKind::Auto | ViewKind::Summary | ViewKind::Figure => {
             format!("outline of {}", info.format.name)
         }
@@ -647,11 +674,102 @@ pub fn available(info: &FileInfo) -> Vec<ViewKind> {
     v
 }
 
+/// The plot arguments of a sequencing file's overview: an Illumina run's % ≥ Q30, mean quality
+/// and error rate by cycle with one line per lane; a FASTQ or BAM file's read lengths and read
+/// quality. `None` for other files (nanopore signal opens in the trace view: one sweep per read).
+pub fn sequencing_figure(path: &str, info: &FileInfo) -> Option<Value> {
+    if info.format.family != "sequencing" {
+        return None;
+    }
+    let kind = |t: &TableInfo| {
+        t.extra
+            .get("kind")
+            .and_then(Value::as_str)
+            .map(str::to_string)
+    };
+    if let Some(t) = info.traces.first()
+        && t.extra.get("kind").and_then(Value::as_str) == Some("run_quality_by_cycle")
+    {
+        let sweeps: Vec<u32> = (0..t.sweep_count.min(8)).collect();
+        let has = |c: &str| t.channels.iter().any(|ch| ch.name == c);
+        let mut panels = vec![json!({
+            "title": "% of base calls ≥ Q30 by cycle",
+            "data": {"file": path, "trace": 0, "sweep": sweeps, "y": "percent_q30"},
+        })];
+        if has("error_rate") {
+            panels.push(json!({
+                "title": "error rate by cycle (PhiX)",
+                "data": {"file": path, "trace": 0, "sweep": sweeps, "y": "error_rate"},
+            }));
+        }
+        panels.push(json!({
+            "title": "mean Q score by cycle",
+            "data": {"file": path, "trace": 0, "sweep": sweeps, "y": "mean_qscore"},
+        }));
+        return Some(json!({"panels": panels, "columns": 1, "share": "x"}));
+    }
+    if info
+        .tables
+        .first()
+        .and_then(kind)
+        .is_some_and(|k| k == "fastq_reads" || k == "bam_records")
+    {
+        return Some(json!({
+            "panels": [
+                {"title": "read lengths", "data": {"file": path, "show": "histogram", "x": "length"}},
+                {"title": "read quality", "data": {"file": path, "show": "histogram", "x": "mean_quality"}},
+            ],
+            "columns": 2,
+        }));
+    }
+    None
+}
+
+/// A table of sample measurements (NanoDrop, Qubit): `tables[0].extra.kind` is `samples`.
+fn is_samples(info: &FileInfo) -> bool {
+    info.tables
+        .first()
+        .is_some_and(|t| t.extra.get("kind").and_then(Value::as_str) == Some("samples"))
+}
+
+/// The preview of a samples table, for the summary view.
+fn samples_picture(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &FileInfo,
+) -> Result<(Vec<u8>, &'static str), McpError> {
+    use openreadout_preview as pv;
+    let mut req = pv::PreviewRequest::default();
+    req.max_size = DEFAULT_IMAGE_SIZE.clamp(64, MAX_IMAGE_SIZE);
+    let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
+    let (out, bytes) = pv::finish_within(
+        &r,
+        pv::Encoding::Png,
+        pv::DEFAULT_JPEG_QUALITY,
+        crate::resources::PREVIEW_BUDGET,
+    )
+    .map_err(|e| err(&e))?;
+    Ok((
+        bytes,
+        if out.encoding == "jpeg" {
+            "image/jpeg"
+        } else {
+            "image/png"
+        },
+    ))
+}
+
 /// The view for [`ViewKind::Auto`].
 pub fn auto_kind(info: &FileInfo) -> ViewKind {
     let views = available(info);
-    // qPCR runs: the amplification curves say more than a plate of one number.
-    if info.format.family == "qpcr" && views.contains(&ViewKind::Trace) {
+    // NanoDrop, Qubit: the samples picture (spectra beside concentrations and ratios) first.
+    if is_samples(info) {
+        return ViewKind::Summary;
+    }
+    // qPCR runs: the amplification curves say more than a plate of one number; so do the
+    // electropherograms of a chip or tape run.
+    if matches!(info.format.family.as_str(), "qpcr" | "electrophoresis")
+        && views.contains(&ViewKind::Trace)
+    {
         return ViewKind::Trace;
     }
     views.first().copied().unwrap_or(ViewKind::Summary)
@@ -688,6 +806,12 @@ fn outline(info: &FileInfo) -> Value {
                 "size_c": im.size_c, "size_t": im.size_t,
                 "pixel_type": im.pixel_type, "samples_per_pixel": im.samples_per_pixel,
                 "physical_size": im.physical_size, "levels": levels, "channels": channels,
+                // medical images: display windows, value unit and anatomical orientation, for
+                // the window presets and the view menu
+                "windows": im.extra.get("windows"),
+                "value_unit": im.extra.get("value_unit"),
+                "plane": im.extra.get("orientation").and_then(|o| o.get("plane")),
+                "diffraction": im.extra.get("diffraction"),
             })
         })
         .collect();
@@ -775,11 +899,25 @@ fn image(
     if let Some(z) = a.z.filter(|_| !a.mip) {
         select.push(format!("z={z}"));
     }
-    if let Some(t) = a.t {
+    // An electron-event movie's single frames are a few scattered counts: it opens summed.
+    let event_movie = info
+        .images
+        .iter()
+        .find(|im| im.index == a.image.unwrap_or(0))
+        .is_some_and(|im| im.extra.contains_key("eer"));
+    let sum_t = a.sum_t || (event_movie && a.t.is_none());
+    if let Some(t) = a.t.filter(|_| !sum_t) {
         select.push(format!("t={t}"));
     }
     req.select = select;
     req.mip = a.mip.then_some(pv::Axis::Z);
+    req.view = a
+        .plane
+        .as_deref()
+        .map(str::parse::<pv::View>)
+        .transpose()
+        .map_err(|e| err(&e))?;
+    req.sum = sum_t.then_some(pv::Axis::T);
     req.level = a.level;
     req.region = a.region;
     req.max_size = a
@@ -796,6 +934,10 @@ fn image(
     if let Some(o) = &a.objects {
         req.marks = pv::Marks::Objects;
         req.objects = Some(o.clone());
+    }
+    if let Some(l) = &a.lanes {
+        req.marks = pv::Marks::Lanes;
+        req.lanes = Some(l.clone());
     }
     let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
     let (out, bytes) = pv::finish_within(
@@ -927,7 +1069,12 @@ fn trace(
         .and_then(Value::as_u64)
         .and_then(|c| u32::try_from(c).ok());
     // Overlaid curves (qPCR wells, spectra of a series) are drawn in one panel, so many fit.
-    let overlay = t.extra.get("plot").and_then(Value::as_str) == Some("overlay");
+    // A Sanger trace's four bases are read together, in one panel.
+    let kind = t.extra.get("kind").and_then(Value::as_str);
+    let overlay = t.extra.get("plot").and_then(Value::as_str) == Some("overlay")
+        || kind == Some("sanger_trace");
+    // electrophoresis channels are coloured by their base or dye, as analysis software does
+    let electrophoresis = matches!(kind, Some("sanger_trace" | "electropherogram"));
     let max_channels = if overlay {
         MAX_OVERLAY_CHANNELS
     } else {
@@ -936,6 +1083,14 @@ fn trace(
     let channels: Vec<u32> = if a.channels.is_empty() {
         (0..nch as u32)
             .filter(|c| Some(*c) != x_channel || nch == 1)
+            // a channel holding each sample's own position (migration time) is not a signal
+            .filter(|c| {
+                t.channels[*c as usize]
+                    .extra
+                    .get("role")
+                    .and_then(Value::as_str)
+                    != Some("position")
+            })
             .take(max_channels)
             .collect()
     } else {
@@ -958,8 +1113,30 @@ fn trace(
         ));
     }
     let sweep_len = openreadout_core::trace::sweep_samples(&t, sweep);
-    let first = a.first_sample.unwrap_or(0).min(sweep_len);
-    let count = a.count.unwrap_or(sweep_len - first).min(sweep_len - first);
+    // A whole Sanger read is unreadable at once: open on about 80 bases where the calls
+    // become reliable, as the preview does; zooming out shows the rest.
+    let read_window =
+        if kind == Some("sanger_trace") && a.first_sample.is_none() && a.count.is_none() {
+            sanger_window(ds, info, &t)
+        } else {
+            None
+        };
+    let first = a
+        .first_sample
+        .or(read_window.map(|w| w.0))
+        .unwrap_or(0)
+        .min(sweep_len);
+    let count = a
+        .count
+        .or(read_window.map(|w| w.1))
+        .unwrap_or(sweep_len - first)
+        .min(sweep_len - first);
+    if read_window.is_some() {
+        notes.push(
+            "showing about 80 bases where the calls become reliable; zoom out for the whole read"
+                .into(),
+        );
+    }
     let n = count.min(MAX_SAMPLES_READ);
     if n < count {
         notes.push(format!(
@@ -1018,6 +1195,16 @@ fn trace(
             let ch = &t.channels[c as usize];
             let mut s = e.series(&ch.name, ch.unit.as_deref());
             s["channel"] = json!(c);
+            let dye = ch.extra.get("dye").and_then(Value::as_str);
+            if electrophoresis
+                && let Some(i) = openreadout_preview::series_index_of(if ch.name.len() == 1 {
+                    &ch.name
+                } else {
+                    dye.unwrap_or(&ch.name)
+                })
+            {
+                s["palette"] = json!(i);
+            }
             s
         })
         .collect();
@@ -1052,6 +1239,38 @@ fn trace(
         plot["xs"] = json!(xs);
     }
     Ok(plot)
+}
+
+/// The scans of about 80 bases of a Sanger read, from the first run of 20 calls averaging
+/// quality 20 or more: (first scan, scan count). `None` without a base-call table.
+fn sanger_window(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &FileInfo,
+    t: &TraceInfo,
+) -> Option<(u64, u64)> {
+    let k = t.extra.get("base_calls_table").and_then(Value::as_u64)?;
+    let tab = info.tables.iter().find(|x| u64::from(x.index) == k)?;
+    let col = |name: &str| tab.columns.iter().position(|c| c.name == name);
+    let (sc, qc) = (col("scan")?, col("quality"));
+    let rows = ds.read_table(tab.index, 0, tab.row_count).ok()?;
+    let scans = rows.columns.get(sc)?;
+    let q: Vec<f64> = qc
+        .and_then(|c| rows.columns.get(c).cloned())
+        .unwrap_or_default();
+    let n = scans.len();
+    if n < 2 {
+        return None;
+    }
+    let start = (0..n.saturating_sub(20))
+        .find(|&i| {
+            q.get(i..i + 20)
+                .is_some_and(|w| w.iter().sum::<f64>() / 20.0 >= 20.0)
+        })
+        .unwrap_or(0);
+    let end = (start + 80).min(n - 1);
+    let first = scans[start].max(0.0) as u64;
+    let last = scans[end].max(0.0) as u64;
+    (last > first).then_some((first.saturating_sub(10), last - first + 20))
 }
 
 /// A voltammogram as a plot: one series per cycle, current against potential.

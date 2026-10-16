@@ -7,8 +7,8 @@ use openreadout_core::model::{FileInfo, TraceInfo};
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Domain, Face, Figure, GridLines, LabelPlacer, Panel, Path, Rect,
-    Stroke, TextStyle, Theme, format_value,
+    Anchor, AxesSpec, Baseline, Domain, Face, Figure, GridLines, LabelPlacer, Layer, Panel, Path,
+    Rect, Stroke, TextStyle, Theme, format_value,
 };
 
 use crate::color::to_hex;
@@ -255,6 +255,27 @@ pub(crate) fn render(
             }),
         None => (ax.first.min(ax.last), ax.first.max(ax.last)),
     };
+    // a window of the axis (sample positions still count from the sweep's first x)
+    let first_x = ax.first;
+    let (x_lo, x_hi) = match req.x_range {
+        Some([a, b]) => {
+            let (a, b) = (a.min(b).max(x_lo), a.max(b).min(x_hi));
+            if b <= a || b.is_nan() || a.is_nan() {
+                return Err(Error::Usage(format!(
+                    "x_range does not overlap the trace's axis ({} to {})",
+                    fmt_num(x_lo),
+                    fmt_num(x_hi)
+                )));
+            }
+            if ax.last < ax.first {
+                (ax.first, ax.last) = (b, a);
+            } else {
+                (ax.first, ax.last) = (a, b);
+            }
+            (a, b)
+        }
+        None => (x_lo, x_hi),
+    };
     let col_of = |x: f64| -> usize {
         let span = x_hi - x_lo;
         let t = if span > 0.0 { (x - x_lo) / span } else { 0.5 };
@@ -284,8 +305,11 @@ pub(crate) fn render(
                         Some(&x) if x.is_finite() => x,
                         _ => continue,
                     },
-                    None => ax.first + step * si as f64,
+                    None => first_x + step * si as f64,
                 };
+                if x < x_lo || x > x_hi {
+                    continue;
+                }
                 let slot = &mut cols[k][col_of(x)];
                 match slot {
                     None => *slot = Some(Col::new(x, v)),
@@ -378,7 +402,9 @@ pub(crate) fn render(
         .fold(0.0f32, f32::max);
     if let Some(c) = &caption {
         let cap_style = TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic);
-        fig.text(fs * 0.8, fs * 1.4, c, &cap_style);
+        fig.group(Layer::Caption, "caption", |fig| {
+            fig.text(fs * 0.8, fs * 1.4, c, &cap_style);
+        });
     }
     let mut report = Vec::new();
     let mut panels = Vec::new();
@@ -402,60 +428,64 @@ pub(crate) fn render(
             grid: GridLines::Y,
             ..AxesSpec::default()
         };
-        if !last {
-            // a hairline under each upper panel instead of a full axis
-            fig.line(
-                rect.x,
-                rect.bottom(),
-                rect.right(),
-                rect.bottom(),
-                Stroke::new(theme.grid, theme.hairline()),
-            );
-        }
-        panel.axes(&mut fig, &theme, &spec);
-        // zero line
         let (ylo, yhi) = panel.y.domain();
-        if ylo < 0.0 && yhi > 0.0 {
-            panel.rule_y(&mut fig, 0.0, Stroke::new(theme.rule, theme.hairline()));
-        }
         let color = if nc == 1 { theme.ink } else { theme.series(k) };
-        let pts = envelope_points(&cols[k], &panel);
-        panel.line_px(&mut fig, pts, Stroke::new(color, theme.line_width * 0.85));
-        if peaks_on {
-            let resolution = (x_hi - x_lo).abs() / f64::from(rect.w.max(1.0));
-            let dec = marks::decimals_for(resolution);
-            let min_gap = (fs * 3.5 / (rect.w / ncols as f32).max(0.01)) as usize;
-            let idx = marks::prominent(&cols[k], marks::MAX_PEAKS, min_gap.max(1), 0.04);
-            let peaks: Vec<(f64, f64, String)> = idx
-                .iter()
-                .filter_map(|&i| cols[k][i])
-                .map(|c| (c.x_at_max, c.max, marks::peak_label(c.x_at_max, dec)))
-                .collect();
-            data_marks.extend(marks::label_peaks(
-                &mut fig,
-                &panel,
-                &theme,
-                &peaks,
-                Some(c),
-                &mut placer,
-            ));
-        }
-        if let Some((sk, factor)) = keep_spike
-            && sk == k
-        {
-            data_marks.extend(spikes(
-                &mut fig,
-                &panel,
-                &theme,
-                &volts,
-                factor,
-                &t,
-                sweep,
-                &ax,
-                c,
-                &mut out.notes,
-            ));
-        }
+        fig.group(Layer::Panel, &ch.name, |fig| {
+            if !last {
+                // a hairline under each upper panel instead of a full axis
+                fig.line(
+                    rect.x,
+                    rect.bottom(),
+                    rect.right(),
+                    rect.bottom(),
+                    Stroke::new(theme.grid, theme.hairline()),
+                );
+            }
+            panel.axes(fig, &theme, &spec);
+            // zero line
+            if ylo < 0.0 && yhi > 0.0 {
+                panel.rule_y(fig, 0.0, Stroke::new(theme.rule, theme.hairline()));
+            }
+            let pts = envelope_points(&cols[k], &panel);
+            fig.group(Layer::Series, &ch.name, |fig| {
+                panel.line_px(fig, pts, Stroke::new(color, theme.line_width * 0.85));
+            });
+            if peaks_on {
+                let resolution = (x_hi - x_lo).abs() / f64::from(rect.w.max(1.0));
+                let dec = marks::decimals_for(resolution);
+                let min_gap = (fs * 3.5 / (rect.w / ncols as f32).max(0.01)) as usize;
+                let idx = marks::prominent(&cols[k], marks::MAX_PEAKS, min_gap.max(1), 0.04);
+                let peaks: Vec<(f64, f64, String)> = idx
+                    .iter()
+                    .filter_map(|&i| cols[k][i])
+                    .map(|c| (c.x_at_max, c.max, marks::peak_label(c.x_at_max, dec)))
+                    .collect();
+                data_marks.extend(marks::label_peaks(
+                    fig,
+                    &panel,
+                    &theme,
+                    &peaks,
+                    Some(c),
+                    &mut placer,
+                ));
+            }
+            if let Some((sk, factor)) = keep_spike
+                && sk == k
+            {
+                data_marks.extend(spikes(
+                    fig,
+                    &panel,
+                    &theme,
+                    &volts,
+                    factor,
+                    &t,
+                    sweep,
+                    &ax,
+                    c,
+                    &mut out.notes,
+                ));
+            }
+        });
         report.push(TracePreviewChannel {
             index: c,
             name: ch.name.clone(),
@@ -529,6 +559,7 @@ fn spikes(
     );
     let to_axis = |s: f64| if ax.unit == "min" { s / 60.0 } else { s };
     let start = t.start_s.unwrap_or(0.0);
+    fig.group(Layer::Annotation, "action potentials", |fig| {
     let size = theme.font_size * 0.55;
     let mut out = Vec::new();
     for s in &found {
@@ -571,6 +602,7 @@ fn spikes(
         "{text}: action potentials are upward crossings of −20 mV (as openreadout_ephys_features counts them)"
     ));
     out
+    })
 }
 
 /// The x axis of the drawn window: the reader's `extra.axis` (NMR chemical shift, JCAMP-DX x

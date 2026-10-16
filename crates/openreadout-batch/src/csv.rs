@@ -221,10 +221,17 @@ fn temp_path(output: &Path) -> PathBuf {
     output.with_file_name(format!(".{name}.partial-{}", std::process::id()))
 }
 
-/// The export format a file gets when none is asked for: `mzml` for mass spectra, `csv` for
+/// The export format a file gets when none is asked for: `fastq` for base calls, `mzml` for mass spectra, `csv` for
 /// tables and traces, `ome-tiff` for images (and anything else).
 pub fn default_export_format(info: &FileInfo) -> &'static str {
-    if info.images.is_empty() && !info.spectra.is_empty() {
+    // a read's base calls (Sanger) go to FASTQ
+    let base_calls = info
+        .tables
+        .iter()
+        .any(|t| t.extra.get("kind").and_then(serde_json::Value::as_str) == Some("base_calls"));
+    if info.images.is_empty() && base_calls {
+        "fastq"
+    } else if info.images.is_empty() && !info.spectra.is_empty() {
         "mzml"
     } else if info.images.is_empty() && (!info.tables.is_empty() || !info.traces.is_empty()) {
         "csv"

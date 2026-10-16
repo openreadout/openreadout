@@ -52,7 +52,7 @@ pub const ENV_SWITCH: &str = "OPENREADOUT_MCP_APPS";
 pub const FILE_EXTENSIONS: &[&str] = &[
     ".czi", ".nd2", ".lif", ".lof", ".oir", ".oib", ".oif", ".vsi", ".ims", ".zvi", ".mrxs",
     ".isyntax", ".ndpi", ".svs", ".dm3", ".dm4", ".fcs", ".abf", ".smr", ".smrx", ".wcp", ".wiff",
-    ".wiff2", ".asyr",
+    ".wiff2", ".asyr", ".ab1",
 ];
 
 /// What the viewer shows first for a tool's result.
@@ -321,6 +321,11 @@ pub fn view_hint(tool: &str, args: Option<&JsonObject>) -> Option<Value> {
                 "objects".into(),
                 asked.cloned().unwrap_or_else(|| json!({})),
             );
+        }
+        // lanes found (preview marks=lanes, stats lanes): the viewer draws them too
+        let lanes = args.get("lanes").filter(|v| v.is_object());
+        if lanes.is_some() || args.get("marks").and_then(Value::as_str) == Some("lanes") {
+            hint.insert("lanes".into(), lanes.cloned().unwrap_or_else(|| json!({})));
         }
     }
     let kind = match tv {

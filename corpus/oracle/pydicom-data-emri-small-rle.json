@@ -1,0 +1,93 @@
+{
+ "id": "pydicom-data-emri-small-rle",
+ "file": "emri_small_RLE.dcm",
+ "max_planes_hashed": 64,
+ "reader": "pydicom 3.0.2",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 64,
+   "size_y": 64,
+   "size_z": 10,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dddf83e9723fb59d171a522e277e6fd7",
+     "mean": 144.27783203125
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "bc51c3d874dce37b107b4a97ac3c1e4e",
+     "mean": 133.67041015625
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "f3e28a6f32980f52a745fad249c99240",
+     "mean": 123.218017578125
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "5d0276b54e5194ebbb271d1db0306b20",
+     "mean": 112.577392578125
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "a63a9b3c83a01acacb2aeec35e3088ef",
+     "mean": 98.772705078125
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "47fb1ca1fafc4adeaaa524f0ad44baa9",
+     "mean": 86.694580078125
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "40ecd0071f4bf97d46d094da0a24a92b",
+     "mean": 80.83984375
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "9f3a658dd8b24caf76cb580b6aef4775",
+     "mean": 91.026123046875
+    },
+    {
+     "c": 0,
+     "z": 8,
+     "t": 0,
+     "xxh3": "6a81f5f636d71dc4bd57194a7ec34382",
+     "mean": 107.904052734375
+    },
+    {
+     "c": 0,
+     "z": 9,
+     "t": 0,
+     "xxh3": "d6ef6ae511b27457878e1d7b98a83349",
+     "mean": 118.01025390625
+    }
+   ]
+  }
+ ]
+}

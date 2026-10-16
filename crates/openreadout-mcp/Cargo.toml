@@ -23,6 +23,7 @@ openreadout-ometiff = { workspace = true }
 openreadout-omezarr = { workspace = true }
 openreadout-plate = { workspace = true }
 openreadout-qpcr = { workspace = true }
+openreadout-ce = { workspace = true }
 openreadout-mzml-writer = { workspace = true }
 openreadout-preview = { workspace = true }
 openreadout-plot = { workspace = true }
@@ -33,9 +34,12 @@ openreadout-quant = { workspace = true }
 openreadout-assay = { workspace = true }
 openreadout-live = { workspace = true }
 rayon = { workspace = true }
+openreadout-em = { workspace = true }
 openreadout-hdf5 = { workspace = true }
 openreadout-nmr = { workspace = true }
+openreadout-medical = { workspace = true }
 openreadout-signal = { workspace = true }
+openreadout-seq = { workspace = true }
 openreadout-arrow = { workspace = true, optional = true }
 rmcp = { workspace = true }
 tokio = { workspace = true }

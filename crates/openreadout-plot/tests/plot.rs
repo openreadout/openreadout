@@ -99,6 +99,48 @@ fn group_means_and_annotations() {
 }
 
 #[test]
+fn svg_is_layered() {
+    let d = tempfile::tempdir().unwrap();
+    let f = plate(d.path());
+    let spec = parse_spec(json!({
+        "title": "growth",
+        "caption": "two phages",
+        "data": {"file": f, "by": "group", "groups": ["lambda", "HK97"]},
+        "annotate": [{"x": [3, 4.5], "label": "came back"}],
+    }))
+    .unwrap();
+    let svg = plot(&Registry::new(), &spec).unwrap().figure.to_svg();
+    for want in [
+        "class=\"title\" inkscape:label=\"growth\"",
+        "class=\"caption\"",
+        "class=\"panel\"",
+        "class=\"grid\"",
+        "class=\"axis\" inkscape:label=\"x axis\"",
+        "class=\"axis\" inkscape:label=\"y axis\"",
+        "class=\"series\" inkscape:label=\"lambda\" data-series=\"lambda\"",
+        "class=\"series\" inkscape:label=\"HK97\" data-series=\"HK97\"",
+        "class=\"label-end\"",
+        "class=\"annotation\" inkscape:label=\"came back\"",
+    ] {
+        assert!(svg.contains(want), "no {want}");
+    }
+    assert_eq!(svg.matches("<g ").count(), svg.matches("</g>").count());
+    // ids are unique in the document and differ from another figure's
+    let ids: Vec<&str> = svg
+        .split(" id=\"")
+        .skip(1)
+        .filter_map(|s| s.split('"').next())
+        .collect();
+    let mut sorted = ids.clone();
+    sorted.sort_unstable();
+    sorted.dedup();
+    assert_eq!(sorted.len(), ids.len(), "{ids:?}");
+    let other = parse_spec(json!({"data": {"file": f}})).unwrap();
+    let svg2 = plot(&Registry::new(), &other).unwrap().figure.to_svg();
+    assert!(ids.iter().all(|id| !svg2.contains(&format!("id=\"{id}\""))));
+}
+
+#[test]
 fn table_columns_grouped_bars() {
     let d = tempfile::tempdir().unwrap();
     let t = d.path().join("rows.csv");

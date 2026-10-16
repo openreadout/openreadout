@@ -25,6 +25,7 @@ pub(crate) enum Kind {
     TecanIControl,
     TecanMagellan,
     SkanIt,
+    Incucyte,
     Generic,
 }
 
@@ -41,6 +42,7 @@ impl Kind {
             Kind::TecanIControl => "tecan-i-control",
             Kind::TecanMagellan => "tecan-magellan",
             Kind::SkanIt => "skanit",
+            Kind::Incucyte => "incucyte",
             Kind::Generic => "generic",
         }
     }
@@ -53,6 +55,7 @@ impl Kind {
             Kind::EnVision | Kind::Kaleido => "Revvity (PerkinElmer)",
             Kind::TecanIControl | Kind::TecanMagellan => "Tecan",
             Kind::SkanIt => "Thermo Fisher Scientific",
+            Kind::Incucyte => "Sartorius",
             Kind::Generic => return None,
         })
     }
@@ -68,6 +71,7 @@ impl Kind {
             Kind::TecanIControl => "i-control",
             Kind::TecanMagellan => "Magellan",
             Kind::SkanIt => "SkanIt",
+            Kind::Incucyte => "Incucyte",
             Kind::Generic => return None,
         })
     }
@@ -81,6 +85,8 @@ pub(crate) enum Mode {
     Luminescence,
     /// AlphaScreen / AlphaLISA (laser-excited luminescent proximity assays).
     Alpha,
+    /// A metric from image analysis (Incucyte confluence, object counts).
+    Imaging,
     Unknown,
 }
 
@@ -91,6 +97,7 @@ impl Mode {
             Mode::Fluorescence => "fluorescence",
             Mode::Luminescence => "luminescence",
             Mode::Alpha => "alpha",
+            Mode::Imaging => "imaging",
             Mode::Unknown => "unknown",
         }
     }

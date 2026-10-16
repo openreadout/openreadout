@@ -1,0 +1,57 @@
+{
+ "id": "zenodo3383611-therm-6-1-nxs",
+ "file": "Therm_6_1.nxs",
+ "size": 55664,
+ "sha256": "10829f7dfb35e44480cf57f5922c5222f784493e8ebf2d9720185018c357a6d7",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin 7.1.0",
+ "kind": "nxmx",
+ "data_links": [
+  "data_000001"
+ ],
+ "images": [
+  {
+   "index": 0,
+   "size_x": 4148,
+   "size_y": 4362,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 3,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5384e3b3a6b5ec16a8a838abeb34546b"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "ea97b228364cc70979d585777e767636"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "5bfaeb1ee46670c7c1de6431ed06e257"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 0.9802735610373182,
+    "distance_mm": 199.78346957333733,
+    "beam_center_px": [
+     2214.3285049568203,
+     2300.4972375614147
+    ],
+    "pixel_size_mm": [
+     0.075,
+     0.075
+    ],
+    "exposure_s": 0.04
+   }
+  }
+ ]
+}

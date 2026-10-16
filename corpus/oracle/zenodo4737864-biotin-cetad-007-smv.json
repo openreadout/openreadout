@@ -1,0 +1,44 @@
+{
+ "id": "zenodo4737864-biotin-cetad-007-smv",
+ "file": "zenodo4737864-biotin-g20feb26f_801406_1_gl71_007.img",
+ "size": 8389120,
+ "sha256": "8b445fb0d6595f560a3d10d0f656c0338f9dd28f6d544cf2f6b5376a22c84fd1",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0 (DtrekImage)",
+ "kind": "smv",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1896865dc6f34e1b4b9e56da9268550f"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 0.02501404,
+    "distance_mm": 1065.7,
+    "oscillation_width_deg": 0.888,
+    "exposure_s": 0.222,
+    "oscillation_start_deg": -54.672,
+    "pixel_size_mm": [
+     0.028,
+     0.028
+    ],
+    "beam_center_px": [
+     1067.857142857143,
+     1064.2857142857142
+    ]
+   }
+  }
+ ]
+}

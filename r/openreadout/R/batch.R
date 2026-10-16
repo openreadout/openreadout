@@ -161,7 +161,11 @@ openreadout_link <- function(paths, min_confidence = NULL, formats = NULL) {
 #'   as in [openreadout_read_image()]), inside `polygon` or in the whole plane: how many, their
 #'   sizes, centroids and mean in every channel, and how many are positive per channel. A list
 #'   sets options: `kind` (`"nuclei"`, `"cells"`, `"spots"`), `diameter_um`, `threshold`,
-#'   `method`, `polarity`, `stain` (RGB), `split`, `min_area_um2`, `max_area_um2`, `max_objects`.
+#'   `method`, `polarity`, `stain` (RGB), `split`, `min_area_um2`, `max_area_um2`, `max_objects`;
+#' - `lanes = TRUE` finds the lanes and bands of a gel or blot in `region` or the whole plane:
+#'   each lane's total volume and each band's row, height and background-subtracted volume. A
+#'   list sets options: `count`, `width_px`, `polarity`, `min_share`, `ladder`
+#'   (`list(lane = 1, sizes = c(250, 150, 100))`), `profiles`.
 #'
 #' Areas and lengths are also given in µm when the pixel size is known. The result is the
 #' `stats --json` data as a list (`profile`, `roi`, `objects`); `objects$objects` is a data frame.
@@ -172,7 +176,7 @@ openreadout_link <- function(paths, min_confidence = NULL, formats = NULL) {
 #' @param select Plane selection (`"c=0"`, `"z=2-5"`: zero-based, as in the CLI).
 #' @param per `"channel"` (default), `"image"`, `"plane"`, `"well"` or `"field"`.
 #' @param wells With `per = "well"` or `"field"`: only these wells (`"C05"`).
-#' @param line,line_width,polygon,objects Measurements on one plane (see Details).
+#' @param line,line_width,polygon,objects,lanes Measurements on one plane (see Details).
 #' @param level,region Pyramid level and rectangle of the measurements.
 #' @return A data frame. Pixel statistics carry an attribute `stats` with the rest of the
 #'   output; plate statistics an attribute `plate`.
@@ -187,9 +191,11 @@ openreadout_link <- function(paths, min_confidence = NULL, formats = NULL) {
 openreadout_stats <- function(x, image = NULL, select = character(),
                               per = c("channel", "image", "plane", "well", "field"),
                               wells = character(), line = NULL, line_width = NULL,
-                              polygon = NULL, objects = NULL, level = 0, region = NULL) {
-  if (!is.null(line) || !is.null(polygon) || isTRUE(objects) || is.list(objects)) {
-    return(.measure(x, image, select, line, line_width, polygon, objects, level, region))
+                              polygon = NULL, objects = NULL, level = 0, region = NULL,
+                              lanes = NULL) {
+  if (!is.null(line) || !is.null(polygon) || isTRUE(objects) || is.list(objects) ||
+      isTRUE(lanes) || is.list(lanes)) {
+    return(.measure(x, image, select, line, line_width, polygon, objects, level, region, lanes))
   }
   per <- match.arg(per)
   if (per %in% c("well", "field")) {
@@ -253,7 +259,8 @@ openreadout_summarize <- function(table, by, values = NULL, replicate = NULL, te
   df
 }
 
-.measure <- function(x, image, select, line, line_width, polygon, objects, level, region) {
+.measure <- function(x, image, select, line, line_width, polygon, objects, level, region,
+                     lanes = NULL) {
   if (!is.null(line) && (!is.numeric(line) || length(line) != 4 || anyNA(line))) {
     .openreadout_abort("line must be c(x0, y0, x1, y1)", call = sys.call(-1))
   }
@@ -282,6 +289,11 @@ openreadout_summarize <- function(table, by, values = NULL, replicate = NULL, te
       structure(list(), names = character())
     } else {
       objects
+    },
+    lanes = if (isTRUE(lanes) || (is.list(lanes) && length(lanes) == 0)) {
+      structure(list(), names = character())
+    } else {
+      lanes
     }
   )
   out <- .with_file(x, function(h) .from_json(.ic(rs_measure(.ptr(h), .to_json(req)))))

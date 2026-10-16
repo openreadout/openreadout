@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 318 |
+| MIT License | 324 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 7 |
 | Unicode License v3 | 5 |
@@ -3499,15 +3499,18 @@ Used by:
 - [openreadout-arrow 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-assay 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-batch 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-benchtop 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-biophys 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-blackrock 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-bruker-tims 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-ce 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-chrom 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-codecs 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-core 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-czi 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-dcimg 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-diffraction 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-echem 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-em 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-ephys 0.3.0](https://github.com/openreadout/openreadout)
@@ -3523,6 +3526,7 @@ Used by:
 - [openreadout-lif 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-live 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-mcp 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-medical 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-mzml 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-mzml-writer 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-nd2 0.3.0](https://github.com/openreadout/openreadout)
@@ -3540,6 +3544,7 @@ Used by:
 - [openreadout-qpcr 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-quant 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-sciex 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-seq 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-signal 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-spectro 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-spikeglx 0.3.0](https://github.com/openreadout/openreadout)
@@ -3616,6 +3621,7 @@ Used by:
 - [chrono 0.4.45](https://github.com/chronotope/chrono)
 - [crc32c 0.6.8](https://github.com/zowens/crc32c)
 - [libm 0.2.16](https://github.com/rust-lang/compiler-builtins)
+- [pure_jpegls 2.0.0](https://github.com/jpfielding/dicos.rs)
 - [windows-core 0.62.2](https://github.com/microsoft/windows-rs)
 - [windows-implement 0.60.2](https://github.com/microsoft/windows-rs)
 - [windows-interface 0.59.3](https://github.com/microsoft/windows-rs)

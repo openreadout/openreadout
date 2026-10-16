@@ -231,6 +231,11 @@ pub enum Show {
     Amplification,
     /// qPCR melt curves (−dF/dT).
     Melt,
+    /// Image values along a line (line, image, select), against distance in mm or µm.
+    Profile,
+    /// One value per frame of an image (y: a value the frames record such as dose, or a pixel
+    /// statistic mean, sum, max, min) against the frame number (x: t, or a recorded value).
+    Frames,
 }
 
 #[allow(missing_docs)]
@@ -277,9 +282,10 @@ pub struct SeriesSpec {
     /// Small inline data the agent computed: `{x: [...], y: [...], error?: [...]}`; x may be
     /// category names.
     pub values: Option<InlineValues>,
-    /// What to show. Default from the file: trace (signals, 1-D spectra), chromatogram (mass
-    /// spectrometry; spectrum with rt or scan), wells (plates), events (FCS with x and y; histogram
-    /// with x only), amplification (qPCR).
+    /// What to show. Default from the file: trace (signals, 1-D spectra; an Illumina run's quality
+    /// by cycle, one sweep per lane), chromatogram (mass spectrometry; spectrum with rt or scan),
+    /// wells (plates), events (FCS with x and y; histogram with x only), amplification (qPCR),
+    /// histogram (FASTQ and BAM read lengths), frames (movies and image series).
     pub show: Option<Show>,
     /// How to draw it (default from what it shows).
     pub mark: Option<MarkKind>,
@@ -336,9 +342,13 @@ pub struct SeriesSpec {
     /// rule `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}` (at in x units).
     pub color_by: Option<ColorBy>,
 
-    /// FCS parameter, table column, or f–I measure for the x axis.
+    /// FCS parameter, table column, f–I measure, or frames: t or a recorded value, for the x
+    /// axis; histogram: the column to bin (read files: `length` by default, `mean_quality`;
+    /// nanopore reads: `duration`).
     pub x: Option<String>,
-    /// FCS parameter, table column, or f–I measure (`spike_count`, `rate_hz`) for the y axis.
+    /// FCS parameter, table column, f–I measure (`spike_count`, `rate_hz`), a trace channel by
+    /// name (an Illumina run: `percent_q30`, `mean_qscore`, `error_rate`, `intensity_a`), or
+    /// frames: a recorded value (`dose`) or mean, sum, max, min, for the y axis.
     pub y: Option<String>,
     /// Table column with error bar half-widths.
     pub error: Option<String>,
@@ -364,6 +374,15 @@ pub struct SeriesSpec {
     /// dose_response, standard_curve: the plate-reader assay arguments without file (layout, standards,
     /// model, normalize, reduce, …).
     pub assay: Option<serde_json::Map<String, serde_json::Value>>,
+
+    /// Profile: the line `[[x0, y0], [x1, y1]]` in the image's full-resolution pixels.
+    pub line: Option<[[f64; 2]; 2]>,
+    /// Profile: image index (default 0).
+    pub image: Option<u32>,
+    /// Profile: the plane, e.g. `z=12` or `c=1,t=3` (default c=0, the middle z, t=0).
+    #[serde(default, deserialize_with = "one_or_many")]
+    #[schemars(with = "Vec<String>")]
+    pub select: Vec<String>,
 }
 
 /// Inline values.

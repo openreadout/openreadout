@@ -2,8 +2,8 @@
 //! their position, and the action potentials of a current-clamp sweep.
 
 use openreadout_figure::{
-    Anchor, Baseline, Face, Figure, LabelPlacer, Panel, Path, Rect, Stroke, TextStyle, Theme,
-    format_value,
+    Anchor, Baseline, Face, Figure, LabelPlacer, Layer, Panel, Path, Rect, Stroke, TextStyle,
+    Theme, format_value,
 };
 
 use crate::DataMark;
@@ -202,37 +202,39 @@ pub(crate) fn label_peaks(
         .face(Face::Mono)
         .align(Anchor::Middle, Baseline::Alphabetic)
         .halo(theme.paper, (fs * 0.18).max(1.5));
-    let mut out = Vec::new();
-    for (x, y, label) in peaks {
-        let Some((px, py)) = panel.pt(*x, *y) else {
-            continue;
-        };
-        if !panel.rect.inset(-1.0).contains(px, py) {
-            continue;
+    fig.group(Layer::Annotation, "peaks", |fig| {
+        let mut out = Vec::new();
+        for (x, y, label) in peaks {
+            let Some((px, py)) = panel.pt(*x, *y) else {
+                continue;
+            };
+            if !panel.rect.inset(-1.0).contains(px, py) {
+                continue;
+            }
+            let gap = fs * 0.45;
+            let ly = (py - gap).max(panel.rect.y + fs);
+            let b = st.bounds(px, ly, label);
+            // try just above the peak; else skip the label (the mark stays)
+            let r = Rect::new(b.x - 1.0, b.y - 1.0, b.w + 2.0, b.h + 2.0);
+            let fits = placer.free(&r) && fig.rect().contains_rect(&r);
+            fig.stroke(
+                Path::segment(px, py - 2.0, px, py - gap * 0.9),
+                Stroke::new(theme.accent, theme.hairline()),
+            );
+            if fits {
+                placer.reserve(r);
+                fig.text(px, ly, label, &st);
+            }
+            out.push(DataMark {
+                kind: "peak".into(),
+                x: *x,
+                y: *y,
+                label: fits.then(|| label.clone()),
+                channel,
+            });
         }
-        let gap = fs * 0.45;
-        let ly = (py - gap).max(panel.rect.y + fs);
-        let b = st.bounds(px, ly, label);
-        // try just above the peak; else skip the label (the mark stays)
-        let r = Rect::new(b.x - 1.0, b.y - 1.0, b.w + 2.0, b.h + 2.0);
-        let fits = placer.free(&r) && fig.rect().contains_rect(&r);
-        fig.stroke(
-            Path::segment(px, py - 2.0, px, py - gap * 0.9),
-            Stroke::new(theme.accent, theme.hairline()),
-        );
-        if fits {
-            placer.reserve(r);
-            fig.text(px, ly, label, &st);
-        }
-        out.push(DataMark {
-            kind: "peak".into(),
-            x: *x,
-            y: *y,
-            label: fits.then(|| label.clone()),
-            channel,
-        });
-    }
-    out
+        out
+    })
 }
 
 #[cfg(test)]

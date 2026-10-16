@@ -1,6 +1,11 @@
 # Bench instruments, materials and electrochemistry
 
-Where the numbers live for protein purification, biophysics, gels, EPR, X-ray diffraction, electrochemistry, battery cycling, thermal analysis and rheology. All of these are `traces[]` and `tables[]` in `info`; read curves with `trace` (`--trace N`, `--channel NAME`, `--x-range A:B` on the trace's own axis) and tables with `table --table K`. Values are as stored: no baseline, no Kα2 stripping, no iR compensation, no DSC sensitivity calibration; time axes are seconds from the run start.
+Where the numbers live for protein purification, biophysics, gels, EPR, X-ray diffraction, electrochemistry, battery cycling, thermal analysis, rheology and capillary electrophoresis. All of these are `traces[]` and `tables[]` in `info`; read curves with `trace` (`--trace N`, `--channel NAME`, `--x-range A:B` on the trace's own axis) and tables with `table --table K`. Values are as stored: no baseline, no Kα2 stripping, no iR compensation, no DSC sensitivity calibration; time axes are seconds from the run start.
+
+## Nucleic acid and protein quantification
+
+- **NanoDrop** (8000 `.txt`, Eight `.txt`/`.tsv`, One `.csv` and UV-Vis spectra `.tsv`) and **Qubit** (4, Flex `.csv`): table 0 `samples`, one row per measurement: `sample`, `measured_at`, `concentration` (NanoDrop) or `tube_concentration`/`sample_concentration` (Qubit) with the unit in the column's `unit`, `a260`, `a280`, `a260_a280`, `a260_a230`, RFU columns. Text such as `Out of range` is in `<column>_note`. NanoDrop spectra are trace 0, one sweep per sample on a wavelength axis (`trace --sweep N`). Many exports into one table: `batch table FOLDER -o all.csv` (one row per sample, with a `path` column).
+- **Incucyte** metric exports (`.txt`): a kinetic plate (`plate` format), so `analyze growth` and the plate previews apply; the metric is the read (`mode: imaging`, unit `%` for confluence).
 
 ## Protein purification and biophysics
 
@@ -11,7 +16,7 @@ Where the numbers live for protein purification, biophysics, gels, EPR, X-ray di
 - **Octet BLI** (`.frd`, one biosensor per file): trace 0 channel `response` (nm), channel `step` numbers the assay steps; table 0 lists the steps (type, sample, concentration, start/end). kon/koff/KD are not in `.frd` files.
 - **Zetasizer** (`.dts`): table 0 has one row per record (`record`, `kind`, `sample_name`, `measured_at`, `z_average` in nm, `pdi`, intensity peak means and areas, zeta potential, mobility, conductivity). Peak widths and the number and volume peaks are withheld (finding `size_values_withheld`): use the Zetasizer export for those.
 - **GenePix** `.gpr`: table 0 with GenePix's own column names (`F635 Median`, `B635 Median`, `Flags`; `Name`/`ID` are categories); count spots with `table FILE --filter 'F635 Median > 1000' --count`.
-- **Image Lab** `.scn` gels and blots: `images[0].channels[0].exposure_ms`, `experiment.instrument`; `extra.zero_is` says whether dark bands are low values. Band intensities: `stats FILE --region X,Y,W,H`.
+- **Gels and blots** (Image Lab `.scn`, Typhoon `.gel`, imager TIFFs): `images[0].channels[0].exposure_ms`, `experiment.instrument`. Band quantification: `stats FILE --lanes` gives each lane's `total_volume` and its bands' `volume`, `fraction_of_lane` and `relative` (to the strongest band), background-subtracted; `saturated_px > 0` means the volume is a lower bound. `--lanes=N` when you know the lane count, `--ladder 1:250,150,100` for sizes, `--region` to leave out wells or a marker strip. Look at `preview --marks lanes` before quoting volumes.
 
 ## EPR, X-ray diffraction
 
@@ -29,3 +34,9 @@ Where the numbers live for protein purification, biophysics, gels, EPR, X-ray di
 - **NETZSCH** `.ngb-*`, **TA** `.001`: channels such as `dsc_signal`, `heat_flow`, `mass`, `sample_temperature`. NETZSCH DSC is in µV, uncalibrated (not mW/mg); `.ngb-ds3`/`-dla`: trace 1 is the correction run.
 - **TA TRIOS** `.tri` (DSC, TGA, DHR/HR/ARES rheometers): one trace per procedure step, SI units (heat flow W, weight kg). Rheology channels `storage_modulus`, `loss_modulus`, `tan_delta`, `complex_viscosity`, `angular_frequency`: moduli in Pa computed with TRIOS's own definitions from the stored torque, displacement and geometry.
 - **JASCO** `.jws`: a CD run is traces 0-2 (`circular_dichroism` mdeg, `ht_voltage` V, `absorbance`); time-course axes have no recorded unit.
+
+## Capillary electrophoresis
+
+- **Sanger** `.ab1`: table 0 `base calls` (position, base, quality, scan); `experiment.method.parameters` has `read_length`, `mean_quality`, `bases_q20`. Trace 0 is the analysed A/C/G/T channels on a scan axis. `preview` draws the chromatogram (`x_range` in base positions); `export` writes FASTQ by default.
+- **Fragment analysis** `.fsa`/`.hid`: trace 0 `sized` has channel 0 `size` (bp) as its axis and one channel per dye; `extra.sized_by` is `instrument` (the 3500's own sizing) or `openreadout` (Local Southern against `extra.size_standard`). Allele sizes: `peaks --trace 0 --channel K` (positions in bp); the instrument's own peak table is the table named `peaks` when present, the ladder fit the table `size standard`.
+- **Bioanalyzer** XML exports and **TapeStation** XML (with `<name>_Electropherogram.csv` beside it): one trace per well (`extra.well`, `sample`, `rin`/`din`), channel 0 `size` the axis; table `samples` (RIN/RINe/DIN, concentration), table `peaks` (the instrument's sizes, concentrations, molarities). Native `.xad` and tape files are not read: ask for the export.

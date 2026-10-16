@@ -1,0 +1,26 @@
+###CBF: VERSION 1.5
+data_seed
+_array_data.header_convention "PILATUS_1.2"
+_array_data.header_contents
+;
+# Detector: PILATUS 2M, S/N 1
+# Pixel_size 172e-6 m x 172e-6 m
+# Wavelength 1.0 A
+# Detector_distance 0.2 m
+# Beam_xy (4.0, 4.0) pixels
+# Count_cutoff 800 counts
+;
+_array_data.data
+;
+--CIF-BINARY-FORMAT-SECTION--
+Content-Type: application/octet-stream;
+     conversions="x-CBF_BYTE_OFFSET"
+X-Binary-Size: 94
+X-Binary-Element-Type: "signed 32-bit integer"
+X-Binary-Number-of-Elements: 64
+X-Binary-Size-Fastest-Dimension: 8
+X-Binary-Size-Second-Dimension: 8
+
+Õ€„€üùù€{€‚üùùù€ƒ€…üùùù€€€}üùù€}€€üùùù€…€ƒüùùù€‚€{üùù€
+--CIF-BINARY-FORMAT-SECTION----
+;

@@ -16,7 +16,7 @@ use std::sync::Arc;
 
 use openreadout_core::region::Region;
 use openreadout_figure::{
-    Anchor, Baseline, Face, Figure, Path, Raster, Rect, Stroke, TextStyle, Theme, text_width,
+    Anchor, Baseline, Face, Figure, Layer, Path, Raster, Rect, Stroke, TextStyle, Theme, text_width,
 };
 
 use crate::rulers::{Decorated, Mapping, fmt_len, label_size, scale_bar};
@@ -209,34 +209,42 @@ pub(crate) fn decorate(
     let cw = inner_w + layout.h();
     let ch = dh + top as u32 + bottom.ceil() as u32;
     let mut fig = Figure::new(cw as f32, ch as f32, Some(theme.paper));
-    fig.image(Rect::new(l, top, w, h), Arc::new(data), false);
-    fig.stroke(
-        Path::rect(l - 0.5, top - 0.5, w + 1.0, h + 1.0),
-        Stroke::new(theme.rule, 1.0),
-    );
+    fig.group(Layer::Image, "image", |fig| {
+        fig.image(Rect::new(l, top, w, h), Arc::new(data), false);
+        fig.stroke(
+            Path::rect(l - 0.5, top - 0.5, w + 1.0, h + 1.0),
+            Stroke::new(theme.rule, 1.0),
+        );
+    });
     // title, flush with the text block's left edge
     let tst = TextStyle::new(layout.title_fs, theme.ink)
         .face(Face::SansMedium)
         .align(Anchor::Start, Baseline::Alphabetic);
-    for (i, line) in title_lines.iter().enumerate() {
-        let y = pad + (i as f32 + 0.8) * line_h(layout.title_fs);
-        fig.text(text_l, y, line, &tst);
-    }
+    fig.group(Layer::Title, "title", |fig| {
+        for (i, line) in title_lines.iter().enumerate() {
+            let y = pad + (i as f32 + 0.8) * line_h(layout.title_fs);
+            fig.text(text_l, y, line, &tst);
+        }
+    });
     // bottom: caption at the left, scale bar at the right of the first row
     let row0 = top + h + gap + line_h(fs) / 2.0;
     if let (Some(b), Some(text)) = (&bar, &bar_label) {
         let bar_px = b.pixels as f32;
         let bx = l + w - bar_px;
         let thick = (fs * 0.3).round().max(2.0);
-        fig.fill_rect(Rect::new(bx, row0 - thick / 2.0, bar_px, thick), theme.ink);
-        let st = TextStyle::new(fs, theme.ink).align(Anchor::End, Baseline::Middle);
-        fig.text(bx - fs * 0.6, row0, text, &st);
+        fig.group(Layer::Annotation, "scale bar", |fig| {
+            fig.fill_rect(Rect::new(bx, row0 - thick / 2.0, bar_px, thick), theme.ink);
+            let st = TextStyle::new(fs, theme.ink).align(Anchor::End, Baseline::Middle);
+            fig.text(bx - fs * 0.6, row0, text, &st);
+        });
     }
     let cst = TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Middle);
-    for (i, line) in caption_lines.iter().enumerate() {
-        let row = (caption_row + i) as f32;
-        fig.text(text_l, row0 + row * line_h(fs), line, &cst);
-    }
+    fig.group(Layer::Caption, "caption", |fig| {
+        for (i, line) in caption_lines.iter().enumerate() {
+            let row = (caption_row + i) as f32;
+            fig.text(text_l, row0 + row * line_h(fs), line, &cst);
+        }
+    });
     Decorated {
         figure: fig,
         plot_area: Region::new(l as u32, top as u32, dw, dh),

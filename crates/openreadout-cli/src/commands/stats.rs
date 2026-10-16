@@ -107,7 +107,7 @@ pub struct StatsArgs {
     /// With `--objects`: how the threshold is chosen.
     #[arg(long, value_enum, help_heading = "Measurements")]
     pub method: Option<MethodArg>,
-    /// With `--objects`: bright or dark objects (default: from the image).
+    /// With `--objects` or `--lanes`: bright or dark objects or bands (default: from the image).
     #[arg(long, value_enum, help_heading = "Measurements")]
     pub polarity: Option<PolarityArg>,
     /// With `--objects` on an RGB image: what objects are found in (default: hematoxylin for
@@ -126,6 +126,30 @@ pub struct StatsArgs {
     /// With `--objects`: keep touching objects together instead of cutting them apart.
     #[arg(long, help_heading = "Measurements")]
     pub no_split: bool,
+    /// Find the lanes and bands of a gel or blot (in `--region` or the whole plane): each band's
+    /// position and background-subtracted volume. `--lanes=N` says how many lanes there are.
+    #[arg(
+        long,
+        value_name = "N",
+        num_args = 0..=1,
+        require_equals = true,
+        default_missing_value = "0",
+        help_heading = "Measurements"
+    )]
+    pub lanes: Option<u32>,
+    /// With `--lanes`: lane width in pixels (default 0.7 lane pitches).
+    #[arg(long, value_name = "PX", help_heading = "Measurements")]
+    pub lane_width: Option<f64>,
+    /// With `--lanes`: the marker lane and its sizes, largest first, e.g. `1:250,150,100,75,50`;
+    /// every band then gets a size.
+    #[arg(long, value_name = "LANE:SIZES", help_heading = "Measurements")]
+    pub ladder: Option<String>,
+    /// With `--ladder`: unit of the sizes (`kDa`, `bp`).
+    #[arg(long, value_name = "UNIT", help_heading = "Measurements")]
+    pub ladder_unit: Option<String>,
+    /// With `--lanes`: also return each lane's profile and background (200 values, top down).
+    #[arg(long, help_heading = "Measurements")]
+    pub profiles: bool,
     #[arg(long)]
     pub json: bool,
     #[command(flatten)]
@@ -262,6 +286,42 @@ fn measure_request(
         max_objects: a.max_objects,
         outlines: false,
     });
+    let ladder = match a.ladder.as_deref() {
+        None => None,
+        Some(s) => {
+            let (lane, sizes) = s.split_once(':').ok_or_else(|| {
+                Error::Usage(format!(
+                    "--ladder '{s}': expected LANE:SIZES, e.g. 1:250,150,100,75,50"
+                ))
+            })?;
+            Some(openreadout_core::measure::LadderRequest {
+                lane: lane.trim().parse().map_err(|_| {
+                    Error::Usage(format!("--ladder '{s}': '{lane}' is not a lane number"))
+                })?,
+                sizes: nums(sizes, "--ladder")?,
+                unit: a.ladder_unit.clone(),
+            })
+        }
+    };
+    if a.lanes.is_none()
+        && (a.lane_width.is_some() || ladder.is_some() || a.profiles || a.ladder_unit.is_some())
+    {
+        return Err(Error::Usage(
+            "--lane-width, --ladder, --ladder-unit and --profiles go with --lanes".into(),
+        ));
+    }
+    let lanes = a.lanes.map(|n| openreadout_core::measure::LanesRequest {
+        count: (n > 0).then_some(n),
+        width_px: a.lane_width,
+        polarity: match a.polarity {
+            None => Polarity::Auto,
+            Some(PolarityArg::Bright) => Polarity::Bright,
+            Some(PolarityArg::Dark) => Polarity::Dark,
+        },
+        min_share: None,
+        ladder,
+        profiles: a.profiles,
+    });
     let req = MeasureRequest {
         image: a.image,
         select: a.select.clone(),
@@ -271,6 +331,7 @@ fn measure_request(
         line_width: a.line_width,
         polygon,
         objects,
+        lanes,
     };
     check_measure_args(a, &req)?;
     Ok(req.any().then_some(req))
@@ -304,9 +365,9 @@ fn check_measure_args(a: &StatsArgs, m: &openreadout_core::measure::MeasureReque
             set.join(", ")
         )));
     }
-    if m.region.is_some() && m.objects.is_none() {
+    if m.region.is_some() && m.objects.is_none() && m.lanes.is_none() {
         return Err(Error::Usage(
-            "--region bounds an --objects count; --line and --polygon are given in full-plane pixels of --level, so drop --region".into(),
+            "--region bounds an --objects count or --lanes; --line and --polygon are given in full-plane pixels of --level, so drop --region".into(),
         ));
     }
     if a.line_width.is_some() && m.line.is_none() {
@@ -364,8 +425,60 @@ fn render_measure(o: &openreadout_core::measure::MeasureOutput) -> String {
     if let Some(ob) = &o.objects {
         out.push(render_objects(ob));
     }
+    if let Some(l) = &o.lanes {
+        out.push(render_lanes(l));
+    }
     for n in &o.notes {
         out.push(format!("note: {n}"));
+    }
+    out.join("\n")
+}
+
+fn render_lanes(l: &openreadout_core::measure::Lanes) -> String {
+    let mut out = vec![format!(
+        "{} lanes ({} bands), pitch {} px, width {} px, {} bands, channel c={}",
+        l.count,
+        l.band_count,
+        num(Some(l.pitch_px)),
+        num(Some(l.width_px)),
+        l.polarity,
+        l.c
+    )];
+    for lane in &l.lanes {
+        let bands: Vec<String> = lane
+            .bands
+            .iter()
+            .map(|b| {
+                format!(
+                    "y {:.0}: {}{}{}",
+                    b.y,
+                    num(Some(b.volume)),
+                    b.size
+                        .map(|s| format!(
+                            " ({}{})",
+                            num(Some(s)),
+                            l.size_unit
+                                .as_deref()
+                                .map(|u| format!(" {u}"))
+                                .unwrap_or_default()
+                        ))
+                        .unwrap_or_default(),
+                    if b.saturated_px > 0 { " SATURATED" } else { "" }
+                )
+            })
+            .collect();
+        out.push(format!(
+            "  lane {} x {:.0}{}: total {}  bands {}",
+            lane.number,
+            lane.x,
+            if lane.empty { " (empty)" } else { "" },
+            num(Some(lane.total_volume)),
+            if bands.is_empty() {
+                "none".to_string()
+            } else {
+                bands.join(", ")
+            }
+        ));
     }
     out.join("\n")
 }

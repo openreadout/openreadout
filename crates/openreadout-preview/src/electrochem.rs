@@ -6,7 +6,7 @@ use openreadout_core::model::{FileInfo, SignalChannelInfo, TraceInfo};
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Domain, Figure, GridLines, Panel, Rect, ScaleKind, Stroke,
+    Anchor, AxesSpec, Baseline, Domain, Figure, GridLines, Layer, Panel, Rect, ScaleKind, Stroke,
     TextStyle, Theme, key_row,
 };
 
@@ -299,12 +299,14 @@ pub(crate) fn render(
         .max(100.0);
     let height = (header + key_h + panel_h + fs * 5.0).ceil();
     let mut fig = Figure::new(w, height, Some(theme.paper));
-    fig.text(
-        fs * 0.8,
-        fs * 1.4,
-        &name,
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            fs * 0.8,
+            fs * 1.4,
+            &name,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     let colors = cycle_colors(&theme, cycles.len());
     if many {
         let first = cycles.first().map_or(String::new(), |c| c.0.clone());
@@ -345,12 +347,19 @@ pub(crate) fn render(
     if y_dom.lo < 0.0 && y_dom.hi > 0.0 {
         panel.rule_y(&mut fig, 0.0, Stroke::new(theme.rule, theme.hairline()));
     }
-    for ((_, pts), c) in cycles.iter().zip(&colors) {
-        panel.line(
-            &mut fig,
-            pts.iter().copied(),
-            Stroke::new(*c, theme.line_width * 0.9).round(),
-        );
+    for ((label, pts), c) in cycles.iter().zip(&colors) {
+        let name = if label.is_empty() {
+            "voltammogram".to_string()
+        } else {
+            format!("cycle {label}")
+        };
+        fig.group(Layer::Series, &name, |fig| {
+            panel.line(
+                fig,
+                pts.iter().copied(),
+                Stroke::new(*c, theme.line_width * 0.9).round(),
+            );
+        });
     }
     out.notes.push(format!(
         "voltammogram: {iname} against {wname}{}; pass channels to draw channels against time",

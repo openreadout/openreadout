@@ -50,6 +50,7 @@ openreadout-plexon = { workspace = true }
 openreadout-ephys = { workspace = true }
 openreadout-chrom = { workspace = true }
 openreadout-em = { workspace = true }
+openreadout-medical = { workspace = true }
 openreadout-nmr = { workspace = true }
 openreadout-signal = { workspace = true }
 openreadout-zarr = { workspace = true }
@@ -57,13 +58,17 @@ openreadout-hdf5 = { workspace = true }
 openreadout-zvi = { workspace = true }
 openreadout-oif = { workspace = true }
 openreadout-dcimg = { workspace = true }
+openreadout-diffraction = { workspace = true }
 openreadout-hcs = { workspace = true }
 openreadout-spectro = { workspace = true }
 openreadout-biophys = { workspace = true }
 openreadout-gel = { workspace = true }
+openreadout-benchtop = { workspace = true }
 openreadout-thermal = { workspace = true }
+openreadout-seq = { workspace = true }
 openreadout-echem = { workspace = true }
 openreadout-xrd = { workspace = true }
+openreadout-ce = { workspace = true }
 openreadout-epr = { workspace = true }
 openreadout-fplc = { workspace = true }
 openreadout-preview = { workspace = true }

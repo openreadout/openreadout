@@ -20,7 +20,7 @@ use crate::font::{self, Face};
 use crate::geom::Rect;
 use crate::path::Path;
 use crate::scale::{Scale, ScaleKind, Tick, format_tick};
-use crate::scene::{Anchor, Baseline, Figure, Stroke, TextStyle};
+use crate::scene::{Anchor, Baseline, Figure, Layer, Stroke, TextStyle};
 use crate::theme::Theme;
 
 /// The data range of one axis.
@@ -639,70 +639,76 @@ impl Panel {
         let grid_x = matches!(spec.grid, GridLines::X | GridLines::Both);
         let grid_y = matches!(spec.grid, GridLines::Y | GridLines::Both);
         let gstroke = Stroke::new(theme.grid, hair);
-        if grid_y {
-            for t in yt.iter().filter(|t| t.major) {
-                if (t.px - r.bottom()).abs() > 0.5 {
-                    fig.line(r.x, t.px, r.right(), t.px, gstroke.clone());
-                }
-            }
-        }
-        if grid_x {
-            for t in xt.iter().filter(|t| t.major) {
-                fig.line(t.px, r.y, t.px, r.bottom(), gstroke.clone());
-            }
-        }
-        let label = TextStyle::new(fs, theme.muted);
-        let mut x_boxes = Vec::new();
-        if spec.show_x {
-            let axis = Stroke::new(theme.rule, hair);
-            fig.line(r.x, r.bottom(), r.right(), r.bottom(), axis.clone());
-            let ls = label.clone().align(Anchor::Middle, Baseline::Top);
-            let mut last_right = f32::NEG_INFINITY;
-            // left to right on the page, whichever way the axis runs
-            let mut by_px: Vec<&Tick> = xt.iter().collect();
-            by_px.sort_by(|a, b| a.px.total_cmp(&b.px));
-            for t in by_px {
-                let len = if t.major { tick } else { tick * 0.6 };
-                fig.line(t.px, r.bottom(), t.px, r.bottom() + len, axis.clone());
-                if t.major && !t.label.is_empty() {
-                    let b = ls.bounds(t.px, r.bottom() + tick + pad * 0.6, &t.label);
-                    if b.x > last_right + fs * 0.4 && b.right() <= fig.width {
-                        fig.text(t.px, r.bottom() + tick + pad * 0.6, &t.label, &ls);
-                        last_right = b.right();
-                        x_boxes.push(b);
+        fig.group(Layer::Grid, "grid", |fig| {
+            if grid_y {
+                for t in yt.iter().filter(|t| t.major) {
+                    if (t.px - r.bottom()).abs() > 0.5 {
+                        fig.line(r.x, t.px, r.right(), t.px, gstroke.clone());
                     }
                 }
             }
-            if let Some(xl) = &spec.x_label {
-                let y = r.bottom() + tick + pad * 0.6 + fs * 1.1 + fs * 1.05;
-                let st = label.clone().align(Anchor::End, Baseline::Alphabetic);
-                fig.text(r.right(), y, xl, &st);
-            }
-        }
-        if spec.show_y {
-            let ls = label.clone().align(Anchor::End, Baseline::Middle);
-            let mut last_top = f32::INFINITY;
-            // bottom to top, skipping labels that would collide
-            let mut sorted: Vec<&Tick> = yt
-                .iter()
-                .filter(|t| t.major && !t.label.is_empty())
-                .collect();
-            sorted.sort_by(|a, b| b.px.total_cmp(&a.px));
-            for t in sorted {
-                let b = ls.bounds(r.x - pad, t.px, &t.label);
-                if b.bottom() < last_top - fs * 0.15 {
-                    fig.text(r.x - pad, t.px, &t.label, &ls);
-                    last_top = b.y;
+            if grid_x {
+                for t in xt.iter().filter(|t| t.major) {
+                    fig.line(t.px, r.y, t.px, r.bottom(), gstroke.clone());
                 }
             }
-            if let Some(yl) = &spec.y_label {
-                let st = label.clone().align(Anchor::Start, Baseline::Alphabetic);
-                let w = font::text_width(yl, Face::Sans, fs);
-                let x = (r.x - pad - fs * 2.0)
-                    .max(2.0)
-                    .min((fig.width - w).max(0.0));
-                fig.text(x, r.y - fs * 0.75, yl, &st);
-            }
+        });
+        let label = TextStyle::new(fs, theme.muted);
+        let mut x_boxes = Vec::new();
+        if spec.show_x {
+            fig.group(Layer::Axis, "x axis", |fig| {
+                let axis = Stroke::new(theme.rule, hair);
+                fig.line(r.x, r.bottom(), r.right(), r.bottom(), axis.clone());
+                let ls = label.clone().align(Anchor::Middle, Baseline::Top);
+                let mut last_right = f32::NEG_INFINITY;
+                // left to right on the page, whichever way the axis runs
+                let mut by_px: Vec<&Tick> = xt.iter().collect();
+                by_px.sort_by(|a, b| a.px.total_cmp(&b.px));
+                for t in by_px {
+                    let len = if t.major { tick } else { tick * 0.6 };
+                    fig.line(t.px, r.bottom(), t.px, r.bottom() + len, axis.clone());
+                    if t.major && !t.label.is_empty() {
+                        let b = ls.bounds(t.px, r.bottom() + tick + pad * 0.6, &t.label);
+                        if b.x > last_right + fs * 0.4 && b.right() <= fig.width {
+                            fig.text(t.px, r.bottom() + tick + pad * 0.6, &t.label, &ls);
+                            last_right = b.right();
+                            x_boxes.push(b);
+                        }
+                    }
+                }
+                if let Some(xl) = &spec.x_label {
+                    let y = r.bottom() + tick + pad * 0.6 + fs * 1.1 + fs * 1.05;
+                    let st = label.clone().align(Anchor::End, Baseline::Alphabetic);
+                    fig.text(r.right(), y, xl, &st);
+                }
+            });
+        }
+        if spec.show_y {
+            fig.group(Layer::Axis, "y axis", |fig| {
+                let ls = label.clone().align(Anchor::End, Baseline::Middle);
+                let mut last_top = f32::INFINITY;
+                // bottom to top, skipping labels that would collide
+                let mut sorted: Vec<&Tick> = yt
+                    .iter()
+                    .filter(|t| t.major && !t.label.is_empty())
+                    .collect();
+                sorted.sort_by(|a, b| b.px.total_cmp(&a.px));
+                for t in sorted {
+                    let b = ls.bounds(r.x - pad, t.px, &t.label);
+                    if b.bottom() < last_top - fs * 0.15 {
+                        fig.text(r.x - pad, t.px, &t.label, &ls);
+                        last_top = b.y;
+                    }
+                }
+                if let Some(yl) = &spec.y_label {
+                    let st = label.clone().align(Anchor::Start, Baseline::Alphabetic);
+                    let w = font::text_width(yl, Face::Sans, fs);
+                    let x = (r.x - pad - fs * 2.0)
+                        .max(2.0)
+                        .min((fig.width - w).max(0.0));
+                    fig.text(x, r.y - fs * 0.75, yl, &st);
+                }
+            });
         }
         AxesDrawn {
             x_ticks: xt,
@@ -899,29 +905,31 @@ pub struct EndLabel {
 pub fn end_labels(fig: &mut Figure, theme: &Theme, x: f32, labels: &[EndLabel], lo: f32, hi: f32) {
     let fs = theme.font_size;
     let (tx, pos) = end_label_layout(theme, x, labels, lo, hi);
-    let moved = |a: f32, b: f32| (a - b).abs() > fs * 0.25;
-    let any_moved = tx > x + fs;
-    for (l, &y) in labels.iter().zip(&pos) {
-        if moved(l.y, y) {
-            let run = fs * 0.3;
-            fig.stroke(
-                Path::polyline([
-                    (x + 2.0, l.y),
-                    (x + 2.0 + run, l.y),
-                    (tx - run - 2.0, y),
-                    (tx - 3.0, y),
-                ]),
-                Stroke::new(l.color.alpha(0.55), theme.hairline()),
-            );
-        } else if any_moved {
-            fig.stroke(
-                Path::segment(x + 2.0, l.y, tx - 3.0, y),
-                Stroke::new(l.color.alpha(0.55), theme.hairline()),
-            );
+    fig.group(Layer::LabelEnd, "end labels", |fig| {
+        let moved = |a: f32, b: f32| (a - b).abs() > fs * 0.25;
+        let any_moved = tx > x + fs;
+        for (l, &y) in labels.iter().zip(&pos) {
+            if moved(l.y, y) {
+                let run = fs * 0.3;
+                fig.stroke(
+                    Path::polyline([
+                        (x + 2.0, l.y),
+                        (x + 2.0 + run, l.y),
+                        (tx - run - 2.0, y),
+                        (tx - 3.0, y),
+                    ]),
+                    Stroke::new(l.color.alpha(0.55), theme.hairline()),
+                );
+            } else if any_moved {
+                fig.stroke(
+                    Path::segment(x + 2.0, l.y, tx - 3.0, y),
+                    Stroke::new(l.color.alpha(0.55), theme.hairline()),
+                );
+            }
+            let st = TextStyle::new(fs, l.color).align(Anchor::Start, Baseline::Middle);
+            fig.text(tx, y, &l.text, &st);
         }
-        let st = TextStyle::new(fs, l.color).align(Anchor::Start, Baseline::Middle);
-        fig.text(tx, y, &l.text, &st);
-    }
+    });
 }
 
 /// Where [`end_labels`] puts its text: the left edge, and each label's y in input order.
@@ -995,30 +1003,32 @@ pub fn key_row(
     let fs = theme.font_size;
     let st = TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Middle);
     let sw = fs * 1.1;
-    let (mut cx, mut cy) = (x, y);
-    let mut used = Rect::new(x, y - fs * 0.6, 0.0, fs * 1.2);
-    for (c, t) in items {
-        let w = sw + fs * 0.4 + st.width(t);
-        if cx > x && cx + w > x + max_w {
-            cx = x;
-            cy += fs * 1.5;
+    fig.group(Layer::Legend, "key", |fig| {
+        let (mut cx, mut cy) = (x, y);
+        let mut used = Rect::new(x, y - fs * 0.6, 0.0, fs * 1.2);
+        for (c, t) in items {
+            let w = sw + fs * 0.4 + st.width(t);
+            if cx > x && cx + w > x + max_w {
+                cx = x;
+                cy += fs * 1.5;
+            }
+            if block {
+                fig.fill(
+                    Path::round_rect(cx, cy - fs * 0.4, sw, fs * 0.8, fs * 0.15),
+                    *c,
+                );
+            } else {
+                fig.stroke(
+                    Path::segment(cx, cy, cx + sw, cy),
+                    Stroke::new(*c, theme.line_width * 1.4).round(),
+                );
+            }
+            let b = fig.text(cx + sw + fs * 0.4, cy, t, &st);
+            used = used.union(&b);
+            cx += w + fs * 1.2;
         }
-        if block {
-            fig.fill(
-                Path::round_rect(cx, cy - fs * 0.4, sw, fs * 0.8, fs * 0.15),
-                *c,
-            );
-        } else {
-            fig.stroke(
-                Path::segment(cx, cy, cx + sw, cy),
-                Stroke::new(*c, theme.line_width * 1.4).round(),
-            );
-        }
-        let b = fig.text(cx + sw + fs * 0.4, cy, t, &st);
-        used = used.union(&b);
-        cx += w + fs * 1.2;
-    }
-    used
+        used
+    })
 }
 
 /// Height of [`key_row`]'s rows for `items` wrapped inside `max_w`, without drawing.
@@ -1058,59 +1068,61 @@ pub fn key_fit(
         let used = key_row(fig, theme, area.x, area.y + fs * 0.6, area.w, items, block);
         return area.inset_sides(0.0, used.bottom() - area.y + fs * 0.6, 0.0, 0.0);
     }
-    // columns at the right: entries top to bottom, a new column when one is full
-    let st = TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Middle);
-    let sw = fs * 1.1;
-    let line = fs * 1.45;
-    let per_col = ((area.h - fs * 0.4) / line).floor().max(1.0) as usize;
-    let max_text = area.w * 0.4 - sw - fs * 0.4;
-    let short = |t: &str| {
-        let mut s = t.to_string();
-        while st.width(&s) > max_text.max(fs * 3.0) && s.chars().count() > 4 {
-            let n = s.chars().count();
-            s = format!("{}…", s.chars().take(n - 2).collect::<String>());
-        }
-        s
-    };
-    let texts: Vec<String> = items.iter().map(|(_, t)| short(t)).collect();
-    let col_w = texts.iter().map(|t| st.width(t)).fold(0.0f32, f32::max) + sw + fs * 1.6;
-    let max_cols = ((area.w * 0.4) / col_w).floor().max(1.0) as usize;
-    let capacity = per_col * max_cols;
-    let (shown, more) = if items.len() > capacity {
-        (capacity - 1, items.len() - (capacity - 1))
-    } else {
-        (items.len(), 0)
-    };
-    let cols = (shown + usize::from(more > 0)).div_ceil(per_col).max(1);
-    let x0 = area.right() - cols as f32 * col_w + fs * 1.2;
-    for (k, ((c, _), t)) in items.iter().zip(&texts).take(shown).enumerate() {
-        let (col, row) = (k / per_col, k % per_col);
-        let x = x0 + col as f32 * col_w;
-        let y = area.y + fs * 0.6 + row as f32 * line;
-        if block {
-            fig.fill(
-                Path::round_rect(x, y - fs * 0.4, sw, fs * 0.8, fs * 0.15),
-                *c,
-            );
+    fig.group(Layer::Legend, "key", |fig| {
+        // columns at the right: entries top to bottom, a new column when one is full
+        let st = TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Middle);
+        let sw = fs * 1.1;
+        let line = fs * 1.45;
+        let per_col = ((area.h - fs * 0.4) / line).floor().max(1.0) as usize;
+        let max_text = area.w * 0.4 - sw - fs * 0.4;
+        let short = |t: &str| {
+            let mut s = t.to_string();
+            while st.width(&s) > max_text.max(fs * 3.0) && s.chars().count() > 4 {
+                let n = s.chars().count();
+                s = format!("{}…", s.chars().take(n - 2).collect::<String>());
+            }
+            s
+        };
+        let texts: Vec<String> = items.iter().map(|(_, t)| short(t)).collect();
+        let col_w = texts.iter().map(|t| st.width(t)).fold(0.0f32, f32::max) + sw + fs * 1.6;
+        let max_cols = ((area.w * 0.4) / col_w).floor().max(1.0) as usize;
+        let capacity = per_col * max_cols;
+        let (shown, more) = if items.len() > capacity {
+            (capacity - 1, items.len() - (capacity - 1))
         } else {
-            fig.stroke(
-                Path::segment(x, y, x + sw, y),
-                Stroke::new(*c, theme.line_width * 1.4).round(),
+            (items.len(), 0)
+        };
+        let cols = (shown + usize::from(more > 0)).div_ceil(per_col).max(1);
+        let x0 = area.right() - cols as f32 * col_w + fs * 1.2;
+        for (k, ((c, _), t)) in items.iter().zip(&texts).take(shown).enumerate() {
+            let (col, row) = (k / per_col, k % per_col);
+            let x = x0 + col as f32 * col_w;
+            let y = area.y + fs * 0.6 + row as f32 * line;
+            if block {
+                fig.fill(
+                    Path::round_rect(x, y - fs * 0.4, sw, fs * 0.8, fs * 0.15),
+                    *c,
+                );
+            } else {
+                fig.stroke(
+                    Path::segment(x, y, x + sw, y),
+                    Stroke::new(*c, theme.line_width * 1.4).round(),
+                );
+            }
+            fig.text(x + sw + fs * 0.4, y, t, &st);
+        }
+        if more > 0 {
+            let (col, row) = (shown / per_col, shown % per_col);
+            let st = TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Middle);
+            fig.text(
+                x0 + col as f32 * col_w,
+                area.y + fs * 0.6 + row as f32 * line,
+                &format!("+{more} more"),
+                &st,
             );
         }
-        fig.text(x + sw + fs * 0.4, y, t, &st);
-    }
-    if more > 0 {
-        let (col, row) = (shown / per_col, shown % per_col);
-        let st = TextStyle::new(fs, theme.muted).align(Anchor::Start, Baseline::Middle);
-        fig.text(
-            x0 + col as f32 * col_w,
-            area.y + fs * 0.6 + row as f32 * line,
-            &format!("+{more} more"),
-            &st,
-        );
-    }
-    area.inset_sides(0.0, 0.0, cols as f32 * col_w, 0.0)
+        area.inset_sides(0.0, 0.0, cols as f32 * col_w, 0.0)
+    })
 }
 
 /// A horizontal colour bar over `rect` for `cmap` from `lo` to `hi`, with end labels under it
@@ -1124,42 +1136,44 @@ pub fn color_bar(
     hi: f64,
     caption: Option<&str>,
 ) {
-    let steps = (rect.w.max(1.0) as usize).min(256);
-    let dw = rect.w / steps as f32;
-    for i in 0..steps {
-        let t = if steps > 1 {
-            i as f64 / (steps - 1) as f64
-        } else {
-            0.5
-        };
-        fig.fill_rect(
-            Rect::new(rect.x + i as f32 * dw, rect.y, dw + 0.6, rect.h),
-            cmap.at(t),
-        );
-    }
-    let fs = theme.small_size();
-    let st = TextStyle::new(fs, theme.muted);
-    let step = (hi - lo).abs() / 4.0;
-    fig.text(
-        rect.x,
-        rect.bottom() + fs * 1.15,
-        &format_tick(lo, step),
-        &st.clone().align(Anchor::Start, Baseline::Alphabetic),
-    );
-    fig.text(
-        rect.right(),
-        rect.bottom() + fs * 1.15,
-        &format_tick(hi, step),
-        &st.clone().align(Anchor::End, Baseline::Alphabetic),
-    );
-    if let Some(c) = caption {
+    fig.group(Layer::Legend, "colour bar", |fig| {
+        let steps = (rect.w.max(1.0) as usize).min(256);
+        let dw = rect.w / steps as f32;
+        for i in 0..steps {
+            let t = if steps > 1 {
+                i as f64 / (steps - 1) as f64
+            } else {
+                0.5
+            };
+            fig.fill_rect(
+                Rect::new(rect.x + i as f32 * dw, rect.y, dw + 0.6, rect.h),
+                cmap.at(t),
+            );
+        }
+        let fs = theme.small_size();
+        let st = TextStyle::new(fs, theme.muted);
+        let step = (hi - lo).abs() / 4.0;
         fig.text(
-            rect.x - fs * 0.6,
-            rect.y + rect.h / 2.0,
-            c,
-            &st.align(Anchor::End, Baseline::Middle),
+            rect.x,
+            rect.bottom() + fs * 1.15,
+            &format_tick(lo, step),
+            &st.clone().align(Anchor::Start, Baseline::Alphabetic),
         );
-    }
+        fig.text(
+            rect.right(),
+            rect.bottom() + fs * 1.15,
+            &format_tick(hi, step),
+            &st.clone().align(Anchor::End, Baseline::Alphabetic),
+        );
+        if let Some(c) = caption {
+            fig.text(
+                rect.x - fs * 0.6,
+                rect.y + rect.h / 2.0,
+                c,
+                &st.align(Anchor::End, Baseline::Middle),
+            );
+        }
+    });
 }
 
 #[cfg(test)]

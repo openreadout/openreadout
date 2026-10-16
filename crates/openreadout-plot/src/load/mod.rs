@@ -2,7 +2,10 @@
 //! table file, or from inline values.
 
 mod assay;
+mod columns;
 mod flow;
+mod frames;
+mod image;
 mod plate;
 mod signal;
 mod table;
@@ -162,8 +165,16 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
         Show::Fi => signal::fi(ctx, spec, file)?,
         Show::Wells => plate::wells(ctx, spec, file)?,
         Show::Events => flow::events(ctx, spec, file)?,
-        Show::Histogram => flow::histogram(ctx, spec, file)?,
+        Show::Histogram => {
+            if ctx.open(file)?.0 == "fcs" {
+                flow::histogram(ctx, spec, file)?
+            } else {
+                columns::histogram(ctx, spec, file)?
+            }
+        }
+        Show::Frames => frames::frames(ctx, spec, file)?,
         Show::DoseResponse | Show::StandardCurve => assay::curves(ctx, spec, file, show)?,
+        Show::Profile => image::profile(ctx, spec, file)?,
     };
     if let Some(l) = &spec.label
         && series.len() == 1
@@ -182,6 +193,9 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
 fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     if spec.assay.is_some() {
         return Ok(Show::DoseResponse);
+    }
+    if spec.line.is_some() {
+        return Ok(Show::Profile);
     }
     // a long plate CSV (`well`, `value`, maybe `time_s` and layout columns) is a plate
     let p = Path::new(file);
@@ -227,6 +241,10 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     if plate && info.traces.is_empty() {
         return Ok(Show::Wells);
     }
+    // read files (FASTQ, BAM): the read-length histogram
+    if info.format.family == "sequencing" && info.traces.is_empty() {
+        return Ok(Show::Histogram);
+    }
     if !info.traces.is_empty() {
         return Ok(if spec.spikes {
             Show::Sweeps
@@ -237,8 +255,11 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     if plate {
         return Ok(Show::Wells);
     }
+    if info.images.first().is_some_and(|im| im.size_t > 1) || format == "mdoc" {
+        return Ok(Show::Frames);
+    }
     Err(usage(format!(
-        "{file}: nothing to plot by default ({format} file without traces, spectra or plate tables); set `show`, or use openreadout_preview for images"
+        "{file}: nothing to plot by default ({format} file without traces, spectra, plate tables or frames); set `show`, or use openreadout_preview for images"
     )))
 }
 

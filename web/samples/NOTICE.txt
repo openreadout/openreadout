@@ -1,0 +1,103 @@
+Sample files of the OpenReadout browser demo
+
+These files come from OpenReadout's public test corpus (corpus/manifest.toml in the
+OpenReadout repository), unchanged apart from their names. Each keeps its own licence.
+The demo page credits them next to each sample.
+
+CMU-1-Small-Region.svs
+  Aperio SVS slide scan. Carnegie Mellon University, OpenSlide test data.
+  https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/
+  Licence: CC0-1.0 (public domain dedication).
+
+mouse-intestine.czi
+  Zeiss LSM 710 confocal image (2_mouse_04_03.czi). Katherine Deets and Russell Vance,
+  "Immunofluorescence images: Inflammasome activation leads to cDC1-independent
+  cross-priming of CD8 T cells by epithelial cell derived antigen".
+  https://zenodo.org/records/5823010
+  Licence: CC0-1.0.
+
+phage-defence.pda
+  SoftMax Pro 5 document (120308b_2.pda). Dominik Refardt, Tobias Bergmiller and Rolf
+  Kümmerli, "Data from: Altruism can evolve when relatedness is low: evidence from
+  bacteria committing suicide upon phage infection", doi:10.5061/dryad.b1q2n.
+  https://zenodo.org/records/4976789
+  Licence: CC0-1.0.
+
+agilent-gcms.cdf
+  Agilent GC-MS run in AIA/ANDI netCDF. cheminfo/netcdf-gcms test data
+  (commit ee7e2c0, src/__tests__/data/agilent-gcms.cdf).
+  https://github.com/cheminfo/netcdf-gcms
+  Licence: MIT. Copyright (c) 2016 cheminfo.
+
+17o05028_ic_steps.abf
+  Axon ABF whole-cell recording. pyABF sample data (commit 3ad9cd6, data/abfs).
+  https://github.com/swharden/pyABF
+  Licence: MIT. Copyright (c) 2018 Scott W Harden.
+
+test_comp_example.fcs
+  Flow cytometry FCS file. FlowKit test data (commit f215904, data/test_comp_example.fcs).
+  https://github.com/whitews/FlowKit
+  Licence: BSD-3-Clause. Copyright (c) 2018, Scott White. All rights reserved.
+
+limonene-13C.jdf
+  JEOL Delta 13C NMR of limonene (Limonene_7020ug200uL_CDCl3_13CNMR_400MHz_Jeol.jdf).
+  Noura Rayya, nmrXiv study S200 (project P33 CENAPTNMR), doi:10.57992/nmrxiv.p33.s200.
+  https://nmrxiv.org/sample/S200
+  Licence: CC0-1.0.
+
+BioRad_qPCR_melt.rdml
+  Bio-Rad CFX run in RDML. RDML R package (commit a898512, inst/extdata).
+  https://github.com/kablag/RDML
+  Licence: MIT. Copyright (c) 2019 Konstantin A. Blagodatskikh.
+
+Beeswax_Burgos_Spain.SPA
+  Thermo OMNIC ATR-FTIR spectrum. Michael B. Toffolo, "FTIR spectral library of the major
+  components of archaeological sediments", doi:10.5281/zenodo.11093587.
+  https://zenodo.org/records/14170891
+  Licence: CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/).
+
+
+MIT License (agilent-gcms.cdf, 17o05028_ic_steps.abf, BioRad_qPCR_melt.rdml)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this
+software and associated documentation files (the "Software"), to deal in the Software
+without restriction, including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
+to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+BSD 3-Clause License (test_comp_example.fcs)
+
+Redistribution and use in source and binary forms, with or without modification, are
+permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of
+   conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of
+   conditions and the following disclaimer in the documentation and/or other materials
+   provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used
+   to endorse or promote products derived from this software without specific prior
+   written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

@@ -9,7 +9,7 @@ use openreadout_core::model::{FileInfo, TableInfo};
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Domain, Figure, GridLines, Panel, Path, Raster, ScaleKind,
+    Anchor, AxesSpec, Baseline, Domain, Figure, GridLines, Layer, Panel, Path, Raster, ScaleKind,
     TextStyle,
 };
 
@@ -286,7 +286,9 @@ pub(crate) fn render(
                 img.rgb[k * 3..k * 3 + 3].copy_from_slice(&col);
             }
         }
-        fig.image(r, Arc::new(img), true);
+        fig.group(Layer::Image, "events", |fig| {
+            fig.image(r, Arc::new(img), true);
+        });
         y_name = Some(yn);
     } else {
         fig = Figure::new(size, (size * 0.6).round(), Some(theme.paper));
@@ -330,12 +332,14 @@ pub(crate) fn render(
             path.line_to(x0, y).line_to(x1, y);
         }
         path.line_to(r.right(), r.bottom()).close();
-        fig.shape(
-            path,
-            Some(theme.ink.alpha(0.18)),
-            Some(openreadout_figure::Stroke::new(theme.ink, theme.hairline())),
-            Some(r),
-        );
+        fig.group(Layer::Series, &x_name, |fig| {
+            fig.shape(
+                path,
+                Some(theme.ink.alpha(0.18)),
+                Some(openreadout_figure::Stroke::new(theme.ink, theme.hairline())),
+                Some(r),
+            );
+        });
     }
     let caption = format!(
         "{} events{}",
@@ -348,12 +352,14 @@ pub(crate) fn render(
             }
         })
     );
-    fig.text(
-        fs * 0.8,
-        fs * 1.4,
-        &caption,
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            fs * 0.8,
+            fs * 1.4,
+            &caption,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     out.events = Some(EventsPreview {
         table: ti,
         x: x_name,

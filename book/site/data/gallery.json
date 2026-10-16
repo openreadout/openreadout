@@ -54,6 +54,45 @@
    ]
   },
   {
+   "name": "run-quality",
+   "section": "previews",
+   "wide": true,
+   "title": "A sequencing run at a glance",
+   "caption": "An Illumina NovaSeq 6000 run folder read from its InterOp metrics only: % of base calls at Q30 or above by cycle per lane with the reads marked, intensity and base composition by cycle, cluster density and pass filter per lane, and the Q-score distribution.",
+   "img": "img/gallery/run-quality.png",
+   "width": 1400,
+   "height": 1092,
+   "commands": [
+    "openreadout preview 200624_A00834_0183_BHMTFYDRXX --max-size 1400 -o run-quality.png"
+   ]
+  },
+  {
+   "name": "squiggle",
+   "section": "previews",
+   "wide": false,
+   "title": "A nanopore read, raw",
+   "caption": "One read of an Oxford Nanopore PromethION POD5 file in picoamperes: the whole read, a zoom where single bases show as steps, and where the read sits among the file's read durations.",
+   "img": "img/gallery/squiggle.png",
+   "width": 1200,
+   "height": 792,
+   "commands": [
+    "openreadout preview seq-pod5-hg002-10reads.pod5 --sweep 3 --max-size 1200 -o squiggle.png"
+   ]
+  },
+  {
+   "name": "read-lengths",
+   "section": "previews",
+   "wide": false,
+   "title": "Read lengths and qualities of a FASTQ file",
+   "caption": "PacBio HiFi reads: the length histogram with the N50 marked, the mean read quality and the quality by position, streamed from a gzip FASTQ.",
+   "img": "img/gallery/read-lengths.png",
+   "width": 1200,
+   "height": 744,
+   "commands": [
+    "openreadout preview seq-fastq-pacbio-hifi.fastq.gz --max-size 1200 -o read-lengths.png"
+   ]
+  },
+  {
    "name": "flow-density",
    "section": "previews",
    "wide": false,
@@ -204,6 +243,46 @@
    "spec": "{\n  \"title\": \"PDA chromatograms of three samples\",\n  \"data\": {\n    \"file\": [\n      \"mtbls1892-B01-PDA-Ch1.CDF\",\n      \"mtbls1892-B07-PDA-Ch1.CDF\",\n      \"mtbls1892-B13-PDA-Ch1.CDF\"\n    ]\n  },\n  \"facet\": \"series\",\n  \"columns\": 1\n}",
    "commands": [
     "openreadout plot chromatograms.json -o chromatograms.png"
+   ]
+  },
+  {
+   "name": "diffraction",
+   "section": "previews",
+   "wide": false,
+   "title": "A diffraction image with resolution rings",
+   "caption": "One image of an EIGER 2X 16M sweep (NeXus master and bitshuffle-compressed data file), shrunk by the maximum so single-pixel spots survive, with log contrast, the module gaps as no data and resolution rings from the recorded wavelength, distance and beam centre.",
+   "img": "img/gallery/diffraction.png",
+   "width": 1337,
+   "height": 1376,
+   "commands": [
+    "openreadout preview Therm_6_1_master.h5 --max-size 1400 -o diffraction.png"
+   ]
+  },
+  {
+   "name": "cryoem-micrograph",
+   "section": "previews",
+   "wide": false,
+   "title": "An electron-event movie summed into a micrograph",
+   "caption": "All 648 frames of a Falcon 4i EER movie added up into the dose image, with the power spectrum of its middle as an inset: apoferritin particles at a carbon edge, and the Thon rings that tell the defocus.",
+   "img": "img/gallery/cryoem-micrograph.png",
+   "width": 1400,
+   "height": 1376,
+   "commands": [
+    "openreadout preview empiar13509-glacios_00817_1-7.eer --sum t --fft --max-size 1400 -o cryoem-micrograph.png"
+   ]
+  },
+  {
+   "name": "tilt-scheme",
+   "section": "figures",
+   "wide": false,
+   "title": "The dose a tilt series collected, tilt by tilt",
+   "caption": "A SerialEM tilt series' metadata: each tilt's accumulated dose against its angle shows the dose-symmetric order, 0° first and then alternating outwards.",
+   "img": "img/gallery/tilt-scheme.png",
+   "width": 960,
+   "height": 594,
+   "spec": "{\n  \"title\": \"Dose-symmetric tilt series\",\n  \"data\": {\n    \"file\": \"empiar10751-G3_TS_001.mrc.mdoc\",\n    \"x\": \"tilt_angle_deg\",\n    \"y\": \"cumulative_dose_e_per_a2\",\n    \"mark\": \"points\"\n  }\n}",
+   "commands": [
+    "openreadout plot tilt-scheme.json -o tilt-scheme.png"
    ]
   }
  ]

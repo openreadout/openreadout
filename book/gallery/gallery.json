@@ -92,6 +92,48 @@
       }
     },
     {
+      "name": "run-quality",
+      "section": "previews",
+      "title": "A sequencing run at a glance",
+      "caption": "An Illumina NovaSeq 6000 run folder read from its InterOp metrics only: % of base calls at Q30 or above by cycle per lane with the reads marked, intensity and base composition by cycle, cluster density and pass filter per lane, and the Q-score distribution.",
+      "preview": {
+        "file": "$CORPUS/200624_A00834_0183_BHMTFYDRXX",
+        "args": [
+          "--max-size",
+          "1400"
+        ]
+      },
+      "wide": true
+    },
+    {
+      "name": "squiggle",
+      "section": "previews",
+      "title": "A nanopore read, raw",
+      "caption": "One read of an Oxford Nanopore PromethION POD5 file in picoamperes: the whole read, a zoom where single bases show as steps, and where the read sits among the file's read durations.",
+      "preview": {
+        "file": "$CORPUS/seq-pod5-hg002-10reads.pod5",
+        "args": [
+          "--sweep",
+          "3",
+          "--max-size",
+          "1200"
+        ]
+      }
+    },
+    {
+      "name": "read-lengths",
+      "section": "previews",
+      "title": "Read lengths and qualities of a FASTQ file",
+      "caption": "PacBio HiFi reads: the length histogram with the N50 marked, the mean read quality and the quality by position, streamed from a gzip FASTQ.",
+      "preview": {
+        "file": "$CORPUS/seq-fastq-pacbio-hifi.fastq.gz",
+        "args": [
+          "--max-size",
+          "1200"
+        ]
+      }
+    },
+    {
       "name": "flow-density",
       "section": "previews",
       "title": "Flow cytometry as a density plot",
@@ -372,6 +414,50 @@
         },
         "facet": "series",
         "columns": 1
+      }
+    },
+    {
+      "name": "diffraction",
+      "section": "previews",
+      "title": "A diffraction image with resolution rings",
+      "caption": "One image of an EIGER 2X 16M sweep (NeXus master and bitshuffle-compressed data file), shrunk by the maximum so single-pixel spots survive, with log contrast, the module gaps as no data and resolution rings from the recorded wavelength, distance and beam centre.",
+      "preview": {
+        "file": "$CORPUS/zenodo3383611/Therm_6_1_master.h5",
+        "args": [
+          "--max-size",
+          "1400"
+        ]
+      }
+    },
+    {
+      "name": "cryoem-micrograph",
+      "section": "previews",
+      "title": "An electron-event movie summed into a micrograph",
+      "caption": "All 648 frames of a Falcon 4i EER movie added up into the dose image, with the power spectrum of its middle as an inset: apoferritin particles at a carbon edge, and the Thon rings that tell the defocus.",
+      "preview": {
+        "file": "$CORPUS/empiar13509-glacios_00817_1-7.eer",
+        "args": [
+          "--sum",
+          "t",
+          "--fft",
+          "--max-size",
+          "1400"
+        ]
+      }
+    },
+    {
+      "name": "tilt-scheme",
+      "section": "figures",
+      "title": "The dose a tilt series collected, tilt by tilt",
+      "caption": "A SerialEM tilt series' metadata: each tilt's accumulated dose against its angle shows the dose-symmetric order, 0° first and then alternating outwards.",
+      "plot": {
+        "title": "Dose-symmetric tilt series",
+        "data": {
+          "file": "$CORPUS/empiar10751-G3_TS_001.mrc.mdoc",
+          "x": "tilt_angle_deg",
+          "y": "cumulative_dose_e_per_a2",
+          "mark": "points"
+        }
       }
     }
   ]
