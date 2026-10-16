@@ -79,7 +79,7 @@ Irregularly sampled traces, such as chromatograms, have `sample_rate_hz` 0. They
 
 Other vendor wording is kept, such as `Brightfield (RGB)` from VSI.
 
-**Immersion.** `objective.immersion` is `Oil`, `Water`, `Air`, `Glycerol`, `Multi` or `Other`, whatever the case in the file. `dry` becomes `Air`. Other media, such as `Silicone`, are kept as written.
+**Immersion.** `objective.immersion` is `Oil`, `Water`, `Air`, `Glycerol`, `Multi` or `Other`, written this way even when the file uses lower or upper case. `dry` becomes `Air`. Other media, such as `Silicone`, are kept as written.
 
 ## Per-frame records
 

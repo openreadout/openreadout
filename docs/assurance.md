@@ -61,7 +61,7 @@ reader reports every measured read's mode this way (`mode_basis` in `extra.reads
 
 A comparison with an oracle checks some values and not others: an image oracle compares
 pixels, sizes and channels, but rarely the acquisition time. A passing file used to validate
-every descriptive feature, whatever its oracle compared. For the values that questions ask about
+every descriptive feature, even those its oracle never compared. For the values that questions ask about
 and whose errors do not show in decoded data, the corpus test now records which ones each
 comparison checked (`fields` in its results, `covered(...)` in `crates/openreadout-corpus-tests/tests/corpus/`),
 and the core tracks them (`TRACKED_FIELDS`): the acquisition start
@@ -112,7 +112,7 @@ outputs `unvalidated`; without one it is left out and the file is `partially_val
 reader reports both since 2026-10-06: an export that yields no values, or a plate block without
 values, is undecoded with the tables scope, and a read or plate section it refuses
 by name (`multiple_reads_without_mean`, `plate_not_decoded`, `read_not_decoded`, `table_axis_not_decoded`,
-`unsupported_read_type`) is left out. The UNICORN reader does the same for curves it refuses (a member cut short, or bare floats instead of a serialized array): `info` notes that the file is damaged, and the traces are undecoded, so the file is never `validated` for them, whatever its comparison covered. A table with no rows is not enough on its own: event tables
+`unsupported_read_type`) is left out. The UNICORN reader does the same for curves it refuses (a member cut short, or bare floats instead of a serialized array): `info` notes that the file is damaged, and the traces are undecoded, so the file is never `validated` for them, even when its comparison covers them. A table with no rows is not enough on its own: event tables
 of electrophysiology files are often empty, and correctly so.
 
 ## Cross-validation on the development corpus
