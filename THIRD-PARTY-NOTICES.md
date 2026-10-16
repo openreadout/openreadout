@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 318 |
+| MIT License | 319 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 7 |
 | Unicode License v3 | 5 |
@@ -3499,6 +3499,7 @@ Used by:
 - [openreadout-arrow 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-assay 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-batch 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-benchtop 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-biophys 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-blackrock 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-bruker-tims 0.3.0](https://github.com/openreadout/openreadout)
