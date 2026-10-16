@@ -590,6 +590,39 @@ wheels = [
 ]
 
 [[package]]
+name = "biopython"
+version = "1.88"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f6/a0/cf657d076ec56a5f9e5c29a560c1f97b8eb6ae6608dc8bc95b4e2437f129/biopython-1.88.tar.gz", hash = "sha256:9aaa31c0bda4d059f7b2ee00bfdb5cbb73ade3057aa4b737a7cc0187091d071a", size = 19858058, upload-time = "2026-08-06T12:13:36.003Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f9/9d/2a2f88a3315a1cd77fd94c297ac9f2fc323dee8e41c43c423edf108fca20/biopython-1.88-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:9732e2c74b1e3751810b026e568817afb18101039c30c9b16b9193e40ec1efdb", size = 2680594, upload-time = "2026-08-06T12:30:38.131Z" },
+    { url = "https://files.pythonhosted.org/packages/af/ed/b624a5ecb8c11b0d0ed7ae7f7c4d39663d72c8351808ecae3288c92b123c/biopython-1.88-cp310-cp310-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:02a6d8ed4eea1ee9e1c2a9d7690f21a60406bcfee7c71348363e267cce397bee", size = 3194726, upload-time = "2026-08-06T12:58:57.248Z" },
+    { url = "https://files.pythonhosted.org/packages/60/d4/7ac6f119c1699348538f4cf2bc118cd1216ed58b65a0ca0343f36e33f8b2/biopython-1.88-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:b321ee0f652aaecefe065b11d64b527c4d04f7826dfb7cfa31edea5ab1db07c2", size = 3216437, upload-time = "2026-08-06T12:59:05.649Z" },
+    { url = "https://files.pythonhosted.org/packages/23/97/d7c82acb2899629b5c6784ef30bdc72f97edc54303640fce8b52bd0afcb7/biopython-1.88-cp310-cp310-win32.whl", hash = "sha256:99288eb34ce75cb85a10ab3e5d76ffe45f0c03c7f5cc6d144d3777419e44b31e", size = 2709152, upload-time = "2026-08-06T12:31:44.064Z" },
+    { url = "https://files.pythonhosted.org/packages/2e/e2/a012d3df653fdb02f6388a0cbd74788893686d56fcdbf3cb6126944e3a1f/biopython-1.88-cp310-cp310-win_amd64.whl", hash = "sha256:0e732f44208f1bab7c42bfea94422609249bd897da6b25b5588618436e80a6d2", size = 2745370, upload-time = "2026-08-06T12:31:40.017Z" },
+    { url = "https://files.pythonhosted.org/packages/33/f7/caf900dbc48ec6c338f156fb1354fb8a78e17221fb9f0d6272d24324ac6f/biopython-1.88-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:793de1a57d9b75546a4041f547b6a848031a71933f66d4c761857b0b0118c46b", size = 2680598, upload-time = "2026-08-06T12:30:46.676Z" },
+    { url = "https://files.pythonhosted.org/packages/2f/71/d98fdce67942d93b9824cf4e47e4a5c126ecd9a94e5a082eacd0d2646f21/biopython-1.88-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:906a7b2d4bc4515f5718f3ae994bd3bcfe8e87d963954008b57e0109e3772a58", size = 3207906, upload-time = "2026-08-06T12:59:10.531Z" },
+    { url = "https://files.pythonhosted.org/packages/83/39/5da166f2152ef43eae6c0a3976898d90e2e0065d010be174ca1460346c49/biopython-1.88-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:99e1f7022ab8eee2ae9e9a05b66ad183b9fe4eeb4e561a65ed0fd85eef5f8267", size = 3229559, upload-time = "2026-08-06T12:59:16.426Z" },
+    { url = "https://files.pythonhosted.org/packages/02/67/6fb95df7d811f9028088d0e2f771dfeaf1916a5d4236c9a408acc0480b70/biopython-1.88-cp311-cp311-win32.whl", hash = "sha256:024e438d044a0b1d4a0157af4ab2411b83389696aee3cdeb71f5ee74d0a59df2", size = 2708977, upload-time = "2026-08-06T12:32:02.068Z" },
+    { url = "https://files.pythonhosted.org/packages/90/ea/479bdfd4799801bbe2c990bbd38517f84f4b454460454d874db16ff98c63/biopython-1.88-cp311-cp311-win_amd64.whl", hash = "sha256:5808c5b980e63226426737b6f71b5dd7747e2e3d0074720cc04edf348ab57eab", size = 2744947, upload-time = "2026-08-06T12:31:57.772Z" },
+    { url = "https://files.pythonhosted.org/packages/83/b4/fbd2f53d06bd2c98d7f52da05a1d4cc838e4921ca6daa839a30d72d89256/biopython-1.88-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:43ce1fbed01c0ddb903fa426fa0f836062d973a09df15560ac8e895da24c1350", size = 2681164, upload-time = "2026-08-06T12:30:50.889Z" },
+    { url = "https://files.pythonhosted.org/packages/ae/a8/aaf7e3d1302cdbe9ee9261861b75a891d6de8de02e1fadeff1ea623687be/biopython-1.88-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:fe2dccf88e309dc896e7c2cc974a47be7a7b96d59c7f2ffd74ffcc7cfbdebb0c", size = 3220547, upload-time = "2026-08-06T12:59:21.865Z" },
+    { url = "https://files.pythonhosted.org/packages/17/c2/613ca5f729b55b2f7a9c17a3cd59d3f053ee2816da2d19933acc6b8741ec/biopython-1.88-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:9384c30460832926e765319040d732d1252a713a05af1dd4cc8b19cb1d590439", size = 3246647, upload-time = "2026-08-06T12:59:27.092Z" },
+    { url = "https://files.pythonhosted.org/packages/8d/ba/fae2eddf1f7aaf149a2a51663853bcc9d80381b9c03ab4d8b56557f58c75/biopython-1.88-cp312-cp312-win32.whl", hash = "sha256:4904abb18a1e039a631e549529c9b8123a166838cafe27f649f83f0183382d61", size = 2709235, upload-time = "2026-08-06T12:32:17.329Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/4c/99ab6a00038e15f88e02992986225f57b1c675d1ad8bc8e5271d34c47c0d/biopython-1.88-cp312-cp312-win_amd64.whl", hash = "sha256:dd5131b70287486af1acef2fc40de51c68de2ea740ab772097ac2d10bad9a0b5", size = 2744159, upload-time = "2026-08-06T12:32:12.817Z" },
+    { url = "https://files.pythonhosted.org/packages/ae/9a/333f14a9228f5dc702d8a7570482e096b8503d3b6679054772b79cf05358/biopython-1.88-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:465caece761b9ec22e0dc63bb5969517c901587a27104c4f1cee69f414b4df2d", size = 2681139, upload-time = "2026-08-06T12:30:58.807Z" },
+    { url = "https://files.pythonhosted.org/packages/28/66/c3d6060ee8b08af4118817fe5ac455f1faf776c26e9c08f2d0232c687a72/biopython-1.88-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:df709eabdce2fc2cc1059fcefbbea245d2b2c41fc2026eda6194b810474e68d6", size = 3220838, upload-time = "2026-08-06T12:59:31.92Z" },
+    { url = "https://files.pythonhosted.org/packages/30/9b/1075a762fc3595d4b8ca688246be9f9ca68a29d0c05c336197670fbc7eff/biopython-1.88-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:410eaa083fcc308b44c7051e597ae2f39e4068754bdd605cc32aed025aa132d0", size = 3246944, upload-time = "2026-08-06T12:59:36.656Z" },
+    { url = "https://files.pythonhosted.org/packages/e4/50/f3089c4f36d9d877475bfd2cb0d066b0a6be638aae7238be136d890a433b/biopython-1.88-cp313-cp313-win32.whl", hash = "sha256:e3ac69b8abddac75dce301cbe77fc2650cbe0bd62ab2d2662d0f6f378b8c8018", size = 2709206, upload-time = "2026-08-06T12:32:29.601Z" },
+    { url = "https://files.pythonhosted.org/packages/db/80/3890552b57771e87ba8f4d7936ad6a9074252fcc615d1a8599c977a4bed4/biopython-1.88-cp313-cp313-win_amd64.whl", hash = "sha256:f0aaf49f0c8919fb7a02cdc3db9e7f89165f53417a18d80508e0f167121cb7c1", size = 2744168, upload-time = "2026-08-06T12:32:25.365Z" },
+]
+
+[[package]]
 name = "bokeh"
 version = "3.9.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1949,8 +1982,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/be/ea/416657fb1cf0cb93c2564922a94f8bd361ae3d73a591c4b84e257a2305d8/imagecodecs-2026.8.16-cp312-abi3-macosx_11_0_arm64.whl", hash = "sha256:53f4b7d70a5554f8d5f6f09746e5e9569ce4932b12e6997d805b81c377621fed", size = 12928116, upload-time = "2026-08-15T16:06:08.041Z" },
     { url = "https://files.pythonhosted.org/packages/21/cf/398d49c8b616bc997b58749812dab5719e68165caa0275d5a1e3e310a1ba/imagecodecs-2026.8.16-cp312-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:908fa48740d52acbaea200d422e2267623122a1987fc85e898c77b2bb02d3e00", size = 28094370, upload-time = "2026-08-15T16:06:11.642Z" },
     { url = "https://files.pythonhosted.org/packages/67/1b/0771f9b93a8f43b1e98a20d33fab02a6eceb8bb75c32764b5d47ee4db36f/imagecodecs-2026.8.16-cp312-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:c1068e0db9bc09cbd32510e543caed50f231096aecbb4c9cf7bcfbd2ffc53a50", size = 28080673, upload-time = "2026-08-15T16:06:15.463Z" },
-    { url = "https://files.pythonhosted.org/packages/66/57/876bf8245b672b1fc901b65b9d1d0a37c60f7ed36e6ae8815c4af49e2779/imagecodecs-2026.8.16-cp312-abi3-pyemscripten_2025_0_wasm32.whl", hash = "sha256:59e16b27641bd08b5162de01a8bc382cd32a5e448cb5c2f4a1b252ea96d37fed", size = 2280993, upload-time = "2026-08-15T16:06:17.576Z" },
-    { url = "https://files.pythonhosted.org/packages/ac/a2/b0ea5fee8c2c4f3cf68bb2243f640ea087885598aedb2f98bde0298f73ec/imagecodecs-2026.8.16-cp312-abi3-pyemscripten_2026_0_wasm32.whl", hash = "sha256:fcb28f8e552f26c195710bddbf7e8685e789ee9309725df4a275df16d7a136bc", size = 2273594, upload-time = "2026-08-15T16:06:19.082Z" },
     { url = "https://files.pythonhosted.org/packages/cf/b7/cae1b739d368bc17df669f43793b5e6a7d1f56e19438eaa41add21611919/imagecodecs-2026.8.16-cp312-abi3-win32.whl", hash = "sha256:82bc27758f25d181eb4fd4fd8997b3eb07118dc673dee93aa3e64df8485e89bc", size = 16562229, upload-time = "2026-08-15T16:06:21.677Z" },
     { url = "https://files.pythonhosted.org/packages/3e/da/d168a0e706103db3b82bde1b088d493e84a20da26f58be42bb2f1fca87e7/imagecodecs-2026.8.16-cp312-abi3-win_amd64.whl", hash = "sha256:6444a421272665ebd0116b54ad96347b86b4a5e21b59ed184487145cd3937f4b", size = 21271669, upload-time = "2026-08-15T16:06:25.021Z" },
     { url = "https://files.pythonhosted.org/packages/99/0b/31642c8c404d436496b76c7cf6df220617f2e1ae36ae25e6809aa0a36a10/imagecodecs-2026.8.16-cp312-abi3-win_arm64.whl", hash = "sha256:b05e3ae5fa190c9722a0865cc06a3efccf27b025cbeeb8e9fd6beae0de5ce1d2", size = 16870662, upload-time = "2026-08-15T16:06:28.055Z" },
@@ -3555,6 +3586,7 @@ dependencies = [
     { name = "bioio-nd2" },
     { name = "bioio-ome-tiff" },
     { name = "bioio-ome-zarr", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "biopython" },
     { name = "brukeropus" },
     { name = "brukeropusreader" },
     { name = "czifile", version = "2019.7.2.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
@@ -3657,6 +3689,7 @@ requires-dist = [
     { name = "bioio-nd2" },
     { name = "bioio-ome-tiff" },
     { name = "bioio-ome-zarr", marker = "python_full_version >= '3.11'", specifier = ">=3" },
+    { name = "biopython", specifier = ">=1.84" },
     { name = "brukeropus", specifier = ">=1.4" },
     { name = "brukeropusreader", specifier = ">=1.3.4" },
     { name = "czifile" },

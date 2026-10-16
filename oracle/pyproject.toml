@@ -97,6 +97,8 @@ dependencies = [
     # Quantitation oracles (chromatogram extraction, peak picking and integration): pyOpenMS
     # (BSD-3) PeakPickerMRM / PeakIntegrator; SciPy (above) find_peaks/peak_widths second opinion.
     "pyopenms>=3.2",
+    # Applied Biosystems ABIF (.ab1/.fsa): Biopython's AbiIO (BSD-3 / Biopython licence).
+    "biopython>=1.84",
 ]
 
 # allotropy 0.1.146 pins rainbow-api 1.0.10, while the chromatography oracle needs rainbow-api

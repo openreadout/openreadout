@@ -75,3 +75,31 @@ and two above. The ladder fragment lengths are the published product specificati
 standard (the vendor's public product pages); they are facts about a reagent, not file contents.
 Ladder peaks are matched to the expected lengths by the reader's own alignment (see
 `crates/openreadout-ce/src/sizing.rs`).
+
+## 2026-10-15 — 3500 files and the instrument's sizing
+
+**Corpus files used:** Fraggler (Clinical Genomics Umeå, MIT) demo and paper data at commit
+`ebbb56d9`: `abif-fraggler-multiplex`, `-error`, `-no-peaks`, `-k1` … `-k7` (3500 Dx, Data
+Collection 3 IVD v3.0.1, SizeCaller v1.1.0, dyes 6-FAM, VIC, NED, PET and LIZ, GS600 LIZ), and
+`abif-fraggler-peakscanner`, the PeakScanner peak table the Fraggler authors exported for the
+seven `-k` runs.
+
+**Prior art consulted:** none beyond the entries above.
+
+### Inferred from the files
+
+- These files have version 300, not 101; the container is laid out exactly as the 2006
+  specification describes, so versions 1.xx to 3.xx are read alike.
+- `SMap` 1 is the scan index 0 … n−1 and `SMap` 2 (doubles) a size for each scan: −1 before the
+  sized range, then strictly rising. `StdF` names the standard and the range it was fitted over
+  (`GS600LIZ(60-600)+Normalization`).
+- `Peak` 1–25 are parallel arrays, one entry per peak. Matching every row of the PeakScanner
+  export to the file's peak with the same dye and data point (127 of 127 rows of `-k1`, all
+  equal to the export's two decimals) gave: 1 dye number (5 = LIZ, by `DyeN`), 2 apex scan
+  ("Data Point"), 3 and 4 start and end scans, 7 height, 12 size, 13 and 14 start and end sizes,
+  17 area in base pairs. Peak 21 holds a ladder length on the LIZ peaks inside the fitted range
+  (60 … 600) and 0 elsewhere: the size-standard assignment. The other columns are not named.
+- Sizing check: the reader's own Local Southern sizing, run on the same LIZ channel against
+  GS600 LIZ (60–600) with its own peak matching, differs from `SMap` 2 by at most 0.07 bp at the
+  instrument's peaks of `-k1`, `multiplex` and `error`. The reader therefore uses `SMap` 2 when
+  it is present and its own sizing otherwise.
