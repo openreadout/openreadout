@@ -120,7 +120,10 @@ impl DicomFile {
         let mut pixels = None;
         let mut pixel_tag = parse::PIXEL_DATA;
         let mut pixel_vr = *b"OB";
-        if let Some(e) = ds.iter().rev().find(|e| e.tag >> 16 == 0x7FE0 && e.tag & 0xFFFF >= 8)
+        if let Some(e) = ds
+            .iter()
+            .rev()
+            .find(|e| e.tag >> 16 == 0x7FE0 && e.tag & 0xFFFF >= 8)
         {
             pixel_tag = e.tag;
             pixel_vr = e.vr;

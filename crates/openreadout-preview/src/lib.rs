@@ -168,7 +168,10 @@ impl FromStr for Contrast {
                     };
                     return Ok(Contrast::StoredWindow(n));
                 }
-                if let Some((_, c, w)) = WINDOW_PRESETS.iter().find(|p| p.0 == spec.replace('_', "-")) {
+                if let Some((_, c, w)) = WINDOW_PRESETS
+                    .iter()
+                    .find(|p| p.0 == spec.replace('_', "-"))
+                {
                     return Ok(Contrast::Window(*c, *w));
                 }
                 let (c, w) = spec.split_once(',').ok_or_else(bad)?;
@@ -549,10 +552,16 @@ fn render_image(
         // the z selection places the crosshair; the composite itself is one plane
         let join = |a: &str, v: &[u32]| {
             (!v.is_empty()).then(|| {
-                format!("{a}={}", v.iter().map(u32::to_string).collect::<Vec<_>>().join(","))
+                format!(
+                    "{a}={}",
+                    v.iter().map(u32::to_string).collect::<Vec<_>>().join(",")
+                )
             })
         };
-        req.select = [join("c", &sel.c), join("t", &sel.t)].into_iter().flatten().collect();
+        req.select = [join("c", &sel.c), join("t", &sel.t)]
+            .into_iter()
+            .flatten()
+            .collect();
         if req.mip.is_some() {
             return Err(Error::Usage(
                 "an orthogonal view shows three slices; project with view axial, coronal or sagittal and mip z".into(),
@@ -562,7 +571,8 @@ fn render_image(
             // rulers would count composite pixels; frame it as a figure with a scale bar
             req.figure = true;
             req.grid = false;
-            out.notes.push("orthogonal views are framed with a scale bar, not rulers".into());
+            out.notes
+                .push("orthogonal views are framed with a scale bar, not rulers".into());
         }
     }
     let (mut vds, vim, marks, notes) = volume::ViewDataset::new(ds, info, image, view, select_z)?;
@@ -580,23 +590,28 @@ fn render_image(
     }
     let drawn = (figure, frame);
     if let Some(p) = out.image.as_mut() {
-        p.view = Some(match vds.view() {
-            View::Axial => "axial",
-            View::Coronal => "coronal",
-            View::Sagittal => "sagittal",
-            View::Orthogonal => "orthogonal",
-            View::Xz => "xz",
-            View::Yz => "yz",
-            View::Native => "native",
-        }
-        .into());
+        p.view = Some(
+            match vds.view() {
+                View::Axial => "axial",
+                View::Coronal => "coronal",
+                View::Sagittal => "sagittal",
+                View::Orthogonal => "orthogonal",
+                View::Xz => "xz",
+                View::Yz => "yz",
+                View::Native => "native",
+            }
+            .into(),
+        );
         p.crosshair = vds.point();
         p.view_slices = Some(slices);
     }
     if req.view.is_none() {
         out.notes.push(format!(
             "shown as a radiological {} view (view: native shows the stored orientation)",
-            out.image.as_ref().and_then(|p| p.view.clone()).unwrap_or_default()
+            out.image
+                .as_ref()
+                .and_then(|p| p.view.clone())
+                .unwrap_or_default()
         ));
     }
     let _ = vds.ortho_step();

@@ -540,7 +540,10 @@ fn render_export(r: &ExportOutput) -> String {
             r.planes_written,
             r.bytes_written,
             r.verified,
-            r.notes.iter().map(|n| format!("\n  note: {n}")).collect::<String>()
+            r.notes
+                .iter()
+                .map(|n| format!("\n  note: {n}"))
+                .collect::<String>()
         ),
         ExportOutput::Rdml(r) => format!(
             "wrote {} (RDML {}: {} run(s), {} reactions, {} data elements, {} Cq values, {} amplification and {} melt points; {} bytes, verified={}){}",

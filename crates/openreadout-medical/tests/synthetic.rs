@@ -3,7 +3,9 @@
 use std::path::Path;
 
 use openreadout_core::{FormatReader, PixelType, PlaneIndex};
-use openreadout_medical::{DicomReader, NiftiExportOptions, NiftiReader, ParavisionReader, export_nifti};
+use openreadout_medical::{
+    DicomReader, NiftiExportOptions, NiftiReader, ParavisionReader, export_nifti,
+};
 
 // ---------------------------------------------------------------------------------------- DICOM
 
@@ -73,7 +75,11 @@ fn ct_slice(z: f64, instance: u32, base: u16) -> Vec<u8> {
 fn a_folder_of_slices_is_one_volume_in_hounsfield_units() {
     let dir = tempfile::tempdir().unwrap();
     // written out of order: the reader sorts by position along the normal
-    for (name, z, inst, base) in [("b.dcm", 5.0, 2, 1100), ("a.dcm", 2.5, 1, 1000), ("c.dcm", 7.5, 3, 1200)] {
+    for (name, z, inst, base) in [
+        ("b.dcm", 5.0, 2, 1100),
+        ("a.dcm", 2.5, 1, 1000),
+        ("c.dcm", 7.5, 3, 1200),
+    ] {
         std::fs::write(dir.path().join(name), ct_slice(z, inst, base)).unwrap();
     }
     let mut ds = DicomReader.open(dir.path()).unwrap();
@@ -88,7 +94,11 @@ fn a_folder_of_slices_is_one_volume_in_hounsfield_units() {
     assert_eq!(im.extra["value_unit"], "HU");
     assert_eq!(im.extra["orientation"]["plane"], "axial");
     let p = ds.read_plane(0, PlaneIndex { c: 0, z: 0, t: 0 }).unwrap();
-    let v: Vec<i16> = p.data.chunks_exact(2).map(|c| i16::from_le_bytes([c[0], c[1]])).collect();
+    let v: Vec<i16> = p
+        .data
+        .chunks_exact(2)
+        .map(|c| i16::from_le_bytes([c[0], c[1]]))
+        .collect();
     assert_eq!(v[0], 1000 - 1024);
     assert_eq!(v[11], 1011 - 1024);
     let top = ds.read_plane(0, PlaneIndex { c: 0, z: 2, t: 0 }).unwrap();
@@ -141,9 +151,25 @@ fn malformed_dicom_is_an_error_not_a_panic() {
 
 fn nifti(dims: &[i16], datatype: i16, bitpix: i16, slope: f32, data: &[u8], big: bool) -> Vec<u8> {
     let mut h = vec![0u8; 352];
-    let i16b = |v: i16| if big { v.to_be_bytes() } else { v.to_le_bytes() };
-    let f32b = |v: f32| if big { v.to_be_bytes() } else { v.to_le_bytes() };
-    h[0..4].copy_from_slice(&if big { 348i32.to_be_bytes() } else { 348i32.to_le_bytes() });
+    let i16b = |v: i16| {
+        if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        }
+    };
+    let f32b = |v: f32| {
+        if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        }
+    };
+    h[0..4].copy_from_slice(&if big {
+        348i32.to_be_bytes()
+    } else {
+        348i32.to_le_bytes()
+    });
     h[40..42].copy_from_slice(&i16b(dims.len() as i16));
     for (i, d) in dims.iter().enumerate() {
         h[42 + 2 * i..44 + 2 * i].copy_from_slice(&i16b(*d));
@@ -177,7 +203,11 @@ fn nifti_planes_scaling_and_byte_order() {
     assert_eq!(im.physical_size.z, Some(3000.0));
     assert_eq!(im.time_increment_s, Some(1.5));
     let p = ds.read_plane(0, PlaneIndex { c: 0, z: 1, t: 1 }).unwrap();
-    let v: Vec<f32> = p.data.chunks_exact(4).map(|c| f32::from_le_bytes([c[0], c[1], c[2], c[3]])).collect();
+    let v: Vec<f32> = p
+        .data
+        .chunks_exact(4)
+        .map(|c| f32::from_le_bytes([c[0], c[1], c[2], c[3]]))
+        .collect();
     // plane index z + nz * t = 3 → values 18..24, times 0.5
     assert_eq!(v, vec![9.0, 9.5, 10.0, 10.5, 11.0, 11.5]);
     // big-endian copy, no scaling
@@ -197,7 +227,13 @@ fn dicom_exports_to_nifti_and_reads_back() {
     }
     let mut ds = DicomReader.open(dir.path()).unwrap();
     let out = dir.path().join("out").join("ct.nii.gz");
-    let r = export_nifti(ds.as_mut(), dir.path(), &out, &NiftiExportOptions::default()).unwrap();
+    let r = export_nifti(
+        ds.as_mut(),
+        dir.path(),
+        &out,
+        &NiftiExportOptions::default(),
+    )
+    .unwrap();
     assert!(r.verified);
     assert_eq!(r.affine_from, "dicom");
     let mut back = NiftiReader.open(&out).unwrap();
@@ -226,8 +262,14 @@ fn analyze_pairs_are_read_through_either_file() {
         let head = std::fs::read(&p).unwrap();
         assert!(NiftiReader.sniff(&head, &p).is_some(), "{name}");
         let mut ds = NiftiReader.open(&p).unwrap();
-        assert_eq!(ds.info().unwrap().format_version.as_deref(), Some("Analyze 7.5"));
-        assert_eq!(ds.read_plane(0, PlaneIndex::default()).unwrap().data, vec![1, 2, 3, 4]);
+        assert_eq!(
+            ds.info().unwrap().format_version.as_deref(),
+            Some("Analyze 7.5")
+        );
+        assert_eq!(
+            ds.read_plane(0, PlaneIndex::default()).unwrap().data,
+            vec![1, 2, 3, 4]
+        );
     }
 }
 
@@ -238,15 +280,26 @@ fn paravision_frame_groups_become_z_and_channels() {
     let dir = tempfile::tempdir().unwrap();
     let e = dir.path().join("7");
     std::fs::create_dir_all(e.join("pdata/1")).unwrap();
-    std::fs::write(e.join("acqp"), "##TITLE=Parameter List\n##$ACQ_method=<Bruker:FLASH>\n##END=\n").unwrap();
-    std::fs::write(e.join("method"), "##TITLE=Parameter List\n##$Method=<Bruker:FLASH>\n##END=\n").unwrap();
+    std::fs::write(
+        e.join("acqp"),
+        "##TITLE=Parameter List\n##$ACQ_method=<Bruker:FLASH>\n##END=\n",
+    )
+    .unwrap();
+    std::fs::write(
+        e.join("method"),
+        "##TITLE=Parameter List\n##$Method=<Bruker:FLASH>\n##END=\n",
+    )
+    .unwrap();
     let visu = "##TITLE=Parameter List, ParaVision 7.0.0\n##$VisuCoreFrameCount=6\n##$VisuCoreDim=2\n##$VisuCoreSize=( 2 )\n2 3\n\
 ##$VisuCoreExtent=( 2 )\n4 3\n##$VisuCoreUnits=( 2, 65 )\n<mm> <mm>\n##$VisuCoreWordType=_16BIT_SGN_INT\n##$VisuCoreByteOrder=littleEndian\n\
 ##$VisuCoreDataSlope=( 6 )\n@6*(2)\n##$VisuCoreDataOffs=( 6 )\n@6*(0)\n##$VisuFGOrderDesc=( 2 )\n(2, <FG_ECHO>, <>, 0, 2) (3, <FG_SLICE>, <>, 2, 2)\n\
 ##$VisuFGElemComment=( 2, 65 )\n<first> <second>\n##$VisuCoreSlicePacksSliceDist=( 1 )\n1.5\n##$VisuSubjectName=( 65 )\n<Mouse Seven>\n##END=\n";
     std::fs::write(e.join("pdata/1/visu_pars"), visu).unwrap();
     // 6 frames of 2 x 3: frame f holds the value f everywhere
-    let data: Vec<u8> = (0..6i16).flat_map(|f| std::iter::repeat_n(f, 6)).flat_map(|v| v.to_le_bytes()).collect();
+    let data: Vec<u8> = (0..6i16)
+        .flat_map(|f| std::iter::repeat_n(f, 6))
+        .flat_map(|v| v.to_le_bytes())
+        .collect();
     std::fs::write(e.join("pdata/1/2dseq"), data).unwrap();
     assert!(ParavisionReader.sniff(&[], &e).is_some());
     let mut ds = ParavisionReader.open(&e).unwrap();
@@ -258,7 +311,10 @@ fn paravision_frame_groups_become_z_and_channels() {
     assert_eq!(im.physical_size.z, Some(1500.0));
     // FG_ECHO varies fastest: (z=2, c=1) is frame 1 + 2*2 = 5, scaled by 2
     let p = ds.read_plane(0, PlaneIndex { c: 1, z: 2, t: 0 }).unwrap();
-    assert_eq!(f32::from_le_bytes([p.data[0], p.data[1], p.data[2], p.data[3]]), 10.0);
+    assert_eq!(
+        f32::from_le_bytes([p.data[0], p.data[1], p.data[2], p.data[3]]),
+        10.0
+    );
     let s = serde_json::to_string(&info).unwrap() + &ds.vendor_metadata().unwrap().to_string();
     assert!(!s.contains("Mouse Seven"));
     assert!(ds.check().unwrap().ok);
@@ -267,6 +323,10 @@ fn paravision_frame_groups_become_z_and_channels() {
 #[test]
 fn readers_refuse_what_is_not_theirs() {
     let p = Path::new("x.dcm");
-    assert!(DicomReader.sniff(b"PK\x03\x04 not dicom", p).is_some_and(|d| d.confidence == openreadout_core::model::DetectConfidence::ExtensionOnly));
+    assert!(
+        DicomReader.sniff(b"PK\x03\x04 not dicom", p).is_some_and(
+            |d| d.confidence == openreadout_core::model::DetectConfidence::ExtensionOnly
+        )
+    );
     assert!(NiftiReader.sniff(&[0u8; 400], Path::new("x.nii")).is_none());
 }

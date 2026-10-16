@@ -227,7 +227,12 @@ pub(crate) static SYNTAXES: &[Syntax] = &[
         Compression::JpegXl,
         true,
     ),
-    ts("1.2.840.10008.1.2.4.112", "JPEG XL", Compression::JpegXl, true),
+    ts(
+        "1.2.840.10008.1.2.4.112",
+        "JPEG XL",
+        Compression::JpegXl,
+        true,
+    ),
     ts(
         "1.2.840.10008.1.2.8.1",
         "Deflated Image Frame Compression",
@@ -245,63 +250,163 @@ pub(crate) static SYNTAXES: &[Syntax] = &[
 /// The transfer syntax with `uid`; unknown UIDs are treated as explicit VR little endian with
 /// encapsulated pixel data this reader does not decode (`Compression::Other`).
 pub(crate) fn syntax(uid: &str) -> Syntax {
-    SYNTAXES.iter().find(|s| s.uid == uid).copied().unwrap_or(Syntax {
-        uid: "",
-        name: "unknown transfer syntax",
-        ..ts("", "", Compression::Other, true)
-    })
+    SYNTAXES
+        .iter()
+        .find(|s| s.uid == uid)
+        .copied()
+        .unwrap_or(Syntax {
+            uid: "",
+            name: "unknown transfer syntax",
+            ..ts("", "", Compression::Other, true)
+        })
 }
 
 /// Names of the storage SOP classes (PS3.6 Annex A) a lab is likely to meet.
 static SOP_CLASSES: &[(&str, &str)] = &[
     ("1.2.840.10008.1.3.10", "Media Storage Directory Storage"),
-    ("1.2.840.10008.5.1.4.1.1.1", "Computed Radiography Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.1.1", "Digital X-Ray Image Storage - For Presentation"),
-    ("1.2.840.10008.5.1.4.1.1.1.1.1", "Digital X-Ray Image Storage - For Processing"),
-    ("1.2.840.10008.5.1.4.1.1.1.2", "Digital Mammography X-Ray Image Storage - For Presentation"),
-    ("1.2.840.10008.5.1.4.1.1.1.2.1", "Digital Mammography X-Ray Image Storage - For Processing"),
-    ("1.2.840.10008.5.1.4.1.1.1.3", "Digital Intra-Oral X-Ray Image Storage - For Presentation"),
+    (
+        "1.2.840.10008.5.1.4.1.1.1",
+        "Computed Radiography Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.1.1",
+        "Digital X-Ray Image Storage - For Presentation",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.1.1.1",
+        "Digital X-Ray Image Storage - For Processing",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.1.2",
+        "Digital Mammography X-Ray Image Storage - For Presentation",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.1.2.1",
+        "Digital Mammography X-Ray Image Storage - For Processing",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.1.3",
+        "Digital Intra-Oral X-Ray Image Storage - For Presentation",
+    ),
     ("1.2.840.10008.5.1.4.1.1.2", "CT Image Storage"),
     ("1.2.840.10008.5.1.4.1.1.2.1", "Enhanced CT Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.2.2", "Legacy Converted Enhanced CT Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.3.1", "Ultrasound Multi-frame Image Storage"),
+    (
+        "1.2.840.10008.5.1.4.1.1.2.2",
+        "Legacy Converted Enhanced CT Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.3.1",
+        "Ultrasound Multi-frame Image Storage",
+    ),
     ("1.2.840.10008.5.1.4.1.1.4", "MR Image Storage"),
     ("1.2.840.10008.5.1.4.1.1.4.1", "Enhanced MR Image Storage"),
     ("1.2.840.10008.5.1.4.1.1.4.2", "MR Spectroscopy Storage"),
-    ("1.2.840.10008.5.1.4.1.1.4.3", "Enhanced MR Color Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.4.4", "Legacy Converted Enhanced MR Image Storage"),
+    (
+        "1.2.840.10008.5.1.4.1.1.4.3",
+        "Enhanced MR Color Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.4.4",
+        "Legacy Converted Enhanced MR Image Storage",
+    ),
     ("1.2.840.10008.5.1.4.1.1.6.1", "Ultrasound Image Storage"),
     ("1.2.840.10008.5.1.4.1.1.6.2", "Enhanced US Volume Storage"),
-    ("1.2.840.10008.5.1.4.1.1.7", "Secondary Capture Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.7.1", "Multi-frame Single Bit Secondary Capture Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.7.2", "Multi-frame Grayscale Byte Secondary Capture Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.7.3", "Multi-frame Grayscale Word Secondary Capture Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.7.4", "Multi-frame True Color Secondary Capture Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.9.1.1", "12-lead ECG Waveform Storage"),
-    ("1.2.840.10008.5.1.4.1.1.11.1", "Grayscale Softcopy Presentation State Storage"),
-    ("1.2.840.10008.5.1.4.1.1.12.1", "X-Ray Angiographic Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.12.1.1", "Enhanced XA Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.12.2", "X-Ray Radiofluoroscopic Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.13.1.1", "X-Ray 3D Angiographic Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.13.1.3", "Breast Tomosynthesis Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.20", "Nuclear Medicine Image Storage"),
+    (
+        "1.2.840.10008.5.1.4.1.1.7",
+        "Secondary Capture Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.7.1",
+        "Multi-frame Single Bit Secondary Capture Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.7.2",
+        "Multi-frame Grayscale Byte Secondary Capture Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.7.3",
+        "Multi-frame Grayscale Word Secondary Capture Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.7.4",
+        "Multi-frame True Color Secondary Capture Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.9.1.1",
+        "12-lead ECG Waveform Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.11.1",
+        "Grayscale Softcopy Presentation State Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.12.1",
+        "X-Ray Angiographic Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.12.1.1",
+        "Enhanced XA Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.12.2",
+        "X-Ray Radiofluoroscopic Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.13.1.1",
+        "X-Ray 3D Angiographic Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.13.1.3",
+        "Breast Tomosynthesis Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.20",
+        "Nuclear Medicine Image Storage",
+    ),
     ("1.2.840.10008.5.1.4.1.1.30", "Parametric Map Storage"),
     ("1.2.840.10008.5.1.4.1.1.66", "Raw Data Storage"),
     ("1.2.840.10008.5.1.4.1.1.66.4", "Segmentation Storage"),
-    ("1.2.840.10008.5.1.4.1.1.77.1.1", "VL Endoscopic Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.77.1.2", "VL Microscopic Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.77.1.3", "VL Slide-Coordinates Microscopic Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.77.1.4", "VL Photographic Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.77.1.5.1", "Ophthalmic Photography 8 Bit Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.77.1.5.4", "Ophthalmic Tomography Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.77.1.6", "VL Whole Slide Microscopy Image Storage"),
+    (
+        "1.2.840.10008.5.1.4.1.1.77.1.1",
+        "VL Endoscopic Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.77.1.2",
+        "VL Microscopic Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.77.1.3",
+        "VL Slide-Coordinates Microscopic Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.77.1.4",
+        "VL Photographic Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.77.1.5.1",
+        "Ophthalmic Photography 8 Bit Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.77.1.5.4",
+        "Ophthalmic Tomography Image Storage",
+    ),
+    (
+        "1.2.840.10008.5.1.4.1.1.77.1.6",
+        "VL Whole Slide Microscopy Image Storage",
+    ),
     ("1.2.840.10008.5.1.4.1.1.88.11", "Basic Text SR Storage"),
     ("1.2.840.10008.5.1.4.1.1.88.22", "Enhanced SR Storage"),
     ("1.2.840.10008.5.1.4.1.1.88.33", "Comprehensive SR Storage"),
     ("1.2.840.10008.5.1.4.1.1.104.1", "Encapsulated PDF Storage"),
-    ("1.2.840.10008.5.1.4.1.1.128", "Positron Emission Tomography Image Storage"),
+    (
+        "1.2.840.10008.5.1.4.1.1.128",
+        "Positron Emission Tomography Image Storage",
+    ),
     ("1.2.840.10008.5.1.4.1.1.130", "Enhanced PET Image Storage"),
-    ("1.2.840.10008.5.1.4.1.1.128.1", "Legacy Converted Enhanced PET Image Storage"),
+    (
+        "1.2.840.10008.5.1.4.1.1.128.1",
+        "Legacy Converted Enhanced PET Image Storage",
+    ),
     ("1.2.840.10008.5.1.4.1.1.481.1", "RT Image Storage"),
     ("1.2.840.10008.5.1.4.1.1.481.2", "RT Dose Storage"),
     ("1.2.840.10008.5.1.4.1.1.481.3", "RT Structure Set Storage"),

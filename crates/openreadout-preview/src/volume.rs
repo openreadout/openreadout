@@ -91,9 +91,18 @@ struct Frame3 {
 }
 
 const IDENTITY: Frame3 = Frame3 {
-    u: Ax { data: 0, flip: false },
-    v: Ax { data: 1, flip: false },
-    w: Ax { data: 2, flip: false },
+    u: Ax {
+        data: 0,
+        flip: false,
+    },
+    v: Ax {
+        data: 1,
+        flip: false,
+    },
+    w: Ax {
+        data: 2,
+        flip: false,
+    },
 };
 
 /// The anatomical axis (0 left-right, 1 front-back, 2 head-foot) of a direction letter, and
@@ -253,20 +262,40 @@ impl<'a> ViewDataset<'a> {
             Ok(match v {
                 View::Native | View::Orthogonal => IDENTITY,
                 View::Xz => Frame3 {
-                    u: Ax { data: 0, flip: false },
-                    v: Ax { data: 2, flip: false },
-                    w: Ax { data: 1, flip: false },
+                    u: Ax {
+                        data: 0,
+                        flip: false,
+                    },
+                    v: Ax {
+                        data: 2,
+                        flip: false,
+                    },
+                    w: Ax {
+                        data: 1,
+                        flip: false,
+                    },
                 },
                 View::Yz => Frame3 {
-                    u: Ax { data: 1, flip: false },
-                    v: Ax { data: 2, flip: false },
-                    w: Ax { data: 0, flip: false },
+                    u: Ax {
+                        data: 1,
+                        flip: false,
+                    },
+                    v: Ax {
+                        data: 2,
+                        flip: false,
+                    },
+                    w: Ax {
+                        data: 0,
+                        flip: false,
+                    },
                 },
-                View::Axial | View::Coronal | View::Sagittal => match an.and_then(|a| anatomical_frame(v, a)) {
-                    Some(f) => f,
-                    None => {
-                        // no recorded orientation: the stack's own axes, z taken as head-foot
-                        notes.push(format!(
+                View::Axial | View::Coronal | View::Sagittal => {
+                    if let Some(f) = an.and_then(|a| anatomical_frame(v, a)) {
+                        f
+                    } else {
+                        {
+                            // no recorded orientation: the stack's own axes, z taken as head-foot
+                            notes.push(format!(
                             "the image records no patient orientation: the {} view is the stack's {} plane",
                             v.name(),
                             match v {
@@ -275,21 +304,40 @@ impl<'a> ViewDataset<'a> {
                                 _ => "yz",
                             }
                         ));
-                        match v {
-                            View::Axial => IDENTITY,
-                            View::Coronal => Frame3 {
-                                u: Ax { data: 0, flip: false },
-                                v: Ax { data: 2, flip: true },
-                                w: Ax { data: 1, flip: false },
-                            },
-                            _ => Frame3 {
-                                u: Ax { data: 1, flip: false },
-                                v: Ax { data: 2, flip: true },
-                                w: Ax { data: 0, flip: false },
-                            },
+                            match v {
+                                View::Axial => IDENTITY,
+                                View::Coronal => Frame3 {
+                                    u: Ax {
+                                        data: 0,
+                                        flip: false,
+                                    },
+                                    v: Ax {
+                                        data: 2,
+                                        flip: true,
+                                    },
+                                    w: Ax {
+                                        data: 1,
+                                        flip: false,
+                                    },
+                                },
+                                _ => Frame3 {
+                                    u: Ax {
+                                        data: 1,
+                                        flip: false,
+                                    },
+                                    v: Ax {
+                                        data: 2,
+                                        flip: true,
+                                    },
+                                    w: Ax {
+                                        data: 0,
+                                        flip: false,
+                                    },
+                                },
+                            }
                         }
                     }
-                },
+                }
             })
         };
         let n = sizes(&src);
@@ -349,7 +397,7 @@ impl<'a> ViewDataset<'a> {
             out.size_x = width;
             out.size_y = height;
             out.size_z = 1;
-            out.physical_size.x = Some(step).filter(|_| st[0].is_some());
+            out.physical_size.x = st[0].is_some().then_some(step);
             out.physical_size.y = out.physical_size.x;
             out.physical_size.z = None;
             out.pixel_type = PixelType::Float;
@@ -357,8 +405,17 @@ impl<'a> ViewDataset<'a> {
             for (v, f, x0, w, h) in &panels {
                 // panels are centred vertically
                 let y0 = f64::from((height - h) / 2);
-                annotations.push(Annotation::outline(f64::from(*x0), y0, f64::from(*w), f64::from(*h)));
-                annotations.push(Annotation::text(f64::from(*x0) + f64::from(*w) / 2.0, y0 + 14.0, v.name()));
+                annotations.push(Annotation::outline(
+                    f64::from(*x0),
+                    y0,
+                    f64::from(*w),
+                    f64::from(*h),
+                ));
+                annotations.push(Annotation::text(
+                    f64::from(*x0) + f64::from(*w) / 2.0,
+                    y0 + 14.0,
+                    v.name(),
+                ));
                 let pos = |a: Ax, len: u32| -> f64 {
                     let i = f64::from(point[a.data]) + 0.5;
                     let frac = i / f64::from(n[a.data]);
@@ -396,7 +453,8 @@ impl<'a> ViewDataset<'a> {
             }
         }
         out.plane_count = u64::from(out.size_z) * u64::from(out.size_c) * u64::from(out.size_t);
-        out.extra.insert("view".into(), serde_json::Value::from(view.name()));
+        out.extra
+            .insert("view".into(), serde_json::Value::from(view.name()));
         Ok((
             ViewDataset {
                 inner,
@@ -416,7 +474,8 @@ impl<'a> ViewDataset<'a> {
     fn volume(&mut self, c: u32, t: u32) -> Result<&Volume> {
         if !self.cache.contains_key(&(c, t)) {
             let n = sizes(&self.src);
-            let bpp = self.src.pixel_type.bytes_per_sample() as u64 * u64::from(self.src.samples_per_pixel.max(1));
+            let bpp = self.src.pixel_type.bytes_per_sample() as u64
+                * u64::from(self.src.samples_per_pixel.max(1));
             let bytes = u64::from(n[0]) * u64::from(n[1]) * u64::from(n[2]) * bpp;
             if bytes > MAX_VOLUME_BYTES {
                 return Err(Error::unsupported(
@@ -456,7 +515,9 @@ impl<'a> ViewDataset<'a> {
         let (nu, nv) = (n[f.u.data], n[f.v.data]);
         if f.w.data == 2 && f.u.data == 0 && f.v.data == 1 {
             // a stored plane, maybe flipped
-            let p = self.inner.read_plane(self.image, PlaneIndex { c, z: k, t })?;
+            let p = self
+                .inner
+                .read_plane(self.image, PlaneIndex { c, z: k, t })?;
             if !f.u.flip && !f.v.flip {
                 return Ok(p);
             }
@@ -469,7 +530,9 @@ impl<'a> ViewDataset<'a> {
                     let sx = if f.u.flip { w - 1 - x } else { x };
                     let s = (sy * w + sx) * bpp;
                     let d = (y * w + x) * bpp;
-                    if let (Some(src), Some(dst)) = (p.data.get(s..s + bpp), out.get_mut(d..d + bpp)) {
+                    if let (Some(src), Some(dst)) =
+                        (p.data.get(s..s + bpp), out.get_mut(d..d + bpp))
+                    {
                         dst.copy_from_slice(src);
                     }
                 }
@@ -505,28 +568,39 @@ impl<'a> ViewDataset<'a> {
 
     /// The orthogonal composite of (c, t) as float samples (NaN between panels).
     fn composite(&mut self, c: u32, t: u32) -> Result<Plane> {
-        let o = self.ortho.clone().ok_or_else(|| Error::Other("not orthogonal".into()))?;
+        let o = self
+            .ortho
+            .clone()
+            .ok_or_else(|| Error::Other("not orthogonal".into()))?;
         let n = sizes(&self.src);
         let mut out = vec![f32::NAN; o.width as usize * o.height as usize];
         for (_, f, x0, w, h) in &o.panels {
             let k = o.point[f.w.data];
             let p = self.cut(*f, k, c, t)?;
-            let vals: Vec<f32> = p.pixel_type.samples_f64(&p.data).map(|v| v as f32).collect();
+            let vals: Vec<f32> = p
+                .pixel_type
+                .samples_f64(&p.data)
+                .map(|v| v as f32)
+                .collect();
             let (pw, ph) = (p.width as usize, p.height as usize);
             let y_off = ((o.height - h) / 2) as usize;
             // bilinear resampling of the cut onto the panel's square-µm grid
             for y in 0..*h as usize {
-                let fy = ((y as f64 + 0.5) / f64::from(*h) * ph as f64 - 0.5).clamp(0.0, (ph - 1) as f64);
+                let fy = ((y as f64 + 0.5) / f64::from(*h) * ph as f64 - 0.5)
+                    .clamp(0.0, (ph - 1) as f64);
                 let (y0, ty) = (fy.floor() as usize, (fy - fy.floor()) as f32);
                 let y1 = (y0 + 1).min(ph - 1);
                 for x in 0..*w as usize {
-                    let fx = ((x as f64 + 0.5) / f64::from(*w) * pw as f64 - 0.5).clamp(0.0, (pw - 1) as f64);
+                    let fx = ((x as f64 + 0.5) / f64::from(*w) * pw as f64 - 0.5)
+                        .clamp(0.0, (pw - 1) as f64);
                     let (x0i, tx) = (fx.floor() as usize, (fx - fx.floor()) as f32);
                     let x1 = (x0i + 1).min(pw - 1);
-                    let g = |yy: usize, xx: usize| vals.get(yy * pw + xx).copied().unwrap_or(f32::NAN);
+                    let g =
+                        |yy: usize, xx: usize| vals.get(yy * pw + xx).copied().unwrap_or(f32::NAN);
                     let top = g(y0, x0i) * (1.0 - tx) + g(y0, x1) * tx;
                     let bottom = g(y1, x0i) * (1.0 - tx) + g(y1, x1) * tx;
-                    out[(y + y_off) * o.width as usize + *x0 as usize + x] = top * (1.0 - ty) + bottom * ty;
+                    out[(y + y_off) * o.width as usize + *x0 as usize + x] =
+                        top * (1.0 - ty) + bottom * ty;
                 }
             }
         }

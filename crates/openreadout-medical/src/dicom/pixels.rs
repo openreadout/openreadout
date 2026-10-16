@@ -281,7 +281,10 @@ impl FrameTable {
         let r = self.frames.get(i as usize).ok_or_else(|| {
             Error::corrupt(
                 FORMAT_ID,
-                format!("frame {i} is not in the pixel data ({} frames found)", self.frames.len()),
+                format!(
+                    "frame {i} is not in the pixel data ({} frames found)",
+                    self.frames.len()
+                ),
             )
         })?;
         let mut out = Vec::new();
@@ -348,7 +351,9 @@ pub(crate) fn decode_frame(
             if table.is_none() {
                 *table = Some(FrameTable::build(file, desc.frames)?);
             }
-            let tb = table.as_ref().ok_or_else(|| Error::Other("frame table".into()))?;
+            let tb = table
+                .as_ref()
+                .ok_or_else(|| Error::Other("frame table".into()))?;
             let bytes = tb.frame_bytes(file, frame)?;
             compressed(&bytes, desc, file.syntax.compression, want)?
         }
@@ -576,7 +581,10 @@ fn jpeg(
 /// segment per byte plane, most significant byte first, sample by sample.
 fn rle(b: &[u8], desc: &PixelDesc) -> Result<Decoded> {
     if b.len() < 64 {
-        return Err(Error::corrupt(FORMAT_ID, "RLE frame shorter than its 64-byte header"));
+        return Err(Error::corrupt(
+            FORMAT_ID,
+            "RLE frame shorter than its 64-byte header",
+        ));
     }
     let word = |i: usize| u32::from_le_bytes([b[i], b[i + 1], b[i + 2], b[i + 3]]) as usize;
     let nseg = word(0);
@@ -612,7 +620,10 @@ fn rle(b: &[u8], desc: &PixelDesc) -> Result<Decoded> {
             b.len()
         };
         let seg = b.get(start..end.max(start).min(b.len())).ok_or_else(|| {
-            Error::corrupt(FORMAT_ID, format!("RLE segment {s} offset {start} is outside the frame"))
+            Error::corrupt(
+                FORMAT_ID,
+                format!("RLE segment {s} offset {start} is outside the frame"),
+            )
         })?;
         let plane = openreadout_codecs::packbits_decode(seg, px).map_err(codec_err)?;
         let (sample, byte) = (s / bytes, s % bytes);

@@ -32,9 +32,10 @@ fn open_bytes(input: &Input, path: &Path) -> Result<Opened> {
     let raw = SourceFile::new(src.clone());
     let n = raw.read_at(0, &mut head).map_err(|e| Error::io(path, e))?;
     if n == 3 && openreadout_core::gzip::is_gzip(&head) {
-        let name = path
-            .file_name()
-            .map_or_else(|| "data.nii".to_string(), |n| n.to_string_lossy().into_owned());
+        let name = path.file_name().map_or_else(
+            || "data.nii".to_string(),
+            |n| n.to_string_lossy().into_owned(),
+        );
         let inner = openreadout_core::gzip::strip_gz(&name).to_string();
         let gz = openreadout_core::gzip::GzipSource::open(src, inner, FORMAT_ID)?;
         let s = gz.summary().clone();
@@ -54,7 +55,9 @@ fn open_bytes(input: &Input, path: &Path) -> Result<Opened> {
 }
 
 fn read(o: &Opened, path: &Path, offset: u64, n: u64) -> Result<Vec<u8>> {
-    let end = offset.checked_add(n).ok_or_else(|| Error::corrupt(FORMAT_ID, "offset overflows"))?;
+    let end = offset
+        .checked_add(n)
+        .ok_or_else(|| Error::corrupt(FORMAT_ID, "offset overflows"))?;
     if end > o.len {
         return Err(Error::corrupt_at(
             FORMAT_ID,
@@ -66,7 +69,8 @@ fn read(o: &Opened, path: &Path, offset: u64, n: u64) -> Result<Vec<u8>> {
             ),
         ));
     }
-    let mut buf = vec![0u8; usize::try_from(n).map_err(|_| Error::corrupt(FORMAT_ID, "read too large"))?];
+    let mut buf =
+        vec![0u8; usize::try_from(n).map_err(|_| Error::corrupt(FORMAT_ID, "read too large"))?];
     o.file
         .read_exact_at(offset, &mut buf)
         .map_err(|e| Error::io(path, e))?;
@@ -126,12 +130,15 @@ pub(crate) struct NiftiDataset {
 
 impl std::fmt::Debug for NiftiDataset {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("NiftiDataset").field("path", &self.path).finish()
+        f.debug_struct("NiftiDataset")
+            .field("path", &self.path)
+            .finish()
     }
 }
 
 fn dim_u32(v: i64, name: &str) -> Result<u32> {
-    u32::try_from(v.max(1)).map_err(|_| Error::corrupt(FORMAT_ID, format!("{name} = {v} is too large")))
+    u32::try_from(v.max(1))
+        .map_err(|_| Error::corrupt(FORMAT_ID, format!("{name} = {v} is too large")))
 }
 
 impl NiftiDataset {
@@ -186,7 +193,13 @@ impl NiftiDataset {
                 format!("dim[0] = {n}: the number of dimensions must be 1 to 7"),
             ));
         }
-        let d = |i: usize| -> i64 { if (i as i64) <= n { hdr.dim[i].max(1) } else { 1 } };
+        let d = |i: usize| -> i64 {
+            if (i as i64) <= n {
+                hdr.dim[i].max(1)
+            } else {
+                1
+            }
+        };
         for i in 1..=n as usize {
             if hdr.dim[i] < 0 {
                 return Err(Error::corrupt_at(
@@ -279,7 +292,14 @@ impl NiftiDataset {
             let s = h.spm_scale;
             return (s.is_finite() && s > 0.0 && s != 1.0).then_some((s, 0.0));
         }
-        let (s, i) = (h.scl_slope, if h.scl_inter.is_finite() { h.scl_inter } else { 0.0 });
+        let (s, i) = (
+            h.scl_slope,
+            if h.scl_inter.is_finite() {
+                h.scl_inter
+            } else {
+                0.0
+            },
+        );
         (s.is_finite() && s != 0.0 && (s != 1.0 || i != 0.0)).then_some((s, i))
     }
 
@@ -301,7 +321,11 @@ impl NiftiDataset {
 
     fn data_offset(&self) -> u64 {
         let v = self.hdr.vox_offset;
-        if v.is_finite() && v > 0.0 { v as u64 } else { 0 }
+        if v.is_finite() && v > 0.0 {
+            v as u64
+        } else {
+            0
+        }
     }
 
     fn image_info(&self) -> ImageInfo {
@@ -319,7 +343,11 @@ impl NiftiDataset {
             PhysicalSize::micrometres(px(1), px(2), (nz > 1).then(|| px(3)).flatten());
         if nt > 1 {
             im.time_increment_s = sec
-                .or(if h.kind == Kind::Analyze { None } else { Some(1.0) })
+                .or(if h.kind == Kind::Analyze {
+                    None
+                } else {
+                    Some(1.0)
+                })
                 .and_then(|s| (h.pixdim[4].abs() > 0.0).then(|| h.pixdim[4].abs() * s));
         }
         im.channels = (0..nc)
@@ -336,16 +364,25 @@ impl NiftiDataset {
         ex.insert("datatype".into(), Value::from(name));
         ex.insert(
             "byte_order".into(),
-            Value::from(if h.little { "little-endian" } else { "big-endian" }),
+            Value::from(if h.little {
+                "little-endian"
+            } else {
+                "big-endian"
+            }),
         );
-        let dims: Vec<Value> = (1..=h.dim[0].clamp(1, 7) as usize).map(|i| Value::from(h.dim[i])).collect();
+        let dims: Vec<Value> = (1..=h.dim[0].clamp(1, 7) as usize)
+            .map(|i| Value::from(h.dim[i]))
+            .collect();
         ex.insert("dims".into(), Value::Array(dims));
         if let Some((s, i)) = self.scaling() {
             ex.insert(
                 "rescale".into(),
                 json!({"slope": num(s), "intercept": num(i), "applied": true}),
             );
-            ex.insert("stored_pixel_type".into(), Value::from(self.stored.1.ome_name()));
+            ex.insert(
+                "stored_pixel_type".into(),
+                Value::from(self.stored.1.ome_name()),
+            );
         }
         if h.cal_max > h.cal_min && h.cal_max.is_finite() && h.cal_min.is_finite() {
             ex.insert(
@@ -491,7 +528,10 @@ impl Dataset for NiftiDataset {
         let image = self.image_info();
         let h = &self.hdr;
         let mut notes = Vec::new();
-        for (what, o) in [("header", Some(&self.head_file)), ("image", self.data_file.as_ref())] {
+        for (what, o) in [
+            ("header", Some(&self.head_file)),
+            ("image", self.data_file.as_ref()),
+        ] {
             if let Some((c, problem)) = o.and_then(|o| o.gzip.as_ref()) {
                 notes.push(format!(
                     "gzip-compressed {what}: {c} bytes decompress to {}; decompressed once at open",
@@ -521,7 +561,9 @@ impl Dataset for NiftiDataset {
         let (f, _) = self.data();
         let need = self
             .plane_bytes()
-            .saturating_mul(u64::from(image.size_z) * u64::from(image.size_t) * u64::from(image.size_c))
+            .saturating_mul(
+                u64::from(image.size_z) * u64::from(image.size_t) * u64::from(image.size_c),
+            )
             .saturating_add(self.data_offset());
         if need > f.len {
             notes.push(format!(
@@ -529,7 +571,11 @@ impl Dataset for NiftiDataset {
                 f.len
             ));
         }
-        let size = self.head_file.gzip.as_ref().map_or(self.head_file.len, |g| g.0)
+        let size = self
+            .head_file
+            .gzip
+            .as_ref()
+            .map_or(self.head_file.len, |g| g.0)
             + self
                 .data_file
                 .as_ref()
@@ -563,7 +609,10 @@ impl Dataset for NiftiDataset {
         m.insert("dim".into(), json!(h.dim));
         m.insert("datatype".into(), Value::from(h.datatype));
         m.insert("bitpix".into(), Value::from(h.bitpix));
-        m.insert("pixdim".into(), Value::Array(h.pixdim.iter().map(|v| num(*v)).collect()));
+        m.insert(
+            "pixdim".into(),
+            Value::Array(h.pixdim.iter().map(|v| num(*v)).collect()),
+        );
         m.insert("vox_offset".into(), num(h.vox_offset));
         m.insert("cal_max".into(), num(h.cal_max));
         m.insert("cal_min".into(), num(h.cal_min));
@@ -572,13 +621,19 @@ impl Dataset for NiftiDataset {
         if h.kind == Kind::Analyze {
             m.insert("funused1".into(), num(h.spm_scale));
             m.insert("orient".into(), Value::from(h.orient));
-            m.insert("patient_id".into(), Value::from(if h.analyze_patient_id { "withheld" } else { "" }));
+            m.insert(
+                "patient_id".into(),
+                Value::from(if h.analyze_patient_id { "withheld" } else { "" }),
+            );
         } else {
             m.insert("scl_slope".into(), num(h.scl_slope));
             m.insert("scl_inter".into(), num(h.scl_inter));
             m.insert("xyzt_units".into(), Value::from(h.xyzt_units));
             m.insert("intent_code".into(), Value::from(h.intent_code));
-            m.insert("intent_p".into(), Value::Array(h.intent_p.iter().map(|v| num(*v)).collect()));
+            m.insert(
+                "intent_p".into(),
+                Value::Array(h.intent_p.iter().map(|v| num(*v)).collect()),
+            );
             m.insert("intent_name".into(), Value::from(h.intent_name.clone()));
             m.insert("slice_start".into(), Value::from(h.slice_start));
             m.insert("slice_end".into(), Value::from(h.slice_end));
@@ -588,20 +643,31 @@ impl Dataset for NiftiDataset {
             m.insert("dim_info".into(), Value::from(h.dim_info));
             m.insert("qform_code".into(), Value::from(h.qform_code));
             m.insert("sform_code".into(), Value::from(h.sform_code));
-            m.insert("quatern".into(), Value::Array(h.quatern.iter().map(|v| num(*v)).collect()));
+            m.insert(
+                "quatern".into(),
+                Value::Array(h.quatern.iter().map(|v| num(*v)).collect()),
+            );
             m.insert(
                 "srow".into(),
-                Value::Array(h.srow.iter().map(|r| Value::Array(r.iter().map(|v| num(*v)).collect())).collect()),
+                Value::Array(
+                    h.srow
+                        .iter()
+                        .map(|r| Value::Array(r.iter().map(|v| num(*v)).collect()))
+                        .collect(),
+                ),
             );
         }
         let mut exts = Vec::new();
         for e in &self.extensions {
             let mut o = json!({"code": e.code, "name": extension_name(e.code), "bytes": e.size});
             // comments and AFNI/XCEDE XML are text; DICOM extensions may hold personal data
-            if matches!(e.code, 4 | 6 | 8) && e.size <= 1 << 20
+            if matches!(e.code, 4 | 6 | 8)
+                && e.size <= 1 << 20
                 && let Ok(b) = read(&self.head_file, &self.header_path, e.offset, e.size)
             {
-                let t = String::from_utf8_lossy(&b).trim_end_matches('\0').to_string();
+                let t = String::from_utf8_lossy(&b)
+                    .trim_end_matches('\0')
+                    .to_string();
                 o["text"] = Value::from(t);
             }
             exts.push(o);
@@ -657,7 +723,9 @@ impl Dataset for NiftiDataset {
         out.push(LsEntry {
             kind: "image".into(),
             name: if self.data_file.is_some() {
-                self.data_path.file_name().map_or("data".into(), |n| n.to_string_lossy().to_string())
+                self.data_path
+                    .file_name()
+                    .map_or("data".into(), |n| n.to_string_lossy().to_string())
             } else {
                 "data".into()
             },
@@ -683,8 +751,16 @@ impl Dataset for NiftiDataset {
             )));
         }
         let pb = self.plane_bytes();
-        openreadout_core::limits::plane_len(FORMAT_ID, u64::from(nx), u64::from(ny), 1, self.stored.0 as u64, self.data().0.len)?;
-        let k = u64::from(index.z) + u64::from(nz) * (u64::from(index.t) + u64::from(nt) * u64::from(index.c));
+        openreadout_core::limits::plane_len(
+            FORMAT_ID,
+            u64::from(nx),
+            u64::from(ny),
+            1,
+            self.stored.0 as u64,
+            self.data().0.len,
+        )?;
+        let k = u64::from(index.z)
+            + u64::from(nz) * (u64::from(index.t) + u64::from(nt) * u64::from(index.c));
         let off = k
             .checked_mul(pb)
             .and_then(|o| o.checked_add(self.data_offset()))
@@ -692,7 +768,13 @@ impl Dataset for NiftiDataset {
         let (f, p) = self.data();
         let mut raw = read(f, p, off, pb)?;
         let (bytes, ty, spp) = self.stored;
-        let w = if ty.is_complex() { bytes / 2 } else if spp > 1 { 1 } else { bytes };
+        let w = if ty.is_complex() {
+            bytes / 2
+        } else if spp > 1 {
+            1
+        } else {
+            bytes
+        };
         if !self.hdr.little && w > 1 {
             for c in raw.chunks_exact_mut(w) {
                 c.reverse();
@@ -734,21 +816,34 @@ impl Dataset for NiftiDataset {
             && i64::from(h.bitpix) != (bytes as i64) * 8
         {
             let _ = spp;
-            r.push(Finding::warning(
-                "bitpix_mismatch",
-                format!("bitpix is {} but datatype {name} has {} bits", h.bitpix, bytes * 8),
-            ).at(72));
+            r.push(
+                Finding::warning(
+                    "bitpix_mismatch",
+                    format!(
+                        "bitpix is {} but datatype {name} has {} bits",
+                        h.bitpix,
+                        bytes * 8
+                    ),
+                )
+                .at(72),
+            );
         }
         if h.kind != Kind::Analyze && h.single && h.vox_offset < h.header_len as f64 + 4.0 {
-            r.push(Finding::error(
-                "bad_vox_offset",
-                format!("vox_offset {} is inside the header", h.vox_offset),
-            ).at(108));
+            r.push(
+                Finding::error(
+                    "bad_vox_offset",
+                    format!("vox_offset {} is inside the header", h.vox_offset),
+                )
+                .at(108),
+            );
         }
         if h.kind == Kind::Nifti1 && h.single && (h.vox_offset as u64) % 16 != 0 {
             r.push(Finding::info(
                 "vox_offset_alignment",
-                format!("vox_offset {} is not a multiple of 16 (NIfTI-1 asks for it)", h.vox_offset),
+                format!(
+                    "vox_offset {} is not a multiple of 16 (NIfTI-1 asks for it)",
+                    h.vox_offset
+                ),
             ));
         }
         if h.qform_code == 0 && h.sform_code == 0 && h.kind != Kind::Analyze {

@@ -156,9 +156,9 @@ impl<'a> Window<'a> {
     }
 
     fn get(&mut self, offset: u64, n: usize) -> Result<&[u8]> {
-        let end = offset.checked_add(n as u64).ok_or_else(|| {
-            Error::corrupt_at(FORMAT_ID, offset, "element offset overflows")
-        })?;
+        let end = offset
+            .checked_add(n as u64)
+            .ok_or_else(|| Error::corrupt_at(FORMAT_ID, offset, "element offset overflows"))?;
         if offset < self.start || end > self.start + self.buf.len() as u64 {
             if end > self.src.len() {
                 return Err(Error::corrupt_at(
@@ -201,8 +201,19 @@ fn u32_at(b: &[u8], little: bool) -> u32 {
 fn long_vr(vr: [u8; 2]) -> bool {
     matches!(
         &vr,
-        b"OB" | b"OD" | b"OF" | b"OL" | b"OV" | b"OW" | b"SQ" | b"SV" | b"UC" | b"UN" | b"UR"
-            | b"UT" | b"UV"
+        b"OB"
+            | b"OD"
+            | b"OF"
+            | b"OL"
+            | b"OV"
+            | b"OW"
+            | b"SQ"
+            | b"SV"
+            | b"UC"
+            | b"UN"
+            | b"UR"
+            | b"UT"
+            | b"UV"
     )
 }
 
@@ -379,9 +390,9 @@ impl<'a> Parser<'a> {
                 continue;
             }
             let len = u64::from(len);
-            let next = value_at.checked_add(len).ok_or_else(|| {
-                Error::corrupt_at(FORMAT_ID, pos, "element length overflows")
-            })?;
+            let next = value_at
+                .checked_add(len)
+                .ok_or_else(|| Error::corrupt_at(FORMAT_ID, pos, "element length overflows"))?;
             if let Some(e) = end
                 && next > e
             {
@@ -585,7 +596,10 @@ pub(crate) fn fragments(src: &Bytes, offset: u64) -> Result<(Vec<u8>, Vec<Fragme
                 Vec::new()
             });
         } else {
-            frags.push(Fragment { offset: start, len: n });
+            frags.push(Fragment {
+                offset: start,
+                len: n,
+            });
             if frags.len() as u64 > MAX_ELEMENTS {
                 return Err(Error::corrupt(FORMAT_ID, "too many pixel-data fragments"));
             }
@@ -643,10 +657,40 @@ pub(crate) fn guess_raw(head: &[u8]) -> Option<Encoding> {
 fn dictionary_vr_known(vr: &[u8; 2]) -> bool {
     matches!(
         vr,
-        b"AE" | b"AS" | b"AT" | b"CS" | b"DA" | b"DS" | b"DT" | b"FL" | b"FD" | b"IS" | b"LO"
-            | b"LT" | b"OB" | b"OD" | b"OF" | b"OL" | b"OV" | b"OW" | b"PN" | b"SH" | b"SL"
-            | b"SQ" | b"SS" | b"ST" | b"SV" | b"TM" | b"UC" | b"UI" | b"UL" | b"UN" | b"UR"
-            | b"US" | b"UT" | b"UV"
+        b"AE"
+            | b"AS"
+            | b"AT"
+            | b"CS"
+            | b"DA"
+            | b"DS"
+            | b"DT"
+            | b"FL"
+            | b"FD"
+            | b"IS"
+            | b"LO"
+            | b"LT"
+            | b"OB"
+            | b"OD"
+            | b"OF"
+            | b"OL"
+            | b"OV"
+            | b"OW"
+            | b"PN"
+            | b"SH"
+            | b"SL"
+            | b"SQ"
+            | b"SS"
+            | b"ST"
+            | b"SV"
+            | b"TM"
+            | b"UC"
+            | b"UI"
+            | b"UL"
+            | b"UN"
+            | b"UR"
+            | b"US"
+            | b"UT"
+            | b"UV"
     )
 }
 
@@ -739,7 +783,9 @@ mod tests {
     fn parses_nested_sequences_of_undefined_length() {
         let mut ds = el(0x0010_0020, b"LO", b"ID01");
         // (0008,1140) SQ undefined length, one undefined-length item holding (0008,1150)
-        ds.extend_from_slice(&[0x08, 0x00, 0x40, 0x11, b'S', b'Q', 0, 0, 0xFF, 0xFF, 0xFF, 0xFF]);
+        ds.extend_from_slice(&[
+            0x08, 0x00, 0x40, 0x11, b'S', b'Q', 0, 0, 0xFF, 0xFF, 0xFF, 0xFF,
+        ]);
         ds.extend_from_slice(&[0xFE, 0xFF, 0x00, 0xE0, 0xFF, 0xFF, 0xFF, 0xFF]);
         ds.extend(el(0x0008_1150, b"UI", b"1.2\0"));
         ds.extend_from_slice(&[0xFE, 0xFF, 0x0D, 0xE0, 0, 0, 0, 0]);
@@ -770,13 +816,17 @@ mod tests {
     #[test]
     fn truncated_and_hostile_lengths_are_errors() {
         let mut ds = el(0x0010_0020, b"LO", b"ID01");
-        ds.extend_from_slice(&[0x10, 0x00, 0x30, 0x00, b'O', b'B', 0, 0, 0xF0, 0xFF, 0xFF, 0x7F]);
+        ds.extend_from_slice(&[
+            0x10, 0x00, 0x30, 0x00, b'O', b'B', 0, 0, 0xF0, 0xFF, 0xFF, 0x7F,
+        ]);
         let src = Bytes::Mem(Arc::new(ds));
         assert!(Parser::new(&src, Encoding::EXPLICIT_LE).top(0).is_err());
         // deep nesting is refused rather than overflowing the stack
         let mut deep = Vec::new();
         for _ in 0..200 {
-            deep.extend_from_slice(&[0x08, 0x00, 0x40, 0x11, b'S', b'Q', 0, 0, 0xFF, 0xFF, 0xFF, 0xFF]);
+            deep.extend_from_slice(&[
+                0x08, 0x00, 0x40, 0x11, b'S', b'Q', 0, 0, 0xFF, 0xFF, 0xFF, 0xFF,
+            ]);
             deep.extend_from_slice(&[0xFE, 0xFF, 0x00, 0xE0, 0xFF, 0xFF, 0xFF, 0xFF]);
         }
         let src = Bytes::Mem(Arc::new(deep));

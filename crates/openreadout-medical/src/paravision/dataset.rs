@@ -5,8 +5,8 @@ use std::collections::BTreeMap;
 use std::path::PathBuf;
 
 use openreadout_core::model::{
-    ChannelInfo, CheckReport, FileInfo, Finding, ImageInfo, InstrumentInfo, LsEntry,
-    PhysicalSize, SignalChannelInfo, Trace, TraceInfo,
+    ChannelInfo, CheckReport, FileInfo, Finding, ImageInfo, InstrumentInfo, LsEntry, PhysicalSize,
+    SignalChannelInfo, Trace, TraceInfo,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, PlaneIndex};
@@ -110,15 +110,27 @@ impl Recon {
         let core: Vec<u32> = visu
             .numbers("VisuCoreSize")
             .iter()
-            .map(|v| if *v >= 1.0 && *v <= f64::from(u32::MAX) { *v as u32 } else { 0 })
+            .map(|v| {
+                if *v >= 1.0 && *v <= f64::from(u32::MAX) {
+                    *v as u32
+                } else {
+                    0
+                }
+            })
             .collect();
         if core.is_empty() || core.contains(&0) || core.len() > 3 {
             return Err(Error::corrupt(
                 FORMAT_ID,
-                format!("{}: VisuCoreSize {:?} is not 1 to 3 positive sizes", visu_path.display(), core),
+                format!(
+                    "{}: VisuCoreSize {:?} is not 1 to 3 positive sizes",
+                    visu_path.display(),
+                    core
+                ),
             ));
         }
-        let frames = visu.number("VisuCoreFrameCount").map_or(1, |v| v.max(1.0) as u32);
+        let frames = visu
+            .number("VisuCoreFrameCount")
+            .map_or(1, |v| v.max(1.0) as u32);
         let wt = visu.text("VisuCoreWordType").unwrap_or_default();
         let (bytes, stored) = word_type(&wt).ok_or_else(|| {
             Error::unsupported(
@@ -127,7 +139,9 @@ impl Recon {
                 "Only 8-bit unsigned, 16- and 32-bit signed and 32-bit float 2dseq data are read.",
             )
         })?;
-        let little = visu.text("VisuCoreByteOrder").is_none_or(|b| b != "bigEndian");
+        let little = visu
+            .text("VisuCoreByteOrder")
+            .is_none_or(|b| b != "bigEndian");
         let groups: Vec<Group> = visu
             .get("VisuFGOrderDesc")
             .map(|p| {
@@ -160,7 +174,11 @@ impl Recon {
             }
             vec![Group {
                 count: frames,
-                name: if core.len() == 3 { "FG_CYCLE".into() } else { "frames".into() },
+                name: if core.len() == 3 {
+                    "FG_CYCLE".into()
+                } else {
+                    "frames".into()
+                },
             }]
         };
         for (i, g) in groups.iter().enumerate() {
@@ -174,7 +192,11 @@ impl Recon {
             axes[a].push(i);
         }
         let prod = |ix: &[usize]| ix.iter().map(|&i| groups[i].count).product::<u32>().max(1);
-        let z = if core.len() == 3 { core[2] } else { prod(&axes[0]) };
+        let z = if core.len() == 3 {
+            core[2]
+        } else {
+            prod(&axes[0])
+        };
         let sizes = (z, prod(&axes[1]), prod(&axes[2]));
         let spectrum = core.len() == 1
             && visu
@@ -213,7 +235,11 @@ impl Recon {
     }
 
     fn out_type(&self) -> PixelType {
-        if self.scaled() { PixelType::Float } else { self.stored }
+        if self.scaled() {
+            PixelType::Float
+        } else {
+            self.stored
+        }
     }
 
     /// The frame index of (z, t, c) (z only for 2-D cores), first group fastest.
@@ -247,7 +273,9 @@ impl Recon {
         let len = n
             .checked_mul(self.bytes as u64)
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "read size overflows"))?;
-        let end = offset.checked_add(len).ok_or_else(|| Error::corrupt(FORMAT_ID, "offset overflows"))?;
+        let end = offset
+            .checked_add(len)
+            .ok_or_else(|| Error::corrupt(FORMAT_ID, "offset overflows"))?;
         if end > self.file_len {
             return Err(Error::corrupt_at(
                 FORMAT_ID,
@@ -258,7 +286,11 @@ impl Recon {
                 ),
             ));
         }
-        let mut buf = vec![0u8; usize::try_from(len).map_err(|_| Error::corrupt(FORMAT_ID, "read too large"))?];
+        let mut buf = vec![
+            0u8;
+            usize::try_from(len)
+                .map_err(|_| Error::corrupt(FORMAT_ID, "read too large"))?
+        ];
         self.file
             .read_exact_at(offset, &mut buf)
             .map_err(|e| Error::Other(format!("2dseq read failed: {e}")))?;
@@ -293,16 +325,29 @@ impl Recon {
         let v = &self.visu;
         ex.insert("expno".into(), Value::from(self.reco.expno.clone()));
         ex.insert("procno".into(), Value::from(self.reco.procno.clone()));
-        if let Some(m) = self.method.as_ref().and_then(|m| m.text("Method")).or_else(|| v.text("VisuAcqSequenceName")) {
+        if let Some(m) = self
+            .method
+            .as_ref()
+            .and_then(|m| m.text("Method"))
+            .or_else(|| v.text("VisuAcqSequenceName"))
+        {
             ex.insert("method".into(), Value::from(m));
         }
         if let Some(p) = v.text("VisuAcquisitionProtocol") {
             ex.insert("protocol".into(), Value::from(p));
         }
-        ex.insert("word_type".into(), Value::from(v.text("VisuCoreWordType").unwrap_or_default()));
+        ex.insert(
+            "word_type".into(),
+            Value::from(v.text("VisuCoreWordType").unwrap_or_default()),
+        );
         ex.insert(
             "frame_groups".into(),
-            Value::Array(self.groups.iter().map(|g| Value::from(g.name.clone())).collect()),
+            Value::Array(
+                self.groups
+                    .iter()
+                    .map(|g| Value::from(g.name.clone()))
+                    .collect(),
+            ),
         );
         ex.insert("frame_count".into(), Value::from(self.frames));
         if self.scaled() {
@@ -319,7 +364,10 @@ impl Recon {
                     json!({"varies": true, "frames": self.slopes.len(), "applied": true})
                 },
             );
-            ex.insert("stored_pixel_type".into(), Value::from(self.stored.ome_name()));
+            ex.insert(
+                "stored_pixel_type".into(),
+                Value::from(self.stored.ome_name()),
+            );
         }
         let mut acq = Map::new();
         for (k, p, scale) in [
@@ -344,14 +392,24 @@ impl Recon {
         }
         if let Some(f) = v.number("VisuAcqImagingFrequency").filter(|f| *f > 0.0) {
             // field strength from the 1H Larmor frequency (42.577478 MHz/T)
-            if v.text("VisuAcqImagedNucleus").as_deref().is_none_or(|n| n == "1H") {
-                acq.insert("field_strength_t".into(), num((f / 42.577_478_5 * 100.0).round() / 100.0));
+            if v.text("VisuAcqImagedNucleus")
+                .as_deref()
+                .is_none_or(|n| n == "1H")
+            {
+                acq.insert(
+                    "field_strength_t".into(),
+                    num((f / 42.577_478_5 * 100.0).round() / 100.0),
+                );
             }
         }
         if !acq.is_empty() {
             ex.insert("acquisition".into(), Value::Object(acq));
         }
-        if let Some(units) = v.get("VisuCoreDataUnits").map(|p| p.texts()).filter(|u| !u.is_empty() && u.iter().any(|s| !s.is_empty())) {
+        if let Some(units) = v
+            .get("VisuCoreDataUnits")
+            .map(|p| p.texts())
+            .filter(|u| !u.is_empty() && u.iter().any(|s| !s.is_empty()))
+        {
             ex.insert("value_unit".into(), Value::from(units[0].clone()));
         }
         let mut subject = Map::new();
@@ -384,7 +442,10 @@ impl Recon {
                 [Some(&self.visu), self.method.as_ref(), self.acqp.as_ref()]
                     .into_iter()
                     .flatten()
-                    .any(|p| p.get(k).is_some_and(|x| x.texts().iter().any(|s| !s.trim().is_empty())))
+                    .any(|p| {
+                        p.get(k)
+                            .is_some_and(|x| x.texts().iter().any(|s| !s.trim().is_empty()))
+                    })
             })
             .map(|(k, kind)| json!({"field": k, "kind": kind}))
             .collect();
@@ -399,12 +460,19 @@ impl Recon {
         if c.len() == 1 {
             let g = c[0];
             let start: usize = self.groups[..g].iter().map(|g| g.count as usize).sum();
-            let comments = self.visu.get("VisuFGElemComment").map(|p| p.texts()).unwrap_or_default();
+            let comments = self
+                .visu
+                .get("VisuFGElemComment")
+                .map(|p| p.texts())
+                .unwrap_or_default();
             let n = self.groups[g].count as usize;
             if comments.len() >= start + n {
                 return comments[start..start + n].to_vec();
             }
-            let base = self.groups[g].name.trim_start_matches("FG_").to_ascii_lowercase();
+            let base = self.groups[g]
+                .name
+                .trim_start_matches("FG_")
+                .to_ascii_lowercase();
             return (0..n).map(|i| format!("{base} {i}")).collect();
         }
         Vec::new()
@@ -421,7 +489,10 @@ impl Recon {
         im.name = Some(self.name());
         let v = &self.visu;
         let extent = v.numbers("VisuCoreExtent");
-        let units = v.get("VisuCoreUnits").map(|p| p.texts()).unwrap_or_default();
+        let units = v
+            .get("VisuCoreUnits")
+            .map(|p| p.texts())
+            .unwrap_or_default();
         let to_um = |i: usize| -> Option<f64> {
             let e = *extent.get(i)?;
             let n = f64::from(*self.core.get(i)?);
@@ -441,7 +512,8 @@ impl Recon {
                 .or_else(|| {
                     let p = v.numbers("VisuCorePosition");
                     (p.len() >= 6).then(|| {
-                        ((p[3] - p[0]).powi(2) + (p[4] - p[1]).powi(2) + (p[5] - p[2]).powi(2)).sqrt()
+                        ((p[3] - p[0]).powi(2) + (p[4] - p[1]).powi(2) + (p[5] - p[2]).powi(2))
+                            .sqrt()
                     })
                 })
                 .map(|mm| mm * 1e3)
@@ -461,7 +533,9 @@ impl Recon {
             manufacturer: v.text("VisuManufacturer"),
             model: v.text("VisuStation"),
             software: Some("ParaVision".into()),
-            software_version: v.text("VisuCreatorVersion").or_else(|| v.text("VisuAcqSoftwareVersion")),
+            software_version: v
+                .text("VisuCreatorVersion")
+                .or_else(|| v.text("VisuAcqSoftwareVersion")),
             detector: None,
         });
         im.acquired_at = v.text("VisuAcqDate").map(|d| d.replace(',', "."));
@@ -487,7 +561,10 @@ impl ParavisionDataset {
         let list = recos(input.fs(), &path).ok_or_else(|| {
             Error::corrupt(
                 FORMAT_ID,
-                format!("{} holds no pdata/<procno>/2dseq reconstructions", path.display()),
+                format!(
+                    "{} holds no pdata/<procno>/2dseq reconstructions",
+                    path.display()
+                ),
             )
         })?;
         let mut recons = Vec::new();
@@ -582,10 +659,16 @@ impl Dataset for ParavisionDataset {
                 }
             })
             .collect();
-        let mut notes: Vec<String> = self.recons.iter().flat_map(|r| r.notes.iter().cloned()).collect();
+        let mut notes: Vec<String> = self
+            .recons
+            .iter()
+            .flat_map(|r| r.notes.iter().cloned())
+            .collect();
         notes.extend(self.skipped.iter().map(|s| format!("not read: {s}")));
         if self.recons.iter().any(Recon::scaled) {
-            notes.push("2dseq values have VisuCoreDataSlope and VisuCoreDataOffs applied (float32)".into());
+            notes.push(
+                "2dseq values have VisuCoreDataSlope and VisuCoreDataOffs applied (float32)".into(),
+            );
         }
         if !traces.is_empty() {
             notes.push("spectroscopy reconstructions are traces; the ppm axis is centred on the method's working frequency (PVM_FrqWorkPpm)".into());
@@ -594,7 +677,10 @@ impl Dataset for ParavisionDataset {
             path: self.path.display().to_string(),
             size_bytes: self.recons.iter().map(|r| r.file_len).sum(),
             format: ParavisionReader.descriptor(),
-            format_version: self.recons[0].visu.text("VisuCreatorVersion").map(|v| format!("ParaVision {v}")),
+            format_version: self.recons[0]
+                .visu
+                .text("VisuCreatorVersion")
+                .map(|v| format!("ParaVision {v}")),
             plane_count: images.iter().map(|i| i.plane_count).sum(),
             images,
             tables: Vec::new(),
@@ -668,9 +754,20 @@ impl Dataset for ParavisionDataset {
         let x = r.core[0];
         let y = r.core.get(1).copied().unwrap_or(1);
         let plane_px = u64::from(x) * u64::from(y);
-        openreadout_core::limits::plane_len(FORMAT_ID, u64::from(x), u64::from(y), 1, r.bytes as u64, r.file_len)?;
+        openreadout_core::limits::plane_len(
+            FORMAT_ID,
+            u64::from(x),
+            u64::from(y),
+            1,
+            r.bytes as u64,
+            r.file_len,
+        )?;
         let frame = r.frame_of(idx.z, idx.t, idx.c);
-        let within = if r.core.len() == 3 { u64::from(idx.z) } else { 0 };
+        let within = if r.core.len() == 3 {
+            u64::from(idx.z)
+        } else {
+            0
+        };
         let off = (frame * r.frame_px() + within * plane_px)
             .checked_mul(r.bytes as u64)
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "offset overflows"))?;
@@ -684,13 +781,25 @@ impl Dataset for ParavisionDataset {
         })
     }
 
-    fn read_trace(&mut self, index: u32, sweep: u32, first_sample: u64, max_samples: u64) -> Result<Trace> {
+    fn read_trace(
+        &mut self,
+        index: u32,
+        sweep: u32,
+        first_sample: u64,
+        max_samples: u64,
+    ) -> Result<Trace> {
         let &ri = self.traces.get(index as usize).ok_or_else(|| {
-            Error::Usage(format!("trace index {index} out of range ({} traces)", self.traces.len()))
+            Error::Usage(format!(
+                "trace index {index} out of range ({} traces)",
+                self.traces.len()
+            ))
         })?;
         let r = &self.recons[ri];
         if sweep >= r.frames {
-            return Err(Error::Usage(format!("sweep {sweep} out of range ({} frames)", r.frames)));
+            return Err(Error::Usage(format!(
+                "sweep {sweep} out of range ({} frames)",
+                r.frames
+            )));
         }
         let n = u64::from(r.core[0]);
         let first = first_sample.min(n);
@@ -720,18 +829,28 @@ impl Dataset for ParavisionDataset {
             if need > r.file_len {
                 rep.push(Finding::error(
                     "truncated",
-                    format!("{name} holds {} bytes; {} frames need {need}", r.file_len, r.frames),
+                    format!(
+                        "{name} holds {} bytes; {} frames need {need}",
+                        r.file_len, r.frames
+                    ),
                 ));
             } else if need < r.file_len {
                 rep.push(Finding::warning(
                     "trailing_bytes",
-                    format!("{name} holds {} bytes more than {} frames need", r.file_len - need, r.frames),
+                    format!(
+                        "{name} holds {} bytes more than {} frames need",
+                        r.file_len - need,
+                        r.frames
+                    ),
                 ));
             }
             for n in &r.notes {
                 rep.push(Finding::warning("frame_groups", format!("{name}: {n}")));
             }
-            if r.visu.get("VisuCoreTransposition").is_some_and(|p| p.numbers().iter().any(|v| *v != 0.0)) {
+            if r.visu
+                .get("VisuCoreTransposition")
+                .is_some_and(|p| p.numbers().iter().any(|v| *v != 0.0))
+            {
                 rep.push(Finding::info(
                     "transposed_frames",
                     format!("{name}: some frames are stored transposed (VisuCoreTransposition); they are returned as stored"),

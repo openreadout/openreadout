@@ -91,7 +91,11 @@ fn observe_dicom(info: &FileInfo) -> Observations {
         );
     }
     if a::has_note(info, "palette colour: ") {
-        o.undecoded("segmented palette", &[Scope::Pixels], "palette indices are returned");
+        o.undecoded(
+            "segmented palette",
+            &[Scope::Pixels],
+            "palette indices are returned",
+        );
     }
     o
 }

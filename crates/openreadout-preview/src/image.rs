@@ -262,7 +262,11 @@ fn resolve_contrast(
     notes: &mut Vec<String>,
 ) -> Result<Contrast> {
     let pt = im.pixel_type;
-    let hu = im.extra.get("value_unit").and_then(serde_json::Value::as_str) == Some("HU");
+    let hu = im
+        .extra
+        .get("value_unit")
+        .and_then(serde_json::Value::as_str)
+        == Some("HU");
     Ok(match c {
         Contrast::Auto if rgb && pt == PixelType::Uint8 => Contrast::Raw,
         // medical images carry their display window; CT without one gets the soft-tissue preset
@@ -827,7 +831,11 @@ pub(crate) fn render(
     let mut out_dims = (1usize, 1usize);
     let contrast = resolve_contrast(req.contrast, &im, rgb, &mut out.notes)?;
     // MONOCHROME1: low values are drawn bright
-    let inverted = im.extra.get("display_inverted").and_then(serde_json::Value::as_bool) == Some(true);
+    let inverted = im
+        .extra
+        .get("display_inverted")
+        .and_then(serde_json::Value::as_bool)
+        == Some(true);
     // Auto contrast (not what it resolved to for RGB) may leave fill and clipping out.
     let auto_contrast = req.contrast == Contrast::Auto && contrast != Contrast::Raw;
     let mut per_channel: Vec<(u32, Vec<Band>, Screened)> = Vec::new();
@@ -958,7 +966,11 @@ pub(crate) fn render(
             let band = &bands[0];
             for i in 0..ow * oh {
                 let l = level_of(band.v[i], lo, hi);
-                let l = if inverted && band.v[i].is_finite() { 1.0 - l } else { l };
+                let l = if inverted && band.v[i].is_finite() {
+                    1.0 - l
+                } else {
+                    l
+                };
                 for k in 0..3 {
                     acc[i * 3 + k] += f32::from(col[k]) * l;
                 }

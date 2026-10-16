@@ -141,7 +141,9 @@ impl FormatReader for ParavisionReader {
 
     fn sniff_input(&self, _head: &[u8], input: &Input) -> Option<Detection> {
         let r = recos(input.fs(), input.path())?;
-        let any_visu = r.iter().any(|r| input.fs().is_file(&r.proc_dir.join("visu_pars")));
+        let any_visu = r
+            .iter()
+            .any(|r| input.fs().is_file(&r.proc_dir.join("visu_pars")));
         any_visu.then(|| Detection {
             format_id: FORMAT_ID,
             confidence: DetectConfidence::Definite,

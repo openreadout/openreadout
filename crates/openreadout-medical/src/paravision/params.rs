@@ -131,7 +131,9 @@ struct Lexer<'a> {
 
 impl Lexer<'_> {
     fn skip_ws(&mut self) {
-        while self.i < self.s.len() && (self.s[self.i].is_ascii_whitespace() || self.s[self.i] == b',') {
+        while self.i < self.s.len()
+            && (self.s[self.i].is_ascii_whitespace() || self.s[self.i] == b',')
+        {
             self.i += 1;
         }
     }
@@ -142,7 +144,8 @@ impl Lexer<'_> {
         let mut out = Vec::new();
         while self.i < self.s.len() {
             let c = self.s[self.i];
-            if c == b'\\' && self.i + 1 < self.s.len() && matches!(self.s[self.i + 1], b'<' | b'>') {
+            if c == b'\\' && self.i + 1 < self.s.len() && matches!(self.s[self.i + 1], b'<' | b'>')
+            {
                 out.push(self.s[self.i + 1]);
                 self.i += 2;
                 continue;
@@ -155,11 +158,7 @@ impl Lexer<'_> {
         }
         let t = String::from_utf8_lossy(&out).to_string();
         // `<\` + newline + `>` is how ParaVision writes an empty multi-line string
-        if t.trim() == "\\" {
-            String::new()
-        } else {
-            t
-        }
+        if t.trim() == "\\" { String::new() } else { t }
     }
 
     fn word(&mut self) -> String {

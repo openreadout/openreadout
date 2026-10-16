@@ -84,14 +84,21 @@ fn value(e: &Element, depth: u32) -> Value {
                 };
             }
             if &e.vr == b"AT" {
-                let tags: Vec<Value> = e.tags().into_iter().map(|t| Value::from(tag_text(t))).collect();
+                let tags: Vec<Value> = e
+                    .tags()
+                    .into_iter()
+                    .map(|t| Value::from(tag_text(t)))
+                    .collect();
                 return if tags.len() == 1 {
                     tags.into_iter().next().unwrap_or(Value::Null)
                 } else {
                     Value::Array(tags)
                 };
             }
-            if matches!(&e.vr, b"US" | b"SS" | b"UL" | b"SL" | b"FL" | b"FD" | b"UV" | b"SV") {
+            if matches!(
+                &e.vr,
+                b"US" | b"SS" | b"UL" | b"SL" | b"FL" | b"FD" | b"UV" | b"SV"
+            ) {
                 let n = e.numbers();
                 if n.len() <= 64 {
                     return match n.len() {

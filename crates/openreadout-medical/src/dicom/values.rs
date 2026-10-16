@@ -46,7 +46,9 @@ impl Modality {
             Modality::Identity => v,
             Modality::Linear { slope, intercept } => v * slope + intercept,
             Modality::Lut { first, table, .. } => {
-                let i = (v as i64).saturating_sub(*first).clamp(0, table.len() as i64 - 1);
+                let i = (v as i64)
+                    .saturating_sub(*first)
+                    .clamp(0, table.len() as i64 - 1);
                 f64::from(table.get(i as usize).copied().unwrap_or(0))
             }
         }
@@ -166,7 +168,8 @@ pub(crate) fn apply(d: &Decoded, m: &Modality, out: PixelType) -> Vec<u8> {
     if *m == Modality::Identity && d.pixel_type == out {
         return d.data.clone();
     }
-    let mut v = Vec::with_capacity(d.data.len() / d.pixel_type.bytes_per_sample() * out.bytes_per_sample());
+    let mut v =
+        Vec::with_capacity(d.data.len() / d.pixel_type.bytes_per_sample() * out.bytes_per_sample());
     for x in d.pixel_type.samples_f64(&d.data) {
         let y = m.map(x);
         match out {
@@ -175,9 +178,9 @@ pub(crate) fn apply(d: &Decoded, m: &Modality, out: PixelType) -> Vec<u8> {
             PixelType::Uint16 => v.extend((y.clamp(0.0, 65535.0) as u16).to_le_bytes()),
             PixelType::Int16 => v.extend((y.clamp(-32768.0, 32767.0) as i16).to_le_bytes()),
             PixelType::Uint32 => v.extend((y.clamp(0.0, f64::from(u32::MAX)) as u32).to_le_bytes()),
-            PixelType::Int32 => v.extend(
-                (y.clamp(f64::from(i32::MIN), f64::from(i32::MAX)) as i32).to_le_bytes(),
-            ),
+            PixelType::Int32 => {
+                v.extend((y.clamp(f64::from(i32::MIN), f64::from(i32::MAX)) as i32).to_le_bytes())
+            }
             PixelType::Double => v.extend(y.to_le_bytes()),
             _ => v.extend((y as f32).to_le_bytes()),
         }
@@ -205,13 +208,21 @@ fn expand_segmented(
         i += 2;
         match op {
             0 => {
-                let seg = data.get(i..i + len).ok_or_else(|| bad("discrete segment runs past the data"))?;
+                let seg = data
+                    .get(i..i + len)
+                    .ok_or_else(|| bad("discrete segment runs past the data"))?;
                 lut.extend_from_slice(seg);
                 i += len;
             }
             1 => {
-                let y0 = lut.last().copied().or(last).ok_or_else(|| bad("starts with a linear segment"))?;
-                let y1 = *data.get(i).ok_or_else(|| bad("linear segment without its end value"))?;
+                let y0 = lut
+                    .last()
+                    .copied()
+                    .or(last)
+                    .ok_or_else(|| bad("starts with a linear segment"))?;
+                let y1 = *data
+                    .get(i)
+                    .ok_or_else(|| bad("linear segment without its end value"))?;
                 i += 1;
                 if len > 0 {
                     let (a, b) = (f64::from(y0), f64::from(y1));
@@ -228,11 +239,21 @@ fn expand_segmented(
                 }
             }
             2 => {
-                let lo = u32::from(*data.get(i).ok_or_else(|| bad("indirect segment truncated"))?);
-                let hi = u32::from(*data.get(i + 1).ok_or_else(|| bad("indirect segment truncated"))?);
+                let lo = u32::from(
+                    *data
+                        .get(i)
+                        .ok_or_else(|| bad("indirect segment truncated"))?,
+                );
+                let hi = u32::from(
+                    *data
+                        .get(i + 1)
+                        .ok_or_else(|| bad("indirect segment truncated"))?,
+                );
                 i += 2;
                 let off = ((hi << 16) | lo) as usize;
-                let rest = data.get(off..).ok_or_else(|| bad("indirect offset outside the data"))?;
+                let rest = data
+                    .get(off..)
+                    .ok_or_else(|| bad("indirect offset outside the data"))?;
                 let prev = lut.last().copied();
                 expand_segmented(rest, Some(len), prev, lut, depth + 1)?;
             }

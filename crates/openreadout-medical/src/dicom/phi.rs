@@ -73,11 +73,15 @@ pub(crate) fn flags(ds: &Item) -> Vec<Value> {
     let mut out: Vec<Value> = seen
         .into_iter()
         .map(|(tag, kind)| {
-            let name = lookup(tag).map_or_else(|| tag_text(tag), |(k, _)| format!("{k} {}", tag_text(tag)));
+            let name = lookup(tag)
+                .map_or_else(|| tag_text(tag), |(k, _)| format!("{k} {}", tag_text(tag)));
             json!({"field": name, "kind": kind})
         })
         .collect();
-    if ds.text(t::BURNED_IN_ANNOTATION).is_some_and(|v| v.eq_ignore_ascii_case("YES")) {
+    if ds
+        .text(t::BURNED_IN_ANNOTATION)
+        .is_some_and(|v| v.eq_ignore_ascii_case("YES"))
+    {
         out.push(json!({
             "field": format!("BurnedInAnnotation {}", tag_text(t::BURNED_IN_ANNOTATION)),
             "kind": "burned_in_text",
@@ -108,5 +112,6 @@ fn walk(items: &Item, seen: &mut Vec<(u32, &'static str)>, depth: u32) {
 /// True when the file says identifying information was removed (Patient Identity Removed,
 /// (0012,0062) = YES).
 pub(crate) fn deidentified(ds: &Item) -> bool {
-    ds.text(0x0012_0062).is_some_and(|v| v.eq_ignore_ascii_case("YES"))
+    ds.text(0x0012_0062)
+        .is_some_and(|v| v.eq_ignore_ascii_case("YES"))
 }

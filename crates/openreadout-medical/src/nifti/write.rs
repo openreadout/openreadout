@@ -99,7 +99,13 @@ fn datatype(pt: PixelType, spp: u32) -> Result<(i16, i16, &'static str)> {
 
 fn f3(v: Option<&Value>) -> Option<[f64; 3]> {
     let a = v?.as_array()?;
-    (a.len() >= 3).then(|| [a[0].as_f64().unwrap_or(0.0), a[1].as_f64().unwrap_or(0.0), a[2].as_f64().unwrap_or(0.0)])
+    (a.len() >= 3).then(|| {
+        [
+            a[0].as_f64().unwrap_or(0.0),
+            a[1].as_f64().unwrap_or(0.0),
+            a[2].as_f64().unwrap_or(0.0),
+        ]
+    })
 }
 
 /// The voxel-to-RAS affine of `im` (mm) and where it came from.
@@ -154,20 +160,40 @@ fn quaternion(m: &[[f64; 4]; 3], d: [f64; 3]) -> ([f64; 3], f64) {
     let a = 1.0 + r[0][0] + r[1][1] + r[2][2];
     let (a, b, c, dd) = if a > 0.5 {
         let a = 0.5 * a.sqrt();
-        (a, 0.25 * (r[2][1] - r[1][2]) / a, 0.25 * (r[0][2] - r[2][0]) / a, 0.25 * (r[1][0] - r[0][1]) / a)
+        (
+            a,
+            0.25 * (r[2][1] - r[1][2]) / a,
+            0.25 * (r[0][2] - r[2][0]) / a,
+            0.25 * (r[1][0] - r[0][1]) / a,
+        )
     } else {
         let xd = 1.0 + r[0][0] - (r[1][1] + r[2][2]);
         let yd = 1.0 + r[1][1] - (r[0][0] + r[2][2]);
         let zd = 1.0 + r[2][2] - (r[0][0] + r[1][1]);
         if xd > 1.0 {
             let b = 0.5 * xd.sqrt();
-            (0.25 * (r[2][1] - r[1][2]) / b, b, 0.25 * (r[0][1] + r[1][0]) / b, 0.25 * (r[0][2] + r[2][0]) / b)
+            (
+                0.25 * (r[2][1] - r[1][2]) / b,
+                b,
+                0.25 * (r[0][1] + r[1][0]) / b,
+                0.25 * (r[0][2] + r[2][0]) / b,
+            )
         } else if yd > 1.0 {
             let c = 0.5 * yd.sqrt();
-            (0.25 * (r[0][2] - r[2][0]) / c, 0.25 * (r[0][1] + r[1][0]) / c, c, 0.25 * (r[1][2] + r[2][1]) / c)
+            (
+                0.25 * (r[0][2] - r[2][0]) / c,
+                0.25 * (r[0][1] + r[1][0]) / c,
+                c,
+                0.25 * (r[1][2] + r[2][1]) / c,
+            )
         } else {
             let dq = 0.5 * zd.sqrt();
-            (0.25 * (r[1][0] - r[0][1]) / dq, 0.25 * (r[0][2] + r[2][0]) / dq, 0.25 * (r[1][2] + r[2][1]) / dq, dq)
+            (
+                0.25 * (r[1][0] - r[0][1]) / dq,
+                0.25 * (r[0][2] + r[2][0]) / dq,
+                0.25 * (r[1][2] + r[2][1]) / dq,
+                dq,
+            )
         }
     };
     let (b, c, dd) = if a < 0.0 { (-b, -c, -dd) } else { (b, c, dd) };
@@ -186,7 +212,8 @@ fn header(
 ) -> Vec<u8> {
     let mut h = vec![0u8; 352];
     let put_i16 = |h: &mut [u8], o: usize, v: i16| h[o..o + 2].copy_from_slice(&v.to_le_bytes());
-    let put_f32 = |h: &mut [u8], o: usize, v: f64| h[o..o + 4].copy_from_slice(&(v as f32).to_le_bytes());
+    let put_f32 =
+        |h: &mut [u8], o: usize, v: f64| h[o..o + 4].copy_from_slice(&(v as f32).to_le_bytes());
     h[0..4].copy_from_slice(&348i32.to_le_bytes());
     put_i16(&mut h, 40, dims.len() as i16);
     for (i, d) in dims.iter().enumerate() {
@@ -197,7 +224,9 @@ fn header(
     }
     put_i16(&mut h, 70, dt.0);
     put_i16(&mut h, 72, dt.1);
-    let (q, qfac) = aff.map_or(([0.0; 3], 1.0), |m| quaternion(&m, [pixdim[1], pixdim[2], pixdim[3]]));
+    let (q, qfac) = aff.map_or(([0.0; 3], 1.0), |m| {
+        quaternion(&m, [pixdim[1], pixdim[2], pixdim[3]])
+    });
     put_f32(&mut h, 76, qfac);
     for (i, v) in pixdim.iter().enumerate().skip(1) {
         put_f32(&mut h, 76 + 4 * i, *v);
@@ -279,7 +308,11 @@ pub fn export_nifti(
     }
     let mut notes = Vec::new();
     let mm = |v: Option<f64>| v.map_or(1.0, |um| um / 1000.0);
-    let (dx, dy, dz) = (mm(im.physical_size.x), mm(im.physical_size.y), mm(im.physical_size.z));
+    let (dx, dy, dz) = (
+        mm(im.physical_size.x),
+        mm(im.physical_size.y),
+        mm(im.physical_size.z),
+    );
     if im.physical_size.x.is_none() {
         notes.push("the source records no pixel size: pixdim is 1 mm".into());
     }
@@ -322,7 +355,10 @@ pub fn export_nifti(
         let file = std::fs::File::create(&tmp).map_err(|e| Error::io(&tmp, e))?;
         let buffered = std::io::BufWriter::new(file);
         let mut w: Box<dyn Write> = if gz {
-            Box::new(flate2::write::GzEncoder::new(buffered, flate2::Compression::default()))
+            Box::new(flate2::write::GzEncoder::new(
+                buffered,
+                flate2::Compression::default(),
+            ))
         } else {
             Box::new(buffered)
         };
@@ -356,7 +392,9 @@ pub fn export_nifti(
                 }
             }
         }
-        let len = std::fs::metadata(&tmp).map_err(|e| Error::io(&tmp, e))?.len();
+        let len = std::fs::metadata(&tmp)
+            .map_err(|e| Error::io(&tmp, e))?
+            .len();
         Ok((len, hashes))
     })();
     let (bytes, hashes) = match result {
@@ -377,7 +415,10 @@ pub fn export_nifti(
         image: index,
         dims,
         datatype: dt_name.into(),
-        pixdim: vec![dx, dy, dz, dt_s].into_iter().map(openreadout_core::model::round_noise).collect(),
+        pixdim: vec![dx, dy, dz, dt_s]
+            .into_iter()
+            .map(openreadout_core::model::round_noise)
+            .collect(),
         affine_from: aff.map_or("none", |a| a.1).into(),
         planes_written: hashes.len() as u64,
         bytes_written: bytes,
@@ -392,12 +433,20 @@ mod tests {
 
     #[test]
     fn identity_rotation_has_a_zero_quaternion() {
-        let m = [[2.0, 0.0, 0.0, 1.0], [0.0, 2.0, 0.0, 2.0], [0.0, 0.0, 3.0, 3.0]];
+        let m = [
+            [2.0, 0.0, 0.0, 1.0],
+            [0.0, 2.0, 0.0, 2.0],
+            [0.0, 0.0, 3.0, 3.0],
+        ];
         let (q, qfac) = quaternion(&m, [2.0, 2.0, 3.0]);
         assert!(q.iter().all(|v| v.abs() < 1e-12));
         assert_eq!(qfac, 1.0);
         // flipped x and y (DICOM LPS axial to RAS): a 180° turn about z
-        let m = [[-1.0, 0.0, 0.0, 0.0], [0.0, -1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0]];
+        let m = [
+            [-1.0, 0.0, 0.0, 0.0],
+            [0.0, -1.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0, 0.0],
+        ];
         let (q, _) = quaternion(&m, [1.0, 1.0, 1.0]);
         assert!((q[2].abs() - 1.0).abs() < 1e-12);
     }

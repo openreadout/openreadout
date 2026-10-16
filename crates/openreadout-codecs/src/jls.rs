@@ -61,7 +61,9 @@ pub(crate) fn decode(data: &[u8], max_bytes: usize) -> Result<Raster> {
     }
     let bytes = u64::from(w) * u64::from(h) * 2;
     if bytes > max_bytes.min(MAX_UNSIZED_OUTPUT) as u64 {
-        return Err(err(format!("frame header declares an implausible {w}x{h} image")));
+        return Err(err(format!(
+            "frame header declares an implausible {w}x{h} image"
+        )));
     }
     let (px, dw, dh) = ::jpegls::decode(data, w, h).map_err(|e| err(e.to_string()))?;
     if (dw, dh) != (w, h) || px.len() != w as usize * h as usize {

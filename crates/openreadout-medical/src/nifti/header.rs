@@ -221,7 +221,11 @@ pub(crate) fn parse(b: &[u8]) -> Option<Header> {
             }
         }
     }
-    let magic = if analyze { String::new() } else { text(&b[344..348]) };
+    let magic = if analyze {
+        String::new()
+    } else {
+        text(&b[344..348])
+    };
     Some(Header {
         kind,
         little,
@@ -247,7 +251,11 @@ pub(crate) fn parse(b: &[u8]) -> Option<Header> {
         } else {
             [r.f32(56), r.f32(60), r.f32(64)]
         },
-        intent_name: if analyze { String::new() } else { text(&b[328..344]) },
+        intent_name: if analyze {
+            String::new()
+        } else {
+            text(&b[328..344])
+        },
         dim_info: if analyze { 0 } else { b[39] },
         descrip: text(&b[148..228]),
         aux_file: text(&b[228..252]),
@@ -275,7 +283,9 @@ pub(crate) fn parse(b: &[u8]) -> Option<Header> {
 }
 
 /// Name, sample bytes and our pixel type of a NIfTI datatype code.
-pub(crate) fn datatype(code: i16) -> Option<(&'static str, usize, openreadout_core::PixelType, u32)> {
+pub(crate) fn datatype(
+    code: i16,
+) -> Option<(&'static str, usize, openreadout_core::PixelType, u32)> {
     use openreadout_core::PixelType as P;
     Some(match code {
         2 => ("uint8", 1, P::Uint8, 1),
@@ -340,9 +350,21 @@ impl Header {
             let a = (1.0 - (b * b + c * c + d * d)).max(0.0).sqrt();
             let qfac = if self.pixdim[0] < 0.0 { -1.0 } else { 1.0 };
             let r = [
-                [a * a + b * b - c * c - d * d, 2.0 * (b * c - a * d), 2.0 * (b * d + a * c)],
-                [2.0 * (b * c + a * d), a * a + c * c - b * b - d * d, 2.0 * (c * d - a * b)],
-                [2.0 * (b * d - a * c), 2.0 * (c * d + a * b), a * a + d * d - c * c - b * b],
+                [
+                    a * a + b * b - c * c - d * d,
+                    2.0 * (b * c - a * d),
+                    2.0 * (b * d + a * c),
+                ],
+                [
+                    2.0 * (b * c + a * d),
+                    a * a + c * c - b * b - d * d,
+                    2.0 * (c * d - a * b),
+                ],
+                [
+                    2.0 * (b * d - a * c),
+                    2.0 * (c * d + a * b),
+                    a * a + d * d - c * c - b * b,
+                ],
             ];
             let s = [dx, dy, dz * qfac];
             let mut m = [[0.0; 4]; 3];

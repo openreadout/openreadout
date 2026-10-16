@@ -19,8 +19,23 @@ fn trim(s: &str) -> &str {
 pub(crate) fn is_text_vr(vr: &[u8; 2]) -> bool {
     matches!(
         vr,
-        b"AE" | b"AS" | b"CS" | b"DA" | b"DS" | b"DT" | b"IS" | b"LO" | b"LT" | b"PN" | b"SH"
-            | b"ST" | b"TM" | b"UC" | b"UI" | b"UR" | b"UT"
+        b"AE"
+            | b"AS"
+            | b"CS"
+            | b"DA"
+            | b"DS"
+            | b"DT"
+            | b"IS"
+            | b"LO"
+            | b"LT"
+            | b"PN"
+            | b"SH"
+            | b"ST"
+            | b"TM"
+            | b"UC"
+            | b"UI"
+            | b"UR"
+            | b"UT"
     )
 }
 

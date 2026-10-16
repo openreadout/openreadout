@@ -78,11 +78,10 @@ fn spacing_of(f: &DicomFile) -> Option<[f64; 2]> {
 /// Place the frames of one instance in its level's tile grid.
 fn place(f: &DicomFile, fi: usize, desc: &PixelDesc, level: &mut Level, notes: &mut Vec<String>) {
     let (gx, gy) = level.grid();
-    let org = f
-        .ds
-        .text(t::DIMENSION_ORGANIZATION_TYPE)
-        .unwrap_or_default()
-        .to_ascii_uppercase();
+    let org =
+        f.ds.text(t::DIMENSION_ORGANIZATION_TYPE)
+            .unwrap_or_default()
+            .to_ascii_uppercase();
     let per_frame = f.ds.items(t::PER_FRAME_FUNCTIONAL_GROUPS_SEQUENCE);
     let sparse = org == "TILED_SPARSE" || (org != "TILED_FULL" && !per_frame.is_empty());
     level.organization = if sparse { "TILED_SPARSE" } else { "TILED_FULL" }.into();
@@ -97,8 +96,12 @@ fn place(f: &DicomFile, fi: usize, desc: &PixelDesc, level: &mut Level, notes: &
                 extra += 1;
                 continue;
             };
-            let col = p.number(t::COLUMN_POSITION_IN_TOTAL_IMAGE_PIXEL_MATRIX).unwrap_or(1.0);
-            let row = p.number(t::ROW_POSITION_IN_TOTAL_IMAGE_PIXEL_MATRIX).unwrap_or(1.0);
+            let col = p
+                .number(t::COLUMN_POSITION_IN_TOTAL_IMAGE_PIXEL_MATRIX)
+                .unwrap_or(1.0);
+            let row = p
+                .number(t::ROW_POSITION_IN_TOTAL_IMAGE_PIXEL_MATRIX)
+                .unwrap_or(1.0);
             if col < 1.0 || row < 1.0 {
                 extra += 1;
                 continue;
@@ -155,7 +158,9 @@ pub(crate) fn slides(files: &[(DicomFile, PixelDesc)], wsi: &[usize]) -> Vec<Sli
         let mut notes = Vec::new();
         for &i in &members {
             let (f, desc) = &files[i];
-            let w = f.ds.uint(t::TOTAL_PIXEL_MATRIX_COLUMNS).unwrap_or(desc.cols);
+            let w =
+                f.ds.uint(t::TOTAL_PIXEL_MATRIX_COLUMNS)
+                    .unwrap_or(desc.cols);
             let h = f.ds.uint(t::TOTAL_PIXEL_MATRIX_ROWS).unwrap_or(desc.rows);
             let pos = levels.iter().position(|l| (l.width, l.height) == (w, h));
             let li = match pos {
@@ -189,7 +194,10 @@ pub(crate) fn slides(files: &[(DicomFile, PixelDesc)], wsi: &[usize]) -> Vec<Sli
             level.files.push(i);
             place(f, i, desc, level, &mut notes);
         }
-        levels.sort_by(|a, b| (u64::from(b.width) * u64::from(b.height)).cmp(&(u64::from(a.width) * u64::from(a.height))));
+        levels.sort_by(|a, b| {
+            (u64::from(b.width) * u64::from(b.height))
+                .cmp(&(u64::from(a.width) * u64::from(a.height)))
+        });
         let Some(first) = levels.first().and_then(|l| l.files.first()).copied() else {
             continue;
         };

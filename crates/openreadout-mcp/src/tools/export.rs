@@ -461,7 +461,9 @@ fn export_open(
         }
         "nifti" => {
             if a.table.is_some() || a.spectra || a.trace.is_some() {
-                return Err(usage("NIfTI export writes one image: use image, not table/trace/spectra"));
+                return Err(usage(
+                    "NIfTI export writes one image: use image, not table/trace/spectra",
+                ));
             }
             let mut o = openreadout_medical::NiftiExportOptions::default();
             o.image = a.image;

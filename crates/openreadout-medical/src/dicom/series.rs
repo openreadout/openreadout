@@ -47,7 +47,11 @@ pub(crate) fn tm_seconds(s: &str) -> Option<f64> {
     }
     let h: f64 = s.get(0..2)?.parse().ok()?;
     let m: f64 = s.get(2..4).and_then(|v| v.parse().ok()).unwrap_or(0.0);
-    let sec: f64 = s.get(4..).filter(|v| !v.is_empty()).and_then(|v| v.parse().ok()).unwrap_or(0.0);
+    let sec: f64 = s
+        .get(4..)
+        .filter(|v| !v.is_empty())
+        .and_then(|v| v.parse().ok())
+        .unwrap_or(0.0);
     Some(h * 3600.0 + m * 60.0 + sec)
 }
 
@@ -56,7 +60,8 @@ fn arr3(v: &[f64]) -> Option<[f64; 3]> {
 }
 
 fn arr6(v: &[f64]) -> Option<[f64; 6]> {
-    (v.len() >= 6 && v[..6].iter().all(|x| x.is_finite())).then(|| [v[0], v[1], v[2], v[3], v[4], v[5]])
+    (v.len() >= 6 && v[..6].iter().all(|x| x.is_finite()))
+        .then(|| [v[0], v[1], v[2], v[3], v[4], v[5]])
 }
 
 fn spacing2(v: &[f64]) -> Option<[f64; 2]> {
@@ -241,7 +246,9 @@ pub(crate) fn plan(files: &[(DicomFile, PixelDesc)]) -> Vec<ImagePlan> {
     for (fi, (f, desc)) in files.iter().enumerate() {
         let series = f.ds.text(t::SERIES_INSTANCE_UID).unwrap_or_default();
         let recs = frames_of(f, fi, desc);
-        let positioned = recs.iter().all(|r| r.position.is_some() && r.orientation.is_some());
+        let positioned = recs
+            .iter()
+            .all(|r| r.position.is_some() && r.orientation.is_some());
         let own = (desc.frames > 1 || !positioned).then_some(fi);
         for r in recs {
             let key = Key {
@@ -279,7 +286,10 @@ fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> Image
         return segmentation(file0, desc, frames, first_file);
     }
     let mut notes = Vec::new();
-    let nrm = frames.first().and_then(|f| f.orientation).map(|o| normal(&o));
+    let nrm = frames
+        .first()
+        .and_then(|f| f.orientation)
+        .map(|o| normal(&o));
     let positioned = n > 1 && frames.iter().all(|f| f.position.is_some()) && nrm.is_some();
     let time_key = |f: &FrameRec| {
         (
@@ -304,8 +314,11 @@ fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> Image
         let nv = nrm.unwrap_or([0.0, 0.0, 1.0]);
         let d = |f: &FrameRec| f.position.map_or(0.0, |p| dot(p, nv));
         frames.sort_by(|a, b| {
-            d(a).total_cmp(&d(b))
-                .then_with(|| time_key(a).partial_cmp(&time_key(b)).unwrap_or(std::cmp::Ordering::Equal))
+            d(a).total_cmp(&d(b)).then_with(|| {
+                time_key(a)
+                    .partial_cmp(&time_key(b))
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            })
         });
         // distinct positions (within 1 µm)
         let mut levels: Vec<(f64, usize)> = Vec::new();
@@ -342,7 +355,9 @@ fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> Image
             if let Some(m) = median(&steps) {
                 z_step = Some(m);
                 z_source = Some("slice positions");
-                let irregular = steps.iter().any(|s| (s - m).abs() > 0.01 * m.abs().max(1e-3));
+                let irregular = steps
+                    .iter()
+                    .any(|s| (s - m).abs() > 0.01 * m.abs().max(1e-3));
                 if irregular {
                     notes.push(format!(
                         "slice spacing is irregular ({:.4} to {:.4} mm); physical_size.z is the median {m:.4} mm",
@@ -359,12 +374,19 @@ fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> Image
                 .unwrap_or(std::cmp::Ordering::Equal)
         });
         let ds = &file0.ds;
-        let pointer = ds.get(t::FRAME_INCREMENT_POINTER).map(|e| e.tags()).unwrap_or_default();
+        let pointer = ds
+            .get(t::FRAME_INCREMENT_POINTER)
+            .map(|e| e.tags())
+            .unwrap_or_default();
         let modality = ds.text(t::MODALITY).unwrap_or_default();
-        let temporal = pointer.iter().any(|p| matches!(*p, 0x0018_1063 | 0x0018_1065 | 0x0018_1060))
+        let temporal = pointer
+            .iter()
+            .any(|p| matches!(*p, 0x0018_1063 | 0x0018_1065 | 0x0018_1060))
             || ds.number(t::FRAME_TIME).is_some()
             || matches!(modality.as_str(), "US" | "XA" | "RF" | "ES" | "XC" | "IVUS");
-        let spatial = pointer.iter().any(|p| matches!(*p, 0x0054_0080 | 0x3004_000C));
+        let spatial = pointer
+            .iter()
+            .any(|p| matches!(*p, 0x0054_0080 | 0x3004_000C));
         if temporal && !spatial {
             arrangement = Arrangement::Cine;
             size_z = 1;
@@ -373,23 +395,44 @@ fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> Image
     }
     // Z step fallbacks: SpacingBetweenSlices, then SliceThickness
     if z_step.is_none() && size_z > 1 {
-        if let Some(s) = file0.ds.number(t::SPACING_BETWEEN_SLICES).filter(|v| *v > 0.0) {
+        if let Some(s) = file0
+            .ds
+            .number(t::SPACING_BETWEEN_SLICES)
+            .filter(|v| *v > 0.0)
+        {
             z_step = Some(s);
             z_source = Some("SpacingBetweenSlices");
-        } else if let Some(s) = frames.first().and_then(|f| f.thickness).filter(|v| *v > 0.0) {
+        } else if let Some(s) = frames
+            .first()
+            .and_then(|f| f.thickness)
+            .filter(|v| *v > 0.0)
+        {
             z_step = Some(s);
             z_source = Some("SliceThickness");
         }
     }
     // time step
-    let mut time_step = file0.ds.number(t::FRAME_TIME).filter(|v| *v > 0.0).map(|ms| ms / 1000.0);
+    let mut time_step = file0
+        .ds
+        .number(t::FRAME_TIME)
+        .filter(|v| *v > 0.0)
+        .map(|ms| ms / 1000.0);
     if time_step.is_none() && size_t > 1 {
         let tz = size_z as usize;
         let times: Vec<f64> = (0..size_t as usize)
             .filter_map(|tt| frames.get(tt * tz))
-            .map(|f| f.trigger_ms.map(|ms| ms / 1000.0).or(f.time_s).unwrap_or(f64::NAN))
+            .map(|f| {
+                f.trigger_ms
+                    .map(|ms| ms / 1000.0)
+                    .or(f.time_s)
+                    .unwrap_or(f64::NAN)
+            })
             .collect();
-        let steps: Vec<f64> = times.windows(2).map(|w| w[1] - w[0]).filter(|v| *v > 0.0).collect();
+        let steps: Vec<f64> = times
+            .windows(2)
+            .map(|w| w[1] - w[0])
+            .filter(|v| *v > 0.0)
+            .collect();
         time_step = median(&steps);
     }
     let modalities: Vec<&Modality> = frames.iter().map(|f| &f.modality).collect();
@@ -424,8 +467,16 @@ fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> Image
 
 /// A segmentation (PS3.3 A.51): each segment is a channel, and the union of the slice
 /// positions its frames sit at is Z. A segment absent from a slice has no frame there.
-fn segmentation(file0: &DicomFile, desc: PixelDesc, frames: Vec<FrameRec>, first_file: usize) -> ImagePlan {
-    let nrm = frames.first().and_then(|f| f.orientation).map(|o| normal(&o));
+fn segmentation(
+    file0: &DicomFile,
+    desc: PixelDesc,
+    frames: Vec<FrameRec>,
+    first_file: usize,
+) -> ImagePlan {
+    let nrm = frames
+        .first()
+        .and_then(|f| f.orientation)
+        .map(|o| normal(&o));
     let nv = nrm.unwrap_or([0.0, 0.0, 1.0]);
     let d = |f: &FrameRec| f.position.map_or(f64::from(f.frame), |p| dot(p, nv));
     let mut levels: Vec<f64> = frames.iter().map(d).collect();
@@ -437,9 +488,15 @@ fn segmentation(file0: &DicomFile, desc: PixelDesc, frames: Vec<FrameRec>, first
     let (nz, nc) = (levels.len().max(1), segs.len().max(1));
     let mut planes: Vec<Option<FrameRec>> = vec![None; nz * nc];
     for f in frames {
-        let c = segs.iter().position(|s| *s == f.segment.unwrap_or(0)).unwrap_or(0);
+        let c = segs
+            .iter()
+            .position(|s| *s == f.segment.unwrap_or(0))
+            .unwrap_or(0);
         let v = d(&f);
-        let z = levels.iter().position(|l| (l - v).abs() < 1e-3).unwrap_or(0);
+        let z = levels
+            .iter()
+            .position(|l| (l - v).abs() < 1e-3)
+            .unwrap_or(0);
         let slot = &mut planes[c * nz + z];
         if slot.is_none() {
             *slot = Some(f);
@@ -449,7 +506,12 @@ fn segmentation(file0: &DicomFile, desc: PixelDesc, frames: Vec<FrameRec>, first
         .ds
         .items(0x0062_0002)
         .iter()
-        .filter_map(|i| Some((i.uint(0x0062_0004)?, i.text(0x0062_0005).unwrap_or_default())))
+        .filter_map(|i| {
+            Some((
+                i.uint(0x0062_0004)?,
+                i.text(0x0062_0005).unwrap_or_default(),
+            ))
+        })
         .collect();
     let channel_names = segs
         .iter()

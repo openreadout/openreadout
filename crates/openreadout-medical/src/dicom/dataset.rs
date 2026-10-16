@@ -5,8 +5,8 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use openreadout_core::model::{
-    ChannelInfo, CheckReport, FileInfo, Finding, ImageInfo, InstrumentInfo, LsEntry,
-    ObjectiveInfo, PhysicalSize,
+    ChannelInfo, CheckReport, FileInfo, Finding, ImageInfo, InstrumentInfo, LsEntry, ObjectiveInfo,
+    PhysicalSize,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, PlaneIndex};
@@ -68,7 +68,11 @@ impl std::fmt::Debug for DicomDataset {
 /// The referenced files of a DICOMDIR (PS3.3 F.3: Referenced File ID components relative to
 /// the DICOMDIR's folder).
 fn dicomdir_files(fs: &Fs, dicomdir: &DicomFile) -> (Vec<PathBuf>, Vec<PathBuf>) {
-    let base = dicomdir.path.parent().unwrap_or(Path::new("")).to_path_buf();
+    let base = dicomdir
+        .path
+        .parent()
+        .unwrap_or(Path::new(""))
+        .to_path_buf();
     let mut found = Vec::new();
     let mut missing = Vec::new();
     for rec in dicomdir.ds.items(t::DIRECTORY_RECORD_SEQUENCE) {
@@ -76,7 +80,11 @@ fn dicomdir_files(fs: &Fs, dicomdir: &DicomFile) -> (Vec<PathBuf>, Vec<PathBuf>)
             continue;
         };
         let parts = e.strings();
-        if parts.is_empty() || parts.iter().any(|p| p.is_empty() || p == ".." || p.contains('/')) {
+        if parts.is_empty()
+            || parts
+                .iter()
+                .any(|p| p.is_empty() || p == ".." || p.contains('/'))
+        {
             continue;
         }
         // resolve each component case-insensitively (media written in upper case)
@@ -132,7 +140,10 @@ fn iso(date: Option<String>, time: Option<String>) -> Option<String> {
 fn iso_dt(dt: &str) -> Option<String> {
     let dt = dt.trim();
     let (main, _) = dt.split_once(['+', '-']).unwrap_or((dt, ""));
-    iso(main.get(0..8).map(str::to_string), main.get(8..).map(str::to_string))
+    iso(
+        main.get(0..8).map(str::to_string),
+        main.get(8..).map(str::to_string),
+    )
 }
 
 impl DicomDataset {
@@ -191,7 +202,9 @@ impl DicomDataset {
                 let mut v = vec![path.clone()];
                 if !series.is_empty() {
                     for p in dicom_files_in(fs, &dir, 4096) {
-                        if p == path || p.parent() != Some(dir.as_path()) && !dir.as_os_str().eq(".") {
+                        if p == path
+                            || p.parent() != Some(dir.as_path()) && !dir.as_os_str().eq(".")
+                        {
                             continue;
                         }
                         if let Ok(o) = DicomFile::open(fs, &p)
@@ -210,7 +223,9 @@ impl DicomDataset {
             }
         };
         if paths.len() >= MAX_FILES {
-            notes.push(format!("only the first {MAX_FILES} DICOM files of the folder are read"));
+            notes.push(format!(
+                "only the first {MAX_FILES} DICOM files of the folder are read"
+            ));
         }
         let mut files = Vec::new();
         let mut unreadable = Vec::new();
@@ -354,7 +369,14 @@ impl DicomDataset {
     }
 
     /// Decode frame `frame` of file `fi` in the image's output type.
-    fn frame(&mut self, fi: usize, frame: u32, modality: &Modality, out: PixelType, img: usize) -> Result<Vec<u8>> {
+    fn frame(
+        &mut self,
+        fi: usize,
+        frame: u32,
+        modality: &Modality,
+        out: PixelType,
+        img: usize,
+    ) -> Result<Vec<u8>> {
         let desc = self.descs[fi]
             .clone()
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "file has no image pixel module"))?;
@@ -406,10 +428,18 @@ impl DicomDataset {
         im.name = series.clone().or_else(|| {
             modality
                 .as_ref()
-                .map(|m| format!("{m} series {}", number.map_or(String::new(), |n| n.to_string())))
+                .map(|m| {
+                    format!(
+                        "{m} series {}",
+                        number.map_or(String::new(), |n| n.to_string())
+                    )
+                })
                 .map(|s| s.trim().to_string())
         });
-        let software = ds.get(t::SOFTWARE_VERSIONS).map(|e| e.strings().join(" ")).filter(|s| !s.trim().is_empty());
+        let software = ds
+            .get(t::SOFTWARE_VERSIONS)
+            .map(|e| e.strings().join(" "))
+            .filter(|s| !s.trim().is_empty());
         im.instrument = Some(InstrumentInfo {
             manufacturer: ds.text(t::MANUFACTURER),
             model: ds.text(t::MANUFACTURER_MODEL_NAME),
@@ -435,11 +465,16 @@ impl DicomDataset {
         let class = f.sop_class();
         put(
             "sop_class",
-            Some(Value::from(sop_class_name(&class).map_or(class.clone(), str::to_string))),
+            Some(Value::from(
+                sop_class_name(&class).map_or(class.clone(), str::to_string),
+            )),
         );
         put("series_description", series.map(Value::from));
         put("series_number", number.map(num));
-        put("study_description", ds.text(t::STUDY_DESCRIPTION).map(Value::from));
+        put(
+            "study_description",
+            ds.text(t::STUDY_DESCRIPTION).map(Value::from),
+        );
         put("protocol_name", ds.text(t::PROTOCOL_NAME).map(Value::from));
         put("body_part", ds.text(t::BODY_PART_EXAMINED).map(Value::from));
         put(
@@ -470,7 +505,11 @@ impl DicomDataset {
             ("convolution_kernel", t::CONVOLUTION_KERNEL),
             ("scanning_sequence", t::SCANNING_SEQUENCE),
         ] {
-            if let Some(v) = ds.get(tag).map(|e| e.strings().join("\\")).filter(|s| !s.is_empty()) {
+            if let Some(v) = ds
+                .get(tag)
+                .map(|e| e.strings().join("\\"))
+                .filter(|s| !s.is_empty())
+            {
                 acq.insert(k.into(), Value::from(v));
             }
         }
@@ -536,16 +575,18 @@ impl DicomDataset {
         });
         let spacing = spacing.or_else(|| {
             // ultrasound: the first region with cm units (3) in both directions
-            ds.items(t::SEQUENCE_OF_ULTRASOUND_REGIONS).iter().find_map(|r| {
-                let ux = r.number(t::PHYSICAL_UNITS_X_DIRECTION)?;
-                let uy = r.number(t::PHYSICAL_UNITS_Y_DIRECTION)?;
-                let dx = r.number(t::PHYSICAL_DELTA_X)?;
-                let dy = r.number(t::PHYSICAL_DELTA_Y)?;
-                (ux == 3.0 && uy == 3.0 && dx > 0.0 && dy > 0.0).then(|| {
-                    spacing_source = "SequenceOfUltrasoundRegions";
-                    [dy * 10.0, dx * 10.0]
+            ds.items(t::SEQUENCE_OF_ULTRASOUND_REGIONS)
+                .iter()
+                .find_map(|r| {
+                    let ux = r.number(t::PHYSICAL_UNITS_X_DIRECTION)?;
+                    let uy = r.number(t::PHYSICAL_UNITS_Y_DIRECTION)?;
+                    let dx = r.number(t::PHYSICAL_DELTA_X)?;
+                    let dy = r.number(t::PHYSICAL_DELTA_Y)?;
+                    (ux == 3.0 && uy == 3.0 && dx > 0.0 && dy > 0.0).then(|| {
+                        spacing_source = "SequenceOfUltrasoundRegions";
+                        [dy * 10.0, dx * 10.0]
+                    })
                 })
-            })
         });
         im.physical_size = PhysicalSize::micrometres(
             spacing.map(|s| s[1] * 1000.0),
@@ -652,7 +693,10 @@ impl DicomDataset {
         let mut windows = Vec::new();
         let centres = ds.numbers(t::WINDOW_CENTER);
         let widths = ds.numbers(t::WINDOW_WIDTH);
-        let names = ds.get(t::WINDOW_CENTER_WIDTH_EXPLANATION).map(|e| e.strings()).unwrap_or_default();
+        let names = ds
+            .get(t::WINDOW_CENTER_WIDTH_EXPLANATION)
+            .map(|e| e.strings())
+            .unwrap_or_default();
         for (i, (c, w)) in centres.iter().zip(&widths).enumerate() {
             if *w > 0.0 {
                 let mut o = json!({"center": num(*c), "width": num(*w)});
@@ -717,7 +761,11 @@ impl DicomDataset {
             .collect();
         im.channels = vec![ChannelInfo {
             index: 0,
-            name: Some(if spp == 3 { "RGB".into() } else { "gray".into() }),
+            name: Some(if spp == 3 {
+                "RGB".into()
+            } else {
+                "gray".into()
+            }),
             acquisition_mode: Some("Brightfield".into()),
             ..ChannelInfo::default()
         }];
@@ -745,7 +793,10 @@ impl DicomDataset {
         }
         let ex = &mut im.extra;
         ex.insert("arrangement".into(), Value::from("slide pyramid"));
-        ex.insert("dimension_organization".into(), Value::from(l0.organization.clone()));
+        ex.insert(
+            "dimension_organization".into(),
+            Value::from(l0.organization.clone()),
+        );
         ex.insert(
             "photometric_interpretation".into(),
             Value::from(s.desc.photometric.clone()),
@@ -800,7 +851,10 @@ impl DicomDataset {
                 }
                 let i = (idx.c as usize * p.size_t as usize + idx.t as usize) * p.size_z as usize
                     + idx.z as usize;
-                Ok((p.planes.get(i).cloned().flatten(), self.plane_type(image as usize).0))
+                Ok((
+                    p.planes.get(i).cloned().flatten(),
+                    self.plane_type(image as usize).0,
+                ))
             }
             Img::Slide(_) => Err(Error::Other("slide".into())),
         }
@@ -911,7 +965,9 @@ impl Dataset for DicomDataset {
         if problems > 0
             && let Some(p) = self.files.iter().flat_map(|f| f.problems.iter()).next()
         {
-            notes.push(format!("{problems} encoding problems were tolerated (first: {p}); `check` lists them"));
+            notes.push(format!(
+                "{problems} encoding problems were tolerated (first: {p}); `check` lists them"
+            ));
         }
         let plane_count = images.iter().map(|i| i.plane_count).sum();
         Ok(FileInfo {
@@ -1002,10 +1058,13 @@ impl Dataset for DicomDataset {
             });
         }
         let image_of = |fi: usize| -> Option<u32> {
-            self.images.iter().position(|img| match img {
-                Img::Planes(p) => p.planes.iter().flatten().any(|f| f.file == fi),
-                Img::Slide(s) => s.levels.iter().any(|l| l.files.contains(&fi)),
-            }).map(|i| i as u32)
+            self.images
+                .iter()
+                .position(|img| match img {
+                    Img::Planes(p) => p.planes.iter().flatten().any(|f| f.file == fi),
+                    Img::Slide(s) => s.levels.iter().any(|l| l.files.contains(&fi)),
+                })
+                .map(|i| i as u32)
         };
         for (i, f) in self.files.iter().enumerate() {
             let class = f.sop_class();
@@ -1073,7 +1132,12 @@ impl Dataset for DicomDataset {
         let (w, h) = (p.desc.cols, p.desc.rows);
         let Some(fr) = fr else {
             // a segment with no frame at this slice
-            let n = openreadout_core::pixel::plane_bytes_checked(FORMAT_ID, w, h, ty.bytes_per_sample() * spp as usize)?;
+            let n = openreadout_core::pixel::plane_bytes_checked(
+                FORMAT_ID,
+                w,
+                h,
+                ty.bytes_per_sample() * spp as usize,
+            )?;
             return Ok(Plane {
                 width: w,
                 height: h,
@@ -1096,7 +1160,10 @@ impl Dataset for DicomDataset {
         match self.plan_at(image)? {
             Img::Slide(s) => {
                 let l = s.levels.get(level as usize).ok_or_else(|| {
-                    Error::Usage(format!("level {level} out of range ({} levels)", s.levels.len()))
+                    Error::Usage(format!(
+                        "level {level} out of range ({} levels)",
+                        s.levels.len()
+                    ))
                 })?;
                 let (w, h) = (l.width, l.height);
                 if index != PlaneIndex::default() {
@@ -1148,8 +1215,13 @@ impl Dataset for DicomDataset {
         let r = region.unwrap_or(Region::full(l.width, l.height));
         let mut out = Vec::new();
         for &(tx, ty) in l.tiles.keys() {
-            let (x, y) = (i64::from(tx) * i64::from(l.tile_w), i64::from(ty) * i64::from(l.tile_h));
-            if let Some((x0, y0, x1, y1)) = r.overlap(x, y, u64::from(l.tile_w), u64::from(l.tile_h)) {
+            let (x, y) = (
+                i64::from(tx) * i64::from(l.tile_w),
+                i64::from(ty) * i64::from(l.tile_h),
+            );
+            if let Some((x0, y0, x1, y1)) =
+                r.overlap(x, y, u64::from(l.tile_w), u64::from(l.tile_h))
+            {
                 out.push(Region::new(
                     (x0 - i64::from(r.x)) as u32,
                     (y0 - i64::from(r.y)) as u32,
@@ -1170,7 +1242,11 @@ impl Dataset for DicomDataset {
                 Img::Planes(p) => {
                     let mut v = vec![PlaneIndex::default()];
                     if p.size_z * p.size_t > 1 {
-                        v.push(PlaneIndex { c: 0, z: p.size_z - 1, t: p.size_t - 1 });
+                        v.push(PlaneIndex {
+                            c: 0,
+                            z: p.size_z - 1,
+                            t: p.size_t - 1,
+                        });
                     }
                     v
                 }
@@ -1185,7 +1261,10 @@ impl Dataset for DicomDataset {
                 }
             }
             if let Img::Slide(s) = &self.images[i as usize] {
-                let l = s.levels.last().map(|l| (l.width, l.height, s.levels.len() as u32 - 1));
+                let l = s
+                    .levels
+                    .last()
+                    .map(|l| (l.width, l.height, s.levels.len() as u32 - 1));
                 if let Some((w, h, lv)) = l
                     && let Err(e) = self.slide_region(i, lv, Region::full(w, h))
                 {
@@ -1206,7 +1285,10 @@ impl Dataset for DicomDataset {
         r.performed("native pixel data holds every frame; encapsulated fragments are complete");
         r.performed("slices of a series are evenly spaced (no missing slices)");
         for (p, why) in &self.unreadable {
-            r.push(Finding::error("unreadable_file", format!("{}: {why}", self.rel(p))));
+            r.push(Finding::error(
+                "unreadable_file",
+                format!("{}: {why}", self.rel(p)),
+            ));
         }
         for p in &self.missing {
             r.push(Finding::error(
@@ -1230,7 +1312,10 @@ impl Dataset for DicomDataset {
             if f.syntax.uid.is_empty() {
                 r.push(Finding::warning(
                     "unknown_transfer_syntax",
-                    format!("{name}: transfer syntax {} is not one PS3.6 lists", f.syntax_uid),
+                    format!(
+                        "{name}: transfer syntax {} is not one PS3.6 lists",
+                        f.syntax_uid
+                    ),
                 ));
             }
             let Some(desc) = &self.descs[i] else { continue };
@@ -1240,19 +1325,28 @@ impl Dataset for DicomDataset {
                     if len < need {
                         r.push(Finding::error(
                             "truncated",
-                            format!("{name}: pixel data holds {len} bytes, {} frames need {need}", desc.frames),
+                            format!(
+                                "{name}: pixel data holds {len} bytes, {} frames need {need}",
+                                desc.frames
+                            ),
                         ));
                     } else if len > need + 1 {
                         r.push(Finding::warning(
                             "trailing_bytes",
-                            format!("{name}: pixel data holds {} bytes more than {} frames need", len - need, desc.frames),
+                            format!(
+                                "{name}: pixel data holds {} bytes more than {} frames need",
+                                len - need,
+                                desc.frames
+                            ),
                         ));
                     }
                 }
                 Some(PixelLoc::Encapsulated { .. }) => match FrameTable::build(f, desc.frames) {
                     Ok(tb) if !tb.complete => r.push(Finding::error(
                         "truncated",
-                        format!("{name}: encapsulated pixel data has no sequence delimiter (truncated?)"),
+                        format!(
+                            "{name}: encapsulated pixel data has no sequence delimiter (truncated?)"
+                        ),
                     )),
                     Ok(_) => {}
                     Err(e) => r.push(Finding::error("bad_fragments", format!("{name}: {e}"))),
@@ -1272,7 +1366,10 @@ impl Dataset for DicomDataset {
                     .flatten()
                     .filter_map(|f| f.position.map(|q| crate::util::dot(q, n)))
                     .collect();
-                let gaps = d.windows(2).filter(|w| (w[1] - w[0]).abs() > 1.5 * step).count();
+                let gaps = d
+                    .windows(2)
+                    .filter(|w| (w[1] - w[0]).abs() > 1.5 * step)
+                    .count();
                 if gaps > 0 {
                     r.push(Finding::warning(
                         "missing_slices",
@@ -1318,7 +1415,10 @@ impl Dataset for DicomDataset {
                 if p.size_c > 1 {
                     m.insert("c".into(), Value::from(i / sz / st));
                 }
-                m.insert("file".into(), Value::from(self.rel(&self.files[f.file].path)));
+                m.insert(
+                    "file".into(),
+                    Value::from(self.rel(&self.files[f.file].path)),
+                );
                 if self.descs[f.file].as_ref().is_some_and(|d| d.frames > 1) {
                     m.insert("frame".into(), Value::from(f.frame));
                 }
@@ -1326,7 +1426,10 @@ impl Dataset for DicomDataset {
                     m.insert("instance_number".into(), num(n));
                 }
                 if let Some(pos) = f.position {
-                    m.insert("position_mm".into(), json!([num(pos[0]), num(pos[1]), num(pos[2])]));
+                    m.insert(
+                        "position_mm".into(),
+                        json!([num(pos[0]), num(pos[1]), num(pos[2])]),
+                    );
                 }
                 if let Some(s) = f.slice_location {
                     m.insert("slice_location_mm".into(), num(s));

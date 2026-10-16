@@ -49,10 +49,10 @@ mod blosc;
 mod chunked;
 #[cfg(feature = "jpeg2000")]
 mod j2k;
-#[cfg(feature = "jpeg")]
-mod jpeg12;
 #[cfg(feature = "jpegls")]
 mod jls;
+#[cfg(feature = "jpeg")]
+mod jpeg12;
 #[cfg(feature = "jpegxl")]
 mod jxl;
 #[cfg(feature = "lerc")]

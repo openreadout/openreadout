@@ -131,7 +131,9 @@ impl FormatReader for DicomReader {
         let path = input.path();
         if input.fs().is_dir(path) {
             return match sniff_dir(input.fs(), path)? {
-                DetectConfidence::Definite => det(DetectConfidence::Definite, Some("folder with a DICOMDIR")),
+                DetectConfidence::Definite => {
+                    det(DetectConfidence::Definite, Some("folder with a DICOMDIR"))
+                }
                 c => det(c, Some("folder of DICOM files")),
             };
         }

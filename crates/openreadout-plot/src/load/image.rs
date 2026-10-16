@@ -2,8 +2,8 @@
 //! once per pixel with bilinear interpolation, against the distance along the line in mm (µm
 //! below 1 mm) when the pixel size is known, else in pixels.
 
-use openreadout_core::reader::PlaneIndex;
 use openreadout_core::Result;
+use openreadout_core::reader::PlaneIndex;
 
 use super::{Ctx, usage};
 use crate::model::{Geom, Quantity, Series, Source};
@@ -22,8 +22,15 @@ pub(crate) fn profile(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resul
         .images
         .iter()
         .find(|i| i.index == index)
-        .ok_or_else(|| usage(format!("{file}: image {index} not found ({} images)", info.images.len())))?;
-    let sel = openreadout_core::select::Selection::parse(&spec.select.iter().cloned().collect::<Vec<_>>())?;
+        .ok_or_else(|| {
+            usage(format!(
+                "{file}: image {index} not found ({} images)",
+                info.images.len()
+            ))
+        })?;
+    let sel = openreadout_core::select::Selection::parse(
+        &spec.select.iter().cloned().collect::<Vec<_>>(),
+    )?;
     let c = spec.channel.or(sel.c.first().copied()).unwrap_or(0);
     let z = sel.z.first().copied().unwrap_or(im.size_z / 2);
     let t = sel.t.first().copied().unwrap_or(0);
@@ -76,7 +83,10 @@ pub(crate) fn profile(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resul
         let x = (x0 + (x1 - x0) * f).min(w - 1.0);
         let y = (y0 + (y1 - y0) * f).min(h - 1.0);
         let (xa, ya) = (x.floor() as usize, y.floor() as usize);
-        let (xb, yb) = ((xa + 1).min(pw - 1), (ya + 1).min(plane.height as usize - 1));
+        let (xb, yb) = (
+            (xa + 1).min(pw - 1),
+            (ya + 1).min(plane.height as usize - 1),
+        );
         let (tx, ty) = (x - x.floor(), y - y.floor());
         let v = (at(xa, ya) * (1.0 - tx) + at(xb, ya) * tx) * (1.0 - ty)
             + (at(xa, yb) * (1.0 - tx) + at(xb, yb) * tx) * ty;
