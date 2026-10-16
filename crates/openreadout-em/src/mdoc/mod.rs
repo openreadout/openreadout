@@ -273,6 +273,10 @@ impl Mdoc {
                     r.insert("stage_x_um".into(), json!(v[0]));
                     r.insert("stage_y_um".into(), json!(v[1]));
                 }
+                if let Some(v) = s.nums("PieceCoordinates").filter(|v| v.len() >= 2) {
+                    r.insert("piece_x".into(), json!(v[0]));
+                    r.insert("piece_y".into(), json!(v[1]));
+                }
                 if let Some(v) = s.nums("ImageShift").filter(|v| v.len() >= 2) {
                     r.insert("image_shift".into(), json!([v[0], v[1]]));
                 }

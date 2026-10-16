@@ -29,6 +29,8 @@ const COLUMNS: &[(&str, Option<&str>)] = &[
     ("target_defocus_um", Some("µm")),
     ("magnification", None),
     ("pixel_spacing_a", Some("Å")),
+    ("piece_x", Some("px")),
+    ("piece_y", Some("px")),
     ("stage_x_um", Some("µm")),
     ("stage_y_um", Some("µm")),
     ("stage_z_um", Some("µm")),

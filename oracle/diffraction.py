@@ -96,6 +96,8 @@ def nxmx(p: Path, max_planes: int) -> dict:
     links = sorted(k for k in data.keys() if k.startswith("data_") and isinstance(data.get(k, getlink=True), h5py.ExternalLink))
     planes, total, shape, dtype = [], 0, None, None
     for k in links:
+        if not (p.parent / data.get(k, getlink=True).filename).exists():
+            continue
         d = data[k]
         shape, dtype = d.shape, d.dtype
         for i in range(d.shape[0]):
@@ -126,8 +128,11 @@ def nxmx(p: Path, max_planes: int) -> dict:
         geo["pixel_size_mm"] = [xs * 1e3, ys * 1e3]
     if val(det, "count_time") is not None:
         geo["exposure_s"] = val(det, "count_time")
-    img = {"index": 0, "size_x": int(shape[2]), "size_y": int(shape[1]), "size_z": 1, "size_c": 1, "size_t": total,
-           "pixel_type": _DT[np.dtype(dtype).name], "physical_size_um": {}, "planes": planes, "check_diffraction": geo}
+    if shape is None:  # a master without its data files: only the image's presence is checked
+        img = {"index": 0, "skip": "no data file next to the master"}
+    else:
+        img = {"index": 0, "size_x": int(shape[2]), "size_y": int(shape[1]), "size_z": 1, "size_c": 1, "size_t": total,
+               "pixel_type": _DT[np.dtype(dtype).name], "physical_size_um": {}, "planes": planes, "check_diffraction": geo}
     return {"reader": f"h5py {h5py.__version__} + hdf5plugin {hdf5plugin.version}", "kind": "nxmx",
             "data_links": links, "images": [img]}
 

@@ -753,13 +753,26 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     // Imaris, NWB and generic HDF5 share h5util.rs/lib.rs (checked against both documents)
     (
         "hdf5",
-        &[("ims", "ims"), ("nwb", "hdf5"), ("generic", "hdf5")],
+        &[
+            ("ims", "ims"),
+            ("nwb", "hdf5"),
+            ("generic", "hdf5"),
+            ("nxmx", "nxmx"),
+        ],
     ),
     // one module directory per format; lib.rs/util.rs are checked against all four documents
     (
         "em",
-        &[("mrc", "mrc"), ("dm", "dm"), ("ser", "ser"), ("emd", "emd")],
+        &[
+            ("mrc", "mrc"),
+            ("dm", "dm"),
+            ("ser", "ser"),
+            ("emd", "emd"),
+            ("mdoc", "mdoc"),
+        ],
     ),
+    // one module per format; lib.rs/common.rs/assurance.rs are checked against both documents
+    ("diffraction", &[("cbf", "cbf"), ("smv", "smv")]),
 ];
 
 /// `.rs` files under `dir`, recursively, with their path relative to `dir` (`/`-separated, no
