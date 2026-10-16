@@ -1072,17 +1072,22 @@ mod tests {
         assert!(webp_decode_limited(&d, 1 << 20).is_err());
     }
 
-    /// A JPEG-LS stream whose run-interruption error overflows pure_jpegls' i32 arithmetic: no
-    /// panic in any build (the workspace turns off overflow checks for pure_jpegls).
+    /// JPEG-LS streams whose sample errors overflow pure_jpegls' i32 arithmetic: no panic in any
+    /// build (the workspace turns off overflow checks for pure_jpegls).
     #[cfg(feature = "jpegls")]
     #[test]
-    fn jpegls_run_mode_overflow_does_not_panic() {
-        let p = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../fuzz/known-upstream/pure_jpegls-2.0.0-run-mode-overflow.jls");
-        let Ok(d) = std::fs::read(p) else {
-            return;
-        };
-        let _ = jpegls_decode_limited(&d, 1 << 20);
+    fn jpegls_overflows_do_not_panic() {
+        let dir =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fuzz/known-upstream");
+        for name in [
+            "pure_jpegls-2.0.0-run-mode-overflow.jls",
+            "pure_jpegls-2.0.0-context-overflow.jls",
+        ] {
+            let Ok(d) = std::fs::read(dir.join(name)) else {
+                continue;
+            };
+            let _ = jpegls_decode_limited(&d, 1 << 20);
+        }
     }
 
     /// OpenJPEG-encoded fixtures (imagecodecs 2026.8.16) and OpenJPEG's own decodes of them:
