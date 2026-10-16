@@ -9,16 +9,18 @@
 //!    background (fluorescence, chemiluminescence) are measured as stored; dark bands on a
 //!    light background (Coomassie, silver, colorimetric) are measured as `max − value`, with
 //!    `max` the largest value of the plane. `polarity: auto` picks the side of the median the
-//!    long tail of the histogram lies on.
-//! 2. **Lanes.** Lanes run top to bottom. The column profile is the mean of each column's
-//!    brightest tenth above the plane's 5th percentile, smoothed. Its autocorrelation gives the
+//!    long tail of the histogram lies on, unless the channel is named for emitted light
+//!    (chemiluminescence, fluorescence): its bands are bright.
+//! 2. **Lanes.** Lanes run top to bottom. Band signal is each column minus its rolling-ball
+//!    background over an eighth of the rows (long features: gel and membrane edges, ground,
+//!    smears drop out). The column profile is the mean of each column's brightest tenth of
+//!    band signal, smoothed. Its autocorrelation gives the
 //!    lane pitch; lanes are the profile's local maxima at least 0.6 pitches apart that rise
 //!    above the surrounding valleys by a sixth of the profile's range, each centred on the
 //!    signal within half a pitch. Gaps of two or more pitches between found lanes get evenly
 //!    spaced lanes (empty lanes are lanes too). `count` keeps the most prominent `count` lanes.
 //!    Each lane is 0.7 pitches wide unless `width_px` says otherwise. The lanes span the rows
-//!    where their mean signal exceeds a tenth of its 90th percentile (the gel or membrane, not
-//!    the ground around it). `lane_contrast` says how far the lanes stand out from the gaps.
+//!    where their mean band signal exceeds a tenth of its highest level, with a margin. `lane_contrast` says how far the lanes stand out from the gaps.
 //! 3. **Profile.** The mean signal across the middle 80 % of the lane's width, per row.
 //! 4. **Background.** A rolling-ball background of the profile (a grey-scale opening by a
 //!    window of a tenth of the lane's length, then smoothed, keeping its convex corners), so
@@ -255,7 +257,31 @@ pub(super) fn lanes(
     let sat_level = crate::stats::recorded_saturation(tg.im)
         .map(|s| s.0)
         .or_else(|| saturation_of(p.pixel_type));
-    let sig = signal(&p, r, sat_level, req.polarity)?;
+    // light from the bands themselves (chemiluminescence, fluorescence, a phosphor screen) is
+    // stored as high values, whatever the ground around the membrane looks like
+    let emitted = tg
+        .im
+        .channels
+        .iter()
+        .find(|ch| ch.index == c)
+        .and_then(|ch| ch.name.as_deref())
+        .map(str::to_ascii_lowercase)
+        .is_some_and(|n| {
+            ["chemi", "lumin", "fluor", "irdye", "phosphor"]
+                .iter()
+                .any(|k| n.contains(k))
+        });
+    let polarity = match req.polarity {
+        Polarity::Auto if emitted => {
+            notes.push(
+                "bright bands: the channel records light from the bands (pass polarity to override)"
+                    .into(),
+            );
+            Polarity::Bright
+        }
+        p => p,
+    };
+    let sig = signal(&p, r, sat_level, polarity)?;
     let polarity = sig.1;
     let sig = sig.0;
     let mut out = analyse(&sig, req, notes)?;
@@ -401,15 +427,6 @@ fn signal(
     ))
 }
 
-fn percentile(v: &[f64], f: f64) -> f64 {
-    let mut s: Vec<f64> = v.iter().copied().filter(|x| x.is_finite()).collect();
-    if s.is_empty() {
-        return 0.0;
-    }
-    s.sort_by(f64::total_cmp);
-    s[((s.len() - 1) as f64 * f.clamp(0.0, 1.0)).round() as usize]
-}
-
 /// Gaussian smoothing with reflected ends.
 fn smooth(v: &[f64], sigma: f64) -> Vec<f64> {
     if sigma < 0.3 || v.len() < 3 {
@@ -442,24 +459,48 @@ fn smooth(v: &[f64], sigma: f64) -> Vec<f64> {
 
 /// Running minimum then maximum over `win` samples: a grey-scale opening (rolling ball).
 fn opening(v: &[f64], win: usize) -> Vec<f64> {
-    let half = win / 2;
+    let e = running(v, win / 2, f64::min, f64::INFINITY);
+    running(&e, win / 2, f64::max, f64::NEG_INFINITY)
+}
+
+/// `f` (min or max) over the `2 × half + 1` samples centred on each sample, clipped at the
+/// ends, in time linear in the length (van Herk and Gil-Werman: prefix and suffix runs over
+/// blocks of the window's length).
+fn running(v: &[f64], half: usize, f: fn(f64, f64) -> f64, id: f64) -> Vec<f64> {
     let n = v.len();
-    let run = |src: &[f64], max: bool| -> Vec<f64> {
-        (0..n)
-            .map(|i| {
-                let a = i.saturating_sub(half);
-                let b = (i + half + 1).min(n);
-                let it = src[a..b].iter().copied();
-                if max {
-                    it.fold(f64::NEG_INFINITY, f64::max)
-                } else {
-                    it.fold(f64::INFINITY, f64::min)
-                }
-            })
-            .collect()
+    let k = 2 * half + 1;
+    if n == 0 {
+        return Vec::new();
+    }
+    // padded so every window lies inside: `half` identities at each end
+    let m = n + 2 * half;
+    let at = |i: usize| {
+        if i < half || i >= half + n {
+            id
+        } else {
+            v[i - half]
+        }
     };
-    let e = run(v, false);
-    run(&e, true)
+    let mut pre = vec![id; m];
+    let mut suf = vec![id; m];
+    for i in 0..m {
+        pre[i] = if i % k == 0 {
+            at(i)
+        } else {
+            f(pre[i - 1], at(i))
+        };
+    }
+    for i in (0..m).rev() {
+        suf[i] = if i % k == k - 1 || i == m - 1 {
+            at(i)
+        } else {
+            f(suf[i + 1], at(i))
+        };
+    }
+    // window [i, i + k - 1] of the padded run is centred on sample i
+    (0..n)
+        .map(|i| f(suf[i], pre[(i + k - 1).min(m - 1)]))
+        .collect()
 }
 
 /// Local maxima of `v` with their prominence (height above the higher of the two valleys
@@ -559,15 +600,24 @@ fn pitch(v: &[f64], lo: usize, hi: usize) -> Option<f64> {
 fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<Lanes> {
     let (w, h) = (s.w, s.h);
     let bin = f64::from(s.bin);
-    let floor = percentile(&s.v, 0.05);
-    // column profile: the mean of each column's brightest tenth above the floor, so a lane of
-    // a few thin bands stands out as well as a lane full of them
+    // column profile: the mean of each column's brightest tenth of band signal, so a lane of a
+    // few thin bands stands out as well as a lane full of them. Band signal is the column minus
+    // its rolling-ball background over an eighth of the rows: bands are short along a lane,
+    // while the edges of a gel or membrane, its ground and smears are long, so they drop out.
     let top = (h / 10).max(1);
+    let win_y = (h / 8).max(5);
     let mut colbuf = vec![0.0; h];
+    // band signal of every pixel, column by column (row-major like the plane)
+    let mut band = vec![0.0; w * h];
     let col: Vec<f64> = (0..w)
         .map(|x| {
             for (y, c) in colbuf.iter_mut().enumerate() {
-                *c = (s.v[y * w + x] - floor).max(0.0);
+                *c = s.v[y * w + x];
+            }
+            let bg = opening(&colbuf, win_y);
+            for (y, (c, b)) in colbuf.iter_mut().zip(&bg).enumerate() {
+                *c = (*c - b).max(0.0);
+                band[y * w + x] = *c;
             }
             colbuf.select_nth_unstable_by(h - top, f64::total_cmp);
             colbuf[h - top..].iter().sum::<f64>() / top as f64
@@ -680,8 +730,8 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
             *cx = sx / sw;
         }
     }
-    // rows the gel spans: where the lanes' mean signal rises above a tenth of its upper level
-    // (a membrane or gel on a dark ground ends there)
+    // rows the bands span: where the lanes' mean band signal rises above a tenth of its highest
+    // level, with a margin of a fortieth of the plane, and at least an eighth of the plane
     let (ya, yb) = {
         let cols: Vec<usize> = centers
             .iter()
@@ -692,21 +742,29 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
             })
             .collect();
         let rows: Vec<f64> = (0..h)
-            .map(|y| {
-                cols.iter()
-                    .map(|x| (s.v[y * w + x] - floor).max(0.0))
-                    .sum::<f64>()
-                    / cols.len().max(1) as f64
-            })
+            .map(|y| cols.iter().map(|x| band[y * w + x]).sum::<f64>() / cols.len().max(1) as f64)
             .collect();
         let rs = smooth(&rows, (h as f64 / 200.0).max(1.0));
-        let cut = percentile(&rs, 0.9) * 0.1;
-        let a = rs.iter().position(|v| *v > cut).unwrap_or(0);
-        let b = rs.iter().rposition(|v| *v > cut).map_or(h, |b| b + 1);
-        if b > a && b - a >= h / 8 {
+        let cut = rs.iter().copied().fold(0.0, f64::max) * 0.1;
+        let margin = h / 40;
+        let a = rs
+            .iter()
+            .position(|v| *v > cut)
+            .map_or(0, |a| a.saturating_sub(margin));
+        let b = rs
+            .iter()
+            .rposition(|v| *v > cut)
+            .map_or(h, |b| (b + 1 + margin).min(h));
+        let need = (h / 8).max(8).min(h);
+        if b <= a {
+            (0, h)
+        } else if b - a >= need {
             (a, b)
         } else {
-            (0, h)
+            // widen around the middle to the least length
+            let mid = usize::midpoint(a, b);
+            let a = mid.saturating_sub(need / 2).min(h - need);
+            (a, a + need)
         }
     };
     let min_share = req
@@ -914,7 +972,9 @@ fn lane_bands(
 ) -> LaneBands {
     let n = prof.len();
     let sm = smooth(prof, (h as f64 / 400.0).max(0.8));
-    let win = (n / 10).max(5);
+    // a tenth of the plane's height, so a short lane (a strip of membrane) keeps a background
+    // wider than its bands
+    let win = (h / 10).max(5);
     let op = opening(&sm, win);
     // smoothing rounds the opening's corners: keep its convex corners (the ends of a membrane
     // on a dark ground are not bands) and keep it under the profile
@@ -1251,6 +1311,37 @@ mod tests {
             assert!(l.bands[0].y > 100.0);
         }
         assert!(notes.iter().any(|n| n.contains("wells")), "{notes:?}");
+    }
+
+    #[test]
+    fn running_min_and_max_equal_the_naive_ones() {
+        let v: Vec<f64> = (0..97).map(|i| ((i * 37) % 23) as f64).collect();
+        for half in [0, 1, 2, 5, 13, 60] {
+            let naive = |max: bool| -> Vec<f64> {
+                (0..v.len())
+                    .map(|i| {
+                        let a = i.saturating_sub(half);
+                        let b = (i + half + 1).min(v.len());
+                        let it = v[a..b].iter().copied();
+                        if max {
+                            it.fold(f64::NEG_INFINITY, f64::max)
+                        } else {
+                            it.fold(f64::INFINITY, f64::min)
+                        }
+                    })
+                    .collect()
+            };
+            assert_eq!(
+                running(&v, half, f64::min, f64::INFINITY),
+                naive(false),
+                "{half}"
+            );
+            assert_eq!(
+                running(&v, half, f64::max, f64::NEG_INFINITY),
+                naive(true),
+                "{half}"
+            );
+        }
     }
 
     #[test]

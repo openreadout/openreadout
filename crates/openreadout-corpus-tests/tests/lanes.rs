@@ -94,11 +94,11 @@ fn a_membrane_strip_has_five_lanes_and_no_edge_bands() {
 
 #[test]
 fn a_dna_gel_leaves_out_its_wells() {
-    // nine loaded lanes; the wells at the top glow in every lane and are not bands
+    // ten wells (the last one empty); the wells glow at the top of the lanes and are not bands
     let Some(l) = lanes("scn-zenodo11355396-geldoc.scn", LanesRequest::default()) else {
         return;
     };
-    assert_eq!(l.count, 9, "{l:#?}");
+    assert_eq!(l.count, 10, "{l:#?}");
     assert!(
         l.lanes.iter().flat_map(|x| &x.bands).all(|b| b.y > 60.0),
         "{l:#?}"
