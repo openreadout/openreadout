@@ -11,6 +11,7 @@
   "Electrophysiology",
   "Plate readers and qPCR",
   "Bench biophysics",
+  "Electrophoresis",
   "Materials and electrochemistry",
   "Containers"
  ],
@@ -2012,6 +2013,67 @@
    ],
    "page": "xrd",
    "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "abif",
+   "name": "Applied Biosystems ABIF",
+   "vendor": "Applied Biosystems (Thermo Fisher Scientific)",
+   "extensions": [
+    "ab1",
+    "abi",
+    "fsa",
+    "hid"
+   ],
+   "family": "electrophoresis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Fragment sizes are the instrument's when the file stores its size map (Data Collection 3 and later), else computed here by Local Southern against the size standard the file names, or the best-fitting standard for the standard's dye",
+    "Base calls are the basecaller's (PBAS2/PCON2/PLOC2); edited calls, when they differ, are a second table",
+    "Values above 32767 that the instrument lists apart (OvrI/OvrV) are not merged into the raw trace",
+    "Legacy and user element types (scan rate, feature tables) are kept as bytes in the vendor tree"
+   ],
+   "page": "abif",
+   "field": "Electrophoresis"
+  },
+  {
+   "id": "agilent-bioanalyzer-xml",
+   "name": "Agilent 2100 Bioanalyzer XML export",
+   "vendor": "Agilent",
+   "extensions": [
+    "xml"
+   ],
+   "family": "electrophoresis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Native .xad files are not read: export the chip from 2100 Expert as XML (File > Export)",
+    "Each well's processed signal is sized over the ladder's range only; signal outside it is left out",
+    "The raw (unprocessed) signal and the gel image are not read"
+   ],
+   "page": "agilent-electrophoresis",
+   "field": "Electrophoresis"
+  },
+  {
+   "id": "agilent-tapestation",
+   "name": "Agilent TapeStation export",
+   "vendor": "Agilent",
+   "extensions": [
+    "xml"
+   ],
+   "family": "electrophoresis",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Native run files (.D1000, .RNA, ...) are not read: export the XML and the electropherogram CSV from TapeStation Analysis",
+    "Lane signals are sized here against the ladder (aligned on the markers), not by the instrument; peak and region sizes are the instrument's",
+    "Without the electropherogram CSV next to the XML, only the results are read"
+   ],
+   "page": "agilent-electrophoresis",
+   "field": "Electrophoresis"
   },
   {
    "id": "biologic-mpr",
