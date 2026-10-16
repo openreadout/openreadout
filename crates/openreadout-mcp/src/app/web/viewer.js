@@ -2253,6 +2253,7 @@ function main() {
       else x = xs && xs.length === n ? xs : (xs = plotXs(p, n || n0));
       let color, group = null;
       if (p.voltammogram) color = alpha(colors().ink, series.length > 1 ? 0.3 + 0.7 * i / (series.length - 1) : 1); // cycles: first faint, last ink
+      else if (s.palette != null) color = seriesColor(s.palette); // a base or dye's colour (electrophoresis)
       else if (groups) { group = groups.names[i]; color = seriesColor(groups.distinct.indexOf(group)); }
       else if (series.length > 8) color = colors().ink;
       else color = seriesColor(i);

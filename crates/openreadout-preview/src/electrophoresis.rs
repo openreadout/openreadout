@@ -30,40 +30,34 @@ const MAX_WINDOW_BASES: usize = 2000;
 /// Peaks labelled per dye panel of an electropherogram.
 const MAX_FRAGMENT_LABELS: usize = 10;
 
-/// The colour of a base: A green, C blue, G ink, T red, in the theme's palette.
-fn base_color(theme: &Theme, base: &str) -> Color {
-    match base.to_ascii_uppercase().as_str() {
-        "A" => theme.series(4),
-        "C" => theme.series(2),
-        "G" => theme.series(0),
-        "T" => theme.series(1),
-        _ => theme.muted,
-    }
+/// The theme series colour (index into `Theme::series`) that shows a base or a dye the way
+/// analysis software does, in the figure engine's palette: A green, C blue, G ink, T red; FAM
+/// blue, VIC/HEX/JOE green, NED/TAMRA ochre (yellow on screen), PET/ROX red, LIZ brown (orange
+/// on screen). `None` for other names. The viewer colours the same series by this index.
+pub fn series_index_of(name: &str) -> Option<usize> {
+    let d = name.trim().to_ascii_uppercase();
+    Some(match d.as_str() {
+        "A" => 4,
+        "C" => 2,
+        "G" => 0,
+        "T" => 1,
+        _ if d.contains("FAM") || d.contains("BLUE") => 2,
+        _ if ["VIC", "HEX", "JOE", "GREEN"].iter().any(|k| d.contains(k)) => 4,
+        _ if ["NED", "TAMRA", "TET", "YELLOW"]
+            .iter()
+            .any(|k| d.contains(k)) =>
+        {
+            3
+        }
+        _ if ["PET", "ROX", "RED"].iter().any(|k| d.contains(k)) => 1,
+        _ if d.contains("LIZ") || d.contains("ORANGE") => 7,
+        _ => return None,
+    })
 }
 
-/// The display colour of a dye, as analysis software shows them: FAM blue, VIC/HEX/JOE green,
-/// NED/TAMRA yellow (ochre here), PET/ROX red, LIZ orange.
-fn dye_color(theme: &Theme, dye: &str, k: usize) -> Color {
-    let d = dye.to_ascii_uppercase();
-    let orange = if theme.mode == openreadout_figure::Mode::Dark {
-        Color::hex(0xE39A5C)
-    } else {
-        Color::hex(0xC7743A)
-    };
-    if d.contains("FAM") || d.contains("BLUE") {
-        theme.series(2)
-    } else if d.contains("VIC") || d.contains("HEX") || d.contains("JOE") || d.contains("GREEN") {
-        theme.series(4)
-    } else if d.contains("NED") || d.contains("TAMRA") || d.contains("YELLOW") || d.contains("TET")
-    {
-        theme.series(3)
-    } else if d.contains("PET") || d.contains("ROX") || d.contains("RED") {
-        theme.series(1)
-    } else if d.contains("LIZ") || d.contains("ORANGE") {
-        orange
-    } else {
-        theme.series(k + 2)
-    }
+/// The colour of a base or dye; `k` picks a series colour for names the rule does not know.
+fn trace_color(theme: &Theme, name: &str, k: usize) -> Color {
+    theme.series(series_index_of(name).unwrap_or(k + 2))
 }
 
 /// Draw the file's own picture when it is a Sanger read or a sized fragment run and the request
@@ -389,7 +383,7 @@ fn sanger(
         let Some(v) = tr.channels.get(*c as usize) else {
             continue;
         };
-        let color = base_color(&theme, name);
+        let color = trace_color(&theme, name, 0);
         let samples = v.len();
         if samples <= ncols * 2 {
             let pts = v
@@ -439,9 +433,12 @@ fn sanger(
             let Some(px) = main.x.px(i as f64) else {
                 continue;
             };
-            let st = TextStyle::new(lsize, base_color(&theme, b))
-                .face(Face::Mono)
-                .align(Anchor::Middle, Baseline::Middle);
+            let st = TextStyle::new(
+                lsize,
+                series_index_of(b).map_or(theme.muted, |i| theme.series(i)),
+            )
+            .face(Face::Mono)
+            .align(Anchor::Middle, Baseline::Middle);
             let r = fig.text(px, letters_y, b, &st);
             placer.reserve(r);
         }
@@ -769,7 +766,7 @@ fn electropherogram(
             .and_then(Value::as_str)
             .unwrap_or(&ch.name)
             .to_string();
-        let color = dye_color(&theme, &dye, k);
+        let color = trace_color(&theme, &dye, k);
         let spec = AxesSpec {
             x_label: last.then(|| "size (bp)".to_string()),
             show_x: last,

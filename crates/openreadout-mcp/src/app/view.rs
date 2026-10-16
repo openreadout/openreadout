@@ -927,7 +927,12 @@ fn trace(
         .and_then(Value::as_u64)
         .and_then(|c| u32::try_from(c).ok());
     // Overlaid curves (qPCR wells, spectra of a series) are drawn in one panel, so many fit.
-    let overlay = t.extra.get("plot").and_then(Value::as_str) == Some("overlay");
+    // A Sanger trace's four bases are read together, in one panel.
+    let kind = t.extra.get("kind").and_then(Value::as_str);
+    let overlay = t.extra.get("plot").and_then(Value::as_str) == Some("overlay")
+        || kind == Some("sanger_trace");
+    // electrophoresis channels are coloured by their base or dye, as analysis software does
+    let electrophoresis = matches!(kind, Some("sanger_trace" | "electropherogram"));
     let max_channels = if overlay {
         MAX_OVERLAY_CHANNELS
     } else {
@@ -1018,6 +1023,16 @@ fn trace(
             let ch = &t.channels[c as usize];
             let mut s = e.series(&ch.name, ch.unit.as_deref());
             s["channel"] = json!(c);
+            let dye = ch.extra.get("dye").and_then(Value::as_str);
+            if electrophoresis
+                && let Some(i) = openreadout_preview::series_index_of(if ch.name.len() == 1 {
+                    &ch.name
+                } else {
+                    dye.unwrap_or(&ch.name)
+                })
+            {
+                s["palette"] = json!(i);
+            }
             s
         })
         .collect();
