@@ -1097,3 +1097,17 @@ path = "fuzz_targets/whole_abif.rs"
 test = false
 doc = false
 bench = false
+
+[[bin]]
+name = "whole_bioanalyzer"
+path = "fuzz_targets/whole_bioanalyzer.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_tapestation"
+path = "fuzz_targets/whole_tapestation.rs"
+test = false
+doc = false
+bench = false

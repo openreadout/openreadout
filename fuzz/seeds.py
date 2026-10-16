@@ -656,6 +656,42 @@ def abif_shrink(data: bytes, keep: int) -> bytes:
     return head.ljust(128, b"\0") + blob + entries
 
 
+def mini_bioanalyzer() -> bytes:
+    """A Bioanalyzer XML export with one ladder well: three ladder peaks and 40 signal values."""
+    import base64
+
+    sig = base64.b64encode(struct.pack("<40f", *[abs(20 - i) * 0.5 for i in range(40)])).decode()
+    curve = "".join(f"<LadderPeak><MigrationTime>{t}</MigrationTime><FragmentSize>{s}</FragmentSize></LadderPeak>" for t, s in [(20, 25), (25, 200), (30, 1000)])
+    peak = "<PeakMolecular><MigrationTime>25</MigrationTime><AlignedMigrationTime>25</AlignedMigrationTime><FragmentSize>200</FragmentSize><Height>10</Height><Observations>Lower Marker</Observations></PeakMolecular>"
+    return (
+        "<Chipset><Method/><Chips><Chip><AssayHeader><Class>RNA</Class><Title>RNA Nano</Title></AssayHeader>"
+        "<AssayBody><DAAssaySetpoints><DAMAssayInfoMolecular><SizeUnit>nt</SizeUnit><ConcentrationUnit>ng/µl</ConcentrationUnit></DAMAssayInfoMolecular></DAAssaySetpoints></AssayBody>"
+        "<ChipInformation><CreationDate>2020-01-01T00:00:00</CreationDate></ChipInformation><Files><File><Samples><Sample>"
+        "<WellNumber>1</WellNumber><Name>L</Name><Category>Ladder</Category><HasData>true</HasData><DAResultStructures>"
+        f"<DARIntegrator><Channel><PeaksMolecular>{peak}</PeaksMolecular></Channel></DARIntegrator>"
+        f"<DARStandardCurve><Channel><LadderPeaks>{curve}</LadderPeaks></Channel></DARStandardCurve>"
+        "<DARRIN><Channel><RIN>9.5</RIN></Channel></DARRIN></DAResultStructures><DASignals><DetectorChannels><Channel><SignalData>"
+        "<ChannelID>RedFluorescence</ChannelID><XStart>20</XStart><XStep>0.25</XStep><XStartAligned>20</XStartAligned><XStepAligned>0.25</XStepAligned>"
+        f"<NumberOfSamples>40</NumberOfSamples><ProcessedSignal>{sig}</ProcessedSignal></SignalData></Channel></DetectorChannels></DASignals>"
+        "</Sample></Samples></File></Files></Chip></Chips></Chipset>"
+    ).encode()
+
+
+def mini_tapestation() -> bytes:
+    """A TapeStation XML export and its electropherogram CSV (two lanes), as a bundle."""
+    def peaks(rows):
+        return "".join(f"<Peak><Size>{s}</Size><RunDistance>{d}</RunDistance><Observations>{o}</Observations></Peak>" for s, d, o in rows)
+    xml = (
+        "<?xml version=\"1.0\"?><File><FileInformation><Assay>D1000</Assay><RunEndDate>18-Sep-2020 6:29 AM</RunEndDate></FileInformation>"
+        "<ScreenTapes><ScreenTape><ScreenTapeID>T</ScreenTapeID></ScreenTape></ScreenTapes><Assay><Units><MolecularWeightUnit>bp</MolecularWeightUnit></Units></Assay><Samples>"
+        f"<Sample><WellNumber>A1</WellNumber><Comment>Ladder</Comment><Observations>Ladder</Observations><ScreenTapeID>T</ScreenTapeID><Peaks>{peaks([(25, 80, 'Lower Marker'), (100, 50, ''), (1500, 10, 'Upper Marker')])}</Peaks></Sample>"
+        f"<Sample><WellNumber>B1</WellNumber><Comment>s</Comment><ScreenTapeID>T</ScreenTapeID><DIN>8.1</DIN><Peaks>{peaks([(25, 82, 'Lower Marker'), (1500, 12, 'Upper Marker')])}</Peaks></Sample>"
+        "</Samples></File>"
+    ).encode()
+    csv = ("A1: Ladder,B1: s\n" + "".join(f"{i % 7},{i % 5}\n" for i in range(60))).encode()
+    return xml + BUNDLE_SEP + csv
+
+
 def main() -> None:
     try:
         import numpy as np
@@ -803,6 +839,9 @@ def main() -> None:
         data = corpus(name)
         if data is not None:
             put("whole_abif", safe(name), abif_shrink(data, keep))
+    # Agilent exports: the corpus files are Agilent's demo runs (hold tier), so seeds are synthetic
+    put("whole_bioanalyzer", "mini.xml", mini_bioanalyzer())
+    put("whole_tapestation", "mini.bundle", mini_tapestation())
     put("whole_jcamp", "mini.jdx", MINI_JCAMP)
     # Plexon corpus files are share-alike (LOCAL_CUTS); committed seeds are magic-only headers.
     put("whole_plexon", "magic.plx", b"PLEX" + bytes(252))
