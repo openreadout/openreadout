@@ -20,7 +20,8 @@
 //!    signal within half a pitch. Gaps of two or more pitches between found lanes get evenly
 //!    spaced lanes (empty lanes are lanes too). `count` keeps the most prominent `count` lanes.
 //!    Each lane is 0.7 pitches wide unless `width_px` says otherwise. The lanes span the rows
-//!    where their mean band signal exceeds a tenth of its highest level, with a margin. `lane_contrast` says how far the lanes stand out from the gaps.
+//!    where their mean signal rises a tenth of its 90th percentile above its lowest (the gel or
+//!    membrane, not the ground around it). `lane_contrast` says how far the lanes stand out from the gaps.
 //! 3. **Profile.** The mean signal across the middle 80 % of the lane's width, per row.
 //! 4. **Background.** A rolling-ball background of the profile (a grey-scale opening by a
 //!    window of a tenth of the lane's length, then smoothed, keeping its convex corners), so
@@ -607,17 +608,14 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
     let top = (h / 10).max(1);
     let win_y = (h / 8).max(5);
     let mut colbuf = vec![0.0; h];
-    // band signal of every pixel, column by column (row-major like the plane)
-    let mut band = vec![0.0; w * h];
     let col: Vec<f64> = (0..w)
         .map(|x| {
             for (y, c) in colbuf.iter_mut().enumerate() {
                 *c = s.v[y * w + x];
             }
             let bg = opening(&colbuf, win_y);
-            for (y, (c, b)) in colbuf.iter_mut().zip(&bg).enumerate() {
+            for (c, b) in colbuf.iter_mut().zip(&bg) {
                 *c = (*c - b).max(0.0);
-                band[y * w + x] = *c;
             }
             colbuf.select_nth_unstable_by(h - top, f64::total_cmp);
             colbuf[h - top..].iter().sum::<f64>() / top as f64
@@ -712,7 +710,9 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
         ));
     }
     let lane_w = user_width.unwrap_or(0.7 * pitch_px).clamp(1.0, w as f64);
-    // centre each found lane on the signal within half a pitch of it
+    // centre each found lane on the signal within half a pitch of it, unless that brings two
+    // lanes closer than 0.75 pitches
+    let peaks: Vec<f64> = centers.iter().map(|c| c.0).collect();
     for (cx, filled) in &mut centers {
         if *filled {
             continue;
@@ -730,8 +730,14 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
             *cx = sx / sw;
         }
     }
-    // rows the bands span: where the lanes' mean band signal rises above a tenth of its highest
-    // level, with a margin of a fortieth of the plane, and at least an eighth of the plane
+    for k in 1..centers.len() {
+        if centers[k].0 - centers[k - 1].0 < 0.75 * pitch_px {
+            centers[k - 1].0 = peaks[k - 1];
+            centers[k].0 = peaks[k];
+        }
+    }
+    // rows the gel spans: where the lanes' mean signal rises a tenth of its upper level above its
+    // lowest (a membrane or gel on a dark ground ends there)
     let (ya, yb) = {
         let cols: Vec<usize> = centers
             .iter()
@@ -741,30 +747,20 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
                 a..b
             })
             .collect();
-        let rows: Vec<f64> = (0..h)
-            .map(|y| cols.iter().map(|x| band[y * w + x]).sum::<f64>() / cols.len().max(1) as f64)
+        let raw: Vec<f64> = (0..h)
+            .map(|y| cols.iter().map(|x| s.v[y * w + x]).sum::<f64>() / cols.len().max(1) as f64)
             .collect();
-        let rs = smooth(&rows, (h as f64 / 200.0).max(1.0));
-        let cut = rs.iter().copied().fold(0.0, f64::max) * 0.1;
-        let margin = h / 40;
-        let a = rs
-            .iter()
-            .position(|v| *v > cut)
-            .map_or(0, |a| a.saturating_sub(margin));
-        let b = rs
-            .iter()
-            .rposition(|v| *v > cut)
-            .map_or(h, |b| (b + 1 + margin).min(h));
-        let need = (h / 8).max(8).min(h);
-        if b <= a {
-            (0, h)
-        } else if b - a >= need {
+        let raw = smooth(&raw, (h as f64 / 200.0).max(1.0));
+        let lo = raw.iter().copied().fold(f64::INFINITY, f64::min);
+        let mut sorted: Vec<f64> = raw.iter().map(|v| v - lo).collect();
+        sorted.sort_by(f64::total_cmp);
+        let cut = sorted[(sorted.len() - 1) * 9 / 10] * 0.1;
+        let a = raw.iter().position(|v| v - lo > cut).unwrap_or(0);
+        let b = raw.iter().rposition(|v| v - lo > cut).map_or(h, |b| b + 1);
+        if b > a && b - a >= h / 8 {
             (a, b)
         } else {
-            // widen around the middle to the least length
-            let mid = usize::midpoint(a, b);
-            let a = mid.saturating_sub(need / 2).min(h - need);
-            (a, a + need)
+            (0, h)
         }
     };
     let min_share = req
@@ -972,9 +968,7 @@ fn lane_bands(
 ) -> LaneBands {
     let n = prof.len();
     let sm = smooth(prof, (h as f64 / 400.0).max(0.8));
-    // a tenth of the plane's height, so a short lane (a strip of membrane) keeps a background
-    // wider than its bands
-    let win = (h / 10).max(5);
+    let win = (n / 10).max(5);
     let op = opening(&sm, win);
     // smoothing rounds the opening's corners: keep its convex corners (the ends of a membrane
     // on a dark ground are not bands) and keep it under the profile
