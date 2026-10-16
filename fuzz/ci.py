@@ -89,7 +89,9 @@ def cause(log: str) -> str:
     m = re.search(r"panicked at ([^\n]+)\n([^\n]*)", log)
     if m:
         return f"panic at {m.group(1).strip()}: {m.group(2).strip()}"
-    m = re.search(r"(ERROR: AddressSanitizer: [^\n]+|ERROR: libFuzzer: [^\n]+|SUMMARY: [^\n]+)", log)
+    m = re.search(
+        r"(ERROR: AddressSanitizer: [^\n]+|ERROR: libFuzzer: [^\n]+|SUMMARY: [^\n]+)", log
+    )
     return m.group(1).strip() if m else "unknown (no panic message or sanitizer report in the log)"
 
 
@@ -134,10 +136,15 @@ def run(args: argparse.Namespace) -> int:
         print(f"::{level}::fuzz target {t} crashed ({row['class']}): {row['cause']}")
     (reports / f"shard-{args.shard}.json").write_text(json.dumps(rows, indent=1))
     if rows:
-        lines = ["| target | how the change reaches it | cause | crash input |", "| --- | --- | --- | --- |"]
+        lines = [
+            "| target | how the change reaches it | cause | crash input |",
+            "| --- | --- | --- | --- |",
+        ]
         for row in rows:
             first = row["artifacts"][0] if row["artifacts"] else ""
-            lines.append(f"| {row['target']} | {row['class']} | {row['cause'].replace('|', '/')} | {first} |")
+            lines.append(
+                f"| {row['target']} | {row['class']} | {row['cause'].replace('|', '/')} | {first} |"
+            )
         summary(
             f"### Fuzz shard {args.shard}: {len(rows)} of {len(targets)} targets crashed\n\n"
             + "\n".join(lines)
@@ -165,7 +172,16 @@ def issues(args: argparse.Namespace) -> int:
     server = os.environ.get("GITHUB_SERVER_URL", "https://github.com")
     repo = os.environ.get("GITHUB_REPOSITORY", "")
     run_url = f"{server}/{repo}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}"
-    gh("label", "create", LABEL, "--color", "B60205", "--description", "A fuzz target crashed in CI", "--force")
+    gh(
+        "label",
+        "create",
+        LABEL,
+        "--color",
+        "B60205",
+        "--description",
+        "A fuzz target crashed in CI",
+        "--force",
+    )
     for row in rows:
         t = row["target"]
         title = f"Fuzz target {t} crashes"
@@ -178,25 +194,56 @@ def issues(args: argparse.Namespace) -> int:
             f"{t} <crash input>`, then follow fuzz/README.md (fix, add the input as a malformed fixture, "
             "log it in the provenance file)."
         )
-        found = gh("issue", "list", "--state", "open", "--label", LABEL, "--search", f'"{title}" in:title',
-                   "--json", "number,title")
-        existing = [i for i in json.loads(found.stdout or "[]") if i["title"] == title] if found.returncode == 0 else []
+        found = gh(
+            "issue",
+            "list",
+            "--state",
+            "open",
+            "--label",
+            LABEL,
+            "--search",
+            f'"{title}" in:title',
+            "--json",
+            "number,title",
+        )
+        existing = (
+            [i for i in json.loads(found.stdout or "[]") if i["title"] == title]
+            if found.returncode == 0
+            else []
+        )
         if existing:
-            r = gh("issue", "comment", str(existing[0]["number"]), "--body", body)
-            what = f"commented on #{existing[0]['number']}"
+            n = str(existing[0]["number"])
+            seen = gh(
+                "issue",
+                "view",
+                n,
+                "--json",
+                "body,comments",
+                "--jq",
+                '[.body] + [.comments[].body] | join("\\n")',
+            )
+            if seen.returncode == 0 and f"Cause: `{row['cause']}`" in seen.stdout:
+                print(f"{t}: #{n} already reports this cause")
+                continue
+            r = gh("issue", "comment", n, "--body", body)
+            what = f"commented on #{n}"
         else:
             r = gh("issue", "create", "--title", title, "--label", LABEL, "--body", body)
             what = "opened an issue"
         if r.returncode == 0:
             print(f"{t}: {what}")
         else:
-            print(f"::warning::could not file the crash in {t} as an issue ({r.stderr.strip()}); "
-                  "the nightly fuzz run on main reports it")
+            print(
+                f"::warning::could not file the crash in {t} as an issue ({r.stderr.strip()}); "
+                "the nightly fuzz run on main reports it"
+            )
     return 0
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("plan")
     g = p.add_mutually_exclusive_group(required=True)
@@ -209,8 +256,12 @@ def main() -> None:
     r.add_argument("--bin-dir", required=True, help="directory holding the built fuzz targets")
     i = sub.add_parser("issues")
     i.add_argument("--reports", required=True, help="directory with the shards' report files")
-    i.add_argument("--context", default="a CI run", help="where the crash was found, for the issue text")
-    i.add_argument("--include-direct", action="store_true", help="also report direct crashes (nightly)")
+    i.add_argument(
+        "--context", default="a CI run", help="where the crash was found, for the issue text"
+    )
+    i.add_argument(
+        "--include-direct", action="store_true", help="also report direct crashes (nightly)"
+    )
     args = ap.parse_args()
     if args.cmd == "plan":
         plan(args)

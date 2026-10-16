@@ -24,7 +24,7 @@ import os
 import re
 import subprocess
 import sys
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 
 try:
@@ -40,10 +40,12 @@ CONFIG = ROOT / ".github" / "ci.toml"
 
 
 def git(*args: str) -> str:
-    return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout
+    return subprocess.run(
+        ["git", *args], cwd=ROOT, check=True, capture_output=True, text=True
+    ).stdout
 
 
-@lru_cache(maxsize=None)
+@cache
 def glob_regex(pattern: str) -> re.Pattern[str]:
     """`*` within one path component, `**` across components, `?` one character."""
     out = ""
@@ -67,7 +69,9 @@ def glob_regex(pattern: str) -> re.Pattern[str]:
     return re.compile(out + r"\Z")
 
 
-def expand(patterns: list[str], groups: dict[str, list[str]], seen: tuple[str, ...] = ()) -> list[str]:
+def expand(
+    patterns: list[str], groups: dict[str, list[str]], seen: tuple[str, ...] = ()
+) -> list[str]:
     out: list[str] = []
     for p in patterns:
         if p.startswith("@"):
@@ -148,11 +152,21 @@ def decide(files: list[str] | None) -> tuple[dict[str, bool], dict[str, list[str
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--github-output", action="store_true", help="write job outputs to $GITHUB_OUTPUT")
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    ap.add_argument(
+        "--github-output", action="store_true", help="write job outputs to $GITHUB_OUTPUT"
+    )
     ap.add_argument("--explain", action="store_true", help="list the files that turn on each job")
+    ap.add_argument(
+        "--corpus-key", action="store_true", help="print the smoke corpus cache key and stop"
+    )
     ap.add_argument("files", nargs="*", help="decide for these paths instead of the current change")
     args = ap.parse_args()
+    if args.corpus_key:
+        print(corpus_key())
+        return
 
     files = args.files or changed_files()
     run, why = decide(files)
@@ -172,7 +186,9 @@ def main() -> None:
         summary = os.environ.get("GITHUB_STEP_SUMMARY")
         if summary:
             with open(summary, "a") as f:
-                f.write("### Jobs this change runs\n\n| job | runs | because of |\n| --- | --- | --- |\n")
+                f.write(
+                    "### Jobs this change runs\n\n| job | runs | because of |\n| --- | --- | --- |\n"
+                )
                 for name, on in run.items():
                     hits = why.get(name, [])
                     f.write(f"| {name} | {'yes' if on else 'no'} | {', '.join(hits[:3])} |\n")

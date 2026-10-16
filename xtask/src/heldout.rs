@@ -466,6 +466,9 @@ fn problems(root: &Path, manifest_text: &str) -> Result<Vec<String>> {
         let text = fs::read_to_string(&doc).with_context(|| format!("read {}", doc.display()))?;
         let rel = doc.strip_prefix(root).unwrap_or(&doc).display().to_string();
         for (needle, id) in &needles {
+            if !text.contains(needle.as_str()) {
+                continue; // most documents cite no held-out file; skip the line scan
+            }
             if let Some(line) = text.lines().position(|l| l.contains(needle.as_str())) {
                 out.push(format!(
                     "{rel}:{}: cites held-out file {id} ({needle:?}); held-out files must never be used to develop or debug a reader",
@@ -497,7 +500,13 @@ fn problems(root: &Path, manifest_text: &str) -> Result<Vec<String>> {
     for doc in guarded_documents(root) {
         let text = fs::read_to_string(&doc).with_context(|| format!("read {}", doc.display()))?;
         let rel = doc.strip_prefix(root).unwrap_or(&doc).display().to_string();
+        // Checking every line of every document for every record took minutes; a record whose
+        // token is nowhere in the document cannot be cited on any of its lines.
+        let lower = text.to_ascii_lowercase();
         for (key, (id, token, words)) in &records {
+            if !lower.contains(&token.to_ascii_lowercase()) {
+                continue;
+            }
             let cited = text
                 .lines()
                 .position(|l| line_cites(l, token, words) && !says_held_out(l));

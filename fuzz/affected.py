@@ -76,7 +76,9 @@ def classify(base: str) -> dict[str, str]:
     changed = [f for f in run("git", "diff", "--name-only", base, "HEAD").splitlines() if f]
 
     def touches(prefixes: tuple[str, ...]) -> bool:
-        return any(f == e or (e.endswith("/") and f.startswith(e)) for f in changed for e in prefixes)
+        return any(
+            f == e or (e.endswith("/") and f.startswith(e)) for f in changed for e in prefixes
+        )
 
     if touches(HARNESS):
         return dict.fromkeys(all_targets, "direct")

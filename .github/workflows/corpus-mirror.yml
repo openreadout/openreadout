@@ -1,0 +1,79 @@
+name: Corpus mirror
+
+# Publishes the smoke-tier corpus as one tarball on a GitHub prerelease, `corpus-smoke-<key>`,
+# where <key> is a hash of the files it holds (`cargo xtask corpus mirror key`). CI and
+# `cargo xtask corpus fetch --mirror` download it instead of fetching about two thousand files
+# from Zenodo, G-Node GIN, figshare and others, whose connections drop under load. Only files
+# whose manifest licence allows redistribution are in it, each checked against its manifest
+# SHA-256 when packed and again when fetched; the rest still come from their original hosts.
+# docs/maintaining.md (Continuous integration) has the details.
+#
+# Runs when the smoke tier may have changed on main, and on demand. It publishes nothing when a
+# release for the current key exists. No caches here: a job that publishes should not restore
+# anything a pull request could have written.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "corpus/manifest.toml"
+      - "xtask/src/corpus.rs"
+      - "xtask/src/mirror.rs"
+      - ".github/workflows/corpus-mirror.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: corpus-mirror
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: publish the smoke corpus mirror
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # create the release and upload its assets
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - name: Mirror key of the current manifest
+        id: key
+        run: echo "key=$(cargo xtask corpus mirror key)" >> "$GITHUB_OUTPUT"
+      - name: Is this mirror already published?
+        id: exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          KEY: ${{ steps.key.outputs.key }}
+        run: |
+          if gh release view "corpus-smoke-$KEY" > /dev/null 2>&1; then
+            echo "corpus-smoke-$KEY is already published"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+      # An older mirror supplies the files that did not change; each file is checked against the
+      # manifest, so a stale or damaged mirror only costs downloads from the original hosts.
+      - name: Fetch the smoke corpus
+        if: steps.exists.outputs.exists != 'true'
+        run: cargo xtask corpus fetch --tier smoke --mirror
+      - name: Pack the mirror
+        if: steps.exists.outputs.exists != 'true'
+        run: cargo xtask corpus mirror pack --out dist
+      - name: Publish it as a prerelease
+        if: steps.exists.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          KEY: ${{ steps.key.outputs.key }}
+        run: |
+          tag="corpus-smoke-$KEY"
+          cat > notes.md <<EOF
+          The smoke-tier test corpus of corpus/manifest.toml at $GITHUB_SHA, for CI and
+          \`cargo xtask corpus fetch --mirror\`. Each file is a verbatim copy from the source listed
+          in NOTICE.md, under that file's own licence. Not a release of OpenReadout.
+          EOF
+          gh release create "$tag" --prerelease --latest=false --target "$GITHUB_SHA" \
+            --title "Smoke corpus $KEY" --notes-file notes.md \
+            "dist/$tag.tar.gz" "dist/$tag.tar.gz.sha256" dist/NOTICE.md
