@@ -101,17 +101,22 @@ pub struct PreviewArgs {
     /// Marks from the data: `auto` (label the largest peaks of spectra and chromatograms),
     /// `peaks` (on any trace), `spikes` (action potentials of a current-clamp sweep),
     /// `objects` (outline and number the nuclei, cells or spots of an image, as `stats
-    /// --objects` counts them) or `none`.
+    /// --objects` counts them), `lanes` (the lanes and bands of a gel or blot, as `stats
+    /// --lanes` finds them) or `none`.
     #[arg(
         long,
         default_value = "auto",
-        value_name = "auto|peaks|spikes|objects|none"
+        value_name = "auto|peaks|spikes|objects|lanes|none"
     )]
     pub marks: String,
     /// With `--marks objects`: how objects are found, as JSON with the fields of the MCP
     /// `objects` option, e.g. `{"kind":"spots"}` or `{"diameter_um":8}`.
     #[arg(long, value_name = "JSON")]
     pub objects: Option<String>,
+    /// With `--marks lanes`: how lanes are found, as JSON with the fields of the MCP `lanes`
+    /// option, e.g. `{"count":10}` or `{"ladder":{"lane":1,"sizes":[250,150,100,75,50]}}`.
+    #[arg(long, value_name = "JSON")]
+    pub lanes: Option<String>,
     /// Annotations to draw, as JSON: one object or an array, inline or `@FILE`. Each has a
     /// `type` (point, box, polygon, line, arrow, text, vline, hline, vband, hband, well) and
     /// its coordinates in the preview's units (full-resolution pixels on images, axis units on
@@ -169,6 +174,14 @@ impl PreviewArgs {
                 .map(|j| {
                     serde_json::from_str(j)
                         .map_err(|e| Error::Usage(format!("--objects is not valid: {e} (fields: kind, diameter_um, diameter_px, threshold, method, polarity, stain, split, min_area_um2, max_area_um2, max_objects)")))
+                })
+                .transpose()?;
+            preview_request.lanes = self
+                .lanes
+                .as_deref()
+                .map(|j| {
+                    serde_json::from_str(j)
+                        .map_err(|e| Error::Usage(format!("--lanes is not valid: {e} (fields: count, width_px, polarity, min_share, ladder, profiles)")))
                 })
                 .transpose()?;
             preview_request.annotations = match &self.annotate {

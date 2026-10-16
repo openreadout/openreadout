@@ -220,6 +220,8 @@ pub struct ViewArgs {
     pub population: Option<String>,
     /// Image: outline the objects counted as openreadout_stats objects counts them.
     pub objects: Option<openreadout_core::measure::ObjectsRequest>,
+    /// Image: draw the lanes and bands of a gel or blot as openreadout_stats lanes finds them.
+    pub lanes: Option<openreadout_core::measure::LanesRequest>,
     /// Figure: the `openreadout_plot` arguments, as the agent sent them.
     pub spec: Option<Value>,
     /// Figure: draw in the dark theme.
@@ -796,6 +798,10 @@ fn image(
     if let Some(o) = &a.objects {
         req.marks = pv::Marks::Objects;
         req.objects = Some(o.clone());
+    }
+    if let Some(l) = &a.lanes {
+        req.marks = pv::Marks::Lanes;
+        req.lanes = Some(l.clone());
     }
     let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
     let (out, bytes) = pv::finish_within(

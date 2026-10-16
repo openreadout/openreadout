@@ -410,9 +410,10 @@ struct MeasureArgs {
     line_width: Option<u32>,
     polygon: Option<Vec<[f64; 2]>>,
     objects: Option<openreadout_core::measure::ObjectsRequest>,
+    lanes: Option<openreadout_core::measure::LanesRequest>,
 }
 
-/// `stats --line/--polygon/--objects --json` data (`request`: [`MeasureArgs`] as JSON).
+/// `stats --line/--polygon/--objects/--lanes --json` data (`request`: [`MeasureArgs`] as JSON).
 #[extendr]
 fn rs_measure(h: Robj, request: &str) -> Robj {
     json(
@@ -426,10 +427,11 @@ fn rs_measure(h: Robj, request: &str) -> Robj {
                 line_width: a.line_width,
                 polygon: a.polygon,
                 objects: a.objects,
+                lanes: a.lanes,
             };
             if !req.any() {
                 return Err(CoreError::Usage(
-                    "give line, polygon or objects to measure".into(),
+                    "give line, polygon, objects or lanes to measure".into(),
                 ));
             }
             with_ds(&h, |ds, _| {

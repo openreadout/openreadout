@@ -31,8 +31,14 @@ use crate::reader::{Dataset, PlaneIndex};
 use crate::region::Region;
 use crate::select::Selection;
 
+mod lanes;
 mod objects;
 mod segment;
+
+pub use lanes::{
+    Band, LANE_PROFILE_VALUES, LadderRequest, Lane, Lanes, LanesRequest, MAX_BANDS,
+    MAX_LANE_PIXELS, MAX_LANES,
+};
 
 pub use objects::{
     CountConfidence, DEFAULT_MAX_OBJECTS, Kind, LOW_FIT, MAX_OBJECT_PIXELS, Object, ObjectChannel,
@@ -66,12 +72,17 @@ pub struct MeasureRequest {
     pub polygon: Option<Vec<[f64; 2]>>,
     /// Count objects.
     pub objects: Option<ObjectsRequest>,
+    /// Find the lanes and bands of a gel or blot.
+    pub lanes: Option<LanesRequest>,
 }
 
 impl MeasureRequest {
     /// True when the request asks for any measurement.
     pub fn any(&self) -> bool {
-        self.line.is_some() || self.polygon.is_some() || self.objects.is_some()
+        self.line.is_some()
+            || self.polygon.is_some()
+            || self.objects.is_some()
+            || self.lanes.is_some()
     }
 }
 
@@ -207,6 +218,9 @@ pub struct MeasureOutput {
     /// Objects.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub objects: Option<Objects>,
+    /// Lanes and bands.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub lanes: Option<Lanes>,
     /// What was assumed.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub notes: Vec<String>,
@@ -500,6 +514,16 @@ pub fn measure(
     }
     if let Some(o) = &req.objects {
         out.objects = Some(objects::objects(ds, &tg, req, o, &mut out.notes)?);
+    }
+    if let Some(l) = &req.lanes {
+        out.lanes = Some(lanes::lanes(
+            ds,
+            &tg,
+            req.level,
+            req.region,
+            l,
+            &mut out.notes,
+        )?);
     }
     Ok(out)
 }
