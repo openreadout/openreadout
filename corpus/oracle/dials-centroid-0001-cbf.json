@@ -1,0 +1,50 @@
+{
+ "id": "dials-centroid-0001-cbf",
+ "file": "dials-centroid_0001.cbf",
+ "size": 6230086,
+ "sha256": "99bcabc5a9e2be4c20768b90e0ca16b23c55006fe66e6edc9be5b90f4103947f",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0",
+ "kind": "cbf",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2463,
+   "size_y": 2527,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2ddb45363ea20d036bf4acf038d59797"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 0.9795,
+    "distance_mm": 190.17999999999998,
+    "beam_center_px": [
+     1235.34,
+     1279.08
+    ],
+    "pixel_size_mm": [
+     0.17200000000000001,
+     0.17200000000000001
+    ],
+    "oscillation_start_deg": 0.0,
+    "oscillation_width_deg": 0.2,
+    "exposure_s": 0.1975,
+    "overload": 495976.0
+   }
+  }
+ ],
+ "counts": {
+  "min": -2,
+  "max": 3405,
+  "negative": 526602
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "id": "empiar10751-g3-ts-001-001-tif-movie",
+ "file": "empiar10751-G3_TS_001_001_0.0.tif",
+ "size": 37994062,
+ "sha256": "57249d6ab141a3fcdb0a26f515422675cdba129c90a82249100e4805edeef3bf",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [
+  "bigtiff"
+ ],
+ "page_count": 8,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "IYX",
+   "shape": [
+    8,
+    3838,
+    3710
+   ],
+   "size_x": 3710,
+   "size_y": 3838,
+   "size_z": 8,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f3a50dab201e93f5e83901624ef4908b"
+    },
+    {
+     "c": 0,
+     "z": 1,
+     "t": 0,
+     "xxh3": "dd99f9960ab3e988bf2598b94949fb34"
+    },
+    {
+     "c": 0,
+     "z": 2,
+     "t": 0,
+     "xxh3": "58befece6570990acf1ac645a000b189"
+    },
+    {
+     "c": 0,
+     "z": 3,
+     "t": 0,
+     "xxh3": "06a18e4d8244cd1760d13c45fde954c4"
+    },
+    {
+     "c": 0,
+     "z": 4,
+     "t": 0,
+     "xxh3": "8cff7fd0c6a1826822e2a80139262042"
+    },
+    {
+     "c": 0,
+     "z": 5,
+     "t": 0,
+     "xxh3": "5b004f236c5b8b0c9355ed7400dcc335"
+    },
+    {
+     "c": 0,
+     "z": 6,
+     "t": 0,
+     "xxh3": "e0cf25c2b0ddb6d95651c41da5c8c161"
+    },
+    {
+     "c": 0,
+     "z": 7,
+     "t": 0,
+     "xxh3": "31de8c18eb7890c36ca9a955156730e9"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "id": "zenodo4771118-tdh-pilatus2m-cbf",
+ "file": "zenodo4771118-clostdhnad9_M5S9_1_0001.cbf",
+ "size": 2492608,
+ "sha256": "1c877493816301aa2f5f5895bac5e9dd9f780150e82e11e4cec592b05938f308",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0",
+ "kind": "cbf",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1475,
+   "size_y": 1679,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c523d56a86b3b54ad524f9814fd70e72"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 0.92,
+    "distance_mm": 381.11,
+    "beam_center_px": [
+     730.81,
+     839.5
+    ],
+    "pixel_size_mm": [
+     0.17200000000000001,
+     0.17200000000000001
+    ],
+    "oscillation_start_deg": 0.0,
+    "oscillation_width_deg": 1.0,
+    "exposure_s": 3.9964,
+    "overload": 1108087.0
+   }
+  }
+ ],
+ "counts": {
+  "min": -2,
+  "max": 32288,
+  "negative": 197625
+ }
+}

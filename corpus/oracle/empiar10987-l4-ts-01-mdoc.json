@@ -1,0 +1,25 @@
+{
+ "id": "empiar10987-l4-ts-01-mdoc",
+ "file": "empiar10987-L4_ts_01_sort.mrc.mdoc",
+ "size": 32724,
+ "sha256": "a70ee419b22ec7c41069a45bc4673f5ad77631380590a333b64b5e1bdf0306df",
+ "max_planes_hashed": 64,
+ "reader": "mdocfile ?",
+ "kind": "mdoc",
+ "section_count": 41,
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 41,
+   "parameter_names": [],
+   "column_hashes": {
+    "tilt_angle_deg": "093874bdfeeef3ccd09664cf5cdbc15c",
+    "exposure_dose_e_per_a2": "130bfbee43ac6168e3a2412ceddca4bd",
+    "exposure_time_s": "e69fa46563398fb0c4a5d33ae3292d34",
+    "defocus_um": "edebfa0125ae76a3de650c56bec5610a",
+    "magnification": "7ccb48d13d69e648de07c89b40ffd8e2",
+    "pixel_spacing_a": "2ebc582963ac44e8b115a4719fd1e474"
+   }
+  }
+ ]
+}

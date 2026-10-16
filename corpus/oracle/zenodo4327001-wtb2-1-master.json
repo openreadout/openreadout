@@ -1,0 +1,19 @@
+{
+ "id": "zenodo4327001-wtb2-1-master",
+ "file": "zenodo4327001-wtB2_1_master.h5",
+ "size": 78384,
+ "sha256": "be2265326c4309e2af54b49777590eeadbea637f65754ebf094c03bea5d02595",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin 7.1.0",
+ "kind": "nxmx",
+ "data_links": [
+  "data_000001",
+  "data_000002"
+ ],
+ "images": [
+  {
+   "index": 0,
+   "skip": "no data file next to the master"
+  }
+ ]
+}
