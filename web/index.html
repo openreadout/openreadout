@@ -2,66 +2,164 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- No network: connect-src 'none' forbids fetch/XHR/WebSocket/beacons, form-action 'none'
-         forbids posting a form. The page loads only its own files, and the WebAssembly module is
-         inlined in a script because it may not be fetched either. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- connect-src 'self': the page may fetch its own files from this site (the WebAssembly
+         module and the sample files) and nothing else. The browser blocks requests to any
+         other site, and form-action 'none' forbids posting a form. A file you open is read in
+         this tab and never sent anywhere. -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob:; connect-src 'none'; form-action 'none'; base-uri 'none'"
+      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; form-action 'none'; base-uri 'none'"
     />
     <meta name="referrer" content="no-referrer" />
-    <title>OpenReadout in the browser</title>
+    <title>Try OpenReadout in your browser</title>
     <meta
       name="description"
-      content="Drop a microscopy, mass spectrometry, flow cytometry or electrophysiology file to see what is in it. The file stays on your computer."
+      content="Open a slide scan, a plate-reader run, a mass spectrum, a neuron recording, flow cytometry, NMR, qPCR or FTIR file in your browser and see what is in it. Nothing is uploaded."
     />
+    <meta property="og:title" content="Try OpenReadout in your browser" />
+    <meta property="og:description" content="Real lab files from nine kinds of instruments, read in your browser tab. Nothing is uploaded." />
+    <meta property="og:image" content="https://openreadout.github.io/openreadout/img/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111316" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css" />
+    <script src="theme.js"></script>
     <script type="module" src="app.js"></script>
   </head>
   <body>
     <header class="site">
-      <a class="brand" href="../" aria-label="OpenReadout home">
-        <svg width="20" height="20" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="7" fill="none" stroke="currentColor" stroke-width="2.4"></rect><path d="M6 17h3l2.2-7 3.3 11 2.6-8 1.4 4H22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        OpenReadout
-      </a>
-      <nav aria-label="Sections">
-        <a href="../getting-started/install.html">Docs</a>
-        <a href="../recipes.html">Recipes</a>
-        <a href="../formats.html">Formats</a>
-        <a href="./" aria-current="page">Try it</a>
-      </nav>
+      <div class="bar">
+        <a class="brand" href="../" aria-label="OpenReadout home">
+          <svg width="20" height="20" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="7" fill="none" stroke="currentColor" stroke-width="2.4"></rect><path d="M6 17h3l2.2-7 3.3 11 2.6-8 1.4 4H22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          OpenReadout
+        </a>
+        <nav aria-label="Sections">
+          <a href="../getting-started/install.html">Docs</a>
+          <a href="../formats.html">Formats</a>
+          <a href="../gallery.html">Gallery</a>
+          <a href="../how-it-works.html">How it works</a>
+          <a href="./" aria-current="page">Try it</a>
+        </nav>
+        <div class="tools">
+          <a class="gh" href="https://github.com/openreadout/openreadout" aria-label="OpenReadout on GitHub">
+            <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          </a>
+          <button type="button" class="theme" id="theme" aria-label="Switch between light and dark" title="Light or dark">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 0 18V3Z"></path><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"></circle></svg>
+          </button>
+        </div>
+      </div>
     </header>
-    <div class="page">
-      <header class="intro">
-        <h1>Read a file in your browser</h1>
+
+    <main id="main">
+      <section class="intro wrap">
+        <p class="kicker"><span>Runs in this tab</span><span>Nothing is uploaded</span></p>
+        <h1>Open a lab file in your browser</h1>
         <p class="lede">
-          Drop a file to see what is in it: Zeiss CZI, Nikon ND2, Leica LIF, OME-TIFF, FCS, Thermo RAW, mzML, Axon ABF, NWB and
-          <a href="../formats.html">the other formats OpenReadout reads</a>. You get the same description, metadata, integrity check and
-          preview as the <code>openreadout</code> command line.
+          Real files from nine kinds of lab instruments, read right here without vendor software. Tap one, or open a file of
+          your own, to see the picture, what was measured and the numbers.
         </p>
-        <p class="privacy" id="privacy">
-          <strong>Your file stays on your computer.</strong> OpenReadout runs in this tab, and the
-          page can't make network requests.
-        </p>
-      </header>
-      <main>
-        <label id="drop" class="drop" for="pick">
-          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <span class="big">Drop a file here</span>
-          <span>or click to choose one</span>
+      </section>
+
+      <section class="samples" aria-labelledby="samples-h">
+        <h2 id="samples-h" class="visually-hidden">Sample files</h2>
+        <ul class="cards" id="cards">
+          <!-- CARDS -->
+        </ul>
+      </section>
+
+      <div class="wrap own-row">
+        <label class="own" id="drop" for="pick">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span><strong>Open your own file</strong> <span class="or-drop">or drop it anywhere on this page</span></span>
           <input id="pick" type="file" />
         </label>
-        <p id="status" role="status" aria-live="polite">Loading the WebAssembly module…</p>
-        <div id="out" class="grid"></div>
-      </main>
-      <footer>
-        <p>
-          This page runs <code>info --view explain</code>, <code>info --json</code>, <code>check</code> and
-          <code>preview</code>. It reads only the parts of a file it needs, so large files are fine. To convert
-          files, work on whole folders or run analyses, <a href="../getting-started/install.html">install the command line</a>.
+        <p class="privacy">
+          Your file stays on your device. The page can load only its own files from this site, and your browser blocks every
+          other request.
         </p>
-      </footer>
-    </div>
+      </div>
+
+      <div class="wrap">
+        <div id="status" class="status" role="status" aria-live="polite" hidden>
+          <span id="status-text"></span>
+          <span class="bar" aria-hidden="true"><span id="status-bar"></span></span>
+        </div>
+      </div>
+
+      <article id="result" class="result wrap" hidden aria-labelledby="r-title">
+        <header class="r-head">
+          <p class="r-kind" id="r-kind"></p>
+          <h2 id="r-title"></h2>
+          <p class="r-meta" id="r-meta"></p>
+        </header>
+
+        <div class="stage-wrap">
+          <figure class="stage" id="stage">
+            <div class="frame" id="frame">
+              <img id="figure" alt="" decoding="async" />
+              <div class="scalebar" id="scalebar" hidden><span></span><b></b></div>
+            </div>
+            <div class="busy" id="busy" hidden><span class="spinner" aria-hidden="true"></span><span id="busy-text">Drawing…</span></div>
+            <figcaption id="hint" class="hint"></figcaption>
+          </figure>
+          <div class="controls" id="controls"></div>
+        </div>
+
+        <figure class="stage second" id="second" hidden>
+          <div class="frame"><img id="figure2" alt="" decoding="async" /></div>
+          <figcaption id="hint2" class="hint"></figcaption>
+        </figure>
+
+        <div class="panels">
+          <section class="panel numbers" aria-labelledby="h-numbers">
+            <h3 id="h-numbers">Numbers</h3>
+            <dl id="numbers"></dl>
+            <div id="extra"></div>
+          </section>
+          <section class="panel" aria-labelledby="h-facts">
+            <h3 id="h-facts">What the file says</h3>
+            <ul class="measured" id="measured"></ul>
+            <dl id="facts"></dl>
+          </section>
+          <section class="panel words" aria-labelledby="h-words">
+            <h3 id="h-words">In plain words</h3>
+            <div id="words"></div>
+            <p id="check" class="check"></p>
+          </section>
+        </div>
+
+        <section class="cli" aria-labelledby="h-cli">
+          <h3 id="h-cli">The same picture from the command line</h3>
+          <pre><code id="cmd"></code></pre>
+          <p class="small">
+            <a href="../getting-started/install.html">Install OpenReadout</a> to convert files, work through folders, and let an AI
+            agent read them for you.
+            <a id="download" hidden>Download this sample</a>
+          </p>
+        </section>
+
+        <details class="raw">
+          <summary><code>info --json</code></summary>
+          <pre tabindex="0" id="json"></pre>
+        </details>
+      </article>
+    </main>
+
+    <div class="dropzone" id="dropzone" hidden><p>Drop the file to read it here</p></div>
+
+    <footer class="site wrap">
+      <p>
+        This page is OpenReadout compiled to WebAssembly. It runs <code>info</code>, <code>check</code> and
+        <code>preview</code> as the command line does, and reads only the parts of a file it needs, so large files work too.
+      </p>
+      <p class="credits">
+        Sample files, from OpenReadout's public test corpus:
+        <!-- CREDITS -->
+        Licences and notices: <a href="samples/NOTICE.txt">NOTICE.txt</a>.
+      </p>
+    </footer>
   </body>
 </html>
