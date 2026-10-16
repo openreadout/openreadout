@@ -396,8 +396,7 @@ fn read_section(file: &SourceFile, at: u64, file_len: u64, index: usize) -> Resu
     let conv = ct
         .split(';')
         .find_map(|p| p.trim().strip_prefix("conversions="))
-        .map(|c| c.trim().trim_matches('"').to_string())
-        .unwrap_or_else(|| "x-CBF_NONE".into());
+        .map_or_else(|| "x-CBF_NONE".into(), |c| c.trim().trim_matches('"').to_string());
     let conversion = match conv.to_ascii_lowercase().as_str() {
         "x-cbf_byte_offset" => Conversion::ByteOffset,
         "x-cbf_none" => Conversion::Uncompressed,
@@ -415,8 +414,10 @@ fn read_section(file: &SourceFile, at: u64, file_len: u64, index: usize) -> Resu
     })?;
     let ty = mime
         .get("x-binary-element-type")
-        .map(|t| t.trim_matches('"').to_ascii_lowercase())
-        .unwrap_or_else(|| "signed 32-bit integer".into());
+        .map_or_else(
+            || "signed 32-bit integer".into(),
+            |t| t.trim_matches('"').to_ascii_lowercase(),
+        );
     let element = match ty.as_str() {
         "signed 8-bit integer" => PixelType::Int8,
         "unsigned 8-bit integer" => PixelType::Uint8,
@@ -528,6 +529,7 @@ fn next_marker(file: &SourceFile, from: u64, file_len: u64) -> Result<Option<u64
 }
 
 /// Decode a section's coded bytes into little-endian samples of its element type.
+#[allow(clippy::many_single_char_names)] // s(ection), n, v, p, k: the coding's own terms
 pub fn decode(s: &Section, coded: &[u8]) -> Result<Vec<u8>> {
     let n =
         usize::try_from(s.elements).map_err(|_| Error::corrupt(FORMAT_ID, "too many elements"))?;
@@ -1281,7 +1283,7 @@ mod tests {
             "Phi 0.0000 deg.",
         ]
         .iter()
-        .map(|s| s.to_string())
+        .map(ToString::to_string)
         .collect();
         let h = PilatusHeader::parse(&lines);
         assert_eq!(h.timestamp.as_deref(), Some("2013-02-08T12:03:12.789"));

@@ -111,6 +111,7 @@ pub fn tidy(v: f64) -> f64 {
 }
 
 /// MD5 digest (RFC 1321) of `data`.
+#[allow(clippy::many_single_char_names)] // a, b, c, d, f, g, k, m: RFC 1321's names
 pub fn md5(data: &[u8]) -> [u8; 16] {
     const S: [u32; 64] = [
         7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 5, 9, 14, 20, 5, 9, 14, 20, 5,
@@ -133,15 +134,15 @@ pub fn md5(data: &[u8]) -> [u8; 16] {
         tail.push(0);
     }
     tail.extend_from_slice(&bit_len.to_le_bytes());
-    for chunk in data[..full].chunks_exact(64).chain(tail.chunks_exact(64)) {
+    for chunk in data[..full]
+        .as_chunks::<64>()
+        .0
+        .iter()
+        .chain(tail.as_chunks::<64>().0)
+    {
         let mut m = [0u32; 16];
-        for (i, w) in m.iter_mut().enumerate() {
-            *w = u32::from_le_bytes([
-                chunk[i * 4],
-                chunk[i * 4 + 1],
-                chunk[i * 4 + 2],
-                chunk[i * 4 + 3],
-            ]);
+        for (w, b) in m.iter_mut().zip(chunk.as_chunks::<4>().0) {
+            *w = u32::from_le_bytes(*b);
         }
         let (mut a, mut b, mut c, mut d) = (a0, b0, c0, d0);
         for i in 0..64 {
@@ -194,7 +195,11 @@ mod tests {
     use super::*;
 
     fn hex(d: &[u8]) -> String {
-        d.iter().map(|b| format!("{b:02x}")).collect()
+        use std::fmt::Write as _;
+        d.iter().fold(String::new(), |mut s, b| {
+            let _ = write!(s, "{b:02x}");
+            s
+        })
     }
 
     #[test]

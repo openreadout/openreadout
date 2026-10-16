@@ -87,10 +87,12 @@ fn convert(p: &Plane, to: PixelType, range: &mut (f64, f64, f64, f64, u64)) -> V
         range.4 += 1;
         match to {
             PixelType::Uint16 => {
-                out.extend_from_slice(&(v.clamp(0.0, 65_535.0) as u16).to_le_bytes())
+                out.extend_from_slice(&(v.clamp(0.0, 65_535.0) as u16).to_le_bytes());
             }
             PixelType::Int16 => out.extend_from_slice(&(v as i16).to_le_bytes()),
-            PixelType::Int8 => out.push(v as i8 as u8),
+            PixelType::Int8 => {
+                out.push(v as i8 as u8);
+            }
             _ => out.extend_from_slice(&(v as f32).to_le_bytes()),
         }
     }
@@ -199,7 +201,7 @@ pub fn export_mrc(
             im.size_c
         )));
     }
-    let c = cs[0];
+    let channel = cs[0];
     let zs = pick(&sel.z, im.size_z, "z")?;
     let ts = pick(&sel.t, im.size_t, "t")?;
     if zs.len() > 1 && ts.len() > 1 {
@@ -261,30 +263,30 @@ pub fn export_mrc(
             .map_err(|e| Error::io(&tmp, e))?;
         let mut range = (f64::INFINITY, f64::NEG_INFINITY, 0.0, 0.0, 0u64);
         let mut hashes = Vec::with_capacity(sections.len());
-        let (mut w, mut h) = (0u32, 0u32);
+        let (mut width, mut height) = (0u32, 0u32);
         let mut read = 0u64;
         for (z, group_ts) in &sections {
             let plane = if group_ts.len() > 1 {
-                ds.sum_planes(image, c, *z, group_ts)?
+                ds.sum_planes(image, channel, *z, group_ts)?
             } else {
                 ds.read_plane(
                     image,
                     PlaneIndex {
-                        c,
+                        c: channel,
                         z: *z,
                         t: group_ts[0],
                     },
                 )?
             };
             read += group_ts.len() as u64;
-            if w == 0 {
-                (w, h) = (plane.width, plane.height);
-            } else if (plane.width, plane.height) != (w, h) {
+            if width == 0 {
+                (width, height) = (plane.width, plane.height);
+            } else if (plane.width, plane.height) != (width, height) {
                 return Err(Error::Other("planes of one image differ in size".into()));
             }
             let written = Plane {
-                width: w,
-                height: h,
+                width,
+                height,
                 pixel_type: out_type,
                 samples_per_pixel: 1,
                 data: convert(&plane, out_type, &mut range),
@@ -296,8 +298,8 @@ pub fn export_mrc(
         let mean = range.2 / n;
         let rms = (range.3 / n - mean * mean).max(0.0).sqrt();
         let hdr = header(
-            w,
-            h,
+            width,
+            height,
             nz,
             mode,
             volume,

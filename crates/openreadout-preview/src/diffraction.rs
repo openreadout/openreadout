@@ -87,7 +87,7 @@ pub(crate) fn resample_max(
         for (ox, &(a, b)) in xs.iter().enumerate() {
             let mut m = f32::NAN;
             for &v in &line[a..b.min(w)] {
-                if v.is_finite() && !(m >= v) {
+                if v.is_finite() && (m.is_nan() || v > m) {
                     m = v;
                 }
             }
@@ -101,7 +101,7 @@ pub(crate) fn resample_max(
             let mut m = f32::NAN;
             for y in a..b.min(h) {
                 let v = rows[y * ow + ox];
-                if v.is_finite() && !(m >= v) {
+                if v.is_finite() && (m.is_nan() || v > m) {
                     m = v;
                 }
             }
@@ -146,7 +146,7 @@ fn ring_resolutions(g: &Geometry, shown: Region) -> Vec<(f64, f64)> {
             .min_by(|a, b| (a.1 - target).abs().total_cmp(&(b.1 - target).abs()));
         if let Some((n, r)) = best
             && r <= far
-            && !out.iter().any(|(m, _)| *m == n)
+            && !out.iter().any(|(m, _)| m.total_cmp(&n).is_eq())
             && (n - d).abs() / d < 0.5
         {
             out.push((n, r));

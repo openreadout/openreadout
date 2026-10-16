@@ -1,4 +1,5 @@
 //! Synthetic CBF and SMV files: round trips, integrity checks and damaged files.
+#![allow(clippy::many_single_char_names)]
 
 use openreadout_core::diffraction::Geometry;
 use openreadout_core::{FormatReader, PlaneIndex};
@@ -58,8 +59,10 @@ fn cbf_round_trip_geometry_and_check() {
     let plane = ds.read_plane(0, PlaneIndex::default()).unwrap();
     let got: Vec<i64> = plane
         .data
-        .chunks_exact(4)
-        .map(|c| i64::from(i32::from_le_bytes([c[0], c[1], c[2], c[3]])))
+        .as_chunks::<4>()
+        .0
+        .iter()
+        .map(|c| i64::from(i32::from_le_bytes(*c)))
         .collect();
     assert_eq!(got, values);
     let r = ds.check().unwrap();

@@ -69,7 +69,9 @@ impl FormatReader for NxmxReader {
                 "HDF5 file named like an EIGER master file",
             ));
         }
-        if name.ends_with(".nxs") || data_file_prefix(&name).is_some() {
+        if Path::new(&name).extension().is_some_and(|e| e == "nxs")
+            || data_file_prefix(&name).is_some()
+        {
             return Some(det(
                 DetectConfidence::Likely,
                 "HDF5 file named like a NeXus file or an EIGER data file",
@@ -186,7 +188,7 @@ fn number_at(file: &hdf5_pure::File, path: &str) -> Option<(f64, Option<String>)
 
 /// A length in millimetres from a value and its units (metres when none are given).
 fn to_mm(v: f64, units: Option<&str>) -> f64 {
-    match units.map(str::trim).unwrap_or("m") {
+    match units.map_or("m", str::trim) {
         "mm" => v,
         "um" | "µm" | "micron" | "microns" => v * 1e-3,
         "cm" => v * 10.0,
@@ -196,7 +198,7 @@ fn to_mm(v: f64, units: Option<&str>) -> f64 {
 
 /// A wavelength in ångström.
 fn to_angstrom(v: f64, units: Option<&str>) -> f64 {
-    match units.map(str::trim).unwrap_or("angstrom") {
+    match units.map_or("angstrom", str::trim) {
         "nm" => v * 10.0,
         "m" => v * 1e10,
         _ => v,
@@ -484,15 +486,17 @@ impl NxmxDataset {
     fn read_geometry(&mut self) {
         let f = &self.file;
         let det = "/entry/instrument/detector";
-        let mut g = Geometry::default();
-        g.wavelength_a = [
-            "/entry/instrument/beam/incident_wavelength",
-            "/entry/sample/beam/incident_wavelength",
-        ]
-        .iter()
-        .find_map(|p| number_at(f, p))
-        .map(|(v, u)| to_angstrom(v, u.as_deref()))
-        .filter(|w| *w > 0.0);
+        let mut g = Geometry {
+            wavelength_a: [
+                "/entry/instrument/beam/incident_wavelength",
+                "/entry/sample/beam/incident_wavelength",
+            ]
+            .iter()
+            .find_map(|p| number_at(f, p))
+            .map(|(v, u)| to_angstrom(v, u.as_deref()))
+            .filter(|w| *w > 0.0),
+            ..Geometry::default()
+        };
         if g.wavelength_a.is_none()
             && let Some((v, _)) = number_at(f, &format!("{det}/detectorSpecific/wavelength"))
         {
@@ -574,7 +578,7 @@ impl NxmxDataset {
                     numbers_at(f, &format!("{gp}/{n}_end"), frames.max(16))
                         .and_then(|(e, _)| Some(e.first()? - v.first()?))
                 });
-                let moves = v.len() > 1 && v.windows(2).any(|w| w[0] != w[1]);
+                let moves = v.len() > 1 && v.windows(2).any(|w| (w[0] - w[1]).abs() > 0.0);
                 let turns = width.is_some_and(|w| w != 0.0);
                 if (moves || turns) && best.is_none() {
                     best = Some((n.clone(), v, width));

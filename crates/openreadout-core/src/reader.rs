@@ -333,14 +333,21 @@ pub trait Dataset: Send {
 pub fn sum_planes_by_reading<D: Dataset + ?Sized>(
     ds: &mut D,
     image: u32,
-    c: u32,
-    z: u32,
+    channel: u32,
+    plane_z: u32,
     ts: &[u32],
 ) -> Result<Plane> {
     let mut acc: Vec<f32> = Vec::new();
-    let (mut w, mut h) = (0u32, 0u32);
+    let (mut width, mut height) = (0u32, 0u32);
     for &t in ts {
-        let p = ds.read_plane(image, PlaneIndex { c, z, t })?;
+        let p = ds.read_plane(
+            image,
+            PlaneIndex {
+                c: channel,
+                z: plane_z,
+                t,
+            },
+        )?;
         if p.samples_per_pixel != 1 {
             return Err(Error::Usage(
                 "frames with several samples per pixel (RGB) are not summed".into(),
@@ -349,24 +356,24 @@ pub fn sum_planes_by_reading<D: Dataset + ?Sized>(
         let bps = p.pixel_type.bytes_per_sample();
         let n = p.width as usize * p.height as usize;
         if acc.is_empty() {
-            (w, h) = (p.width, p.height);
+            (width, height) = (p.width, p.height);
             acc = vec![0f32; n];
-        } else if (p.width, p.height) != (w, h) {
+        } else if (p.width, p.height) != (width, height) {
             return Err(Error::Other(format!(
-                "frame t={t} is {}x{}, the first {w}x{h}: frames of different sizes are not summed",
+                "frame t={t} is {}x{}, the first {width}x{height}: frames of different sizes are not summed",
                 p.width, p.height
             )));
         }
-        for (a, c) in acc.iter_mut().zip(p.data.chunks_exact(bps)) {
-            *a += p.pixel_type.sample_f64(c) as f32;
+        for (a, sample) in acc.iter_mut().zip(p.data.chunks_exact(bps)) {
+            *a += p.pixel_type.sample_f64(sample) as f32;
         }
     }
     if ts.is_empty() {
         return Err(Error::Usage("no frames to sum".into()));
     }
     Ok(Plane {
-        width: w,
-        height: h,
+        width,
+        height,
         pixel_type: crate::PixelType::Float,
         samples_per_pixel: 1,
         data: acc.iter().flat_map(|v| v.to_le_bytes()).collect(),

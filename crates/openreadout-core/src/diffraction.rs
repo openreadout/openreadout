@@ -258,7 +258,7 @@ pub fn experiment(images: &[ImageInfo]) -> Option<crate::experiment::Experiment>
             let _ = write!(what, ", {}° per image", short(w));
         }
         if let Some(r) = g.corner_resolution(im.size_x, im.size_y) {
-            let _ = write!(what, ", {:.2} Å in the corners", r);
+            let _ = write!(what, ", {r:.2} Å in the corners");
         }
         f.measurement(
             crate::experiment::MeasurementKind::Image,
@@ -284,14 +284,14 @@ fn short(v: f64) -> String {
 
 /// Electron wavelength in ångström for an accelerating voltage in volts (relativistic).
 pub fn electron_wavelength_a(volts: f64) -> Option<f64> {
-    if !(volts > 0.0 && volts.is_finite()) {
-        return None;
-    }
     // λ = h / sqrt(2 m e V (1 + e V / (2 m c²)))
     const H: f64 = 6.626_070_15e-34;
     const M: f64 = 9.109_383_701_5e-31;
     const E: f64 = 1.602_176_634e-19;
     const C: f64 = 299_792_458.0;
+    if !(volts > 0.0 && volts.is_finite()) {
+        return None;
+    }
     let p = (2.0 * M * E * volts * (1.0 + E * volts / (2.0 * M * C * C))).sqrt();
     Some(H / p * 1e10)
 }
