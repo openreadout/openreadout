@@ -149,10 +149,11 @@ pub(crate) fn draw(
                 );
             }
         }
-        // lane number above the box
+        // lane number above the box, or inside its top when the box starts at the top
+        let above = y0 - plot_area.y as f32 >= fs * 1.5;
         fig.text(
             (x0 + x1) / 2.0,
-            y0 + fs * 1.3,
+            if above { y0 - 3.0 } else { y0 + fs * 1.3 },
             &lane.number.to_string(),
             &num_style,
         );

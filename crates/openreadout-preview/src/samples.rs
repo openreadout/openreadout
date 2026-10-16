@@ -256,8 +256,15 @@ fn spectra_figure(
         .and_then(serde_json::Value::as_f64)
         .unwrap_or(1.0);
     let last = first + step * tr.sample_count.saturating_sub(1) as f64;
-    // the nucleic-acid window when the spectra reach past it
-    let (x0, x1) = if first <= 220.0 && last >= 340.0 {
+    // the nucleic-acid window when a nucleic-acid export's spectra reach past it (the UV-Vis
+    // spectrum export shows its whole range)
+    let uv_vis = info
+        .tables
+        .first()
+        .and_then(|t| t.extra.get("layout"))
+        .and_then(|v| v.as_str())
+        == Some("nanodrop-spectra");
+    let (x0, x1) = if !uv_vis && first <= 220.0 && last >= 340.0 {
         (220.0, 340.0)
     } else {
         (first, last)
@@ -322,6 +329,12 @@ fn spectra_figure(
         &spec,
     );
     panel.axes(&mut fig, theme, &spec);
+    // the wavelengths are labelled when 20 nm leave room for a label
+    let gap = panel
+        .pt(260.0, 0.0)
+        .zip(panel.pt(280.0, 0.0))
+        .map_or(0.0, |(a, b)| b.0 - a.0);
+    let label = gap > theme.small_size() * 2.2;
     for wl in [230.0, 260.0, 280.0] {
         if wl >= x0 && wl <= x1 {
             panel.rule_x(
@@ -329,6 +342,8 @@ fn spectra_figure(
                 wl,
                 Stroke::new(theme.rule, theme.hairline()).dashed(3.0, 3.0),
             );
+        }
+        if label && wl >= x0 && wl <= x1 {
             panel.text(
                 &mut fig,
                 wl,
