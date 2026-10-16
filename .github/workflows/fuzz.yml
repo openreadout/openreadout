@@ -1,0 +1,171 @@
+name: Fuzz
+
+# Runs the cargo-fuzz targets (fuzz/README.md) from the committed seeds on Linux, in parallel
+# shards. CI (ci.yml) calls it on pull requests for the targets the change can reach, 15 s each.
+# The nightly workflow calls it on main for every target, 60 s each. fuzz/ci.py plans the shards,
+# runs them and files crashes as issues: on pull requests only crashes in targets the change
+# reaches through shared inputs alone (a lockfile, the toolchain), which fail nothing; on the
+# nightly run every crash.
+on:
+  workflow_call:
+    inputs:
+      all:
+        description: Fuzz every target instead of the ones the change reaches
+        type: boolean
+        default: false
+      seconds:
+        description: Fuzzing time per target
+        type: number
+        default: 15
+      max-shards:
+        type: number
+        default: 8
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  plan:
+    name: plan
+    runs-on: ubuntu-latest
+    outputs:
+      plan: ${{ steps.plan.outputs.plan }}
+      count: ${{ steps.plan.outputs.count }}
+      shards: ${{ steps.plan.outputs.shards }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 2  # a pull request's merge commit and its base (first parent)
+      - name: Choose targets and shards
+        id: plan
+        env:
+          ALL: ${{ inputs.all }}
+          SECONDS_PER_TARGET: ${{ inputs.seconds }}
+          MAX_SHARDS: ${{ inputs.max-shards }}
+        run: |
+          if [ "$ALL" = true ]; then which=--all; else which="--base=HEAD^1"; fi
+          python3 fuzz/ci.py plan "$which" --seconds "$SECONDS_PER_TARGET" --max-shards "$MAX_SHARDS"
+
+  # Builds every target once and hands the binaries to the shards, so the shards only fuzz.
+  build:
+    name: build
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          toolchain: nightly
+      # The nightly run on main saves the cache; pull requests restore it.
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: fuzz
+          save-if: ${{ github.event_name != 'pull_request' }}
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: cargo-fuzz
+      - name: Build fuzz targets
+        working-directory: fuzz
+        # Explicit target: the prebuilt cargo-fuzz is a musl binary and would otherwise default to
+        # musl (static libc, which the sanitizer cannot use).
+        run: |
+          cargo +nightly fuzz build -O -a --target "$(rustc +nightly -vV | sed -n 's/^host: //p')"
+      - name: Pack the binaries
+        env:
+          PLAN: ${{ needs.plan.outputs.plan }}
+        run: |
+          bin="fuzz/target/$(rustc +nightly -vV | sed -n 's/^host: //p')/release"
+          echo "$PLAN" | python3 -c 'import json,sys; print("\n".join(sorted(json.load(sys.stdin)["targets"])))' > targets.txt
+          tar -C "$bin" -cf - -T targets.txt | zstd -T0 -3 -o fuzz-bins.tar.zst
+          ls -l fuzz-bins.tar.zst
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fuzz-bins
+          path: fuzz-bins.tar.zst
+          compression-level: 0
+          retention-days: 1
+
+  run:
+    name: shard ${{ matrix.shard }}
+    needs: [plan, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: fuzz-bins
+      - name: Unpack this shard's binaries
+        env:
+          FUZZ_PLAN: ${{ needs.plan.outputs.plan }}
+          SHARD: ${{ matrix.shard }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/fuzz-bins"
+          echo "$FUZZ_PLAN" | python3 -c 'import json,os,sys; print("\n".join(json.load(sys.stdin)["shards"][int(os.environ["SHARD"])]))' > shard-targets.txt
+          zstd -dc fuzz-bins.tar.zst | tar -C "$RUNNER_TEMP/fuzz-bins" -xf - -T shard-targets.txt
+          rm fuzz-bins.tar.zst
+      - name: Fuzz this shard's targets from the committed seeds
+        env:
+          FUZZ_PLAN: ${{ needs.plan.outputs.plan }}
+          SHARD: ${{ matrix.shard }}
+        run: python3 fuzz/ci.py run --shard "$SHARD" --bin-dir "$RUNNER_TEMP/fuzz-bins"
+      - name: Upload crash inputs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fuzz-artifacts-${{ matrix.shard }}
+          path: fuzz/artifacts
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Upload the shard report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fuzz-report-${{ matrix.shard }}
+          path: fuzz/reports
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # Files crashes as issues. On pull requests only crashes in targets the change reaches
+  # indirectly, which do not fail the pull request; the author fixes direct ones.
+  report:
+    name: report crashes
+    needs: run
+    if: always() && needs.run.result != 'skipped'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: fuzz-report-*
+          path: reports
+      - name: Open or update an issue per crashing target
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            python3 fuzz/ci.py issues --reports reports --context "pull request #$PR"
+          else
+            python3 fuzz/ci.py issues --reports reports --context "the $EVENT run on main" --include-direct
+          fi

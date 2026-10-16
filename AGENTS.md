@@ -32,6 +32,7 @@ cargo xtask corpus fetch --tier smoke                  # public test files (abou
 cargo test -p openreadout-corpus-tests --features corpus --profile corpus   # compare readers with ground truth
 cargo xtask snapshot review                            # after golden-output tests fail
 cargo xtask schema gen                                 # after changing a JSON output type
+cargo xtask ci --quick                                 # before pushing; `cargo xtask ci` runs the checks CI will run
 ```
 
 `cargo xtask --help` lists the other maintenance tasks; `docs/maintaining.md` explains when to use them.

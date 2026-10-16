@@ -23,6 +23,7 @@
 /fuzz/artifacts*/
 /fuzz/work/
 /fuzz/logs/
+/fuzz/reports/
 /fuzz/coverage/
 /book/book/
 /book/node_modules/

@@ -68,6 +68,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c3d036a3c4ab069c7b410a2ce876bd74808d2d0888a82667669f8e783a898bf1"
 
 [[package]]
+name = "arrayref"
+version = "0.3.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "76a2e8124351fda1ef8aaaa3bbd7ebbcb486bbcd4225aca0aa0d84bb2db8fecb"
+
+[[package]]
+name = "arrayvec"
+version = "0.7.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d3fb67a6e08acf24fdeccbac2cb6ac4305825bd1f117462e0e6f2f193345ad56"
+
+[[package]]
 name = "arrow-array"
 version = "60.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -617,6 +629,15 @@ name = "foldhash"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77ce24cb58228fbb8aa041425bb1050850ac19177686ea6e0f41a70416f56fdb"
+
+[[package]]
+name = "font-types"
+version = "0.12.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "835ae9d781464a79026cde387f9cbc650c9a4909d7cf7e658b127e3c35d2f35d"
+dependencies = [
+ "bytemuck",
+]
 
 [[package]]
 name = "futures"
@@ -1344,7 +1365,7 @@ checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 
 [[package]]
 name = "openreadout-abf"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1352,7 +1373,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-agilent-ms"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1361,7 +1382,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-arrow"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "arrow-array",
  "arrow-buffer",
@@ -1378,10 +1399,10 @@ dependencies = [
 
 [[package]]
 name = "openreadout-assay"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
- "openreadout-preview",
+ "openreadout-figure",
  "schemars",
  "serde",
  "serde_json",
@@ -1389,7 +1410,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-batch"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "arrow-array",
  "arrow-schema",
@@ -1412,7 +1433,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-biophys"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "base64 0.23.1",
  "openreadout-core",
@@ -1422,7 +1443,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-blackrock"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1430,7 +1451,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-bruker-tims"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1439,7 +1460,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-chrom"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "miniz_oxide 0.9.1",
  "openreadout-codecs",
@@ -1450,7 +1471,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-codecs"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "dicom-toolkit-jpeg2000",
  "flate2",
@@ -1467,7 +1488,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-core"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "crc32fast",
  "glob",
@@ -1483,7 +1504,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-czi"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1494,7 +1515,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-dcimg"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1502,7 +1523,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-echem"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "crc32fast",
  "openreadout-core",
@@ -1512,7 +1533,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-em"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "hdf5-pure",
  "openreadout-core",
@@ -1522,7 +1543,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-ephys"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1530,7 +1551,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-epr"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1538,7 +1559,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-fcs"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -1546,8 +1567,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-figure"
+version = "0.3.0"
+dependencies = [
+ "miniz_oxide 0.9.1",
+ "openreadout-core",
+ "png",
+ "skrifa",
+ "tiny-skia",
+]
+
+[[package]]
 name = "openreadout-fplc"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "base64 0.23.1",
  "openreadout-core",
@@ -1613,7 +1645,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-gel"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -1622,7 +1654,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-hcs"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "openreadout-tiff",
@@ -1633,7 +1665,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-hdf5"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "hdf5-pure",
  "openreadout-codecs",
@@ -1646,7 +1678,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-index"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "arrow-array",
  "arrow-schema",
@@ -1665,7 +1697,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-intan"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1673,11 +1705,11 @@ dependencies = [
 
 [[package]]
 name = "openreadout-jpegxr"
-version = "0.2.0"
+version = "0.3.0"
 
 [[package]]
 name = "openreadout-lif"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1689,7 +1721,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-mzml"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "hdf5-pure",
  "openreadout-codecs",
@@ -1703,7 +1735,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-nd2"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1713,7 +1745,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-neuralynx"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1721,7 +1753,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-nmr"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "schemars",
@@ -1731,7 +1763,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-oif"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "openreadout-tiff",
@@ -1740,7 +1772,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-oir"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -1749,7 +1781,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-ometiff"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "flate2",
  "openreadout-core",
@@ -1766,7 +1798,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-omezarr"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "openreadout-ometiff",
@@ -1780,7 +1812,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-plate"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "calamine",
  "miniz_oxide 0.9.1",
@@ -1793,27 +1825,15 @@ dependencies = [
 
 [[package]]
 name = "openreadout-plexon"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
-]
-
-[[package]]
-name = "openreadout-preview"
-version = "0.2.0"
-dependencies = [
- "openreadout-core",
- "png",
- "schemars",
- "serde",
- "serde_json",
- "xxhash-rust",
 ]
 
 [[package]]
 name = "openreadout-qpcr"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "calamine",
  "miniz_oxide 0.9.1",
@@ -1826,10 +1846,10 @@ dependencies = [
 
 [[package]]
 name = "openreadout-quant"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
- "openreadout-preview",
+ "openreadout-figure",
  "rayon",
  "schemars",
  "serde",
@@ -1838,7 +1858,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-sciex"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1846,7 +1866,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-signal"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "schemars",
@@ -1856,7 +1876,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-spectro"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1865,7 +1885,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-spikeglx"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1873,7 +1893,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-thermal"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1881,7 +1901,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-thermo"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1889,7 +1909,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-tiff"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1900,7 +1920,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-vsi"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1910,7 +1930,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-waters"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1918,7 +1938,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-wsi"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "base64 0.23.1",
  "openreadout-codecs",
@@ -1931,7 +1951,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-xrd"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -1940,7 +1960,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-zarr"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "flate2",
  "openreadout-codecs",
@@ -1952,7 +1972,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-zvi"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -2190,6 +2210,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "read-fonts"
+version = "0.45.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4edc8db0d972de88e53a085b1f01fb3fbdae7bb0cb7a0ce2b2f8285a412fe3ef"
+dependencies = [
+ "bytemuck",
+ "foldhash",
+ "font-types",
+ "once_cell",
+ "yoke",
+]
+
+[[package]]
 name = "redox_syscall"
 version = "0.5.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2285,9 +2318,9 @@ checksum = "cf54715a573b99ac80df0bc206da022bcd442c974952c7b9720069370852e21f"
 
 [[package]]
 name = "ruzstd"
-version = "0.9.0"
+version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a252f5e20f038fe7b4ea53e073e65398d652c864cc162fc77c56c2f13717b888"
+checksum = "69e4ce4a039f42bf25920b95667e4d789e98749ab11bbb8d2c2936f788421bb5"
 dependencies = [
  "twox-hash",
 ]
@@ -2451,6 +2484,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e3a9fe34e3e7a50316060351f37187a3f546bce95496156754b601a5fa71b76e"
 
 [[package]]
+name = "skrifa"
+version = "0.48.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a5213b4825bac3587046330052d61bfac7bd3bd0d203c758d7c2ef726fcea034"
+dependencies = [
+ "bytemuck",
+ "read-fonts",
+]
+
+[[package]]
 name = "slab"
 version = "0.4.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2467,6 +2510,18 @@ name = "snap"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "199905e6153d6405f9728fe44daace35f8f837bbf830bb6e85fbd5828709a886"
+
+[[package]]
+name = "stable_deref_trait"
+version = "1.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
+
+[[package]]
+name = "strict-num"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6637bab7722d379c8b41ba849228d680cc12d0a45ba1fa2b48f2a30577a06731"
 
 [[package]]
 name = "syn"
@@ -2488,6 +2543,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "synstructure"
+version = "0.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "901704edd0dfe137f1987838ee4f259e4e063c31371bdb423f7ae38ec6f77f02"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 3.0.6",
 ]
 
 [[package]]
@@ -2546,6 +2612,31 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
 dependencies = [
  "crunchy",
+]
+
+[[package]]
+name = "tiny-skia"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "47ffee5eaaf5527f630fb0e356b90ebdec84d5d18d937c5e440350f88c5a91ea"
+dependencies = [
+ "arrayref",
+ "arrayvec",
+ "bytemuck",
+ "cfg-if",
+ "log",
+ "tiny-skia-path",
+]
+
+[[package]]
+name = "tiny-skia-path"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "edca365c3faccca67d06593c5980fa6c57687de727a03131735bb85f01fdeeb9"
+dependencies = [
+ "arrayref",
+ "bytemuck",
+ "strict-num",
 ]
 
 [[package]]
@@ -2832,6 +2923,29 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "aee1b19627c7c60102ab80d3a9cbe18de90bfe03bfa6c3715447681f0e8c8af6"
 
 [[package]]
+name = "yoke"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "709fe23a0424b6a435d82152b1bd3fdfb0833487d5fa90d05d42762a9891fef5"
+dependencies = [
+ "stable_deref_trait",
+ "yoke-derive",
+ "zerofrom",
+]
+
+[[package]]
+name = "yoke-derive"
+version = "0.8.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ec8ebde2db3681e8c9980cc27822030e68752690ddfa9473e739aeb4dbde6d71"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 3.0.6",
+ "synstructure",
+]
+
+[[package]]
 name = "zarrs"
 version = "0.23.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3039,6 +3153,27 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.119",
+]
+
+[[package]]
+name = "zerofrom"
+version = "0.1.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0ec05a11813ea801ff6d75110ad09cd0824ddba17dfe17128ea0d5f68e6c5272"
+dependencies = [
+ "zerofrom-derive",
+]
+
+[[package]]
+name = "zerofrom-derive"
+version = "0.1.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f75b4683f6c7f45248d4d64056a24298c6281e0993356d7d1b4a1a962ef10d4a"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 3.0.6",
+ "synstructure",
 ]
 
 [[package]]

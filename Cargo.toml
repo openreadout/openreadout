@@ -303,6 +303,11 @@ debug = "line-tables-only"
 [profile.dev.package."*"]
 opt-level = 2
 
+# The repository checks (`cargo xtask heldout-check`, `vocab-check`, `guides`) scan every
+# document and source file; unoptimized they took minutes in CI.
+[profile.dev.package.xtask]
+opt-level = 2
+
 # The corpus suite parses every development-corpus file; unoptimized reader crates make it
 # several times slower. Optimized like release, but with overflow checks and debug assertions
 # kept on so arithmetic bugs still panic: `cargo test --profile corpus -p openreadout-corpus-tests --features corpus`.

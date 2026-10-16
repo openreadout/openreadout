@@ -1,0 +1,183 @@
+# Which CI jobs a pull request runs, and how `cargo xtask ci` runs the same checks locally.
+#
+# This file is the one place that says which files can affect which job in
+# .github/workflows/ci.yml. scripts/ci/changes.py reads it in CI's `changes` job and turns it into
+# one true/false output per job, and `cargo xtask ci` reads it to pick the jobs and steps it runs
+# on your machine. `cargo xtask ci --check` (run by the `repo` job) fails when this file and
+# ci.yml disagree.
+#
+# Path patterns are relative to the repository root. `*` matches within one path component, `**`
+# matches any number of components, and a pattern that starts with `!` excludes. Patterns are read
+# in order and the last one that matches a file decides, as in .gitignore. `@name` stands for the
+# patterns of `[groups.name]`.
+#
+# A pull request runs a job when one of its changed files matches the job's `paths`. Pushes to
+# main, the nightly run and manual runs run every job. A change to a file in `always` runs every
+# job, so a change to CI itself is tested by everything.
+#
+# When in doubt, include a path. A job that runs without need costs minutes. A job that should
+# have run and didn't lets a break reach main, where every later pull request finds it.
+
+always = [".github/workflows/ci.yml", ".github/workflows/fuzz.yml", ".github/workflows/site.yml", ".github/ci.toml", "scripts/ci/**"]
+
+[groups]
+# Anything that changes what the Rust workspace compiles to.
+rust = ["crates/**", "Cargo.toml", "Cargo.lock", "rust-toolchain.toml", ".cargo/**", ".config/**", "rustfmt.toml"]
+# Used as `["**", "@outside-rust"]`: everything except the files nothing in the Rust workspace
+# reads, compiles or tests. Tests do read corpus/, fuzz/, mcpb/, skills/ and a few files in the
+# excluded folders; those are listed back in after their folder.
+outside-rust = [
+    "!book/**", "book/src/guides/lab-shares.md",
+    "!docs/**", "docs/schema/**",
+    "!oracle/**", "oracle/mcp_smoke.py",
+    "!evals/**", "!python/**", "!integrations/**", "!r/**", "!web/**", "!packaging/**",
+    "!examples/**", "!bench/**", "!scripts/**", "!.github/**", "!assets/**", "!licenses/**",
+    "!*.md", "!LICENSE-*", "!NOTICE", "!CITATION.cff", "!Dockerfile", "!flake.*", "!glama.json",
+    "!server.json", "!pyproject.toml", "!_typos.toml", "!about.hbs", "!about.toml",
+]
+
+# --- jobs ------------------------------------------------------------------------------------------
+# Each table is a job of ci.yml, by its id. `paths` are the files that make it run; `with` lists
+# jobs that need this one, so it also runs whenever one of them does.
+#
+# `local` says how `cargo xtask ci` runs the job's `run:` steps from ci.yml:
+#   requires  tools from [tools] the job needs; without one, the job is skipped with a message
+#   skip      steps that only make sense on a runner (installers, uploads), by step name
+#   needs     tools a single step needs, by step name; without them only that step is skipped
+#   quick     steps `--quick` runs (then it also runs the unit tests of the crates you changed)
+#   run_if    steps with an `if:` that run locally anyway. Other steps with an `if:` don't, since
+#             their conditions read runner state (caches, matrix values, other jobs' outputs).
+#   env       local values for environment variables that ci.yml computes with `${{ }}` from
+#             matrix values or other jobs' outputs. They apply to every step of the job.
+#   full_only run the job only with `--full`
+# A job without `local` never runs locally (other operating systems, the MSRV toolchain, jobs
+# that only package or publish). Every other `run:` step of a local job runs, so a step added to
+# ci.yml runs locally too unless it is listed under `skip`. A matrix job runs once.
+
+[jobs.check]
+paths = ["**", "@outside-rust"]
+[jobs.check.local]
+requires = ["cargo-nextest", "python3"]
+quick = ["Format", "Clippy (pedantic, warnings are errors)"]
+needs = { "MCP viewer app (syntax, helper tests)" = ["node"] }
+
+[jobs.repo]
+paths = ["**", "!book/**", "!evals/**"]
+[jobs.repo.local]
+requires = ["python3"]
+needs = { "cargo-deny (licenses, bans, sources)" = ["cargo-deny"], "Security advisories for crates this change adds" = ["cargo-deny"] }
+
+[jobs.typos]
+paths = ["**"]
+[jobs.typos.local]
+requires = ["typos"]
+
+[jobs.workflows]
+paths = [".github/**"]
+[jobs.workflows.local]
+requires = ["actionlint"]
+skip = ["Install actionlint"]
+needs = { "zizmor (workflow security)" = ["zizmor"] }
+
+[jobs.corpus-fetch]
+paths = ["corpus/manifest.toml", "xtask/src/corpus.rs", "xtask/src/corpus/**", "xtask/src/zipmember.rs"]
+with = ["corpus-smoke", "python", "examples", "r-package"]
+
+[jobs.corpus-smoke]
+paths = ["@rust", "corpus/**", "xtask/**", "oracle/qpcr.py"]
+[jobs.corpus-smoke.local]
+requires = ["corpus"]
+full_only = true
+# One local run covers all three CI parts: the oracle tests, then the whole malformed-file matrix.
+run_if = ["Compare every reader against oracle ground truth", "Build the CLI the malformed-file matrix and the second-opinion fields run", "Malformed-file matrix and second-opinion fields"]
+env = { MALFORMED_SHARD = "", SHARD = "" }
+
+[jobs.examples]
+paths = ["@rust", "examples/**", "corpus/manifest.toml", "xtask/**"]
+
+[jobs.python]
+paths = ["@rust", "python/**", "pyproject.toml"]
+[jobs.python.local]
+requires = ["maturin", "python3"]
+skip = ["Install maturin"]
+
+[jobs.evals]
+paths = ["evals/**", "corpus/**"]
+[jobs.evals.local]
+requires = ["uv"]
+skip = ["Install uv"]
+
+[jobs.wasm]
+paths = ["@rust", "web/**", "packaging/wasm/**", "scripts/wasm.sh"]
+[jobs.wasm.local]
+requires = ["wasm-bindgen", "wasm32", "node"]
+skip = ["wasm-bindgen-cli at the wasm-bindgen version in Cargo.lock"]
+
+[jobs.test-os]
+paths = ["**", "@outside-rust"]
+
+[jobs.msrv]
+paths = ["@rust"]
+
+[jobs.coverage]
+paths = ["@rust"]
+
+[jobs.publish-dry-run]
+paths = ["@rust"]
+
+[jobs.third-party-notices]
+paths = ["Cargo.toml", "Cargo.lock", "crates/*/Cargo.toml", "about.hbs", "about.toml", "THIRD-PARTY-NOTICES.md"]
+
+[jobs.release-check]
+paths = [
+    "packaging/**", "scripts/**", "xtask/**", "mcpb/**", "skills/**", "assets/**", "integrations/**",
+    "python/**", "licenses/**", "Cargo.toml", "pyproject.toml", "r/openreadout/DESCRIPTION",
+    "CHANGELOG.md", "CITATION.cff", "README.md", "PRIVACY.md", "NOTICE", "LICENSE-*", "server.json",
+    "glama.json", "crates/openreadout-cli/**", "crates/openreadout-mcp/**",
+]
+[jobs.release-check.local]
+requires = ["node", "ruby"]
+skip = ["Claude Code plugin validates and loads"]
+
+[jobs.r-package]
+paths = ["@rust", "r/**", "xtask/src/rpkg.rs"]
+[jobs.r-package.local]
+requires = ["Rscript"]
+needs = { "man/ and NAMESPACE are up to date" = ["roxygen2"], "Install from the checkout and run testthat" = ["testthat", "corpus"] }
+skip = ["R CMD check --as-cran of the vendored tarball"]
+
+# The slow CRAN check of the vendored R tarball. Rust code reaches it through the R crate's
+# dependencies, so a pull request that only changes reader code runs the rest of the R job but not
+# this step. Pushes to main and the nightly run run it.
+[jobs.r-cran]
+paths = ["r/**", "Cargo.toml", "Cargo.lock", "crates/openreadout-r/**", "xtask/src/rpkg.rs"]
+
+[jobs.integrations]
+paths = ["integrations/**", "crates/openreadout-cli/**", "crates/openreadout-batch/**", "Cargo.toml"]
+
+[jobs.site]
+paths = ["book/**", "docs/**", "examples/**", "web/**", "skills/**", "CHANGELOG.md", "README.md", "@rust"]
+
+# fuzz/affected.py then picks the targets the change can reach.
+[jobs.fuzz]
+paths = ["@rust", "fuzz/**"]
+
+# --- tools -----------------------------------------------------------------------------------------
+# How `cargo xtask ci` checks that a tool is installed: a shell command that succeeds when it is.
+[tools]
+cargo-nextest = "cargo nextest --version"
+cargo-deny = "cargo deny --version"
+python3 = "python3 --version"
+node = "node --version"
+ruby = "ruby --version"
+typos = "typos --version"
+actionlint = "actionlint --version"
+zizmor = "zizmor --version"
+uv = "uv --version"
+maturin = "maturin --version"
+wasm-bindgen = "wasm-bindgen --version"
+wasm32 = "rustup target list --installed | grep -q wasm32-unknown-unknown"
+Rscript = "Rscript --version"
+roxygen2 = "Rscript -e 'library(roxygen2)'"
+testthat = "Rscript -e 'library(testthat)'"
+corpus = "test -d corpus/files/.receipts"

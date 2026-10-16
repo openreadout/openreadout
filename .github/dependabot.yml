@@ -1,8 +1,12 @@
-# Weekly dependency updates. Grouped so one PR per ecosystem per week, not one per crate.
+# Weekly dependency updates, grouped so each ecosystem gets one pull request a week rather than one
+# per package. Security updates (switched on under Settings > Code security > Dependabot security
+# updates) come as soon as an advisory is published and are not grouped with these.
 version: 2
 updates:
   - package-ecosystem: cargo
-    directory: /
+    directories:
+      - /
+      - /fuzz  # the fuzz targets have their own lockfile
     schedule:
       interval: weekly
     groups:
@@ -34,13 +38,30 @@ updates:
     commit-message:
       prefix: "chore(deps)"
 
-  # The oracle environment (third-party readers used only to generate ground truth).
+  # The oracle environment (third-party readers used only to generate ground truth) and the eval
+  # harness, both locked with uv.
   - package-ecosystem: uv
-    directory: /oracle
+    directories:
+      - /oracle
+      - /evals
     schedule:
       interval: weekly
     groups:
-      oracle:
+      uv:
         patterns: ["*"]
     commit-message:
-      prefix: "chore(oracle)"
+      prefix: "chore(deps)"
+
+  # The website, the WebAssembly package's build tools and the npm wrapper.
+  - package-ecosystem: npm
+    directories:
+      - /book
+      - /packaging/wasm
+      - /packaging/npm
+    schedule:
+      interval: weekly
+    groups:
+      npm:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(deps)"
