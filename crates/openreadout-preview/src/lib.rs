@@ -1259,7 +1259,7 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         objects::draw(ds, info, req, &frame, &mut figure, &mut out)?;
     }
     if k == "image" && (req.marks == Marks::Lanes || req.lanes.is_some()) {
-        lanes::draw(ds, info, req, &frame, &mut figure, &mut out)?;
+        lanes::draw(ds, info, req, &frame, &mut figure, &mut out);
     }
     if !req.annotations.is_empty() {
         let theme = theme(req);

@@ -76,7 +76,7 @@ pub(crate) fn build(
             continue;
         }
         match roles[k] {
-            Some(Role::Units) | Some(Role::Time) => {
+            Some(Role::Units | Role::Time) => {
                 // consumed by the column before it; alone, keep as text
                 let consumed = k > 0
                     && matches!(
@@ -193,12 +193,9 @@ pub(crate) fn build(
 /// Day and month order that turns `raw` into the date of `iso` (`yyyy-mm-dd`), if one does.
 fn decide(raw: &str, iso: &str) -> Option<bool> {
     let want = iso.get(..10)?;
-    for mf in [true, false] {
-        if datetime(raw, mf).is_some_and(|(d, _)| d.get(..10) == Some(want)) {
-            return Some(mf);
-        }
-    }
-    None
+    [true, false]
+        .into_iter()
+        .find(|&mf| datetime(raw, mf).is_some_and(|(d, _)| d.get(..10) == Some(want)))
 }
 
 /// A value column: numbers when every filled cell is one, else text.

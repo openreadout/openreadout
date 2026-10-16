@@ -3,7 +3,7 @@
 //! each lane's box and number, its profile, and its bands with their share of the strongest.
 
 use openreadout_core::measure::{LanesRequest, MeasureRequest, measure};
-use openreadout_core::{Dataset, FileInfo, Region, Result};
+use openreadout_core::{Dataset, FileInfo, Region};
 use openreadout_figure::{
     Anchor, Baseline, Color, Face, Figure, Path, Pill, Rect, Stroke, TextStyle,
 };
@@ -21,12 +21,12 @@ pub(crate) fn draw(
     frame: &Frame,
     fig: &mut Figure,
     out: &mut PreviewOutput,
-) -> Result<()> {
+) {
     let (Frame::Image { plot_area, map }, Some(ip)) = (frame, out.image.as_ref()) else {
-        return Ok(());
+        return;
     };
     let Some(im) = info.images.iter().find(|i| i.index == ip.image) else {
-        return Ok(());
+        return;
     };
     let full = ip.full_res_region;
     let region = (!full.is_full(im.size_x, im.size_y)).then_some(full);
@@ -49,11 +49,11 @@ pub(crate) fn draw(
         Ok(r) => r,
         Err(e) => {
             out.notes.push(format!("lanes: {e}"));
-            return Ok(());
+            return;
         }
     };
     let Some(mut lanes) = res.lanes else {
-        return Ok(());
+        return;
     };
     out.notes.extend(res.notes);
 
@@ -152,7 +152,7 @@ pub(crate) fn draw(
         // lane number above the box, or inside its top when the box starts at the top
         let above = y0 - plot_area.y as f32 >= fs * 1.5;
         fig.text(
-            (x0 + x1) / 2.0,
+            f32::midpoint(x0, x1),
             if above { y0 - 3.0 } else { y0 + fs * 1.3 },
             &lane.number.to_string(),
             &num_style,
@@ -210,7 +210,6 @@ pub(crate) fn draw(
     }
     lanes.profile_step_px = None;
     out.lanes = Some(lanes);
-    Ok(())
 }
 
 fn fmt_size(s: f64) -> String {

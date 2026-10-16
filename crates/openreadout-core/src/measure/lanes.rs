@@ -385,7 +385,7 @@ fn signal(
             *x = hi - *x;
         }
         // a dark band never reaches the bright saturation level
-        sat.iter_mut().for_each(|s| *s = 0);
+        sat.fill(0);
     }
     Ok((
         Signal {
@@ -472,11 +472,11 @@ fn maxima(v: &[f64]) -> Vec<(usize, f64)> {
         if v[i] > v[i - 1] {
             // plateau
             let mut j = i;
-            while j + 1 < n && v[j + 1] == v[i] {
+            while j + 1 < n && v[j + 1].total_cmp(&v[i]).is_eq() {
                 j += 1;
             }
             if j + 1 < n && v[j + 1] < v[i] {
-                let peak = (i + j) / 2;
+                let peak = usize::midpoint(i, j);
                 let h = v[peak];
                 let mut lmin = h;
                 let mut k = i;
@@ -576,7 +576,7 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
     let colsm = smooth(&col, (w as f64 / 300.0).max(1.0));
     let range = colsm.iter().copied().fold(f64::NEG_INFINITY, f64::max)
         - colsm.iter().copied().fold(f64::INFINITY, f64::min);
-    if !(range > 0.0) {
+    if range.is_nan() || range <= 0.0 {
         return Err(usage(
             "no lanes found: the columns of the plane all have the same signal",
         ));

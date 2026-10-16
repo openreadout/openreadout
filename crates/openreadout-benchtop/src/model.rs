@@ -407,7 +407,9 @@ impl Dataset for SampleTableDataset {
             .insert("method.technique".into(), inferred("the instrument family"));
         if let Some(Column::Numbers { values, .. }) = p.column("dilution_factor")
             && let Some(d) = values.iter().find(|v| v.is_finite())
-            && values.iter().all(|v| !v.is_finite() || v == d)
+            && values
+                .iter()
+                .all(|v| !v.is_finite() || v.to_bits() == d.to_bits())
         {
             method
                 .parameters

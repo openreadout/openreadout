@@ -100,7 +100,7 @@ pub(crate) fn render(
         .filter(|tr| tr.extra.get("y_quantity").and_then(|v| v.as_str()) == Some("absorbance"));
     let (fig, frame) = match spectra {
         Some(tr) => spectra_figure(ds, info, tr, &rows, &unit, req, &theme, out)?,
-        None => bars_figure(info, &rows, &unit, req, &theme)?,
+        None => bars_figure(info, &rows, &unit, req, &theme),
     };
     out.notes.push(format!(
         "{} sample(s){}; ratios below {MIN_260_280} (A260/A280) or {MIN_260_230} (A260/A230) are flagged in the accent colour",
@@ -385,7 +385,7 @@ fn bars_figure(
     unit: &str,
     req: &PreviewRequest,
     theme: &Theme,
-) -> Result<(Figure, Frame)> {
+) -> (Figure, Frame) {
     let fs = theme.font_size;
     let w = req.max_size.max(320) as f32;
     let header = fs * 2.2;
@@ -537,7 +537,7 @@ fn bars_figure(
             &TextStyle::new(small, theme.muted).align(Anchor::Start, Baseline::Alphabetic),
         );
     }
-    Ok((fig, Frame::plots(vec![FramePanel::new(panel)])))
+    (fig, Frame::plots(vec![FramePanel::new(panel)]))
 }
 
 /// `NanoDrop Eight`, `Qubit Flex`, or the format name.

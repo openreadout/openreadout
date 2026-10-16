@@ -79,6 +79,7 @@ pub(crate) fn number(s: &str) -> Option<f64> {
 ///
 /// Seen: `06/16/2022 04:38:28 PM(-07:00)`, `5/26/2020` + `3:36 PM`, `7/19/2023 3:27:29 PM`,
 /// `13/12/2022 04:41:09 PM`, `11/09/2023 14:19`, `2023-12-12`, `5/14/2024 5:04 PM`.
+#[allow(clippy::many_single_char_names)] // y, m, d, h: the parts of a date
 pub(crate) fn datetime(s: &str, month_first: bool) -> Option<(String, bool)> {
     let s = s.trim();
     let (main, offset) = match s.find('(') {

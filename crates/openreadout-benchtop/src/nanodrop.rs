@@ -323,6 +323,7 @@ fn parse_eight(text: &str) -> Result<Parsed> {
 }
 
 /// The One's UV-Vis spectrum export: one block per measurement.
+#[allow(clippy::many_single_char_names)] // k, n, p, x, y: line, count, point, axes
 fn parse_spectra(src: &str) -> Result<Parsed> {
     let lines: Vec<&str> = src.lines().map(|l| l.trim_end_matches('\r')).collect();
     let mut names = Vec::new();

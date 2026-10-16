@@ -240,6 +240,7 @@ fn plate_maps(sheet: &Sheet, start: usize, block: &mut Block, c: u32, ex: &mut E
 }
 
 /// Seconds from ISO time `a` to `b` (both local `YYYY-MM-DDTHH:MM:SS`).
+#[allow(clippy::many_single_char_names)] // y, m, d: the parts of a date
 fn seconds_between(a: &str, b: &str) -> Option<f64> {
     let s = |t: &str| -> Option<f64> {
         let (d, c) = t.split_once('T')?;
