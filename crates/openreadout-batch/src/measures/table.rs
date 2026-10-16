@@ -68,6 +68,7 @@ impl Measure for TableMeasure {
             "parameter".into(),
             "well".into(),
             "read".into(),
+            "table_row".into(),
         ]
     }
     fn columns(&self) -> Vec<ColumnDoc> {
@@ -81,6 +82,10 @@ impl Measure for TableMeasure {
             ColumnDoc::key("label", "column label (FCS $PnS: marker or dye)"),
             ColumnDoc::key("well", "plate well, as A01"),
             ColumnDoc::key("read", "plate read (1-based, per table)"),
+            ColumnDoc::key(
+                "table_row",
+                "row of a table of sample measurements (NanoDrop, Qubit), from 0; the row's columns follow",
+            ),
             ColumnDoc::value("row", "plate row, from 1"),
             ColumnDoc::value("col", "plate column, from 1"),
             ColumnDoc::unit("wavelength_nm", "nm", "read wavelength"),
@@ -183,6 +188,33 @@ impl Measure for TableMeasure {
                                 v.map_or(Value::Null, |x| Value::Int(x as i64))
                             }
                             _ => Value::float_opt(v),
+                        };
+                        r.set(col.name.clone(), v);
+                    }
+                    rows.push(r);
+                }
+                continue;
+            }
+            if t.extra.get("kind").and_then(|v| v.as_str()) == Some("samples") {
+                // a table of sample measurements (NanoDrop, Qubit): every row as it is, text
+                // columns as their text, so a folder of exports becomes one table
+                let n = data.columns.first().map_or(0, Vec::len);
+                for i in 0..n {
+                    let mut r = base(Row::new().with("table", t.index));
+                    r.set("table_row", i as u64);
+                    for (ci, col) in t.columns.iter().enumerate() {
+                        if !self.wanted(&col.name, col.label.as_deref()) {
+                            continue;
+                        }
+                        let v = data.columns.get(ci).and_then(|v| v.get(i)).copied();
+                        let cats = col.extra.get("categories").and_then(|c| c.as_array());
+                        let v = match cats {
+                            Some(c) => Value::text_opt(
+                                v.and_then(|x| c.get(x as usize))
+                                    .and_then(|s| s.as_str())
+                                    .filter(|s| !s.is_empty()),
+                            ),
+                            None => Value::float_opt(v),
                         };
                         r.set(col.name.clone(), v);
                     }
