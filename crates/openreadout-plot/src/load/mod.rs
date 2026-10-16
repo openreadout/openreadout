@@ -2,6 +2,7 @@
 //! table file, or from inline values.
 
 mod assay;
+mod columns;
 mod flow;
 mod plate;
 mod signal;
@@ -162,7 +163,13 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
         Show::Fi => signal::fi(ctx, spec, file)?,
         Show::Wells => plate::wells(ctx, spec, file)?,
         Show::Events => flow::events(ctx, spec, file)?,
-        Show::Histogram => flow::histogram(ctx, spec, file)?,
+        Show::Histogram => {
+            if ctx.open(file)?.0 == "fcs" {
+                flow::histogram(ctx, spec, file)?
+            } else {
+                columns::histogram(ctx, spec, file)?
+            }
+        }
         Show::DoseResponse | Show::StandardCurve => assay::curves(ctx, spec, file, show)?,
     };
     if let Some(l) = &spec.label
@@ -226,6 +233,10 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     });
     if plate && info.traces.is_empty() {
         return Ok(Show::Wells);
+    }
+    // read files (FASTQ, BAM): the read-length histogram
+    if info.format.family == "sequencing" && info.traces.is_empty() {
+        return Ok(Show::Histogram);
     }
     if !info.traces.is_empty() {
         return Ok(if spec.spikes {

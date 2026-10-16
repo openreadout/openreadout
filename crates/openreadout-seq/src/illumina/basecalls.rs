@@ -546,9 +546,10 @@ pub fn read_capped(fs: &Fs, p: &Path, max: u64) -> Result<Vec<u8>> {
 }
 
 /// The FASTQ cluster coordinate of a location, as the conversion tools write it:
-/// `round(10 * position + 1000)`.
+/// `round(10 * position + 1000)`, computed in single precision like the stored position (a
+/// position such as 1418.95 lands on .5 in single precision and rounds up).
 pub fn fastq_coordinate(pos: f32) -> i64 {
-    (f64::from(pos) * 10.0 + 1000.0).round() as i64
+    (pos * 10.0 + 1000.0).round() as i64
 }
 
 #[cfg(test)]

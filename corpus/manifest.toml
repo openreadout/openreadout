@@ -78524,21 +78524,6 @@ attribution = "Oxford Nanopore Technologies (pod5 test data)"
 notes = "the 10 reads of multi_fast5_zip.fast5 converted to POD5 (MinION, 4 kHz, R9.4.1). Ground truth: pod5 (black box)."
 
 [[file]]
-id = "seq-pod5-multi-fast5-zip-v0"
-format = "pod5"
-role = "input"
-tier = "standard"
-filename = "seq-pod5-multi-fast5-zip-v0.pod5"
-url = "https://media.githubusercontent.com/media/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/multi_fast5_zip_v0.pod5"
-sha256 = "9eb656f0061f1621b205b4c5f4d9694b03cad4480c66e2a2d8ea4423f53ea243"
-size = 1321288
-license = "MPL-2.0"
-license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-15"
-source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/multi_fast5_zip_v0.pod5 (Git LFS)"
-attribution = "Oxford Nanopore Technologies (pod5 test data)"
-notes = "the same 10 reads in the earliest POD5 table version. Ground truth: pod5 (black box)."
-
-[[file]]
 id = "seq-fast5-multi-zip"
 format = "fast5"
 role = "input"

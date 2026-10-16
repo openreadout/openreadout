@@ -375,6 +375,18 @@ pub fn open(input: &Input) -> Result<Pod5> {
     let rb = read_range(&file, reads_e.offset, reads_e.length, "reads table")?;
     let mut rt = ipc::parse_footer(&rb, 0, reads_e.length)
         .map_err(|e| corrupt(format!("reads table: {e}")))?;
+    if ipc::field_index(&rt, "calibration_offset").is_none()
+        && ipc::field_index(&rt, "calibration").is_some()
+    {
+        return Err(Error::unsupported(
+            FORMAT_ID,
+            format!(
+                "POD5 {} reads table (pore, calibration and end reason as dictionaries of structs)",
+                footer.pod5_version
+            ),
+            "Files written by pod5 before 0.1 are not read; `pod5 update FILE` (from the pod5 tools) rewrites them in the current table layout.",
+        ));
+    }
     let rc = ipc::read_all(&rb, &mut rt).map_err(|e| corrupt(format!("reads table: {e}")))?;
     // run info: its own table (POD5 0.1 and later), else columns of the reads table
     let mut runs = Vec::new();

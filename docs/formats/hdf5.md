@@ -95,7 +95,7 @@ Verification: the file is re-opened with `NwbDataset`: every series present with
 | `TRACE_TYPES`, `ELECTRODES_PATH`, `read_f64_rows` | series types read as traces; the electrodes table path; numeric rows of a dataset as f64 |
 | `NwbTable`, `kind`, `info`, `NwbTableKind` { `Dynamic`, `SpikeTimes`, `SpikeEvents` }, `ends`, `ids`, `timestamps`, `width`, `NwbColumn` { `Numeric`, `Matrix`, `Categorical`, `RaggedCount` }, `k`, `categories`, `index`, `data`, `read`, `describe_dynamic`, `describe_spike_events`, `table_rows`, `MAX_CATEGORIES`, `MAX_TEXT_ROWS`, `MAX_EXPANDED_COLUMNS`, `MAX_TABLE_ROWS`, `MAX_TABLE_VALUES` | NWB tables |
 | `open` | open a file |
-| `HDF5_SIGNATURE`, `looks_like_hdf5`, `open_h5` | detection and streaming open |
+| `HDF5_SIGNATURE`, `looks_like_hdf5`, `open_h5`, `open_h5_in` | detection and streaming open (`open_h5_in`: through a file namespace, also used by the FAST5 reader) |
 | `attr_text`, `attr_json`, `attrs_json`, `attrs_text` | attribute conversion (text joins arrays of one-character strings) |
 | `pixel_type`, `dtype_name`, `big_endian`, `swap_samples` | sample types and byte order |
 | `H5Node`, `walk`, `walk_limit`, `is_group`, `shape`, `attributes` | the tree walk, its node limit for a file (file length / 16, at least 1024) and its nodes |

@@ -64,6 +64,9 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_octet` | Sartorius Octet `.frd`: result XML, base64 float32 step arrays, step table |
 | `whole_gpr` | GenePix Results `.gpr` (ATF): header records, titles, feature rows |
 | `whole_itc` | MicroCal `.itc` text: header, injection lines, block markers, data rows |
+| `whole_pod5`, `whole_fast5`, `whole_fastq`, `whole_bam` | DNA sequencer files: POD5 (FlatBuffer footer, Arrow IPC tables, VBZ rows), FAST5 (HDF5, deflate and VBZ), FASTQ (plain or gzip), BAM (BGZF, records, tags) |
+| `whole_illumina_bcl`, `whole_illumina_cbcl` | Illumina run folders: RunInfo and RunParameters XML, InterOp metric files, filter, BCL or CBCL and locations files, as a bundle |
+| `seq_vbz`, `seq_interop` | VBZ signal decoders (POD5 rows, FAST5 chunks); InterOp metric parsers and the CBCL header |
 | `whole_bes3t` | Bruker BES3T `.DSC` + `.DTA` (+ `.YGF`) bundle: descriptor layers, formats, axis files |
 | `whole_esp` | Bruker ESP/WinEPR `.par` + `.spc` bundle: parameter keys, point counts, byte orders |
 | `whole_xrdml` | PANalytical XRDML: scans, positions, intensities/counts, attenuation |

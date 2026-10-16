@@ -585,6 +585,7 @@ impl FormatReader for Pod5Reader {
             known_gaps: vec![
                 "Base calls are not in POD5; basecalled reads come as FASTQ or BAM (read those files)".into(),
                 "The read-id index tables are not used; reads are listed in the order of the reads table".into(),
+                "Files written by pod5 before 0.1 (dictionaries of structs in the reads table) are refused (exit 6)".into(),
             ],
         }
     }

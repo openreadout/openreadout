@@ -277,9 +277,10 @@ pub struct SeriesSpec {
     /// Small inline data the agent computed: `{x: [...], y: [...], error?: [...]}`; x may be
     /// category names.
     pub values: Option<InlineValues>,
-    /// What to show. Default from the file: trace (signals, 1-D spectra), chromatogram (mass
-    /// spectrometry; spectrum with rt or scan), wells (plates), events (FCS with x and y; histogram
-    /// with x only), amplification (qPCR).
+    /// What to show. Default from the file: trace (signals, 1-D spectra; an Illumina run's quality
+    /// by cycle, one sweep per lane), chromatogram (mass spectrometry; spectrum with rt or scan),
+    /// wells (plates), events (FCS with x and y; histogram with x only), amplification (qPCR),
+    /// histogram (FASTQ and BAM read lengths).
     pub show: Option<Show>,
     /// How to draw it (default from what it shows).
     pub mark: Option<MarkKind>,
@@ -336,9 +337,12 @@ pub struct SeriesSpec {
     /// rule `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}` (at in x units).
     pub color_by: Option<ColorBy>,
 
-    /// FCS parameter, table column, or f–I measure for the x axis.
+    /// FCS parameter, table column, or f–I measure for the x axis; histogram: the column to bin
+    /// (read files: `length` by default, `mean_quality`; nanopore reads: `duration`).
     pub x: Option<String>,
-    /// FCS parameter, table column, or f–I measure (`spike_count`, `rate_hz`) for the y axis.
+    /// FCS parameter, table column, f–I measure (`spike_count`, `rate_hz`) or a trace channel
+    /// by name (an Illumina run: `percent_q30`, `mean_qscore`, `error_rate`, `intensity_a`) for
+    /// the y axis.
     pub y: Option<String>,
     /// Table column with error bar half-widths.
     pub error: Option<String>,

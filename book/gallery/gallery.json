@@ -92,6 +92,48 @@
       }
     },
     {
+      "name": "run-quality",
+      "section": "previews",
+      "title": "A sequencing run at a glance",
+      "caption": "An Illumina NovaSeq 6000 run folder read from its InterOp metrics only: % of base calls at Q30 or above by cycle per lane with the reads marked, intensity and base composition by cycle, cluster density and pass filter per lane, and the Q-score distribution.",
+      "preview": {
+        "file": "$CORPUS/200624_A00834_0183_BHMTFYDRXX",
+        "args": [
+          "--max-size",
+          "1400"
+        ]
+      },
+      "wide": true
+    },
+    {
+      "name": "squiggle",
+      "section": "previews",
+      "title": "A nanopore read, raw",
+      "caption": "One read of an Oxford Nanopore PromethION POD5 file in picoamperes: the whole read, a zoom where single bases show as steps, and where the read sits among the file's read durations.",
+      "preview": {
+        "file": "$CORPUS/seq-pod5-hg002-10reads.pod5",
+        "args": [
+          "--sweep",
+          "3",
+          "--max-size",
+          "1200"
+        ]
+      }
+    },
+    {
+      "name": "read-lengths",
+      "section": "previews",
+      "title": "Read lengths and qualities of a FASTQ file",
+      "caption": "PacBio HiFi reads: the length histogram with the N50 marked, the mean read quality and the quality by position, streamed from a gzip FASTQ.",
+      "preview": {
+        "file": "$CORPUS/seq-fastq-pacbio-hifi.fastq.gz",
+        "args": [
+          "--max-size",
+          "1200"
+        ]
+      }
+    },
+    {
       "name": "flow-density",
       "section": "previews",
       "title": "Flow cytometry as a density plot",

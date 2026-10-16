@@ -1,0 +1,44 @@
+{
+ "id": "seq-fast5-single-read",
+ "format": "fast5",
+ "reader": "h5py 3.16.0 (BSD-3) with vbz_h5py_plugin (MPL-2.0)",
+ "reads": [
+  {
+   "read_id": "fe85b517-62ee-4a33-8767-41cab5d5ab39",
+   "read_number": 4295,
+   "start_sample": 47313679,
+   "num_samples": 20,
+   "median_before": 98.48851013183594,
+   "channel": 28,
+   "digitisation": 8192.0,
+   "offset": 18.0,
+   "range": 1403.2265625,
+   "sampling_rate": 4000.0,
+   "raw_sum": 7886,
+   "raw_min": 383,
+   "raw_max": 408,
+   "raw_first": [
+    388,
+    408,
+    400,
+    395,
+    408,
+    396,
+    397,
+    392,
+    393,
+    403,
+    401,
+    398,
+    386,
+    397,
+    386,
+    383,
+    397,
+    383,
+    385,
+    390
+   ]
+  }
+ ]
+}

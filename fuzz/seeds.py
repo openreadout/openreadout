@@ -13,6 +13,7 @@ corpus-derived seed is listed below with its license (see fuzz/README.md). Keep 
 
 from __future__ import annotations
 
+import gzip
 import os
 import struct
 import sys
@@ -633,6 +634,139 @@ def ephys_new_seeds() -> None:
         b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
 
 
+def _bgzf(data: bytes) -> bytes:
+    """BGZF: gzip members with the `BC` extra subfield (block size - 1), then the empty EOF block."""
+    out = b""
+    for i in range(0, max(len(data), 1), 60000):
+        chunk = data[i:i + 60000]
+        c = zlib.compressobj(6, zlib.DEFLATED, -15)
+        z = c.compress(chunk) + c.flush()
+        block = (b"\x1f\x8b\x08\x04" + bytes(4) + b"\x00\xff" + struct.pack("<H", 6) + b"BC"
+                 + struct.pack("<HH", 2, 25 + len(z) + 1) + z
+                 + struct.pack("<II", zlib.crc32(chunk), len(chunk)))
+        out += block
+    eof = bytes.fromhex("1f8b08040000000000ff0600424302001b0003000000000000000000")
+    return out + eof
+
+
+def mini_bam() -> bytes:
+    text = b"@HD\tVN:1.6\tSO:unsorted\n@RG\tID:r\tPL:PACBIO\tSM:s\n"
+    body = b"BAM\x01" + struct.pack("<i", len(text)) + text + struct.pack("<i", 1)
+    body += struct.pack("<i", 4) + b"ref\x00" + struct.pack("<i", 100)
+    for k, seq in enumerate([b"ACGTACGTAC", b"GGGCCCAATT"]):
+        name = f"m1_1_1/{k}/ccs".encode() + b"\x00"
+        packed = bytes(("=ACMGRSVTWYHKDBN".index(chr(seq[i])) << 4) | ("=ACMGRSVTWYHKDBN".index(chr(seq[i + 1])))
+                       for i in range(0, len(seq), 2))
+        qual = bytes([30 + k] * len(seq))
+        aux = b"npC" + bytes([5]) + b"rqf" + struct.pack("<f", 0.999)
+        rec = struct.pack("<iiBBHHHiiii", -1 if k else 0, -1 if k else 9, len(name), 255, 4680, 0, 4 if k else 0,
+                          len(seq), -1, -1, 0) + name + packed + qual + aux
+        body += struct.pack("<i", len(rec)) + rec
+    return _bgzf(body)
+
+
+def mini_run_bcl() -> list[bytes]:
+    runinfo = b"""<?xml version="1.0"?>
+<RunInfo Version="2"><Run Id="220101_M00001_0001_000000000-AAAAA" Number="1">
+<Flowcell>000000000-AAAAA</Flowcell><Instrument>M00001</Instrument><Date>220101</Date>
+<Reads><Read Number="1" NumCycles="2" IsIndexedRead="N" /></Reads>
+<FlowcellLayout LaneCount="1" SurfaceCount="1" SwathCount="1" TileCount="1" /></Run></RunInfo>
+"""
+    params = b"<?xml version=\"1.0\"?><RunParameters><Setup><ApplicationName>MiSeq Control Software</ApplicationName><ApplicationVersion>2.6</ApplicationVersion></Setup><RTAVersion>1.18.54</RTAVersion><ExperimentName>seed</ExperimentName></RunParameters>"
+    tile = bytes([2, 10]) + b"".join(struct.pack("<HHHf", 1, 1101, code, v)
+                                     for code, v in [(100, 1.2e6), (101, 1.1e6), (102, 4.0), (103, 3.0), (200, 0.001), (201, 0.002), (300, 1.5)])
+    q = bytes([4, 206]) + b"".join(struct.pack("<HHH", 1, 1101, c) + struct.pack("<50I", *([0] * 29 + [1, 2] + [0] * 19)) for c in (1, 2))
+    err = bytes([3, 30]) + b"".join(struct.pack("<HHHfIIIII", 1, 1101, c, 0.5, 1, 0, 0, 0, 0) for c in (1, 2))
+    ext = bytes([2, 38]) + b"".join(struct.pack("<HHH4f4HQ", 1, 1101, c, 2.0, 2.0, 2.0, 2.0, 300, 200, 100, 50, 0) for c in (1, 2))
+    cor = bytes([2, 48]) + b"".join(struct.pack("<HHH9H5If", 1, 1101, c, *([100] * 9), 0, 1, 1, 1, 1, 5.0) for c in (1, 2))
+    etile = bytes([1, 10]) + struct.pack("<HHHf", 1, 1101, 0, 3.0)
+    index = bytes([1]) + struct.pack("<HHH", 1, 1101, 1) + struct.pack("<H", 8) + b"ACGTACGT" + struct.pack("<I", 2) \
+        + struct.pack("<H", 1) + b"s" + struct.pack("<H", 1) + b"p"
+    filt = struct.pack("<III", 0, 3, 4) + bytes([1, 1, 0, 1])
+    bcl1 = struct.pack("<I", 4) + bytes([(30 << 2) | 0, (35 << 2) | 1, 0, (20 << 2) | 3])
+    bcl2 = struct.pack("<I", 4) + bytes([(31 << 2) | 2, (36 << 2) | 1, (12 << 2) | 0, 0])
+    locs = struct.pack("<IfI", 1, 1.0, 4) + struct.pack("<8f", 10.0, 11.0, 20.5, 21.25, 30.0, 31.0, 1418.95, 2.0)
+    return [runinfo, params, tile, q, err, ext, cor, etile, index, filt, bcl1, bcl2, locs]
+
+
+def mini_run_cbcl() -> list[bytes]:
+    runinfo = b"""<?xml version="1.0"?>
+<RunInfo Version="5"><Run Id="200101_A00001_0001_BAAAAAAAXX" Number="1"><Flowcell>AAAAAAAXX</Flowcell>
+<Instrument>A00001</Instrument><Date>1/1/2020 1:00:00 PM</Date><Reads><Read Number="1" NumCycles="2" IsIndexedRead="N"/></Reads>
+<FlowcellLayout LaneCount="1" SurfaceCount="2" SwathCount="1" TileCount="1"><TileSet TileNamingConvention="FourDigit"><Tiles><Tile>1_2101</Tile></Tiles></TileSet></FlowcellLayout>
+<ImageChannels><Name>RED</Name><Name>GREEN</Name></ImageChannels></Run></RunInfo>
+"""
+    tile = bytes([3, 15]) + struct.pack("<f", 1.38) + struct.pack("<HIBff", 1, 2101, ord("t"), 4.0, 3.0) \
+        + struct.pack("<HIBIf", 1, 2101, ord("r"), 1, 0.0)
+    q = bytes([7, 20, 1, 3, 2, 17, 11, 18, 29, 25, 30, 40, 37]) + b"".join(
+        struct.pack("<HIH3I", 1, 2101, c, 1, 1, 2) for c in (1, 2))
+    filt = struct.pack("<III", 0, 3, 4) + bytes([1, 0, 1, 1])
+    cbcls = []
+    for nib in (bytes([0x9D, 0x0E]), bytes([0xE1, 0x09])):
+        z = zlib.compressobj(6, zlib.DEFLATED, 31)
+        block = z.compress(nib) + z.flush()
+        header = struct.pack("<HI", 1, 65) + bytes([2, 2]) + struct.pack("<I", 4) \
+            + b"".join(struct.pack("<II", a, b) for a, b in [(0, 0), (1, 11), (2, 25), (3, 37)]) \
+            + struct.pack("<I", 1) + struct.pack("<IIII", 2101, 4, 2, len(block)) + bytes([0])
+        cbcls.append(header + block)
+    locs = struct.pack("<IfI", 1, 1.0, 4) + struct.pack("<8f", 0.0, 0.0, 1.8, 0.0, 3.6, 0.0, 5.4, 0.0)
+    return [runinfo, tile, q, filt, cbcls[0], cbcls[1], locs]
+
+
+def sequencing_seeds() -> None:
+    """DNA sequencer seeds: synthetic run folders (BCL and CBCL), FASTQ and BAM written here, the
+    VBZ FAST5 of ont_fast5_api's test data (MPL-2.0) and, when the `pod5` package is installed, a
+    one-read POD5 file it writes."""
+    put("whole_illumina_bcl", "mini.bundle", BUNDLE_SEP.join(mini_run_bcl()))
+    put("whole_illumina_cbcl", "mini.bundle", BUNDLE_SEP.join(mini_run_cbcl()))
+    run = mini_run_bcl()
+    for i, name in [(2, "tile-v2.bin"), (3, "q-v4.bin"), (4, "error-v3.bin"), (5, "extraction-v2.bin"), (6, "corrected-v2.bin"), (8, "index-v1.bin")]:
+        put("seq_interop", name, run[i])
+    cb = mini_run_cbcl()
+    put("seq_interop", "tile-v3.bin", cb[1])
+    put("seq_interop", "q-v7.bin", cb[2])
+    put("seq_interop", "cbcl-header.bin", cb[4][:65])
+    fq = b"@r1 1:N:0:ACGT\nACGTNACGTA\n+\nIIIII#IIII\n@r2\nGGCC\nAATT\n+r2\nIIII\n!!!!\n"
+    put("whole_fastq", "mini.fastq", fq)
+    put("whole_fastq", "mini.fastq.gz", gzip.compress(fq, mtime=0))
+    put("whole_bam", "mini.bam", mini_bam())
+    vbz = corpus("seq-fast5-vbz-reads.fast5")  # MPL-2.0 (ont_fast5_api test data)
+    if vbz is not None:
+        put("whole_fast5", "vbz-reads.fast5", vbz)
+    # VBZ rows: the worked example of docs/provenance/nanopore.md (19 samples), zstd-compressed
+    raw = bytes.fromhex("c001000002020207ca0807270a620200000000000000000000")
+    try:
+        import pyzstd
+        z = pyzstd.compress(raw)
+        put("seq_vbz", "pod5-row-19.bin", struct.pack("<H", 19) + z)
+        put("seq_vbz", "fast5-chunk-19.bin", struct.pack("<H", 19) + struct.pack("<I", 38) + z)
+    except ImportError:
+        put("seq_vbz", "raw-19.bin", struct.pack("<H", 19) + raw)
+    try:
+        import numpy as np
+        import pod5
+        import tempfile, uuid, datetime
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "mini.pod5"
+            run_info = pod5.RunInfo(
+                acquisition_id="a", acquisition_start_time=datetime.datetime(2024, 1, 1), adc_max=2047, adc_min=-2048,
+                context_tags={"sample_frequency": "4000"}, experiment_name="e", flow_cell_id="F", flow_cell_product_code="FLO",
+                protocol_name="p", protocol_run_id="r", protocol_start_time=datetime.datetime(2024, 1, 1), sample_id="s",
+                sample_rate=4000, sequencing_kit="k", sequencer_position="1", sequencer_position_type="minion",
+                software="seed", system_name="h", system_type="t", tracking_id={"run_id": "r"})
+            with pod5.Writer(p) as w:
+                w.add_read(pod5.Read(
+                    read_id=uuid.UUID(int=1), end_reason=pod5.EndReason(pod5.EndReasonEnum.SIGNAL_POSITIVE, False),
+                    calibration=pod5.Calibration(offset=10.0, scale=0.2), pore=pod5.Pore(channel=1, well=1, pore_type="p"),
+                    read_number=1, start_sample=0, median_before=200.0, num_minknow_events=1,
+                    tracked_scaling=pod5.pod5_types.ShiftScalePair(0.0, 1.0), predicted_scaling=pod5.pod5_types.ShiftScalePair(0.0, 1.0),
+                    num_reads_since_mux_change=0, time_since_mux_change=0.0, run_info=run_info,
+                    signal=np.arange(64, dtype=np.int16) * 3))
+            put("whole_pod5", "mini.pod5", p.read_bytes())
+    except Exception as e:  # noqa: BLE001
+        print(f"pod5 seed: {e}", file=sys.stderr)
+
+
 def main() -> None:
     try:
         import numpy as np
@@ -781,6 +915,7 @@ def main() -> None:
     new_format_seeds()
     synthetic_fixture_seeds()
     ephys_new_seeds()
+    sequencing_seeds()
     put("codec_packbits", "runs.bin", struct.pack("<I", 64)[:3] + bytes([0xFD, 7, 2, 1, 2, 3, 0x81, 9]))
     # LZMA2 of b"hello hello hello hello, lzma2!" (CPython lzma, FORMAT_RAW, preset 6)
     put("codec_lzma2", "hello.bin", struct.pack("<I", 31)[:3] + bytes.fromhex("e0001e00145d00341949ee8de9560ae7799a19124543a9df4c4c4000"))

@@ -9,8 +9,9 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 - `seq-pod5-hg002-10reads`: `HG002_PAW70337_giab_10reads.pod5` from nf-core/test-datasets (branch
   `modules`, MIT licence of the repository), a 10-read subset of the ONT open data release
   `giab_2025.01` (R10.4.1, 5 kHz; ONT open data is CC BY 4.0).
-- `seq-pod5-multi-fast5-zip-v0`, `seq-pod5-multi-fast5-zip-v6`: test files of
-  nanoporetech/pod5-file-format (MPL-2.0), `test_data/multi_fast5_zip_v0.pod5` and `_v6.pod5`.
+- `seq-pod5-multi-fast5-zip-v6`: `test_data/multi_fast5_zip_v6.pod5` of
+  nanoporetech/pod5-file-format (MPL-2.0). Its `_v0` sibling (pod5 0.0.16) stores pore,
+  calibration and end reason as dictionaries of structs; the reader refuses that layout.
 - `seq-fast5-multi-zip`: `test_data/multi_fast5_zip.fast5` of the same repository (multi-read
   FAST5 1.0, gzip-compressed signal).
 - `seq-fast5-vbz-reads`: `test/data/vbz_reads/vbz_reads.fast5` of nanoporetech/ont_fast5_api

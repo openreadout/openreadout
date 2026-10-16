@@ -54,6 +54,7 @@ openreadout-gel = { path = "../crates/openreadout-gel" }
 openreadout-thermal = { path = "../crates/openreadout-thermal" }
 openreadout-echem = { path = "../crates/openreadout-echem" }
 openreadout-xrd = { path = "../crates/openreadout-xrd" }
+openreadout-seq = { path = "../crates/openreadout-seq" }
 openreadout-epr = { path = "../crates/openreadout-epr" }
 openreadout-fplc = { path = "../crates/openreadout-fplc" }
 openreadout-zarr = { path = "../crates/openreadout-zarr" }
@@ -1086,6 +1087,62 @@ bench = false
 [[bin]]
 name = "whole_uvprobe"
 path = "fuzz_targets/whole_uvprobe.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_pod5"
+path = "fuzz_targets/whole_pod5.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_fast5"
+path = "fuzz_targets/whole_fast5.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_fastq"
+path = "fuzz_targets/whole_fastq.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_bam"
+path = "fuzz_targets/whole_bam.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_illumina_bcl"
+path = "fuzz_targets/whole_illumina_bcl.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_illumina_cbcl"
+path = "fuzz_targets/whole_illumina_cbcl.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "seq_vbz"
+path = "fuzz_targets/seq_vbz.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "seq_interop"
+path = "fuzz_targets/seq_interop.rs"
 test = false
 doc = false
 bench = false

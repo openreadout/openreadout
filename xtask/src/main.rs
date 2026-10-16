@@ -755,6 +755,16 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
         "hdf5",
         &[("ims", "ims"), ("nwb", "hdf5"), ("generic", "hdf5")],
     ),
+    // DNA sequencers: one module directory per family; lib.rs, table.rs and assurance.rs are
+    // checked against all three documents
+    (
+        "seq",
+        &[
+            ("illumina", "illumina-run"),
+            ("nanopore", "nanopore"),
+            ("reads", "sequence-reads"),
+        ],
+    ),
     // one module directory per format; lib.rs/util.rs are checked against all four documents
     (
         "em",
