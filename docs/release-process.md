@@ -226,3 +226,4 @@ twine check --strict dist/*
 docker build -t openreadout . && docker run --rm openreadout self formats --json
 cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreadout-cli/Cargo.toml about.hbs -o THIRD-PARTY-NOTICES.md
 ```
+
