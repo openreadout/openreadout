@@ -141,7 +141,7 @@ jobs:
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: "openreadout-${{ matrix.target }}.*, openreadout-mcp-${{ matrix.target }}.mcpb"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ${{ matrix.target }}
           path: |
@@ -179,7 +179,7 @@ jobs:
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: sbom/*.cdx.json
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sbom
           path: sbom/*.cdx.json
@@ -228,7 +228,7 @@ jobs:
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: dist/*.whl
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: wheels-${{ matrix.name }}
           path: dist/*.whl
@@ -261,7 +261,7 @@ jobs:
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: dist/*
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: python-sdist
           path: dist/*
@@ -279,7 +279,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: "{x86_64,aarch64}-*"  # the per-target build artifacts
           path: archives
@@ -294,12 +294,12 @@ jobs:
           cargo xtask scoop-manifest --sums archive-sums --out manifests/openreadout.json
           cargo xtask winget-manifest --sums archive-sums --out winget
           ruby -c manifests/openreadout.rb
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-manifests
           path: manifests/*
       # Not a release asset (see packaging/winget/README.md); the release job drops it.
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: winget-manifests
           path: winget
@@ -314,7 +314,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           path: artifacts
           merge-multiple: true
@@ -354,7 +354,7 @@ jobs:
         run: gh release create "$TAG" artifacts/* --repo "$GITHUB_REPOSITORY" --title "$TAG" --generate-notes --verify-tag
       - name: Dry run (workflow_dispatch) - keep the would-be release assets
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: release-dry-run
           path: artifacts/*
@@ -378,7 +378,7 @@ jobs:
       # release job drops after merging every artifact.
       - name: Build the tree
         run: cargo xtask agent-plugins --out "$RUNNER_TEMP/agent-plugins-artifact/agent-plugins"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: agent-plugins
           path: ${{ runner.temp }}/agent-plugins-artifact
@@ -399,7 +399,7 @@ jobs:
       url: https://github.com/openreadout/agent-plugins
     permissions: {}
     steps:
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: agent-plugins
           path: artifact
@@ -549,12 +549,12 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: wheels-*
           path: dist
           merge-multiple: true
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: python-sdist
           path: dist
@@ -612,11 +612,11 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
           package-manager-cache: false  # no caches in release jobs
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: "{x86_64,aarch64}-*"  # the per-target build artifacts
           path: archives
@@ -636,7 +636,7 @@ jobs:
           ls -l "$out"
       - name: Install from a local registry with npm, pnpm and npx -y; run --version and an MCP handshake
         run: packaging/npm/scripts/smoke-test.sh "$RUNNER_TEMP/npm-artifact/npm" all
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: npm-packages
           path: ${{ runner.temp }}/npm-artifact
@@ -658,7 +658,7 @@ jobs:
     permissions:
       id-token: write  # npm trusted publishing (OIDC) and provenance
     steps:
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
           registry-url: https://registry.npmjs.org
@@ -667,7 +667,7 @@ jobs:
         run: | # zizmor: ignore[adhoc-packages] (the npm CLI itself)
           npm install -g npm@^11.5.1
           npm --version
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: npm-packages
           path: tarballs
