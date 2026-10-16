@@ -84,6 +84,8 @@ export interface PreviewOptions {
   annotations?: Annotation[];
   dark?: boolean;
   format?: "png" | "jpeg" | "svg";
+  /** PNG and JPEG pixels per figure pixel (1 to 4), for high-density screens; positions in `meta` stay in figure pixels. */
+  scale?: number;
 }
 
 export class InstrumentFile {
@@ -97,7 +99,7 @@ export class InstrumentFile {
     ask?: string;
   }): Promise<Record<string, any>>;
   check(options?: { headersOnly?: boolean }): Promise<Record<string, any>>;
-  /** A picture: options as for the `openreadout_preview` MCP tool, plus `dark` and `format`. */
+  /** A picture: options as for the `openreadout_preview` MCP tool, plus `dark`, `format` and `scale`. */
   preview(options?: PreviewOptions): Promise<{
     meta: Record<string, any>;
     data: Uint8Array;

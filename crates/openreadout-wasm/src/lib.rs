@@ -617,17 +617,19 @@ impl InstrumentFile {
     /// `image`, `select` (e.g. `["c=1","z=3"]`), `mip`, `composite`, `level`, `region`,
     /// `max_size` (default 768), `axes` (`rulers`, `grid`, `scale-bar` or `none`; default
     /// `none` here, the bare plane), `title`, `caption`, `contrast`, `lut`, `trace`, `sweep`, `channels`, `run`, `spectrum`, `scan`,
-    /// `centroid`, `table`, `columns`, `marks`, `annotations`, plus `dark` and `format`
-    /// (`png`, `jpeg` or `svg`).
+    /// `centroid`, `table`, `columns`, `marks`, `annotations`, plus `dark`, `format`
+    /// (`png`, `jpeg` or `svg`) and `scale` (1 to 4: PNG and JPEG pixels per figure pixel, so a
+    /// page can draw the picture at `max_size` CSS pixels and keep it sharp on a high-density
+    /// screen; the positions in the output stay in figure pixels).
     pub fn preview(&mut self, options: Option<String>) -> String {
-        let (req, encoding) = match preview_request(options.as_deref()) {
+        let (req, encoding, scale) = match preview_request(options.as_deref()) {
             Ok(r) => r,
             Err(e) => return envelope::<()>(Err(e)),
         };
         let mut bytes = Vec::new();
         let r = self.with_dataset(|ds, _| {
             let info = ds.info()?;
-            let rendered = openreadout_preview::render(ds, &info, &req)?;
+            let rendered = render_scaled(ds, &info, &req, encoding, scale)?;
             let (out, b) = openreadout_preview::finish(&rendered, encoding, 90)?;
             bytes = b;
             Ok(out)
@@ -906,7 +908,33 @@ impl InstrumentFile {
     }
 }
 
-fn preview_request(options: Option<&str>) -> Result<(PreviewRequest, Encoding), Error> {
+/// Render a preview, drawn at `scale` PNG or JPEG pixels per figure pixel. An image is read
+/// again at the larger size so that its pixels are real, as `preview --scale` does in the CLI.
+fn render_scaled(
+    ds: &mut dyn Dataset,
+    info: &openreadout_core::model::FileInfo,
+    req: &PreviewRequest,
+    encoding: Encoding,
+    scale: f32,
+) -> Result<openreadout_preview::Rendered, Error> {
+    let mut rendered = openreadout_preview::render(ds, info, req)?;
+    if scale <= 1.0 || encoding == Encoding::Svg {
+        return Ok(rendered);
+    }
+    if rendered.output.kind == "image" {
+        let mut big = req.clone();
+        big.max_size = ((req.max_size as f32 * scale).round() as u32)
+            .clamp(16, openreadout_preview::MAX_PREVIEW_SIZE);
+        let b = openreadout_preview::render(ds, info, &big)?;
+        if !rendered.take_pixels(&b, scale) {
+            return Ok(b);
+        }
+    }
+    rendered.canvas = rendered.figure.to_raster(scale);
+    Ok(rendered)
+}
+
+fn preview_request(options: Option<&str>) -> Result<(PreviewRequest, Encoding, f32), Error> {
     let text = options.filter(|t| !t.trim().is_empty()).unwrap_or("{}");
     let mut v: serde_json::Value = serde_json::from_str(text)
         .map_err(|e| Error::Usage(format!("preview options are not JSON: {e}")))?;
@@ -922,11 +950,27 @@ fn preview_request(options: Option<&str>) -> Result<(PreviewRequest, Encoding), 
             ));
         }
     };
+    let scale = match obj.remove("scale") {
+        None => 1.0,
+        Some(serde_json::Value::Number(n)) => match n.as_f64() {
+            Some(x) if (1.0..=4.0).contains(&x) => x as f32,
+            _ => {
+                return Err(Error::Usage(format!(
+                    "preview option `scale` is a number from 1 to 4, not {n}"
+                )));
+            }
+        },
+        Some(_) => {
+            return Err(Error::Usage(
+                "preview option `scale` is a number from 1 to 4".into(),
+            ));
+        }
+    };
     let opts: PreviewOptions =
         serde_json::from_value(v).map_err(|e| Error::Usage(format!("preview options: {e}")))?;
     let mut req = opts.request(DEFAULT_WASM_PREVIEW_SIZE, Axes::None)?;
     req.max_size = req.max_size.clamp(16, 4096);
-    Ok((req, encoding))
+    Ok((req, encoding, scale))
 }
 
 /// Detect, open and summarise in one call (the demo page's first request): the `info`
