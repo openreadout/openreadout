@@ -13,6 +13,7 @@
   "Plate readers and qPCR",
   "Bench biophysics",
   "Electrophoresis",
+  "DNA sequencers",
   "Materials and electrochemistry",
   "Containers",
   "Structural biology"
@@ -2453,6 +2454,100 @@
    ],
    "page": "ta-trios",
    "field": "Materials and electrochemistry"
+  },
+  {
+   "id": "illumina-run",
+   "name": "Illumina run folder",
+   "vendor": "Illumina",
+   "extensions": [],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "InterOp metrics are summarised from tile, quality, error, extraction, corrected-intensity, extended-tile and index files; phasing from empirical-phasing files, event, image, registration and FWHM grid metrics are listed but not decoded",
+    "Base calls: BCL (.bcl, .bcl.gz) and CBCL with 2-bit bases and quality bins; NextSeq 500/550 per-lane .bcl.bgzf files are not decoded",
+    "FASTQ export writes every read of the run per lane without demultiplexing (index reads are written to their own files); adapter trimming and sample sheets are not applied"
+   ],
+   "page": "illumina-run",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "pod5",
+   "name": "Oxford Nanopore POD5",
+   "vendor": "Oxford Nanopore Technologies",
+   "extensions": [
+    "pod5"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Base calls are not in POD5; basecalled reads come as FASTQ or BAM (read those files)",
+    "The read-id index tables are not used; reads are listed in the order of the reads table",
+    "Files written by pod5 before 0.1 (dictionaries of structs in the reads table) are refused (exit 6)"
+   ],
+   "page": "nanopore",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "fast5",
+   "name": "Oxford Nanopore FAST5",
+   "vendor": "Oxford Nanopore Technologies",
+   "extensions": [
+    "fast5"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Signal compressed with deflate or VBZ (filter 32020, version 1) is read; other HDF5 filters are refused",
+    "Base calls stored in Analyses groups are counted, not read; the end reason of FAST5 2.x is reported as its stored code"
+   ],
+   "page": "nanopore",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "fastq",
+   "name": "FASTQ",
+   "vendor": "",
+   "extensions": [
+    "fastq",
+    "fq",
+    "fastq.gz",
+    "fq.gz"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "info estimates read counts of files larger than its scan (32 MB of file); check counts every read",
+    "Read names are not returned in tables; sequences and qualities are summarised, not listed"
+   ],
+   "page": "sequence-reads",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "bam",
+   "name": "BAM (binary alignment/map)",
+   "vendor": "",
+   "extensions": [
+    "bam"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Summaries count primary records as reads; secondary and supplementary alignments are listed in table 0 but not counted",
+    "Alignments are not interpreted (no CIGAR, coverage or pileup): use samtools for that",
+    "CRAM is not read"
+   ],
+   "page": "sequence-reads",
+   "field": "DNA sequencers"
   },
   {
    "id": "hdf5",

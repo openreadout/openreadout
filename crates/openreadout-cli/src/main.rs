@@ -144,8 +144,8 @@ enum Command {
     /// `openreadout_nmr_peaks`).
     #[command(subcommand)]
     Analyze(AnalyzeKind),
-    /// Export to an open format (OME-TIFF, OME-Zarr, CSV, Parquet, Arrow, mzML, NWB,
-    /// JCAMP-DX, Allotrope ASM, RDML).
+    /// Export to an open format (OME-TIFF, OME-Zarr, NIfTI, CSV, Parquet, Arrow, mzML, NWB,
+    /// JCAMP-DX, Allotrope ASM, RDML, FASTQ, MRC).
     ///
     /// Images go to OME-TIFF or OME-Zarr; tables (FCS events, spike and event tables, plate
     /// reads, peak tables) and traces (electrophysiology sweeps, NMR FIDs and spectra, JCAMP-DX

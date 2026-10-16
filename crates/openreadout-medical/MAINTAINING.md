@@ -183,6 +183,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_dicom`, `whole_nifti`, `whole_paravision`
 - corpus inputs by tier: smoke 62, standard 18
+- golden snapshots: [`corpus/snapshots/dicom.jsonl`](../../corpus/snapshots/dicom.jsonl), [`corpus/snapshots/nifti.jsonl`](../../corpus/snapshots/nifti.jsonl), [`corpus/snapshots/bruker-paravision.jsonl`](../../corpus/snapshots/bruker-paravision.jsonl)
 
 ### Open new-variant intakes
 

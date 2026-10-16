@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 319 |
+| MIT License | 324 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 7 |
 | Unicode License v3 | 5 |
@@ -3526,6 +3526,7 @@ Used by:
 - [openreadout-lif 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-live 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-mcp 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-medical 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-mzml 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-mzml-writer 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-nd2 0.3.0](https://github.com/openreadout/openreadout)
@@ -3620,6 +3621,7 @@ Used by:
 - [chrono 0.4.45](https://github.com/chronotope/chrono)
 - [crc32c 0.6.8](https://github.com/zowens/crc32c)
 - [libm 0.2.16](https://github.com/rust-lang/compiler-builtins)
+- [pure_jpegls 2.0.0](https://github.com/jpfielding/dicos.rs)
 - [windows-core 0.62.2](https://github.com/microsoft/windows-rs)
 - [windows-implement 0.60.2](https://github.com/microsoft/windows-rs)
 - [windows-interface 0.59.3](https://github.com/microsoft/windows-rs)

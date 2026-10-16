@@ -37,6 +37,7 @@ const PAGE = {
   plate: "plate-readers",
   "agilent-bioanalyzer-xml": "agilent-electrophoresis", "agilent-tapestation": "agilent-electrophoresis",
   paravision: "bruker-paravision",
+  pod5: "nanopore", fast5: "nanopore", fastq: "sequence-reads", bam: "sequence-reads",
 };
 
 // The fields the site groups formats under (the CLI's families are finer).
@@ -60,6 +61,7 @@ const FIELD = {
   microarray: "Bench biophysics",
   "gel-imaging": "Bench biophysics",
   electrophoresis: "Electrophoresis",
+  sequencing: "DNA sequencers",
   spectrophotometer: "Bench biophysics",
   fluorometer: "Bench biophysics",
   epr: "Materials and electrochemistry",

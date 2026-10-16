@@ -120,6 +120,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_abif`, `whole_bioanalyzer`, `whole_tapestation`
 - corpus inputs by tier: heldout 2, hold 7, smoke 18
+- golden snapshots: [`corpus/snapshots/abif.jsonl`](../../corpus/snapshots/abif.jsonl), [`corpus/snapshots/agilent-bioanalyzer-xml.jsonl`](../../corpus/snapshots/agilent-bioanalyzer-xml.jsonl), [`corpus/snapshots/agilent-tapestation.jsonl`](../../corpus/snapshots/agilent-tapestation.jsonl)
 
 ### Open new-variant intakes
 

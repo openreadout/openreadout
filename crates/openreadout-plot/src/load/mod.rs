@@ -4,8 +4,8 @@
 mod assay;
 mod columns;
 mod flow;
-mod image;
 mod frames;
+mod image;
 mod plate;
 mod signal;
 mod table;

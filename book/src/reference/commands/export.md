@@ -84,6 +84,7 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 | `jcamp` | NMR, 1-D spectra, chromatograms | `<stem>.jdx` |
 | `asm` | plate-reader exports | `<stem>.asm.json` |
 | `rdml` | qPCR (RDML, `.eds`, `.rex`) | `<stem>.rdml` (`<stem>.export.rdml` for an RDML input) |
+| `fastq` | base calls: a Sanger read (default for `.ab1`), an Illumina run folder | `<stem>.fastq`; `<run folder>_fastq/` for a run |
 | `mrc` | one channel of an image: movies, stacks, diffraction sweeps | `<stem>.mrcs` for frames, `<stem>.mrc` otherwise |
 
 - **OME-TIFF** is one BigTIFF file with OME-XML in the first IFD. Pyramids go in SubIFDs. With a pyramid, a level, a region, or a plane above 4 GiB, the file is tiled and written block by block, so a whole-slide image exports in bounded memory.
@@ -97,6 +98,7 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 - **JCAMP-DX** is version 5.01 or 6.00. Values round-trip exactly when they are integer multiples of one factor; the report says whether they did.
 - **ASM** is Allotrope Simple Model plate-reader JSON, one document per plate and well.
 - **RDML** is RDML 1.3 with the plate setup, Cq values, amplification curves and melt data.
+- **FASTQ** uses Phred+33 qualities. A Sanger read gives one record from the basecaller's calls. An Illumina run gives a directory with one gzipped file per lane and read, from the BCL or CBCL base calls of clusters that pass the filter; `--rows 0-N` writes the first N+1 clusters of each lane.
 - **MRC** is MRC2014: time points become an image stack, z planes a volume, with the pixel size in the cell dimensions. `--group-frames N` sums every N frames into one section. uint8 and uint16 samples are written as mode 6 (uint16), int16 as mode 1, the rest as float32.
 
 With `-o` and no `--format`, the output's extension picks the format: `.ome.tiff`, `.ome.tif`, `.tiff` and `.tif` give OME-TIFF, `.ome.zarr` and `.zarr` OME-Zarr, `.nii` and `.nii.gz` NIfTI, `.mzML` mzML, `.csv` CSV, `.parquet` Parquet, `.arrow` and `.feather` Arrow, `.nwb` NWB, `.jdx` and `.dx` JCAMP-DX, `.json` ASM, `.rdml` RDML, `.fastq` and `.fq` FASTQ (and a name ending in `_fastq`, the directory an Illumina run's FASTQ goes to), and `.mrc` and `.mrcs` MRC. `export x.lif -o x.ome.zarr` writes OME-Zarr. An extension that names no format, or one that contradicts `--format` (`-o x.ome.zarr --format ome-tiff`), exits 2 and writes nothing. With `--format`, an output name without one of these extensions is fine.

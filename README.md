@@ -2,7 +2,7 @@
 
 > **OpenReadout is an open-source reader for lab-instrument files, designed for AI agents.**
 
-**Give AI agents full access to raw data from microscopes, mass spectrometers, cytometers, electrophysiology rigs, and 90+ other instrument file formats — in one command.**
+**Give AI agents full access to raw data from microscopes, mass spectrometers, cytometers, electrophysiology rigs, and 120+ other instrument file formats — in one command.**
 
 Open-source. Single binary. No vendor software. No dependencies. No network access. Works everywhere.
 
@@ -188,14 +188,17 @@ openreadout info any-file --json
 | --- | --- | --- |
 | Light microscopy | Zeiss CZI, Nikon ND2, Leica LIF, Olympus OIR/VSI/OIB, Imaris, OME-TIFF and other TIFF variants, OME-Zarr, whole-slide images (including Philips iSyntax, Hamamatsu VMS and MIRAX) | OME-TIFF, OME-Zarr |
 | High-content screening | Harmony (Opera Phenix, Operetta), ImageXpress, CellVoyager | OME-Zarr plate, OME-TIFF |
-| Electron microscopy | MRC, Gatan DM3/DM4, FEI SER/EMI, Velox EMD | OME-TIFF, OME-Zarr |
+| Electron microscopy | MRC, Gatan DM3/DM4, FEI SER/EMI, Velox EMD, EER movies, SerialEM mdoc | OME-TIFF, OME-Zarr, MRC |
+| Structural biology | CBF/miniCBF, SMV, EIGER NeXus (NXmx) diffraction images | MRC, OME-TIFF |
+| Medical imaging | DICOM (files, series, studies, DICOMDIR), NIfTI, Analyze, Bruker ParaVision | NIfTI, OME-TIFF |
 | Mass spectrometry | Thermo RAW, Bruker timsTOF and BAF, Agilent MassHunter, Waters MassLynx, Sciex WIFF, mzML | mzML, Parquet, Arrow |
 | Chromatography | Agilent ChemStation and OpenLab, Shimadzu, Chromeleon, AIA/ANDI | CSV, JCAMP-DX, Parquet |
 | Electrophysiology | Axon ABF, Intan, SpikeGLX, Open Ephys, Neuralynx, Blackrock, Plexon, HEKA, Spike2, TDT, Axona, NWB | NWB, CSV, Parquet |
 | NMR and spectroscopy | Bruker TopSpin and OPUS, Varian, JEOL, Thermo OMNIC, Renishaw, JCAMP-DX, SPC | JCAMP-DX, CSV |
 | Flow cytometry | FCS, FlowJo workspaces, Gating-ML | CSV, Parquet, Arrow |
 | Plate readers and qPCR | Plate-reader exports, RDML, Applied Biosystems, LightCycler, Rotor-Gene | Allotrope ASM, RDML, CSV |
-| Other | ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, XRD, EPR, electrochemistry, thermal analysis | CSV, Parquet |
+| DNA sequencing and electrophoresis | Illumina run folders, Oxford Nanopore POD5 and FAST5, FASTQ, BAM, ABIF Sanger and fragment-analysis files, Agilent Bioanalyzer and TapeStation | FASTQ, CSV, Parquet |
+| Other | NanoDrop, Qubit, Incucyte, gel and blot imagers, ÄKTA, ITC, Biacore, Seahorse, Octet, Zetasizer, XRD, EPR, electrochemistry, thermal analysis | CSV, Parquet |
 
 The [format list](https://openreadout.github.io/openreadout/formats.html) lists every format OpenReadout reads, with its known gaps.
 
