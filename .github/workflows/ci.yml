@@ -283,13 +283,13 @@ jobs:
         run: cargo build --profile corpus -p openreadout
       - name: Compare every reader against oracle ground truth
         env:
-          CORPUS_REPORT: ${{ github.workspace }}/corpus-report.md
+          CORPUS_REPORT: ${{ github.workspace }}/target/corpus-report.md
           MALFORMED_SHARD: ${{ matrix.shard }}
           FILTER: ${{ matrix.filter }}
         run: cargo nextest run --cargo-profile corpus --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast -E "$FILTER"
       - name: Publish report
         if: always()
-        run: cat corpus-report.md >> "$GITHUB_STEP_SUMMARY" || true
+        run: cat target/corpus-report.md >> "$GITHUB_STEP_SUMMARY" || true
 
   # Cheap (Linux, no corpus, no binary, no model): the eval harness's lint, its corpus-free tests
   # (corpus- and oracle-reader-dependent ones skip) and the committed questions and README counts
@@ -572,6 +572,7 @@ jobs:
       - name: Homebrew formula and Scoop manifest render from sample checksums
         run: |
           set -e
+          mkdir -p target
           for a in aarch64-apple-darwin x86_64-apple-darwin aarch64-unknown-linux-musl x86_64-unknown-linux-musl; do
             echo "$(printf '%064d' 0)  openreadout-$a.tar.gz"
           done > target/sample-sums
