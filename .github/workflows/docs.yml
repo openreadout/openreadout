@@ -1,8 +1,8 @@
 name: Docs
 
-# Builds the website in book/ (Astro + Starlight) on every pull request that touches it, and
-# publishes it to GitHub Pages on pushes to main. One-time setup: Settings > Pages > Source:
-# "GitHub Actions".
+# Publishes the website in book/ to GitHub Pages on pushes to main. site.yml builds it; ci.yml
+# runs the same build on pull requests. One-time setup: Settings > Pages > Source: "GitHub
+# Actions", then set the repository variable DEPLOY_PAGES=true.
 
 on:
   push:
@@ -16,18 +16,9 @@ on:
       - "skills/**"
       - "crates/**"
       - "web/**"
-      - "crates/openreadout-wasm/**"
       - "packaging/wasm/**"
       - ".github/workflows/docs.yml"
-  pull_request:
-    paths:
-      - "book/**"
-      - "docs/**"
-      - "examples/**"
-      - "CHANGELOG.md"
-      - "README.md"
-      - "web/**"
-      - ".github/workflows/docs.yml"
+      - ".github/workflows/site.yml"
   workflow_dispatch:
 
 permissions:
@@ -38,72 +29,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ci.yml runs typos too, but it skips pull requests that only change the website or prose files.
-  typos:
-    name: typos (spell check, _typos.toml)
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: crate-ci/typos@7f9d0819ca1c008ade73f4b41fa9d258d48f605b # v1.51.1
-
-  build:
-    name: build the site
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "22"
-      # The format list on the site is the CLI's own (`self formats --json`), and every flag in
-      # `<command> --help` must be on that command's reference page.
-      - name: Format list and command reference from the CLI
-        run: |
-          cargo build --bin openreadout
-          node book/scripts/gen-data.mjs
-          node book/scripts/check-commands.mjs
-      - name: Install the site's dependencies
-        working-directory: book
-        run: npm ci
-      - name: Build
-        working-directory: book
-        run: npm run build
-      # Every in-site link and #fragment of the built site must resolve (book/check_links.py).
-      - name: Check links
-        run: python3 book/check_links.py
-      # The drop-a-file demo (web/, book/src/guides/wasm.md) goes to book/book/demo/ on the published site.
-      # Pull requests skip it: the CI `wasm` job builds and tests it.
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-        if: github.event_name != 'pull_request'
-        with:
-          targets: wasm32-unknown-unknown
-      - name: Demo page (WebAssembly build)
-        if: github.event_name != 'pull_request'
-        run: |
-          v=$(awk '/^name = "wasm-bindgen"$/{getline; gsub(/"/,"",$3); print $3; exit}' Cargo.lock)
-          if ! wasm-bindgen --version 2>/dev/null | grep -qx "wasm-bindgen $v"; then
-            cargo install wasm-bindgen-cli --locked --version "$v"
-          fi
-          (cd packaging/wasm && npm ci)
-          scripts/wasm.sh build
-          scripts/wasm.sh demo
-      - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-        with:
-          path: book/book
+  site:
+    uses: ./.github/workflows/site.yml # zizmor: ignore[self-repository] (actionlint knows only ./)
 
   deploy:
-    # Needs GitHub Pages enabled (Settings > Pages > Source: GitHub Actions). Set repo variable DEPLOY_PAGES=true afterwards.
     name: deploy to GitHub Pages
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-    needs: build
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
+    needs: site
     runs-on: ubuntu-latest
     permissions:
       pages: write
