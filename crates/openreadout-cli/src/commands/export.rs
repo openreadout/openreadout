@@ -545,7 +545,11 @@ fn render_export(r: &ExportOutput) -> String {
             r.sections_written,
             r.layout,
             r.planes_read,
-            if r.group > 1 { format!(", {} frames per section", r.group) } else { String::new() },
+            if r.group > 1 {
+                format!(", {} frames per section", r.group)
+            } else {
+                String::new()
+            },
             r.bytes_written,
             r.verified,
             r.notes.iter().fold(String::new(), |mut acc, n| {
@@ -641,14 +645,15 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             .images
             .get(req.image.unwrap_or(0) as usize)
             .is_some_and(|im| im.size_t > 1);
-        let output =
-            explicit.unwrap_or_else(|| openreadout_em::mrc::write::default_output(&name_base, stack));
+        let output = explicit
+            .unwrap_or_else(|| openreadout_em::mrc::write::default_output(&name_base, stack));
         let mut o = openreadout_em::mrc::MrcExportOptions::default();
         o.image = req.image;
         o.select = req.select.clone();
         o.group = req.group_frames;
         o.overwrite = req.overwrite;
-        return openreadout_em::mrc::export_mrc(ds.as_mut(), file, &output, &o).map(ExportOutput::Mrc);
+        return openreadout_em::mrc::export_mrc(ds.as_mut(), file, &output, &o)
+            .map(ExportOutput::Mrc);
     }
     if requested == Some(ExportFormat::Rdml) {
         let qds = qpcr::open(reg, file)?;

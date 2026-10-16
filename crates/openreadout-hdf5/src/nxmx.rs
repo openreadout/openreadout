@@ -64,7 +64,10 @@ impl FormatReader for NxmxReader {
             .map(|n| n.to_string_lossy().to_ascii_lowercase())
             .unwrap_or_default();
         if name.ends_with("_master.h5") || name.ends_with("_master.hdf5") {
-            return Some(det(DetectConfidence::Definite, "HDF5 file named like an EIGER master file"));
+            return Some(det(
+                DetectConfidence::Definite,
+                "HDF5 file named like an EIGER master file",
+            ));
         }
         if name.ends_with(".nxs") || data_file_prefix(&name).is_some() {
             return Some(det(
@@ -113,7 +116,9 @@ fn det(confidence: DetectConfidence, note: &str) -> Detection {
 
 /// `prefix` of a data file named `<prefix>_data_NNNNNN.h5` or `<prefix>_NNNNNN.h5`.
 fn data_file_prefix(name: &str) -> Option<&str> {
-    let stem = name.strip_suffix(".h5").or_else(|| name.strip_suffix(".hdf5"))?;
+    let stem = name
+        .strip_suffix(".h5")
+        .or_else(|| name.strip_suffix(".hdf5"))?;
     let (prefix, num) = stem.rsplit_once('_')?;
     if num.len() != 6 || !num.bytes().all(|b| b.is_ascii_digit()) {
         return None;
@@ -155,7 +160,11 @@ fn string_at(file: &hdf5_pure::File, path: &str) -> Option<String> {
 }
 
 /// The values of a numeric dataset (at most `limit`), and its `units` attribute.
-fn numbers_at(file: &hdf5_pure::File, path: &str, limit: u64) -> Option<(Vec<f64>, Option<String>)> {
+fn numbers_at(
+    file: &hdf5_pure::File,
+    path: &str,
+    limit: u64,
+) -> Option<(Vec<f64>, Option<String>)> {
     let ds = file.dataset(path).ok()?;
     let shape = ds.shape().ok()?;
     let n: u64 = shape.iter().product::<u64>().max(1);
@@ -163,7 +172,10 @@ fn numbers_at(file: &hdf5_pure::File, path: &str, limit: u64) -> Option<(Vec<f64
         return None;
     }
     let v = ds.read_f64().ok()?;
-    let units = ds.attrs().ok().and_then(|a| a.get("units").and_then(attr_text));
+    let units = ds
+        .attrs()
+        .ok()
+        .and_then(|a| a.get("units").and_then(attr_text));
     Some((v, units))
 }
 
@@ -323,7 +335,9 @@ impl NxmxDataset {
             })?;
             notes.push(format!(
                 "this is a data file: read through its master {}",
-                m.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default()
+                m.file_name()
+                    .map(|n| n.to_string_lossy().to_string())
+                    .unwrap_or_default()
             ));
             m
         } else {
@@ -409,7 +423,11 @@ impl NxmxDataset {
             }
             // DECTRIS data files say which images they hold (1-based, inclusive).
             if let Ok(a) = file.dataset(&object).and_then(|d| d.attrs()) {
-                let num = |k: &str| a.get(k).and_then(attr_text).and_then(|t| t.parse::<u64>().ok());
+                let num = |k: &str| {
+                    a.get(k)
+                        .and_then(attr_text)
+                        .and_then(|t| t.parse::<u64>().ok())
+                };
                 if let (Some(lo), Some(hi)) = (num("image_nr_low"), num("image_nr_high"))
                     && (lo != first + 1 || hi.checked_sub(lo).map(|d| d + 1) != Some(count))
                 {
@@ -447,7 +465,8 @@ impl NxmxDataset {
                     "the master links its images from `<prefix>_data_NNNNNN.h5` (or `<prefix>_NNNNNN.h5`) files; put them next to the master file",
                 ));
             };
-            let images = n("nimages").unwrap_or(1.0).max(1.0) * n("ntrigger").unwrap_or(1.0).max(1.0);
+            let images =
+                n("nimages").unwrap_or(1.0).max(1.0) * n("ntrigger").unwrap_or(1.0).max(1.0);
             self.width = w as u32;
             self.height = h as u32;
             self.frames = images as u64;
@@ -466,11 +485,14 @@ impl NxmxDataset {
         let f = &self.file;
         let det = "/entry/instrument/detector";
         let mut g = Geometry::default();
-        g.wavelength_a = ["/entry/instrument/beam/incident_wavelength", "/entry/sample/beam/incident_wavelength"]
-            .iter()
-            .find_map(|p| number_at(f, p))
-            .map(|(v, u)| to_angstrom(v, u.as_deref()))
-            .filter(|w| *w > 0.0);
+        g.wavelength_a = [
+            "/entry/instrument/beam/incident_wavelength",
+            "/entry/sample/beam/incident_wavelength",
+        ]
+        .iter()
+        .find_map(|p| number_at(f, p))
+        .map(|(v, u)| to_angstrom(v, u.as_deref()))
+        .filter(|w| *w > 0.0);
         if g.wavelength_a.is_none()
             && let Some((v, _)) = number_at(f, &format!("{det}/detectorSpecific/wavelength"))
         {
@@ -502,14 +524,16 @@ impl NxmxDataset {
             number_at(f, &format!("{det}/x_pixel_size")),
             number_at(f, &format!("{det}/y_pixel_size")),
         ) {
-            g.pixel_size_mm = Some([
-                tidy(to_mm(x, ux.as_deref())),
-                tidy(to_mm(y, uy.as_deref())),
-            ]);
+            g.pixel_size_mm = Some([tidy(to_mm(x, ux.as_deref())), tidy(to_mm(y, uy.as_deref()))]);
         }
         g.exposure_s = number_at(f, &format!("{det}/count_time")).map(|(v, _)| v);
         let sat = number_at(f, &format!("{det}/saturation_value"))
-            .or_else(|| number_at(f, &format!("{det}/detectorSpecific/countrate_correction_count_cutoff")))
+            .or_else(|| {
+                number_at(
+                    f,
+                    &format!("{det}/detectorSpecific/countrate_correction_count_cutoff"),
+                )
+            })
             .map(|(v, _)| v);
         let type_max = match self.pixel_type {
             PixelType::Uint8 => Some(f64::from(u8::MAX)),
@@ -529,7 +553,9 @@ impl NxmxDataset {
         let mut best: Option<(String, Vec<f64>, Option<f64>)> = None;
         for gp in groups {
             let Ok(group) = f.group(gp) else { continue };
-            let Ok(names) = group.datasets() else { continue };
+            let Ok(names) = group.datasets() else {
+                continue;
+            };
             for n in names {
                 if n.ends_with("_end") || n.contains("_range") || n.contains("_increment") {
                     continue;
@@ -577,8 +603,13 @@ impl NxmxDataset {
         let description = string_at(f, &format!("{det}/description"));
         let maker = description.as_deref().and_then(|d| {
             let u = d.to_ascii_uppercase();
-            (u.contains("EIGER") || u.contains("PILATUS") || u.contains("JUNGFRAU"))
-                .then(|| if u.contains("JUNGFRAU") { "PSI".to_string() } else { "DECTRIS".to_string() })
+            (u.contains("EIGER") || u.contains("PILATUS") || u.contains("JUNGFRAU")).then(|| {
+                if u.contains("JUNGFRAU") {
+                    "PSI".to_string()
+                } else {
+                    "DECTRIS".to_string()
+                }
+            })
         });
         self.instrument = InstrumentInfo {
             manufacturer: maker,
@@ -597,21 +628,38 @@ impl NxmxDataset {
             ("sensor_material", format!("{det}/sensor_material")),
             ("beamline", "/entry/instrument/name".to_string()),
             ("source", "/entry/instrument/source/name".to_string()),
-            ("eiger_firmware", format!("{det}/detectorSpecific/eiger_fw_version")),
+            (
+                "eiger_firmware",
+                format!("{det}/detectorSpecific/eiger_fw_version"),
+            ),
         ] {
             if let Some(v) = string_at(f, &path) {
                 x.insert(key.into(), json!(v));
             }
         }
-        if let Some(v) = self.file.group("/entry/instrument").ok().and_then(|g| g.attrs().ok()).and_then(|a| a.get("short_name").and_then(attr_text)) {
+        if let Some(v) = self
+            .file
+            .group("/entry/instrument")
+            .ok()
+            .and_then(|g| g.attrs().ok())
+            .and_then(|a| a.get("short_name").and_then(attr_text))
+        {
             x.entry("beamline").or_insert(json!(v));
         }
         for (key, path, scale) in [
-            ("sensor_thickness_mm", format!("{det}/sensor_thickness"), 1e3),
+            (
+                "sensor_thickness_mm",
+                format!("{det}/sensor_thickness"),
+                1e3,
+            ),
             ("threshold_ev", format!("{det}/threshold_energy"), 1.0),
             ("frame_time_s", format!("{det}/frame_time"), 1.0),
             ("bit_depth", format!("{det}/bit_depth_readout"), 1.0),
-            ("transmission", "/entry/instrument/attenuator/attenuator_transmission".to_string(), 1.0),
+            (
+                "transmission",
+                "/entry/instrument/attenuator/attenuator_transmission".to_string(),
+                1.0,
+            ),
             ("flux", "/entry/instrument/beam/total_flux".to_string(), 1.0),
         ] {
             if let Some((v, _)) = number_at(f, &path) {
@@ -621,13 +669,17 @@ impl NxmxDataset {
         for (key, path) in [
             ("pixel_mask_applied", format!("{det}/pixel_mask_applied")),
             ("flatfield_applied", format!("{det}/flatfield_applied")),
-            ("countrate_correction_applied", format!("{det}/countrate_correction_applied")),
+            (
+                "countrate_correction_applied",
+                format!("{det}/countrate_correction_applied"),
+            ),
         ] {
             if let Some((v, _)) = number_at(f, &path) {
                 x.insert(key.into(), json!(v != 0.0));
             }
         }
-        if let Ok(ds) = f.dataset(&format!("{det}/pixel_mask"))
+        if let Ok(ds) = f
+            .dataset(&format!("{det}/pixel_mask"))
             .or_else(|_| f.dataset(&format!("{det}/detectorSpecific/pixel_mask")))
             && let Ok(s) = ds.shape()
         {
@@ -635,13 +687,18 @@ impl NxmxDataset {
         }
         x.insert(
             "data_files".into(),
-            json!(self.data.iter().map(|d| json!({
-                "link": d.link,
-                "file": d.path.file_name().map(|n| n.to_string_lossy().to_string()),
-                "object": d.object,
-                "images": d.count,
-                "filters": d.plane.filter_names(),
-            })).collect::<Vec<_>>()),
+            json!(
+                self.data
+                    .iter()
+                    .map(|d| json!({
+                        "link": d.link,
+                        "file": d.path.file_name().map(|n| n.to_string_lossy().to_string()),
+                        "object": d.object,
+                        "images": d.count,
+                        "filters": d.plane.filter_names(),
+                    }))
+                    .collect::<Vec<_>>()
+            ),
         );
         self.extra = x;
     }
@@ -668,7 +725,8 @@ impl NxmxDataset {
                 .or(Some(t));
         }
         self.geometry.store(&mut im);
-        im.extra.insert("nxmx".into(), Value::Object(self.extra.clone()));
+        im.extra
+            .insert("nxmx".into(), Value::Object(self.extra.clone()));
         im.finish()
     }
 
@@ -761,8 +819,14 @@ impl Dataset for NxmxDataset {
             ("images[].extra.diffraction.exposure_s", Source::Spec),
             ("images[].extra.diffraction.overload", Source::Spec),
             ("images[].extra.diffraction.scan_axis", Source::Inferred),
-            ("images[].extra.diffraction.oscillation_start_deg", Source::Spec),
-            ("images[].extra.diffraction.oscillation_width_deg", Source::Spec),
+            (
+                "images[].extra.diffraction.oscillation_start_deg",
+                Source::Spec,
+            ),
+            (
+                "images[].extra.diffraction.oscillation_width_deg",
+                Source::Spec,
+            ),
             ("images[].extra.diffraction.masked_values", Source::PriorArt),
             ("images[].extra.diffraction.radiation", Source::Inferred),
         ] {
@@ -834,9 +898,9 @@ impl Dataset for NxmxDataset {
             format: NXMX_FORMAT_ID,
         };
         let (w, h) = (u64::from(self.width), u64::from(self.height));
-        let data = d
-            .plane
-            .read_plane_region(src, local, (0, 0, w, h), (w, h), Some(&mut self.chunks))?;
+        let data =
+            d.plane
+                .read_plane_region(src, local, (0, 0, w, h), (w, h), Some(&mut self.chunks))?;
         Ok(Plane {
             width: self.width,
             height: self.height,
@@ -859,9 +923,11 @@ impl Dataset for NxmxDataset {
                 r.insert("t".into(), json!(t));
                 if let Some((axis, v)) = &self.angles {
                     r.insert(format!("{axis}_deg"), json!(v[t]));
-                } else if let (Some(axis), Some(s), Some(w)) =
-                    (&self.geometry.scan_axis, self.geometry.oscillation_start_deg, w)
-                {
+                } else if let (Some(axis), Some(s), Some(w)) = (
+                    &self.geometry.scan_axis,
+                    self.geometry.oscillation_start_deg,
+                    w,
+                ) {
                     r.insert(format!("{axis}_deg"), json!(tidy(s + w * t as f64)));
                 }
                 if let Some((i, local)) = self.locate(t as u64) {
@@ -878,7 +944,9 @@ impl Dataset for NxmxDataset {
         let mut r = CheckReport::new(self.path.display().to_string(), NXMX_FORMAT_ID);
         r.performed("master: an NXmx entry with a detector and data links");
         r.performed("every data file the master links to exists and holds images of one size and type, numbered in order (image_nr_low/high)");
-        r.performed("the first and last image of every data file decode (chunk filters, truncation)");
+        r.performed(
+            "the first and last image of every data file decode (chunk filters, truncation)",
+        );
         r.performed("geometry: wavelength, distance, pixel size and beam centre present");
         for (code, d) in &self.problems {
             let f = if *code == "missing_file" {
@@ -949,7 +1017,11 @@ mod tests {
         let l = external_data_links(&b);
         assert_eq!(
             l,
-            vec![("data_000001".into(), "Therm_6_1_000001.h5".into(), "/data".into())]
+            vec![(
+                "data_000001".into(),
+                "Therm_6_1_000001.h5".into(),
+                "/data".into()
+            )]
         );
     }
 

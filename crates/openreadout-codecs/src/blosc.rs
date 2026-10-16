@@ -337,7 +337,9 @@ pub fn bitshuffle_decode(
             let c = be(at, 4).ok_or_else(|| e("block header truncated"))? as usize;
             at += 4;
             let end = at.checked_add(c).ok_or_else(|| e("block size overflows"))?;
-            let s = src.get(at..end).ok_or_else(|| e("block runs past the chunk"))?;
+            let s = src
+                .get(at..end)
+                .ok_or_else(|| e("block runs past the chunk"))?;
             at = end;
             std::borrow::Cow::Owned(lz4_block_decode(s, bytes)?)
         } else {
@@ -742,7 +744,10 @@ mod tests {
             c.extend_from_slice(&v.to_le_bytes());
         }
         let out = bitshuffle_decode(&c, 2, 2, 0, 42).unwrap();
-        let back: Vec<u16> = out.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect();
+        let back: Vec<u16> = out
+            .chunks(2)
+            .map(|c| u16::from_le_bytes([c[0], c[1]]))
+            .collect();
         assert_eq!(back, vals);
         assert!(bitshuffle_decode(&c[..c.len() - 1], 2, 2, 0, 42).is_err());
         assert!(bitshuffle_decode(&c, 2, 2, 0, 40).is_err());
@@ -752,7 +757,12 @@ mod tests {
         // uncompressed: the shuffled data itself
         let raw = shuffle_u16(&vals[..16]);
         let out = bitshuffle_decode(&raw, 2, 0, 16, 32).unwrap();
-        assert_eq!(out.chunks(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect::<Vec<_>>(), vals[..16]);
+        assert_eq!(
+            out.chunks(2)
+                .map(|c| u16::from_le_bytes([c[0], c[1]]))
+                .collect::<Vec<_>>(),
+            vals[..16]
+        );
     }
 
     #[test]

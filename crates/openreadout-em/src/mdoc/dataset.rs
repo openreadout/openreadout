@@ -62,7 +62,11 @@ impl MdocDataset {
         let columns = COLUMNS
             .iter()
             .copied()
-            .filter(|(k, _)| records.iter().any(|r| r.get(*k).is_some_and(Value::is_number)))
+            .filter(|(k, _)| {
+                records
+                    .iter()
+                    .any(|r| r.get(*k).is_some_and(Value::is_number))
+            })
             .collect();
         Ok(MdocDataset {
             path: input.path().to_path_buf(),
@@ -102,9 +106,13 @@ impl MdocDataset {
         names
             .into_iter()
             .map(|(n, role)| {
-                let found = [dir.join(&n), dir.join("frames").join(&n), dir.join("Frames").join(&n)]
-                    .into_iter()
-                    .find(|p| self.fs.metadata(p).is_ok());
+                let found = [
+                    dir.join(&n),
+                    dir.join("frames").join(&n),
+                    dir.join("Frames").join(&n),
+                ]
+                .into_iter()
+                .find(|p| self.fs.metadata(p).is_ok());
                 json!({"file": n, "role": role, "found": found.map(|p| p.display().to_string())})
             })
             .collect()
@@ -169,7 +177,10 @@ impl Dataset for MdocDataset {
         if let Some(t) = self.mdoc.titles.first() {
             f.set("instrument.software", "SerialEM", "[T = ...] title");
             if let Some(scope) = t.split("Digitized on").nth(1) {
-                let name: Vec<&str> = scope.split_whitespace().take_while(|w| !w.contains('-')).collect();
+                let name: Vec<&str> = scope
+                    .split_whitespace()
+                    .take_while(|w| !w.contains('-'))
+                    .collect();
                 f.set("instrument.model", &name.join(" "), "[T = ...] title");
             }
         }
@@ -262,7 +273,9 @@ impl Dataset for MdocDataset {
                 "table {index} out of range (an mdoc file has one table)"
             )));
         }
-        let start = usize::try_from(first_row).unwrap_or(usize::MAX).min(self.records.len());
+        let start = usize::try_from(first_row)
+            .unwrap_or(usize::MAX)
+            .min(self.records.len());
         let end = start
             .saturating_add(usize::try_from(max_rows).unwrap_or(usize::MAX))
             .min(self.records.len());

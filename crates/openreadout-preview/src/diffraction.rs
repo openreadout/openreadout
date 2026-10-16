@@ -228,7 +228,10 @@ pub(crate) fn draw_rings(
         if path.is_empty() {
             continue;
         }
-        fig.stroke(path, Stroke::new(RING.alpha(0.75), lw).dashed(lw * 5.0, lw * 3.0));
+        fig.stroke(
+            path,
+            Stroke::new(RING.alpha(0.75), lw).dashed(lw * 5.0, lw * 3.0),
+        );
         let text = fmt_d(*d);
         if let Some((x, y)) = label_at {
             let (w, h) = pill.size(&text);

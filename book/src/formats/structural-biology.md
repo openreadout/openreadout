@@ -55,6 +55,6 @@ SerialEM writes an `.mdoc` next to each stack. Opened on its own it is a table, 
 
 ## Not read
 
-- Bruker `.sfrm`, Rigaku `.rodhypix` and Oxford `.img` (CrysAlis), MAR345 and Rayonix MarCCD images: less common today, and no openly licensed test files were found for most of them.
+- Bruker `.sfrm`, Rigaku `.rodhypix` and Oxford Diffraction (CrysAlisPro) images, MAR345 and Rayonix MarCCD images: less common today, and no openly licensed test files were found for most of them.
 - Gain references are read, not applied: whether a gain image must be rotated or flipped to match a movie depends on the camera setup, and getting it wrong changes the data without warning.
 - Virtual datasets in NeXus files: the data files they point at are read instead.

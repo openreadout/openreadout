@@ -270,9 +270,7 @@ impl MrcDataset {
         if recs.is_empty() {
             let take = limit.map_or(nz, |l| l.min(nz));
             recs = (0..take)
-                .map(|s| {
-                    json!({"section": s, "t": s / size_z, "z": s % size_z})
-                })
+                .map(|s| json!({"section": s, "t": s / size_z, "z": s % size_z}))
                 .collect();
         }
         for r in &mut recs {

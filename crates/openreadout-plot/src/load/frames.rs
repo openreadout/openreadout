@@ -28,7 +28,8 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
     // A file of metadata only (a SerialEM .mdoc) has its records as the rows of its first
     // table: one per section.
     let from_table = info.images.is_empty() && !info.tables.is_empty();
-    let fallback = openreadout_core::model::ImageInfo::new(0, 1, 1, openreadout_core::PixelType::Uint8);
+    let fallback =
+        openreadout_core::model::ImageInfo::new(0, 1, 1, openreadout_core::PixelType::Uint8);
     let im = match info.images.first() {
         Some(im) => im,
         None if from_table => &fallback,
@@ -60,7 +61,8 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
                         .zip(&rows.columns)
                         .filter_map(|(col, vals)| {
                             let v = *vals.get(i)?;
-                            v.is_finite().then(|| (col.name.clone(), serde_json::json!(v)))
+                            v.is_finite()
+                                .then(|| (col.name.clone(), serde_json::json!(v)))
                         })
                         .collect(),
                 )
@@ -90,13 +92,18 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         }
     });
     let x = spec.x.clone().unwrap_or_else(|| "t".into());
-    let known = |name: &str| name == "t" || STATS.contains(&name) || fields.iter().any(|f| f == name);
+    let known =
+        |name: &str| name == "t" || STATS.contains(&name) || fields.iter().any(|f| f == name);
     for (axis, name) in [("x", &x), ("y", &y)] {
         if !known(name) {
             return Err(usage(format!(
                 "{file}: frames have no `{name}` for {axis}; use t (the frame number), {} or a value the frames record ({})",
                 STATS.join(", "),
-                if fields.is_empty() { "none here".to_string() } else { fields.join(", ") }
+                if fields.is_empty() {
+                    "none here".to_string()
+                } else {
+                    fields.join(", ")
+                }
             )));
         }
     }
@@ -124,7 +131,11 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
             let p = ds.read_plane(
                 im.index,
                 if along_z {
-                    PlaneIndex { c, z: t as u32, t: 0 }
+                    PlaneIndex {
+                        c,
+                        z: t as u32,
+                        t: 0,
+                    }
                 } else {
                     PlaneIndex {
                         c,
@@ -165,9 +176,7 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         pts.retain(|(a, _)| *a >= lo && *a <= hi);
     }
     if pts.is_empty() {
-        return Err(usage(format!(
-            "{file}: no frame has both {x} and {y}"
-        )));
+        return Err(usage(format!("{file}: no frame has both {x} and {y}")));
     }
     let unit_of = |name: &str| -> Option<String> {
         for (suffix, unit) in UNIT_SUFFIXES {

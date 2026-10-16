@@ -144,7 +144,10 @@ pub(crate) fn power_spectrum(
     let smooth: Vec<f64> = (0..profile.len())
         .map(|r| {
             let (a, b) = (r.saturating_sub(win), (r + win + 1).min(profile.len()));
-            let used: Vec<f64> = (a..b).filter(|&k| rcount[k] > 0).map(|k| profile[k]).collect();
+            let used: Vec<f64> = (a..b)
+                .filter(|&k| rcount[k] > 0)
+                .map(|k| profile[k])
+                .collect();
             if used.is_empty() {
                 0.0
             } else {

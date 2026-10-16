@@ -483,7 +483,10 @@ fn log_level_of(v: f32, lo: f64, hi: f64) -> f32 {
 
 /// What a diffraction preview did differently, in one note.
 fn dif_note(g: &Diffraction, contrast: Contrast, lut: Lut) -> String {
-    let mut parts = vec!["diffraction image: shrunk by the maximum of each block so single-pixel spots stay visible".to_string()];
+    let mut parts = vec![
+        "diffraction image: shrunk by the maximum of each block so single-pixel spots stay visible"
+            .to_string(),
+    ];
     if matches!(contrast, Contrast::Log(..)) {
         parts.push(format!("{contrast} contrast"));
     }
@@ -492,7 +495,9 @@ fn dif_note(g: &Diffraction, contrast: Contrast, lut: Lut) -> String {
     }
     let geo = &g.geometry;
     if geo.negative_is_masked || !geo.masked_values.is_empty() {
-        parts.push("pixels without a measurement (module gaps, bad pixels) in pale blue-grey".into());
+        parts.push(
+            "pixels without a measurement (module gaps, bad pixels) in pale blue-grey".into(),
+        );
     }
     if let Some(o) = geo.overload {
         parts.push(format!("overloads (≥ {o}) in red"));
@@ -677,9 +682,7 @@ pub(crate) fn render(
     let sel = Selection::parse(&split_select(&req.select))?;
     let rgb = im.samples_per_pixel == 3;
     if req.mip.is_some() && req.sum.is_some() {
-        return Err(Error::Usage(
-            "pass mip (maximum) or sum, not both".into(),
-        ));
+        return Err(Error::Usage("pass mip (maximum) or sum, not both".into()));
     }
     let projection = req.mip.or(req.sum);
     let mut composite = req.composite;
@@ -695,9 +698,7 @@ pub(crate) fn render(
     }
     // Diffraction images: masked pixels as no data, spots kept when shrinking, log contrast,
     // dark spots on a light ground.
-    let geo = (!rgb && !composite)
-        .then(|| Diffraction::of(&im))
-        .flatten();
+    let geo = (!rgb && !composite).then(|| Diffraction::of(&im)).flatten();
     let lut = req.lut.unwrap_or(if composite {
         Lut::ChannelColor
     } else if geo.is_some() {
@@ -707,7 +708,8 @@ pub(crate) fn render(
     });
     if composite && matches!(lut, Lut::Gray | Lut::Inverted) {
         return Err(Error::Usage(
-            "--lut gray and inverted cannot show a composite; drop --lut or preview one channel".into(),
+            "--lut gray and inverted cannot show a composite; drop --lut or preview one channel"
+                .into(),
         ));
     }
     let c_list: Vec<u32> = if composite {
@@ -905,7 +907,8 @@ pub(crate) fn render(
                 .map_or(1.0, |(lw, _)| f64::from(im.size_x) / f64::from(lw.max(1)));
             let pixel_a = im.physical_size.x.map(|um| um * 1e4 * k);
             let bin = crate::fft_inset::bin_for(dims.0.min(dims.1) as usize, pixel_a);
-            spectrum = crate::fft_inset::power_spectrum(&acc, dims.0 as usize, dims.1 as usize, bin);
+            spectrum =
+                crate::fft_inset::power_spectrum(&acc, dims.0 as usize, dims.1 as usize, bin);
             if spectrum.is_none() {
                 out.notes.push(format!(
                     "no power-spectrum inset: the plane read is smaller than {} px",
@@ -1002,12 +1005,8 @@ pub(crate) fn render(
                 let c = match &geo {
                     Some(g) if !v.is_finite() => dif::NO_DATA,
                     Some(g) if g.overloaded(v) => dif::OVERLOAD,
-                    _ => [
-                        col[0] as f32 * l,
-                        col[1] as f32 * l,
-                        col[2] as f32 * l,
-                    ]
-                    .map(|x| x.round().clamp(0.0, 255.0) as u8),
+                    _ => [col[0] as f32 * l, col[1] as f32 * l, col[2] as f32 * l]
+                        .map(|x| x.round().clamp(0.0, 255.0) as u8),
                 };
                 for k in 0..3 {
                     acc[i * 3 + k] += f32::from(c[k]);
@@ -1108,7 +1107,8 @@ pub(crate) fn render(
                 &g.geometry,
                 &crate::theme(req),
             );
-            if marks.iter().all(|m| m.kind != "resolution_ring") && req.marks == crate::Marks::Rings {
+            if marks.iter().all(|m| m.kind != "resolution_ring") && req.marks == crate::Marks::Rings
+            {
                 out.notes.push("no resolution rings: they need the wavelength, the detector distance, the beam centre and square pixels, on a detector normal to the beam".into());
             }
             out.marks.extend(marks);
@@ -1120,10 +1120,16 @@ pub(crate) fn render(
     let fft_inset = inset.map(|r| {
         let r = Region::new(plot_area.x + r.x, plot_area.y + r.y, r.width, r.height);
         let theme = crate::theme(req);
-        let st = openreadout_figure::TextStyle::new(theme.small_size(), openreadout_figure::Color::rgb(255, 255, 255))
-            .face(openreadout_figure::Face::SansMedium)
-            .halo(openreadout_figure::Color::rgb(29, 31, 36), 2.0)
-            .align(openreadout_figure::Anchor::Start, openreadout_figure::Baseline::Top);
+        let st = openreadout_figure::TextStyle::new(
+            theme.small_size(),
+            openreadout_figure::Color::rgb(255, 255, 255),
+        )
+        .face(openreadout_figure::Face::SansMedium)
+        .halo(openreadout_figure::Color::rgb(29, 31, 36), 2.0)
+        .align(
+            openreadout_figure::Anchor::Start,
+            openreadout_figure::Baseline::Top,
+        );
         figure.text(r.x as f32 + 4.0, r.y as f32 + 3.0, "FFT", &st);
         r
     });
@@ -1195,7 +1201,11 @@ fn paint_inset(canvas: &mut Raster, side: usize, ps: &[f32]) -> Option<Region> {
     for y in 0..s {
         for x in 0..s {
             let v = band.v[y * s + x];
-            let g = if v.is_finite() { (v * 255.0).round().clamp(0.0, 255.0) as u8 } else { 0 };
+            let g = if v.is_finite() {
+                (v * 255.0).round().clamp(0.0, 255.0) as u8
+            } else {
+                0
+            };
             let i = ((y0 + y) * cw + x0 + x) * 3;
             canvas.rgb[i..i + 3].copy_from_slice(&[g, g, g]);
         }

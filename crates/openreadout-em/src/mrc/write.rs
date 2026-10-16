@@ -86,7 +86,9 @@ fn convert(p: &Plane, to: PixelType, range: &mut (f64, f64, f64, f64, u64)) -> V
         range.3 += v * v;
         range.4 += 1;
         match to {
-            PixelType::Uint16 => out.extend_from_slice(&(v.clamp(0.0, 65_535.0) as u16).to_le_bytes()),
+            PixelType::Uint16 => {
+                out.extend_from_slice(&(v.clamp(0.0, 65_535.0) as u16).to_le_bytes())
+            }
             PixelType::Int16 => out.extend_from_slice(&(v as i16).to_le_bytes()),
             PixelType::Int8 => out.push(v as i8 as u8),
             _ => out.extend_from_slice(&(v as f32).to_le_bytes()),
@@ -163,7 +165,12 @@ pub fn export_mrc(
         .images
         .iter()
         .find(|i| i.index == image)
-        .ok_or_else(|| Error::Usage(format!("image {image} not found (the file has {})", info.images.len())))?
+        .ok_or_else(|| {
+            Error::Usage(format!(
+                "image {image} not found (the file has {})",
+                info.images.len()
+            ))
+        })?
         .clone();
     if im.samples_per_pixel != 1 || im.pixel_type.is_complex() {
         return Err(Error::unsupported(
@@ -179,7 +186,11 @@ pub fn export_mrc(
                 return Err(Error::Usage(format!("{axis}={i} out of range (0..{size})")));
             }
         }
-        Ok(if v.is_empty() { (0..size).collect() } else { v.to_vec() })
+        Ok(if v.is_empty() {
+            (0..size).collect()
+        } else {
+            v.to_vec()
+        })
     };
     let cs = pick(&sel.c, im.size_c, "c")?;
     if cs.len() != 1 {
@@ -209,7 +220,9 @@ pub fn export_mrc(
     let sections: Vec<(u32, Vec<u32>)> = if volume {
         zs.iter().map(|&z| (z, vec![ts[0]])).collect()
     } else {
-        ts.chunks(group as usize).map(|g| (zs[0], g.to_vec())).collect()
+        ts.chunks(group as usize)
+            .map(|g| (zs[0], g.to_vec()))
+            .collect()
     };
     let (mode, out_type) = mode_for(im.pixel_type, if group > 1 { group } else { 1 });
     let mut notes = Vec::new();
@@ -232,17 +245,20 @@ pub fn export_mrc(
     let label = format!(
         "openreadout {} export of {}",
         env!("CARGO_PKG_VERSION"),
-        input.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default()
+        input
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_default()
     );
     if let Some(parent) = output.parent().filter(|p| !p.as_os_str().is_empty()) {
         std::fs::create_dir_all(parent).map_err(|e| Error::io(parent, e))?;
     }
     let tmp = openreadout_core::output::temp_path(output);
     let result = (|| -> Result<MrcExportReport> {
-        let mut f = std::io::BufWriter::new(
-            std::fs::File::create(&tmp).map_err(|e| Error::io(&tmp, e))?,
-        );
-        f.write_all(&vec![0u8; HEADER_LEN]).map_err(|e| Error::io(&tmp, e))?;
+        let mut f =
+            std::io::BufWriter::new(std::fs::File::create(&tmp).map_err(|e| Error::io(&tmp, e))?);
+        f.write_all(&vec![0u8; HEADER_LEN])
+            .map_err(|e| Error::io(&tmp, e))?;
         let mut range = (f64::INFINITY, f64::NEG_INFINITY, 0.0, 0.0, 0u64);
         let mut hashes = Vec::with_capacity(sections.len());
         let (mut w, mut h) = (0u32, 0u32);
@@ -251,7 +267,14 @@ pub fn export_mrc(
             let plane = if group_ts.len() > 1 {
                 ds.sum_planes(image, c, *z, group_ts)?
             } else {
-                ds.read_plane(image, PlaneIndex { c, z: *z, t: group_ts[0] })?
+                ds.read_plane(
+                    image,
+                    PlaneIndex {
+                        c,
+                        z: *z,
+                        t: group_ts[0],
+                    },
+                )?
             };
             read += group_ts.len() as u64;
             if w == 0 {
@@ -272,9 +295,21 @@ pub fn export_mrc(
         let n = range.4.max(1) as f64;
         let mean = range.2 / n;
         let rms = (range.3 / n - mean * mean).max(0.0).sqrt();
-        let hdr = header(w, h, nz, mode, volume, pixel_a, (range.0, range.1, mean, rms), &label);
-        let mut file = f.into_inner().map_err(|e| Error::io(&tmp, e.into_error()))?;
-        file.seek(SeekFrom::Start(0)).map_err(|e| Error::io(&tmp, e))?;
+        let hdr = header(
+            w,
+            h,
+            nz,
+            mode,
+            volume,
+            pixel_a,
+            (range.0, range.1, mean, rms),
+            &label,
+        );
+        let mut file = f
+            .into_inner()
+            .map_err(|e| Error::io(&tmp, e.into_error()))?;
+        file.seek(SeekFrom::Start(0))
+            .map_err(|e| Error::io(&tmp, e))?;
         file.write_all(&hdr).map_err(|e| Error::io(&tmp, e))?;
         file.sync_all().map_err(|e| Error::io(&tmp, e))?;
         drop(file);
@@ -302,7 +337,9 @@ pub fn export_mrc(
                 hashes.len()
             )));
         }
-        let bytes_written = std::fs::metadata(&tmp).map_err(|e| Error::io(&tmp, e))?.len();
+        let bytes_written = std::fs::metadata(&tmp)
+            .map_err(|e| Error::io(&tmp, e))?
+            .len();
         std::fs::rename(&tmp, output).map_err(|e| Error::io(output, e))?;
         Ok(MrcExportReport {
             input: input.display().to_string(),
@@ -312,7 +349,11 @@ pub fn export_mrc(
             sections_written: u64::from(nz),
             planes_read: read,
             group,
-            layout: if volume { "volume".into() } else { "image stack".into() },
+            layout: if volume {
+                "volume".into()
+            } else {
+                "image stack".into()
+            },
             mode,
             pixel_size_a: pixel_a,
             bytes_written,

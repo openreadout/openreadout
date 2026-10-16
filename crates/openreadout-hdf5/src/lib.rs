@@ -69,19 +69,19 @@ pub mod ims_scene;
 #[doc(hidden)]
 pub mod nwb;
 #[doc(hidden)]
-pub mod nxmx;
-#[doc(hidden)]
 pub mod nwb_tables;
 #[doc(hidden)]
 pub mod nwb_write;
+#[doc(hidden)]
+pub mod nxmx;
 
 pub use generic::{HDF5_FORMAT_ID, Hdf5Reader};
 pub use ims::{IMS_FORMAT_ID, ImsReader};
 pub use nwb::{NWB_FORMAT_ID, NwbReader};
-pub use nxmx::{NXMX_FORMAT_ID, NxmxReader};
 pub use nwb_write::{
     NWB_VERSION, NwbExportOptions, NwbExportReport, NwbSeriesReport, default_nwb_output, export_nwb,
 };
+pub use nxmx::{NXMX_FORMAT_ID, NxmxReader};
 
 #[doc(hidden)]
 pub use generic::Hdf5Dataset;

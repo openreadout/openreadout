@@ -386,7 +386,11 @@ fn export_mrc(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::
     let stack = ds
         .info()
         .ok()
-        .and_then(|i| i.images.get(a.image.unwrap_or(0) as usize).map(|im| im.size_t > 1))
+        .and_then(|i| {
+            i.images
+                .get(a.image.unwrap_or(0) as usize)
+                .map(|im| im.size_t > 1)
+        })
         .unwrap_or(false);
     let output = a.output.as_ref().map_or_else(
         || openreadout_em::mrc::write::default_output(&input, stack),

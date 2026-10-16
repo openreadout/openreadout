@@ -39,8 +39,7 @@ pub fn open(input: &Input, format: &'static str) -> Result<Opened> {
     let path = input.path();
     let file = input.open()?;
     let mut head = [0u8; 2];
-    let is_gz =
-        file.read_exact_at(0, &mut head).is_ok() && openreadout_core::gzip::is_gzip(&head);
+    let is_gz = file.read_exact_at(0, &mut head).is_ok() && openreadout_core::gzip::is_gzip(&head);
     if !is_gz {
         let len = file.size().map_err(|e| Error::io(path, e))?;
         return Ok(Opened {
@@ -50,10 +49,9 @@ pub fn open(input: &Input, format: &'static str) -> Result<Opened> {
         });
     }
     let src = input.fs().source(path).map_err(|e| Error::io(path, e))?;
-    let name = path.file_name().map_or_else(
-        || "image".to_string(),
-        |n| n.to_string_lossy().into_owned(),
-    );
+    let name = path
+        .file_name()
+        .map_or_else(|| "image".to_string(), |n| n.to_string_lossy().into_owned());
     let inner = openreadout_core::gzip::strip_gz(&name).to_string();
     let gz = openreadout_core::gzip::GzipSource::open(src, inner, format)?;
     let summary = gz.summary().clone();
@@ -87,7 +85,8 @@ pub fn read_exact(
             ),
         ));
     }
-    let n = usize::try_from(len).map_err(|_| Error::corrupt(format, format!("{what}: too large")))?;
+    let n =
+        usize::try_from(len).map_err(|_| Error::corrupt(format, format!("{what}: too large")))?;
     let mut buf = vec![0u8; n];
     file.read_exact_at(offset, &mut buf)
         .map_err(|e| Error::corrupt_at(format, offset, format!("{what}: {e}")))?;

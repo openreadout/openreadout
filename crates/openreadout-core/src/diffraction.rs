@@ -199,13 +199,22 @@ pub fn experiment(images: &[ImageInfo]) -> Option<crate::experiment::Experiment>
         f.number("wavelength", w, "Å", &from("wavelength_a"));
     }
     if let Some(e) = g.energy_ev() {
-        f.number("energy", (e * 10.0).round() / 10.0, "eV", &from("wavelength_a"));
+        f.number(
+            "energy",
+            (e * 10.0).round() / 10.0,
+            "eV",
+            &from("wavelength_a"),
+        );
     }
     if let Some(d) = g.distance_mm {
         f.number("detector_distance", d, "mm", &from("distance_mm"));
     }
     if let Some([x, y]) = g.beam_center_px {
-        f.plain("beam_center_px", serde_json::json!([x, y]), &from("beam_center_px"));
+        f.plain(
+            "beam_center_px",
+            serde_json::json!([x, y]),
+            &from("beam_center_px"),
+        );
     }
     if let Some([px, _]) = g.pixel_size_mm {
         f.number("detector_pixel_size", px, "mm", &from("pixel_size_mm"));
@@ -263,7 +272,11 @@ pub fn experiment(images: &[ImageInfo]) -> Option<crate::experiment::Experiment>
 
 /// `v` with at most 4 significant decimals, trailing zeros dropped (0.9795, 0.15, 0.02501).
 fn short(v: f64) -> String {
-    let digits = if v.abs() >= 1.0 { 4 } else { (4.0 - v.abs().log10().floor()).clamp(4.0, 10.0) as usize };
+    let digits = if v.abs() >= 1.0 {
+        4
+    } else {
+        (4.0 - v.abs().log10().floor()).clamp(4.0, 10.0) as usize
+    };
     let s = format!("{v:.digits$}");
     let s = s.trim_end_matches('0').trim_end_matches('.');
     s.to_string()
@@ -337,6 +350,10 @@ mod tests {
         let m = e.method.unwrap();
         assert_eq!(m.technique.unwrap().id, "CHMO:0000159");
         assert!(m.parameters.contains_key("wavelength") && m.parameters.contains_key("energy"));
-        assert!(e.measurements[0].what.starts_with("X-ray diffraction image, 2463 × 2527 px"));
+        assert!(
+            e.measurements[0]
+                .what
+                .starts_with("X-ray diffraction image, 2463 × 2527 px")
+        );
     }
 }

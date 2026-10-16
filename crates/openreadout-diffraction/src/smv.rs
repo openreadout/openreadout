@@ -130,14 +130,17 @@ impl SmvHeader {
             big_endian: false,
         };
         let need = |h: &SmvHeader, k: &str| -> Result<u64> {
-            h.get(k).and_then(|v| v.parse::<u64>().ok()).ok_or_else(|| {
-                Error::corrupt(FORMAT_ID, format!("header has no usable {k}"))
-            })
+            h.get(k)
+                .and_then(|v| v.parse::<u64>().ok())
+                .ok_or_else(|| Error::corrupt(FORMAT_ID, format!("header has no usable {k}")))
         };
         h.header_bytes = need(&h, "HEADER_BYTES")?;
         let s1 = need(&h, "SIZE1")?;
         let s2 = need(&h, "SIZE2")?;
-        let dim = h.get("DIM").and_then(|v| v.parse::<u32>().ok()).unwrap_or(2);
+        let dim = h
+            .get("DIM")
+            .and_then(|v| v.parse::<u32>().ok())
+            .unwrap_or(2);
         if dim != 2 {
             return Err(Error::unsupported(
                 FORMAT_ID,
@@ -155,7 +158,10 @@ impl SmvHeader {
         if !(512..=MAX_HEADER).contains(&h.header_bytes) {
             return Err(Error::corrupt(
                 FORMAT_ID,
-                format!("HEADER_BYTES={} is outside 512..{MAX_HEADER}", h.header_bytes),
+                format!(
+                    "HEADER_BYTES={} is outside 512..{MAX_HEADER}",
+                    h.header_bytes
+                ),
             ));
         }
         let ty = h
@@ -342,7 +348,10 @@ impl SmvDataset {
             ("IMAGE_PEDESTAL", "pedestal"),
         ] {
             if let Some(v) = h.get(key) {
-                smv.insert(ours.into(), number(v).map_or_else(|| json!(v), |n| json!(n)));
+                smv.insert(
+                    ours.into(),
+                    number(v).map_or_else(|| json!(v), |n| json!(n)),
+                );
             }
         }
         smv.insert(
@@ -426,10 +435,19 @@ impl Dataset for SmvDataset {
             ("images[].extra.smv", Source::PriorArt),
             ("images[].extra.diffraction.wavelength_a", Source::PriorArt),
             ("images[].extra.diffraction.distance_mm", Source::PriorArt),
-            ("images[].extra.diffraction.beam_center_px", Source::PriorArt),
+            (
+                "images[].extra.diffraction.beam_center_px",
+                Source::PriorArt,
+            ),
             ("images[].extra.diffraction.pixel_size_mm", Source::PriorArt),
-            ("images[].extra.diffraction.oscillation_start_deg", Source::PriorArt),
-            ("images[].extra.diffraction.oscillation_width_deg", Source::PriorArt),
+            (
+                "images[].extra.diffraction.oscillation_start_deg",
+                Source::PriorArt,
+            ),
+            (
+                "images[].extra.diffraction.oscillation_width_deg",
+                Source::PriorArt,
+            ),
             ("images[].extra.diffraction.exposure_s", Source::PriorArt),
             ("images[].extra.diffraction.overload", Source::Inferred),
             ("images[].extra.diffraction.radiation", Source::Inferred),
@@ -493,7 +511,9 @@ impl Dataset for SmvDataset {
 
     fn check(&mut self) -> Result<CheckReport> {
         let mut r = CheckReport::new(self.path.display().to_string(), FORMAT_ID);
-        r.performed("header: `{ KEY=value; … }` with HEADER_BYTES, SIZE1, SIZE2, TYPE and BYTE_ORDER");
+        r.performed(
+            "header: `{ KEY=value; … }` with HEADER_BYTES, SIZE1, SIZE2, TYPE and BYTE_ORDER",
+        );
         r.performed("the file holds the header and SIZE1 × SIZE2 samples");
         r.performed("the geometry values (distance, wavelength, pixel size) are positive numbers when present");
         let need = self.header.header_bytes.saturating_add(self.data_len()?);
@@ -559,7 +579,10 @@ mod tests {
         let g = h.geometry();
         let [x, y] = g.beam_center_px.unwrap();
         assert!((x - 29.9 / 0.028).abs() < 1e-9 && (y - 29.8 / 0.028).abs() < 1e-9);
-        assert_eq!(g.radiation, Some(openreadout_core::diffraction::Radiation::Electron));
+        assert_eq!(
+            g.radiation,
+            Some(openreadout_core::diffraction::Radiation::Electron)
+        );
         assert_eq!(g.oscillation_width_deg, Some(0.888));
         assert_eq!(g.overload, Some(65535.0));
     }
@@ -575,7 +598,9 @@ mod tests {
     fn bad_headers_are_errors() {
         assert!(SmvHeader::parse("{\nHEADER_BYTES=512;\nSIZE1=10;\n}").is_err());
         assert!(SmvHeader::parse("{\nHEADER_BYTES=12;\nSIZE1=10;\nSIZE2=10;\n}").is_err());
-        assert!(SmvHeader::parse("{\nHEADER_BYTES=512;\nSIZE1=10;\nSIZE2=10;\nTYPE=weird;\n}").is_err());
+        assert!(
+            SmvHeader::parse("{\nHEADER_BYTES=512;\nSIZE1=10;\nSIZE2=10;\nTYPE=weird;\n}").is_err()
+        );
         assert!(!looks_like_smv(b"hello"));
     }
 }

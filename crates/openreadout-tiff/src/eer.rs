@@ -301,8 +301,14 @@ impl TiffDataset {
 
     /// The sum of frames `ts`: every frame's events added straight into one count per pixel,
     /// without decoding each frame to a plane first.
-    pub(crate) fn eer_sum(&mut self, ts: &[u32]) -> openreadout_core::Result<openreadout_core::Plane> {
-        let series = self.series.first().ok_or_else(|| Error::Usage("no image".into()))?;
+    pub(crate) fn eer_sum(
+        &mut self,
+        ts: &[u32],
+    ) -> openreadout_core::Result<openreadout_core::Plane> {
+        let series = self
+            .series
+            .first()
+            .ok_or_else(|| Error::Usage("no image".into()))?;
         let n = series.planes.len();
         let mut pages = Vec::with_capacity(ts.len());
         for &t in ts {
@@ -320,14 +326,21 @@ impl TiffDataset {
         }
         let first = self.layout(0, pages[0])?;
         let (w, h) = (first.width as usize, first.height as usize);
-        let mut acc = vec![0u32; w.checked_mul(h).ok_or_else(|| Error::corrupt(FORMAT_ID, "frame size overflows"))?];
+        let mut acc = vec![
+            0u32;
+            w.checked_mul(h)
+                .ok_or_else(|| Error::corrupt(FORMAT_ID, "frame size overflows"))?
+        ];
         for page in pages {
             let layout = self.layout(0, page)?;
             let coding = layout.eer.ok_or_else(|| {
                 Error::corrupt(FORMAT_ID, format!("page {page} is not EER-coded"))
             })?;
             if (layout.width as usize, layout.height as usize) != (w, h) {
-                return Err(Error::corrupt(FORMAT_ID, format!("page {page} has another size")));
+                return Err(Error::corrupt(
+                    FORMAT_ID,
+                    format!("page {page} has another size"),
+                ));
             }
             let Some((_, src)) = self.files[0].opened.as_mut() else {
                 return Err(Error::corrupt(FORMAT_ID, "the file is not open"));

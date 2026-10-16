@@ -336,7 +336,9 @@ fn tokenize(text: &str) -> Vec<String> {
                     // A quote ends at the same quote followed by whitespace or the line end.
                     let start = i + 1;
                     let mut j = start;
-                    while j < b.len() && !(b[j] == q && b.get(j + 1).is_none_or(u8::is_ascii_whitespace)) {
+                    while j < b.len()
+                        && !(b[j] == q && b.get(j + 1).is_none_or(u8::is_ascii_whitespace))
+                    {
                         j += 1;
                     }
                     out.push(String::from_utf8_lossy(&b[start..j.min(b.len())]).into_owned());
@@ -527,8 +529,8 @@ fn next_marker(file: &SourceFile, from: u64, file_len: u64) -> Result<Option<u64
 
 /// Decode a section's coded bytes into little-endian samples of its element type.
 pub fn decode(s: &Section, coded: &[u8]) -> Result<Vec<u8>> {
-    let n = usize::try_from(s.elements)
-        .map_err(|_| Error::corrupt(FORMAT_ID, "too many elements"))?;
+    let n =
+        usize::try_from(s.elements).map_err(|_| Error::corrupt(FORMAT_ID, "too many elements"))?;
     let bps = s.element.bytes_per_sample();
     let out_len = n
         .checked_mul(bps)
@@ -569,9 +571,9 @@ pub fn decode(s: &Section, coded: &[u8]) -> Result<Vec<u8>> {
                         ),
                     )
                 })?;
-                v = v.checked_add(d).ok_or_else(|| {
-                    Error::corrupt(FORMAT_ID, format!("value {k} overflows"))
-                })?;
+                v = v
+                    .checked_add(d)
+                    .ok_or_else(|| Error::corrupt(FORMAT_ID, format!("value {k} overflows")))?;
                 if v < lo || v > hi {
                     return Err(Error::corrupt(
                         FORMAT_ID,
@@ -836,9 +838,10 @@ impl CbfDataset {
     fn geometry(&self) -> Geometry {
         let l = &self.layout;
         let h = l.pilatus();
-        let wavelength_a = h
-            .wavelength_a
-            .or_else(|| l.item("_diffrn_radiation_wavelength.wavelength").and_then(number));
+        let wavelength_a = h.wavelength_a.or_else(|| {
+            l.item("_diffrn_radiation_wavelength.wavelength")
+                .and_then(number)
+        });
         let negative_is_masked = h.detector.as_deref().is_some_and(|d| {
             let d = d.to_ascii_uppercase();
             d.contains("PILATUS") || d.contains("EIGER")
@@ -895,10 +898,13 @@ impl CbfDataset {
         }
         self.geometry().store(&mut im);
         let mut cbf = Map::new();
-        cbf.insert("compression".into(), json!(match s.conversion {
-            Conversion::ByteOffset => "byte_offset",
-            Conversion::Uncompressed => "none",
-        }));
+        cbf.insert(
+            "compression".into(),
+            json!(match s.conversion {
+                Conversion::ByteOffset => "byte_offset",
+                Conversion::Uncompressed => "none",
+            }),
+        );
         if let Some(c) = &l.convention {
             cbf.insert("header_convention".into(), json!(c));
         }
@@ -1026,13 +1032,25 @@ impl Dataset for CbfDataset {
             ("images[].extra.cbf", Source::PriorArt),
             ("images[].extra.diffraction.wavelength_a", Source::PriorArt),
             ("images[].extra.diffraction.distance_mm", Source::PriorArt),
-            ("images[].extra.diffraction.beam_center_px", Source::PriorArt),
+            (
+                "images[].extra.diffraction.beam_center_px",
+                Source::PriorArt,
+            ),
             ("images[].extra.diffraction.pixel_size_mm", Source::PriorArt),
-            ("images[].extra.diffraction.oscillation_start_deg", Source::PriorArt),
-            ("images[].extra.diffraction.oscillation_width_deg", Source::PriorArt),
+            (
+                "images[].extra.diffraction.oscillation_start_deg",
+                Source::PriorArt,
+            ),
+            (
+                "images[].extra.diffraction.oscillation_width_deg",
+                Source::PriorArt,
+            ),
             ("images[].extra.diffraction.exposure_s", Source::PriorArt),
             ("images[].extra.diffraction.overload", Source::PriorArt),
-            ("images[].extra.diffraction.negative_is_masked", Source::PriorArt),
+            (
+                "images[].extra.diffraction.negative_is_masked",
+                Source::PriorArt,
+            ),
             ("images[].extra.diffraction.radiation", Source::Inferred),
             ("images[].extra.diffraction.scan_axis", Source::Inferred),
         ] {
@@ -1132,14 +1150,18 @@ impl Dataset for CbfDataset {
                     r.push(
                         Finding::error(
                             "md5_mismatch",
-                            format!("section {i}: Content-MD5 is {want} but the data hashes to {got}"),
+                            format!(
+                                "section {i}: Content-MD5 is {want} but the data hashes to {got}"
+                            ),
                         )
                         .at(s.data_offset),
                     );
                 }
             }
             match decode(s, &coded) {
-                Err(e) => r.push(Finding::error("bad_data", format!("section {i}: {e}")).at(s.data_offset)),
+                Err(e) => r.push(
+                    Finding::error("bad_data", format!("section {i}: {e}")).at(s.data_offset),
+                ),
                 Ok(v) => {
                     if s.conversion == Conversion::ByteOffset {
                         // How many coded bytes the values used: the rest must be padding.
@@ -1198,7 +1220,18 @@ mod tests {
 
     #[test]
     fn byte_offset_round_trips_every_escape() {
-        let values = [0i64, 5, -3, 200, -200, 40_000, -40_000, 3_000_000_000, -1, i64::from(i32::MIN) + 7];
+        let values = [
+            0i64,
+            5,
+            -3,
+            200,
+            -200,
+            40_000,
+            -40_000,
+            3_000_000_000,
+            -1,
+            i64::from(i32::MIN) + 7,
+        ];
         let coded = encode_byte_offset(&values);
         let mut p = 0;
         let mut v = 0i64;
@@ -1221,7 +1254,10 @@ mod tests {
         assert_eq!(l.block.as_deref(), Some("scan_0001"));
         assert_eq!(l.convention.as_deref(), Some("PILATUS_1.2"));
         assert_eq!(l.header_lines.len(), 2);
-        assert_eq!(l.item("_diffrn_radiation_wavelength.wavelength"), Some("1.2"));
+        assert_eq!(
+            l.item("_diffrn_radiation_wavelength.wavelength"),
+            Some("1.2")
+        );
         let h = l.pilatus();
         assert_eq!(h.detector.as_deref(), Some("PILATUS 6M"));
         assert_eq!(h.serial.as_deref(), Some("60-0100"));
@@ -1258,6 +1294,9 @@ mod tests {
         assert_eq!(h.threshold_ev, Some(6327.0));
         assert_eq!(h.angle_increment_deg, Some(0.2));
         assert_eq!(h.goniometer.get("phi"), Some(&0.0));
-        assert_eq!(iso_time("2009/Mar/12 13:06:50.123"), "2009-03-12T13:06:50.123");
+        assert_eq!(
+            iso_time("2009/Mar/12 13:06:50.123"),
+            "2009-03-12T13:06:50.123"
+        );
     }
 }

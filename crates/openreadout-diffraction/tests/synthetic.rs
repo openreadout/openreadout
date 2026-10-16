@@ -8,7 +8,11 @@ use openreadout_diffraction::{CbfReader, SmvReader};
 
 fn cbf_bytes(values: &[i64], w: usize, h: usize, md5_ok: bool) -> Vec<u8> {
     let coded = encode_byte_offset(values);
-    let digest = if md5_ok { base64(&md5(&coded)) } else { "AAAAAAAAAAAAAAAAAAAAAA==".into() };
+    let digest = if md5_ok {
+        base64(&md5(&coded))
+    } else {
+        "AAAAAAAAAAAAAAAAAAAAAA==".into()
+    };
     let mut f = Vec::new();
     f.extend_from_slice(
         b"###CBF: VERSION 1.5, CBFlib v0.7.8 - PILATUS detectors\r\n\r\ndata_test_0001\r\n\r\n_array_data.header_convention \"PILATUS_1.2\"\r\n_array_data.header_contents\r\n;\r\n# Detector: PILATUS 2M, S/N 24-0107\r\n# 2012-10-06T10:00:00.000\r\n# Pixel_size 172e-6 m x 172e-6 m\r\n# Exposure_time 0.1 s\r\n# Count_cutoff 1000 counts\r\n# Wavelength 1.0 A\r\n# Detector_distance 0.2 m\r\n# Beam_xy (2.5, 1.5) pixels\r\n# Start_angle 10.0 deg.\r\n# Angle_increment 0.1 deg.\r\n;\r\n\r\n_array_data.data\r\n;\r\n--CIF-BINARY-FORMAT-SECTION--\r\nContent-Type: application/octet-stream;\r\n     conversions=\"x-CBF_BYTE_OFFSET\"\r\nContent-Transfer-Encoding: BINARY\r\n",
@@ -104,7 +108,11 @@ fn smv_bytes(w: usize, h: usize, big: bool) -> Vec<u8> {
     b.resize(512, b' ');
     for i in 0..(w * h) as u16 {
         let v = i * 100;
-        b.extend_from_slice(&if big { v.to_be_bytes() } else { v.to_le_bytes() });
+        b.extend_from_slice(&if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        });
     }
     b
 }

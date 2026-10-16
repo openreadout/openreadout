@@ -30,7 +30,10 @@ fn observe_cbf(info: &FileInfo) -> Observations {
     a::instrument_context(&mut o, info);
     for im in &info.images {
         let cbf = im.extra.get("cbf");
-        if let Some(c) = cbf.and_then(|v| v.get("compression")).and_then(|v| v.as_str()) {
+        if let Some(c) = cbf
+            .and_then(|v| v.get("compression"))
+            .and_then(|v| v.as_str())
+        {
             o.feature(K::Codec, c, &[Scope::Pixels]);
         }
         if let Some(c) = cbf

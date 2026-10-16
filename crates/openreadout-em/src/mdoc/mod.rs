@@ -60,9 +60,10 @@ impl FormatReader for MdocReader {
                 DetectConfidence::ExtensionOnly,
                 Some("mdoc extension, but no SerialEM section in the first 4 KiB"),
             )),
-            (false, true) if text.trim_start().starts_with("PixelSpacing")
-                || text.contains("\nPixelSpacing")
-                || text.contains("[T = SerialEM") =>
+            (false, true)
+                if text.trim_start().starts_with("PixelSpacing")
+                    || text.contains("\nPixelSpacing")
+                    || text.contains("[T = SerialEM") =>
             {
                 Some(det(DetectConfidence::Likely, None))
             }
@@ -291,7 +292,10 @@ impl Mdoc {
                 if let Some(p) = s.get("SubFramePath") {
                     r.insert("subframe_file".into(), json!(file_name(p)));
                 }
-                for (key, ours) in [("GainReference", "gain_reference"), ("DefectFile", "defect_file")] {
+                for (key, ours) in [
+                    ("GainReference", "gain_reference"),
+                    ("DefectFile", "defect_file"),
+                ] {
                     if let Some(p) = s.get(key) {
                         r.insert(ours.into(), json!(file_name(p)));
                     }
@@ -325,13 +329,21 @@ impl Mdoc {
         if let Some(k) = self.sections.first() {
             s.insert("section_kind".into(), json!(k.kind));
         }
-        let tilts: Vec<f64> = self.sections.iter().filter_map(|x| x.num("TiltAngle")).collect();
+        let tilts: Vec<f64> = self
+            .sections
+            .iter()
+            .filter_map(|x| x.num("TiltAngle"))
+            .collect();
         if tilts.len() > 1 {
             let lo = tilts.iter().copied().fold(f64::INFINITY, f64::min);
             let hi = tilts.iter().copied().fold(f64::NEG_INFINITY, f64::max);
             s.insert("tilt_range_deg".into(), json!([round6(lo), round6(hi)]));
         }
-        let doses: Vec<f64> = self.sections.iter().filter_map(|x| x.num("ExposureDose")).collect();
+        let doses: Vec<f64> = self
+            .sections
+            .iter()
+            .filter_map(|x| x.num("ExposureDose"))
+            .collect();
         if doses.len() == self.sections.len() && doses.iter().any(|d| *d > 0.0) {
             s.insert(
                 "total_dose_e_per_a2".into(),
@@ -341,7 +353,10 @@ impl Mdoc {
         if let Some(a) = self.tilt_axis_deg() {
             s.insert("tilt_axis_deg".into(), json!(a));
         }
-        if let Some(v) = self.global("PixelSpacing").and_then(|v| v.parse::<f64>().ok()) {
+        if let Some(v) = self
+            .global("PixelSpacing")
+            .and_then(|v| v.parse::<f64>().ok())
+        {
             s.insert("pixel_spacing_a".into(), json!(v));
         }
         if let Some(v) = self.global("Voltage").and_then(|v| v.parse::<f64>().ok()) {
@@ -433,7 +448,10 @@ mod tests {
     fn bad_text_and_dates() {
         assert!(Mdoc::parse("hello\nworld").is_err());
         assert!(Mdoc::parse("[ZValue = x]\n").is_err());
-        assert_eq!(iso_datetime("15-Jul-2019 13:54:01").as_deref(), Some("2019-07-15T13:54:01"));
+        assert_eq!(
+            iso_datetime("15-Jul-2019 13:54:01").as_deref(),
+            Some("2019-07-15T13:54:01")
+        );
         assert_eq!(iso_datetime("bad"), None);
         assert_eq!(file_name("W:\\rawdata\\stack_0000.tif"), "stack_0000.tif");
     }
