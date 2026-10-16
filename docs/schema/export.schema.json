@@ -31,6 +31,9 @@
       "$ref": "#/$defs/RdmlExportReport"
     },
     {
+      "$ref": "#/$defs/MrcExportReport"
+    },
+    {
       "$ref": "#/$defs/PerImageExport"
     }
   ],
@@ -1047,6 +1050,96 @@
         "bytes_written",
         "verified",
         "notes"
+      ]
+    },
+    "MrcExportReport": {
+      "description": "What was written.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The file that was read.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The MRC file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "`mrc`.",
+          "type": "string"
+        },
+        "image": {
+          "description": "Image index exported.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "sections_written": {
+          "description": "Sections written (NZ).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "planes_read": {
+          "description": "Source planes (frames) read.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "group": {
+          "description": "Frames summed per section (1: none).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "layout": {
+          "description": "`image stack` (sections are frames or fractions) or `volume` (sections are z planes).",
+          "type": "string"
+        },
+        "mode": {
+          "description": "MRC2014 MODE written: 0 int8, 1 int16, 2 float32, 6 uint16.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "pixel_size_a": {
+          "description": "Pixel size written to the header (Å), when the source records one.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "bytes_written": {
+          "description": "Size of the output in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when every section was read back and hashed equal to what was written.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "What was done to the values (conversions), if anything.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "image",
+        "sections_written",
+        "planes_read",
+        "group",
+        "layout",
+        "mode",
+        "bytes_written",
+        "verified"
       ]
     },
     "PerImageExport": {
