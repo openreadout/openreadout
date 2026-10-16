@@ -28,8 +28,9 @@
 //!    profile's differences), above `min_share` of the lane's highest band and above 3 % of the
 //!    image's strongest band. A band extends to where the signal falls to 5 % of its height or
 //!    to the valley between it and the next band; one whose background steps by more than its
-//!    height (a membrane edge) is not a band. Bands in the top 15 % of the lanes that three
-//!    quarters of the lanes share are the wells and are left out. **Volume** = the sum of
+//!    height (a membrane edge) is not a band. Bands in the top 10 % of the lanes that three
+//!    quarters of the lanes share, above further bands, are the wells and are left out.
+//!    **Volume** = the sum of
 //!    profile − background over the band's rows × the lane width, in stored units × pixels (the
 //!    densitometric volume, as gel-analysis programs report it). A band is `saturated` when any
 //!    pixel of it reaches the saturation level: its volume is then a lower bound.
@@ -1016,12 +1017,13 @@ fn lane_bands(
     }
 }
 
-/// Leave out the wells: bands in the top 15 % of the lanes that at least three quarters of the
-/// lanes (three or more) have at the same row, within 1.5 % of the lanes' length. Sample wells
-/// fill with dye or glow under the imager and read as a band at the top of every lane.
+/// Leave out the wells: bands in the top 10 % of the lanes that at least three quarters of the
+/// lanes (three or more) have at the same row, within 1.5 % of the lanes' length, when half of
+/// those lanes also have bands further down. Sample wells fill with dye or glow under the
+/// imager and read as a band at the top of every lane, above the samples' own bands.
 fn drop_wells(lanes: &mut [Lane], y_range: [f64; 2], notes: &mut Vec<String>) {
     let len = (y_range[1] - y_range[0]).max(1.0);
-    let top = y_range[0] + 0.15 * len;
+    let top = y_range[0] + 0.10 * len;
     let tol = 0.015 * len;
     let n = lanes.len();
     if n < 3 {
@@ -1034,11 +1036,19 @@ fn drop_wells(lanes: &mut [Lane], y_range: [f64; 2], notes: &mut Vec<String>) {
         .collect();
     let mut wells: Vec<f64> = Vec::new();
     for y in candidates {
-        let lanes_with = lanes
+        let with: Vec<&Lane> = lanes
             .iter()
             .filter(|l| l.bands.iter().any(|b| (b.y - y).abs() <= tol))
+            .collect();
+        let below = with
+            .iter()
+            .filter(|l| l.bands.iter().any(|b| b.y > y + tol))
             .count();
-        if lanes_with * 4 >= n * 3 && !wells.iter().any(|w| (w - y).abs() <= tol) {
+        let lanes_with = with.len();
+        if lanes_with * 4 >= n * 3
+            && below * 2 >= lanes_with
+            && !wells.iter().any(|w| (w - y).abs() <= tol)
+        {
             wells.push(y);
         }
     }
@@ -1222,6 +1232,25 @@ mod tests {
         let out = analyse(&s, &req, &mut Vec::new()).unwrap();
         let b = &out.lanes[2].bands;
         assert!((b[1].size.unwrap() - 50.0).abs() < 1.0, "{b:#?}");
+    }
+
+    #[test]
+    fn wells_are_not_bands() {
+        let centres = [40.0, 90.0, 140.0, 190.0, 240.0];
+        // a bright well at row 15 of every lane, sample bands at 120 and 200
+        let s = gel(
+            280,
+            300,
+            &centres,
+            &[(15.0, 900.0), (120.0, 300.0), (200.0, 200.0)],
+        );
+        let mut notes = Vec::new();
+        let out = analyse(&s, &LanesRequest::default(), &mut notes).unwrap();
+        for l in &out.lanes {
+            assert_eq!(l.bands.len(), 2, "{l:#?}");
+            assert!(l.bands[0].y > 100.0);
+        }
+        assert!(notes.iter().any(|n| n.contains("wells")), "{notes:?}");
     }
 
     #[test]
