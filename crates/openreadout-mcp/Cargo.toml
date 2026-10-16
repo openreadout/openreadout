@@ -33,6 +33,7 @@ openreadout-quant = { workspace = true }
 openreadout-assay = { workspace = true }
 openreadout-live = { workspace = true }
 rayon = { workspace = true }
+openreadout-em = { workspace = true }
 openreadout-hdf5 = { workspace = true }
 openreadout-nmr = { workspace = true }
 openreadout-signal = { workspace = true }

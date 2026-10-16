@@ -38,7 +38,8 @@ pub struct ExportArgs {
     /// or `arrow` (Arrow IPC file) for a table, a trace (all sweeps) or mass spectra
     /// (`spectra=true`), `nwb` (NWB 2.x; electrophysiology traces), `jcamp` (JCAMP-DX 5.01; NMR
     /// FIDs and spectra, other 1-D spectra and chromatograms), `asm` (Allotrope Simple Model
-    /// plate-reader JSON) or `rdml` (RDML 1.3; qPCR files). Without it, the extension of
+    /// plate-reader JSON), `rdml` (RDML 1.3; qPCR files) or `mrc` (MRC2014; EM movies, stacks
+    /// and diffraction images). Without it, the extension of
     /// `output` decides; it must not contradict `output`.
     pub format: Option<String>,
     /// Output path; defaults to the input with `.ome.tiff`, `.ome.zarr`, `.mzML`, `.csv`,
@@ -54,6 +55,8 @@ pub struct ExportArgs {
     /// Images: plane selection strings such as `c=0`, `z=2-5`, `t=0,3`.
     #[serde(default)]
     pub select: Vec<String>,
+    /// MRC: sum every N time points into one section (dose fractions of a movie).
+    pub group_frames: Option<u32>,
     /// Images: export this source pyramid level as the full resolution (default 0).
     #[serde(default)]
     pub level: u32,
@@ -375,6 +378,30 @@ fn export_rdml(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json:
     to_value(&r)
 }
 
+/// `format = "mrc"`: one channel of an image to MRC2014 (frames summed with `group_frames`).
+fn export_mrc(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
+    let input = input_path(a)?;
+    let reg = with_strict(registry(), a.strict);
+    let (_, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+    let stack = ds
+        .info()
+        .ok()
+        .and_then(|i| i.images.get(a.image.unwrap_or(0) as usize).map(|im| im.size_t > 1))
+        .unwrap_or(false);
+    let output = a.output.as_ref().map_or_else(
+        || openreadout_em::mrc::write::default_output(&input, stack),
+        PathBuf::from,
+    );
+    let mut o = openreadout_em::mrc::MrcExportOptions::default();
+    o.image = a.image;
+    o.select = a.select.clone();
+    o.group = a.group_frames;
+    o.overwrite = a.overwrite;
+    let r = openreadout_em::mrc::export_mrc(ds.as_mut(), &input, &output, &o)
+        .map_err(|e| mcp_err(&e))?;
+    to_value(&r)
+}
+
 /// `format = "asm"`: a plate-reader export to Allotrope Simple Model JSON.
 fn export_asm(registry: fn() -> Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
     let input = input_path(a)?;
@@ -663,9 +690,10 @@ fn export_data(
         "ome-zarr" | "omezarr" | "zarr" => true,
         "asm" | "allotrope" => return export_asm(registry, &a),
         "rdml" => return export_rdml(registry, &a),
+        "mrc" | "mrcs" => return export_mrc(registry, &a),
         other => {
             return Err(mcp_err(&Error::Usage(format!(
-                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|parquet|arrow|nwb|jcamp)"
+                "unknown export format '{other}' (ome-tiff|ome-zarr|mzml|csv|asm|rdml|parquet|arrow|nwb|jcamp|mrc)"
             ))));
         }
     };

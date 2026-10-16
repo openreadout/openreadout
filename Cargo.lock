@@ -2465,6 +2465,7 @@ dependencies = [
  "openreadout-assay",
  "openreadout-batch",
  "openreadout-core",
+ "openreadout-em",
  "openreadout-fcs",
  "openreadout-figure",
  "openreadout-hdf5",
