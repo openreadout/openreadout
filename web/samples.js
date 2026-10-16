@@ -13,7 +13,8 @@ export const SAMPLES = [
     credit: "Carnegie Mellon University, OpenSlide test data",
     href: "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/",
     licence: "CC0",
-    view: {},
+    // the stained tissue, without the empty glass around it ("Whole image" shows all of it)
+    view: { region: { x: 480, y: 700, width: 1600, height: 1500 } },
     thumb: { region: { x: 380, y: 1150, width: 1400, height: 1050 } },
   },
   {
@@ -30,9 +31,9 @@ export const SAMPLES = [
   },
   {
     id: "plate",
-    file: "phage-growth.pda",
+    file: "phage-defence.pda",
     label: "Plate reader",
-    subject: "Bacteria growing with and without phage, 96 wells",
+    subject: "Bacteria with and without a virus defence, 96 wells",
     format: "SoftMax Pro",
     credit: "Dominik Refardt, Tobias Bergmiller and Rolf Kümmerli",
     href: "https://zenodo.org/records/4976789",

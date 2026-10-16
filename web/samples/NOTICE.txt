@@ -16,8 +16,8 @@ mouse-intestine.czi
   https://zenodo.org/records/5823010
   Licence: CC0-1.0.
 
-phage-growth.pda
-  SoftMax Pro 5 document (120524_1.pda). Dominik Refardt, Tobias Bergmiller and Rolf
+phage-defence.pda
+  SoftMax Pro 5 document (120308b_2.pda). Dominik Refardt, Tobias Bergmiller and Rolf
   Kümmerli, "Data from: Altruism can evolve when relatedness is low: evidence from
   bacteria committing suicide upon phage infection", doi:10.5061/dryad.b1q2n.
   https://zenodo.org/records/4976789
