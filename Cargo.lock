@@ -1916,6 +1916,7 @@ dependencies = [
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
+ "openreadout-ce",
  "openreadout-chrom",
  "openreadout-core",
  "openreadout-czi",
@@ -2055,6 +2056,7 @@ dependencies = [
  "openreadout-abf",
  "openreadout-agilent-ms",
  "openreadout-biophys",
+ "openreadout-ce",
  "openreadout-codecs",
  "openreadout-core",
  "openreadout-czi",
@@ -2126,6 +2128,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-ce"
+version = "0.3.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
 name = "openreadout-chrom"
 version = "0.3.0"
 dependencies = [
@@ -2186,6 +2197,7 @@ dependencies = [
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
+ "openreadout-ce",
  "openreadout-chrom",
  "openreadout-codecs",
  "openreadout-core",
@@ -2675,6 +2687,7 @@ dependencies = [
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
+ "openreadout-ce",
  "openreadout-chrom",
  "openreadout-core",
  "openreadout-czi",
@@ -2762,6 +2775,7 @@ dependencies = [
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
+ "openreadout-ce",
  "openreadout-chrom",
  "openreadout-core",
  "openreadout-czi",
@@ -2898,6 +2912,7 @@ dependencies = [
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
+ "openreadout-ce",
  "openreadout-chrom",
  "openreadout-core",
  "openreadout-czi",

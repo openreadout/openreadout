@@ -48,6 +48,7 @@ default-members = [
     "crates/openreadout-gel",
     "crates/openreadout-epr",
     "crates/openreadout-xrd",
+    "crates/openreadout-ce",
     "crates/openreadout-thermal",
     "crates/openreadout-echem",
     "crates/openreadout-figure",
@@ -127,6 +128,7 @@ openreadout-biophys = { path = "crates/openreadout-biophys", version = "0.3.0" }
 openreadout-gel = { path = "crates/openreadout-gel", version = "0.3.0" }
 openreadout-epr = { path = "crates/openreadout-epr", version = "0.3.0" }
 openreadout-xrd = { path = "crates/openreadout-xrd", version = "0.3.0" }
+openreadout-ce = { path = "crates/openreadout-ce", version = "0.3.0" }
 openreadout-thermal = { path = "crates/openreadout-thermal", version = "0.3.0" }
 openreadout-echem = { path = "crates/openreadout-echem", version = "0.3.0" }
 openreadout-figure = { path = "crates/openreadout-figure", version = "0.3.0" }

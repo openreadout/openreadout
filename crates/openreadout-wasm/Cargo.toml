@@ -52,6 +52,7 @@ openreadout-gel = { workspace = true }
 openreadout-thermal = { workspace = true }
 openreadout-echem = { workspace = true }
 openreadout-xrd = { workspace = true }
+openreadout-ce = { workspace = true }
 openreadout-epr = { workspace = true }
 openreadout-fplc = { workspace = true }
 openreadout-em = { workspace = true }
