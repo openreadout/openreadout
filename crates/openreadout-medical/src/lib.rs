@@ -49,7 +49,9 @@
 mod assurance;
 mod dicom;
 mod nifti;
+mod paravision;
 mod util;
 
 pub use dicom::DicomReader;
 pub use nifti::NiftiReader;
+pub use paravision::ParavisionReader;

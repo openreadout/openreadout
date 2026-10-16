@@ -9,6 +9,7 @@ fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
     let n: u32 = args.get(1).and_then(|v| v.parse().ok()).unwrap_or(0);
     let reg = openreadout_core::Registry::new()
+        .with(Box::new(openreadout_medical::ParavisionReader))
         .with(Box::new(openreadout_medical::NiftiReader))
         .with(Box::new(openreadout_medical::DicomReader));
     let (_, mut ds) = reg.open(Path::new(&args[0])).expect("opens");

@@ -11,6 +11,7 @@ fn main() {
     let vendor = args.iter().any(|a| a == "--vendor");
     let quiet = args.iter().any(|a| a == "--quiet");
     let reg = openreadout_core::Registry::new()
+        .with(Box::new(openreadout_medical::ParavisionReader))
         .with(Box::new(openreadout_medical::NiftiReader))
         .with(Box::new(openreadout_medical::DicomReader));
     let mut ds = match reg.open(path) {
@@ -32,11 +33,18 @@ fn main() {
     }
     if planes {
         for im in &info.images {
-            for t in 0..im.size_t {
-                for z in 0..im.size_z {
-                    match ds.read_plane(im.index, PlaneIndex { c: 0, z, t }) {
-                        Ok(p) => println!("image {} z {z} t {t}: {}", im.index, p.xxh3_hex()),
-                        Err(e) => println!("image {} z {z} t {t}: ERROR {e}", im.index),
+            for c in 0..im.size_c {
+                for t in 0..im.size_t {
+                    for z in 0..im.size_z {
+                        let label = if c > 0 {
+                            format!("image {} c {c} z {z} t {t}", im.index)
+                        } else {
+                            format!("image {} z {z} t {t}", im.index)
+                        };
+                        match ds.read_plane(im.index, PlaneIndex { c, z, t }) {
+                            Ok(p) => println!("{label}: {}", p.xxh3_hex()),
+                            Err(e) => println!("{label}: ERROR {e}"),
+                        }
                     }
                 }
             }
