@@ -5,6 +5,10 @@
 //!   scan with its pixel size, imager, application (chemiluminescence, IRDye, colorimetric,
 //!   stains), exposure, filters, user, dates and the audit log. Notes:
 //!   `docs/formats/biorad-scn.md`.
+//! - **Syngene GeneSys** (`syngene-sgd`, `.sgd`): the compound files G:Box and PXi imagers save
+//!   through GeneSys: one 8- or 16-bit image per capture (every exposure of a series and the
+//!   marker image) with the imager, camera, light, filter, application, exposure, time and user.
+//!   Notes: `docs/formats/syngene-sgd.md`.
 //!
 //! # Example
 //!
@@ -33,14 +37,15 @@
 //!
 //! # API stability
 //!
-//! The supported API is what this page documents: the reader, its format id and
-//! [`ScnDataset`] (returned boxed by `open`).
+//! The supported API is what this page documents: the readers, their format ids and
+//! [`ScnDataset`] and [`SgdDataset`] (returned boxed by `open`).
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]
 
 mod assurance;
 mod mime;
 mod scn;
+mod sgd;
 
 use std::path::Path;
 
@@ -50,9 +55,13 @@ use openreadout_core::source::Input;
 use openreadout_core::{Error, Result};
 
 pub use scn::ScnDataset;
+pub use sgd::SgdDataset;
 
 /// Format id of Bio-Rad Image Lab `.scn` files.
 pub const IMAGE_LAB_FORMAT_ID: &str = scn::FORMAT_ID;
+
+/// Format id of Syngene GeneSys `.sgd` files.
+pub const SYNGENE_FORMAT_ID: &str = sgd::FORMAT_ID;
 
 /// The Bio-Rad Image Lab `.scn` reader.
 #[derive(Debug, Default, Clone, Copy)]
@@ -110,6 +119,87 @@ impl FormatReader for ImageLabReader {
         let file = input.open()?;
         let len = file.size().map_err(|e| Error::io(input.path(), e))?;
         Ok(Box::new(ScnDataset::open(
+            self.descriptor(),
+            input.path().to_path_buf(),
+            file,
+            len,
+        )?))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
+/// The Syngene GeneSys `.sgd` reader.
+#[derive(Debug, Default, Clone, Copy)]
+pub struct SyngeneReader;
+
+/// Whether a compound file holds GeneSys captures: the capture list, or a capture's pixels.
+fn is_genesys(input: &Input) -> bool {
+    let Ok(mut f) = input.open() else {
+        return false;
+    };
+    openreadout_core::cfb::Cfb::open(&mut f, input.path(), SYNGENE_FORMAT_ID).is_ok_and(|c| {
+        c.entries.iter().any(|e| {
+            e.is_stream
+                && (e.path.eq_ignore_ascii_case("Detector/MultiImage/MultiData")
+                    || (e.path.starts_with("Detector/GeneSnap/") && e.path.ends_with("/PixelData")))
+        })
+    })
+}
+
+impl FormatReader for SyngeneReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&assurance::SYNGENE_SGD)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        FormatDescriptor {
+            id: SYNGENE_FORMAT_ID.into(),
+            name: "Syngene GeneSys (.sgd)".into(),
+            vendor: "Syngene".into(),
+            extensions: vec!["sgd".into()],
+            family: "gel-imaging".into(),
+            can_read: true,
+            can_write: false,
+            confidence: assurance::SYNGENE_SGD.confidence,
+            known_gaps: vec![
+                "Validated on two development files (GeneSys 1.5.6.0 on a PXi 6, 1.6.1.0 on a G:Box mini 6); no independent reader decodes the samples, so pixel values are checked only through the correlation with one depositor's TIFF export".into(),
+                "The exposure is reported in seconds, an inference from how the signal grows across one file's exposure series".into(),
+                "Annotations, band and spot-blot analyses, the view and rotation settings and the thumbnail are listed by `info --view structure`, not decoded".into(),
+            ],
+        }
+    }
+
+    fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
+        (has_extension(path, &["sgd"]) && head.starts_with(&openreadout_core::cfb::CFB_MAGIC))
+            .then_some(Detection {
+                format_id: SYNGENE_FORMAT_ID,
+                confidence: DetectConfidence::Likely,
+                note: Some("compound file with the .sgd extension".into()),
+            })
+    }
+
+    fn sniff_input(&self, head: &[u8], input: &Input) -> Option<Detection> {
+        if head.starts_with(&openreadout_core::cfb::CFB_MAGIC) && is_genesys(input) {
+            return Some(Detection {
+                format_id: SYNGENE_FORMAT_ID,
+                confidence: DetectConfidence::Definite,
+                note: None,
+            });
+        }
+        self.sniff(head, input.path())
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        let file = input.open()?;
+        let len = file.size().map_err(|e| Error::io(input.path(), e))?;
+        Ok(Box::new(SgdDataset::open(
             self.descriptor(),
             input.path().to_path_buf(),
             file,

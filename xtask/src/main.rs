@@ -727,7 +727,7 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("gpr", "genepix-gpr"),
         ],
     ),
-    ("gel", &[("", "biorad-scn")]),
+    ("gel", &[("sgd", "syngene-sgd"), ("", "biorad-scn")]),
     // NanoDrop and Qubit exports: one module per instrument; lib/model/table/text are checked
     // against both documents
     (

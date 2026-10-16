@@ -92,6 +92,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_biophys::ZetasizerReader))
         .with(Box::new(openreadout_biophys::GprReader))
         .with(Box::new(openreadout_gel::ImageLabReader))
+        .with(Box::new(openreadout_gel::SyngeneReader))
         .with(Box::new(openreadout_benchtop::NanoDropReader))
         .with(Box::new(openreadout_benchtop::QubitReader))
         .with(Box::new(openreadout_fplc::UnicornResReader))

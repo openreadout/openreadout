@@ -854,6 +854,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_sgd"
+path = "fuzz_targets/whole_sgd.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_itc"
 path = "fuzz_targets/whole_itc.rs"
 test = false
