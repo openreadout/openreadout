@@ -44,8 +44,9 @@ lies at run distance `(n − i) / n`.
   `din`. Bioanalyzer sizes come from the file's standard curve, point to point over aligned
   migration time, as the instrument sizes (`sized_by: instrument`); TapeStation sizes are this
   reader's: the lane is aligned to its ScreenTape's ladder by the lower and upper markers (a
-  shift when only the lower one is there) and sized point to point over run distance
-  (`sized_by: openreadout`).
+  linear map; with only the lower marker, run distances are scaled so it falls on the ladder's)
+  and size is interpolated point to point over run distance (its logarithm when the lane has
+  only a lower marker) (`sized_by: openreadout`).
 - **Table `samples`**: well, name, kind (`ladder` or `sample`), RIN or RINe and ratios, DIN,
   concentration, the software's observations. **Table `peaks`**: one row per peak of every well,
   with the instrument's size, position, height, area, concentration, molarity, % of total and
@@ -60,7 +61,7 @@ lies at run distance `(n − i) / n`.
 `cargo test -p openreadout-corpus-tests --features corpus` (`tests/corpus/chip_oracle/mod.rs`,
 `oracle/chip_oracle.py`): an independent pass over the XML in Python records each well's sample
 count and signal values; every peak the instrument sized lies on this reader's size axis within
-0.01 bp (Bioanalyzer) or within 3 bp (TapeStation, where run distances are stored to 0.1 %).
+0.05 bp (Bioanalyzer) or within 3 bp or 3 % (TapeStation, where run distances are stored to 0.1 %).
 The corpus files are Agilent's demo runs (on the `hold` tier until their redistribution is
 settled).
 

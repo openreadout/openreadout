@@ -62,7 +62,13 @@ TapeStation export:
 - CSV `<name>_Electropherogram.csv`: a header of `Well: name` per lane in the XML's sample order,
   then one row per position along the lane (963 rows in these files), values without an axis.
   The ladder lane's maxima sit at rows `n − RunDistance · n / 100` (±1 row).
-- Sizing check: aligning each lane to the ladder by its lower and upper markers (a linear map of
-  run distance; a shift when only the lower marker is there) and interpolating the ladder's
-  lengths point to point in run distance gives the sample peaks' `Size` within 2.5 bp (mean
-  0.6 bp, the precision of `RunDistance`'s one decimal) on `agilent-tapestation-d1000`.
+- Sizing check, by trying rules against the sample peaks' stored `Size`: aligning each lane to
+  its ladder by the lower and upper markers (a linear map of run distance) and interpolating
+  point to point gives D1000 sizes within 2.5 bp (mean 0.6 bp, the precision of
+  `RunDistance`'s one decimal) with linear sizes and within 4.9 bp (mean 1.4 bp) with the
+  logarithm of size. Assays with only a lower marker (genomic DNA, RNA) fit only when run
+  distances are scaled so the marker falls on the ladder's (a shift is 8 % off on average) and
+  the logarithm of size is interpolated: mean 0.5 %, at most 2 % (linear sizes: mean 3 %, at
+  most 7 %). The reader follows both: with two markers a linear map and linear sizes (the
+  logarithm put two High Sensitivity D1000 peaks 4 % off), with a lower marker only scaling and
+  the logarithm of size.

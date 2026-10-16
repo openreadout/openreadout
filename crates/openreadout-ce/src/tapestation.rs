@@ -260,10 +260,18 @@ pub(crate) fn parse(xml: &str, csv: Option<&str>, csv_name: Option<&str>) -> Res
                 let k = (b - a) / (d - c);
                 Box::new(move |x| a + (x - c) * k)
             }
-            (Some(a), _, Some(c), _) => Box::new(move |x| x + (a - c)),
+            // only the lower marker: scale distances so it falls on the ladder's
+            (Some(a), _, Some(c), _) if c.abs() > 1e-9 => Box::new(move |x| x * a / c),
             _ => Box::new(|x| x),
         };
         let aligned: Vec<f64> = distance.iter().map(|d| map(*d)).collect();
+        // assays with an upper marker size linearly; with only the lower one (genomic DNA,
+        // RNA, sizes over several decades) the logarithm of size fits the instrument
+        let curve = if up_l.is_some() && up_s.is_some() {
+            curve
+        } else {
+            curve.log_size()
+        };
         let name = text(s.node, "Comment").unwrap_or("").to_string();
         let mut extra = BTreeMap::new();
         extra.insert("well".into(), json!(s.well));
@@ -451,7 +459,7 @@ pub(crate) fn parse(xml: &str, csv: Option<&str>, csv_name: Option<&str>) -> Res
         t.extra.insert("sized_by".into(), json!("openreadout"));
         t.extra.insert(
             "sizing_method".into(),
-            json!("ladder point to point, aligned by the markers"),
+            json!("ladder point to point over run distance, aligned by the markers (logarithm of size with a lower marker only)"),
         );
     }
     // experiment

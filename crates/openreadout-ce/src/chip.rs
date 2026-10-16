@@ -51,6 +51,8 @@ pub(crate) fn text(bytes: &[u8]) -> String {
 #[derive(Debug, Clone, Default)]
 pub(crate) struct Curve {
     pub(crate) points: Vec<(f64, f64)>,
+    /// Interpolate the logarithm of the size (sizes spread over decades), else the size.
+    pub(crate) log: bool,
 }
 
 impl Curve {
@@ -58,7 +60,17 @@ impl Curve {
         pts.retain(|(x, s)| x.is_finite() && s.is_finite());
         pts.sort_by(|a, b| a.0.total_cmp(&b.0));
         pts.dedup_by(|a, b| a.0 == b.0);
-        Curve { points: pts }
+        Curve {
+            points: pts,
+            log: false,
+        }
+    }
+
+    /// The same curve, interpolating the logarithm of the size.
+    pub(crate) fn log_size(mut self) -> Curve {
+        self.points.retain(|p| p.1 > 0.0);
+        self.log = true;
+        self
     }
 
     /// The size at `x`, interpolated linearly between the two points around it ("point to
@@ -77,7 +89,14 @@ impl Curve {
         }
         let (a, b) = (p[k - 1], p[k]);
         let t = (x - a.0) / (b.0 - a.0);
-        t.is_finite().then(|| a.1 + t * (b.1 - a.1))
+        if !t.is_finite() {
+            return None;
+        }
+        Some(if self.log {
+            (a.1.ln() + t * (b.1.ln() - a.1.ln())).exp()
+        } else {
+            a.1 + t * (b.1 - a.1)
+        })
     }
 
     /// The size range the curve covers.
