@@ -16,6 +16,7 @@ flate2 = { workspace = true }
 ureq = { version = "3", features = ["rustls"] }
 hex = "0.4"
 openreadout-live = { workspace = true }
+yaml-rust2 = { version = "0.13", default-features = false }
 
 [dev-dependencies]
 tempfile = { workspace = true }

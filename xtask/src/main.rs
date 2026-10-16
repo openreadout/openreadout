@@ -16,11 +16,13 @@
 //! - `coverage [--crate NAME] [--corpus] [--from lcov.info]` — coverage per crate and the uncovered regions of the readers
 //! - `health [--write] [--reports DIR]` — an internal project-health report (target/reports/health.md)
 //! - `snapshot review|accept` — golden-output snapshots of every fixture and corpus file (docs/maintaining.md)
+//! - `ci [--quick|--full|--job NAME|--list|--check]` — the pull-request CI checks on this machine, read from .github/workflows/ci.yml and .github/ci.toml
 //! - `variant intake|status|check` — the new-variant loop: a file or report bundle → corpus entry, intake record, provenance stub (docs/maintaining.md)
 #![forbid(unsafe_code)]
 
 mod agent_plugins;
 mod assurance;
+mod ci;
 mod compress;
 mod corpus;
 mod coverage;
@@ -190,6 +192,11 @@ enum Cmd {
         #[command(subcommand)]
         cmd: variant::VariantCmd,
     },
+    /// Run the pull-request CI checks on this machine: the `run:` steps of
+    /// .github/workflows/ci.yml for the jobs this change affects, as .github/ci.toml describes.
+    /// `--quick` runs format, clippy and the tests of the changed crates; `--check` only checks
+    /// that the two files agree.
+    Ci(ci::CiArgs),
     /// Check that every version string (Cargo, server.json, mcpb, plugins, Python, npm) agrees with Cargo.toml.
     VersionCheck {
         /// Release tag (e.g. v0.1.0): must match too, and CHANGELOG.md must have its heading.
@@ -359,6 +366,7 @@ fn main() -> Result<()> {
         Cmd::RVendor { out, keep_dir } => rpkg::vendor(&root(), out, keep_dir),
         Cmd::VersionCheck { tag } => packaging::version_check(tag.as_deref()),
         Cmd::Variant { cmd } => variant::run(cmd),
+        Cmd::Ci(a) => ci::run(&a),
         Cmd::Guides { write } => guides::run(write),
         Cmd::Health { write, reports } => health::run(write, reports),
         Cmd::Coverage(a) => coverage::run(&a),

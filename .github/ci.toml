@@ -45,10 +45,14 @@ outside-rust = [
 #   skip      steps that only make sense on a runner (installers, uploads), by step name
 #   needs     tools a single step needs, by step name; without them only that step is skipped
 #   quick     steps `--quick` runs (then it also runs the unit tests of the crates you changed)
+#   run_if    steps with an `if:` that run locally anyway. Other steps with an `if:` don't, since
+#             their conditions read runner state (caches, matrix values, other jobs' outputs).
+#   env       local values for environment variables that ci.yml computes with `${{ }}` from
+#             matrix values or other jobs' outputs. They apply to every step of the job.
 #   full_only run the job only with `--full`
 # A job without `local` never runs locally (other operating systems, the MSRV toolchain, jobs
 # that only package or publish). Every other `run:` step of a local job runs, so a step added to
-# ci.yml runs locally too unless it is listed under `skip`.
+# ci.yml runs locally too unless it is listed under `skip`. A matrix job runs once.
 
 [jobs.check]
 paths = ["**", "@outside-rust"]
@@ -71,7 +75,9 @@ requires = ["typos"]
 [jobs.workflows]
 paths = [".github/**"]
 [jobs.workflows.local]
-requires = ["actionlint", "zizmor"]
+requires = ["actionlint"]
+skip = ["Install actionlint"]
+needs = { "zizmor (workflow security)" = ["zizmor"] }
 
 [jobs.corpus-fetch]
 paths = ["corpus/manifest.toml", "xtask/src/corpus.rs", "xtask/src/corpus/**", "xtask/src/zipmember.rs"]
@@ -82,6 +88,9 @@ paths = ["@rust", "corpus/**", "xtask/**", "oracle/qpcr.py"]
 [jobs.corpus-smoke.local]
 requires = ["cargo-nextest", "corpus"]
 full_only = true
+# One local run covers all three CI parts: every test, the malformed-file matrix unsharded.
+run_if = ["Build the CLI the malformed-file matrix runs"]
+env = { FILTER = "all()", MALFORMED_SHARD = "" }
 
 [jobs.examples]
 paths = ["@rust", "examples/**", "corpus/manifest.toml", "xtask/**"]
