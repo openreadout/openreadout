@@ -3,7 +3,6 @@
 //! `cargo xtask assurance-audit --write`.
 
 use openreadout_core::FileInfo;
-#[allow(unused_imports)] // `a::row` appears once the generated tables have rows
 use openreadout_core::assurance::{
     self as a, AssuranceProfile, Basis, FeatureKind as K, Observations, Scope, Validated,
 };
@@ -38,13 +37,25 @@ fn observe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED nanodrop (cargo xtask assurance-audit --write; do not edit)
-const NANODROP_CONFIDENCE: Confidence = Confidence::Low;
+const NANODROP_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
-const NANODROP_VALIDATED: &[Validated] = &[];
+const NANODROP_VALIDATED: &[Validated] = &[
+    a::row(K::Dialect, "nanodrop-8000", 5, 1, 5),
+    a::row(K::Dialect, "nanodrop-eight", 4, 1, 4),
+    a::row(K::Dialect, "nanodrop-one", 1, 1, 1),
+    a::row(K::Dialect, "nanodrop-spectra", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 11),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 11),
+];
 // END GENERATED nanodrop
 
 // BEGIN GENERATED qubit (cargo xtask assurance-audit --write; do not edit)
 const QUBIT_CONFIDENCE: Confidence = Confidence::Low;
 #[rustfmt::skip]
-const QUBIT_VALIDATED: &[Validated] = &[];
+const QUBIT_VALIDATED: &[Validated] = &[
+    a::row(K::Dialect, "qubit-4", 2, 1, 2),
+    a::row(K::Dialect, "qubit-flex", 2, 1, 2),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 4),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 4),
+];
 // END GENERATED qubit

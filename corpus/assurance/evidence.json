@@ -103564,6 +103564,413 @@
       ]
     },
     {
+      "id": "nanodrop-8000-custom-mrna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-dna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-dna-2",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-protein",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-8000-protein-plate",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-8000",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-eight-decimal-comma",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "nanodrop-eight-dsdna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "nanodrop-eight-rna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-eight-tab-aligned",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "nanodrop-one-dsdna",
+      "format": "nanodrop",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-one",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-one-uvvis-nanodrop-r",
+      "format": "nanodrop",
+      "source": "github:beabock/nanodrop",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-spectra",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
       "id": "aics-ND2-aryeh-but3-cont200-1",
       "format": "nd2",
       "source": "allen institute for cell science aicsimageio test resources",
@@ -122933,11 +123340,9 @@
       "format": "plate",
       "source": "synthetic",
       "synthetic": true,
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "assumed": [
         "tables[0].extra.reads[0].mode"
       ],
@@ -122987,11 +123392,9 @@
       "format": "plate",
       "source": "synthetic",
       "synthetic": true,
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -123050,8 +123453,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -123126,8 +123528,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -123201,8 +123602,7 @@
         "tables"
       ],
       "fields": [
-        "tables[].extra.reads[].mode",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].mode"
       ],
       "features": [
         [
@@ -123277,8 +123677,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -123353,8 +123752,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.acquired_at"
@@ -123920,8 +124318,7 @@
       ],
       "fields": [
         "experiment.instrument.model",
-        "tables[].extra.reads[].mode",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].mode"
       ],
       "features": [
         [
@@ -124007,8 +124404,7 @@
       "fields": [
         "experiment.instrument.model",
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -124093,8 +124489,7 @@
       ],
       "fields": [
         "experiment.instrument.model",
-        "tables[].extra.reads[].mode",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].mode"
       ],
       "features": [
         [
@@ -124518,8 +124913,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.acquired_at"
@@ -124592,8 +124986,7 @@
       ],
       "fields": [
         "experiment.instrument.model",
-        "tables[].extra.reads[].mode",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].mode"
       ],
       "assumed": [
         "tables[].extra.acquired_at"
@@ -124676,8 +125069,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -124748,8 +125140,7 @@
       "fields": [
         "experiment.instrument.model",
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.acquired_at"
@@ -124833,8 +125224,7 @@
       "fields": [
         "experiment.instrument.model",
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -124915,8 +125305,7 @@
       "fields": [
         "experiment.instrument.model",
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -124995,8 +125384,7 @@
         "tables"
       ],
       "fields": [
-        "tables[].extra.reads[].mode",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].mode"
       ],
       "features": [
         [
@@ -125067,8 +125455,7 @@
       "fields": [
         "experiment.instrument.model",
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.acquired_at"
@@ -125868,6 +126255,70 @@
       ]
     },
     {
+      "id": "incucyte-incucytedrc-mda-mb-468",
+      "format": "plate",
+      "source": "github:chapmandu2/incucytedrc",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "fields": [
+        "tables[].extra.reads[].mode"
+      ],
+      "features": [
+        [
+          "dialect",
+          "incucyte",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Incucyte",
+          []
+        ],
+        [
+          "acquisition",
+          "kinetic read",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "imaging",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "container text (tab)",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "tables[].extra.reads[].mode",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        21
+      ]
+    },
+    {
       "id": "kaleido-abs-endpoint",
       "format": "plate",
       "source": "github:benchling-open-source/allotropy",
@@ -125879,8 +126330,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -125955,8 +126405,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -126031,8 +126480,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -126108,8 +126556,7 @@
       "fields": [
         "experiment.instrument.model",
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.acquired_at"
@@ -126191,8 +126638,7 @@
         "tables"
       ],
       "fields": [
-        "tables[].extra.reads[].mode",
-        "experiment.acquisition.started_at"
+        "tables[].extra.reads[].mode"
       ],
       "features": [
         [
@@ -126257,8 +126703,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.saved_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.saved_at"
@@ -126329,8 +126774,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.saved_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.saved_at"
@@ -126401,8 +126845,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.saved_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "assumed": [
         "tables[].extra.saved_at"
@@ -126473,8 +126916,7 @@
       ],
       "fields": [
         "tables[].extra.reads[].mode",
-        "tables[].extra.reads[].wavelength_nm",
-        "experiment.acquisition.saved_at"
+        "tables[].extra.reads[].wavelength_nm"
       ],
       "features": [
         [
@@ -127551,11 +127993,9 @@
       "format": "plate",
       "source": "synthetic",
       "synthetic": true,
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -127617,11 +128057,9 @@
       "format": "plate",
       "source": "synthetic",
       "synthetic": true,
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "tables"
-      ],
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
       "features": [
         [
           "dialect",
@@ -129756,6 +130194,154 @@
       "inferred": [
         28,
         28
+      ]
+    },
+    {
+      "id": "qubit-flex-rna-br",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-flex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "qubit-flex-sep-header",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-flex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "qubit4-dsdna-hs",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "qubit4-out-of-range",
+      "format": "qubit",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "qubit-4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
       ]
     },
     {
