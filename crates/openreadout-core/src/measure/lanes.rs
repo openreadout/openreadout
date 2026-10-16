@@ -778,7 +778,7 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
             .enumerate()
             .map(|(k, b)| Band {
                 number: k as u32 + 1,
-                y: oy + (b.y + ya as f64 + 0.5) * scale,
+                y: tenth(oy + (b.y + ya as f64 + 0.5) * scale),
                 y_range: [
                     oy + (b.y0 + ya) as f64 * scale,
                     oy + (b.y1 + ya + 1) as f64 * scale,
@@ -808,7 +808,7 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
         };
         out_lanes.push(Lane {
             number: i as u32 + 1,
-            x: ox + (cx + 0.5) * scale,
+            x: tenth(ox + (cx + 0.5) * scale),
             x_range: [ox + xa as f64 * scale, ox + xb as f64 * scale],
             empty: bands.is_empty(),
             total_volume: lb.total * px_area,
@@ -1003,6 +1003,11 @@ fn lane_bands(
         background: bg,
         total,
     }
+}
+
+/// A pixel position to a tenth of a pixel.
+fn tenth(v: f64) -> f64 {
+    (v * 10.0).round() / 10.0
 }
 
 fn apply_ladder(lanes: &mut [Lane], ld: &LadderRequest, notes: &mut Vec<String>) -> Result<()> {
