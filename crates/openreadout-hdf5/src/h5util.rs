@@ -45,7 +45,7 @@ pub fn open_h5(path: &Path, format: &'static str) -> Result<hdf5_pure::File> {
 }
 
 /// Open an HDF5 file in the namespace `fs`: local files as before (`hdf5-pure`'s own
-/// streaming reader), anything else through [`H5Source`].
+/// streaming reader), anything else through `H5Source`.
 pub fn open_h5_in(fs: &Fs, path: &Path, format: &'static str) -> Result<hdf5_pure::File> {
     let opened = if fs.is_local() {
         hdf5_pure::File::open_streaming(path)

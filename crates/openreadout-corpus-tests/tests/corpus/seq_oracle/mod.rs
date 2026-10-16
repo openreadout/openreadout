@@ -10,6 +10,7 @@
 //!   reads of `seq-fast5-multi-zip` also against pod5's reading of their POD5 conversion.
 //! - FASTQ and BAM: counts, bases, N50, Q30 bases, GC and sampled records against pysam.
 #![allow(dead_code)] // each test binary that includes this module uses a part of it
+#![allow(clippy::many_single_char_names)]
 #![allow(clippy::float_cmp)]
 
 use std::path::Path;
@@ -202,14 +203,12 @@ fn compare_fastq(
         let r = BufReader::new(flate2::read::MultiGzDecoder::new(file));
         let mut h = xxhash_rust::xxh3::Xxh3::new();
         let lines: Vec<String> = r.lines().map_while(Result::ok).collect();
-        let mut k = 0u64;
-        for rec in lines.chunks(4) {
+        for (k, rec) in (0u64..).zip(lines.chunks(4)) {
             if k >= n || rec.len() < 4 {
                 break;
             }
             let name = rec[0][1..].split(' ').next().unwrap_or("");
             h.update(format!("{name}\n{}\n{}\n", rec[1], rec[3]).as_bytes());
-            k += 1;
         }
         let ours = format!("{:032x}", h.digest128());
         if Some(ours.as_str()) != exp["first_records_xxh3"].as_str() {
