@@ -633,6 +633,29 @@ def ephys_new_seeds() -> None:
         b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
 
 
+def abif_shrink(data: bytes, keep: int) -> bytes:
+    """An ABIF file rewritten with every array cut to its first `keep` elements (the directory
+    and every tag kept, so the seed is a complete small file)."""
+    count, off = struct.unpack(">i", data[18:22])[0], struct.unpack(">i", data[26:30])[0]
+    items = []
+    for k in range(count):
+        e = data[off + 28 * k: off + 28 * k + 28]
+        name, num, et, es, n, size, doff, _ = struct.unpack(">4sihhiiii", e)
+        body = e[20:20 + size] if size <= 4 else data[doff:doff + size]
+        if n > keep and size > 4 and es > 0 and size == n * es:
+            n, body = keep, body[: keep * es]
+        items.append((name, num, et, es, n, body))
+    blob, entries = b"", b""
+    for name, num, et, es, n, body in items:
+        if len(body) <= 4:
+            entries += struct.pack(">4sihhii", name, num, et, es, n, len(body)) + body.ljust(4, b"\0") + bytes(4)
+        else:
+            entries += struct.pack(">4sihhiiii", name, num, et, es, n, len(body), 128 + len(blob), 0)
+            blob += body
+    head = b"ABIF" + data[4:6] + struct.pack(">4sihhiiii", b"tdir", 1, 1023, 28, len(items), len(entries), 128 + len(blob), 0)
+    return head.ljust(128, b"\0") + blob + entries
+
+
 def main() -> None:
     try:
         import numpy as np
@@ -771,6 +794,15 @@ def main() -> None:
             blobs.append(b"" if data is None else data[:cut])
         if any(blobs):
             put(target, safe(parts[0][0]) + ".bundle", BUNDLE_SEP.join(blobs))
+    # ABIF: the directory sits at the end, so seeds are whole files with short arrays
+    for name, keep in [
+        ("abif-biopython-3730.ab1", 600),  # BSD-3-Clause (Biopython)
+        ("abif-biopython-fsa.fsa", 600),  # BSD-3-Clause (Biopython)
+        ("abif-fraggler-multiplex.fsa", 1500),  # MIT (Fraggler)
+    ]:
+        data = corpus(name)
+        if data is not None:
+            put("whole_abif", safe(name), abif_shrink(data, keep))
     put("whole_jcamp", "mini.jdx", MINI_JCAMP)
     # Plexon corpus files are share-alike (LOCAL_CUTS); committed seeds are magic-only headers.
     put("whole_plexon", "magic.plx", b"PLEX" + bytes(252))
