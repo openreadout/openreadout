@@ -243,7 +243,9 @@ jobs:
 
   # Every reader against the oracle ground truth, in three parallel parts: the oracle comparisons
   # and the other corpus tests, and two halves of the malformed-file matrix (each input damaged
-  # several ways and read by the CLI), which alone takes longer than the rest.
+  # several ways and read by the CLI), which alone takes longer than the rest. These use cargo
+  # test, not nextest: many corpus tests share state built once per test binary, and nextest's
+  # process per test rebuilt it for each one.
   corpus-smoke:
     name: corpus smoke tier (${{ matrix.part }})
     needs: [changes, corpus-fetch]
@@ -253,9 +255,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { part: oracle, filter: "not binary(malformed)", shard: "" }
-          - { part: malformed 1/2, filter: "binary(malformed)", shard: "1/2" }
-          - { part: malformed 2/2, filter: "binary(malformed)", shard: "2/2" }
+          - { part: oracle, shard: "" }
+          - { part: malformed 1/2, shard: "1/2" }
+          - { part: malformed 2/2, shard: "2/2" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -265,9 +267,6 @@ jobs:
         with:
           key: ${{ matrix.shard == '' && 'oracle' || 'malformed' }}
           save-if: ${{ github.event_name != 'pull_request' && matrix.shard != '2/2' }}
-      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
-        with:
-          tool: cargo-nextest
       - name: Restore the smoke corpus (downloaded once by corpus-fetch)
         id: corpus
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -278,15 +277,20 @@ jobs:
       - name: Fetch what the cache did not have
         if: steps.corpus.outputs.cache-hit != 'true'
         run: cargo xtask corpus fetch --tier smoke --mirror
+      - name: Compare every reader against oracle ground truth
+        if: matrix.shard == ''
+        env:
+          CORPUS_REPORT: ${{ github.workspace }}/target/corpus-report.md
+        run: cargo test --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast -- --skip malformed_matrix
       - name: Build the CLI the malformed-file matrix runs
         if: matrix.shard != ''
         run: cargo build --profile corpus -p openreadout
-      - name: Compare every reader against oracle ground truth
+      # Builds only this test binary, not the other fifty.
+      - name: Malformed-file matrix
+        if: matrix.shard != ''
         env:
-          CORPUS_REPORT: ${{ github.workspace }}/target/corpus-report.md
           MALFORMED_SHARD: ${{ matrix.shard }}
-          FILTER: ${{ matrix.filter }}
-        run: cargo nextest run --cargo-profile corpus --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast -E "$FILTER"
+        run: cargo test --profile corpus -p openreadout-corpus-tests --features corpus --test malformed -- --nocapture
       - name: Publish report
         if: always()
         run: cat target/corpus-report.md >> "$GITHUB_STEP_SUMMARY" || true

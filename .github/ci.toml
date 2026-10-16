@@ -86,11 +86,11 @@ with = ["corpus-smoke", "python", "examples", "r-package"]
 [jobs.corpus-smoke]
 paths = ["@rust", "corpus/**", "xtask/**", "oracle/qpcr.py"]
 [jobs.corpus-smoke.local]
-requires = ["cargo-nextest", "corpus"]
+requires = ["corpus"]
 full_only = true
-# One local run covers all three CI parts: every test, the malformed-file matrix unsharded.
-run_if = ["Build the CLI the malformed-file matrix runs"]
-env = { FILTER = "all()", MALFORMED_SHARD = "" }
+# One local run covers all three CI parts: the oracle tests, then the whole malformed-file matrix.
+run_if = ["Compare every reader against oracle ground truth", "Build the CLI the malformed-file matrix runs", "Malformed-file matrix"]
+env = { MALFORMED_SHARD = "" }
 
 [jobs.examples]
 paths = ["@rust", "examples/**", "corpus/manifest.toml", "xtask/**"]
