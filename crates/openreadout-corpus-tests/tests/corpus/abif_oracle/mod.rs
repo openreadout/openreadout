@@ -56,6 +56,10 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
             }
             tags += 1;
         } else if let Some(n) = want.get("number").and_then(Value::as_f64) {
+            // Biopython reads a bool item of several elements as one truth value (the tuple's)
+            if ours.as_array().is_some_and(|a| a.len() > 1) {
+                continue;
+            }
             match ours.as_f64() {
                 Some(v) if close(v, n) => {}
                 _ => problems.push(format!("{key}: {ours} vs {n}")),

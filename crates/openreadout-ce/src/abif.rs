@@ -77,6 +77,18 @@ impl Item {
                 .map(|c| f64::from_be_bytes([c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7]]))
                 .collect(),
             13 => d.iter().map(|&b| f64::from(u8::from(b != 0))).collect(),
+            // thumbprint: two 32-bit integers and two bytes
+            12 => d
+                .chunks_exact(10)
+                .flat_map(|c| {
+                    [
+                        f64::from(i32::from_be_bytes([c[0], c[1], c[2], c[3]])),
+                        f64::from(i32::from_be_bytes([c[4], c[5], c[6], c[7]])),
+                        f64::from(c[8]),
+                        f64::from(c[9]),
+                    ]
+                })
+                .collect(),
             _ => return None,
         })
     }
@@ -118,18 +130,20 @@ impl Item {
             .then(|| format!("{y:04}-{m:02}-{d:02}"))
     }
 
-    /// A time item: `HH:MM:SS` (hundredths dropped) and seconds since midnight.
+    /// A time item: `HH:MM:SS` and seconds since midnight. The fourth byte should hold
+    /// hundredths of a second, but some Data Collection versions write values above 99 there,
+    /// so it is ignored.
     pub(crate) fn time(&self) -> Option<(String, f64)> {
         if self.etype != 11 || self.data.len() < 4 {
             return None;
         }
-        let (h, m, s, c) = (self.data[0], self.data[1], self.data[2], self.data[3]);
-        if h > 23 || m > 59 || s > 59 || c > 99 {
+        let (h, m, s) = (self.data[0], self.data[1], self.data[2]);
+        if h > 23 || m > 59 || s > 59 {
             return None;
         }
         Some((
             format!("{h:02}:{m:02}:{s:02}"),
-            f64::from(h) * 3600.0 + f64::from(m) * 60.0 + f64::from(s) + f64::from(c) / 100.0,
+            f64::from(h) * 3600.0 + f64::from(m) * 60.0 + f64::from(s),
         ))
     }
 

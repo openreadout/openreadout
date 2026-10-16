@@ -447,7 +447,7 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
     }
 
     // tables
-    let mut call_summary: Option<(usize, Option<f64>, usize)> = None;
+    let mut call_summary: Option<(usize, Option<f64>, Option<usize>)> = None;
     if kind == RunKind::Sanger {
         let called = calls(a, 2).or_else(|| calls(a, 1));
         if let Some(c) = &called {
@@ -456,7 +456,19 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
                 .quality
                 .as_ref()
                 .map_or(0, |q| q.iter().filter(|v| **v >= 20.0).count());
-            call_summary = Some((c.bases.len(), c.quality.as_deref().and_then(mean), q20));
+            // basecallers without quality values (the ABI basecaller of the 310) write zeros
+            let scored = c.quality.as_ref().filter(|q| q.iter().any(|v| *v > 0.0));
+            if c.quality.is_some() && scored.is_none() && !c.bases.is_empty() {
+                notes.push(
+                    "every quality value is 0: the basecaller that wrote this file gives none"
+                        .into(),
+                );
+            }
+            call_summary = Some((
+                c.bases.len(),
+                scored.and_then(|q| mean(q)),
+                scored.map(|_| q20),
+            ));
             let analysed_n = traces
                 .iter()
                 .find(|t| t.name == "analyzed")
@@ -703,7 +715,9 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
                 "PCON2 (quality values)",
             );
         }
-        f.plain("bases_q20", q20, "PCON2 (bases with quality 20 or more)");
+        if let Some(q20) = q20 {
+            f.plain("bases_q20", q20, "PCON2 (bases with quality 20 or more)");
+        }
     }
     if let Some(fs) = &sized {
         if let Some(s) = &fs.ladder {

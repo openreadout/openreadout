@@ -69,6 +69,8 @@ pub struct PreviewOptions {
     /// Trace preview: channel indices (default: the first 8).
     #[serde(default)]
     pub channels: Vec<u32>,
+    /// Trace preview: only this window of the x axis, `[a, b]` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
+    pub x_range: Option<[f64; 2]>,
     /// Spectrum preview: run index.
     pub run: Option<u32>,
     /// Spectrum preview: zero-based spectrum index.
@@ -128,6 +130,7 @@ impl PreviewOptions {
             trace: self.trace,
             sweep: self.sweep,
             channels: self.channels.clone(),
+            x_range: self.x_range,
             run: self.run,
             spectrum: self.spectrum,
             scan: self.scan,
