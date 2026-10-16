@@ -7,3 +7,5 @@ crates/openreadout-mcp/src/app/web/*.json text eol=lf
 crates/openreadout-mcp/src/app/web/*.html text eol=lf
 crates/openreadout-mcp/src/app/web/*.css text eol=lf
 crates/openreadout-mcp/src/app/web/*.js text eol=lf
+# Rust sources: one test reads a source file with include_str! (scripts/ci/line_endings.py).
+*.rs text eol=lf

@@ -1,0 +1,68 @@
+name: Site
+
+# Builds the website in book/ (Astro + Starlight) and checks its links. CI (ci.yml) calls it on
+# pull requests that can change the site; docs.yml calls it on pushes to main, then publishes the
+# result to GitHub Pages. Only pushes add the drop-a-file demo and upload the Pages artifact.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -D warnings  # as in ci.yml, so this job can reuse the `check` job's build cache
+
+jobs:
+  build:
+    name: build the site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          shared-key: dev  # the debug build the `check` job in ci.yml caches
+          save-if: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+      # The format list on the site is the CLI's own (`self formats --json`), and every flag in
+      # `<command> --help` must be on that command's reference page.
+      - name: Format list and command reference from the CLI
+        run: |
+          cargo build --bin openreadout
+          node book/scripts/gen-data.mjs
+          node book/scripts/check-commands.mjs
+      - name: Install the site's dependencies
+        working-directory: book
+        run: npm ci
+      - name: Build
+        working-directory: book
+        run: npm run build
+      # Every in-site link and #fragment of the built site must resolve (book/check_links.py).
+      - name: Check links
+        run: python3 book/check_links.py
+      # The drop-a-file demo (web/, book/src/guides/wasm.md) goes to book/book/demo/ on the published
+      # site. Pull requests skip it: the CI `wasm` job builds and tests it.
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        if: github.event_name != 'pull_request'
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Demo page (WebAssembly build)
+        if: github.event_name != 'pull_request'
+        run: |
+          v=$(awk '/^name = "wasm-bindgen"$/{getline; gsub(/"/,"",$3); print $3; exit}' Cargo.lock)
+          if ! wasm-bindgen --version 2>/dev/null | grep -qx "wasm-bindgen $v"; then
+            cargo install wasm-bindgen-cli --locked --version "$v"
+          fi
+          (cd packaging/wasm && npm ci)
+          scripts/wasm.sh build
+          scripts/wasm.sh demo
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: book/book

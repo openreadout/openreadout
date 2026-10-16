@@ -1,25 +1,24 @@
 name: CI
 
-# Runs on pushes to main, pull requests (including Dependabot's), weekly and on manual dispatch.
-# It skips changes that only touch the website (docs.yml checks those) or the prose files listed
-# below. Pull requests don't run the release builds and only fuzz the targets they could affect.
-# Pushes to main run the release builds, and the weekly run fuzzes all targets for longer.
+# Runs on pull requests (including Dependabot's), pushes to main and manual runs.
+#
+# A pull request only runs the jobs its changes can affect. The `changes` job decides from the
+# path rules in .github/ci.toml (scripts/ci/changes.py); a skipped job counts as passed. Pushes
+# to main and manual runs run every job, so main stays fully tested and keeps the caches that pull
+# requests restore. `ci passed` at the end fails when any job failed or was cancelled; it is the
+# check branch protection requires, together with DCO.
+#
+# `cargo xtask ci` runs the same steps on your machine: it reads this file and .github/ci.toml.
+# Write `run:` steps so they also work there: no `${{ }}` inside `run:` (pass values through
+# `env:`), and paths relative to the repository root.
+#
+# Security advisories for dependencies are checked in advisories.yml (daily and when Cargo.lock
+# changes on main); pull requests check only the crates they add (the `repo` job). The long fuzz
+# run is in nightly.yml.
 on:
   push:
     branches: [main]
-    paths-ignore: &prose
-      - "book/**"
-      - "README.md"
-      - "CONTRIBUTING.md"
-      - "CODE_OF_CONDUCT.md"
-      - "SECURITY.md"
-      - "TRADEMARKS.md"
-      - "AGENTS.md"
-      - "CLAUDE.md"
   pull_request:
-    paths-ignore: *prose
-  schedule:
-    - cron: "23 5 * * 1"
   workflow_dispatch:
 
 # A new push to a pull request cancels the run in progress. Runs on main finish, so they save
@@ -35,9 +34,29 @@ env:
   CARGO_TERM_COLOR: always
   RUSTFLAGS: -D warnings
 
+# Build caches (Swatinem/rust-cache) are saved by runs on main only. A pull request's own cache
+# would be visible to that pull request alone and would push main's caches out of the
+# repository's 10 GB.
 jobs:
+  changes:
+    name: changes
+    runs-on: ubuntu-latest
+    outputs:
+      jobs: ${{ steps.changes.outputs.jobs }}
+      corpus-key: ${{ steps.changes.outputs.corpus-key }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 2  # a pull request's merge commit and its base (first parent)
+      - name: Decide which jobs this change runs (.github/ci.toml)
+        id: changes
+        run: python3 scripts/ci/changes.py --github-output
+
   check:
-    name: fmt, clippy, deny, tests
+    name: rust (fmt, clippy, tests, docs, schema, MCP smoke)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -47,6 +66,15 @@ jobs:
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          shared-key: dev  # restored by the other jobs that build the debug CLI
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: cargo-nextest
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
       - name: Format
         run: cargo fmt --all --check
       - name: Clippy (pedantic, warnings are errors)
@@ -54,28 +82,16 @@ jobs:
           cargo clippy --all-targets -- -D warnings
           cargo clippy -p openreadout --all-targets --features mcp-http -- -D warnings
           cargo clippy -p openreadout-corpus-tests --all-targets --features corpus -- -D warnings
+      # nextest runs the test binaries in parallel (cargo test runs them one after another) and
+      # stops a hanging test (.config/nextest.toml). It does not run doctests, so they follow.
       - name: Unit and CLI tests
-        run: cargo test --no-fail-fast
-      - name: cargo-deny (licenses, bans, advisories)
-        uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
-      - name: Vocabulary check (clean-room rule 5)
-        run: cargo xtask vocab-check
-      - name: Held-out corpus stays held out (docs/benchmark/heldout.md)
-        run: cargo xtask heldout-check
-      - name: Skill parity
-        run: cargo xtask skill-parity
-      - name: Assurance tables and confidence match the committed evidence (docs/assurance.md)
-        run: cargo xtask assurance-audit
-      - name: Ground truth over 1 MiB is stored as .json.gz
-        run: cargo xtask corpus compress --check
+        run: cargo nextest run --no-fail-fast
+      - name: Doctests
+        run: cargo test --doc
       - name: API documentation builds without warnings (missing docs, broken links)
         env:
           RUSTDOCFLAGS: -D warnings
         run: cargo doc --no-deps
-      - name: Maintainer guides current, new-variant intakes consistent (docs/maintaining.md)
-        run: |
-          cargo xtask guides
-          cargo xtask variant check
       - name: JSON schemas are up to date
         run: |
           cargo build -p openreadout
@@ -89,21 +105,107 @@ jobs:
         run: |
           cargo build -p openreadout --features mcp-http
           python3 oracle/mcp_smoke.py --http target/debug/openreadout crates/openreadout-lif/tests/fixtures/synthetic-dims.lif --synthetic
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "22"
       # The MCP App viewer is plain JavaScript embedded as is (crates/openreadout-mcp/MAINTAINING.md).
       - name: MCP viewer app (syntax, helper tests)
         run: |
           node --check crates/openreadout-mcp/src/app/web/viewer.js
           node --test crates/openreadout-mcp/tests/viewer.test.mjs
 
-  # Downloads the smoke corpus once per manifest version and caches it for the jobs below, so
-  # parallel jobs do not each download it (data hosts throttle concurrent downloads). When the
-  # manifest changes, it starts from the most recent cached corpus and downloads the missing files.
+  # Consistency checks that read the repository rather than build the workspace: only xtask is
+  # compiled, so this finishes in a few minutes even when `check` doesn't run.
+  repo:
+    name: repository checks (vocabulary, held-out, guides, versions, licenses, line endings)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 2  # the advisories step compares Cargo.lock with the base
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: cargo-deny
+      - name: Vocabulary check (clean-room rule 2)
+        run: cargo xtask vocab-check
+      - name: Held-out corpus stays held out (docs/benchmark/heldout.md)
+        run: cargo xtask heldout-check
+      - name: Skill parity
+        run: cargo xtask skill-parity
+      - name: Assurance tables and confidence match the committed evidence (docs/assurance.md)
+        run: cargo xtask assurance-audit
+      - name: Ground truth over 1 MiB is stored as .json.gz
+        run: cargo xtask corpus compress --check
+      - name: Maintainer guides current, new-variant intakes consistent (docs/maintaining.md)
+        run: |
+          cargo xtask guides
+          cargo xtask variant check
+      - name: Version strings agree with Cargo.toml
+        run: cargo xtask version-check
+      - name: xtask tests
+        run: cargo test -p xtask
+      - name: Embedded files keep LF line endings on Windows
+        run: python3 scripts/ci/line_endings.py
+      - name: CI path rules and local steps match this workflow (.github/ci.toml)
+        run: cargo xtask ci --check
+      - name: cargo-deny (licenses, bans, sources)
+        run: cargo deny check licenses bans sources
+      - name: Security advisories for crates this change adds
+        run: python3 scripts/ci/advisories.py
+
+  typos:
+    name: typos (spell check, _typos.toml)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).typos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: typos@1.51.1
+      - name: typos
+        run: typos
+
+  workflows:
+    name: workflows (actionlint, zizmor)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: zizmor@1.30.1
+      - name: Install actionlint
+        run: |
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: actionlint
+        run: actionlint
+      # Offline audits only, so results do not depend on the GitHub API. The pinning policy is in
+      # .github/zizmor.yml.
+      - name: zizmor (workflow security)
+        run: zizmor --offline --min-severity low --config .github/zizmor.yml .github/workflows
+
+  # Downloads the smoke corpus once per version of the smoke tier and caches it for the jobs
+  # below, so parallel jobs do not each download it. On a cache miss it starts from the most
+  # recent cached corpus, takes the rest from the mirror on GitHub Releases (corpus-mirror.yml)
+  # and only what neither has from the original hosts.
   corpus-fetch:
     name: fetch the smoke corpus
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs)['corpus-fetch']
     runs-on: ubuntu-latest
+    env:
+      CORPUS_KEY: corpus-smoke-${{ needs.changes.outputs.corpus-key }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -112,61 +214,91 @@ jobs:
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          key: ${{ env.CORPUS_KEY }}
           enableCrossOsArchive: true
           lookup-only: true
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          key: ${{ env.CORPUS_KEY }}
           restore-keys: corpus-smoke-
           enableCrossOsArchive: true
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          shared-key: xtask
+          save-if: ${{ github.ref == 'refs/heads/main' }}
       - if: steps.cache.outputs.cache-hit != 'true'
-        run: cargo xtask corpus fetch --tier smoke
+        name: Fetch the smoke corpus (mirror first, then the original hosts)
+        run: cargo xtask corpus fetch --tier smoke --mirror
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          key: ${{ env.CORPUS_KEY }}
           enableCrossOsArchive: true
 
+  # Every reader against the oracle ground truth, in three parallel parts: the oracle comparisons
+  # and the other corpus tests, and two halves of the malformed-file matrix (each input damaged
+  # several ways and read by the CLI), which alone takes longer than the rest.
   corpus-smoke:
-    name: corpus smoke tier vs oracle
-    needs: corpus-fetch
+    name: corpus smoke tier (${{ matrix.part }})
+    needs: [changes, corpus-fetch]
+    if: fromJSON(needs.changes.outputs.jobs)['corpus-smoke']
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { part: oracle, filter: "not binary(malformed)", shard: "" }
+          - { part: malformed 1/2, filter: "binary(malformed)", shard: "1/2" }
+          - { part: malformed 2/2, filter: "binary(malformed)", shard: "2/2" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: ${{ matrix.shard == '' && 'oracle' || 'malformed' }}
+          save-if: ${{ github.ref == 'refs/heads/main' && matrix.shard != '2/2' }}
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: cargo-nextest
       - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        id: corpus
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
+          key: corpus-smoke-${{ needs.changes.outputs.corpus-key }}
           enableCrossOsArchive: true
       - name: Fetch what the cache did not have
-        run: cargo xtask corpus fetch --tier smoke
+        if: steps.corpus.outputs.cache-hit != 'true'
+        run: cargo xtask corpus fetch --tier smoke --mirror
+      - name: Build the CLI the malformed-file matrix runs
+        if: matrix.shard != ''
+        run: cargo build --profile corpus -p openreadout
       - name: Compare every reader against oracle ground truth
-        run: CORPUS_REPORT=corpus-report.md cargo test --no-fail-fast -p openreadout-corpus-tests --features corpus --profile corpus -- --nocapture
+        env:
+          CORPUS_REPORT: ${{ github.workspace }}/corpus-report.md
+          MALFORMED_SHARD: ${{ matrix.shard }}
+          FILTER: ${{ matrix.filter }}
+        run: cargo nextest run --cargo-profile corpus --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast -E "$FILTER"
       - name: Publish report
         if: always()
         run: cat corpus-report.md >> "$GITHUB_STEP_SUMMARY" || true
 
   # Cheap (Linux, no corpus, no binary, no model): the eval harness's lint, its corpus-free tests
   # (corpus- and oracle-reader-dependent ones skip) and the committed questions and README counts
-  # against the oracle JSON and facts files (evals/README.md). Runs on every push.
+  # against the oracle JSON and facts files (evals/README.md).
   evals:
     name: evals harness (ruff, pytest, generate --check)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).evals
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     defaults:
       run:
         working-directory: evals
@@ -177,10 +309,10 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
+      - name: Install uv
+        run: python -m pip install uv==0.9.26
       - name: uv (the evals project's locked environment)
-        run: |
-          python -m pip install uv==0.9.26
-          uv sync --locked
+        run: uv sync --locked
       - name: ruff (lint and format, evals/pyproject.toml)
         run: |
           uv run --locked ruff check .
@@ -190,60 +322,508 @@ jobs:
       - name: Questions and README counts are up to date
         run: uv run --locked python generate.py --check
 
-  python-tests:
-    name: python ${{ matrix.python }} (openreadout + bioio plugin)
-    needs: corpus-fetch
+  # The Python package and the bioio plugin, on the oldest supported Python (the abi3 floor) and the
+  # newest the oracle readers support. One abi3 wheel serves both. Pull requests build it with the
+  # dev profile, which takes a few minutes instead of the release profile's ten; release.yml builds
+  # the published wheels.
+  python:
+    name: python 3.10 and 3.13 (openreadout + bioio plugin)
+    needs: [changes, corpus-fetch]
+    if: fromJSON(needs.changes.outputs.jobs).python
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        # Oldest supported (abi3 floor) and newest the oracle readers support.
-        python: ["3.10", "3.13"]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: ${{ matrix.python }}
+          python-version: |
+            3.10
+            3.13
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
-          enableCrossOsArchive: true
-      - name: Fetch what the cache did not have
-        run: cargo xtask corpus fetch --tier smoke
       # We don't use sccache here. It saves each compiled file as a separate Actions cache entry,
       # hundreds per run, which filled the repository's 10 GB cache and pushed out the build and
       # corpus caches the other jobs use.
-      - name: Build the abi3 wheel (manylinux)
-        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
-          command: build
-          args: --out dist  # profile release-py comes from pyproject.toml
-          manylinux: auto
-      - name: Install the wheel, the bioio plugin and the (permissive) oracle readers
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        id: corpus
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ needs.changes.outputs.corpus-key }}
+          enableCrossOsArchive: true
+      - name: Fetch what the cache did not have
+        if: steps.corpus.outputs.cache-hit != 'true'
+        run: cargo xtask corpus fetch --tier smoke --mirror
+      - name: Install maturin
+        run: python3.13 -m pip install maturin==1.15.0
+      - name: Build the abi3 wheel
+        run: maturin build --profile dev --out dist
+      - name: Test the wheel and the bioio plugin on each Python, then lint and type-check
+        env:
+          PYTHONS: python3.10 python3.13
+          OPENREADOUT_CORPUS_DIR: ${{ github.workspace }}/corpus/files
+        run: scripts/ci/python_tests.sh
+
+  wasm:
+    name: WebAssembly build, Node tests, demo page
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+      - name: wasm-bindgen-cli at the wasm-bindgen version in Cargo.lock
+        run: |
+          v=$(awk '/^name = "wasm-bindgen"$/{getline; gsub(/"/,"",$3); print $3; exit}' Cargo.lock)
+          if ! wasm-bindgen --version 2>/dev/null | grep -qx "wasm-bindgen $v"; then
+            cargo install wasm-bindgen-cli --locked --version "$v"
+          fi
+      - name: Clippy (wasm32)
+        run: cargo clippy -p openreadout-wasm --no-deps --target wasm32-unknown-unknown --all-targets -- -D warnings
+      - name: binaryen (wasm-opt)
+        working-directory: packaging/wasm
+        run: npm ci
+      - name: Build (size profile + wasm-opt)
+        run: scripts/wasm.sh build | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: wasm-bindgen tests in Node, npm wrapper and demo page tests
+        run: scripts/wasm.sh test
+      - name: npm package contents
+        working-directory: packaging/wasm
+        run: npm pack --dry-run
+
+  test-os:
+    name: tests on ${{ matrix.os }}
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs)['test-os']
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: cargo-nextest
+      - name: Unit and CLI tests
+        run: cargo nextest run --no-fail-fast
+
+  msrv:
+    name: MSRV (rust-version in Cargo.toml)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).msrv
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Read rust-version from the workspace manifest
+        id: msrv
+        run: echo "version=$(sed -n 's/^rust-version = "\(.*\)"/\1/p' Cargo.toml)" >> "$GITHUB_OUTPUT"
+      - name: Install the MSRV toolchain
+        env:
+          MSRV: ${{ steps.msrv.outputs.version }}
+        run: rustup toolchain install "$MSRV" --profile minimal
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - name: cargo check on the MSRV
+        env:
+          MSRV: ${{ steps.msrv.outputs.version }}
+        run: cargo "+$MSRV" check
+
+  coverage:
+    name: coverage (llvm-cov)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          components: llvm-tools-preview
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+        with:
+          tool: cargo-llvm-cov,cargo-nextest
+      - name: Run the tests under coverage
+        run: cargo llvm-cov nextest --lcov --output-path lcov.info
+      - name: Summary
+        run: |
+          {
+            echo '### Line coverage'
+            echo '```'
+            cargo llvm-cov report --summary-only
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Coverage per crate and uncovered reader regions
+        run: |
+          cargo xtask coverage --from lcov.info --out target/coverage > /dev/null
+          cat target/coverage/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lcov
+          path: lcov.info
+          retention-days: 14
+
+  # Every publishable crate packages and builds from its .crate file, in dependency order.
+  # Multi-package publish (cargo >= 1.90) resolves the not-yet-published internal crates from a
+  # local overlay registry, so this works before anything is on crates.io. Nothing is uploaded.
+  publish-dry-run:
+    name: crates.io publish dry run
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs)['publish-dry-run']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      # No build cache here: the packaged crates are compiled as registry crates, which cargo
+      # treats as immutable, so a cached build of the same version would hide API changes.
+      - name: cargo publish --dry-run (all publishable crates)
+        run: |
+          # The list and its order come from the crates' manifests (dependencies first), so a new
+          # crate cannot be left out.
+          # shellcheck disable=SC2046
+          cargo publish --dry-run --locked $(cargo xtask publish-order --flags)
+      - name: Packages carry no tests, fixtures or corpus files
+        # Multi-package dry runs leave the .crate files under target/package/tmp-crate (and
+        # tmp-registry) rather than target/package, depending on the cargo version.
+        run: |
+          set -euo pipefail
+          crates=$(find target/package -name 'openreadout-*.crate' | sort)
+          [ -n "$crates" ] || { echo "::error::no .crate files found under target/package"; exit 1; }
+          for f in $crates; do
+            if tar -tzf "$f" | grep -E '/(tests|corpus|fixtures|oracle)/'; then
+              echo "::error::$f contains test or corpus files"; exit 1
+            fi
+          done
+          echo "$crates" | xargs ls -l
+
+  # THIRD-PARTY-NOTICES.md (licenses of everything linked into the binary) must match Cargo.lock.
+  third-party-notices:
+    name: THIRD-PARTY-NOTICES.md is up to date
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs)['third-party-notices']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Install cargo-about
+        env:
+          RUSTFLAGS: ""  # a third-party tool: its own warnings must not fail the job
+        run: cargo install cargo-about --locked --features cli --version 0.9.2
+      - name: Regenerate and compare
+        run: |
+          cargo fetch --locked
+          cargo about generate --frozen --fail -m crates/openreadout-cli/Cargo.toml about.hbs -o THIRD-PARTY-NOTICES.md
+          git diff --exit-code -- THIRD-PARTY-NOTICES.md || {
+            echo "::error::THIRD-PARTY-NOTICES.md is stale; regenerate it with the command at the top of the file"; exit 1; }
+
+  # Release readiness: the package-manager templates render, the npm package tests pass and the
+  # package packs, and the agent plugins validate. (Version strings: the `repo` job.)
+  release-check:
+    name: release readiness (manifests, npm, plugins)
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs)['release-check']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          shared-key: xtask
+          save-if: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+      - name: Homebrew formula and Scoop manifest render from sample checksums
         run: |
           set -e
-          python -m pip install --upgrade pip
-          WHEEL=$(ls dist/openreadout-*.whl)
-          python -m pip install "${WHEEL}[test]" xxhash
-          python -m pip install "./python/bioio-openreadout[test]"
-          python -m pip list | grep -Ei 'openreadout|bioio|czifile|liffile|nd2|dask|xarray'
-      - name: pytest (openreadout + bioio-openreadout)
+          for a in aarch64-apple-darwin x86_64-apple-darwin aarch64-unknown-linux-musl x86_64-unknown-linux-musl; do
+            echo "$(printf '%064d' 0)  openreadout-$a.tar.gz"
+          done > target/sample-sums
+          echo "$(printf '%064d' 0)  openreadout-x86_64-pc-windows-msvc.zip" >> target/sample-sums
+          cargo xtask homebrew-formula --sums target/sample-sums --out target/packaging/openreadout.rb
+          cargo xtask scoop-manifest --sums target/sample-sums --out target/packaging/openreadout.json
+          cargo xtask winget-manifest --sums target/sample-sums --out target/packaging/winget
+          ruby -c target/packaging/openreadout.rb
+      - name: npm wrapper tests and pack
+        working-directory: packaging/npm
+        run: |
+          npm test
+          npm pack --dry-run
+      # The plugins are published from their own repository, openreadout/agent-plugins, which
+      # `cargo xtask agent-plugins` builds. `claude plugin validate` misses some load errors (a
+      # marketplace entry that declares components next to plugin.json), so the plugin is also
+      # installed and loaded. None of these commands needs a login. 2.1.281 or later accepts the
+      # directory-listing fields.
+      - name: Claude Code plugin validates and loads
+        env:
+          CLAUDE_CONFIG_DIR: ${{ runner.temp }}/claude
+          DISABLE_AUTOUPDATER: "1"
+          CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1"
+        run: | # zizmor: ignore[adhoc-packages] (the Claude Code CLI at a pinned version, only to validate the plugin)
+          set -e
+          tree="$RUNNER_TEMP/agent-plugins"
+          cargo xtask agent-plugins --out "$tree"
+          npm install --prefix "$RUNNER_TEMP/claude-code" --no-audit --no-fund @anthropic-ai/claude-code@2.1.288
+          claude="$RUNNER_TEMP/claude-code/node_modules/.bin/claude"
+          "$claude" plugin validate --strict "$tree"
+          "$claude" plugin validate --strict "$tree/.claude-plugin/plugin.json"
+          "$claude" plugin marketplace add "$tree"
+          "$claude" plugin install openreadout@openreadout
+          "$claude" plugin list
+          "$claude" plugin details openreadout@openreadout
+      - name: Scripts parse
+        run: |
+          bash -n scripts/bump-version.sh
+          bash -n scripts/recipe-sha256.sh
+          bash -n scripts/macos-sign.sh
+          bash -n packaging/npm/scripts/smoke-test.sh
+          sh -n scripts/install.sh
+
+  examples:
+    name: examples against the smoke corpus
+    needs: [changes, corpus-fetch]
+    if: fromJSON(needs.changes.outputs.jobs).examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          shared-key: dev  # the `check` job's debug build
+          save-if: false
+      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        id: corpus
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ needs.changes.outputs.corpus-key }}
+          enableCrossOsArchive: true
+      - name: Fetch what the cache did not have
+        if: steps.corpus.outputs.cache-hit != 'true'
+        run: cargo xtask corpus fetch --tier smoke --mirror
+      - name: Build the CLI
+        run: cargo build -p openreadout
+      - name: Run examples/shell and examples/mcp
+        env:
+          OPENREADOUT: ${{ github.workspace }}/target/debug/openreadout
+        run: |
+          set -euo pipefail
+          files=corpus/files
+          work=$(mktemp -d)
+
+          echo "::group::batch_summarize.sh over the smoke tier"
+          examples/shell/batch_summarize.sh "$files" > "$work/summary.tsv"
+          test "$(wc -l < "$work/summary.tsv")" -gt 20
+          head -5 "$work/summary.tsv"
+          echo "::endgroup::"
+
+          echo "::group::triage_corruption.sh: intact files pass, a truncated copy fails"
+          mkdir "$work/triage"
+          cp "$files/zenodo7015307-T-3-Z-5-CH-2.czi" "$files/aics-ND2-dims-p2z5t3-2c4y32x32.nd2" \
+             "$files/aics-s-1-t-4-c-2-z-1.lif" "$work/triage/"
+          echo "not an instrument file" > "$work/triage/notes.txt"
+          examples/shell/triage_corruption.sh "$work/triage"
+          head -c 3000000 "$files/zenodo7015307-T-3-Z-5-CH-2.czi" > "$work/triage/truncated.czi"
+          if examples/shell/triage_corruption.sh "$work/triage" > "$work/triage.txt"; then
+            echo "::error::triage_corruption.sh did not flag a truncated file"; exit 1
+          fi
+          cat "$work/triage.txt"
+          grep -q '^CORRUPT .*truncated.czi' "$work/triage.txt"
+          echo "::endgroup::"
+
+          echo "::group::export_planes.sh (OME-TIFF and OME-Zarr)"
+          examples/shell/export_planes.sh "$work/planes" "$files/zenodo7015307-T-3-Z-5-CH-2.czi" \
+            "$files/aics-ND2-dims-p2z5t3-2c4y32x32.nd2" "$files/aics-s-1-t-4-c-2-z-1.lif"
+          CHANNEL=1 TO=ome-zarr examples/shell/export_planes.sh "$work/planes" "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
+          test -f "$work/planes/zenodo7015307-T-3-Z-5-CH-2_img0_c0_z2.ome.tiff"
+          test -f "$work/planes/zenodo7015307-T-3-Z-5-CH-2_img0_c1_z2.ome.zarr/zarr.json"
+          echo "::endgroup::"
+
+          echo "::group::mcp_client.py"
+          python3 examples/mcp/mcp_client.py "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
+          echo "::endgroup::"
+
+  # R package (r/openreadout, book/src/guides/r.md): clippy and unit tests of the extendr crate (they
+  # need R), install from the checkout, testthat against the smoke corpus. The install uses the dev
+  # profile, which reuses the unit tests' build. On Linux, the self-contained tarball (`cargo xtask
+  # r-vendor`) goes through R CMD check --as-cran when the R package or its dependencies changed,
+  # and on every push to main (the tarball-size NOTE is expected).
+  r-package:
+    name: R package on ${{ matrix.os }}
+    needs: [changes, corpus-fetch]
+    if: fromJSON(needs.changes.outputs.jobs)['r-package']
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    env:
+      OPENREADOUT_R_PROFILE: dev
+      OPENREADOUT_R_JOBS: "4"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+        with:
+          r-version: release
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+        with:
+          working-directory: r/openreadout
+          extra-packages: any::rcmdcheck, any::roxygen2
+          needs: check
+      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
+        id: corpus
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: corpus/files
+          key: corpus-smoke-${{ needs.changes.outputs.corpus-key }}
+          enableCrossOsArchive: true
+      - name: Fetch what the cache did not have
+        if: steps.corpus.outputs.cache-hit != 'true'
+        run: cargo xtask corpus fetch --tier smoke --mirror
+      - name: Clippy and unit tests of the extendr crate
+        run: |
+          cargo clippy -p openreadout-r --all-targets -- -D warnings
+          cargo test -p openreadout-r
+      - name: man/ and NAMESPACE are up to date
+        run: |
+          Rscript -e 'roxygen2::roxygenise("r/openreadout", load_code = roxygen2::load_source)'
+          git diff --exit-code -- r/openreadout/man r/openreadout/NAMESPACE
+      - name: Install from the checkout and run testthat
         env:
           OPENREADOUT_CORPUS_DIR: ${{ github.workspace }}/corpus/files
-        run: python -m pytest crates/openreadout-py/tests python/bioio-openreadout/tests -ra
-      - name: Lint and type-check the Python sources
-        if: matrix.python == '3.13'
         run: |
-          python -m pip install ruff mypy
-          ruff format --check crates/openreadout-py python
-          ruff check crates/openreadout-py python
-          mypy
+          lib="$RUNNER_TEMP/r-library"
+          mkdir -p "$lib"
+          R CMD INSTALL --library="$lib" r/openreadout
+          R_LIBS="$lib" Rscript -e 'testthat::test_dir("r/openreadout/tests/testthat", package = "openreadout", load_package = "installed", stop_on_failure = TRUE)'
+      - name: R CMD check --as-cran of the vendored tarball
+        if: matrix.os == 'ubuntu-latest' && fromJSON(needs.changes.outputs.jobs)['r-cran']
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: "false"
+          OPENREADOUT_R_PROFILE: release-r
+        run: |
+          cargo xtask r-vendor
+          R CMD build r/openreadout
+          # Fails on any error or warning except "checking compiled code": Rust's standard library
+          # links exit/abort, which every Rust-based R package reports and cannot avoid.
+          # shellcheck disable=SC2016  # R code, not shell: $ is R's member operator
+          Rscript -e '
+            r <- rcmdcheck::rcmdcheck(list.files(pattern = "^openreadout_.*[.]tar[.]gz$"),
+                                      args = c("--as-cran", "--no-manual"), error_on = "never")
+            w <- r$warnings[!grepl("^checking compiled code", r$warnings)]
+            if (length(r$errors) > 0 || length(w) > 0) quit(status = 1)'
+
+  # Workflow integrations (integrations/, book/src/guides/pipelines.md) against this commit's binary:
+  # nf-test of the Nextflow modules, planemo lint of the Galaxy tools, the Snakemake wrapper tests.
+  integrations:
+    name: Nextflow, Galaxy and Snakemake integrations
+    needs: changes
+    if: fromJSON(needs.changes.outputs.jobs).integrations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          shared-key: dev  # the `check` job's debug build
+          save-if: false
+      - name: Build openreadout and put it on PATH
+        run: |
+          cargo build -p openreadout
+          echo "$GITHUB_WORKSPACE/target/debug" >> "$GITHUB_PATH"
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: nf-core/setup-nextflow@893c28b667aedeba26e37f296d260ccc5bc4d914 # v3.0.1
+      - uses: nf-core/setup-nf-test@4069fbbaabe94c08faba4ad261bfa88225ba133f # v2.1.0
+        with:
+          version: "0.9.5"
+      - name: nf-test (Nextflow modules)
+        working-directory: integrations/nextflow
+        run: |
+          nextflow lint modules
+          nf-test test --ci
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: planemo lint (Galaxy tools) and Snakemake wrapper tests
+        run: |
+          python -m pip install planemo snakemake
+          planemo lint --fail_level warn integrations/galaxy
+          for w in export batch; do
+            (cd "integrations/snakemake/wrappers/openreadout/$w/test" && snakemake --cores 1 all)
+          done
+
+  # The website build and link check (site.yml). Pushes to main build and publish it in docs.yml.
+  site:
+    name: site
+    needs: changes
+    if: github.event_name == 'pull_request' && fromJSON(needs.changes.outputs.jobs).site
+    uses: ./.github/workflows/site.yml # zizmor: ignore[self-repository] (actionlint knows only ./)
+
+  # The fuzz targets the change can reach, 15 s each, in parallel shards (fuzz.yml). A crash in a
+  # target the change only reaches through fuzz/Cargo.lock or the toolchain is filed as an issue
+  # and doesn't fail the pull request. nightly.yml fuzzes every target for longer.
+  fuzz:
+    name: fuzz
+    needs: changes
+    if: github.event_name == 'pull_request' && fromJSON(needs.changes.outputs.jobs).fuzz
+    uses: ./.github/workflows/fuzz.yml # zizmor: ignore[self-repository] (actionlint knows only ./)
+    permissions:
+      contents: read
+      issues: write
+    with:
+      seconds: 15
 
   # Release builds for each platform we publish. These skip pull requests because test-os already
   # tests on Windows and macOS, and these builds tie up macOS runners for up to 25 minutes.
@@ -289,503 +869,43 @@ jobs:
           [ "$RUNNER_OS" = Windows ] && BIN=$BIN.exe
           $BIN --version && $BIN self formats --json | head -c 300
 
-  # Every publishable crate packages and builds from its .crate file, in dependency order.
-  # Multi-package publish (cargo >= 1.90) resolves the not-yet-published internal crates from a
-  # local overlay registry, so this works before anything is on crates.io. Nothing is uploaded.
-  publish-dry-run:
-    name: crates.io publish dry run
+  # The one check branch protection needs (with DCO): every job above passed or was skipped
+  # because the change cannot affect it. Skipped jobs report success, so they never block a merge.
+  ci-passed:
+    name: ci passed
+    if: always()
+    needs:
+      - changes
+      - check
+      - repo
+      - typos
+      - workflows
+      - corpus-fetch
+      - corpus-smoke
+      - evals
+      - python
+      - wasm
+      - test-os
+      - msrv
+      - coverage
+      - publish-dry-run
+      - third-party-notices
+      - release-check
+      - examples
+      - r-package
+      - integrations
+      - site
+      - fuzz
+      - cross-build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      # No build cache here: the packaged crates are compiled as registry crates, which cargo
-      # treats as immutable, so a cached build of the same version would hide API changes.
-      - name: cargo publish --dry-run (all publishable crates)
-        run: |
-          # The list and its order come from the crates' manifests (dependencies first), so a new
-          # crate cannot be left out.
-          # shellcheck disable=SC2046
-          cargo publish --dry-run --locked $(cargo xtask publish-order --flags)
-      - name: Packages carry no tests, fixtures or corpus files
-        # Multi-package dry runs leave the .crate files under target/package/tmp-crate (and
-        # tmp-registry) rather than target/package, depending on the cargo version.
-        run: |
-          set -euo pipefail
-          crates=$(find target/package -name 'openreadout-*.crate' | sort)
-          [ -n "$crates" ] || { echo "::error::no .crate files found under target/package"; exit 1; }
-          for f in $crates; do
-            if tar -tzf "$f" | grep -E '/(tests|corpus|fixtures|oracle)/'; then
-              echo "::error::$f contains test or corpus files"; exit 1
-            fi
-          done
-          echo "$crates" | xargs ls -l
-
-  # THIRD-PARTY-NOTICES.md (licenses of everything linked into the binary) must match Cargo.lock.
-  third-party-notices:
-    name: THIRD-PARTY-NOTICES.md is up to date
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: Install cargo-about
+      - name: Every job passed or was skipped
         env:
-          RUSTFLAGS: ""  # a third-party tool: its own warnings must not fail the job
-        run: cargo install cargo-about --locked --features cli --version 0.9.2
-      - name: Regenerate and compare
+          RESULTS: ${{ toJSON(needs) }}
         run: |
-          cargo fetch --locked
-          cargo about generate --frozen --fail -m crates/openreadout-cli/Cargo.toml about.hbs -o THIRD-PARTY-NOTICES.md
-          git diff --exit-code -- THIRD-PARTY-NOTICES.md || {
-            echo "::error::THIRD-PARTY-NOTICES.md is stale; regenerate it with the command at the top of the file"; exit 1; }
-
-  # Release readiness: every version string agrees with Cargo.toml, the package-manager templates
-  # render, and the npm package tests pass and the package packs.
-  release-check:
-    name: release readiness (versions, manifests, npm)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "22"
-      - name: Version strings agree with Cargo.toml
-        run: cargo xtask version-check
-      - name: xtask tests (manifest rendering)
-        run: cargo test -p xtask
-      - name: Homebrew formula and Scoop manifest render from sample checksums
-        run: |
-          set -e
-          for a in aarch64-apple-darwin x86_64-apple-darwin aarch64-unknown-linux-musl x86_64-unknown-linux-musl; do
-            echo "$(printf '%064d' 0)  openreadout-$a.tar.gz"
-          done > sample-sums
-          echo "$(printf '%064d' 0)  openreadout-x86_64-pc-windows-msvc.zip" >> sample-sums
-          cargo xtask homebrew-formula --sums sample-sums --out target/packaging/openreadout.rb
-          cargo xtask scoop-manifest --sums sample-sums --out target/packaging/openreadout.json
-          cargo xtask winget-manifest --sums sample-sums --out target/packaging/winget
-          ruby -c target/packaging/openreadout.rb
-      - name: npm wrapper tests and pack
-        working-directory: packaging/npm
-        run: |
-          npm test
-          npm pack --dry-run
-      # The plugins are published from their own repository, openreadout/agent-plugins, which
-      # `cargo xtask agent-plugins` builds. `claude plugin validate` misses some load errors (a
-      # marketplace entry that declares components next to plugin.json), so the plugin is also
-      # installed and loaded. None of these commands needs a login. 2.1.281 or later accepts the
-      # directory-listing fields.
-      - name: Claude Code plugin validates and loads
-        env:
-          CLAUDE_CONFIG_DIR: ${{ runner.temp }}/claude
-          DISABLE_AUTOUPDATER: "1"
-          CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1"
-        run: | # zizmor: ignore[adhoc-packages] (the Claude Code CLI at a pinned version, only to validate the plugin)
-          set -e
-          tree="$RUNNER_TEMP/agent-plugins"
-          cargo xtask agent-plugins --out "$tree"
-          npm install --prefix "$RUNNER_TEMP/claude-code" --no-audit --no-fund @anthropic-ai/claude-code@2.1.288
-          claude="$RUNNER_TEMP/claude-code/node_modules/.bin/claude"
-          "$claude" plugin validate --strict "$tree"
-          "$claude" plugin validate --strict "$tree/.claude-plugin/plugin.json"
-          "$claude" plugin marketplace add "$tree"
-          "$claude" plugin install openreadout@openreadout
-          "$claude" plugin list
-          "$claude" plugin details openreadout@openreadout
-      - name: Scripts parse
-        run: |
-          bash -n scripts/bump-version.sh
-          bash -n scripts/recipe-sha256.sh
-          bash -n scripts/macos-sign.sh
-          bash -n packaging/npm/scripts/smoke-test.sh
-          sh -n scripts/install.sh
-
-  # Cheap (Linux only): the WebAssembly build (book/src/guides/wasm.md) with its Node tests and the demo page.
-  wasm:
-    name: WebAssembly build, Node tests, demo page
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-        with:
-          targets: wasm32-unknown-unknown
-          components: clippy
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "22"
-      - name: wasm-bindgen-cli at the wasm-bindgen version in Cargo.lock
-        run: |
-          v=$(awk '/^name = "wasm-bindgen"$/{getline; gsub(/"/,"",$3); print $3; exit}' Cargo.lock)
-          if ! wasm-bindgen --version 2>/dev/null | grep -qx "wasm-bindgen $v"; then
-            cargo install wasm-bindgen-cli --locked --version "$v"
+          echo "$RESULTS" | jq -r 'to_entries[] | "\(.value.result)\t\(.key)"' | sort
+          failed=$(echo "$RESULTS" | jq -r '[to_entries[] | select(.value.result != "success" and .value.result != "skipped") | .key] | join(", ")')
+          if [ -n "$failed" ]; then
+            echo "::error::these jobs did not pass: $failed"
+            exit 1
           fi
-      - name: Clippy (wasm32)
-        run: cargo clippy -p openreadout-wasm --no-deps --target wasm32-unknown-unknown --all-targets -- -D warnings
-      - name: binaryen (wasm-opt)
-        working-directory: packaging/wasm
-        run: npm ci
-      - name: Build (size profile + wasm-opt)
-        run: |
-          scripts/wasm.sh build | tee -a "$GITHUB_STEP_SUMMARY"
-      - name: wasm-bindgen tests in Node, npm wrapper and demo page tests
-        run: scripts/wasm.sh test
-      - name: npm package contents
-        working-directory: packaging/wasm
-        run: npm pack --dry-run
-
-  # Quality-process jobs. Each job declares its
-  # own least-privilege permissions and does not persist the checkout token.
-
-  test-os:
-    name: tests on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: Unit and CLI tests
-        run: cargo test --no-fail-fast
-
-  msrv:
-    name: MSRV (rust-version in Cargo.toml)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Read rust-version from the workspace manifest
-        id: msrv
-        run: echo "version=$(sed -n 's/^rust-version = "\(.*\)"/\1/p' Cargo.toml)" >> "$GITHUB_OUTPUT"
-      - name: Install the MSRV toolchain
-        env:
-          MSRV: ${{ steps.msrv.outputs.version }}
-        run: rustup toolchain install "$MSRV" --profile minimal
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: cargo check on the MSRV
-        env:
-          MSRV: ${{ steps.msrv.outputs.version }}
-        run: cargo "+$MSRV" check
-
-  coverage:
-    name: coverage (llvm-cov)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-        with:
-          components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
-        with:
-          tool: cargo-llvm-cov
-      - name: Run the tests under coverage
-        run: cargo llvm-cov --lcov --output-path lcov.info
-      - name: Summary
-        run: |
-          {
-            echo '### Line coverage'
-            echo '```'
-            cargo llvm-cov report --summary-only
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-      - name: Coverage per crate and uncovered reader regions
-        run: |
-          cargo xtask coverage --from lcov.info --out target/coverage > /dev/null
-          cat target/coverage/summary.md >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: lcov
-          path: lcov.info
-          retention-days: 14
-
-  typos:
-    name: typos (spell check, _typos.toml)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: crate-ci/typos@7f9d0819ca1c008ade73f4b41fa9d258d48f605b # v1.51.1
-
-  zizmor:
-    name: zizmor (workflow security)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Audit .github/workflows
-        # Offline audits only, so results do not depend on the GitHub API; the baseline of
-        # pre-existing findings and the pinning policy are in .github/zizmor.yml.
-        run: pipx run zizmor==1.30.1 --offline --min-severity low --config .github/zizmor.yml --format github .github/workflows
-
-  examples:
-    name: examples against the smoke corpus
-    needs: corpus-fetch
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
-          enableCrossOsArchive: true
-      - name: Fetch what the cache did not have
-        run: cargo xtask corpus fetch --tier smoke
-      - name: Build the CLI
-        run: cargo build -p openreadout
-      - name: Run examples/shell and examples/mcp
-        env:
-          OPENREADOUT: ${{ github.workspace }}/target/debug/openreadout
-        run: |
-          set -euo pipefail
-          files=corpus/files
-          work=$(mktemp -d)
-
-          echo "::group::batch_summarize.sh over the smoke tier"
-          examples/shell/batch_summarize.sh "$files" > "$work/summary.tsv"
-          test "$(wc -l < "$work/summary.tsv")" -gt 20
-          head -5 "$work/summary.tsv"
-          echo "::endgroup::"
-
-          echo "::group::triage_corruption.sh: intact files pass, a truncated copy fails"
-          mkdir "$work/triage"
-          cp "$files/zenodo7015307-T-3-Z-5-CH-2.czi" "$files/aics-ND2-dims-p2z5t3-2c4y32x32.nd2" \
-             "$files/aics-s-1-t-4-c-2-z-1.lif" "$work/triage/"
-          echo "not an instrument file" > "$work/triage/notes.txt"
-          examples/shell/triage_corruption.sh "$work/triage"
-          head -c 3000000 "$files/zenodo7015307-T-3-Z-5-CH-2.czi" > "$work/triage/truncated.czi"
-          if examples/shell/triage_corruption.sh "$work/triage" > "$work/triage.txt"; then
-            echo "::error::triage_corruption.sh did not flag a truncated file"; exit 1
-          fi
-          cat "$work/triage.txt"
-          grep -q '^CORRUPT .*truncated.czi' "$work/triage.txt"
-          echo "::endgroup::"
-
-          echo "::group::export_planes.sh (OME-TIFF and OME-Zarr)"
-          examples/shell/export_planes.sh "$work/planes" "$files/zenodo7015307-T-3-Z-5-CH-2.czi" \
-            "$files/aics-ND2-dims-p2z5t3-2c4y32x32.nd2" "$files/aics-s-1-t-4-c-2-z-1.lif"
-          CHANNEL=1 TO=ome-zarr examples/shell/export_planes.sh "$work/planes" "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
-          test -f "$work/planes/zenodo7015307-T-3-Z-5-CH-2_img0_c0_z2.ome.tiff"
-          test -f "$work/planes/zenodo7015307-T-3-Z-5-CH-2_img0_c1_z2.ome.zarr/zarr.json"
-          echo "::endgroup::"
-
-          echo "::group::mcp_client.py"
-          python3 examples/mcp/mcp_client.py "$files/zenodo7015307-T-3-Z-5-CH-2.czi"
-          echo "::endgroup::"
-  # Runs the cargo-fuzz targets from the committed seeds on Linux. Pull requests fuzz the targets
-  # their changes could affect (fuzz/affected.py) for 15 s each, and skip the build if there are
-  # none. Weekly and manual runs fuzz all 134 targets for 60 s each, which takes about 2.5 hours.
-  # Pushes to main don't fuzz.
-  fuzz-smoke:
-    name: fuzz smoke (targets the change reaches, 15 s each; all, 60 s weekly)
-    if: github.event_name != 'push'
-    runs-on: ubuntu-latest
-    timeout-minutes: 240
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-          fetch-depth: 2  # a pull request's merge commit and its base (first parent)
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - name: Choose targets
-        id: targets
-        env:
-          WHICH: ${{ github.event_name == 'pull_request' && 'HEAD^1' || '--all' }}
-        run: |
-          python3 fuzz/affected.py "$WHICH" > fuzz-targets.txt
-          n=$(wc -l < fuzz-targets.txt)
-          echo "count=$n" >> "$GITHUB_OUTPUT"
-          { echo "### Fuzz targets: $n"; tr '\n' ' ' < fuzz-targets.txt; echo; } >> "$GITHUB_STEP_SUMMARY"
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-        if: steps.targets.outputs.count != '0'
-        with:
-          toolchain: nightly
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-        if: steps.targets.outputs.count != '0'
-        with:
-          workspaces: fuzz
-      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
-        if: steps.targets.outputs.count != '0'
-        with:
-          tool: cargo-fuzz
-      - name: Build fuzz targets
-        if: steps.targets.outputs.count != '0'
-        working-directory: fuzz
-        # Explicit target: the prebuilt cargo-fuzz is a musl binary and would otherwise default to
-        # musl (static libc, which the sanitizer cannot use).
-        run: |
-          cargo +nightly fuzz build -O -a --target "$(rustc +nightly -vV | sed -n 's/^host: //p')"
-      - name: Run each target from the committed seeds
-        if: steps.targets.outputs.count != '0'
-        working-directory: fuzz
-        env:
-          SECS: ${{ github.event_name == 'pull_request' && '15' || '60' }}
-        run: |
-          bin="target/$(rustc +nightly -vV | sed -n 's/^host: //p')/release"
-          fail=0
-          while read -r t; do
-            echo "::group::$t"
-            mkdir -p "work/$t" "artifacts/$t" "corpus/$t"  # targets without committed seeds start empty
-            if ! "$bin/$t" "work/$t" "corpus/$t" -max_total_time="$SECS" \
-                -rss_limit_mb=2048 -malloc_limit_mb=2048 -timeout=20 -artifact_prefix="artifacts/$t/"; then
-              echo "::error::fuzz target $t found a crash (see the fuzz-artifacts upload)"
-              fail=1
-            fi
-            echo "::endgroup::"
-          done < ../fuzz-targets.txt
-          exit $fail
-      - name: Upload crash artifacts
-        if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: fuzz-artifacts
-          path: fuzz/artifacts
-
-  # R package (r/openreadout, book/src/guides/r.md): clippy and unit tests of the extendr crate (they need R),
-  # install from the checkout, testthat against the smoke corpus; on Linux also the self-contained
-  # tarball (`cargo xtask r-vendor`) through R CMD check --as-cran (the tarball-size NOTE is expected).
-  r-package:
-    name: R package on ${{ matrix.os }}
-    needs: corpus-fetch
-    runs-on: ${{ matrix.os }}
-    permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-        with:
-          components: clippy
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
-        with:
-          r-version: release
-          use-public-rspm: true
-      - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
-        with:
-          working-directory: r/openreadout
-          extra-packages: any::rcmdcheck, any::roxygen2
-          needs: check
-      - name: Restore the smoke corpus (downloaded once by corpus-fetch)
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: corpus/files
-          key: corpus-smoke-${{ hashFiles('corpus/manifest.toml') }}
-          enableCrossOsArchive: true
-      - name: Fetch what the cache did not have
-        run: cargo xtask corpus fetch --tier smoke
-      - name: Clippy and unit tests of the extendr crate
-        run: |
-          cargo clippy -p openreadout-r --all-targets -- -D warnings
-          cargo test -p openreadout-r
-      - name: man/ and NAMESPACE are up to date
-        run: |
-          Rscript -e 'roxygen2::roxygenise("r/openreadout", load_code = roxygen2::load_source)'
-          git diff --exit-code -- r/openreadout/man r/openreadout/NAMESPACE
-      - name: Install from the checkout and run testthat
-        env:
-          OPENREADOUT_CORPUS_DIR: ${{ github.workspace }}/corpus/files
-        run: |
-          R CMD INSTALL r/openreadout
-          Rscript -e 'testthat::test_dir("r/openreadout/tests/testthat", package = "openreadout", load_package = "installed", stop_on_failure = TRUE)'
-      - name: R CMD check --as-cran of the vendored tarball
-        if: matrix.os == 'ubuntu-latest'
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: "false"
-        run: |
-          cargo xtask r-vendor
-          R CMD build r/openreadout
-          # Fails on any error or warning except "checking compiled code": Rust's standard library
-          # links exit/abort, which every Rust-based R package reports and cannot avoid.
-          # shellcheck disable=SC2016  # R code, not shell: $ is R's member operator
-          Rscript -e '
-            r <- rcmdcheck::rcmdcheck(list.files(pattern = "^openreadout_.*[.]tar[.]gz$"),
-                                      args = c("--as-cran", "--no-manual"), error_on = "never")
-            w <- r$warnings[!grepl("^checking compiled code", r$warnings)]
-            if (length(r$errors) > 0 || length(w) > 0) quit(status = 1)'
-
-  # Workflow integrations (integrations/, book/src/guides/pipelines.md) against this commit's binary: nf-test
-  # of the Nextflow modules, planemo lint of the Galaxy tools, the Snakemake wrapper tests.
-  integrations:
-    name: Nextflow, Galaxy and Snakemake integrations
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - name: Build openreadout and put it on PATH
-        run: |
-          cargo build --release -p openreadout
-          echo "$GITHUB_WORKSPACE/target/release" >> "$GITHUB_PATH"
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version: "17"
-      - uses: nf-core/setup-nextflow@893c28b667aedeba26e37f296d260ccc5bc4d914 # v3.0.1
-      - uses: nf-core/setup-nf-test@4069fbbaabe94c08faba4ad261bfa88225ba133f # v2.1.0
-        with:
-          version: "0.9.5"
-      - name: nf-test (Nextflow modules)
-        working-directory: integrations/nextflow
-        run: |
-          nextflow lint modules
-          nf-test test --ci
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: "3.12"
-      - name: planemo lint (Galaxy tools) and Snakemake wrapper tests
-        run: |
-          python -m pip install planemo snakemake
-          planemo lint --fail_level warn integrations/galaxy
-          for w in export batch; do
-            (cd "integrations/snakemake/wrappers/openreadout/$w/test" && snakemake --cores 1 all)
-          done
