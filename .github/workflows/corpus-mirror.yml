@@ -13,7 +13,7 @@ name: Corpus mirror
 # anything a pull request could have written.
 on:
   push:
-    branches: [main]
+    branches: [main, ci/overhaul]  # TEMPORARY: publish the first mirror from this branch
     paths:
       - "corpus/manifest.toml"
       - "xtask/src/corpus.rs"
