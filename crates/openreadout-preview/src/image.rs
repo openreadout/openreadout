@@ -1002,14 +1002,13 @@ pub(crate) fn render(
                 if inverted {
                     l = 1.0 - l;
                 }
-                let c = match &geo {
-                    Some(g) if !v.is_finite() => dif::NO_DATA,
-                    Some(g) if g.overloaded(v) => dif::OVERLOAD,
-                    _ => [col[0] as f32 * l, col[1] as f32 * l, col[2] as f32 * l]
-                        .map(|x| x.round().clamp(0.0, 255.0) as u8),
+                let fixed = match &geo {
+                    Some(_) if !v.is_finite() => Some(dif::NO_DATA),
+                    Some(g) if g.overloaded(v) => Some(dif::OVERLOAD),
+                    _ => None,
                 };
                 for k in 0..3 {
-                    acc[i * 3 + k] += f32::from(c[k]);
+                    acc[i * 3 + k] += fixed.map_or(f32::from(col[k]) * l, |c| f32::from(c[k]));
                 }
             }
         }
