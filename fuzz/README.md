@@ -63,6 +63,8 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_zetasizer` | Malvern Zetasizer `.dts`: compound file, Header identifier, record header walks, sample-name rule, size and zeta result structures |
 | `whole_octet` | Sartorius Octet `.frd`: result XML, base64 float32 step arrays, step table |
 | `whole_gpr` | GenePix Results `.gpr` (ATF): header records, titles, feature rows |
+| `whole_nanodrop`, `whole_qubit` | NanoDrop exports (8000, Eight with spectra, One, One UV-Vis spectrum blocks) and Qubit 4 and Flex CSV exports: layouts, delimited lines, decimal commas, dates, units |
+| `measure_lanes` | the lane and band analysis of `stats --lanes` on an 8-bit plane (first byte: width; second: lane count, polarity, ladder) |
 | `whole_itc` | MicroCal `.itc` text: header, injection lines, block markers, data rows |
 | `whole_bes3t` | Bruker BES3T `.DSC` + `.DTA` (+ `.YGF`) bundle: descriptor layers, formats, axis files |
 | `whole_esp` | Bruker ESP/WinEPR `.par` + `.spc` bundle: parameter keys, point counts, byte orders |

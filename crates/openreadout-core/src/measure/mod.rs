@@ -37,7 +37,7 @@ mod segment;
 
 pub use lanes::{
     Band, LANE_PROFILE_VALUES, LadderRequest, Lane, Lanes, LanesRequest, MAX_BANDS,
-    MAX_LANE_PIXELS, MAX_LANES,
+    MAX_LANE_PIXELS, MAX_LANES, lanes_of_bytes,
 };
 
 pub use objects::{

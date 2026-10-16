@@ -258,6 +258,29 @@ pub(super) fn lanes(
     Ok(out)
 }
 
+/// Lanes of an 8-bit grey plane `width` pixels wide whose rows are `data` (fuzz targets: the
+/// analysis without a reader).
+#[doc(hidden)]
+pub fn lanes_of_bytes(width: u32, data: &[u8], req: &LanesRequest) -> Result<Lanes> {
+    let w = width.max(1);
+    let h = u32::try_from(data.len() / w as usize).unwrap_or(u32::MAX);
+    let n = w as usize * h as usize;
+    let p = crate::pixel::Plane {
+        width: w,
+        height: h,
+        pixel_type: crate::pixel::PixelType::Uint8,
+        samples_per_pixel: 1,
+        data: data[..n].to_vec(),
+    };
+    if w < 8 || h < 8 {
+        return Err(usage("lanes need a plane of at least 8 x 8 pixels"));
+    }
+    let (sig, polarity) = signal(&p, Region::full(w, h), Some(255.0), req.polarity)?;
+    let mut out = analyse(&sig, req, &mut Vec::new())?;
+    out.polarity = polarity.into();
+    Ok(out)
+}
+
 fn saturation_of(p: crate::pixel::PixelType) -> Option<f64> {
     use crate::pixel::PixelType;
     match p {

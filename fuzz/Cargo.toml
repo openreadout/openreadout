@@ -58,6 +58,7 @@ openreadout-epr = { path = "../crates/openreadout-epr" }
 openreadout-fplc = { path = "../crates/openreadout-fplc" }
 openreadout-zarr = { path = "../crates/openreadout-zarr" }
 openreadout-hdf5 = { path = "../crates/openreadout-hdf5" }
+openreadout-benchtop = { path = "../crates/openreadout-benchtop" }
 openreadout-quant = { path = "../crates/openreadout-quant" }
 serde_json = { version = "1", features = ["preserve_order"] }
 roxmltree = "0.20"
@@ -1086,6 +1087,27 @@ bench = false
 [[bin]]
 name = "whole_uvprobe"
 path = "fuzz_targets/whole_uvprobe.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_nanodrop"
+path = "fuzz_targets/whole_nanodrop.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_qubit"
+path = "fuzz_targets/whole_qubit.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "measure_lanes"
+path = "fuzz_targets/measure_lanes.rs"
 test = false
 doc = false
 bench = false

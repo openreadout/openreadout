@@ -127,6 +127,12 @@ COMMITTED_CUTS = [
     ("whole_cary", "cary-pyspecdata-ras-stability4.bsk", 128 * 1024),  # CC0-1.0
     ("whole_itc", "itc-zenodo6608282-d25-50um.itc", 16 * 1024),  # CC0-1.0
     ("whole_uvprobe", "figshare29858651-uvprobe-substrate.spc", 32 * 1024),  # CC-BY-4.0
+    ("whole_nanodrop", "nanodrop-8000-dna.txt", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-eight-dsdna.txt", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-one-dsdna.csv", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_nanodrop", "nanodrop-one-uvvis-nanodrop-r.tsv", 16 * 1024),  # MIT (nanodRop)
+    ("whole_qubit", "qubit4-out-of-range.csv", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_qubit", "qubit-flex-sep-header.csv", 16 * 1024),  # MIT (allotropy test data)
 ]
 # (target, [(corpus file, bytes to keep), ...]) joined by BUNDLE_SEP in the target's order
 OIF = "olympus-fv/zenodo4421962-oif/Bead12/"
@@ -525,6 +531,26 @@ def mini_unicorn_zip() -> bytes:
 
 def new_format_seeds() -> None:
     """Structure-level seeds for the sub-parser targets of the newer readers."""
+    # A gel of four lanes with two bands each: width byte (+8), options byte, 8-bit rows
+    # (fuzz_targets/measure_lanes.rs).
+    import math
+
+    w, h = 56, 64
+    gel = bytearray()
+    for y in range(h):
+        for x in range(w):
+            v = 20.0
+            for cx in (8, 22, 36, 50):
+                if abs(x - cx) <= 4:
+                    v += 180 * math.exp(-((y - 16) ** 2) / 8) + 90 * math.exp(-((y - 40) ** 2) / 8)
+            gel.append(min(255, int(v)))
+    put("measure_lanes", "synthetic-4-lanes.bin", bytes([w - 8, 0]) + bytes(gel))
+    # An Incucyte metric export, wells as columns (a decimal comma and an ERROR cell).
+    put("whole_plate", "synthetic-incucyte-wells.txt", (
+        "Vessel Name: synthetic\nMetric: Phase Object Confluence (Percent)\nCell Type: none\n"
+        "Passage: 1\nNotes: \nAnalysis: synthetic seed\n\nDate Time\tElapsed\tA1\tA2\tB1\n"
+        "01/02/2026 08:00:00\t0\t10.5\t11.2\t9.8\n01/02/2026 12:00:00\t4\t15.1\t16,0\t12.2\n"
+        "01/02/2026 16:00:00\t8\t22.4\t23.9\tERROR\n").encode())
     put("whole_unicorn_res", "mini.res", mini_unicorn_res())
     put("whole_unicorn_zip", "mini-export.zip", mini_unicorn_zip())
     # ASDF: SQZ, DIF and DUP forms of one short table (JCAMP-DX 4.24 compression rules).
