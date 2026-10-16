@@ -1,4 +1,4 @@
-//! `cargo xtask corpus fetch|verify|status|compress`: the test files listed in
+//! `cargo xtask corpus fetch|verify|status|compress|mirror`: the test files listed in
 //! corpus/manifest.toml.
 
 use std::collections::BTreeSet;
@@ -11,6 +11,8 @@ use clap::Subcommand;
 use serde::Deserialize;
 
 use crate::{compress, corpus_dir, heldout, root, sha256_file, zipmember};
+
+pub(crate) mod mirror;
 
 #[derive(Subcommand)]
 pub(crate) enum CorpusCmd {
@@ -29,6 +31,18 @@ pub(crate) enum CorpusCmd {
         /// Record SHA-256 for entries that have none (trust on first download).
         #[arg(long)]
         record: bool,
+        /// Take smoke-tier files from the GitHub release mirror when it has them (each one is
+        /// checked against the manifest); everything else still comes from its origin.
+        #[arg(long)]
+        mirror: bool,
+        /// Base URL of the mirror releases, used with `--mirror`.
+        #[arg(long, default_value = mirror::DEFAULT_BASE)]
+        mirror_url: String,
+    },
+    /// Pack or name the smoke-tier mirror (see corpus/README.md).
+    Mirror {
+        #[command(subcommand)]
+        cmd: mirror::MirrorCmd,
     },
     /// Re-hash present files against the manifest.
     Verify,
@@ -45,12 +59,12 @@ pub(crate) enum CorpusCmd {
 }
 
 #[derive(Debug, Deserialize)]
-struct Manifest {
+pub(crate) struct Manifest {
     file: Vec<Entry>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
-struct Entry {
+#[derive(Debug, Deserialize, Clone, Default)]
+pub(crate) struct Entry {
     id: String,
     format: String,
     tier: String,
@@ -79,6 +93,12 @@ struct Entry {
     md5: String,
     #[serde(default)]
     license: String,
+    /// Who made the file and how to credit them.
+    #[serde(default)]
+    attribution: String,
+    /// The record or page the file comes from.
+    #[serde(default)]
+    source: String,
     /// For zip bundles: extract the archive into the corpus directory itself after download.
     #[serde(default)]
     unpack: bool,
@@ -128,12 +148,19 @@ fn url_path(rel: &str) -> String {
 }
 
 /// Fetch every part of a directory entry that is missing, checking each file's SHA-256.
-fn fetch_parts(e: &Entry, dir: &Path) -> Result<usize> {
+/// Returns how many parts were downloaded and how many came from the mirror.
+fn fetch_parts(e: &Entry, dir: &Path, stage: Option<&Path>) -> Result<(usize, usize)> {
     let root_dir = dir.join(&e.filename);
     let mut n = 0;
+    let mut mirrored = 0;
     for (rel, sha) in parts_of(e)? {
         let dst = root_dir.join(&rel);
         if dst.is_file() && sha256_file(&dst)?.0 == sha {
+            continue;
+        }
+        let staged = format!("{}/{rel}", e.filename.trim_end_matches('/'));
+        if mirror::take_staged(stage, &staged, &sha, &dst) {
+            mirrored += 1;
             continue;
         }
         if let Some(parent) = dst.parent() {
@@ -151,7 +178,7 @@ fn fetch_parts(e: &Entry, dir: &Path) -> Result<usize> {
         }
         n += 1;
     }
-    Ok(n)
+    Ok((n, mirrored))
 }
 
 fn load_manifest() -> Result<Manifest> {
@@ -180,10 +207,20 @@ pub(crate) fn run(cmd: CorpusCmd) -> Result<()> {
             format,
             only,
             record,
+            mirror,
+            mirror_url,
         } => {
             let sel = Selection::new(&tier, format, only)?;
-            fetch(&m, &dir, &sel, record)
+            // The mirror holds smoke-tier files, which every tier but the held-out set includes.
+            if !mirror || sel.heldout_only {
+                return fetch(&m, &dir, &sel, record, None);
+            }
+            let stage = mirror::stage(&m.file, &dir, &mirror_url);
+            let result = fetch(&m, &dir, &sel, record, stage.as_deref());
+            mirror::cleanup(&dir);
+            result
         }
+        CorpusCmd::Mirror { cmd } => mirror::run(cmd, &m, &dir),
         CorpusCmd::Verify => verify(&m, &dir),
         CorpusCmd::Status => {
             status(&m, &dir);
@@ -232,7 +269,14 @@ impl Selection {
     }
 }
 
-fn fetch(m: &Manifest, dir: &Path, sel: &Selection, record: bool) -> Result<()> {
+/// `stage` is the unpacked mirror (`--mirror`), where downloads look first.
+fn fetch(
+    m: &Manifest,
+    dir: &Path,
+    sel: &Selection,
+    record: bool,
+    stage: Option<&Path>,
+) -> Result<()> {
     // Bundles are fetched when any of their members is selected.
     let wanted_bundles: BTreeSet<&str> = m
         .file
@@ -258,7 +302,7 @@ fn fetch(m: &Manifest, dir: &Path, sel: &Selection, record: bool) -> Result<()> 
             && e.tier != "hold"
             && sel.tier_and_id(e);
         if sel.selects(e) || paired_ok || wanted_bundles.contains(e.id.as_str()) {
-            fetch_entry(e, dir, record, &mut recorded)?;
+            fetch_entry(e, dir, record, stage, &mut recorded)?;
         }
     }
     for e in m
@@ -300,6 +344,7 @@ fn fetch_entry(
     e: &Entry,
     dir: &Path,
     record: bool,
+    stage: Option<&Path>,
     recorded: &mut Vec<(String, String)>,
 ) -> Result<()> {
     let dst = dir.join(&e.filename);
@@ -310,12 +355,19 @@ fn fetch_entry(
             return Ok(());
         }
         println!("fetch    {}  ({} files)", e.id, e.parts.len());
-        let n = fetch_parts(e, dir)?;
+        let (n, mirrored) = fetch_parts(e, dir, stage)?;
         write_receipt(
             &ok_marker,
             format!("{{\"id\":\"{}\",\"parts\":{}}}\n", e.id, e.parts.len()),
         )?;
-        println!("ok       {} ({n} downloaded)", e.id);
+        if mirrored > 0 {
+            println!(
+                "ok       {} ({n} downloaded, {mirrored} from the mirror)",
+                e.id
+            );
+        } else {
+            println!("ok       {} ({n} downloaded)", e.id);
+        }
         return Ok(());
     }
     if e.url.is_empty() {
@@ -352,7 +404,7 @@ fn fetch_entry(
             }
         }
     } else {
-        let sha = download_checked(e, &dst)?;
+        let sha = download_checked(e, &dst, stage)?;
         if e.sha256.is_empty() && record {
             recorded.push((e.filename.clone(), sha.clone()));
         }
@@ -384,14 +436,18 @@ fn fetch_entry(
 
 /// Download `e` to `dst` (the whole file, or one member of a remote zip) and check its SHA-256
 /// and MD5 against the manifest; returns the SHA-256.
-fn download_checked(e: &Entry, dst: &Path) -> Result<String> {
+fn download_checked(e: &Entry, dst: &Path, stage: Option<&Path>) -> Result<String> {
     if let Some(parent) = dst.parent() {
         fs::create_dir_all(parent)?;
     }
-    println!("fetch    {}  ({})", e.id, human(e.size));
-    let sha = if e.zip_member.is_empty() {
+    let sha = if mirror::take_staged(stage, &e.filename, &e.sha256, dst) {
+        println!("mirror   {}  ({})", e.id, human(e.size));
+        e.sha256.clone()
+    } else if e.zip_member.is_empty() {
+        println!("fetch    {}  ({})", e.id, human(e.size));
         download(&e.url, dst).with_context(|| format!("download {}", e.id))?
     } else {
+        println!("fetch    {}  ({})", e.id, human(e.size));
         zipmember::fetch_member(&e.url, &e.zip_member, dst)
             .with_context(|| format!("download {} from its archive", e.id))?;
         sha256_file(dst)?.0
@@ -912,6 +968,8 @@ mod tests {
             sha256: sha256.into(),
             md5: String::new(),
             license: String::new(),
+            attribution: String::new(),
+            source: String::new(),
             unpack: false,
             zip_member: String::new(),
             parts_url: String::new(),
