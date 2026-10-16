@@ -1,0 +1,43 @@
+{
+ "id": "imager-zenodo20292756-iq800-colorimetric",
+ "file": "imager-zenodo20292756-iq800-colorimetric.tiff",
+ "size": 15822652,
+ "sha256": "84d2891ff28b644ddef0cdf69eab645826532d76b53bbb2fbc18e02ec706380d",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YX",
+   "shape": [
+    3296,
+    2400
+   ],
+   "size_x": 2400,
+   "size_y": 3296,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a30e6e2583aac3854d6ab75922300ac8"
+    }
+   ]
+  }
+ ]
+}

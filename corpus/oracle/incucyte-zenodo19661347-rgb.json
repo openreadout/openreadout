@@ -1,0 +1,44 @@
+{
+ "id": "incucyte-zenodo19661347-rgb",
+ "file": "incucyte-zenodo19661347-rgb.tif",
+ "size": 1304150,
+ "sha256": "77552cf2284aa92aed796a2d49f5bd901d8e1db93b8146df68fd71563981bdbc",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "uniform",
+ "flags": [],
+ "page_count": 1,
+ "series_count": 1,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "uniform",
+   "axes": "YXS",
+   "shape": [
+    1040,
+    1408,
+    3
+   ],
+   "size_x": 1408,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6105a326ef7335a2e91baa8eb40b0628"
+    }
+   ]
+  }
+ ]
+}

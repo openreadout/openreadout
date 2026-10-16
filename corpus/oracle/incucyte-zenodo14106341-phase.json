@@ -1,0 +1,43 @@
+{
+ "id": "incucyte-zenodo14106341-phase",
+ "file": "incucyte-zenodo14106341-phase.tif",
+ "size": 767025,
+ "sha256": "259d42109511a2773d8afbf43e2b8722c09f6ec82024a114fcf0f64b502be8d7",
+ "max_planes_hashed": 64,
+ "reader": "tifffile 2026.9.20",
+ "kind": "generic",
+ "flags": [],
+ "page_count": 2,
+ "series_count": 2,
+ "images": [
+  {
+   "index": 0,
+   "name": "",
+   "kind": "generic",
+   "axes": "YX",
+   "shape": [
+    1040,
+    1408
+   ],
+   "size_x": 1408,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "pyramid_levels": 1,
+   "lossy": false,
+   "physical_size_um": {},
+   "planes_skipped": null,
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4488a3a2cf275c102e614fea482f4a8f"
+    }
+   ]
+  }
+ ]
+}
