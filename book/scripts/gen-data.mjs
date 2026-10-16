@@ -56,6 +56,7 @@ const FIELD = {
   "particle-sizing": "Bench biophysics",
   microarray: "Bench biophysics",
   "gel-imaging": "Bench biophysics",
+  electrophoresis: "Electrophoresis",
   epr: "Materials and electrochemistry",
   diffraction: "Materials and electrochemistry",
   electrochemistry: "Materials and electrochemistry",
