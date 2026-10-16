@@ -30,6 +30,7 @@ use crate::spectra::{check_chromatogram_traces, check_chromatograms, check_spect
 use crate::tables::{check_plate, check_tables};
 use crate::traces::check_traces;
 
+mod benchtop_oracle;
 mod biacore_oracle;
 mod chromeleon_oracle;
 mod fplc_oracle;
@@ -575,6 +576,8 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("seahorse")
     } else if gpr_oracle::FORMATS.contains(&format) {
         Some("gpr")
+    } else if benchtop_oracle::FORMATS.contains(&format) {
+        Some("benchtop")
     } else if series_oracle::FORMATS.contains(&format) {
         Some("series")
     } else if hyperspec_oracle::FORMATS.contains(&format) {
@@ -663,6 +666,8 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         seahorse_oracle::compare_file(id, path, &o)
     } else if gpr_oracle::FORMATS.contains(&format) {
         gpr_oracle::compare_file(id, path, &o)
+    } else if benchtop_oracle::FORMATS.contains(&format) {
+        benchtop_oracle::compare_file(id, path, &o)
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::compare_file(format, id, path, &o)
     } else if hyperspec_oracle::FORMATS.contains(&format) {

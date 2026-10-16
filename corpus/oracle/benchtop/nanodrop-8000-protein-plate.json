@@ -1,0 +1,2158 @@
+{
+ "id": "nanodrop-8000-protein-plate",
+ "readers": {
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_NANODROP_8000"
+ },
+ "format": "nanodrop",
+ "measurements": [
+  {
+   "id": "217730ad-95cb-4588-9652-8c493866d8e9",
+   "sample": "8",
+   "location": "A1",
+   "time": "2022-09-01T14:25:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.142,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.142,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.142,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "980af801-6452-4681-a278-fea6faed271f",
+   "sample": "8",
+   "location": "B1",
+   "time": "2022-09-01T14:25:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.153,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.153,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.153,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "26d73a36-bbc7-4402-991b-cf3297241003",
+   "sample": "8",
+   "location": "C1",
+   "time": "2022-09-01T14:25:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.138,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.138,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.138,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "1e6fc80d-567a-463c-bbc2-614d374bd267",
+   "sample": "11",
+   "location": "D1",
+   "time": "2022-09-01T14:25:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.158,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.158,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.158,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "c231647f-b5a9-4d12-beba-37d609d13ab7",
+   "sample": "11",
+   "location": "E1",
+   "time": "2022-09-01T14:25:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.18,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.18,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.18,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "fe962b7e-ef5e-4587-99ee-c955109e4547",
+   "sample": "11",
+   "location": "F1",
+   "time": "2022-09-01T14:25:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.185,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.185,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.185,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "44bce010-7788-42ab-b1d2-e2be6d7b15b9",
+   "sample": "13",
+   "location": "A2",
+   "time": "2022-09-01T14:28:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.56,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.56,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.56,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "3be2b695-0ef0-4b28-91c6-e79d3b86a2aa",
+   "sample": "13",
+   "location": "B2",
+   "time": "2022-09-01T14:28:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.544,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.544,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.544,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "619e4c62-21ce-4be9-a062-23faec14b996",
+   "sample": "13",
+   "location": "C2",
+   "time": "2022-09-01T14:28:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.548,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.548,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.548,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "8612f436-7e61-42fa-adf3-a3a1c2508ac7",
+   "sample": "6",
+   "location": "A3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     41.724,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     41.72,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     41.724,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "abaaecc0-7bd4-42a9-8db2-87f4673d7054",
+   "sample": "6",
+   "location": "B3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     50.116,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     50.12,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     50.116,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "e23c6aaf-e7cc-4a9d-a7fa-a17e4a7c94a3",
+   "sample": "6",
+   "location": "C3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     44.989,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     44.99,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     44.989,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "524493d0-cf97-4039-98e6-ebce5cfb559f",
+   "sample": "7",
+   "location": "D3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     62.522,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     62.52,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     62.522,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "3fc01b06-9ab9-4066-a3ce-608b3dce2d57",
+   "sample": "7",
+   "location": "E3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     -5.338,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     -5.338,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     -5.338,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "97abfb67-7f1e-493e-8424-c4099b53c5f9",
+   "sample": "7",
+   "location": "F3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     -8.199,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     -8.199,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     -8.199,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "250fb713-1de3-4657-bad8-bf2696ff0cdb",
+   "sample": "6",
+   "location": "A3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.919,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.919,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.919,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a85e2e3b-51b7-44ef-a375-5f173d6d762d",
+   "sample": "6",
+   "location": "B3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.871,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.871,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.871,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d3800a81-5158-44c7-ab6f-c497ed7a8ffb",
+   "sample": "6",
+   "location": "C3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.829,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.829,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.829,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "8aff80ad-6ac1-4cf5-98da-9b78c7cdba88",
+   "sample": "7",
+   "location": "D3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     5.333,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     5.333,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     5.333,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "5631d880-0eaf-403f-a5ce-e260b901e08e",
+   "sample": "7",
+   "location": "E3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     5.3,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     5.3,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     5.3,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "14c6ab45-110a-4ecc-b5f6-0db3f02ed805",
+   "sample": "7",
+   "location": "F3",
+   "time": "2022-09-01T14:39:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     5.326,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     5.326,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     5.326,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "6e745d54-e5e1-44b1-afe7-876e40aedf46",
+   "sample": "9",
+   "location": "A4",
+   "time": "2022-09-01T14:42:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     6.969,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     6.969,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     6.969,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "eae2496d-d5d6-41a7-99b9-6d73afb6f596",
+   "sample": "9",
+   "location": "B4",
+   "time": "2022-09-01T14:42:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     6.935,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     6.935,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     6.935,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "55dc234a-a521-475a-a537-e7fd79f230db",
+   "sample": "9",
+   "location": "C4",
+   "time": "2022-09-01T14:42:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     6.972,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     6.972,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     6.972,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "e8808a13-e691-4d6e-9ee8-8fa0a9aa1821",
+   "sample": "10",
+   "location": "D4",
+   "time": "2022-09-01T14:42:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.813,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.813,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.813,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "7fa0ef1b-a4f0-4caf-861f-b08dbfdad10e",
+   "sample": "10",
+   "location": "E4",
+   "time": "2022-09-01T14:42:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.795,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.795,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.795,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "dd716934-1d29-4d29-a384-7c8fa86c6560",
+   "sample": "10",
+   "location": "F4",
+   "time": "2022-09-01T14:42:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.812,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.812,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.812,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a692c048-9fc1-405c-a2a9-65444c335ef5",
+   "sample": "12",
+   "location": "A5",
+   "time": "2022-09-01T14:44:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.199,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.199,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.199,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "90211ae6-a690-4303-851b-83c6af306ba1",
+   "sample": "12",
+   "location": "B5",
+   "time": "2022-09-01T14:44:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.175,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.175,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.175,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "51857627-78ea-410b-a2bf-701972da671d",
+   "sample": "12",
+   "location": "C5",
+   "time": "2022-09-01T14:44:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.163,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.163,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.163,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "8bcd2bb3-a7c7-46f6-a911-0e710e73dfd8",
+   "sample": "14",
+   "location": "D5",
+   "time": "2022-09-01T14:44:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.514,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.514,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.514,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "1557a283-1fb8-463e-a642-0ee01a473a9e",
+   "sample": "14",
+   "location": "E5",
+   "time": "2022-09-01T14:44:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.528,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.528,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.528,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "51c9bdf8-cecc-4c26-9fa7-2686a77305eb",
+   "sample": "14",
+   "location": "F5",
+   "time": "2022-09-01T14:44:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.558,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.558,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.558,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "b9d62aaa-09ac-4244-a6df-15c7d3fbc707",
+   "sample": "N/A",
+   "location": "A6",
+   "time": "2022-09-01T14:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.572,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.572,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.572,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a63f1e44-1423-4161-824b-42d626094b50",
+   "sample": "N/A",
+   "location": "B6",
+   "time": "2022-09-01T14:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.54,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.54,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.54,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "092de4aa-33a5-4cdc-bcfe-72fd22782bb3",
+   "sample": "N/A",
+   "location": "C6",
+   "time": "2022-09-01T14:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.546,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.546,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.546,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "1aeea3aa-1e2b-4cb8-a2f7-6ae6cf42b081",
+   "sample": "N/A",
+   "location": "D6",
+   "time": "2022-09-01T14:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.532,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.532,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.532,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "4e044c54-11d1-4d57-b209-5489f0a6af88",
+   "sample": "N/A",
+   "location": "E6",
+   "time": "2022-09-01T14:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.542,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.542,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.542,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "68b2587c-debc-4863-b9d2-9afd16e74933",
+   "sample": "N/A",
+   "location": "F6",
+   "time": "2022-09-01T14:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "Cursor Pos.",
+     280.0,
+     "nm"
+    ],
+    [
+     "Mol. Wt. kda",
+     1.0,
+     "kDa"
+    ],
+    [
+     "absorbance",
+     4.537,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     4.537,
+     "mg/mL"
+    ],
+    [
+     "E1%",
+     10.0,
+     "(unitless)"
+    ],
+    [
+     "ext. coeff x10e3",
+     1.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     4.537,
+     "mAU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "217730ad-95cb-4588-9652-8c493866d8e9"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "980af801-6452-4681-a278-fea6faed271f"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "26d73a36-bbc7-4402-991b-cf3297241003"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "1e6fc80d-567a-463c-bbc2-614d374bd267"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "c231647f-b5a9-4d12-beba-37d609d13ab7"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "fe962b7e-ef5e-4587-99ee-c955109e4547"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "44bce010-7788-42ab-b1d2-e2be6d7b15b9"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "3be2b695-0ef0-4b28-91c6-e79d3b86a2aa"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "619e4c62-21ce-4be9-a062-23faec14b996"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.77,
+   "sources": [
+    "8612f436-7e61-42fa-adf3-a3a1c2508ac7"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": -0.06,
+   "sources": [
+    "abaaecc0-7bd4-42a9-8db2-87f4673d7054"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": -0.18,
+   "sources": [
+    "e23c6aaf-e7cc-4a9d-a7fa-a17e4a7c94a3"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.14,
+   "sources": [
+    "524493d0-cf97-4039-98e6-ebce5cfb559f"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 3.01,
+   "sources": [
+    "3fc01b06-9ab9-4066-a3ce-608b3dce2d57"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.7,
+   "sources": [
+    "97abfb67-7f1e-493e-8424-c4099b53c5f9"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "250fb713-1de3-4657-bad8-bf2696ff0cdb"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "a85e2e3b-51b7-44ef-a375-5f173d6d762d"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "d3800a81-5158-44c7-ab6f-c497ed7a8ffb"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "8aff80ad-6ac1-4cf5-98da-9b78c7cdba88"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "5631d880-0eaf-403f-a5ce-e260b901e08e"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "14c6ab45-110a-4ecc-b5f6-0db3f02ed805"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "6e745d54-e5e1-44b1-afe7-876e40aedf46"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "eae2496d-d5d6-41a7-99b9-6d73afb6f596"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "55dc234a-a521-475a-a537-e7fd79f230db"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.55,
+   "sources": [
+    "e8808a13-e691-4d6e-9ee8-8fa0a9aa1821"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.55,
+   "sources": [
+    "7fa0ef1b-a4f0-4caf-861f-b08dbfdad10e"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.55,
+   "sources": [
+    "dd716934-1d29-4d29-a384-7c8fa86c6560"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.55,
+   "sources": [
+    "a692c048-9fc1-405c-a2a9-65444c335ef5"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "90211ae6-a690-4303-851b-83c6af306ba1"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.54,
+   "sources": [
+    "51857627-78ea-410b-a2bf-701972da671d"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "8bcd2bb3-a7c7-46f6-a911-0e710e73dfd8"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "1557a283-1fb8-463e-a642-0ee01a473a9e"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "51c9bdf8-cecc-4c26-9fa7-2686a77305eb"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "b9d62aaa-09ac-4244-a6df-15c7d3fbc707"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "a63f1e44-1423-4161-824b-42d626094b50"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "092de4aa-33a5-4cdc-bcfe-72fd22782bb3"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "1aeea3aa-1e2b-4cb8-a2f7-6ae6cf42b081"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "4e044c54-11d1-4d57-b209-5489f0a6af88"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 0.53,
+   "sources": [
+    "68b2587c-debc-4863-b9d2-9afd16e74933"
+   ]
+  }
+ ],
+ "model": "Nanodrop 8000",
+ "serial": null
+}

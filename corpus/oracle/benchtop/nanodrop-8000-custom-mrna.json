@@ -1,0 +1,251 @@
+{
+ "id": "nanodrop-8000-custom-mrna",
+ "readers": {
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_NANODROP_8000"
+ },
+ "format": "nanodrop",
+ "measurements": [
+  {
+   "id": "e0654753-8804-446f-aef3-8265c27eab7b",
+   "sample": "SAMPLE1",
+   "location": "nan",
+   "time": "2023-01-13T13:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     0.982,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     0.3929,
+     "mg/mL"
+    ],
+    [
+     "ext.c.",
+     25.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     0.982,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "18ce37b3-4773-45bf-86b0-6a138c8790eb",
+   "sample": "SAMPLE1",
+   "location": "nan",
+   "time": "2023-01-13T13:45:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     0.678,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     0.982,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d8754841-e616-4627-a311-f95cd52f45e5",
+   "sample": "SAMPLE2",
+   "location": "nan",
+   "time": "2023-01-13T13:47:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     0.0,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     0.982,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "bece8e4f-a97b-41fd-9d32-3f76330b9b7f",
+   "sample": "SAMPLE2",
+   "location": "nan",
+   "time": "2023-01-13T13:47:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     0.0,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     0.982,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d03564f9-2d41-491f-8234-992d770712e0",
+   "sample": "SAMPLE3",
+   "location": "nan",
+   "time": "2023-01-13T13:47:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     1.711,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     0.6844,
+     "mg/mL"
+    ],
+    [
+     "ext.c.",
+     25.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     1.711,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "43530542-788b-4018-81b6-bc3e6e98cb5d",
+   "sample": "SAMPLE3",
+   "location": "nan",
+   "time": "2023-01-13T13:47:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     1.016,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     1.711,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d1f2d044-2e12-43ae-82a7-e92ec889fc97",
+   "sample": "SAMPLE4",
+   "location": "nan",
+   "time": "2023-01-13T13:49:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     1.671,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     0.6685,
+     "mg/mL"
+    ],
+    [
+     "ext.c.",
+     25.0,
+     "M-1cm-1"
+    ],
+    [
+     "Cursor Abs.",
+     1.671,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "c34678c2-9e27-4aa6-8fde-1a4de635ce63",
+   "sample": "SAMPLE4",
+   "location": "nan",
+   "time": "2023-01-13T13:49:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     1.182,
+     "mAU"
+    ],
+    [
+     "Cursor Abs.",
+     1.671,
+     "mAU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [
+  {
+   "name": "260/280",
+   "value": 1.449,
+   "sources": [
+    "e0654753-8804-446f-aef3-8265c27eab7b",
+    "18ce37b3-4773-45bf-86b0-6a138c8790eb"
+   ]
+  },
+  {
+   "name": "260/280",
+   "value": 1.685,
+   "sources": [
+    "d03564f9-2d41-491f-8234-992d770712e0",
+    "43530542-788b-4018-81b6-bc3e6e98cb5d"
+   ]
+  },
+  {
+   "name": "260/280",
+   "value": 1.414,
+   "sources": [
+    "d1f2d044-2e12-43ae-82a7-e92ec889fc97",
+    "c34678c2-9e27-4aa6-8fde-1a4de635ce63"
+   ]
+  }
+ ],
+ "model": "Nanodrop 8000",
+ "serial": null
+}
