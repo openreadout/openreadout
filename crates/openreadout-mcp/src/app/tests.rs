@@ -173,6 +173,19 @@ fn hints_follow_the_tool_table() {
     )
     .unwrap();
     assert_eq!(h["objects"], json!({"kind": "spots"}));
+    // lanes found are drawn in the viewer too
+    let h = view_hint(
+        "openreadout_preview",
+        Some(&args(json!({"file": "/d/blot.scn", "marks": "lanes"}))),
+    )
+    .unwrap();
+    assert_eq!(h["lanes"], json!({}));
+    let h = view_hint(
+        "openreadout_stats",
+        Some(&args(json!({"file": "/d/blot.scn", "lanes": {"count": 10}}))),
+    )
+    .unwrap();
+    assert_eq!(h["lanes"], json!({"count": 10}));
     let h = view_hint(
         "openreadout_trace",
         Some(&args(json!({"file": "a.abf", "sweep": 3, "channels": [1]}))),
