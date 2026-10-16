@@ -310,3 +310,18 @@ Held-out draw D reported a CLARIOstar kinetic table-view export that returned no
 - The time is written as MARS writes kinetic table columns (`<n> h`, `<n> min`, `<n> s` parts), and the first cycle adds a remark after ` - ` (`Inj. only`: the cycle in which the injector ran, so its wells read `Inj.` instead of a value). The times step by 38 s, the `Cycle time [s]` of the `Protocol Information` sheet, whose `No. of cycles` (100 and 97) equals the number of cycle lines.
 - The workbook's own `Table All Cycles` sheet lists the same run as one line per cycle and section, with the cycle's time in column B (`0 min `, `0 min 38 s`, …). Read with openpyxl, its raw-data lines equal the matrices of the cycle sheet value for value (2,400 values in the first file and 2,328 in the second, none different), and the time of the k-th line equals the time of the k-th cycle line in both files.
 - **Rule:** in a SMART Control plate sheet, a line whose first cell is `Cycle <n> (<time>)` gives its time to the matrices after it, up to the next cycle line. The time is the part before ` - `, read like a kinetic table column. With more than one cycle the read is `kinetic`. A cycle line whose time does not read is reported (`cycle_time_not_read`) and its matrices keep no time.
+
+## 2026-10-15 — Sartorius Incucyte metric exports (Richard Zimring with Claude as assistant)
+
+**Why:** live-cell imagers are common bench instruments, and their exports are kinetic plates: confluence of every well over days. Reading them as plates gives the growth analysis and the plate previews to Incucyte data.
+
+**Corpus files:** `incucyte-incucytedrc-mda-mb-468` (the example data of the IncucyteDRC R package, GPL-2.0; only the data file is used, the package's code was not read). Two synthetic files written by their authors to show the layouts were inspected but are not in the corpus: IncuAnalyze's `C1_B1_R1_P1.txt` (MIT, group means with `(Std Dev)` columns) and auto-incucyte's `plate_1.txt` (MIT, the plate-map layout). No other licensed Incucyte export was found (GitHub, Zenodo, figshare, Dryad): no file is held out.
+
+**Prior art consulted:** none beyond the files.
+
+**What was inferred from what:**
+- `Label: <vessel>`, `Metric: Phase Object Confluence (Percent)`, `Cell Type:`, `Passage:`, `Notes:`, `Analysis Job:` lines (`Key: value`, one cell each), a blank line, then `Date Time<tab>Elapsed<tab>B2<tab>C2 ...` and one row per scan: a day-first date (`30/01/2014 17:00:00`), the elapsed hours (`0`, `4`, `8`, `12.1`) and one value per well. 60 wells (B2-G11), 71 scans over 280 h.
+- The synthetic files show `Vessel Name:` in place of `Label:`, `Analysis:` in place of `Analysis Job:`, `(%)` in place of `(Percent)`, dot dates (`01.01.2026 08:00:00`) with decimal commas, groups instead of wells, and the plate-map layout (`Time Stamp:<tab><date><tab>Elapsed:<tab><hours>`, then a matrix of column numbers and row letters).
+- **Rule:** the metric is one kinetic read; time is the `Elapsed` hours × 3,600 s; a column is read when its title is a well name.
+
+**Validation:** `oracle/plate.py` `incucyte_summary`, an independent reader of the text (allotropy has no Incucyte parser): 4,260 values of 60 wells and the 71 scan times equal.

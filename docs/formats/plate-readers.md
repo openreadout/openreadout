@@ -26,7 +26,7 @@ Geometry: the declared well count of the plate type when the file gives one and 
 
 ## Read modes
 
-Every measured read has a `mode` (`absorbance`, `fluorescence`, `luminescence`, `alpha`, `unknown`) and, in `extra.reads[]`, a `mode_basis` saying how the mode was established:
+Every measured read has a `mode` (`absorbance`, `fluorescence`, `luminescence`, `alpha`, `imaging` for an image-analysis metric, `unknown`) and, in `extra.reads[]`, a `mode_basis` saying how the mode was established:
 
 | `mode_basis` | meaning | dialects |
 | --- | --- | --- |
@@ -61,6 +61,7 @@ A derived mode (`detector`, `label`, `settings`) is listed in `assurance.inferre
 | `tecan-i-control` | Tecan i-control (infinite, Spark), SparkControl | `.txt`, `.csv`, `.xlsx` | `Application: Tecan i-control` (or `SparkControl`) in the first three lines |
 | `tecan-magellan` | Tecan Magellan | `.xlsx` | a `Well positions` column and trailing `.mth` / `Date of measurement` lines |
 | `skanit` | Thermo Scientific SkanIt (Varioskan, Multiskan, Fluoroskan, Luminoskan) | `.xlsx` | sheets starting `Measurement results` with a step and `Wavelength:` line |
+| `incucyte` | Sartorius Incucyte (Zoom, S3, SX5) metric exports | `.txt` | first line `Vessel Name:` or `Label:`, a `Metric:` line, and a `Date Time ... Elapsed` header or a `Time Stamp:` line in the first 40 lines |
 | `generic` | anything else with plate matrices | text, workbook | at least one matrix of ≥ 2 rows × 3 columns with ≥ 4 numbers; detection `likely` for text extensions |
 
 ### Gen5
@@ -134,6 +135,15 @@ Magellan: a list with a `Well positions` column, an optional `Plate` column and 
 ### SkanIt
 
 One sheet per protocol step starting `Measurement results`, the session file, the run time (→ `acquired_at`), the step name (row 5: `Absorbance 1`, `Luminescence 1`, `Blank Subtraction 1`, `Standard Curve 1`, `Dilution Factor 1`), `Wavelength: 450 nm` (or excitation/emission lines), then per plate its name (`Plate 1`, `Blank plate`, `Sample Plate`: one table per plate name) and a matrix whose corner names the quantity (`Abs`, `RLU`, `Blank subtracted`, `Value`, `Dilution factor`), followed by a `Sample` matrix (→ `extra.layout`). Titles are taken from column A only (side tables share the lines). Steps named after a detection technology (absorbance, fluorescence, luminescence, photometric) are measured reads, labelled `<step> (<corner>)`; every other step is calculated. The `Layout definitions` sheet (per row: sample names, then the group, then a standard's concentration with its unit or an unknown's `1:N` dilution) → `extra.layout_definitions` (`Sample`, `Group`, `Conc/Dil`: title → well → text), which the plate-reader assays of `openreadout analyze` use as the plate layout ([plate-analysis.md](../../book/src/guides/plate-analysis.md)). `General information` (`Report generated with SW version` → `software_version`), `Session information` (`Session name` → `experiment`, `Execution time`), `Instrument information` (`Name` → `instrument.model`, `Serial number`), `Protocol parameters` and `Run log` sheets → header pairs and `vendor.sections`.
+
+### Incucyte
+
+The live-cell imager exports one image-analysis metric (`Phase Object Confluence (Percent)`, object counts, fluorescent areas) for every scan. Key lines come first (`Vessel Name` or `Label`, `Metric`, `Cell Type`, `Passage`, `Notes`, `Analysis` or `Analysis Job`). Two layouts follow:
+
+- **Wells as columns**: `Date Time`, `Elapsed` (hours), then one column per well, one row per scan.
+- **Plate maps**: per scan a `Time Stamp:` line with the date and `Elapsed:` hours, then a plate matrix.
+
+The metric is one kinetic read with mode `imaging`. Its name drops the unit, which becomes the read's unit (`(Percent)` → `%`). `Cell Type` and `Passage` are read settings, the vessel name is the experiment, the analysis is the protocol, and the first scan's date is `acquired_at`. Time is the elapsed hours in seconds. Columns that are not wells, such as group means, their `(Std Dev)` columns and per-image values (`A1, Image 1`), are not read; a note names them, and a file with no well column is refused with a hint to export per well. `export --format asm` refuses Incucyte files: ASM's plate-reader model has no image-analysis metric, so the hint points to CSV or Parquet.
 
 ## `check`
 

@@ -1,0 +1,62 @@
+# Thermo Fisher NanoDrop exports provenance
+
+## 2026-10-15 — before the reader was written (Richard Zimring with Claude as assistant)
+
+**Corpus files used** (all in `corpus/manifest.toml`):
+
+- Benchling-Open-Source/allotropy test data (MIT), commit `bf24b8bd518d`, one depositor:
+  `nanodrop-8000-protein`, `nanodrop-8000-protein-plate`, `nanodrop-8000-dna`,
+  `nanodrop-8000-dna-2`, `nanodrop-8000-custom-mrna` (NanoDrop 8000 reports),
+  `nanodrop-eight-dsdna`, `nanodrop-eight-decimal-comma`, `nanodrop-eight-tab-aligned`,
+  `nanodrop-eight-rna` (NanoDrop Eight exports), `nanodrop-one-dsdna` (NanoDrop One CSV report).
+  The files look edited for testing (placeholder names and serials, one run saved with decimal
+  commas and once with padded header lines).
+- beabock/nanodRop (MIT), commit `d5088583`: `nanodrop-one-uvvis-nanodrop-r`, a NanoDrop One UV-Vis
+  spectrum export of 24 measurements.
+- Two depositors in all, and one per layout: no file is held out.
+
+**Prior art consulted:**
+
+- allotropy (MIT, https://github.com/Benchling-Open-Source/allotropy), run as the reference reader
+  (`oracle/benchtop_oracle.py`); its parsers were not needed to understand the layouts, which name
+  their columns.
+- nanodRop (MIT, https://github.com/beabock/nanodRop): its DESCRIPTION, which says the files are UV-Vis
+  spectral exports of the NanoDrop One with repeated measurements. Its code was not needed.
+
+### Inferred from the files
+
+- 8000 report: tab-separated, CRLF; one header row whose titles carry trailing spaces (`Well `,
+  `Date `, `conc. `); `Date` (`4/14/2022`) and `Time` (`3:48 PM`) in two columns; `Units` after the
+  concentration (`ng/ul`, `mg/ml`); the application decides the columns (nucleic acid: `A260`, `A280`,
+  `260/280`, `260/230`, `Conc. Factor (ng/ul)`, `340 raw`, `NA Type` `DNA-50`; protein: `A280 10mm`,
+  `E 1%`, `Ext. Coeff x10e3`, `Mol. Wt. kDa`; custom method: four `nm k`/`Abs k` pairs and a formula).
+  The custom file writes `NaN` and `1.449E+0`; one protein file has empty plate and sample ids.
+  The mRNA file shows a blank line and a second table (`Sample  ID`, `Curve Type`, `Ref  conc`,
+  standards); kept as text.
+- Eight export: `Application:`, `Serial Number:`, `User Name:` lines (`Key:<tab>value`, padded with
+  tabs in one file), then a header row `Sample Id` (a UUID), `Sample Name`, `Date & Time`
+  (`06/16/2022 04:38:28 PM(-07:00)`), `Location`, `ng/µL`, `A260/A280`, `A260/A230`, `A260`, `A280`,
+  and 261 columns titled `220.0` to `350.0` every 0.5 nm whose cells are absorbances (four decimals):
+  the spectrum. The decimal-comma file writes `220,0` and `0,0159`. The RNA file has
+  `Serial number:` with an empty value, columns `Date`, `UID`, `Sample`, `Username`, results and
+  unknown extra columns, day-first dates without seconds and no spectra.
+- One CSV: comma-separated; `Date` (`7/19/2023 3:27:29 PM`), `Sample Name`, `Nucleic Acid(ng/uL)`,
+  ratios, A260, A280, `Nucleic Acid Factor`, `Baseline Correction (nm)`, `Baseline Absorbance`, then
+  corrected-concentration and impurity columns (some titles start with a space); rows from another
+  run leave A260 and A280 empty.
+- One spectrum export: blocks separated by blank lines; a sample line (`6 1`: the sample and the
+  measurement), a date line (`5/14/2024 5:04 PM`), `Wavelength (nm)<tab>10mm Absorbance`,
+  `//WLCalib: Shift <tab>0.22333<tab>` and five `//WLCalib: <nm>S` lines, `//QSpecEnd: `, then
+  1,321 pairs from 190.0 to 850.0 nm every 0.5 nm. Every block shares the axis.
+
+### Decisions
+
+- Our column names (table in `docs/formats/nanodrop.md`); concentrations in one unit per column;
+  absorbances unitless (the files give none; allotropy's `mAU` is its own choice).
+- The Eight's `Sample Id` is a measurement UUID, not the sample: it becomes `sample_uid`.
+- Ratios of the spectrum export are read off the spectrum and say so.
+
+### Validation (2026-10-15)
+
+15 files, all pass against allotropy 0.1.147 and pandas: 432 sample values (names,
+concentrations, absorbances, ratios) and 39 spectra.

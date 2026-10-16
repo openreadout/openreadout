@@ -106,11 +106,17 @@ pub(crate) fn parse(book: &Book) -> Export {
         .or_else(|| ex.get("Analysis Job"))
         .map(str::to_string);
     let metric = ex.get("Metric").unwrap_or("metric").to_string();
-    let mut block = Block::new(metric.clone(), ex.experiment.clone().unwrap_or_default());
+    // the read is named without its unit: `Phase Object Confluence`, unit `%`
+    let unit = unit_of(&metric);
+    let name = match (unit.as_ref(), metric.rfind('(')) {
+        (Some(_), Some(i)) if i > 0 => metric[..i].trim().to_string(),
+        _ => metric.clone(),
+    };
+    let mut block = Block::new(name.clone(), ex.experiment.clone().unwrap_or_default());
     block.read_type = Some(ReadType::Kinetic);
     block.line = Some(r);
-    let mut ch = Channel::derived(&metric, Mode::Imaging, ModeBasis::Stated);
-    ch.unit = unit_of(&metric);
+    let mut ch = Channel::derived(&name, Mode::Imaging, ModeBasis::Stated);
+    ch.unit = unit;
     for (k, key) in [("cell_type", "Cell Type"), ("passage", "Passage")] {
         if let Some(v) = ex.get(key) {
             ch.settings.insert(k.into(), json!(v));
