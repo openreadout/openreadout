@@ -54,6 +54,7 @@ openreadout-echem = { workspace = true }
 openreadout-xrd = { workspace = true }
 openreadout-epr = { workspace = true }
 openreadout-fplc = { workspace = true }
+openreadout-diffraction = { workspace = true }
 openreadout-em = { workspace = true }
 openreadout-nmr = { workspace = true }
 openreadout-hdf5 = { workspace = true }
