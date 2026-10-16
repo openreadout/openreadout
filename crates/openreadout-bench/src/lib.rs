@@ -61,6 +61,13 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_thermal::NgbReader))
         .with(Box::new(openreadout_thermal::TaReader))
         .with(Box::new(openreadout_thermal::TriosReader))
+        // DNA sequencers: Illumina run folders, nanopore signal (FAST5 before generic HDF5),
+        // FASTQ and BAM read files
+        .with(Box::new(openreadout_seq::IlluminaRunReader))
+        .with(Box::new(openreadout_seq::Pod5Reader))
+        .with(Box::new(openreadout_seq::Fast5Reader))
+        .with(Box::new(openreadout_seq::FastqReader))
+        .with(Box::new(openreadout_seq::BamReader))
         .with(Box::new(openreadout_waters::WatersRawReader))
         .with(Box::new(openreadout_fcs::FcsReader))
         .with(Box::new(openreadout_mzml::ImzmlReader))

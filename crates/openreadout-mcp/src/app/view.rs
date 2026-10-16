@@ -327,6 +327,17 @@ pub fn call(
     let reg = registry();
     let (det, mut ds) = reg.open(Path::new(&path)).map_err(|e| err(&e))?;
     let info = ds.info().map_err(|e| err(&e))?;
+    // a sequencing run or read file: its overview is a figure (quality by cycle per lane, read
+    // lengths), drawn by the figure view from plot arguments made here
+    if a.view == ViewKind::Auto
+        && let Some(spec) = sequencing_figure(&path, &info)
+    {
+        drop(ds);
+        let mut b = a.clone();
+        b.view = ViewKind::Figure;
+        b.spec = Some(spec);
+        return figure(registry, &b);
+    }
     let kind = match a.view {
         ViewKind::Auto => auto_kind(&info),
         k => k,
@@ -645,6 +656,57 @@ pub fn available(info: &FileInfo) -> Vec<ViewKind> {
         v.push(ViewKind::Trace);
     }
     v
+}
+
+/// The plot arguments of a sequencing file's overview: an Illumina run's % ≥ Q30, mean quality
+/// and error rate by cycle with one line per lane; a FASTQ or BAM file's read lengths and read
+/// quality. `None` for other files (nanopore signal opens in the trace view: one sweep per read).
+pub fn sequencing_figure(path: &str, info: &FileInfo) -> Option<Value> {
+    if info.format.family != "sequencing" {
+        return None;
+    }
+    let kind = |t: &TableInfo| {
+        t.extra
+            .get("kind")
+            .and_then(Value::as_str)
+            .map(str::to_string)
+    };
+    if let Some(t) = info.traces.first()
+        && t.extra.get("kind").and_then(Value::as_str) == Some("run_quality_by_cycle")
+    {
+        let sweeps: Vec<u32> = (0..t.sweep_count.min(8)).collect();
+        let has = |c: &str| t.channels.iter().any(|ch| ch.name == c);
+        let mut panels = vec![json!({
+            "title": "% of base calls ≥ Q30 by cycle",
+            "data": {"file": path, "trace": 0, "sweep": sweeps, "y": "percent_q30"},
+        })];
+        if has("error_rate") {
+            panels.push(json!({
+                "title": "error rate by cycle (PhiX)",
+                "data": {"file": path, "trace": 0, "sweep": sweeps, "y": "error_rate"},
+            }));
+        }
+        panels.push(json!({
+            "title": "mean Q score by cycle",
+            "data": {"file": path, "trace": 0, "sweep": sweeps, "y": "mean_qscore"},
+        }));
+        return Some(json!({"panels": panels, "columns": 1, "share": "x"}));
+    }
+    if info
+        .tables
+        .first()
+        .and_then(kind)
+        .is_some_and(|k| k == "fastq_reads" || k == "bam_records")
+    {
+        return Some(json!({
+            "panels": [
+                {"title": "read lengths", "data": {"file": path, "show": "histogram", "x": "length"}},
+                {"title": "read quality", "data": {"file": path, "show": "histogram", "x": "mean_quality"}},
+            ],
+            "columns": 2,
+        }));
+    }
+    None
 }
 
 /// The view for [`ViewKind::Auto`].

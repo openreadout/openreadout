@@ -714,17 +714,22 @@ fn human(b: u64) -> String {
     }
 }
 
-/// Extract a zip archive into `dir` with the platform's `unzip` (or `tar`, which reads zip
-/// on macOS and Windows). Only xtask ever unpacks; the binary never does.
+/// Extract a zip archive or a gzip tarball into `dir` with the platform's `unzip` (or `tar`,
+/// which reads zip on macOS and Windows, and tarballs everywhere). Only xtask ever unpacks; the
+/// binary never does.
 fn unzip(archive: &Path, dir: &Path) -> Result<()> {
-    let ok = std::process::Command::new("unzip")
-        .arg("-o")
-        .arg("-q")
-        .arg(archive)
-        .arg("-d")
-        .arg(dir)
-        .status()
-        .is_ok_and(|s| s.success());
+    let name = archive.to_string_lossy().to_ascii_lowercase();
+    // gzip tarballs (sequencer run folders) go straight to tar
+    let tarball = name.ends_with(".tar.gz") || name.ends_with(".tgz");
+    let ok = !tarball
+        && std::process::Command::new("unzip")
+            .arg("-o")
+            .arg("-q")
+            .arg(archive)
+            .arg("-d")
+            .arg(dir)
+            .status()
+            .is_ok_and(|s| s.success());
     if ok {
         return Ok(());
     }

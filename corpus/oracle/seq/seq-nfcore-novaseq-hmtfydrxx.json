@@ -1,0 +1,180 @@
+{
+ "id": "seq-nfcore-novaseq-hmtfydrxx",
+ "format": "illumina-run",
+ "reader": "interop 1.9.0 (GPL-3.0, run as a black box)",
+ "total": {
+  "yield_g": 56.36676788330078,
+  "percent_q30": 94.28095245361328
+ },
+ "reads": [
+  {
+   "read": 1,
+   "indexed": false,
+   "cycles": 36,
+   "percent_q30": 95.73101043701172,
+   "yield_g": 37.224674224853516,
+   "lanes": [
+    {
+     "lane": 1,
+     "tiles": 156,
+     "density": 2961270.5,
+     "density_sd": 0.0,
+     "percent_pf": 83.4142837524414,
+     "percent_pf_sd": 0.8578968644142151,
+     "reads": 638337024.0,
+     "reads_pf": 532464327.0,
+     "percent_q30": 95.70932006835938,
+     "yield_g": 18.642087936401367,
+     "error_rate": null,
+     "percent_aligned": 0.0,
+     "intensity_cycle_1": 1172.0897216796875,
+     "phasing": 0.04994822293519974,
+     "prephasing": 0.0378599539399147,
+     "percent_occupied": 97.22723388671875
+    },
+    {
+     "lane": 2,
+     "tiles": 156,
+     "density": 2961270.5,
+     "density_sd": 0.0,
+     "percent_pf": 83.17201232910156,
+     "percent_pf_sd": 1.0489978790283203,
+     "reads": 638337024.0,
+     "reads_pf": 530917565.0,
+     "percent_q30": 95.75276184082031,
+     "yield_g": 18.58258628845215,
+     "error_rate": null,
+     "percent_aligned": 0.0,
+     "intensity_cycle_1": 1062.128173828125,
+     "phasing": 0.061629679054021835,
+     "prephasing": 0.04309912398457527,
+     "percent_occupied": 96.14781951904297
+    }
+   ]
+  },
+  {
+   "read": 2,
+   "indexed": true,
+   "cycles": 10,
+   "percent_q30": 92.59205627441406,
+   "yield_g": 9.571081161499023,
+   "lanes": [
+    {
+     "lane": 1,
+     "tiles": 156,
+     "density": 2961270.5,
+     "density_sd": 0.0,
+     "percent_pf": 83.4142837524414,
+     "percent_pf_sd": 0.8578968644142151,
+     "reads": 638337024.0,
+     "reads_pf": 532464327.0,
+     "percent_q30": 92.57965850830078,
+     "yield_g": 4.793388843536377,
+     "error_rate": null,
+     "percent_aligned": null,
+     "intensity_cycle_1": 1271.65380859375,
+     "phasing": null,
+     "prephasing": null,
+     "percent_occupied": 97.22723388671875
+    },
+    {
+     "lane": 2,
+     "tiles": 156,
+     "density": 2961270.5,
+     "density_sd": 0.0,
+     "percent_pf": 83.17201232910156,
+     "percent_pf_sd": 1.0489978790283203,
+     "reads": 638337024.0,
+     "reads_pf": 530917565.0,
+     "percent_q30": 92.60448455810547,
+     "yield_g": 4.777691841125488,
+     "error_rate": null,
+     "percent_aligned": null,
+     "intensity_cycle_1": 1150.9871826171875,
+     "phasing": null,
+     "prephasing": null,
+     "percent_occupied": 96.14781951904297
+    }
+   ]
+  },
+  {
+   "read": 3,
+   "indexed": true,
+   "cycles": 10,
+   "percent_q30": 90.33013916015625,
+   "yield_g": 9.571014404296875,
+   "lanes": [
+    {
+     "lane": 1,
+     "tiles": 156,
+     "density": 2961270.5,
+     "density_sd": 0.0,
+     "percent_pf": 83.4142837524414,
+     "percent_pf_sd": 0.8578968644142151,
+     "reads": 638337024.0,
+     "reads_pf": 532464327.0,
+     "percent_q30": 90.3790283203125,
+     "yield_g": 4.7934699058532715,
+     "error_rate": null,
+     "percent_aligned": null,
+     "intensity_cycle_1": 1181.2178955078125,
+     "phasing": null,
+     "prephasing": null,
+     "percent_occupied": 97.22723388671875
+    },
+    {
+     "lane": 2,
+     "tiles": 156,
+     "density": 2961270.5,
+     "density_sd": 0.0,
+     "percent_pf": 83.17201232910156,
+     "percent_pf_sd": 1.0489978790283203,
+     "reads": 638337024.0,
+     "reads_pf": 530917565.0,
+     "percent_q30": 90.2811050415039,
+     "yield_g": 4.777544021606445,
+     "error_rate": null,
+     "percent_aligned": null,
+     "intensity_cycle_1": 1062.2178955078125,
+     "phasing": null,
+     "prephasing": null,
+     "percent_occupied": 96.14781951904297
+    }
+   ]
+  }
+ ],
+ "fastq": {
+  "reader": "Picard 3.5.0 IlluminaBasecallsToFastq (MIT)",
+  "lane": 1,
+  "hashed_records": 2000,
+  "reads": {
+   "R1": {
+    "records": 3405706,
+    "first_records_xxh3": "ec49eb53a7f025f506c779fec6c42b3c",
+    "first": [
+     "A00834:183:HMTFYDRXX:1:2101:1018:1000\nGNGCGGAGCCAGGAGTGAGGAAGGCCGCCGGCAGCA\nF#FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\n",
+     "A00834:183:HMTFYDRXX:1:2101:1036:1000\nTNTCTGAAGTGGTATCCAGTTGAAACTACAAATGGA\nF#:FFFFFFFFFFFFFFFFFFFFF:F,FFFFFFFFF\n",
+     "A00834:183:HMTFYDRXX:1:2101:1054:1000\nCNTATGTGTCATAGCCTGTCTCCTCCAGGAAGGCAG\nF#FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\n"
+    ]
+   },
+   "I1": {
+    "records": 3405706,
+    "first_records_xxh3": "67956b045b1d29081405c9e4c2626e05",
+    "first": [
+     "A00834:183:HMTFYDRXX:1:2101:1018:1000\nATTAGAAGAC\nFFFFFFFF:F\n",
+     "A00834:183:HMTFYDRXX:1:2101:1036:1000\nGTGGTATCTG\nF:FFFFFFFF\n",
+     "A00834:183:HMTFYDRXX:1:2101:1054:1000\nTATGCCTTAC\nFFFFFF:FFF\n"
+    ]
+   },
+   "I2": {
+    "records": 3405706,
+    "first_records_xxh3": "ce8712a4a122a4b43b0b47c9cf7a11ca",
+    "first": [
+     "A00834:183:HMTFYDRXX:1:2101:1018:1000\nGCAGGCTGGA\nFFFFFFFFFF\n",
+     "A00834:183:HMTFYDRXX:1:2101:1036:1000\nGCTACTATCT\nFFFFFFF:FF\n",
+     "A00834:183:HMTFYDRXX:1:2101:1054:1000\nAGACACATTA\nFF,F:FF:FF\n"
+    ]
+   }
+  }
+ }
+}

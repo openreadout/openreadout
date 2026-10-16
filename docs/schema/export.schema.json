@@ -31,6 +31,9 @@
       "$ref": "#/$defs/RdmlExportReport"
     },
     {
+      "$ref": "#/$defs/FastqReport"
+    },
+    {
       "$ref": "#/$defs/PerImageExport"
     }
   ],
@@ -1047,6 +1050,109 @@
         "bytes_written",
         "verified",
         "notes"
+      ]
+    },
+    "FastqReport": {
+      "description": "What [`export_fastq`] wrote.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The run folder.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The directory the files were written to.",
+          "type": "string"
+        },
+        "format": {
+          "description": "`fastq`.",
+          "type": "string"
+        },
+        "files": {
+          "description": "Files written, in lane and read order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FastqFile"
+          }
+        },
+        "clusters": {
+          "description": "Clusters written per lane (each cluster is one record in every read's file).",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "filtered_out": {
+          "description": "Clusters skipped because they failed the filter.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "Every file was read back and matched what was written.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "Things worth knowing (no cluster locations, a tile without base calls, …).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "files",
+        "clusters",
+        "filtered_out",
+        "verified",
+        "notes"
+      ]
+    },
+    "FastqFile": {
+      "description": "One FASTQ file written.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        },
+        "lane": {
+          "description": "Lane.",
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "read": {
+          "description": "`R1`, `R2`, `I1`, ….",
+          "type": "string"
+        },
+        "records": {
+          "description": "Records written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bases": {
+          "description": "Bases written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "xxh3": {
+          "description": "xxh3 of the uncompressed records.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "lane",
+        "read",
+        "records",
+        "bases",
+        "xxh3"
       ]
     },
     "PerImageExport": {

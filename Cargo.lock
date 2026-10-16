@@ -1969,6 +1969,7 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-quant",
  "openreadout-sciex",
+ "openreadout-seq",
  "openreadout-signal",
  "openreadout-spectro",
  "openreadout-spikeglx",
@@ -2092,6 +2093,7 @@ dependencies = [
  "openreadout-ometiff",
  "openreadout-omezarr",
  "openreadout-sciex",
+ "openreadout-seq",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",
@@ -2236,6 +2238,7 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-quant",
  "openreadout-sciex",
+ "openreadout-seq",
  "openreadout-signal",
  "openreadout-spectro",
  "openreadout-spikeglx",
@@ -2485,6 +2488,7 @@ dependencies = [
  "openreadout-preview",
  "openreadout-qpcr",
  "openreadout-quant",
+ "openreadout-seq",
  "openreadout-signal",
  "rayon",
  "rmcp",
@@ -2725,6 +2729,7 @@ dependencies = [
  "openreadout-preview",
  "openreadout-qpcr",
  "openreadout-sciex",
+ "openreadout-seq",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",
@@ -2812,6 +2817,7 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-quant",
  "openreadout-sciex",
+ "openreadout-seq",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",
@@ -2835,6 +2841,24 @@ dependencies = [
  "peak_alloc",
  "serde_json",
  "tempfile",
+]
+
+[[package]]
+name = "openreadout-seq"
+version = "0.3.0"
+dependencies = [
+ "arrow-ipc",
+ "flate2",
+ "hdf5-pure",
+ "openreadout-core",
+ "openreadout-hdf5",
+ "roxmltree",
+ "ruzstd",
+ "schemars",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "xxhash-rust",
 ]
 
 [[package]]
@@ -2941,6 +2965,7 @@ dependencies = [
  "openreadout-preview",
  "openreadout-qpcr",
  "openreadout-sciex",
+ "openreadout-seq",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",

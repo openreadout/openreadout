@@ -43,6 +43,7 @@ mod oracle;
 #[path = "../qpcr_oracle/mod.rs"]
 mod qpcr_oracle;
 mod seahorse_oracle;
+mod seq_oracle;
 mod series_oracle;
 mod shimadzu_oracle;
 mod spectra;
@@ -579,6 +580,8 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("series")
     } else if hyperspec_oracle::FORMATS.contains(&format) {
         Some("hyperspec")
+    } else if seq_oracle::FORMATS.contains(&format) {
+        Some("seq")
     } else {
         None
     }
@@ -667,6 +670,8 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         series_oracle::compare_file(format, id, path, &o)
     } else if hyperspec_oracle::FORMATS.contains(&format) {
         hyperspec_oracle::compare_file(format, id, path, &o)
+    } else if seq_oracle::FORMATS.contains(&format) {
+        seq_oracle::compare_file(format, id, path, &o)
     } else {
         qpcr_oracle::compare_file(format, id, path, &o)
     })

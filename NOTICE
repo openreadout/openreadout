@@ -75,12 +75,22 @@ Vendor- and author-published file-format documentation consulted (public, no log
 - netCDF Classic Format Specification — Unidata/UCAR, https://docs.unidata.ucar.edu/netcdf-c/current/file_format_specifications.html (open specification)
 - [MS-CFB] Compound File Binary File Format — Microsoft Open Specifications, https://learn.microsoft.com/openspecs/windows_protocols/ms-cfb/ (open specification)
 - rainbow documentation pages (file-format descriptions), https://rainbow-api.readthedocs.io/ (documentation pages)
+- Illumina InterOp binary-format pages (documentation pages only, not source), https://illumina.github.io/interop/binary_formats.html
+- illuminate — Naomi Most and contributors, MIT, https://github.com/nthmost/illuminate (InterOp tile-metric codes, read as documentation)
+- Picard — Broad Institute, MIT, https://github.com/broadinstitute/picard (BCL, CBCL, filter and locations layouts, read as documentation; IlluminaBasecallsToFastq run as an oracle)
+- POD5 format specification and table documents — Oxford Nanopore Technologies, https://github.com/nanoporetech/pod5-file-format/tree/master/docs (documents only, not source)
+- VBZ compression README — Oxford Nanopore Technologies, https://github.com/nanoporetech/vbz_compression (README only)
+- StreamVByte — Daniel Lemire and contributors, Apache-2.0, https://github.com/lemire/streamvbyte (encoding described in its README and paper)
+- SAMv1 (SAM/BAM) specification — The SAM/BAM Format Specification Working Group, https://samtools.github.io/hts-specs/SAMv1.pdf (open specification)
+- PacBio BAM format specification — Pacific Biosciences, https://pacbiofileformats.readthedocs.io/ (public documentation)
+- Cock et al., "The Sanger FASTQ file format", Nucleic Acids Research 38(6):1767–1771 (2010), open access
 
 Tools run as black-box oracles during development only (never linked):
 - ZEISS libCZI and pylibCZIrw (LGPL-3.0), Bio-Formats (GPL-2.0+), bioio-czi and bioio-lif (GPL-3.0), readlif (GPL-3.0)
 - ncempy / openNCEM (GPL-3.0-or-later) and RosettaSciIO (GPL-3.0): TIA SER, Gatan DM and EMD oracles
 - rainbow-api (LGPL-3.0): Agilent ChemStation and Waters MassLynx oracle; scipy netcdf_file (BSD-3-Clause) and olefile (BSD-2-Clause) are also run as oracles
 - pylibCZIrw is also run to write synthetic CZI test fixtures (oracle/make_czi_fixtures.py); the fixtures are data, not code
+- interop (Illumina, GPL-3.0) for Illumina run summaries; pod5 and vbz_h5py_plugin (Oxford Nanopore, MPL-2.0) for POD5 and FAST5; pysam (MIT) and Biopython for FASTQ and BAM; pod5 also writes a synthetic POD5 fixture (oracle/make_seq_fixtures.py)
 
 Controlled vocabularies (term ids and labels only, in crates/openreadout-core/src/vocab.rs;
 no ontology files are distributed; see book/src/guides/metadata.md):

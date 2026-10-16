@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 318 |
+| MIT License | 319 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 7 |
 | Unicode License v3 | 5 |
@@ -3540,6 +3540,7 @@ Used by:
 - [openreadout-qpcr 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-quant 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-sciex 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-seq 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-signal 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-spectro 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-spikeglx 0.3.0](https://github.com/openreadout/openreadout)

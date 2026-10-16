@@ -121,6 +121,11 @@ fn formats_lists_all_readers() {
             "netzsch-ngb",
             "ta-universal-analysis",
             "ta-trios",
+            "illumina-run",
+            "pod5",
+            "fast5",
+            "fastq",
+            "bam",
             "hdf5",
             "plate",
         ]

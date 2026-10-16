@@ -137,6 +137,10 @@ pub enum ExportFormat {
     /// RDML 1.3 (Real-time PCR Data Markup Language): qPCR files (RDML, .eds, .rex) with plate
     /// setup, Cq, curves and melt data.
     Rdml,
+    /// FASTQ (gzip) from the base calls of an Illumina run folder: a directory with one file per
+    /// lane and read (`--rows 0-N` writes the first N+1 clusters of each lane).
+    #[value(alias = "fq")]
+    Fastq,
 }
 
 impl ExportFormat {
@@ -153,6 +157,7 @@ impl ExportFormat {
             ExportFormat::Nwb => "nwb",
             ExportFormat::Jcamp => "jcamp",
             ExportFormat::Rdml => "rdml",
+            ExportFormat::Fastq => "fastq",
         }
     }
 
@@ -334,6 +339,7 @@ pub enum ExportOutput {
     Nwb(openreadout_hdf5::NwbExportReport),
     Jcamp(openreadout_nmr::JcampExportReport),
     Rdml(openreadout_qpcr::RdmlExportReport),
+    Fastq(openreadout_seq::FastqReport),
     PerImage(plate::PerImageExport),
 }
 
@@ -375,6 +381,12 @@ impl batch::Item for ExportOutput {
             ExportOutput::Rdml(r) => {
                 format!("{} reactions -> {}", r.reactions, name(&r.output))
             }
+            ExportOutput::Fastq(r) => format!(
+                "{} clusters, {} files -> {}",
+                r.clusters,
+                r.files.len(),
+                name(&r.output)
+            ),
             ExportOutput::PerImage(r) => format!("{} files -> {}", r.files.len(), name(&r.output)),
         })
     }
@@ -521,6 +533,19 @@ fn render_export(r: &ExportOutput) -> String {
             r.bytes_written,
             r.verified
         ),
+        ExportOutput::Fastq(r) => format!(
+            "wrote {} (FASTQ: {} clusters in {} files, {} left out by the filter, verified={}){}",
+            r.output,
+            r.clusters,
+            r.files.len(),
+            r.filtered_out,
+            r.verified,
+            r.notes.iter().fold(String::new(), |mut acc, n| {
+                acc.push_str("\n  note: ");
+                acc.push_str(n);
+                acc
+            })
+        ),
         ExportOutput::Rdml(r) => format!(
             "wrote {} (RDML {}: {} run(s), {} reactions, {} data elements, {} Cq values, {} amplification and {} melt points; {} bytes, verified={}){}",
             r.output,
@@ -596,6 +621,17 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
             "OME-Zarr export supports --compression none or deflate (gzip), not lzw".into(),
         ));
     }
+    if requested == Some(ExportFormat::Fastq) {
+        let rows = req
+            .csv
+            .rows
+            .as_deref()
+            .map(openreadout_batch::csv::parse_rows)
+            .transpose()?;
+        let out = explicit.unwrap_or_else(|| openreadout_seq::default_fastq_output(&name_base));
+        return openreadout_seq::export_run_fastq(file, Some(&out), rows, req.overwrite)
+            .map(ExportOutput::Fastq);
+    }
     if requested == Some(ExportFormat::Rdml) {
         let qds = qpcr::open(reg, file)?;
         let output = explicit.unwrap_or_else(|| openreadout_qpcr::default_rdml_output(&name_base));
@@ -670,7 +706,11 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         ExportFormat::Asm => name_base.with_file_name(format!("{stem}.asm.json")),
         ExportFormat::Rdml => openreadout_qpcr::default_rdml_output(&name_base),
         ExportFormat::Csv => openreadout_batch::csv::default_output(&name_base, &req.csv),
-        ExportFormat::Parquet | ExportFormat::Arrow | ExportFormat::Nwb | ExportFormat::Jcamp => {
+        ExportFormat::Parquet
+        | ExportFormat::Arrow
+        | ExportFormat::Nwb
+        | ExportFormat::Jcamp
+        | ExportFormat::Fastq => {
             unreachable!("handled above")
         }
     });
@@ -795,7 +835,8 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Parquet
         | ExportFormat::Arrow
         | ExportFormat::Nwb
-        | ExportFormat::Jcamp => unreachable!("handled above"),
+        | ExportFormat::Jcamp
+        | ExportFormat::Fastq => unreachable!("handled above"),
     }
     .map(ExportOutput::Image)
 }

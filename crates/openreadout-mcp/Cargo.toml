@@ -36,6 +36,7 @@ rayon = { workspace = true }
 openreadout-hdf5 = { workspace = true }
 openreadout-nmr = { workspace = true }
 openreadout-signal = { workspace = true }
+openreadout-seq = { workspace = true }
 openreadout-arrow = { workspace = true, optional = true }
 rmcp = { workspace = true }
 tokio = { workspace = true }

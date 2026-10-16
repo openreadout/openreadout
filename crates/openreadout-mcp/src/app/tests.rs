@@ -974,3 +974,31 @@ async fn sessions_without_initialize_get_cache_hints() {
         );
     }
 }
+
+fn seq_registry() -> Registry {
+    Registry::new()
+        .with(Box::new(openreadout_seq::IlluminaRunReader))
+        .with(Box::new(openreadout_seq::FastqReader))
+}
+
+/// A sequencing run or read file opens on a figure: quality by cycle per lane, or read lengths
+/// and qualities.
+#[test]
+fn sequencing_files_open_on_a_figure() {
+    let fixtures =
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../openreadout-seq/tests/fixtures");
+    for (name, panels) in [("run-bcl", 3), ("mini.fastq", 2)] {
+        let a: view::ViewArgs = serde_json::from_value(json!({
+            "file": fixtures.join(name).display().to_string(), "width": 600
+        }))
+        .unwrap();
+        let r = view::call(seq_registry, &a, None).unwrap();
+        let s = r.structured_content.as_ref().unwrap();
+        assert_eq!(s["view"], "figure", "{name}: {s}");
+        assert_eq!(
+            s["figure"]["panels"].as_array().map_or(0, Vec::len),
+            panels,
+            "{name}: {s}"
+        );
+    }
+}

@@ -1,0 +1,55 @@
+{
+ "id": "seq-nfcore-miseq-k9h97",
+ "format": "illumina-run",
+ "reader": "interop 1.9.0 (GPL-3.0, run as a black box)",
+ "total": {
+  "yield_g": 2.743924140930176,
+  "percent_q30": 95.69438934326172
+ },
+ "reads": [
+  {
+   "read": 1,
+   "indexed": false,
+   "cycles": 110,
+   "percent_q30": 95.69438934326172,
+   "yield_g": 2.743924140930176,
+   "lanes": [
+    {
+     "lane": 1,
+     "tiles": 38,
+     "density": 1237335.5,
+     "density_sd": 82733.265625,
+     "percent_pf": 89.0679702758789,
+     "percent_pf_sd": 1.4999618530273438,
+     "reads": 28263284.0,
+     "reads_pf": 25173616.0,
+     "percent_q30": 95.69438934326172,
+     "yield_g": 2.743924140930176,
+     "error_rate": 0.29331764578819275,
+     "percent_aligned": 1.6494537591934204,
+     "intensity_cycle_1": 241.94737243652344,
+     "phasing": 0.15361683070659637,
+     "prephasing": 0.11125072836875916,
+     "percent_occupied": null
+    }
+   ]
+  }
+ ],
+ "note": "run without RunParameters.xml: interop read a copy with a minimal runParameters.xml",
+ "fastq": {
+  "reader": "Picard 3.5.0 IlluminaBasecallsToFastq (MIT)",
+  "lane": 1,
+  "hashed_records": 2000,
+  "reads": {
+   "R1": {
+    "records": 617038,
+    "first_records_xxh3": "62fad755f5471eef144ad917bb13ffae",
+    "first": [
+     "M11111:222:000000000-K9H97:1:1101:21270:1316\nCTTCCTAGAAGTACGTGCCAGCACGATCCAATCTCGCATCACCTTTTTTCTTTCTACTTCTACTCTCCTCTTATCTCTTCTTTTTCTTGTTTTTTTTCTTTATTCCATCT\nCCCCCFA,,,,C9C6E-:C9,C,C+,:EC9,CFDE,@+6+;,,,C,CF7,@9E,,,C<,,,;<C,,6,,:C@,,,,:<<@,,,5=A,<,,,4,9=:@<?,,,,9C,,9,,\n",
+     "M11111:222:000000000-K9H97:1:1101:18692:1325\nTCCTCTAGTTGTACGTGCCAGCACGATCCAATCTCGCATACCTCGTCATGACAGTGGGTATAAAACATCCTGAAAGTGTATGCATGTACCATAACATCTATTCTTAATAT\nC@@CCE,6EF,E9C6E-CD9,C,C:,@EC<,CFDF,B+C,CCED,CC8E,,C,,;,,,@,C,,,,;,,;9A,,,,,C,C9E,@,A,C,AA,@,,9,99C,,,9AF,,A,4\n",
+     "M11111:222:000000000-K9H97:1:1101:19304:1328\nCTTCAGTAACCGTTCCAGCACGATCCAATCTCGCATATAAACTAATGGCAGTTCAAAAGACTCCTTAAATGATAAATCATGGAACTAACCAAACGGAGCATAATTTTCAT\n@CCB,,C,,<<+B66C--C,C+,CC@,,@CEE,@+@,C,,,C,,,<,,;,,;C@,,,,,6C@CEF,,,,<,,;,6,AA,,,,,,:E9,:=,,,9,,,+4,,,,9,,9=,,\n"
+    ]
+   }
+  }
+ }
+}
