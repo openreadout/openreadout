@@ -12,9 +12,10 @@ Each export is written under a temporary name, read back and compared with the s
 
 ### Target and output
 
-- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp` or `rdml`. Without it, the extension of `-o` sets the format, or the file's kind when there is no `-o`; see [Export formats](#export-formats).
+- `--format FORMAT`: target format: `ome-tiff`, `ome-zarr`, `mzml`, `csv`, `asm`, `parquet`, `arrow`, `nwb`, `jcamp`, `rdml` or `mrc`. Without it, the extension of `-o` sets the format, or the file's kind when there is no `-o`; see [Export formats](#export-formats).
 - `-o`, `--output PATH`: output path. Default: the input name with the target's extension. With several inputs, or with `--per-image`, a directory.
 - `--overwrite`: replace an existing output file or OME-Zarr store.
+- `--group-frames N`: MRC only: sum every N time points into one section (the dose fractions of an electron-event movie).
 - `--compression MODE`: images `none`, `deflate` (default) or `lzw`; Parquet `none`, `snappy` (default) or `lz4`; Arrow `none` (default) or `lz4`.
 - `--json`: print the export report as JSON.
 
@@ -82,6 +83,7 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 | `jcamp` | NMR, 1-D spectra, chromatograms | `<stem>.jdx` |
 | `asm` | plate-reader exports | `<stem>.asm.json` |
 | `rdml` | qPCR (RDML, `.eds`, `.rex`) | `<stem>.rdml` (`<stem>.export.rdml` for an RDML input) |
+| `mrc` | one channel of an image: movies, stacks, diffraction sweeps | `<stem>.mrcs` for frames, `<stem>.mrc` otherwise |
 
 - **OME-TIFF** is one BigTIFF file with OME-XML in the first IFD. Pyramids go in SubIFDs. With a pyramid, a level, a region, or a plane above 4 GiB, the file is tiled and written block by block, so a whole-slide image exports in bounded memory.
 - **OME-Zarr** is an OME-NGFF 0.5 (Zarr v3) store with 5-D `t, c, z, y, x` arrays. Several images become a `bioformats2raw.layout` collection; a screening plate becomes an HCS plate. Except for plates, `OME/METADATA.ome.xml` keeps what OME-NGFF has no place for: objective, instrument, acquisition mode, exposures. With a pyramid copied from the source, a level, a region, or a plane above 256 MiB, the store is written block by block.
@@ -93,8 +95,9 @@ openreadout export -r --skip-unknown raw/ -o ome/                # keeps the fol
 - **JCAMP-DX** is version 5.01 or 6.00. Values round-trip exactly when they are integer multiples of one factor; the report says whether they did.
 - **ASM** is Allotrope Simple Model plate-reader JSON, one document per plate and well.
 - **RDML** is RDML 1.3 with the plate setup, Cq values, amplification curves and melt data.
+- **MRC** is MRC2014: time points become an image stack, z planes a volume, with the pixel size in the cell dimensions. `--group-frames N` sums every N frames into one section. uint8 and uint16 samples are written as mode 6 (uint16), int16 as mode 1, the rest as float32.
 
-With `-o` and no `--format`, the output's extension picks the format: `.ome.tiff`, `.ome.tif`, `.tiff` and `.tif` give OME-TIFF, `.ome.zarr` and `.zarr` OME-Zarr, `.mzML` mzML, `.csv` CSV, `.parquet` Parquet, `.arrow` and `.feather` Arrow, `.nwb` NWB, `.jdx` and `.dx` JCAMP-DX, `.json` ASM and `.rdml` RDML. `export x.lif -o x.ome.zarr` writes OME-Zarr. An extension that names no format, or one that contradicts `--format` (`-o x.ome.zarr --format ome-tiff`), exits 2 and writes nothing. With `--format`, an output name without one of these extensions is fine.
+With `-o` and no `--format`, the output's extension picks the format: `.ome.tiff`, `.ome.tif`, `.tiff` and `.tif` give OME-TIFF, `.ome.zarr` and `.zarr` OME-Zarr, `.mzML` mzML, `.csv` CSV, `.parquet` Parquet, `.arrow` and `.feather` Arrow, `.nwb` NWB, `.jdx` and `.dx` JCAMP-DX, `.json` ASM, `.rdml` RDML and `.mrc` and `.mrcs` MRC. `export x.lif -o x.ome.zarr` writes OME-Zarr. An extension that names no format, or one that contradicts `--format` (`-o x.ome.zarr --format ome-tiff`), exits 2 and writes nothing. With `--format`, an output name without one of these extensions is fine.
 
 A combination that does not fit, such as an image file `--format csv`, exits 6.
 

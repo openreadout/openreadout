@@ -40,7 +40,7 @@ impl FormatReader for NxmxReader {
     fn descriptor(&self) -> FormatDescriptor {
         FormatDescriptor {
             id: NXMX_FORMAT_ID.into(),
-            name: "NeXus NXmx diffraction (EIGER master/data HDF5)".into(),
+            name: "NeXus NXmx (EIGER master and data HDF5)".into(),
             vendor: "open standard (NeXus NXmx; DECTRIS file writer)".into(),
             extensions: vec!["h5".into(), "nxs".into()],
             family: "diffraction".into(),

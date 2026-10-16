@@ -85,6 +85,7 @@ export default defineConfig({
             { label: "All formats", link: "/formats.html" },
             { label: "High-content screening", slug: "formats/hcs" },
             { label: "Electron microscopy", slug: "formats/em" },
+            { label: "Structural biology", slug: "formats/structural-biology" },
           ],
         },
         {

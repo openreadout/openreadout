@@ -35,7 +35,7 @@ impl FormatReader for SmvReader {
     fn descriptor(&self) -> FormatDescriptor {
         FormatDescriptor {
             id: FORMAT_ID.into(),
-            name: "SMV diffraction image (ADSC style)".into(),
+            name: "SMV (ADSC style)".into(),
             vendor: "ADSC and others (open layout)".into(),
             extensions: vec!["img".into(), "smv".into()],
             family: "diffraction".into(),

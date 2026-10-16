@@ -34,11 +34,13 @@ The same request on the same file always gives the same bytes.
 - `--image N`: image index. Default 0.
 - `--select SEL`: planes, such as `c=1`, `z=4` or `c=0,1,z=2`. Repeatable. Default: channel 0, the middle z, t 0. Several channels imply `--composite`.
 - `--mip z|t`: maximum-intensity projection over z or t, limited to the selected range.
+- `--sum t|z`: sum projection over t or z, limited to the selected range: a movie's frames added up into its dose image (`--sum t --select t=0-39`). Electron-event (EER) movies add their events directly.
+- `--fft`: a power-spectrum inset in the top-right corner: the averaged log power spectrum of tiles from the middle of the plane, binned to about 1.6 Å per pixel when the pixel size is known. It shows the Thon rings of a cryo-EM micrograph or the spots of a lattice.
 - `--composite`: blend all (or the selected) channels in their colours.
 - `--level N`: pyramid level. Default: the level nearest `--max-size`.
 - `--region X,Y,W,H`: only this rectangle, in full-resolution pixels (or in the pixels of `--level` when one is given).
-- `--contrast auto|min-max|percentile:LO,HI|raw`: `auto` stretches the 0.1–99.9 percentiles. Default `auto`.
-- `--lut gray|channel-color`: default gray for one channel, channel colours for composites.
+- `--contrast auto|min-max|percentile:LO,HI|log|log:LO,HI|raw`: `auto` stretches the 0.1–99.9 percentiles (on diffraction images, `log:90,99.95`). `log` maps the logarithm of the value above the low percentile (`log` alone: 50 and 99.9). Default `auto`.
+- `--lut gray|inverted|channel-color`: default gray for one channel (inverted, dark on light, on diffraction images), channel colours for composites.
 - `--axes rulers|grid|scale-bar|none`: `rulers` (default) frames the picture with rulers in full-resolution pixels and a scale bar, `grid` adds faint grid lines at the ruler ticks, `scale-bar` makes a figure for people (the picture, a scale bar, and the title and caption), `none` gives the bare plane.
 - `--title TEXT`, `--caption TEXT`: a title above the picture and a caption under it, beside the scale bar. Either one picks `--axes scale-bar` unless `--axes` is given. A title has at most 300 characters and a caption 2,000; a caption longer than its lines allow ends in `…`.
 
@@ -48,7 +50,7 @@ The same request on the same file always gives the same bytes.
 - `--run N`, `--spectrum N`, `--scan N`: the mass spectrum to draw, by zero-based index or instrument scan number.
 - `--centroid`: draw the instrument's centroid list instead of the profile.
 - `--table N`, `--column NAME`: the table, and the column to draw: a plate's value column (long layout), or the x and then the y parameter of flow cytometry events (`--column` is repeatable; one parameter gives a histogram; default FSC-A against SSC-A).
-- `--marks auto|peaks|spikes|objects|none`: marks drawn from the data. `auto` (default) labels the prominent peaks of spectra and chromatograms with their position (a peak has to stand well clear of the noise around it, so a noisy baseline stays unlabelled); `peaks` does so on any trace; `spikes` marks the action potentials of a current-clamp sweep (upward crossings of −20 mV, as [`analyze ephys-features`](analyze.md) counts them); `objects` outlines and numbers the nuclei, cells or spots in the area shown, with the count, as [`stats --objects`](stats.md#objects) finds them (at a coarser pyramid level when the view is larger than 4096 × 4096 pixels). The JSON gives the counts and the first 20 objects under `objects`.
+- `--marks auto|peaks|spikes|objects|rings|none`: marks drawn from the data. `auto` (default) labels the prominent peaks of spectra and chromatograms with their position (a peak has to stand well clear of the noise around it, so a noisy baseline stays unlabelled); `peaks` does so on any trace; `spikes` marks the action potentials of a current-clamp sweep (upward crossings of −20 mV, as [`analyze ephys-features`](analyze.md) counts them); `rings` draws resolution rings and the beam centre on a diffraction image (auto does this when the image records its wavelength, distance and beam centre; the JSON lists them under `marks`); `objects` outlines and numbers the nuclei, cells or spots in the area shown, with the count, as [`stats --objects`](stats.md#objects) finds them (at a coarser pyramid level when the view is larger than 4096 × 4096 pixels). The JSON gives the counts and the first 20 objects under `objects`.
 - `--objects JSON`: with `--marks objects`, how objects are found, with the fields of the MCP `objects` option: `{"kind":"spots"}`, `{"diameter_um":8}`.
 
 ### Annotations

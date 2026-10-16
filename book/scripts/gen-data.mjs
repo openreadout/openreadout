@@ -62,7 +62,10 @@ const FIELD = {
   "thermal-analysis": "Materials and electrochemistry",
   container: "Containers",
 };
-export const FIELDS = [...new Set(Object.values(FIELD))];
+// Formats listed under another field than their family's: area-detector diffraction images
+// belong with structural biology, not with powder diffraction.
+const FIELD_BY_ID = { cbf: "Structural biology", smv: "Structural biology", nxmx: "Structural biology" };
+export const FIELDS = [...new Set([...Object.values(FIELD), ...Object.values(FIELD_BY_ID)])];
 
 const raw = JSON.parse(execFileSync(bin, ["self", "formats", "--json"], { encoding: "utf8", maxBuffer: 64 << 20 }));
 const version = execFileSync(bin, ["--version"], { encoding: "utf8" }).trim();
@@ -70,7 +73,7 @@ const problems = [];
 const formats = raw.data.formats.map((f) => {
   const page = PAGE[f.id] ?? f.id;
   if (!existsSync(join(book, "src/formats", page + ".md"))) problems.push(`${f.id}: no page book/src/formats/${page}.md (add it to PAGE)`);
-  const field = FIELD[f.family];
+  const field = FIELD_BY_ID[f.id] ?? FIELD[f.family];
   if (!field) problems.push(`${f.id}: family ${f.family} has no field (add it to FIELD)`);
   return { ...f, page, field };
 });

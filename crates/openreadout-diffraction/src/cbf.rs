@@ -46,7 +46,7 @@ impl FormatReader for CbfReader {
     fn descriptor(&self) -> FormatDescriptor {
         FormatDescriptor {
             id: FORMAT_ID.into(),
-            name: "CBF / imgCIF diffraction image".into(),
+            name: "CBF / imgCIF".into(),
             vendor: "open standard (IUCr imgCIF; PILATUS/EIGER miniCBF)".into(),
             extensions: vec!["cbf".into()],
             family: "diffraction".into(),
