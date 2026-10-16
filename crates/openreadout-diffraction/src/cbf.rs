@@ -396,7 +396,10 @@ fn read_section(file: &SourceFile, at: u64, file_len: u64, index: usize) -> Resu
     let conv = ct
         .split(';')
         .find_map(|p| p.trim().strip_prefix("conversions="))
-        .map_or_else(|| "x-CBF_NONE".into(), |c| c.trim().trim_matches('"').to_string());
+        .map_or_else(
+            || "x-CBF_NONE".into(),
+            |c| c.trim().trim_matches('"').to_string(),
+        );
     let conversion = match conv.to_ascii_lowercase().as_str() {
         "x-cbf_byte_offset" => Conversion::ByteOffset,
         "x-cbf_none" => Conversion::Uncompressed,
@@ -412,12 +415,10 @@ fn read_section(file: &SourceFile, at: u64, file_len: u64, index: usize) -> Resu
     let binary_size = num("x-binary-size").ok_or_else(|| {
         Error::corrupt_at(FORMAT_ID, at, format!("section {index}: no X-Binary-Size"))
     })?;
-    let ty = mime
-        .get("x-binary-element-type")
-        .map_or_else(
-            || "signed 32-bit integer".into(),
-            |t| t.trim_matches('"').to_ascii_lowercase(),
-        );
+    let ty = mime.get("x-binary-element-type").map_or_else(
+        || "signed 32-bit integer".into(),
+        |t| t.trim_matches('"').to_ascii_lowercase(),
+    );
     let element = match ty.as_str() {
         "signed 8-bit integer" => PixelType::Int8,
         "unsigned 8-bit integer" => PixelType::Uint8,
