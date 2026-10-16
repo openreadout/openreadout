@@ -40,6 +40,7 @@ universite = "universite"  # "Universite catholique de Louvain", OpenJPEG copyri
 nd = "nd"      # Nikon ND2 (`nd2`, `Nd2Reader`) and the NIS-Elements `.nd` sequence format
 ome = "ome"    # Open Microscopy Environment (OME-TIFF, OME-XML, OME-Zarr)
 pn = "pn"      # FCS parameter keywords `$PnN`, `$PnS`, `$PnR`, ... (FCS 3.1 standard)
+ot = "ot"      # DICOM modality code OT ("other")
 ser = "ser"    # FEI/TIA `.ser` electron-microscopy files; Bruker NMR `ser` data files
 varian = "varian"  # Varian (now Agilent) NMR spectrometer data
 gti = "gti"    # `GTI$...` FCS vendor keyword namespace (Guava Technologies cytometers)
