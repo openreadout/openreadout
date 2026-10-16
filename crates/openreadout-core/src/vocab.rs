@@ -135,6 +135,9 @@ pub const TERMS: &[(&str, &str)] = &[
     ("CHMO:0000156", "X-ray diffraction"),
     ("CHMO:0000158", "powder X-ray diffraction"),
     ("CHMO:0002105", "X-ray diffractometer"),
+    // area-detector diffraction images, checked on EBI OLS 2026-10-15
+    ("CHMO:0000159", "single crystal X-ray diffraction"),
+    ("CHMO:0000142", "electron diffraction"),
     // electrochemistry, checked on EBI OLS 2026-09-26
     ("CHMO:0000005", "chrono-amperometry"),
     ("CHMO:0000017", "chrono-potentiometry"),
@@ -251,6 +254,7 @@ pub const UNITS: &[(&str, &str)] = &[
     // X-ray diffraction
     ("°", "deg"),
     ("mA", "mA"),
+    ("eV", "eV"),
     // electrochemistry
     ("cm²", "cm2"),
     ("mg", "mg"),

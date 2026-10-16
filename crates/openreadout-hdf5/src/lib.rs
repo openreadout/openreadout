@@ -1,9 +1,11 @@
 //! HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volumes
-//! (pyramids, LZ4/deflate chunks), NWB 2.x (session fields, plain `TimeSeries` as traces) and a
+//! (pyramids, LZ4/deflate chunks), NWB 2.x (session fields, plain `TimeSeries` as traces),
+//! NeXus NXmx diffraction images (EIGER master and data files, bitshuffle/LZ4 chunks) and a
 //! generic HDF5 fallback whose `info --view structure` lists groups, datasets and attributes.
 //!
-//! Layout and vocabulary: `docs/formats/ims.md`, `docs/formats/hdf5.md`. Provenance:
-//! `docs/provenance/ims.md`, `docs/provenance/hdf5.md`.
+//! Layout and vocabulary: `docs/formats/ims.md`, `docs/formats/hdf5.md`,
+//! `docs/formats/nxmx.md`. Provenance: `docs/provenance/ims.md`, `docs/provenance/hdf5.md`,
+//! `docs/provenance/nxmx.md`.
 //!
 //! # Example
 //!
@@ -67,6 +69,8 @@ pub mod ims_scene;
 #[doc(hidden)]
 pub mod nwb;
 #[doc(hidden)]
+pub mod nxmx;
+#[doc(hidden)]
 pub mod nwb_tables;
 #[doc(hidden)]
 pub mod nwb_write;
@@ -74,6 +78,7 @@ pub mod nwb_write;
 pub use generic::{HDF5_FORMAT_ID, Hdf5Reader};
 pub use ims::{IMS_FORMAT_ID, ImsReader};
 pub use nwb::{NWB_FORMAT_ID, NwbReader};
+pub use nxmx::{NXMX_FORMAT_ID, NxmxReader};
 pub use nwb_write::{
     NWB_VERSION, NwbExportOptions, NwbExportReport, NwbSeriesReport, default_nwb_output, export_nwb,
 };
@@ -84,3 +89,5 @@ pub use generic::Hdf5Dataset;
 pub use ims::{ImsDataset, ImsLevel};
 #[doc(hidden)]
 pub use nwb::{NwbDataset, NwbSeries};
+#[doc(hidden)]
+pub use nxmx::NxmxDataset;

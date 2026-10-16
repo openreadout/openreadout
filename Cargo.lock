@@ -1920,6 +1920,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2191,6 +2192,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-diffraction",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2254,6 +2256,15 @@ dependencies = [
 
 [[package]]
 name = "openreadout-dcimg"
+version = "0.3.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "openreadout-diffraction"
 version = "0.3.0"
 dependencies = [
  "openreadout-core",

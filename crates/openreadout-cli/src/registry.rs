@@ -24,6 +24,9 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_oif::OibReader))
         .with(Box::new(openreadout_oif::OifReader))
         .with(Box::new(openreadout_dcimg::DcimgReader))
+        // diffraction images: CBF text and SMV headers are recognised by their first bytes
+        .with(Box::new(openreadout_diffraction::CbfReader))
+        .with(Box::new(openreadout_diffraction::SmvReader))
         // qPCR: zip containers recognised by their members (before other zip/XML readers)
         .with(Box::new(openreadout_qpcr::RdmlReader))
         .with(Box::new(openreadout_qpcr::EdsReader))
@@ -64,6 +67,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_em::SerReader))
         .with(Box::new(openreadout_em::EmdReader))
         .with(Box::new(openreadout_hdf5::ImsReader))
+        .with(Box::new(openreadout_hdf5::NxmxReader))
         .with(Box::new(openreadout_hdf5::NwbReader))
         .with(Box::new(openreadout_nmr::BrukerReader))
         .with(Box::new(openreadout_nmr::JcampReader))

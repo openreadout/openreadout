@@ -59,8 +59,8 @@ mod lzma;
 mod webp;
 
 pub use blosc::{
-    BloscCompressor, BloscHeader, blosc_decode, blosc_header, blosclz_decode, hdf5_lz4_decode,
-    lz4_block_decode, lz4_sized_decode, snappy_decode,
+    BloscCompressor, BloscHeader, bitshuffle_decode, blosc_decode, blosc_header, blosclz_decode,
+    hdf5_lz4_decode, lz4_block_decode, lz4_sized_decode, snappy_decode,
 };
 pub use chunked::chunked_decode;
 pub use lzma::lzma2_decode;

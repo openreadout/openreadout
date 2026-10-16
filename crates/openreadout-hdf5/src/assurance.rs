@@ -25,6 +25,14 @@ pub(crate) static NWB: AssuranceProfile = AssuranceProfile {
     basis: Basis::OpenSpec,
 };
 
+pub(crate) static NXMX: AssuranceProfile = AssuranceProfile {
+    format_id: "nxmx",
+    observe: observe_nxmx,
+    validated: NXMX_VALIDATED,
+    confidence: NXMX_CONFIDENCE,
+    basis: Basis::OpenSpec,
+};
+
 pub(crate) static HDF5: AssuranceProfile = AssuranceProfile {
     format_id: "hdf5",
     observe: observe_hdf5,
@@ -49,10 +57,42 @@ pub(crate) fn hdf5_filters(ids: &[u16]) -> Observations {
             6 => "hdf5 scale-offset".to_string(),
             32001 => "hdf5 blosc".to_string(),
             32004 => "hdf5 lz4".to_string(),
+            32008 => "hdf5 bitshuffle".to_string(),
             32015 => "hdf5 zstd".to_string(),
             n => format!("hdf5 filter {n}"),
         };
         o.feature(K::Codec, name, &[Scope::Pixels]);
+    }
+    o
+}
+
+fn observe_nxmx(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    a::image_basics(&mut o, info);
+    a::instrument_context(&mut o, info);
+    for im in &info.images {
+        let Some(files) = im
+            .extra
+            .get("nxmx")
+            .and_then(|v| v.get("data_files"))
+            .and_then(|v| v.as_array())
+        else {
+            continue;
+        };
+        for f in files {
+            for name in f
+                .get("filters")
+                .and_then(|v| v.as_array())
+                .into_iter()
+                .flatten()
+                .filter_map(|v| v.as_str())
+            {
+                o.feature(K::Codec, format!("hdf5 {name}"), &[Scope::Pixels]);
+            }
+            if let Some(obj) = f.get("object").and_then(|v| v.as_str()) {
+                o.feature(K::Layout, format!("data at {obj}"), &[Scope::Pixels]);
+            }
+        }
     }
     o
 }
@@ -246,3 +286,10 @@ const HDF5_VALIDATED: &[Validated] = &[
     a::row(K::FormatVersion, "superblock version 2", 1, 1, 1),
 ];
 // END GENERATED hdf5
+
+// BEGIN GENERATED nxmx (cargo xtask assurance-audit --write; do not edit)
+const NXMX_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const NXMX_VALIDATED: &[Validated] = &[
+];
+// END GENERATED nxmx

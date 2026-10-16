@@ -41,6 +41,7 @@ default-members = [
     "crates/openreadout-zvi",
     "crates/openreadout-oif",
     "crates/openreadout-dcimg",
+    "crates/openreadout-diffraction",
     "crates/openreadout-hcs",
     "crates/openreadout-spectro",
     "crates/openreadout-fplc",
@@ -120,6 +121,7 @@ openreadout-hdf5 = { path = "crates/openreadout-hdf5", version = "0.3.0" }
 openreadout-zvi = { path = "crates/openreadout-zvi", version = "0.3.0" }
 openreadout-oif = { path = "crates/openreadout-oif", version = "0.3.0" }
 openreadout-dcimg = { path = "crates/openreadout-dcimg", version = "0.3.0" }
+openreadout-diffraction = { path = "crates/openreadout-diffraction", version = "0.3.0" }
 openreadout-hcs = { path = "crates/openreadout-hcs", version = "0.3.0" }
 openreadout-spectro = { path = "crates/openreadout-spectro", version = "0.3.0" }
 openreadout-fplc = { path = "crates/openreadout-fplc", version = "0.3.0" }
