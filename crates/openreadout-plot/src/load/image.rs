@@ -40,7 +40,8 @@ pub(crate) fn profile(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resul
         }
     }
     let (w, h) = (f64::from(im.size_x), f64::from(im.size_y));
-    let inside = |x: f64, y: f64| x >= 0.0 && y >= 0.0 && x <= w - 1.0 && y <= h - 1.0;
+    // the image's edges (0 and the width or height) are inside, as for `stats --line`
+    let inside = |x: f64, y: f64| x >= 0.0 && y >= 0.0 && x <= w && y <= h;
     if !inside(x0, y0) || !inside(x1, y1) {
         return Err(usage(format!(
             "line ({x0}, {y0}) to ({x1}, {y1}) leaves the {}x{} image",
@@ -72,7 +73,8 @@ pub(crate) fn profile(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resul
     let mut pts = Vec::with_capacity(n);
     for i in 0..n {
         let f = i as f64 / (n - 1) as f64;
-        let (x, y) = (x0 + (x1 - x0) * f, y0 + (y1 - y0) * f);
+        let x = (x0 + (x1 - x0) * f).min(w - 1.0);
+        let y = (y0 + (y1 - y0) * f).min(h - 1.0);
         let (xa, ya) = (x.floor() as usize, y.floor() as usize);
         let (xb, yb) = ((xa + 1).min(pw - 1), (ya + 1).min(plane.height as usize - 1));
         let (tx, ty) = (x - x.floor(), y - y.floor());

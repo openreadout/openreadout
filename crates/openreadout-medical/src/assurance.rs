@@ -29,8 +29,8 @@ pub(crate) static NIFTI: AssuranceProfile = AssuranceProfile {
 pub(crate) static PARAVISION: AssuranceProfile = AssuranceProfile {
     format_id: "bruker-paravision",
     observe: observe_paravision,
-    validated: PARAVISION_VALIDATED,
-    confidence: PARAVISION_CONFIDENCE,
+    validated: BRUKER_PARAVISION_VALIDATED,
+    confidence: BRUKER_PARAVISION_CONFIDENCE,
     basis: Basis::PriorArt,
 };
 
