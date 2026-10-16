@@ -159,6 +159,9 @@ pub struct ViewArgs {
     /// Image: maximum-intensity projection over z.
     #[serde(default)]
     pub mip: bool,
+    /// Image: add up the time points (a movie's dose image).
+    #[serde(default)]
+    pub sum_t: bool,
     /// Image: `auto`, `min-max`, `percentile:LO,HI` or `raw`.
     pub contrast: Option<String>,
     /// Image: only this rectangle, in full-resolution pixels.
@@ -688,6 +691,7 @@ fn outline(info: &FileInfo) -> Value {
                 "size_c": im.size_c, "size_t": im.size_t,
                 "pixel_type": im.pixel_type, "samples_per_pixel": im.samples_per_pixel,
                 "physical_size": im.physical_size, "levels": levels, "channels": channels,
+                "diffraction": im.extra.get("diffraction"),
             })
         })
         .collect();
@@ -775,11 +779,12 @@ fn image(
     if let Some(z) = a.z.filter(|_| !a.mip) {
         select.push(format!("z={z}"));
     }
-    if let Some(t) = a.t {
+    if let Some(t) = a.t.filter(|_| !a.sum_t) {
         select.push(format!("t={t}"));
     }
     req.select = select;
     req.mip = a.mip.then_some(pv::Axis::Z);
+    req.sum = a.sum_t.then_some(pv::Axis::T);
     req.level = a.level;
     req.region = a.region;
     req.max_size = a
