@@ -7,8 +7,8 @@ mod prep;
 use openreadout_core::Result;
 use openreadout_figure::{
     Anchor, AxesSpec, Baseline, Color, Domain, EndLabel, Face, Figure, GridLines, LabelPlacer,
-    Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_label_boxes, end_labels,
-    format_tick, key_fit, key_row, key_row_height, spread,
+    Layer, Marker, Panel, Path, Rect, Stroke, TextStyle, Theme, arrow_px, end_label_boxes,
+    end_labels, format_tick, key_fit, key_row, key_row_height, spread,
 };
 use serde_json::{Value, json};
 
@@ -252,7 +252,9 @@ pub(crate) fn draw_panel(
     let mut area = area;
     if let Some(t) = &p.title {
         let st = TextStyle::new(theme.font_size * 1.05, theme.ink).face(Face::SansMedium);
-        fig.text(area.x, area.y + theme.font_size * 0.95, t, &st);
+        fig.group(Layer::Title, t, |fig| {
+            fig.text(area.x, area.y + theme.font_size * 0.95, t, &st);
+        });
         area = area.inset_sides(0.0, theme.font_size * 1.7, 0.0, 0.0);
     }
     let layout = layout_of(&p);
@@ -347,101 +349,107 @@ fn draw_axes(
     let label = TextStyle::new(fs, theme.muted);
     let r = p.rect;
     if custom_x && spec.show_x {
-        let axis = Stroke::new(theme.rule, hair);
-        fig.line(r.x, r.bottom(), r.right(), r.bottom(), axis.clone());
-        let ticks: Vec<(f64, String)> = if ax.is_cat() {
-            ax.cats
-                .iter()
-                .enumerate()
-                .map(|(i, c)| (i as f64, c.clone()))
-                .collect()
-        } else {
-            ax.ticks.clone().unwrap_or_default()
-        };
-        let room = if ticks.is_empty() {
-            r.w
-        } else {
-            r.w / ticks.len() as f32
-        };
-        let ls = label.clone().align(Anchor::Middle, Baseline::Top);
-        let lay = if ax.is_cat() {
-            let names: Vec<String> = ticks.iter().map(|t| t.1.clone()).collect();
-            cat_layout(&names, room, &label)
-        } else {
-            CatLayout::FLAT
-        };
-        for (i, (v, t)) in ticks.iter().enumerate() {
-            let Some(px) = p.x.px(*v) else { continue };
-            if px < r.x - 1.0 || px > r.right() + 1.0 {
-                continue;
-            }
-            fig.line(px, r.bottom(), px, r.bottom() + tick, axis.clone());
-            if i % lay.every != 0 {
-                continue;
-            }
-            if lay.angle != 0.0 {
-                let st = label
-                    .clone()
-                    .align(Anchor::End, Baseline::Middle)
-                    .rotate(lay.angle);
-                fig.text(px, r.bottom() + tick + fs * 0.4, &shorten(t, 22), &st);
-            } else if lay.lines == 2 {
-                for (k, line) in wrap_two(t).iter().enumerate() {
-                    let y = r.bottom() + tick + fs * 0.3 + k as f32 * fs * 1.15;
-                    fig.text(px, y, line, &ls);
-                }
+        fig.group(Layer::Axis, "x axis", |fig| {
+            let axis = Stroke::new(theme.rule, hair);
+            fig.line(r.x, r.bottom(), r.right(), r.bottom(), axis.clone());
+            let ticks: Vec<(f64, String)> = if ax.is_cat() {
+                ax.cats
+                    .iter()
+                    .enumerate()
+                    .map(|(i, c)| (i as f64, c.clone()))
+                    .collect()
             } else {
-                fig.text(px, r.bottom() + tick + fs * 0.3, t, &ls);
+                ax.ticks.clone().unwrap_or_default()
+            };
+            let room = if ticks.is_empty() {
+                r.w
+            } else {
+                r.w / ticks.len() as f32
+            };
+            let ls = label.clone().align(Anchor::Middle, Baseline::Top);
+            let lay = if ax.is_cat() {
+                let names: Vec<String> = ticks.iter().map(|t| t.1.clone()).collect();
+                cat_layout(&names, room, &label)
+            } else {
+                CatLayout::FLAT
+            };
+            for (i, (v, t)) in ticks.iter().enumerate() {
+                let Some(px) = p.x.px(*v) else { continue };
+                if px < r.x - 1.0 || px > r.right() + 1.0 {
+                    continue;
+                }
+                fig.line(px, r.bottom(), px, r.bottom() + tick, axis.clone());
+                if i % lay.every != 0 {
+                    continue;
+                }
+                if lay.angle != 0.0 {
+                    let st = label
+                        .clone()
+                        .align(Anchor::End, Baseline::Middle)
+                        .rotate(lay.angle);
+                    fig.text(px, r.bottom() + tick + fs * 0.4, &shorten(t, 22), &st);
+                } else if lay.lines == 2 {
+                    for (k, line) in wrap_two(t).iter().enumerate() {
+                        let y = r.bottom() + tick + fs * 0.3 + k as f32 * fs * 1.15;
+                        fig.text(px, y, line, &ls);
+                    }
+                } else {
+                    fig.text(px, r.bottom() + tick + fs * 0.3, t, &ls);
+                }
             }
-        }
-        if let Some(xl) = &spec.x_label {
-            let y = r.bottom()
-                + tick
-                + fs * 0.3
-                + fs * 1.1
-                + fs * 1.05
-                + if lay.lines == 2 { fs * 1.15 } else { 0.0 };
-            if lay.angle == 0.0 {
-                fig.text(
-                    r.right(),
-                    y,
-                    xl,
-                    &label.clone().align(Anchor::End, Baseline::Alphabetic),
-                );
+            if let Some(xl) = &spec.x_label {
+                let y = r.bottom()
+                    + tick
+                    + fs * 0.3
+                    + fs * 1.1
+                    + fs * 1.05
+                    + if lay.lines == 2 { fs * 1.15 } else { 0.0 };
+                if lay.angle == 0.0 {
+                    fig.text(
+                        r.right(),
+                        y,
+                        xl,
+                        &label.clone().align(Anchor::End, Baseline::Alphabetic),
+                    );
+                }
             }
-        }
+        });
     }
     if custom_y && spec.show_y {
-        let grid = Stroke::new(theme.grid, hair);
-        let ls = label.clone().align(Anchor::End, Baseline::Middle);
-        for (v, t) in ay.ticks.clone().unwrap_or_default() {
-            let Some(py) = p.y.px(v) else { continue };
-            if py < r.y - 1.0 || py > r.bottom() + 1.0 {
-                continue;
+        fig.group(Layer::Axis, "y axis", |fig| {
+            let grid = Stroke::new(theme.grid, hair);
+            let ls = label.clone().align(Anchor::End, Baseline::Middle);
+            for (v, t) in ay.ticks.clone().unwrap_or_default() {
+                let Some(py) = p.y.px(v) else { continue };
+                if py < r.y - 1.0 || py > r.bottom() + 1.0 {
+                    continue;
+                }
+                fig.line(r.x, py, r.right(), py, grid.clone());
+                fig.text(r.x - fs * 0.5, py, &t, &ls);
             }
-            fig.line(r.x, py, r.right(), py, grid.clone());
-            fig.text(r.x - fs * 0.5, py, &t, &ls);
-        }
-        if let Some(yl) = &spec.y_label {
-            fig.text(
-                (r.x - fs * 2.5).max(2.0),
-                r.y - fs * 0.75,
-                yl,
-                &label.clone().align(Anchor::Start, Baseline::Alphabetic),
-            );
-        }
+            if let Some(yl) = &spec.y_label {
+                fig.text(
+                    (r.x - fs * 2.5).max(2.0),
+                    r.y - fs * 0.75,
+                    yl,
+                    &label.clone().align(Anchor::Start, Baseline::Alphabetic),
+                );
+            }
+        });
     }
     if ax.ticks.is_some() && spec.show_x {
         // the grid of a transformed x axis
         let grid = Stroke::new(theme.grid, hair);
-        for (v, _) in ax.ticks.clone().unwrap_or_default() {
-            if let Some(px) = p.x.px(v)
-                && px > r.x + 1.0
-                && px < r.right() - 1.0
-            {
-                fig.line(px, r.y, px, r.bottom(), grid.clone());
+        fig.group(Layer::Grid, "grid", |fig| {
+            for (v, _) in ax.ticks.clone().unwrap_or_default() {
+                if let Some(px) = p.x.px(v)
+                    && px > r.x + 1.0
+                    && px < r.right() - 1.0
+                {
+                    fig.line(px, r.y, px, r.bottom(), grid.clone());
+                }
             }
-        }
+        });
     }
 }
 
@@ -564,7 +572,9 @@ fn draw_data(
         .filter(|s| matches!(s.geom, Geom::Events { .. }))
         .collect();
     if !events.is_empty() {
-        events_layer(fig, p, theme, &events, 1.0);
+        fig.group(Layer::Image, "events", |fig| {
+            events_layer(fig, p, theme, &events, 1.0);
+        });
     }
     let n_many = series.iter().filter(|s| s.weight == Weight::Many).count();
     let mut ink = ink;
@@ -582,7 +592,9 @@ fn draw_data(
     for i in draw_order(&owned) {
         let s = series[i];
         let dodge = bars.iter().position(|&b| b == i).map(|k| (k, bars.len()));
-        draw_series(fig, p, theme, s, ink, n_many, dodge, cats);
+        fig.group(Layer::Series, &s.name, |fig| {
+            draw_series(fig, p, theme, s, ink, n_many, dodge, cats);
+        });
     }
 }
 
@@ -597,84 +609,86 @@ fn draw_callouts(
 ) {
     let fs = theme.small_size();
     let st = TextStyle::new(fs, theme.ink).halo(theme.paper, fs * 0.22);
-    // the markers of every series first, so no label covers another series' marker
-    let mut labels: Vec<(f32, f32, &str)> = Vec::new();
-    // one series with callouts marks them in the accent; several, each in its own colour
-    let several = series
-        .iter()
-        .filter(|s| s.callouts.iter().any(|c| !c.text.is_empty()))
-        .count()
-        > 1;
-    for s in series {
-        let col = s.color.unwrap_or(theme.ink);
-        let col = if several { col } else { theme.accent };
-        let many = s.callouts.len() > 30;
-        for c in &s.callouts {
-            let Some((px, py)) = p.pt(c.x, c.y) else {
-                continue;
-            };
-            if c.text.is_empty() {
-                // a spike: a tick in a raster strip along the top of the plot
-                if px < p.rect.x - 1.0 || px > p.rect.right() + 1.0 {
+    fig.group(Layer::Annotation, "callouts", |fig| {
+        // the markers of every series first, so no label covers another series' marker
+        let mut labels: Vec<(f32, f32, &str)> = Vec::new();
+        // one series with callouts marks them in the accent; several, each in its own colour
+        let several = series
+            .iter()
+            .filter(|s| s.callouts.iter().any(|c| !c.text.is_empty()))
+            .count()
+            > 1;
+        for s in series {
+            let col = s.color.unwrap_or(theme.ink);
+            let col = if several { col } else { theme.accent };
+            let many = s.callouts.len() > 30;
+            for c in &s.callouts {
+                let Some((px, py)) = p.pt(c.x, c.y) else {
+                    continue;
+                };
+                if c.text.is_empty() {
+                    // a spike: a tick in a raster strip along the top of the plot
+                    if px < p.rect.x - 1.0 || px > p.rect.right() + 1.0 {
+                        continue;
+                    }
+                    let len = (p.rect.h * 0.06).clamp(4.0, theme.font_size * 0.7);
+                    fig.line(
+                        px,
+                        p.rect.y,
+                        px,
+                        p.rect.y + len,
+                        Stroke::new(theme.accent, theme.hairline().max(1.0)),
+                    );
                     continue;
                 }
-                let len = (p.rect.h * 0.06).clamp(4.0, theme.font_size * 0.7);
+                if !p.rect.inset(-2.0).contains(px, py) {
+                    continue;
+                }
+                let m = Marker::dot(
+                    if many {
+                        s.color.unwrap_or(theme.ink)
+                    } else {
+                        col
+                    },
+                    (ink.dot * 0.9).max(4.0),
+                );
+                openreadout_figure::draw_marker(fig, &m, px, py);
+                placer.reserve(Rect::new(
+                    px - m.size / 2.0,
+                    py - m.size / 2.0,
+                    m.size,
+                    m.size,
+                ));
+                labels.push((px, py, c.text.as_str()));
+            }
+        }
+        for (px, py, text) in labels {
+            let w = st.width(text);
+            let h = fs * 1.05;
+            let above = Rect::new(px - w / 2.0, py - fs * 0.5 - h, w, h);
+            let r = if placer.free(&above) {
+                placer.reserve(above);
+                above
+            } else {
+                placer.place(px, py, w, h, fs * 0.45)
+            };
+            fig.text(r.x, r.bottom() - fs * 0.22, text, &st);
+            // a hairline leader when the label had to move away
+            let (cx, cy) = r.center();
+            let dist = ((cx - px).powi(2) + (cy - py).powi(2)).sqrt();
+            if dist > w * 0.5 + fs * 1.4 {
+                let lx = px.clamp(r.x, r.right());
+                let ly = if py < r.y { r.y } else { r.bottom() };
                 fig.line(
                     px,
-                    p.rect.y,
-                    px,
-                    p.rect.y + len,
-                    Stroke::new(theme.accent, theme.hairline().max(1.0)),
+                    py,
+                    lx,
+                    ly,
+                    Stroke::new(theme.muted.alpha(0.7), theme.hairline()),
                 );
-                continue;
             }
-            if !p.rect.inset(-2.0).contains(px, py) {
-                continue;
-            }
-            let m = Marker::dot(
-                if many {
-                    s.color.unwrap_or(theme.ink)
-                } else {
-                    col
-                },
-                (ink.dot * 0.9).max(4.0),
-            );
-            openreadout_figure::draw_marker(fig, &m, px, py);
-            placer.reserve(Rect::new(
-                px - m.size / 2.0,
-                py - m.size / 2.0,
-                m.size,
-                m.size,
-            ));
-            labels.push((px, py, c.text.as_str()));
         }
-    }
-    for (px, py, text) in labels {
-        let w = st.width(text);
-        let h = fs * 1.05;
-        let above = Rect::new(px - w / 2.0, py - fs * 0.5 - h, w, h);
-        let r = if placer.free(&above) {
-            placer.reserve(above);
-            above
-        } else {
-            placer.place(px, py, w, h, fs * 0.45)
-        };
-        fig.text(r.x, r.bottom() - fs * 0.22, text, &st);
-        // a hairline leader when the label had to move away
-        let (cx, cy) = r.center();
-        let dist = ((cx - px).powi(2) + (cy - py).powi(2)).sqrt();
-        if dist > w * 0.5 + fs * 1.4 {
-            let lx = px.clamp(r.x, r.right());
-            let ly = if py < r.y { r.y } else { r.bottom() };
-            fig.line(
-                px,
-                py,
-                lx,
-                ly,
-                Stroke::new(theme.muted.alpha(0.7), theme.hairline()),
-            );
-        }
-    }
+    });
 }
 
 fn ann_color(theme: &Theme, a: &Annotation) -> Color {
@@ -698,41 +712,47 @@ fn draw_bands(
     notes: &mut Vec<String>,
 ) {
     for a in anns.iter().filter(|a| facet_ok(a, facet)) {
-        let band_fill = a
-            .color
-            .as_deref()
-            .and_then(|c| named_color(theme, c))
-            .map_or(theme.band, |c| c.alpha(0.16));
-        if let Some(crate::spec::OneOrMany::Many(v)) = &a.x
-            && v.len() == 2
-            && a.y.is_none()
-        {
-            p.band_x(fig, v[0], v[1], band_fill);
-            notes.push(format!(
-                "x band {}–{}{}",
-                fmt_num(v[0]),
-                fmt_num(v[1]),
-                a.label
-                    .as_ref()
-                    .map(|l| format!(": {l}"))
-                    .unwrap_or_default()
-            ));
-        }
-        if let Some(crate::spec::OneOrMany::Many(v)) = &a.y
-            && v.len() == 2
-            && a.x.is_none()
-        {
-            p.band_y(fig, v[0], v[1], band_fill);
-            notes.push(format!(
-                "y band {}–{}{}",
-                fmt_num(v[0]),
-                fmt_num(v[1]),
-                a.label
-                    .as_ref()
-                    .map(|l| format!(": {l}"))
-                    .unwrap_or_default()
-            ));
-        }
+        fig.group(
+            Layer::Annotation,
+            a.label.as_deref().unwrap_or("band"),
+            |fig| {
+                let band_fill = a
+                    .color
+                    .as_deref()
+                    .and_then(|c| named_color(theme, c))
+                    .map_or(theme.band, |c| c.alpha(0.16));
+                if let Some(crate::spec::OneOrMany::Many(v)) = &a.x
+                    && v.len() == 2
+                    && a.y.is_none()
+                {
+                    p.band_x(fig, v[0], v[1], band_fill);
+                    notes.push(format!(
+                        "x band {}–{}{}",
+                        fmt_num(v[0]),
+                        fmt_num(v[1]),
+                        a.label
+                            .as_ref()
+                            .map(|l| format!(": {l}"))
+                            .unwrap_or_default()
+                    ));
+                }
+                if let Some(crate::spec::OneOrMany::Many(v)) = &a.y
+                    && v.len() == 2
+                    && a.x.is_none()
+                {
+                    p.band_y(fig, v[0], v[1], band_fill);
+                    notes.push(format!(
+                        "y band {}–{}{}",
+                        fmt_num(v[0]),
+                        fmt_num(v[1]),
+                        a.label
+                            .as_ref()
+                            .map(|l| format!(": {l}"))
+                            .unwrap_or_default()
+                    ));
+                }
+            },
+        );
     }
 }
 
@@ -770,11 +790,16 @@ fn draw_marks_over(
         let st = TextStyle::new(fs, col).halo(theme.paper, fs * 0.3);
         let plain = TextStyle::new(fs, col);
         let label = a.label.clone().unwrap_or_default();
-        match (&a.x, &a.y) {
+        let name = if label.is_empty() {
+            "annotation"
+        } else {
+            &label
+        };
+        fig.group(Layer::Annotation, name, |fig| match (&a.x, &a.y) {
             (Some(Many(v)), None) if v.len() == 2 => {
                 if !label.is_empty() && !small {
                     let (Some(x0), Some(x1)) = (p.x.px(v[0]), p.x.px(v[1])) else {
-                        continue;
+                        return;
                     };
                     let cx = f32::midpoint(x0, x1).clamp(p.rect.x, p.rect.right());
                     let w = st.width(&label);
@@ -787,7 +812,7 @@ fn draw_marks_over(
             (None, Some(Many(v))) if v.len() == 2 => {
                 if !label.is_empty() && !small {
                     let (Some(y0), Some(y1)) = (p.y.px(v[0]), p.y.px(v[1])) else {
-                        continue;
+                        return;
                     };
                     let y = y0.min(y1) + fs * 1.1;
                     let w = st.width(&label);
@@ -860,7 +885,7 @@ fn draw_marks_over(
             }
             (Some(One(x)), Some(One(y))) => {
                 let Some((px, py)) = p.pt(*x, *y) else {
-                    continue;
+                    return;
                 };
                 notes.push(format!(
                     "point ({}, {}){}",
@@ -875,7 +900,7 @@ fn draw_marks_over(
                 if let Some([tx, ty]) = a.to {
                     // an arrow from the label to the target
                     let Some((qx, qy)) = p.pt(tx, ty) else {
-                        continue;
+                        return;
                     };
                     let w = st.width(&label);
                     let r = Rect::new(px - w / 2.0, py - fs * 0.75, w, fs * 1.05);
@@ -892,7 +917,7 @@ fn draw_marks_over(
                         qy,
                         Stroke::new(col, theme.hairline() * 1.4),
                     );
-                    continue;
+                    return;
                 }
                 if a.marker != Some(false) {
                     let m = Marker::dot(col, fs * 0.55);
@@ -917,7 +942,7 @@ fn draw_marks_over(
                 }
             }
             _ => {}
-        }
+        });
     }
 }
 
@@ -1173,7 +1198,9 @@ fn peak_labels(
             .halo(theme.paper, fs * 0.3);
         let w = st.width(&s.name);
         let r = placer.place(px, py, w, fs * 1.1, fs * 0.5);
-        fig.text(r.x, r.bottom() - fs * 0.25, &s.name, &st);
+        fig.group(Layer::LabelEnd, &s.name, |fig| {
+            fig.text(r.x, r.bottom() - fs * 0.25, &s.name, &st);
+        });
     }
 }
 
@@ -1325,39 +1352,43 @@ fn draw_facets(
             s.y_ticks = 4;
         }
         let mut sink = Vec::new();
-        draw_bands(
-            fig,
-            theme,
-            &panel,
-            &p.spec.annotate,
-            Some(key),
-            if k == 0 { &mut notes_once } else { &mut sink },
-        );
-        draw_axes(fig, theme, &panel, ax, ay, &s);
-        let members: Vec<&Series> = p
-            .series
-            .iter()
-            .filter(|x| x.facet.clone().unwrap_or_else(|| x.name.clone()) == *key)
-            .collect();
-        let ink = Ink::for_panel(theme, panel.rect);
-        draw_data(fig, theme, &panel, &members, &ax.cats, ink);
-        let mut placer = LabelPlacer::new(panel.rect);
-        draw_marks_over(
-            fig,
-            theme,
-            &panel,
-            &p.spec.annotate,
-            Some(key),
-            &mut placer,
-            false,
-            if k == 0 { &mut notes_once } else { &mut sink },
-        );
-        draw_callouts(fig, theme, &panel, &members, &mut placer, ink);
-        // facet title, above the plot
-        let st = TextStyle::new(small_fs * 1.08, theme.ink).face(Face::SansMedium);
-        let ty = cell.y - small_fs * 0.55;
-        fig.text(rect.x, ty, &shorten(key, 60), &st);
-        hover.push(hover_panel(&panel, Some(key), &members, 200));
+        fig.group(Layer::Panel, key, |fig| {
+            draw_bands(
+                fig,
+                theme,
+                &panel,
+                &p.spec.annotate,
+                Some(key),
+                if k == 0 { &mut notes_once } else { &mut sink },
+            );
+            draw_axes(fig, theme, &panel, ax, ay, &s);
+            let members: Vec<&Series> = p
+                .series
+                .iter()
+                .filter(|x| x.facet.clone().unwrap_or_else(|| x.name.clone()) == *key)
+                .collect();
+            let ink = Ink::for_panel(theme, panel.rect);
+            draw_data(fig, theme, &panel, &members, &ax.cats, ink);
+            let mut placer = LabelPlacer::new(panel.rect);
+            draw_marks_over(
+                fig,
+                theme,
+                &panel,
+                &p.spec.annotate,
+                Some(key),
+                &mut placer,
+                false,
+                if k == 0 { &mut notes_once } else { &mut sink },
+            );
+            draw_callouts(fig, theme, &panel, &members, &mut placer, ink);
+            // facet title, above the plot
+            let st = TextStyle::new(small_fs * 1.08, theme.ink).face(Face::SansMedium);
+            let ty = cell.y - small_fs * 0.55;
+            fig.group(Layer::Title, key, |fig| {
+                fig.text(rect.x, ty, &shorten(key, 60), &st);
+            });
+            hover.push(hover_panel(&panel, Some(key), &members, 200));
+        });
     }
     ann.extend(notes_once);
     keys.len()
@@ -1495,20 +1526,24 @@ fn draw_plate(
         .map(|c| col_st.width(&col_text(c)))
         .fold(0.0f32, f32::max);
     let col_step = ((widest + fs * 0.5) / (cw + gap)).ceil().max(1.0) as usize;
-    for c in (0..cols).step_by(col_step) {
-        let x = grid_area.x + c as f32 * (cw + gap) + cw / 2.0;
-        fig.text(x, grid_area.y - fs * 0.7, &col_text(c), &col_st);
-    }
-    for b in &blocks {
-        let y0 = row_y(b.0);
-        let y1 = row_y(b.0 + b.1 - 1) + ch;
-        fig.text(
-            grid_area.x - fs * 0.9,
-            f32::midpoint(y0, y1),
-            &b.2,
-            &label_st,
-        );
-    }
+    fig.group(Layer::Axis, "columns", |fig| {
+        for c in (0..cols).step_by(col_step) {
+            let x = grid_area.x + c as f32 * (cw + gap) + cw / 2.0;
+            fig.text(x, grid_area.y - fs * 0.7, &col_text(c), &col_st);
+        }
+    });
+    fig.group(Layer::Axis, "rows", |fig| {
+        for b in &blocks {
+            let y0 = row_y(b.0);
+            let y1 = row_y(b.0 + b.1 - 1) + ch;
+            fig.text(
+                grid_area.x - fs * 0.9,
+                f32::midpoint(y0, y1),
+                &b.2,
+                &label_st,
+            );
+        }
+    });
     let card = theme.panel;
     let n_many = p.series.len();
     let mut drawn = 0;
@@ -1519,65 +1554,69 @@ fn draw_plate(
             let x = grid_area.x + c as f32 * (cw + gap);
             let y = row_y(r);
             let cell = Rect::new(x, y, cw, ch);
-            fig.shape(
-                Path::round_rect(cell.x, cell.y, cell.w, cell.h, (cw * 0.07).clamp(2.0, 7.0)),
-                Some(card),
-                Some(Stroke::new(theme.rule, 1.0)),
-                None,
-            );
             let members: Vec<&Series> = p
                 .series
                 .iter()
                 .filter(|s| s.well == Some((r as u32, c as u32)))
                 .collect();
-            if members.is_empty() {
-                continue;
-            }
-            let pad = (cw * 0.07).clamp(3.0, 9.0);
-            let panel = Panel::new(cell.inset(pad), ax.domain, ay.domain);
-            draw_bands(
-                fig,
-                theme,
-                &panel,
-                &p.spec.annotate,
-                members[0].facet.as_deref(),
-                if drawn == 0 { ann } else { &mut sink },
-            );
-            let ink = Ink {
-                line: (cw / 75.0).clamp(1.0, theme.line_width),
-                dot: 3.0,
-                small: true,
-                fills: 1,
-            };
-            let _ = n_many;
-            for s in &members {
-                let mut s2 = (*s).clone();
-                if s2.weight == Weight::Many {
-                    s2.weight = Weight::Main;
+            fig.group(Layer::Panel, &well_name(r, c), |fig| {
+                fig.shape(
+                    Path::round_rect(cell.x, cell.y, cell.w, cell.h, (cw * 0.07).clamp(2.0, 7.0)),
+                    Some(card),
+                    Some(Stroke::new(theme.rule, 1.0)),
+                    None,
+                );
+                if members.is_empty() {
+                    return;
                 }
-                draw_series(fig, &panel, theme, &s2, ink, 1, None, &[]);
-            }
-            let mut placer = LabelPlacer::new(panel.rect);
-            draw_marks_over(
-                fig,
-                theme,
-                &panel,
-                &p.spec.annotate,
-                members[0].facet.as_deref(),
-                &mut placer,
-                true,
-                &mut sink,
-            );
-            hover.push(hover_panel(
-                &panel,
-                members[0].facet.as_deref(),
-                &members,
-                60,
-            ));
-            if first_panel.is_none() {
-                first_panel = Some(panel);
-            }
-            drawn += 1;
+                let pad = (cw * 0.07).clamp(3.0, 9.0);
+                let panel = Panel::new(cell.inset(pad), ax.domain, ay.domain);
+                draw_bands(
+                    fig,
+                    theme,
+                    &panel,
+                    &p.spec.annotate,
+                    members[0].facet.as_deref(),
+                    if drawn == 0 { &mut *ann } else { &mut sink },
+                );
+                let ink = Ink {
+                    line: (cw / 75.0).clamp(1.0, theme.line_width),
+                    dot: 3.0,
+                    small: true,
+                    fills: 1,
+                };
+                let _ = n_many;
+                for s in &members {
+                    let mut s2 = (*s).clone();
+                    if s2.weight == Weight::Many {
+                        s2.weight = Weight::Main;
+                    }
+                    fig.group(Layer::Series, &s2.name, |fig| {
+                        draw_series(fig, &panel, theme, &s2, ink, 1, None, &[]);
+                    });
+                }
+                let mut placer = LabelPlacer::new(panel.rect);
+                draw_marks_over(
+                    fig,
+                    theme,
+                    &panel,
+                    &p.spec.annotate,
+                    members[0].facet.as_deref(),
+                    &mut placer,
+                    true,
+                    &mut sink,
+                );
+                hover.push(hover_panel(
+                    &panel,
+                    members[0].facet.as_deref(),
+                    &members,
+                    60,
+                ));
+                if first_panel.is_none() {
+                    first_panel = Some(panel);
+                }
+                drawn += 1;
+            });
         }
     }
     // key and the shared scale, under the grid
@@ -1589,17 +1628,19 @@ fn draw_plate(
             note_y = used.bottom() + note_lh * 0.9;
         }
     }
-    if beside {
-        let st = small.clone().align(Anchor::End, Baseline::Middle);
-        for (i, l) in note_lines.iter().enumerate() {
-            fig.text(grid_area.right(), note_y + i as f32 * note_lh, l, &st);
+    fig.group(Layer::Annotation, "scale", |fig| {
+        if beside {
+            let st = small.clone().align(Anchor::End, Baseline::Middle);
+            for (i, l) in note_lines.iter().enumerate() {
+                fig.text(grid_area.right(), note_y + i as f32 * note_lh, l, &st);
+            }
+        } else {
+            let st = small.clone().align(Anchor::Start, Baseline::Middle);
+            for (i, l) in note_lines.iter().enumerate() {
+                fig.text(grid_area.x, note_y + i as f32 * note_lh, l, &st);
+            }
         }
-    } else {
-        let st = small.clone().align(Anchor::Start, Baseline::Middle);
-        for (i, l) in note_lines.iter().enumerate() {
-            fig.text(grid_area.x, note_y + i as f32 * note_lh, l, &st);
-        }
-    }
+    });
     let _ = spread;
     let _ = EndLabel {
         y: 0.0,
@@ -1607,6 +1648,16 @@ fn draw_plate(
         color: theme.ink,
     };
     drawn
+}
+
+/// A well's name for its SVG group: row letters, then the column number (A1, P24, AF48).
+fn well_name(r: usize, c: usize) -> String {
+    let letter = |i: usize| char::from(b'A' + (i % 26) as u8);
+    if r < 26 {
+        format!("{}{}", letter(r), c + 1)
+    } else {
+        format!("{}{}{}", letter(r / 26 - 1), letter(r), c + 1)
+    }
 }
 
 /// Width of [`key_row`]'s items set in one row.

@@ -223,6 +223,63 @@ pub enum Item {
     },
 }
 
+/// What a group of items is. SVG output writes each group as a `<g>` with this as its class, so
+/// a figure opens in a drawing program as named layers and a web page can style a series.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Layer {
+    /// One plot: its axes, data and labels.
+    Panel,
+    /// One data series: its line, band and markers.
+    Series,
+    /// Grid lines.
+    Grid,
+    /// An axis: its line, ticks, tick labels and title.
+    Axis,
+    /// Labels at the ends of lines.
+    LabelEnd,
+    /// Marks and notes over the data: rules, bands, callouts, scale bars.
+    Annotation,
+    /// A figure or panel title.
+    Title,
+    /// A caption.
+    Caption,
+    /// A key or a colour bar.
+    Legend,
+    /// A raster image.
+    Image,
+}
+
+impl Layer {
+    /// The class name in SVG output.
+    pub fn class(self) -> &'static str {
+        match self {
+            Layer::Panel => "panel",
+            Layer::Series => "series",
+            Layer::Grid => "grid",
+            Layer::Axis => "axis",
+            Layer::LabelEnd => "label-end",
+            Layer::Annotation => "annotation",
+            Layer::Title => "title",
+            Layer::Caption => "caption",
+            Layer::Legend => "legend",
+            Layer::Image => "image",
+        }
+    }
+}
+
+/// A named run of items, `items[start..end]`. Groups nest the way [`Figure::group`] calls nest.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Group {
+    /// What the items are.
+    pub layer: Layer,
+    /// A readable name: the series name, "x axis", a panel title.
+    pub name: String,
+    /// The first item.
+    pub start: usize,
+    /// One past the last item.
+    pub end: usize,
+}
+
 /// A figure: a canvas size, a background and the items drawn on it, in order.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Figure {
@@ -236,6 +293,8 @@ pub struct Figure {
     pub items: Vec<Item>,
     /// A short description for SVG `<title>` and accessibility.
     pub title: Option<String>,
+    /// Named runs of items, in the order they were opened. Only SVG output uses them.
+    pub groups: Vec<Group>,
 }
 
 impl Figure {
@@ -247,6 +306,50 @@ impl Figure {
             background,
             items: Vec::new(),
             title: None,
+            groups: Vec::new(),
+        }
+    }
+
+    /// Draw with `draw` inside a named group. Groups nest, and they change nothing in raster
+    /// output. In SVG each one becomes a `<g>` with the layer as its class and `name` as its
+    /// label, and a series group also carries `data-series`.
+    ///
+    /// ```
+    /// use openreadout_figure::{Figure, Layer, Stroke, Theme};
+    ///
+    /// let theme = Theme::light();
+    /// let mut fig = Figure::new(100.0, 50.0, Some(theme.paper));
+    /// fig.group(Layer::Series, "signal", |fig| {
+    ///     fig.line(0.0, 40.0, 100.0, 10.0, Stroke::new(theme.ink, 1.5));
+    /// });
+    /// assert!(fig.to_svg().contains("data-series=\"signal\""));
+    /// ```
+    pub fn group<R>(&mut self, layer: Layer, name: &str, draw: impl FnOnce(&mut Figure) -> R) -> R {
+        let k = self.open_group(layer, name);
+        let r = draw(self);
+        self.close_group(k);
+        r
+    }
+
+    /// Start a group for drawing code that a closure does not suit (a loop body that
+    /// continues early). Returns the key to [`Figure::close_group`] it with; close groups
+    /// innermost first.
+    pub fn open_group(&mut self, layer: Layer, name: &str) -> usize {
+        let start = self.items.len();
+        self.groups.push(Group {
+            layer,
+            name: name.to_string(),
+            start,
+            end: start,
+        });
+        self.groups.len() - 1
+    }
+
+    /// End the group [`Figure::open_group`] started: it holds what was drawn in between.
+    pub fn close_group(&mut self, key: usize) {
+        let end = self.items.len();
+        if let Some(g) = self.groups.get_mut(key) {
+            g.end = end;
         }
     }
 

@@ -6,7 +6,8 @@ use openreadout_core::model::FileInfo;
 use openreadout_core::reader::{Dataset, SpectrumView, spectrum_by_scan};
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Domain, Face, Figure, LabelPlacer, Panel, Path, Stroke, TextStyle,
+    Anchor, AxesSpec, Baseline, Domain, Face, Figure, LabelPlacer, Layer, Panel, Path, Stroke,
+    TextStyle,
 };
 
 use crate::marks::{self, Col};
@@ -122,29 +123,33 @@ pub(crate) fn render(
         &theme,
         &spec,
     );
-    fig.text(
-        fs * 0.8,
-        fs * 1.4,
-        &caption,
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            fs * 0.8,
+            fs * 1.4,
+            &caption,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     panel.axes(&mut fig, &theme, &spec);
     // precursor: a dashed accent rule under the data
     if let Some(p) = sp
         .precursor_mz
         .filter(|p| p.is_finite() && *p >= lo && *p <= hi)
     {
-        panel.rule_x(
-            &mut fig,
-            p,
-            Stroke::new(theme.accent.alpha(0.7), theme.hairline()).dashed(4.0, 3.0),
-        );
-        if let Some(px) = panel.x.px(p) {
-            let st = TextStyle::new(theme.small_size(), theme.accent)
-                .face(Face::Mono)
-                .align(Anchor::Start, Baseline::Top);
-            fig.text(px + 4.0, panel.rect.y + 2.0, "precursor", &st);
-        }
+        fig.group(Layer::Annotation, "precursor", |fig| {
+            panel.rule_x(
+                fig,
+                p,
+                Stroke::new(theme.accent.alpha(0.7), theme.hairline()).dashed(4.0, 3.0),
+            );
+            if let Some(px) = panel.x.px(p) {
+                let st = TextStyle::new(theme.small_size(), theme.accent)
+                    .face(Face::Mono)
+                    .align(Anchor::Start, Baseline::Top);
+                fig.text(px + 4.0, panel.rect.y + 2.0, "precursor", &st);
+            }
+        });
     }
     let ncols = panel.rect.w.max(1.0) as usize;
     let mut cols: Vec<Option<Col>> = vec![None; ncols];
@@ -157,23 +162,25 @@ pub(crate) fn render(
         }
     }
     let ink = Stroke::new(theme.ink, (theme.line_width * 0.8).max(1.0));
-    if sticks {
-        let mut path = Path::new();
-        let base = panel.rect.bottom();
-        for c in cols.iter().flatten() {
-            if let Some((px, py)) = panel.pt(c.x_at_max, c.max.max(0.0)) {
-                path.move_to(px, base).line_to(px, py.min(base - 0.5));
+    fig.group(Layer::Series, "spectrum", |fig| {
+        if sticks {
+            let mut path = Path::new();
+            let base = panel.rect.bottom();
+            for c in cols.iter().flatten() {
+                if let Some((px, py)) = panel.pt(c.x_at_max, c.max.max(0.0)) {
+                    path.move_to(px, base).line_to(px, py.min(base - 0.5));
+                }
             }
+            fig.shape(path, None, Some(ink), Some(panel.rect));
+        } else {
+            // profile: each column starts where the previous ended
+            let mut zeroed = cols.clone();
+            for c in zeroed.iter_mut().flatten() {
+                c.min = c.min.max(0.0);
+            }
+            panel.line_px(fig, envelope_points(&zeroed, &panel), ink);
         }
-        fig.shape(path, None, Some(ink), Some(panel.rect));
-    } else {
-        // profile: each column starts where the previous ended
-        let mut zeroed = cols.clone();
-        for c in zeroed.iter_mut().flatten() {
-            c.min = c.min.max(0.0);
-        }
-        panel.line_px(&mut fig, envelope_points(&zeroed, &panel), ink);
-    }
+    });
     let mut placer = LabelPlacer::new(fig.rect());
     if labels_on && imax > 0.0 {
         let min_gap = (fs * 4.5) as usize;

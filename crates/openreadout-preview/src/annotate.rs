@@ -5,7 +5,7 @@
 
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, Baseline, Color, Face, Figure, LabelPlacer, Path, Pill, Rect, ScaleKind, Stroke,
+    Anchor, Baseline, Color, Face, Figure, LabelPlacer, Layer, Path, Pill, Rect, ScaleKind, Stroke,
     TextStyle, Theme, arrow_parts,
 };
 use schemars::JsonSchema;
@@ -453,6 +453,10 @@ pub(crate) fn draw(
             label_px: None,
             outside: false,
         };
+        let group = fig.open_group(
+            Layer::Annotation,
+            a.label.as_deref().unwrap_or(kind_name(a.kind)),
+        );
         match frame {
             Frame::Image { plot_area, map } => {
                 if a.kind == AnnotationType::Well {
@@ -482,6 +486,7 @@ pub(crate) fn draw(
                         } else {
                             d.outside = true;
                         }
+                        fig.close_group(group);
                         out.push(d);
                         continue;
                     }
@@ -555,6 +560,7 @@ pub(crate) fn draw(
                 }
             }
         }
+        fig.close_group(group);
         outside_any |= d.outside;
         out.push(d);
     }

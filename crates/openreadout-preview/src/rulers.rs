@@ -13,7 +13,7 @@ use std::sync::Arc;
 
 use openreadout_core::region::Region;
 use openreadout_figure::{
-    Anchor, Baseline, Face, Figure, Path, Raster, Rect, Stroke, TextStyle, Theme, metrics,
+    Anchor, Baseline, Face, Figure, Layer, Path, Raster, Rect, Stroke, TextStyle, Theme, metrics,
     text_width,
 };
 
@@ -272,7 +272,9 @@ pub(crate) fn decorate(
     let mut fig = Figure::new(cw as f32, ch as f32, Some(theme.paper));
     let (l, t) = (layout.left as f32, layout.top as f32);
     let (w, h) = (dw as f32, dh as f32);
-    fig.image(Rect::new(l, t, w, h), Arc::new(data), false);
+    fig.group(Layer::Image, "image", |fig| {
+        fig.image(Rect::new(l, t, w, h), Arc::new(data), false);
+    });
     let (tick, gap, pad) = (tick_len(fs), gap(fs), pad(fs));
     let m = metrics(Face::Mono, fs);
     let ink = Stroke::new(theme.muted, 1.0);
@@ -291,61 +293,67 @@ pub(crate) fn decorate(
         (label_w + f64::from(fs) * 1.2) * map.per_pixel.0,
     );
     let mut grid_lines: Vec<(f32, f32, f32, f32)> = Vec::new();
-    if let Some(ms) = minor_step(step_x) {
-        let ticks_minor = ticks(map.origin.0, map.per_pixel.0, dw, ms);
-        if ticks_minor.len() < dw as usize / 4 {
-            for (v, px) in ticks_minor {
-                if v % step_x != 0 {
-                    let x = l + px as f32 + 0.5;
-                    fig.line(x, t - 1.0 - tick * 0.55, x, t - 1.0, minor.clone());
+    fig.group(Layer::Axis, "x axis", |fig| {
+        if let Some(ms) = minor_step(step_x) {
+            let ticks_minor = ticks(map.origin.0, map.per_pixel.0, dw, ms);
+            if ticks_minor.len() < dw as usize / 4 {
+                for (v, px) in ticks_minor {
+                    if v % step_x != 0 {
+                        let x = l + px as f32 + 0.5;
+                        fig.line(x, t - 1.0 - tick * 0.55, x, t - 1.0, minor.clone());
+                    }
                 }
             }
         }
-    }
-    let xst = label.clone().align(Anchor::Middle, Baseline::Alphabetic);
-    for (v, px) in ticks(map.origin.0, map.per_pixel.0, dw, step_x) {
-        let x = l + px as f32 + 0.5;
-        fig.line(x, t - 1.0 - tick, x, t - 1.0, ink.clone());
-        if grid {
-            grid_lines.push((x, t, x, t + h));
+        let xst = label.clone().align(Anchor::Middle, Baseline::Alphabetic);
+        for (v, px) in ticks(map.origin.0, map.per_pixel.0, dw, step_x) {
+            let x = l + px as f32 + 0.5;
+            fig.line(x, t - 1.0 - tick, x, t - 1.0, ink.clone());
+            if grid {
+                grid_lines.push((x, t, x, t + h));
+            }
+            let s = v.to_string();
+            let lw = text_width(&s, Face::Mono, fs);
+            // (a label wider than the whole picture, e.g. a 1 px region of a huge plane, starts at 0)
+            let lx = x.clamp(lw / 2.0, (cw as f32 - lw / 2.0).max(lw / 2.0));
+            fig.text(lx, pad + m.cap_height, &s, &xst);
         }
-        let s = v.to_string();
-        let lw = text_width(&s, Face::Mono, fs);
-        // (a label wider than the whole picture, e.g. a 1 px region of a huge plane, starts at 0)
-        let lx = x.clamp(lw / 2.0, (cw as f32 - lw / 2.0).max(lw / 2.0));
-        fig.text(lx, pad + m.cap_height, &s, &xst);
-    }
+    });
     // y ruler (left)
     let row = f64::from(m.cap_height);
     let step_y = tick_step(
         f64::from(dh) * map.per_pixel.1,
         (row + f64::from(fs) * 1.3) * map.per_pixel.1,
     );
-    if let Some(ms) = minor_step(step_y) {
-        let ticks_minor = ticks(map.origin.1, map.per_pixel.1, dh, ms);
-        if ticks_minor.len() < dh as usize / 4 {
-            for (v, py) in ticks_minor {
-                if v % step_y != 0 {
-                    let y = t + py as f32 + 0.5;
-                    fig.line(l - 1.0 - tick * 0.55, y, l - 1.0, y, minor.clone());
+    fig.group(Layer::Axis, "y axis", |fig| {
+        if let Some(ms) = minor_step(step_y) {
+            let ticks_minor = ticks(map.origin.1, map.per_pixel.1, dh, ms);
+            if ticks_minor.len() < dh as usize / 4 {
+                for (v, py) in ticks_minor {
+                    if v % step_y != 0 {
+                        let y = t + py as f32 + 0.5;
+                        fig.line(l - 1.0 - tick * 0.55, y, l - 1.0, y, minor.clone());
+                    }
                 }
             }
         }
-    }
-    let yst = label.clone().align(Anchor::End, Baseline::Middle);
-    for (v, py) in ticks(map.origin.1, map.per_pixel.1, dh, step_y) {
-        let y = t + py as f32 + 0.5;
-        fig.line(l - 1.0 - tick, y, l - 1.0, y, ink.clone());
-        if grid {
-            grid_lines.push((l, y, l + w, y));
+        let yst = label.clone().align(Anchor::End, Baseline::Middle);
+        for (v, py) in ticks(map.origin.1, map.per_pixel.1, dh, step_y) {
+            let y = t + py as f32 + 0.5;
+            fig.line(l - 1.0 - tick, y, l - 1.0, y, ink.clone());
+            if grid {
+                grid_lines.push((l, y, l + w, y));
+            }
+            let half = m.cap_height / 2.0;
+            let ly = y.clamp(half, (ch as f32 - half).max(half));
+            fig.text(l - 1.0 - tick - gap, ly, &v.to_string(), &yst);
         }
-        let half = m.cap_height / 2.0;
-        let ly = y.clamp(half, (ch as f32 - half).max(half));
-        fig.text(l - 1.0 - tick - gap, ly, &v.to_string(), &yst);
-    }
-    for (x0, y0, x1, y1) in grid_lines {
-        grid_line(&mut fig, x0, y0, x1, y1);
-    }
+    });
+    fig.group(Layer::Grid, "grid", |fig| {
+        for (x0, y0, x1, y1) in grid_lines {
+            grid_line(fig, x0, y0, x1, y1);
+        }
+    });
     // hairline frame, just outside the data
     fig.stroke(
         Path::rect(l - 0.5, t - 0.5, w + 1.0, h + 1.0),
@@ -361,21 +369,25 @@ pub(crate) fn decorate(
         let bar_px = b.pixels as f32;
         let bx = l + w - bar_px;
         let thick = (fs * 0.28).round().max(2.0);
-        fig.fill_rect(Rect::new(bx, mid - thick / 2.0, bar_px, thick), theme.ink);
-        // end caps
-        let cap = (fs * 0.35).round().max(2.0);
-        fig.fill_rect(Rect::new(bx, mid - cap, 1.0, cap * 2.0), theme.ink);
-        fig.fill_rect(
-            Rect::new(bx + bar_px - 1.0, mid - cap, 1.0, cap * 2.0),
-            theme.ink,
-        );
-        let text = format!("{} {}", fmt_len(b.length), b.unit);
-        let st = TextStyle::new(fs, theme.ink).align(Anchor::End, Baseline::Middle);
-        let r = fig.text(bx - gap * 1.5, mid, &text, &st);
+        let r = fig.group(Layer::Annotation, "scale bar", |fig| {
+            fig.fill_rect(Rect::new(bx, mid - thick / 2.0, bar_px, thick), theme.ink);
+            // end caps
+            let cap = (fs * 0.35).round().max(2.0);
+            fig.fill_rect(Rect::new(bx, mid - cap, 1.0, cap * 2.0), theme.ink);
+            fig.fill_rect(
+                Rect::new(bx + bar_px - 1.0, mid - cap, 1.0, cap * 2.0),
+                theme.ink,
+            );
+            let text = format!("{} {}", fmt_len(b.length), b.unit);
+            let st = TextStyle::new(fs, theme.ink).align(Anchor::End, Baseline::Middle);
+            fig.text(bx - gap * 1.5, mid, &text, &st)
+        });
         right_edge = r.x - gap * 2.0;
     }
     if text_width(CAPTION, Face::Sans, fs) <= right_edge - (l - 1.0) {
-        fig.text(l - 1.0, mid, CAPTION, &small);
+        fig.group(Layer::Caption, "caption", |fig| {
+            fig.text(l - 1.0, mid, CAPTION, &small);
+        });
     }
     Decorated {
         figure: fig,

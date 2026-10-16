@@ -20,7 +20,7 @@ use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 
 use openreadout_figure::{
-    Anchor, Baseline, Face, Figure, Path, Rect, Stroke, TextStyle, color_bar, text_width,
+    Anchor, Baseline, Face, Figure, Layer, Path, Rect, Stroke, TextStyle, color_bar, text_width,
 };
 
 use crate::{Frame, PlatePreview, PreviewOutput, PreviewRequest};
@@ -318,39 +318,45 @@ pub(crate) fn render(
     let height = (top + grid_h + legend_h).ceil();
     let mut fig = Figure::new(width, height, Some(theme.paper));
     let (gx, gy) = (pad + row_w, top);
-    fig.text(
-        pad,
-        fs * 1.3,
-        &value,
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            pad,
+            fs * 1.3,
+            &value,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     // column numbers and row letters, thinned when the cells are small
     let every = |n: u32, w: f32| -> u32 {
         let need = text_width(&n.to_string(), Face::Sans, fs) + fs * 0.4;
         (need / w).ceil().max(1.0) as u32
     };
     let ce = every(nc, cell);
-    for c in 0..nc {
-        if (c + 1) % ce == 0 || c == 0 {
-            fig.text(
-                gx + (c as f32 + 0.5) * cell,
-                top - fs * 0.5,
-                &(c + 1).to_string(),
-                &label.clone().align(Anchor::Middle, Baseline::Alphabetic),
-            );
+    fig.group(Layer::Axis, "columns", |fig| {
+        for c in 0..nc {
+            if (c + 1) % ce == 0 || c == 0 {
+                fig.text(
+                    gx + (c as f32 + 0.5) * cell,
+                    top - fs * 0.5,
+                    &(c + 1).to_string(),
+                    &label.clone().align(Anchor::Middle, Baseline::Alphabetic),
+                );
+            }
         }
-    }
+    });
     let re = ((fs * 1.1) / cell).ceil().max(1.0) as u32;
-    for r in 0..nr {
-        if r % re == 0 {
-            fig.text(
-                gx - fs * 0.5,
-                gy + (r as f32 + 0.5) * cell,
-                &crate::annotate::row_name(r),
-                &label.clone().align(Anchor::End, Baseline::Middle),
-            );
+    fig.group(Layer::Axis, "rows", |fig| {
+        for r in 0..nr {
+            if r % re == 0 {
+                fig.text(
+                    gx - fs * 0.5,
+                    gy + (r as f32 + 0.5) * cell,
+                    &crate::annotate::row_name(r),
+                    &label.clone().align(Anchor::End, Baseline::Middle),
+                );
+            }
         }
-    }
+    });
     let inset = (cell * 0.08).clamp(0.5, 3.0);
     let round = cell >= 14.0;
     let shape = |x: f32, y: f32| -> Path {
@@ -363,24 +369,26 @@ pub(crate) fn render(
     };
     let mut frame_cells = Vec::with_capacity((nr * nc) as usize);
     let have: std::collections::BTreeMap<(u32, u32), f64> = cells.iter().copied().collect();
-    for r in 0..nr {
-        for c in 0..nc {
-            let (x, y) = (gx + c as f32 * cell, gy + r as f32 * cell);
-            frame_cells.push(((r, c), Rect::new(x, y, cell, cell)));
-            match have.get(&(r, c)) {
-                Some(v) => {
-                    let t = match range {
-                        Some((lo, hi)) if hi > lo => (v - lo) / (hi - lo),
-                        _ => 0.5,
-                    };
-                    fig.fill(shape(x, y), theme.sequential.at(t));
-                }
-                None => {
-                    fig.stroke(shape(x, y), Stroke::new(theme.rule, 1.0));
+    fig.group(Layer::Series, &value, |fig| {
+        for r in 0..nr {
+            for c in 0..nc {
+                let (x, y) = (gx + c as f32 * cell, gy + r as f32 * cell);
+                frame_cells.push(((r, c), Rect::new(x, y, cell, cell)));
+                match have.get(&(r, c)) {
+                    Some(v) => {
+                        let t = match range {
+                            Some((lo, hi)) if hi > lo => (v - lo) / (hi - lo),
+                            _ => 0.5,
+                        };
+                        fig.fill(shape(x, y), theme.sequential.at(t));
+                    }
+                    None => {
+                        fig.stroke(shape(x, y), Stroke::new(theme.rule, 1.0));
+                    }
                 }
             }
         }
-    }
+    });
     if let Some((lo, hi)) = range {
         let bw = (grid_w * 0.4).clamp(80.0, 360.0);
         color_bar(

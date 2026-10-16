@@ -9,7 +9,7 @@ use openreadout_core::model::TraceInfo;
 use openreadout_core::reader::Dataset;
 use openreadout_core::{Error, Result};
 use openreadout_figure::{
-    Anchor, AxesSpec, Baseline, Color, Domain, Figure, Panel, ScaleKind, Stroke, TextStyle,
+    Anchor, AxesSpec, Baseline, Color, Domain, Figure, Layer, Panel, ScaleKind, Stroke, TextStyle,
     category_colors, key_row,
 };
 
@@ -136,12 +136,14 @@ pub(crate) fn render(
     let x_dom = Domain::linear(ax.first.min(ax.last), ax.first.max(ax.last));
     let y_dom = Domain::of([lo, hi], 0.05, ScaleKind::Linear);
     let panel = Panel::fit(fig.rect().inset(fs * 0.8), x_dom, y_dom, &theme, &spec);
-    fig.text(
-        fs * 0.8,
-        fs * 1.4,
-        &title,
-        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
-    );
+    fig.group(Layer::Title, "title", |fig| {
+        fig.text(
+            fs * 0.8,
+            fs * 1.4,
+            &title,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
     panel.axes(&mut fig, &theme, &spec);
     let thin = (theme.line_width * if channels.len() > 24 { 0.6 } else { 0.9 }).max(0.8);
     let mut report = Vec::with_capacity(channels.len());
@@ -167,7 +169,9 @@ pub(crate) fn render(
             .iter()
             .enumerate()
             .map(|(i, &v)| (ax.first + step * i as f64, v));
-        panel.line(&mut fig, pts, Stroke::new(col, thin).round());
+        fig.group(Layer::Series, &ch.name, |fig| {
+            panel.line(fig, pts, Stroke::new(col, thin).round());
+        });
         report.push((
             k,
             TracePreviewChannel {

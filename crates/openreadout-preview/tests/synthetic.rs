@@ -296,6 +296,11 @@ fn trace_and_plate_previews() {
     assert_eq!((ax.unit.as_str(), ax.first), ("s", 0.0));
     assert!((ax.last - 4.999).abs() < 1e-9);
     assert!(!r.canvas.is_gray(), "the trace is drawn in colour");
+    // the SVG keeps each panel's axes and line apart, as layers a drawing program can edit
+    let svg = r.figure.to_svg();
+    for want in ["class=\"panel\"", "class=\"series\"", "class=\"axis\""] {
+        assert!(svg.contains(want), "no {want}");
+    }
 
     let req = {
         let mut preview_request = PreviewRequest::default();
@@ -308,6 +313,14 @@ fn trace_and_plate_previews() {
     assert_eq!((p.rows, p.columns, p.wells), (8, 12, 4));
     assert_eq!(p.value, "mean of 2 rows");
     assert_eq!((p.min, p.max), (Some(2.0), Some(5.0)));
+    let svg = r.figure.to_svg();
+    for want in [
+        "inkscape:label=\"columns\"",
+        "inkscape:label=\"rows\"",
+        "class=\"legend\"",
+    ] {
+        assert!(svg.contains(want), "no {want}");
+    }
     let (_, bytes) = finish(&r, Encoding::Png, 90).unwrap();
     assert_eq!(png_size(&bytes), (r.canvas.width, r.canvas.height));
 }
