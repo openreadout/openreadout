@@ -31,6 +31,9 @@
       "$ref": "#/$defs/RdmlExportReport"
     },
     {
+      "$ref": "#/$defs/NiftiExportReport"
+    },
+    {
       "$ref": "#/$defs/PerImageExport"
     }
   ],
@@ -1047,6 +1050,91 @@
         "bytes_written",
         "verified",
         "notes"
+      ]
+    },
+    "NiftiExportReport": {
+      "description": "What [`export_nifti`] reports.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "description": "The file that was read.",
+          "type": "string"
+        },
+        "output": {
+          "description": "The NIfTI file written.",
+          "type": "string"
+        },
+        "format": {
+          "description": "Always `nifti`.",
+          "type": "string"
+        },
+        "image": {
+          "description": "The image written.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "dims": {
+          "description": "`dim[1..]` written: x, y, z, t (and channels as the fifth dimension).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        },
+        "datatype": {
+          "description": "The NIfTI data type written (`int16`, `float32`, `rgb24`, ...).",
+          "type": "string"
+        },
+        "pixdim": {
+          "description": "Voxel size in mm (x, y, z) and the time step in seconds, as written to `pixdim`.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "affine_from": {
+          "description": "Where the affine came from: `dicom` (ImagePositionPatient and ImageOrientationPatient),\n`nifti` (the source's own), or `none` (voxel sizes only).",
+          "type": "string"
+        },
+        "planes_written": {
+          "description": "Planes written.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "bytes_written": {
+          "description": "Size of the written file in bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "verified": {
+          "description": "True when the file was read back and every plane hashed equal to the source plane.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "What the export assumed or left out.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "format",
+        "image",
+        "dims",
+        "datatype",
+        "pixdim",
+        "affine_from",
+        "planes_written",
+        "bytes_written",
+        "verified"
       ]
     },
     "PerImageExport": {

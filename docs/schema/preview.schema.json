@@ -342,6 +342,36 @@
               "type": "null"
             }
           ]
+        },
+        "view": {
+          "description": "The plane of the volume shown, when it is not the stored planes: `axial`, `coronal`,\n`sagittal`, `orthogonal`, `xz` or `yz`. Rulers, regions and annotations then count the\npixels of that view.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "crosshair": {
+          "description": "Orthogonal views: the voxel (x, y, z of the stored planes) the three planes cross at.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "view_slices": {
+          "description": "With a view: how many slices it has (the range of `z`).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
         }
       },
       "required": [

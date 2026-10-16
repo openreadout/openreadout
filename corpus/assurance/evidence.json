@@ -38785,6 +38785,448 @@
       ]
     },
     {
+      "id": "brukerapi-pv7-lego-phantom-e10",
+      "format": "bruker-paravision",
+      "source": "zenodo:4522220",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ParaVision 7.0.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "_16BIT_SGN_INT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "FG_DIFFUSION",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:DtiEpi",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        9
+      ]
+    },
+    {
+      "id": "brukerapi-pv7-lego-phantom-e20",
+      "format": "bruker-paravision",
+      "source": "zenodo:4522220",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ParaVision 7.0.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "_16BIT_SGN_INT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "FG_FLOW",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:FLOWMAP",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        9
+      ]
+    },
+    {
+      "id": "brukerapi-pv7-lego-phantom-e35",
+      "format": "bruker-paravision",
+      "source": "zenodo:4522220",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ParaVision 7.0.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        9
+      ]
+    },
+    {
+      "id": "brukerapi-pv7-lego-phantom-e6",
+      "format": "bruker-paravision",
+      "source": "zenodo:4522220",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ParaVision 7.0.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "_32BIT_SGN_INT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "FG_ECHO",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "FG_SLICE",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:B1Map",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        9
+      ]
+    },
+    {
+      "id": "brukerapi-pv7-lego-phantom-study",
+      "format": "bruker-paravision",
+      "source": "zenodo:4522220",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ParaVision 7.0.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "_16BIT_SGN_INT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "FG_SLICE",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:FLASH",
+          []
+        ],
+        [
+          "sample_layout",
+          "_32BIT_SGN_INT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "FG_ECHO",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:B1Map",
+          []
+        ],
+        [
+          "layout",
+          "FG_CYCLE",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:CSI",
+          []
+        ],
+        [
+          "layout",
+          "FG_COMPLEX",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:DESS",
+          []
+        ],
+        [
+          "layout",
+          "FG_DIFFUSION",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:DtiEpi",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:DtiSpiral",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:DtiStandard",
+          []
+        ],
+        [
+          "layout",
+          "frames",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:EPI",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:EPSI",
+          []
+        ],
+        [
+          "layout",
+          "FG_IRMODE",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:FAIR_EPI",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:FAIR_RARE",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:FISP",
+          []
+        ],
+        [
+          "layout",
+          "FG_FLOW",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:FLOWMAP",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:FcFLASH",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:FieldMap",
+          []
+        ],
+        [
+          "layout",
+          "FG_CARDIAC_MOVIE",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:IgFLASH",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:MDEFT",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:MGE",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:MSME",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:RARE",
+          []
+        ],
+        [
+          "layout",
+          "FG_MOVIE",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "Bruker:RAREVTR",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:RAREst",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:SPIRAL",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:SegFLASH",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:T1_EPI",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:T2S_EPI",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:T2_EPI",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:UTE",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:ZTE",
+          []
+        ],
+        [
+          "acquisition",
+          "Bruker:UTE3D",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        9
+      ]
+    },
+    {
       "id": "xrd-fairmat-raw4-scrambled",
       "format": "bruker-raw",
       "source": "github:fairmat-nfdi/readers-xrd",
@@ -60545,6 +60987,4115 @@
       "inferred": [
         6,
         16
+      ]
+    },
+    {
+      "id": "idc-cmb-crc-ct-head",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CT",
+          []
+        ],
+        [
+          "record",
+          "CT Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Aquilion PRIME",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-remind-us",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Multi-frame Grayscale Byte Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "com.pixelmed.convert.NRRDToDicom",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-rider-phantom-pet",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "PT",
+          []
+        ],
+        [
+          "record",
+          "Positron Emission Tomography Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Discovery STE",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-rider-pilot-dx",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "DX",
+          []
+        ],
+        [
+          "record",
+          "Digital X-Ray Image Storage - For Presentation",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Revolution XQi ADS_28.2",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-stageii-colorectal-ct-venous",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CT",
+          []
+        ],
+        [
+          "record",
+          "CT Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Sensation 64",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-upenn-gbm-mr-t1-post",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Implicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Espree",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-upenn-gbm-seg",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SEG",
+          []
+        ],
+        [
+          "record",
+          "Segmentation Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "segmentation",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "git@github.com:QIICR/dcmqi.git",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-varepop-nm",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "NM",
+          []
+        ],
+        [
+          "record",
+          "Nuclear Medicine Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "stack",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Encore2",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "idc-varepop-rf",
+      "format": "dicom",
+      "source": "nci imaging data commons",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "RF",
+          []
+        ],
+        [
+          "record",
+          "X-Ray Radiofluoroscopic Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "cine",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Fluorospot Compact FD",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "openslide-dicom-cmu-1-jp2k-33005-v2-slide",
+      "format": "dicom",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SM",
+          []
+        ],
+        [
+          "record",
+          "VL Whole Slide Microscopy Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "slide pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "YBR_ICT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Aperio converted by com.pixelmed.convert.TIFFToDicom",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "openslide-dicom-leica-4-slide",
+      "format": "dicom",
+      "source": "openslide test data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Baseline (Process 1)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SM",
+          []
+        ],
+        [
+          "record",
+          "VL Whole Slide Microscopy Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "slide pyramid",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "YBR_FULL_422",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "GT450",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-ct-small",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CT",
+          []
+        ],
+        [
+          "record",
+          "CT Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "RHAPSODE",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-693-j2kr",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression (Lossless Only)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CT",
+          []
+        ],
+        [
+          "record",
+          "CT Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-bad-sequence",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Lossless, Non-Hierarchical, First-Order Prediction (Process 14 [Selection Value 1])",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CT",
+          []
+        ],
+        [
+          "record",
+          "CT Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "SOMATOM Definition AS+",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-color3d-jpeg-baseline",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Baseline (Process 1)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Multi-frame Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "cine",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "YBR_FULL_422",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Turbo",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-ect-supplemental",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CT",
+          []
+        ],
+        [
+          "record",
+          "Enhanced CT Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Super Dooper Scanner",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-emri-small",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "Enhanced MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "stack",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-emri-small-big-endian",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Big Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "Enhanced MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "stack",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-emri-small-jpeg-2k-lossless",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression (Lossless Only)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "Enhanced MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "stack",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-emri-small-jpeg-ls-lossless",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG-LS Lossless Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "Enhanced MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "stack",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-emri-small-rle",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "RLE Lossless",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "Enhanced MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "stack",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-gdcm-us-aloka-16",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Implicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "PALETTE COLOR",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "SSD-4000",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-htj2k-08-rgb",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "High-Throughput JPEG 2000 Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-htj2klossless-08-rgb",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "High-Throughput JPEG 2000 Image Compression (Lossless Only)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-jpeg-ll",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Lossless, Non-Hierarchical, First-Order Prediction (Process 14 [Selection Value 1])",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "NM",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MILLENNIUM MG",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-jpglosslessp14sv1-1s-1f-8b",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Lossless, Non-Hierarchical, First-Order Prediction (Process 14 [Selection Value 1])",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "EPIQ 7C",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-liver",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SEG",
+          []
+        ],
+        [
+          "record",
+          "Segmentation Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "segmentation",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "https://github.com/fedorov/dcmqi.git",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-liver-deflate",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Deflated Image Frame Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SEG",
+          []
+        ],
+        [
+          "record",
+          "Segmentation Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "segmentation",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "https://github.com/fedorov/dcmqi.git",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-liver-rle",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "RLE Lossless",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SEG",
+          []
+        ],
+        [
+          "record",
+          "Segmentation Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "segmentation",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "https://github.com/fedorov/dcmqi.git",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-mlut-18",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-mr-siemens-dicom-withoverlays",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Avanto",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-mr2-j2ki",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "T5",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-mr2-j2kr",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression (Lossless Only)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "T5",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-obxxxx1a",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "PALETTE COLOR",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "CX50",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-obxxxx1a-rle-2frame",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "RLE Lossless",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Multi-frame Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "cine",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "PALETTE COLOR",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "CX50",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-parametric-map-double-float",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Parametric Map Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "double",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MyModel",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-parametric-map-float",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Parametric Map Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MyModel",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-rg1-j2ki",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CR",
+          []
+        ],
+        [
+          "record",
+          "Computed Radiography Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME1",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Cassette Holder Type 9840 500 70201",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-sc-rgb-32bit-2frame",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "stack",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-data-us1-j2ki",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "YBR_ICT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "LOGIQ 700",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-dicomdirtests",
+      "format": "dicom",
+      "source": "pydicom test files",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "assumed": [
+        "images[].physical_size.z"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CR",
+          []
+        ],
+        [
+          "record",
+          "Computed Radiography Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME1",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "CT",
+          []
+        ],
+        [
+          "record",
+          "CT Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "ADC_5146",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-examples-overlay",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Avanto",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-examples-palette",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "PALETTE COLOR",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "CX50",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-examples-rgb-color",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "LOGIQ 700",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-examples-ybr-color",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Baseline (Process 1)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "US",
+          []
+        ],
+        [
+          "record",
+          "Ultrasound Multi-frame Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "cine",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "YBR_FULL_422",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Turbo",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-explvr-bigendnometa",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-image-dfl",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Deflated Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-jpeg2000",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "NM",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MILLENNIUM MG",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-jpeglsnearlossless-08",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG-LS Lossy (Near-Lossless) Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-jpeglsnearlossless-16",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG-LS Lossy (Near-Lossless) Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-jpgextended",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Extended (Process 2 & 4)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "NM",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MILLENNIUM MG",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-liver-1frame",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "SEG",
+          []
+        ],
+        [
+          "record",
+          "Segmentation Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "segmentation",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "https://github.com/fedorov/dcmqi.git",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-mr-small",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MRT50H1",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-mr-small-bigendian",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Big Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MRT50H1",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-mr-small-implicit",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Implicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MRT50H1",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-mr-small-jp2klossless",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG 2000 Image Compression (Lossless Only)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MRT50H1",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-mr-small-jpeg-ls-lossless",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG-LS Lossless Image Compression",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MRT50H1",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-mr-small-padded",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MRT50H1",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-mr-small-rle",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "RLE Lossless",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "MR",
+          []
+        ],
+        [
+          "record",
+          "MR Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "MRT50H1",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-rtdose",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Implicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "RTDOSE",
+          []
+        ],
+        [
+          "record",
+          "RT Dose Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Treatment Planning System name here",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-rtdose-rle",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "RLE Lossless",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "RTDOSE",
+          []
+        ],
+        [
+          "record",
+          "RT Dose Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "MONOCHROME2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Treatment Planning System name here",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-sc-jpeg-no-color-transform",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "JPEG Baseline (Process 1)",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-sc-rgb-jpeg-dcmd",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Implicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-sc-rgb-rle",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "RLE Lossless",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-sc-rgb-small-odd-big-endian",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Big Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "RGB",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-sc-ybr-full-422-uncompressed",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "codec",
+          "Explicit VR Little Endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "OT",
+          []
+        ],
+        [
+          "record",
+          "Secondary Capture Image Storage",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "single frame",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "YBR_FULL_422",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        5,
+        22
+      ]
+    },
+    {
+      "id": "pydicom-test-sr",
+      "format": "dicom",
+      "source": "github:pydicom/pydicom",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [],
+      "inferred": [
+        5,
+        22
       ]
     },
     {
@@ -114311,6 +118862,358 @@
       "inferred": [
         1,
         2
+      ]
+    },
+    {
+      "id": "nibabel-anatomical",
+      "format": "nifti",
+      "source": "github:nipy/nibabel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "big-endian",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "nibabel-example-nifti2",
+      "format": "nifti",
+      "source": "github:nipy/nibabel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "nibabel-example4d",
+      "format": "nifti",
+      "source": "github:nipy/nibabel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "nibabel-functional",
+      "format": "nifti",
+      "source": "github:nipy/nibabel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "nibabel-reoriented-anat-moved",
+      "format": "nifti",
+      "source": "github:nipy/nibabel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "big-endian",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "nibabel-standard",
+      "format": "nifti",
+      "source": "github:nipy/nibabel",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "openneuro-ds000001-sub-01-bold",
+      "format": "nifti",
+      "source": "openneuro ds000001",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "openneuro-ds000001-sub-01-t1w",
+      "format": "nifti",
+      "source": "openneuro ds000001",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
       ]
     },
     {
