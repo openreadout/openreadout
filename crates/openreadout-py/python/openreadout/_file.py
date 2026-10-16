@@ -311,7 +311,8 @@ class File:
         if line is not None or polygon is not None or counting or laning:
             if per is not None or wells or mip is not None or bins:
                 raise UsageError(
-                    "line, polygon, objects and lanes measure one plane: drop per, wells, mip and bins"
+                    "line, polygon, objects and lanes measure one plane: "
+                    "drop per, wells, mip and bins"
                 )
             return self._measure(
                 image, select, level, region, line, line_width, polygon, objects, lanes
