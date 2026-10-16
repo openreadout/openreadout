@@ -35,6 +35,7 @@ const PAGE = {
   "biologic-mpr": "biologic-eclab", "biologic-mpt": "biologic-eclab",
   "neware-nda": "neware", "neware-ndax": "neware",
   plate: "plate-readers",
+  "agilent-bioanalyzer-xml": "agilent-electrophoresis", "agilent-tapestation": "agilent-electrophoresis",
 };
 
 // The fields the site groups formats under (the CLI's families are finer).

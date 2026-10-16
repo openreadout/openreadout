@@ -102,6 +102,8 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_xrd::RasReader))
         .with(Box::new(openreadout_xrd::RasxReader))
         .with(Box::new(openreadout_ce::AbifReader))
+        .with(Box::new(openreadout_ce::BioanalyzerReader))
+        .with(Box::new(openreadout_ce::TapeStationReader))
         .with(Box::new(openreadout_echem::MprReader))
         .with(Box::new(openreadout_echem::MptReader))
         .with(Box::new(openreadout_echem::GamryReader))

@@ -42,3 +42,49 @@ const ABIF_CONFIDENCE: Confidence = Confidence::Medium;
 const ABIF_VALIDATED: &[Validated] = &[
 ];
 // END GENERATED abif
+
+pub(crate) static BIOANALYZER: AssuranceProfile = AssuranceProfile {
+    format_id: "agilent-bioanalyzer-xml",
+    observe: observe_chip,
+    validated: BIOANALYZER_VALIDATED,
+    confidence: BIOANALYZER_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+pub(crate) static TAPESTATION: AssuranceProfile = AssuranceProfile {
+    format_id: "agilent-tapestation",
+    observe: observe_chip,
+    validated: TAPESTATION_VALIDATED,
+    confidence: TAPESTATION_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+/// What `info` shows of a chip or tape export: the size unit of its lanes.
+fn observe_chip(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    for t in &info.traces {
+        if let Some(u) = t
+            .extra
+            .get("axis")
+            .and_then(|a| a.get("unit"))
+            .and_then(|u| u.as_str())
+        {
+            o.feature(K::SampleLayout, format!("sized in {u}"), &[Scope::Traces]);
+        }
+    }
+    o
+}
+
+// BEGIN GENERATED agilent-bioanalyzer-xml (cargo xtask assurance-audit --write; do not edit)
+const BIOANALYZER_CONFIDENCE: Confidence = Confidence::Medium;
+#[rustfmt::skip]
+const BIOANALYZER_VALIDATED: &[Validated] = &[
+];
+// END GENERATED agilent-bioanalyzer-xml
+
+// BEGIN GENERATED agilent-tapestation (cargo xtask assurance-audit --write; do not edit)
+const TAPESTATION_CONFIDENCE: Confidence = Confidence::Medium;
+#[rustfmt::skip]
+const TAPESTATION_VALIDATED: &[Validated] = &[
+];
+// END GENERATED agilent-tapestation

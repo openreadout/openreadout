@@ -32,6 +32,7 @@ use crate::traces::check_traces;
 
 mod abif_oracle;
 mod biacore_oracle;
+mod chip_oracle;
 mod chromeleon_oracle;
 mod fplc_oracle;
 mod gpr_oracle;
@@ -269,7 +270,7 @@ fn family_scopes(format: &str, oracle_text: &str) -> Vec<&'static str> {
         vec!["metadata", "traces"]
     } else if format == "genepix-gpr" {
         vec!["metadata", "tables"]
-    } else if format == "abif" {
+    } else if format == "abif" || chip_oracle::FORMATS.contains(&format) {
         vec!["metadata", "tables", "traces"]
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::scopes(format)
@@ -580,6 +581,8 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("gpr")
     } else if abif_oracle::FORMATS.contains(&format) {
         Some("abif")
+    } else if chip_oracle::FORMATS.contains(&format) {
+        Some("chip")
     } else if series_oracle::FORMATS.contains(&format) {
         Some("series")
     } else if hyperspec_oracle::FORMATS.contains(&format) {
@@ -670,6 +673,8 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         gpr_oracle::compare_file(id, path, &o)
     } else if abif_oracle::FORMATS.contains(&format) {
         abif_oracle::compare_file(id, path, &o)
+    } else if chip_oracle::FORMATS.contains(&format) {
+        chip_oracle::compare_file(format, path, &o)
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::compare_file(format, id, path, &o)
     } else if hyperspec_oracle::FORMATS.contains(&format) {

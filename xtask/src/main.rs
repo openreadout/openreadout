@@ -732,7 +732,15 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     ("epr", &[("", "bruker-epr")]),
     // one module per format; lib.rs/common.rs are checked against the shared note
     ("xrd", &[("", "xrd")]),
-    ("ce", &[("", "abif")]),
+    (
+        "ce",
+        &[
+            ("bioanalyzer", "agilent-electrophoresis"),
+            ("tapestation", "agilent-electrophoresis"),
+            ("chip", "agilent-electrophoresis"),
+            ("", "abif"),
+        ],
+    ),
     // one module per vendor; lib.rs is checked against every document
     (
         "echem",

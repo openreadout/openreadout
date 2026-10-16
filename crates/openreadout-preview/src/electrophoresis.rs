@@ -77,6 +77,14 @@ pub(crate) fn render(
         }
         return sanger(ds, info, req, out, calls, trace).map(Some);
     }
+    // chip and tape runs: one sized trace per well
+    if info
+        .traces
+        .iter()
+        .any(|t| t.extra.contains_key("well") && kind(&t.extra) == Some("electropherogram"))
+    {
+        return wells(ds, info, req, out).map(Some);
+    }
     if let Some(trace) = sized_trace(info) {
         if req.trace.is_some_and(|t| t != trace.index) {
             return Ok(None);
@@ -880,6 +888,269 @@ fn electropherogram(
             first: lo,
             last: hi,
         }),
+        channels: report,
+    });
+    Ok((fig, Frame::plots_labelled(panels, placer.taken())))
+}
+/// Most wells drawn as small multiples.
+const MAX_WELLS: usize = 16;
+/// Peaks labelled per well.
+const WELL_LABELS: usize = 3;
+
+/// A chip or tape run: one small electropherogram per well on a log size axis, titled with the
+/// well, the sample and its RIN or DIN, the tallest non-marker peaks labelled by size. `trace`
+/// draws one well large.
+#[allow(clippy::too_many_lines)]
+fn wells(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &PreviewRequest,
+    out: &mut PreviewOutput,
+) -> Result<(Figure, Frame)> {
+    let all: Vec<&TraceInfo> = info
+        .traces
+        .iter()
+        .filter(|t| t.extra.contains_key("well"))
+        .collect();
+    let chosen: Vec<&TraceInfo> = match req.trace {
+        Some(ti) => all.iter().copied().filter(|t| t.index == ti).collect(),
+        None => all.iter().copied().take(MAX_WELLS).collect(),
+    };
+    if chosen.is_empty() {
+        return Err(Error::Usage(format!(
+            "trace {} is not a well of this run (traces 0..{})",
+            req.trace.unwrap_or(0),
+            info.traces.len()
+        )));
+    }
+    if req.trace.is_none() && all.len() > MAX_WELLS {
+        out.notes.push(format!(
+            "showing the first {MAX_WELLS} of {} wells; trace N draws one",
+            all.len()
+        ));
+    }
+    // the peaks table, read once
+    let peaks = match chosen[0]
+        .extra
+        .get("peaks_table")
+        .and_then(Value::as_u64)
+        .and_then(|k| info.tables.iter().find(|t| u64::from(t.index) == k))
+    {
+        Some(ti) => Some((ds.read_table(ti.index, 0, ti.row_count)?, ti.clone())),
+        None => None,
+    };
+    let theme = crate::theme(req);
+    let fs = theme.font_size;
+    let small = theme.small_size();
+    let w = req.max_size.max(320) as f32;
+    let n = chosen.len();
+    let cols = if n == 1 { 1 } else { n.min(4).max(2) };
+    let rows = n.div_ceil(cols);
+    let header = fs * 1.9;
+    let title_h = fs * 1.6;
+    let gap = fs * 1.1;
+    let axis_h = fs * 2.6;
+    let cell_w = (w - fs * 1.2) / cols as f32;
+    let plot_h = if n == 1 {
+        (w * 0.42).clamp(160.0, 480.0)
+    } else {
+        (cell_w * 0.55).clamp(70.0, 200.0)
+    };
+    let cell_h = title_h + plot_h + axis_h + gap;
+    let height = (header + rows as f32 * cell_h).min(req.max_size as f32 * 1.6);
+    let mut fig = Figure::new(w, height.ceil(), Some(theme.paper));
+    let mut placer = LabelPlacer::new(fig.rect());
+    let e = openreadout_core::experiment::of_dataset(ds, info);
+    let mut parts = Vec::new();
+    if let Some(m) = e.instrument.as_ref().and_then(|i| i.model.clone()) {
+        parts.push(m);
+    }
+    if let Some(m) = e.method.as_ref().and_then(|m| m.name.clone()) {
+        parts.push(m);
+    }
+    parts.push(format!("{} wells", all.len()));
+    fig.text(
+        fs * 0.8,
+        fs * 1.4,
+        &parts.join(" · "),
+        &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+    );
+    let mut panels = Vec::new();
+    let mut report = Vec::new();
+    let mut data_marks = Vec::new();
+    let mut first_axis = None;
+    for (k, t) in chosen.iter().enumerate() {
+        let tr = ds.read_trace(t.index, 0, 0, openreadout_core::trace::sweep_samples(t, 0))?;
+        let (Some(size), Some(sig)) = (tr.channels.first(), tr.channels.get(1)) else {
+            continue;
+        };
+        let unit = t
+            .extra
+            .get("axis")
+            .and_then(|a| a.get("unit"))
+            .and_then(Value::as_str)
+            .unwrap_or("bp")
+            .to_string();
+        let (s_lo, s_hi) = size
+            .iter()
+            .copied()
+            .filter(|v| v.is_finite() && *v > 0.0)
+            .fold((f64::INFINITY, f64::NEG_INFINITY), |(a, b), v| {
+                (a.min(v), b.max(v))
+            });
+        if !(s_lo.is_finite() && s_hi > s_lo) {
+            continue;
+        }
+        let (lo, hi) = match req.x_range {
+            Some([a, b]) => (a.min(b).max(s_lo), a.max(b).min(s_hi)),
+            None => (s_lo, s_hi),
+        };
+        if hi <= lo {
+            continue;
+        }
+        let (r, c) = (k / cols, k % cols);
+        let x0 = fs * 0.6 + c as f32 * cell_w;
+        let y0 = header + r as f32 * cell_h;
+        let x_dom = Domain::log(lo, hi);
+        let in_x: Vec<(f64, f64)> = size
+            .iter()
+            .zip(sig)
+            .filter(|(x, y)| **x >= lo && **x <= hi && y.is_finite())
+            .map(|(x, y)| (*x, *y))
+            .collect();
+        // the markers sit at the ends of the range and dwarf a dilute sample: scale to what lies
+        // between them (they are drawn clipped)
+        let inner = |x: f64| req.x_range.is_some() || (x > s_lo * 1.25 && x < s_hi / 1.15);
+        let top = in_x
+            .iter()
+            .filter(|p| inner(p.0))
+            .map(|p| p.1)
+            .fold(1.0f64, f64::max);
+        let y_dom = Domain::linear(in_x.iter().map(|p| p.1).fold(0.0f64, f64::min), top * 1.2);
+        let spec = AxesSpec {
+            x_label: (r + 1 == rows || n == 1).then(|| format!("size ({unit})")),
+            y_ticks: 3,
+            x_ticks: 4,
+            grid: GridLines::Y,
+            ..AxesSpec::default()
+        };
+        let panel = Panel::fit(
+            Rect::new(x0, y0 + title_h, cell_w - fs * 0.6, plot_h + axis_h),
+            x_dom,
+            y_dom,
+            &theme,
+            &spec,
+        );
+        panel.axes(&mut fig, &theme, &spec);
+        let color = if t.extra.get("category").and_then(Value::as_str) == Some("ladder") {
+            theme.muted
+        } else {
+            theme.ink
+        };
+        panel.line(
+            &mut fig,
+            in_x.iter().copied(),
+            Stroke::new(color, theme.line_width * 0.8),
+        );
+        // title: well, sample, RIN or DIN
+        let well = t.extra.get("well").and_then(Value::as_str).unwrap_or("?");
+        let mut title = well.to_string();
+        if let Some(s) = t
+            .extra
+            .get("sample")
+            .and_then(Value::as_str)
+            .filter(|s| !s.is_empty())
+        {
+            title.push_str(&format!(" · {}", s.chars().take(28).collect::<String>()));
+        }
+        if let Some(v) = t.extra.get("rin").and_then(Value::as_f64) {
+            title.push_str(&format!(" · RIN {v:.1}"));
+        }
+        if let Some(v) = t.extra.get("din").and_then(Value::as_f64) {
+            title.push_str(&format!(" · DIN {v:.1}"));
+        }
+        fig.text(
+            panel.rect.x,
+            y0 + title_h * 0.75,
+            &title,
+            &TextStyle::new(small, theme.ink)
+                .face(Face::SansMedium)
+                .align(Anchor::Start, Baseline::Alphabetic),
+        );
+        // the tallest peaks the instrument found in this well, markers left out
+        let labels: Vec<(f64, f64, String)> = peaks
+            .as_ref()
+            .and_then(|(tab, ti)| {
+                let wells = texts(tab, ti, "well")?;
+                let sizes = column(tab, ti, "size")?;
+                let obs = texts(tab, ti, "observation").unwrap_or_default();
+                let mut v: Vec<(f64, f64)> = (0..wells.len())
+                    .filter(|&i| {
+                        wells[i] == well
+                            && !obs.get(i).is_some_and(|o| o.contains("Marker"))
+                            && sizes[i] >= lo
+                            && sizes[i] <= hi
+                    })
+                    .filter_map(|i| {
+                        let s = sizes[i];
+                        let h = in_x
+                            .iter()
+                            .filter(|p| (p.0 / s - 1.0).abs() < 0.02)
+                            .map(|p| p.1)
+                            .fold(f64::NEG_INFINITY, f64::max);
+                        h.is_finite().then_some((s, h))
+                    })
+                    .collect();
+                v.sort_by(|a, b| b.1.total_cmp(&a.1));
+                Some(
+                    v.into_iter()
+                        .filter(|p| p.1 >= top * 0.08)
+                        .take(if n == 1 { 10 } else { WELL_LABELS })
+                        .map(|(s, h)| (s, h, format!("{s:.0}")))
+                        .collect(),
+                )
+            })
+            .unwrap_or_default();
+        data_marks.extend(marks::label_peaks(
+            &mut fig,
+            &panel,
+            &theme,
+            &labels,
+            Some(1),
+            &mut placer,
+        ));
+        let (ylo, yhi) = panel.y.domain();
+        report.push(TracePreviewChannel {
+            index: t.index,
+            name: title,
+            unit: Some("FU".into()),
+            color: to_hex(color.to_rgb()),
+            min: Some(ylo),
+            max: Some(yhi),
+        });
+        first_axis.get_or_insert(XAxis {
+            quantity: "size".into(),
+            unit,
+            first: lo,
+            last: hi,
+        });
+        panels.push(FramePanel {
+            channel: Some(1),
+            ..FramePanel::new(panel)
+        });
+    }
+    out.marks = data_marks;
+    out.notes.push(
+        "one panel per well on a log size axis; trace N draws one well, x_range [a, b] zooms; the peaks, RIN and concentrations are in the tables".into(),
+    );
+    out.trace = Some(TracePreview {
+        trace: chosen[0].index,
+        sweep: 0,
+        sample_rate_hz: 0.0,
+        sweep_sample_count: chosen[0].sample_count,
+        sample_count: chosen[0].sample_count,
+        truncated: false,
+        x_axis: first_axis,
         channels: report,
     });
     Ok((fig, Frame::plots_labelled(panels, placer.taken())))

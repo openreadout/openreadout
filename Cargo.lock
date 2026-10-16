@@ -2131,7 +2131,10 @@ dependencies = [
 name = "openreadout-ce"
 version = "0.3.0"
 dependencies = [
+ "base64 0.23.1",
+ "flate2",
  "openreadout-core",
+ "roxmltree",
  "schemars",
  "serde",
  "serde_json",
