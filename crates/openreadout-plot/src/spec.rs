@@ -231,6 +231,9 @@ pub enum Show {
     Amplification,
     /// qPCR melt curves (−dF/dT).
     Melt,
+    /// One value per frame of an image (y: a value the frames record such as dose, or a pixel
+    /// statistic mean, sum, max, min) against the frame number (x: t, or a recorded value).
+    Frames,
 }
 
 #[allow(missing_docs)]
@@ -279,7 +282,7 @@ pub struct SeriesSpec {
     pub values: Option<InlineValues>,
     /// What to show. Default from the file: trace (signals, 1-D spectra), chromatogram (mass
     /// spectrometry; spectrum with rt or scan), wells (plates), events (FCS with x and y; histogram
-    /// with x only), amplification (qPCR).
+    /// with x only), amplification (qPCR), frames (movies and image series).
     pub show: Option<Show>,
     /// How to draw it (default from what it shows).
     pub mark: Option<MarkKind>,
@@ -336,9 +339,11 @@ pub struct SeriesSpec {
     /// rule `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}` (at in x units).
     pub color_by: Option<ColorBy>,
 
-    /// FCS parameter, table column, or f–I measure for the x axis.
+    /// FCS parameter, table column, f–I measure, or frames: t or a recorded value, for the x
+    /// axis.
     pub x: Option<String>,
-    /// FCS parameter, table column, or f–I measure (`spike_count`, `rate_hz`) for the y axis.
+    /// FCS parameter, table column, f–I measure (`spike_count`, `rate_hz`), or frames: a recorded
+    /// value (`dose`) or mean, sum, max, min, for the y axis.
     pub y: Option<String>,
     /// Table column with error bar half-widths.
     pub error: Option<String>,

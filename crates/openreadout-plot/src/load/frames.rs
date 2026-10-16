@@ -1,0 +1,160 @@
+//! `show: frames`: one value per frame (time point) of an image, against the frame number or
+//! a value the frame records: the dose of each frame of an electron-event movie, the angle of
+//! each image of a rotation sweep, or a pixel statistic of every frame (`mean`, `sum`, `max`,
+//! `min`).
+
+use openreadout_core::{PlaneIndex, Result};
+use serde_json::Value;
+
+use super::{Ctx, usage};
+use crate::model::{Geom, Quantity, Series, Source};
+use crate::spec::{MarkKind, SeriesSpec};
+
+/// Pixel statistics a frame series can show.
+const STATS: &[&str] = &["mean", "sum", "max", "min"];
+/// Frames read for pixel statistics at most.
+const MAX_FRAMES: usize = 20_000;
+
+pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Series>> {
+    let (_, mut ds, info) = ctx.open(file)?;
+    let im = info
+        .images
+        .first()
+        .ok_or_else(|| usage(format!("{file}: no image; frames are the time points of an image")))?;
+    let c = spec.channel.unwrap_or(0);
+    if c >= im.size_c {
+        return Err(usage(format!(
+            "{file}: channel {c} out of range (the image has {})",
+            im.size_c
+        )));
+    }
+    let n = im.size_t.max(1) as usize;
+    let (_, records) = ds.frames(im.index, None)?;
+    // The fields the frames record, in the order the first record has them.
+    let fields: Vec<String> = records
+        .first()
+        .and_then(Value::as_object)
+        .map(|o| {
+            o.iter()
+                .filter(|(_, v)| v.is_number())
+                .map(|(k, _)| k.clone())
+                .collect()
+        })
+        .unwrap_or_default();
+    let y = spec.y.clone().unwrap_or_else(|| {
+        if fields.iter().any(|f| f == "dose") {
+            "dose".into()
+        } else {
+            "mean".into()
+        }
+    });
+    let x = spec.x.clone().unwrap_or_else(|| "t".into());
+    let known = |name: &str| name == "t" || STATS.contains(&name) || fields.iter().any(|f| f == name);
+    for (axis, name) in [("x", &x), ("y", &y)] {
+        if !known(name) {
+            return Err(usage(format!(
+                "{file}: frames have no `{name}` for {axis}; use t (the frame number), {} or a value the frames record ({})",
+                STATS.join(", "),
+                if fields.is_empty() { "none here".to_string() } else { fields.join(", ") }
+            )));
+        }
+    }
+    let field = |name: &str, i: usize| -> Option<f64> {
+        if name == "t" {
+            return Some(i as f64);
+        }
+        records.get(i)?.get(name)?.as_f64()
+    };
+    let needs_pixels = STATS.contains(&x.as_str()) || STATS.contains(&y.as_str());
+    if needs_pixels && n > MAX_FRAMES {
+        return Err(usage(format!(
+            "{file}: {n} frames; pixel statistics are read for at most {MAX_FRAMES}"
+        )));
+    }
+    ctx.spend(n)?;
+    let mut stats: Vec<[f64; 4]> = Vec::new();
+    if needs_pixels {
+        for t in 0..n {
+            let p = ds.read_plane(
+                im.index,
+                PlaneIndex {
+                    c,
+                    z: im.size_z / 2,
+                    t: t as u32,
+                },
+            )?;
+            let bps = p.pixel_type.bytes_per_sample();
+            let (mut sum, mut mx, mut mn, mut k) = (0f64, f64::NEG_INFINITY, f64::INFINITY, 0u64);
+            for s in p.data.chunks_exact(bps) {
+                let v = p.pixel_type.sample_f64(s);
+                if v.is_finite() {
+                    sum += v;
+                    mx = mx.max(v);
+                    mn = mn.min(v);
+                    k += 1;
+                }
+            }
+            let mean = if k > 0 { sum / k as f64 } else { f64::NAN };
+            stats.push([mean, sum, mx, mn]);
+        }
+        ctx.notes.push(format!(
+            "{file}: read every frame ({n}) for its pixel statistics (as stored: no mask or gain applied)"
+        ));
+    }
+    let value = |name: &str, i: usize| -> Option<f64> {
+        match STATS.iter().position(|s| *s == name) {
+            Some(k) => stats.get(i).map(|s| s[k]),
+            None => field(name, i),
+        }
+    };
+    let mut pts: Vec<(f64, f64)> = (0..n)
+        .filter_map(|i| Some((value(&x, i)?, value(&y, i)?)))
+        .filter(|(a, b)| a.is_finite() && b.is_finite())
+        .collect();
+    if let Some([lo, hi]) = spec.x_range {
+        pts.retain(|(a, _)| *a >= lo && *a <= hi);
+    }
+    if pts.is_empty() {
+        return Err(usage(format!(
+            "{file}: no frame has both {x} and {y}"
+        )));
+    }
+    let unit_of = |name: &str| -> Option<String> {
+        if let Some(u) = name.strip_suffix("_deg").map(|_| "°") {
+            return Some(u.into());
+        }
+        if name.ends_with("_s") {
+            return Some("s".into());
+        }
+        records
+            .first()
+            .and_then(|r| r.get("units"))
+            .and_then(|u| u.get(name))
+            .and_then(Value::as_str)
+            .map(str::to_string)
+    };
+    let label = |name: &str| -> String {
+        match name {
+            "t" => "frame".into(),
+            "dose" => "dose per frame".into(),
+            other => other.trim_end_matches("_deg").trim_end_matches("_s").to_string(),
+        }
+    };
+    let mark = if pts.len() > 200 {
+        MarkKind::Line
+    } else {
+        MarkKind::LinePoints
+    };
+    let mut s = Series::new(
+        spec.label.clone().unwrap_or_else(|| label(&y)),
+        Geom::Line(pts),
+        mark,
+        Source {
+            file: Some(file.to_string()),
+            selector: format!("frames of image {}: {y} against {x}", im.index),
+        },
+    );
+    s.x = Quantity::new(label(&x), unit_of(&x).as_deref());
+    s.y = Quantity::new(label(&y), unit_of(&y).as_deref());
+    Ok(vec![s])
+}
