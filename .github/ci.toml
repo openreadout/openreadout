@@ -89,8 +89,8 @@ paths = ["@rust", "corpus/**", "xtask/**", "oracle/qpcr.py"]
 requires = ["corpus"]
 full_only = true
 # One local run covers all three CI parts: the oracle tests, then the whole malformed-file matrix.
-run_if = ["Compare every reader against oracle ground truth", "Build the CLI the malformed-file matrix runs", "Malformed-file matrix"]
-env = { MALFORMED_SHARD = "" }
+run_if = ["Compare every reader against oracle ground truth", "Build the CLI the malformed-file matrix and the second-opinion fields run", "Malformed-file matrix and second-opinion fields"]
+env = { MALFORMED_SHARD = "", SHARD = "" }
 
 [jobs.examples]
 paths = ["@rust", "examples/**", "corpus/manifest.toml", "xtask/**"]

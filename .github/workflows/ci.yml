@@ -241,23 +241,25 @@ jobs:
           key: ${{ env.CORPUS_KEY }}
           enableCrossOsArchive: true
 
-  # Every reader against the oracle ground truth, in three parallel parts: the oracle comparisons
-  # and the other corpus tests, and two halves of the malformed-file matrix (each input damaged
-  # several ways and read by the CLI), which alone takes longer than the rest. These use cargo
-  # test, not nextest: many corpus tests share state built once per test binary, and nextest's
-  # process per test rebuilt it for each one.
+  # Every reader against the oracle ground truth, in three parallel parts. Two tests run the CLI
+  # binary, which takes as long to build as the test binaries: the malformed-file matrix (each
+  # input damaged several ways and read by the CLI) and the second-opinion fields. They run in the
+  # two `cli` parts, which build the CLI and only their own test binaries; the `oracle` part builds
+  # and runs every other corpus test. These use cargo test, not nextest: many corpus tests share
+  # state built once per test binary, and nextest's process per test rebuilds it for each one.
   corpus-smoke:
     name: corpus smoke tier (${{ matrix.part }})
     needs: [changes, corpus-fetch]
     if: fromJSON(needs.changes.outputs.jobs)['corpus-smoke']
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         include:
           - { part: oracle, shard: "" }
-          - { part: malformed 1/2, shard: "1/2" }
-          - { part: malformed 2/2, shard: "2/2" }
+          - { part: cli 1/2, shard: "1/2" }
+          - { part: cli 2/2, shard: "2/2" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -265,7 +267,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
-          key: ${{ matrix.shard == '' && 'oracle' || 'malformed' }}
+          key: ${{ matrix.shard == '' && 'oracle' || 'cli' }}
           save-if: ${{ github.event_name != 'pull_request' && matrix.shard != '2/2' }}
       - name: Restore the smoke corpus (downloaded once by corpus-fetch)
         id: corpus
@@ -281,16 +283,23 @@ jobs:
         if: matrix.shard == ''
         env:
           CORPUS_REPORT: ${{ github.workspace }}/target/corpus-report.md
-        run: cargo test --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast -- --skip malformed_matrix
-      - name: Build the CLI the malformed-file matrix runs
+        run: cargo test --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast -- --skip malformed_matrix --skip second_opinion_fields_agree
+      - name: Build the CLI the malformed-file matrix and the second-opinion fields run
         if: matrix.shard != ''
         run: cargo build --profile corpus -p openreadout
-      # Builds only this test binary, not the other fifty.
-      - name: Malformed-file matrix
+      # Builds only these two test binaries, not the other fifty. The second-opinion fields run
+      # in the first part, which has the other half of the malformed-file matrix.
+      - name: Malformed-file matrix and second-opinion fields
         if: matrix.shard != ''
         env:
           MALFORMED_SHARD: ${{ matrix.shard }}
-        run: cargo test --profile corpus -p openreadout-corpus-tests --features corpus --test malformed -- --nocapture
+          SHARD: ${{ matrix.shard }}
+        run: |
+          if [ "$SHARD" = 1/2 ] || [ -z "$SHARD" ]; then
+            cargo test --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast --test malformed --test second_fields
+          else
+            cargo test --profile corpus -p openreadout-corpus-tests --features corpus --no-fail-fast --test malformed
+          fi
       - name: Publish report
         if: always()
         run: cat target/corpus-report.md >> "$GITHUB_STEP_SUMMARY" || true
