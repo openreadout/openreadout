@@ -135,6 +135,7 @@ FAST5 1.0 (gzip), a FAST5 2.0 with VBZ and a one-read FAST5.
 | `FORMAT_ID` | Format id of FAST5 files |
 | `IpcFile` | An Arrow IPC file held in memory (or its footer only, for large tables read batch by batch) |
 | `IpcResult` | An error message (the caller adds the format and the table) |
+| `is_empty` | True when no row of a column was decoded |
 | `length` | Length |
 | `looks_like` | True when `head` starts with the POD5 signature |
 | `MAX_SAMPLES` | Largest decoded signal accepted from one compressed row or chunk (samples) |
@@ -170,6 +171,7 @@ FAST5 1.0 (gzip), a FAST5 2.0 with VBZ and a one-read FAST5.
 | `ReadMeta` | One read's metadata |
 | `reads` | Reads |
 | `rows` | Rows |
+| `row_count` | Rows of a table: what its record batches declare, capped at its longest decoded column |
 | `run` | Index of the read's run in the run list |
 | `run_name` | The run's acquisition id as the read names it |
 | `RunMeta` | One run (acquisition) |
