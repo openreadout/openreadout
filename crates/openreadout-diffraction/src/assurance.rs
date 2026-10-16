@@ -64,15 +64,27 @@ fn observe_smv(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED cbf (cargo xtask assurance-audit --write; do not edit)
-const CBF_CONFIDENCE: Confidence = Confidence::Low;
+const CBF_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const CBF_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "byte_offset", 4, 3, 4),
+    a::row(K::Dialect, "PILATUS_1.2", 4, 3, 4),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 4),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 4),
+    a::row(K::FormatVersion, "1.5", 4, 3, 4),
+    a::row(K::Instrument, "PILATUS 2M", 1, 1, 1),
+    a::row(K::Instrument, "PILATUS 6M Prosport+", 1, 1, 1),
+    a::row(K::Instrument, "PILATUS 6M-F", 2, 1, 2),
+    a::row(K::SampleLayout, "int32", 4, 3, 4),
 ];
 // END GENERATED cbf
 
 // BEGIN GENERATED smv (cargo xtask assurance-audit --write; do not edit)
-const SMV_CONFIDENCE: Confidence = Confidence::Low;
+const SMV_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const SMV_VALIDATED: &[Validated] = &[
+    a::row(K::Dialect, "beam centre ADSC (mm, X slow, Y fast)", 2, 2, 2),
+    a::row(K::Dialect, "beam centre pixels (fast, slow)", 1, 1, 1),
+    a::row(K::SampleLayout, "uint16", 3, 3, 3),
 ];
 // END GENERATED smv

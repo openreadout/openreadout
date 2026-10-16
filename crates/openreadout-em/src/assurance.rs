@@ -420,8 +420,12 @@ const EMD_VALIDATED: &[Validated] = &[
 // END GENERATED emd
 
 // BEGIN GENERATED mdoc (cargo xtask assurance-audit --write; do not edit)
-const MDOC_CONFIDENCE: Confidence = Confidence::Low;
+const MDOC_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const MDOC_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 4),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 2),
+    a::row(K::Layout, "sections FrameSet", 1, 1, 1),
+    a::row(K::Layout, "sections ZValue", 3, 3, 3),
 ];
 // END GENERATED mdoc

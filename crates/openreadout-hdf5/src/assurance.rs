@@ -288,8 +288,13 @@ const HDF5_VALIDATED: &[Validated] = &[
 // END GENERATED hdf5
 
 // BEGIN GENERATED nxmx (cargo xtask assurance-audit --write; do not edit)
-const NXMX_CONFIDENCE: Confidence = Confidence::Low;
+const NXMX_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const NXMX_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "hdf5 bitshuffle", 2, 1, 2),
+    a::row(K::FormatVersion, "NXmx", 3, 2, 3),
+    a::row(K::Instrument, "Eiger 16M", 3, 2, 3),
+    a::row(K::Layout, "data at /data", 2, 1, 2),
+    a::row(K::SampleLayout, "uint16", 2, 1, 3),
 ];
 // END GENERATED nxmx
