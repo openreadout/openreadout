@@ -4,7 +4,10 @@ all-features = true
 
 [advisories]
 version = 2
-yanked = "deny"
+# A yanked release is a warning: a pull request can't fix a release pulled upstream when the crate
+# that needs it has no newer one (zip 8.6.0, required by calamine 0.36, was yanked in Oct 2026).
+# Security problems still fail through the advisories above.
+yanked = "warn"
 ignore = [
     # `paste` (compile-time proc macro, no known vulnerability) is archived/unmaintained.
     # Only reachable through `zarrs` (OME-Zarr export); revisit when zarrs drops it.

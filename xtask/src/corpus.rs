@@ -392,7 +392,7 @@ fn download_checked(e: &Entry, dst: &Path) -> Result<String> {
     let sha = if e.zip_member.is_empty() {
         download(&e.url, dst).with_context(|| format!("download {}", e.id))?
     } else {
-        zipmember::fetch_member(&e.url, &e.zip_member, dst)
+        fetch_member_retrying(&e.url, &e.zip_member, dst)
             .with_context(|| format!("download {} from its archive", e.id))?;
         sha256_file(dst)?.0
     };
@@ -717,6 +717,28 @@ fn download(url: &str, dst: &Path) -> Result<String> {
                 last = Some(e);
                 // Hosts such as G-Node GIN answer 403 or 429 to a burst of requests. Waiting
                 // longer after each failure lets them recover instead of using up the attempts.
+                if attempt < ATTEMPTS {
+                    std::thread::sleep(std::time::Duration::from_secs(
+                        u64::from(attempt.min(10)) * 3,
+                    ));
+                }
+            }
+        }
+    }
+    Err(last.expect("at least one attempt"))
+}
+
+/// One member of a remote zip, retrying dropped connections the way `download` does (Zenodo
+/// sometimes resets them). Each attempt starts the member again.
+fn fetch_member_retrying(url: &str, member: &str, dst: &Path) -> Result<()> {
+    const ATTEMPTS: u32 = 10;
+    let mut last = None;
+    for attempt in 1..=ATTEMPTS {
+        match zipmember::fetch_member(url, member, dst) {
+            Ok(()) => return Ok(()),
+            Err(e) => {
+                eprintln!("  attempt {attempt}/{ATTEMPTS} of {member} failed: {e:#}");
+                last = Some(e);
                 if attempt < ATTEMPTS {
                     std::thread::sleep(std::time::Duration::from_secs(
                         u64::from(attempt.min(10)) * 3,
