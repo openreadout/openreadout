@@ -148,3 +148,4 @@ impl FormatReader for CziReader {
         true
     }
 }
+// Measurement only: a one-line change to a reader, to time CI.
