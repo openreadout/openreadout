@@ -132,7 +132,7 @@ impl std::fmt::Debug for NiftiDataset {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("NiftiDataset")
             .field("path", &self.path)
-            .finish()
+            .finish_non_exhaustive()
     }
 }
 
@@ -142,6 +142,7 @@ fn dim_u32(v: i64, name: &str) -> Result<u32> {
 }
 
 impl NiftiDataset {
+    #[allow(clippy::case_sensitive_file_extension_comparisons)]
     pub(crate) fn open(input: &Input) -> Result<Self> {
         let path = input.path().to_path_buf();
         let lower = path.to_string_lossy().to_ascii_lowercase();
@@ -282,6 +283,7 @@ impl NiftiDataset {
     }
 
     /// stored × slope + intercept: the slope when it applies.
+    #[allow(clippy::float_cmp)]
     fn scaling(&self) -> Option<(f64, f64)> {
         let (_, ty, spp) = self.stored;
         if spp > 1 || ty.is_complex() {
@@ -328,6 +330,7 @@ impl NiftiDataset {
         }
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn image_info(&self) -> ImageInfo {
         let h = &self.hdr;
         let (nx, ny, nz, nt, nc) = self.dims;
@@ -390,7 +393,15 @@ impl NiftiDataset {
                 json!([{"center": num(f64::midpoint(h.cal_min, h.cal_max)), "width": num(h.cal_max - h.cal_min), "name": "cal_min/cal_max"}]),
             );
         }
-        if h.kind != Kind::Analyze {
+        if h.kind == Kind::Analyze {
+            ex.insert("analyze_orient".into(), Value::from(h.orient));
+            if h.analyze_patient_id {
+                ex.insert(
+                    "personal_data".into(),
+                    json!([{"field": "patient_id (Analyze header byte 283)", "kind": "patient_id"}]),
+                );
+            }
+        } else {
             let (m, from) = h.affine();
             ex.insert(
                 "affine".into(),
@@ -444,14 +455,6 @@ impl NiftiDataset {
             }
             if h.toffset != 0.0 {
                 ex.insert("toffset".into(), num(h.toffset));
-            }
-        } else {
-            ex.insert("analyze_orient".into(), Value::from(h.orient));
-            if h.analyze_patient_id {
-                ex.insert(
-                    "personal_data".into(),
-                    json!([{"field": "patient_id (Analyze header byte 283)", "kind": "patient_id"}]),
-                );
             }
         }
         if !h.aux_file.is_empty() {
@@ -737,6 +740,7 @@ impl Dataset for NiftiDataset {
         Ok(out)
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn read_plane(&mut self, image: u32, index: PlaneIndex) -> Result<Plane> {
         if image != 0 {
             return Err(Error::Usage(format!(
@@ -837,7 +841,7 @@ impl Dataset for NiftiDataset {
                 .at(108),
             );
         }
-        if h.kind == Kind::Nifti1 && h.single && (h.vox_offset as u64) % 16 != 0 {
+        if h.kind == Kind::Nifti1 && h.single && !(h.vox_offset as u64).is_multiple_of(16) {
             r.push(Finding::info(
                 "vox_offset_alignment",
                 format!(

@@ -230,6 +230,7 @@ impl Recon {
         self.core.iter().map(|&v| u64::from(v)).product()
     }
 
+    #[allow(clippy::float_cmp)]
     fn scaled(&self) -> bool {
         self.slopes.iter().any(|s| *s != 1.0) || self.offsets.iter().any(|o| *o != 0.0)
     }
@@ -243,6 +244,7 @@ impl Recon {
     }
 
     /// The frame index of (z, t, c) (z only for 2-D cores), first group fastest.
+    #[allow(clippy::many_single_char_names)]
     fn frame_of(&self, z: u32, t: u32, c: u32) -> u64 {
         let mut stride = vec![1u64; self.groups.len()];
         for i in 1..self.groups.len() {
@@ -407,7 +409,7 @@ impl Recon {
         }
         if let Some(units) = v
             .get("VisuCoreDataUnits")
-            .map(|p| p.texts())
+            .map(super::params::Param::texts)
             .filter(|u| !u.is_empty() && u.iter().any(|s| !s.is_empty()))
         {
             ex.insert("value_unit".into(), Value::from(units[0].clone()));
@@ -463,7 +465,7 @@ impl Recon {
             let comments = self
                 .visu
                 .get("VisuFGElemComment")
-                .map(|p| p.texts())
+                .map(super::params::Param::texts)
                 .unwrap_or_default();
             let n = self.groups[g].count as usize;
             if comments.len() >= start + n {
@@ -478,6 +480,7 @@ impl Recon {
         Vec::new()
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn image_info(&self, index: u32) -> ImageInfo {
         let x = self.core[0];
         let y = self.core.get(1).copied().unwrap_or(1);
@@ -491,7 +494,7 @@ impl Recon {
         let extent = v.numbers("VisuCoreExtent");
         let units = v
             .get("VisuCoreUnits")
-            .map(|p| p.texts())
+            .map(super::params::Param::texts)
             .unwrap_or_default();
         let to_um = |i: usize| -> Option<f64> {
             let e = *extent.get(i)?;

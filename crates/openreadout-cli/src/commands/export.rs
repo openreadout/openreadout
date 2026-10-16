@@ -540,10 +540,10 @@ fn render_export(r: &ExportOutput) -> String {
             r.planes_written,
             r.bytes_written,
             r.verified,
-            r.notes
-                .iter()
-                .map(|n| format!("\n  note: {n}"))
-                .collect::<String>()
+            r.notes.iter().fold(String::new(), |mut s, n| {
+                let _ = std::fmt::Write::write_fmt(&mut s, format_args!("\n  note: {n}"));
+                s
+            })
         ),
         ExportOutput::Rdml(r) => format!(
             "wrote {} (RDML {}: {} run(s), {} reactions, {} data elements, {} Cq values, {} amplification and {} melt points; {} bytes, verified={}){}",

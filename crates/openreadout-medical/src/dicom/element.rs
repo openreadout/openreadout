@@ -16,6 +16,7 @@ fn trim(s: &str) -> &str {
 }
 
 /// True for VRs whose value is text.
+#[allow(clippy::trivially_copy_pass_by_ref)]
 pub(crate) fn is_text_vr(vr: &[u8; 2]) -> bool {
     matches!(
         vr,
@@ -153,7 +154,9 @@ impl Element {
         let Some(b) = self.bytes() else {
             return Vec::new();
         };
-        b.chunks_exact(4)
+        b.as_chunks::<4>()
+            .0
+            .iter()
             .map(|c| {
                 let (g, e) = if self.little {
                     (
@@ -208,7 +211,7 @@ impl Lookup for Vec<Element> {
         self.iter().find(|e| e.tag == tag)
     }
     fn items(&self, tag: u32) -> &[Item] {
-        self.get(tag).map(Element::items).unwrap_or(&[])
+        self.get(tag).map_or(&[], Element::items)
     }
 }
 

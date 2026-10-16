@@ -654,6 +654,7 @@ pub(crate) fn guess_raw(head: &[u8]) -> Option<Encoding> {
     None
 }
 
+#[allow(clippy::trivially_copy_pass_by_ref)]
 fn dictionary_vr_known(vr: &[u8; 2]) -> bool {
     matches!(
         vr,
@@ -764,6 +765,7 @@ pub(crate) fn inflate(data: &[u8], limit: usize) -> Result<Vec<u8>> {
 mod tests {
     use super::*;
 
+    #[allow(clippy::trivially_copy_pass_by_ref)]
     fn el(tag: u32, vr: &[u8; 2], v: &[u8]) -> Vec<u8> {
         let mut b = Vec::new();
         b.extend_from_slice(&((tag >> 16) as u16).to_le_bytes());

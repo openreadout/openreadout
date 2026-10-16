@@ -28,9 +28,7 @@ pub(crate) fn profile(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Resul
                 info.images.len()
             ))
         })?;
-    let sel = openreadout_core::select::Selection::parse(
-        &spec.select.iter().cloned().collect::<Vec<_>>(),
-    )?;
+    let sel = openreadout_core::select::Selection::parse(&spec.select)?;
     let c = spec.channel.or(sel.c.first().copied()).unwrap_or(0);
     let z = sel.z.first().copied().unwrap_or(im.size_z / 2);
     let t = sel.t.first().copied().unwrap_or(0);

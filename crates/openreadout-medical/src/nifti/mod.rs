@@ -78,6 +78,7 @@ impl FormatReader for NiftiReader {
         self.sniff_input(head, &Input::local(path))
     }
 
+    #[allow(clippy::case_sensitive_file_extension_comparisons)]
     fn sniff_input(&self, head: &[u8], input: &Input) -> Option<Detection> {
         let det = |confidence, note: Option<&str>| {
             Some(Detection {

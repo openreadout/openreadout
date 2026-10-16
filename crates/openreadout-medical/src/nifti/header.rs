@@ -340,6 +340,7 @@ impl Header {
 
     /// The voxel-to-world affine (RAS+, mm): the sform when its code is set, else the qform
     /// (quaternion), else pixdim scaling (method 1 of `nifti1.h`).
+    #[allow(clippy::many_single_char_names)]
     pub(crate) fn affine(&self) -> ([[f64; 4]; 3], &'static str) {
         if self.sform_code > 0 {
             return (self.srow, "sform");

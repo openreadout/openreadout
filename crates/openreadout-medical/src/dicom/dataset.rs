@@ -32,7 +32,7 @@ use crate::util::{lps_letter, num, plane_of_normal};
 const MAX_FILES: usize = 200_000;
 
 enum Img {
-    Planes(ImagePlan),
+    Planes(Box<ImagePlan>),
     Slide(Slide),
 }
 
@@ -61,7 +61,7 @@ impl std::fmt::Debug for DicomDataset {
             .field("path", &self.path)
             .field("files", &self.files.len())
             .field("images", &self.images.len())
-            .finish()
+            .finish_non_exhaustive()
     }
 }
 
@@ -91,12 +91,11 @@ fn dicomdir_files(fs: &Fs, dicomdir: &DicomFile) -> (Vec<PathBuf>, Vec<PathBuf>)
         let mut p = base.clone();
         let mut ok = true;
         for part in &parts {
-            match fs.find_in_dir(&p, part) {
-                Some(q) => p = q,
-                None => {
-                    p = p.join(part);
-                    ok = false;
-                }
+            if let Some(q) = fs.find_in_dir(&p, part) {
+                p = q;
+            } else {
+                p = p.join(part);
+                ok = false;
             }
         }
         if found.contains(&p) || missing.contains(&p) {
@@ -322,7 +321,7 @@ impl DicomDataset {
             for fr in p.planes.iter_mut().flatten() {
                 fr.file = rest_index[fr.file];
             }
-            images.push(Img::Planes(p));
+            images.push(Img::Planes(Box::new(p)));
         }
         if !missing.is_empty() {
             notes.push(format!(
@@ -551,6 +550,7 @@ impl DicomDataset {
         }
     }
 
+    #[allow(clippy::float_cmp)]
     fn planes_info(&self, index: usize, p: &ImagePlan) -> ImageInfo {
         let (ty, spp) = self.plane_type(index);
         let mut im = ImageInfo::new(index as u32, p.desc.cols, p.desc.rows, ty);
@@ -695,7 +695,7 @@ impl DicomDataset {
         let widths = ds.numbers(t::WINDOW_WIDTH);
         let names = ds
             .get(t::WINDOW_CENTER_WIDTH_EXPLANATION)
-            .map(|e| e.strings())
+            .map(super::parse::Element::strings)
             .unwrap_or_default();
         for (i, (c, w)) in centres.iter().zip(&widths).enumerate() {
             if *w > 0.0 {
@@ -1195,6 +1195,7 @@ impl Dataset for DicomDataset {
         openreadout_core::region::crop(plane, region, &format!("image {image} level {level}"))
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn stored_areas(
         &mut self,
         image: u32,

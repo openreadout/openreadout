@@ -144,7 +144,7 @@ impl FormatReader for ParavisionReader {
         let any_visu = r
             .iter()
             .any(|r| input.fs().is_file(&r.proc_dir.join("visu_pars")));
-        any_visu.then(|| Detection {
+        any_visu.then_some(Detection {
             format_id: FORMAT_ID,
             confidence: DetectConfidence::Definite,
             note: None,

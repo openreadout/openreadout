@@ -56,6 +56,7 @@ impl Modality {
 }
 
 /// The transform for a slope and intercept (absent ones are 1 and 0).
+#[allow(clippy::float_cmp)]
 pub(crate) fn linear(slope: Option<f64>, intercept: Option<f64>) -> Modality {
     let slope = slope.filter(|s| s.is_finite() && *s != 0.0).unwrap_or(1.0);
     let intercept = intercept.filter(|i| i.is_finite()).unwrap_or(0.0);
@@ -85,7 +86,9 @@ fn words(data: &[u8], entries: usize, little: bool) -> Vec<u16> {
     if data.len() == entries {
         return data.iter().map(|&b| u16::from(b)).collect();
     }
-    data.chunks_exact(2)
+    data.as_chunks::<2>()
+        .0
+        .iter()
         .take(entries)
         .map(|c| {
             if little {
@@ -179,7 +182,7 @@ pub(crate) fn apply(d: &Decoded, m: &Modality, out: PixelType) -> Vec<u8> {
             PixelType::Int16 => v.extend((y.clamp(-32768.0, 32767.0) as i16).to_le_bytes()),
             PixelType::Uint32 => v.extend((y.clamp(0.0, f64::from(u32::MAX)) as u32).to_le_bytes()),
             PixelType::Int32 => {
-                v.extend((y.clamp(f64::from(i32::MIN), f64::from(i32::MAX)) as i32).to_le_bytes())
+                v.extend((y.clamp(f64::from(i32::MIN), f64::from(i32::MAX)) as i32).to_le_bytes());
             }
             PixelType::Double => v.extend(y.to_le_bytes()),
             _ => v.extend((y as f32).to_le_bytes()),

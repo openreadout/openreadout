@@ -276,6 +276,7 @@ pub(crate) fn plan(files: &[(DicomFile, PixelDesc)]) -> Vec<ImagePlan> {
 }
 
 /// Order the frames of one group in Z and T.
+#[allow(clippy::many_single_char_names)]
 fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> ImagePlan {
     let first_file = frames.first().map_or(0, |f| f.file);
     let (file0, desc0) = &files[first_file];
@@ -376,7 +377,7 @@ fn arrange(files: &[(DicomFile, PixelDesc)], mut frames: Vec<FrameRec>) -> Image
         let ds = &file0.ds;
         let pointer = ds
             .get(t::FRAME_INCREMENT_POINTER)
-            .map(|e| e.tags())
+            .map(super::parse::Element::tags)
             .unwrap_or_default();
         let modality = ds.text(t::MODALITY).unwrap_or_default();
         let temporal = pointer

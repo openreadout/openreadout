@@ -109,6 +109,7 @@ fn f3(v: Option<&Value>) -> Option<[f64; 3]> {
 }
 
 /// The voxel-to-RAS affine of `im` (mm) and where it came from.
+#[allow(clippy::needless_range_loop)]
 fn affine(im: &ImageInfo, dx: f64, dy: f64, dz: f64) -> Option<([[f64; 4]; 3], &'static str)> {
     if let Some(rows) = im.extra.get("affine").and_then(Value::as_array)
         && rows.len() >= 3
@@ -141,11 +142,12 @@ fn affine(im: &ImageInfo, dx: f64, dy: f64, dz: f64) -> Option<([[f64; 4]; 3], &
 
 /// A quaternion representation (b, c, d, qfac) of the rotation part of `m` (columns scaled by
 /// `d`), following the method of `nifti1.h`.
+#[allow(clippy::many_single_char_names)]
 fn quaternion(m: &[[f64; 4]; 3], d: [f64; 3]) -> ([f64; 3], f64) {
     let mut r = [[0.0; 3]; 3];
     for i in 0..3 {
         for j in 0..3 {
-            r[i][j] = if d[j] != 0.0 { m[i][j] / d[j] } else { 0.0 };
+            r[i][j] = if d[j] == 0.0 { 0.0 } else { m[i][j] / d[j] };
         }
     }
     let det = r[0][0] * (r[1][1] * r[2][2] - r[1][2] * r[2][1])

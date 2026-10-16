@@ -53,7 +53,7 @@ pub(crate) struct Slide {
 /// Value 3 of Image Type for WSI instances: VOLUME, LABEL, OVERVIEW or THUMBNAIL.
 pub(crate) fn flavour(f: &DicomFile) -> String {
     f.ds.get(t::IMAGE_TYPE)
-        .map(|e| e.strings())
+        .map(super::parse::Element::strings)
         .and_then(|v| v.get(2).cloned())
         .unwrap_or_else(|| "VOLUME".into())
         .to_ascii_uppercase()
@@ -163,21 +163,20 @@ pub(crate) fn slides(files: &[(DicomFile, PixelDesc)], wsi: &[usize]) -> Vec<Sli
                     .unwrap_or(desc.cols);
             let h = f.ds.uint(t::TOTAL_PIXEL_MATRIX_ROWS).unwrap_or(desc.rows);
             let pos = levels.iter().position(|l| (l.width, l.height) == (w, h));
-            let li = match pos {
-                Some(p) => p,
-                None => {
-                    levels.push(Level {
-                        width: w,
-                        height: h,
-                        tile_w: desc.cols,
-                        tile_h: desc.rows,
-                        tiles: HashMap::new(),
-                        spacing: spacing_of(f),
-                        files: Vec::new(),
-                        organization: String::new(),
-                    });
-                    levels.len() - 1
-                }
+            let li = if let Some(p) = pos {
+                p
+            } else {
+                levels.push(Level {
+                    width: w,
+                    height: h,
+                    tile_w: desc.cols,
+                    tile_h: desc.rows,
+                    tiles: HashMap::new(),
+                    spacing: spacing_of(f),
+                    files: Vec::new(),
+                    organization: String::new(),
+                });
+                levels.len() - 1
             };
             let level = &mut levels[li];
             if (level.tile_w, level.tile_h) != (desc.cols, desc.rows) {

@@ -237,7 +237,7 @@ impl FrameTable {
         if let Some(r) = eot.as_deref().and_then(by_offsets) {
             table.frames = r;
         } else if n == 1 {
-            table.frames = vec![0..f.len()];
+            table.frames = std::iter::once(0..f.len()).collect();
         } else if f.len() == n {
             table.frames = (0..n).map(|i| i..i + 1).collect();
         } else if let Some(r) = by_offsets(
@@ -341,11 +341,11 @@ pub(crate) fn decode_frame(
             let even = (swap && nbytes % 2 == 1 && start + nbytes < avail) as u64;
             let mut b = file.src.read(start, nbytes + even)?;
             if swap {
-                for c in b.chunks_exact_mut(2) {
+                for c in b.as_chunks_mut::<2>().0 {
                     c.swap(0, 1);
                 }
             }
-            native(&b, desc, (start_bit % 8) as u32, file.syntax.little)?
+            native(&b, desc, (start_bit % 8) as u32, file.syntax.little)
         }
         PixelLoc::Encapsulated { .. } => {
             if table.is_none() {
@@ -383,15 +383,15 @@ pub(crate) fn decode_frame(
 
 /// Native samples (PS3.5 §8.1): byte-swapped from big endian, 1-bit samples unpacked
 /// (least significant bit first), colour-by-plane interleaved.
-fn native(b: &[u8], desc: &PixelDesc, bit0: u32, little: bool) -> Result<Decoded> {
+fn native(b: &[u8], desc: &PixelDesc, bit0: u32, little: bool) -> Decoded {
     let ty = desc.stored_type();
     let n = desc.rows as usize * desc.cols as usize * desc.spp as usize;
     if desc.is_native_422() {
-        return Ok(Decoded {
+        return Decoded {
             data: expand_422(b, n / 3),
             spp: 3,
             pixel_type: ty,
-        });
+        };
     }
     let mut data = if desc.bits_allocated == 1 {
         (0..n)
@@ -412,11 +412,11 @@ fn native(b: &[u8], desc: &PixelDesc, bit0: u32, little: bool) -> Result<Decoded
     if desc.spp == 3 && desc.planar == 1 {
         data = interleave(&data, n / 3, w);
     }
-    Ok(Decoded {
+    Decoded {
         data,
         spp: desc.spp,
         pixel_type: ty,
-    })
+    }
 }
 
 /// RRR…GGG…BBB… → RGBRGB… for `px` pixels of `w`-byte samples.
@@ -456,7 +456,7 @@ fn compressed(
     let limit = want.saturating_mul(2).max(1 << 16);
     let raster = match compression {
         Compression::EncapsulatedNative => {
-            return native(bytes, desc, 0, true);
+            return Ok(native(bytes, desc, 0, true));
         }
         Compression::Rle => return rle(bytes, desc),
         Compression::DeflateFrame => {
@@ -464,7 +464,7 @@ fn compressed(
             let raw = miniz_oxide::inflate::decompress_to_vec_with_limit(bytes, need.saturating_add(1))
                 .or_else(|_| miniz_oxide::inflate::decompress_to_vec_zlib_with_limit(bytes, need.saturating_add(1)))
                 .map_err(|e| Error::corrupt(FORMAT_ID, format!("deflated frame does not inflate ({:?})", e.status)))?;
-            return native(&raw, desc, 0, true);
+            return Ok(native(&raw, desc, 0, true));
         }
         Compression::Jpeg => jpeg(bytes, desc, limit),
         Compression::JpegLs => openreadout_codecs::jpegls_decode_limited(bytes, limit),
@@ -669,6 +669,7 @@ fn fix_unused_bits(d: &mut Decoded, desc: &PixelDesc) {
 
 /// YBR_FULL and YBR_FULL_422 frames of native and RLE pixel data to R, G, B (PS3.3
 /// C.7.6.3.1.2, full-range ITU-R BT.601); the JPEG and JPEG 2000 decoders convert their own.
+#[allow(clippy::many_single_char_names)]
 fn to_rgb(d: &mut Decoded, desc: &PixelDesc) {
     if d.spp != 3 || d.pixel_type != PixelType::Uint8 {
         return;
@@ -676,7 +677,7 @@ fn to_rgb(d: &mut Decoded, desc: &PixelDesc) {
     if !matches!(desc.photometric.as_str(), "YBR_FULL" | "YBR_FULL_422") {
         return;
     }
-    for px in d.data.chunks_exact_mut(3) {
+    for px in d.data.as_chunks_mut::<3>().0 {
         let (y, cb, cr) = (
             f64::from(px[0]),
             f64::from(px[1]) - 128.0,

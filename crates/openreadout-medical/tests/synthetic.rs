@@ -9,6 +9,7 @@ use openreadout_medical::{
 
 // ---------------------------------------------------------------------------------------- DICOM
 
+#[allow(clippy::trivially_copy_pass_by_ref)] // reads like the bytes it writes: `el(tag, b"DS", ...)`
 fn el(tag: u32, vr: &[u8; 2], v: &[u8]) -> Vec<u8> {
     let mut b = Vec::new();
     b.extend_from_slice(&((tag >> 16) as u16).to_le_bytes());
@@ -96,7 +97,9 @@ fn a_folder_of_slices_is_one_volume_in_hounsfield_units() {
     let p = ds.read_plane(0, PlaneIndex { c: 0, z: 0, t: 0 }).unwrap();
     let v: Vec<i16> = p
         .data
-        .chunks_exact(2)
+        .as_chunks::<2>()
+        .0
+        .iter()
         .map(|c| i16::from_le_bytes([c[0], c[1]]))
         .collect();
     assert_eq!(v[0], 1000 - 1024);
@@ -205,7 +208,9 @@ fn nifti_planes_scaling_and_byte_order() {
     let p = ds.read_plane(0, PlaneIndex { c: 0, z: 1, t: 1 }).unwrap();
     let v: Vec<f32> = p
         .data
-        .chunks_exact(4)
+        .as_chunks::<4>()
+        .0
+        .iter()
         .map(|c| f32::from_le_bytes([c[0], c[1], c[2], c[3]]))
         .collect();
     // plane index z + nz * t = 3 → values 18..24, times 0.5
@@ -298,7 +303,7 @@ fn paravision_frame_groups_become_z_and_channels() {
     // 6 frames of 2 x 3: frame f holds the value f everywhere
     let data: Vec<u8> = (0..6i16)
         .flat_map(|f| std::iter::repeat_n(f, 6))
-        .flat_map(|v| v.to_le_bytes())
+        .flat_map(i16::to_le_bytes)
         .collect();
     std::fs::write(e.join("pdata/1/2dseq"), data).unwrap();
     assert!(ParavisionReader.sniff(&[], &e).is_some());

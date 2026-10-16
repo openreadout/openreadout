@@ -59,7 +59,7 @@ fn sniff_dir(fs: &Fs, dir: &Path) -> Option<DetectConfidence> {
     while let Some((d, depth)) = stack.pop() {
         let Ok(rd) = fs.read_dir(&d) else { continue };
         let mut entries: Vec<_> = rd.filter_map(std::result::Result::ok).collect();
-        entries.sort_by_key(|e| e.file_name());
+        entries.sort_by_key(openreadout_core::source::DirEntry::file_name);
         for e in entries {
             let p = e.path();
             let name = e.file_name().to_string_lossy().to_string();
@@ -183,7 +183,7 @@ pub(crate) fn dicom_files_in(fs: &Fs, dir: &Path, max: usize) -> Vec<PathBuf> {
     while let Some((d, depth)) = stack.pop() {
         let Ok(rd) = fs.read_dir(&d) else { continue };
         let mut entries: Vec<_> = rd.filter_map(std::result::Result::ok).collect();
-        entries.sort_by_key(|e| e.file_name());
+        entries.sort_by_key(openreadout_core::source::DirEntry::file_name);
         let mut subdirs = Vec::new();
         for e in entries {
             let p = e.path();
