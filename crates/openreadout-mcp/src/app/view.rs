@@ -779,12 +779,19 @@ fn image(
     if let Some(z) = a.z.filter(|_| !a.mip) {
         select.push(format!("z={z}"));
     }
-    if let Some(t) = a.t.filter(|_| !a.sum_t) {
+    // An electron-event movie's single frames are a few scattered counts: it opens summed.
+    let event_movie = info
+        .images
+        .iter()
+        .find(|im| im.index == a.image.unwrap_or(0))
+        .is_some_and(|im| im.extra.contains_key("eer"));
+    let sum_t = a.sum_t || (event_movie && a.t.is_none());
+    if let Some(t) = a.t.filter(|_| !sum_t) {
         select.push(format!("t={t}"));
     }
     req.select = select;
     req.mip = a.mip.then_some(pv::Axis::Z);
-    req.sum = a.sum_t.then_some(pv::Axis::T);
+    req.sum = sum_t.then_some(pv::Axis::T);
     req.level = a.level;
     req.region = a.region;
     req.max_size = a

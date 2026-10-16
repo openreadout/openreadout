@@ -1259,7 +1259,7 @@ function main() {
       if ((info.size_t || 1) > 1) {
         const summed = im.projection === "sum-t";
         if (!summed) add(slider("T", info.size_t - 1, im.t[0] || 0, (v) => reloadPlane({ t: v })));
-        const sum = el("input", { type: "checkbox", checked: summed, on: { change: () => reloadPlane({ sum_t: sum.checked || undefined }) } });
+        const sum = el("input", { type: "checkbox", checked: summed, on: { change: () => reloadPlane(sum.checked ? { sum_t: true, t: undefined } : { sum_t: undefined, t: 0 }) } });
         add(el("label", {}, sum, "Sum frames"));
       }
       add(select("Contrast", [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["log", "Log"], ["raw", "Full range"]],
