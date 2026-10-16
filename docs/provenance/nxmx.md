@@ -15,3 +15,5 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Observed:** the link name, length and NUL-terminated file and object path in the master's bytes (`data_000001`, length 27, `Therm_6_1_000001.h5`, `/data`); `/data` of the data file is (3, 4362, 4148) uint16, one image per chunk, filter 32008 with client data (0, 3, 2, 0, 2); 1 253 320 pixels of every image hold 65535; `image_nr_low` 1 and `image_nr_high` 3.
 
 **Inferred:** that the goniometer axis whose values change from image to image is the scan axis; the name patterns of data files and masters.
+
+**Fuzzing (2026-10-15):** `nxmx_links` found a panic on a link value of one byte, and `codec_bitshuffle` one on a declared size that is not a whole number of elements and an allocation of a declared size far beyond what the chunk can hold; all are now skipped or refused, with unit tests.

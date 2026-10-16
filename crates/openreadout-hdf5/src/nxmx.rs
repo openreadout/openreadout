@@ -218,7 +218,7 @@ pub fn external_data_links(bytes: &[u8]) -> Vec<(String, String, String)> {
         let Some(value) = bytes.get(name_end + 2..name_end + 2 + len) else {
             continue;
         };
-        if value.first() != Some(&0) || value.last() != Some(&0) {
+        if value.len() < 3 || value.first() != Some(&0) || value.last() != Some(&0) {
             continue;
         }
         let body = &value[1..value.len() - 1];
@@ -951,6 +951,13 @@ mod tests {
             l,
             vec![("data_000001".into(), "Therm_6_1_000001.h5".into(), "/data".into())]
         );
+    }
+
+    #[test]
+    fn a_one_byte_link_value_is_skipped() {
+        // fuzz finding: a link value of one NUL byte
+        let b = b"\0\0\0\0\0data_000001\x01\0\0\0\0\0\0\x17_6_a\0";
+        assert!(external_data_links(b).is_empty());
     }
 
     #[test]

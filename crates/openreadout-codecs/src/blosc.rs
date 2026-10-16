@@ -310,6 +310,13 @@ pub fn bitshuffle_decode(
     if total > MAX_DECODED || (expected != 0 && total != expected) {
         return Err(e("declared size does not match the chunk"));
     }
+    // LZ4 expands at most about 255 times: a larger declared size is not this chunk's.
+    if compression == 2 && total > src.len().saturating_mul(256).saturating_add(64) {
+        return Err(e("declared size is larger than the chunk can hold"));
+    }
+    if !total.is_multiple_of(elem_size) {
+        return Err(e("decoded size is not a whole number of elements"));
+    }
     let n = total / elem_size;
     // The library's default block: 8 KiB of elements, a multiple of 8, at least 128.
     let block_n = if block_bytes == 0 {
@@ -740,6 +747,8 @@ mod tests {
         assert!(bitshuffle_decode(&c[..c.len() - 1], 2, 2, 0, 42).is_err());
         assert!(bitshuffle_decode(&c, 2, 2, 0, 40).is_err());
         assert!(bitshuffle_decode(&c, 2, 3, 0, 42).is_err());
+        // fuzz finding: a declared size that is not a whole number of elements
+        assert!(bitshuffle_decode(&c, 4, 2, 0, 42).is_err());
         // uncompressed: the shuffled data itself
         let raw = shuffle_u16(&vals[..16]);
         let out = bitshuffle_decode(&raw, 2, 0, 16, 32).unwrap();
