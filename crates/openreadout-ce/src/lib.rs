@@ -42,6 +42,7 @@
 mod abif;
 mod assurance;
 mod build;
+mod fragment;
 pub mod ladders;
 pub mod sizing;
 

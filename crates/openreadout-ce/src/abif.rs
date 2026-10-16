@@ -19,7 +19,7 @@ const MAX_ENTRIES: usize = 100_000;
 pub(crate) fn looks_like(head: &[u8]) -> bool {
     head.len() >= 6
         && head.starts_with(b"ABIF")
-        && u16::from_be_bytes([head[4], head[5]]) / 100 == 1
+        && (u16::from_be_bytes([head[4], head[5]]) / 100).wrapping_sub(1) < 3
 }
 
 /// One tagged item.
@@ -287,11 +287,11 @@ pub(crate) fn parse(b: &[u8]) -> Result<Abif> {
         ));
     }
     let version = u16::from_be_bytes([b[4], b[5]]);
-    if version / 100 != 1 {
+    if !(1..=3).contains(&(version / 100)) {
         return Err(Error::unsupported(
             FORMAT_ID,
             format!("ABIF major version {}", version / 100),
-            "Only ABIF version 1.xx files (every Applied Biosystems instrument since 1998) are read.",
+            "ABIF versions 1.xx to 3.xx are read (every Applied Biosystems instrument from the 310 to the 3500 and SeqStudio).",
         ));
     }
     let bad =
@@ -496,7 +496,7 @@ mod tests {
         assert!(parse(b"ABIF").is_err());
         assert!(parse(b"NOPE and more bytes than the header needs").is_err());
         let mut v2 = f.clone();
-        v2[4..6].copy_from_slice(&201u16.to_be_bytes());
+        v2[4..6].copy_from_slice(&401u16.to_be_bytes());
         assert!(matches!(parse(&v2), Err(Error::Unsupported { .. })));
         // the directory points past the end
         let cut = &f[..f.len() - 4];

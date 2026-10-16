@@ -14,8 +14,7 @@ use openreadout_core::series::{
 use serde_json::{Value, json};
 
 use crate::abif::{Abif, Item};
-use crate::ladders::{self, Ladder};
-use crate::sizing::{self, Sizing};
+use crate::fragment::{self, FragmentSizing, SizedBy};
 
 /// Most dye channels a file may hold (DATA 1–4 and 105–199).
 const MAX_DYES: i32 = 99;
@@ -41,14 +40,14 @@ impl RunKind {
 /// One dye channel: its stored number, the dye's name and wavelength, and the base it reports
 /// (sequencing).
 #[derive(Debug, Clone)]
-struct Dye {
+pub(crate) struct Dye {
     /// 1-based dye number (DATA 1–4 raw, 105+ for the fifth and later).
-    number: i32,
-    name: Option<String>,
-    wavelength_nm: Option<f64>,
-    base: Option<char>,
+    pub(crate) number: i32,
+    pub(crate) name: Option<String>,
+    pub(crate) wavelength_nm: Option<f64>,
+    pub(crate) base: Option<char>,
     /// `DyeB` is `S`: the size-standard dye.
-    standard: bool,
+    pub(crate) standard: bool,
 }
 
 /// The raw-data tag number of dye `k` (1-based) and its analysed counterpart.
@@ -268,62 +267,6 @@ fn mean(v: &[f64]) -> Option<f64> {
     (!f.is_empty()).then(|| f.iter().sum::<f64>() / f.len() as f64)
 }
 
-/// The size standard of a fragment run: the dye marked `S`, else the dye named LIZ, ROX or
-/// similar, else the last dye; the ladder named by `StdF`, else the best fit among the ladders
-/// of that dye.
-fn size_run(
-    a: &Abif,
-    dyes: &[Dye],
-    raw: &(Vec<SeriesChannel>, Vec<Vec<f64>>),
-    notes: &mut Vec<String>,
-) -> Option<(usize, Sizing, &'static str)> {
-    let names: Vec<String> = dyes
-        .iter()
-        .map(|d| d.name.clone().unwrap_or_default().to_ascii_uppercase())
-        .collect();
-    let k = dyes
-        .iter()
-        .position(|d| d.standard)
-        .or_else(|| {
-            names
-                .iter()
-                .position(|n| n.contains("LIZ") || n.contains("ROX") || n.contains("ORANGE"))
-        })
-        .or_else(|| dyes.len().checked_sub(1))?;
-    let dye = &dyes[k];
-    let col = raw
-        .0
-        .iter()
-        .position(|c| c.extra.get("dye_number") == Some(&json!(dye.number)))?;
-    let y = &raw.1[col];
-    let nz = sizing::noise(y);
-    let peaks = sizing::find_peaks(y, (8.0 * nz).max(30.0), 3);
-    let named = a
-        .text("StdF", 1)
-        .and_then(|t| ladders::named(&t).map(|l| (l, t)));
-    let (sizing, how) = if let Some((l, t)) = named {
-        let s = sizing::size_with(l, &peaks);
-        if s.is_none() {
-            notes.push(format!(
-                "the size standard the file names ({t}) did not match the peaks of dye {}; fragments are not sized",
-                dye.name.as_deref().unwrap_or("?")
-            ));
-        }
-        (s?, "named in the file")
-    } else {
-        let candidates: Vec<&'static Ladder> = ladders::for_dye(&names[k]);
-        let s = sizing::best_of(&candidates, &peaks);
-        if s.is_none() {
-            notes.push(format!(
-                "no size standard matched the peaks of dye {} (the file names none); fragments are not sized",
-                dye.name.as_deref().unwrap_or("?")
-            ));
-        }
-        (s?, "best fit (the file names no size standard)")
-    };
-    Some((col, sizing, how))
-}
-
 /// Build the model of a parsed file.
 pub(crate) fn build(a: &Abif) -> SeriesFile {
     let mut findings = a.findings.clone();
@@ -343,52 +286,69 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
     provenance.insert("traces".into(), Source::Spec);
     provenance.insert("tables".into(), Source::Spec);
 
-    // fragment analysis: the sized trace first
-    let mut sizing_facts: Option<(Sizing, &'static str, String)> = None;
+    // fragment analysis: the sized trace first, from the analysed channels when the file has
+    // them (what the instrument software shows), else the raw ones
+    let mut sized: Option<FragmentSizing> = None;
     if kind == RunKind::Fragment
-        && let Some(r) = &raw
-        && let Some((col, s, how)) = size_run(a, &dyes, r, &mut notes)
-        && let Some((lo, hi)) = s.range()
+        && let Some((set_name, (chs, vals))) = analysed
+            .as_ref()
+            .map(|s| ("analyzed", s))
+            .or_else(|| raw.as_ref().map(|s| ("raw", s)))
+        && let Some(fs) = fragment::size_run(a, &dyes, chs, vals, &mut notes)
     {
-        let first = lo.ceil().max(0.0) as usize;
-        let last = (hi.floor() as usize).min(r.1[0].len().saturating_sub(1));
-        if last > first {
-            let sizes: Vec<f64> = (first..=last)
-                .map(|i| s.size_at(i as f64).unwrap_or(f64::NAN))
-                .collect();
-            // a sized axis must rise; Local Southern rises between matched fragments
-            let rising = sizes.windows(2).all(|w| w[1] > w[0]);
-            if rising {
-                let mut channels = vec![SeriesChannel::new("size", Some("bp"), "float64")];
-                let mut values = vec![sizes];
-                for (c, v) in r.0.iter().zip(&r.1) {
-                    channels.push(c.clone());
-                    values.push(v[first..=last].to_vec());
-                }
-                let mut extra = BTreeMap::new();
-                extra.insert(
-                    "axis".into(),
-                    json!({"quantity": "size", "unit": "bp", "irregular": true, "channel": 0, "size": last - first + 1}),
-                );
-                extra.insert("kind".into(), json!("electropherogram"));
-                extra.insert("first_scan".into(), json!(first));
-                extra.insert("size_standard".into(), json!(s.ladder.name));
-                extra.insert("size_standard_channel".into(), json!(col + 1));
-                extra.insert("sizing_method".into(), json!("local_southern"));
-                traces.push(SeriesTrace {
-                    name: "sized".into(),
-                    channels,
-                    sweeps: vec![values],
-                    sample_rate_hz: 0.0,
-                    start_s: None,
-                    extra,
-                });
-                let dye = r.0[col].name.clone();
-                sizing_facts = Some((s, how, dye));
-                provenance.insert("traces[0].channels[0]".into(), Source::Inferred);
-            } else {
-                notes.push("the ladder fit does not rise steadily; fragments are not sized".into());
+        let first = fs.first;
+        let last = first + fs.sizes.len() - 1;
+        if last < vals[0].len() {
+            let mut channels = vec![SeriesChannel::new("size", Some("bp"), "float64")];
+            let mut values = vec![fs.sizes.clone()];
+            for (c, v) in chs.iter().zip(vals) {
+                channels.push(c.clone());
+                values.push(v[first..=last].to_vec());
             }
+            let mut extra = BTreeMap::new();
+            extra.insert(
+                "axis".into(),
+                json!({"quantity": "size", "unit": "bp", "irregular": true, "channel": 0, "size": last - first + 1}),
+            );
+            extra.insert("kind".into(), json!("electropherogram"));
+            extra.insert("from_trace".into(), json!(set_name));
+            extra.insert("first_scan".into(), json!(first));
+            extra.insert(
+                "size_standard_channel".into(),
+                json!(fs.standard_column + 1),
+            );
+            match &fs.by {
+                SizedBy::Instrument { software } => {
+                    extra.insert("sized_by".into(), json!("instrument"));
+                    if let Some(s) = software {
+                        extra.insert("sizing_software".into(), json!(s));
+                    }
+                    provenance.insert("traces[0].channels[0]".into(), Source::VendorImpl);
+                }
+                SizedBy::Reader { .. } => {
+                    extra.insert("sized_by".into(), json!("openreadout"));
+                    extra.insert("sizing_method".into(), json!("local_southern"));
+                    provenance.insert("traces[0].channels[0]".into(), Source::Inferred);
+                }
+            }
+            if let Some(s) = &fs.ladder {
+                extra.insert("size_standard".into(), json!(s.name));
+            }
+            if let Some((n, mean, max)) = fs.check {
+                extra.insert(
+                    "sizing_check".into(),
+                    json!({"peaks": n, "mean_abs_diff_bp": json_num(mean), "max_abs_diff_bp": json_num(max)}),
+                );
+            }
+            traces.push(SeriesTrace {
+                name: "sized".into(),
+                channels,
+                sweeps: vec![values],
+                sample_rate_hz: 0.0,
+                start_s: None,
+                extra,
+            });
+            sized = Some(fs);
         }
     }
 
@@ -524,78 +484,64 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
             t.extra.insert("base_calls_table".into(), json!(0));
         }
     }
-    if let Some((s, how, dye)) = &sizing_facts {
-        let mut extra = BTreeMap::new();
-        extra.insert("kind".into(), json!("size_standard"));
-        extra.insert("size_standard".into(), json!(s.ladder.name));
-        extra.insert("product".into(), json!(s.ladder.product));
-        extra.insert("dye".into(), json!(dye));
-        extra.insert("chosen".into(), json!(how));
-        extra.insert("quality".into(), json_num(s.quality));
-        if let Some(m) = s.mean_abs_residual {
-            extra.insert("mean_abs_residual_bp".into(), json_num(m));
+    if let Some(fs) = &sized {
+        if let Some(s) = &fs.ladder {
+            tables.push(fragment::ladder_table(s, fs));
+            let k = tables.len() - 1;
+            if matches!(fs.by, SizedBy::Reader { .. }) {
+                provenance.insert(format!("tables[{k}]"), Source::Inferred);
+            }
+            if let Some(t) = traces.first_mut() {
+                t.extra.insert("size_standard_table".into(), json!(k));
+            }
+            obs.feature(
+                K::Record,
+                format!("size standard {}", s.name),
+                &[Scope::Traces],
+            );
         }
-        if !s.missing.is_empty() {
-            extra.insert("missing_bp".into(), json!(s.missing));
+        if let Some(p) = &fs.peaks {
+            tables.push(p.clone());
+            let k = tables.len() - 1;
+            if let Some(t) = traces.first_mut() {
+                t.extra.insert("peaks_table".into(), json!(k));
+            }
+            obs.feature(K::Record, "instrument peak table", &[Scope::Tables]);
         }
-        let first = traces[0]
-            .extra
-            .get("first_scan")
-            .and_then(Value::as_f64)
-            .unwrap_or(0.0);
-        tables.push(SeriesTable {
-            name: "size standard".into(),
-            columns: vec![
-                SeriesColumn::numbers(
-                    "size",
-                    Some("bp"),
-                    s.matches.iter().map(|m| m.size).collect(),
-                ),
-                SeriesColumn::numbers("scan", None, s.matches.iter().map(|m| m.scan).collect()),
-                SeriesColumn::numbers(
-                    "sample",
-                    None,
-                    s.matches.iter().map(|m| m.scan - first).collect(),
-                ),
-                SeriesColumn::numbers(
-                    "height",
-                    Some("RFU"),
-                    s.matches.iter().map(|m| m.height).collect(),
-                ),
-                SeriesColumn::numbers(
-                    "residual",
-                    Some("bp"),
-                    s.matches
-                        .iter()
-                        .map(|m| m.residual.unwrap_or(f64::NAN))
-                        .collect(),
-                ),
-            ],
-            extra,
+        let ladder_note = fs.ladder.as_ref().map_or(String::new(), |s| {
+            format!(
+                ": {} of {} fragments of {} matched on dye {}{}",
+                s.matches.len(),
+                s.matches.len() + s.missing.len(),
+                s.product,
+                fs.standard_dye,
+                s.mean_abs_residual
+                    .map_or(String::new(), |m| format!(", mean residual {m:.2} bp"))
+            )
         });
-        provenance.insert(format!("tables[{}]", tables.len() - 1), Source::Inferred);
-        if let Some(t) = traces.first_mut() {
-            t.extra
-                .insert("size_standard_table".into(), json!(tables.len() - 1));
+        match &fs.by {
+            SizedBy::Instrument { software } => {
+                notes.push(format!(
+                    "fragment sizes are the instrument's ({}){ladder_note}",
+                    software.as_deref().unwrap_or("Data Collection sizing")
+                ));
+                obs.feature(
+                    K::Derivation,
+                    "fragment size from the instrument",
+                    &[Scope::Traces],
+                );
+            }
+            SizedBy::Reader { how } => {
+                notes.push(format!(
+                    "fragments sized here by Local Southern against the size standard ({how}){ladder_note}"
+                ));
+                obs.feature(
+                    K::Derivation,
+                    "fragment size by Local Southern",
+                    &[Scope::Traces],
+                );
+            }
         }
-        notes.push(format!(
-            "fragments sized here against {} on dye {dye} ({how}): {} of {} fragments matched{}",
-            s.ladder.product,
-            s.matches.len(),
-            s.ladder.sizes.len(),
-            s.mean_abs_residual
-                .map_or(String::new(), |m| format!(", mean residual {m:.2} bp"))
-        ));
-        obs.feature(
-            K::Record,
-            format!("size standard {}", s.ladder.name),
-            &[Scope::Traces],
-        );
-        obs.feature(
-            K::Derivation,
-            "fragment size by Local Southern",
-            &[Scope::Traces],
-        );
     }
 
     // experiment
@@ -701,10 +647,10 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
         f.plain("dye_set", v, "DySN1");
     }
     if let Some(v) = a.number("LANE", 1) {
-        f.plain("capillary", v, "LANE1");
+        f.plain("capillary", v as i64, "LANE1");
     }
     if let Some(v) = a.number("NLNE", 1) {
-        f.plain("capillaries", v, "NLNE1");
+        f.plain("capillaries", v as i64, "NLNE1");
     }
     if let Some(v) = a.number("LNTD", 1) {
         f.number("length_to_detector", v, "cm", "LNTD1");
@@ -739,12 +685,17 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
     if let Some(v) = a.text("PANL", 1) {
         f.plain("panel", v, "PANL1");
     }
+    // dye names, unless they are placeholders (`Dye1` … of sequencing dye sets)
     let dye_names: Vec<String> = dyes.iter().filter_map(|d| d.name.clone()).collect();
-    if !dye_names.is_empty() {
+    let placeholder = |n: &String| {
+        n.strip_prefix("Dye")
+            .is_some_and(|r| r.chars().all(|c| c.is_ascii_digit()))
+    };
+    if !dye_names.is_empty() && !dye_names.iter().all(placeholder) {
         f.plain("dyes", dye_names.join(", "), "DyeN");
     }
     if let Some((n, q, q20)) = call_summary {
-        f.plain("read_length", n as f64, "PBAS2 (bases called)");
+        f.plain("read_length", n, "PBAS2 (bases called)");
         if let Some(q) = q {
             f.plain(
                 "mean_quality",
@@ -752,19 +703,25 @@ pub(crate) fn build(a: &Abif) -> SeriesFile {
                 "PCON2 (quality values)",
             );
         }
-        f.plain(
-            "bases_q20",
-            q20 as f64,
-            "PCON2 (bases with quality 20 or more)",
-        );
+        f.plain("bases_q20", q20, "PCON2 (bases with quality 20 or more)");
     }
-    if let Some((s, how, dye)) = &sizing_facts {
+    if let Some(fs) = &sized {
+        if let Some(s) = &fs.ladder {
+            f.plain(
+                "size_standard",
+                s.product.clone(),
+                "the size standard's matched fragments",
+            );
+        }
+        f.plain("size_standard_dye", fs.standard_dye.clone(), "sizing");
         f.plain(
-            "size_standard",
-            s.ladder.product,
-            &format!("sizing ({how})"),
+            "sized_by",
+            match &fs.by {
+                SizedBy::Instrument { .. } => "instrument",
+                SizedBy::Reader { .. } => "openreadout",
+            },
+            "SMap2 present (the instrument's sizing) or not",
         );
-        f.plain("size_standard_dye", dye.clone(), "sizing");
     }
     let what = match kind {
         RunKind::Sanger => {

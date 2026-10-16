@@ -103,6 +103,29 @@ pub fn named(text: &str) -> Option<&'static Ladder> {
         .max_by_key(|l| l.name.len())
 }
 
+/// The range of lengths a size-standard name restricts the ladder to: `GS600LIZ(60-600)` →
+/// (60, 600).
+pub fn range_in(text: &str) -> Option<(f64, f64)> {
+    let open = text.find('(')?;
+    let close = open + text[open..].find(')')?;
+    let (a, b) = text[open + 1..close].split_once('-')?;
+    let (a, b): (f64, f64) = (a.trim().parse().ok()?, b.trim().parse().ok()?);
+    (a.is_finite() && b.is_finite() && a < b).then_some((a, b))
+}
+
+/// The ladder lengths a size-standard name selects: its range when it names one, else all.
+pub fn sizes_for(ladder: &Ladder, text: &str) -> Vec<f64> {
+    match range_in(text) {
+        Some((a, b)) => ladder
+            .sizes
+            .iter()
+            .copied()
+            .filter(|s| *s >= a - 1e-9 && *s <= b + 1e-9)
+            .collect(),
+        None => ladder.sizes.to_vec(),
+    }
+}
+
 /// The ladders whose dye is `dye` (by name: `LIZ`, `ROX`, `GS LIZ`), or every ladder when the
 /// dye names neither.
 pub fn for_dye(dye: &str) -> Vec<&'static Ladder> {
@@ -129,6 +152,14 @@ mod tests {
         assert_eq!(named("GeneScan 500 ROX").unwrap().name, "GS500ROX");
         assert_eq!(named("GS600_LIZ_(60-460)").unwrap().name, "GS600LIZ");
         assert!(named("my ladder").is_none());
+        assert_eq!(
+            range_in("GS600LIZ(60-600)+Normalization"),
+            Some((60.0, 600.0))
+        );
+        assert_eq!(range_in("GS500LIZ"), None);
+        let gs600 = named("GS600LIZ(60-460)").unwrap();
+        let s = sizes_for(gs600, "GS600LIZ(60-460)");
+        assert_eq!((s[0], *s.last().unwrap()), (60.0, 460.0));
         assert_eq!(for_dye("ROX").len(), 3);
         assert_eq!(for_dye("FAM").len(), LADDERS.len());
     }

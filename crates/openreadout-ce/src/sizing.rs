@@ -39,7 +39,9 @@ pub struct LadderMatch {
 #[derive(Debug, Clone)]
 pub struct Sizing {
     /// The size standard.
-    pub ladder: &'static Ladder,
+    pub name: String,
+    /// The size standard's product name (or the name the file gives it).
+    pub product: String,
     /// Matched fragments, ascending.
     pub matches: Vec<LadderMatch>,
     /// Ladder lengths with no peak.
@@ -399,21 +401,35 @@ fn southern3(m: [f64; 3], l: [f64; 3], x: f64) -> Option<f64> {
     if v.is_finite() { Some(v) } else { linear() }
 }
 
-/// Size the run: match `ladder` to the peaks of the standard's channel `y`.
-pub fn size_with(ladder: &'static Ladder, peaks: &[Peak]) -> Option<Sizing> {
-    let pairs = match_ladder(ladder.sizes, peaks);
+/// Size the run: match the lengths `sizes` of `ladder` (all of them, or those of the range the
+/// run was analysed over) to the peaks of the standard's channel.
+pub fn size_with(ladder: &'static Ladder, sizes: &[f64], peaks: &[Peak]) -> Option<Sizing> {
+    let pairs = match_ladder(sizes, peaks);
     if pairs.len() < 4 {
         return None;
     }
-    let mut matches: Vec<LadderMatch> = pairs
+    let matches: Vec<LadderMatch> = pairs
         .iter()
         .map(|&(i, j)| LadderMatch {
-            size: ladder.sizes[i],
+            size: sizes[i],
             scan: peaks[j].scan,
             height: peaks[j].height,
             residual: None,
         })
         .collect();
+    Some(from_matches(ladder.name, ladder.product, sizes, matches))
+}
+
+/// The sizing given by fragments already matched (by this reader or by the instrument's
+/// software), with leave-one-out residuals and the quality score. `sizes` are the ladder lengths
+/// that could have matched.
+pub fn from_matches(
+    name: &str,
+    product: &str,
+    sizes: &[f64],
+    mut matches: Vec<LadderMatch>,
+) -> Sizing {
+    matches.sort_by(|a, b| a.scan.total_cmp(&b.scan));
     // leave-one-out residuals of interior matches
     let mut res = Vec::new();
     for k in 1..matches.len().saturating_sub(1) {
@@ -428,29 +444,29 @@ pub fn size_with(ladder: &'static Ladder, peaks: &[Peak]) -> Option<Sizing> {
     let mean = (!res.is_empty()).then(|| res.iter().sum::<f64>() / res.len() as f64);
     let max = res.iter().copied().reduce(f64::max);
     let matched: Vec<f64> = matches.iter().map(|m| m.size).collect();
-    let missing: Vec<f64> = ladder
-        .sizes
+    let missing: Vec<f64> = sizes
         .iter()
         .copied()
         .filter(|s| !matched.contains(s))
         .collect();
-    let coverage = matches.len() as f64 / ladder.sizes.len() as f64;
-    let quality = coverage * (-mean.unwrap_or(0.0) / 4.0).exp();
-    Some(Sizing {
-        ladder,
+    let coverage = matches.len() as f64 / sizes.len().max(1) as f64;
+    let quality = coverage.min(1.0) * (-mean.unwrap_or(0.0) / 4.0).exp();
+    Sizing {
+        name: name.to_string(),
+        product: product.to_string(),
         matches,
         missing,
         mean_abs_residual: mean,
         max_abs_residual: max,
         quality,
-    })
+    }
 }
 
 /// Size against the best of `ladders`: the highest quality, then the most matches.
 pub fn best_of(ladders: &[&'static Ladder], peaks: &[Peak]) -> Option<Sizing> {
     ladders
         .iter()
-        .filter_map(|l| size_with(l, peaks))
+        .filter_map(|l| size_with(l, l.sizes, peaks))
         .max_by(|a, b| {
             let qa = (a.quality * 100.0).round();
             let qb = (b.quality * 100.0).round();
@@ -490,7 +506,7 @@ mod tests {
         let l = &LADDERS[0];
         let (y, truth) = run(l, &[]);
         let peaks = find_peaks(&y, 50.0, 3);
-        let s = size_with(l, &peaks).unwrap();
+        let s = size_with(l, l.sizes, &peaks).unwrap();
         assert_eq!(s.matches.len(), l.sizes.len());
         for (m, t) in s.matches.iter().zip(&truth) {
             assert!((m.scan - t).abs() < 0.6, "{} vs {t}", m.scan);
@@ -517,7 +533,7 @@ mod tests {
             *v = 20.0;
         }
         let peaks = find_peaks(&y, 50.0, 3);
-        let s = size_with(l, &peaks).unwrap();
+        let s = size_with(l, l.sizes, &peaks).unwrap();
         assert_eq!(s.missing, vec![250.0]);
         assert!(
             s.matches
@@ -532,12 +548,12 @@ mod tests {
         let (y, _) = run(gs500, &[]);
         let peaks = find_peaks(&y, 50.0, 3);
         let rox: Vec<&'static Ladder> = crate::ladders::for_dye("ROX");
-        assert_eq!(best_of(&rox, &peaks).unwrap().ladder.name, "GS500ROX");
+        assert_eq!(best_of(&rox, &peaks).unwrap().name, "GS500ROX");
         let gs600 = &LADDERS[1];
         let (y, _) = run(gs600, &[]);
         let peaks = find_peaks(&y, 50.0, 3);
         let liz = crate::ladders::for_dye("LIZ");
-        assert_eq!(best_of(&liz, &peaks).unwrap().ladder.name, "GS600LIZ");
+        assert_eq!(best_of(&liz, &peaks).unwrap().name, "GS600LIZ");
     }
 
     #[test]
