@@ -72,6 +72,12 @@ pub const TERMS: &[(&str, &str)] = &[
     ("CHMO:0001014", "ion-exchange chromatography"),
     // gel and blot imaging (Bio-Rad Image Lab), checked on EBI OLS 2026-09-26
     ("CHMO:0001021", "gel electrophoresis"),
+    // capillary electrophoresis (ABIF), checked on EBI OLS 2026-10-15
+    ("CHMO:0001024", "capillary electrophoresis"),
+    ("CHMO:0001032", "capillary gel electrophoresis"),
+    ("OBI:0000695", "chain termination sequencing assay"),
+    ("OBI:0400103", "DNA sequencer"),
+    ("OBI:0001132", "capillary electrophoresis instrument"),
     ("OBI:0000854", "western blot assay"),
     // calorimetry (MicroCal ITC), checked on EBI OLS 2026-09-26
     ("CHMO:0000683", "isothermal titration calorimetry"),
@@ -269,6 +275,9 @@ pub const UNITS: &[(&str, &str)] = &[
     // thermal analysis
     ("µV", "uV"),
     ("N", "N"),
+    // capillary electrophoresis
+    ("µW", "uW"),
+    ("bp", "{bp}"),
 ];
 
 /// The curated term with this id, or `None` when it is not in [`TERMS`].

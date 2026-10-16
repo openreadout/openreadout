@@ -98,13 +98,15 @@ dependencies = [
     # (BSD-3) PeakPickerMRM / PeakIntegrator; SciPy (above) find_peaks/peak_widths second opinion.
     "pyopenms>=3.2",
     # DNA sequencers (oracle/seq_oracle.py): Illumina's interop (GPL-3.0) and pod5 /
-    # vbz_h5py_plugin (MPL-2.0) are run as black boxes; pysam (MIT) and Biopython (BSD-3) read
-    # FASTQ and BAM. Picard (MIT, a Java jar) is passed with --picard.
+    # vbz_h5py_plugin (MPL-2.0) are run as black boxes; pysam (MIT) reads FASTQ and BAM. Picard
+    # (MIT, a Java jar) is passed with --picard.
     "interop",
     "pod5",
     "vbz_h5py_plugin",
     "pysam",
-    "biopython",
+    # Biopython (BSD-3 / Biopython licence): FASTQ and BAM for the sequencer oracle, and AbiIO
+    # for Applied Biosystems ABIF (.ab1/.fsa).
+    "biopython>=1.84",
 ]
 
 # allotropy 0.1.146 pins rainbow-api 1.0.10, while the chromatography oracle needs rainbow-api

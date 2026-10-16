@@ -5677,6 +5677,1830 @@
       ]
     },
     {
+      "id": "abif-biopython-310",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "310",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection ABI PRISM 310 Collection 3.1.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-biopython-3100",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3130",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.1",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-biopython-3730",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-biopython-a6-1-db3",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-biopython-empty",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-biopython-fsa",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS500ROX",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3130xl",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0bc2",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "abif-biopython-no-smpl1",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-biopython-nonascii",
+      "format": "abif",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-fraggler-error",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-k1",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-k2",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-k3",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-k4",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-k5",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-k6",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-k7",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-multiplex",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "instrument peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "fragment size from the instrument",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "abif-fraggler-no-peaks",
+      "format": "abif",
+      "source": "github:clinical-genomics-umea/fraggler",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Dx Series Data Collection Software 3 IVD v3.0.1 (2,169)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "agilent-bioanalyzer-dna1000",
+      "format": "agilent-bioanalyzer-xml",
+      "source": "github:jwfoley/bioanalyzer",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in bp",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "DNA 1000 Series II",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "B.01.02.SI136",
+          []
+        ],
+        [
+          "record",
+          "size by point-to-point standard curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "agilent-bioanalyzer-hsdna",
+      "format": "agilent-bioanalyzer-xml",
+      "source": "github:jwfoley/bioanalyzer",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in bp",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "High Sensitivity DNA Assay",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "B.02.07.SI529",
+          []
+        ],
+        [
+          "record",
+          "size by point-to-point standard curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "agilent-bioanalyzer-rna-nano",
+      "format": "agilent-bioanalyzer-xml",
+      "source": "github:jwfoley/bioanalyzer",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in nt",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "Eukaryote Total RNA Nano",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "B.01.02.SI136",
+          []
+        ],
+        [
+          "record",
+          "size by point-to-point standard curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
       "id": "cary-pyspecdata-200703-ellman-before-sl",
       "format": "agilent-cary",
       "source": "zenodo:21041480",
@@ -11340,6 +13164,206 @@
       ],
       "inferred": [
         2,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-d1000",
+      "format": "agilent-tapestation",
+      "source": "github:jwfoley/bioanalyzer",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in bp",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "D1000",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-gdna",
+      "format": "agilent-tapestation",
+      "source": "github:jwfoley/bioanalyzer",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in bp",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "Genomic DNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-hsd1000",
+      "format": "agilent-tapestation",
+      "source": "github:jwfoley/bioanalyzer",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in bp",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "D1000 High  Sensitivity",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-rna",
+      "format": "agilent-tapestation",
+      "source": "github:jwfoley/bioanalyzer",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in nt",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "RNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
         2
       ]
     },

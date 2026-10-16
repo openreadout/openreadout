@@ -255,6 +255,27 @@ pub(crate) fn render(
             }),
         None => (ax.first.min(ax.last), ax.first.max(ax.last)),
     };
+    // a window of the axis (sample positions still count from the sweep's first x)
+    let first_x = ax.first;
+    let (x_lo, x_hi) = match req.x_range {
+        Some([a, b]) => {
+            let (a, b) = (a.min(b).max(x_lo), a.max(b).min(x_hi));
+            if b <= a || b.is_nan() || a.is_nan() {
+                return Err(Error::Usage(format!(
+                    "x_range does not overlap the trace's axis ({} to {})",
+                    fmt_num(x_lo),
+                    fmt_num(x_hi)
+                )));
+            }
+            if ax.last < ax.first {
+                (ax.first, ax.last) = (b, a);
+            } else {
+                (ax.first, ax.last) = (a, b);
+            }
+            (a, b)
+        }
+        None => (x_lo, x_hi),
+    };
     let col_of = |x: f64| -> usize {
         let span = x_hi - x_lo;
         let t = if span > 0.0 { (x - x_lo) / span } else { 0.5 };
@@ -284,8 +305,11 @@ pub(crate) fn render(
                         Some(&x) if x.is_finite() => x,
                         _ => continue,
                     },
-                    None => ax.first + step * si as f64,
+                    None => first_x + step * si as f64,
                 };
+                if x < x_lo || x > x_hi {
+                    continue;
+                }
                 let slot = &mut cols[k][col_of(x)];
                 match slot {
                     None => *slot = Some(Col::new(x, v)),

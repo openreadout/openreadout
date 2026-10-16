@@ -66,6 +66,7 @@
 mod annotate;
 pub mod color;
 pub mod electrochem;
+mod electrophoresis;
 mod events;
 mod figure_frame;
 mod image;
@@ -92,6 +93,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 pub use annotate::{Annotation, DrawnAnnotation};
+pub use electrophoresis::series_index_of;
 pub use openreadout_figure::{Figure, Raster};
 pub use options::PreviewOptions;
 pub use plate::{PlateGrid, plate_grid};
@@ -398,6 +400,8 @@ pub struct PreviewRequest {
     pub sweep: Option<u32>,
     /// Trace preview: channel indices (default: the first 8).
     pub channels: Vec<u32>,
+    /// Trace preview: only this window of the x axis, `[a, b]` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
+    pub x_range: Option<[f64; 2]>,
     /// Spectrum preview: run index (default 0).
     pub run: Option<u32>,
     /// Spectrum preview: zero-based spectrum index (default 0).
@@ -454,6 +458,7 @@ impl Default for PreviewRequest {
             trace: None,
             sweep: None,
             channels: Vec::new(),
+            x_range: None,
             run: None,
             spectrum: None,
             scan: None,
@@ -1098,7 +1103,11 @@ fn kind(info: &FileInfo, req: &PreviewRequest) -> Result<&'static str> {
             "plate"
         });
     }
-    if req.trace.is_some() || req.sweep.is_some() || !req.channels.is_empty() {
+    if req.trace.is_some()
+        || req.sweep.is_some()
+        || !req.channels.is_empty()
+        || req.x_range.is_some()
+    {
         return Ok("trace");
     }
     if req.run.is_some() || req.spectrum.is_some() || req.scan.is_some() || req.centroid {
@@ -1216,6 +1225,10 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
     } else {
         None
     };
+    // A Sanger read or a sized fragment run shows its chromatogram or electropherogram.
+    if drawn.is_none() && k == "trace" && info.format.family == "electrophoresis" {
+        drawn = electrophoresis::render(ds, info, req, &mut out)?;
+    }
     // A mass-spectrometry run shows its chromatogram unless a spectrum was asked for.
     if drawn.is_none()
         && k == "spectrum"

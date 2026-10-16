@@ -3502,6 +3502,7 @@ Used by:
 - [openreadout-biophys 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-blackrock 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-bruker-tims 0.3.0](https://github.com/openreadout/openreadout)
+- [openreadout-ce 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-chrom 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout 0.3.0](https://github.com/openreadout/openreadout)
 - [openreadout-codecs 0.3.0](https://github.com/openreadout/openreadout)

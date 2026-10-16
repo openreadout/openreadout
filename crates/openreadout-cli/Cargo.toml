@@ -102,6 +102,7 @@ openreadout-seq = { workspace = true }
 openreadout-echem = { workspace = true }
 openreadout-epr = { workspace = true }
 openreadout-xrd = { workspace = true }
+openreadout-ce = { workspace = true }
 openreadout-fplc = { workspace = true }
 openreadout-mzml-writer = { workspace = true }
 openreadout-arrow = { workspace = true, optional = true }

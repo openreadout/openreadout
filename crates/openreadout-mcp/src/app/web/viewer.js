@@ -1281,8 +1281,11 @@ function main() {
         t.channels.forEach((ch, c) => {
           const on = shown.includes(c);
           const name = ch.name || `ch ${c}`;
+          // a series with its own colour (a dye, a base) keeps it on the chip
+          const own = p.series.find((s) => s.channel === c && s.palette != null);
+          const swatch = own ? seriesColor(own.palette) : seriesColor(shown.indexOf(c) >= 0 ? shown.indexOf(c) : c);
           const chip = el("button", { type: "button", className: "chip", title: name },
-            el("span", { className: "swatch", style: `background:${seriesColor(shown.indexOf(c) >= 0 ? shown.indexOf(c) : c)}` }), legendLabel(name, 24));
+            el("span", { className: "swatch", style: `background:${swatch}` }), legendLabel(name, 24));
           chip.setAttribute("aria-pressed", String(on));
           chip.addEventListener("click", () => {
             const next = on ? shown.filter((x) => x !== c) : shown.concat([c]).sort((a, b) => a - b);
@@ -2253,6 +2256,7 @@ function main() {
       else x = xs && xs.length === n ? xs : (xs = plotXs(p, n || n0));
       let color, group = null;
       if (p.voltammogram) color = alpha(colors().ink, series.length > 1 ? 0.3 + 0.7 * i / (series.length - 1) : 1); // cycles: first faint, last ink
+      else if (s.palette != null) color = seriesColor(s.palette); // a base or dye's colour (electrophoresis)
       else if (groups) { group = groups.names[i]; color = seriesColor(groups.distinct.indexOf(group)); }
       else if (series.length > 8) color = colors().ink;
       else color = seriesColor(i);

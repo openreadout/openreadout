@@ -1459,6 +1459,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "openreadout-ce"
+version = "0.3.0"
+dependencies = [
+ "base64 0.23.1",
+ "flate2",
+ "openreadout-core",
+ "roxmltree 0.21.1",
+ "schemars",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "openreadout-chrom"
 version = "0.3.0"
 dependencies = [
@@ -1599,6 +1612,7 @@ dependencies = [
  "openreadout-biophys",
  "openreadout-blackrock",
  "openreadout-bruker-tims",
+ "openreadout-ce",
  "openreadout-chrom",
  "openreadout-codecs",
  "openreadout-core",

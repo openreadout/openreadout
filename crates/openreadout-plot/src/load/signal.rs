@@ -46,6 +46,12 @@ fn str_of<'a>(v: &'a serde_json::Map<String, Value>, k: &str) -> Option<&'a str>
     v.get(k).and_then(Value::as_str)
 }
 
+/// Traces whose series are named by channel (a dye or a base), not by the trace: the dye
+/// channels of an electropherogram or Sanger trace.
+fn named_by_channel(t: &TraceInfo) -> bool {
+    matches!(trace_kind(t), "electropherogram" | "sanger_trace")
+}
+
 fn trace_kind(t: &TraceInfo) -> &str {
     t.extra.get("kind").and_then(Value::as_str).unwrap_or("")
 }
@@ -339,7 +345,18 @@ pub(super) fn trace(
                     })
                     .map_or(0, |c| c.index)
             } else {
-                0
+                // the first signal: an irregular abscissa stored as a channel (a sized
+                // electropherogram's bp, a Raman shift list) is the x axis, not a signal
+                let axis = t
+                    .extra
+                    .get("axis")
+                    .filter(|a| a.get("irregular").and_then(Value::as_bool) == Some(true))
+                    .and_then(|a| a.get("channel"))
+                    .and_then(Value::as_u64);
+                t.channels
+                    .iter()
+                    .find(|c| Some(u64::from(c.index)) != axis)
+                    .map_or(0, |c| c.index)
             }
         });
         if !t.channels.iter().any(|ch| ch.index == c) {
@@ -468,7 +485,7 @@ pub(super) fn trace(
                     Some(p) => format!("{:+} pA", p.round()),
                     None => sweep_label(&t, sw),
                 }
-            } else if let Some(n) = &t.name {
+            } else if let Some(n) = t.name.as_ref().filter(|_| !named_by_channel(&t)) {
                 n.clone()
             } else {
                 ch.name.clone()

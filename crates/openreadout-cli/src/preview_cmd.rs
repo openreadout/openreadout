@@ -79,6 +79,9 @@ pub struct PreviewArgs {
     /// Trace preview: channel index; repeatable. Default: the first 8.
     #[arg(long = "channel")]
     pub channels: Vec<u32>,
+    /// Trace preview: only this window of the x axis, `A:B` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
+    #[arg(long = "x-range", value_name = "A:B", allow_hyphen_values = true)]
+    pub x_range: Option<String>,
     /// Spectrum preview: run index.
     #[arg(long)]
     pub run: Option<u32>,
@@ -156,6 +159,11 @@ impl PreviewArgs {
             preview_request.trace = self.trace;
             preview_request.sweep = self.sweep;
             preview_request.channels = self.channels.clone();
+            preview_request.x_range = self
+                .x_range
+                .as_deref()
+                .map(crate::commands::peaks::parse_x_range)
+                .transpose()?;
             preview_request.run = self.run;
             preview_request.spectrum = self.spectrum;
             preview_request.scan = self.scan;

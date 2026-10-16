@@ -3809,7 +3809,7 @@ requires-dist = [
     { name = "bioio-nd2" },
     { name = "bioio-ome-tiff" },
     { name = "bioio-ome-zarr", marker = "python_full_version >= '3.11'", specifier = ">=3" },
-    { name = "biopython" },
+    { name = "biopython", specifier = ">=1.84" },
     { name = "brukeropus", specifier = ">=1.4" },
     { name = "brukeropusreader", specifier = ">=1.3.4" },
     { name = "czifile" },

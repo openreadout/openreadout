@@ -55,6 +55,7 @@ openreadout-thermal = { path = "../crates/openreadout-thermal" }
 openreadout-echem = { path = "../crates/openreadout-echem" }
 openreadout-xrd = { path = "../crates/openreadout-xrd" }
 openreadout-seq = { path = "../crates/openreadout-seq" }
+openreadout-ce = { path = "../crates/openreadout-ce" }
 openreadout-epr = { path = "../crates/openreadout-epr" }
 openreadout-fplc = { path = "../crates/openreadout-fplc" }
 openreadout-zarr = { path = "../crates/openreadout-zarr" }
@@ -1094,6 +1095,8 @@ bench = false
 [[bin]]
 name = "whole_pod5"
 path = "fuzz_targets/whole_pod5.rs"
+name = "whole_abif"
+path = "fuzz_targets/whole_abif.rs"
 test = false
 doc = false
 bench = false
@@ -1101,6 +1104,8 @@ bench = false
 [[bin]]
 name = "whole_fast5"
 path = "fuzz_targets/whole_fast5.rs"
+name = "whole_bioanalyzer"
+path = "fuzz_targets/whole_bioanalyzer.rs"
 test = false
 doc = false
 bench = false
@@ -1143,6 +1148,8 @@ bench = false
 [[bin]]
 name = "seq_interop"
 path = "fuzz_targets/seq_interop.rs"
+name = "whole_tapestation"
+path = "fuzz_targets/whole_tapestation.rs"
 test = false
 doc = false
 bench = false

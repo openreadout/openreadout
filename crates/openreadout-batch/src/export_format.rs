@@ -21,7 +21,10 @@ const BY_EXTENSION: &[(&str, &str)] = &[
     (".dx", "jcamp"),
     (".json", "asm"),
     (".rdml", "rdml"),
-    // FASTQ export writes a directory of `.fastq.gz` files, named `<input>_fastq` by default
+    (".fastq", "fastq"),
+    (".fq", "fastq"),
+    // FASTQ export of an Illumina run writes a directory of `.fastq.gz` files, named
+    // `<input>_fastq` by default
     ("_fastq", "fastq"),
 ];
 
@@ -37,7 +40,7 @@ const DEFAULT_EXTENSION: &[(&str, &str)] = &[
     ("jcamp", ".jdx"),
     ("asm", ".asm.json"),
     ("rdml", ".rdml"),
-    ("fastq", "_fastq"),
+    ("fastq", ".fastq"),
 ];
 
 /// Words in both error messages. `Error::hint` looks for them to choose the hint.

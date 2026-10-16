@@ -63,6 +63,8 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_zetasizer` | Malvern Zetasizer `.dts`: compound file, Header identifier, record header walks, sample-name rule, size and zeta result structures |
 | `whole_octet` | Sartorius Octet `.frd`: result XML, base64 float32 step arrays, step table |
 | `whole_gpr` | GenePix Results `.gpr` (ATF): header records, titles, feature rows |
+| `whole_abif` | Applied Biosystems ABIF `.ab1`/`.fsa`: directory entries, element types, base calls, the instrument's size map and peak table, fragment sizing |
+| `whole_bioanalyzer`, `whole_tapestation` | Agilent Bioanalyzer XML exports; TapeStation XML with its electropherogram CSV (bundle): samples, peaks, standard curves, base64 signals, lane CSV rows, sizing |
 | `whole_itc` | MicroCal `.itc` text: header, injection lines, block markers, data rows |
 | `whole_pod5`, `whole_fast5`, `whole_fastq`, `whole_bam` | DNA sequencer files: POD5 (FlatBuffer footer, Arrow IPC tables, VBZ rows), FAST5 (HDF5, deflate and VBZ), FASTQ (plain or gzip), BAM (BGZF, records, tags) |
 | `whole_illumina_bcl`, `whole_illumina_cbcl` | Illumina run folders: RunInfo and RunParameters XML, InterOp metric files, filter, BCL or CBCL and locations files, as a bundle |
