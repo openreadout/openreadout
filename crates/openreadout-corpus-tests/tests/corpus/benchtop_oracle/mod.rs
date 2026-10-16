@@ -3,7 +3,8 @@
 //! absorbances at 260 and 280 nm, the fluorescence, the A260/A280 and A260/A230 ratios, the
 //! instrument model and serial; per spectrum its name, wavelength range, point count and 32
 //! absorbance values.
-#![allow(dead_code)] // each test binary that includes this module uses a part of it
+#![allow(dead_code)]
+// each test binary that includes this module uses a part of it
 // i, k, n, t, v, u are the natural names here, and both readers write the same decimal text, so
 // equal values compare equal
 #![allow(clippy::many_single_char_names, clippy::float_cmp)]
