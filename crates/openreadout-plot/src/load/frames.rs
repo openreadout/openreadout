@@ -25,10 +25,19 @@ const MAX_FRAMES: usize = 20_000;
 
 pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Series>> {
     let (_, mut ds, info) = ctx.open(file)?;
-    let im = info
-        .images
-        .first()
-        .ok_or_else(|| usage(format!("{file}: no image; frames are the time points of an image")))?;
+    // A file of metadata only (a SerialEM .mdoc) has its records as the rows of its first
+    // table: one per section.
+    let from_table = info.images.is_empty() && !info.tables.is_empty();
+    let fallback = openreadout_core::model::ImageInfo::new(0, 1, 1, openreadout_core::PixelType::Uint8);
+    let im = match info.images.first() {
+        Some(im) => im,
+        None if from_table => &fallback,
+        None => {
+            return Err(usage(format!(
+                "{file}: no image; frames are the time points of an image"
+            )));
+        }
+    };
     let c = spec.channel.unwrap_or(0);
     if c >= im.size_c {
         return Err(usage(format!(
@@ -39,8 +48,29 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
     // Frames are the time points, or the sections of a z stack (a tilt series saved as a
     // volume) when there is one time point.
     let along_z = im.size_t <= 1 && im.size_z > 1;
-    let n = if along_z { im.size_z } else { im.size_t.max(1) } as usize;
-    let (_, records) = ds.frames(im.index, None)?;
+    let (n, records) = if from_table {
+        let t = &info.tables[0];
+        let rows = ds.read_table(t.index, 0, t.row_count)?;
+        let n = usize::try_from(t.row_count).unwrap_or(usize::MAX);
+        let records: Vec<Value> = (0..n)
+            .map(|i| {
+                Value::Object(
+                    t.columns
+                        .iter()
+                        .zip(&rows.columns)
+                        .filter_map(|(col, vals)| {
+                            let v = *vals.get(i)?;
+                            v.is_finite().then(|| (col.name.clone(), serde_json::json!(v)))
+                        })
+                        .collect(),
+                )
+            })
+            .collect();
+        (n, records)
+    } else {
+        let n = if along_z { im.size_z } else { im.size_t.max(1) } as usize;
+        (n, ds.frames(im.index, None)?.1)
+    };
     // The fields the frames record, in the order the first record has them.
     let fields: Vec<String> = records
         .first()
@@ -77,6 +107,11 @@ pub(super) fn frames(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         records.get(i)?.get(name)?.as_f64()
     };
     let needs_pixels = STATS.contains(&x.as_str()) || STATS.contains(&y.as_str());
+    if needs_pixels && from_table {
+        return Err(usage(format!(
+            "{file}: no image to take pixel statistics from; plot values the sections record"
+        )));
+    }
     if needs_pixels && n > MAX_FRAMES {
         return Err(usage(format!(
             "{file}: {n} frames; pixel statistics are read for at most {MAX_FRAMES}"

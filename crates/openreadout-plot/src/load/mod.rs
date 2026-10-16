@@ -239,7 +239,7 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     if plate {
         return Ok(Show::Wells);
     }
-    if info.images.first().is_some_and(|im| im.size_t > 1) {
+    if info.images.first().is_some_and(|im| im.size_t > 1) || format == "mdoc" {
         return Ok(Show::Frames);
     }
     Err(usage(format!(
