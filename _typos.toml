@@ -11,6 +11,8 @@ extend-exclude = [
   "corpus/manifest.toml",  # corpus catalogue: depositors' file names, titles and attributions, verbatim
   "fuzz/corpus/**",        # fuzz seeds: bytes of corpus files
   "**/tests/fixtures/**",  # test input files
+  "web/samples/*.*",       # the demo page's sample files, instrument data from the corpus
+  "!web/samples/NOTICE.txt",
   "oracle/schema/*.xsd",   # third-party OME schema, kept verbatim
   "*.lock",
   "book/book",             # website build output

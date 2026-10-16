@@ -86,7 +86,7 @@ That's it. The skill file tells the agent how to install the binary and how to u
 
 ## For Humans
 
-**Option A — Browser:** Open the [browser demo](https://openreadout.github.io/openreadout/demo/index.html) and drop a file on it. It runs OpenReadout compiled to WebAssembly inside the page; nothing is uploaded.
+**Option A — Browser:** Open the [browser demo](https://openreadout.github.io/openreadout/demo/index.html) and tap one of its nine sample files, or drop a file of your own on it. It runs OpenReadout compiled to WebAssembly inside the page; nothing is uploaded.
 
 **Option B — CLI:** Install the binary (see [Installation](#installation)), then connect it to your agent:
 

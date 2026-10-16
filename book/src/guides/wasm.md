@@ -16,7 +16,7 @@ const { meta, data, type } = await f.preview(); // the picture, its MIME type an
 f.close();
 ```
 
-`preview` takes the options of the [`openreadout_preview`](../reference/mcp.md) tool, plus `dark` and `format` (`png`, `jpeg` or `svg`). Images come without rulers unless you ask for `axes: "rulers"`. Annotations are drawn in the picture's own coordinates, and `meta.annotations` says where each one landed:
+`preview` takes the options of the [`openreadout_preview`](../reference/mcp.md) tool, plus `dark`, `format` (`png`, `jpeg` or `svg`) and `scale`. `scale` draws a PNG or JPEG with that many pixels per figure pixel (1 to 4), so a page can lay a picture out at `max_size` CSS pixels and keep it sharp on a phone: pass `devicePixelRatio`. Images come without rulers unless you ask for `axes: "rulers"`. Annotations are drawn in the picture's own coordinates, and `meta.annotations` says where each one landed:
 
 ```js
 const { data, type, meta } = await f.preview({
@@ -71,10 +71,10 @@ A bug that makes Rust panic stops the WebAssembly instance. The readers are fuzz
 The demo page in [`web/`](https://github.com/openreadout/openreadout/tree/main/web) can't upload your file. Its Content-Security-Policy is:
 
 ```text
-default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob:; connect-src 'none'; form-action 'none'; base-uri 'none'
+default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; form-action 'none'; base-uri 'none'
 ```
 
-so the browser blocks any request the page makes after loading its own files. The policy also blocks fetching the WebAssembly module, so the build inlines the module into the page.
+`connect-src 'self'` lets the page fetch its own files from the site: the WebAssembly module and the sample files. The browser blocks requests to any other site, and the page's scripts never send a file anywhere; a file you open is read into the tab's memory. The sample files come from the public test corpus and are credited on the page and in `web/samples/NOTICE.txt`.
 
 ## Reading from other sources in Rust
 
