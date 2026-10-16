@@ -261,6 +261,9 @@ struct Score {
     missed: usize,
     /// Missed nuclei covered mostly by an object that also covers another nucleus.
     merged: usize,
+    /// Nuclei cut in pieces: two or more found objects lie mostly inside them, each covering
+    /// at least a twentieth of the nucleus.
+    split: usize,
 }
 
 fn score(pred: &[u32], truth: &[u32]) -> Score {
@@ -302,6 +305,13 @@ fn score(pred: &[u32], truth: &[u32]) -> Score {
             *covers.entry(*p).or_default() += 1;
         }
     }
+    let mut pieces: HashMap<u32, usize> = HashMap::new();
+    for ((p, t), n) in &inter {
+        if 2 * *n >= area_p[p] && *n as f64 >= 0.05 * area_t[t] as f64 {
+            *pieces.entry(*t).or_default() += 1;
+        }
+    }
+    let split = pieces.values().filter(|n| **n >= 2).count();
     let (mut missed, mut merged) = (0, 0);
     for (t, a) in &area_t {
         if matched.contains(t) {
@@ -324,6 +334,7 @@ fn score(pred: &[u32], truth: &[u32]) -> Score {
         found: area_p.len(),
         missed,
         merged,
+        split,
     }
 }
 
@@ -415,6 +426,7 @@ fn nuclei_against_annotations() {
             found: a.found + r.1.found,
             missed: a.missed + r.1.missed,
             merged: a.merged + r.1.merged,
+            split: a.split + r.1.split,
         });
         let p = s.tp as f64 / s.found.max(1) as f64;
         let r = s.tp as f64 / s.truth.max(1) as f64;
@@ -447,6 +459,12 @@ fn nuclei_against_annotations() {
             100.0 * s.merged as f64 / s.truth.max(1) as f64,
             s.fn_ - s.missed - s.merged,
             100.0 * (s.fn_ - s.missed - s.merged) as f64 / s.truth.max(1) as f64
+        );
+        println!(
+            "{:<24} cut in pieces {} ({:.1}%)",
+            "",
+            s.split,
+            100.0 * s.split as f64 / s.truth.max(1) as f64
         );
         if let Some((n, errs)) = flagged.get(g) {
             println!(
