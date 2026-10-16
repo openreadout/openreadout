@@ -75,6 +75,8 @@ pub mod eer;
 mod files;
 mod flavors;
 mod imagej;
+mod imagers;
+mod incucyte;
 mod jpeg2000;
 mod lsm;
 mod mdgel;
