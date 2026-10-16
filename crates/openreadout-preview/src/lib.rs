@@ -78,6 +78,7 @@ mod options;
 mod overlay;
 mod plate;
 mod rulers;
+mod samples;
 mod spectrum;
 mod tic;
 mod trace;
@@ -1229,6 +1230,10 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         if drawn.is_some() {
             out.kind = "chromatogram".into();
         }
+    }
+    if drawn.is_none() && samples::applies(info, req) {
+        drawn = Some(samples::render(ds, info, req, &mut out)?);
+        out.kind = "samples".into();
     }
     let (mut figure, frame) = match (k, drawn) {
         (_, Some(drawn)) => drawn,

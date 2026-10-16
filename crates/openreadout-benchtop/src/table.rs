@@ -142,6 +142,26 @@ pub(crate) fn build(
                 let name = unique(n);
                 let (values, unit) = one_unit(&raw, &units, &name, findings);
                 out.push(numbers(&name, &label, unit.as_deref(), values));
+                // words in place of a number (`Out of range`, `Too low`): kept beside it
+                let words: Vec<String> = rows
+                    .iter()
+                    .map(|r| {
+                        let c = cell(r, k);
+                        if number(&c).is_some() || c.trim().is_empty() {
+                            String::new()
+                        } else {
+                            c
+                        }
+                    })
+                    .collect();
+                if words.iter().any(|w| !w.is_empty()) {
+                    let note = unique(&format!("{name}_note"));
+                    out.push(text(
+                        &note,
+                        &format!("{label} (text in place of a number)"),
+                        words,
+                    ));
+                }
             }
             Some(Role::Value(n, unit)) => {
                 let name = unique(n);
