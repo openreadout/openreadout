@@ -78,11 +78,43 @@ test("the neuron sample marks its action potentials, the GC-MS run finds a spect
   r.file.close();
 });
 
-test("zooming keeps the region inside the image and its shape", () => {
-  const im = { size_x: 2000, size_y: 1000 };
-  assert.equal(R.fitRegion(im, 1000, 500, 2000, 1000), undefined);
-  assert.deepEqual(R.fitRegion(im, 1990, 10, 400, 200), { x: 1600, y: 0, width: 400, height: 200 });
-  assert.deepEqual(R.fitRegion(im, 1000, 500, 10, 5, 48), { x: 952, y: 476, width: 96, height: 48 });
+test("the image viewer's camera neither drifts nor shrinks", async () => {
+  const C = await import(pathToFileURL(join(out, "camera.js")).href);
+  const view = { w: 690, h: 648 };
+  const img = { w: 2220, h: 2967 };
+  const home = C.showRect({ x: 480, y: 700, width: 1600, height: 1500 }, view, img);
+  const { min, max } = C.limits(view, img);
+  assert.ok(Math.abs(home.z - Math.min(690 / 1600, 648 / 1500)) < 1e-9);
+  // zooming in and out by the same amount around the same point comes back exactly
+  let cam = home;
+  for (let i = 0; i < 50; i++) cam = C.zoomAt(cam, 1.3, 200, 300, view, img);
+  assert.equal(cam.z, max);
+  for (let i = 0; i < 200; i++) cam = C.zoomAt(cam, 1 / 1.3, 200, 300, view, img);
+  assert.equal(cam.z, min);
+  // the image point under the pointer stays there while zooming within the limits
+  const under = (c, px, py) => [c.cx + (px - view.w / 2) / c.z, c.cy + (py - view.h / 2) / c.z];
+  const a = under(home, 100, 500);
+  const b = under(C.zoomAt(home, 1.7, 100, 500, view, img), 100, 500);
+  assert.ok(Math.hypot(a[0] - b[0], a[1] - b[1]) < 1e-6);
+  // random gestures keep the camera in its limits, with the image covering the viewport
+  // (or centred along a side that is smaller than it)
+  let seed = 1;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  cam = home;
+  for (let i = 0; i < 2000; i++) {
+    cam = rnd() < 0.5 ? C.zoomAt(cam, 0.5 + rnd() * 1.5, rnd() * view.w, rnd() * view.h, view, img) : C.panBy(cam, (rnd() - 0.5) * 900, (rnd() - 0.5) * 900, view, img);
+    assert.ok(cam.z >= min && cam.z <= max, `zoom ${cam.z}`);
+    const v = C.visible(cam, view, img);
+    const across = (span, size, c, x0, w) => (span >= size ? Math.abs(c - size / 2) < 1e-9 : x0 >= 0 && x0 + w <= size + 1e-9 && Math.abs(w - span) < 1e-6);
+    assert.ok(across(view.w / cam.z, img.w, cam.cx, v.x, v.width), `x at ${i}`);
+    assert.ok(across(view.h / cam.z, img.h, cam.cy, v.y, v.height), `y at ${i}`);
+    const r = C.regionFor(cam, view, img);
+    if (r) assert.ok(r.x >= 0 && r.y >= 0 && r.x + r.width <= img.w && r.y + r.height <= img.h && Number.isInteger(r.width));
+  }
+  // the whole image needs no region; a picture of a region is placed where the camera puts it
+  assert.equal(C.regionFor(C.clamp({ cx: 0, cy: 0, z: min }, view, img), view, img), undefined);
+  const p = C.place({ x: home.cx, y: home.cy, width: 10, height: 10 }, home, view);
+  assert.deepEqual([p.x, p.y], [view.w / 2, view.h / 2]);
 });
 
 test("a dropped CZI is explained, checked and previewed", async () => {
@@ -118,6 +150,8 @@ test("the page states and enforces that it reaches no other site", () => {
   const csp = html.match(/http-equiv="Content-Security-Policy"\s+content="([^"]+)"/)[1];
   assert.match(csp, /default-src 'none'/);
   assert.match(csp, /connect-src 'self';/);
+  // the worker starts from a blob: URL, so it keeps this policy
+  assert.match(csp, /worker-src blob:;/);
   assert.match(csp, /form-action 'none'/);
   assert.doesNotMatch(csp, /https?:|\*|data:/);
   // No script talks to another origin: fetch only takes relative paths, and nothing uses

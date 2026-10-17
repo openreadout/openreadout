@@ -89,7 +89,8 @@ export function imageOf(info, v) {
 
 /**
  * Preview options for a view, drawn `width` CSS pixels wide (images: the longer side fits
- * `width` across, or `height` down) at `scale` device pixels per CSS pixel.
+ * `width` across, or `height` down) at `scale` device pixels per CSS pixel. Images are asked
+ * for at the device size directly (`scale` 1), which reads them once instead of twice.
  */
 export function previewOptions(info, v, { width, height = Infinity, scale = 1, dark = false }) {
   const s = Math.min(4, Math.max(1, Math.round(scale * 4) / 4));
@@ -97,23 +98,7 @@ export function previewOptions(info, v, { width, height = Infinity, scale = 1, d
     const im = imageOf(info, v);
     const r = v.region ?? { x: 0, y: 0, width: im.size_x, height: im.size_y };
     const fit = Math.min(width / r.width, height / r.height);
-    const size = Math.max(16, Math.round(Math.max(r.width, r.height) * fit));
-    const select = [];
-    if (v.channels?.length) select.push(`c=${v.channels.join(",")}`);
-    if (v.z !== undefined) select.push(`z=${v.z}`);
-    if (v.t !== undefined) select.push(`t=${v.t}`);
-    return {
-      image: v.image ?? 0,
-      ...(select.length ? { select } : {}),
-      ...(v.channels?.length > 1 ? { composite: true } : {}),
-      ...(v.region ? { region: v.region } : {}),
-      ...(v.objects ? { marks: "objects" } : {}),
-      axes: "none",
-      max_size: size,
-      scale: s,
-      format: "jpeg",
-      dark,
-    };
+    return imageOptions(v, { region: v.region, size: Math.max(r.width, r.height) * fit * s });
   }
   const o = { max_size: Math.max(280, Math.round(width)), scale: s, format: "png", dark };
   for (const k of ["trace", "sweep", "run", "spectrum", "table", "columns", "marks", "annotations"]) {
@@ -122,41 +107,32 @@ export function previewOptions(info, v, { width, height = Infinity, scale = 1, d
   return o;
 }
 
+/**
+ * Preview options for `region` of an image view (undefined: the whole image), its longer side
+ * drawn `size` pixels long (the picture is never larger than the region itself).
+ */
+export function imageOptions(v, { region, size }) {
+  const select = [];
+  if (v.channels?.length) select.push(`c=${v.channels.join(",")}`);
+  if (v.z !== undefined) select.push(`z=${v.z}`);
+  if (v.t !== undefined) select.push(`t=${v.t}`);
+  return {
+    image: v.image ?? 0,
+    ...(select.length ? { select } : {}),
+    ...(v.channels?.length > 1 ? { composite: true } : {}),
+    ...(region ? { region } : {}),
+    ...(v.objects ? { marks: "objects" } : {}),
+    axes: "none",
+    max_size: Math.min(4096, Math.max(16, Math.round(size))),
+    format: "jpeg",
+  };
+}
+
 /** Draw a view: `{ meta, data, type, scale }`. */
 export async function draw(file, info, v, size) {
   const o = previewOptions(info, v, size);
   const p = await file.preview(o);
-  return { ...p, scale: o.scale };
-}
-
-/**
- * The full-resolution region that a part of an image preview shows: `box` is that part as
- * fractions of the picture (`{ x0, y0, x1, y1 }`, 0 to 1, possibly beyond when zooming out).
- * The result is kept inside the image, at least `min` pixels across, and undefined when it
- * covers the whole image.
- */
-export function regionOf(meta, info, v, box, min = 48) {
-  const im = imageOf(info, v);
-  const r = meta.image.full_res_region;
-  const cx = r.x + ((box.x0 + box.x1) / 2) * r.width;
-  const cy = r.y + ((box.y0 + box.y1) / 2) * r.height;
-  return fitRegion(im, cx, cy, (box.x1 - box.x0) * r.width, (box.y1 - box.y0) * r.height, min);
-}
-
-/** A region of `width` × `height` full-resolution pixels centred on (cx, cy), inside the image. */
-export function fitRegion(im, cx, cy, width, height, min = 48) {
-  // keep the shape when the region would be smaller than `min` across
-  const grow = Math.max(1, min / Math.min(width, height));
-  let w = width * grow;
-  let h = height * grow;
-  // keep the shape when one side hits the image edge
-  const k = Math.min(im.size_x / w, im.size_y / h, 1);
-  w *= k;
-  h *= k;
-  if (w >= im.size_x - 1 && h >= im.size_y - 1) return undefined;
-  const x = Math.min(Math.max(0, cx - w / 2), im.size_x - w);
-  const y = Math.min(Math.max(0, cy - h / 2), im.size_y - h);
-  return { x: Math.round(x), y: Math.round(y), width: Math.round(w), height: Math.round(h) };
+  return { ...p, scale: o.scale ?? 1 };
 }
 
 /**
@@ -302,18 +278,20 @@ export function formatName(info) {
  * Numbers about what the picture shows, as `{ label, value }`: the size of an image region,
  * the objects found in it, the labelled peaks of a plot, the action potentials of a sweep.
  */
-export function numbers(info, v, meta) {
+export function numbers(info, v, meta, shown = {}) {
   const out = [];
   if (meta.image) {
     const im = imageOf(info, v);
-    const r = meta.image.full_res_region;
+    const r = shown.region ?? meta.image.full_res_region;
     const um = im?.physical_size?.unit === "µm" ? im.physical_size.x : undefined;
-    out.push({ label: "Showing", value: `${r.width.toLocaleString("en-US")} × ${r.height.toLocaleString("en-US")} px` });
+    const px = (n) => Math.round(n).toLocaleString("en-US");
+    const ob = shown.objects === undefined ? meta.objects : shown.objects;
+    if (ob) out.push({ label: `${sentence(ob.kind ?? "objects")} in view`, value: ob.count.toLocaleString("en-US"), strong: true });
+    out.push({ label: "Area shown", value: `${px(r.width)} × ${px(r.height)} px` });
     if (um) out.push({ label: "Field of view", value: `${round(r.width * um)} × ${round(r.height * um)} µm` });
-    out.push({ label: "Zoom", value: `${round(im.size_x / r.width)}×` });
-    const ob = meta.objects;
+    const zoom = shown.zoom ?? im.size_x / r.width;
+    out.push({ label: "Zoom", value: `${zoom < 9.95 ? zoom.toFixed(1) : Math.round(zoom)}×` });
     if (ob) {
-      out.push({ label: `${sentence(ob.kind ?? "objects")} found`, value: ob.count.toLocaleString("en-US"), strong: true });
       if (ob.density_per_mm2) out.push({ label: "Density", value: `${round(ob.density_per_mm2)} per mm²` });
       if (ob.diameter_um?.median) out.push({ label: "Median diameter", value: `${round(ob.diameter_um.median)} µm` });
       if (ob.confidence) out.push({ label: "Confidence", value: ob.confidence });
@@ -333,7 +311,7 @@ export function numbers(info, v, meta) {
   if (meta.trace && !spikes.length && v.marks !== "spikes") {
     const t = meta.trace;
     if (t.channels?.length > 1) out.push({ label: "Curves", value: String(t.channels.length), strong: true });
-    if (t.sweep_sample_count) out.push({ label: "Points each", value: t.sweep_sample_count.toLocaleString("en-US") });
+    if (t.sweep_sample_count) out.push({ label: "Points", value: t.sweep_sample_count.toLocaleString("en-US") });
     if (t.x_axis) out.push({ label: "Range", value: `${round(t.x_axis.first)} to ${round(t.x_axis.last)} ${t.x_axis.unit}` });
   }
   const peaks = (meta.marks ?? []).filter((m) => m.kind === "peak" && m.label);
@@ -347,13 +325,13 @@ export function numbers(info, v, meta) {
   }
   if (meta.events) {
     out.push({ label: "Events", value: meta.events.events.toLocaleString("en-US"), strong: true });
-    if (meta.events.total_events !== meta.events.events) out.push({ label: "Of", value: meta.events.total_events.toLocaleString("en-US") });
+    if (meta.events.total_events !== meta.events.events) out.push({ label: "In the file", value: meta.events.total_events.toLocaleString("en-US") });
   }
   if (meta.plate) {
     const p = meta.plate;
     out.push({ label: "Wells", value: String(p.wells), strong: true });
-    if (p.time) out.push({ label: "Read for", value: `${round(p.time[1] - p.time[0])} ${p.time_unit}` });
-    if (Number.isFinite(p.min)) out.push({ label: "Values", value: `${round(p.min)} to ${round(p.max)}` });
+    if (p.time) out.push({ label: "Duration", value: `${round(p.time[1] - p.time[0])} ${p.time_unit}` });
+    if (Number.isFinite(p.min)) out.push({ label: "Value range", value: `${round(p.min)} to ${round(p.max)}` });
     if (p.groups?.length) out.push({ label: "Groups", value: String(p.groups.length) });
   }
   if (meta.spectrum) {

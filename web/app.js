@@ -1,23 +1,29 @@
 // The demo page: sample cards, your own file, and the result with its picture and controls.
-// Everything runs in this tab. The page's Content-Security-Policy (`connect-src 'self'`) lets
-// it fetch only its own files from this site, the WebAssembly module and the samples, so a file
-// you open cannot leave your device. reader.js holds the parts that don't touch the page.
+// OpenReadout runs in a Web Worker (engine.js, core.js), so the page stays responsive while it
+// draws. The page's Content-Security-Policy (`connect-src 'self'`) lets it fetch only its own
+// files from this site, so a file you open can't leave your device. reader.js turns the JSON
+// into what the page lists, and camera.js holds the pan and zoom arithmetic.
 
 import { BUILT } from "./built.js";
+import * as C from "./camera.js";
+import { call, progress } from "./engine.js";
 import * as R from "./reader.js";
 import { FIRST, SAMPLES } from "./samples.js";
 
 const $ = (id) => document.getElementById(id);
 const touch = matchMedia("(hover: none)").matches;
-const nextFrame = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+const dpr = () => window.devicePixelRatio || 1;
 
-let lastWidth = 0; // the stage width of the last drawing
+const frame = $("frame");
+const PLOT_MAX = 960; // plots wider than this only grow their type
+const CACHE = 40; // pictures kept per file
 
 const S = {
-  module: null, // promise of the loaded module
-  bytes: new Map(), // sample id -> Uint8Array
+  files: new Map(), // key -> the state of an opened file (kept, so going back is instant)
+  cur: null, // the file shown
   gen: 0, // the latest open request; older ones give way
-  cur: null, // the open file: { file, name, size, info, explain, check, ms, sample, view, meta, ... }
+  own: 0, // files of your own opened so far
 };
 
 // ----- small DOM helpers -----------------------------------------------------------------------
@@ -25,7 +31,7 @@ const S = {
 function el(tag, attrs = {}, ...children) {
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
-    if (v === undefined || v === false) continue;
+    if (v === undefined || v === false || v === null) continue;
     if (k === "class") e.className = v;
     else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
     else e.setAttribute(k, v === true ? "" : v);
@@ -35,8 +41,12 @@ function el(tag, attrs = {}, ...children) {
 }
 
 function errorText(err) {
-  return el("p", { class: "error" }, err?.message ?? "This failed.", err?.hint ? el("span", { class: "hint" }, err.hint) : null);
+  return el("p", { class: "error" }, err?.message ?? "This failed.", err?.hint ? el("span", { class: "why" }, err.hint) : null);
 }
+
+const ignore = (e) => {
+  if (!e?.superseded) console.error(e);
+};
 
 // ----- theme ---------------------------------------------------------------------------------------
 
@@ -67,8 +77,9 @@ function syncThumbs() {
 
 function themeChanged() {
   syncThumbs();
-  if (S.cur?.meta && !S.cur.meta.image) redraw();
-  if (S.cur?.second) drawSecond();
+  const F = S.cur;
+  if (F?.mode === "plot") drawPlot(F).catch(ignore);
+  if (F?.second) drawSecond(F).catch(ignore);
 }
 
 $("theme").addEventListener("click", () => {
@@ -85,22 +96,84 @@ systemDark.addEventListener("change", () => {
   if (!document.documentElement.dataset.theme) themeChanged();
 });
 
-// ----- status line -------------------------------------------------------------------------------
+// ----- the busy state ------------------------------------------------------------------------------
 
-function status(text, fraction) {
-  const box = $("status");
-  box.hidden = !text;
-  box.classList.remove("error");
-  $("status-text").textContent = text ?? "";
-  $("status-bar").style.width = `${Math.round(Math.min(1, fraction ?? 0) * 100)}%`;
+let workId = 0;
+
+/**
+ * Show that the page is working: the picture dims under a small spinner with `text` (or, with
+ * `corner`, stays as it is with the spinner in a corner), and `control` is marked busy with its
+ * buttons disabled. Returns `{ text(t), done() }`.
+ */
+function startWork(text, { control, corner = false } = {}) {
+  const id = ++workId;
+  const box = $("busy");
+  box.className = corner ? "busy corner" : "busy";
+  $("busy-text").textContent = text;
+  box.hidden = false;
+  frame.classList.toggle("dim", !corner);
+  const chips = control ? [...control.querySelectorAll(".chip")] : [];
+  if (control) control.setAttribute("aria-busy", "true");
+  for (const c of chips) c.disabled = true;
+  let ended = false;
+  return {
+    text(t) {
+      if (id === workId) $("busy-text").textContent = t;
+    },
+    done() {
+      if (ended) return;
+      ended = true;
+      if (control) control.removeAttribute("aria-busy");
+      for (const c of chips) c.disabled = false;
+      if (id === workId) {
+        box.hidden = true;
+        frame.classList.remove("dim");
+      }
+    },
+  };
 }
 
-function statusError(text) {
-  status(text);
-  $("status").classList.add("error");
+// ----- pictures ------------------------------------------------------------------------------------
+
+/**
+ * A preview of the file as `{ meta, url }`, drawn in the worker (one per `lane` at a time) and
+ * kept per file, so going back to a view is instant.
+ */
+function picture(F, options, lane, background = false) {
+  const key = JSON.stringify(options);
+  const hit = F.pics.get(key);
+  if (hit) {
+    F.pics.delete(key);
+    F.pics.set(key, hit); // most recently used last
+    return hit.promise;
+  }
+  const entry = { done: false, pic: null };
+  entry.promise = call("preview", { key: F.key, options }, { lane, background }).then(async (r) => {
+    const url = URL.createObjectURL(new Blob([r.data], { type: r.type }));
+    const im = new Image();
+    im.src = url;
+    await im.decode().catch(() => {});
+    entry.done = true;
+    entry.pic = { meta: r.meta, url };
+    return entry.pic;
+  });
+  entry.promise.catch(() => F.pics.get(key) === entry && F.pics.delete(key));
+  F.pics.set(key, entry);
+  for (const [k, e] of F.pics) {
+    if (F.pics.size <= CACHE) break;
+    if (!e.done || inUse(F, e.pic)) continue;
+    F.pics.delete(k);
+    URL.revokeObjectURL(e.pic.url);
+  }
+  return entry.promise;
 }
 
-// ----- loading the module and the samples ---------------------------------------------------------
+/** Whether a picture is ready without waiting. */
+const cached = (F, options) => F.pics.get(JSON.stringify(options))?.done === true;
+
+const inUse = (F, pic) => F.layers.some((l) => l.pic === pic) || F.plotPic === pic || F.secondPic === pic;
+
+// ----- loading the samples -------------------------------------------------------------------------
 
 /** Read a response body, reporting progress against `total` bytes. */
 function counted(res, total, onProgress) {
@@ -117,38 +190,17 @@ function counted(res, total, onProgress) {
   );
 }
 
-let moduleShare = 0; // how much of the status bar the module is worth, while a sample also loads
-
-function loadModule(onProgress = () => {}) {
-  if (S.module === null) {
-    S.module = (async () => {
-      const res = await fetch("openreadout/pkg/openreadout_bg.wasm");
-      if (!res.ok) throw new Error(`the WebAssembly module did not load (HTTP ${res.status})`);
-      const body = counted(res, BUILT.wasm.bytes, (f) => S.onModuleProgress?.(f));
-      await R.ready(new Response(body, { headers: { "content-type": "application/wasm" } }));
-    })();
-    S.module.catch(() => {
-      S.module = null;
-    });
-  }
-  S.onModuleProgress = onProgress;
-  return S.module;
-}
-
 async function fetchSample(s, onProgress) {
-  if (S.bytes.has(s.id)) return S.bytes.get(s.id);
   const b = BUILT.samples[s.id];
   const packed = b.gz !== null && typeof DecompressionStream === "function";
   const res = await fetch(`samples/${encodeURIComponent(s.file)}${packed ? ".gz" : ""}`);
   if (!res.ok) throw new Error(`the sample did not load (HTTP ${res.status})`);
   let body = counted(res, packed ? b.gz : b.bytes, onProgress);
   if (packed) body = body.pipeThrough(new DecompressionStream("gzip"));
-  const bytes = new Uint8Array(await new Response(body).arrayBuffer());
-  S.bytes.set(s.id, bytes);
-  return bytes;
+  return new Uint8Array(await new Response(body).arrayBuffer());
 }
 
-const mb = (n) => `${(n / 1e6).toFixed(1)} MB`;
+let moduleLoaded = false;
 
 // ----- opening files -------------------------------------------------------------------------------
 
@@ -156,40 +208,74 @@ function pressCard(id) {
   for (const c of document.querySelectorAll(".card")) c.setAttribute("aria-pressed", String(c.dataset.sample === id));
 }
 
-async function openSample(id, { scroll = false } = {}) {
+function cardBusy(id, on) {
+  const c = document.querySelector(`.card[data-sample="${id}"]`);
+  if (on) c?.setAttribute("aria-busy", "true");
+  else c?.removeAttribute("aria-busy");
+}
+
+/** Before anything is shown: the card's picture, dimmed, where the result will be. */
+function placeholder(s) {
+  frame.className = "frame placeholder dim";
+  frame.style.cssText = "";
+  clearFrame();
+  const t = s && BUILT.samples[s.id].thumb[isDark() && BUILT.samples[s.id].thumb.dark ? "dark" : "light"];
+  if (t) {
+    frame.classList.toggle("plot", !BUILT.samples[s.id].image);
+    frame.prepend(el("img", { src: t.src, alt: "" }));
+  }
+  $("r-title").textContent = s ? s.subject : "";
+  $("r-meta").replaceChildren();
+}
+
+async function openSample(id, { scroll = true } = {}) {
   const s = SAMPLES.find((x) => x.id === id);
   if (!s) return;
   const gen = ++S.gen;
   pressCard(id);
   if (location.hash !== `#${id}`) history.replaceState(null, "", `#${id}`);
-  const b = BUILT.samples[id];
-  const sampleBytes = b.gz ?? b.bytes;
-  let modF = 0;
-  let smpF = S.bytes.has(id) ? 1 : 0;
-  const needModule = !R.isReady();
-  const total = (needModule ? BUILT.wasm.bytes * 0.45 : 0) + sampleBytes;
-  const show = () => {
-    if (gen !== S.gen) return;
-    const done = (needModule ? modF * BUILT.wasm.bytes * 0.45 : 0) + smpF * sampleBytes;
-    const what = needModule && modF < 1 ? `Loading OpenReadout and the ${s.label.toLowerCase()} sample` : `Loading the ${s.label.toLowerCase()} sample`;
-    status(`${what} · ${mb(done)} of ${mb(total)}`, done / total);
-  };
-  show();
+  const key = `sample:${id}`;
+  let F = S.files.get(key);
+  if (F) {
+    await show(F, gen, startWork("Drawing"), scroll);
+    return;
+  }
+  if (!S.cur) placeholder(s);
+  cardBusy(id, true);
+  const work = startWork(`Opening the ${s.label.toLowerCase()} sample`);
   try {
+    const b = BUILT.samples[id];
+    const sampleBytes = b.gz ?? b.bytes;
+    const moduleBytes = moduleLoaded ? 0 : BUILT.wasm.bytes * 0.42; // about its gzipped size
+    let fm = 0;
+    let fs = 0;
+    const report = () => {
+      if (gen !== S.gen) return;
+      const f = (fm * moduleBytes + fs * sampleBytes) / (moduleBytes + sampleBytes);
+      work.text(`Loading ${Math.round(f * 100)}%`);
+    };
+    progress((f) => {
+      fm = f;
+      report();
+    });
     const [bytes] = await Promise.all([
       fetchSample(s, (f) => {
-        smpF = f;
-        show();
+        fs = f;
+        report();
       }),
-      loadModule((f) => {
-        modF = f;
-        show();
-      }),
+      call("load").then(() => (moduleLoaded = true)),
     ]);
-    if (gen !== S.gen) return;
-    await show_(bytes, s.file, s, gen, scroll);
+    if (gen === S.gen) work.text(`Opening the ${s.label.toLowerCase()} sample`);
+    const size = bytes.byteLength; // the bytes move to the worker
+    const r = await call("open", { key, source: bytes, name: s.file }, { transfer: [bytes.buffer] });
+    F = fileState(key, r, s, size);
+    S.files.set(key, F);
+    if (gen === S.gen) await show(F, gen, work, scroll);
   } catch (e) {
-    if (gen === S.gen) statusError(`Could not open the sample: ${e.message}`);
+    if (gen === S.gen) showOpenError(e);
+  } finally {
+    cardBusy(id, false);
+    work.done();
   }
 }
 
@@ -198,345 +284,675 @@ async function openOwn(file) {
   const gen = ++S.gen;
   pressCard(null);
   history.replaceState(null, "", location.pathname + location.search);
+  if (!S.cur) placeholder(null);
+  const work = startWork(`Opening ${file.name}`);
+  const key = `own:${++S.own}`;
   try {
-    if (!R.isReady()) {
-      status(`Loading OpenReadout`, 0);
-      await loadModule((f) => gen === S.gen && status(`Loading OpenReadout · ${mb(f * BUILT.wasm.bytes)} of ${mb(BUILT.wasm.bytes)}`, f));
+    if (!moduleLoaded) {
+      progress((f) => gen === S.gen && work.text(`Loading ${Math.round(f * 100)}%`));
+      await call("load");
+      moduleLoaded = true;
+      work.text(`Opening ${file.name}`);
     }
-    if (gen !== S.gen) return;
-    await show_(file, file.name, null, gen, true);
+    const r = await call("open", { key, source: file, name: file.name });
+    // keep only the latest file of your own
+    for (const [k, old] of S.files) {
+      if (k.startsWith("own:")) {
+        S.files.delete(k);
+        forget(old);
+      }
+    }
+    const F = fileState(key, r, null, file.size);
+    S.files.set(key, F);
+    if (gen === S.gen) await show(F, gen, work, true);
+    else forget(F);
   } catch (e) {
-    if (gen === S.gen) statusError(`Could not read ${file.name}: ${e.message}`);
+    if (gen === S.gen) showOpenError(e);
+  } finally {
+    work.done();
   }
 }
 
-async function show_(source, name, sample, gen, scroll) {
-  status(`Reading ${name}…`, 1);
-  await nextFrame();
-  const r = await R.openFile(source, name);
-  if (gen !== S.gen) {
-    r.file.close();
-    return;
-  }
-  S.cur?.file.close();
-  S.cur = { ...r, sample, view: r.info.ok ? R.firstView(r.info.value, sample?.view) : null, draws: 0 };
-  renderHead();
-  renderWords();
-  renderFacts();
-  $("json").textContent = r.info.ok ? JSON.stringify(r.info.value, null, 2) : JSON.stringify(r.info.error, null, 2);
+function forget(F) {
+  call("close", { key: F.key }).catch(() => {});
+  for (const e of F.pics.values()) if (e.done) URL.revokeObjectURL(e.pic.url);
+}
+
+function showOpenError(e) {
+  S.cur = null;
+  frame.className = "frame";
+  frame.style.cssText = "";
+  clearFrame();
+  frame.prepend(errorText({ message: `Could not open the file: ${e.message}`, hint: e.hint }));
   $("controls").replaceChildren();
-  $("extra").replaceChildren();
   $("numbers").replaceChildren();
+  $("hint").textContent = "";
+}
+
+function fileState(key, r, sample, size) {
+  const info = r.info.ok ? r.info.value : null;
+  const v = info ? R.firstView(info, sample?.view) : null;
+  return {
+    key,
+    name: r.name,
+    size,
+    sample,
+    info,
+    infoError: r.info.ok ? null : r.info.error,
+    explain: r.explain,
+    check: r.check,
+    v,
+    mode: v?.kind === "image" ? "viewer" : "plot",
+    pics: new Map(),
+    layers: [], // the pictures placed in the image viewer
+    plotPic: null,
+    secondPic: null,
+  };
+}
+
+// ----- showing a file ------------------------------------------------------------------------------
+
+/**
+ * Show a file: draw its first picture while the previous file stays on screen, then swap
+ * everything at once.
+ */
+async function show(F, gen, work, scroll) {
+  try {
+    if (F.info) {
+      if (F.mode === "viewer") await prepareViewer(F);
+      else await preparePlot(F);
+    }
+  } catch (e) {
+    if (e?.superseded || gen !== S.gen) return;
+    F.drawError = e;
+  }
+  if (gen !== S.gen) return;
+  work.done();
+  S.cur = F;
+  $("result").removeAttribute("aria-busy");
+  renderHead(F);
+  renderWords(F);
+  renderFacts(F);
+  $("json").textContent = JSON.stringify(F.info ?? F.infoError, null, 2);
+  $("extra").replaceChildren();
   $("second").hidden = true;
-  S.cur.second = null;
-  $("result").hidden = false;
-  status(null);
-  if (r.info.ok) {
-    await redraw({ first: true });
+  $("hint2").textContent = "";
+  if (!F.info || F.drawError) {
+    showFigureError(F.infoError ?? F.drawError);
+  } else if (F.mode === "viewer") {
+    mountViewer(F);
   } else {
-    showFigureError(r.info.error);
+    mountPlot(F);
   }
-  if (scroll) $("result").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  // on a phone the result is below the cards: bring its top into view
+  const top = $("result").getBoundingClientRect().top;
+  if (scroll && top > window.innerHeight * 0.7) $("result").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "start" });
 }
 
-// ----- the result: header, words, facts ---------------------------------------------------------
+function clearFrame() {
+  for (const c of [...frame.children]) if (!["scalebar", "zoombar", "busy"].includes(c.id)) c.remove();
+}
 
-function renderHead() {
-  const c = S.cur;
-  const info = c.info.ok ? c.info.value : null;
-  $("r-kind").textContent = c.sample ? `${c.sample.label} sample` : "Your file";
-  $("r-title").textContent = c.sample ? c.sample.subject : c.name;
+function showFigureError(err) {
+  frame.className = "frame";
+  frame.style.cssText = "";
+  clearFrame();
+  frame.prepend(errorText(err));
+  $("scalebar").hidden = true;
+  $("zoombar").hidden = true;
+  $("controls").replaceChildren();
+  $("numbers").replaceChildren();
+  $("hint").textContent = "";
+  $("cmd").textContent = "";
+}
+
+function renderHead(F) {
+  $("r-title").textContent = F.sample ? F.sample.subject : F.name;
+  const format = F.sample?.format ?? (F.info ? R.formatName(F.info) : "Format not recognised");
   const meta = $("r-meta");
-  meta.replaceChildren(
-    el("code", {}, c.name),
-    ` · ${c.sample?.format ?? (info ? R.formatName(info) : "format not recognised")} · ${R.human(c.size)} · read in ${c.ms} ms in this tab`,
-  );
-  if (c.sample) {
-    meta.append(el("br"), "Sample: ", el("a", { href: c.sample.href }, c.sample.credit), ` (${c.sample.licence})`);
-  }
-  const dl = $("download");
-  dl.hidden = !c.sample;
-  if (c.sample) {
-    dl.href = `samples/${encodeURIComponent(c.sample.file)}`;
-    dl.setAttribute("download", c.sample.file);
-    dl.textContent = `Download ${c.sample.file}`;
+  meta.replaceChildren(el("code", {}, F.name), ` · ${format} · ${R.human(F.size)}`);
+  if (F.sample) {
+    meta.append(" · ", el("a", { href: `samples/${encodeURIComponent(F.sample.file)}`, download: F.sample.file }, "Download"));
   }
 }
 
-function renderWords() {
-  const c = S.cur;
+function renderWords(F) {
   const box = $("words");
   box.replaceChildren();
-  if (!c.explain.ok) {
-    box.append(errorText(c.explain.error));
-  } else {
-    const e = c.explain.value;
-    const info = c.info.ok ? c.info.value : null;
-    const summary = info ? e.summary.replace(info.format.name, R.formatName(info)) : e.summary;
-    box.append(el("p", { class: "summary" }, summary));
-    const paras = e.paragraphs ?? [];
-    for (const p of paras.slice(0, 2)) box.append(el("p", {}, p));
-    const more = [...paras.slice(2), ...(e.caveats ?? [])];
-    if (more.length) box.append(el("details", {}, el("summary", {}, "More detail"), ...more.map((p) => el("p", {}, p))));
+  // a file that can't be read says so once, where the picture would be
+  box.closest(".panel").hidden = !F.info;
+  $("h-cli").closest(".cli").hidden = !F.info;
+  if (!F.info) return;
+  if (!F.explain.ok) {
+    box.append(errorText(F.explain.error));
+    return;
   }
-  const check = $("check");
-  if (!c.check.ok) {
-    check.className = "check fail";
-    check.textContent = c.check.error.message;
-  } else {
-    const ok = c.check.value.ok;
-    const n = (c.check.value.findings ?? []).length;
-    check.className = `check ${ok ? "pass" : "fail"}`;
-    check.textContent = ok
-      ? `Integrity check passed${n ? ` with ${n} note${n > 1 ? "s" : ""}` : ""}: the file is complete and its structure is sound.`
-      : `Integrity check found problems: ${(c.check.value.findings ?? []).map((f) => f.message).join("; ")}`;
-  }
+  const e = F.explain.value;
+  const summary = F.info ? e.summary.replace(F.info.format.name, R.formatName(F.info)) : e.summary;
+  box.append(el("p", { class: "summary" }, summary));
+  const paras = e.paragraphs ?? [];
+  if (paras[0]) box.append(el("p", {}, paras[0]));
+  const more = [...paras.slice(1), ...(e.caveats ?? [])];
+  if (more.length) box.append(el("details", {}, el("summary", {}, "More detail"), ...more.map((p) => el("p", {}, p))));
 }
 
-function renderFacts() {
-  const c = S.cur;
+function renderFacts(F) {
   const facts = $("facts");
   const list = $("measured");
   facts.replaceChildren();
   list.replaceChildren();
-  if (!c.info.ok) {
-    facts.append(el("dt", {}, "Format"), el("dd", {}, "Not recognised"));
-    return;
+  const row = (k, v, cls) => facts.append(el("dt", {}, k), el("dd", { class: cls }, v));
+  if (!F.info) {
+    row("Format", "Not recognised");
+  } else {
+    for (const m of R.measurements(F.info)) list.append(el("li", {}, m));
+    for (const [k, v] of R.facts(F.info)) row(k, v);
   }
-  for (const m of R.measurements(c.info.value)) list.append(el("li", {}, m));
-  for (const [k, v] of R.facts(c.info.value)) facts.append(el("dt", {}, k), el("dd", {}, v));
+  if (!F.check.ok) {
+    if (F.info) row("Integrity check", F.check.error.message, "fail");
+  } else {
+    const findings = F.check.value.findings ?? [];
+    if (F.check.value.ok) row("Integrity check", findings.length ? `Passed, ${findings.length} note${findings.length > 1 ? "s" : ""}` : "Passed", "pass");
+    else row("Integrity check", findings.map((f) => f.message).join("; ") || "Problems found", "fail");
+  }
+  if (F.sample) row("Source", el("span", {}, el("a", { href: F.sample.href }, F.sample.credit), ` (${F.sample.licence})`));
 }
 
-function renderNumbers() {
-  const c = S.cur;
+function renderNumbers(F) {
   const dl = $("numbers");
   dl.replaceChildren();
-  for (const n of R.numbers(c.info.value, c.view, c.meta)) {
+  let list;
+  if (F.mode === "viewer") {
+    const meta = F.layers[0]?.pic.meta;
+    if (!meta) return;
+    let objects = null;
+    if (F.v.objects) {
+      const d = F.layers.find((l) => l.detail && l.sk === settingsKey(F.v));
+      objects = d && d.want === F.want ? d.pic.meta.objects : { kind: "nuclei", count: "Counting…" };
+    }
+    list = R.numbers(F.info, F.v, meta, { region: C.visible(F.cam, F.vp, F.img), zoom: F.cam.z / C.fitZoom(F.vp, F.img), objects });
+  } else {
+    if (!F.plotPic) return;
+    list = R.numbers(F.info, F.v, F.plotPic.meta);
+  }
+  for (const n of list) {
     dl.append(el("dt", { class: n.wide ? "wide" : undefined }, n.label), el("dd", { class: [n.strong ? "strong" : "", n.wide ? "wide" : ""].join(" ").trim() || undefined }, n.value));
   }
-  $("cmd").textContent = R.command(c.name, c.info.value, c.view);
 }
 
-// ----- drawing ---------------------------------------------------------------------------------------
-
-const frame = $("frame");
-const img = $("figure");
-
-function busy(on, text = "Drawing…") {
-  $("busy").hidden = !on;
-  $("busy-text").textContent = text;
-}
-
-function showFigureError(err) {
-  img.removeAttribute("src");
-  img.hidden = true;
-  $("scalebar").hidden = true;
-  frame.className = "frame";
-  const old = frame.querySelector(".error");
-  old?.remove();
-  frame.append(errorText(err));
-  $("hint").textContent = "";
-}
-
-const PLOT_MAX = 960; // plots wider than this only grow their type
-
-function stageSize() {
-  const w = Math.min($("stage").clientWidth, S.cur?.meta?.image || S.cur?.view?.kind === "image" ? Infinity : PLOT_MAX);
-  const h = Math.max(320, Math.round(window.innerHeight * (touch ? 0.62 : 0.72)));
-  return { width: w, height: h };
-}
-
-/** Draw the current view into the main figure. */
-async function redraw({ first = false } = {}) {
-  const c = S.cur;
-  if (!c?.info.ok) return;
-  const token = ++c.draws;
-  const slow = c.view.objects ? "Finding nuclei…" : "Drawing…";
-  const timer = setTimeout(() => token === c.draws && busy(true, slow), 120);
-  await nextFrame();
-  const { width, height } = stageSize();
-  lastWidth = width;
-  let p;
-  try {
-    p = await R.draw(c.file, c.info.value, c.view, { width, height, scale: window.devicePixelRatio || 1, dark: isDark() });
-  } catch (e) {
-    clearTimeout(timer);
-    if (token !== c.draws) return;
-    busy(false);
-    if (first) showFigureError(e);
-    else $("hint").textContent = `${e.message}${e.hint ? ` ${e.hint}` : ""}`;
-    return;
+function renderCommand(F) {
+  let v = F.v;
+  if (F.mode === "viewer") {
+    const r = C.visible(F.cam, F.vp, F.img);
+    const whole = r.width >= F.img.w - 0.5 && r.height >= F.img.h - 0.5;
+    v = { ...v, region: whole ? undefined : { x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height) } };
   }
-  if (token !== c.draws || S.cur !== c) return;
-  const url = URL.createObjectURL(new Blob([p.data], { type: p.type }));
-  const pre = new Image();
-  pre.src = url;
-  try {
-    await pre.decode();
-  } catch {
-    // shown anyway
-  }
-  if (token !== c.draws || S.cur !== c) {
-    URL.revokeObjectURL(url);
-    return;
-  }
-  clearTimeout(timer);
-  busy(false);
-  frame.querySelector(".error")?.remove();
-  const old = img.src;
-  const cssW = p.meta.width / p.scale;
-  const cssH = p.meta.height / p.scale;
-  img.hidden = false;
-  img.classList.remove("settling");
-  img.style.transform = "";
-  img.src = url;
-  img.alt = altText(c, p.meta);
-  frame.style.width = `${Math.round(cssW)}px`;
-  frame.style.maxWidth = "100%";
-  frame.style.marginInline = "auto";
-  frame.style.aspectRatio = `${cssW} / ${cssH}`;
-  if (old.startsWith("blob:")) URL.revokeObjectURL(old);
-  c.meta = p.meta;
-  c.figure = { cssW, cssH };
-  zoom.reset();
-  if (first) setupKind();
-  updateScalebar();
-  renderNumbers();
-  afterDraw();
+  $("cmd").textContent = R.command(F.name, F.info, v);
 }
 
-function altText(c, meta) {
-  const what = c.sample ? c.sample.subject : c.name;
-  if (meta.image) return `${what}: image, ${meta.image.full_res_region.width} × ${meta.image.full_res_region.height} pixels shown`;
-  return `${what}: ${meta.kind} plot`;
+// ----- the image viewer ----------------------------------------------------------------------------
+
+/**
+ * What a picture depends on besides the region: channels and plane, and for the picture of the
+ * region in view also whether nuclei are outlined. The whole image (the base) never has them:
+ * counting nuclei in all of a large image takes too long.
+ */
+const settingsKey = (v, detail = true) => JSON.stringify([v.image ?? 0, v.channels, v.z, v.t, detail && Boolean(v.objects)]);
+
+/** The viewport for a file: the stage's width, the shape of the first view, a height limit. */
+function viewportFor(F) {
+  const W = Math.max(200, $("stage").clientWidth);
+  const maxH = Math.round(Math.min(820, Math.max(280, window.innerHeight * (touch ? 0.6 : 0.72))));
+  const r = F.home;
+  const aspect = r.height / r.width;
+  let w = W;
+  let h = w * aspect;
+  if (h > maxH) {
+    h = maxH;
+    w = Math.min(W, Math.max(h / aspect, W * 0.5));
+  }
+  return { w: Math.round(w), h: Math.round(h) };
 }
 
-function updateScalebar() {
-  const c = S.cur;
+function initViewer(F) {
+  const im = R.imageOf(F.info, F.v);
+  F.img = { w: im.size_x, h: im.size_y };
+  F.home = F.v.region ?? { x: 0, y: 0, width: im.size_x, height: im.size_y };
+  F.v.region = undefined; // the camera says what is shown
+  F.vp = viewportFor(F);
+  F.homeCam = C.showRect(F.home, F.vp, F.img);
+  F.cam = F.homeCam;
+}
+
+async function prepareViewer(F) {
+  if (!F.vp) initViewer(F);
+  if (F.layers.length) return;
+  await refine(F);
+}
+
+function mountViewer(F) {
+  frame.className = "frame viewer";
+  frame.tabIndex = 0;
+  frame.setAttribute("aria-label", "Image. Use + and − to zoom, the arrow keys to move, 0 to reset.");
+  clearFrame();
+  fitStage(F);
+  sizeFrame(F);
+  for (const l of F.layers) frame.insertBefore(l.el, $("scalebar"));
+  $("zoombar").hidden = false;
+  $("hint").textContent = touch ? "Pinch to zoom, drag to move, double-tap to reset." : "Scroll to zoom, drag to move, double-click to reset.";
+  setupImageControls(F);
+  applyCam(F);
+  renderCommand(F);
+  F.cq ??= null;
+  if (F.layers.length < 2 || F.v.objects) settleSoon(F, 0);
+}
+
+/** Fit the viewport to the stage's width again, showing the same part of the image. */
+function fitStage(F) {
+  const vp = viewportFor(F);
+  if (vp.w === F.vp.w && vp.h === F.vp.h) return false;
+  const fitOld = C.fitZoom(F.vp, F.img);
+  const fit = C.fitZoom(vp, F.img);
+  F.homeCam = C.clamp({ ...F.homeCam, z: (F.homeCam.z / fitOld) * fit }, vp, F.img);
+  F.cam = C.clamp({ ...F.cam, z: (F.cam.z / fitOld) * fit }, vp, F.img);
+  F.vp = vp;
+  return true;
+}
+
+function sizeFrame(F) {
+  frame.style.width = `${F.vp.w}px`;
+  frame.style.height = `${F.vp.h}px`;
+}
+
+let numbersFrame = 0;
+
+/** Place every picture for the camera, and update what depends on it. */
+function applyCam(F) {
+  if (S.cur !== F || F.mode !== "viewer") return;
+  for (const l of F.layers) {
+    const p = C.place(l.rect, F.cam, F.vp);
+    l.el.style.transform = `translate(${p.x}px, ${p.y}px) scale(${p.s})`;
+    // past one picture pixel per two screen pixels, show the pixels as squares
+    l.el.classList.toggle("pixels", l.pic.meta.width / l.rect.width < 0.5 * F.cam.z * dpr());
+  }
+  const { min, max } = C.limits(F.vp, F.img);
+  $("zoom-out").disabled = F.cam.z <= min * 1.0001;
+  $("zoom-in").disabled = F.cam.z >= max * 0.9999;
+  $("zoom-reset").disabled = C.same(F.cam, F.homeCam);
+  frame.classList.toggle("zoomed", F.cam.z > min * 1.0001);
+  updateScalebar(F);
+  cancelAnimationFrame(numbersFrame);
+  numbersFrame = requestAnimationFrame(() => S.cur === F && renderNumbers(F));
+}
+
+function setCam(F, cam, { settle = true } = {}) {
+  F.cam = cam;
+  applyCam(F);
+  if (settle) settleSoon(F);
+}
+
+let settleTimer;
+
+/** Draw a sharper picture once the camera has been still for a moment. */
+function settleSoon(F, ms = 160) {
+  clearTimeout(settleTimer);
+  settleTimer = setTimeout(() => {
+    if (S.cur !== F) return;
+    renderCommand(F);
+    refine(F, { quiet: true }).catch(ignore);
+  }, ms);
+}
+
+/**
+ * Ask for the pictures the camera needs: the whole image (the base, once per setting) and,
+ * when the base is too coarse for the zoom or nuclei are counted, the region in view. The
+ * promise resolves when the more important one is placed.
+ */
+function refine(F, { quiet = false, control } = {}) {
+  const sk = settingsKey(F.v);
+  const bk = settingsKey(F.v, false);
+  const fit = C.fitZoom(F.vp, F.img);
+  const scale = dpr();
+  const base = F.layers.find((l) => !l.detail && l.sk === bk);
+  // nuclei are counted in what is in view only: counting takes time in proportion to the area
+  const region = C.regionFor(F.cam, F.vp, F.img, F.v.objects ? 0 : 0.1);
+  const coarse = !base || base.pic.meta.width / F.img.w < F.cam.z * scale * 0.9;
+  const wantDetail = F.v.objects || (coarse && region !== undefined) || (coarse && base && F.cam.z > fit * 1.01);
+  const jobs = [];
+  if (wantDetail) {
+    const r = region ?? { x: 0, y: 0, width: F.img.w, height: F.img.h };
+    const opts = R.imageOptions(F.v, { region, size: Math.max(r.width, r.height) * F.cam.z * scale });
+    const current = F.layers.find((l) => l.detail && l.sk === sk && l.key === JSON.stringify(opts));
+    F.want = JSON.stringify(opts);
+    if (!current) jobs.push({ detail: true, opts });
+  }
+  if (!base) jobs.push({ detail: false, opts: R.imageOptions({ ...F.v, objects: false }, { size: Math.max(F.img.w, F.img.h) * fit * scale }) });
+  if (!jobs.length) {
+    if (S.cur === F) renderNumbers(F);
+    return Promise.resolve();
+  }
+  // quiet: the picture in view is only sharpened (nuclei: recounted), so it isn't dimmed
+  const slow = jobs.some((j) => !cached(F, j.opts));
+  const work = S.cur === F && slow ? startWork(F.v.objects ? "Counting nuclei" : "Drawing", { control, corner: quiet }) : null;
+  const done = jobs.map((j) =>
+    picture(F, j.opts, j.detail ? "detail" : "base").then((pic) => {
+      if (settingsKey(F.v) !== sk) return; // the settings changed meanwhile
+      addLayer(F, { detail: j.detail, key: JSON.stringify(j.opts), want: JSON.stringify(j.opts), pic, sk: j.detail ? sk : bk });
+    }),
+  );
+  if (S.cur === F && F.v.objects) renderNumbers(F);
+  const first = done[0];
+  Promise.allSettled(done).then(() => work?.done());
+  return first.finally(() => work?.done());
+}
+
+function addLayer(F, l) {
+  l.rect = l.pic.meta.image.full_res_region;
+  l.el = el("img", { alt: altText(F), decoding: "async", draggable: "false" });
+  l.el.src = l.pic.url;
+  l.el.style.width = `${l.rect.width}px`;
+  l.el.style.height = `${l.rect.height}px`;
+  // a picture of other settings goes; a new picture of the same kind replaces the old one
+  const keep = F.layers.filter((o) => o.detail !== l.detail && o.sk === settingsKey(F.v, o.detail));
+  for (const o of F.layers) if (!keep.includes(o)) o.el.remove();
+  F.layers = l.detail ? [...keep, l] : [l, ...keep];
+  if (S.cur === F) {
+    const after = l.detail ? $("scalebar") : (keep[0]?.el ?? $("scalebar"));
+    frame.insertBefore(l.el, after);
+    applyCam(F);
+    renderNumbers(F);
+  }
+}
+
+function altText(F) {
+  return `${F.sample ? F.sample.subject : F.name}, image`;
+}
+
+function updateScalebar(F) {
   const bar = $("scalebar");
-  const im = c.meta?.image ? R.imageOf(c.info.value, c.view) : null;
-  const ps = im?.physical_size;
-  if (!im || !ps?.x || ps.unit !== "µm") {
+  const ps = R.imageOf(F.info, F.v)?.physical_size;
+  if (!ps?.x || ps.unit !== "µm") {
     bar.hidden = true;
     return;
   }
-  const umPerCss = (c.meta.image.full_res_region.width * ps.x) / c.figure.cssW;
-  const target = umPerCss * Math.min(110, c.figure.cssW * 0.3);
-  const nice = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000].reduce((a, b) => (b <= target ? b : a), 1);
+  const umPerCss = ps.x / F.cam.z;
+  const target = umPerCss * Math.min(110, F.vp.w * 0.3);
+  const steps = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
+  const nice = steps.reduce((a, b) => (b <= target ? b : a), steps[0]);
   bar.hidden = false;
   bar.querySelector("span").style.width = `${nice / umPerCss}px`;
   bar.querySelector("b").textContent = nice >= 1000 ? `${nice / 1000} mm` : `${nice} µm`;
 }
 
-// ----- per-kind setup: controls and what a tap does --------------------------------------------------
+/** Glide to a camera (buttons and keys); a gesture moves the camera directly. */
+let glide = 0;
+let gliding = null; // the camera a glide is going to
 
-function setupKind() {
-  const c = S.cur;
-  const info = c.info.value;
-  const box = $("controls");
-  box.replaceChildren();
-  frame.classList.remove("zoomable", "pickable");
-  frame.querySelector(".zoombar")?.remove();
-  c.pick = null;
-  let hint = "";
+/** The camera to build on: where a glide is going, or where the camera is. */
+const aim = (F) => gliding ?? F.cam;
 
-  if (c.meta.image) {
-    frame.classList.add("zoomable");
-    frame.append(zoomBar());
-    hint = touch ? "Tap to zoom in, drag to move, pinch to zoom in or out." : "Click to zoom in, drag to move, scroll to zoom.";
-    const im = R.imageOf(info, c.view);
-    if (c.view.channels && im.size_c > 1) box.append(channelChips(im));
-    if (im.size_z > 1) box.append(stepper("Focal plane (z)", c.view.z, im.size_z, (z) => ((c.view.z = z), redraw())));
-    if (im.size_t > 1) box.append(stepper("Time point (t)", c.view.t, im.size_t, (t) => ((c.view.t = t), redraw())));
-    box.append(nucleiToggle());
-  } else {
-    const traces = R.traceChoices(info);
-    if (c.meta.trace && traces.length > 1) {
-      box.append(
-        selectControl("Recording", traces.map((t) => [String(t.index), t.name]), String(c.view.trace ?? c.meta.trace.trace), (v) => {
-          c.view.trace = Number(v);
-          c.view.sweep = undefined;
-          c.view.marks = R.firstView(info, { trace: c.view.trace }).marks;
-          redraw({ first: true });
-        }),
-      );
-    }
-    const t = c.meta.trace && traces.find((x) => x.index === c.meta.trace.trace);
-    if (t && t.sweeps > 1) {
-      const cur = c.meta.trace.sweep;
-      box.append(
-        stepper("Sweep", cur, t.sweeps, (s) => {
-          c.view.sweep = s;
-          redraw();
-        }),
-      );
-      if (c.view.marks === "spikes") box.append(el("div", { class: "control", id: "spikebars" }));
-      hint = c.view.marks === "spikes" ? "Step through the sweeps: each injects more current. The bars count the action potentials per sweep." : "";
-    }
-    if (c.meta.events) {
-      box.append(axisPickers(info));
-      hint = "Choose the two parameters to plot against each other.";
-    }
-    if (c.meta.spectrum) {
-      const run = info.spectra?.find((r) => r.index === (c.meta.spectrum.run ?? 0));
-      if (run?.scan_count > 1) {
-        box.append(
-          stepper("Scan", c.meta.spectrum.index, run.scan_count, (i) => {
-            c.view.spectrum = i;
-            redraw();
-          }),
-        );
-      }
-    }
-    const timeAxis = c.meta.trace?.x_axis?.quantity === "retention_time" || c.meta.chromatogram;
-    if (timeAxis && info.spectra?.length) {
-      frame.classList.add("pickable");
-      c.pick = pickRetentionTime;
-      hint = touch ? "Tap the chromatogram to see the mass spectrum at that time." : "Click the chromatogram to see the mass spectrum at that time.";
-    }
-    if (c.meta.plate?.view === "curves") {
-      frame.classList.add("pickable");
-      c.pick = pickWell;
-      hint = touch ? "Tap a well to see its numbers." : "Click a well to see its numbers.";
-    }
-  }
-  $("hint").textContent = hint;
+function stopGlide() {
+  cancelAnimationFrame(glide);
+  gliding = null;
 }
 
-/** Work that follows a drawing: per-kind extras that need the picture's layout. */
-function afterDraw() {
-  const c = S.cur;
-  if (c.meta.plate && c.wellsPromise === undefined) {
-    c.wellsPromise = R.wellSeries(c.file, c.info.value, c.meta.plate.table ?? 0).catch(() => new Map());
+function animateTo(F, to) {
+  cancelAnimationFrame(glide);
+  gliding = to;
+  const from = F.cam;
+  if (reducedMotion.matches || C.same(from, to)) {
+    gliding = null;
+    setCam(F, to);
+    return;
   }
-  if (c.pick === pickRetentionTime && !c.second) {
-    const peaks = (c.meta.marks ?? []).filter((m) => m.kind === "peak");
-    const top = peaks.sort((a, b) => b.y - a.y)[0];
-    if (top) selectRetentionTime(top.x);
+  const t0 = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - t0) / 200);
+    const e = 1 - (1 - t) ** 3;
+    const z = from.z * (to.z / from.z) ** e;
+    if (t === 1) gliding = null;
+    setCam(F, t === 1 ? to : { cx: from.cx + (to.cx - from.cx) * e, cy: from.cy + (to.cy - from.cy) * e, z }, { settle: t === 1 });
+    if (t < 1 && S.cur === F) glide = requestAnimationFrame(step);
+    else gliding = null;
+  };
+  glide = requestAnimationFrame(step);
+}
+
+const viewer = () => (S.cur?.mode === "viewer" && S.cur.vp && S.cur.layers.length ? S.cur : null);
+
+function zoomButton(f) {
+  const F = viewer();
+  if (F) animateTo(F, C.zoomAt(aim(F), f, F.vp.w / 2, F.vp.h / 2, F.vp, F.img));
+}
+
+function resetView() {
+  const F = viewer();
+  if (F) animateTo(F, F.homeCam);
+}
+
+$("zoom-in").addEventListener("click", () => zoomButton(2));
+$("zoom-out").addEventListener("click", () => zoomButton(0.5));
+$("zoom-reset").addEventListener("click", resetView);
+
+// Gestures. A drag pans, two fingers pinch, the wheel or a trackpad pinch zooms around the
+// pointer, a double-click or double-tap resets. Each move starts again from the camera at the
+// start of the gesture, so nothing accumulates.
+{
+  const pointers = new Map();
+  let g = null;
+  let lastTap = null;
+  let lastScroll = -1e9;
+  let lastWheel = -1e9;
+
+  const at = (e) => {
+    const r = frame.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+  const begin = () => {
+    const F = viewer();
+    g = F ? { cam: F.cam, ps: [...pointers.values()].map((p) => ({ ...p })), moved: g?.moved ?? false } : null;
+  };
+
+  frame.addEventListener("pointerdown", (e) => {
+    const F = viewer();
+    if (!F || e.target.closest(".zoombar") || (e.pointerType === "mouse" && e.button !== 0)) return;
+    // no text selection or image drag while panning; focus for the keys
+    e.preventDefault();
+    frame.focus({ preventScroll: true });
+    stopGlide();
+    frame.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, at(e));
+    g = null;
+    begin();
+  });
+
+  frame.addEventListener("pointermove", (e) => {
+    const F = viewer();
+    if (!F || !g || !pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, at(e));
+    const ps = [...pointers.values()];
+    if (ps.length === 1 && g.ps.length === 1) {
+      const dx = ps[0].x - g.ps[0].x;
+      const dy = ps[0].y - g.ps[0].y;
+      if (!g.moved && Math.hypot(dx, dy) < 4) return;
+      g.moved = true;
+      frame.classList.add("dragging");
+      setCam(F, C.panBy(g.cam, dx, dy, F.vp, F.img));
+    } else if (ps.length >= 2 && g.ps.length >= 2) {
+      const [a0, b0] = g.ps;
+      const [a1, b1] = ps;
+      const d0 = Math.hypot(a0.x - b0.x, a0.y - b0.y) || 1;
+      const d1 = Math.hypot(a1.x - b1.x, a1.y - b1.y);
+      const m0 = { x: (a0.x + b0.x) / 2, y: (a0.y + b0.y) / 2 };
+      const m1 = { x: (a1.x + b1.x) / 2, y: (a1.y + b1.y) / 2 };
+      g.moved = true;
+      const zoomed = C.zoomAt(g.cam, d1 / d0, m0.x, m0.y, F.vp, F.img);
+      setCam(F, C.panBy(zoomed, m1.x - m0.x, m1.y - m0.y, F.vp, F.img));
+    }
+  });
+
+  const end = (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    const p = at(e);
+    pointers.delete(e.pointerId);
+    if (pointers.size > 0) {
+      begin(); // a finger lifted from a pinch: carry on from here
+      return;
+    }
+    frame.classList.remove("dragging");
+    const tap = g && !g.moved && e.type === "pointerup";
+    g = null;
+    if (tap && e.pointerType !== "mouse") {
+      const now = e.timeStamp;
+      if (lastTap && now - lastTap.t < 320 && Math.hypot(p.x - lastTap.x, p.y - lastTap.y) < 30) {
+        lastTap = null;
+        resetView();
+      } else lastTap = { t: now, ...p };
+    }
+  };
+  frame.addEventListener("pointerup", end);
+  frame.addEventListener("pointercancel", end);
+  frame.addEventListener("dblclick", (e) => {
+    if (viewer() && !e.target.closest(".zoombar")) resetView();
+  });
+
+  // The wheel zooms only when it starts on the image: while the page is scrolling under the
+  // pointer, and at the zoom limits, it keeps scrolling the page.
+  window.addEventListener("scroll", () => (lastScroll = performance.now()), { passive: true });
+  frame.addEventListener(
+    "wheel",
+    (e) => {
+      const F = viewer();
+      if (!F) return;
+      const now = performance.now();
+      const going = now - lastWheel < 300;
+      if (!e.ctrlKey && !going && now - lastScroll < 400) return;
+      const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+      const f = Math.exp(-Math.max(-300, Math.min(300, dy)) * (e.ctrlKey ? 0.01 : 0.0022));
+      const { min, max } = C.limits(F.vp, F.img);
+      const atLimit = (f < 1 && F.cam.z <= min * 1.0001) || (f > 1 && F.cam.z >= max * 0.9999);
+      if (!e.ctrlKey && !going && atLimit) return;
+      e.preventDefault();
+      lastWheel = now;
+      stopGlide();
+      const p = at(e);
+      setCam(F, C.zoomAt(F.cam, f, p.x, p.y, F.vp, F.img));
+    },
+    { passive: false },
+  );
+
+  frame.addEventListener("keydown", (e) => {
+    const F = viewer();
+    if (!F || e.altKey || e.metaKey || e.ctrlKey) return;
+    const step = 0.15;
+    const moves = {
+      ArrowLeft: [F.vp.w * step, 0],
+      ArrowRight: [-F.vp.w * step, 0],
+      ArrowUp: [0, F.vp.h * step],
+      ArrowDown: [0, -F.vp.h * step],
+    };
+    if (e.key === "+" || e.key === "=") zoomButton(1.5);
+    else if (e.key === "-" || e.key === "_") zoomButton(1 / 1.5);
+    else if (e.key === "0" || e.key === "Home") resetView();
+    else if (moves[e.key]) animateTo(F, C.panBy(aim(F), ...moves[e.key], F.vp, F.img));
+    else return;
+    e.preventDefault();
+  });
+}
+
+// ----- plots ---------------------------------------------------------------------------------------
+
+const plotWidth = () => Math.min($("stage").clientWidth, PLOT_MAX);
+
+function plotOptions(F) {
+  return R.previewOptions(F.info, F.v, { width: plotWidth(), scale: dpr(), dark: isDark() });
+}
+
+async function preparePlot(F) {
+  F.plotPic = await picture(F, plotOptions(F), "main");
+}
+
+function mountPlot(F) {
+  frame.className = "frame";
+  frame.removeAttribute("tabindex");
+  frame.removeAttribute("aria-label");
+  clearFrame();
+  $("scalebar").hidden = true;
+  $("zoombar").hidden = true;
+  frame.prepend(el("img", { id: "plot", alt: "", decoding: "async" }));
+  placePlot(F);
+  setupPlotControls(F);
+  afterPlot(F);
+}
+
+function placePlot(F) {
+  const img = $("plot");
+  if (!img || !F.plotPic) return;
+  const m = F.plotPic.meta;
+  const s = m.scale ?? plotOptions(F).scale;
+  const cssW = m.width / s;
+  const cssH = m.height / s;
+  F.figure = { cssW, cssH };
+  img.src = F.plotPic.url;
+  img.alt = `${F.sample ? F.sample.subject : F.name}, ${m.kind} plot`;
+  frame.style.width = `${Math.round(cssW)}px`;
+  frame.style.height = "";
+  frame.style.aspectRatio = `${cssW} / ${cssH}`;
+  renderNumbers(F);
+  renderCommand(F);
+}
+
+/** Draw the plot again for the current view (an option changed, or the theme or the width). */
+async function drawPlot(F, { control } = {}) {
+  const opts = plotOptions(F);
+  const work = cached(F, opts) ? null : startWork("Drawing", { control });
+  try {
+    const pic = await picture(F, opts, "main");
+    if (S.cur !== F || JSON.stringify(plotOptions(F)) !== JSON.stringify(opts)) return;
+    F.plotPic = pic;
+    placePlot(F);
+    afterPlot(F);
+  } finally {
+    work?.done();
   }
-  if (document.getElementById("spikebars")) spikeBars();
-  if (c.cq === undefined) {
-    c.cq = null;
-    R.cqBySample(c.file, c.info.value).then(
-      (rows) => {
-        if (S.cur === c && rows.length) {
-          c.cq = rows;
-          $("extra").replaceChildren(cqTable(rows));
-        }
-      },
-      () => {},
+}
+
+/** Work that follows a drawing: per-kind extras that need the picture. */
+function afterPlot(F) {
+  const m = F.plotPic.meta;
+  if (m.plate && F.wells === undefined) {
+    F.wells = call("wellSeries", { key: F.key, table: m.plate.table ?? 0 }, { background: true }).then(
+      (entries) => new Map(entries),
+      () => new Map(),
     );
   }
+  if (F.pick === pickRetentionTime && !F.second) {
+    const top = (m.marks ?? []).filter((x) => x.kind === "peak").sort((a, b) => b.y - a.y)[0];
+    if (top) selectRetentionTime(F, top.x);
+  }
+  if (F.second && $("second").hidden) drawSecond(F).catch(ignore);
+  if ($("spikebars")) spikeBars(F);
+  if (F.cq === undefined) {
+    F.cq = null;
+    call("cqBySample", { key: F.key }, { background: true }).then((rows) => {
+      if (rows.length) F.cq = rows;
+      if (S.cur === F && rows.length) $("extra").replaceChildren(cqTable(rows));
+    }, ignore);
+  } else if (F.cq) $("extra").replaceChildren(cqTable(F.cq));
 }
+
+// ----- controls ----------------------------------------------------------------------------------------
 
 function control(label, ...children) {
   return el("div", { class: "control" }, el("span", { class: "c-label" }, label), ...children);
 }
 
 function selectControl(label, options, value, onChange) {
-  const sel = el("select", { class: "select", "aria-label": label, onchange: (e) => onChange(e.target.value) });
+  const sel = el("select", { class: "select", "aria-label": label });
   for (const [v, text] of options) sel.append(el("option", { value: v, selected: v === value }, text));
-  return control(label, sel);
+  const box = control(label, sel);
+  sel.addEventListener("change", () => onChange(sel.value, box));
+  return box;
 }
 
 function stepper(label, value, count, onChange) {
@@ -545,140 +961,182 @@ function stepper(label, value, count, onChange) {
   const range = el("input", { type: "range", min: "0", max: String(count - 1), step: "1", value: String(cur), "aria-label": label });
   const prev = el("button", { type: "button", "aria-label": `Previous ${label.toLowerCase()}` }, "‹");
   const next = el("button", { type: "button", "aria-label": `Next ${label.toLowerCase()}` }, "›");
+  let wrap;
   const set = (v, fire = true) => {
     cur = Math.max(0, Math.min(count - 1, v));
     range.value = String(cur);
     out.textContent = `${cur} of ${count}`;
     prev.disabled = cur === 0;
     next.disabled = cur === count - 1;
-    if (fire) onChange(cur);
+    if (fire) onChange(cur, wrap);
   };
   prev.addEventListener("click", () => set(cur - 1));
   next.addEventListener("click", () => set(cur + 1));
-  let t;
-  range.addEventListener("input", () => {
-    clearTimeout(t);
-    out.textContent = `${Number(range.value)} of ${count}`;
-    t = setTimeout(() => set(Number(range.value)), 60);
-  });
-  set(cur, false);
-  const wrap = control(label, el("div", { class: "stepper" }, prev, out, next), range);
+  range.addEventListener("input", () => set(Number(range.value)));
+  wrap = control(label, el("div", { class: "stepper" }, prev, out, next), range);
   wrap.setStep = (v) => set(v);
+  set(cur, false);
   return wrap;
 }
 
-function channelChips(im) {
-  const c = S.cur;
+/** Draw the image again with new settings; the old picture stays, dimmed, until then. */
+function restyle(F, box) {
+  refine(F, { control: box }).catch(ignore);
+}
+
+function setupImageControls(F) {
+  const box = $("controls");
+  box.replaceChildren();
+  const im = R.imageOf(F.info, F.v);
+  if (F.v.channels && im.size_c > 1) box.append(channelChips(F, im));
+  if (im.size_z > 1) box.append(stepper("Focal plane", F.v.z, im.size_z, (z, c) => ((F.v.z = z), restyle(F, c))));
+  if (im.size_t > 1) box.append(stepper("Time point", F.v.t, im.size_t, (t, c) => ((F.v.t = t), restyle(F, c))));
+  const b = el("button", { type: "button", class: "chip", "aria-pressed": String(Boolean(F.v.objects)) }, "Count nuclei");
+  const nuclei = control("Nuclei", el("div", { class: "chips" }, b));
+  b.addEventListener("click", () => {
+    F.v.objects = !F.v.objects;
+    b.setAttribute("aria-pressed", String(F.v.objects));
+    restyle(F, nuclei);
+  });
+  box.append(nuclei);
+}
+
+function channelChips(F, im) {
   const chips = el("div", { class: "chips" });
+  const box = control("Channels", chips);
   for (const ch of im.channels.slice(0, 4)) {
-    const on = () => c.view.channels.includes(ch.index);
-    const b = el(
-      "button",
-      { type: "button", class: "chip", "aria-pressed": String(on()) },
-      el("span", { class: "dot" }),
-      ch.fluorophore ?? ch.name ?? `Channel ${ch.index + 1}`,
-    );
+    const on = () => F.v.channels.includes(ch.index);
+    const b = el("button", { type: "button", class: "chip", "aria-pressed": String(on()) }, el("span", { class: "dot" }), ch.fluorophore ?? ch.name ?? `Channel ${ch.index + 1}`);
     b.querySelector(".dot").style.background = ch.color ?? "#888";
     b.addEventListener("click", () => {
-      const set = new Set(c.view.channels);
+      const set = new Set(F.v.channels);
       if (set.has(ch.index)) {
         if (set.size === 1) return;
         set.delete(ch.index);
       } else set.add(ch.index);
-      c.view.channels = [...set].sort((a, b) => a - b);
+      F.v.channels = [...set].sort((a, c) => a - c);
       b.setAttribute("aria-pressed", String(on()));
-      redraw();
+      restyle(F, box);
     });
     chips.append(b);
   }
-  return control("Channels", chips);
+  return box;
 }
 
-function nucleiToggle() {
-  const c = S.cur;
-  const b = el("button", { type: "button", class: "chip", "aria-pressed": String(Boolean(c.view.objects)) }, "Outline and count nuclei");
-  b.addEventListener("click", () => {
-    c.view.objects = !c.view.objects;
-    b.setAttribute("aria-pressed", String(c.view.objects));
-    redraw();
-  });
-  return control("Analysis", el("div", { class: "chips" }, b), el("p", { class: "note" }, "Finds nuclei in the area shown, as openreadout stats does."));
-}
-
-function axisPickers(info) {
-  const c = S.cur;
-  const params = R.parameterChoices(info, c.meta.events.table ?? 0);
-  const opts = params.map((p) => [p.name, p.label]);
-  const cur = [c.meta.events.x, c.meta.events.y];
-  const make = (i, label) => {
-    const sel = el("select", { class: "select", "aria-label": `${label} axis` });
-    for (const [v, text] of opts) sel.append(el("option", { value: v, selected: v === cur[i] }, text));
-    sel.addEventListener("change", () => {
-      const cols = [c.meta.events.x, c.meta.events.y];
-      cols[i] = sel.value;
-      c.view.columns = cols;
-      redraw();
-    });
-    return sel;
-  };
-  return control("Axes", el("div", { class: "axes" }, "Across", make(0, "Horizontal"), "Up", make(1, "Vertical")));
-}
-
-async function spikeBars() {
-  const c = S.cur;
-  const box = document.getElementById("spikebars");
-  const t = c.meta.trace;
-  if (!box || !t) return;
-  const sweeps = R.traceChoices(c.info.value).find((x) => x.index === t.trace)?.sweeps ?? 1;
-  if (!c.spikes || c.spikes.trace !== t.trace) {
-    c.spikes = { trace: t.trace, counts: new Array(sweeps).fill(null) };
-    c.spikes.counts[t.sweep] = (c.meta.marks ?? []).filter((m) => m.kind === "spike").length;
-    // count the other sweeps in the background, a few at a time
-    (async () => {
-      for (let s = 0; s < sweeps; s++) {
-        if (S.cur !== c || c.spikes.trace !== t.trace) return;
-        if (c.spikes.counts[s] !== null) continue;
-        await new Promise((r) => setTimeout(r, 16));
-        try {
-          const p = await c.file.preview({ trace: t.trace, sweep: s, marks: "spikes", max_size: 200 });
-          c.spikes.counts[s] = (p.meta.marks ?? []).filter((m) => m.kind === "spike").length;
-        } catch {
-          c.spikes.counts[s] = 0;
-        }
-        if (s % 4 === 3 || s === sweeps - 1) paintBars();
-      }
-      paintBars();
-    })();
+function setupPlotControls(F) {
+  const info = F.info;
+  const m = F.plotPic.meta;
+  const box = $("controls");
+  box.replaceChildren();
+  frame.classList.remove("pickable");
+  F.pick = null;
+  let hint = "";
+  const traces = R.traceChoices(info);
+  if (m.trace && traces.length > 1) {
+    box.append(
+      selectControl("Recording", traces.map((t) => [String(t.index), t.name]), String(F.v.trace ?? m.trace.trace), (v, c) => {
+        F.v.trace = Number(v);
+        F.v.sweep = undefined;
+        F.v.marks = R.firstView(info, { trace: F.v.trace }).marks;
+        drawPlot(F, { control: c })
+          .then(() => S.cur === F && setupPlotControls(F))
+          .catch(ignore);
+      }),
+    );
   }
-  paintBars();
+  const t = m.trace && traces.find((x) => x.index === m.trace.trace);
+  if (t && t.sweeps > 1) {
+    box.append(
+      stepper("Sweep", m.trace.sweep, t.sweeps, (s, c) => {
+        F.v.sweep = s;
+        paintBars(F, s);
+        drawPlot(F, { control: c }).catch(ignore);
+      }),
+    );
+    if (F.v.marks === "spikes") box.append(el("div", { class: "control", id: "spikebars" }));
+  }
+  if (m.events) {
+    const params = R.parameterChoices(info, m.events.table ?? 0).map((p) => [p.name, p.label]);
+    const axis = (i, label) =>
+      selectControl(label, params, [m.events.x, m.events.y][i], (v, c) => {
+        const cols = [F.plotPic.meta.events.x, F.plotPic.meta.events.y];
+        cols[i] = v;
+        F.v.columns = cols;
+        drawPlot(F, { control: c }).catch(ignore);
+      });
+    box.append(axis(0, "X axis"), axis(1, "Y axis"));
+  }
+  if (m.spectrum) {
+    const run = info.spectra?.find((r) => r.index === (m.spectrum.run ?? 0));
+    if (run?.scan_count > 1) {
+      box.append(
+        stepper("Scan", m.spectrum.index, run.scan_count, (i, c) => {
+          F.v.spectrum = i;
+          drawPlot(F, { control: c }).catch(ignore);
+        }),
+      );
+    }
+  }
+  const timeAxis = m.trace?.x_axis?.quantity === "retention_time" || m.chromatogram;
+  if (timeAxis && info.spectra?.length) {
+    frame.classList.add("pickable");
+    F.pick = pickRetentionTime;
+    hint = `${touch ? "Tap" : "Click"} the chromatogram to show the mass spectrum at that time.`;
+  }
+  if (m.plate?.view === "curves") {
+    frame.classList.add("pickable");
+    F.pick = pickWell;
+    hint = `${touch ? "Tap" : "Click"} a well to see its values.`;
+  }
+  $("hint").textContent = hint;
 }
 
-function paintBars() {
-  const c = S.cur;
-  const box = document.getElementById("spikebars");
-  if (!box || !c.spikes) return;
-  const counts = c.spikes.counts;
+function spikeBars(F) {
+  const t = F.plotPic.meta.trace;
+  if (!t) return;
+  const sweeps = R.traceChoices(F.info).find((x) => x.index === t.trace)?.sweeps ?? 1;
+  if (!F.spikes || F.spikes.trace !== t.trace) {
+    const counts = new Array(sweeps).fill(null);
+    F.spikes = { trace: t.trace, counts };
+    counts[t.sweep] = (F.plotPic.meta.marks ?? []).filter((m) => m.kind === "spike").length;
+    // count the other sweeps in the background
+    for (let s = 0; s < sweeps; s++) {
+      if (counts[s] !== null) continue;
+      call("spikeCount", { key: F.key, trace: t.trace, sweep: s }, { background: true }).then(
+        (n) => {
+          counts[s] = n;
+          if (S.cur === F) paintBars(F);
+        },
+        () => (counts[s] = 0),
+      );
+    }
+  }
+  paintBars(F);
+}
+
+function paintBars(F, selected) {
+  const box = $("spikebars");
+  if (!box || !F.spikes) return;
+  const counts = F.spikes.counts;
   const max = Math.max(1, ...counts.map((n) => n ?? 0));
-  const cur = c.meta.trace.sweep;
+  const cur = selected ?? F.v.sweep ?? F.plotPic.meta.trace.sweep;
   const bars = el("div", { class: "bars", role: "group", "aria-label": "Action potentials per sweep" });
   counts.forEach((n, i) => {
-    const b = el("button", { type: "button", "aria-pressed": String(i === cur), "aria-label": `Sweep ${i}: ${n ?? "…"} action potentials`, title: `Sweep ${i}: ${n ?? "…"}` });
-    b.style.height = `${Math.max(4, ((n ?? 0) / max) * 100)}%`;
-    b.addEventListener("click", () => {
-      c.view.sweep = i;
-      $("controls").querySelector(".stepper")?.closest(".control")?.setStep?.(i);
-    });
+    const label = `Sweep ${i}: ${n ?? "counting"}`;
+    const b = el("button", { type: "button", class: n === null ? "unknown" : undefined, "aria-pressed": String(i === cur), "aria-label": label, title: label });
+    b.style.height = n === null ? "100%" : `${Math.max(4, (n / max) * 100)}%`;
+    b.addEventListener("click", () => $("controls").querySelector(".stepper")?.closest(".control")?.setStep?.(i));
     bars.append(b);
   });
   box.replaceChildren(
     el("span", { class: "c-label" }, "Action potentials per sweep"),
     bars,
-    el("div", { class: "bars-caption" }, el("span", {}, "sweep 0"), el("span", {}, `${counts.length - 1}`)),
+    el("div", { class: "bars-caption" }, el("span", {}, "0"), el("span", {}, String(counts.length - 1))),
   );
 }
 
 function cqTable(rows) {
-  const t = el("table", { class: "cq" }, el("caption", {}, "Cq by sample (mean of wells)"));
+  const t = el("table", { class: "cq" }, el("caption", {}, "Mean Cq by sample"));
   for (const r of rows.slice(0, 12)) t.append(el("tr", {}, el("td", {}, r.sample), el("td", {}, `${R.round(r.cq)} (${r.wells} well${r.wells > 1 ? "s" : ""})`)));
   return t;
 }
@@ -686,264 +1144,107 @@ function cqTable(rows) {
 // ----- picking on plots -----------------------------------------------------------------------------
 
 /** The figure's coordinates (CSS pixels of the drawing) under a pointer event. */
-function figurePoint(e) {
-  const r = img.getBoundingClientRect();
-  const k = S.cur.figure.cssW / r.width;
+function figurePoint(F, e) {
+  const r = $("plot").getBoundingClientRect();
+  const k = F.figure.cssW / r.width;
   return { x: (e.clientX - r.left) * k, y: (e.clientY - r.top) * k };
 }
 
-function pickRetentionTime(e) {
-  const c = S.cur;
-  const pt = figurePoint(e);
-  const hit = R.pointAt(c.meta, pt.x, pt.y);
+{
+  let down = null;
+  frame.addEventListener("pointerdown", (e) => {
+    down = S.cur?.mode === "plot" && S.cur.pick ? { x: e.clientX, y: e.clientY } : null;
+  });
+  frame.addEventListener("pointerup", (e) => {
+    const F = S.cur;
+    if (down && F?.pick && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 8) F.pick(F, e);
+    down = null;
+  });
+}
+
+function pickRetentionTime(F, e) {
+  const m = F.plotPic.meta;
+  const pt = figurePoint(F, e);
+  const hit = R.pointAt(m, pt.x, pt.y);
   if (!hit) return;
   // snap to a labelled peak within a few pixels
-  const a = hit.panel.plot_area;
-  const perPx = (hit.panel.x[1] - hit.panel.x[0]) / a.width;
-  const near = (c.meta.marks ?? []).filter((m) => m.kind === "peak" && Math.abs(m.x - hit.x) < 10 * perPx).sort((m, n) => Math.abs(m.x - hit.x) - Math.abs(n.x - hit.x))[0];
-  selectRetentionTime(near ? near.x : hit.x);
+  const perPx = (hit.panel.x[1] - hit.panel.x[0]) / hit.panel.plot_area.width;
+  const near = (m.marks ?? [])
+    .filter((x) => x.kind === "peak" && Math.abs(x.x - hit.x) < 10 * perPx)
+    .sort((a, b) => Math.abs(a.x - hit.x) - Math.abs(b.x - hit.x))[0];
+  selectRetentionTime(F, near ? near.x : hit.x);
 }
 
-async function selectRetentionTime(rt) {
-  const c = S.cur;
-  const run = c.meta.chromatogram?.run ?? 0;
-  const scan = await R.scanNear(c.file, run, rt, 0.03).catch(() => undefined);
-  if (S.cur !== c || !scan) return;
-  c.second = { run, spectrum: scan.index, rt: scan.rt_s / 60 };
-  c.view.annotations = [{ type: "vline", x: c.second.rt, color: "accent" }];
-  redraw();
-  drawSecond();
+async function selectRetentionTime(F, rt) {
+  const run = F.plotPic.meta.chromatogram?.run ?? 0;
+  const scan = await call("scanNear", { key: F.key, run, rt, window: 0.03 }, { lane: "scan" }).catch(() => undefined);
+  if (S.cur !== F || !scan) return;
+  F.second = { run, spectrum: scan.index, rt: scan.rt_s / 60 };
+  F.v.annotations = [{ type: "vline", x: F.second.rt, color: "accent" }];
+  drawPlot(F).catch(ignore);
+  drawSecond(F).catch(ignore);
 }
 
-async function drawSecond() {
-  const c = S.cur;
-  if (!c?.second) return;
+async function drawSecond(F) {
+  if (!F.second) return;
+  const v = { kind: "plot", run: F.second.run, spectrum: F.second.spectrum };
+  const opts = R.previewOptions(F.info, v, { width: plotWidth(), scale: dpr(), dark: isDark() });
   const box = $("second");
-  const v = { kind: "plot", run: c.second.run, spectrum: c.second.spectrum };
+  const spin = $("busy2");
+  const slow = !cached(F, opts);
+  if (slow && !box.hidden) {
+    box.classList.add("dim");
+    spin.hidden = false;
+  }
   try {
-    const p = await R.draw(c.file, c.info.value, v, { width: Math.min($("stage").clientWidth, PLOT_MAX), scale: window.devicePixelRatio || 1, dark: isDark() });
-    if (S.cur !== c) return;
-    const im2 = $("figure2");
-    const old = im2.src;
-    im2.src = URL.createObjectURL(new Blob([p.data], { type: p.type }));
-    im2.alt = `Mass spectrum at ${R.round(c.second.rt)} min`;
-    if (old.startsWith("blob:")) URL.revokeObjectURL(old);
+    const pic = await picture(F, opts, "second");
+    if (S.cur !== F) return;
+    F.secondPic = pic;
+    const img = $("figure2");
+    img.src = pic.url;
+    img.alt = `Mass spectrum at ${R.round(F.second.rt)} min`;
+    box.style.width = `${Math.round(pic.meta.width / opts.scale)}px`;
     box.hidden = false;
-    const peaks = (p.meta.marks ?? []).filter((m) => m.kind === "peak").map((m) => m.label);
-    $("hint2").textContent = `Mass spectrum of scan ${p.meta.spectrum?.scan_number ?? ""} at ${R.round(c.second.rt)} min${peaks.length ? `: largest peaks at m/z ${peaks.join(", ")}` : ""}.`;
+    $("hint2").textContent = `Mass spectrum at ${R.round(F.second.rt)} min (scan ${pic.meta.spectrum?.scan_number ?? F.second.spectrum}).`;
   } catch (e) {
+    if (e?.superseded || S.cur !== F) return;
     $("hint2").textContent = e.message;
-    box.hidden = false;
+  } finally {
+    box.classList.remove("dim");
+    spin.hidden = true;
   }
 }
 
-async function pickWell(e) {
-  const c = S.cur;
-  const pt = figurePoint(e);
-  const hit = R.pointAt(c.meta, pt.x, pt.y);
-  const well = hit?.panel.well ?? (c.meta.panels ?? []).find((p) => {
-    const a = p.plot_area;
-    return pt.x >= a.x - 4 && pt.x <= a.x + a.width + 4 && pt.y >= a.y - 4 && pt.y <= a.y + a.height + 4;
-  })?.well;
+async function pickWell(F, e) {
+  const m = F.plotPic.meta;
+  const pt = figurePoint(F, e);
+  const hit = R.pointAt(m, pt.x, pt.y);
+  const well =
+    hit?.panel.well ??
+    (m.panels ?? []).find((p) => {
+      const a = p.plot_area;
+      return pt.x >= a.x - 4 && pt.x <= a.x + a.width + 4 && pt.y >= a.y - 4 && pt.y <= a.y + a.height + 4;
+    })?.well;
   if (!well) return;
-  c.view.annotations = [{ type: "well", well }];
-  redraw();
-  const series = await c.wellsPromise;
-  if (S.cur !== c) return;
+  F.v.annotations = [{ type: "well", well }];
+  drawPlot(F).catch(ignore);
+  const series = await F.wells;
+  if (S.cur !== F) return;
   const s = series?.get(well);
-  const unit = c.meta.plate.time_unit ?? "";
-  const dl = el(
-    "dl",
-    {},
-    el("dt", {}, "Well"),
-    el("dd", { class: "strong" }, well),
-    ...(s
-      ? [
-          el("dt", {}, "Start"),
-          el("dd", {}, R.round(s.first)),
-          el("dt", {}, "End"),
-          el("dd", {}, R.round(s.last)),
-          el("dt", {}, "Highest"),
-          el("dd", {}, R.round(s.max)),
-          el("dt", {}, "Reads"),
-          el("dd", {}, `${s.reads} over ${R.round(c.meta.plate.time[1] - c.meta.plate.time[0])} ${unit}`),
-        ]
-      : []),
-  );
+  const unit = m.plate.time_unit ?? "";
+  const rows = [["Well", well, "strong"]];
+  if (s) {
+    rows.push(["Start", R.round(s.first)], ["End", R.round(s.last)], ["Highest", R.round(s.max)]);
+    rows.push(["Reads", `${s.reads} over ${R.round(m.plate.time[1] - m.plate.time[0])} ${unit}`]);
+  }
+  const dl = el("dl", {}, ...rows.flatMap(([k, v, cls]) => [el("dt", {}, k), el("dd", { class: cls }, v)]));
   $("extra").replaceChildren(el("h3", {}, "Selected well"), dl);
 }
-
-// ----- zooming images --------------------------------------------------------------------------------
-
-function zoomBar() {
-  const b = (label, text, f) => el("button", { type: "button", "aria-label": label, title: label, onclick: (e) => (e.stopPropagation(), f()) }, text);
-  return el(
-    "div",
-    { class: "zoombar", onpointerdown: (e) => e.stopPropagation() },
-    b("Zoom out", "−", () => zoom.by(0.5)),
-    b("Zoom in", "+", () => zoom.by(2)),
-    b("Whole image", "⤢", () => zoom.fit()),
-  );
-}
-
-/**
- * Zooming feels immediate: the picture already shown is scaled and moved with CSS while the
- * pointer moves, and OpenReadout draws the new region when the gesture ends.
- */
-const zoom = (() => {
-  let t = { x: 0, y: 0, k: 1 }; // CSS transform of the shown picture
-  const pointers = new Map();
-  let start = null;
-  let wheelTimer;
-
-  const apply = (animate = false) => {
-    img.classList.toggle("settling", animate);
-    img.style.transform = `translate(${t.x}px, ${t.y}px) scale(${t.k})`;
-  };
-
-  /** Ask for the region the transformed picture shows. */
-  const commit = () => {
-    const c = S.cur;
-    if (!c?.meta?.image) return;
-    const { cssW, cssH } = c.figure;
-    const box = { x0: -t.x / t.k / cssW, y0: -t.y / t.k / cssH, x1: (cssW - t.x) / t.k / cssW, y1: (cssH - t.y) / t.k / cssH };
-    const im = R.imageOf(c.info.value, c.view);
-    const minPx = Math.max(48, Math.round(Math.min(cssW, cssH) / 3));
-    const region = R.regionOf(c.meta, c.info.value, c.view, box, minPx);
-    const same = JSON.stringify(region) === JSON.stringify(c.view.region);
-    if (same) {
-      t = { x: 0, y: 0, k: 1 };
-      apply(true);
-      return;
-    }
-    c.view.region = region;
-    if (!region && im) c.view.region = undefined;
-    redraw();
-  };
-
-  const at = (e) => {
-    const r = frame.getBoundingClientRect();
-    return { x: e.clientX - r.left, y: e.clientY - r.top };
-  };
-
-  const scaleAround = (p, f) => {
-    t = { x: p.x - (p.x - t.x) * f, y: p.y - (p.y - t.y) * f, k: t.k * f };
-  };
-
-  frame.addEventListener("pointerdown", (e) => {
-    const c = S.cur;
-    if (!c?.meta) return;
-    if (!c.meta.image) {
-      if (c.pick) start = { p: at(e), time: e.timeStamp, pick: true };
-      return;
-    }
-    frame.setPointerCapture(e.pointerId);
-    pointers.set(e.pointerId, at(e));
-    if (pointers.size === 1) start = { p: at(e), t: { ...t }, time: e.timeStamp, moved: false };
-    if (pointers.size === 2) {
-      const [a, b] = [...pointers.values()];
-      start = { pinch: Math.hypot(a.x - b.x, a.y - b.y), mid: { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }, t: { ...t }, moved: true };
-    }
-  });
-
-  frame.addEventListener("pointermove", (e) => {
-    if (!pointers.has(e.pointerId) || !start) return;
-    pointers.set(e.pointerId, at(e));
-    if (pointers.size === 2 && start.pinch) {
-      const [a, b] = [...pointers.values()];
-      const d = Math.hypot(a.x - b.x, a.y - b.y);
-      const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-      t = { ...start.t };
-      scaleAround(start.mid, d / start.pinch);
-      t.x += mid.x - start.mid.x;
-      t.y += mid.y - start.mid.y;
-      apply();
-    } else if (pointers.size === 1 && !start.pinch) {
-      const p = at(e);
-      const dx = p.x - start.p.x;
-      const dy = p.y - start.p.y;
-      if (!start.moved && Math.hypot(dx, dy) > 6) {
-        start.moved = true;
-        frame.classList.add("dragging");
-      }
-      if (start.moved) {
-        t = { ...start.t, x: start.t.x + dx, y: start.t.y + dy };
-        apply();
-      }
-    }
-  });
-
-  const end = (e) => {
-    if (start?.pick && !S.cur?.meta?.image) {
-      const p = at(e);
-      if (Math.hypot(p.x - start.p.x, p.y - start.p.y) < 8) S.cur.pick(e);
-      start = null;
-      return;
-    }
-    if (!pointers.has(e.pointerId)) return;
-    pointers.delete(e.pointerId);
-    frame.classList.remove("dragging");
-    if (pointers.size > 0) {
-      // one finger of a pinch lifted: carry on as a drag from here
-      const [p] = [...pointers.values()];
-      start = { p, t: { ...t }, time: e.timeStamp, moved: true };
-      return;
-    }
-    const s = start;
-    start = null;
-    if (!s) return;
-    if (!s.moved && e.type === "pointerup") {
-      // a tap: zoom in around it
-      scaleAround(at(e), 2);
-      apply(true);
-      setTimeout(commit, 60);
-      return;
-    }
-    if (s.moved) commit();
-  };
-  frame.addEventListener("pointerup", end);
-  frame.addEventListener("pointercancel", end);
-
-  frame.addEventListener(
-    "wheel",
-    (e) => {
-      if (!S.cur?.meta?.image) return;
-      e.preventDefault();
-      const f = Math.exp(-e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.0025));
-      scaleAround(at(e), f);
-      apply();
-      clearTimeout(wheelTimer);
-      wheelTimer = setTimeout(commit, 220);
-    },
-    { passive: false },
-  );
-
-  return {
-    reset() {
-      t = { x: 0, y: 0, k: 1 };
-      pointers.clear();
-      start = null;
-    },
-    by(f) {
-      const c = S.cur;
-      if (!c?.figure) return;
-      scaleAround({ x: c.figure.cssW / 2, y: c.figure.cssH / 2 }, f);
-      apply(true);
-      setTimeout(commit, 120);
-    },
-    fit() {
-      const c = S.cur;
-      if (!c?.view.region) return;
-      c.view.region = undefined;
-      redraw();
-    },
-  };
-})();
 
 // ----- wiring ------------------------------------------------------------------------------------------
 
 for (const card of document.querySelectorAll(".card")) {
-  card.addEventListener("click", () => openSample(card.dataset.sample, { scroll: true }));
+  card.addEventListener("click", () => openSample(card.dataset.sample));
 }
 
 $("pick").addEventListener("change", (e) => {
@@ -974,21 +1275,35 @@ window.addEventListener("drop", (e) => {
   openOwn(e.dataTransfer.files[0]);
 });
 
-new ResizeObserver(() => {
-  const w = $("stage").clientWidth;
-  if (S.cur?.meta && Math.abs(w - lastWidth) > 24) {
-    lastWidth = w;
-    clearTimeout(S.resizeTimer);
-    S.resizeTimer = setTimeout(() => {
-      redraw();
-      if (S.cur?.second) drawSecond();
-    }, 200);
-  }
-}).observe($("stage"));
+// A wider or narrower stage: the image viewport keeps showing the same part of the image, and
+// plots are drawn again for the new width.
+{
+  let width = 0;
+  let timer;
+  new ResizeObserver(() => {
+    const w = $("stage").clientWidth;
+    if (Math.abs(w - width) < 1) return;
+    width = w;
+    const F = S.cur;
+    if (!F?.info || F.drawError) return;
+    if (F.mode === "viewer" && F.vp) {
+      if (!fitStage(F)) return;
+      sizeFrame(F);
+      setCam(F, F.cam);
+    } else if (F.mode === "plot") {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (S.cur !== F) return;
+        if (Math.abs(plotWidth() - (F.figure?.cssW ?? 0)) > 24 || $("stage").clientWidth < (F.figure?.cssW ?? 0)) drawPlot(F).catch(ignore);
+        if (F.second) drawSecond(F).catch(ignore);
+      }, 200);
+    }
+  }).observe($("stage"));
+}
 
 window.addEventListener("hashchange", () => {
   const id = location.hash.slice(1);
-  if (SAMPLES.some((s) => s.id === id)) openSample(id, { scroll: true });
+  if (SAMPLES.some((s) => s.id === id)) openSample(id);
 });
 
 syncThumbs();
