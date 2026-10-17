@@ -420,8 +420,9 @@ def nifti(p: Path) -> dict:
     full = full.reshape((nx, ny, nz, nt, nc) + ((full.shape[-1],) if rgb else ()), order="F")
     zooms = hdr.get_zooms()
     units = hdr.get_xyzt_units()[0] if hasattr(hdr, "get_xyzt_units") else "mm"
-    k = {"meter": 1e6, "mm": 1e3, "micron": 1.0}.get(units, 1e3)
-    phys = {a: (float(abs(zooms[i])) * k if len(zooms) > i and zooms[i] else None) for i, a in enumerate("xyz")}
+    k = {"meter": 1e6, "mm": 1e3, "micron": 1.0}.get(units)
+    # NIfTI voxel sizes without a spatial unit are not a physical size
+    phys = {a: (float(abs(zooms[i])) * k if k and len(zooms) > i and zooms[i] else None) for i, a in enumerate("xyz")}
     if nz <= 1:
         phys["z"] = None
     planes = []

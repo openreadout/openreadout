@@ -225,6 +225,27 @@ fn nifti_planes_scaling_and_byte_order() {
 }
 
 #[test]
+fn nifti_voxel_sizes_without_a_unit_are_not_a_physical_size() {
+    let dir = tempfile::tempdir().unwrap();
+    let mut b = nifti(&[3, 2, 2, 2], 2, 8, 0.0, &[0u8; 24], false);
+    // xyzt_units: seconds only, no spatial unit (as a micro-CT export wrote it)
+    b[123] = 8;
+    let f = dir.path().join("unitless.nii");
+    std::fs::write(&f, b).unwrap();
+    let ds = NiftiReader.open(&f).unwrap();
+    let info = ds.info().unwrap();
+    let ps = &info.images[0].physical_size;
+    assert_eq!((ps.x, ps.y, ps.z), (None, None, None));
+    assert!(
+        info.notes
+            .iter()
+            .any(|n| n.contains("no spatial unit") && n.contains("2 × 2 × 3")),
+        "{:?}",
+        info.notes
+    );
+}
+
+#[test]
 fn dicom_exports_to_nifti_and_reads_back() {
     let dir = tempfile::tempdir().unwrap();
     for (name, z, inst, base) in [("a.dcm", 0.0, 1, 1000), ("b.dcm", 2.5, 2, 1100)] {
