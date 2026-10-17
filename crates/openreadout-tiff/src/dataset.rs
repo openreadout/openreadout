@@ -1044,7 +1044,7 @@ pub(crate) fn instrument_from_tags(ifd: &Ifd) -> Option<InstrumentInfo> {
 /// TIFF DateTime `YYYY:MM:DD HH:MM:SS` → ISO-8601 (local time, no zone).
 pub(crate) fn tiff_datetime(s: &str) -> Option<String> {
     let b = s.as_bytes();
-    if b.len() >= 19 && b[4] == b':' && b[7] == b':' && b[10] == b' ' {
+    if b.len() >= 19 && b[..19].is_ascii() && b[4] == b':' && b[7] == b':' && b[10] == b' ' {
         Some(format!(
             "{}-{}-{}T{}",
             &s[0..4],
@@ -1245,5 +1245,20 @@ pub(crate) fn dir_of(path: &Path) -> PathBuf {
     match path.parent() {
         Some(p) if !p.as_os_str().is_empty() => p.to_path_buf(),
         _ => PathBuf::from("."),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::tiff_datetime;
+
+    #[test]
+    fn datetimes_with_other_characters_are_skipped() {
+        assert_eq!(
+            tiff_datetime("2024:03:05 14:22:10").as_deref(),
+            Some("2024-03-05T14:22:10")
+        );
+        // a multi-byte character across the time (found by the fuzzer)
+        assert_eq!(tiff_datetime("2024:03:05 14:22:\u{fffd}0"), None);
     }
 }
