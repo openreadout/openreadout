@@ -705,8 +705,9 @@ fn analyse(s: &Signal, req: &LanesRequest, notes: &mut Vec<String>) -> Result<La
         && (centers.len() as u32) < n
     {
         notes.push(format!(
-            "found {} of the {n} lanes asked for; the others do not stand out from the background",
-            centers.len()
+            "found {} of the {n} lanes asked for; the others do not stand out from the background. Lanes that touch, with no gap between them, look like one: give a region that holds exactly the {n} lanes and width_px (about {:.0} px each there), and check the picture with preview marks=lanes",
+            centers.len(),
+            w as f64 * bin / f64::from(n)
         ));
     }
     let lane_w = user_width.unwrap_or(0.7 * pitch_px).clamp(1.0, w as f64);
