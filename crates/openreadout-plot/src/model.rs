@@ -287,6 +287,19 @@ pub(crate) struct Series {
     pub x_focus: Option<(f64, f64)>,
     /// Label this many of the highest peaks inside the axis ranges shown.
     pub peaks: usize,
+    /// Theme series colour to draw in when none is asked for (a base or a dye).
+    pub palette: Option<usize>,
+    /// A Sanger read's base calls, drawn above the traces with their quality below.
+    pub calls: Option<BaseCalls>,
+}
+
+/// The base calls of a Sanger read in the window drawn.
+#[derive(Debug, Clone, PartialEq)]
+pub(crate) struct BaseCalls {
+    /// The window, in base positions.
+    pub window: (f64, f64),
+    /// Each call in the window: base position, base, quality (none when the file has none).
+    pub calls: Vec<(f64, String, Option<f64>)>,
 }
 
 impl Series {
@@ -312,6 +325,8 @@ impl Series {
             y_ticks: None,
             x_focus: None,
             peaks: 0,
+            palette: None,
+            calls: None,
         }
     }
 

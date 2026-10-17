@@ -1408,6 +1408,10 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         kind: k.into(),
         ..PreviewOutput::default()
     };
+    let objects_req = (k == "image")
+        .then(|| objects::show_counted_channel(info, req, &mut out.notes))
+        .flatten();
+    let req = objects_req.as_ref().unwrap_or(req);
     // An NMR data set shows its spectrum unless the caller picked a trace, sweep or channel.
     let nmr_default = k == "trace"
         && info.format.family == "nmr"

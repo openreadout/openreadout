@@ -9,6 +9,11 @@ quality first holds at 20 or more; `--x-range 300:380` (base positions) shows an
 
 ![Sanger chromatogram of a 3730xl read: coloured traces, base calls above, quality bars below](../img/formats/abif-sanger.png)
 
+`openreadout plot` draws the same read as a figure, with a title, annotations and other panels
+beside it: `{"data": {"file": "read.ab1"}, "x": {"range": [80, 160]}}` draws bases 80 to 160. In
+the SVG each base's trace, the base calls and the quality bars are a group of their own
+(`data-series="A"`, `"base calls"`, `"quality"`).
+
 A fragment-analysis run is drawn as electropherograms on a base-pair axis, one panel per dye with
 its tallest peaks labelled by size, and the size standard at the bottom with each fragment
 labelled by its length. `--x-range 180:300` zooms.

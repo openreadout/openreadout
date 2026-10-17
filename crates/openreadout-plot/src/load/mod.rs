@@ -7,6 +7,7 @@ mod flow;
 mod frames;
 mod image;
 mod plate;
+mod sanger;
 mod signal;
 mod table;
 
@@ -34,6 +35,8 @@ pub(crate) struct Ctx<'a> {
     pub plate: Option<PlateHints>,
     /// The time unit the panel's x axis is asked to show (`s`, `min`, `h`).
     pub x_unit: Option<String>,
+    /// The x range the panel is asked to show, in its units.
+    pub x_range: Option<[f64; 2]>,
     /// Data points read so far for the figure, against [`crate::MAX_POINTS`].
     pub points: usize,
 }
@@ -47,6 +50,7 @@ impl<'a> Ctx<'a> {
             apex: HashMap::new(),
             plate: None,
             x_unit: None,
+            x_range: None,
             points: 0,
         }
     }
@@ -153,6 +157,12 @@ pub(crate) fn file_label(f: &str) -> String {
 
 fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Series>> {
     let show = match spec.show {
+        // a Sanger read's chromatogram is its four traces with the calls
+        Some(Show::Chromatogram)
+            if spec.mz.is_none() && sanger::parts(&ctx.open(file)?.2, spec.trace).is_some() =>
+        {
+            Show::Sanger
+        }
         Some(s) => s,
         None => default_show(ctx, spec, file)?,
     };
@@ -175,6 +185,7 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
         Show::Frames => frames::frames(ctx, spec, file)?,
         Show::DoseResponse | Show::StandardCurve => assay::curves(ctx, spec, file, show)?,
         Show::Profile => image::profile(ctx, spec, file)?,
+        Show::Sanger => sanger::sanger(ctx, spec, file)?,
     };
     if let Some(l) = &spec.label
         && series.len() == 1
@@ -244,6 +255,14 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     // read files (FASTQ, BAM): the read-length histogram
     if info.format.family == "sequencing" && info.traces.is_empty() {
         return Ok(Show::Histogram);
+    }
+    // a Sanger read: its traces with the calls, unless a trace or channel is picked
+    if spec.trace.is_none()
+        && spec.channel.is_none()
+        && spec.y.is_none()
+        && sanger::parts(&info, None).is_some()
+    {
+        return Ok(Show::Sanger);
     }
     if !info.traces.is_empty() {
         return Ok(if spec.spikes {

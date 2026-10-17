@@ -17,6 +17,45 @@ const LISTED: usize = 20;
 /// Numbers are drawn on the objects up to this many.
 const MAX_NUMBERED: usize = 80;
 
+/// With objects and no channel selected, a single-channel preview shows the channel the
+/// objects are counted in (a DNA stain for nuclei), not channel 0, so the outlines sit on the
+/// plane they were found in. Returns the request with that channel selected, or `None` when
+/// nothing changes. Composites already include the channel.
+pub(crate) fn show_counted_channel(
+    info: &FileInfo,
+    req: &PreviewRequest,
+    notes: &mut Vec<String>,
+) -> Option<PreviewRequest> {
+    if req.marks != crate::Marks::Objects && req.objects.is_none() {
+        return None;
+    }
+    if req.composite || req.select.iter().any(|s| s.contains('c')) {
+        return None;
+    }
+    let im = info
+        .images
+        .iter()
+        .find(|i| i.index == req.image.unwrap_or(0))?;
+    if im.size_c < 2 || im.samples_per_pixel == 3 {
+        return None;
+    }
+    let kind = req.objects.as_ref().map(|o| o.kind).unwrap_or_default();
+    let c = openreadout_core::measure::default_channel(im, kind);
+    let name = im
+        .channels
+        .iter()
+        .find(|ch| ch.index == c)
+        .and_then(|ch| ch.name.clone().or_else(|| ch.fluorophore.clone()))
+        .map(|n| format!(" ({n})"))
+        .unwrap_or_default();
+    notes.push(format!(
+        "showing channel {c}{name}, where the objects were counted; select c=N for another"
+    ));
+    let mut r = req.clone();
+    r.select.push(format!("c={c}"));
+    Some(r)
+}
+
 /// Count objects in the area the preview shows and draw them over the image.
 pub(crate) fn draw(
     ds: &mut dyn Dataset,

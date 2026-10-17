@@ -73,6 +73,7 @@ A series names its data by `file` and selector, by a `table` file and its column
 | `dose_response`, `standard_curve` | Points and fitted curves from the [plate-reader assays](analyze.md#plate-reader-assays) | `assay`: their arguments without `file` (`layout`, `standards`, `model`, `normalize`, …) |
 | `amplification`, `melt` | qPCR curves, coloured by target | `wells`, `target` |
 | `frames` | One value per frame of a movie or image series, or per section of a SerialEM `.mdoc` | `y`: a value the frames record (`dose`, `tilt_angle_deg`, `cumulative_dose_e_per_a2`, …) or `mean`, `sum`, `max`, `min` of the pixels; `x`: `t` (default) or a recorded value; `channel`, `x_range` |
+| `sanger` | A Sanger read (`.ab1`, the default for one; `chromatogram` draws the same): the four bases' traces against base position, the called bases above in their colours and each call's quality below | `x_range` or the x `range` in bases (default 80 bases from where the quality first holds at QV 20); a `trace` or `channel` draws that trace instead |
 
 Every series also takes `mark` (`line`, `points`, `line_points`, `bars`, `area`, `sticks`, `density`), `label` and `color` (`ink`, `accent`, `muted`, `faint`, `blue`, `ochre`, `green`, `purple`, `teal`, `brown` or `#RRGGBB`). A `label` on a data item that gives several series (wells, files) names them once, as one colour class.
 

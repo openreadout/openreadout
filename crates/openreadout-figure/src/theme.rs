@@ -244,6 +244,32 @@ impl Default for Theme {
     }
 }
 
+/// The theme series colour (index into `Theme::series`) that shows a base or a dye the way
+/// analysis software does, in the figure engine's palette: A green, C blue, G ink, T red; FAM
+/// blue, VIC/HEX/JOE green, NED/TAMRA ochre (yellow on screen), PET/ROX red, LIZ brown (orange
+/// on screen). `None` for other names. The preview, the plot and the viewer colour these
+/// series by this index.
+pub fn series_index_of(name: &str) -> Option<usize> {
+    let d = name.trim().to_ascii_uppercase();
+    Some(match d.as_str() {
+        "A" => 4,
+        "C" => 2,
+        "G" => 0,
+        "T" => 1,
+        _ if d.contains("FAM") || d.contains("BLUE") => 2,
+        _ if ["VIC", "HEX", "JOE", "GREEN"].iter().any(|k| d.contains(k)) => 4,
+        _ if ["NED", "TAMRA", "TET", "YELLOW"]
+            .iter()
+            .any(|k| d.contains(k)) =>
+        {
+            3
+        }
+        _ if ["PET", "ROX", "RED"].iter().any(|k| d.contains(k)) => 1,
+        _ if d.contains("LIZ") || d.contains("ORANGE") => 7,
+        _ => return None,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
