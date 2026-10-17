@@ -13,9 +13,9 @@
    "size_t": 1,
    "pixel_type": "uint8",
    "physical_size_um": {
-    "x": 1000.0,
-    "y": 3000.0,
-    "z": 2000.0
+    "x": null,
+    "y": null,
+    "z": null
    },
    "planes": [
     {

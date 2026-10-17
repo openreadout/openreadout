@@ -42,8 +42,9 @@ pub use save::{
     DEFAULT_SCALE, EXTENSIONS, FileFormat, MAX_SCALE, SaveOptions, WrittenFile, encode, write,
 };
 pub use spec::{
-    Annotation, AxisSpec, ColorBy, ColorRule, Facet, InlineValues, Legend, MarkKind, OneOrMany,
-    PanelItem, PanelSpec, PlotSpec, SeriesSpec, Share, Show, Spread, Subtract, ThemeName,
+    Annotation, AnnotationType, AxisSpec, ColorBy, ColorRule, Facet, InlineValues, Legend,
+    MarkKind, OneOrMany, PanelItem, PanelSpec, PlotSpec, SeriesSpec, Share, Show, Spread, Subtract,
+    ThemeName,
 };
 
 /// Default figure width in px.
@@ -149,7 +150,7 @@ fn check_panel_parts(at: &str, m: &serde_json::Map<String, Value>) -> Result<()>
     if let Some(Value::Array(a)) = m.get("annotate") {
         for (i, v) in a.iter().enumerate() {
             serde_json::from_value::<Annotation>(v.clone())
-                .map_err(|e| Error::Usage(format!("{at}annotate[{i}]: {e}")))?;
+                .map_err(|e| Error::Usage(format!("{at}annotate[{i}]: {e}; an annotation is {{\"type\": point, text, arrow, vline, hline, vband, hband, box, line or polygon, with x, y, x2, y2, width, height, points, label, color, facet}}, e.g. {{\"type\": \"vband\", \"x\": 3, \"x2\": 4.5, \"label\": \"came back\"}}")))?;
         }
     }
     Ok(())
@@ -412,6 +413,11 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             series,
             plate: ctx.plate.take(),
         });
+    }
+    {
+        let mut all: Vec<&mut model::Series> =
+            ins.iter_mut().flat_map(|p| p.series.iter_mut()).collect();
+        load::share_scales(&mut all, &mut ctx.notes)?;
     }
     share_axes(&mut ins, spec.share)?;
     // layout

@@ -15,3 +15,11 @@ NIfTI is an open standard of the NIfTI Data Format Working Group (NIH); its refe
 **Observed:** nibabel's `example4d.nii.gz` records TR 2000 with `xyzt_units` seconds: reported as the header says. `standard.nii.gz` has `xyzt_units` 0 (mm assumed, noted).
 
 **Decisions:** dimensions 5 to 7 are folded into C; scaled data is returned as float32 computed in double precision (`stored × slope + intercept`), float64 data stays float64; orientation letters are derived from the affine's columns, RAS turned into LPS so they read like DICOM's.
+
+## 2026-10-17 — voxel sizes without a unit (Richard Zimring with Claude as assistant)
+
+**Specification consulted:** `nifti1.h` (public domain): `xyzt_units` code 0 is `NIFTI_UNITS_UNKNOWN`.
+
+**Corpus files used:** nibabel `standard.nii.gz` (`xyzt_units` 0); a public micro-CT deposit (figshare 10.6084/m9.figshare.33265719, CC BY 4.0) whose skull scans have `pixdim` 1 and no spatial unit.
+
+**Decision:** a NIfTI header with no spatial unit gives no physical size. The voxel sizes are named in a note instead of being taken as millimetres, which drew a 200 mm scale bar on a mouse skull. Analyze 7.5 sizes stay millimetres, that format's convention. The oracle (`oracle/medical.py`) reports no physical size for these files either.

@@ -113,9 +113,9 @@ fn preview_blocking(
     .map_err(|e| mcp_err(&e))?;
     if let Some(im) = &out.image {
         let read = if im.axes {
-            "read off the rulers"
+            "read off the rulers".to_string()
         } else {
-            "inside full_res_region"
+            format!("inside full_res_region ({})", im.pixel_mapping())
         };
         out.hint = Some(format!(
             "showing full-res region {}; zoom: call again with region {{x, y, width, height}} in full-res px {read}; numbers come from openreadout_stats",

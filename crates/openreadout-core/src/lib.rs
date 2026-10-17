@@ -73,6 +73,7 @@
 #![deny(missing_docs)]
 
 pub mod acquisition_mode;
+pub mod annotation;
 pub mod assurance;
 pub mod batch;
 pub mod bytes;

@@ -84,14 +84,20 @@ fn group_means_and_annotations() {
     let f = plate(d.path());
     let spec = parse_spec(json!({
         "data": {"file": f, "by": "group", "groups": ["lambda", "HK97"]},
-        "annotate": [{"x": [3, 4.5], "label": "came back"}, {"y": 0.3}, {"x": 6, "y": 0.4, "label": "here", "to": [8, 0.1]}],
+        "annotate": [
+            {"type": "vband", "x": 3, "x2": 4.5, "label": "came back"},
+            {"type": "hline", "y": 0.3},
+            {"type": "arrow", "x": 6, "y": 0.4, "x2": 8, "y2": 0.1, "label": "here"},
+            {"type": "box", "x": 1, "y": 0.1, "width": 1, "height": 0.2, "label": "lag"},
+            {"type": "text", "x": 0.2, "y": 0.5, "label": "near the left edge"},
+        ],
     }))
     .unwrap();
     let p = plot(&Registry::new(), &spec).unwrap();
     let panel = &p.output.panels[0];
     assert_eq!(panel.series.len(), 2);
     assert!(panel.series.iter().all(|s| s.mark == "band"));
-    assert_eq!(panel.annotations.len(), 3, "{:?}", panel.annotations);
+    assert_eq!(panel.annotations.len(), 5, "{:?}", panel.annotations);
     // a group the layout does not have names the ones it does
     let bad = parse_spec(json!({"data": {"file": f, "groups": ["phi80"]}})).unwrap();
     let e = plot(&Registry::new(), &bad).unwrap_err().to_string();
@@ -106,7 +112,7 @@ fn svg_is_layered() {
         "title": "growth",
         "caption": "two phages",
         "data": {"file": f, "by": "group", "groups": ["lambda", "HK97"]},
-        "annotate": [{"x": [3, 4.5], "label": "came back"}],
+        "annotate": [{"type": "vband", "x": 3, "x2": 4.5, "label": "came back"}],
     }))
     .unwrap();
     let svg = plot(&Registry::new(), &spec).unwrap().figure.to_svg();
@@ -218,7 +224,7 @@ fn helpful_errors() {
             .contains("must match")
     );
     let s = parse_spec(
-        json!({"data": {"values": {"x": [1], "y": [1]}}, "annotate": [{"x": [1, 2], "y": [1, 2]}]}),
+        json!({"data": {"values": {"x": [1], "y": [1]}}, "annotate": [{"type": "vband", "x": 1}]}),
     )
     .unwrap();
     assert!(
@@ -366,7 +372,7 @@ fn limits_on_lists_points_and_text() {
         .collect();
     assert!(usage(json!({"panels": panels})).contains("panels"));
     let anns: Vec<_> = (0..600)
-        .map(|i| json!({"x": i, "y": 1, "label": "a"}))
+        .map(|i| json!({"type": "point", "x": i, "y": 1, "label": "a"}))
         .collect();
     assert!(
         usage(json!({"data": {"values": {"x": [1], "y": [1]}}, "annotate": anns}))

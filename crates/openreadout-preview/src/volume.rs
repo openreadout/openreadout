@@ -18,7 +18,7 @@ use openreadout_core::{Error, PixelType, Plane, Result};
 use schemars::JsonSchema;
 use serde::Deserialize;
 
-use crate::annotate::{Annotation, AnnotationType};
+use crate::annotate::Annotation;
 
 /// Which plane of a volume an image preview shows.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, JsonSchema)]
@@ -405,13 +405,8 @@ impl<'a> ViewDataset<'a> {
             for (v, f, x0, w, h) in &panels {
                 // panels are centred vertically
                 let y0 = f64::from((height - h) / 2);
-                annotations.push(Annotation::outline(
-                    f64::from(*x0),
-                    y0,
-                    f64::from(*w),
-                    f64::from(*h),
-                ));
-                annotations.push(Annotation::text(
+                annotations.push(outline(f64::from(*x0), y0, f64::from(*w), f64::from(*h)));
+                annotations.push(panel_name(
                     f64::from(*x0) + f64::from(*w) / 2.0,
                     y0 + 14.0,
                     v.name(),
@@ -424,8 +419,13 @@ impl<'a> ViewDataset<'a> {
                 };
                 let cx = f64::from(*x0) + pos(f.u, *w);
                 let cy = y0 + pos(f.v, *h);
-                annotations.push(Annotation::line(cx, y0, cx, y0 + f64::from(*h)));
-                annotations.push(Annotation::line(f64::from(*x0), cy, f64::from(*x0 + w), cy));
+                annotations.push(Annotation::segment(cx, y0, cx, y0 + f64::from(*h)));
+                annotations.push(Annotation::segment(
+                    f64::from(*x0),
+                    cy,
+                    f64::from(*x0 + w),
+                    cy,
+                ));
             }
             ortho = Some(Ortho {
                 point,
@@ -658,53 +658,19 @@ impl Dataset for ViewDataset<'_> {
     }
 }
 
-fn bare(kind: AnnotationType) -> Annotation {
+/// A panel name: white text at (x, y).
+fn panel_name(x: f64, y: f64, label: &str) -> Annotation {
     Annotation {
-        kind,
-        x: None,
-        y: None,
-        x2: None,
-        y2: None,
-        width: None,
-        height: None,
-        points: Vec::new(),
-        label: None,
-        color: None,
-        channel: None,
-        well: None,
+        color: Some("white".into()),
+        ..Annotation::text(x, y, label)
     }
 }
 
-impl Annotation {
-    /// A label alone at (x, y).
-    pub(crate) fn text(x: f64, y: f64, label: &str) -> Annotation {
-        Annotation {
-            x: Some(x),
-            y: Some(y),
-            label: Some(label.into()),
-            color: Some("white".into()),
-            ..bare(AnnotationType::Text)
-        }
-    }
-
-    /// A thin outline of a panel.
-    pub(crate) fn outline(x: f64, y: f64, w: f64, h: f64) -> Annotation {
-        Annotation {
-            x: Some(x),
-            y: Some(y),
-            width: Some(w),
-            height: Some(h),
-            color: Some("muted".into()),
-            ..bare(AnnotationType::Box)
-        }
-    }
-
-    /// A straight line from (x0, y0) to (x1, y1).
-    pub(crate) fn line(x0: f64, y0: f64, x1: f64, y1: f64) -> Annotation {
-        Annotation {
-            points: vec![[x0, y0], [x1, y1]],
-            ..bare(AnnotationType::Line)
-        }
+/// A thin outline of a panel.
+fn outline(x: f64, y: f64, w: f64, h: f64) -> Annotation {
+    Annotation {
+        color: Some("muted".into()),
+        ..Annotation::rect(x, y, w, h)
     }
 }
 

@@ -15,7 +15,7 @@ use serde_json::{Value, json};
 use crate::load::PlateHints;
 use crate::model::{Geom, Series, Weight};
 use crate::output::{AxisOutput, Marked, PanelOutput, SeriesOutput};
-use crate::spec::{Annotation, Facet, Legend, MarkKind, PanelSpec};
+use crate::spec::{Annotation, AnnotationType, Facet, Legend, MarkKind, PanelSpec};
 use marks::{Ink, draw_series, events_layer};
 pub(crate) use prep::{AxisRes, named_color, prepare as prepare_axes};
 
@@ -710,6 +710,15 @@ fn fmt_num(v: f64) -> String {
     format_tick(v, (v.abs() / 100.0).max(1e-9))
 }
 
+/// `: label`, or nothing.
+fn with_label(a: &Annotation) -> String {
+    a.label
+        .as_ref()
+        .filter(|l| !l.is_empty())
+        .map(|l| format!(": {l}"))
+        .unwrap_or_default()
+}
+
 /// Bands go under the data.
 fn draw_bands(
     fig: &mut Figure,
@@ -720,45 +729,33 @@ fn draw_bands(
     notes: &mut Vec<String>,
 ) {
     for a in anns.iter().filter(|a| facet_ok(a, facet)) {
+        let band = match (a.kind, a.x, a.x2, a.y, a.y2) {
+            (AnnotationType::Vband, Some(x0), Some(x1), _, _) => (true, x0, x1),
+            (AnnotationType::Hband, _, _, Some(y0), Some(y1)) => (false, y0, y1),
+            _ => continue,
+        };
         fig.group(
             Layer::Annotation,
             a.label.as_deref().unwrap_or("band"),
             |fig| {
-                let band_fill = a
+                let fill = a
                     .color
                     .as_deref()
                     .and_then(|c| named_color(theme, c))
                     .map_or(theme.band, |c| c.alpha(0.16));
-                if let Some(crate::spec::OneOrMany::Many(v)) = &a.x
-                    && v.len() == 2
-                    && a.y.is_none()
-                {
-                    p.band_x(fig, v[0], v[1], band_fill);
-                    notes.push(format!(
-                        "x band {}–{}{}",
-                        fmt_num(v[0]),
-                        fmt_num(v[1]),
-                        a.label
-                            .as_ref()
-                            .map(|l| format!(": {l}"))
-                            .unwrap_or_default()
-                    ));
+                let (vertical, lo, hi) = band;
+                if vertical {
+                    p.band_x(fig, lo, hi, fill);
+                } else {
+                    p.band_y(fig, lo, hi, fill);
                 }
-                if let Some(crate::spec::OneOrMany::Many(v)) = &a.y
-                    && v.len() == 2
-                    && a.x.is_none()
-                {
-                    p.band_y(fig, v[0], v[1], band_fill);
-                    notes.push(format!(
-                        "y band {}–{}{}",
-                        fmt_num(v[0]),
-                        fmt_num(v[1]),
-                        a.label
-                            .as_ref()
-                            .map(|l| format!(": {l}"))
-                            .unwrap_or_default()
-                    ));
-                }
+                notes.push(format!(
+                    "{} band {}–{}{}",
+                    if vertical { "x" } else { "y" },
+                    fmt_num(lo),
+                    fmt_num(hi),
+                    with_label(a)
+                ));
             },
         );
     }
@@ -776,7 +773,8 @@ fn facet_ok(a: &Annotation, facet: Option<&str>) -> bool {
     }
 }
 
-/// Lines, points, arrows and the labels of bands go over the data.
+/// Lines, points, arrows, boxes, outlines, text and the labels of bands go over the data.
+#[allow(clippy::too_many_lines)]
 fn draw_marks_over(
     fig: &mut Figure,
     theme: &Theme,
@@ -787,7 +785,7 @@ fn draw_marks_over(
     small: bool,
     notes: &mut Vec<String>,
 ) {
-    use crate::spec::OneOrMany::{Many, One};
+    use AnnotationType as T;
     let fs = if small {
         theme.small_size()
     } else {
@@ -803,55 +801,47 @@ fn draw_marks_over(
         } else {
             &label
         };
-        fig.group(Layer::Annotation, name, |fig| match (&a.x, &a.y) {
-            (Some(Many(v)), None) if v.len() == 2 => {
-                if !label.is_empty() && !small {
-                    let (Some(x0), Some(x1)) = (p.x.px(v[0]), p.x.px(v[1])) else {
+        let mark = Stroke::new(col, theme.hairline() * 1.4);
+        let dashed =
+            Stroke::new(col.alpha(0.85), theme.hairline() * 1.2).dashed(fs * 0.35, fs * 0.3);
+        // a label kept inside the panel, its left edge at `x` unless that runs off the right
+        let inside =
+            |x: f32, w: f32| x.clamp(p.rect.x + 2.0, (p.rect.right() - w - 2.0).max(p.rect.x));
+        fig.group(Layer::Annotation, name, |fig| match a.kind {
+            T::Vband | T::Hband => {
+                if label.is_empty() || small {
+                    return;
+                }
+                let (Some(lo), Some(hi)) = (a.x.or(a.y), a.x2.or(a.y2)) else {
+                    return;
+                };
+                let w = st.width(&label);
+                if a.kind == T::Vband {
+                    let (Some(x0), Some(x1)) = (p.x.px(lo), p.x.px(hi)) else {
                         return;
                     };
                     let cx = f32::midpoint(x0, x1).clamp(p.rect.x, p.rect.right());
-                    let w = st.width(&label);
-                    let x = (cx - w / 2.0).clamp(p.rect.x + 2.0, p.rect.right() - w - 2.0);
+                    let x = inside(cx - w / 2.0, w);
                     let y = p.rect.y + fs * 1.15;
                     fig.text(x, y, &label, &plain);
                     placer.reserve(Rect::new(x, y - fs, w, fs * 1.3));
-                }
-            }
-            (None, Some(Many(v))) if v.len() == 2 => {
-                if !label.is_empty() && !small {
-                    let (Some(y0), Some(y1)) = (p.y.px(v[0]), p.y.px(v[1])) else {
+                } else {
+                    let (Some(y0), Some(y1)) = (p.y.px(lo), p.y.px(hi)) else {
                         return;
                     };
                     let y = y0.min(y1) + fs * 1.1;
-                    let w = st.width(&label);
-                    fig.text(p.rect.right() - w - fs * 0.4, y, &label, &st);
-                    placer.reserve(Rect::new(
-                        p.rect.right() - w - fs * 0.4,
-                        y - fs,
-                        w,
-                        fs * 1.3,
-                    ));
+                    let x = p.rect.right() - w - fs * 0.4;
+                    fig.text(x, y, &label, &st);
+                    placer.reserve(Rect::new(x, y - fs, w, fs * 1.3));
                 }
             }
-            (Some(One(x)), None) => {
-                p.rule_x(
-                    fig,
-                    *x,
-                    Stroke::new(col.alpha(0.85), theme.hairline() * 1.2)
-                        .dashed(fs * 0.35, fs * 0.3),
-                );
-                notes.push(format!(
-                    "x line at {}{}",
-                    fmt_num(*x),
-                    if label.is_empty() {
-                        String::new()
-                    } else {
-                        format!(": {label}")
-                    }
-                ));
+            T::Vline => {
+                let Some(x) = a.x else { return };
+                p.rule_x(fig, x, dashed);
+                notes.push(format!("x line at {}{}", fmt_num(x), with_label(a)));
                 if !label.is_empty()
                     && !small
-                    && let Some(px) = p.x.px(*x)
+                    && let Some(px) = p.x.px(x)
                 {
                     let w = st.width(&label);
                     let left = px + fs * 0.35 + w > p.rect.right();
@@ -860,30 +850,19 @@ fn draw_marks_over(
                     } else {
                         px + fs * 0.35
                     };
+                    let tx = inside(tx, w);
                     let y = p.rect.y + fs * 1.15;
                     fig.text(tx, y, &label, &st);
                     placer.reserve(Rect::new(tx, y - fs, w, fs * 1.3));
                 }
             }
-            (None, Some(One(y))) => {
-                p.rule_y(
-                    fig,
-                    *y,
-                    Stroke::new(col.alpha(0.85), theme.hairline() * 1.2)
-                        .dashed(fs * 0.35, fs * 0.3),
-                );
-                notes.push(format!(
-                    "y line at {}{}",
-                    fmt_num(*y),
-                    if label.is_empty() {
-                        String::new()
-                    } else {
-                        format!(": {label}")
-                    }
-                ));
+            T::Hline => {
+                let Some(y) = a.y else { return };
+                p.rule_y(fig, y, dashed);
+                notes.push(format!("y line at {}{}", fmt_num(y), with_label(a)));
                 if !label.is_empty()
                     && !small
-                    && let Some(py) = p.y.px(*y)
+                    && let Some(py) = p.y.px(y)
                 {
                     let w = st.width(&label);
                     let tx = p.rect.right() - w - fs * 0.3;
@@ -891,43 +870,43 @@ fn draw_marks_over(
                     placer.reserve(Rect::new(tx, py - fs * 1.3, w, fs * 1.2));
                 }
             }
-            (Some(One(x)), Some(One(y))) => {
-                let Some((px, py)) = p.pt(*x, *y) else {
+            T::Point | T::Text | T::Arrow => {
+                let (Some(x), Some(y)) = (a.x, a.y) else {
+                    return;
+                };
+                let Some((px, py)) = p.pt(x, y) else {
                     return;
                 };
                 notes.push(format!(
-                    "point ({}, {}){}",
-                    fmt_num(*x),
-                    fmt_num(*y),
-                    if label.is_empty() {
-                        String::new()
-                    } else {
-                        format!(": {label}")
-                    }
+                    "{} ({}, {}){}",
+                    a.kind.name(),
+                    fmt_num(x),
+                    fmt_num(y),
+                    with_label(a)
                 ));
-                if let Some([tx, ty]) = a.to {
-                    // an arrow from the label to the target
-                    let Some((qx, qy)) = p.pt(tx, ty) else {
+                if a.kind == T::Arrow {
+                    // an arrow from the label to the head
+                    let (Some(hx), Some(hy)) = (a.x2, a.y2) else {
+                        return;
+                    };
+                    let Some((qx, qy)) = p.pt(hx, hy) else {
                         return;
                     };
                     let w = st.width(&label);
-                    let r = Rect::new(px - w / 2.0, py - fs * 0.75, w, fs * 1.05);
+                    let r = Rect::new(inside(px - w / 2.0, w), py - fs * 0.75, w, fs * 1.05);
                     if !label.is_empty() {
                         fig.text(r.x, py + fs * 0.3, &label, &st);
                         placer.reserve(r);
                     }
-                    let (sx, sy) = edge_point(r.inset(-fs * 0.3), qx, qy);
-                    arrow_px(
-                        fig,
-                        sx,
-                        sy,
-                        qx,
-                        qy,
-                        Stroke::new(col, theme.hairline() * 1.4),
-                    );
+                    let (sx, sy) = if label.is_empty() {
+                        (px, py)
+                    } else {
+                        edge_point(r.inset(-fs * 0.3), qx, qy)
+                    };
+                    arrow_px(fig, sx, sy, qx, qy, mark);
                     return;
                 }
-                if a.marker != Some(false) {
+                if a.kind == T::Point {
                     let m = Marker::dot(col, fs * 0.55);
                     openreadout_figure::draw_marker(fig, &m, px, py);
                     placer.reserve(Rect::new(
@@ -937,19 +916,72 @@ fn draw_marks_over(
                         m.size,
                     ));
                 }
-                if !label.is_empty() {
-                    if a.marker == Some(false) {
-                        let st2 = st.clone().align(Anchor::Middle, Baseline::Middle);
-                        let b = fig.text(px, py, &label, &st2);
-                        placer.reserve(b);
-                    } else {
-                        let w = st.width(&label);
-                        let r = placer.place(px, py, w, fs * 1.05, fs * 0.5);
-                        fig.text(r.x, r.bottom() - fs * 0.22, &label, &st);
-                    }
+                if label.is_empty() {
+                    return;
+                }
+                if a.kind == T::Text {
+                    // centred on the point, kept inside the panel
+                    let w = st.width(&label);
+                    let tx = inside(px - w / 2.0, w);
+                    let st2 = st.clone().align(Anchor::Start, Baseline::Middle);
+                    let b = fig.text(tx, py, &label, &st2);
+                    placer.reserve(b);
+                } else {
+                    let w = st.width(&label);
+                    let r = placer.place(px, py, w, fs * 1.05, fs * 0.5);
+                    fig.text(r.x, r.bottom() - fs * 0.22, &label, &st);
                 }
             }
-            _ => {}
+            T::Box => {
+                let (Some(x), Some(y), Some(w), Some(h)) = (a.x, a.y, a.width, a.height) else {
+                    return;
+                };
+                p.rect_data(fig, x, y, x + w, y + h, None, Some(mark));
+                notes.push(format!(
+                    "box {}–{} × {}–{}{}",
+                    fmt_num(x.min(x + w)),
+                    fmt_num(x.max(x + w)),
+                    fmt_num(y.min(y + h)),
+                    fmt_num(y.max(y + h)),
+                    with_label(a)
+                ));
+                if !label.is_empty()
+                    && !small
+                    && let (Some(x0), Some(y0), Some(y1)) =
+                        (p.x.px(x.min(x + w)), p.y.px(y), p.y.px(y + h))
+                {
+                    let tw = st.width(&label);
+                    let tx = inside(x0, tw);
+                    let ty = (y0.min(y1) - fs * 0.35).max(p.rect.y + fs);
+                    fig.text(tx, ty, &label, &st);
+                    placer.reserve(Rect::new(tx, ty - fs, tw, fs * 1.3));
+                }
+            }
+            T::Line | T::Polygon => {
+                let mut pts: Vec<(f64, f64)> = a.points.iter().map(|q| (q[0], q[1])).collect();
+                if a.kind == T::Polygon
+                    && let Some(&first) = pts.first()
+                {
+                    pts.push(first);
+                }
+                p.line(fig, pts.iter().copied(), mark);
+                notes.push(format!(
+                    "{} through {} points{}",
+                    a.kind.name(),
+                    a.points.len(),
+                    with_label(a)
+                ));
+                if !label.is_empty()
+                    && !small
+                    && let Some(&(x, y)) = pts.first()
+                    && let Some((px, py)) = p.pt(x, y)
+                {
+                    let w = st.width(&label);
+                    let r = placer.place(px, py, w, fs * 1.05, fs * 0.5);
+                    fig.text(r.x, r.bottom() - fs * 0.22, &label, &st);
+                }
+            }
+            T::Well => {}
         });
     }
 }
@@ -977,7 +1009,6 @@ fn edge_point(r: Rect, x: f32, y: f32) -> (f32, f32) {
 
 /// Check the annotations make sense before drawing them.
 pub(crate) fn check_annotations(anns: &[Annotation]) -> Result<()> {
-    use crate::spec::OneOrMany::{Many, One};
     if anns.len() > crate::MAX_ANNOTATIONS {
         return Err(crate::load::usage(format!(
             "{} annotations are over the limit of {} per panel; mark the most telling ones",
@@ -986,25 +1017,23 @@ pub(crate) fn check_annotations(anns: &[Annotation]) -> Result<()> {
         )));
     }
     for (i, a) in anns.iter().enumerate() {
-        let ok = matches!(
-            (&a.x, &a.y),
-            (Some(Many(v)), None) | (None, Some(Many(v))) if v.len() == 2
-        ) || matches!(
-            (&a.x, &a.y),
-            (Some(One(_)), None | Some(One(_))) | (None, Some(One(_)))
-        );
-        if !ok {
+        a.check()
+            .map_err(|e| crate::load::usage(format!("annotate[{i}]: {}", plain(&e))))?;
+        if a.kind == AnnotationType::Well || a.well.is_some() || a.channel.is_some() {
             return Err(crate::load::usage(format!(
-                "annotate[{i}]: give x or y as a number (a line) or [a, b] (a band), or both as numbers (a labelled point)"
-            )));
-        }
-        if a.to.is_some() && !matches!((&a.x, &a.y), (Some(One(_)), Some(One(_)))) {
-            return Err(crate::load::usage(format!(
-                "annotate[{i}]: `to` (an arrow) needs x and y numbers for the label's position"
+                "annotate[{i}]: well and channel place marks on previews; in a plot, facet picks the small plot (its title, e.g. `B3`)"
             )));
         }
     }
     Ok(())
+}
+
+/// The message of a usage error, without its kind.
+fn plain(e: &openreadout_core::Error) -> String {
+    match e {
+        openreadout_core::Error::Usage(m) => m.clone(),
+        other => other.to_string(),
+    }
 }
 
 /// A panel for the viewer's hover read-outs, in the shape the viewer reads

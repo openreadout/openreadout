@@ -149,29 +149,32 @@ test("plates are coloured by the smallest useful layout map", () => {
   assert.equal(v.seriesGroup("IN 0"), null);
 });
 
-test("annotations come in one shape whatever the spelling", () => {
+test("annotations come in the shape the tools take", () => {
   const a = v.normalizeAnnotations([
-    { kind: "point", x: 10, y: 20, label: "Purkinje cells" },
-    { type: "box", region: { x: 1, y: 2, width: 30, height: 40 }, label: "fold" },
-    { kind: "rect", x0: 50, y0: 60, x1: 40, y1: 80 },
-    { kind: "polygon", points: [[0, 0], [10, 0], [5, 5]] },
-    { kind: "arrow", from: [0, 0], to: [5, 5], label: "here" },
-    { kind: "band", x_range: [8.6, 7.4], label: "came back" },
-    { kind: "hline", y: -60 },
-    { kind: "vline", at: 3 },
-    { kind: "text", at: [1, 2], text: "note" },
-    { kind: "point", wells: ["B3", "C4"], label: "outliers" },
-    { kind: "unknown", x: 1 },
-    { kind: "point", x: "nope" },
+    { type: "point", x: 10, y: 20, label: "Purkinje cells" },
+    { type: "box", x: 50, y: 60, width: -10, height: 20, label: "fold" },
+    { type: "polygon", points: [[0, 0], [10, 0], [5, 5]] },
+    { type: "line", points: [[0, 0], [4, 4]] },
+    { type: "arrow", x: 0, y: 0, x2: 5, y2: 5, label: "here" },
+    { type: "vband", x: 8.6, x2: 7.4, label: "came back" },
+    { type: "hband", y: 1, y2: 2 },
+    { type: "hline", y: -60 },
+    { type: "vline", x: 3 },
+    { type: "text", x: 1, y: 2, label: "note" },
+    { type: "well", well: "B3", label: "outlier" },
+    { type: "vband", x: [1, 2] },
+    { kind: "point", x: 1, y: 1 },
+    { type: "point", x: "nope" },
     null,
   ]);
-  assert.deepEqual(a.map((x) => x.kind), ["point", "box", "box", "polygon", "line", "band", "hline", "vline", "text", "wells"]);
-  assert.deepEqual([a[1].x, a[1].y, a[1].w, a[1].h], [1, 2, 30, 40]);
-  assert.deepEqual([a[2].x, a[2].y, a[2].w, a[2].h], [40, 60, 10, 20]);
+  assert.deepEqual(a.map((x) => x.kind), ["point", "box", "polygon", "line", "line", "band", "band", "hline", "vline", "text", "wells"]);
+  assert.deepEqual([a[1].x, a[1].y, a[1].w, a[1].h], [40, 60, 10, 20]);
+  assert.equal(a[3].arrow, false);
   assert.equal(a[4].arrow, true);
   assert.deepEqual([a[5].x0, a[5].x1], [7.4, 8.6]);
-  assert.equal(a[8].label, "note");
-  assert.deepEqual(a[9].wells, [[1, 2], [2, 3]]);
+  assert.deepEqual([a[6].x0, a[6].y0, a[6].y1], [null, 1, 2]);
+  assert.equal(a[9].label, "note");
+  assert.deepEqual(a[10].wells, [[1, 2]]);
   assert.deepEqual(v.normalizeAnnotations("nope"), []);
 });
 

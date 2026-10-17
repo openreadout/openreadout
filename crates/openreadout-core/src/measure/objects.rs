@@ -82,7 +82,8 @@ pub enum CountConfidence {
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "lowercase")]
 pub enum Stain {
-    /// hematoxylin for brightfield (stained tissue), the brightest component for fluorescence
+    /// hematoxylin for brightfield (stained tissue); for fluorescence, blue for nuclei when the
+    /// blue component holds signal, else the brightest component
     #[default]
     Auto,
     /// the nuclear stain of H&E and IHC, by colour deconvolution
@@ -431,8 +432,20 @@ fn signal_for(
             p => p == Polarity::Dark,
         };
         let i0 = [0, 1, 2].map(|k| sg::quantile(&comps[k], 0.99).unwrap_or(255.0).max(1.0));
+        // nuclear stains (DAPI, Hoechst) are drawn blue in colour pictures of fluorescence
+        let blue_nuclei = !brightfield
+            && o.kind == Kind::Nuclei
+            && i0[2] >= 32.0
+            && i0[2] >= 0.25 * i0[0].max(i0[1]);
         let stain = match (o.stain, brightfield) {
             (Stain::Auto, true) => Stain::Hematoxylin,
+            (Stain::Auto, false) if blue_nuclei => {
+                notes.push(
+                    "nuclei counted in the blue component (where DAPI and Hoechst are drawn); stain=red|green picks another"
+                        .into(),
+                );
+                Stain::Blue
+            }
             (s, _) => s,
         };
         let deconvolved = matches!(stain, Stain::Hematoxylin | Stain::Eosin | Stain::Dab);

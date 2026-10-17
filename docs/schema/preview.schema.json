@@ -1205,7 +1205,7 @@
           ]
         },
         "color": {
-          "description": "`accent` (default, warm red), `ink`, `muted`, `white` or `#RRGGBB`.",
+          "description": "`accent` (default, warm red), `ink`, `muted`, `white`, another colour name or `#RRGGBB`.",
           "type": [
             "string",
             "null"
@@ -1221,7 +1221,14 @@
           "minimum": 0
         },
         "well": {
-          "description": "Plates: the well (e.g. `B3`) for type well, or the one card a mark goes in on a curve\ngrid (default: every card).",
+          "description": "Plate previews: the well (e.g. `B3`) for type well, or the one card a mark goes in on a\ncurve grid (default: every card).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "facet": {
+          "description": "Plots with small multiples: the one small plot it goes in, by its title (e.g. `B3` or\n`sweep 6`; default: every one).",
           "type": [
             "string",
             "null"
@@ -1290,7 +1297,7 @@
           "const": "line"
         },
         {
-          "description": "an arrow from x, y to x2, y2",
+          "description": "an arrow from x, y (where the label goes) to x2, y2",
           "type": "string",
           "const": "arrow"
         },
@@ -1320,7 +1327,7 @@
           "const": "hband"
         },
         {
-          "description": "a ring around a plate well (well)",
+          "description": "a ring around a plate well (well; previews of plates only)",
           "type": "string",
           "const": "well"
         }

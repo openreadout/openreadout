@@ -1,6 +1,6 @@
 # Figures with `plot` / `openreadout_plot`
 
-One call draws a finished figure. A `file` on the figure is the file of every series that names none. Name the data by file and selector; put only numbers you computed yourself in `values`. The JSON reply lists what was drawn (files, selectors, ranges, marked peaks); check it against the question before you describe the picture. Annotation coordinates are in the units the axes show (the reply's `x.unit`, e.g. hours on a plate time axis). Full spec: `openreadout plot --help` and the `plot` reference page.
+One call draws a finished figure. A `file` on the figure is the file of every series that names none. Name the data by file and selector; put only numbers you computed yourself in `values`. The JSON reply lists what was drawn (files, selectors, ranges, marked peaks); check it against the question before you describe the picture. `annotate` takes the same items as preview annotations (`type` point, text, arrow, vline, hline, vband, hband, box, line or polygon, with `x`, `y`, `x2`, `y2`, `label`, `color`) in the units the axes show (the reply's `x.unit`, e.g. hours on a plate time axis). `facet` puts one in a single small plot. Full spec: `openreadout plot --help` and the `plot` reference page.
 
 ## Plates
 
@@ -16,7 +16,7 @@ One call draws a finished figure. A `file` on the figure is the file of every se
 
 ```json
 {"data": {"file": "plate.pda", "by": "group", "groups": ["99.9 * +", "99 * +", "95 * +"], "subtract": "first"},
- "annotate": [{"x": [7.4, 8.6], "label": "came back 7.4–8.6 h"}]}
+ "annotate": [{"type": "vband", "x": 7.4, "x2": 8.6, "label": "came back 7.4–8.6 h"}]}
 ```
 
 - Context behind the main data: two data items, `{"wells": "E1:H2", "color": "faint", "label": "no phage"}` then `{"wells": "E3:H11", "color": "accent", "label": "with phage"}`.

@@ -19,6 +19,7 @@ use openreadout_core::{Dataset, Error, FileInfo, Registry, Result};
 use crate::model::Series;
 use crate::spec::{SeriesSpec, Show};
 
+pub(crate) use flow::share_scales;
 pub(crate) use plate::{PlateHints, seconds_in, time_unit};
 pub(crate) use signal::fmt_at;
 

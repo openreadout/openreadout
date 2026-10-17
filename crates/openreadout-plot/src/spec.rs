@@ -131,7 +131,8 @@ pub struct PanelSpec {
     pub x: Option<AxisSpec>,
     /// The y axis.
     pub y: Option<AxisSpec>,
-    /// Bands, lines, labelled points, arrows and notes, in the units the axes show.
+    /// Bands, lines, labelled points, arrows, boxes and notes, in the units the axes show:
+    /// the same annotations as openreadout_preview (`facet` picks one small plot).
     #[serde(default)]
     pub annotate: Vec<Annotation>,
     /// How series are named: `direct` labels at the line ends, a `key` row, or `none`. Default
@@ -445,24 +446,4 @@ pub struct ColorRule {
     pub otherwise: Option<String>,
 }
 
-/// One annotation. `x` and `y` are in the units the axes show: a number on one axis draws a
-/// line, `[a, b]` a band, numbers on both a labelled point (with `to`: an arrow from the label
-/// to that point).
-#[derive(Debug, Clone, Default, Deserialize, Serialize, JsonSchema)]
-#[serde(deny_unknown_fields)]
-pub struct Annotation {
-    /// x position or `[a, b]`.
-    pub x: Option<OneOrMany<f64>>,
-    /// y position or `[a, b]`.
-    pub y: Option<OneOrMany<f64>>,
-    /// Text.
-    pub label: Option<String>,
-    /// Arrow head position `[x, y]`; the arrow starts at the label.
-    pub to: Option<[f64; 2]>,
-    /// Colour name or #RRGGBB (default accent).
-    pub color: Option<String>,
-    /// Draw a dot at a labelled point. Default true.
-    pub marker: Option<bool>,
-    /// Only in this facet (its title, e.g. `B3` or `sweep 6`).
-    pub facet: Option<String>,
-}
+pub use openreadout_core::annotation::{Annotation, AnnotationType};

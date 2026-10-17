@@ -111,7 +111,8 @@ pub struct StatsArgs {
     #[arg(long, value_enum, help_heading = "Measurements")]
     pub polarity: Option<PolarityArg>,
     /// With `--objects` on an RGB image: what objects are found in (default: hematoxylin for
-    /// stained brightfield, the brightest component for fluorescence).
+    /// stained brightfield; for fluorescence, blue for nuclei when it holds signal, else the
+    /// brightest component).
     #[arg(long, value_enum, help_heading = "Measurements")]
     pub stain: Option<StainArg>,
     /// With `--objects`: smallest object kept, in µm² (default: a fifth of the expected area).
@@ -165,6 +166,34 @@ pub enum KindArg {
     Cells,
     /// Small bright spots (puncta, foci).
     Spots,
+}
+
+/// `--objects cells` (with a space) leaves `cells` as a second input and counts nuclei, as
+/// `--lanes 6` would leave `6`: refuse an input that does not exist and reads as the value of
+/// such a flag.
+fn value_read_as_file(a: &StatsArgs) -> Option<openreadout_core::Error> {
+    if a.objects.is_none() && a.lanes.is_none() {
+        return None;
+    }
+    let f = a.files.iter().find(|f| {
+        let s = f.to_string_lossy();
+        let s = s.trim();
+        !f.exists()
+            && (matches!(
+                s.to_ascii_lowercase().as_str(),
+                "nuclei" | "cells" | "spots"
+            ) || s.starts_with('{')
+                || s.parse::<u32>().is_ok())
+    })?;
+    let s = f.to_string_lossy();
+    let flag = if s.parse::<u32>().is_ok() {
+        "lanes"
+    } else {
+        "objects"
+    };
+    Some(openreadout_core::Error::Usage(format!(
+        "`{s}` is not a file: it looks like the value of --{flag}, which needs an equals sign (--{flag}={s})"
+    )))
 }
 
 /// Bright or dark objects.
@@ -581,6 +610,9 @@ pub enum PerArg {
 }
 
 pub fn run(reg: &Registry, a: &StatsArgs) -> i32 {
+    if let Some(e) = value_read_as_file(a) {
+        return crate::output::fail(a.json, &e);
+    }
     let region = match a.region.as_deref().map(openreadout_core::Region::parse) {
         None => None,
         Some(Ok(r)) => Some(r),

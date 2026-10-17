@@ -217,10 +217,9 @@
         ],
         "annotate": [
           {
-            "x": [
-              7.4,
-              8.6
-            ],
+            "type": "vband",
+            "x": 7.4,
+            "x2": 8.6,
             "label": "came back 7.4–8.6 h"
           }
         ],
@@ -358,10 +357,9 @@
         },
         "annotate": [
           {
-            "x": [
-              4.6,
-              4.95
-            ],
+            "type": "vband",
+            "x": 4.6,
+            "x2": 4.95,
             "label": "HDO",
             "color": "muted"
           }

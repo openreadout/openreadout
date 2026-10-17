@@ -114,10 +114,15 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     let mut ext = Extent::default();
     let mut cont = true;
     for s in series.iter() {
-        if matches!(s.geom, Geom::Bars { .. }) {
-            let e = s.geom.extent();
-            ext.add(f64::NAN, e.y.0);
-            ext.add(f64::NAN, e.y.1);
+        if let Geom::Bars { vals, err, .. } = &s.geom {
+            // every bar, so that a log axis starts below the shortest one
+            ext.add(f64::NAN, 0.0);
+            for (i, &v) in vals.iter().enumerate() {
+                let d = err.get(i).copied().filter(|d| d.is_finite()).unwrap_or(0.0);
+                ext.add(f64::NAN, v - d);
+                ext.add(f64::NAN, v);
+                ext.add(f64::NAN, v + d);
+            }
         } else {
             ext.merge(&s.geom.extent());
             cont &= continuous(s.mark) || matches!(s.geom, Geom::Events { .. });
@@ -234,8 +239,15 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     } else {
         y_label
     };
+    // bars and areas on a log axis grow from the decade below the smallest value, so the
+    // shortest bar still shows
+    let y_pos = if y_log && zero_based && ext.y_pos.is_finite() {
+        10f64.powf((ext.y_pos * 0.99).log10().floor())
+    } else {
+        ext.y_pos
+    };
     let ay = AxisRes {
-        domain: axis_domain(&ys, yr, ext.y_pos, y_log, y_ticks.is_none(), true),
+        domain: axis_domain(&ys, yr, y_pos, y_log, y_ticks.is_none(), true),
         label: y_label,
         unit: first.and_then(|s| s.y.unit.clone()),
         scale: if stacked {
@@ -460,6 +472,8 @@ fn axis_domain(a: &AxisSpec, r: (f64, f64), pos: f64, log: bool, nice: bool, pad
 }
 
 /// Histograms of a panel share their bins; with several series, counts become percentages.
+/// Bins are equal on the axis as drawn: on a log x axis they are equal steps of log10(x), and
+/// values at or below zero, which a log axis cannot show, fall in no bin.
 fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
     let hist: Vec<usize> = series
         .iter()
@@ -470,10 +484,16 @@ fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
     if hist.is_empty() {
         return;
     }
+    let log = (xs.log || series.iter().any(|s| s.x_log))
+        && hist.iter().all(|&i| series[i].x_ticks.is_none());
+    // positions on the axis as drawn, and back
+    let fwd = |x: f64| if log { x.log10() } else { x };
+    let back = |t: f64| if log { 10f64.powf(t) } else { t };
+    let shown = |x: f64| x.is_finite() && (!log || x > 0.0);
     let mut all: Vec<f64> = Vec::new();
     for &i in &hist {
         if let Geom::Hist(v) = &series[i].geom {
-            all.extend(v.iter().copied().filter(|x| x.is_finite()));
+            all.extend(v.iter().copied().filter(|&x| shown(x)).map(fwd));
         }
     }
     all.sort_by(f64::total_cmp);
@@ -483,8 +503,8 @@ fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
             .unwrap_or(0.0)
     };
     let (lo, hi) = match xs.range {
-        Some([a, b]) => (a.min(b), a.max(b)),
-        None => (q(0.0005), q(0.9995)),
+        Some([a, b]) if !log || a.min(b) > 0.0 => (fwd(a.min(b)), fwd(a.max(b))),
+        _ => (q(0.0005), q(0.9995)),
     };
     let (lo, hi) = if hi > lo {
         (lo, hi)
@@ -502,8 +522,12 @@ fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
         for &x in v {
             if x.is_finite() {
                 n += 1;
-                if x >= lo && x <= hi {
-                    let k = (((x - lo) / w) as usize).min(bins - 1);
+                if !shown(x) {
+                    continue;
+                }
+                let t = fwd(x);
+                if t >= lo && t <= hi {
+                    let k = (((t - lo) / w) as usize).min(bins - 1);
                     counts[k] += 1.0;
                 }
             }
@@ -514,12 +538,12 @@ fn bin_histograms(series: &mut [Series], xs: &AxisSpec) {
             }
         }
         let mut pts = Vec::with_capacity(bins * 2 + 2);
-        pts.push((lo, 0.0));
+        pts.push((back(lo), 0.0));
         for (k, c) in counts.iter().enumerate() {
-            pts.push((lo + k as f64 * w, *c));
-            pts.push((lo + (k + 1) as f64 * w, *c));
+            pts.push((back(lo + k as f64 * w), *c));
+            pts.push((back(lo + (k + 1) as f64 * w), *c));
         }
-        pts.push((hi, 0.0));
+        pts.push((back(hi), 0.0));
         s.geom = Geom::Line(pts);
         s.mark = MarkKind::Area;
         s.y = Quantity::new(

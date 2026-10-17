@@ -39,7 +39,7 @@ An \code{openreadout_figure} picture: a list with \code{data} (a raw vector), \c
 (\code{"fi"}, \code{"dose_response"}, \code{"standard_curve"}, \code{"melt"}, ...) for an analysis result; a
 \code{table} file's columns) or gives inline \code{values}.
 \code{panels}, \code{facet} (\code{"plate"} lays wells out in plate positions), \code{share}, \code{x}/\code{y} axis
-options, \code{annotate} (bands, lines, labelled points, arrows) and \code{theme} (\code{"light"},
+options, \code{annotate} (bands, lines, labelled points, arrows: the same annotations as \code{openreadout_preview()}) and \code{theme} (\code{"light"},
 \code{"dark"}) arrange it. The spec is the JSON of the \code{openreadout_plot} MCP tool; indices in it
 start at 0, as there. Reference: \url{https://openreadout.github.io/openreadout/reference/commands/plot.html}.
 }

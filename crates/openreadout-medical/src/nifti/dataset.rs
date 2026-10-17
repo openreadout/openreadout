@@ -282,6 +282,12 @@ impl NiftiDataset {
         }
     }
 
+    /// A NIfTI header whose `xyzt_units` names no spatial unit: its voxel sizes are numbers
+    /// without a unit. Analyze 7.5 sizes are millimetres by that format's convention.
+    fn unitless(&self) -> bool {
+        self.hdr.kind != Kind::Analyze && self.hdr.units().2
+    }
+
     /// stored × slope + intercept: the slope when it applies.
     #[allow(clippy::float_cmp)]
     fn scaling(&self) -> Option<(f64, f64)> {
@@ -341,7 +347,9 @@ impl NiftiDataset {
         im.size_c = nc;
         im.samples_per_pixel = spp;
         let (um, sec, _) = h.units();
-        let px = |i: usize| (h.pixdim[i].abs() > 0.0).then(|| h.pixdim[i].abs() * um);
+        // voxel sizes without a unit are not a physical size (Analyze 7.5 sizes are mm)
+        let unitless = self.unitless();
+        let px = |i: usize| (h.pixdim[i].abs() > 0.0 && !unitless).then(|| h.pixdim[i].abs() * um);
         im.physical_size =
             PhysicalSize::micrometres(px(1), px(2), (nz > 1).then(|| px(3)).flatten());
         if nt > 1 {
@@ -555,8 +563,15 @@ impl Dataset for NiftiDataset {
         if self.folded {
             notes.push("dimensions 5 to 7 are folded into C (channels)".into());
         }
-        if h.kind != Kind::Analyze && h.units().2 {
-            notes.push("xyzt_units gives no spatial unit; millimetres assumed".into());
+        if self.unitless() {
+            let sizes: Vec<String> = (1..=3)
+                .filter(|&i| h.pixdim[i].abs() > 0.0)
+                .map(|i| format!("{}", h.pixdim[i].abs()))
+                .collect();
+            notes.push(format!(
+                "xyzt_units gives no spatial unit, so the voxel sizes ({}) have no unit and no physical size is reported; previews measure in pixels",
+                sizes.join(" × ")
+            ));
         }
         if h.kind == Kind::Analyze {
             notes.push("Analyze 7.5 header: voxel sizes are taken as millimetres and no orientation is recorded".into());
