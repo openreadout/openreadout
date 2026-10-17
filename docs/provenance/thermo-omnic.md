@@ -122,3 +122,9 @@ map spectrum header gives 10,878,979 points while each intensity record holds 3 
 point count of float32 values, so the reader now refuses a map whose point count no intensity
 record holds, before it lists one image channel per point. The corpus maps
 (figshare32180061 mp2 and mp6, zenodo10598031) open as before.
+
+## 2026-10-17 — map records that run past the end of the file (Richard Zimring with Claude as assistant)
+
+**Corpus files:** none; the nightly fuzz run's input (`crates/openreadout-spectro/tests/fixtures/malformed/file-fuzz-omnic-map-record-past-end.spa`, 1,455 bytes).
+
+**What was inferred:** nothing new about the format. The 2026-10-15 guard compared a map's point count with the declared length of its longest intensity record, and a damaged key can declare far more bytes than the file has. It now counts a record only up to the end of the file, so the 10.9-million-point header of this input is refused instead of listed as 10.9 million image channels.
