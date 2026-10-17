@@ -413,6 +413,11 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             plate: ctx.plate.take(),
         });
     }
+    {
+        let mut all: Vec<&mut model::Series> =
+            ins.iter_mut().flat_map(|p| p.series.iter_mut()).collect();
+        load::share_scales(&mut all, &mut ctx.notes)?;
+    }
     share_axes(&mut ins, spec.share)?;
     // layout
     let n = ins.len();

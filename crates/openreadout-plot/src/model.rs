@@ -283,6 +283,10 @@ pub(crate) struct Series {
     /// Ticks of a transformed axis (FCS logicle): position and label.
     pub x_ticks: Option<Vec<(f64, String)>>,
     pub y_ticks: Option<Vec<(f64, String)>>,
+    /// FCS axes whose automatic transform is set once every file is read, so that series of
+    /// the same parameter share one scale (see `load::flow::share_scales`).
+    pub x_pending: Option<PendingScale>,
+    pub y_pending: Option<PendingScale>,
     /// The x range worth showing when the axis is not set (a spectrum's peaks).
     pub x_focus: Option<(f64, f64)>,
     /// Label this many of the highest peaks inside the axis ranges shown.
@@ -323,6 +327,8 @@ impl Series {
             y_log: false,
             x_ticks: None,
             y_ticks: None,
+            x_pending: None,
+            y_pending: None,
             x_focus: None,
             peaks: 0,
             palette: None,
@@ -335,6 +341,15 @@ impl Series {
         self.y = y;
         self
     }
+}
+
+/// An FCS parameter still in raw units, waiting for its display transform.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct PendingScale {
+    /// The parameter (`$PnN`).
+    pub param: String,
+    /// `logicle`, `arcsinh` or `log`.
+    pub transform: String,
 }
 
 /// Where a series' numbers come from.

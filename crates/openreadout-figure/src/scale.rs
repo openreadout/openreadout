@@ -231,7 +231,7 @@ impl Scale {
                         if m != 1 && decades > 3.0 {
                             continue;
                         }
-                        let labelled = if decades <= 1.5 {
+                        let labelled = if decades <= 2.0 {
                             true
                         } else {
                             m == 1 && d.rem_euclid(every) == 0
@@ -253,6 +253,26 @@ impl Scale {
                             });
                         }
                     }
+                }
+                if out.iter().filter(|t| t.major).count() < 2 {
+                    // a span too short for two of 1, 2 and 5: plain steps, placed on the log scale
+                    let step = nice_step(b - a, target.max(2));
+                    let lin = Scale {
+                        kind: ScaleKind::Linear,
+                        ..*self
+                    };
+                    return lin
+                        .ticks(target)
+                        .into_iter()
+                        .filter(|t| t.value > 0.0)
+                        .filter_map(|t| {
+                            Some(Tick {
+                                px: self.px(t.value)?,
+                                label: format_tick(t.value, step),
+                                ..t
+                            })
+                        })
+                        .collect();
                 }
                 out
             }

@@ -9,19 +9,22 @@ use openreadout_fcs::analysis::{
 use openreadout_fcs::gating::Prepared;
 
 use super::{Ctx, usage};
-use crate::model::{Geom, Quantity, Series, Source, Weight};
+use crate::model::{Geom, PendingScale, Quantity, Series, Source, Weight};
 use crate::spec::{MarkKind, SeriesSpec};
 
 /// Most events read from one file.
 const MAX_EVENTS: u64 = 2_000_000;
 
-/// One parameter's values after the transform, with ticks placed in raw units.
+/// One parameter's values, transformed or (for an automatic transform) waiting for the scale
+/// every series of the parameter shares.
 struct Param {
     name: String,
     label: String,
     values: Vec<f64>,
     ticks: Option<Vec<(f64, String)>>,
+    /// The transform applied, or the token [`share_scales`] replaces once it picks the scale.
     transform: String,
+    pending: Option<PendingScale>,
 }
 
 struct Read {
@@ -128,6 +131,7 @@ fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
             values: raw.clone(),
             ticks: None,
             transform: "workspace".into(),
+            pending: None,
         });
     }
     let fluor = openreadout_fcs::is_fluorescence_parameter(&name) && !name.starts_with("gate:");
@@ -144,59 +148,169 @@ fn param(r: &Read, i: usize, spec: &SeriesSpec) -> Result<Param> {
             values: raw.clone(),
             ticks: None,
             transform: "linear".into(),
+            pending: None,
         });
     }
-    // top of scale from the data: the decade above the 99.9th percentile
-    let mut sorted: Vec<f64> = raw.iter().copied().filter(|v| v.is_finite()).collect();
-    sorted.sort_by(f64::total_cmp);
-    let top = sorted
-        .get(((sorted.len() as f64) * 0.999) as usize)
-        .or(sorted.last())
-        .copied()
-        .unwrap_or(1.0)
-        .max(1.0);
-    let decades = top.log10().ceil().clamp(3.0, 7.0);
-    let t_top = 10f64.powf(decades);
-    let spec_str = if wanted.contains(':')
-        || !matches!(wanted.as_str(), "logicle" | "arcsinh" | "asinh" | "log")
-    {
-        wanted.clone()
-    } else {
-        match wanted.as_str() {
-            "logicle" => format!("logicle:T={t_top},W=0.5,M={},A=0", decades + 0.5),
-            "log" => format!("log:T={t_top},M={decades}"),
-            _ => format!("arcsinh:T={t_top},M={},A=0", decades + 0.5),
-        }
-    };
-    let t = openreadout_fcs::analysis::parse_transform_spec(&spec_str)?;
+    if matches!(wanted.as_str(), "logicle" | "arcsinh" | "asinh" | "log") {
+        // the top of the scale comes from every series of this parameter in the figure
+        return Ok(Param {
+            transform: pending_token(&name),
+            pending: Some(PendingScale {
+                param: name.clone(),
+                transform: wanted,
+            }),
+            name,
+            label: display,
+            values: raw.clone(),
+            ticks: None,
+        });
+    }
+    // a transform with its parameters given: as asked, with ticks up to the data's top decade
+    let t = openreadout_fcs::analysis::parse_transform_spec(&wanted)?;
     let prep: Prepared = t
         .prepare()
-        .map_err(|e| usage(format!("transform {spec_str}: {e}")))?;
+        .map_err(|e| usage(format!("transform {wanted}: {e}")))?;
+    let mut finite: Vec<f64> = raw.iter().copied().filter(|v| v.is_finite()).collect();
+    let (decades, lowest) = data_top(&mut finite);
     let values: Vec<f64> = raw.iter().map(|&v| prep.apply(v)).collect();
-    let mut ticks = Vec::new();
-    if wanted != "log" {
-        ticks.push((prep.apply(0.0), "0".to_string()));
-    }
-    for d in 1..=(decades as i32) {
-        let v = 10f64.powi(d);
-        let p = prep.apply(v);
-        if p.is_finite() && d >= 2 {
-            ticks.push((p, format!("10{}", openreadout_figure::superscript(d))));
-        }
-    }
-    if wanted != "log" && sorted.first().is_some_and(|&lo| lo < -1000.0) {
-        let p = prep.apply(-1000.0);
-        if p.is_finite() {
-            ticks.insert(0, (p, "−10³".into()));
-        }
-    }
     Ok(Param {
         name,
         label: display,
         values,
-        ticks: Some(ticks),
-        transform: spec_str,
+        ticks: Some(ticks(&prep, !wanted.starts_with("log:"), decades, lowest)),
+        transform: wanted,
+        pending: None,
     })
+}
+
+/// The text a source selector carries for a parameter's transform until it is chosen.
+fn pending_token(param: &str) -> String {
+    format!("\u{1}{param}\u{1}")
+}
+
+/// The decades a scale needs for `values` (the decade above the 99.9th percentile, from 10³ to
+/// 10⁷), and the lowest value.
+fn data_top(values: &mut [f64]) -> (f64, f64) {
+    let n = values.len();
+    let top = if n == 0 {
+        1.0
+    } else {
+        let k = ((n as f64 * 0.999) as usize).min(n - 1);
+        *values.select_nth_unstable_by(k, f64::total_cmp).1
+    };
+    let lowest = values.iter().copied().fold(f64::INFINITY, f64::min);
+    (top.max(1.0).log10().ceil().clamp(3.0, 7.0), lowest)
+}
+
+/// Ticks of a transformed axis: 0 (unless the scale is a plain log), the decades from 10² up,
+/// and −10³ when the data reaches below −1000.
+fn ticks(prep: &Prepared, zero: bool, decades: f64, lowest: f64) -> Vec<(f64, String)> {
+    let mut out = Vec::new();
+    if zero {
+        out.push((prep.apply(0.0), "0".to_string()));
+    }
+    for d in 2..=(decades as i32) {
+        let p = prep.apply(10f64.powi(d));
+        if p.is_finite() {
+            out.push((p, format!("10{}", openreadout_figure::superscript(d))));
+        }
+    }
+    if zero && lowest < -1000.0 {
+        let p = prep.apply(-1000.0);
+        if p.is_finite() {
+            out.insert(0, (p, "−10³".into()));
+        }
+    }
+    out
+}
+
+/// Give the FCS axes of the figure's series their automatic transforms. Series of one
+/// parameter with the same transform share one scale, its top set from all their events
+/// together, so files overlaid on one axis are drawn on the same scale whatever each holds.
+pub(crate) fn share_scales(series: &mut [&mut Series], notes: &mut Vec<String>) -> Result<()> {
+    let mut groups: Vec<PendingScale> = Vec::new();
+    for s in series.iter() {
+        for p in [&s.x_pending, &s.y_pending].into_iter().flatten() {
+            if !groups.contains(p) {
+                groups.push(p.clone());
+            }
+        }
+    }
+    for g in groups {
+        let mut all: Vec<f64> = Vec::new();
+        let mut files: Vec<String> = Vec::new();
+        for s in series.iter() {
+            let (x, y) = axis_values(s);
+            for (pending, v) in [(&s.x_pending, x), (&s.y_pending, y)] {
+                if pending.as_ref() != Some(&g) {
+                    continue;
+                }
+                all.extend(v.iter().copied().filter(|v| v.is_finite()));
+                if let Some(f) = &s.source.file
+                    && !files.contains(f)
+                {
+                    files.push(f.clone());
+                }
+            }
+        }
+        let (decades, lowest) = data_top(&mut all);
+        let t_top = 10f64.powf(decades);
+        let spec_str = match g.transform.as_str() {
+            "logicle" => format!("logicle:T={t_top},W=0.5,M={},A=0", decades + 0.5),
+            "log" => format!("log:T={t_top},M={decades}"),
+            _ => format!("arcsinh:T={t_top},M={},A=0", decades + 0.5),
+        };
+        let prep: Prepared = openreadout_fcs::analysis::parse_transform_spec(&spec_str)?
+            .prepare()
+            .map_err(|e| usage(format!("transform {spec_str}: {e}")))?;
+        let tk = ticks(&prep, g.transform != "log", decades, lowest);
+        if files.len() > 1 {
+            notes.push(format!(
+                "{}: one {spec_str} scale for all {} files",
+                g.param,
+                files.len()
+            ));
+        }
+        let token = pending_token(&g.param);
+        for s in series.iter_mut() {
+            let on_x = s.x_pending.as_ref() == Some(&g);
+            let on_y = s.y_pending.as_ref() == Some(&g);
+            let apply = |v: &mut Vec<f64>| v.iter_mut().for_each(|a| *a = prep.apply(*a));
+            match &mut s.geom {
+                Geom::Hist(v) if on_x => apply(v),
+                Geom::Events { x, y } => {
+                    if on_x {
+                        apply(x);
+                    }
+                    if on_y {
+                        apply(y);
+                    }
+                }
+                _ => {}
+            }
+            if on_x {
+                s.x_ticks = Some(tk.clone());
+                s.x_pending = None;
+            }
+            if on_y {
+                s.y_ticks = Some(tk.clone());
+                s.y_pending = None;
+            }
+            if on_x || on_y {
+                s.source.selector = s.source.selector.replace(&token, &spec_str);
+            }
+        }
+    }
+    Ok(())
+}
+
+/// The values on each axis of an FCS series.
+fn axis_values(s: &Series) -> (&[f64], &[f64]) {
+    match &s.geom {
+        Geom::Hist(v) => (v, &[]),
+        Geom::Events { x, y } => (x, y),
+        _ => (&[], &[]),
+    }
 }
 
 pub(super) fn events(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Series>> {
@@ -248,6 +362,8 @@ pub(super) fn events(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
     .axes(xq.clone(), yq.clone());
     base.x_ticks.clone_from(&px.ticks);
     base.y_ticks.clone_from(&py.ticks);
+    base.x_pending.clone_from(&px.pending);
+    base.y_pending.clone_from(&py.pending);
     if !spec.populations.is_empty() {
         base.weight = Weight::Context;
     }
@@ -283,6 +399,8 @@ pub(super) fn events(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result
         .axes(xq.clone(), yq.clone());
         s.x_ticks.clone_from(&px.ticks);
         s.y_ticks.clone_from(&py.ticks);
+        s.x_pending.clone_from(&px.pending);
+        s.y_pending.clone_from(&py.pending);
         out.push(s);
     }
     Ok(out)
@@ -356,6 +474,7 @@ pub(super) fn histogram(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Res
             Quantity::new("events", None),
         );
         s.x_ticks.clone_from(&px.ticks);
+        s.x_pending.clone_from(&px.pending);
         out.push(s);
     }
     Ok(out)
