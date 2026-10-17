@@ -369,25 +369,49 @@ fn look_hint(o: &PreviewOutput, path: &str) -> String {
             im.full_res_region
         ),
         Some(im) => format!(
-            "view it: open (or Read) {path}; zoom with --region X,Y,W,H in full-res px (now showing {})",
-            im.full_res_region
+            "view it: open (or Read) {path}; zoom with --region X,Y,W,H in full-res px (now showing {}); {}",
+            im.full_res_region,
+            im.pixel_mapping()
         ),
         None => format!("view it: open (or Read) {path}"),
     }
 }
 
+/// Indices with runs shortened: `0-755` for a whole stack, `0, 2, 4-6`.
+fn index_runs(v: &[u32]) -> String {
+    let mut parts: Vec<String> = Vec::new();
+    let mut i = 0;
+    while i < v.len() {
+        let mut j = i;
+        while j + 1 < v.len() && v[j + 1] == v[j].saturating_add(1) {
+            j += 1;
+        }
+        parts.push(if j >= i + 2 {
+            format!("{}-{}", v[i], v[j])
+        } else {
+            v[i..=j]
+                .iter()
+                .map(u32::to_string)
+                .collect::<Vec<_>>()
+                .join(", ")
+        });
+        i = j + 1;
+    }
+    parts.join(", ")
+}
+
 fn human(o: &PreviewOutput) -> String {
     let what = if let Some(im) = &o.image {
         format!(
-            "image {} level {}{} c={:?} z={:?} t={:?}{}{} contrast {}",
+            "image {} level {}{} c=[{}] z=[{}] t=[{}]{}{} contrast {}",
             im.image,
             im.level,
             im.region
                 .map(|r| format!(" region {r}"))
                 .unwrap_or_default(),
-            im.c,
-            im.z,
-            im.t,
+            index_runs(&im.c),
+            index_runs(&im.z),
+            index_runs(&im.t),
             im.projection
                 .as_deref()
                 .map(|p| format!(" {p}"))
@@ -466,5 +490,17 @@ pub fn run(reg: &Registry, a: &PreviewArgs) -> i32 {
         }
         Ok((out, None)) => emit(a.json, &out, human),
         Err(e) => fail(a.json, &e),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn index_runs_shorten_stacks() {
+        assert_eq!(index_runs(&(0..756).collect::<Vec<_>>()), "0-755");
+        assert_eq!(index_runs(&[0, 2, 4, 5, 6, 9, 10]), "0, 2, 4-6, 9, 10");
+        assert_eq!(index_runs(&[3]), "3");
     }
 }

@@ -813,18 +813,24 @@ pub(crate) fn render(
 
     // The frame: `max_size` bounds the whole picture, so the data gets what the margins leave.
     let has_bar = im.physical_size.x.is_some_and(|v| v.is_finite() && v > 0.0);
-    let mut layout = req.axes.then(|| {
-        if req.figure {
-            Framing::Figure(FigureLayout::new(
-                req.max_size,
-                has_bar,
-                req.title.as_deref(),
-                req.caption.as_deref(),
-            ))
-        } else {
-            Framing::Rulers(Layout::new(req.max_size, im.size_x, im.size_y))
-        }
-    });
+    let titled = req.title.is_some() || req.caption.is_some();
+    let mut layout = if req.axes && !req.figure {
+        Some(Framing::Rulers(Layout::new(
+            req.max_size,
+            im.size_x,
+            im.size_y,
+        )))
+    } else if (req.axes && req.figure) || titled {
+        // without axes, a title or caption still gets its frame, with no scale bar
+        Some(Framing::Figure(FigureLayout::new(
+            req.max_size,
+            has_bar && req.axes,
+            req.title.as_deref(),
+            req.caption.as_deref(),
+        )))
+    } else {
+        None
+    };
     if let Some(l) = &layout {
         let room = req.max_size.saturating_sub(l.h().max(l.v()));
         if room < 16 || room < req.max_size / 2 {
@@ -839,14 +845,15 @@ pub(crate) fn render(
         out.notes
             .push("grid lines are drawn only with the rulers (axes)".into());
     }
-    if (req.title.is_some() || req.caption.is_some()) && !matches!(layout, Some(Framing::Figure(_)))
-    {
-        out.notes
-            .push("title and caption are drawn only with axes scale-bar".into());
+    if titled && !matches!(layout, Some(Framing::Figure(_))) {
+        out.notes.push(
+            "title and caption are drawn with axes scale-bar or none, not with rulers".into(),
+        );
     }
-    if matches!(layout, Some(Framing::Figure(_))) && !has_bar {
-        out.notes
-            .push("the pixel size is not recorded: no scale bar".into());
+    if req.axes && layout.is_some() && !has_bar {
+        out.notes.push(
+            "the file records no physical pixel size: no scale bar, and sizes are in pixels".into(),
+        );
     }
     // The level is chosen for `max_size` as without rulers; the plane is then resampled so its
     // longer side fills what the margins leave (a bare plane is only ever made smaller).

@@ -801,6 +801,42 @@ pub struct ImagePreview {
 }
 
 impl ImagePreview {
+    /// How to turn a pixel of a picture without rulers into full-resolution coordinates, for
+    /// a `region`: its pixels are not source pixels once the plane is scaled or framed.
+    pub fn pixel_mapping(&self) -> String {
+        let n = |v: f64| {
+            let s = format!("{v:.3}");
+            s.trim_end_matches('0').trim_end_matches('.').to_string()
+        };
+        let term = |origin: f64, edge: u32, per: f64, p: &str| {
+            let at = if edge == 0 {
+                p.to_string()
+            } else {
+                format!("({p} − {edge})")
+            };
+            if origin == 0.0 {
+                format!("{at} × {}", n(per))
+            } else {
+                format!("{} + {at} × {}", n(origin), n(per))
+            }
+        };
+        format!(
+            "this picture has no rulers: picture pixel (px, py) is full-res x = {}, y = {}",
+            term(
+                self.source_origin.x,
+                self.plot_area.x,
+                self.source_per_pixel,
+                "px"
+            ),
+            term(
+                self.source_origin.y,
+                self.plot_area.y,
+                self.source_per_pixel_y,
+                "py"
+            ),
+        )
+    }
+
     /// Update the pixel mapping for a raster halved by [`Raster::half`].
     fn halve(&mut self) {
         let (plot, origin, per) = rulers::halve(
