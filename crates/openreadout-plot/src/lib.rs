@@ -359,6 +359,7 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         draw::check_annotations(&ps.annotate)?;
         ctx.plate = None;
         ctx.x_unit = ps.x.as_ref().and_then(|x| x.unit.clone());
+        ctx.x_range = ps.x.as_ref().and_then(|x| x.range);
         let items = ps.data.as_ref().map(OneOrMany::to_vec).unwrap_or_default();
         if items.is_empty() {
             return Err(Error::Usage(format!("panel {i}: no `data`")));

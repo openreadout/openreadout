@@ -42,7 +42,8 @@ pub use lanes::{
 
 pub use objects::{
     CountConfidence, DEFAULT_MAX_OBJECTS, Kind, LOW_FIT, MAX_OBJECT_PIXELS, Object, ObjectChannel,
-    Objects, ObjectsRequest, Polarity, Positive, Stain, ThresholdMethod, default_channel, label_plane,
+    Objects, ObjectsRequest, Polarity, Positive, Stain, ThresholdMethod, default_channel,
+    label_plane,
 };
 
 /// Most samples taken along a profile line.

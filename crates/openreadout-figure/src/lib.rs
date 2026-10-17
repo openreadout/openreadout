@@ -71,4 +71,4 @@ pub use scale::{
     Scale, ScaleKind, Tick, format_power, format_tick, format_value, nice_step, superscript,
 };
 pub use scene::{Anchor, Baseline, Cap, Figure, Group, Item, Layer, Stroke, TextStyle};
-pub use theme::{Mode, Theme};
+pub use theme::{Mode, Theme, series_index_of};

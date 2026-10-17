@@ -102,7 +102,11 @@ pub(crate) fn preferred_height(p: &PanelIn, width: f32, columns: Option<u32>, fs
             rows as f32 * (cell_height(cell_w, cols) + fs * 2.2) + fs * 3.0
         }
         None => {
-            if p.series
+            if p.series.iter().any(|s| s.calls.is_some()) {
+                // a Sanger read: the calls, the traces, the quality bars and the axis
+                (width * 0.30).clamp(150.0, 380.0) + (width * 0.07).clamp(36.0, 80.0) + fs * 6.0
+            } else if p
+                .series
                 .iter()
                 .any(|s| matches!(s.geom, Geom::Events { .. }))
             {
@@ -267,6 +271,10 @@ pub(crate) fn draw_panel(
         Some(Facet::Series) => Some(draw_facets(
             fig, theme, area, &p, &ax, &ay, &classes, columns, &mut hover, &mut ann,
         )),
+        None if p.series.iter().any(|s| s.calls.is_some()) => {
+            draw_sanger(fig, theme, area, &p, &ax, &mut hover, &mut ann);
+            None
+        }
         None => {
             draw_plot(
                 fig, theme, area, &p, &ax, &ay, &classes, &mut hover, &mut ann,
@@ -1171,6 +1179,157 @@ fn draw_plot(
         );
     }
     hover.push(hover_panel(&panel, p.title.as_deref(), &refs, 400));
+}
+
+/// Bars of a bar row: (x, height).
+type Bars = Vec<(f64, f64)>;
+
+/// A Sanger read, as the preview draws it: the called bases in their colours over the four
+/// traces, each call's quality as a bar underneath (poor calls in the accent, a dashed line at
+/// QV 20), and the base positions below. The traces, the calls and the quality are each a
+/// series group, so the SVG can be animated by part.
+fn draw_sanger(
+    fig: &mut Figure,
+    theme: &Theme,
+    area: Rect,
+    p: &PanelIn,
+    ax: &AxisRes,
+    hover: &mut Vec<Value>,
+    ann: &mut Vec<String>,
+) {
+    let Some(calls) = p.series.iter().find_map(|s| s.calls.as_ref()) else {
+        return;
+    };
+    let fs = theme.font_size;
+    let small = theme.small_size();
+    let x_dom = if p.spec.x.as_ref().is_some_and(|x| x.range.is_some()) {
+        ax.domain
+    } else {
+        Domain::linear(calls.window.0, calls.window.1)
+    };
+    let (lo, hi) = (x_dom.lo.min(x_dom.hi), x_dom.lo.max(x_dom.hi));
+    let has_q = calls.calls.iter().any(|c| c.2.is_some());
+    let letters_h = fs * 1.6;
+    let qual_h = if has_q {
+        (area.w * 0.07).clamp(36.0, 80.0).min(area.h * 0.25)
+    } else {
+        0.0
+    };
+    let gap = if has_q { fs * 0.4 } else { 0.0 };
+    let left = fs * 3.6;
+    let spec = AxesSpec {
+        x_label: Some(if ax.label.is_empty() {
+            "base position".into()
+        } else {
+            ax.label.clone()
+        }),
+        y_label: None,
+        x_ticks: 8,
+        y_ticks: 0,
+        show_x: true,
+        show_y: false,
+        grid: GridLines::None,
+        right: 0.0,
+        top: 0.0,
+        fill: false,
+    };
+    let full = Panel::fit(
+        area.inset_sides(left, letters_h, 0.0, 0.0),
+        x_dom,
+        Domain::linear(0.0, 1.0),
+        theme,
+        &spec,
+    );
+    let r = full.rect;
+    let trace_rect = Rect::new(r.x, r.y, r.w, (r.h - qual_h - gap).max(10.0));
+    let y_hi = p
+        .series
+        .iter()
+        .map(|s| s.geom.extent_in(lo, hi))
+        .filter(crate::model::Extent::has_y)
+        .map(|e| e.y.1)
+        .fold(1.0f64, f64::max);
+    let traces = Panel::new(trace_rect, x_dom, Domain::linear(0.0, y_hi * 1.04));
+    let ink = Ink::for_panel(theme, traces.rect);
+    draw_bands(fig, theme, &traces, &p.spec.annotate, None, ann);
+    full.axes(fig, theme, &spec);
+    fig.line(
+        trace_rect.x,
+        trace_rect.bottom(),
+        trace_rect.right(),
+        trace_rect.bottom(),
+        Stroke::new(theme.rule, theme.hairline()),
+    );
+    let refs: Vec<&Series> = p.series.iter().collect();
+    draw_data(fig, theme, &traces, &refs, &[], ink);
+    // the called bases, when there is room for letters
+    let px_per_base = f64::from(r.w) / (hi - lo).max(1e-9);
+    if px_per_base >= f64::from(small) * 0.75 {
+        let size = (small * 1.05).min(px_per_base as f32 * 1.25);
+        let y = trace_rect.y - letters_h * 0.45;
+        fig.group(Layer::Series, "base calls", |fig| {
+            for (x, b, _) in &calls.calls {
+                let Some(px) = traces.x.px(*x) else { continue };
+                if px < r.x - 1.0 || px > r.right() + 1.0 {
+                    continue;
+                }
+                let col =
+                    openreadout_figure::series_index_of(b).map_or(theme.muted, |i| theme.series(i));
+                let st = TextStyle::new(size, col)
+                    .face(Face::Mono)
+                    .align(Anchor::Middle, Baseline::Middle);
+                fig.text(px, y, b, &st);
+            }
+        });
+    }
+    // the quality of each call
+    if has_q {
+        let rect = Rect::new(r.x, trace_rect.bottom() + gap, r.w, qual_h);
+        let q_hi = calls
+            .calls
+            .iter()
+            .filter_map(|c| c.2)
+            .fold(40.0f64, f64::max);
+        let qp = Panel::new(rect, x_dom, Domain::linear(0.0, q_hi));
+        let label = TextStyle::new(small, theme.muted).align(Anchor::End, Baseline::Middle);
+        fig.group(Layer::Series, "quality", |fig| {
+            let (good, poor): (Bars, Bars) = calls
+                .calls
+                .iter()
+                .filter(|c| c.0 >= lo && c.0 <= hi)
+                .filter_map(|c| Some((c.0, c.2?)))
+                .partition(|(_, v)| *v >= 20.0);
+            qp.bars(fig, &good, 0.72, 0.0, theme.muted.alpha(0.5));
+            qp.bars(fig, &poor, 0.72, 0.0, theme.accent.alpha(0.8));
+            qp.rule_y(
+                fig,
+                20.0,
+                Stroke::new(theme.rule, theme.hairline()).dashed(3.0, 3.0),
+            );
+            fig.text(r.x - fs * 0.5, rect.y + rect.h / 2.0, "QV", &label);
+            if let Some(py) = qp.y.px(20.0) {
+                fig.text(
+                    rect.right() + 2.0,
+                    py,
+                    "20",
+                    &TextStyle::new(small * 0.9, theme.muted)
+                        .align(Anchor::Start, Baseline::Middle),
+                );
+            }
+        });
+    }
+    let mut placer = LabelPlacer::new(traces.rect);
+    draw_marks_over(
+        fig,
+        theme,
+        &traces,
+        &p.spec.annotate,
+        None,
+        &mut placer,
+        false,
+        ann,
+    );
+    hover.push(hover_panel(&traces, p.title.as_deref(), &refs, 400));
 }
 
 /// Each histogram named at its highest bin.

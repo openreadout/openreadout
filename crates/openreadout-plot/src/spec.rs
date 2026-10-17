@@ -236,6 +236,10 @@ pub enum Show {
     /// One value per frame of an image (y: a value the frames record such as dose, or a pixel
     /// statistic mean, sum, max, min) against the frame number (x: t, or a recorded value).
     Frames,
+    /// A Sanger read (ABI .ab1): the four bases' traces against base position, the called
+    /// bases above and each call's quality below. x_range or the x range is in bases (default
+    /// about 80 bases where the quality turns good).
+    Sanger,
 }
 
 #[allow(missing_docs)]
@@ -285,7 +289,8 @@ pub struct SeriesSpec {
     /// What to show. Default from the file: trace (signals, 1-D spectra; an Illumina run's quality
     /// by cycle, one sweep per lane), chromatogram (mass spectrometry; spectrum with rt or scan),
     /// wells (plates), events (FCS with x and y; histogram with x only), amplification (qPCR),
-    /// histogram (FASTQ and BAM read lengths), frames (movies and image series).
+    /// histogram (FASTQ and BAM read lengths), frames (movies and image series), sanger (ABI
+    /// Sanger reads).
     pub show: Option<Show>,
     /// How to draw it (default from what it shows).
     pub mark: Option<MarkKind>,

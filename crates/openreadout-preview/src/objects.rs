@@ -32,7 +32,10 @@ pub(crate) fn show_counted_channel(
     if req.composite || req.select.iter().any(|s| s.contains('c')) {
         return None;
     }
-    let im = info.images.iter().find(|i| i.index == req.image.unwrap_or(0))?;
+    let im = info
+        .images
+        .iter()
+        .find(|i| i.index == req.image.unwrap_or(0))?;
     if im.size_c < 2 || im.samples_per_pixel == 3 {
         return None;
     }

@@ -580,6 +580,10 @@ pub(crate) fn assign_colors(
         if s.color.is_some() {
             continue;
         }
+        if let Some(i) = s.palette {
+            s.color = Some(theme.series(i));
+            continue;
+        }
         if let Some(c) = &s.class {
             if c == "blank" {
                 s.color = Some(theme.faint);
