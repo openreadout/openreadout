@@ -78,6 +78,14 @@ test("the neuron sample marks its action potentials, the GC-MS run finds a spect
   r.file.close();
 });
 
+test("readouts are short numbers", () => {
+  assert.deepEqual([798.4, 36.19, 0.04746, 4087, 12345.6, 2].map(R.short), ["798", "36.2", "0.0475", "4,087", "12,346", "2"]);
+  const meta = { image: { full_res_region: { x: 0, y: 0, width: 1600, height: 1500 } } };
+  const info = { images: [{ index: 0, size_x: 2220, size_y: 2967, physical_size: { x: 0.499, unit: "µm" } }] };
+  const zoom = (z) => R.numbers(info, { kind: "image" }, meta, { zoom: z }).find((n) => n.label === "Zoom").value;
+  assert.deepEqual([1.977, 7.43, 1, 12.6].map(zoom), ["2×", "7.4×", "1×", "13×"]);
+});
+
 test("the image viewer's camera neither drifts nor shrinks", async () => {
   const C = await import(pathToFileURL(join(out, "camera.js")).href);
   const view = { w: 690, h: 648 };

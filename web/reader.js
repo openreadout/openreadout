@@ -188,6 +188,16 @@ export function round(n) {
   return String(Number(n.toPrecision(4)));
 }
 
+/**
+ * A measured number for a readout: whole numbers from 100 up (grouped from 10,000), three
+ * significant digits below, no trailing zeros ("798", "36.2", "0.0475").
+ */
+export function short(n) {
+  if (!Number.isFinite(n)) return String(n);
+  if (Math.abs(n) >= 100) return Math.round(n).toLocaleString("en-US");
+  return String(Number(n.toPrecision(3)));
+}
+
 /** Bytes as KB/MB. */
 export function human(n) {
   if (!Number.isFinite(n)) return "";
@@ -288,12 +298,12 @@ export function numbers(info, v, meta, shown = {}) {
     const ob = shown.objects === undefined ? meta.objects : shown.objects;
     if (ob) out.push({ label: `${sentence(ob.kind ?? "objects")} in view`, value: ob.count.toLocaleString("en-US"), strong: true });
     out.push({ label: "Area shown", value: `${px(r.width)} × ${px(r.height)} px` });
-    if (um) out.push({ label: "Field of view", value: `${round(r.width * um)} × ${round(r.height * um)} µm` });
+    if (um) out.push({ label: "Field of view", value: `${short(r.width * um)} × ${short(r.height * um)} µm` });
     const zoom = shown.zoom ?? im.size_x / r.width;
-    out.push({ label: "Zoom", value: `${zoom < 9.95 ? zoom.toFixed(1) : Math.round(zoom)}×` });
+    out.push({ label: "Zoom", value: `${zoom < 9.95 ? Number(zoom.toFixed(1)) : Math.round(zoom)}×` });
     if (ob) {
-      if (ob.density_per_mm2) out.push({ label: "Density", value: `${round(ob.density_per_mm2)} per mm²` });
-      if (ob.diameter_um?.median) out.push({ label: "Median diameter", value: `${round(ob.diameter_um.median)} µm` });
+      if (ob.density_per_mm2) out.push({ label: "Density", value: `${short(ob.density_per_mm2)} per mm²` });
+      if (ob.diameter_um?.median) out.push({ label: "Median diameter", value: `${short(ob.diameter_um.median)} µm` });
       if (ob.confidence) out.push({ label: "Confidence", value: ob.confidence });
     }
     return out;
@@ -303,16 +313,16 @@ export function numbers(info, v, meta, shown = {}) {
     out.push({ label: "Action potentials", value: String(spikes.length), strong: true });
     if (spikes.length > 1) {
       const t = spikes.map((s) => s.x).sort((a, b) => a - b);
-      out.push({ label: "First at", value: `${round(t[0] * 1000)} ms` });
+      out.push({ label: "First at", value: `${short(t[0] * 1000)} ms` });
       const peak = Math.max(...spikes.map((s) => s.y));
-      out.push({ label: "Highest peak", value: `${round(peak)} mV` });
+      out.push({ label: "Highest peak", value: `${short(peak)} mV` });
     }
   }
   if (meta.trace && !spikes.length && v.marks !== "spikes") {
     const t = meta.trace;
     if (t.channels?.length > 1) out.push({ label: "Curves", value: String(t.channels.length), strong: true });
     if (t.sweep_sample_count) out.push({ label: "Points", value: t.sweep_sample_count.toLocaleString("en-US") });
-    if (t.x_axis) out.push({ label: "Range", value: `${round(t.x_axis.first)} to ${round(t.x_axis.last)} ${t.x_axis.unit}` });
+    if (t.x_axis) out.push({ label: "Range", value: `${short(t.x_axis.first)} to ${short(t.x_axis.last)} ${t.x_axis.unit}` });
   }
   const peaks = (meta.marks ?? []).filter((m) => m.kind === "peak" && m.label);
   if (peaks.length) {
@@ -330,14 +340,14 @@ export function numbers(info, v, meta, shown = {}) {
   if (meta.plate) {
     const p = meta.plate;
     out.push({ label: "Wells", value: String(p.wells), strong: true });
-    if (p.time) out.push({ label: "Duration", value: `${round(p.time[1] - p.time[0])} ${p.time_unit}` });
-    if (Number.isFinite(p.min)) out.push({ label: "Value range", value: `${round(p.min)} to ${round(p.max)}` });
+    if (p.time) out.push({ label: "Duration", value: `${short(p.time[1] - p.time[0])} ${p.time_unit}` });
+    if (Number.isFinite(p.min)) out.push({ label: "Value range", value: `${short(p.min)} to ${short(p.max)}` });
     if (p.groups?.length) out.push({ label: "Groups", value: String(p.groups.length) });
   }
   if (meta.spectrum) {
     const s = meta.spectrum;
     out.push({ label: "Scan", value: `${s.scan_number ?? s.index} · MS${s.ms_level ?? ""}`.replace(/ · MS$/, "") });
-    if (Number.isFinite(s.rt_s)) out.push({ label: "Retention time", value: `${round(s.rt_s / 60)} min` });
+    if (Number.isFinite(s.rt_s)) out.push({ label: "Retention time", value: `${short(s.rt_s / 60)} min` });
   }
   return out;
 }

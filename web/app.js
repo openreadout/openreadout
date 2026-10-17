@@ -1137,7 +1137,7 @@ function paintBars(F, selected) {
 
 function cqTable(rows) {
   const t = el("table", { class: "cq" }, el("caption", {}, "Mean Cq by sample"));
-  for (const r of rows.slice(0, 12)) t.append(el("tr", {}, el("td", {}, r.sample), el("td", {}, `${R.round(r.cq)} (${r.wells} well${r.wells > 1 ? "s" : ""})`)));
+  for (const r of rows.slice(0, 12)) t.append(el("tr", {}, el("td", {}, r.sample), el("td", {}, `${R.short(r.cq)} (${r.wells} well${r.wells > 1 ? "s" : ""})`)));
   return t;
 }
 
@@ -1202,10 +1202,10 @@ async function drawSecond(F) {
     F.secondPic = pic;
     const img = $("figure2");
     img.src = pic.url;
-    img.alt = `Mass spectrum at ${R.round(F.second.rt)} min`;
+    img.alt = `Mass spectrum at ${R.short(F.second.rt)} min`;
     box.style.width = `${Math.round(pic.meta.width / opts.scale)}px`;
     box.hidden = false;
-    $("hint2").textContent = `Mass spectrum at ${R.round(F.second.rt)} min (scan ${pic.meta.spectrum?.scan_number ?? F.second.spectrum}).`;
+    $("hint2").textContent = `Mass spectrum at ${R.short(F.second.rt)} min (scan ${pic.meta.spectrum?.scan_number ?? F.second.spectrum}).`;
   } catch (e) {
     if (e?.superseded || S.cur !== F) return;
     $("hint2").textContent = e.message;
@@ -1234,8 +1234,8 @@ async function pickWell(F, e) {
   const unit = m.plate.time_unit ?? "";
   const rows = [["Well", well, "strong"]];
   if (s) {
-    rows.push(["Start", R.round(s.first)], ["End", R.round(s.last)], ["Highest", R.round(s.max)]);
-    rows.push(["Reads", `${s.reads} over ${R.round(m.plate.time[1] - m.plate.time[0])} ${unit}`]);
+    rows.push(["Start", R.short(s.first)], ["End", R.short(s.last)], ["Highest", R.short(s.max)]);
+    rows.push(["Reads", `${s.reads} over ${R.short(m.plate.time[1] - m.plate.time[0])} ${unit}`]);
   }
   const dl = el("dl", {}, ...rows.flatMap(([k, v, cls]) => [el("dt", {}, k), el("dd", { class: cls }, v)]));
   $("extra").replaceChildren(el("h3", {}, "Selected well"), dl);
