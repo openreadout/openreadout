@@ -143,7 +143,7 @@ openreadout_preview <- function(x, ..., format = c("png", "jpeg", "svg"), file =
 #' (`"fi"`, `"dose_response"`, `"standard_curve"`, `"melt"`, ...) for an analysis result; a
 #' `table` file's columns) or gives inline `values`.
 #' `panels`, `facet` (`"plate"` lays wells out in plate positions), `share`, `x`/`y` axis
-#' options, `annotate` (bands, lines, labelled points, arrows) and `theme` (`"light"`,
+#' options, `annotate` (bands, lines, labelled points, arrows: the same annotations as `openreadout_preview()`) and `theme` (`"light"`,
 #' `"dark"`) arrange it. The spec is the JSON of the `openreadout_plot` MCP tool; indices in it
 #' start at 0, as there. Reference: <https://openreadout.github.io/openreadout/reference/commands/plot.html>.
 #'

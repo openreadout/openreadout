@@ -339,54 +339,44 @@ const num = (v) => (v === null || v === undefined || v === "" ? NaN : Number(v))
 const pair = (v) => (Array.isArray(v) && v.length >= 2 ? [num(v[0]), num(v[1])] : null);
 
 /**
- * The agent's annotations in one shape, whatever spelling the tool used. Image annotations are
- * in full-resolution pixels, plot annotations in axis units. Unknown kinds are dropped.
- *   point {x, y} · box {x, y, w, h} · polygon {points} · line / arrow {x0, y0, x1, y1}
- *   text {x, y} · band {x0, x1, y0?, y1?} · hline {y} · vline {x} — each with label?, color?,
- *   and wells (plate annotations).
+ * The agent's annotations (the shape openreadout_preview and openreadout_plot both take:
+ * `type`, `x`, `y`, `x2`, `y2`, `width`, `height`, `points`, `label`, `color`, `well`) as the
+ * page draws them. Image annotations are in full-resolution pixels, plot annotations in axis
+ * units. Items that lack what their type needs are dropped.
+ *   point / text {x, y} · box {x, y, w, h} · polygon {points, closed} · line {x0, y0, x1, y1,
+ *   arrow} · band {x0, x1, y0, y1} (null: the whole axis) · hline {y} · vline {x} · wells
  */
 function normalizeAnnotations(list) {
   if (!Array.isArray(list)) return [];
   const out = [];
   for (const a of list.slice(0, 200)) {
     if (!a || typeof a !== "object") continue;
-    const kind = String(a.kind || a.type || a.shape || (a.points ? "polygon" : a.width != null || a.w != null ? "box" : "point")).toLowerCase();
-    const base = { label: a.label != null ? String(a.label).slice(0, 120) : a.text != null ? String(a.text).slice(0, 120) : "", color: typeof a.color === "string" ? a.color : null };
-    const at = pair(a.at) || pair(a.xy) || pair(a.position) || [num(a.x), num(a.y)];
-    const wells = a.wells || a.well;
-    if (wells) {
-      const ws = (Array.isArray(wells) ? wells : [wells]).map(parseWell).filter(Boolean);
-      if (ws.length) { out.push(Object.assign(base, { kind: "wells", wells: ws })); continue; }
-    }
-    if (kind === "point" || kind === "dot" || kind === "marker") {
-      if (isFinite(at[0]) && isFinite(at[1])) out.push(Object.assign(base, { kind: "point", x: at[0], y: at[1] }));
-    } else if (kind === "text" || kind === "label") {
-      if (isFinite(at[0]) && isFinite(at[1])) out.push(Object.assign(base, { kind: "text", x: at[0], y: at[1] }));
-    } else if (kind === "box" || kind === "rect" || kind === "rectangle" || kind === "region") {
-      const r = a.region || a.rect || a.box;
-      let x, y, w, h;
-      if (Array.isArray(r) && r.length >= 4) [x, y, w, h] = r.map(num);
-      else if (r && typeof r === "object") [x, y, w, h] = [num(r.x), num(r.y), num(r.width ?? r.w), num(r.height ?? r.h)];
-      else if (a.x0 != null) [x, y, w, h] = [num(a.x0), num(a.y0), num(a.x1) - num(a.x0), num(a.y1) - num(a.y0)];
-      else [x, y, w, h] = [num(a.x), num(a.y), num(a.width ?? a.w), num(a.height ?? a.h)];
-      if ([x, y, w, h].every(isFinite)) out.push(Object.assign(base, { kind: "box", x: Math.min(x, x + w), y: Math.min(y, y + h), w: Math.abs(w), h: Math.abs(h) }));
-    } else if (kind === "polygon" || kind === "polyline" || kind === "path") {
-      const pts = (a.points || a.vertices || []).map((p) => (Array.isArray(p) ? [num(p[0]), num(p[1])] : [num(p.x), num(p.y)])).filter((p) => p.every(isFinite));
-      if (pts.length >= 2) out.push(Object.assign(base, { kind: "polygon", points: pts, closed: kind === "polygon" }));
-    } else if (kind === "line" || kind === "arrow" || kind === "segment") {
-      const p0 = pair(a.from) || (a.points && pair(a.points[0])) || [num(a.x0 ?? a.x1), num(a.y0 ?? a.y1)];
-      const p1 = pair(a.to) || (a.points && pair(a.points[1])) || [num(a.x1 != null && a.x0 != null ? a.x1 : a.x2), num(a.y1 != null && a.y0 != null ? a.y1 : a.y2)];
-      if (p0.concat(p1).every(isFinite)) out.push(Object.assign(base, { kind: "line", x0: p0[0], y0: p0[1], x1: p1[0], y1: p1[1], arrow: kind === "arrow" || !!a.arrow }));
-    } else if (kind === "band" || kind === "span" || kind === "xband" || kind === "range") {
-      const xr = pair(a.x_range) || pair(a.range) || pair(a.x) || [num(a.from ?? a.x0 ?? a.start), num(a.to ?? a.x1 ?? a.end)];
-      const yr = pair(a.y_range);
-      if (xr.every(isFinite)) out.push(Object.assign(base, { kind: "band", x0: Math.min(...xr), x1: Math.max(...xr), y0: yr ? Math.min(...yr) : null, y1: yr ? Math.max(...yr) : null }));
-    } else if (kind === "vline" || kind === "xline") {
-      const x = num(a.x ?? a.at ?? a.value);
-      if (isFinite(x)) out.push(Object.assign(base, { kind: "vline", x }));
-    } else if (kind === "hline" || kind === "yline" || kind === "threshold") {
-      const y = num(a.y ?? a.at ?? a.value);
-      if (isFinite(y)) out.push(Object.assign(base, { kind: "hline", y }));
+    const kind = String(a.type || "").toLowerCase();
+    const base = { label: a.label != null ? String(a.label).slice(0, 120) : "", color: typeof a.color === "string" ? a.color : null };
+    const [x, y, x2, y2] = [num(a.x), num(a.y), num(a.x2), num(a.y2)];
+    const ok = (...v) => v.every(isFinite);
+    if (kind === "well") {
+      const w = parseWell(a.well);
+      if (w) out.push(Object.assign(base, { kind: "wells", wells: [w] }));
+    } else if (kind === "point" || kind === "text") {
+      if (ok(x, y)) out.push(Object.assign(base, { kind, x, y }));
+    } else if (kind === "box") {
+      const [w, h] = [num(a.width), num(a.height)];
+      if (ok(x, y, w, h)) out.push(Object.assign(base, { kind: "box", x: Math.min(x, x + w), y: Math.min(y, y + h), w: Math.abs(w), h: Math.abs(h) }));
+    } else if (kind === "polygon" || kind === "line") {
+      const pts = (Array.isArray(a.points) ? a.points : []).map((p) => (Array.isArray(p) ? [num(p[0]), num(p[1])] : [NaN, NaN])).filter((p) => ok(...p));
+      if (kind === "line" && pts.length === 2) out.push(Object.assign(base, { kind: "line", x0: pts[0][0], y0: pts[0][1], x1: pts[1][0], y1: pts[1][1], arrow: false }));
+      else if (pts.length >= 2) out.push(Object.assign(base, { kind: "polygon", points: pts, closed: kind === "polygon" }));
+    } else if (kind === "arrow") {
+      if (ok(x, y, x2, y2)) out.push(Object.assign(base, { kind: "line", x0: x, y0: y, x1: x2, y1: y2, arrow: true }));
+    } else if (kind === "vband") {
+      if (ok(x, x2)) out.push(Object.assign(base, { kind: "band", x0: Math.min(x, x2), x1: Math.max(x, x2), y0: null, y1: null }));
+    } else if (kind === "hband") {
+      if (ok(y, y2)) out.push(Object.assign(base, { kind: "band", x0: null, x1: null, y0: Math.min(y, y2), y1: Math.max(y, y2) }));
+    } else if (kind === "vline") {
+      if (ok(x)) out.push(Object.assign(base, { kind: "vline", x }));
+    } else if (kind === "hline") {
+      if (ok(y)) out.push(Object.assign(base, { kind: "hline", y }));
     }
   }
   return out;
@@ -2597,7 +2587,7 @@ function main() {
     for (const a of A.list) {
       const col = a.color || c.accent;
       if (layer === "under" && a.kind === "band") {
-        const xa = inX(X(a.x0)), xb = inX(X(a.x1));
+        const xa = a.x0 != null ? inX(X(a.x0)) : left, xb = a.x1 != null ? inX(X(a.x1)) : left + pw;
         const ya = a.y1 != null ? Y(a.y1) : py, yb = a.y0 != null ? Y(a.y0) : py + ph;
         g.fillStyle = a.color ? alpha(a.color, 0.14) : c.band;
         g.fillRect(Math.min(xa, xb), ya, Math.abs(xb - xa), yb - ya);
@@ -2607,8 +2597,12 @@ function main() {
       g.fillStyle = col;
       g.lineWidth = 1.25;
       if (a.kind === "band" && a.label) {
-        const xa = Math.min(X(a.x0), X(a.x1));
-        txt(a.label, Math.max(left + 2, xa) + 4, py + 13, { size: 11.5, weight: 500, color: col, halo: c.bg });
+        if (a.x0 != null) {
+          const xa = Math.min(X(a.x0), X(a.x1));
+          txt(a.label, Math.max(left + 2, xa) + 4, py + 13, { size: 11.5, weight: 500, color: col, halo: c.bg });
+        } else {
+          txt(a.label, left + pw - 4, Math.min(Y(a.y0), Y(a.y1)) + 13, { size: 11.5, weight: 500, color: col, align: "right", halo: c.bg });
+        }
       } else if (a.kind === "vline") {
         const x = X(a.x);
         g.setLineDash([4, 3]);

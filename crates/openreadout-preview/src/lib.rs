@@ -97,7 +97,7 @@ use openreadout_core::{Error, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-pub use annotate::{Annotation, DrawnAnnotation};
+pub use annotate::{Annotation, AnnotationType, DrawnAnnotation};
 pub use electrophoresis::series_index_of;
 pub use openreadout_figure::{Figure, Raster};
 pub use options::PreviewOptions;

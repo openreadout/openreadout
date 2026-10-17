@@ -13,117 +13,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{Frame, FramePanel, KeySlot, PlotPanel, PxRect};
 
-/// What an annotation draws.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-#[serde(rename_all = "lowercase")]
-pub enum AnnotationType {
-    /// a dot at x, y (with its label beside it)
-    Point,
-    /// a rectangle: corner x, y and width, height
-    Box,
-    /// a closed outline through points
-    Polygon,
-    /// an open line through points
-    Line,
-    /// an arrow from x, y to x2, y2
-    Arrow,
-    /// the label alone, at x, y
-    Text,
-    /// a vertical line at x
-    Vline,
-    /// a horizontal line at y
-    Hline,
-    /// a vertical band from x to x2
-    Vband,
-    /// a horizontal band from y to y2
-    Hband,
-    /// a ring around a plate well (well)
-    Well,
-}
-
-/// One annotation. Coordinates are those of the preview: full-resolution pixels on images (as
-/// on the rulers), axis units on plots (as on the tick labels), and on plate curve grids the
-/// time and value axes every card shares.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
-#[serde(deny_unknown_fields)]
-pub struct Annotation {
-    /// What to draw.
-    #[serde(rename = "type")]
-    pub kind: AnnotationType,
-    /// point, text: position; box: corner; arrow: tail; vline, vband: x (vband from x to x2).
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub x: Option<f64>,
-    /// point, text: position; box: corner; arrow: tail; hline, hband: y (hband from y to y2).
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub y: Option<f64>,
-    /// arrow: head; vband: other edge.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub x2: Option<f64>,
-    /// arrow: head; hband: other edge.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub y2: Option<f64>,
-    /// box: width.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub width: Option<f64>,
-    /// box: height.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub height: Option<f64>,
-    /// polygon, line: the vertices, `[[x, y], ...]`.
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub points: Vec<[f64; 2]>,
-    /// Text drawn with the mark (the text itself for type text).
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub label: Option<String>,
-    /// `accent` (default, warm red), `ink`, `muted`, `white` or `#RRGGBB`.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub color: Option<String>,
-    /// Trace previews with several panels: the channel whose panel it goes in (default: the
-    /// first panel).
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub channel: Option<u32>,
-    /// Plates: the well (e.g. `B3`) for type well, or the one card a mark goes in on a curve
-    /// grid (default: every card).
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub well: Option<String>,
-}
-
-impl Annotation {
-    /// A point with a label.
-    pub fn point(x: f64, y: f64, label: &str) -> Annotation {
-        Annotation {
-            kind: AnnotationType::Point,
-            x: Some(x),
-            y: Some(y),
-            x2: None,
-            y2: None,
-            width: None,
-            height: None,
-            points: Vec::new(),
-            label: Some(label.to_string()),
-            color: None,
-            channel: None,
-            well: None,
-        }
-    }
-
-    /// An annotation of `kind` with nothing set.
-    pub fn new(kind: AnnotationType) -> Annotation {
-        Annotation {
-            kind,
-            x: None,
-            y: None,
-            x2: None,
-            y2: None,
-            width: None,
-            height: None,
-            points: Vec::new(),
-            label: None,
-            color: None,
-            channel: None,
-            well: None,
-        }
-    }
-}
+pub use openreadout_core::annotation::{Annotation, AnnotationType};
 
 /// An annotation as drawn: the request, plus where it landed in PNG pixels.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
@@ -234,103 +124,6 @@ fn resolve_color(c: Option<&str>, theme: &Theme) -> Result<Color> {
     }
 }
 
-fn need(v: Option<f64>, what: &str, kind: &str) -> Result<f64> {
-    match v {
-        Some(v) if v.is_finite() => Ok(v),
-        _ => Err(Error::Usage(format!(
-            "annotation type {kind} needs a finite {what}"
-        ))),
-    }
-}
-
-fn kind_name(k: AnnotationType) -> &'static str {
-    match k {
-        AnnotationType::Point => "point",
-        AnnotationType::Box => "box",
-        AnnotationType::Polygon => "polygon",
-        AnnotationType::Line => "line",
-        AnnotationType::Arrow => "arrow",
-        AnnotationType::Text => "text",
-        AnnotationType::Vline => "vline",
-        AnnotationType::Hline => "hline",
-        AnnotationType::Vband => "vband",
-        AnnotationType::Hband => "hband",
-        AnnotationType::Well => "well",
-    }
-}
-
-/// Check that an annotation has what its type needs, before anything is drawn.
-fn validate(a: &Annotation) -> Result<()> {
-    let k = kind_name(a.kind);
-    match a.kind {
-        AnnotationType::Point => {
-            need(a.x, "x", k)?;
-            need(a.y, "y", k)?;
-        }
-        AnnotationType::Text => {
-            need(a.x, "x", k)?;
-            need(a.y, "y", k)?;
-            if a.label.as_deref().is_none_or(|l| l.trim().is_empty()) {
-                return Err(Error::Usage("annotation type text needs a label".into()));
-            }
-        }
-        AnnotationType::Box => {
-            need(a.x, "x", k)?;
-            need(a.y, "y", k)?;
-            need(a.width, "width", k)?;
-            need(a.height, "height", k)?;
-        }
-        AnnotationType::Arrow => {
-            need(a.x, "x", k)?;
-            need(a.y, "y", k)?;
-            need(a.x2, "x2", k)?;
-            need(a.y2, "y2", k)?;
-        }
-        AnnotationType::Polygon | AnnotationType::Line => {
-            let min = if a.kind == AnnotationType::Polygon {
-                3
-            } else {
-                2
-            };
-            if a.points.len() < min || a.points.iter().flatten().any(|v| !v.is_finite()) {
-                return Err(Error::Usage(format!(
-                    "annotation type {k} needs at least {min} finite points [[x, y], ...]"
-                )));
-            }
-        }
-        AnnotationType::Vline => {
-            need(a.x, "x", k)?;
-        }
-        AnnotationType::Hline => {
-            need(a.y, "y", k)?;
-        }
-        AnnotationType::Vband => {
-            need(a.x, "x", k)?;
-            need(a.x2, "x2", k)?;
-        }
-        AnnotationType::Hband => {
-            need(a.y, "y", k)?;
-            need(a.y2, "y2", k)?;
-        }
-        AnnotationType::Well => {
-            let w = a.well.as_deref().unwrap_or("");
-            if parse_well_name(w).is_none() {
-                return Err(Error::Usage(format!(
-                    "annotation type well needs a well such as \"B3\" (got '{w}')"
-                )));
-            }
-        }
-    }
-    if let Some(w) = a.well.as_deref()
-        && parse_well_name(w).is_none()
-    {
-        return Err(Error::Usage(format!(
-            "annotation well '{w}' is not a well name such as B3"
-        )));
-    }
-    Ok(())
-}
-
 /// A coordinate system the marks are drawn in: data → figure pixels, the area it covers, and
 /// whether labels sit on pills (images) or carry halos (plots).
 struct Space<'a> {
@@ -420,7 +213,12 @@ pub(crate) fn draw(
     notes: &mut Vec<String>,
 ) -> Result<Vec<DrawnAnnotation>> {
     for a in anns {
-        validate(a)?;
+        a.check()?;
+        if a.facet.is_some() {
+            return Err(Error::Usage(
+                "annotation facet picks a small plot of openreadout_plot; previews place marks by channel (trace panels) or well (plate cards)".into(),
+            ));
+        }
     }
     let fs = theme.font_size;
     let mut labels = Labels {
@@ -455,7 +253,7 @@ pub(crate) fn draw(
         };
         let group = fig.open_group(
             Layer::Annotation,
-            a.label.as_deref().unwrap_or(kind_name(a.kind)),
+            a.label.as_deref().unwrap_or(a.kind.name()),
         );
         match frame {
             Frame::Image { plot_area, map } => {
@@ -1054,16 +852,16 @@ mod tests {
     fn annotations_parse_and_validate() {
         let a: Annotation =
             serde_json::from_str(r#"{"type":"point","x":10,"y":20,"label":"cell"}"#).unwrap();
-        assert!(validate(&a).is_ok());
+        assert!(a.check().is_ok());
         let bad: Annotation = serde_json::from_str(r#"{"type":"box","x":1,"y":2}"#).unwrap();
-        assert!(validate(&bad).unwrap_err().to_string().contains("width"));
+        assert!(bad.check().unwrap_err().to_string().contains("width"));
         assert!(
             serde_json::from_str::<Annotation>(r#"{"type":"point","x":1,"y":2,"caption":"x"}"#)
                 .is_err()
         );
         let t: Annotation = serde_json::from_str(r#"{"type":"text","x":1,"y":2}"#).unwrap();
-        assert!(validate(&t).is_err());
+        assert!(t.check().is_err());
         let w: Annotation = serde_json::from_str(r#"{"type":"well","well":"H12"}"#).unwrap();
-        assert!(validate(&w).is_ok());
+        assert!(w.check().is_ok());
     }
 }

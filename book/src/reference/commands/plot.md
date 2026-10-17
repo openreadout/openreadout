@@ -86,17 +86,17 @@ Plate groups come from the layout the file stores (SoftMax Pro groups, Gen5 well
 
 ### Annotations
 
-`x` and `y` are in the units the axes show (hours on a plate time axis that shows hours). A number on one axis draws a line, a pair `[a, b]` a band, numbers on both a labelled point; `to` turns the point into an arrow from the label to `[x, y]`.
+Annotations have the same shape as those of [`preview`](preview.md), in the units the axes show (hours on a plate time axis that shows hours). `type` is one of `point`, `text` (the label alone), `arrow` (from the label at `x`, `y` to `x2`, `y2`), `vline`, `hline`, `vband` (`x` to `x2`), `hband` (`y` to `y2`), `box` (`x`, `y`, `width`, `height`), `line` and `polygon` (`points`).
 
 ```json
 "annotate": [
-  {"x": [7.4, 8.6], "label": "came back 7.4–8.6 h"},
-  {"y": 0.1, "label": "threshold"},
-  {"x": 4, "y": 0.18, "label": "crash", "to": [5.5, 0.02]}
+  {"type": "vband", "x": 7.4, "x2": 8.6, "label": "came back 7.4–8.6 h"},
+  {"type": "hline", "y": 0.1, "label": "threshold"},
+  {"type": "arrow", "x": 4, "y": 0.18, "x2": 5.5, "y2": 0.02, "label": "crash"}
 ]
 ```
 
-Each annotation also takes `color`, `marker: false` (text without a dot) and `facet` (only in the small plot with this title).
+Each annotation also takes `color` and `facet` (only in the small plot with this title).
 
 ### Limits
 

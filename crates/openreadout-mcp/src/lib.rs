@@ -734,7 +734,7 @@ mod tests {
         let args: crate::tools::plot::PlotArgs = serde_json::from_value(serde_json::json!({
             "title": "per tube",
             "data": {"values": {"x": ["E01", "E03"], "y": [0.004, 2.6]}},
-            "annotate": [{"y": 1.0, "label": "threshold"}],
+            "annotate": [{"type": "hline", "y": 1.0, "label": "threshold"}],
         }))
         .unwrap();
         let r = s.plot(Parameters(args)).await.unwrap();

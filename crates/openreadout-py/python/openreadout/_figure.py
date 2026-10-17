@@ -177,7 +177,7 @@ def plot(spec: Union[Mapping[str, Any], str, PathLike, None] = None, /, **kwargs
     ``show`` (``"fi"``, ``"dose_response"``, ``"standard_curve"``, ``"melt"``, ...) for an
     analysis result; a ``table`` file's columns; or inline ``values``. ``panels``, ``facet``
     (``"plate"`` lays wells out in plate positions), ``share``, ``x``/``y`` axis options,
-    ``annotate`` (bands, lines, labelled points, arrows)
+    ``annotate`` (bands, lines, labelled points, arrows: the same annotations as ``preview``)
     and ``theme`` (``"light"`` or ``"dark"``) arrange it. The full reference is
     https://openreadout.github.io/openreadout/reference/commands/plot.html.
 
