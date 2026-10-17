@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: bioio-openreadout
-  version: "0.3.0"
+  version: "0.4.0"
 
 package:
   name: ${{ name }}
@@ -25,7 +25,7 @@ requirements:
   run:
     - python >=${{ python_min }}
     - bioio-base >=3.4,<4
-    - python-openreadout >=0.3.0,<0.4
+    - python-openreadout >=0.4.0,<0.5
     - dask-core >=2022.2
     - fsspec >=2022.8.0
     - numpy >=1.22

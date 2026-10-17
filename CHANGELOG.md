@@ -4,6 +4,8 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-17
+
 In short:
 
 - **Figures.** `openreadout plot` and the MCP tool `openreadout_plot` draw finished figures from lab files: growth curves in plate positions, group means, a TIC and the spectrum at its apex, f–I curves, cytometry populations, fits. A few lines of JSON name the data by file and selector, and OpenReadout picks the chart, axes, units and labels.
@@ -68,6 +70,7 @@ In short:
 - `preview` of an FCS file draws its events again (it said it could not).
 - `index` reads symbolic links to files, and `watch` now does too (it skipped them, so a folder of links showed nothing); a skipped link to a directory gets a note naming `--follow-symlinks`, which `watch` and MCP `openreadout_index` and `openreadout_watch` now take. Plane selections such as `c=0,1,z=2` work in every command. MCP tools take a single value where they take a list and a JSON string where they take an object or a list (agents sent the `preview` of `openreadout_export` as a string), and a type error lists the tool's arguments. `preview` and `stats` point FCS and other table-only files at the tools that read them. The website's `/formats/` address works.
 - `cargo xtask r-vendor` copies the figure engine's fonts into the R source package.
+- A damaged TIFF could make a region read allocate gigabytes, and a damaged OMNIC map could make `info` list millions of image channels. Both now give a clean error (found by the fuzzer).
 
 ## [0.3.0] - 2026-10-13
 

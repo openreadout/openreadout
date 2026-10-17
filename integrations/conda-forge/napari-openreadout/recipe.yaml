@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: napari-openreadout
-  version: "0.3.0"
+  version: "0.4.0"
 
 package:
   name: ${{ name }}
@@ -25,7 +25,7 @@ requirements:
   run:
     # napari loads the plugin, so napari itself is not a dependency (as on PyPI).
     - python >=${{ python_min }}
-    - python-openreadout >=0.3.0,<0.4
+    - python-openreadout >=0.4.0,<0.5
     - dask-core >=2022.2
     - numpy >=1.22
 
