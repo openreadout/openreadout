@@ -454,3 +454,40 @@ fn objects_are_counted_and_outlined() {
     let (_, b) = finish(&marked, Encoding::Png, 90).unwrap();
     assert_ne!(a, b, "the outline is drawn");
 }
+
+/// Without a channel selected, the preview shows the channel the nuclei are counted in (the
+/// DNA stain), so the outlines and the picture agree.
+#[test]
+fn objects_show_the_channel_they_were_counted_in() {
+    let mut info = info();
+    // the disc is in channel 1: name it as the DNA stain
+    let chans = &mut info.images[0].channels;
+    chans[0].name = Some("AF488".into());
+    chans[1].name = Some("DAPI".into());
+    let mut req = PreviewRequest::default();
+    req.select = vec!["z=0".into()];
+    req.marks = openreadout_preview::Marks::Objects;
+    req.objects = Some(openreadout_core::measure::ObjectsRequest {
+        diameter_px: Some(16.0),
+        ..Default::default()
+    });
+    let r = render(&mut Synth, &info, &req).unwrap();
+    let o = r.output.objects.as_ref().expect("objects in the output");
+    assert_eq!(o.measured, "c=1 DAPI");
+    assert_eq!(o.count, 1, "{o:?}");
+    assert_eq!(r.output.image.as_ref().unwrap().c, vec![1]);
+    assert!(
+        r.output
+            .notes
+            .iter()
+            .any(|n| n.starts_with("showing channel 1 (DAPI)")),
+        "{:?}",
+        r.output.notes
+    );
+    // the same picture as selecting the channel by hand
+    req.select = vec!["c=1".into(), "z=0".into()];
+    let by_hand = render(&mut Synth, &info, &req).unwrap();
+    let (_, a) = finish(&r, Encoding::Png, 90).unwrap();
+    let (_, b) = finish(&by_hand, Encoding::Png, 90).unwrap();
+    assert_eq!(a, b);
+}

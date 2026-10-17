@@ -11,6 +11,7 @@ use serde::{Deserialize, Serialize};
 use super::segment as sg;
 use super::{Grid, Spread, Target, inside, read, spread, usage};
 use crate::error::{Error, Result};
+use crate::model::ImageInfo;
 use crate::region::Region;
 
 /// Objects listed by default.
@@ -1099,14 +1100,18 @@ fn channel_label(tg: &Target<'_>, c: u32) -> Option<String> {
         .and_then(|ch| ch.name.clone().or_else(|| ch.fluorophore.clone()))
 }
 
-/// The channel to count nuclei in when none is selected: one named like a DNA stain.
-fn nuclear_channel(tg: &Target<'_>) -> Option<u32> {
+/// The channel objects of `kind` are found in when the request selects none: for nuclei, the
+/// first channel named like a DNA stain, otherwise channel 0. Previews show this channel so
+/// that the outlines sit on the plane they were found in.
+pub fn default_channel(im: &ImageInfo, kind: Kind) -> u32 {
     const DNA: [&str; 14] = [
         "dapi", "hoechst", "draq5", "draq7", "nucblue", "sir-dna", "sirdna", "spy-dna", "spydna",
         "nuclear", "nuclei", "h2b", "to-pro", "topro",
     ];
-    tg.im
-        .channels
+    if kind != Kind::Nuclei {
+        return 0;
+    }
+    im.channels
         .iter()
         .find(|ch| {
             [&ch.name, &ch.fluorophore].iter().any(|n| {
@@ -1114,7 +1119,7 @@ fn nuclear_channel(tg: &Target<'_>) -> Option<u32> {
                     .is_some_and(|n| DNA.iter().any(|d| n.to_ascii_lowercase().contains(d)))
             })
         })
-        .map(|ch| ch.index)
+        .map_or(0, |ch| ch.index)
 }
 
 /// Per-object sums while tiles are read.
@@ -1183,10 +1188,8 @@ pub(crate) fn objects(
     let selected_c = !req.select.iter().all(|s| !s.contains('c'));
     let c = if selected_c {
         tg.channels.first().copied().unwrap_or(0)
-    } else if o.kind == Kind::Nuclei {
-        nuclear_channel(tg).unwrap_or(0)
     } else {
-        0
+        default_channel(tg.im, o.kind)
     };
     let counted = c;
     let all_channels: Vec<u32> = (0..tg.im.size_c.max(1)).take(8).collect();
