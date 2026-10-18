@@ -692,7 +692,16 @@ pub fn read_region(
         SampleSelect::All => spp,
         SampleSelect::One(_) => 1,
     };
-    let mut out = openreadout_core::region::region_buffer(FORMAT_ID, region, out_spp * bps)?;
+    // Bounded by the file size like a whole page, so a tiny file can't ask for gigabytes.
+    let n = plane_len(
+        FORMAT_ID,
+        u64::from(region.width),
+        u64::from(region.height),
+        out_spp as u64,
+        bps as u64,
+        src.len,
+    )?;
+    let mut out = vec![0u8; n];
     let g = RegionGeometry {
         w: layout.width as usize,
         h: layout.height as usize,

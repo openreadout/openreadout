@@ -449,10 +449,15 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
             .filter_map(|&i| spectra[i].data.map(|k| k.offset))
             .collect();
         // A map's image has one channel per spectral point, so a point count that no intensity
-        // record holds would be listed (and allocated) channel by channel: refuse it.
+        // record holds would be listed (and allocated) channel by channel: refuse it. A record's
+        // declared length counts only up to the end of the file.
         let longest = g
             .iter()
-            .filter_map(|&i| spectra[i].data.map(|k| k.length))
+            .filter_map(|&i| {
+                spectra[i]
+                    .data
+                    .map(|k| k.length.min(file_len.saturating_sub(k.offset)))
+            })
             .max()
             .unwrap_or(0);
         if is_map && points.saturating_mul(4) > longest {

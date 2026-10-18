@@ -326,3 +326,9 @@ laser, filter, PMT voltage, pixel size, scan mode, scanner software).
 **Rules implemented:** see `docs/formats/tiff.md` § Gel and blot imagers and § Incucyte. Stored values are never changed: WhiteIsZero storage, the `Invert` setting and the dark offset are reported in notes and `images[].extra.imager`. The Incucyte metadata page is not an image or a level.
 
 **Oracle:** tifffile reads the planes (bit-for-bit comparison); for Incucyte raw exports `oracle/gen.py` keeps tifffile's first series only (the second is the 1 × 1 metadata page). The metadata parsing has no independent reader.
+
+## 2026-10-17 — region buffers bounded by the file size
+
+**Corpus files:** none; the nightly fuzz run's input (`crates/openreadout-tiff/tests/fixtures/malformed/file-fuzz-region-buffer-oom.tif`).
+
+**What was inferred:** nothing about the format. Reading a region of a page sized its buffer against the fixed 4 GiB plane ceiling only, so a small file declaring a huge page could make a region read allocate gigabytes. Region reads now take the same file-relative limit as whole pages (`limits::plane_len`).
