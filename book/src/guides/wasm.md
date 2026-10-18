@@ -71,10 +71,10 @@ A bug that makes Rust panic stops the WebAssembly instance. The readers are fuzz
 The demo page in [`web/`](https://github.com/openreadout/openreadout/tree/main/web) can't upload your file. Its Content-Security-Policy is:
 
 ```text
-default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; form-action 'none'; base-uri 'none'
+default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; worker-src blob:; form-action 'none'; base-uri 'none'
 ```
 
-`connect-src 'self'` lets the page fetch its own files from the site: the WebAssembly module and the sample files. The browser blocks requests to any other site, and the page's scripts never send a file anywhere; a file you open is read into the tab's memory. The sample files come from the public test corpus and are credited on the page and in `web/samples/NOTICE.txt`.
+`connect-src 'self'` lets the page fetch its own files from the site: the WebAssembly module and the sample files. The browser blocks requests to any other site, and the page's scripts never send a file anywhere; a file you open is read into the tab's memory. OpenReadout runs in a Web Worker so the page stays responsive while it draws. The page starts the worker from a `blob:` URL (`worker-src blob:`), and a worker started that way keeps the page's policy. The sample files come from the public test corpus and are credited on the page and in `web/samples/NOTICE.txt`.
 
 ## Reading from other sources in Rust
 

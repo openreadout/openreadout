@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <!-- connect-src 'self': the page may fetch its own files from this site (the WebAssembly
          module and the sample files) and nothing else. The browser blocks requests to any
-         other site, and form-action 'none' forbids posting a form. A file you open is read in
-         this tab and never sent anywhere. -->
+         other site, and form-action 'none' forbids posting a form. worker-src blob: lets the
+         page start its worker from a blob: URL, which keeps this policy (engine.js). A file
+         you open is read in this tab and never sent anywhere. -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; form-action 'none'; base-uri 'none'"
+      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; worker-src blob:; form-action 'none'; base-uri 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Try OpenReadout in your browser</title>
@@ -55,110 +56,92 @@
 
     <main id="main">
       <section class="intro wrap">
-        <p class="kicker"><span>Runs in this tab</span><span>Nothing is uploaded</span></p>
         <h1>Open a lab file in your browser</h1>
         <p class="lede">
-          Real files from nine kinds of lab instruments, read right here without vendor software. Tap one, or open a file of
-          your own, to see the picture, what was measured and the numbers.
+          Pick a sample or open your own file. OpenReadout reads it here, without vendor software.
+          Your file stays on your device.
         </p>
+        <label class="own" id="own" for="pick">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          Open your own file
+          <input id="pick" type="file" />
+        </label>
       </section>
 
-      <section class="samples" aria-labelledby="samples-h">
-        <h2 id="samples-h" class="visually-hidden">Sample files</h2>
+      <section class="samples" aria-label="Samples">
         <ul class="cards" id="cards">
           <!-- CARDS -->
         </ul>
       </section>
 
-      <div class="wrap own-row">
-        <label class="own" id="drop" for="pick">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <span><strong>Open your own file</strong> <span class="or-drop">or drop it anywhere on this page</span></span>
-          <input id="pick" type="file" />
-        </label>
-        <p class="privacy">
-          Your file stays on your device. The page can load only its own files from this site, and your browser blocks every
-          other request.
-        </p>
-      </div>
-
-      <div class="wrap">
-        <div id="status" class="status" role="status" aria-live="polite" hidden>
-          <span id="status-text"></span>
-          <span class="bar" aria-hidden="true"><span id="status-bar"></span></span>
-        </div>
-      </div>
-
-      <article id="result" class="result wrap" hidden aria-labelledby="r-title">
+      <article id="result" class="result wrap" aria-labelledby="r-title" aria-busy="true">
         <header class="r-head">
-          <p class="r-kind" id="r-kind"></p>
-          <h2 id="r-title"></h2>
+          <h2 id="r-title">Loading</h2>
           <p class="r-meta" id="r-meta"></p>
         </header>
 
         <div class="stage-wrap">
-          <figure class="stage" id="stage">
-            <div class="frame" id="frame">
-              <img id="figure" alt="" decoding="async" />
+          <div class="stage" id="stage">
+            <figure class="frame" id="frame">
               <div class="scalebar" id="scalebar" hidden><span></span><b></b></div>
-            </div>
-            <div class="busy" id="busy" hidden><span class="spinner" aria-hidden="true"></span><span id="busy-text">Drawing…</span></div>
-            <figcaption id="hint" class="hint"></figcaption>
-          </figure>
-          <div class="controls" id="controls"></div>
+              <div class="zoombar" id="zoombar" hidden>
+                <button type="button" id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button>
+                <button type="button" id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button>
+                <button type="button" id="zoom-reset" aria-label="Reset view" title="Reset view">
+                  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+              </div>
+              <p class="busy" id="busy" role="status" aria-live="polite" hidden><span class="spinner" aria-hidden="true"></span><span id="busy-text">Loading</span></p>
+            </figure>
+            <p id="hint" class="hint"></p>
+            <figure class="frame second" id="second" hidden>
+              <img id="figure2" alt="" decoding="async" />
+              <p class="busy" id="busy2" hidden><span class="spinner" aria-hidden="true"></span><span>Drawing</span></p>
+            </figure>
+            <p id="hint2" class="hint"></p>
+          </div>
+          <aside class="side">
+            <div class="controls" id="controls"></div>
+            <section class="numbers" aria-labelledby="h-numbers" id="numbers-box">
+              <h3 id="h-numbers">Measurements</h3>
+              <dl id="numbers"></dl>
+            </section>
+            <div id="extra"></div>
+          </aside>
         </div>
 
-        <figure class="stage second" id="second" hidden>
-          <div class="frame"><img id="figure2" alt="" decoding="async" /></div>
-          <figcaption id="hint2" class="hint"></figcaption>
-        </figure>
-
         <div class="panels">
-          <section class="panel numbers" aria-labelledby="h-numbers">
-            <h3 id="h-numbers">Numbers</h3>
-            <dl id="numbers"></dl>
-            <div id="extra"></div>
+          <section class="panel" aria-labelledby="h-words">
+            <h3 id="h-words">Description</h3>
+            <div id="words"></div>
           </section>
           <section class="panel" aria-labelledby="h-facts">
-            <h3 id="h-facts">What the file says</h3>
+            <h3 id="h-facts">File metadata</h3>
             <ul class="measured" id="measured"></ul>
             <dl id="facts"></dl>
-          </section>
-          <section class="panel words" aria-labelledby="h-words">
-            <h3 id="h-words">In plain words</h3>
-            <div id="words"></div>
-            <p id="check" class="check"></p>
           </section>
         </div>
 
         <section class="cli" aria-labelledby="h-cli">
-          <h3 id="h-cli">The same picture from the command line</h3>
+          <h3 id="h-cli">Command line</h3>
           <pre><code id="cmd"></code></pre>
-          <p class="small">
-            <a href="../getting-started/install.html">Install OpenReadout</a> to convert files, work through folders, and let an AI
-            agent read them for you.
-            <a id="download" hidden>Download this sample</a>
-          </p>
+          <p class="small"><a href="../getting-started/install.html">Install OpenReadout</a> to run this on your own computer.</p>
         </section>
 
         <details class="raw">
-          <summary><code>info --json</code></summary>
+          <summary>JSON output</summary>
           <pre tabindex="0" id="json"></pre>
         </details>
       </article>
     </main>
 
-    <div class="dropzone" id="dropzone" hidden><p>Drop the file to read it here</p></div>
+    <div class="dropzone" id="dropzone" hidden><p>Drop the file to open it</p></div>
 
     <footer class="site wrap">
-      <p>
-        This page is OpenReadout compiled to WebAssembly. It runs <code>info</code>, <code>check</code> and
-        <code>preview</code> as the command line does, and reads only the parts of a file it needs, so large files work too.
-      </p>
       <p class="credits">
-        Sample files, from OpenReadout's public test corpus:
+        Sample files:
         <!-- CREDITS -->
-        Licences and notices: <a href="samples/NOTICE.txt">NOTICE.txt</a>.
+        Licences: <a href="samples/NOTICE.txt">NOTICE.txt</a>.
       </p>
     </footer>
   </body>
