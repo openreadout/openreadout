@@ -465,12 +465,7 @@ function renderNumbers(F) {
   if (F.mode === "viewer") {
     const meta = F.layers[0]?.pic.meta;
     if (!meta) return;
-    let objects = null;
-    if (F.v.objects) {
-      const d = F.layers.find((l) => l.detail && l.sk === settingsKey(F.v));
-      objects = d && d.want === F.want ? d.pic.meta.objects : { kind: "nuclei", count: "Counting…" };
-    }
-    list = R.numbers(F.info, F.v, meta, { region: C.visible(F.cam, F.vp, F.img), zoom: F.cam.z / C.fitZoom(F.vp, F.img), objects });
+    list = R.numbers(F.info, F.v, meta, { region: C.visible(F.cam, F.vp, F.img), zoom: F.cam.z / C.fitZoom(F.vp, F.img) });
   } else {
     if (!F.plotPic) return;
     list = R.numbers(F.info, F.v, F.plotPic.meta);
@@ -492,12 +487,8 @@ function renderCommand(F) {
 
 // ----- the image viewer ----------------------------------------------------------------------------
 
-/**
- * What a picture depends on besides the region: channels and plane, and for the picture of the
- * region in view also whether nuclei are outlined. The whole image (the base) never has them:
- * counting nuclei in all of a large image takes too long.
- */
-const settingsKey = (v, detail = true) => JSON.stringify([v.image ?? 0, v.channels, v.z, v.t, detail && Boolean(v.objects)]);
+/** What a picture depends on besides the region: the image, its channels and its plane. */
+const settingsKey = (v) => JSON.stringify([v.image ?? 0, v.channels, v.z, v.t]);
 
 /** The viewport for a file: the stage's width, the shape of the first view, a height limit. */
 function viewportFor(F) {
@@ -544,7 +535,7 @@ function mountViewer(F) {
   applyCam(F);
   renderCommand(F);
   F.cq ??= null;
-  if (F.layers.length < 2 || F.v.objects) settleSoon(F, 0);
+  if (F.layers.length < 2) settleSoon(F, 0);
 }
 
 /** Fit the viewport to the stage's width again, showing the same part of the image. */
@@ -605,19 +596,17 @@ function settleSoon(F, ms = 160) {
 
 /**
  * Ask for the pictures the camera needs: the whole image (the base, once per setting) and,
- * when the base is too coarse for the zoom or nuclei are counted, the region in view. The
+ * when the base is too coarse for the zoom, the region in view. The
  * promise resolves when the more important one is placed.
  */
 function refine(F, { quiet = false, control } = {}) {
   const sk = settingsKey(F.v);
-  const bk = settingsKey(F.v, false);
   const fit = C.fitZoom(F.vp, F.img);
   const scale = dpr();
-  const base = F.layers.find((l) => !l.detail && l.sk === bk);
-  // nuclei are counted in what is in view only: counting takes time in proportion to the area
-  const region = C.regionFor(F.cam, F.vp, F.img, F.v.objects ? 0 : 0.1);
+  const base = F.layers.find((l) => !l.detail && l.sk === sk);
+  const region = C.regionFor(F.cam, F.vp, F.img, 0.1);
   const coarse = !base || base.pic.meta.width / F.img.w < F.cam.z * scale * 0.9;
-  const wantDetail = F.v.objects || (coarse && region !== undefined) || (coarse && base && F.cam.z > fit * 1.01);
+  const wantDetail = coarse && (region !== undefined || (base && F.cam.z > fit * 1.01));
   const jobs = [];
   if (wantDetail) {
     const r = region ?? { x: 0, y: 0, width: F.img.w, height: F.img.h };
@@ -626,21 +615,20 @@ function refine(F, { quiet = false, control } = {}) {
     F.want = JSON.stringify(opts);
     if (!current) jobs.push({ detail: true, opts });
   }
-  if (!base) jobs.push({ detail: false, opts: R.imageOptions({ ...F.v, objects: false }, { size: Math.max(F.img.w, F.img.h) * fit * scale }) });
+  if (!base) jobs.push({ detail: false, opts: R.imageOptions(F.v, { size: Math.max(F.img.w, F.img.h) * fit * scale }) });
   if (!jobs.length) {
     if (S.cur === F) renderNumbers(F);
     return Promise.resolve();
   }
-  // quiet: the picture in view is only sharpened (nuclei: recounted), so it isn't dimmed
+  // quiet: the picture in view is only sharpened, so it isn't dimmed
   const slow = jobs.some((j) => !cached(F, j.opts));
-  const work = S.cur === F && slow ? startWork(F.v.objects ? "Counting nuclei" : "Drawing", { control, corner: quiet }) : null;
+  const work = S.cur === F && slow ? startWork("Drawing", { control, corner: quiet }) : null;
   const done = jobs.map((j) =>
     picture(F, j.opts, j.detail ? "detail" : "base").then((pic) => {
       if (settingsKey(F.v) !== sk) return; // the settings changed meanwhile
-      addLayer(F, { detail: j.detail, key: JSON.stringify(j.opts), want: JSON.stringify(j.opts), pic, sk: j.detail ? sk : bk });
+      addLayer(F, { detail: j.detail, key: JSON.stringify(j.opts), want: JSON.stringify(j.opts), pic, sk });
     }),
   );
-  if (S.cur === F && F.v.objects) renderNumbers(F);
   const first = done[0];
   Promise.allSettled(done).then(() => work?.done());
   return first.finally(() => work?.done());
@@ -653,7 +641,7 @@ function addLayer(F, l) {
   l.el.style.width = `${l.rect.width}px`;
   l.el.style.height = `${l.rect.height}px`;
   // a picture of other settings goes; a new picture of the same kind replaces the old one
-  const keep = F.layers.filter((o) => o.detail !== l.detail && o.sk === settingsKey(F.v, o.detail));
+  const keep = F.layers.filter((o) => o.detail !== l.detail && o.sk === settingsKey(F.v));
   for (const o of F.layers) if (!keep.includes(o)) o.el.remove();
   F.layers = l.detail ? [...keep, l] : [l, ...keep];
   if (S.cur === F) {
@@ -991,14 +979,6 @@ function setupImageControls(F) {
   if (F.v.channels && im.size_c > 1) box.append(channelChips(F, im));
   if (im.size_z > 1) box.append(stepper("Focal plane", F.v.z, im.size_z, (z, c) => ((F.v.z = z), restyle(F, c))));
   if (im.size_t > 1) box.append(stepper("Time point", F.v.t, im.size_t, (t, c) => ((F.v.t = t), restyle(F, c))));
-  const b = el("button", { type: "button", class: "chip", "aria-pressed": String(Boolean(F.v.objects)) }, "Count nuclei");
-  const nuclei = control("Nuclei", el("div", { class: "chips" }, b));
-  b.addEventListener("click", () => {
-    F.v.objects = !F.v.objects;
-    b.setAttribute("aria-pressed", String(F.v.objects));
-    restyle(F, nuclei);
-  });
-  box.append(nuclei);
 }
 
 function channelChips(F, im) {

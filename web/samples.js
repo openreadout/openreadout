@@ -21,7 +21,7 @@ export const SAMPLES = [
     id: "confocal",
     file: "mouse-intestine.czi",
     label: "Confocal",
-    subject: "Mouse intestine, nuclei and two antibody stains",
+    subject: "Mouse intestine, three fluorescent stains",
     format: "Zeiss CZI",
     credit: "Katherine Deets and Russell Vance",
     href: "https://zenodo.org/records/5823010",

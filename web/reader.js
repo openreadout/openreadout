@@ -121,7 +121,6 @@ export function imageOptions(v, { region, size }) {
     ...(select.length ? { select } : {}),
     ...(v.channels?.length > 1 ? { composite: true } : {}),
     ...(region ? { region } : {}),
-    ...(v.objects ? { marks: "objects" } : {}),
     axes: "none",
     max_size: Math.min(4096, Math.max(16, Math.round(size))),
     format: "jpeg",
@@ -286,7 +285,7 @@ export function formatName(info) {
 
 /**
  * Numbers about what the picture shows, as `{ label, value }`: the size of an image region,
- * the objects found in it, the labelled peaks of a plot, the action potentials of a sweep.
+ * the labelled peaks of a plot, the action potentials of a sweep.
  */
 export function numbers(info, v, meta, shown = {}) {
   const out = [];
@@ -295,17 +294,10 @@ export function numbers(info, v, meta, shown = {}) {
     const r = shown.region ?? meta.image.full_res_region;
     const um = im?.physical_size?.unit === "µm" ? im.physical_size.x : undefined;
     const px = (n) => Math.round(n).toLocaleString("en-US");
-    const ob = shown.objects === undefined ? meta.objects : shown.objects;
-    if (ob) out.push({ label: `${sentence(ob.kind ?? "objects")} in view`, value: ob.count.toLocaleString("en-US"), strong: true });
     out.push({ label: "Area shown", value: `${px(r.width)} × ${px(r.height)} px` });
     if (um) out.push({ label: "Field of view", value: `${short(r.width * um)} × ${short(r.height * um)} µm` });
     const zoom = shown.zoom ?? im.size_x / r.width;
     out.push({ label: "Zoom", value: `${zoom < 9.95 ? Number(zoom.toFixed(1)) : Math.round(zoom)}×` });
-    if (ob) {
-      if (ob.density_per_mm2) out.push({ label: "Density", value: `${short(ob.density_per_mm2)} per mm²` });
-      if (ob.diameter_um?.median) out.push({ label: "Median diameter", value: `${short(ob.diameter_um.median)} µm` });
-      if (ob.confidence) out.push({ label: "Confidence", value: ob.confidence });
-    }
     return out;
   }
   const spikes = (meta.marks ?? []).filter((m) => m.kind === "spike");
@@ -429,7 +421,6 @@ export function command(name, info, v) {
     if (v.channels?.length > 1) a.push("--composite");
     if (v.z !== undefined) a.push("--select", `z=${v.z}`);
     if (v.region) a.push("--region", [v.region.x, v.region.y, v.region.width, v.region.height].join(","));
-    if (v.objects) a.push("--marks", "objects");
   } else {
     if (v.trace !== undefined) a.push("--trace", String(v.trace));
     if (v.sweep !== undefined) a.push("--sweep", String(v.sweep));

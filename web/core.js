@@ -1,7 +1,6 @@
 // The demo's work queue: the WebAssembly module, the open files and every request the page
 // makes of them. It runs in a Web Worker (worker.js), so the page stays responsive while a
-// picture is drawn or nuclei are counted, or in the page itself when workers are unavailable
-// (engine.js). Requests run one at a time, the page's before background ones. A request in a
+// picture is drawn, or in the page itself when workers are unavailable (engine.js). Requests run one at a time, the page's before background ones. A request in a
 // `lane` replaces a request in the same lane that hasn't started yet: when you step quickly
 // through sweeps, only the last one is drawn.
 
