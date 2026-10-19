@@ -558,15 +558,18 @@ pub(crate) fn parse(xml: &str, csv: Option<&str>, csv_name: Option<&str>) -> Res
     );
     f.technique("CHMO:0001024", "the file format (tape electrophoresis)");
     f.instrument_kind("OBI:0001132");
-    f.measurement(
-        MeasurementKind::Trace,
-        (0..traces.len() as u32).collect(),
-        format!(
-            "ScreenTape electrophoresis, {} lanes sized in {size_unit}",
-            traces.len()
-        ),
-        Some("CHMO:0001024"),
-    );
+    // A results-only export has no signals, so there is no trace measurement to describe.
+    if !traces.is_empty() {
+        f.measurement(
+            MeasurementKind::Trace,
+            (0..traces.len() as u32).collect(),
+            format!(
+                "ScreenTape electrophoresis, {} lanes sized in {size_unit}",
+                traces.len()
+            ),
+            Some("CHMO:0001024"),
+        );
+    }
     let mut obs = Observations::default();
     if !assay.is_empty() {
         obs.feature(K::Acquisition, &assay, &[Scope::Traces, Scope::Tables]);
