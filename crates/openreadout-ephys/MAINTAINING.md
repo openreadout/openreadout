@@ -67,7 +67,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | `heka-patchmaster` | [format note](../../docs/formats/heka-patchmaster.md), [provenance log](../../docs/provenance/heka-patchmaster.md) | high | vendor docs | 10 / 10 | 6 | - |
 | `ced-spike2` | [format note](../../docs/formats/ced-spike2.md), [provenance log](../../docs/provenance/ced-spike2.md) | high | prior art | 24 / 22 | 11 | - |
 | `winwcp` | [format note](../../docs/formats/winwcp.md), [provenance log](../../docs/provenance/winwcp.md) | medium | prior art | 4 / 4 | 3 | - |
-| `edf` | [format note](../../docs/formats/edf.md), [provenance log](../../docs/provenance/edf.md) | high | open spec | 27 / 27 | 16 | - |
+| `edf` | [format note](../../docs/formats/edf.md), [provenance log](../../docs/provenance/edf.md) | high | open spec | 28 / 28 | 17 | - |
 | `brainvision` | [format note](../../docs/formats/brainvision.md), [provenance log](../../docs/provenance/brainvision.md) | high | prior art | 13 / 13 | 8 | - |
 | `eeglab` | [format note](../../docs/formats/eeglab.md), [provenance log](../../docs/provenance/eeglab.md) | high | prior art | 13 / 13 | 11 | - |
 | `tdt-tank` | [format note](../../docs/formats/tdt-tank.md), [provenance log](../../docs/provenance/tdt-tank.md) | high | prior art | 11 / 11 | 6 | - |
@@ -234,10 +234,10 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `edf` | format_version | `BDF+C` | metadata, tables, traces | 3 | 3 | `gin-edf-event-markers-bdf`, `openneuro-ds005857-sub-ltp505-ses-2-task-ltpdelayrepfrreadonly`, `pyedflib-test-generator-bdf` |
 | `edf` | format_version | `EDF` | metadata, tables, traces | 5 | 5 | `edfio-short-psg`, `gin-edf-cross-kind-offsets-corrupt-header`, `mnepython-test-edf-stim-channel` |
 | `edf` | format_version | `EDF+C` | metadata, tables, traces | 16 | 16 | `gin-edf-autoscaled-offsets`, `gin-edf-edf-c`, `gin-edf-electrode-and-analog-data` |
-| `edf` | format_version | `EDF+D` | metadata, tables, traces | 1 | 1 | `zenodo-4688758-s65` |
+| `edf` | format_version | `EDF+D` | metadata, tables, traces | 2 | 2 | `figshare-28485251-1`, `zenodo-4688758-s65` |
 | `edf` | layout | `several sample rates` | traces | 4 | 4 | `edfio-short-psg`, `gin-edf-same-unit-offsets-multirate`, `pyedflib-test-generator-bdf` |
-| `edf` | record | `annotations` | tables | 13 | 14 | `gin-edf-electrode-and-analog-data`, `gin-edf-event-edge-cases`, `gin-edf-event-markers-bdf` |
-| `edf` | sample_layout | `int16` | traces | 21 | 21 | `edfio-short-psg`, `gin-edf-autoscaled-offsets`, `gin-edf-cross-kind-offsets-corrupt-header` |
+| `edf` | record | `annotations` | tables | 13 | 15 | `gin-edf-electrode-and-analog-data`, `gin-edf-event-edge-cases`, `gin-edf-event-markers-bdf` |
+| `edf` | sample_layout | `int16` | traces | 22 | 22 | `edfio-short-psg`, `figshare-28485251-1`, `gin-edf-autoscaled-offsets` |
 | `edf` | sample_layout | `int24` | traces | 5 | 5 | `gin-edf-event-markers-bdf`, `mnepython-test-bdf`, `openneuro-ds005648-sub-03-task-targets` |
 | `eeglab` | format_version | `MAT 5.0` | metadata, tables, traces | 11 | 11 | `figshare-14459286-311-epochs-before`, `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files` |
 | `eeglab` | format_version | `MAT 7.3` | metadata, tables, traces | 2 | 2 | `openneuro-ds005048-sub-02-task-40hzauditoryentrainment`, `openneuro-ds005628-sub-1-task-edzna-run-1` |
@@ -268,7 +268,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_brainvision`, `whole_edf`, `whole_eeglab`, `whole_heka`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
-- corpus inputs by tier: full 1, heldout 5, smoke 64, standard 59
+- corpus inputs by tier: full 1, heldout 5, smoke 64, standard 60
 - golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/edf.jsonl`](../../corpus/snapshots/edf.jsonl), [`corpus/snapshots/brainvision.jsonl`](../../corpus/snapshots/brainvision.jsonl), [`corpus/snapshots/eeglab.jsonl`](../../corpus/snapshots/eeglab.jsonl), [`corpus/snapshots/tdt-tank.jsonl`](../../corpus/snapshots/tdt-tank.jsonl), [`corpus/snapshots/axona-dacqusb.jsonl`](../../corpus/snapshots/axona-dacqusb.jsonl), [`corpus/snapshots/mcs-raw.jsonl`](../../corpus/snapshots/mcs-raw.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
 
 ### Open new-variant intakes

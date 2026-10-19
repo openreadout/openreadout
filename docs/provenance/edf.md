@@ -37,19 +37,22 @@ project's source was opened while writing the reader.
 - A `-1` record count (allowed only while recording) is replaced by the number of whole records
   the file holds, with a finding.
 
-**Corpus files used** (27 development files from 16 sources): `gin-edf-*` (NeuralEnsemble
+**Corpus files used** (28 development files from 17 sources): `gin-edf-*` (NeuralEnsemble
 ephy_testing_data on G-Node GIN, commit bf392aa, CC-BY-SA-4.0); OpenNeuro ds003810, ds004448,
 ds004752, ds004840, ds005648, ds005857 and ds008851 (CC0); PhysioNet eegmmidb S001R01 and the
 Sleep-EDF Expanded SC4001EC hypnogram (ODC-By-1.0); Zenodo records 3885755 and 4688758 (CC0); the
 test files of MNE-Python (BSD-3-Clause), pyedflib (BSD-3-Clause) and edfio (Apache-2.0); the
-Nihon Kohden export in mne-testing-data (CC0).
+Nihon Kohden export in mne-testing-data (CC0); figshare 28485251 (CC-BY-4.0, an EDF+D written
+by a Nihon Kohden EEG-1100C).
 
 **What was inferred from the files and the reference readers' output:**
 - pyedflib and MNE give annotation onsets after the first data record's start, not after the
   header's start time: `gin-edf-test-subsecond` starts 0.3945312 s after its header time, and its
   TAL `+2.3457031` is reported at 1.9511719 s. The reader counts every time from the first
   record's start too, and adds that start to `recorded_at`. `zenodo-4688758-s65` (EDF+D written
-  by BESA) has its first record at +1 s and contiguous records, so it is one sweep.
+  by BESA) has its first record at +1 s and contiguous records, so it is one sweep, and so is
+  `figshare-28485251-1` (EDF+D, 602 contiguous records from 0 s). No development file has gaps
+  between records, so the `discontinuous records` layout stays unvalidated.
 - pyedflib keeps TAL times in 100 ns steps. The reader parses them exactly to the nanosecond and
   subtracts before converting to floating point, so the two agree bit for bit on every file here.
 - A TAL without a duration is reported by pyedflib as −1 and by MNE as 0; the reader gives 0.
