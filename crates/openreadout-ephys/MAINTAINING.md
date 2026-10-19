@@ -1,6 +1,6 @@
 # Maintaining `openreadout-ephys`
 
-Formats: `heka-patchmaster`, `ced-spike2`, `winwcp`, `open-ephys`, `tdt-tank`, `axona-dacqusb`, `mcs-raw`. Start with [docs/maintaining.md](../../docs/maintaining.md) for the project-wide process.
+Formats: `heka-patchmaster`, `ced-spike2`, `winwcp`, `open-ephys`, `tdt-tank`, `axona-dacqusb`, `mcs-raw`, `edf`. Start with [docs/maintaining.md](../../docs/maintaining.md) for the project-wide process.
 
 ## Decode pipeline
 
@@ -12,9 +12,10 @@ Independent readers share the crate; `src/lib.rs` registers each and its `detect
 - **TDT tanks and blocks** (`src/tdt/`). `mod.rs` finds the block files (`.tsq`, `.tev`, `.Tbk`, `.sev`) of a block directory, one of its files, or every block of a tank directory. `tsq.rs` reads the 40-byte index records: stream chunks per store and channel (data offsets into `.tev`), snippets, strobe on/off records (the value is in the offset field), start and stop marks. `dataset.rs` makes every readable stream store a trace (blocks are sweeps, channels end at the last chunk wholly inside the `.tev`), snippets the `spikes` table and strobe onsets the `epocs` table (offsets paired by the onset store named in their channel and sort-code bytes).
 - **Axona DacqUSB** (`src/axona/`): the `.set` `key value` lines, the raw `.bin` (432-byte packets, 3 samples × 64 channels in a permuted order, `bin_channel_slot`) as one trace of the active tetrodes' channels in µV, and the tetrode files `.1` … as the `spikes` table (big-endian time stamps, int8 waveforms). `.eeg`, `.egf` and `.pos` are listed only.
 - **MC_DataTool `.raw`** (`src/mcsraw/`): the text header up to `EOH` and interleaved uint16 frames, scaled with the `El` gain and `ADC zero`; one trace.
+- **EDF, EDF+, BDF and BDF+** (`src/edf/`): the 256-byte header and 256 bytes per signal (stored field by field), then data records holding each signal's samples in turn (2-byte or, in BDF, 3-byte little-endian). Signals with the same samples per record are one trace; the `EDF Annotations` / `BDF Annotations` signals are read at open: their time-keeping TALs give each record's start (EDF+D runs of contiguous records become sweeps) and the other TALs the `annotations` table. TAL times are parsed to exact nanoseconds and count from the first record's start.
 - **Open Ephys** (`src/openephys/`). `mod.rs` claims a recording directory (or its `structure.oebin` / a `.continuous` file) and picks the layout. `binary.rs`: `[Record Node N/]experimentE/recordingR/` with `structure.oebin` (JSON), interleaved int16 `continuous.dat`, `sample_numbers.npy` (GUI 0.6+) or integer `timestamps.npy` (older), and `events/<stream>/*.npy`; `npy.rs` is the minimal `.npy` reader. `legacy.rs`: one `.continuous` file per channel (1024-byte text header, 2070-byte records of 1024 big-endian int16 samples), `.events` and `.spikes`, with `_2`, `_3` … suffixes for later experiments. `dataset.rs` joins both into traces per stream.
 
-Versions branch at: the bundle signature and writer version (`bundle.rs`), the tree magic, level count and record sizes (`tree.rs`), the Spike2 file version in the header (`file.rs`), and the Open Ephys GUI version in `structure.oebin` / the legacy header (`binary.rs`, `legacy.rs`). The TDT reader branches on the event type and data format codes of each store (`tsq.rs`) and on block versus tank (`mod.rs`); Axona on the tetrode file header (`num_chans`, `bytes_per_sample`); MC_DataTool on the stream kinds in `Streams`. The assurance profile (`src/assurance.rs`) turns each of these into a variant feature.
+Versions branch at: the bundle signature and writer version (`bundle.rs`), the tree magic, level count and record sizes (`tree.rs`), the Spike2 file version in the header (`file.rs`), and the Open Ephys GUI version in `structure.oebin` / the legacy header (`binary.rs`, `legacy.rs`). The TDT reader branches on the event type and data format codes of each store (`tsq.rs`) and on block versus tank (`mod.rs`); Axona on the tetrode file header (`num_chans`, `bytes_per_sample`); MC_DataTool on the stream kinds in `Streams`; EDF on the version field (16- or 24-bit samples) and the reserved field (`EDF+C`, `EDF+D`: annotations and record times). The assurance profile (`src/assurance.rs`) turns each of these into a variant feature.
 
 ## Invariants and checks
 
@@ -25,13 +26,14 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 - TDT and Axona keep times as the file gives them: TDT seconds from the first block's start mark, Axona tetrode time stamps / `timebase`.
 - `check` walks every block chain and tree record and reports damaged blocks and trace records without stopping at the first.
 - Nothing is resampled: channels on different sample grids stay separate traces, and each stream keeps its own clock.
+- EDF: a header whose record count is −1 or larger than the file is read up to the last whole record (a finding says so); annotation signals are read up to `MAX_EDF_ANNOTATION_BYTES`.
 
 ## Debugging a new file
 
 1. `openreadout info FILE --view format` and `openreadout info FILE --json`, then read `assurance` (which variant feature is unseen) and `notes`.
 2. `openreadout info FILE --view structure` lists the bundle items, tree levels, Spike2 channels and block counts, or the Open Ephys streams; `openreadout info FILE --view full` prints the parsed headers and the vendor tree.
 3. `openreadout check FILE` for structural problems (damaged blocks, records past the end).
-4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO`, `OpenEphysBinaryRawIO`/`OpenEphysRawIO`, `WinWcpRawIO`, `TdtRawIO`, `AxonaRawIO` and `RawMCSRawIO` for the others (run as documented in `oracle/`; see each provenance log for licences).
+4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO`, `OpenEphysBinaryRawIO`/`OpenEphysRawIO`, `WinWcpRawIO`, `TdtRawIO`, `AxonaRawIO` and `RawMCSRawIO` for the others, pyedflib and MNE-Python for EDF (run as documented in `oracle/`; see each provenance log for licences).
 5. Start from the synthetic fixtures in `src/spike2/tests.rs` and `src/openephys/tests.rs` to reproduce a layout without the corpus, and add the file with `cargo xtask variant intake` (`docs/maintaining.md`).
 
 ## Fragile spots
@@ -44,6 +46,8 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 - **TDT `.Tbk` point counts.** Snippet lengths come from each record's size field; the `.Tbk` point count can be larger (it is in the corpus), and a reader that trusts it reads into the next snippet.
 - **TDT cut-short files.** Two corpus blocks index data past the end of their `.tev`; the trace ends at the first chunk that is not wholly in the file, and the oracle hashes the same samples.
 - **Axona channel order.** The `.bin` stores channels in blocks of eight that alternate between the upper and lower half of each sample; a wrong slot table gives plausible but wrong traces, so the corpus hash is the only guard.
+- **EDF times.** pyedflib and MNE count annotation onsets from the first record's start (the EDF+ subsecond start), and so does the reader; the parse is exact to the nanosecond so that onsets match pyedflib's bit for bit. pyedflib keeps 100 ns, so a TAL with more decimals would differ in the last digits.
+- **EDF signal groups.** A trace is a set of signals with equal samples per record; a writer that changes a signal's count would move it to another trace, and the oracle groups the same way.
 - **Spike2 pauses and ticks.** Sweep boundaries come from gaps between data blocks; a writer that splits blocks without a pause would create spurious sweeps. Times depend on the file's tick (µs per time unit × base).
 
 <!-- BEGIN GENERATED guide -->
@@ -58,6 +62,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | `heka-patchmaster` | [format note](../../docs/formats/heka-patchmaster.md), [provenance log](../../docs/provenance/heka-patchmaster.md) | high | vendor docs | 10 / 10 | 6 | - |
 | `ced-spike2` | [format note](../../docs/formats/ced-spike2.md), [provenance log](../../docs/provenance/ced-spike2.md) | high | prior art | 24 / 22 | 11 | - |
 | `winwcp` | [format note](../../docs/formats/winwcp.md), [provenance log](../../docs/provenance/winwcp.md) | medium | prior art | 4 / 4 | 3 | - |
+| `edf` | [format note](../../docs/formats/edf.md), [provenance log](../../docs/provenance/edf.md) | high | open spec | 27 / 27 | 16 | - |
 | `tdt-tank` | [format note](../../docs/formats/tdt-tank.md), [provenance log](../../docs/provenance/tdt-tank.md) | high | prior art | 11 / 11 | 6 | - |
 | `axona-dacqusb` | [format note](../../docs/formats/axona-dacqusb.md), [provenance log](../../docs/provenance/axona-dacqusb.md) | low | prior art | 3 / 3 | 1 | - |
 | `mcs-raw` | [format note](../../docs/formats/mcs-raw.md), [provenance log](../../docs/provenance/mcs-raw.md) | low | prior art | 1 / 1 | 1 | - |
@@ -70,6 +75,9 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | [`src/assurance.rs`](src/assurance.rs) | Assurance profiles (`docs/assurance.md`) of the readers in this crate: the variant features of a file and the feature values the development corpus validates |
 | [`src/axona/mod.rs`](src/axona/mod.rs) | Axona DacqUSB recordings: a `.set` file of `key value` lines, the raw `.bin` (432-byte packets of 3 samples × 64 int16 channels) and tetrode spike files `.1` … `.32`, all sharing… |
 | [`src/axona/tests.rs`](src/axona/tests.rs) | Synthetic-session tests of the Axona reader |
+| [`src/brainvision/mod.rs`](src/brainvision/mod.rs) | BrainVision Core Data Format recordings: a text header (`.vhdr`), a text marker file (`.vmrk`) and the samples (`.eeg`, or `.dat`), as BrainVision Recorder and Analyzer, pybv, |
+| [`src/edf/mod.rs`](src/edf/mod.rs) | European Data Format files: EDF, EDF+ (`.edf`), and BioSemi's 24-bit variants BDF and BDF+ (`.bdf`) |
+| [`src/edf/tests.rs`](src/edf/tests.rs) | Synthetic-file tests of the EDF / BDF reader |
 | [`src/heka/bundle.rs`](src/heka/bundle.rs) | The PatchMaster "bundle" header: a signature, the writing program's version, and up to twelve items, each the start, length and extension of an embedded file (`.dat` samples… |
 | [`src/heka/dataset.rs`](src/heka/dataset.rs) | `Dataset` for a PatchMaster bundle: every series is a trace (sweeps × channels); channels of a series whose sample interval or point counts differ form further traces of that… |
 | [`src/heka/mod.rs`](src/heka/mod.rs) | HEKA PatchMaster bundle files (`.dat`): a bundle header, the samples, and the pulsed tree (Root → Group → Series → Sweep → Trace) |
@@ -101,6 +109,11 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - feature format_version `v`
 - feature layout `format!("{} channels", t.channels.len())`
+- feature format_version `v, &all`
+- feature sample_layout `&c.dtype`
+- feature layout `"discontinuous records"`
+- feature layout `"several sample rates"`
+- feature record `"annotations"`
 - feature layout `"tank", &all`
 - feature layout `"block", &all`
 - feature record `"stream"`
@@ -123,11 +136,11 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `"several sweeps"` (descriptive)
 - feature acquisition `m` (descriptive)
 - feature layout `"series split by sample grid"` (descriptive)
+- undecoded "cut-short files"
 - undecoded "unread stores"
 - undecoded "scalar records"
 - undecoded "data past the end of the .tev"
 - undecoded "EEG, position and other session files"
-- undecoded "cut-short files"
 - undecoded "damaged blocks"
 - undecoded "irregular channel files"
 - undecoded "binary event streams"
@@ -138,6 +151,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - assumed "channel units"
 - assumed "zero subtraction"
 - calibration "ADC counts to channel units"
+- calibration "digital to physical values"
 - calibration "ADC counts to µV"
 - calibration "ADC counts to amperes and volts"
 
@@ -181,6 +195,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `ced-spike2` | writer_version | `S2090302` | descriptive | 1 | 2 | `zenodo14706945-smr-07152022-n1` |
 | `ced-spike2` | writer_version | `S2091349` | descriptive | 0 | 1 |  |
 | `ced-spike2` | writer_version | `S2103724` | descriptive | 1 | 1 | `zenodo20750122-sub3-transpai-smr` |
+| `edf` | format_version | `BDF` | metadata, tables, traces | 2 | 2 | `mnepython-test-bdf`, `openneuro-ds005648-sub-03-task-targets` |
+| `edf` | format_version | `BDF+C` | metadata, tables, traces | 3 | 3 | `gin-edf-event-markers-bdf`, `openneuro-ds005857-sub-ltp505-ses-2-task-ltpdelayrepfrreadonly`, `pyedflib-test-generator-bdf` |
+| `edf` | format_version | `EDF` | metadata, tables, traces | 5 | 5 | `edfio-short-psg`, `gin-edf-cross-kind-offsets-corrupt-header`, `mnepython-test-edf-stim-channel` |
+| `edf` | format_version | `EDF+C` | metadata, tables, traces | 16 | 16 | `gin-edf-autoscaled-offsets`, `gin-edf-edf-c`, `gin-edf-electrode-and-analog-data` |
+| `edf` | format_version | `EDF+D` | metadata, tables, traces | 1 | 1 | `zenodo-4688758-s65` |
+| `edf` | layout | `several sample rates` | traces | 4 | 4 | `edfio-short-psg`, `gin-edf-same-unit-offsets-multirate`, `pyedflib-test-generator-bdf` |
+| `edf` | record | `annotations` | tables | 13 | 14 | `gin-edf-electrode-and-analog-data`, `gin-edf-event-edge-cases`, `gin-edf-event-markers-bdf` |
+| `edf` | sample_layout | `int16` | traces | 21 | 21 | `edfio-short-psg`, `gin-edf-autoscaled-offsets`, `gin-edf-cross-kind-offsets-corrupt-header` |
+| `edf` | sample_layout | `int24` | traces | 5 | 5 | `gin-edf-event-markers-bdf`, `mnepython-test-bdf`, `openneuro-ds005648-sub-03-task-targets` |
 | `heka-patchmaster` | acquisition | `current-clamp` | descriptive | 7 | 7 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages` |
 | `heka-patchmaster` | acquisition | `no-mode` | descriptive | 1 | 1 | `zenodo4311847-feb0821c` |
 | `heka-patchmaster` | acquisition | `whole-cell` | descriptive | 6 | 6 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `zenodo3827171-w2019-07-08b` |
@@ -216,24 +239,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `tdt-tank` | sample_layout | `int16` | traces | 2 | 2 | `figshare11828958-pple56s2-block-3`, `gin-tdt-aep-05` |
 | `tdt-tank` | writer_version | `Synapse 39174P` | descriptive | 1 | 1 | `gin-tdt-dataset-0-single-block` |
 | `tdt-tank` | writer_version | `Synapse 41743P` | descriptive | 1 | 1 | `gin-tdt-dataset-1-single-block` |
-| `tdt-tank` | writer_version | `Synapse 44132P` | descriptive | 1 | 1 | `figshare26019082-159459-l` |
-| `tdt-tank` | writer_version | `Synapse 47410P` | descriptive | 1 | 1 | `zenodo7718682-abb07` |
-| `tdt-tank` | writer_version | `Synapse 49313` | descriptive | 1 | 1 | `preshre-ptc-fp-gcamp-b730-ptc-training` |
-| `tdt-tank` | writer_version | `Synapse 50105` | descriptive | 1 | 1 | `figshare30742631-k247-recall` |
-| `winwcp` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file` |
-| `winwcp` | format_version | `8` | metadata, traces | 1 | 1 | `winwcp-file-winwcp-1` |
-| `winwcp` | format_version | `9` | metadata, traces | 3 | 3 | `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file`, `winwcp-xarray-graph-example` |
-| `winwcp` | layout | `2 channels` | traces | 4 | 4 | `winwcp-file-winwcp-1`, `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file` |
-| `winwcp` | writer_version | `V5.3.7` | descriptive | 1 | 1 | `winwcp-file-winwcp-2` |
 
-… 1 more values: the generated table in `src/assurance.rs` has all of them.
+… 10 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_heka`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
-- corpus inputs by tier: full 1, heldout 5, smoke 30, standard 40
+- fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_edf`, `whole_heka`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
+- corpus inputs by tier: full 1, heldout 5, smoke 50, standard 47
 - golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/tdt-tank.jsonl`](../../corpus/snapshots/tdt-tank.jsonl), [`corpus/snapshots/axona-dacqusb.jsonl`](../../corpus/snapshots/axona-dacqusb.jsonl), [`corpus/snapshots/mcs-raw.jsonl`](../../corpus/snapshots/mcs-raw.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
 
 ### Open new-variant intakes

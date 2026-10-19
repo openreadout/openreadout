@@ -1,0 +1,85 @@
+{
+ "id": "gin-edf-event-edge-cases",
+ "file": "event_edge_cases.edf",
+ "size": 11304,
+ "sha256": "1d68794b48e7275a2b8bb113ed101c59711fbf611064e56bfe2248c1334cd856",
+ "max_planes_hashed": 64,
+ "reader": "pyedflib digital samples; MNE 1.13.2 header extremes and units; pyedflib 0.1.42 annotations",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "EEG Fpz-Cz",
+    "EEG Pz-Oz"
+   ],
+   "sample_rate_hz": 100.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2000,
+     "channels": [
+      {
+       "xxh3": "410672d4912a5cf43ace7febab866e62",
+       "first": [
+        789.0255439924314,
+        -53.65153965880307,
+        483.9625232703635,
+        23.59080782494583,
+        315.591906491287,
+        510.29999694814904,
+        177.55668813135168,
+        900.9063997314371
+       ]
+      },
+      {
+       "xxh3": "a98587296ee8603a9f8368be77001291",
+       "first": [
+        140.81240272225105,
+        708.8534195989868,
+        -578.5699026459548,
+        -156.80410168767358,
+        -268.1966612750633,
+        794.7325052644429,
+        130.74129459517198,
+        -948.9120151371807
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV",
+    "uV"
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 11,
+   "parameter_names": [
+    "onset_s",
+    "duration_s",
+    "text"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "int32"
+   ],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "onset_s",
+      "duration_s"
+     ],
+     "count": 11,
+     "xxh3": "ac3c4187e2c2b2af311751c24ed398c0"
+    }
+   ]
+  }
+ ]
+}

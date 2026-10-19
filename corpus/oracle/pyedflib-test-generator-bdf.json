@@ -1,0 +1,175 @@
+{
+ "id": "pyedflib-test-generator-bdf",
+ "file": "test_generator.bdf",
+ "size": 389872,
+ "sha256": "1c3fc0aeb9dee32b4a3bc2b850df28fdaa99bc6f10a8ad11bd2fd00f1adbe2ca",
+ "max_planes_hashed": 64,
+ "reader": "pyedflib digital samples; MNE 1.13.2 header extremes and units; pyedflib 0.1.42 annotations",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "sine 5Hz"
+   ],
+   "sample_rate_hz": 1000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 30000,
+     "channels": [
+      {
+       "xxh3": "2b1c8ce3afb9116130a5cbda62df7971",
+       "first": [
+        31.4106363898893,
+        62.790337967296516,
+        94.10816991973915,
+        125.33301862078996,
+        156.4341280719116,
+        187.38109990245678,
+        218.14317811388818,
+        248.6896067076685
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV"
+   ]
+  },
+  {
+   "index": 1,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "square 13Hz"
+   ],
+   "sample_rate_hz": 800.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 24000,
+     "channels": [
+      {
+       "xxh3": "80fafd20e895d45c7a6816728863e6f4",
+       "first": [
+        999.9996423721097,
+        999.9996423721097,
+        999.9996423721097,
+        999.9996423721097,
+        999.9996423721097,
+        999.9996423721097,
+        999.9996423721097,
+        999.9996423721097
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV"
+   ]
+  },
+  {
+   "index": 2,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ramp 7Hz"
+   ],
+   "sample_rate_hz": 500.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 15000,
+     "channels": [
+      {
+       "xxh3": "5a0c1717ffa05e058f30ccec6d5d6a72",
+       "first": [
+        -962.6665093103952,
+        -925.3330186207903,
+        -887.9998855590753,
+        -850.6663948694704,
+        -813.3332618077554,
+        -775.9997711181505,
+        -738.6666380564357,
+        -701.3331473668308
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV"
+   ]
+  },
+  {
+   "index": 3,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "pink noise"
+   ],
+   "sample_rate_hz": 975.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 29250,
+     "channels": [
+      {
+       "xxh3": "b55c52e574b51634f4669f0e3a3b57e8",
+       "first": [
+        108.28310896653566,
+        38.950147566207896,
+        295.3428802098558,
+        395.6907627398228,
+        165.87872301809307,
+        -42.18238843574475,
+        126.08403718972407,
+        116.1595056152047
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV"
+   ]
+  },
+  {
+   "index": 4,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "white noise"
+   ],
+   "sample_rate_hz": 999.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 29970,
+     "channels": [
+      {
+       "xxh3": "b16e372cea005ed3ff9c3c219537895b",
+       "first": [
+        -627.7998463988214,
+        937.3897276753022,
+        849.5899349206645,
+        -62.1498264163631,
+        506.45992198347557,
+        -309.4899242812352,
+        214.29975118039533,
+        384.7398391210935
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV"
+   ]
+  }
+ ]
+}

@@ -60,6 +60,7 @@ fn formats_lists_all_readers() {
             "tdt-tank",
             "axona-dacqusb",
             "mcs-raw",
+            "edf",
             "open-ephys",
             "agilent-masshunter",
             "sciex-wiff",
