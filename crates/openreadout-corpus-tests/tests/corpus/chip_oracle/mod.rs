@@ -140,31 +140,37 @@ impl Results {
         ds: &mut dyn openreadout_core::reader::Dataset,
         info: &openreadout_core::model::FileInfo,
     ) -> Result<Self, String> {
-        let mut rows = |name: &str| -> Result<Vec<std::collections::BTreeMap<String, Value>>, String> {
-            let Some(ti) = info.tables.iter().find(|t| t.name.as_deref() == Some(name)) else {
-                return Ok(Vec::new());
-            };
-            let t = ds
-                .read_table(ti.index, 0, ti.row_count)
-                .map_err(|e| format!("{name} table: {e}"))?;
-            let mut out = Vec::new();
-            for r in 0..usize::try_from(ti.row_count).unwrap_or(0) {
-                let mut m = std::collections::BTreeMap::new();
-                for (c, col) in ti.columns.iter().enumerate() {
-                    let v = t.columns.get(c).and_then(|x| x.get(r)).copied().unwrap_or(f64::NAN);
-                    let cell = match col.extra.get("categories").and_then(Value::as_array) {
-                        Some(cats) if v.is_finite() && v >= 0.0 => {
-                            cats.get(v as usize).cloned().unwrap_or(Value::Null)
-                        }
-                        _ if v.is_finite() => Value::from(v),
-                        _ => Value::Null,
-                    };
-                    m.insert(col.name.clone(), cell);
+        let mut rows =
+            |name: &str| -> Result<Vec<std::collections::BTreeMap<String, Value>>, String> {
+                let Some(ti) = info.tables.iter().find(|t| t.name.as_deref() == Some(name)) else {
+                    return Ok(Vec::new());
+                };
+                let t = ds
+                    .read_table(ti.index, 0, ti.row_count)
+                    .map_err(|e| format!("{name} table: {e}"))?;
+                let mut out = Vec::new();
+                for r in 0..usize::try_from(ti.row_count).unwrap_or(0) {
+                    let mut m = std::collections::BTreeMap::new();
+                    for (c, col) in ti.columns.iter().enumerate() {
+                        let v = t
+                            .columns
+                            .get(c)
+                            .and_then(|x| x.get(r))
+                            .copied()
+                            .unwrap_or(f64::NAN);
+                        let cell = match col.extra.get("categories").and_then(Value::as_array) {
+                            Some(cats) if v.is_finite() && v >= 0.0 => {
+                                cats.get(v as usize).cloned().unwrap_or(Value::Null)
+                            }
+                            _ if v.is_finite() => Value::from(v),
+                            _ => Value::Null,
+                        };
+                        m.insert(col.name.clone(), cell);
+                    }
+                    out.push(m);
                 }
-                out.push(m);
-            }
-            Ok(out)
-        };
+                Ok(out)
+            };
         Ok(Results {
             samples: rows("samples")?,
             peaks: rows("peaks")?,

@@ -156,7 +156,10 @@ impl ReadsDataset {
         while line.last().is_some_and(|b| *b == b'\n' || *b == b'\r') {
             line.pop();
         }
-        Ok(line.strip_prefix(b"@").map(<[u8]>::to_vec).unwrap_or_default())
+        Ok(line
+            .strip_prefix(b"@")
+            .map(<[u8]>::to_vec)
+            .unwrap_or_default())
     }
 
     fn scan(&self) -> Result<&Scan> {
@@ -316,13 +319,15 @@ fn title_convention(title: &[u8]) -> Option<&'static str> {
                 && b"AifZHB".contains(&b[3])
                 && b[4] == b':'
         };
-        return Some(if comment.split_whitespace().any(|w| w.starts_with("runid=")) {
-            "nanopore minknow"
-        } else if comment.split_whitespace().any(sam_tag) {
-            "nanopore sam tags"
-        } else {
-            "nanopore"
-        });
+        return Some(
+            if comment.split_whitespace().any(|w| w.starts_with("runid=")) {
+                "nanopore minknow"
+            } else if comment.split_whitespace().any(sam_tag) {
+                "nanopore sam tags"
+            } else {
+                "nanopore"
+            },
+        );
     }
     let sra = name
         .strip_prefix("SRR")
@@ -897,10 +902,7 @@ mod tests {
             c("HWI-EAS209_0006_FC706VJ:5:58:5894:21141#ATCACG/1"),
             Some("illumina before 1.8")
         );
-        assert_eq!(
-            c("m64011_190830_220126/1/ccs"),
-            Some("pacbio")
-        );
+        assert_eq!(c("m64011_190830_220126/1/ccs"), Some("pacbio"));
         assert_eq!(
             c("83ccd09b-02bf-4623-b1e5-2233a3fb1d35 runid=8c23 read=27944 ch=481"),
             Some("nanopore minknow")

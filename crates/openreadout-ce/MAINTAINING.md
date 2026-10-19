@@ -38,9 +38,9 @@ Capillary and chip electrophoresis: Applied Biosystems ABIF (`abif`: `abif.rs`, 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `abif` | [format note](../../docs/formats/abif.md), [provenance log](../../docs/provenance/abif.md) | medium | vendor docs | 18 / 18 | 2 | - |
-| `agilent-bioanalyzer-xml` | [format note](../../docs/formats/agilent-electrophoresis.md), [provenance log](../../docs/provenance/agilent-electrophoresis.md) | low | prior art | 3 / 3 | 1 | - |
-| `agilent-tapestation` | [format note](../../docs/formats/agilent-electrophoresis.md), [provenance log](../../docs/provenance/agilent-electrophoresis.md) | low | prior art | 4 / 4 | 1 | - |
+| `abif` | [format note](../../docs/formats/abif.md), [provenance log](../../docs/provenance/abif.md) | high | vendor docs | 27 / 27 | 10 | - |
+| `agilent-bioanalyzer-xml` | [format note](../../docs/formats/agilent-electrophoresis.md), [provenance log](../../docs/provenance/agilent-electrophoresis.md) | medium | prior art | 5 / 5 | 3 | - |
+| `agilent-tapestation` | [format note](../../docs/formats/agilent-electrophoresis.md), [provenance log](../../docs/provenance/agilent-electrophoresis.md) | medium | prior art | 7 / 7 | 2 | - |
 
 ### Source map
 
@@ -69,57 +69,64 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `abif` | acquisition | `fragment_analysis` | tables, traces | 11 | 11 | `abif-biopython-fsa`, `abif-fraggler-error`, `abif-fraggler-k1` |
-| `abif` | acquisition | `sanger` | tables, traces | 7 | 7 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
-| `abif` | format_version | `ABIF 101` | traces | 8 | 8 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
-| `abif` | format_version | `ABIF 300` | traces | 10 | 10 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
+| `abif` | acquisition | `fragment_analysis` | tables, traces | 14 | 14 | `abif-biopython-fsa`, `abif-fraggler-error`, `abif-fraggler-k1` |
+| `abif` | acquisition | `sanger` | tables, traces | 13 | 13 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | format_version | `ABIF 101` | traces | 16 | 16 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | format_version | `ABIF 300` | traces | 11 | 11 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
 | `abif` | instrument | `310` | descriptive | 1 | 1 | `abif-biopython-310` |
 | `abif` | instrument | `3130` | descriptive | 1 | 1 | `abif-biopython-3100` |
-| `abif` | instrument | `3130xl` | descriptive | 1 | 1 | `abif-biopython-fsa` |
-| `abif` | instrument | `3500` | descriptive | 10 | 10 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
-| `abif` | instrument | `3730xl` | descriptive | 4 | 4 | `abif-biopython-3730`, `abif-biopython-a6-1-db3`, `abif-biopython-empty` |
-| `abif` | layout | `Fragment Format 2.0` | traces | 11 | 11 | `abif-biopython-fsa`, `abif-fraggler-error`, `abif-fraggler-k1` |
-| `abif` | record | `analyzed trace` | traces | 17 | 17 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
-| `abif` | record | `base calls` | tables | 7 | 7 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
-| `abif` | record | `fragment size by Local Southern` | traces | 2 | 2 | `abif-biopython-fsa`, `abif-fraggler-no-peaks` |
+| `abif` | instrument | `3130xl` | descriptive | 3 | 3 | `abif-biopython-fsa`, `abif-zenodo1144120-anemone-3130xl-fsa`, `abif-zenodo20724184-arctic-16s-3130xl` |
+| `abif` | instrument | `3500` | descriptive | 13 | 13 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
+| `abif` | instrument | `3730xl` | descriptive | 8 | 8 | `abif-biopython-3730`, `abif-biopython-a6-1-db3`, `abif-biopython-empty` |
+| `abif` | layout | `Fragment Format 2.0` | traces | 14 | 14 | `abif-biopython-fsa`, `abif-fraggler-error`, `abif-fraggler-k1` |
+| `abif` | layout | `Sequencing Format 2.0` | traces | 2 | 2 | `abif-zenodo10251208-3500-bicc1`, `abif-zenodo16753160-3500-tilapia` |
+| `abif` | record | `analyzed trace` | traces | 24 | 24 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | record | `base calls` | tables | 13 | 13 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | record | `fragment size by Local Southern` | traces | 5 | 5 | `abif-biopython-fsa`, `abif-fraggler-no-peaks`, `abif-zenodo1144120-anemone-3130xl-fsa` |
 | `abif` | record | `fragment size from the instrument` | traces | 9 | 9 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
 | `abif` | record | `instrument peak table` | tables | 9 | 9 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
-| `abif` | record | `raw trace` | traces | 18 | 18 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
-| `abif` | record | `run monitor trace` | traces | 17 | 17 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | record | `raw trace` | traces | 27 | 27 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | record | `run monitor trace` | traces | 26 | 26 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | record | `size standard GS120LIZ` | traces | 1 | 1 | `abif-zenodo1144120-anemone-3130xl-fsa` |
 | `abif` | record | `size standard GS500ROX` | traces | 1 | 1 | `abif-biopython-fsa` |
-| `abif` | record | `size standard GS600LIZ` | traces | 10 | 10 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
-| `abif` | record | `sized trace` | traces | 11 | 11 | `abif-biopython-fsa`, `abif-fraggler-error`, `abif-fraggler-k1` |
-| `abif` | sample_layout | `4 dyes` | traces | 8 | 8 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
-| `abif` | sample_layout | `5 dyes` | traces | 10 | 10 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
-| `abif` | writer_version | `Data Collection 3.0` | descriptive | 4 | 4 | `abif-biopython-3730`, `abif-biopython-a6-1-db3`, `abif-biopython-empty` |
+| `abif` | record | `size standard GS600LIZ` | traces | 12 | 12 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
+| `abif` | record | `sized trace` | traces | 14 | 14 | `abif-biopython-fsa`, `abif-fraggler-error`, `abif-fraggler-k1` |
+| `abif` | sample_layout | `4 dyes` | traces | 14 | 14 | `abif-biopython-310`, `abif-biopython-3100`, `abif-biopython-3730` |
+| `abif` | sample_layout | `5 dyes` | traces | 13 | 13 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
+| `abif` | writer_version | `Data Collection 3.0` | descriptive | 9 | 9 | `abif-biopython-3730`, `abif-biopython-a6-1-db3`, `abif-biopython-empty` |
 | `abif` | writer_version | `Data Collection 3.0bc2` | descriptive | 1 | 1 | `abif-biopython-fsa` |
-| `abif` | writer_version | `Data Collection 3.1` | descriptive | 1 | 1 | `abif-biopython-3100` |
+| `abif` | writer_version | `Data Collection 3.1` | descriptive | 2 | 2 | `abif-biopython-3100`, `abif-zenodo1144120-anemone-3130xl-fsa` |
+| `abif` | writer_version | `Data Collection 3500 Data Collection Version 1.0 - 3500…` | descriptive | 2 | 2 | `abif-zenodo10251208-3500-bicc1`, `abif-zenodo5306701-anteater-3500-fsa` |
 | `abif` | writer_version | `Data Collection 3500 Dx Series Data Collection Software 3…` | descriptive | 10 | 10 | `abif-fraggler-error`, `abif-fraggler-k1`, `abif-fraggler-k2` |
+| `abif` | writer_version | `Data Collection 3500 Series Data Collection Software 3 v3.3…` | descriptive | 1 | 1 | `abif-zenodo16753160-3500-tilapia` |
 | `abif` | writer_version | `Data Collection ABI PRISM 310 Collection 3.1.0` | descriptive | 1 | 1 | `abif-biopython-310` |
+| `agilent-bioanalyzer-xml` | acquisition | `DNA 1000` | tables, traces | 1 | 1 | `agilent-bioanalyzer-wtsi-dna1000` |
 | `agilent-bioanalyzer-xml` | acquisition | `DNA 1000 Series II` | tables, traces | 1 | 1 | `agilent-bioanalyzer-dna1000` |
 | `agilent-bioanalyzer-xml` | acquisition | `Eukaryote Total RNA Nano` | tables, traces | 1 | 1 | `agilent-bioanalyzer-rna-nano` |
 | `agilent-bioanalyzer-xml` | acquisition | `High Sensitivity DNA Assay` | tables, traces | 1 | 1 | `agilent-bioanalyzer-hsdna` |
-| `agilent-bioanalyzer-xml` | field | `experiment.instrument.model` | descriptive | 3 | 3 | `agilent-bioanalyzer-dna1000`, `agilent-bioanalyzer-hsdna`, `agilent-bioanalyzer-rna-nano` |
-| `agilent-bioanalyzer-xml` | record | `size by point-to-point standard curve` | traces | 3 | 3 | `agilent-bioanalyzer-dna1000`, `agilent-bioanalyzer-hsdna`, `agilent-bioanalyzer-rna-nano` |
-| `agilent-bioanalyzer-xml` | sample_layout | `sized in bp` | traces | 2 | 2 | `agilent-bioanalyzer-dna1000`, `agilent-bioanalyzer-hsdna` |
+| `agilent-bioanalyzer-xml` | field | `experiment.instrument.model` | descriptive | 5 | 5 | `agilent-bioanalyzer-dna1000`, `agilent-bioanalyzer-hsdna`, `agilent-bioanalyzer-rna-nano` |
+| `agilent-bioanalyzer-xml` | record | `size by point-to-point standard curve` | traces | 4 | 5 | `agilent-bioanalyzer-dna1000`, `agilent-bioanalyzer-hsdna`, `agilent-bioanalyzer-rna-nano` |
+| `agilent-bioanalyzer-xml` | sample_layout | `sized in bp` | traces | 3 | 3 | `agilent-bioanalyzer-dna1000`, `agilent-bioanalyzer-hsdna`, `agilent-bioanalyzer-wtsi-dna1000` |
 | `agilent-bioanalyzer-xml` | sample_layout | `sized in nt` | traces | 1 | 1 | `agilent-bioanalyzer-rna-nano` |
 | `agilent-bioanalyzer-xml` | writer_version | `B.01.02.SI136` | descriptive | 2 | 2 | `agilent-bioanalyzer-dna1000`, `agilent-bioanalyzer-rna-nano` |
 | `agilent-bioanalyzer-xml` | writer_version | `B.02.07.SI529` | descriptive | 1 | 1 | `agilent-bioanalyzer-hsdna` |
+| `agilent-bioanalyzer-xml` | writer_version | `B.02.08.SI648` | descriptive | 1 | 1 | `agilent-bioanalyzer-wtsi-dna1000` |
 | `agilent-tapestation` | acquisition | `D1000` | tables, traces | 1 | 1 | `agilent-tapestation-d1000` |
 | `agilent-tapestation` | acquisition | `D1000 High  Sensitivity` | tables, traces | 1 | 1 | `agilent-tapestation-hsd1000` |
-| `agilent-tapestation` | acquisition | `Genomic DNA` | tables, traces | 1 | 1 | `agilent-tapestation-gdna` |
-| `agilent-tapestation` | acquisition | `RNA` | tables, traces | 1 | 1 | `agilent-tapestation-rna` |
-| `agilent-tapestation` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `agilent-tapestation-d1000`, `agilent-tapestation-gdna`, `agilent-tapestation-hsd1000` |
-| `agilent-tapestation` | record | `size by ladder aligned on the markers` | traces | 4 | 4 | `agilent-tapestation-d1000`, `agilent-tapestation-gdna`, `agilent-tapestation-hsd1000` |
+| `agilent-tapestation` | acquisition | `Genomic DNA` | tables, traces | 3 | 3 | `agilent-tapestation-allotropy-gdna-16`, `agilent-tapestation-allotropy-gdna-5`, `agilent-tapestation-gdna` |
+| `agilent-tapestation` | acquisition | `RNA` | tables, traces | 2 | 2 | `agilent-tapestation-allotropy-rna-plate`, `agilent-tapestation-rna` |
+| `agilent-tapestation` | field | `experiment.instrument.model` | descriptive | 7 | 7 | `agilent-tapestation-allotropy-gdna-16`, `agilent-tapestation-allotropy-gdna-5`, `agilent-tapestation-allotropy-rna-plate` |
+| `agilent-tapestation` | record | `size by ladder aligned on the markers` | traces | 4 | 7 | `agilent-tapestation-d1000`, `agilent-tapestation-gdna`, `agilent-tapestation-hsd1000` |
 | `agilent-tapestation` | sample_layout | `sized in bp` | traces | 3 | 3 | `agilent-tapestation-d1000`, `agilent-tapestation-gdna`, `agilent-tapestation-hsd1000` |
 | `agilent-tapestation` | sample_layout | `sized in nt` | traces | 1 | 1 | `agilent-tapestation-rna` |
-| `agilent-tapestation` | writer_version | `3.2.0.37131` | descriptive | 4 | 4 | `agilent-tapestation-d1000`, `agilent-tapestation-gdna`, `agilent-tapestation-hsd1000` |
+| `agilent-tapestation` | writer_version | `2.1.17.8091` | descriptive | 1 | 1 | `agilent-tapestation-allotropy-rna-plate` |
+| `agilent-tapestation` | writer_version | `3.2.0.37131` | descriptive | 6 | 6 | `agilent-tapestation-allotropy-gdna-16`, `agilent-tapestation-allotropy-gdna-5`, `agilent-tapestation-d1000` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_abif`, `whole_bioanalyzer`, `whole_tapestation`
-- corpus inputs by tier: heldout 2, hold 7, smoke 18
+- corpus inputs by tier: heldout 2, hold 12, smoke 27
 - golden snapshots: [`corpus/snapshots/abif.jsonl`](../../corpus/snapshots/abif.jsonl), [`corpus/snapshots/agilent-bioanalyzer-xml.jsonl`](../../corpus/snapshots/agilent-bioanalyzer-xml.jsonl), [`corpus/snapshots/agilent-tapestation.jsonl`](../../corpus/snapshots/agilent-tapestation.jsonl)
 
 ### Open new-variant intakes
