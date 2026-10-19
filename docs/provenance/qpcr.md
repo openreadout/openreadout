@@ -314,3 +314,13 @@ What we inferred, from what:
 - **LightCycler 96.** The same grid (5 to 19 points, degree 2 to 4, 3/5/7-point peak fits) on the four LightCycler 96 inputs found no method within 0.05 cycles of the vendor's Cq.
 
 Tests: `tests/qpcr_cq.rs` (`cq_methods_against_stored_results`, `second_derivative_against_lightcycler_480_exports`). The agreement per format and method is in `docs/formats/qpcr.md` → "Analysis".
+
+## 2026-10-18 — two more CFX exports, and the writer of `.ixo` files and results exports (Richard Zimring with AI coding assistants)
+
+**Corpus files** (no held-out record): `qpcrx-cfx-liulab-chi3l3-retnla` (github.com/WendyLiuLab/Hsieh2016PCR @bd335b7, MIT, a 2016 export) and `qpcrx-cfx-horns-epn-screen-plate1` (github.com/felixhorns/RNA-export-2023 @1dba539, MIT). Both are Bio-Rad CFX `Quantification Cq Results` tables with the full column set. Their oracles come from `oracle/qpcr.py` `export_file`, unchanged.
+
+**Prior art consulted:** none.
+
+**What was inferred from what:**
+- The parser is unchanged. Both files read as before (96 and 95 results, `NaN` where CFX found no Cq), so `NaN` is not a sign of CFX Maestro: the 2016 export writes it too.
+- The assurance profiles of `roche-lightcycler-ixo` and `qpcr-results-export` now observe the writer. An `.ixo` names its software and version (`SWVersion`, `LCS480 1.5.0.39` in `ixo-lc480-qc-2017a`, `LCS480 1.5.1.62` in the other nine files), which becomes a writer version to three components. A results export does not name its software, so its writer is the software family its layout belongs to (Applied Biosystems or Bio-Rad CFX), as the plate profile does for plate exports.

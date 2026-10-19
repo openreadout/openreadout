@@ -46,7 +46,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | `bio-rad-pcrd` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | open spec | 0 / 0 | 0 | - |
 | `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 10 / 10 | 2 | - |
 | `rotor-gene-rex` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 1 / 1 | 1 | 1 / 0 |
-| `qpcr-results-export` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 9 / 9 | 7 | - |
+| `qpcr-results-export` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | reverse engineered | 11 / 11 | 9 | - |
 
 ### Source map
 
@@ -82,6 +82,9 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature writer `a::writer_name_only(s)` (descriptive)
 - feature acquisition `e` (descriptive)
 - feature acquisition `format!("chemistry {c}")` (descriptive)
+- feature writer_version `format!("{} {v}", a::writer_name_only(s))` (descriptive)
+- feature writer `"Applied Biosystems qPCR software"` (descriptive)
+- feature writer `"Bio-Rad CFX Manager or CFX Maestro"` (descriptive)
 - undecoded "raw optical images"
 - undecoded "LightCycler 480 analysis"
 - undecoded "LightCycler 480 call codes"
@@ -145,10 +148,10 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `qpcr-results-export` | acquisition | `Standard Curve` | descriptive | 2 | 2 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
 | `qpcr-results-export` | acquisition | `chemistry SYBR_GREEN` | descriptive | 6 | 6 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
 | `qpcr-results-export` | acquisition | `chemistry TAQMAN` | descriptive | 1 | 1 | `qpcrx-ab-stepone-taec-24h-taqman` |
-| `qpcr-results-export` | codec | `comma-delimited text` | metadata, tables, traces | 2 | 2 | `qpcrx-cfx-churchlab-day25-27-28`, `qpcrx-cfx-churchlab-vwf-pecam1` |
+| `qpcr-results-export` | codec | `comma-delimited text` | metadata, tables, traces | 4 | 4 | `qpcrx-cfx-churchlab-day25-27-28`, `qpcrx-cfx-churchlab-vwf-pecam1`, `qpcrx-cfx-horns-epn-screen-plate1` |
 | `qpcr-results-export` | codec | `xls workbook` | metadata, tables, traces | 7 | 7 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
 | `qpcr-results-export` | dialect | `applied-biosystems-export` | metadata, tables, traces | 7 | 7 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
-| `qpcr-results-export` | dialect | `bio-rad-cfx-export` | metadata, tables, traces | 2 | 2 | `qpcrx-cfx-churchlab-day25-27-28`, `qpcrx-cfx-churchlab-vwf-pecam1` |
+| `qpcr-results-export` | dialect | `bio-rad-cfx-export` | metadata, tables, traces | 4 | 4 | `qpcrx-cfx-churchlab-day25-27-28`, `qpcrx-cfx-churchlab-vwf-pecam1`, `qpcrx-cfx-horns-epn-screen-plate1` |
 | `qpcr-results-export` | field | `experiment.instrument.model` | descriptive | 7 | 7 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
 | `qpcr-results-export` | instrument | `QuantStudio 12K Flex` | descriptive | 1 | 1 | `qpcrx-ab-qs12k-tdmmc` |
 | `qpcr-results-export` | instrument | `QuantStudio(TM) 7 Flex System` | descriptive | 1 | 1 | `qpcrx-ab-qs7flex-hmsc-stdcurve` |
@@ -159,6 +162,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `qpcr-results-export` | record | `amplification baseline-corrected` | traces | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
 | `qpcr-results-export` | record | `melt` | traces | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
 | `qpcr-results-export` | record | `melt derivative` | traces | 2 | 2 | `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-viia7-npff-ddct` |
+| `qpcr-results-export` | writer | `Applied Biosystems qPCR software` | descriptive | 7 | 7 | `qpcrx-ab-qs12k-tdmmc`, `qpcrx-ab-qs35-npff-mtrna`, `qpcrx-ab-qs7flex-hmsc-stdcurve` |
+| `qpcr-results-export` | writer | `Bio-Rad CFX Manager or CFX Maestro` | descriptive | 4 | 4 | `qpcrx-cfx-churchlab-day25-27-28`, `qpcrx-cfx-churchlab-vwf-pecam1`, `qpcrx-cfx-horns-epn-screen-plate1` |
 | `rdml` | dialect | `rdml` | metadata, tables, traces | 9 | 9 | `lc96p-pendo-hmuy-24h48h-r12`, `lc96p-pendo-hmuy-24h48h-r34`, `lc96p-pendo-hmuy-hm-dip` |
 | `rdml` | field | `experiment.acquisition.started_at` | descriptive | 1 | 1 | `rdml-soybean-vpz` |
 | `rdml` | format_version | `1.0` | metadata, tables, traces | 1 | 1 | `rdml-stepone-std` |
@@ -173,17 +178,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `roche-lightcycler-ixo` | derivation | `traces[].melt by LightCycler 480 melting-program readings…` | descriptive | 4 | 4 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
 | `roche-lightcycler-ixo` | dialect | `ixo` | metadata, tables, traces | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
 | `roche-lightcycler-ixo` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
-| `roche-lightcycler-ixo` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2023b`, `ixo-lc480-qc-2025b` |
-| `roche-lightcycler-ixo` | instrument | `LightCycler 480 - LED lamp` | descriptive | 2 | 2 | `ixo-lc480-qc-2017a`, `ixo-lc480-qc-2026a` |
 
-… 13 more values: the generated table in `src/assurance.rs` has all of them.
+… 17 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_eds`, `whole_ixo`, `whole_pcrd`, `whole_qpcr_export`, `whole_rdml`, `whole_rex`
-- corpus inputs by tier: heldout 10, smoke 32, standard 26
+- corpus inputs by tier: heldout 10, smoke 34, standard 26
 - golden snapshots: [`corpus/snapshots/rdml.jsonl`](../../corpus/snapshots/rdml.jsonl), [`corpus/snapshots/applied-biosystems-eds.jsonl`](../../corpus/snapshots/applied-biosystems-eds.jsonl), [`corpus/snapshots/bio-rad-pcrd.jsonl`](../../corpus/snapshots/bio-rad-pcrd.jsonl), [`corpus/snapshots/roche-lightcycler-ixo.jsonl`](../../corpus/snapshots/roche-lightcycler-ixo.jsonl), [`corpus/snapshots/rotor-gene-rex.jsonl`](../../corpus/snapshots/rotor-gene-rex.jsonl), [`corpus/snapshots/qpcr-results-export.jsonl`](../../corpus/snapshots/qpcr-results-export.jsonl)
 
 ### Open new-variant intakes
