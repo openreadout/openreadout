@@ -79,7 +79,11 @@ impl FormatReader for NxmxReader {
         }
         // A master copied and edited under another name (`x_master_rev.h5`): claimed only
         // when its contents say NXmx (`sniff_input`).
-        if name.contains("_master") && (name.ends_with(".h5") || name.ends_with(".hdf5")) {
+        if name.contains("_master")
+            && Path::new(&name)
+                .extension()
+                .is_some_and(|e| e == "h5" || e == "hdf5")
+        {
             return Some(det(
                 DetectConfidence::Likely,
                 "HDF5 file named like an edited EIGER master file",
