@@ -578,6 +578,7 @@ impl BvHeader {
     }
     /// Recording start from the first `New Segment` marker's date,
     /// `yyyy-mm-ddThh:mm:ss.uuuuuu` local time.
+    #[allow(clippy::many_single_char_names)]
     pub fn recorded_at(&self) -> Option<String> {
         let d = self.markers.iter().find_map(|m| m.date.as_deref())?;
         let field = |a: usize, b: usize| d.get(a..b)?.parse::<u32>().ok();
@@ -892,6 +893,7 @@ impl BrainVisionDataset {
         }
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn read_ascii(&mut self, first: u64, count: u64) -> Result<Vec<Vec<f64>>> {
         let nch = self.header.channels.len();
         let (a, b) = (
