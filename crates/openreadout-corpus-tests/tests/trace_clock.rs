@@ -52,6 +52,7 @@ const TRACE_FORMATS: &[&str] = &[
     "axona-dacqusb",
     "mcs-raw",
     "edf",
+    "brainvision",
     "magritek-spinsolve",
     "mzml",
     "mzxml",

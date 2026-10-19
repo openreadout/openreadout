@@ -7,6 +7,7 @@ All notable changes to this project are documented here. The format is based on 
 ### Added
 
 - EEG and polysomnography recordings in the European Data Format: EDF, EDF+, BDF and BDF+ (`edf`), with one trace per sample rate, EDF+ annotations as a table and discontinuous EDF+D recordings as sweeps. Checked against pyedflib and MNE-Python.
+- BrainVision recordings (`brainvision`: `.vhdr` header, `.vmrk` markers, `.eeg` samples) in INT_16, UINT_16, INT_32, IEEE_FLOAT_32 or ASCII, multiplexed or vectorized, with the markers as a table and marker-based segments as sweeps. Checked against MNE-Python and Neo.
 
 ## [0.4.0] - 2026-10-17
 

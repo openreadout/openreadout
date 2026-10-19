@@ -719,6 +719,15 @@ def ephys_new_seeds() -> None:
         b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
     put("whole_edf", "mini-edfplus.edf", _mini_edf(False))
     put("whole_edf", "mini-bdf.bdf", _mini_edf(True))
+    vhdr = (b"Brain Vision Data Exchange Header File Version 1.0\r\n; Data created by the Vision Recorder\r\n"
+            b"[Common Infos]\r\nDataFile=r.eeg\r\nMarkerFile=r.vmrk\r\nDataFormat=BINARY\r\n"
+            b"DataOrientation=MULTIPLEXED\r\nNumberOfChannels=2\r\nSamplingInterval=2000\r\n"
+            b"SegmentationType=MARKERBASED\r\nSegmentDataPoints=2\r\n"
+            b"[Binary Infos]\r\nBinaryFormat=INT_16\r\n[Channel Infos]\r\nCh1=Fp1,,0.5,\xc2\xb5V\r\nCh2=A\\1B,REF,2\r\n"
+            b"[Coordinates]\r\nCh1=1,-90,-72\r\n[Comment]\r\nsettings\r\n")
+    vmrk = (b"Brain Vision Data Exchange Marker File, Version 1.0\r\n[Marker Infos]\r\n"
+            b"Mk1=New Segment,,1,1,0,20200124040556123456\r\nMk2=Stimulus,S  1,3,1,0\r\n")
+    put("whole_brainvision", "mini.bundle", BUNDLE_SEP.join([vhdr, vmrk, struct.pack("<8h", 1, -1, 2, -2, 3, -3, 4, -4)]))
 
 
 def _mini_edf(bdf: bool) -> bytes:
