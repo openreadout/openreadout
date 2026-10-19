@@ -185,6 +185,30 @@ impl DvDataset {
         header::section_info(&self.ext, &self.header, s)
     }
 
+    /// The median step between the time stamps of consecutive time points (first wavelength,
+    /// first Z). Stamps that are not plausible seconds (processed files can hold garbage in the
+    /// first section) and the steps next to them are left out.
+    fn time_step(&self) -> Option<f64> {
+        let times: Vec<Option<f32>> = (0..self.header.time_count())
+            .map(|t| {
+                self.section(0, 0, t)
+                    .map(|s| s.time_s)
+                    .filter(|v| v.is_finite() && v.abs() < 1e7)
+            })
+            .collect();
+        let mut steps: Vec<f32> = times
+            .windows(2)
+            .filter_map(|w| Some(w[1]? - w[0]?))
+            .filter(|d| *d > 0.0)
+            .collect();
+        if steps.is_empty() {
+            return None;
+        }
+        steps.sort_by(f32::total_cmp);
+        // whole microseconds: the difference of two float32 stamps carries their rounding noise
+        Some((f64::from(steps[steps.len() / 2]) * 1e6).round() / 1e6)
+    }
+
     fn handle(&mut self) -> Result<&SourceFile> {
         if self.handle.is_none() {
             self.handle = Some(
@@ -247,13 +271,7 @@ impl Dataset for DvDataset {
             })
             .collect();
         if im.size_t > 1 {
-            let t0 = self.section(0, 0, 0).map(|s| s.time_s);
-            let t1 = self.section(0, 0, 1).map(|s| s.time_s);
-            if let (Some(a), Some(b)) = (t0, t1)
-                && b > a
-            {
-                im.time_increment_s = Some(round(b - a));
-            }
+            im.time_increment_s = self.time_step();
         }
         let mut extra = BTreeMap::new();
         extra.insert(

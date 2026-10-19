@@ -6,7 +6,7 @@ Derived from hex dumps of corpus files and the documentation of the `mrc` Python
 
 ## What OpenReadout returns
 
-One image: X × Y = the section size, C = the wavelengths, Z = sections ÷ (wavelengths × time points), T = the time points. Planes are returned in stored row order with the samples converted to little-endian. `dimension_order` gives the file's section order (`XYZTC`, `XYCZT` or `XYZCT`). The physical pixel size is dx, dy (and dz when there is more than one Z plane) in µm. Each channel's name is its wavelength from the header; `emission_nm` and `excitation_nm` come from the extended header of the channel's first section (the header wavelength when the extended header has none), `exposure_ms` from its exposure time. `time_increment_s` is the time-stamp step between the first two time points.
+One image: X × Y = the section size, C = the wavelengths, Z = sections ÷ (wavelengths × time points), T = the time points. Planes are returned in stored row order with the samples converted to little-endian. `dimension_order` gives the file's section order (`XYZTC`, `XYCZT` or `XYZCT`). The physical pixel size is dx, dy (and dz when there is more than one Z plane) in µm. Each channel's name is its wavelength from the header; `emission_nm` and `excitation_nm` come from the extended header of the channel's first section (the header wavelength when the extended header has none), `exposure_ms` from its exposure time. `time_increment_s` is the median step between the time stamps of consecutive time points (first wavelength, first Z); stamps that are not plausible seconds are left out (the FRAP series stores −1.05 × 10⁹ in its first section).
 
 `extra`: `section_order` (`ZTW`, `WZT`, `ZWT`), `pixel_mode`, `byte_order`, `lens_id` (the objective's id number), `image_type`, `wavelengths_nm` (as written; FRAP series use negative values for their photobleaching channels), `titles` (the processing history softWoRx writes: `IMGCORR`, `DECON3D`, `X:(1 512) Y:(1 512) Z:(1 40 1)`), `written_by` (`softWoRx deconvolution` when a title line starts with `DECON3D`, `softWoRx image correction` when one starts with `IMGCORR`, `acquisition` otherwise), `extended_header` {`integers`, `floats` per section}.
 
@@ -39,7 +39,7 @@ The sections follow at 1024 + `ext_len`, each `width × height` samples.
 
 ### Extended header (`section_info`)
 
-One record per section, in file order: `ext_ints` 32-bit integers then `ext_floats` 32-bit floats (8 and 32 in every corpus file; the block is padded to a multiple of 1024 bytes). The first 14 floats (`SectionInfo`): photosensor reading, time stamp (s), stage x, y, z (µm), minimum, maximum and mean intensity, exposure time (s), neutral-density filter, excitation and emission wavelength (nm), intensity scaling, energy conversion factor. `info --view full` lists them for the first 4096 sections.
+One record per section, in file order: `ext_ints` 32-bit integers then `ext_floats` 32-bit floats (8 and 32 in every corpus file; the block is padded to a multiple of 1024 bytes). The first 14 floats (`SectionInfo`): photosensor reading, time stamp (s), stage x, y, z (µm), minimum, maximum and mean intensity, exposure time (s), neutral-density filter, excitation and emission wavelength (nm), intensity scaling, energy conversion factor. `info --view full --vendor` lists them for the first 4096 sections.
 
 ## `check`
 

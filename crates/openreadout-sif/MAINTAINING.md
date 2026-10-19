@@ -15,7 +15,7 @@ Andor SIF files (Andor Solis), format `andor-sif`. Project-wide process: [docs/m
 
 ## Debugging a new file
 
-- `openreadout info FILE --view structure` lists each block's header and data with offsets; `info --view full --json` → `vendor.blocks[]` has the parsed values, the settings lines as text and the calibration, `vendor.xml` the trailer.
+- `openreadout info FILE --view structure` lists each block's header and data with offsets; `info --view full --vendor --json` → `vendor.blocks[]` has the parsed values, the settings lines as text and the calibration, `vendor.xml` the trailer.
 - A new SIF version usually changes the settings lines only, which the reader skips by shape; check that `axes_at` still finds the axis names (`settings_lines` shows what lay before them).
 - `tests/synthetic.rs` writes a calibrated kinetic series with a background block and an image.
 

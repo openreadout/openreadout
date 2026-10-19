@@ -15,7 +15,7 @@ DeltaVision files (`.dv`, `.r3d`; DeltaVision and OMX microscopes, softWoRx), fo
 
 ## Debugging a new file
 
-- `openreadout info FILE --json` → `images[0].extra` has the section order, byte order, mode and the title lines; `info --view full --json` → `vendor.sections[]` the per-section time, stage position, exposure and wavelengths.
+- `openreadout info FILE --json` → `images[0].extra` has the section order, byte order, mode and the title lines; `info --view full --vendor --json` → `vendor.sections[]` the per-section time, stage position, exposure and wavelengths.
 - Compare with `mrc` (`oracle/dv_oracle.py`) and Bio-Formats' `showinf -nopix FILE`.
 - `tests/synthetic.rs` writes every section order in both byte orders.
 

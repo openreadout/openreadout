@@ -113,7 +113,7 @@ Detection (`looks_like_packed`): the record headers in the first 64 KiB chain wi
 
 A header (version 1: version, system-variable count, user numeric count, user string count, 16-bit each; version 2 adds dependent numeric and dependent string counts), the system variables K0, K1, … as 32-bit floats (kept for the root folder only), the user numeric variables (56 bytes each, `NUMBER_VARIABLE`: a 32-byte name, a 16-bit field, the numeric type, the real and imaginary parts as doubles, 4 unused bytes), the user string variables (a 32-byte name, the length — 16-bit in version 1, 32-bit in version 2 — and the bytes). Dependent variables are not decoded (reported in `check`). Variables are vendor metadata.
 
-## Vendor metadata (`info --view full`)
+## Vendor metadata (`info --view full --vendor`)
 
 `container`, `byte_order`, `waves` (per wave: `path`, `name`, `version`, `type`, `type_name`, `points`, `dimensions`, `steps`, `offsets`, `data_units`, `dimension_units`, `created`, `modified`, `data_offset`, `data_bytes`, `checksum_ok`, `formula`, `note` (lines joined with newlines), `note_fields` (the note's `Key: value` lines when most lines have that shape: Asylum Research settings such as `ScanSize` or `SpringConstant`), `dimension_labels`, and for text waves `values`, at most 1000), and for packed experiments `variables` (per record: `folder`, `version`, `variables` with `name` and `value`/`imaginary`/`text`, `system`, `undecoded`), `igor_version`, `platform` and `texts` (history, recreation procedures and procedures: `record`, `bytes`, `text` up to 1 MiB). `info --view structure` lists every wave (offset, size, type, dimensions, what it became) and every other record.
 

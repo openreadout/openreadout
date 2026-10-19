@@ -17,7 +17,7 @@ WaveMetrics Igor Pro binary waves (`.ibw`, `.bwav`) and packed experiments (`.px
 
 ## Debugging a new file
 
-- `openreadout info FILE --view structure` lists every wave with its offset, type, dimensions and what it became, and every other record of a packed experiment; `info --view full --json` → `vendor.waves[]` has the header values, notes and labels, `vendor.variables` the variables.
+- `openreadout info FILE --view structure` lists every wave with its offset, type, dimensions and what it became, and every other record of a packed experiment; `info --view full --vendor --json` → `vendor.waves[]` has the header values, notes and labels, `vendor.variables` the variables.
 - A file `igor2` reads but this reader does not: compare `oracle/igor_oracle.py`'s output (`ORACLE_OUT=/tmp/o oracle/.venv/bin/python oracle/gen.py --id x FILE`) with `info`.
 - `tests/synthetic.rs` writes version-5 and version-2 waves in both byte orders and a small packed experiment from the format note.
 
