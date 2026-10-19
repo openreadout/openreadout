@@ -24522,6 +24522,91 @@ notes = "Rotor-Gene Q (REX 3.15), 72-well rotor: 40-cycle Green channel and 55-9
 # ---- Shimadzu .lcd with its LabSolutions ASCII export (finding N-L1 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
+id = "rex-figshare10050587-camel-hrm-1"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-1.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 1. Amplification of Anaplasma spp. in camel blood; samples 1-70.rex"
+sha256 = "0575e1880963b541fc3d52606ccc7df8ce09d8844471e094108af4da6bec1a64"
+size = 499086
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 1. Amplification of Anaplasma spp. in camel blood; samples 1-70.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood; samples 1-70. Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-2"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-2.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 2. Amplification of Anaplasma spp. in camel blood; samples 71-140.rex"
+sha256 = "3e00920aaadfd5495bf6f0b5886483216873b19296dcfc781aa481c0ffd65257"
+size = 505390
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 2. Amplification of Anaplasma spp. in camel blood; samples 71-140.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood; samples 71-140. Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-3"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-3.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 3. Amplification of Anaplasma spp. in camel blood; samples 141-162.rex"
+sha256 = "bedf7ccc545ed366d48ce41c8374ff722717f7ca42a15e74f15d62b461842da9"
+size = 497180
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 3. Amplification of Anaplasma spp. in camel blood; samples 141-162.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood; samples 141-162. Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-4"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-4.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 4. Amplification of Anaplasma spp. in camel blood and keds; samples 163-200, H1-H21 (Camel keds).rex"
+sha256 = "2214f7621d8b6f71c4c39ec87832a3a1363063aff03640a89b7814fa35a00256"
+size = 507255
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 4. Amplification of Anaplasma spp. in camel blood and keds; samples 163-200, H1-H21 (Camel keds).rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood and keds; samples 163-200, H1-H21 (Camel keds). Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-5"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-5.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 5. Amplification of Anaplasma spp. in camel keds; samples H22-H117.rex"
+sha256 = "60f41a9a10be99b1e0c57466bedb33dfdc8057f9942dee8bd45682009ee67ced"
+size = 621891
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 5. Amplification of Anaplasma spp. in camel keds; samples H22-H117.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel keds; samples H22-H117. Ground truth: ElementTree over the XML."
+
+[[file]]
 id = "lcd-streamfind-adc-uv"
 format = "shimadzu"
 role = "input"

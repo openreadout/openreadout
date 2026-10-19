@@ -144292,6 +144292,296 @@
       ]
     },
     {
+      "id": "rex-figshare10050587-camel-hrm-1",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-2",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-3",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-4",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-5",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
       "id": "rex-rotorgene-72well",
       "format": "rotor-gene-rex",
       "source": "figshare:30598193",

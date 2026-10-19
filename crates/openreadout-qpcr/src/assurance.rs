@@ -278,17 +278,17 @@ const ROCHE_LIGHTCYCLER_IXO_VALIDATED: &[Validated] = &[
 // END GENERATED roche-lightcycler-ixo
 
 // BEGIN GENERATED rotor-gene-rex (cargo xtask assurance-audit --write; do not edit)
-const ROTOR_GENE_REX_CONFIDENCE: Confidence = Confidence::Low;
+const ROTOR_GENE_REX_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const ROTOR_GENE_REX_VALIDATED: &[Validated] = &[
-    a::row(K::Dialect, "rex", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 1),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 1),
-    a::row(K::FormatVersion, "REX 3.15", 1, 1, 1),
-    a::row(K::Record, "amplification", 1, 1, 1),
+    a::row(K::Dialect, "rex", 6, 2, 6),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 6),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 6),
+    a::row(K::FormatVersion, "REX 3.15", 6, 2, 6),
+    a::row(K::Record, "amplification", 6, 2, 6),
     a::row(K::Record, "melt", 1, 1, 1),
     a::row(K::Record, "melt derivative", 1, 1, 1),
-    a::row(K::Writer, "Rotor-Gene Q Series Software", 1, 1, 1),
+    a::row(K::Writer, "Rotor-Gene Q Series Software", 6, 2, 6),
 ];
 // END GENERATED rotor-gene-rex
 

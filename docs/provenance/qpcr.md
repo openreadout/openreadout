@@ -324,3 +324,11 @@ Tests: `tests/qpcr_cq.rs` (`cq_methods_against_stored_results`, `second_derivati
 **What was inferred from what:**
 - The parser is unchanged. Both files read as before (96 and 95 results, `NaN` where CFX found no Cq), so `NaN` is not a sign of CFX Maestro: the 2016 export writes it too.
 - The assurance profiles of `roche-lightcycler-ixo` and `qpcr-results-export` now observe the writer. An `.ixo` names its software and version (`SWVersion`, `LCS480 1.5.0.39` in `ixo-lc480-qc-2017a`, `LCS480 1.5.1.62` in the other nine files), which becomes a writer version to three components. A results export does not name its software, so its writer is the software family its layout belongs to (Applied Biosystems or Bio-Rad CFX), as the plate profile does for plate exports.
+
+## 2026-10-19 — Rotor-Gene runs from a second depositor (Richard Zimring with Claude as assistant)
+
+- Corpus files added: `rex-figshare10050587-camel-hrm-1` to `-5` (figshare
+  10.6084/m9.figshare.10050587, CC0: five Rotor-Gene Q runs of an Anaplasma PCR with HRM, written
+  by Rotor-Gene Q Series Software 2.3.1 as REX 3.15, 72- and 100-tube rotors).
+- Ground truth: ElementTree over the XML (`oracle/qpcr.py`). Every channel reading matched with
+  the reader unchanged; nothing new was inferred.
