@@ -17,6 +17,7 @@ include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
 
 [dependencies]
 openreadout-core = { workspace = true }
+flate2 = { workspace = true }
 serde_json = { workspace = true }
 
 [dev-dependencies]

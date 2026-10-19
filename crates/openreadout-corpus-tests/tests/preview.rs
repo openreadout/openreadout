@@ -75,6 +75,7 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_ephys::McsRawReader))
         .with(Box::new(openreadout_ephys::EdfReader))
         .with(Box::new(openreadout_ephys::BrainVisionReader))
+        .with(Box::new(openreadout_ephys::EeglabReader))
         .with(Box::new(openreadout_ephys::OpenEphysReader))
         .with(Box::new(openreadout_agilent_ms::AgilentMsReader))
         .with(Box::new(openreadout_sciex::SciexWiffReader))

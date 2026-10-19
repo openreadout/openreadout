@@ -159,6 +159,55 @@ fn observe_brainvision(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static EEGLAB: AssuranceProfile = AssuranceProfile {
+    format_id: "eeglab",
+    observe: observe_eeglab,
+    validated: EEGLAB_VALIDATED,
+    confidence: EEGLAB_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_eeglab(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &all);
+    }
+    if a::note_with(info, ", compressed)").is_some() {
+        o.feature(K::Codec, "zlib (MAT 7)", &all);
+    }
+    for t in &info.traces {
+        if let Some(s) = a::extra_str(&t.extra, "sample_storage") {
+            let dtype = t.channels.first().map_or("", |c| c.dtype.as_str());
+            o.feature(K::SampleLayout, format!("{s} {dtype}"), &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "epochs", &[Scope::Traces]);
+        }
+        if let Some(w) = a::extra_str(&t.extra, "mat_writer") {
+            o.context(K::Writer, w);
+        }
+        if let Some(v) = a::extra_str(&t.extra, "application_version") {
+            o.context(K::WriterVersion, v);
+        }
+    }
+    if info
+        .tables
+        .iter()
+        .any(|t| t.name.as_deref() == Some("events"))
+    {
+        o.feature(K::Record, "events", &[Scope::Tables]);
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
 pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
     format_id: "tdt-tank",
     observe: observe_tdt,
@@ -658,6 +707,30 @@ const BRAINVISION_VALIDATED: &[Validated] = &[
     a::row(K::Writer, "pybv", 3, 3, 3),
 ];
 // END GENERATED brainvision
+
+// BEGIN GENERATED eeglab (cargo xtask assurance-audit --write; do not edit)
+const EEGLAB_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const EEGLAB_VALIDATED: &[Validated] = &[
+    a::row(K::FormatVersion, "MAT 5.0", 11, 9, 11),
+    a::row(K::Layout, "epochs", 4, 4, 4),
+    a::row(K::Record, "events", 9, 7, 9),
+    a::row(K::SampleLayout, "embedded float32", 5, 5, 5),
+    a::row(K::SampleLayout, "embedded float64", 1, 1, 1),
+    a::row(K::SampleLayout, "fdt float32", 5, 4, 5),
+    a::row(K::Writer, "MATLAB MACA64", 2, 2, 2),
+    a::row(K::Writer, "MATLAB PCWIN64", 6, 6, 6),
+    a::row(K::Writer, "SciPy", 3, 1, 3),
+    a::row(K::WriterVersion, "14.1.2", 1, 1, 1),
+    a::row(K::WriterVersion, "2020.0", 1, 1, 1),
+    a::row(K::WriterVersion, "2022.0", 1, 1, 1),
+    a::row(K::WriterVersion, "2022.1", 1, 1, 1),
+    a::row(K::WriterVersion, "2024.0", 1, 1, 1),
+    a::row(K::WriterVersion, "2025.0.0", 2, 2, 2),
+    a::row(K::WriterVersion, "2025.1.0", 1, 1, 1),
+    a::row(K::WriterVersion, "synthetic (not written by EEGLAB)", 2, 1, 2),
+];
+// END GENERATED eeglab
 
 #[cfg(test)]
 mod tests {
