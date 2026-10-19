@@ -30,6 +30,16 @@ def labsolutions_export(txt: Path) -> dict:
             sections[name] = []
         elif name is not None and line.strip():
             sections[name].append(line.split("\t"))
+    # Exports written with a comma as the decimal separator (a European Windows locale) print
+    # `0,001` and `7,480`; LabSolutions writes no thousands separators.
+    sep = "," if any(
+        r[0] == "Intensity Multiplier" and "," in r[1]
+        for rows in sections.values() for r in rows if len(r) > 1
+    ) else "."
+
+    def num(text: str) -> float:
+        return float(text.strip().replace(sep, ".")) if sep == "," else float(text)
+
     chroms, tables, status = [], {}, []
     for sec, rows in sections.items():
         if sec.startswith("LC Status Trace("):
@@ -39,25 +49,25 @@ def labsolutions_export(txt: Path) -> dict:
                 "name": sec[len("LC Status Trace("):-1],
                 "points": len(data),
                 "intensity_units": kv.get("Intensity Units"),
-                "intensity_multiplier": float(kv.get("Intensity Multiplier", "1")),
+                "intensity_multiplier": num(kv.get("Intensity Multiplier", "1")),
                 # the export prints each value with this many decimals at most
-                "decimals": max((len(r[1].split(".")[1]) if "." in r[1] else 0) for r in data) if data else 0,
-                "values": [float(r[1]) for r in data],
+                "decimals": max((len(r[1].split(sep)[1]) if sep in r[1] else 0) for r in data) if data else 0,
+                "values": [num(r[1]) for r in data],
             })
         elif sec.startswith("LC Chromatogram("):
             kv = {r[0]: r[1] for r in rows if len(r) > 1 and not r[0][:1].isdigit()}
             data = [r for r in rows if r and r[0][:1].isdigit() and len(r) >= 2]
             chroms.append({
                 "name": sec[len("LC Chromatogram("):-1],
-                "points": int(kv["# of Points"]),
-                "interval_ms": float(kv["Interval(msec)"]),
-                "start_min": float(kv["Start Time(min)"]),
-                "end_min": float(kv["End Time(min)"]),
+                "points": int(kv["# of Points"].strip()),
+                "interval_ms": num(kv["Interval(msec)"]),
+                "start_min": num(kv["Start Time(min)"]),
+                "end_min": num(kv["End Time(min)"]),
                 "intensity_units": kv.get("Intensity Units"),
-                "intensity_multiplier": float(kv.get("Intensity Multiplier", "1")),
+                "intensity_multiplier": num(kv.get("Intensity Multiplier", "1")),
                 "wavelength_nm": _first_number(kv.get("Wavelength(nm)")),
-                "first": [float(r[1]) for r in data[:8]],
-                "values": [float(r[1]) for r in data],
+                "first": [num(r[1]) for r in data[:8]],
+                "values": [num(r[1]) for r in data],
             })
         elif sec.startswith("Peak Table("):
             hdr = next((r for r in rows if r[0] == "Peak#"), None)
@@ -65,7 +75,7 @@ def labsolutions_export(txt: Path) -> dict:
             if hdr is not None:
                 for r in rows[rows.index(hdr) + 1:]:
                     d = dict(zip(hdr, r))
-                    peaks.append({"rt_min": float(d["R.Time"]), "area": float(d["Area"]), "height": float(d["Height"]),
+                    peaks.append({"rt_min": num(d["R.Time"]), "area": num(d["Area"]), "height": num(d["Height"]),
                                   "name": d.get("Name", "").strip()})
             tables[sec[len("Peak Table("):-1]] = peaks
     return {"reader": "the depositor's LabSolutions ASCII export of the same run (Python standard library)",
