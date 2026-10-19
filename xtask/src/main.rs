@@ -232,7 +232,8 @@ enum AssuranceCmd {
         #[arg(long, required = true)]
         results: Vec<PathBuf>,
         /// Held-out agreement (the JSON lines `HELDOUT_REPORT=<path>` makes the held-out corpus
-        /// test write); only per-format counts are kept. Default: keep the previous counts.
+        /// test write); only per-format counts are kept. With `--format`, only those formats'
+        /// counts change. Default: keep the previous counts.
         #[arg(long)]
         heldout: Option<PathBuf>,
         /// Refresh only the files of this format (repeat for several); the evidence of every
