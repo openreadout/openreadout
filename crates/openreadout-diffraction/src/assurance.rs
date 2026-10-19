@@ -67,18 +67,22 @@ fn observe_smv(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED cbf (cargo xtask assurance-audit --write; do not edit)
-const CBF_CONFIDENCE: Confidence = Confidence::Medium;
+const CBF_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const CBF_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "byte_offset", 4, 3, 4),
-    a::row(K::Dialect, "PILATUS_1.2", 4, 3, 4),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 4),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 4),
-    a::row(K::FormatVersion, "1.5", 4, 3, 4),
+    a::row(K::Codec, "byte_offset", 7, 6, 7),
+    a::row(K::Dialect, "PILATUS_1.2", 5, 4, 5),
+    a::row(K::Dialect, "SLS_1.0", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 6),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 6),
+    a::row(K::FormatVersion, "1.0", 1, 1, 1),
+    a::row(K::FormatVersion, "1.5", 6, 5, 6),
     a::row(K::Instrument, "PILATUS 2M", 1, 1, 1),
     a::row(K::Instrument, "PILATUS 6M Prosport+", 1, 1, 1),
     a::row(K::Instrument, "PILATUS 6M-F", 2, 1, 2),
-    a::row(K::SampleLayout, "int32", 4, 3, 4),
+    a::row(K::Instrument, "PILATUS3 2M", 1, 1, 1),
+    a::row(K::Instrument, "PILATUS3 6M", 1, 1, 1),
+    a::row(K::SampleLayout, "int32", 7, 6, 7),
 ];
 // END GENERATED cbf
 

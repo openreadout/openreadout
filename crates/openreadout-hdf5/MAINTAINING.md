@@ -42,7 +42,7 @@ HDF5-based formats through the pure-Rust `hdf5-pure` crate: Imaris `.ims` volume
 | --- | --- | --- | --- | --- | --- | --- |
 | `ims` | [format note](../../docs/formats/ims.md), [provenance log](../../docs/provenance/ims.md) | high | vendor docs | 26 / 26 | 21 | 1 / 0 |
 | `nwb` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | high | open spec | 22 / 21 | 19 | 1 / 0 |
-| `nxmx` | [format note](../../docs/formats/nxmx.md), [provenance log](../../docs/provenance/nxmx.md) | medium | open spec | 3 / 3 | 2 | - |
+| `nxmx` | [format note](../../docs/formats/nxmx.md), [provenance log](../../docs/provenance/nxmx.md) | high | open spec | 6 / 6 | 4 | - |
 | `hdf5` | [format note](../../docs/formats/hdf5.md), [provenance log](../../docs/provenance/hdf5.md) | medium | open spec | 4 / 4 | 4 | - |
 
 ### Source map
@@ -159,18 +159,22 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `nwb` | record | `VectorData` | tables | 7 | 7 | `dandi000006-anm372907-20170613`, `dandi000034-mouse412804-155542`, `dandi000221-hi198-060619` |
 | `nwb` | record | `VoltageClampSeries` | traces | 0 | 1 |  |
 | `nwb` | record | `VoltageClampStimulusSeries` | traces | 0 | 1 |  |
-| `nxmx` | codec | `hdf5 bitshuffle` | pixels | 2 | 2 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs` |
-| `nxmx` | format_version | `NXmx` | metadata, pixels | 3 | 3 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo4327001-wtb2-1-master` |
-| `nxmx` | instrument | `Eiger 16M` | descriptive | 3 | 3 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo4327001-wtb2-1-master` |
-| `nxmx` | layout | `data at /data` | pixels | 2 | 2 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs` |
-| `nxmx` | sample_layout | `uint16` | pixels | 2 | 3 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs` |
+| `nxmx` | codec | `hdf5 bitshuffle` | pixels | 4 | 4 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo3484187-therm-6-2-master` |
+| `nxmx` | format_version | `NXmx` | metadata, pixels | 5 | 5 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo3484187-therm-6-2-master` |
+| `nxmx` | instrument | `Dectris Eiger 9M` | descriptive | 1 | 1 | `zenodo4594513-vanrsc-fl61-1163-master` |
+| `nxmx` | instrument | `Eiger 16M` | descriptive | 5 | 5 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo3484187-therm-6-2-master` |
+| `nxmx` | layout | `data at /data` | pixels | 4 | 4 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo3484187-therm-6-2-master` |
+| `nxmx` | sample_layout | `uint16` | pixels | 4 | 6 | `zenodo3383611-therm-6-1-master`, `zenodo3383611-therm-6-1-nxs`, `zenodo3484187-therm-6-2-master` |
+| `nxmx` | writer | `DECTRIS detector firmware` | descriptive | 1 | 1 | `zenodo4594513-vanrsc-fl61-1163-master` |
+
+… 1 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/fixtures.rs`](tests/fixtures.rs), [`tests/nwb_export.rs`](tests/nwb_export.rs)
 - committed fixtures: 11 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `nxmx_links`, `whole_hdf5`, `whole_ims`, `whole_nwb`
-- corpus inputs by tier: heldout 8, smoke 19, standard 36
+- corpus inputs by tier: heldout 8, smoke 19, standard 39
 - golden snapshots: [`corpus/snapshots/ims.jsonl`](../../corpus/snapshots/ims.jsonl), [`corpus/snapshots/nwb.jsonl`](../../corpus/snapshots/nwb.jsonl), [`corpus/snapshots/nxmx.jsonl`](../../corpus/snapshots/nxmx.jsonl), [`corpus/snapshots/hdf5.jsonl`](../../corpus/snapshots/hdf5.jsonl)
 
 ### Open new-variant intakes

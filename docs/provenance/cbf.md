@@ -13,3 +13,9 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Observed:** the header lines and binary section above; the image starts at the first byte after the marker; `X-Binary-Size` counts the compressed bytes; the element count equals fastest × second dimension; `Content-MD5` is the base64 MD5 of the compressed bytes. Values −1 fill the module gaps.
 
 **Inferred:** that the "Beam_xy" pixel pair is (fast, slow), from dxtbx; that `Count_cutoff` is the overload value (dxtbx uses it as the trusted maximum).
+
+## 2026-10-19 — more depositors (Richard Zimring with Claude as assistant)
+
+**Corpus files added** (Zenodo): `zenodo1216026-eiger-ed-diff12-0011-cbf` (CC-BY-4.0, electron diffraction on an EIGER, written by CBFlib 0.9.5: `###CBF: VERSION 1.0`, header convention `SLS_1.0`, no PILATUS header lines), `zenodo50836-thermolysin-1800-cbf` (CC0-1.0, PILATUS3 2M at ESRF ID30, written by CBFlib 0.8.0) and `zenodo7948815-srugi-15kev3-0181-cbf` (CC-BY-4.0, PILATUS3 6M).
+
+**Oracle:** FabIO (MIT), run on the files. All three agree on pixels and geometry; the reader needed no change.

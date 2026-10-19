@@ -70,6 +70,8 @@ fn observe_nxmx(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     a::image_basics(&mut o, info);
     a::instrument_context(&mut o, info);
+    // the DECTRIS file writer records its firmware version (`detectorSpecific/software_version`)
+    a::writer_context(&mut o, info);
     for im in &info.images {
         let Some(files) = im
             .extra
@@ -288,13 +290,16 @@ const HDF5_VALIDATED: &[Validated] = &[
 // END GENERATED hdf5
 
 // BEGIN GENERATED nxmx (cargo xtask assurance-audit --write; do not edit)
-const NXMX_CONFIDENCE: Confidence = Confidence::Medium;
+const NXMX_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const NXMX_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "hdf5 bitshuffle", 2, 1, 2),
-    a::row(K::FormatVersion, "NXmx", 3, 2, 3),
-    a::row(K::Instrument, "Eiger 16M", 3, 2, 3),
-    a::row(K::Layout, "data at /data", 2, 1, 2),
-    a::row(K::SampleLayout, "uint16", 2, 1, 3),
+    a::row(K::Codec, "hdf5 bitshuffle", 4, 2, 4),
+    a::row(K::FormatVersion, "NXmx", 5, 3, 5),
+    a::row(K::Instrument, "Dectris Eiger 9M", 1, 1, 1),
+    a::row(K::Instrument, "Eiger 16M", 5, 3, 5),
+    a::row(K::Layout, "data at /data", 4, 2, 4),
+    a::row(K::SampleLayout, "uint16", 4, 2, 6),
+    a::row(K::Writer, "DECTRIS detector firmware", 1, 1, 1),
+    a::row(K::WriterVersion, "DECTRIS detector firmware 1.6", 1, 1, 1),
 ];
 // END GENERATED nxmx

@@ -37,6 +37,7 @@ extend-ignore-re = [
 ]
 
 [default.extend-words]
+muc = "muc"  # MUC2, the mucin gene stained in a MIRAX corpus slide (figshare32955605-mrxs-ihc-muc2-mc09)
 universite = "universite"  # "Universite catholique de Louvain", OpenJPEG copyright holder in the libisyntax license notice
 # Format and standard names
 ned = "ned"    # NED, an Applied Biosystems fluorescent dye (fragment analysis, ABIF files)

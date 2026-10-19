@@ -94,8 +94,8 @@ as `0xBBGGRR`; grey in every corpus file, so the order is unverified and a non-g
 At level 0 every offset is an integer and the stored samples are copied unchanged.
 
 **Size.** Level 0 (`level0_size`): with positions, `cameras · (photo − o) + o` per axis, `photo =
-image size · divisions / step₀`, `o = round(OVERLAP of level 0) / step₀`, truncated — OpenSlide's
-level-0 size on all corpus files, kept so that coordinates agree with OpenSlide-based tools (in
+image size · divisions / step₀`, `o = ⌈OVERLAP of level 0⌉ / step₀` (rounded up: 97.14 gives 98),
+truncated — OpenSlide's level-0 size on all corpus files, kept so that coordinates agree with OpenSlide-based tools (in
 saved slides `o` is not the physical overlap). Without positions: the grid of images. Level k
 (`level_size`): level-0 size / 2^k, rounded down.
 

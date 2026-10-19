@@ -1,0 +1,32 @@
+{
+ "id": "xrd-zenodo23383351-rasx-job10",
+ "file": "xrd-zenodo23383351-rasx-job10.rasx",
+ "format": "rigaku-rasx",
+ "family": "bench",
+ "readers": [
+  "the .rasx MesurementConditions XML (`ScanInformation/StartTime`, `SystemName`), read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "ScanInformation StartTime",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2025-11-23T07:44:41Z",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "GeneralInformation SystemName",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "MiniFlex",
+   "cmp": "text"
+  }
+ ]
+}

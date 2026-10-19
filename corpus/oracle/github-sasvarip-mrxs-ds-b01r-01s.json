@@ -1,0 +1,109 @@
+{
+ "id": "github-sasvarip-mrxs-ds-b01r-01s",
+ "file": "DS_B01R_01S.mrxs",
+ "size": 31124,
+ "sha256": "b80f5956ff5d06046c2b5f9f39a72cc42fcfde1228202851b2de2ebc931bc110",
+ "max_planes_hashed": 64,
+ "reader": "OpenSlide 4.0.1 (openslide-python 1.4.6; LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 102736,
+   "size_y": 225728,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.242534722222222,
+    "y": 0.242647058823529
+   },
+   "pyramid_levels": 9,
+   "level_sizes": [
+    [
+     102736,
+     225728
+    ],
+    [
+     51368,
+     112864
+    ],
+    [
+     25684,
+     56432
+    ],
+    [
+     12842,
+     28216
+    ],
+    [
+     6421,
+     14108
+    ],
+    [
+     3210,
+     7054
+    ],
+    [
+     1605,
+     3527
+    ],
+    [
+     802,
+     1763
+    ],
+    [
+     401,
+     881
+    ]
+   ],
+   "planes": [],
+   "levels": [
+    {
+     "level": 6,
+     "size_x": 1605,
+     "size_y": 3527,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "5f00bab98a3e057247d5cbf26de8842a",
+       "mean": 254.9053513601203
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 802,
+     "size_y": 1763,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "ae7feba9819eb5619798e62c2759da05",
+       "mean": 254.9097659047692
+      }
+     ]
+    },
+    {
+     "level": 8,
+     "size_x": 401,
+     "size_y": 881,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "7cf61a34216172f9714e817a445a8914",
+       "mean": 254.9125200619337
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

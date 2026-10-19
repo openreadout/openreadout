@@ -63,7 +63,9 @@ done
 $PY series_oracle.py --id xrd-zenodo17227355-raw4-tumba --format bruker-raw $C/xrd-zenodo17227355-raw4-tumba.raw --geddes \
   --export $C/xrd-zenodo17227355-raw4-tumba.export.xy --xcol 0 --ycol 1 --x-tol 6e-5
 # RAW4 and BRML of the same measurements: the BRML file's tube settings and wavelengths
-for id in xrd-zenodo10891027-brml-eptachori xrd-zenodo6362954-brml-opa xrd-matterviz-brml-ybco xrd-fairmat-brml-2thomega; do
+for id in xrd-zenodo10891027-brml-eptachori xrd-zenodo6362954-brml-opa xrd-matterviz-brml-ybco xrd-fairmat-brml-2thomega \
+  zenodo14263889-brml-ru-eth xrd-zenodo17227355-brml-tumba64 xrd-zenodo14263889-brml-ru-iso xrd-zenodo6362954-brml-fig6d \
+  xrd-zenodo10891027-brml-pentalofos xrd-datalab-brml-tiof; do
   g $id bruker-brml brml
 done
 $PY series_oracle.py --id xrd-nims-ras --format rigaku-ras $C/xrd-nims-ras.ras --geddes \
@@ -223,6 +225,16 @@ $XRDPY rigaku_oracle.py --id xrd-figshare32834120-ras-bc $C/xrd-figshare32834120
 $XRDPY rigaku_oracle.py --id xrd-figshare32834120-rasx-bc $C/xrd-figshare32834120-rasx-bc.rasx
 $XRDPY rigaku_oracle.py --id xrd-figshare31861468-rasx-mos2cqd $C/xrd-figshare31861468-rasx-mos2cqd.rasx
 $XRDPY rigaku_oracle.py --id xrd-figshare28490114-rasx-prosser-cultivated $C/xrd-figshare28490114-rasx-prosser-cultivated.rasx
+$XRDPY rigaku_oracle.py --id zenodo16968888-ras-raw $C/zenodo16968888-ras-raw.ras
+$XRDPY rigaku_oracle.py --id zenodo16968888-ras-scba14 $C/zenodo16968888-ras-scba14.ras
+$XRDPY rigaku_oracle.py --id xrd-zenodo21511646-ras-avtar $C/xrd-zenodo21511646-ras-avtar.ras
+$XRDPY rigaku_oracle.py --id xrd-zenodo18522047-ras-3ysz-unaged $C/xrd-zenodo18522047-ras-3ysz-unaged.ras
+$XRDPY rigaku_oracle.py --id xrd-zenodo11161891-ras-cwo-del48 $C/xrd-zenodo11161891-ras-cwo-del48.ras
+$XRDPY rigaku_oracle.py --id xrd-zenodo8338844-rasx-nanofc-bna $C/xrd-zenodo8338844-rasx-nanofc-bna.rasx
+$XRDPY rigaku_oracle.py --id xrd-zenodo8338844-rasx-mnavlt-lt $C/xrd-zenodo8338844-rasx-mnavlt-lt.rasx
+$XRDPY rigaku_oracle.py --id xrd-zenodo23383351-rasx-job10 $C/xrd-zenodo23383351-rasx-job10.rasx
+$XRDPY rigaku_oracle.py --id xrd-dara-rasx-si01 $C/xrd-dara-rasx-si01.rasx
+$XRDPY rigaku_oracle.py --id xrd-datalab-rasx-jokl16 $C/xrd-datalab-rasx-jokl16.rasx
 # impedance.py (MIT) on a Gamry EIS file gamry-parser refuses; IMPY: a Python with impedance
 IMPY=${IMPY:-$PY}
 $IMPY gamry_impedancepy.py --id echem-impedancepy-eis-abort $C/echem-impedancepy-eis-abort.DTA

@@ -1,0 +1,31 @@
+{
+ "id": "xrd-zenodo11161891-ras-cwo-del48",
+ "file": "xrd-zenodo11161891-ras-cwo-del48.ras",
+ "format": "rigaku-ras",
+ "family": "bench",
+ "readers": [
+  "the .ras text header (`*KEY \"value\"` lines)"
+ ],
+ "checks": [
+  {
+   "field": "MEAS_SCAN_START_TIME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-12-12T15:08:54",
+   "cmp": "time_or_utc"
+  },
+  {
+   "field": "FILE_SYSTEM_NAME",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SmartLab",
+   "cmp": "text"
+  }
+ ]
+}

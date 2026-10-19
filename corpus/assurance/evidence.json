@@ -33571,6 +33571,63 @@
       ]
     },
     {
+      "id": "xrd-datalab-brml-tiof",
+      "format": "bruker-brml",
+      "source": "github:datalab-org/datalab",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "DIFFRAC 7.5.2.0",
+          []
+        ],
+        [
+          "layout",
+          "2Theta scan (Measured)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "xrd-fairmat-brml-2thomega",
       "format": "bruker-brml",
       "source": "github:fairmat-nfdi/readers-xrd",
@@ -33717,6 +33774,222 @@
         [
           "writer_version",
           "DIFFRAC 8.6.3.0",
+          []
+        ],
+        [
+          "layout",
+          "2Theta scan (Measured)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo10891027-brml-pentalofos",
+      "format": "bruker-brml",
+      "source": "zenodo:10891027",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "DIFFRAC 8.6.3.0",
+          []
+        ],
+        [
+          "layout",
+          "2Theta scan (Measured)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo14263889-brml-ru-iso",
+      "format": "bruker-brml",
+      "source": "zenodo:14263889",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "DIFFRAC 6.5.0.0",
+          []
+        ],
+        [
+          "layout",
+          "2Theta scan (Measured)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo17227355-brml-tumba64",
+      "format": "bruker-brml",
+      "source": "zenodo:17227355",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "DIFFRAC 6.5.0.0",
+          []
+        ],
+        [
+          "layout",
+          "2Theta scan (Measured)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo6362954-brml-fig6d",
+      "format": "bruker-brml",
+      "source": "zenodo:6362954",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "DIFFRAC 8.6.1.0",
           []
         ],
         [
@@ -44941,6 +45214,52 @@
       ]
     },
     {
+      "id": "zenodo1216026-eiger-ed-diff12-0011-cbf",
+      "format": "cbf",
+      "source": "zenodo:1216026",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.0",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "byte_offset",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "SLS_1.0",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        19
+      ]
+    },
+    {
       "id": "zenodo3245362-anticd20-b10a-0002-cbf",
       "format": "cbf",
       "source": "zenodo:3245362",
@@ -45030,6 +45349,121 @@
         [
           "instrument",
           "PILATUS 2M",
+          []
+        ],
+        [
+          "codec",
+          "byte_offset",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "dialect",
+          "PILATUS_1.2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        19
+      ]
+    },
+    {
+      "id": "zenodo50836-thermolysin-1800-cbf",
+      "format": "cbf",
+      "source": "zenodo:50836",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "PILATUS3 2M",
+          []
+        ],
+        [
+          "codec",
+          "byte_offset",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        19
+      ]
+    },
+    {
+      "id": "zenodo7948815-srugi-15kev3-0181-cbf",
+      "format": "cbf",
+      "source": "zenodo:7948815",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "PILATUS3 6M",
           []
         ],
         [
@@ -101129,6 +101563,222 @@
       ]
     },
     {
+      "id": "figshare32955605-mrxs-he-mc09",
+      "format": "mirax",
+      "source": "figshare 32955605 'mouse colon histology and ihc whole-slide image dataset'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "camera positions: compressed position table",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "level 0 below one camera photo per image",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "brightfield",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "scanner software 3.1",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        15
+      ]
+    },
+    {
+      "id": "figshare32955605-mrxs-ihc-muc2-mc09",
+      "format": "mirax",
+      "source": "figshare 32955605 'mouse colon histology and ihc whole-slide image dataset'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "camera positions: compressed position table",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "level 0 below one camera photo per image",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "brightfield",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "scanner software 3.1",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        15
+      ]
+    },
+    {
+      "id": "github-sasvarip-mrxs-ds-b01r-01s",
+      "format": "mirax",
+      "source": "github:sasvarip/testproject",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.5",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "camera positions: compressed position table",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "level 0 below one camera photo per image",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "brightfield",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "scanner software 4.0",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        15
+      ]
+    },
+    {
       "id": "openslide-mirax-cmu-1",
       "format": "mirax",
       "source": "openslide test data",
@@ -101703,6 +102353,145 @@
           "writer_version",
           "scanner software 1.12",
           []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        15
+      ]
+    },
+    {
+      "id": "zenodo15497224-mrxs-pdx-2438",
+      "format": "mirax",
+      "source": "zenodo:15497224",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.2",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "camera positions: compressed position table",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "level 0 below one camera photo per image",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "brightfield",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "writer_version",
+          "scanner software 2.2",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        15
+      ]
+    },
+    {
+      "id": "zenodo21267826-mrxs-f5695-he",
+      "format": "mirax",
+      "source": "zenodo:21267826",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2.3",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8x3",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "jpeg",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "no camera positions (images on the grid)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "level 0 one camera photo per image",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "brightfield",
+          [
+            "pixels"
+          ]
         ],
         [
           "field",
@@ -126822,6 +127611,108 @@
       ]
     },
     {
+      "id": "zenodo3484187-therm-6-2-master",
+      "format": "nxmx",
+      "source": "zenodo:3484187",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NXmx",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Eiger 16M",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 bitshuffle",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "data at /data",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        20
+      ]
+    },
+    {
+      "id": "zenodo3484187-therm-6-2-master-rev",
+      "format": "nxmx",
+      "source": "zenodo:3484187",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NXmx",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Eiger 16M",
+          []
+        ],
+        [
+          "codec",
+          "hdf5 bitshuffle",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "data at /data",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        20
+      ]
+    },
+    {
       "id": "zenodo4327001-wtb2-1-master",
       "format": "nxmx",
       "source": "zenodo:4327001",
@@ -126849,6 +127740,44 @@
         [
           "instrument",
           "Eiger 16M",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        20
+      ]
+    },
+    {
+      "id": "zenodo4594513-vanrsc-fl61-1163-master",
+      "format": "nxmx",
+      "source": "zenodo:4594513",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "instrument",
+          "Dectris Eiger 9M",
+          []
+        ],
+        [
+          "writer",
+          "DECTRIS detector firmware",
+          []
+        ],
+        [
+          "writer_version",
+          "DECTRIS detector firmware 1.6",
           []
         ]
       ],
@@ -143335,6 +144264,66 @@
       ]
     },
     {
+      "id": "xrd-zenodo11161891-ras-cwo-del48",
+      "format": "rigaku-ras",
+      "source": "zenodo:11161891",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaTheta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RAS 1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "xrd-zenodo17159456-ras-dyal2",
       "format": "rigaku-ras",
       "source": "zenodo:17159456",
@@ -143365,6 +144354,60 @@
         [
           "layout",
           "Theta/2-Theta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RAS 1.0000000000",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo18522047-ras-3ysz-unaged",
+      "format": "rigaku-ras",
+      "source": "zenodo:18522047",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "2θ/θ scan",
           [
             "traces"
           ]
@@ -143443,11 +144486,78 @@
       ]
     },
     {
+      "id": "xrd-zenodo21511646-ras-avtar",
+      "format": "rigaku-ras",
+      "source": "zenodo:21511646",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "attenuated points",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaOmega scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RAS 1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "zenodo16968888-ras-raw",
       "format": "rigaku-ras",
       "source": "zenodo:16968888",
       "oracle": "pass",
-      "independent": false,
+      "independent": true,
       "compared": [
         "metadata",
         "traces"
@@ -143498,7 +144608,7 @@
       "format": "rigaku-ras",
       "source": "zenodo:16968888",
       "oracle": "pass",
-      "independent": false,
+      "independent": true,
       "compared": [
         "metadata",
         "traces"
@@ -143657,6 +144767,126 @@
       ]
     },
     {
+      "id": "xrd-dara-rasx-si01",
+      "format": "rigaku-rasx",
+      "source": "github:cedergrouphub/dara",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaTheta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-datalab-rasx-jokl16",
+      "format": "rigaku-rasx",
+      "source": "github:datalab-org/datalab",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaTheta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "xrd-fairmat-rasx-omega2theta-ht",
       "format": "rigaku-rasx",
       "source": "github:fairmat-nfdi/readers-xrd",
@@ -143685,6 +144915,14 @@
           "layout",
           "TwoThetaOmega scan",
           [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
             "traces"
           ]
         ],
@@ -143741,6 +144979,14 @@
           ]
         ],
         [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -143785,6 +145031,14 @@
           "layout",
           "TwoTheta scan",
           [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
             "traces"
           ]
         ],
@@ -143837,6 +145091,14 @@
           ]
         ],
         [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -143881,6 +145143,14 @@
           "layout",
           "TwoThetaTheta scan",
           [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
             "traces"
           ]
         ],
@@ -143933,6 +145203,14 @@
           ]
         ],
         [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -143977,6 +145255,14 @@
           "layout",
           "TwoThetaTheta scan",
           [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
             "traces"
           ]
         ],
@@ -144029,6 +145315,186 @@
           "layout",
           "TwoThetaTheta scan",
           [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo23383351-rasx-job10",
+      "format": "rigaku-rasx",
+      "source": "zenodo:23383351",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaTheta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo8338844-rasx-mnavlt-lt",
+      "format": "rigaku-rasx",
+      "source": "zenodo:8338844",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaTheta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "xrd-zenodo8338844-rasx-nanofc-bna",
+      "format": "rigaku-rasx",
+      "source": "zenodo:8338844",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "record",
+          "two_theta axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "intensity in counts",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "TwoThetaTheta scan",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "RASX 1.1.0.0",
+          [
+            "metadata",
             "traces"
           ]
         ],

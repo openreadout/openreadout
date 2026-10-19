@@ -1,0 +1,20 @@
+{
+ "id": "zenodo4594513-vanrsc-fl61-1163-master",
+ "file": "zenodo4594513-VanRSc_FL61_1163_master.h5",
+ "size": 205769016,
+ "sha256": "5993132e2a4492c4d122a885d16138f93615d0a519af249f8f8cc8a3bbb2b700",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 + hdf5plugin 7.1.0",
+ "kind": "nxmx",
+ "data_links": [
+  "data_000001",
+  "data_000002",
+  "data_000003"
+ ],
+ "images": [
+  {
+   "index": 0,
+   "skip": "no data file next to the master"
+  }
+ ]
+}

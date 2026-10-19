@@ -6223,7 +6223,7 @@ def main():
                 data = _hcs.hcs_plate(p)
             elif ext == ".cbf":
                 data = diffraction.cbf(p)
-            elif ext == ".nxs" or p.name.lower().endswith("_master.h5"):
+            elif ext == ".nxs" or p.name.lower().endswith(("_master.h5", "_master_rev.h5")):
                 data = diffraction.nxmx(p, MAX_PLANES)
             elif ext == ".mdoc":
                 data = diffraction.mdoc(p)

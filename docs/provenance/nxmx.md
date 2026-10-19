@@ -17,3 +17,13 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Inferred:** that the goniometer axis whose values change from image to image is the scan axis; the name patterns of data files and masters.
 
 **Fuzzing (2026-10-15):** `nxmx_links` found a panic on a link value of one byte, and `codec_bitshuffle` one on a declared size that is not a whole number of elements and an allocation of a declared size far beyond what the chunk can hold; all are now skipped or refused, with unit tests.
+
+## 2026-10-19 — more depositors; the file writer's version; edited master names (Richard Zimring with Claude as assistant)
+
+**Corpus files added** (Zenodo, CC-BY-4.0): `zenodo4594513-vanrsc-fl61-1163-master` (a DECTRIS file-writer master of an EIGER 9M without its data files, no `/entry/definition`; `detectorSpecific/software_version` 1.6.4) and `zenodo3484187-therm-6-2-master`, `zenodo3484187-therm-6-2-master-rev` with their data file `Therm_6_2_000001.h5` (DLS I04, EIGER 2X 16M).
+
+**Oracle:** h5py 3.16 with hdf5plugin 7.1, run on the files; pixels of both Therm_6_2 masters and the metadata of the VanR master agree. `oracle/gen.py` now also sends `*_master_rev.h5` to the NXmx oracle.
+
+**What was read from the files:** `Therm_6_2_master_rev.h5` is the depositors' revision of the master (their record says so), with `/entry/definition` NXmx and the same external link to the data file. The reader skipped it because detection went by the name ending `_master.h5`.
+
+**Decided:** an HDF5 file whose name contains `_master` is claimed when its contents say NXmx, as `.nxs` files already were. The assurance profile observes the writer the reader already reports (`DECTRIS detector firmware` and its version from `detectorSpecific/software_version`).

@@ -39,3 +39,13 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Inferred from the file.** `Slidedat.ini` has no non-hierarchical records (`NONHIER_COUNT = 0`), `IMAGE_OVERLAP_MICROMETERS_*` 0 and `OVERLAP_*` 0 on every level, and a 427 × 862 grid of 256 × 256 images. OpenSlide's level-0 size is that grid, 109312 × 220672, as ours already was.
 
 **Rule implemented:** without a position table, level k's image at grid (x, y) is placed at `(x / step · w, y / step · h)`, abutting its neighbours, and composed as before.
+
+## 2026-10-19 — slides from four more depositors; the overlap in the level-0 size rounds up (Richard Zimring with Claude as assistant)
+
+**Corpus files added:** `figshare32955605-mrxs-he-mc09` and `figshare32955605-mrxs-ihc-muc2-mc09` (Figshare 32955605, mouse colon, CC-BY-4.0; `CURRENT_SLIDE_VERSION` 2.5), `zenodo15497224-mrxs-pdx-2438` (Zenodo 15497224, mouse PDX lung, CC-BY-4.0; version 2.2), `zenodo21267826-mrxs-f5695-he` (Zenodo 21267826, canine mammary tumour, CC-BY-4.0; version 2.3) and `github-sasvarip-mrxs-ds-b01r-01s` (GitHub sasvarip/testProject, Apache-2.0; version 2.5). Each slide is taken out of its zip member by member.
+
+**Black-box oracle:** OpenSlide 4.0.1 through openslide-python 1.4.6, as before.
+
+**What was found:** `github-sasvarip-mrxs-ds-b01r-01s` was 102772 × 225836 by our rule and 102736 × 225728 by OpenSlide. Its level-0 `OVERLAP_X` and `OVERLAP_Y` are 97.14, with 37 × 109 cameras of 2872 × 2168 pixels: OpenSlide's size is `cameras · (photo − 98) + 98` on both axes, so the overlap is rounded up, not to the nearest integer. In every other corpus slide the two give the same integer (overlaps 7.5, 60, 96, 120, 126.78, 140, 180.69; 0 without positions).
+
+**Decided:** `o = ⌈OVERLAP of level 0⌉ / step₀` in the level-0 size. All 13 development slides now agree with OpenSlide on size and on every compared level.

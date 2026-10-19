@@ -1,0 +1,35 @@
+{
+ "id": "zenodo1216026-eiger-ed-diff12-0011-cbf",
+ "file": "zenodo1216026-diff_12_0011.cbf",
+ "size": 71481,
+ "sha256": "b5f4902664b53efaa1051a337dd88946ad7748558612bb71a6bd09f939d635dd",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0",
+ "kind": "cbf",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fcaf344cee3bd951b71e20ba2a86544e"
+    }
+   ],
+   "check_diffraction": {}
+  }
+ ],
+ "counts": {
+  "min": 0,
+  "max": 4095,
+  "negative": 0
+ }
+}

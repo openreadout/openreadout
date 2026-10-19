@@ -166,3 +166,13 @@ development file.
 - `tar012` has its header and `*RAS_INT_START`, then exactly the 2251 rows `*MEAS_DATA_COUNT` declares, from 10.00 to 55.00 in steps of 0.02 (`MEAS_SCAN_START`, `MEAS_SCAN_STEP`, `MEAS_SCAN_STOP`). The file ends after the last row. `*RAS_INT_END` and `*RAS_DATA_END` are missing. xrayutilities returns the same 2251 rows.
 - `pml321` declares 18751 rows (10 to 100 in steps of 0.0048). Its rows from 70.0048 on (6250 of them) start with `#`, and the rest of the file is intact. xrayutilities skips those rows and returns 12501 rows, 10 to 70.
 - **Rule:** a data row starting with `#` is a comment. It is not returned, a warning counts the rows, and the assurance block reports them as left out. A file that ends inside its last data block is read when that block holds every row its `MEAS_DATA_COUNT` declares, with a warning. A block that ends short of its count is still corrupt (exit 4), and the error now says how many rows it holds.
+
+## 2026-10-19 — more depositors for BRML, RAS and RASX; the RASX archive version (Richard Zimring with Claude as assistant)
+
+**Corpus files added:** BRML `xrd-zenodo17227355-brml-tumba64`, `xrd-zenodo14263889-brml-ru-iso`, `xrd-zenodo6362954-brml-fig6d`, `xrd-zenodo10891027-brml-pentalofos` (Zenodo, CC-BY-4.0) and `xrd-datalab-brml-tiof` (GitHub datalab-org/datalab, MIT); RAS `xrd-zenodo21511646-ras-avtar`, `xrd-zenodo18522047-ras-3ysz-unaged`, `xrd-zenodo11161891-ras-cwo-del48` (Zenodo, CC-BY-4.0); RASX `xrd-zenodo8338844-rasx-nanofc-bna`, `xrd-zenodo8338844-rasx-mnavlt-lt`, `xrd-zenodo23383351-rasx-job10` (Zenodo, CC-BY-4.0), `xrd-dara-rasx-si01` (GitHub CederGroupHub/dara, MIT) and `xrd-datalab-rasx-jokl16` (GitHub datalab-org/datalab, MIT). The two `zenodo16968888` RAS files now have xrayutilities as ground truth instead of a table read from the file itself.
+
+**Oracles:** geddes 1.0.0 (MIT) on BRML, xrayutilities 1.8.0 (GPL-2.0-or-later) on RAS and fairmat-readers-xrd 0.0.10 (Apache-2.0) on RASX, all run as black boxes. Every file agrees on every compared row.
+
+**What was read from the files:** every RASX archive with a `root.xml` (all but one of the 13 development files) has `<Root Version="1.1.0.0">`; the conditions document's `GeneralInformation/Version` is `1` in all of them. The instruments differ (SmartLab, SmartLab XE, MiniFlex) but no writer or software version is recorded anywhere in the archive.
+
+**Decided:** the RASX format version is `RASX <Root Version>` from `root.xml`, and the assurance profile observes it. An archive without `root.xml` has no format version.
