@@ -31,6 +31,11 @@ dependencies = [
     # Electrophysiology: pyABF (MIT) for Axon ABF; Neo (BSD-3) for Neuralynx, Blackrock, SpikeGLX, Intan
     "pyabf>=2.3.8",
     "neo>=0.14",
+    # EEG: pyedflib (BSD) for EDF/BDF digital samples and annotations, MNE-Python (BSD-3) for
+    # EDF, BrainVision and EEGLAB cross-checks, pymatreader (BSD-2) for MAT 7.3 EEGLAB files
+    "pyedflib>=0.1.42",
+    "mne>=1.13 ; python_version >= '3.11'",
+    "pymatreader>=1.0",
     "probeinterface>=0.3",  # MIT; SpikeGLX probe geometry oracle
     "nept>=0.1.0",  # MIT (vandermeerlab); Neuralynx .nvt oracle (needs shapely)
     "shapely>=2",
