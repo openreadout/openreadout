@@ -65,7 +65,7 @@ fn reads_every_block() {
 fn truncated_file_keeps_complete_blocks() {
     let text = std::fs::read_to_string(fixture()).unwrap();
     let cut = text.rfind("end ions").unwrap();
-    let input = Input::from_bytes("cut.mgf", text[..cut].as_bytes().to_vec());
+    let input = Input::from_bytes("cut.mgf", text.as_bytes()[..cut].to_vec());
     let mut ds = MgfReader.open_input(&input).unwrap();
     assert_eq!(ds.info().unwrap().spectra[0].scan_count, 2);
     let rep = ds.check().unwrap();
