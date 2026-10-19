@@ -35,7 +35,7 @@ pub(crate) static BIO_RAD_PCRD: AssuranceProfile = AssuranceProfile {
 
 pub(crate) static ROCHE_LIGHTCYCLER_IXO: AssuranceProfile = AssuranceProfile {
     format_id: "roche-lightcycler-ixo",
-    observe,
+    observe: observe_writer,
     validated: ROCHE_LIGHTCYCLER_IXO_VALIDATED,
     confidence: ROCHE_LIGHTCYCLER_IXO_CONFIDENCE,
     basis: Basis::ReverseEngineered,
@@ -51,7 +51,7 @@ pub(crate) static ROTOR_GENE_REX: AssuranceProfile = AssuranceProfile {
 
 pub(crate) static QPCR_RESULTS_EXPORT: AssuranceProfile = AssuranceProfile {
     format_id: "qpcr-results-export",
-    observe,
+    observe: observe_writer,
     validated: QPCR_RESULTS_EXPORT_VALIDATED,
     confidence: QPCR_RESULTS_EXPORT_CONFIDENCE,
     basis: Basis::ReverseEngineered,
@@ -148,6 +148,35 @@ fn observe(info: &FileInfo) -> Observations {
         }
         if n.contains("give no plate position and were skipped") || n.contains("lies outside the") {
             o.undecoded("reactions without a plate position", &[], n.clone());
+        }
+    }
+    o
+}
+
+/// LightCycler 480 files and results exports: [`observe`], plus the writer's version (the
+/// `.ixo` `SWVersion`, `LCS480 1.5.1.62`, to three components) and, for a results export, the
+/// software family its layout comes from (the exports do not name their software).
+fn observe_writer(info: &FileInfo) -> Observations {
+    let mut o = observe(info);
+    for t in &info.tables {
+        if let Some(i) = t.extra.get("instrument") {
+            let s = i.get("software").and_then(serde_json::Value::as_str);
+            let v = i
+                .get("software_version")
+                .and_then(serde_json::Value::as_str)
+                .and_then(|v| a::version_prefix(v, 3));
+            if let (Some(s), Some(v)) = (s, v) {
+                o.context(K::WriterVersion, format!("{} {v}", a::writer_name_only(s)));
+            }
+        }
+        match a::extra_str(&t.extra, "dialect") {
+            Some("applied-biosystems-export") => {
+                o.context(K::Writer, "Applied Biosystems qPCR software");
+            }
+            Some("bio-rad-cfx-export") => {
+                o.context(K::Writer, "Bio-Rad CFX Manager or CFX Maestro");
+            }
+            _ => {}
         }
     }
     o
