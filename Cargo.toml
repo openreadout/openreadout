@@ -44,6 +44,7 @@ default-members = [
     "crates/openreadout-dcimg",
     "crates/openreadout-igor",
     "crates/openreadout-sif",
+    "crates/openreadout-dv",
     "crates/openreadout-diffraction",
     "crates/openreadout-hcs",
     "crates/openreadout-spectro",
@@ -130,6 +131,7 @@ openreadout-oif = { path = "crates/openreadout-oif", version = "0.4.0" }
 openreadout-dcimg = { path = "crates/openreadout-dcimg", version = "0.4.0" }
 openreadout-igor = { path = "crates/openreadout-igor", version = "0.4.0" }
 openreadout-sif = { path = "crates/openreadout-sif", version = "0.4.0" }
+openreadout-dv = { path = "crates/openreadout-dv", version = "0.4.0" }
 openreadout-diffraction = { path = "crates/openreadout-diffraction", version = "0.4.0" }
 openreadout-hcs = { path = "crates/openreadout-hcs", version = "0.4.0" }
 openreadout-spectro = { path = "crates/openreadout-spectro", version = "0.4.0" }

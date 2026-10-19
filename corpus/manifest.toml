@@ -88433,7 +88433,7 @@ sha256 = "5d3baf659801eb8cbce4adf18ebc1ffbe4bbb04f692e6e72fe5acf38f1338b87"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/echelle/boron_0.05_1us_750ns_5.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65555; 1 trace(s), first 23430 samples x 2 channel(s) float64; Andor SIF version 65555, DH734_18mm: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifparser-examples-with-calibration-raman1"
@@ -88446,7 +88446,7 @@ sha256 = "b7899121e24b2307fd9a1bf2c4e46976823ea00313cab5f5a1c71dcb7ff22d35"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/examples_with_calibration/raman1.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 1 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU888_BV: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifparser-issue27-test"
@@ -88459,7 +88459,7 @@ sha256 = "cec885387ff2df969a8e71c24cb1400042d79fc80b5ff1b5b491dcb7a96c9567"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/issue27/test.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65564; 1 image(s), first 256x256 float; Andor SIF version 65564, DU897_BV: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifparser-issue33-measurement"
@@ -88472,7 +88472,7 @@ sha256 = "306c02d2f31b6017fa95b8ce451ce2c7c2726635484b5cda364f513369938e93"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/issue33/measurement.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 1 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DH334T-18F-63: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifparser-issue37-shot25-ar-delay-480us-width-2us-gain-3900"
@@ -88485,7 +88485,7 @@ sha256 = "f7eb14468a45b5b1a7d92a1d5237bcf2cfad341d2a65b7880423092f916dbbda"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/issue37/shot25-Ar-delay 480us-width 2us-gain 3900.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 1 image(s), first 1024x1024 float; Andor SIF version 65567, DH334T-18F-03: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifparser-cli-cli-0"
@@ -88498,7 +88498,7 @@ sha256 = "f128ac49abe5f6301c425f365aae539c526e2568f75216f9d4589a4f80befd94"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/public_testdata/cli/cli-0.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 2 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU420_OE: 2 block(s) (signal, background)"
 
 [[file]]
 id = "sif-sifparser-public-testdata-image"
@@ -88511,7 +88511,7 @@ sha256 = "9ec78ef1ba44d57963ec22840318410740f0ce47701d28732d775a72f0cdffa3"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/public_testdata/image.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65559; 2 image(s), first 512x512 float; Andor SIF version 65559, DU897_BV: 2 block(s) (signal, background)"
 
 [[file]]
 id = "sif-sifparser-raman-data-dd58-785-1-fe2o3-5x10s"
@@ -88524,7 +88524,7 @@ sha256 = "91d440d2c5ad4b3db7f8d213dc65c2aa9954de80689be37eb408131ac757cdb7"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/raman_data/DD58_785_1_Fe2O3_5x10s.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 1 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU420_BX2DD: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifparser-raman-data-rubpy3-in-ethanolpulsed"
@@ -88537,7 +88537,7 @@ sha256 = "a98b95fa5909aeb97808eaa3b6c1c631a572417f1eb20e8e70592973a377c14b"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/raman_data/rubpy3 in ethanolpulsed.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 1 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DV420_BU2: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifparser-step-and-glue-step-and-glue"
@@ -88550,7 +88550,7 @@ sha256 = "43573815c44c9cc81047e730f617ff1fcc504da73bf1c1301db47f2ff3da606d"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/step_and_glue/step_and_glue.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 2 trace(s), first 4711 samples x 2 channel(s) float64; Andor SIF version 65567, DU401_BVF: 2 block(s) (signal, live)"
 
 [[file]]
 id = "sif-sifparser-examples-with-calibration-nd-lum-image-no-glue"
@@ -88563,7 +88563,7 @@ sha256 = "adf94206d113bd457649f177b0b73cec8644c90f82401e436678e28cefaf7334"
 license = "BSD-3-Clause"
 source = "fujiisoup/sif_parser test data (github.com/fujiisoup/sif_parser, commit 8362a48, `testings/examples_with_calibration/nd_lum_image_no_glue.sif`)"
 attribution = "Keisuke Fujii and sif_parser contributors"
-notes = "TODO"
+notes = "65567; 3 image(s), first 1024x101 t=10 float; Andor SIF version 65567, DU888_BV: 3 block(s) (signal, background, live)"
 
 [[file]]
 id = "sif-sifreader-test-image"
@@ -88576,7 +88576,7 @@ sha256 = "46f1fb26bdd19c673c73348ba1d09a692fd4473cec3d04a56a484dfe42de04b8"
 license = "MIT"
 source = "lightingghost/sifreader test data (github.com/lightingghost/sifreader, commit fafbaab, `test/test_image.sif`)"
 attribution = "Zhenpeng Zhou and sifreader contributors"
-notes = "TODO"
+notes = "65564; 1 image(s), first 151x51 float; Andor SIF version 65564, DU940P: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifreader-test-sequence"
@@ -88589,7 +88589,7 @@ sha256 = "9e9564ab5dfa5b22e1f367422a6226b95c3746b604e3d24758d8fa889dda5609"
 license = "MIT"
 source = "lightingghost/sifreader test data (github.com/lightingghost/sifreader, commit fafbaab, `test/test_sequence.sif`)"
 attribution = "Zhenpeng Zhou and sifreader contributors"
-notes = "TODO"
+notes = "65564; 1 image(s), first 151x51 t=3 float; Andor SIF version 65564, DU940P: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-sifreader-test-spectrum"
@@ -88602,7 +88602,7 @@ sha256 = "0cd250c0b2df683d42c7c17b1eea4f877e8937df7d6db9492d5dad0644ab0bee"
 license = "MIT"
 source = "lightingghost/sifreader test data (github.com/lightingghost/sifreader, commit fafbaab, `test/test_spectrum.sif`)"
 attribution = "Zhenpeng Zhou and sifreader contributors"
-notes = "TODO"
+notes = "65564; 1 image(s), first 151x51 float; Andor SIF version 65564, DU940P: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-figshare30795137-test-1"
@@ -88616,7 +88616,7 @@ license = "CC-BY-4.0"
 license_checked = "https://figshare.com/articles/30795137 (CC BY 4.0), 2026-10-19"
 source = "Figshare 30795137: Data supporting 'Continuous-wave narrow-linewidth vacuum ultraviolet laser', file test_1.sif (figshare file 60132512)"
 attribution = "Data supporting 'Continuous-wave narrow-linewidth vacuum ultraviolet laser' (figshare 30795137)"
-notes = "TODO"
+notes = "65567; 1 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU491_17: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-figshare28054061-hbn-raman-633-bn-1-3-na"
@@ -88630,7 +88630,7 @@ license = "CC-BY-4.0"
 license_checked = "https://figshare.com/articles/28054061 (CC BY 4.0), 2026-10-19"
 source = "Figshare 28054061: Data: Probing Noncentrosymmetric 2D Materials by Fourier Space Second Harmonic Generation, file hBN_Raman_633_bn_1-3_na.sif (figshare file 51717080)"
 attribution = "Data: Probing Noncentrosymmetric 2D Materials by Fourier Space Second Harmonic Generation (figshare 28054061)"
-notes = "TODO"
+notes = "65567; 2 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU920P_BX2DD: 2 block(s) (signal, background)"
 
 [[file]]
 id = "sif-figshare28054061-mose2-633-pl-1-3na-10uw"
@@ -88644,7 +88644,7 @@ license = "CC-BY-4.0"
 license_checked = "https://figshare.com/articles/28054061 (CC BY 4.0), 2026-10-19"
 source = "Figshare 28054061: Data: Probing Noncentrosymmetric 2D Materials by Fourier Space Second Harmonic Generation, file MoSe2_633_pl_1-3na_10uw.sif (figshare file 51717083)"
 attribution = "Data: Probing Noncentrosymmetric 2D Materials by Fourier Space Second Harmonic Generation (figshare 28054061)"
-notes = "TODO"
+notes = "65567; 1 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU920P_BX2DD: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-zenodo18293266-zp3230-15"
@@ -88659,7 +88659,7 @@ size = 8515
 license = "CC-BY-4.0"
 source = "Zenodo record 18293266 (license cc-by-4.0)"
 attribution = "Chukova, Oksana, 'Data on Luminescence properties of ZnO-PVA nanoparticles' (Zenodo 18293266)"
-notes = "TODO"
+notes = "65567; 1 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU920P_BX2DD: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-zenodo18293266-zp2-1"
@@ -88674,7 +88674,7 @@ size = 16897
 license = "CC-BY-4.0"
 source = "Zenodo record 18293266 (license cc-by-4.0)"
 attribution = "Chukova, Oksana, 'Data on Luminescence properties of ZnO-PVA nanoparticles' (Zenodo 18293266)"
-notes = "TODO"
+notes = "65567; 2 trace(s), first 1024 samples x 2 channel(s) float64; Andor SIF version 65567, DU920P_BX2DD: 2 block(s) (signal, background)"
 
 [[file]]
 id = "sif-zenodo15118586-4a-755mv-pad5"
@@ -88689,7 +88689,7 @@ size = 4197078
 license = "CC-BY-4.0"
 source = "Zenodo record 15118586 (license cc-by-4.0)"
 attribution = "Institute of Microelectronics Technology (TiM) - University of the Basque Country (UPV/EHU), 'IBC solar cell electroluminescence images at four different currents and 0.5 s adquisition time.' (Zenodo 15118586)"
-notes = "TODO"
+notes = "65564; 1 image(s), first 1024x1024 float; Andor SIF version 65564, DU934P_BR,DD: 1 block(s) (signal)"
 
 [[file]]
 id = "sif-zenodo4904806-c739xmagfret-1"
@@ -88704,7 +88704,7 @@ size = 16781286
 license = "CC0-1.0"
 source = "Zenodo record 4904806 (license cc-zero)"
 attribution = "Wu, Yanying, 'Data from: Magnesium efflux from Drosophila Kenyon Cells is critical for normal and diet-enhanced long-term memory' (Zenodo 4904806)"
-notes = "TODO"
+notes = "65567; 1 image(s), first 2048x2048 float; Andor SIF version 65567, ZYLA-4.2P-USB3: 1 block(s) (signal)"
 
 [[file]]
 id = "dv-ome-sirnai-hela-csfv-10-r3d-d3d-prj"
@@ -88713,10 +88713,11 @@ role = "input"
 tier = "smoke"
 filename = "dv/ome-siRNAi-HeLa/CSFV_10.r3d_D3D_PRJ.dv"
 url = "https://downloads.openmicroscopy.org/images/DV/siRNAi-HeLa/CSFV_10.r3d_D3D_PRJ.dv"
+sha256 = "1555e087b67a995257db81a29012374812e7088e283a691e64e5df7b9498b0ad"
 license = "CC-BY-4.0"
 source = "OME sample images (downloads.openmicroscopy.org/images/DV/siRNAi-HeLa), readme.txt/COPYING = CC-BY-4.0"
 attribution = "Will Moore"
-notes = "TODO"
+notes = "1 image(s), first 512x512 c=4 int16; DeltaVision 512 × 512 × 4 sections (4 wavelength(s) × 1 Z × 1 time point(s), order ZTW), little-endian"
 
 [[file]]
 id = "dv-ome-sirnai-hela-in-02"
@@ -88725,10 +88726,11 @@ role = "input"
 tier = "standard"
 filename = "dv/ome-siRNAi-HeLa/IN_02.r3d"
 url = "https://downloads.openmicroscopy.org/images/DV/siRNAi-HeLa/IN_02.r3d"
+sha256 = "f9dd528fe56a74c7094f6b96376c6941b846924731cf836e80c3db2683a80d0d"
 license = "CC-BY-4.0"
 source = "OME sample images (downloads.openmicroscopy.org/images/DV/siRNAi-HeLa), readme.txt/COPYING = CC-BY-4.0"
 attribution = "Will Moore"
-notes = "TODO"
+notes = "1 image(s), first 512x512 z=40 c=4 int16; DeltaVision 512 × 512 × 160 sections (4 wavelength(s) × 40 Z × 1 time point(s), order ZWT), big-endian"
 
 [[file]]
 id = "dv-ome-frap-u20s-rcc1-2-r3d-frap"
@@ -88737,10 +88739,11 @@ role = "input"
 tier = "standard"
 filename = "dv/ome-will-FRAP/U20S-RCC1.2_R3D_FRAP.dv"
 url = "https://downloads.openmicroscopy.org/images/DV/will/FRAP/U20S-RCC1.2_R3D_FRAP.dv"
+sha256 = "84c631892cd3725cfeea0b40caf8dbf714ce5d20382fd18845358a399afe21cc"
 license = "CC-BY-4.0"
 source = "OME sample images (downloads.openmicroscopy.org/images/DV/will/FRAP), readme.txt/COPYING = CC-BY-4.0"
 attribution = "Will Moore"
-notes = "TODO"
+notes = "1 image(s), first 200x200 c=3 t=31 float; DeltaVision 200 × 200 × 93 sections (3 wavelength(s) × 1 Z × 31 time point(s), order WZT), little-endian"
 
 [[file]]
 id = "dv-ome-p-tre-p-tre-22-r3d-d3d-vol"
@@ -88749,10 +88752,11 @@ role = "input"
 tier = "smoke"
 filename = "dv/ome-elena-P-TRE/P-TRE_22_R3D_D3D_VOL.dv"
 url = "https://downloads.openmicroscopy.org/images/DV/elena/P-TRE/P-TRE_22_R3D_D3D_VOL.dv"
+sha256 = "e53450d95c749a5b7824f460e4028431c171c5aa96676fd8a3c75403f48f34f6"
 license = "CC-BY-4.0"
 source = "OME sample images (downloads.openmicroscopy.org/images/DV/elena/P-TRE), readme.txt/COPYING = CC-BY-4.0"
 attribution = "Elena Knatko"
-notes = "TODO"
+notes = "1 image(s), first 736x736 c=3 uint8; DeltaVision 736 × 736 × 3 sections (3 wavelength(s) × 1 Z × 1 time point(s), order ZTW), little-endian"
 
 [[file]]
 id = "dv-ome-p-tre-p-tre-23-r3d-d3d-vol-d3d"
@@ -88761,10 +88765,11 @@ role = "input"
 tier = "smoke"
 filename = "dv/ome-elena-P-TRE/P-TRE_23_R3D_D3D_VOL_D3D.dv"
 url = "https://downloads.openmicroscopy.org/images/DV/elena/P-TRE/P-TRE_23_R3D_D3D_VOL_D3D.dv"
+sha256 = "096b3c6b4b57d80f32317f5d46ed8d844c7915e2f66c634863fcf7ca8224dd64"
 license = "CC-BY-4.0"
 source = "OME sample images (downloads.openmicroscopy.org/images/DV/elena/P-TRE), readme.txt/COPYING = CC-BY-4.0"
 attribution = "Elena Knatko"
-notes = "TODO"
+notes = "1 image(s), first 964x964 c=3 uint16; DeltaVision 964 × 964 × 3 sections (3 wavelength(s) × 1 Z × 1 time point(s), order ZTW), little-endian"
 
 [[file]]
 id = "dv-ome-u2os-u2os-aurb-aura-001-r3d"
@@ -88773,10 +88778,11 @@ role = "input"
 tier = "standard"
 filename = "dv/ome-U2OS/U2OS_AurB_AurA_001_R3D.dv"
 url = "https://downloads.openmicroscopy.org/images/DV/U2OS/U2OS_AurB_AurA_001_R3D.dv"
+sha256 = "085c346d31c1cee6579111f0a4a538d0ea78185fcd9c00b7b63cf87e7c9cad5e"
 license = "CC-BY-4.0"
 source = "OME sample images (downloads.openmicroscopy.org/images/DV/U2OS), readme.txt/COPYING = CC-BY-4.0"
 attribution = "Michael Porter"
-notes = "TODO"
+notes = "1 image(s), first 512x512 z=20 c=4 uint16; DeltaVision 512 × 512 × 80 sections (4 wavelength(s) × 20 Z × 1 time point(s), order ZWT), little-endian"
 
 [[file]]
 id = "dv-ome-cajal-bodies-090829-1-hela-sictl-coilin-atub01-01-r3d-d3d"
@@ -88785,10 +88791,11 @@ role = "input"
 tier = "full"
 filename = "dv/ome-alexia-cajal-bodies/090829_1_HeLa_siCTL_coilin_ATUB01_01_R3D_D3D.dv"
 url = "https://downloads.openmicroscopy.org/images/DV/alexia/cajal-bodies/090829_1_HeLa_siCTL_coilin_ATUB01_01_R3D_D3D.dv"
+sha256 = "279aeabf921d2117e7bcd5ce57762aa547c06693034745fdf03c2837abd96073"
 license = "CC-BY-4.0"
 source = "OME sample images (downloads.openmicroscopy.org/images/DV/alexia/cajal-bodies), readme.txt/COPYING = CC-BY-4.0"
 attribution = "Alexia Ferrand"
-notes = "TODO"
+notes = "1 image(s), first 512x512 z=50 c=3 uint16; DeltaVision 512 × 512 × 150 sections (3 wavelength(s) × 50 Z × 1 time point(s), order ZTW), little-endian"
 
 [[file]]
 id = "dv-zenodo5887370-bundle13-snapshot-r3d"
@@ -88797,12 +88804,13 @@ role = "input"
 tier = "smoke"
 filename = "dv/zenodo-5887370/BUNDLE13_snapshot_R3D.dv"
 url = "https://zenodo.org/records/5887370/files/BUNDLE13_snapshot_R3D.dv?download=1"
+sha256 = "2b4a3e8e615e97c07c6ef10607bc364289f68072cfff2e36f09fb65eaa186783"
 md5 = "bbfd6b2b68ed69e72892fe3c639d80d3"
 size = 528384
 license = "CC-BY-4.0"
 source = "Zenodo record 5887370 (license cc-by-4.0)"
 attribution = "Nasirimarekani, Vahid, Strübing, Tobias, Vilfan, Andrej, 'Tuning the Properties of Active Microtubule Networks by Depletion Forces' (Zenodo 5887370)"
-notes = "TODO"
+notes = "1 image(s), first 512x512 uint16; DeltaVision 512 × 512 × 1 sections (1 wavelength(s) × 1 Z × 1 time point(s), order WZT), little-endian"
 
 [[file]]
 id = "dv-zenodo15919154-fig-1d-dox-flag-af488-cpc-af647-d3d-prj"
@@ -88811,12 +88819,13 @@ role = "input"
 tier = "smoke"
 filename = "dv/zenodo-15919154/FIG_1D--DOX_FLAG-AF488_CpC-AF647_D3D_PRJ.dv"
 url = "https://zenodo.org/records/15919154/files/FIG_1D--DOX_FLAG-AF488_CpC-AF647_D3D_PRJ.dv?download=1"
+sha256 = "0ebdd3804e334255feef938bbcbb3570d851ffcce19f1a2f5b1a945ffac7647e"
 md5 = "a166a8b91bfe452c00c00c7b966c11f7"
 size = 6518272
 license = "CC-BY-4.0"
 source = "Zenodo record 15919154 (license cc-by-4.0)"
 attribution = "Salinas Luypaert, Catalina, 'IMAGES || DNA methylation influences human centromere positioning and function' (Zenodo 15919154)"
-notes = "TODO"
+notes = "1 image(s), first 1040x1040 c=3 uint16; DeltaVision 1040 × 1040 × 3 sections (3 wavelength(s) × 1 Z × 1 time point(s), order ZWT), little-endian"
 
 [[file]]
 id = "dv-zenodo15919154-fig-1d-nt-flag-af488-cpc-af647-d3d-prj"
@@ -88825,12 +88834,13 @@ role = "input"
 tier = "smoke"
 filename = "dv/zenodo-15919154/FIG_1D--NT_FLAG-AF488_CpC-AF647_D3D_PRJ.dv"
 url = "https://zenodo.org/records/15919154/files/FIG_1D--NT_FLAG-AF488_CpC-AF647_D3D_PRJ.dv?download=1"
+sha256 = "0dfd51b3638d4f80694ad29127cc2c66b1c1f253bb35bef8b587f25cde9d38d7"
 md5 = "4c90c943454d3dbf733f337184a37ce5"
 size = 6518272
 license = "CC-BY-4.0"
 source = "Zenodo record 15919154 (license cc-by-4.0)"
 attribution = "Salinas Luypaert, Catalina, 'IMAGES || DNA methylation influences human centromere positioning and function' (Zenodo 15919154)"
-notes = "TODO"
+notes = "1 image(s), first 1040x1040 c=3 uint16; DeltaVision 1040 × 1040 × 3 sections (3 wavelength(s) × 1 Z × 1 time point(s), order ZWT), little-endian"
 
 [[file]]
 id = "dv-zenodo377035-horse-confluent-h2b-gfp-01-08-r3d-d3d"
@@ -88839,10 +88849,11 @@ role = "input"
 tier = "standard"
 filename = "dv/zenodo-377035/Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv"
 url = "https://zenodo.org/records/377035/files/Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv?download=1"
+sha256 = "cfc05c97adf9f93a70101f15ad94bee18e971a059ecd15bb28b8d318a67c9239"
 md5 = "e12034459ac256d3ec70c635a1d68cea"
 size = 38935552
 license = "CC-BY-SA-4.0"
 source = "Zenodo record 377035 (license cc-by-sa-4.0)"
 attribution = "David Miguel Susano Pinto, 'Characterisation of core histone sequences and nuclear mobility using a reproducible research approach' (Zenodo 377035)"
-notes = "TODO"
+notes = "1 image(s), first 768x768 t=33 uint16; DeltaVision 768 × 768 × 33 sections (1 wavelength(s) × 1 Z × 33 time point(s), order ZTW), little-endian"
 

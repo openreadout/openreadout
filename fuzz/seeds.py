@@ -92,6 +92,11 @@ COMMITTED_CUTS = [
     ("whole_zvi", "figshare-zvi/figshare15042921-wt_19h_1.zvi", 64 * 1024),  # CC-BY-4.0
     ("whole_dcimg", "dcimg/zenodo-14287640/Cell09_642_000_000.dcimg", 64 * 1024),  # CC-BY-4.0
     ("whole_dcimg", "dcimg/zenodo-14281237/Cell07_642_000_000.dcimg", 64 * 1024),  # CC-BY-4.0
+    ("whole_igor", "igor/zenodo-7545463/70300BesselFilter.ibw", 64 * 1024),  # CC0-1.0
+    ("whole_igor", "igor/zenodo-15386850/S16.pxp", 64 * 1024),  # CC-BY-4.0
+    ("whole_sif", "andor-sif/sif_parser/raman_data/DD58_785_1_Fe2O3_5x10s.sif", 64 * 1024),  # BSD-3-Clause
+    ("whole_sif", "andor-sif/figshare-30795137/test_1.sif", 64 * 1024),  # CC-BY-4.0
+    ("whole_dv", "dv/ome-elena-P-TRE/P-TRE_22_R3D_D3D_VOL.dv", 64 * 1024),  # CC-BY-4.0
     ("whole_ims", "ome-imaris/croppedRetinaLz4.ims", 128 * 1024),  # CC-BY-4.0
     ("whole_nwb", "dandi-nwb/dandi000027-sub-RAT123.nwb", 32 * 1024),  # CC-BY-4.0
     ("whole_hdf5", "dandi-nwb/dandi000027-sub-RAT123.nwb", 32 * 1024),  # CC-BY-4.0

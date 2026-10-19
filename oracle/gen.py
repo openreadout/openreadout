@@ -41,6 +41,8 @@ Readers used (all run as black boxes):
   .nd   (MetaMorph series) -> Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box), planes
         cross-checked with tifffile on the member STK/TIFF files
   .ibw .bwav .pxp .pxt -> igor2 (LGPL-3.0, black box) via oracle/igor_oracle.py
+  .dv .r3d (DeltaVision) -> mrc (BSD-3) DVFile planes, Bio-Formats 8.5.0 showinf geometry (GPL, black box)
+        via oracle/dv_oracle.py
   .sif (Andor) -> sif_parser (BSD-3), sifreader (MIT, vendored, black box) via oracle/sif_oracle.py
   .dcimg -> Bio-Formats 8.5.0 bfconvert (GPL, black box; rows flipped back to stored order),
         dcimg (MIT) second opinion and frame counters / time stamps
@@ -6556,6 +6558,10 @@ def main():
                 import sif_oracle  # Andor SIF (oracle/sif_oracle.py)
 
                 data = sif_oracle.sif(p, MAX_PLANES)
+            elif ext in (".dv", ".r3d") and p.is_file() and p.open("rb").read(98)[96:98] in (b"\xa0\xc0", b"\xc0\xa0"):
+                import dv_oracle  # DeltaVision (oracle/dv_oracle.py)
+
+                data = dv_oracle.dv(p, MAX_PLANES, bioformats=lambda q: _bf_series(_showinf(q, "-nometa")))
             elif ext in (".ibw", ".bwav", ".pxp", ".pxt"):
                 import igor_oracle  # Igor Pro waves and packed experiments (oracle/igor_oracle.py)
 

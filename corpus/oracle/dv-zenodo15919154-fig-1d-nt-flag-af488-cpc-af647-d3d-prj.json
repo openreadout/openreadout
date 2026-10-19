@@ -1,0 +1,53 @@
+{
+ "id": "dv-zenodo15919154-fig-1d-nt-flag-af488-cpc-af647-d3d-prj",
+ "file": "FIG_1D--NT_FLAG-AF488_CpC-AF647_D3D_PRJ.dv",
+ "size": 6518272,
+ "sha256": "0dfd51b3638d4f80694ad29127cc2c66b1c1f253bb35bef8b587f25cde9d38d7",
+ "max_planes_hashed": 64,
+ "reader": "mrc 0.4.0 (BSD-3-Clause) DVFile",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1040,
+   "size_y": 1040,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 0.06449999660253525,
+    "y": 0.06449999660253525
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e7444787b55ba202c838f9551bb02a1"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1e006935d4902ac89ae8a8e49061a3d3"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5e7d4ca9935a79e80f36bf21ba15f03e"
+    }
+   ]
+  }
+ ],
+ "bioformats_geometry": {
+  "width": 1040,
+  "height": 1040,
+  "size_z": 1,
+  "size_c": 3,
+  "size_t": 1,
+  "pixel_type": "uint16"
+ },
+ "bioformats_geometry_agrees": true
+}

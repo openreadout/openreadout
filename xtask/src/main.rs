@@ -698,6 +698,9 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     ("zvi", &[("", "zvi")]),
     ("oif", &[("", "oif")]),
     ("dcimg", &[("", "dcimg")]),
+    ("igor", &[("", "igor")]),
+    ("sif", &[("", "andor-sif")]),
+    ("dv", &[("", "deltavision")]),
     // high-content screening plates: one module per format; lib/model/dataset/planes are
     // checked against all four documents (hcs.md holds the shared plate model)
     (

@@ -1,0 +1,53 @@
+{
+ "id": "dv-ome-p-tre-p-tre-22-r3d-d3d-vol",
+ "file": "P-TRE_22_R3D_D3D_VOL.dv",
+ "size": 1627136,
+ "sha256": "e53450d95c749a5b7824f460e4028431c171c5aa96676fd8a3c75403f48f34f6",
+ "max_planes_hashed": 64,
+ "reader": "mrc 0.4.0 (BSD-3-Clause) DVFile",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 736,
+   "size_y": 736,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint8",
+   "physical_size_um": {
+    "x": 0.06631000339984894,
+    "y": 0.06631000339984894
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "5fcbb5eb3d0520d361df3a2531e427f5"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bd74c79a53a6d226faed57741e8203f1"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "551a467cc3078d984a90c60c69082238"
+    }
+   ]
+  }
+ ],
+ "bioformats_geometry": {
+  "width": 736,
+  "height": 736,
+  "size_z": 1,
+  "size_c": 3,
+  "size_t": 1,
+  "pixel_type": "uint8"
+ },
+ "bioformats_geometry_agrees": true
+}

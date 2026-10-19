@@ -1941,6 +1941,7 @@ dependencies = [
  "openreadout-czi",
  "openreadout-dcimg",
  "openreadout-diffraction",
+ "openreadout-dv",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2086,6 +2087,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-dcimg",
+ "openreadout-dv",
  "openreadout-echem",
  "openreadout-epr",
  "openreadout-fcs",
@@ -2247,6 +2249,7 @@ dependencies = [
  "openreadout-czi",
  "openreadout-dcimg",
  "openreadout-diffraction",
+ "openreadout-dv",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2323,6 +2326,15 @@ dependencies = [
 
 [[package]]
 name = "openreadout-diffraction"
+version = "0.4.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "openreadout-dv"
 version = "0.4.0"
 dependencies = [
  "openreadout-core",
@@ -2783,6 +2795,7 @@ dependencies = [
  "openreadout-czi",
  "openreadout-dcimg",
  "openreadout-diffraction",
+ "openreadout-dv",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -2877,6 +2890,7 @@ dependencies = [
  "openreadout-czi",
  "openreadout-dcimg",
  "openreadout-diffraction",
+ "openreadout-dv",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",
@@ -3046,6 +3060,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-czi",
  "openreadout-diffraction",
+ "openreadout-dv",
  "openreadout-echem",
  "openreadout-em",
  "openreadout-ephys",

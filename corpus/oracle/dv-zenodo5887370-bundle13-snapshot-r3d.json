@@ -1,0 +1,41 @@
+{
+ "id": "dv-zenodo5887370-bundle13-snapshot-r3d",
+ "file": "BUNDLE13_snapshot_R3D.dv",
+ "size": 528384,
+ "sha256": "2b4a3e8e615e97c07c6ef10607bc364289f68072cfff2e36f09fb65eaa186783",
+ "max_planes_hashed": 64,
+ "reader": "mrc 0.4.0 (BSD-3-Clause) DVFile",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "uint16",
+   "physical_size_um": {
+    "x": 3.25,
+    "y": 3.25
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bbfcfca720b8e964c07e9a235f7dee2c"
+    }
+   ]
+  }
+ ],
+ "bioformats_geometry": {
+  "width": 512,
+  "height": 512,
+  "size_z": 1,
+  "size_c": 1,
+  "size_t": 1,
+  "pixel_type": "uint16"
+ },
+ "bioformats_geometry_agrees": true
+}

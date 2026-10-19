@@ -85,6 +85,8 @@ dependencies = [
     "igor2>=0.5.14",
     # Andor SIF: sif_parser (BSD-3); sifreader (MIT) is vendored in third_party/ (its sdist does not build).
     "sif_parser>=0.3.6",
+    # DeltaVision: mrc (BSD-3, Talley Lambert) DVFile; Bio-Formats (oracle/bftools) as a second opinion.
+    "mrc>=0.4.0",
     "flowkit>=1.2",
     # Whole-slide images: OpenSlide (LGPL-2.1, run as a black box only) decodes Aperio JPEG 2000
     # tiles (33003 YCbCr / 33005 RGB) to RGB, the reference for our JPEG 2000 SVS decoding.
