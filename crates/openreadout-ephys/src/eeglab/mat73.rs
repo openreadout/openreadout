@@ -34,7 +34,7 @@ fn stored_type(ds: &Dataset) -> Option<(MiType, bool)> {
         DType::U64 => MI_UINT64,
         _ => return None,
     };
-    let be = ds.datatype().map(|d| big_endian(&d)).unwrap_or(false);
+    let be = ds.datatype().is_ok_and(|d| big_endian(&d));
     Some((t, be))
 }
 

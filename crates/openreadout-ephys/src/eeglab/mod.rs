@@ -175,7 +175,7 @@ pub fn read_set(fs: &Fs, set: &Path, mat: MatFile) -> Result<EeglabSet> {
     let channels = required("nbchan")? as u64;
     let points = required("pnts")? as u64;
     let trials = number(get("trials")).unwrap_or(1.0).max(1.0) as u64;
-    if !(srate > 0.0) || channels == 0 {
+    if srate.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) || channels == 0 {
         return Err(Error::corrupt(
             EEGLAB_FORMAT_ID,
             format!("srate {srate} and nbchan {channels} are not usable"),
@@ -210,13 +210,15 @@ pub fn read_set(fs: &Fs, set: &Path, mat: MatFile) -> Result<EeglabSet> {
     let data = match get("data") {
         Some(MatValue::Char { text: name, .. }) => {
             let datfile = text(get("datfile"));
-            let named = if !datfile.is_empty() {
-                datfile
-            } else {
+            let named = if datfile.is_empty() {
                 name.trim().to_string()
+            } else {
+                datfile
             };
-            let lower = named.to_ascii_lowercase();
-            if lower.ends_with(".dat") {
+            if Path::new(&named)
+                .extension()
+                .is_some_and(|e| e.eq_ignore_ascii_case("dat"))
+            {
                 return Err(Error::unsupported(
                     EEGLAB_FORMAT_ID,
                     "samples in an old-style .dat file",
@@ -973,13 +975,17 @@ impl Dataset for EeglabDataset {
         let (bytes, stored) = self.frames(start, count)?;
         let vals = if stored == 0 {
             bytes
-                .chunks_exact(8)
-                .map(|b| f64::from_le_bytes(b.try_into().unwrap_or([0; 8])))
+                .as_chunks::<8>()
+                .0
+                .iter()
+                .map(|b| f64::from_le_bytes(*b))
                 .collect::<Vec<_>>()
         } else if matches!(self.set.data, EeglabData::Fdt(_)) {
             bytes
-                .chunks_exact(4)
-                .map(|b| f64::from(f32::from_le_bytes([b[0], b[1], b[2], b[3]])))
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .map(|b| f64::from(f32::from_le_bytes(*b)))
                 .collect()
         } else {
             mat::decode_values(self.set.mat.big_endian, stored, &bytes)
