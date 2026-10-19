@@ -35,9 +35,9 @@ Thermal-analysis instrument files: NETZSCH Proteus (`netzsch-ngb`: `.ngb-ss3`, `
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `netzsch-ngb` | [format note](../../docs/formats/netzsch-ngb.md), [provenance log](../../docs/provenance/netzsch-ngb.md) | medium | prior art | 18 / 18 | 2 | - |
+| `netzsch-ngb` | [format note](../../docs/formats/netzsch-ngb.md), [provenance log](../../docs/provenance/netzsch-ngb.md) | high | prior art | 26 / 26 | 5 | - |
 | `ta-universal-analysis` | [format note](../../docs/formats/ta-universal-analysis.md), [provenance log](../../docs/provenance/ta-universal-analysis.md) | medium | reverse engineered | 7 / 6 | 2 | - |
-| `ta-trios` | [format note](../../docs/formats/ta-trios.md), [provenance log](../../docs/provenance/ta-trios.md) | medium | reverse engineered | 13 / 9 | 3 | - |
+| `ta-trios` | [format note](../../docs/formats/ta-trios.md), [provenance log](../../docs/provenance/ta-trios.md) | high | reverse engineered | 19 / 15 | 6 | - |
 
 ### Source map
 
@@ -60,94 +60,94 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `netzsch-ngb` | field | `experiment.acquisition.started_at` | descriptive | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | field | `experiment.instrument.model` | descriptive | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | format_version | `db_format_1` | metadata, traces | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
+| `netzsch-ngb` | field | `experiment.acquisition.started_at` | descriptive | 26 | 26 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | field | `experiment.instrument.model` | descriptive | 26 | 26 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | format_version | `db_format_1` | metadata, traces | 26 | 26 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
 | `netzsch-ngb` | instrument | `NETZSCH DIL 402 Expedis Select` | descriptive | 3 | 3 | `ngb-pyngb-ro-para-n2-10k-260910-correction-r1`, `ngb-pyngb-ro-para-n2-10k-260910-r1`, `ngb-pyngb-ro-perp-n2-10k-260917-r1` |
 | `netzsch-ngb` | instrument | `NETZSCH DSC 204 F1 Phoenix` | descriptive | 7 | 7 | `ngb-zenodo18902844-pef-200um`, `ngb-zenodo18902844-pef-600um`, `ngb-zenodo18902844-pef-fw` |
-| `netzsch-ngb` | instrument | `NETZSCH STA 449 F3 Jupiter` | descriptive | 2 | 2 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-ro-filed-sta-n2-10k-250129-r29` |
+| `netzsch-ngb` | instrument | `NETZSCH STA 449 F3 Jupiter` | descriptive | 7 | 7 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
 | `netzsch-ngb` | instrument | `NETZSCH STA 449F3` | descriptive | 4 | 4 | `ngb-pyngb-douglas-fir-sta-10k-250730-r13`, `ngb-pyngb-douglas-fir-sta-baseline-10k-250730-r13`, `ngb-pyngb-douglas-fir-sta-baseline-10k-250813-r15` |
-| `netzsch-ngb` | layout | `one run` | traces | 14 | 14 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-douglas-fir-sta-10k-250730-r13`, `ngb-pyngb-douglas-fir-sta-baseline-10k-250730-r13` |
-| `netzsch-ngb` | layout | `sample and correction runs` | traces | 4 | 4 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-ro-para-n2-10k-260910-r1` |
-| `netzsch-ngb` | record | `channel acceleration_x` | traces | 2 | 2 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-ro-filed-sta-n2-10k-250129-r29` |
-| `netzsch-ngb` | record | `channel acceleration_y` | traces | 2 | 2 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-ro-filed-sta-n2-10k-250129-r29` |
-| `netzsch-ngb` | record | `channel acceleration_z` | traces | 2 | 2 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-ro-filed-sta-n2-10k-250129-r29` |
+| `netzsch-ngb` | instrument | `NETZSCH TG_209F1_Libra` | descriptive | 3 | 3 | `ngb-figshare26496859-comar`, `ngb-figshare26496859-pac16`, `ngb-figshare26496859-pcb-recycling` |
+| `netzsch-ngb` | layout | `one run` | traces | 17 | 17 | `ngb-figshare26496859-comar`, `ngb-figshare26496859-pac16`, `ngb-figshare26496859-pcb-recycling` |
+| `netzsch-ngb` | layout | `sample and correction runs` | traces | 9 | 9 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel acceleration_x` | traces | 7 | 7 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel acceleration_y` | traces | 7 | 7 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel acceleration_z` | traces | 7 | 7 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
 | `netzsch-ngb` | record | `channel channel_82` | traces | 3 | 3 | `ngb-pyngb-ro-para-n2-10k-260910-correction-r1`, `ngb-pyngb-ro-para-n2-10k-260910-r1`, `ngb-pyngb-ro-perp-n2-10k-260917-r1` |
-| `netzsch-ngb` | record | `channel cooling_power` | traces | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel dsc_signal` | traces | 15 | 15 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel environmental_pressure` | traces | 2 | 2 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-ro-filed-sta-n2-10k-250129-r29` |
+| `netzsch-ngb` | record | `channel cooling_power` | traces | 26 | 26 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel dsc_signal` | traces | 20 | 20 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel environmental_pressure` | traces | 7 | 7 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
 | `netzsch-ngb` | record | `channel force` | traces | 3 | 3 | `ngb-pyngb-ro-para-n2-10k-260910-correction-r1`, `ngb-pyngb-ro-para-n2-10k-260910-r1`, `ngb-pyngb-ro-perp-n2-10k-260917-r1` |
 | `netzsch-ngb` | record | `channel force_setpoint` | traces | 3 | 3 | `ngb-pyngb-ro-para-n2-10k-260910-correction-r1`, `ngb-pyngb-ro-para-n2-10k-260910-r1`, `ngb-pyngb-ro-perp-n2-10k-260917-r1` |
-| `netzsch-ngb` | record | `channel furnace_power` | traces | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel furnace_temperature` | traces | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel h_foil_temperature` | traces | 9 | 9 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-douglas-fir-sta-10k-250730-r13`, `ngb-pyngb-douglas-fir-sta-baseline-10k-250730-r13` |
+| `netzsch-ngb` | record | `channel furnace_power` | traces | 23 | 23 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel furnace_temperature` | traces | 26 | 26 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel h_foil_temperature` | traces | 14 | 14 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
 | `netzsch-ngb` | record | `channel length_change` | traces | 3 | 3 | `ngb-pyngb-ro-para-n2-10k-260910-correction-r1`, `ngb-pyngb-ro-para-n2-10k-260910-r1`, `ngb-pyngb-ro-perp-n2-10k-260917-r1` |
-| `netzsch-ngb` | record | `channel mass` | traces | 8 | 8 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel protective_flow` | traces | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel purge_flow_1` | traces | 6 | 6 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-douglas-fir-sta-10k-250730-r13`, `ngb-pyngb-douglas-fir-sta-baseline-10k-250730-r13` |
-| `netzsch-ngb` | record | `channel purge_flow_2` | traces | 13 | 13 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel sample_temperature` | traces | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel time` | traces | 18 | 18 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar`, `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1` |
-| `netzsch-ngb` | record | `channel uc_module` | traces | 2 | 2 | `ngb-pyngb-df-filed-sta-21o2-10k-220222-r1`, `ngb-pyngb-ro-filed-sta-n2-10k-250129-r29` |
+| `netzsch-ngb` | record | `channel mass` | traces | 16 | 16 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel protective_flow` | traces | 25 | 25 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel purge_flow_1` | traces | 9 | 9 | `ngb-figshare26496859-comar`, `ngb-figshare26496859-pac16`, `ngb-figshare26496859-pcb-recycling` |
+| `netzsch-ngb` | record | `channel purge_flow_2` | traces | 21 | 21 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel sample_temperature` | traces | 26 | 26 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel time` | traces | 26 | 26 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | record | `channel uc_module` | traces | 7 | 7 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
+| `netzsch-ngb` | writer_version | `NETZSCH Proteus 6.0` | descriptive | 2 | 2 | `ngb-pyngb-01-messung-probe-g-300-grad-ar`, `ngb-pyngb-02-messung-probe-e-300-grad-ar` |
+| `netzsch-ngb` | writer_version | `NETZSCH Proteus 8.0` | descriptive | 24 | 24 | `ngb-darus5199-ady95-tfa`, `ngb-darus5199-hsh64-acoh`, `ngb-darus5199-hsh65-ba` |
 | `ta-trios` | acquisition | `oscillation moduli, parallel plate 12 mm` | traces | 5 | 5 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
 | `ta-trios` | acquisition | `oscillation moduli, parallel plate 20 mm` | traces | 0 | 1 |  |
-| `ta-trios` | field | `experiment.acquisition.started_at` | descriptive | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
-| `ta-trios` | field | `experiment.instrument.model` | descriptive | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
-| `ta-trios` | format_version | `14` | metadata, traces | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
-| `ta-trios` | format_version | `generation 14` | metadata, traces | 9 | 13 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
+| `ta-trios` | acquisition | `oscillation moduli, parallel plate 8 mm` | traces | 4 | 4 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | field | `experiment.acquisition.started_at` | descriptive | 15 | 19 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | field | `experiment.instrument.model` | descriptive | 15 | 19 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | format_version | `14` | metadata, traces | 15 | 19 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | format_version | `generation 14` | metadata, traces | 15 | 19 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
 | `ta-trios` | instrument | `DMA850` | descriptive | 0 | 1 |  |
 | `ta-trios` | instrument | `DSC25` | descriptive | 2 | 2 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | instrument | `DSC250` | descriptive | 1 | 1 | `trios-zenodo13143510-prepolymer-dsc` |
 | `ta-trios` | instrument | `DSC2500` | descriptive | 0 | 1 |  |
 | `ta-trios` | instrument | `Discovery HR-2` | descriptive | 5 | 5 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
+| `ta-trios` | instrument | `Discovery HR-3` | descriptive | 1 | 1 | `trios-zenodo15030675-p3ht-shear` |
+| `ta-trios` | instrument | `Discovery HR20` | descriptive | 3 | 3 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
 | `ta-trios` | instrument | `Discovery HR30` | descriptive | 0 | 1 |  |
-| `ta-trios` | instrument | `SDT650` | descriptive | 0 | 1 |  |
+| `ta-trios` | instrument | `SDT650` | descriptive | 1 | 2 | `trios-zenodo13143510-prepolymer-tga` |
 | `ta-trios` | instrument | `TGA550` | descriptive | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
-| `ta-trios` | record | `channel angular_frequency` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
+| `ta-trios` | record | `channel angular_frequency` | traces | 9 | 10 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
 | `ta-trios` | record | `channel balance_purge` | traces | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
-| `ta-trios` | record | `channel cell_purge` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
-| `ta-trios` | record | `channel complex_viscosity` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel delta_t` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
-| `ta-trios` | record | `channel delta_t_zero` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
-| `ta-trios` | record | `channel flange_temperature` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
-| `ta-trios` | record | `channel gap` | traces | 5 | 7 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
+| `ta-trios` | record | `channel cell_purge` | traces | 3 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | record | `channel complex_viscosity` | traces | 9 | 10 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | record | `channel delta_t` | traces | 3 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | record | `channel delta_t_zero` | traces | 3 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | record | `channel flange_temperature` | traces | 3 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | record | `channel gap` | traces | 9 | 11 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
 | `ta-trios` | record | `channel heat_capacity` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel heat_flow` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
-| `ta-trios` | record | `channel heat_flow_phase` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
-| `ta-trios` | record | `channel heater_temperature` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
-| `ta-trios` | record | `channel loss_modulus` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel oscillation_displacement` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel oscillation_torque` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel power_delivered` | traces | 4 | 5 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized`, `trios-zenodo15584951-dsc-c8-men-pegda` |
+| `ta-trios` | record | `channel heat_flow` | traces | 4 | 5 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo13143510-prepolymer-tga`, `trios-zenodo15584951-dsc-c8-men-pegda` |
+| `ta-trios` | record | `channel heat_flow_phase` | traces | 3 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | record | `channel heater_temperature` | traces | 3 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | record | `channel loss_modulus` | traces | 9 | 10 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | record | `channel oscillation_displacement` | traces | 9 | 10 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | record | `channel oscillation_torque` | traces | 9 | 10 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | record | `channel power_delivered` | traces | 6 | 7 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo13143510-prepolymer-tga`, `trios-zenodo14587622-tga-plasticized` |
 | `ta-trios` | record | `channel ramp_rate` | traces | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
-| `ta-trios` | record | `channel raw_phase` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel reference_junction_temperature` | traces | 2 | 3 | `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
+| `ta-trios` | record | `channel raw_phase` | traces | 9 | 10 | `trios-dvn-t4eyxj-peg-fig1c`, `trios-dvn-t4eyxj-peg-fig2b`, `trios-dvn-t4eyxj-peg-strainsweep` |
+| `ta-trios` | record | `channel reference_junction_temperature` | traces | 3 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo15584951-dsc-c8-men-pegda`, `trios-zenodo15584951-dsc-c8-thy` |
 | `ta-trios` | record | `channel sample_purge` | traces | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
-| `ta-trios` | record | `channel set_point_temperature` | traces | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
+| `ta-trios` | record | `channel set_point_temperature` | traces | 4 | 4 | `trios-zenodo13143510-prepolymer-dsc`, `trios-zenodo13143510-prepolymer-tga`, `trios-zenodo14587622-tga-plasticized` |
 | `ta-trios` | record | `channel signal_00df1759` | traces | 0 | 1 |  |
 | `ta-trios` | record | `channel signal_055d9ef1` | traces | 0 | 1 |  |
 | `ta-trios` | record | `channel signal_0657b71a` | traces | 0 | 1 |  |
+| `ta-trios` | record | `channel signal_1a29d150` | traces | 1 | 1 | `trios-zenodo13143510-prepolymer-tga` |
 | `ta-trios` | record | `channel signal_21d50e7b` | traces | 0 | 1 |  |
+| `ta-trios` | record | `channel signal_2e1cdd4b` | traces | 1 | 1 | `trios-zenodo13143510-prepolymer-dsc` |
+| `ta-trios` | record | `channel signal_41018bb3` | traces | 1 | 1 | `trios-zenodo13143510-prepolymer-dsc` |
 | `ta-trios` | record | `channel signal_448bc112` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_590f45fb` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_5f7b2d27` | traces | 5 | 7 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel signal_649ee073` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_849a233d` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_98638024` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_a341c459` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_a393424e` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel signal_a3cc3ee2` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_ac1f73ff` | traces | 0 | 1 |  |
-| `ta-trios` | record | `channel signal_c0b36bba` | traces | 2 | 2 | `trios-zenodo14587622-tga-plasticized`, `trios-zenodo14587622-tga-unplasticized` |
-| `ta-trios` | record | `channel signal_cf7aa154` | traces | 5 | 6 | `trios-zenodo17225583-chicken-37c`, `trios-zenodo17225583-gelma3-4c`, `trios-zenodo17225583-gelma3-4c-freq` |
-| `ta-trios` | record | `channel signal_d9aae222` | traces | 0 | 1 |  |
+| `ta-trios` | record | `channel signal_52785362` | traces | 1 | 1 | `trios-zenodo13143510-prepolymer-dsc` |
+| `ta-trios` | record | `channel signal_532e668d` | traces | 1 | 1 | `trios-zenodo13143510-prepolymer-tga` |
 
-… 35 more values: the generated table in `src/assurance.rs` has all of them.
+… 60 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs), [`tests/trios_synthetic.rs`](tests/trios_synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_ngb`, `whole_ta001`, `whole_trios`
-- corpus inputs by tier: heldout 5, smoke 27, standard 11
+- corpus inputs by tier: heldout 5, smoke 27, standard 25
 - golden snapshots: [`corpus/snapshots/netzsch-ngb.jsonl`](../../corpus/snapshots/netzsch-ngb.jsonl), [`corpus/snapshots/ta-universal-analysis.jsonl`](../../corpus/snapshots/ta-universal-analysis.jsonl), [`corpus/snapshots/ta-trios.jsonl`](../../corpus/snapshots/ta-trios.jsonl)
 
 ### Open new-variant intakes

@@ -267,6 +267,8 @@ const P_STRESS_CONSTANT: [u8; 16] = guid(b"e4fea4e5-a210-4f38-b6b2-0a28b2137a9c"
 const P_INSTRUMENT_INERTIA: [u8; 16] = guid(b"6594d858-7e8d-402c-8554-12377d9f33c0");
 const P_GEOMETRY_INERTIA: [u8; 16] = guid(b"2dad9ebd-bdae-4839-9bd4-44c39e65f684");
 const P_SAMPLE_DENSITY: [u8; 16] = guid(b"a58eb6fe-2446-4e34-b59f-47d56d2461d4");
+/// The instrument compliance (rad/(N·m)) TRIOS removes from the moduli.
+const P_COMPLIANCE: [u8; 16] = guid(b"07d6e110-5154-48e7-9be0-3cdbd8df54de");
 const P_SOFTWARE_VERSION: [u8; 16] = guid(b"ed6fea85-481a-41f3-acac-9d5bf88f23f7");
 
 fn known(id: &[u8]) -> Option<&'static Known> {
@@ -551,6 +553,7 @@ fn moduli(
     stress_constant: f64,
     inertia: f64,
     density: f64,
+    compliance: f64,
 ) -> Option<[Vec<f64>; 4]> {
     let (w, m, p, th, gap) = (
         cols.get("angular_frequency")?,
@@ -577,8 +580,14 @@ fn moduli(
         let sample_inertia = std::f64::consts::PI * density * h * r.powi(4) / 6.0;
         let i_total = inertia + sample_inertia;
         let k = stress_constant / (strain_constant * th);
-        let gp = k * (m * p.cos() + i_total * w * w * th);
-        let gpp = k * m * p.sin();
+        let gm1 = k * (m * p.cos() + i_total * w * w * th);
+        let gm2 = k * m * p.sin();
+        // the instrument compliance in series: 1/G* = 1/G*_m − C K_γ / K_τ
+        let c = compliance * strain_constant / stress_constant;
+        let norm = gm1 * gm1 + gm2 * gm2;
+        let (re, im) = (gm1 / norm - c, -gm2 / norm);
+        let d = re * re + im * im;
+        let (gp, gpp) = (re / d, -im / d);
         g1.push(gp);
         g2.push(gpp);
         tan.push(gpp / gp);
@@ -672,11 +681,11 @@ fn scan_objects(b: &[u8], header_end: usize) -> Objects {
 }
 
 /// The trace of procedure step `si`, and whether the oscillation moduli were computed for it
-/// (`moduli_inputs`: stress constant, inertia, density, for a parallel plate).
+/// (`moduli_inputs`: stress constant, inertia, density, compliance, for a parallel plate).
 fn step_trace(
     si: usize,
     st: &Step,
-    moduli_inputs: Option<(f64, f64, f64)>,
+    moduli_inputs: Option<(f64, f64, f64, f64)>,
     unknown_signals: &mut Vec<String>,
 ) -> (SeriesTrace, bool) {
     let mut computed_any = false;
@@ -732,8 +741,8 @@ fn step_trace(
     }
     // oscillation moduli (parallel plate)
     let mut computed: Vec<(SeriesChannel, Vec<f64>)> = Vec::new();
-    if let Some((kt, inr, rho)) = moduli_inputs
-        && let Some([g1, g2, tan, eta]) = moduli(&by_name, kt, inr, rho)
+    if let Some((kt, inr, rho, comp)) = moduli_inputs
+        && let Some([g1, g2, tan, eta]) = moduli(&by_name, kt, inr, rho, comp)
     {
         for (name, label, unit, v) in [
             ("storage_modulus", "Storage modulus", Some("Pa"), g1),
@@ -745,7 +754,7 @@ fn step_trace(
             ch.extra.insert("label".into(), json!(label));
             ch.extra.insert(
                 "computed".into(),
-                json!("from torque, raw phase, displacement, angular frequency and gap with the geometry's stress constant, the instrument and geometry inertia and the sample inertia, as TRIOS computes it (parallel plate)"),
+                json!("from torque, raw phase, displacement, angular frequency and gap with the geometry's stress constant, the instrument and geometry inertia, the sample inertia and the instrument compliance, as TRIOS computes it (parallel plate)"),
             );
             computed.push((ch, v));
         }
@@ -845,8 +854,9 @@ pub(crate) fn parse(b: &[u8]) -> Result<SeriesFile> {
         _ => None,
     };
     let density = props.number(&P_SAMPLE_DENSITY);
-    let moduli_inputs = match (stress_constant, inertia, density) {
-        (Some(kt), Some(inr), Some(rho)) if parallel_plate => Some((kt, inr, rho)),
+    let compliance = props.number(&P_COMPLIANCE);
+    let moduli_inputs = match (stress_constant, inertia, density, compliance) {
+        (Some(kt), Some(inr), Some(rho), Some(c)) if parallel_plate => Some((kt, inr, rho, c)),
         _ => None,
     };
     let mut findings = Vec::new();
@@ -1208,9 +1218,48 @@ mod tests {
         ]
         .into_iter()
         .collect();
-        let [g1, g2, _, _] = moduli(&cols, 2_947_313.759_259_259_3, 2.289_039e-5, 1000.0).unwrap();
+        let [g1, g2, _, _] = moduli(
+            &cols,
+            2_947_313.759_259_259_3,
+            2.289_039e-5,
+            1000.0,
+            0.00103,
+        )
+        .unwrap();
         // TRIOS: 3185.72 Pa and 2.45288 Pa
         assert!((g1[0] - 3185.72).abs() / 3185.72 < 1e-3, "{}", g1[0]);
         assert!((g2[0] - 2.452_88).abs() / 2.452_88 < 1e-3, "{}", g2[0]);
+    }
+
+    #[test]
+    fn compliance_of_a_stiff_sample() {
+        // first point of the P3HT disc (8 mm plate): TRIOS removes the instrument compliance
+        let w = vec![std::f64::consts::TAU];
+        let m = vec![5428.29e-6];
+        let p = vec![8.7773_f64.to_radians()];
+        let th = vec![5.766_29e-5];
+        let gap = vec![0.000_454_63];
+        let cols: BTreeMap<&str, &Vec<f64>> = [
+            ("angular_frequency", &w),
+            ("oscillation_torque", &m),
+            ("raw_phase", &p),
+            ("oscillation_displacement", &th),
+            ("gap", &gap),
+        ]
+        .into_iter()
+        .collect();
+        let [g1, g2, _, _] =
+            moduli(&cols, 9_947_183.937_5, 2.467_387_7e-6, 1000.0, 0.00202).unwrap();
+        // TRIOS: 128.649 MPa and 24.5961 MPa
+        assert!(
+            (g1[0] - 128_649_000.0).abs() / 128_649_000.0 < 2e-3,
+            "{}",
+            g1[0]
+        );
+        assert!(
+            (g2[0] - 24_596_100.0).abs() / 24_596_100.0 < 2e-3,
+            "{}",
+            g2[0]
+        );
     }
 }

@@ -9,7 +9,8 @@ Usage:  python itc_oracle.py [--out DIR] --id ID FILE [--raw EXPORT] [--heats EX
   256 evenly spaced rows. The export prints five decimals.
 - `--heats`: Origin's integrated-heats table (`DH INJV Xt Mt XMt NDH`): the injection volumes
   (INJV, µl) and the cell concentration of the first row (Mt, mM, before dilution by the first
-  injection).
+  injection). Tab-separated as Origin writes it, or comma-separated with single-precision values
+  (`tol_rel` 1e-7).
 - `--fact`: a value the depositor states outside the file (file name, README, lab notebook), e.g.
   `cell_concentration_mM=0.217` from `…_217uMcell_…`; each is recorded with its `--fact-source`.
 
@@ -41,7 +42,12 @@ def raw_export(p: Path) -> dict:
 
 
 def heats_export(p: Path) -> dict:
-    lines = [l.split("\t") for l in p.read_text(encoding="latin-1").splitlines() if l.strip()]
+    text = p.read_text(encoding="latin-1")
+    first = text.splitlines()[0] if text else ""
+    # Origin writes the table tab-separated; a comma-separated copy (`DH,INJV,Xt,...`) holds
+    # single-precision values printed in full (0.499999998737621 for 0.5)
+    comma = "\t" not in first and "," in first
+    lines = [l.split("," if comma else "\t") for l in text.splitlines() if l.strip()]
     head = [h.strip() for h in lines[0]]
     vol, mt = [], None
     for row in lines[1:]:
@@ -55,7 +61,10 @@ def heats_export(p: Path) -> dict:
                 mt = float(rec["Mt"])
             except (KeyError, ValueError):
                 pass
-    return {"file": p.name, "injection_volumes_ul": vol, "cell_concentration_mM": mt}
+    out = {"file": p.name, "injection_volumes_ul": vol, "cell_concentration_mM": mt}
+    if comma:
+        out["tol_rel"] = 1e-7  # single precision
+    return out
 
 
 def main() -> None:

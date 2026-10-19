@@ -60,3 +60,32 @@
 
 15 files, all pass against allotropy 0.1.147 and pandas: 432 sample values (names,
 concentrations, absorbances, ratios) and 39 spectra.
+
+## 2026-10-19 — tab-separated One and comma-separated Eight reports, three more depositors (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `nanodrop-one-kelps-dna` (GitHub lukaseamus/kelps-vs-urchins, GPL-3.0),
+`nanodrop-one-tab-freezerbox` (GitHub kalekundert/freezerbox, MIT). **Exposure:** a UTF-16,
+tab-separated One report from GitHub KaiAragaki/mop was read while choosing files; that
+repository is the source of a held-out file of another format, so it is not a corpus entry and
+counts as no evidence. The tab-separated layout is pinned on the freezerbox file.
+
+**Prior art consulted:** none beyond allotropy 0.1.147 (MIT), run as a black box for ground truth.
+
+**Inferred from the files:** the One report is also saved tab-separated, with quoted titles and
+year-first dates `"2019/08/06 12:31:14"` (freezerbox). The header row is the same as the
+comma-separated report's. The reader now finds the separator from the header row (`Date`,
+`Sample Name`, then a nucleic-acid or A260/A280 column), and reads a date whose first part has
+four digits as year, month, day. allotropy reads the One report only comma-separated, so the
+oracle rewrites tab-separated fields with Python's csv module before handing them over.
+
+**Assurance:** the exports record no software version. Each layout comes from one instrument's
+software, so the profile now names that software as the writer (`NanoDrop 8000 software`,
+`NanoDrop Eight software`, `NanoDrop One software`), as the plate reader does for its export
+kinds.
+
+**Also (same day):** `nanodrop-eight-comma-czabriskie` (GitHub czabriskie/test-dag-ci, GPL-3.0), a
+NanoDrop Eight dsDNA export saved comma-separated (`Application:,dsDNA`, `Serial number:,…`, then
+`Date,UID,Sample,Username,ng/µL,A260/A280,…`) with dates written `08-Dec-2023 13:38:55`. The Eight
+reader now takes the separator from the first line, and dates of the form day, English month
+abbreviation, year. allotropy reads the Eight export only tab-separated, so the oracle rewrites the
+fields tab-separated with Python's csv module first.

@@ -505,7 +505,9 @@ def trios_export_traces(path: Path, a: dict) -> tuple[list[dict], list[dict]]:
     def add(trace, label, rows):
         if label == "Heat Flow (Normalized)":
             m = float(a["sample_mass_g"])
-            scale, abs_tol, rel = -1.0 / m, 0.00051, 0.0
+            # the CSV export flips the stored sign, the Excel export keeps it
+            sign = 1.0 if ext == ".xls" else -1.0
+            scale, abs_tol, rel = sign / m, 0.00051, 0.0
             label = "Heat Flow"
         elif label in TRIOS_COLUMNS:
             scale, abs_tol, rel = TRIOS_COLUMNS[label]
@@ -522,9 +524,21 @@ def trios_export_traces(path: Path, a: dict) -> tuple[list[dict], list[dict]]:
         wb = xlrd.open_workbook(str(path))
         sheets = wb.sheets()
         det = {sheets[0].cell_value(r, 0): sheets[0].cell_value(r, 1) for r in range(sheets[0].nrows)} if sheets[0].name == "Details" else {}
-        for k, sh in enumerate(sheets[1:]):
+        mass = re.fullmatch(r"\s*([0-9.]+)\s*mg\s*", str(det.get("Sample Mass", "")))
+        if mass and "sample_mass_g" not in a:
+            a = {**a, "sample_mass_g": float(mass.group(1)) / 1000.0}
+        # step sheets hold a title, labels, units, then numbers; an `Analysis` sheet (TRIOS's
+        # analysis results) does not
+        steps = [sh for sh in sheets[1:]
+                 if sh.nrows > 3 and isinstance(sh.cell_value(3, 0), float)]
+        for k, sh in enumerate(steps):
             for c in range(sh.ncols):
                 label = sh.cell_value(1, c)
+                if label == "Weight" and sh.cell_value(2, c) != "mg":
+                    continue  # a weight in percent of the initial mass
+                labels = [sh.cell_value(1, x) for x in range(sh.ncols)]
+                if label == "Time" and "Step time" in labels:
+                    continue  # a rheometer step's run time, which TRIOS computes and does not store
                 rows = []
                 for r in range(3, sh.nrows):
                     v = sh.cell_value(r, c)

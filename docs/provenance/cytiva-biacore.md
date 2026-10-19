@@ -91,3 +91,14 @@ expression in `Model`, the units of its parameters in `ReportParameters` (`KD (M
 curve of a fit's curve set carries its file index, cycle, sample, ligand, concentration (and
 molar concentration) and the report-point `Response` it was fitted to, and whether it was
 `Included`.
+
+## 2026-10-19: the control software's version as the writer (Richard Zimring with Claude as assistant)
+
+**Corpus files:** every `biacore-*` result file (`.blr`) of the development corpus.
+
+**Prior art consulted:** none.
+
+**Inferred from the files:** the reader already took `Application` (`Biacore T200 Control
+Software`) and `Version` (`2.0.1`, `2.0.2`) from the `Environment` stream. The assurance profile
+of result files now observes them as the writer and its major.minor version (descriptive;
+decoding does not depend on them).

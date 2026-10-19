@@ -229,16 +229,17 @@ fn observe_seahorse(info: &FileInfo) -> Observations {
 const MICROCAL_ITC_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const MICROCAL_ITC_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.instrument.model", 6, 2, 10),
+    a::row(K::Field, "experiment.instrument.model", 7, 3, 11),
     a::row(K::Layout, "3 data columns", 3, 1, 4),
     a::row(K::Layout, "7 data columns", 1, 1, 2),
-    a::row(K::Layout, "9 data columns", 2, 1, 4),
+    a::row(K::Layout, "9 data columns", 3, 2, 5),
     a::row(K::Writer, "ITC200", 2, 1, 4),
-    a::row(K::Writer, "MicroCalITC", 0, 0, 1),
+    a::row(K::Writer, "MicroCalITC", 1, 1, 2),
     a::row(K::Writer, "VPViewer2000", 4, 1, 5),
     a::row(K::WriterVersion, "ITC200 1.25", 0, 0, 1),
     a::row(K::WriterVersion, "ITC200 1.26", 2, 1, 3),
     a::row(K::WriterVersion, "MicroCalITC 1.29", 0, 0, 1),
+    a::row(K::WriterVersion, "MicroCalITC 1.30", 1, 1, 1),
     a::row(K::WriterVersion, "VPViewer2000 1.30", 1, 1, 1),
     a::row(K::WriterVersion, "VPViewer2000 1.4", 3, 1, 4),
 ];
@@ -256,6 +257,8 @@ const CYTIVA_BIACORE_BLR_VALIDATED: &[Validated] = &[
     a::row(K::Record, "flow-cell curve (Segment)", 9, 2, 9),
     a::row(K::Record, "reference-subtracted curve (XYData)", 7, 2, 7),
     a::row(K::Record, "report point table", 9, 2, 9),
+    a::row(K::Writer, "Biacore T200 Control Software", 9, 2, 9),
+    a::row(K::WriterVersion, "Biacore T200 Control Software 2.0", 9, 2, 9),
 ];
 // END GENERATED cytiva-biacore-blr
 
@@ -299,22 +302,22 @@ const SARTORIUS_OCTET_FRD_VALIDATED: &[Validated] = &[
 // END GENERATED sartorius-octet-frd
 
 // BEGIN GENERATED malvern-zetasizer-dts (cargo xtask assurance-audit --write; do not edit)
-const MALVERN_ZETASIZER_DTS_CONFIDENCE: Confidence = Confidence::Medium;
+const MALVERN_ZETASIZER_DTS_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const MALVERN_ZETASIZER_DTS_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "size record", 9, 2, 14),
-    a::row(K::Acquisition, "zeta record", 8, 4, 8),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 16),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 16),
+    a::row(K::Acquisition, "size record", 14, 3, 19),
+    a::row(K::Acquisition, "zeta record", 13, 5, 13),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 21),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 21),
     a::row(K::FormatVersion, "record schema 10", 0, 0, 1),
     a::row(K::FormatVersion, "record schema 12", 5, 1, 5),
-    a::row(K::FormatVersion, "record schema 13", 9, 4, 13),
-    a::row(K::Record, "size result block", 9, 2, 14),
-    a::row(K::Record, "zeta result block", 8, 4, 8),
+    a::row(K::FormatVersion, "record schema 13", 14, 5, 18),
+    a::row(K::Record, "size result block", 14, 3, 19),
+    a::row(K::Record, "zeta result block", 13, 5, 13),
     a::row(K::WriterVersion, "Zetasizer 7.02", 0, 0, 1),
     a::row(K::WriterVersion, "Zetasizer 7.10", 6, 1, 6),
     a::row(K::WriterVersion, "Zetasizer 7.12", 4, 2, 7),
-    a::row(K::WriterVersion, "Zetasizer 7.13", 1, 1, 3),
+    a::row(K::WriterVersion, "Zetasizer 7.13", 6, 2, 8),
     a::row(K::WriterVersion, "Zetasizer 8.00", 0, 0, 1),
     a::row(K::WriterVersion, "Zetasizer 8.01", 0, 0, 1),
 ];

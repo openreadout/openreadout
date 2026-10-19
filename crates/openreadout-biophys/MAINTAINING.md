@@ -39,12 +39,12 @@ Each module is a self-contained parser plus its `Dataset`; `lib.rs` holds the fo
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `microcal-itc` | [format note](../../docs/formats/microcal-itc.md), [provenance log](../../docs/provenance/microcal-itc.md) | medium | reverse engineered | 10 / 6 | 2 | - |
+| `microcal-itc` | [format note](../../docs/formats/microcal-itc.md), [provenance log](../../docs/provenance/microcal-itc.md) | medium | reverse engineered | 11 / 7 | 3 | - |
 | `cytiva-biacore-blr` | [format note](../../docs/formats/cytiva-biacore.md), [provenance log](../../docs/provenance/cytiva-biacore.md) | medium | prior art | 9 / 9 | 2 | - |
 | `cytiva-biacore-bme` | [format note](../../docs/formats/cytiva-biacore.md), [provenance log](../../docs/provenance/cytiva-biacore.md) | medium | prior art | 8 / 8 | 5 | - |
 | `agilent-seahorse-asyr` | [format note](../../docs/formats/agilent-seahorse.md), [provenance log](../../docs/provenance/agilent-seahorse.md) | low | reverse engineered | 9 / 3 | 1 | - |
 | `sartorius-octet-frd` | [format note](../../docs/formats/sartorius-octet.md), [provenance log](../../docs/provenance/sartorius-octet.md) | medium | prior art | 6 / 6 | 2 | - |
-| `malvern-zetasizer-dts` | [format note](../../docs/formats/malvern-zetasizer.md), [provenance log](../../docs/provenance/malvern-zetasizer.md) | medium | reverse engineered | 16 / 11 | 4 | - |
+| `malvern-zetasizer-dts` | [format note](../../docs/formats/malvern-zetasizer.md), [provenance log](../../docs/provenance/malvern-zetasizer.md) | high | reverse engineered | 21 / 16 | 5 | - |
 | `genepix-gpr` | [format note](../../docs/formats/genepix-gpr.md), [provenance log](../../docs/provenance/genepix-gpr.md) | medium | reverse engineered | 5 / 5 | 2 | - |
 
 ### Source map
@@ -104,6 +104,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `cytiva-biacore-blr` | record | `flow-cell curve (Segment)` | traces | 9 | 9 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-ed-fig6a-immob` |
 | `cytiva-biacore-blr` | record | `reference-subtracted curve (XYData)` | traces | 7 | 7 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-fig2c-prongs` |
 | `cytiva-biacore-blr` | record | `report point table` | tables | 9 | 9 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-ed-fig6a-immob` |
+| `cytiva-biacore-blr` | writer | `Biacore T200 Control Software` | descriptive | 9 | 9 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-ed-fig6a-immob` |
+| `cytiva-biacore-blr` | writer_version | `Biacore T200 Control Software 2.0` | descriptive | 9 | 9 | `biacore-allotropy-ed-fig1a-b2`, `biacore-allotropy-ed-fig1a-b3`, `biacore-allotropy-ed-fig6a-immob` |
 | `cytiva-biacore-bme` | acquisition | `1 Hz` | traces | 2 | 2 | `biacore-bme-allotropy-example2`, `zenodo5036545-bme-bclxl` |
 | `cytiva-biacore-bme` | acquisition | `10 Hz` | traces | 6 | 6 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example3`, `biacore-bme-allotropy-example4` |
 | `cytiva-biacore-bme` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `biacore-bme-allotropy-example1`, `biacore-bme-allotropy-example2`, `biacore-bme-allotropy-example3` |
@@ -121,31 +123,32 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `genepix-gpr` | format_version | `ATF 1.0 (GenePix Results 1.4)` | metadata, tables | 4 | 4 | `gpr-zenodo22128078-s1`, `gpr-zenodo22128078-s2`, `gpr-zenodo22128078-s3` |
 | `genepix-gpr` | format_version | `ATF 1.0 (GenePix Results 3)` | metadata, tables | 1 | 1 | `gpr-zenodo21015949-ab4` |
 | `genepix-gpr` | layout | `2 wavelengths` | tables | 1 | 1 | `gpr-zenodo21015949-ab4` |
-| `malvern-zetasizer-dts` | acquisition | `size record` | tables | 9 | 14 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
-| `malvern-zetasizer-dts` | acquisition | `zeta record` | tables | 8 | 8 | `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls`, `zetasizer-figshare21967850-dls` |
-| `malvern-zetasizer-dts` | field | `experiment.acquisition.started_at` | descriptive | 11 | 16 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
-| `malvern-zetasizer-dts` | field | `experiment.instrument.model` | descriptive | 11 | 16 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
+| `malvern-zetasizer-dts` | acquisition | `size record` | tables | 14 | 19 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
+| `malvern-zetasizer-dts` | acquisition | `zeta record` | tables | 13 | 13 | `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls`, `zetasizer-figshare21967850-dls` |
+| `malvern-zetasizer-dts` | field | `experiment.acquisition.started_at` | descriptive | 16 | 21 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
+| `malvern-zetasizer-dts` | field | `experiment.instrument.model` | descriptive | 16 | 21 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
 | `malvern-zetasizer-dts` | format_version | `record schema 10` | metadata, tables | 0 | 1 |  |
 | `malvern-zetasizer-dts` | format_version | `record schema 12` | metadata, tables | 5 | 5 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
-| `malvern-zetasizer-dts` | format_version | `record schema 13` | metadata, tables | 9 | 13 | `zetasizer-figshare21922542-dls`, `zetasizer-figshare21967850-dls`, `zetasizer-figshare22263982-dls` |
-| `malvern-zetasizer-dts` | record | `size result block` | tables | 9 | 14 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
-| `malvern-zetasizer-dts` | record | `zeta result block` | tables | 8 | 8 | `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls`, `zetasizer-figshare21967850-dls` |
+| `malvern-zetasizer-dts` | format_version | `record schema 13` | metadata, tables | 14 | 18 | `zetasizer-figshare21922542-dls`, `zetasizer-figshare21967850-dls`, `zetasizer-figshare22263982-dls` |
+| `malvern-zetasizer-dts` | record | `size result block` | tables | 14 | 19 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
+| `malvern-zetasizer-dts` | record | `zeta result block` | tables | 13 | 13 | `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls`, `zetasizer-figshare21967850-dls` |
 | `malvern-zetasizer-dts` | writer_version | `Zetasizer 7.02` | metadata, tables | 0 | 1 |  |
 | `malvern-zetasizer-dts` | writer_version | `Zetasizer 7.10` | metadata, tables | 6 | 6 | `zetasizer-figshare21387954-dls`, `zetasizer-figshare21518898-dls`, `zetasizer-figshare21922542-dls` |
 | `malvern-zetasizer-dts` | writer_version | `Zetasizer 7.12` | metadata, tables | 4 | 7 | `zetasizer-unc-adxhmt-lelc-n1`, `zetasizer-unc-adxhmt-lelc-n23`, `zetasizer-unc-adxhmt-stab-n3` |
-| `malvern-zetasizer-dts` | writer_version | `Zetasizer 7.13` | metadata, tables | 1 | 3 | `zetasizer-tdl-bkrucg-ecoli` |
+| `malvern-zetasizer-dts` | writer_version | `Zetasizer 7.13` | metadata, tables | 6 | 8 | `zetasizer-figshare26496859-feox`, `zetasizer-figshare26496859-mixed`, `zetasizer-figshare26496859-pac10ph` |
 | `malvern-zetasizer-dts` | writer_version | `Zetasizer 8.00` | metadata, tables | 0 | 1 |  |
 | `malvern-zetasizer-dts` | writer_version | `Zetasizer 8.01` | metadata, tables | 0 | 1 |  |
-| `microcal-itc` | field | `experiment.instrument.model` | descriptive | 6 | 10 | `itc-bitc-adh10`, `itc-bitc-ca2cam`, `itc-bitc-caii-050611a` |
+| `microcal-itc` | field | `experiment.instrument.model` | descriptive | 7 | 11 | `itc-bitc-adh10`, `itc-bitc-ca2cam`, `itc-bitc-caii-050611a` |
 | `microcal-itc` | layout | `3 data columns` | traces | 3 | 4 | `itc-bitc-adh10`, `itc-bitc-ca2cam`, `itc-bitc-mg1edta-p1a` |
 | `microcal-itc` | layout | `7 data columns` | traces | 1 | 2 | `itc-bitc-caii-050611a` |
-| `microcal-itc` | layout | `9 data columns` | traces | 2 | 4 | `itc-zenodo6608282-d25-50um`, `itc-zenodo6608282-hts-tmp-217um` |
+| `microcal-itc` | layout | `9 data columns` | traces | 3 | 5 | `itc-ftitc-prlr-w392a`, `itc-zenodo6608282-d25-50um`, `itc-zenodo6608282-hts-tmp-217um` |
 | `microcal-itc` | writer | `ITC200` | metadata, tables, traces | 2 | 4 | `itc-zenodo6608282-d25-50um`, `itc-zenodo6608282-hts-tmp-217um` |
-| `microcal-itc` | writer | `MicroCalITC` | metadata, tables, traces | 0 | 1 |  |
+| `microcal-itc` | writer | `MicroCalITC` | metadata, tables, traces | 1 | 2 | `itc-ftitc-prlr-w392a` |
 | `microcal-itc` | writer | `VPViewer2000` | metadata, tables, traces | 4 | 5 | `itc-bitc-adh10`, `itc-bitc-ca2cam`, `itc-bitc-caii-050611a` |
 | `microcal-itc` | writer_version | `ITC200 1.25` | descriptive | 0 | 1 |  |
 | `microcal-itc` | writer_version | `ITC200 1.26` | descriptive | 2 | 3 | `itc-zenodo6608282-d25-50um`, `itc-zenodo6608282-hts-tmp-217um` |
 | `microcal-itc` | writer_version | `MicroCalITC 1.29` | descriptive | 0 | 1 |  |
+| `microcal-itc` | writer_version | `MicroCalITC 1.30` | descriptive | 1 | 1 | `itc-ftitc-prlr-w392a` |
 | `microcal-itc` | writer_version | `VPViewer2000 1.30` | descriptive | 1 | 1 | `itc-bitc-caii-050611a` |
 | `microcal-itc` | writer_version | `VPViewer2000 1.4` | descriptive | 3 | 4 | `itc-bitc-adh10`, `itc-bitc-ca2cam`, `itc-bitc-mg1edta-p1a` |
 | `sartorius-octet-frd` | field | `experiment.acquisition.started_at` | descriptive | 6 | 6 | `octet-dataverse-ttopmd-001`, `octet-dataverse-ttopmd-004`, `octet-dataverse-ttopmd-008` |
@@ -160,7 +163,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/biacore_synthetic.rs`](tests/biacore_synthetic.rs), [`tests/octet_synthetic.rs`](tests/octet_synthetic.rs), [`tests/seahorse_synthetic.rs`](tests/seahorse_synthetic.rs), [`tests/zetasizer_synthetic.rs`](tests/zetasizer_synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_biacore`, `whole_bme`, `whole_gpr`, `whole_itc`, `whole_octet`, `whole_seahorse`, `whole_zetasizer`
-- corpus inputs by tier: full 2, heldout 14, smoke 23, standard 38
+- corpus inputs by tier: full 2, heldout 14, smoke 24, standard 43
 - golden snapshots: [`corpus/snapshots/microcal-itc.jsonl`](../../corpus/snapshots/microcal-itc.jsonl), [`corpus/snapshots/cytiva-biacore-blr.jsonl`](../../corpus/snapshots/cytiva-biacore-blr.jsonl), [`corpus/snapshots/cytiva-biacore-bme.jsonl`](../../corpus/snapshots/cytiva-biacore-bme.jsonl), [`corpus/snapshots/agilent-seahorse-asyr.jsonl`](../../corpus/snapshots/agilent-seahorse-asyr.jsonl), [`corpus/snapshots/sartorius-octet-frd.jsonl`](../../corpus/snapshots/sartorius-octet-frd.jsonl), [`corpus/snapshots/malvern-zetasizer-dts.jsonl`](../../corpus/snapshots/malvern-zetasizer-dts.jsonl), [`corpus/snapshots/genepix-gpr.jsonl`](../../corpus/snapshots/genepix-gpr.jsonl)
 
 ### Open new-variant intakes

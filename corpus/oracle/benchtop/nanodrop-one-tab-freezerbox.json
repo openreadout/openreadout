@@ -1,0 +1,196 @@
+{
+ "id": "nanodrop-one-tab-freezerbox",
+ "readers": {
+  "transcode": "tab-separated fields rewritten comma-separated (Python csv) for allotropy",
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_NANODROP_ONE"
+ },
+ "format": "nanodrop",
+ "measurements": [
+  {
+   "id": "3611a81e-52e6-4f11-9785-30545764ed2c",
+   "sample": "x1",
+   "location": null,
+   "time": "2019-08-06T12:31:14+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     7.02,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     500.0,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.015,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d0bc6c06-6871-406c-9ef7-05f4e21e106f",
+   "sample": "x1",
+   "location": null,
+   "time": "2019-08-06T12:31:14+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     3.795,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     500.0,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.015,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a0b14085-9ebc-4ff9-aff7-afa1b8a25653",
+   "sample": "x2",
+   "location": null,
+   "time": "2019-08-06T12:32:08+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     5.805,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     400.0,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.032,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "83a26012-f6b2-4966-ab10-871b45a207b2",
+   "sample": "x2",
+   "location": null,
+   "time": "2019-08-06T12:32:08+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "electronic absorbance reference bandwidth setting",
+     340.0,
+     "nm"
+    ],
+    [
+     "nucleic acid factor",
+     50.0,
+     "(unitless)"
+    ],
+    [
+     "absorbance",
+     3.15,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     400.0,
+     "ng/µL"
+    ],
+    [
+     "baseline absorbance",
+     0.032,
+     "mAU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [
+  {
+   "name": "A260/A280",
+   "value": 1.85,
+   "sources": [
+    "3611a81e-52e6-4f11-9785-30545764ed2c",
+    "d0bc6c06-6871-406c-9ef7-05f4e21e106f"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 2.308,
+   "sources": [
+    "3611a81e-52e6-4f11-9785-30545764ed2c"
+   ]
+  },
+  {
+   "name": "A260/A280",
+   "value": 1.843,
+   "sources": [
+    "a0b14085-9ebc-4ff9-aff7-afa1b8a25653",
+    "83a26012-f6b2-4966-ab10-871b45a207b2"
+   ]
+  },
+  {
+   "name": "A260/A230",
+   "value": 2.276,
+   "sources": [
+    "a0b14085-9ebc-4ff9-aff7-afa1b8a25653"
+   ]
+  }
+ ],
+ "model": "NanoDrop One",
+ "serial": null
+}

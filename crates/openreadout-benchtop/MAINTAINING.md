@@ -62,7 +62,7 @@ The unit tests in each module hold a minimal example of every layout.
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `nanodrop` | [format note](../../docs/formats/nanodrop.md), [provenance log](../../docs/provenance/nanodrop.md) | medium | reverse engineered | 11 / 11 | 2 | - |
+| `nanodrop` | [format note](../../docs/formats/nanodrop.md), [provenance log](../../docs/provenance/nanodrop.md) | high | reverse engineered | 14 / 14 | 5 | - |
 | `qubit` | [format note](../../docs/formats/qubit.md), [provenance log](../../docs/provenance/qubit.md) | low | reverse engineered | 4 / 4 | 1 | - |
 
 ### Source map
@@ -82,17 +82,21 @@ The unit tests in each module hold a minimal example of every layout.
 The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these features (each value is looked up in the validated table below; a value never confirmed makes the file `unvalidated` for the feature's outputs) and reports these structures and assumptions:
 
 - feature dialect `v`
+- feature writer `w` (descriptive)
 
 ### Validated variants and the corpus files that pin them
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
 | `nanodrop` | dialect | `nanodrop-8000` | metadata, tables, traces | 5 | 5 | `nanodrop-8000-custom-mrna`, `nanodrop-8000-dna`, `nanodrop-8000-dna-2` |
-| `nanodrop` | dialect | `nanodrop-eight` | metadata, tables, traces | 4 | 4 | `nanodrop-eight-decimal-comma`, `nanodrop-eight-dsdna`, `nanodrop-eight-rna` |
-| `nanodrop` | dialect | `nanodrop-one` | metadata, tables, traces | 1 | 1 | `nanodrop-one-dsdna` |
+| `nanodrop` | dialect | `nanodrop-eight` | metadata, tables, traces | 5 | 5 | `nanodrop-eight-comma-czabriskie`, `nanodrop-eight-decimal-comma`, `nanodrop-eight-dsdna` |
+| `nanodrop` | dialect | `nanodrop-one` | metadata, tables, traces | 3 | 3 | `nanodrop-one-dsdna`, `nanodrop-one-kelps-dna`, `nanodrop-one-tab-freezerbox` |
 | `nanodrop` | dialect | `nanodrop-spectra` | metadata, tables, traces | 1 | 1 | `nanodrop-one-uvvis-nanodrop-r` |
-| `nanodrop` | field | `experiment.acquisition.started_at` | descriptive | 11 | 11 | `nanodrop-8000-custom-mrna`, `nanodrop-8000-dna`, `nanodrop-8000-dna-2` |
-| `nanodrop` | field | `experiment.instrument.model` | descriptive | 11 | 11 | `nanodrop-8000-custom-mrna`, `nanodrop-8000-dna`, `nanodrop-8000-dna-2` |
+| `nanodrop` | field | `experiment.acquisition.started_at` | descriptive | 14 | 14 | `nanodrop-8000-custom-mrna`, `nanodrop-8000-dna`, `nanodrop-8000-dna-2` |
+| `nanodrop` | field | `experiment.instrument.model` | descriptive | 14 | 14 | `nanodrop-8000-custom-mrna`, `nanodrop-8000-dna`, `nanodrop-8000-dna-2` |
+| `nanodrop` | writer | `NanoDrop 8000 software` | descriptive | 5 | 5 | `nanodrop-8000-custom-mrna`, `nanodrop-8000-dna`, `nanodrop-8000-dna-2` |
+| `nanodrop` | writer | `NanoDrop Eight software` | descriptive | 5 | 5 | `nanodrop-eight-comma-czabriskie`, `nanodrop-eight-decimal-comma`, `nanodrop-eight-dsdna` |
+| `nanodrop` | writer | `NanoDrop One software` | descriptive | 4 | 4 | `nanodrop-one-dsdna`, `nanodrop-one-kelps-dna`, `nanodrop-one-tab-freezerbox` |
 | `qubit` | dialect | `qubit-4` | metadata, tables, traces | 2 | 2 | `qubit4-dsdna-hs`, `qubit4-out-of-range` |
 | `qubit` | dialect | `qubit-flex` | metadata, tables, traces | 2 | 2 | `qubit-flex-rna-br`, `qubit-flex-sep-header` |
 | `qubit` | field | `experiment.acquisition.started_at` | descriptive | 4 | 4 | `qubit-flex-rna-br`, `qubit-flex-sep-header`, `qubit4-dsdna-hs` |
@@ -102,7 +106,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_nanodrop`, `whole_qubit`
-- corpus inputs by tier: smoke 7, standard 8
+- corpus inputs by tier: smoke 10, standard 8
 - golden snapshots: [`corpus/snapshots/nanodrop.jsonl`](../../corpus/snapshots/nanodrop.jsonl), [`corpus/snapshots/qubit.jsonl`](../../corpus/snapshots/qubit.jsonl)
 
 ### Open new-variant intakes

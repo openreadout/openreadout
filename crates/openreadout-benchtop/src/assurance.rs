@@ -10,7 +10,7 @@ use openreadout_core::provenance::Confidence;
 
 pub(crate) static NANODROP: AssuranceProfile = AssuranceProfile {
     format_id: "nanodrop",
-    observe,
+    observe: observe_nanodrop,
     validated: NANODROP_VALIDATED,
     confidence: NANODROP_CONFIDENCE,
     basis: Basis::ReverseEngineered,
@@ -36,16 +36,36 @@ fn observe(info: &FileInfo) -> Observations {
     o
 }
 
+/// NanoDrop exports carry no software name or version, but each layout is written by one
+/// instrument's software, so the layout names the writer (as the plate reader does for its
+/// export kinds).
+fn observe_nanodrop(info: &FileInfo) -> Observations {
+    let mut o = observe(info);
+    let writer = match info.format_version.as_deref() {
+        Some("nanodrop-8000") => Some("NanoDrop 8000 software"),
+        Some("nanodrop-eight") => Some("NanoDrop Eight software"),
+        Some("nanodrop-one" | "nanodrop-spectra") => Some("NanoDrop One software"),
+        _ => None,
+    };
+    if let Some(w) = writer {
+        o.context(K::Writer, w);
+    }
+    o
+}
+
 // BEGIN GENERATED nanodrop (cargo xtask assurance-audit --write; do not edit)
-const NANODROP_CONFIDENCE: Confidence = Confidence::Medium;
+const NANODROP_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const NANODROP_VALIDATED: &[Validated] = &[
     a::row(K::Dialect, "nanodrop-8000", 5, 1, 5),
-    a::row(K::Dialect, "nanodrop-eight", 4, 1, 4),
-    a::row(K::Dialect, "nanodrop-one", 1, 1, 1),
+    a::row(K::Dialect, "nanodrop-eight", 5, 2, 5),
+    a::row(K::Dialect, "nanodrop-one", 3, 3, 3),
     a::row(K::Dialect, "nanodrop-spectra", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 11),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 11),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 14),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 14),
+    a::row(K::Writer, "NanoDrop 8000 software", 5, 1, 5),
+    a::row(K::Writer, "NanoDrop Eight software", 5, 2, 5),
+    a::row(K::Writer, "NanoDrop One software", 4, 4, 4),
 ];
 // END GENERATED nanodrop
 

@@ -141,7 +141,10 @@ def main(argv: list[str]) -> int:
         print(__doc__, file=sys.stderr)
         return 2
     path = files[0]
-    head = path.read_bytes()[:4096].decode("utf-8", errors="replace")
+    raw = path.read_bytes()[:4096]
+    # NanoDrop One exports come as UTF-8 (with or without a BOM) or UTF-16 LE.
+    enc = "utf-16" if raw[:2] in (b"\xff\xfe", b"\xfe\xff") else "utf-8-sig"
+    head = raw.decode(enc, errors="replace")
     first = head.splitlines()[0] if head else ""
     out = {"id": ident, "readers": {}}
     lines = head.splitlines()
@@ -161,15 +164,41 @@ def main(argv: list[str]) -> int:
             out["format"] = "nanodrop"
             if first.startswith("Application:"):
                 vendor = Vendor.THERMO_FISHER_NANODROP_EIGHT
-            elif first.startswith("Date,"):
+            elif first.startswith(("Date,", "Date\t")):
                 vendor = Vendor.THERMO_FISHER_NANODROP_ONE
             else:
                 vendor = Vendor.THERMO_FISHER_NANODROP_8000
-        asm = allotrope_from_file(str(path), vendor, encoding=CHARDET_ENCODING)
+        src = path
+        if vendor == Vendor.THERMO_FISHER_NANODROP_ONE and (enc == "utf-16" or first.startswith("Date\t")):
+            # allotropy takes the One export only as comma-separated UTF-8 named .csv; the software
+            # also writes it tab-separated, in UTF-16. The csv module (standard library) rewrites
+            # the same fields comma-separated for allotropy; no value is touched.
+            import csv
+            import tempfile
+
+            text = path.read_bytes().decode(enc)
+            rows = list(csv.reader(text.splitlines(), delimiter="\t"))
+            src = Path(tempfile.mkdtemp()) / (path.stem + ".csv")
+            with src.open("w", encoding="utf-8", newline="") as fh:
+                csv.writer(fh).writerows(rows)
+            out["readers"]["transcode"] = "tab-separated fields rewritten comma-separated (Python csv) for allotropy"
+        elif vendor == Vendor.THERMO_FISHER_NANODROP_EIGHT and first.startswith("Application:,"):
+            # and the Eight export only tab-separated, named .txt or .tsv; the software also
+            # writes it comma-separated (.csv)
+            import csv
+            import tempfile
+
+            text = path.read_bytes().decode(enc)
+            rows = list(csv.reader(text.splitlines()))
+            src = Path(tempfile.mkdtemp()) / (path.stem + ".txt")
+            with src.open("w", encoding="utf-8", newline="") as fh:
+                csv.writer(fh, delimiter="\t").writerows(rows)
+            out["readers"]["transcode"] = "comma-separated fields rewritten tab-separated (Python csv) for allotropy"
+        asm = allotrope_from_file(str(src), vendor, encoding=CHARDET_ENCODING)
         out.update(from_asm(asm))
         out["readers"]["asm"] = f"allotropy {version('allotropy')} (MIT), {vendor.name}"
         if vendor.name == "THERMO_FISHER_NANODROP_EIGHT":
-            s = spectra_eight(path)
+            s = spectra_eight(src)
             if s:
                 out["spectra"] = s
                 out["readers"]["spectra"] = f"pandas {version('pandas')} (BSD-3)"

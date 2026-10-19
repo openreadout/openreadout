@@ -90,7 +90,7 @@ the distributions and the Z-average; they are not stored and not returned.
 
 `tests/corpus/series_oracle/mod.rs` compares the `records` table with the depositors' copies of
 the Zetasizer software's records table (`oracle/zetasizer_oracle.py`; an export that lists only
-some of a file's records is matched by record number, `"key": "record"`). Eleven files of four
+some of a file's records is matched by record number, `"key": "record"`). Sixteen files of five
 depositors:
 
 | depositor | software | records compared | what |
@@ -99,12 +99,13 @@ depositors:
 | Samineni (Texas Data Repository) | 7.13 | 15 zeta | sample, zeta potential |
 | Holden (UNC Dataverse), 3 files | 7.12 | 654 size | sample, date, temperature, Z-average, PdI, intensity peak means and areas |
 | Bird (Manchester figshare), 6 items | 7.10 | 153 size, 15 zeta (sample, date, temperature) | sample, date, temperature (where exported), Z-average, PdI, intensity peak means and areas |
+| Müller et al. (figshare 26496859), 5 files | 7.13 | 256 size and zeta | sample, date, Z-average, PdI, zeta potential |
 
 Every cell agrees within the export's rounding. The files without an export (7.02, 7.13 size
 records, 8.00, 8.01) are read for structure: every record's header walks and every size record
 with results has exactly one block of the size structure.
 
-Size results are confirmed on software 7.10 and 7.12, by two depositors. The exports hold no
+Size results are confirmed on software 7.10, 7.12 and 7.13, by three depositors. The exports hold no
 peak widths and no number or volume peaks, so those are withheld: the `peak*_width` columns are
 NaN and the `peaks` table lists only intensity peaks, without widths.
 
