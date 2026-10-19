@@ -449,16 +449,19 @@ fn observe_uvprobe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED shimadzu-uvprobe (cargo xtask assurance-audit --write; do not edit)
-const SHIMADZU_UVPROBE_CONFIDENCE: Confidence = Confidence::Medium;
+const SHIMADZU_UVPROBE_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const SHIMADZU_UVPROBE_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "UV/VIS SPECTRUM", 8, 2, 9),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 9),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 9),
-    a::row(K::FormatVersion, "file format 0x120", 8, 2, 9),
-    a::row(K::Record, "value code 2", 8, 2, 8),
+    a::row(K::Acquisition, "UV/VIS SPECTRUM", 15, 7, 16),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 15),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 15),
+    a::row(K::FormatVersion, "file format 0x120", 15, 7, 16),
+    a::row(K::Record, "value code 2", 15, 7, 15),
     a::row(K::Record, "value code 4", 0, 0, 1),
-    a::row(K::WriterVersion, "UVProbe 2.43", 8, 2, 8),
+    a::row(K::WriterVersion, "UVProbe 2.43", 9, 3, 9),
+    a::row(K::WriterVersion, "UVProbe 2.50", 2, 1, 2),
+    a::row(K::WriterVersion, "UVProbe 2.62", 1, 1, 1),
+    a::row(K::WriterVersion, "UVProbe 2.70", 2, 1, 2),
     a::row(K::WriterVersion, "UVProbe 2.71", 0, 0, 1),
 ];
 // END GENERATED shimadzu-uvprobe

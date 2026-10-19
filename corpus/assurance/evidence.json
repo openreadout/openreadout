@@ -146240,6 +146240,369 @@
       ]
     },
     {
+      "id": "figshare33102008-uvprobe-film-usl19-67a",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 33102008 'donor-controlled photophysics in divinyl-functionalized phenanthroimidazole emitters'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-cheminfo-spc-parser-uvprobe-ole",
+      "format": "shimadzu-uvprobe",
+      "source": "github:cheminfo/spc-parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.62",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-sukritranjan-sulfite-kinetics-release-uvprobe-blank",
+      "format": "shimadzu-uvprobe",
+      "source": "github:sukritranjan/sulfite-kinetics-release",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.70",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-sukritranjan-sulfite-kinetics-release-uvprobe-ph7-1",
+      "format": "shimadzu-uvprobe",
+      "source": "github:sukritranjan/sulfite-kinetics-release",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.70",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-tillbiskup-uvvispy-uvprobe-sa281-02-280k",
+      "format": "shimadzu-uvprobe",
+      "source": "github:tillbiskup/uvvispy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo13884418-uvprobe-ni-f-uv",
+      "format": "shimadzu-uvprobe",
+      "source": "zenodo:13884418",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.50",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo13884418-uvprobe-ni-f-wo3-au-uv",
+      "format": "shimadzu-uvprobe",
+      "source": "zenodo:13884418",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.50",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "zenodo1321880-mordenite-cred-00005-smv",
       "format": "smv",
       "source": "zenodo:1321880",

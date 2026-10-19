@@ -47,7 +47,7 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 | `galactic-spc` | [format note](../../docs/formats/galactic-spc.md), [provenance log](../../docs/provenance/galactic-spc.md) | high | prior art | 13 / 13 | 11 | - |
 | `jasco-jws` | [format note](../../docs/formats/jasco-jws.md), [provenance log](../../docs/provenance/jasco-jws.md) | high | prior art | 28 / 23 | 9 | - |
 | `witec-project` | [format note](../../docs/formats/witec-project.md), [provenance log](../../docs/provenance/witec-project.md) | high | prior art | 14 / 14 | 9 | - |
-| `shimadzu-uvprobe` | [format note](../../docs/formats/shimadzu-uvprobe.md), [provenance log](../../docs/provenance/shimadzu-uvprobe.md) | medium | reverse engineered | 9 / 8 | 2 | - |
+| `shimadzu-uvprobe` | [format note](../../docs/formats/shimadzu-uvprobe.md), [provenance log](../../docs/provenance/shimadzu-uvprobe.md) | high | reverse engineered | 16 / 15 | 7 | - |
 | `perkinelmer-fsm` | [format note](../../docs/formats/perkinelmer-fsm.md), [provenance log](../../docs/provenance/perkinelmer-fsm.md) | low | prior art | 2 / 2 | 2 | - |
 | `agilent-fpa` | [format note](../../docs/formats/agilent-fpa.md), [provenance log](../../docs/provenance/agilent-fpa.md) | medium | prior art | 13 / 13 | 2 | - |
 | `agilent-cary` | [format note](../../docs/formats/agilent-cary.md), [provenance log](../../docs/provenance/agilent-cary.md) | high | reverse engineered | 24 / 24 | 6 | - |
@@ -216,14 +216,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `galactic-spc` | writer | `WITec` | descriptive | 1 | 1 | `figshare29990276-pbio-raman-spc` |
 | `jasco-jws` | acquisition | `CIRCULAR DICHROISM SPECTRUM` | traces | 6 | 6 | `figshare13601282-dk-cd`, `jws-jws2txt-001hg`, `jws-jws2txt-bgr` |
 
-… 109 more values: the generated table in `src/assurance.rs` has all of them.
+… 112 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/cary_synthetic.rs`](tests/cary_synthetic.rs), [`tests/jasco_synthetic.rs`](tests/jasco_synthetic.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 5 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_agilent_fpa`, `whole_cary`, `whole_fsm`, `whole_jws`, `whole_omnic`, `whole_opus`, `whole_pesp`, `whole_spc`, `whole_uvprobe`, `whole_wdf`, `whole_witec`
-- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 55
+- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 62
 - golden snapshots: [`corpus/snapshots/bruker-opus.jsonl`](../../corpus/snapshots/bruker-opus.jsonl), [`corpus/snapshots/thermo-omnic.jsonl`](../../corpus/snapshots/thermo-omnic.jsonl), [`corpus/snapshots/renishaw-wdf.jsonl`](../../corpus/snapshots/renishaw-wdf.jsonl), [`corpus/snapshots/perkinelmer-sp.jsonl`](../../corpus/snapshots/perkinelmer-sp.jsonl), [`corpus/snapshots/galactic-spc.jsonl`](../../corpus/snapshots/galactic-spc.jsonl), [`corpus/snapshots/jasco-jws.jsonl`](../../corpus/snapshots/jasco-jws.jsonl), [`corpus/snapshots/witec-project.jsonl`](../../corpus/snapshots/witec-project.jsonl), [`corpus/snapshots/shimadzu-uvprobe.jsonl`](../../corpus/snapshots/shimadzu-uvprobe.jsonl), [`corpus/snapshots/perkinelmer-fsm.jsonl`](../../corpus/snapshots/perkinelmer-fsm.jsonl), [`corpus/snapshots/agilent-fpa.jsonl`](../../corpus/snapshots/agilent-fpa.jsonl), [`corpus/snapshots/agilent-cary.jsonl`](../../corpus/snapshots/agilent-cary.jsonl)
 
 ### Open new-variant intakes
