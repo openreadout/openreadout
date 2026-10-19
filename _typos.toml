@@ -37,6 +37,7 @@ extend-ignore-re = [
 ]
 
 [default.extend-words]
+mose = "mose"  # MoSe2, molybdenum diselenide, in an Andor SIF corpus file id (sif-figshare28054061-mose2-633-pl-1-3na-10uw)
 muc = "muc"  # MUC2, the mucin gene stained in a MIRAX corpus slide (figshare32955605-mrxs-ihc-muc2-mc09)
 universite = "universite"  # "Universite catholique de Louvain", OpenJPEG copyright holder in the libisyntax license notice
 # German month names: the Zetasizer oracle reads dates the software exported in German
