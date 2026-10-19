@@ -79760,6 +79760,186 @@ attribution = "Schmitt, Schmidlin et al., MetaboLights MTBLS14362"
 notes = "depositor's ProteoWizard 3.0.23146 conversion, profile, no peak picking"
 
 [[file]]
+id = "mgf-pyteomics-test"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-pyteomics-test.mgf"
+url = "https://raw.githubusercontent.com/levitsky/pyteomics/a133667b090e41c645ed682861b73d98bef2d045/tests/test.mgf"
+sha256 = "129c88cdc29da7fcf5dd582b6a33e87e3705a0d3d49b41fdf180765421877ebd"
+size = 504
+license = "Apache-2.0"
+license_checked = "GitHub API repos/levitsky/pyteomics/license (Apache-2.0), 2026-10-19"
+source = "GitHub levitsky/pyteomics (commit a133667), tests/test.mgf"
+attribution = "pyteomics developers (test data)"
+notes = "Mascot search header (COM, MODS, a file-level CHARGE of 2+ and 3+) and two spectra, one with fragment charges, as in the Matrix Science example. Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-pyteomics-example"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-pyteomics-example.mgf"
+url = "https://raw.githubusercontent.com/levitsky/pyteomics/a133667b090e41c645ed682861b73d98bef2d045/doc/source/_static/example.mgf"
+sha256 = "c32687aba71bb61def1fb7e39045ef948e6185146e9d4185465f4b9e67a9c74f"
+size = 768
+license = "Apache-2.0"
+license_checked = "GitHub API repos/levitsky/pyteomics/license (Apache-2.0), 2026-10-19"
+source = "GitHub levitsky/pyteomics (commit a133667), doc/source/_static/example.mgf"
+attribution = "pyteomics developers (test data)"
+notes = "one peptide spectrum (TITLE, PEPMASS, CHARGE). Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-pyteomics-pepmass"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-pyteomics-pepmass.mgf"
+url = "https://raw.githubusercontent.com/levitsky/pyteomics/a133667b090e41c645ed682861b73d98bef2d045/tests/test_pepmass.mgf"
+sha256 = "255dbad9326d3e2026c07db1c3e472a9d096ebb94e5f0242755a800f39301d35"
+size = 388
+license = "Apache-2.0"
+license_checked = "GitHub API repos/levitsky/pyteomics/license (Apache-2.0), 2026-10-19"
+source = "GitHub levitsky/pyteomics (commit a133667), tests/test_pepmass.mgf"
+attribution = "pyteomics developers (test data)"
+notes = "three spectra that give the precursor intensity and charge on the PEPMASS line in different ways. Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-matchms-pesticides"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-matchms-pesticides.mgf"
+url = "https://raw.githubusercontent.com/matchms/matchms/50baefdb0ce9401aac55cc2a09d07421dd684481/tests/testdata/pesticides.mgf"
+sha256 = "0adc186e519167f297f8809877183a49a26b478485c89e8b8a7da6f959bb5a17"
+size = 152795
+license = "Apache-2.0"
+license_checked = "GitHub API repos/matchms/matchms/license (Apache-2.0), 2026-10-19"
+source = "GitHub matchms/matchms (commit 50baefd), tests/testdata/pesticides.mgf"
+attribution = "matchms developers (test data; spectra from the GNPS libraries)"
+notes = "76 GNPS library spectra of pesticides (IONMODE, SMILES, InChI). Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-matchms-testdata"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-matchms-testdata.mgf"
+url = "https://raw.githubusercontent.com/matchms/matchms/50baefdb0ce9401aac55cc2a09d07421dd684481/tests/testdata/testdata.mgf"
+sha256 = "e3baa3b785d4469616c7202d26fa2e8ff8735a906d71eeee71f377e0fedd8380"
+size = 35798
+license = "Apache-2.0"
+license_checked = "GitHub API repos/matchms/matchms/license (Apache-2.0), 2026-10-19"
+source = "GitHub matchms/matchms (commit 50baefd), tests/testdata/testdata.mgf"
+attribution = "matchms developers (test data; spectra from the GNPS libraries)"
+notes = "30 GNPS library spectra of lipids and metabolites (GNPS-EMBL-MCF collection). Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-openms-gnpsexport1"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-openms-gnpsexport1.mgf"
+url = "https://raw.githubusercontent.com/OpenMS/OpenMS/77cccda7caf40b46a4919d33748450270eccd565/src/tests/topp/GNPSExport_1_out.mgf"
+sha256 = "50c2fd6aab54cf5ba5f59a838e2be24ff414f31c416cf27ae3b93865ee4e30cd"
+size = 372856
+license = "BSD-3-Clause"
+license_checked = "https://github.com/OpenMS/OpenMS/blob/77cccda7caf40b46a4919d33748450270eccd565/LICENSE (three-clause BSD), 2026-10-19"
+source = "GitHub OpenMS/OpenMS (commit 77cccda), src/tests/topp/GNPSExport_1_out.mgf"
+attribution = "OpenMS developers (test data)"
+notes = "199 MS/MS spectra written by OpenMS GNPSExport (FEATURE_ID, FILE_INDEX, MSLEVEL, RTINSECONDS). Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-openms-idconv33"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-openms-idconv33.mgf"
+url = "https://raw.githubusercontent.com/OpenMS/OpenMS/77cccda7caf40b46a4919d33748450270eccd565/src/tests/topp/IDFileConverter_33_output.mgf"
+sha256 = "4f48e6662875add0aee78f2c68476f1deec5902bf4aef9f7683ee40cf94000ce"
+size = 216634
+license = "BSD-3-Clause"
+license_checked = "https://github.com/OpenMS/OpenMS/blob/77cccda7caf40b46a4919d33748450270eccd565/LICENSE (three-clause BSD), 2026-10-19"
+source = "GitHub OpenMS/OpenMS (commit 77cccda), src/tests/topp/IDFileConverter_33_output.mgf"
+attribution = "OpenMS developers (test data)"
+notes = "295 peptide spectra written by OpenMS IDFileConverter with a Mascot search header (COM=OpenMS_search, FORMAT, FORMVER, DB, CLE). Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-openms-mgf-gnps"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-openms-mgf-gnps.mgf"
+url = "https://raw.githubusercontent.com/OpenMS/OpenMS/77cccda7caf40b46a4919d33748450270eccd565/src/tests/class_tests/openms/data/MascotGenericFile_GNPS.mgf"
+sha256 = "f4501242e6ef27dca90e11fde93bc76b7a2dfdff6530ec76dcb83fbb5f0ff2b3"
+size = 1153
+license = "BSD-3-Clause"
+license_checked = "https://github.com/OpenMS/OpenMS/blob/77cccda7caf40b46a4919d33748450270eccd565/LICENSE (three-clause BSD), 2026-10-19"
+source = "GitHub OpenMS/OpenMS (commit 77cccda), src/tests/class_tests/openms/data/MascotGenericFile_GNPS.mgf"
+attribution = "OpenMS developers (test data)"
+notes = "one GNPS library record (SPECTRUMID CCMSLIB00000001547, ADDUCT, ION_MODE). Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-ms2pip-massivekb500"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-ms2pip-massivekb500.mgf"
+url = "https://raw.githubusercontent.com/compomics/ms2pip/4dc479ea90f7ac3c5caa8c1ccfec426f586cc4e7/tests/test_data/massivekb_selected_500.mgf"
+sha256 = "a02b2cc74bfac83324cfae3d9e152defc963ecb5c7fd873c62a53f9088f1112b"
+size = 1721504
+license = "Apache-2.0"
+license_checked = "GitHub API repos/compomics/ms2pip/license (Apache-2.0), 2026-10-19"
+source = "GitHub compomics/ms2pip (commit 4dc479e), tests/test_data/massivekb_selected_500.mgf"
+attribution = "CompOmics, Ghent University (MS2PIP test data; spectra from MassIVE-KB)"
+notes = "500 HCD peptide spectra selected from MassIVE-KB. Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-casanovo-sample"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-casanovo-sample.mgf"
+url = "https://raw.githubusercontent.com/Noble-Lab/casanovo/16f84f09d09103de8218bca5163ea29bab1eabf6/sample_data/sample_preprocessed_spectra.mgf"
+sha256 = "8e0df940632be956f0e2a6bb079d6ae4a3ba25bb299d7be8e0d7cb361d4bccad"
+size = 283459
+license = "Apache-2.0"
+license_checked = "GitHub API repos/Noble-Lab/casanovo/license (Apache-2.0), 2026-10-19"
+source = "GitHub Noble-Lab/casanovo (commit 16f84f0), sample_data/sample_preprocessed_spectra.mgf"
+attribution = "Noble Lab, University of Washington (Casanovo sample data)"
+notes = "128 preprocessed peptide spectra with SEQ annotations and SCANS of the form F1:2478. Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-msdeisotope-small"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-msdeisotope-small.mgf"
+url = "https://raw.githubusercontent.com/mobiusklein/ms_deisotope/65390367ce4d0ee7c7e36c1c8557fabd6f7aecf7/tests/test_data/small.mgf"
+sha256 = "0cd03f86f8cb1d0fab20fb3197d17c68d4021bd0c27f23702a54e10d96ac2c33"
+size = 659003
+license = "Apache-2.0"
+license_checked = "GitHub API repos/mobiusklein/ms_deisotope/license (Apache-2.0), 2026-10-19"
+source = "GitHub mobiusklein/ms_deisotope (commit 6539036), tests/test_data/small.mgf"
+attribution = "Joshua Klein (ms_deisotope test data)"
+notes = "34 MS/MS spectra with TPP-style titles (small.3.3.) and PEPMASS with intensity. Ground truth: pyteomics."
+
+[[file]]
+id = "mgf-ms2rescore-test"
+format = "mgf"
+role = "input"
+tier = "smoke"
+filename = "mgf-ms2rescore-test.mgf"
+url = "https://raw.githubusercontent.com/compomics/ms2rescore/48ececbbca56ff4c10d52b26b098800f4d3a24bd/tests/test_data/test.mgf"
+sha256 = "e0fa3490b704ddf07cb4054d946e32789c082f529421e5b70baac654c943207c"
+size = 192
+license = "Apache-2.0"
+license_checked = "GitHub API repos/compomics/ms2rescore/license (Apache-2.0), 2026-10-19"
+source = "GitHub compomics/ms2rescore (commit 48ececb), tests/test_data/test.mgf"
+attribution = "CompOmics, Ghent University (MS2Rescore test data)"
+notes = "one peptide spectrum with ION_MOBILITY and RTINSECONDS. Ground truth: pyteomics."
+
+[[file]]
 id = "mtbls2984-qp2010-101-8"
 format = "shimadzu"
 family = "mass-spectrometry"

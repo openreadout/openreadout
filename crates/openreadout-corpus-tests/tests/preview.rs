@@ -91,6 +91,7 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_mzml::MzmlReader))
         .with(Box::new(openreadout_mzml::MzxmlReader))
         .with(Box::new(openreadout_mzml::MzmlbReader))
+        .with(Box::new(openreadout_mzml::MgfReader))
         .with(Box::new(openreadout_bruker_tims::BrukerTimsReader))
         .with(Box::new(openreadout_bruker_tims::BrukerBafReader))
         .with(Box::new(openreadout_em::MrcReader))

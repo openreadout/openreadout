@@ -51,7 +51,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_dicom`, `whole_nifti`; `whole_paravision`; `codec_jpegls` | medical imaging: DICOM files, NIfTI (and gzip); a ParaVision experiment (`acqp`, `method`, `pdata/1/visu_pars`, `pdata/1/2dseq`); JPEG-LS streams |
 | `whole_mdoc` | SerialEM `.mdoc` metadata |
 | `whole_cbf`, `whole_smv`; `nxmx_links` | diffraction images (CBF/miniCBF, SMV); the external-link scan of NeXus master files |
-| `whole_thermo`, `whole_mzml`, `whole_mzxml`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry; gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
+| `whole_thermo`, `whole_mzml`, `whole_mzxml`, `whole_mgf`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry (MGF: text peak lists); gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
 | `whole_chemstation`, `whole_waters`; `whole_andi`, `whole_shimadzu`; `whole_sciex` | ChemStation `.D` and MassLynx `.raw` directories; ANDI netCDF, Shimadzu `.lcd`; Sciex `.wiff` + `.wiff.scan` |
 | `whole_baf` | Bruker BAF `.d`: `analysis.baf`, then `Calibrator.ami` (seed: the synthetic fixture) |
 | `whole_masshunter` | Agilent MassHunter `.d`: `AcqData/` scan-index schema, scan index, centroid and profile data, calibrations, time segments, contents, devices, sample info and one LC signal pair (seeds: two MetaboLights directories, cut) |

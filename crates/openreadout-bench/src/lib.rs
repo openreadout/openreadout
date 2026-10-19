@@ -83,6 +83,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_mzml::MzmlReader))
         .with(Box::new(openreadout_mzml::MzxmlReader))
         .with(Box::new(openreadout_mzml::MzmlbReader))
+        .with(Box::new(openreadout_mzml::MgfReader))
         .with(Box::new(openreadout_oir::OirReader))
         .with(Box::new(openreadout_vsi::VsiReader))
         .with(Box::new(openreadout_wsi::MiraxReader))

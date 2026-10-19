@@ -1,11 +1,13 @@
 //! Readers for the open mass-spectrometry exchange formats mzML 1.1 (HUPO-PSI) and
-//! mzXML 2.x/3.x (ISB).
+//! mzXML 2.x/3.x (ISB), and for MGF (Mascot generic format) peak lists.
 //!
 //! Both are XML with base64 binary arrays; files run to many gigabytes, so nothing is loaded
 //! whole: the trailing offset index (`indexedmzML`, mzXML `index`) is read and spot-checked at
 //! open, and each spectrum is parsed from its byte offset on demand. Without a usable index
 //! the file is scanned once to locate every spectrum. Layout and vocabulary:
-//! `docs/formats/mzml.md`. Provenance: `docs/provenance/mzml.md`.
+//! `docs/formats/mzml.md`. Provenance: `docs/provenance/mzml.md`. MGF is text with one
+//! `BEGIN IONS` block per MS/MS spectrum; it has no index, so the file is read once at open
+//! (`docs/formats/mgf.md`, `docs/provenance/mgf.md`).
 //!
 //! # Example
 //!
@@ -61,6 +63,8 @@ mod experiment;
 #[doc(hidden)]
 pub mod gz;
 #[doc(hidden)]
+pub mod mgf;
+#[doc(hidden)]
 pub mod mzml;
 #[doc(hidden)]
 pub mod mzmlb;
@@ -83,6 +87,8 @@ pub use binary::{
     ArrayEncoding, ArrayError, Compression, Outer, ValueType, decode_array, decode_base64,
     decode_values,
 };
+#[doc(hidden)]
+pub use mgf::MgfDataset;
 #[doc(hidden)]
 pub use mzml::MzmlDataset;
 #[doc(hidden)]
@@ -365,6 +371,72 @@ impl FormatReader for MzmlbReader {
             ],
             findings: Vec::new(),
         }))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
+/// Format id of MGF (Mascot generic format) peak lists on the command line and in JSON.
+pub const MGF_FORMAT_ID: &str = mgf::FMT;
+
+/// The MGF (Mascot generic format) peak-list reader.
+#[derive(Debug, Default, Clone, Copy)]
+pub struct MgfReader;
+
+impl FormatReader for MgfReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&assurance::MGF)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        mgf::descriptor()
+    }
+
+    fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
+        if let Some(inner) = gz::peek(head) {
+            if mgf::looks_like_mgf(&inner) {
+                return Some(Detection {
+                    format_id: MGF_FORMAT_ID,
+                    confidence: DetectConfidence::Definite,
+                    note: Some("gzip-compressed".into()),
+                });
+            }
+            return gz::has_gz_extension(path, "mgf").then(|| Detection {
+                format_id: MGF_FORMAT_ID,
+                confidence: DetectConfidence::ExtensionOnly,
+                note: Some(
+                    "gzip-compressed .mgf.gz, but the decompressed start holds no BEGIN IONS block"
+                        .into(),
+                ),
+            });
+        }
+        if mgf::looks_like_mgf(head) {
+            return Some(Detection {
+                format_id: MGF_FORMAT_ID,
+                confidence: DetectConfidence::Definite,
+                note: None,
+            });
+        }
+        (has_extension(path, &["mgf"]) && !head.is_empty()).then(|| Detection {
+            format_id: MGF_FORMAT_ID,
+            confidence: DetectConfidence::ExtensionOnly,
+            note: Some("MGF extension but no BEGIN IONS block in the first lines".into()),
+        })
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        if gz::input_is_gzip(input) {
+            return gz::open_gz(input, MGF_FORMAT_ID, |fs, p| {
+                Ok(Box::new(MgfDataset::open_in(fs, p)?))
+            });
+        }
+        Ok(Box::new(MgfDataset::open_in(input.fs(), input.path())?))
     }
 
     fn reads_any_source(&self) -> bool {

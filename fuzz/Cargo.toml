@@ -411,6 +411,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_mgf"
+path = "fuzz_targets/whole_mgf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_oir"
 path = "fuzz_targets/whole_oir.rs"
 test = false

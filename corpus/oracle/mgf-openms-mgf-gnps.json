@@ -1,0 +1,81 @@
+{
+ "id": "mgf-openms-mgf-gnps",
+ "file": "mgf-openms-mgf-gnps.mgf",
+ "size": 1153,
+ "sha256": "f4501242e6ef27dca90e11fde93bc76b7a2dfdff6530ec76dcb83fbb5f0ff2b3",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 mgf.MGF",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 2,
+    "rt_s": null,
+    "polarity": null,
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": 981.54,
+    "precursor_charge": 1,
+    "activation": null,
+    "n_peaks": 43,
+    "n_nonzero": 43,
+    "mz_bits": null,
+    "xxh3_mz": "81a8c80efe2c23e18f1f57b281bcf713",
+    "xxh3_intensity": "de3e3b033244bcd1d897764e4e4f2baa",
+    "xxh3_mz_nonzero": "81a8c80efe2c23e18f1f57b281bcf713",
+    "xxh3_intensity_nonzero": "de3e3b033244bcd1d897764e4e4f2baa",
+    "sum_intensity": 5447061.0,
+    "mz_min": 289.286377,
+    "mz_max": 964.524658,
+    "first_peaks": [
+     [
+      289.286377,
+      8068.0
+     ],
+     [
+      295.545288,
+      22507.0
+     ],
+     [
+      317.324951,
+      18742.0
+     ],
+     [
+      339.789429,
+      16145.0
+     ],
+     [
+      343.947021,
+      18094.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      289.286377,
+      8068.0
+     ],
+     [
+      295.545288,
+      22507.0
+     ],
+     [
+      317.324951,
+      18742.0
+     ],
+     [
+      339.789429,
+      16145.0
+     ],
+     [
+      343.947021,
+      18094.0
+     ]
+    ]
+   }
+  ]
+ }
+}

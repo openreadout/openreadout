@@ -1,0 +1,32 @@
+# A synthetic MGF file written by hand for the OpenReadout tests.
+COM=synthetic peak lists
+CHARGE=2+ and 3+
+MASS=Monoisotopic
+
+BEGIN IONS
+TITLE=run1.17.17.2 File:"run1.raw", NativeID:"controllerType=0 controllerNumber=1 scan=17"
+PEPMASS=600.25 15000 2+
+RTINSECONDS=95.5-97.25
+SCANS=17
+110.07 120.5
+175.119 300.25 1+
+800.4 55
+END IONS
+
+BEGIN IONS
+TITLE=chimeric
+PEPMASS=450.5
+PEPMASS=451.75 200
+RTINSECONDS=101.5
+IONMODE=Negative
+MSLEVEL=2
+200.1 10
+300.2 20
+END IONS
+
+begin ions
+title=lower case keys, file-level charge
+pepmass=1000.5
+150.5 1e3
+250.25 2.5E2
+end ions

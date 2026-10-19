@@ -41,6 +41,39 @@ pub(crate) static MZMLB: AssuranceProfile = AssuranceProfile {
     basis: Basis::OpenSpec,
 };
 
+pub(crate) static MGF: AssuranceProfile = AssuranceProfile {
+    format_id: "mgf",
+    observe: observe_mgf,
+    validated: MGF_VALIDATED,
+    confidence: MGF_CONFIDENCE,
+    basis: Basis::VendorDocs,
+};
+
+/// MGF: the dialect (which optional parameters the writer uses decides how titles, scan numbers,
+/// charges and polarity are read), the writer the file names, and the gzip container.
+fn observe_mgf(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    for s in &info.spectra {
+        if let Some(d) = a::extra_str(&s.extra, "dialect") {
+            o.feature(K::Dialect, d, &[Scope::Spectra]);
+        }
+        if let Some(w) = a::extra_str(&s.extra, "writer") {
+            o.context(K::Writer, w);
+        }
+        if s.extra.contains_key("compression") {
+            o.feature(K::Codec, "gzip container", &[Scope::Spectra]);
+        }
+        if s.extra.contains_key("pmf_queries") {
+            o.undecoded(
+                "peptide mass fingerprint queries",
+                &[],
+                "lines outside BEGIN IONS blocks are counted, not read",
+            );
+        }
+    }
+    o
+}
+
 fn observe(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     if let Some(n) = info
@@ -276,3 +309,17 @@ const MZMLB_VALIDATED: &[Validated] = &[
     a::row(K::Writer, "python-psims", 4, 1, 4),
 ];
 // END GENERATED mzmlb
+
+// BEGIN GENERATED mgf (cargo xtask assurance-audit --write; do not edit)
+const MGF_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const MGF_VALIDATED: &[Validated] = &[
+    a::row(K::Dialect, "annotated peptide spectra (SEQ)", 1, 1, 1),
+    a::row(K::Dialect, "feature export (FEATURE_ID)", 1, 1, 1),
+    a::row(K::Dialect, "peak list", 5, 4, 5),
+    a::row(K::Dialect, "search submission (file parameters)", 2, 2, 2),
+    a::row(K::Dialect, "spectral library (GNPS)", 3, 2, 3),
+    a::row(K::Writer, "GNPS", 3, 2, 3),
+    a::row(K::Writer, "OpenMS", 1, 1, 1),
+];
+// END GENERATED mgf

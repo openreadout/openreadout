@@ -107475,6 +107475,314 @@
       ]
     },
     {
+      "id": "mgf-casanovo-sample",
+      "format": "mgf",
+      "source": "github:noble-lab/casanovo",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "annotated peptide spectra (SEQ)",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-matchms-pesticides",
+      "format": "mgf",
+      "source": "github:matchms/matchms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "spectral library (GNPS)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "GNPS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-matchms-testdata",
+      "format": "mgf",
+      "source": "github:matchms/matchms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "spectral library (GNPS)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "GNPS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-ms2pip-massivekb500",
+      "format": "mgf",
+      "source": "github:compomics/ms2pip",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-ms2rescore-test",
+      "format": "mgf",
+      "source": "github:compomics/ms2rescore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-msdeisotope-small",
+      "format": "mgf",
+      "source": "github:mobiusklein/ms_deisotope",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-openms-gnpsexport1",
+      "format": "mgf",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "feature export (FEATURE_ID)",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-openms-idconv33",
+      "format": "mgf",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "search submission (file parameters)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "OpenMS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-openms-mgf-gnps",
+      "format": "mgf",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "spectral library (GNPS)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "GNPS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-pyteomics-example",
+      "format": "mgf",
+      "source": "github:levitsky/pyteomics",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-pyteomics-pepmass",
+      "format": "mgf",
+      "source": "github:levitsky/pyteomics",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-pyteomics-test",
+      "format": "mgf",
+      "source": "github:levitsky/pyteomics",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "search submission (file parameters)",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
       "id": "itc-bitc-adh10",
       "format": "microcal-itc",
       "source": "github:choderalab/bayesian-itc",

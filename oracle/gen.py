@@ -4226,6 +4226,48 @@ def mzxml_(p: Path) -> dict:
         "spectra": {"scan_count": len(scans), "by_index": True, "scans": scans},
     }
 
+def mgf_(p: Path) -> dict:
+    """MGF peak lists read with pyteomics (Apache-2.0) `mgf.MGF`, file parameters merged into
+    each spectrum as pyteomics does by default (`use_header=True`: a file-level CHARGE applies to
+    every query without one). Recorded per spectrum: scan number (`SCANS` when it is one whole
+    number, else the position from 1), MS level (`MSLEVEL`, else 2: MGF holds MS/MS queries),
+    `RTINSECONDS`, the first `PEPMASS` m/z, a single precursor charge, and the peaks in file
+    order. Polarity and centroiding are not stated by the format and are not recorded."""
+    from importlib.metadata import version as pkg_version
+    from pyteomics import mgf
+    scans = []
+    # the sequential reader: the indexed one keys spectra by TITLE and drops repeated titles
+    with mgf.MGF(str(p), use_header=True, convert_arrays=1, read_charges=True) as r:
+        for i, sp in enumerate(r):
+            par = sp["params"]
+            sc = str(par.get("scans", "")).strip()
+            rt = par.get("rtinseconds")
+            try:
+                rt = float(rt) if rt is not None else None
+            except (TypeError, ValueError):
+                rt = None
+            ch = par.get("charge")
+            charges = list(ch) if isinstance(ch, (list, tuple)) else ([ch] if ch is not None else [])
+            pep = par.get("pepmass") or (None,)
+            scans.append({
+                "index": i,
+                "scan_number": int(sc) if sc.isdigit() else i + 1,
+                "ms_level": int(par.get("mslevel", 2)),
+                "rt_s": rt,
+                "polarity": None,
+                "centroided": None,
+                "filter": None,
+                "precursor_mz": float(pep[0]) if pep[0] is not None else None,
+                "precursor_charge": int(charges[0]) if len(charges) == 1 else None,
+                "activation": None,
+                **_peaks(sp["m/z array"], sp["intensity array"], None),
+            })
+    return {
+        "reader": f"pyteomics {pkg_version('pyteomics')} mgf.MGF",
+        "images": [],
+        "spectra": {"scan_count": len(scans), "by_index": True, "scans": scans},
+    }
+
 def thermo(p: Path, q: Path = None) -> dict:
     """Ground truth for a Thermo .raw file = the depositor's own open-format conversion of it.
     No reader of the .raw itself is run (none may be: see docs/provenance/thermo-raw.md)."""
@@ -6499,7 +6541,7 @@ def main():
         ext = p.suffix.lower()
         is_tiff = ext in TIFF_SUFFIXES or p.name.lower().endswith(".companion.ome")
         # A .lifext sidecar shares its stem with its .lif; its oracle id gets a -lifext suffix.
-        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs|isyntax|vms)$", "",
+        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|mgf|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs|isyntax|vms)$", "",
                                  re.sub(r"\.lifext$", "-lifext", p.name, flags=re.I), flags=re.I)
         if (is_tiff or ext in (".nd", ".dcimg", ".ndpis")) and not given_id:
             fid = _corpus_id(p)
@@ -6509,7 +6551,7 @@ def main():
             fid = p.stem  # plate corpus ids are the file stems
         em = {e: mrc for e in ("mrc", "mrcs", "map", "rec", "st", "ali", "ccp4")} | {"dm3": dm, "dm4": dm, "dm5": dm, "ser": ser, "emd": emd}
         try:
-            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
+            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "mgf": mgf_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
             import spectro
 
             import medical  # DICOM, NIfTI, ParaVision (oracle/medical.py)

@@ -28,6 +28,7 @@ fn formats_lists_all_readers() {
             "mzml",
             "mzxml",
             "mzmlb",
+            "mgf",
             "bruker-tdf",
             "bruker-baf",
             "oir",
