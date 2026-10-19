@@ -953,14 +953,14 @@ impl EdfDataset {
 /// Decode `n` samples of `bytes` (2- or 3-byte little-endian two's complement).
 fn decode(bytes: &[u8], bdf: bool, scale: f64, offset: f64, out: &mut Vec<f64>) {
     if bdf {
-        for x in bytes.chunks_exact(3) {
+        for x in bytes.as_chunks::<3>().0 {
             let v = i32::from_le_bytes([x[0], x[1], x[2], 0]);
             let v = (v << 8) >> 8;
             out.push(f64::from(v) * scale + offset);
         }
     } else {
-        for x in bytes.chunks_exact(2) {
-            out.push(f64::from(i16::from_le_bytes([x[0], x[1]])) * scale + offset);
+        for x in bytes.as_chunks::<2>().0 {
+            out.push(f64::from(i16::from_le_bytes(*x)) * scale + offset);
         }
     }
 }
@@ -1099,6 +1099,7 @@ impl Dataset for EdfDataset {
         ))
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn read_trace(&mut self, index: u32, sweep: u32, first: u64, max: u64) -> Result<Trace> {
         let g = index as usize;
         let Some(sigs) = self.groups.get(g).cloned() else {
@@ -1216,7 +1217,7 @@ impl Dataset for EdfDataset {
             if s.annotations {
                 continue;
             }
-            if !(s.digital_max > s.digital_min) {
+            if s.digital_max.partial_cmp(&s.digital_min) != Some(std::cmp::Ordering::Greater) {
                 r.push(Finding::error(
                     "bad_digital_range",
                     format!(
@@ -1225,7 +1226,7 @@ impl Dataset for EdfDataset {
                     ),
                 ));
             }
-            if s.physical_max == s.physical_min {
+            if s.physical_max.total_cmp(&s.physical_min).is_eq() {
                 r.push(Finding::error(
                     "bad_physical_range",
                     format!(
