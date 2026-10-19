@@ -182,11 +182,23 @@ def main(argv: list[str]) -> int:
             with src.open("w", encoding="utf-8", newline="") as fh:
                 csv.writer(fh).writerows(rows)
             out["readers"]["transcode"] = "tab-separated fields rewritten comma-separated (Python csv) for allotropy"
+        elif vendor == Vendor.THERMO_FISHER_NANODROP_EIGHT and first.startswith("Application:,"):
+            # and the Eight export only tab-separated, named .txt or .tsv; the software also
+            # writes it comma-separated (.csv)
+            import csv
+            import tempfile
+
+            text = path.read_bytes().decode(enc)
+            rows = list(csv.reader(text.splitlines()))
+            src = Path(tempfile.mkdtemp()) / (path.stem + ".txt")
+            with src.open("w", encoding="utf-8", newline="") as fh:
+                csv.writer(fh, delimiter="\t").writerows(rows)
+            out["readers"]["transcode"] = "comma-separated fields rewritten tab-separated (Python csv) for allotropy"
         asm = allotrope_from_file(str(src), vendor, encoding=CHARDET_ENCODING)
         out.update(from_asm(asm))
         out["readers"]["asm"] = f"allotropy {version('allotropy')} (MIT), {vendor.name}"
         if vendor.name == "THERMO_FISHER_NANODROP_EIGHT":
-            s = spectra_eight(path)
+            s = spectra_eight(src)
             if s:
                 out["spectra"] = s
                 out["readers"]["spectra"] = f"pandas {version('pandas')} (BSD-3)"

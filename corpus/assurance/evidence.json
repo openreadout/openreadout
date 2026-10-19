@@ -49616,6 +49616,16 @@
           ]
         ],
         [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -49685,6 +49695,16 @@
           ]
         ],
         [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -49745,6 +49765,16 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
         ],
         [
           "field",
@@ -49816,6 +49846,16 @@
           ]
         ],
         [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -49885,6 +49925,16 @@
           ]
         ],
         [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -49945,6 +49995,16 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
         ],
         [
           "field",
@@ -50016,6 +50076,16 @@
           ]
         ],
         [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -50085,6 +50155,16 @@
           ]
         ],
         [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -50152,6 +50232,16 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "Biacore T200 Control Software",
+          []
+        ],
+        [
+          "writer_version",
+          "Biacore T200 Control Software 2.0",
+          []
         ],
         [
           "field",
@@ -100349,6 +100439,361 @@
       ]
     },
     {
+      "id": "zetasizer-figshare26496859-feox",
+      "format": "malvern-zetasizer-dts",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Zetasizer 7.13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "record schema 13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "size record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "size result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "zeta record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "zeta result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zetasizer-figshare26496859-mixed",
+      "format": "malvern-zetasizer-dts",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Zetasizer 7.13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "record schema 13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "size record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "size result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "zeta record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "zeta result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zetasizer-figshare26496859-pac10ph",
+      "format": "malvern-zetasizer-dts",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Zetasizer 7.13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "record schema 13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "size record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "size result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "zeta record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "zeta result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zetasizer-figshare26496859-pac16",
+      "format": "malvern-zetasizer-dts",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Zetasizer 7.13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "record schema 13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "size record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "size result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "zeta record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "zeta result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zetasizer-figshare26496859-pac3imida",
+      "format": "malvern-zetasizer-dts",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Zetasizer 7.13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "record schema 13",
+          [
+            "metadata",
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "size record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "size result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "acquisition",
+          "zeta record",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "zeta result block",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "zetasizer-tdl-bkrucg-ecoli",
       "format": "malvern-zetasizer-dts",
       "source": "texas data repository doi",
@@ -101354,6 +101799,53 @@
         [
           "writer_version",
           "ITC200 1.26",
+          []
+        ],
+        [
+          "layout",
+          "9 data columns",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "itc-ftitc-prlr-w392a",
+      "format": "microcal-itc",
+      "source": "github:frederiktheisen/ft-itc-analysis",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "fields": [
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "writer",
+          "MicroCalITC",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "MicroCalITC 1.30",
           []
         ],
         [
@@ -114556,6 +115048,11 @@
           ]
         ],
         [
+          "writer",
+          "NanoDrop 8000 software",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -114591,6 +115088,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "NanoDrop 8000 software",
+          []
         ],
         [
           "field",
@@ -114630,6 +115132,11 @@
           ]
         ],
         [
+          "writer",
+          "NanoDrop 8000 software",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -114665,6 +115172,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "NanoDrop 8000 software",
+          []
         ],
         [
           "field",
@@ -114704,6 +115216,53 @@
           ]
         ],
         [
+          "writer",
+          "NanoDrop 8000 software",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-eight-comma-czabriskie",
+      "format": "nanodrop",
+      "source": "github:czabriskie/test-dag-ci",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-eight",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "NanoDrop Eight software",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -114739,6 +115298,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "NanoDrop Eight software",
+          []
         ],
         [
           "field",
@@ -114778,6 +115342,11 @@
           ]
         ],
         [
+          "writer",
+          "NanoDrop Eight software",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -114813,6 +115382,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "NanoDrop Eight software",
+          []
         ],
         [
           "field",
@@ -114852,6 +115426,11 @@
           ]
         ],
         [
+          "writer",
+          "NanoDrop Eight software",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -114889,6 +115468,95 @@
           ]
         ],
         [
+          "writer",
+          "NanoDrop One software",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-one-kelps-dna",
+      "format": "nanodrop",
+      "source": "github:lukaseamus/kelps-vs-urchins",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-one",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "NanoDrop One software",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "nanodrop-one-tab-freezerbox",
+      "format": "nanodrop",
+      "source": "github:kalekundert/freezerbox",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "nanodrop-one",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "NanoDrop One software",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -114924,6 +115592,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "NanoDrop One software",
+          []
         ],
         [
           "field",
@@ -120732,6 +121405,1137 @@
       ]
     },
     {
+      "id": "ngb-darus5199-ady95-tfa",
+      "format": "netzsch-ngb",
+      "source": "darus darus-5199",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel dsc_signal",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel protective_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel h_foil_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel uc_module",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel environmental_pressure",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_x",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_y",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_z",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH STA 449 F3 Jupiter",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "sample and correction runs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "ngb-darus5199-hsh64-acoh",
+      "format": "netzsch-ngb",
+      "source": "darus darus-5199",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel dsc_signal",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel protective_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel h_foil_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel uc_module",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel environmental_pressure",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_x",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_y",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_z",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH STA 449 F3 Jupiter",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "sample and correction runs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "ngb-darus5199-hsh65-ba",
+      "format": "netzsch-ngb",
+      "source": "darus darus-5199",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel dsc_signal",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel protective_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel h_foil_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel uc_module",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel environmental_pressure",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_x",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_y",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_z",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH STA 449 F3 Jupiter",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "sample and correction runs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "ngb-darus5230-jek77",
+      "format": "netzsch-ngb",
+      "source": "darus darus-5230",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel dsc_signal",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel protective_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel h_foil_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel uc_module",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel environmental_pressure",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_x",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_y",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_z",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH STA 449 F3 Jupiter",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "sample and correction runs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "ngb-darus5230-jek85",
+      "format": "netzsch-ngb",
+      "source": "darus darus-5230",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at",
+        "experiment.instrument.model"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel dsc_signal",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel h_foil_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel uc_module",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel environmental_pressure",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_x",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_y",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel acceleration_z",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH STA 449 F3 Jupiter",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "sample and correction runs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "ngb-figshare26496859-comar",
+      "format": "netzsch-ngb",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_1",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel protective_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH TG_209F1_Libra",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "one run",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "ngb-figshare26496859-pac16",
+      "format": "netzsch-ngb",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_1",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel protective_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH TG_209F1_Libra",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "one run",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "ngb-figshare26496859-pcb-recycling",
+      "format": "netzsch-ngb",
+      "source": "figshare 26496859",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "db_format_1",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel sample_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_1",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel purge_flow_2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel protective_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel mass",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel furnace_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cooling_power",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "NETZSCH TG_209F1_Libra",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
+          "record",
+          "channel time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "one run",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "ngb-pyngb-01-messung-probe-g-300-grad-ar",
       "format": "netzsch-ngb",
       "source": "github:graysonbellamy/pyngb",
@@ -120809,6 +122613,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 6.0",
+          []
         ],
         [
           "record",
@@ -120918,6 +122727,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 6.0",
+          []
         ],
         [
           "record",
@@ -121083,6 +122897,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -121201,6 +123020,11 @@
         [
           "instrument",
           "NETZSCH STA 449F3",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
           []
         ],
         [
@@ -121325,6 +123149,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -121446,6 +123275,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -121564,6 +123398,11 @@
         [
           "instrument",
           "NETZSCH STA 449F3",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
           []
         ],
         [
@@ -121723,6 +123562,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -121855,6 +123699,11 @@
         [
           "instrument",
           "NETZSCH DIL 402 Expedis Select",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
           []
         ],
         [
@@ -121993,6 +123842,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -122128,6 +123982,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -122232,6 +124091,11 @@
         [
           "instrument",
           "NETZSCH DSC 204 F1 Phoenix",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
           []
         ],
         [
@@ -122342,6 +124206,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -122446,6 +124315,11 @@
         [
           "instrument",
           "NETZSCH DSC 204 F1 Phoenix",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
           []
         ],
         [
@@ -122556,6 +124430,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -122660,6 +124539,11 @@
         [
           "instrument",
           "NETZSCH DSC 204 F1 Phoenix",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
           []
         ],
         [
@@ -122770,6 +124654,11 @@
           []
         ],
         [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
+          []
+        ],
+        [
           "record",
           "channel time",
           [
@@ -122874,6 +124763,11 @@
         [
           "instrument",
           "NETZSCH DSC 204 F1 Phoenix",
+          []
+        ],
+        [
+          "writer_version",
+          "NETZSCH Proteus 8.0",
           []
         ],
         [
@@ -152755,6 +154649,831 @@
       ]
     },
     {
+      "id": "trios-dvn-t4eyxj-peg-fig1c",
+      "format": "ta-trios",
+      "source": "harvard dataverse doi",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel step_time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel angular_frequency",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_5f7b2d27",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel gap",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel raw_phase",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_a393424e",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_cf7aa154",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_torque",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_displacement",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel storage_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel loss_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel tan_delta",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel complex_viscosity",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "generation 14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TRIOS 5.4",
+          []
+        ],
+        [
+          "instrument",
+          "Discovery HR20",
+          []
+        ],
+        [
+          "acquisition",
+          "oscillation moduli, parallel plate 8 mm",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "trios-dvn-t4eyxj-peg-fig2b",
+      "format": "ta-trios",
+      "source": "harvard dataverse doi",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel step_time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel angular_frequency",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_5f7b2d27",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel gap",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel raw_phase",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_a393424e",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_cf7aa154",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_torque",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_displacement",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel storage_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel loss_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel tan_delta",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel complex_viscosity",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "generation 14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TRIOS 5.4",
+          []
+        ],
+        [
+          "instrument",
+          "Discovery HR20",
+          []
+        ],
+        [
+          "acquisition",
+          "oscillation moduli, parallel plate 8 mm",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "trios-dvn-t4eyxj-peg-strainsweep",
+      "format": "ta-trios",
+      "source": "harvard dataverse doi",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel step_time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel angular_frequency",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_5f7b2d27",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel gap",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel raw_phase",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_a393424e",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_cf7aa154",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_torque",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_displacement",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel storage_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel loss_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel tan_delta",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel complex_viscosity",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "generation 14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TRIOS 5.4",
+          []
+        ],
+        [
+          "instrument",
+          "Discovery HR20",
+          []
+        ],
+        [
+          "acquisition",
+          "oscillation moduli, parallel plate 8 mm",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "trios-zenodo13143510-prepolymer-dsc",
+      "format": "ta-trios",
+      "source": "zenodo:13143510",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel heat_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel delta_t",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel delta_t_zero",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel t_zero_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel cell_purge",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel heater_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel power_delivered",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel reference_junction_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel flange_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel heat_flow_phase",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel total_heat_capacity",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_95b1783d",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel set_point_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_7b7b71f2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_8409266c",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_5a85b361",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_9abe4255",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_52785362",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_691f67cf",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_41018bb3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_2e1cdd4b",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_bd1abf90",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_64ff180e",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "generation 14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TRIOS 5.5",
+          []
+        ],
+        [
+          "instrument",
+          "DSC250",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "trios-zenodo13143510-prepolymer-tga",
+      "format": "ta-trios",
+      "source": "zenodo:13143510",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_dd8cab1b",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_60c94927",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel set_point_temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_5a85b361",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel power_delivered",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_532e668d",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel heat_flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_7c6223ab",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_1a29d150",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_6f76d143",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "generation 14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TRIOS 5.5",
+          []
+        ],
+        [
+          "instrument",
+          "SDT650",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "trios-zenodo14587622-tga-plasticized",
       "format": "ta-trios",
       "source": "zenodo:14587622",
@@ -152969,6 +155688,164 @@
           "instrument",
           "TGA550",
           []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "trios-zenodo15030675-p3ht-shear",
+      "format": "ta-trios",
+      "source": "zenodo:15030675",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel step_time",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel angular_frequency",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_5f7b2d27",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel gap",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel raw_phase",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_a393424e",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel signal_cf7aa154",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_torque",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel oscillation_displacement",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel storage_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel loss_modulus",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel tan_delta",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "channel complex_viscosity",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "generation 14",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TRIOS 5.7",
+          []
+        ],
+        [
+          "instrument",
+          "Discovery HR-3",
+          []
+        ],
+        [
+          "acquisition",
+          "oscillation moduli, parallel plate 8 mm",
+          [
+            "traces"
+          ]
         ],
         [
           "field",

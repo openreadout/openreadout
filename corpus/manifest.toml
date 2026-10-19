@@ -44476,7 +44476,7 @@ sha256 = "0d9063013d1afa8aec54a12ef6034a01e5450836e87c36f97f69ca005b5c38de"
 size = 796539
 license = "CC-BY-4.0"
 license_checked = "https://doi.org/10.18419/DARUS-5199 (CC BY 4.0, Dataverse API), 2026-10-19"
-source = "DaRUS doi:10.18419/DARUS-5199 (Data for: Linker-Cluster Cooperativity in Confinement of Proline-Functionalized Zr-Based Metal-Organic Frameworks and its Effect on the Organocatalytic Aldol Reaction), Raw TGA-DTA Files/m-UiO-67-NHPro-AcOH_deprotected_HSH-64-dpro_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397905)"
+source = "DaRUS DARUS-5199 (doi:10.18419/DARUS-5199, Data for: Linker-Cluster Cooperativity in Confinement of Proline-Functionalized Zr-Based Metal-Organic Frameworks and its Effect on the Organocatalytic Aldol Reaction), Raw TGA-DTA Files/m-UiO-67-NHPro-AcOH_deprotected_HSH-64-dpro_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397905)"
 attribution = "Dadgar Yeganeh, Ardeshir"
 notes = "STA 449 F3 Jupiter (Proteus 8.0.2) TG-DTA of a metal-organic framework in synthetic air, sample and correction runs. Ground truth: pyNGB (black box)."
 
@@ -44492,7 +44492,7 @@ sha256 = "53f05ae66435167e112ab564c8a1d14af6a440c7331bda6e88014d220084a927"
 size = 793484
 license = "CC-BY-4.0"
 license_checked = "https://doi.org/10.18419/DARUS-5199 (CC BY 4.0, Dataverse API), 2026-10-19"
-source = "DaRUS doi:10.18419/DARUS-5199, Raw TGA-DTA Files/m-UiO-67-NHPro-BA_deprotected_HSH-65-dpro_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397904)"
+source = "DaRUS DARUS-5199 (doi:10.18419/DARUS-5199), Raw TGA-DTA Files/m-UiO-67-NHPro-BA_deprotected_HSH-65-dpro_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397904)"
 attribution = "Dadgar Yeganeh, Ardeshir"
 notes = "STA 449 F3 Jupiter TG-DTA, sample and correction runs. Ground truth: pyNGB (black box)."
 
@@ -44508,7 +44508,7 @@ sha256 = "6a1d1ef36186708c17f0dfb9c6cb7eed37e9b1379b734514017f29c991d48138"
 size = 798682
 license = "CC-BY-4.0"
 license_checked = "https://doi.org/10.18419/DARUS-5199 (CC BY 4.0, Dataverse API), 2026-10-19"
-source = "DaRUS doi:10.18419/DARUS-5199, Raw TGA-DTA Files/m-UiO-67-NHPro-TFA_ADY-95_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397896)"
+source = "DaRUS DARUS-5199 (doi:10.18419/DARUS-5199), Raw TGA-DTA Files/m-UiO-67-NHPro-TFA_ADY-95_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397896)"
 attribution = "Dadgar Yeganeh, Ardeshir"
 notes = "STA 449 F3 Jupiter TG-DTA, sample and correction runs. Ground truth: pyNGB (black box)."
 
@@ -44524,7 +44524,7 @@ sha256 = "a2cca2e0935b7ad17d4c4c2abc5e1ac8ee1796a78896e2256f3030d1e137da5b"
 size = 785112
 license = "CC-BY-4.0"
 license_checked = "https://doi.org/10.18419/DARUS-5230 (CC BY 4.0, Dataverse API), 2026-10-19"
-source = "DaRUS doi:10.18419/DARUS-5230 (Replication Data for: Dynamic breathing behaviour of the titanium-based metal-organic framework NTU-9 upon adsorption of water and organic solvents), measurements/TGA/TG_DTA_JEK77_1_SiC_10Kmin_30to1000C_Al2O3_synthAir.ngb-ds3 (datafile 458418)"
+source = "DaRUS DARUS-5230 (doi:10.18419/DARUS-5230, Replication Data for: Dynamic breathing behaviour of the titanium-based metal-organic framework NTU-9 upon adsorption of water and organic solvents), measurements/TGA/TG_DTA_JEK77_1_SiC_10Kmin_30to1000C_Al2O3_synthAir.ngb-ds3 (datafile 458418)"
 attribution = "Knapp, Julia; Ortín-Rubio, Borja; Heck, Fabian; Gjorgjevikj, Kristina; Sleptsova, Anastasia; Krause, Simon; Bette, Sebastian; Lotsch, Bettina V."
 notes = "STA 449 F3 Jupiter TG-DTA at 10 K/min to 1000 C, sample and correction runs; the same institute's instrument as the DARUS-5199 files, another record and group. Ground truth: pyNGB (black box)."
 
@@ -44540,7 +44540,7 @@ sha256 = "7d72da95d8403b01fa193d7ae63296f6e12c0747b9ceafb7f7bc6afa3ecb28a5"
 size = 1021614
 license = "CC-BY-4.0"
 license_checked = "https://doi.org/10.18419/DARUS-5230 (CC BY 4.0, Dataverse API), 2026-10-19"
-source = "DaRUS doi:10.18419/DARUS-5230, measurements/TGA/TG_DTA_JEK85_1_SiC_5Kmin_30to1200C_Al2O3_synthAir.ngb-ds3 (datafile 458421)"
+source = "DaRUS DARUS-5230 (doi:10.18419/DARUS-5230), measurements/TGA/TG_DTA_JEK85_1_SiC_5Kmin_30to1200C_Al2O3_synthAir.ngb-ds3 (datafile 458421)"
 attribution = "Knapp, Julia; Ortín-Rubio, Borja; Heck, Fabian; Gjorgjevikj, Kristina; Sleptsova, Anastasia; Krause, Simon; Bette, Sebastian; Lotsch, Bettina V."
 notes = "STA 449 F3 Jupiter TG-DTA at 5 K/min to 1200 C, sample and correction runs. Ground truth: pyNGB (black box)."
 
@@ -53962,38 +53962,6 @@ license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, fi
 source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
 attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
 notes = "Zetasizer records table export of AH230912_FeOx.dts (\"unfunc SPIONs export.txt\"), every record in record order."
-
-[[file]]
-id = "zetasizer-zenodo19044980-bismuth"
-format = "malvern-zetasizer-dts"
-family = "particle-sizing"
-role = "input"
-tier = "standard"
-filename = "zetasizer-zenodo19044980-bismuth.dts"
-url = "https://zenodo.org/api/records/19044980/files/Bizmut_DMSO.dts/content"
-sha256 = "f6b8762c3bbc36eda90c2a86651794794faa499f65cdeab90582c762c97ac84b"
-size = 1288192
-license = "CC-BY-4.0"
-license_checked = "https://zenodo.org/records/19044980 (CC-BY-4.0, Zenodo API), 2026-10-19"
-source = "Zenodo 19044980: Bismuth nanoparticles"
-attribution = "Błaszkiewicz, Paulina"
-notes = "Zetasizer 7.13: size and zeta records of bismuth selenide particles in DMSO. Ground truth: the depositor's Zetasizer export of records 28-30 (zeta) and 34-36 (size), Polish dates, Windows-1250 text."
-
-[[file]]
-id = "zetasizer-zenodo19044980-bismuth"
-format = "malvern-zetasizer-dts"
-family = "particle-sizing"
-role = "oracle-export"
-tier = "standard"
-filename = "zetasizer-zenodo19044980-bismuth-export.txt"
-url = "https://zenodo.org/api/records/19044980/files/exported.txt/content"
-sha256 = "00a2130a4ae15bf95c0b0b1f1755c68002f94d8d3116b4cdecc888c1a5a58e2f"
-size = 994
-license = "CC-BY-4.0"
-license_checked = "https://zenodo.org/records/19044980 (CC-BY-4.0, Zenodo API), 2026-10-19"
-source = "Zenodo 19044980: Bismuth nanoparticles"
-attribution = "Błaszkiewicz, Paulina"
-notes = "Zetasizer records table export (\"exported.txt\") of six records of Bizmut_DMSO.dts, with record numbers."
 
 [[file]]
 id = "zetasizer-zenodo6552819-ps30k"
@@ -83021,22 +82989,6 @@ attribution = "Beatrice Bock"
 notes = "NanoDrop One UV-Vis spectrum export: 24 measurement blocks (sample and repeat), 190-850 nm at 0.5 nm, //WLCalib lines. Ground truth: pandas."
 
 [[file]]
-id = "nanodrop-one-utf16-tab-mop"
-format = "nanodrop"
-family = "spectrophotometer"
-role = "input"
-tier = "smoke"
-filename = "nanodrop-one-utf16-tab-mop.csv"
-url = "https://raw.githubusercontent.com/kaiaragaki/mop/bb7f2b7f314783ba8cc92cdc38854deceda2cf6a/inst/extdata/nanodrop.csv"
-sha256 = "d4e12475e50baf8d445bc7ecafea06da9e1169e4ff3180020e6e91ea3750218f"
-size = 3558
-license = "MIT"
-license_checked = "https://github.com/KaiAragaki/mop/blob/bb7f2b7f314783ba8cc92cdc38854deceda2cf6a/DESCRIPTION (MIT + file LICENSE), 2026-10-19"
-source = "GitHub KaiAragaki/mop (R package) example data inst/extdata/nanodrop.csv, commit bb7f2b7f"
-attribution = "Kai Aragaki (mop authors)"
-notes = "NanoDrop One nucleic-acid report saved as UTF-16 LE with tabs (despite the .csv name), 18 samples from 2021, nucleic acid factor 40. Ground truth: allotropy (after the csv module rewrites the fields comma-separated)."
-
-[[file]]
 id = "nanodrop-one-kelps-dna"
 format = "nanodrop"
 family = "spectrophotometer"
@@ -83067,6 +83019,23 @@ license_checked = "https://github.com/kalekundert/freezerbox/blob/3339626979a2f9
 source = "GitHub kalekundert/freezerbox, tests/mock_nanodrop/nanodrop_one.tsv, commit 33396269"
 attribution = "Kale Kundert (freezerbox)"
 notes = "NanoDrop One nucleic-acid report saved tab-separated with quoted titles and year-first dates; a test file whose concentrations look edited (500.000, 400.000), 2 samples. Ground truth: allotropy (after the csv module rewrites the fields comma-separated)."
+
+
+[[file]]
+id = "nanodrop-eight-comma-czabriskie"
+format = "nanodrop"
+family = "spectrophotometer"
+role = "input"
+tier = "smoke"
+filename = "nanodrop-eight-comma-czabriskie.csv"
+url = "https://raw.githubusercontent.com/czabriskie/test-dag-ci/a510b48d72b56e03711eecaf07448608cf258c55/src/tests/testdatasets/thermofisher_nanodrop/dsDNA%2008-Dec-2023%2013_38_55%20Josh%20GCID%20319%20PCR_231208134944_result%20data.csv"
+sha256 = "3c96c6940f3e4016a2dcf48fcb64ba41b82edc5111c76e773f178594ae724292"
+size = 2600
+license = "GPL-3.0-only"
+license_checked = "https://github.com/czabriskie/test-dag-ci/blob/a510b48d72b56e03711eecaf07448608cf258c55/LICENSE.txt (GPL-3.0, GitHub API), 2026-10-19"
+source = "GitHub czabriskie/test-dag-ci, src/tests/testdatasets/thermofisher_nanodrop/dsDNA 08-Dec-2023 13_38_55 Josh GCID 319 PCR_231208134944_result data.csv, commit a510b48d"
+attribution = "czabriskie (test-dag-ci)"
+notes = "NanoDrop Eight dsDNA export saved comma-separated (UTF-8 BOM, `Application:,dsDNA`, serial, then Date, UID, Sample, Username, ng/µL, ratios, A260, A280), 48 samples, dates as 08-Dec-2023 13:38:55. Ground truth: allotropy (after the csv module rewrites the fields tab-separated)."
 
 [[file]]
 id = "incucyte-incucytedrc-mda-mb-468"

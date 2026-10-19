@@ -1218,8 +1218,14 @@ mod tests {
         ]
         .into_iter()
         .collect();
-        let [g1, g2, _, _] =
-            moduli(&cols, 2_947_313.759_259_259_3, 2.289_039e-5, 1000.0, 0.00103).unwrap();
+        let [g1, g2, _, _] = moduli(
+            &cols,
+            2_947_313.759_259_259_3,
+            2.289_039e-5,
+            1000.0,
+            0.00103,
+        )
+        .unwrap();
         // TRIOS: 3185.72 Pa and 2.45288 Pa
         assert!((g1[0] - 3185.72).abs() / 3185.72 < 1e-3, "{}", g1[0]);
         assert!((g2[0] - 2.452_88).abs() / 2.452_88 < 1e-3, "{}", g2[0]);
@@ -1228,7 +1234,7 @@ mod tests {
     #[test]
     fn compliance_of_a_stiff_sample() {
         // first point of the P3HT disc (8 mm plate): TRIOS removes the instrument compliance
-        let w = vec![6.283_19];
+        let w = vec![std::f64::consts::TAU];
         let m = vec![5428.29e-6];
         let p = vec![8.7773_f64.to_radians()];
         let th = vec![5.766_29e-5];
@@ -1245,7 +1251,15 @@ mod tests {
         let [g1, g2, _, _] =
             moduli(&cols, 9_947_183.937_5, 2.467_387_7e-6, 1000.0, 0.00202).unwrap();
         // TRIOS: 128.649 MPa and 24.5961 MPa
-        assert!((g1[0] - 128_649_000.0).abs() / 128_649_000.0 < 2e-3, "{}", g1[0]);
-        assert!((g2[0] - 24_596_100.0).abs() / 24_596_100.0 < 2e-3, "{}", g2[0]);
+        assert!(
+            (g1[0] - 128_649_000.0).abs() / 128_649_000.0 < 2e-3,
+            "{}",
+            g1[0]
+        );
+        assert!(
+            (g2[0] - 24_596_100.0).abs() / 24_596_100.0 < 2e-3,
+            "{}",
+            g2[0]
+        );
     }
 }

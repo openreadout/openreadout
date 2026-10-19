@@ -551,7 +551,11 @@ fn meta_str(s: &Stream, category: u16, field: u16) -> Option<String> {
 
 /// `8.0.2` from a Proteus version banner `Version 8.0.2  (10.07.2020) 20192.201`.
 fn proteus_version(s: &str) -> Option<String> {
-    let tok = s.trim_start().strip_prefix("Version")?.split_whitespace().next()?;
+    let tok = s
+        .trim_start()
+        .strip_prefix("Version")?
+        .split_whitespace()
+        .next()?;
     let parts: Vec<&str> = tok.split('.').collect();
     (parts.len() >= 3
         && parts

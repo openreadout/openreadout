@@ -1428,7 +1428,11 @@ impl Dataset for BiacoreDataset {
         if self.descriptor.id != FORMAT_ID {
             return o;
         }
-        if let Some(app) = self.env("Application").map(str::trim).filter(|s| !s.is_empty()) {
+        if let Some(app) = self
+            .env("Application")
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+        {
             o.context(FeatureKind::Writer, app);
             if let Some(v) = self.env("Version").and_then(|v| version_prefix(v, 2)) {
                 o.context(FeatureKind::WriterVersion, format!("{app} {v}"));

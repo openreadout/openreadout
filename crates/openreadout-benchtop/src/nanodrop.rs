@@ -43,10 +43,10 @@ pub(crate) fn sniff(text: &str) -> Option<&'static str> {
     {
         return Some("nanodrop-8000");
     }
-    if k.starts_with("application:\t") {
+    if let Some(d) = eight_delimiter(first) {
         let table = text.lines().take(12).any(|l| {
-            let l = line_key(l);
-            (l.contains("a260/a280") || l.contains("a280")) && l.matches('\t').count() >= 4
+            let l = l.to_lowercase();
+            (l.contains("a260/a280") || l.contains("a280")) && l.matches(d).count() >= 4
         });
         if table {
             return Some("nanodrop-eight");
@@ -62,6 +62,19 @@ pub(crate) fn sniff(text: &str) -> Option<&'static str> {
         return Some("nanodrop-spectra");
     }
     None
+}
+
+/// The field separator of a NanoDrop Eight export's first line (`Application:<tab>dsDNA`, or
+/// `Application:,dsDNA` in a comma-separated save).
+fn eight_delimiter(first: &str) -> Option<char> {
+    let first = first.trim_start_matches('\u{feff}');
+    if line_key(first).starts_with("application:\t") {
+        Some('\t')
+    } else if first.to_lowercase().starts_with("application:,") {
+        Some(',')
+    } else {
+        None
+    }
 }
 
 /// The field separator of a NanoDrop One report's header row: a comma, or a tab (the software
@@ -246,9 +259,13 @@ fn parse_eight(text: &str) -> Result<Parsed> {
         model: Some("NanoDrop Eight".into()),
         ..Parsed::default()
     };
+    let delim = lines
+        .first()
+        .and_then(|l| eight_delimiter(l))
+        .unwrap_or('\t');
     let mut k = 0;
     while k < lines.len() {
-        let f: Vec<String> = split(lines[k], '\t')
+        let f: Vec<String> = split(lines[k], delim)
             .into_iter()
             .filter(|c| !c.trim().is_empty())
             .collect();
@@ -270,7 +287,7 @@ fn parse_eight(text: &str) -> Result<Parsed> {
     if k >= lines.len() {
         return Err(Error::corrupt(FORMAT_ID, "no table after the header lines"));
     }
-    let mut headers = split(lines[k], '\t');
+    let mut headers = split(lines[k], delim);
     while headers.last().is_some_and(|h| h.trim().is_empty()) {
         headers.pop();
     }
@@ -284,7 +301,7 @@ fn parse_eight(text: &str) -> Result<Parsed> {
                 .map(|v| (i, v))
         })
         .collect();
-    let rows = rows_of(&lines[k + 1..], '\t', headers.len(), &mut p.findings);
+    let rows = rows_of(&lines[k + 1..], delim, headers.len(), &mut p.findings);
     if rows.len() > MAX_ROWS || wl.len() > MAX_POINTS {
         return Err(Error::corrupt(
             FORMAT_ID,
@@ -561,9 +578,25 @@ mod tests {
         assert_eq!(values, &[2.0, 2.0]);
     }
 
-    /// The One report saved tab-separated with quoted titles (layout of the freezerbox and mop
-    /// corpus files).
+    /// The One report saved tab-separated with quoted titles (layout of the freezerbox corpus
+    /// file).
     const ONE_TAB: &str = "Date\t\"Sample Name\"\t\"Nucleic Acid(ng/uL)\"\tA260/A280\tA260/A230\tA260\tA280\n\"2019/08/06 12:31:14\"\tx1\t500.000\t1.85\t2.308\t7.02\t3.795\n";
+
+    /// The Eight export saved comma-separated (layout of the czabriskie corpus file).
+    const EIGHT_COMMA: &str = "\u{feff}Application:,dsDNA\nSerial number:,AZY1809497\nDate,UID,Sample,Username,ng/µL,A260/A280,A260/A230,A260,A280\n08-Dec-2023 13:38:55,64b2c2c4-14c3-4956-95d4-5dab57695945,Sample 1,Vendor,282.920,1.82,1.68,5.66,3.11\n";
+
+    #[test]
+    fn eight_comma_separated() {
+        assert_eq!(sniff(EIGHT_COMMA), Some("nanodrop-eight"));
+        let p = parse(EIGHT_COMMA).unwrap();
+        assert_eq!(p.rows, 1);
+        assert_eq!(p.serial.as_deref(), Some("AZY1809497"));
+        assert_eq!(p.first_text("measured_at"), Some("2023-12-08T13:38:55"));
+        let Some(Column::Numbers { values, .. }) = p.column("a260_a280") else {
+            panic!()
+        };
+        assert_eq!(values, &[1.82]);
+    }
 
     #[test]
     fn one_tab_separated() {
@@ -580,7 +613,7 @@ mod tests {
 
     #[test]
     fn truncations_do_not_panic() {
-        for t in [EIGHT, P8000, SPEC, ONE_TAB] {
+        for t in [EIGHT, P8000, SPEC, ONE_TAB, EIGHT_COMMA] {
             for cut in 0..t.len() {
                 if let Some(s) = t.get(..cut) {
                     let _ = parse(s);

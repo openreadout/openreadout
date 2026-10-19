@@ -53,3 +53,15 @@ ground truth.
   columns (7 and 9 in newer files) are not identified and are kept unnamed. Sampling is uniform in
   every file (2 s VP-ITC, 1 or 5 s ITC200), across injection blocks.
 - Integrated heats (Origin's `DH`) are not in the `.itc` file; they are the analysis software's.
+
+## 2026-10-19 — a third depositor (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `itc-ftitc-prlr-w392a` (GitHub FrederikTheisen/FT-ITC-Analysis, MIT; MicroCal
+ITC software 1.30.4) with the injection table exported next to it.
+
+**Prior art consulted:** none.
+
+**Inferred from the files:** nothing new about the format: the 19 injection volumes and the cell
+concentration agree with the table. The table is comma-separated and prints single-precision
+values in full (`0.499999998737621` for 0.5 µl), so `oracle/itc_oracle.py` reads that layout too
+and records a relative tolerance of 1e-7 for it.

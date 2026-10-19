@@ -54,15 +54,18 @@ fn observe_nanodrop(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED nanodrop (cargo xtask assurance-audit --write; do not edit)
-const NANODROP_CONFIDENCE: Confidence = Confidence::Medium;
+const NANODROP_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const NANODROP_VALIDATED: &[Validated] = &[
     a::row(K::Dialect, "nanodrop-8000", 5, 1, 5),
-    a::row(K::Dialect, "nanodrop-eight", 4, 1, 4),
-    a::row(K::Dialect, "nanodrop-one", 1, 1, 1),
+    a::row(K::Dialect, "nanodrop-eight", 5, 2, 5),
+    a::row(K::Dialect, "nanodrop-one", 3, 3, 3),
     a::row(K::Dialect, "nanodrop-spectra", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 11),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 11),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 14),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 14),
+    a::row(K::Writer, "NanoDrop 8000 software", 5, 1, 5),
+    a::row(K::Writer, "NanoDrop Eight software", 5, 2, 5),
+    a::row(K::Writer, "NanoDrop One software", 4, 4, 4),
 ];
 // END GENERATED nanodrop
 

@@ -356,3 +356,9 @@ why = "as zenodo13752242-FLIM250523: Fast Flim, Standard Deviation and the phaso
 [file.zenodo14237352-105-S1-1-5-20x]
 right = "openreadout"
 why = "lossy JPEG 2000 (Aperio 33005) tiles: on the region 8000,8000,2048,2048 Bio-Formats' Java decoder differs from ours by at most 2 grey levels (mean absolute 0.077, no sample by more than 2); OpenReadout agrees with OpenJPEG (tifffile/imagecodecs, the primary oracle) within the lossy tolerance on every sampled region"
+
+[[field]]
+ids = ["ngb-figshare26496859-pac16", "ngb-figshare26496859-pcb-recycling", "ngb-figshare26496859-comar"]
+fields = ["instrument (model code before the serial)"]
+right = "openreadout"
+why = "the same instrument under two names: ours is the product name the file's instrument table holds (`TG_209F1_Libra`, the NETZSCH TG 209 F1 Libra); pyNGB's code is the prefix of the instrument's serial name `TGA209F1D-0160-L`, which spells the model `TGA209F1`, so the code is not a substring of the product name"

@@ -64,7 +64,7 @@ instrument model (a table of type 0x2B17, field 0x0432) and the measurement kind
   stream order (table above), values as stored: temperatures uncalibrated, the DSC signal in µV
   (Proteus converts it to mW or mW/mg with its sensitivity calibration and baseline correction
   only when it evaluates or exports).
-- **Experiment**: vendor NETZSCH, software Proteus, model, operator, comment, sample name and id,
+- **Experiment**: vendor NETZSCH, software Proteus and its version (the stream-1 banner `Version 8.0.2 ...`; the whole banner is `application_version` in the vendor tree), model, operator, comment, sample name and id,
   `sample_mass` (mg), `sample_length` (mm), `measurement_type`, the date performed (UTC), duration;
   technique thermal analysis (TG and DSC), thermogravimetry, DSC or dilatometry by the channels.
 - **Vendor tree**: the metadata above, the streams present, the run count, the extension and the
@@ -73,7 +73,7 @@ instrument model (a table of type 0x2B17, field 0x0432) and the measurement kind
 ## Validation
 
 `tests/series_oracle/mod.rs`: pyNGB 0.6.0 (MIT, run as a black box) returns the same values for
-every channel of every run of all 18 development files (256 rows per channel) and the same sample
+every channel of every run of all 26 development files from five depositors (256 rows per channel) and the same sample
 name, operator, mass and date. The Proteus exports of the seven DSC files (ExpDat, resampled at
 every kelvin, calibrated temperature) agree with our sample temperature within 0.6 K at every
 exported time (the difference is the temperature calibration, below 0.5 K). A third depositor is

@@ -1,0 +1,1358 @@
+{
+ "id": "nanodrop-eight-comma-czabriskie",
+ "readers": {
+  "transcode": "comma-separated fields rewritten tab-separated (Python csv) for allotropy",
+  "asm": "allotropy 0.1.147 (MIT), THERMO_FISHER_NANODROP_EIGHT"
+ },
+ "format": "nanodrop",
+ "measurements": [
+  {
+   "id": "36f73f0f-be43-45da-ba9a-6190688226f8",
+   "sample": "64b2c2c4-14c3-4956-95d4-5dab57695945",
+   "location": null,
+   "time": "2023-12-08T13:38:55+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.66,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     282.92,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "4a5609d8-d174-423a-a984-e05965bea092",
+   "sample": "64b2c2c4-14c3-4956-95d4-5dab57695945",
+   "location": null,
+   "time": "2023-12-08T13:38:55+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.11,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "dd33af6f-bcfc-45e6-8b95-8e59d9ff7127",
+   "sample": "7c313218-c7e3-438d-bad0-c0ed64587de7",
+   "location": null,
+   "time": "2023-12-08T13:39:20+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.13,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     256.634,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "5acc8b6b-208a-4d6e-a09a-67de59d2d61a",
+   "sample": "7c313218-c7e3-438d-bad0-c0ed64587de7",
+   "location": null,
+   "time": "2023-12-08T13:39:20+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     2.83,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a2bae021-c6d8-4951-a5c0-4a87f929973c",
+   "sample": "ec38c921-f48b-4876-9e11-17580858a48d",
+   "location": null,
+   "time": "2023-12-08T13:39:40+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.58,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     278.979,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "08c027dd-7a16-4bdf-8283-f2c4c9870177",
+   "sample": "ec38c921-f48b-4876-9e11-17580858a48d",
+   "location": null,
+   "time": "2023-12-08T13:39:40+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.04,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "86928cda-f50f-43f3-93bb-a3c964c2af00",
+   "sample": "afa4e86b-cd14-4659-81ce-558c4bc40aad",
+   "location": null,
+   "time": "2023-12-08T13:40:06+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.76,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     287.865,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "f5d4f2fc-dcd0-4ee1-8a08-600747d16e24",
+   "sample": "afa4e86b-cd14-4659-81ce-558c4bc40aad",
+   "location": null,
+   "time": "2023-12-08T13:40:06+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.15,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "0403fdfa-0888-4d36-add4-d7580aac90bd",
+   "sample": "c573206a-4aa7-48df-b3e4-acbb3ad0fc47",
+   "location": null,
+   "time": "2023-12-08T13:40:24+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.07,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     303.497,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "a01a4ed3-05cc-4321-9389-a7ccb5500174",
+   "sample": "c573206a-4aa7-48df-b3e4-acbb3ad0fc47",
+   "location": null,
+   "time": "2023-12-08T13:40:24+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.34,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "ae8d95f9-acea-47f3-9914-6e52c46f5687",
+   "sample": "14bf880c-6955-4948-9f4c-bd61d5797ca2",
+   "location": null,
+   "time": "2023-12-08T13:40:45+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.55,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     277.624,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "6b699905-369c-47c2-bfa0-39d44aa76b1a",
+   "sample": "14bf880c-6955-4948-9f4c-bd61d5797ca2",
+   "location": null,
+   "time": "2023-12-08T13:40:45+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.03,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "823f41b5-a98e-4363-8e03-07198231c56c",
+   "sample": "c141e17f-3e91-4104-8371-1ea3cb8cde53",
+   "location": null,
+   "time": "2023-12-08T13:41:05+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.84,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     291.779,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "36be922d-b4bf-426d-a9b3-72463919c791",
+   "sample": "c141e17f-3e91-4104-8371-1ea3cb8cde53",
+   "location": null,
+   "time": "2023-12-08T13:41:05+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.25,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d36e9803-4013-4081-b167-b768577adea9",
+   "sample": "10c75319-8a04-4b69-99bd-906ca5fce5f1",
+   "location": null,
+   "time": "2023-12-08T13:41:23+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     5.55,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     277.608,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "b33692c1-09d2-4ac8-a591-0650c575cbc1",
+   "sample": "10c75319-8a04-4b69-99bd-906ca5fce5f1",
+   "location": null,
+   "time": "2023-12-08T13:41:23+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.04,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "d978729d-023e-4523-be7a-c329bc9cb84c",
+   "sample": "60745733-8ea9-40cf-83d2-4f1b847efbb7",
+   "location": null,
+   "time": "2023-12-08T13:41:50+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.05,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     302.28,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "a4f6d7ce-36f2-4760-b988-28d6d644f419",
+   "sample": "60745733-8ea9-40cf-83d2-4f1b847efbb7",
+   "location": null,
+   "time": "2023-12-08T13:41:50+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.33,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "b96a2613-fb71-4da7-b788-df0b215835a0",
+   "sample": "ae1cc869-373b-49be-a676-bce2987b97ee",
+   "location": null,
+   "time": "2023-12-08T13:42:09+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.79,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     339.694,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "3b1f18ab-1bbf-4e4b-9b8e-109b9732c0f0",
+   "sample": "ae1cc869-373b-49be-a676-bce2987b97ee",
+   "location": null,
+   "time": "2023-12-08T13:42:09+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.76,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "35107394-4950-47ec-8c29-93830f3e761f",
+   "sample": "24dbd54e-996b-4384-9346-70192df9dc87",
+   "location": null,
+   "time": "2023-12-08T13:42:37+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.39,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     319.591,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "6bf04b76-579a-4479-bb0b-c8490275a994",
+   "sample": "24dbd54e-996b-4384-9346-70192df9dc87",
+   "location": null,
+   "time": "2023-12-08T13:42:37+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.46,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "ddf787f1-c0c8-4c51-bc9e-331b73c1bed2",
+   "sample": "cee00e60-4f00-43c6-baa5-25b0b473f650",
+   "location": null,
+   "time": "2023-12-08T13:43:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     7.03,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     351.348,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "9ab84daa-2f9c-4209-b4b9-5a8d2b400aed",
+   "sample": "cee00e60-4f00-43c6-baa5-25b0b473f650",
+   "location": null,
+   "time": "2023-12-08T13:43:00+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.83,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "ee80791d-b226-4a86-ad04-5d132dcfeb58",
+   "sample": "83f3640c-b5a0-4acc-9bc9-c672af36587b",
+   "location": null,
+   "time": "2023-12-08T13:43:20+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.87,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     343.388,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "35d5ce37-abb9-4321-b4a7-263fa4c1b037",
+   "sample": "83f3640c-b5a0-4acc-9bc9-c672af36587b",
+   "location": null,
+   "time": "2023-12-08T13:43:20+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.71,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "fc70c66e-2ded-49ec-9f9f-827212ab886c",
+   "sample": "df0d36ea-2858-4e85-a435-e7ec2a708c0a",
+   "location": null,
+   "time": "2023-12-08T13:43:38+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.49,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     324.534,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "0d9786a2-7744-4982-bd9e-3f40990cbfa4",
+   "sample": "df0d36ea-2858-4e85-a435-e7ec2a708c0a",
+   "location": null,
+   "time": "2023-12-08T13:43:38+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.59,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "113b7ba4-4509-4516-917a-77836bf970f4",
+   "sample": "19fa9840-df25-48af-b640-024fa48e2f3d",
+   "location": null,
+   "time": "2023-12-08T13:43:57+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.26,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     312.916,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "865c3e8c-50fe-4ba1-85dd-62d7dab5c80e",
+   "sample": "19fa9840-df25-48af-b640-024fa48e2f3d",
+   "location": null,
+   "time": "2023-12-08T13:43:57+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.41,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "0b3d6ebe-7c0e-4850-b6ae-d3ee8c23af8a",
+   "sample": "ebc48b24-1aef-46bc-8c16-47b6dcf8afc7",
+   "location": null,
+   "time": "2023-12-08T13:44:18+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     7.06,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     353.205,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "8488d5c6-9313-464c-8828-a714035f1c68",
+   "sample": "ebc48b24-1aef-46bc-8c16-47b6dcf8afc7",
+   "location": null,
+   "time": "2023-12-08T13:44:18+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.82,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "6fcea923-0c4a-43c1-894e-db89eca31f3c",
+   "sample": "a14d65a3-4cc2-4e33-861e-97b1746fc876",
+   "location": null,
+   "time": "2023-12-08T13:44:50+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.17,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     308.364,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "8ba21eeb-066c-48c5-9856-6f6811e29c68",
+   "sample": "a14d65a3-4cc2-4e33-861e-97b1746fc876",
+   "location": null,
+   "time": "2023-12-08T13:44:50+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.38,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "0c03b9e3-f43f-4721-91af-22c16ffa424c",
+   "sample": "8ea09be5-0203-452a-9400-d830426631db",
+   "location": null,
+   "time": "2023-12-08T13:45:07+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.26,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     312.834,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "3d83d046-9461-48c3-8dc3-ff12da4984bd",
+   "sample": "8ea09be5-0203-452a-9400-d830426631db",
+   "location": null,
+   "time": "2023-12-08T13:45:07+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.42,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "6cc334fe-17d2-4684-83b9-39462a7f0655",
+   "sample": "46adfc43-5936-4021-aff7-dce5d397d5c6",
+   "location": null,
+   "time": "2023-12-08T13:45:29+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.14,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     306.868,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "d5c7231e-e363-462b-bae9-8c4b03b56e94",
+   "sample": "46adfc43-5936-4021-aff7-dce5d397d5c6",
+   "location": null,
+   "time": "2023-12-08T13:45:29+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.32,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "6679615c-9ff2-4e39-aec0-925ff20cfaf9",
+   "sample": "a9697b39-33f2-42bd-9d40-65638efcf73a",
+   "location": null,
+   "time": "2023-12-08T13:45:53+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.91,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     345.747,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "af68ee48-47d6-482c-9964-f25f8ded6910",
+   "sample": "a9697b39-33f2-42bd-9d40-65638efcf73a",
+   "location": null,
+   "time": "2023-12-08T13:45:53+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.74,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "075c6d51-03f0-476f-bffc-fa1252844af8",
+   "sample": "2568ef6e-9ebc-4835-91f5-e70ffd1a3087",
+   "location": null,
+   "time": "2023-12-08T13:46:14+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     7.13,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     356.605,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "a4b42260-3c99-4015-9f8d-fe091fd6d209",
+   "sample": "2568ef6e-9ebc-4835-91f5-e70ffd1a3087",
+   "location": null,
+   "time": "2023-12-08T13:46:14+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.83,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "36e43ef5-45ec-4590-8883-a125df89aeb3",
+   "sample": "677db627-2412-4d38-a361-65b40dbb6b43",
+   "location": null,
+   "time": "2023-12-08T13:46:35+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     7.0,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     350.135,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "764030ac-5c6d-4e39-b314-57bc10bdc6a9",
+   "sample": "677db627-2412-4d38-a361-65b40dbb6b43",
+   "location": null,
+   "time": "2023-12-08T13:46:35+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.83,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "a40534b6-926d-41b8-af98-d72433eceb52",
+   "sample": "f601ac4d-dc73-4604-9dd2-bcf15204807b",
+   "location": null,
+   "time": "2023-12-08T13:46:56+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.94,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     347.171,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "177f8889-8ef1-4e95-a249-8eda32024db7",
+   "sample": "f601ac4d-dc73-4604-9dd2-bcf15204807b",
+   "location": null,
+   "time": "2023-12-08T13:46:56+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.71,
+     "mAU"
+    ]
+   ]
+  },
+  {
+   "id": "4b81450a-63fd-4a4c-b45a-4f20871b66ee",
+   "sample": "fef1af89-0eb1-494f-b5dc-0b1f15c93ff5",
+   "location": null,
+   "time": "2023-12-08T13:47:18+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     260.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     6.25,
+     "mAU"
+    ],
+    [
+     "mass concentration",
+     312.557,
+     "ng/µL"
+    ]
+   ]
+  },
+  {
+   "id": "bca54bc2-d0ae-40a8-8903-6090dfad9a5c",
+   "sample": "fef1af89-0eb1-494f-b5dc-0b1f15c93ff5",
+   "location": null,
+   "time": "2023-12-08T13:47:18+00:00",
+   "values": [
+    [
+     "detector wavelength setting",
+     280.0,
+     "nm"
+    ],
+    [
+     "absorbance",
+     3.38,
+     "mAU"
+    ]
+   ]
+  }
+ ],
+ "calculated": [
+  {
+   "name": "A260/280",
+   "value": 1.82,
+   "sources": [
+    "36f73f0f-be43-45da-ba9a-6190688226f8",
+    "4a5609d8-d174-423a-a984-e05965bea092"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.68,
+   "sources": [
+    "36f73f0f-be43-45da-ba9a-6190688226f8"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.82,
+   "sources": [
+    "dd33af6f-bcfc-45e6-8b95-8e59d9ff7127",
+    "5acc8b6b-208a-4d6e-a09a-67de59d2d61a"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.89,
+   "sources": [
+    "dd33af6f-bcfc-45e6-8b95-8e59d9ff7127"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.84,
+   "sources": [
+    "a2bae021-c6d8-4951-a5c0-4a87f929973c",
+    "08c027dd-7a16-4bdf-8283-f2c4c9870177"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.82,
+   "sources": [
+    "a2bae021-c6d8-4951-a5c0-4a87f929973c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "86928cda-f50f-43f3-93bb-a3c964c2af00",
+    "f5d4f2fc-dcd0-4ee1-8a08-600747d16e24"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.8,
+   "sources": [
+    "86928cda-f50f-43f3-93bb-a3c964c2af00"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.82,
+   "sources": [
+    "0403fdfa-0888-4d36-add4-d7580aac90bd",
+    "a01a4ed3-05cc-4321-9389-a7ccb5500174"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.79,
+   "sources": [
+    "0403fdfa-0888-4d36-add4-d7580aac90bd"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "ae8d95f9-acea-47f3-9914-6e52c46f5687",
+    "6b699905-369c-47c2-bfa0-39d44aa76b1a"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.82,
+   "sources": [
+    "ae8d95f9-acea-47f3-9914-6e52c46f5687"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.8,
+   "sources": [
+    "823f41b5-a98e-4363-8e03-07198231c56c",
+    "36be922d-b4bf-426d-a9b3-72463919c791"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.68,
+   "sources": [
+    "823f41b5-a98e-4363-8e03-07198231c56c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "d36e9803-4013-4081-b167-b768577adea9",
+    "b33692c1-09d2-4ac8-a591-0650c575cbc1"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.81,
+   "sources": [
+    "d36e9803-4013-4081-b167-b768577adea9"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.82,
+   "sources": [
+    "d978729d-023e-4523-be7a-c329bc9cb84c",
+    "a4f6d7ce-36f2-4760-b988-28d6d644f419"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.77,
+   "sources": [
+    "d978729d-023e-4523-be7a-c329bc9cb84c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.81,
+   "sources": [
+    "b96a2613-fb71-4da7-b788-df0b215835a0",
+    "3b1f18ab-1bbf-4e4b-9b8e-109b9732c0f0"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.61,
+   "sources": [
+    "b96a2613-fb71-4da7-b788-df0b215835a0"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "35107394-4950-47ec-8c29-93830f3e761f",
+    "6bf04b76-579a-4479-bb0b-c8490275a994"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.75,
+   "sources": [
+    "35107394-4950-47ec-8c29-93830f3e761f"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "ddf787f1-c0c8-4c51-bc9e-331b73c1bed2",
+    "9ab84daa-2f9c-4209-b4b9-5a8d2b400aed"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.54,
+   "sources": [
+    "ddf787f1-c0c8-4c51-bc9e-331b73c1bed2"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "ee80791d-b226-4a86-ad04-5d132dcfeb58",
+    "35d5ce37-abb9-4321-b4a7-263fa4c1b037"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.77,
+   "sources": [
+    "ee80791d-b226-4a86-ad04-5d132dcfeb58"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.81,
+   "sources": [
+    "fc70c66e-2ded-49ec-9f9f-827212ab886c",
+    "0d9786a2-7744-4982-bd9e-3f40990cbfa4"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.69,
+   "sources": [
+    "fc70c66e-2ded-49ec-9f9f-827212ab886c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "113b7ba4-4509-4516-917a-77836bf970f4",
+    "865c3e8c-50fe-4ba1-85dd-62d7dab5c80e"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.79,
+   "sources": [
+    "113b7ba4-4509-4516-917a-77836bf970f4"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "0b3d6ebe-7c0e-4850-b6ae-d3ee8c23af8a",
+    "8488d5c6-9313-464c-8828-a714035f1c68"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.79,
+   "sources": [
+    "0b3d6ebe-7c0e-4850-b6ae-d3ee8c23af8a"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "6fcea923-0c4a-43c1-894e-db89eca31f3c",
+    "8ba21eeb-066c-48c5-9856-6f6811e29c68"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.75,
+   "sources": [
+    "6fcea923-0c4a-43c1-894e-db89eca31f3c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "0c03b9e3-f43f-4721-91af-22c16ffa424c",
+    "3d83d046-9461-48c3-8dc3-ff12da4984bd"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.76,
+   "sources": [
+    "0c03b9e3-f43f-4721-91af-22c16ffa424c"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "6cc334fe-17d2-4684-83b9-39462a7f0655",
+    "d5c7231e-e363-462b-bae9-8c4b03b56e94"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.85,
+   "sources": [
+    "6cc334fe-17d2-4684-83b9-39462a7f0655"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "6679615c-9ff2-4e39-aec0-925ff20cfaf9",
+    "af68ee48-47d6-482c-9964-f25f8ded6910"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.81,
+   "sources": [
+    "6679615c-9ff2-4e39-aec0-925ff20cfaf9"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.86,
+   "sources": [
+    "075c6d51-03f0-476f-bffc-fa1252844af8",
+    "a4b42260-3c99-4015-9f8d-fe091fd6d209"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.85,
+   "sources": [
+    "075c6d51-03f0-476f-bffc-fa1252844af8"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.83,
+   "sources": [
+    "36e43ef5-45ec-4590-8883-a125df89aeb3",
+    "764030ac-5c6d-4e39-b314-57bc10bdc6a9"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.75,
+   "sources": [
+    "36e43ef5-45ec-4590-8883-a125df89aeb3"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.87,
+   "sources": [
+    "a40534b6-926d-41b8-af98-d72433eceb52",
+    "177f8889-8ef1-4e95-a249-8eda32024db7"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.9,
+   "sources": [
+    "a40534b6-926d-41b8-af98-d72433eceb52"
+   ]
+  },
+  {
+   "name": "A260/280",
+   "value": 1.85,
+   "sources": [
+    "4b81450a-63fd-4a4c-b45a-4f20871b66ee",
+    "bca54bc2-d0ae-40a8-8903-6090dfad9a5c"
+   ]
+  },
+  {
+   "name": "A260/230",
+   "value": 1.82,
+   "sources": [
+    "4b81450a-63fd-4a4c-b45a-4f20871b66ee"
+   ]
+  }
+ ],
+ "model": "Nanodrop Eight",
+ "serial": "AZY1809497"
+}

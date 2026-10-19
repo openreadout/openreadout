@@ -148,3 +148,18 @@ What we inferred, from what:
 Writer versions: size results are confirmed on 7.10 and 7.12. Size records of 7.02, 7.13, 8.00
 and 8.01 have no export in the corpus; their results are returned (one block each), and the
 assurance tables keep those writer versions unvalidated for tables.
+
+## 2026-10-19 — exports from another depositor (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `zetasizer-figshare26496859-*` (figshare 26496859, five files, Zetasizer 7.13,
+each with a tab-separated export of every record: German dates, no `Record` column). The Zenodo
+19044980 file of the first entry was read again by mistake and left out again (its record holds a
+held-out file of another format).
+
+**Prior art consulted:** none.
+
+**Inferred from the files:** nothing new about the format; every exported cell agrees with the
+reader. `oracle/zetasizer_oracle.py` now numbers the rows of an export without a `Record` column
+from 1 (such an export lists every record in record order, and the comparison checks sample
+names and times row by row), knows German month names, and takes `--no-width` for an export
+whose `%Pd Peak 1` would give a peak width the reader withholds.

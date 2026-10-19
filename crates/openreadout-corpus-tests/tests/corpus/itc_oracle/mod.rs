@@ -118,9 +118,7 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
         }
         if let Some(mt) = h["cell_concentration_mM"].as_f64() {
             match param("cell_concentration") {
-                Some(c) if near(c, mt) => {
-                    done.push("cell concentration matches Origin".into())
-                }
+                Some(c) if near(c, mt) => done.push("cell concentration matches Origin".into()),
                 other => problems.push(format!("cell concentration {other:?}, Origin {mt}")),
             }
         }
