@@ -20,7 +20,7 @@ GZ_THRESHOLD = 1 << 20
 _ORACLE = Path(__file__).resolve().parent.parent / "corpus" / "oracle"
 # The directories whose readers accept `.json.gz` (the same list as `xtask/src/compress.rs`); other
 # ground truth (per-family and per-analysis subdirectories, test-fixture oracles) stays plain JSON.
-GZ_DIRS = (_ORACLE, _ORACLE / "heldout", _ORACLE / "flow")
+GZ_DIRS = (_ORACLE, _ORACLE / "heldout", _ORACLE / "flow", _ORACLE / "seq")
 
 
 def _gz(path: Path) -> Path:

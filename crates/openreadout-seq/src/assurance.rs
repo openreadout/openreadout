@@ -165,14 +165,19 @@ const ILLUMINA_RUN_VALIDATED: &[Validated] = &[
 // END GENERATED illumina-run
 
 // BEGIN GENERATED pod5 (cargo xtask assurance-audit --write; do not edit)
-const POD5_CONFIDENCE: Confidence = Confidence::Low;
+const POD5_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const POD5_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "vbz", 2, 2, 2),
+    a::row(K::Codec, "vbz", 6, 3, 6),
+    a::row(K::FormatVersion, "0.0.40", 1, 1, 1),
+    a::row(K::FormatVersion, "0.3.18", 1, 1, 1),
+    a::row(K::FormatVersion, "0.3.30", 1, 1, 1),
     a::row(K::FormatVersion, "0.3.39", 1, 1, 1),
+    a::row(K::FormatVersion, "0.3.45", 1, 1, 1),
     a::row(K::FormatVersion, "0.3.46", 1, 1, 1),
     a::row(K::Writer, "MinKNOW 24.02.10 (Bream 7.9.4, Core 5.9.7, Dorado 7.3.9+b2176f600)", 1, 1, 1),
-    a::row(K::Writer, "python-pod5-converter", 1, 1, 1),
+    a::row(K::Writer, "MinKNOW 24.11.8 (Bream 8.2.5, Core 6.2.6, Dorado 7.6.7+de8939544)", 1, 1, 1),
+    a::row(K::Writer, "python-pod5-converter", 4, 1, 4),
 ];
 // END GENERATED pod5
 

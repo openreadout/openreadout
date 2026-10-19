@@ -20,10 +20,11 @@ use anyhow::{Context, Result, bail};
 pub const THRESHOLD: u64 = 1 << 20;
 
 /// Directories (relative to the repository root) whose readers accept `<name>.json.gz`.
-pub const DIRS: [&str; 3] = [
+pub const DIRS: [&str; 4] = [
     "corpus/oracle",
     "corpus/oracle/heldout",
     "corpus/oracle/flow",
+    "corpus/oracle/seq",
 ];
 
 /// What to do with one file.

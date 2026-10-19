@@ -7351,6 +7351,771 @@
       ]
     },
     {
+      "id": "abif-sangeranalyser-achl-3730xl",
+      "format": "abif",
+      "source": "github:roblanf/sangeranalyser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-sangeranalyser-dmel-3730xl",
+      "format": "abif",
+      "source": "github:roblanf/sangeranalyser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo10251208-3500-bicc1",
+      "format": "abif",
+      "source": "zenodo:10251208",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Sequencing Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Data Collection Version 1.0 - 3500 FC_090519180136-0700 Build Number: 837",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo1144120-anemone-3130xl-fsa",
+      "format": "abif",
+      "source": "zenodo:1144120",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS120LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3130xl",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.1",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "abif-zenodo16753160-3500-tilapia",
+      "format": "abif",
+      "source": "zenodo:16753160",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Sequencing Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Series Data Collection Software 3 v3.3 (2,251)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo20724184-arctic-16s-3130xl",
+      "format": "abif",
+      "source": "zenodo:20724184",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3130xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo5214117-turtle-fsa",
+      "format": "abif",
+      "source": "zenodo:5214117",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "abif-zenodo5306701-anteater-3500-fsa",
+      "format": "abif",
+      "source": "zenodo:5306701",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Data Collection Version 1.0 - 3500 FC_090519180136-0700 Build Number: 837",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "abif-zenodo5718845-geminivirus-3730xl",
+      "format": "abif",
+      "source": "zenodo:5718845",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
       "id": "agilent-bioanalyzer-dna1000",
       "format": "agilent-bioanalyzer-xml",
       "source": "github:jwfoley/bioanalyzer",
@@ -139291,6 +140056,46 @@
       ]
     },
     {
+      "id": "seq-pod5-dna-storage-minion",
+      "format": "pod5",
+      "source": "zenodo:16883332",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.18",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MinKNOW 24.11.8 (Bream 8.2.5, Core 6.2.6, Dorado 7.6.7+de8939544)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
       "id": "seq-pod5-hg002-10reads",
       "format": "pod5",
       "source": "github:nf-core/test-datasets",
@@ -139320,6 +140125,126 @@
         [
           "writer",
           "MinKNOW 24.02.10 (Bream 7.9.4, Core 5.9.7, Dorado 7.3.9+b2176f600)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "seq-pod5-multi-fast5-zip-v3",
+      "format": "pod5",
+      "source": "github nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.0.40",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "python-pod5-converter",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "seq-pod5-multi-fast5-zip-v4",
+      "format": "pod5",
+      "source": "github nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.30",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "python-pod5-converter",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "seq-pod5-multi-fast5-zip-v5",
+      "format": "pod5",
+      "source": "github nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.45",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "python-pod5-converter",
           [
             "metadata"
           ]
