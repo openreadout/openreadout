@@ -1,0 +1,32 @@
+{
+ "id": "xrd-dara-rasx-si01",
+ "file": "xrd-dara-rasx-si01.rasx",
+ "format": "rigaku-rasx",
+ "family": "bench",
+ "readers": [
+  "the .rasx MesurementConditions XML (`ScanInformation/StartTime`, `SystemName`), read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "ScanInformation StartTime",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2022-11-10T17:20:52Z",
+   "cmp": "time",
+   "zone": true
+  },
+  {
+   "field": "GeneralInformation SystemName",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/instrument/model",
+   "theirs": "SmartLab",
+   "cmp": "text"
+  }
+ ]
+}

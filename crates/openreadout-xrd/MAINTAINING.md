@@ -40,9 +40,9 @@ X-ray diffraction scans: PANalytical XRDML (`panalytical-xrdml`, `xrdml.rs`), Br
 | --- | --- | --- | --- | --- | --- | --- |
 | `panalytical-xrdml` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | open spec | 9 / 9 | 9 | - |
 | `bruker-raw` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | prior art | 12 / 12 | 12 | - |
-| `bruker-brml` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 5 / 5 | 5 | - |
-| `rigaku-ras` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 9 / 7 | 6 | - |
-| `rigaku-rasx` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 8 / 8 | 5 | - |
+| `bruker-brml` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | reverse engineered | 10 / 10 | 7 | - |
+| `rigaku-ras` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | high | reverse engineered | 12 / 12 | 7 | - |
+| `rigaku-rasx` | [format note](../../docs/formats/xrd.md), [provenance log](../../docs/provenance/xrd.md) | medium | reverse engineered | 13 / 13 | 9 | - |
 
 ### Source map
 
@@ -67,15 +67,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-brml` | field | `experiment.acquisition.started_at` | descriptive | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
-| `bruker-brml` | field | `experiment.instrument.model` | descriptive | 3 | 3 | `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori`, `xrd-zenodo6362954-brml-opa` |
-| `bruker-brml` | layout | `2Theta scan (Measured)` | traces | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
+| `bruker-brml` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `xrd-datalab-brml-tiof`, `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco` |
+| `bruker-brml` | field | `experiment.instrument.model` | descriptive | 6 | 6 | `xrd-datalab-brml-tiof`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
+| `bruker-brml` | layout | `2Theta scan (Measured)` | traces | 10 | 10 | `xrd-datalab-brml-tiof`, `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco` |
 | `bruker-brml` | record | `absorber factors` | traces | 1 | 1 | `xrd-fairmat-brml-2thomega` |
-| `bruker-brml` | record | `two_theta axis` | traces | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
-| `bruker-brml` | sample_layout | `intensity in counts` | traces | 5 | 5 | `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco`, `xrd-zenodo10891027-brml-eptachori` |
-| `bruker-brml` | writer_version | `DIFFRAC 6.5.0.0` | descriptive | 2 | 2 | `xrd-fairmat-brml-2thomega`, `zenodo14263889-brml-ru-eth` |
-| `bruker-brml` | writer_version | `DIFFRAC 8.6.1.0` | descriptive | 1 | 1 | `xrd-zenodo6362954-brml-opa` |
-| `bruker-brml` | writer_version | `DIFFRAC 8.6.3.0` | descriptive | 1 | 1 | `xrd-zenodo10891027-brml-eptachori` |
+| `bruker-brml` | record | `two_theta axis` | traces | 10 | 10 | `xrd-datalab-brml-tiof`, `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco` |
+| `bruker-brml` | sample_layout | `intensity in counts` | traces | 10 | 10 | `xrd-datalab-brml-tiof`, `xrd-fairmat-brml-2thomega`, `xrd-matterviz-brml-ybco` |
+| `bruker-brml` | writer_version | `DIFFRAC 6.5.0.0` | descriptive | 4 | 4 | `xrd-fairmat-brml-2thomega`, `xrd-zenodo14263889-brml-ru-iso`, `xrd-zenodo17227355-brml-tumba64` |
+| `bruker-brml` | writer_version | `DIFFRAC 7.5.2.0` | descriptive | 1 | 1 | `xrd-datalab-brml-tiof` |
+| `bruker-brml` | writer_version | `DIFFRAC 8.6.1.0` | descriptive | 2 | 2 | `xrd-zenodo6362954-brml-fig6d`, `xrd-zenodo6362954-brml-opa` |
+| `bruker-brml` | writer_version | `DIFFRAC 8.6.3.0` | descriptive | 2 | 2 | `xrd-zenodo10891027-brml-eptachori`, `xrd-zenodo10891027-brml-pentalofos` |
 | `bruker-brml` | writer_version | `DIFFRAC 8.7.3.0` | descriptive | 1 | 1 | `xrd-matterviz-brml-ybco` |
 | `bruker-raw` | field | `experiment.acquisition.started_at` | descriptive | 12 | 12 | `xrd-fairmat-raw4-scrambled`, `xrd-geddes-raw4-v5converter`, `xrd-xylib-raw1-bt86` |
 | `bruker-raw` | format_version | `RAW1.01` | metadata, traces | 4 | 4 | `xrd-xylib-raw1-bt86`, `xrd-zenodo14852801-raw1-strings`, `xrd-zenodo17012484-raw1-mudstone` |
@@ -103,30 +104,32 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `panalytical-xrdml` | writer_version | `Data Collector 6.1b` | descriptive | 2 | 2 | `xrd-zenodo15557974-car24014`, `zenodo15558000-xrdml-2024-2097` |
 | `panalytical-xrdml` | writer_version | `Data Collector 7.5b` | descriptive | 1 | 1 | `xrd-zenodo20826400-kpc-low` |
 | `panalytical-xrdml` | writer_version | `X'Pert Data Collector 2.2f` | descriptive | 1 | 1 | `xrd-zenodo15498085-nn` |
-| `rigaku-ras` | field | `experiment.acquisition.started_at` | descriptive | 7 | 9 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
-| `rigaku-ras` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `xrd-figshare32834120-ras-bc`, `xrd-zenodo11161891-ras-cowo4`, `zenodo21511646-ras-kagome-pml321` |
-| `rigaku-ras` | format_version | `RAS 1` | metadata, traces | 5 | 5 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
-| `rigaku-ras` | format_version | `RAS 1.0000000000` | metadata, traces | 2 | 4 | `xrd-zenodo17159456-ras-dyal2`, `xrd-zenodo18522047-ras-5ysz` |
-| `rigaku-ras` | layout | `2θ/θ scan` | traces | 1 | 1 | `xrd-zenodo18522047-ras-5ysz` |
-| `rigaku-ras` | layout | `Theta/2-Theta scan` | traces | 1 | 3 | `xrd-zenodo17159456-ras-dyal2` |
-| `rigaku-ras` | layout | `TwoThetaOmega scan` | traces | 2 | 2 | `zenodo21511646-ras-kagome-pml321`, `zenodo21511646-ras-kagome-tar012` |
-| `rigaku-ras` | layout | `TwoThetaTheta scan` | traces | 3 | 3 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
-| `rigaku-ras` | record | `angle axis` | traces | 1 | 3 | `xrd-zenodo17159456-ras-dyal2` |
-| `rigaku-ras` | record | `two_theta axis` | traces | 6 | 6 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
-| `rigaku-ras` | sample_layout | `intensity in counts` | traces | 7 | 9 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
-| `rigaku-rasx` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `xrd-fairmat-rasx-omega2theta-ht`, `xrd-fairmat-rasx-powder`, `xrd-fairmat-rasx-rsm111` |
-| `rigaku-rasx` | field | `experiment.instrument.model` | descriptive | 8 | 8 | `xrd-fairmat-rasx-omega2theta-ht`, `xrd-fairmat-rasx-powder`, `xrd-fairmat-rasx-rsm111` |
+| `rigaku-ras` | field | `experiment.acquisition.started_at` | descriptive | 12 | 12 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
+| `rigaku-ras` | field | `experiment.instrument.model` | descriptive | 6 | 6 | `xrd-figshare32834120-ras-bc`, `xrd-zenodo11161891-ras-cowo4`, `xrd-zenodo11161891-ras-cwo-del48` |
+| `rigaku-ras` | format_version | `RAS 1` | metadata, traces | 7 | 7 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
+| `rigaku-ras` | format_version | `RAS 1.0000000000` | metadata, traces | 5 | 5 | `xrd-zenodo17159456-ras-dyal2`, `xrd-zenodo18522047-ras-3ysz-unaged`, `xrd-zenodo18522047-ras-5ysz` |
+| `rigaku-ras` | layout | `2θ/θ scan` | traces | 2 | 2 | `xrd-zenodo18522047-ras-3ysz-unaged`, `xrd-zenodo18522047-ras-5ysz` |
+| `rigaku-ras` | layout | `Theta/2-Theta scan` | traces | 3 | 3 | `xrd-zenodo17159456-ras-dyal2`, `zenodo16968888-ras-raw`, `zenodo16968888-ras-scba14` |
+| `rigaku-ras` | layout | `TwoThetaOmega scan` | traces | 3 | 3 | `xrd-zenodo21511646-ras-avtar`, `zenodo21511646-ras-kagome-pml321`, `zenodo21511646-ras-kagome-tar012` |
+| `rigaku-ras` | layout | `TwoThetaTheta scan` | traces | 4 | 4 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
+| `rigaku-ras` | record | `angle axis` | traces | 3 | 3 | `xrd-zenodo17159456-ras-dyal2`, `zenodo16968888-ras-raw`, `zenodo16968888-ras-scba14` |
+| `rigaku-ras` | record | `attenuated points` | traces | 1 | 1 | `xrd-zenodo21511646-ras-avtar` |
+| `rigaku-ras` | record | `two_theta axis` | traces | 9 | 9 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
+| `rigaku-ras` | sample_layout | `intensity in counts` | traces | 12 | 12 | `xrd-figshare32834120-ras-bc`, `xrd-nims-ras`, `xrd-zenodo11161891-ras-cowo4` |
+| `rigaku-rasx` | field | `experiment.acquisition.started_at` | descriptive | 13 | 13 | `xrd-dara-rasx-si01`, `xrd-datalab-rasx-jokl16`, `xrd-fairmat-rasx-omega2theta-ht` |
+| `rigaku-rasx` | field | `experiment.instrument.model` | descriptive | 13 | 13 | `xrd-dara-rasx-si01`, `xrd-datalab-rasx-jokl16`, `xrd-fairmat-rasx-omega2theta-ht` |
+| `rigaku-rasx` | format_version | `RASX 1.1.0.0` | metadata, traces | 12 | 12 | `xrd-dara-rasx-si01`, `xrd-datalab-rasx-jokl16`, `xrd-fairmat-rasx-omega2theta-ht` |
 | `rigaku-rasx` | layout | `TwoTheta scan` | traces | 2 | 2 | `xrd-fairmat-rasx-powder`, `xrd-fairmat-rasx-rsm111` |
 | `rigaku-rasx` | layout | `TwoThetaOmega scan` | traces | 1 | 1 | `xrd-fairmat-rasx-omega2theta-ht` |
-| `rigaku-rasx` | layout | `TwoThetaTheta scan` | traces | 5 | 5 | `xrd-fairmat-rasx-zno-ald`, `xrd-figshare28490114-rasx-prosser-cultivated`, `xrd-figshare31861468-rasx-mos2cqd` |
-| `rigaku-rasx` | record | `two_theta axis` | traces | 8 | 8 | `xrd-fairmat-rasx-omega2theta-ht`, `xrd-fairmat-rasx-powder`, `xrd-fairmat-rasx-rsm111` |
-| `rigaku-rasx` | sample_layout | `intensity in counts` | traces | 8 | 8 | `xrd-fairmat-rasx-omega2theta-ht`, `xrd-fairmat-rasx-powder`, `xrd-fairmat-rasx-rsm111` |
+| `rigaku-rasx` | layout | `TwoThetaTheta scan` | traces | 10 | 10 | `xrd-dara-rasx-si01`, `xrd-datalab-rasx-jokl16`, `xrd-fairmat-rasx-zno-ald` |
+| `rigaku-rasx` | record | `two_theta axis` | traces | 13 | 13 | `xrd-dara-rasx-si01`, `xrd-datalab-rasx-jokl16`, `xrd-fairmat-rasx-omega2theta-ht` |
+| `rigaku-rasx` | sample_layout | `intensity in counts` | traces | 13 | 13 | `xrd-dara-rasx-si01`, `xrd-datalab-rasx-jokl16`, `xrd-fairmat-rasx-omega2theta-ht` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_brml`, `whole_bruker_raw`, `whole_ras`, `whole_rasx`, `whole_xrdml`
-- corpus inputs by tier: heldout 8, smoke 39, standard 4
+- corpus inputs by tier: heldout 8, smoke 39, standard 17
 - golden snapshots: [`corpus/snapshots/panalytical-xrdml.jsonl`](../../corpus/snapshots/panalytical-xrdml.jsonl), [`corpus/snapshots/bruker-raw.jsonl`](../../corpus/snapshots/bruker-raw.jsonl), [`corpus/snapshots/bruker-brml.jsonl`](../../corpus/snapshots/bruker-brml.jsonl), [`corpus/snapshots/rigaku-ras.jsonl`](../../corpus/snapshots/rigaku-ras.jsonl), [`corpus/snapshots/rigaku-rasx.jsonl`](../../corpus/snapshots/rigaku-rasx.jsonl)
 
 ### Open new-variant intakes

@@ -33,7 +33,7 @@ Area-detector diffraction images: CBF / imgCIF (`cbf`, `cbf.rs`) and SMV `.img` 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `cbf` | [format note](../../docs/formats/cbf.md), [provenance log](../../docs/provenance/cbf.md) | medium | open spec | 4 / 4 | 3 | - |
+| `cbf` | [format note](../../docs/formats/cbf.md), [provenance log](../../docs/provenance/cbf.md) | high | open spec | 7 / 7 | 6 | - |
 | `smv` | [format note](../../docs/formats/smv.md), [provenance log](../../docs/provenance/smv.md) | medium | prior art | 3 / 3 | 3 | - |
 
 ### Source map
@@ -59,15 +59,19 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `cbf` | codec | `byte_offset` | pixels | 4 | 4 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
-| `cbf` | dialect | `PILATUS_1.2` | metadata | 4 | 4 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
-| `cbf` | field | `experiment.acquisition.started_at` | descriptive | 4 | 4 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
-| `cbf` | field | `experiment.instrument.model` | descriptive | 4 | 4 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
-| `cbf` | format_version | `1.5` | metadata, pixels | 4 | 4 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
+| `cbf` | codec | `byte_offset` | pixels | 7 | 7 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo1216026-eiger-ed-diff12-0011-cbf` |
+| `cbf` | dialect | `PILATUS_1.2` | metadata | 5 | 5 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
+| `cbf` | dialect | `SLS_1.0` | metadata | 1 | 1 | `zenodo1216026-eiger-ed-diff12-0011-cbf` |
+| `cbf` | field | `experiment.acquisition.started_at` | descriptive | 6 | 6 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
+| `cbf` | field | `experiment.instrument.model` | descriptive | 6 | 6 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
+| `cbf` | format_version | `1.0` | metadata, pixels | 1 | 1 | `zenodo1216026-eiger-ed-diff12-0011-cbf` |
+| `cbf` | format_version | `1.5` | metadata, pixels | 6 | 6 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
 | `cbf` | instrument | `PILATUS 2M` | descriptive | 1 | 1 | `zenodo4771118-tdh-pilatus2m-cbf` |
 | `cbf` | instrument | `PILATUS 6M Prosport+` | descriptive | 1 | 1 | `zenodo3245362-anticd20-b10a-0002-cbf` |
 | `cbf` | instrument | `PILATUS 6M-F` | descriptive | 2 | 2 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf` |
-| `cbf` | sample_layout | `int32` | pixels | 4 | 4 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo3245362-anticd20-b10a-0002-cbf` |
+| `cbf` | instrument | `PILATUS3 2M` | descriptive | 1 | 1 | `zenodo50836-thermolysin-1800-cbf` |
+| `cbf` | instrument | `PILATUS3 6M` | descriptive | 1 | 1 | `zenodo7948815-srugi-15kev3-0181-cbf` |
+| `cbf` | sample_layout | `int32` | pixels | 7 | 7 | `dials-centroid-0001-cbf`, `dials-centroid-0002-cbf`, `zenodo1216026-eiger-ed-diff12-0011-cbf` |
 | `smv` | dialect | `beam centre ADSC (mm, X slow, Y fast)` | metadata | 2 | 2 | `zenodo15992324-scmin-001-smv`, `zenodo4737864-biotin-cetad-007-smv` |
 | `smv` | dialect | `beam centre pixels (fast, slow)` | metadata | 1 | 1 | `zenodo1321880-mordenite-cred-00005-smv` |
 | `smv` | sample_layout | `uint16` | pixels | 3 | 3 | `zenodo1321880-mordenite-cred-00005-smv`, `zenodo15992324-scmin-001-smv`, `zenodo4737864-biotin-cetad-007-smv` |
@@ -76,7 +80,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_cbf`, `whole_smv`
-- corpus inputs by tier: smoke 2, standard 5
+- corpus inputs by tier: smoke 2, standard 8
 - golden snapshots: [`corpus/snapshots/cbf.jsonl`](../../corpus/snapshots/cbf.jsonl), [`corpus/snapshots/smv.jsonl`](../../corpus/snapshots/smv.jsonl)
 
 ### Open new-variant intakes

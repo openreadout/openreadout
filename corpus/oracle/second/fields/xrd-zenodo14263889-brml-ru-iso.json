@@ -1,0 +1,22 @@
+{
+ "id": "xrd-zenodo14263889-brml-ru-iso",
+ "file": "xrd-zenodo14263889-brml-ru-iso.brml",
+ "format": "bruker-brml",
+ "family": "bench",
+ "readers": [
+  "the .brml XML members, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "RawData TimeStampStarted",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2021-07-30T18:36:54.0581004+10:00",
+   "cmp": "time",
+   "zone": true
+  }
+ ]
+}

@@ -73,7 +73,9 @@ channel and are not applied.
 RAS: `*RAS_DATA_START`; per scan `*RAS_HEADER_START` … `*KEY "value"` … `*RAS_HEADER_END`,
 `*RAS_INT_START`, rows `x intensity attenuation`, `*RAS_INT_END`. RASX: `Data*/Profile*.txt`
 (tab-separated `x intensity attenuation`) with `Data*/MesurementConditions*.xml` (the same keys as
-elements and as a `RASHeader` of `*KEY`/value pairs). Keys used: `MEAS_SCAN_AXIS_X`,
+elements and as a `RASHeader` of `*KEY`/value pairs). `root.xml` lists the members with their
+hashes; its `Root` element's `Version` (`1.1.0.0` in every file seen) is the RASX format version.
+Keys used: `MEAS_SCAN_AXIS_X`,
 `MEAS_SCAN_UNIT_X`/`Y`, `MEAS_SCAN_START_TIME`/`END_TIME` (`MM/DD/YYYY` or `MM/DD/YY`),
 `MEAS_SCAN_MODE`, `MEAS_SCAN_SPEED` and unit, `MEAS_SCAN_STEP`, `MEAS_DATA_COUNT` (checked),
 `HW_XG_TARGET_NAME`, `HW_XG_WAVE_LENGTH_ALPHA1`/`ALPHA2`/`BETA`, `MEAS_COND_XG_VOLTAGE`/`CURRENT`,

@@ -1,0 +1,35 @@
+{
+ "id": "zenodo50836-thermolysin-1800-cbf",
+ "file": "zenodo50836-MWB-Thermo_2_1_1800.cbf",
+ "size": 2482295,
+ "sha256": "94999d26b83a49a71afe75a88415a4d5c6540d4a6f0bdb06a3388f5914614e75",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0",
+ "kind": "cbf",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 1475,
+   "size_y": 1679,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "40a12b973e3081f3978282e34f586169"
+    }
+   ],
+   "check_diffraction": {}
+  }
+ ],
+ "counts": {
+  "min": -2,
+  "max": 25178,
+  "negative": 197519
+ }
+}

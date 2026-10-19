@@ -117,37 +117,39 @@ const BRUKER_RAW_VALIDATED: &[Validated] = &[
 // END GENERATED bruker-raw
 
 // BEGIN GENERATED bruker-brml (cargo xtask assurance-audit --write; do not edit)
-const BRUKER_BRML_CONFIDENCE: Confidence = Confidence::Medium;
+const BRUKER_BRML_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const BRUKER_BRML_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 5),
-    a::row(K::Field, "experiment.instrument.model", 3, 3, 3),
-    a::row(K::Layout, "2Theta scan (Measured)", 5, 5, 5),
+    a::row(K::Field, "experiment.acquisition.started_at", 9, 7, 10),
+    a::row(K::Field, "experiment.instrument.model", 6, 4, 6),
+    a::row(K::Layout, "2Theta scan (Measured)", 10, 7, 10),
     a::row(K::Record, "absorber factors", 1, 1, 1),
-    a::row(K::Record, "two_theta axis", 5, 5, 5),
-    a::row(K::SampleLayout, "intensity in counts", 5, 5, 5),
-    a::row(K::WriterVersion, "DIFFRAC 6.5.0.0", 2, 2, 2),
-    a::row(K::WriterVersion, "DIFFRAC 8.6.1.0", 1, 1, 1),
-    a::row(K::WriterVersion, "DIFFRAC 8.6.3.0", 1, 1, 1),
+    a::row(K::Record, "two_theta axis", 10, 7, 10),
+    a::row(K::SampleLayout, "intensity in counts", 10, 7, 10),
+    a::row(K::WriterVersion, "DIFFRAC 6.5.0.0", 4, 3, 4),
+    a::row(K::WriterVersion, "DIFFRAC 7.5.2.0", 1, 1, 1),
+    a::row(K::WriterVersion, "DIFFRAC 8.6.1.0", 2, 1, 2),
+    a::row(K::WriterVersion, "DIFFRAC 8.6.3.0", 2, 1, 2),
     a::row(K::WriterVersion, "DIFFRAC 8.7.3.0", 1, 1, 1),
 ];
 // END GENERATED bruker-brml
 
 // BEGIN GENERATED rigaku-ras (cargo xtask assurance-audit --write; do not edit)
-const RIGAKU_RAS_CONFIDENCE: Confidence = Confidence::Medium;
+const RIGAKU_RAS_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const RIGAKU_RAS_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 4, 4, 9),
-    a::row(K::Field, "experiment.instrument.model", 1, 1, 4),
-    a::row(K::FormatVersion, "RAS 1", 5, 4, 5),
-    a::row(K::FormatVersion, "RAS 1.0000000000", 2, 2, 4),
-    a::row(K::Layout, "2θ/θ scan", 1, 1, 1),
-    a::row(K::Layout, "Theta/2-Theta scan", 1, 1, 3),
-    a::row(K::Layout, "TwoThetaOmega scan", 2, 1, 2),
-    a::row(K::Layout, "TwoThetaTheta scan", 3, 3, 3),
-    a::row(K::Record, "angle axis", 1, 1, 3),
-    a::row(K::Record, "two_theta axis", 6, 5, 6),
-    a::row(K::SampleLayout, "intensity in counts", 7, 6, 9),
+    a::row(K::Field, "experiment.acquisition.started_at", 7, 5, 12),
+    a::row(K::Field, "experiment.instrument.model", 3, 2, 6),
+    a::row(K::FormatVersion, "RAS 1", 7, 4, 7),
+    a::row(K::FormatVersion, "RAS 1.0000000000", 5, 3, 5),
+    a::row(K::Layout, "2θ/θ scan", 2, 1, 2),
+    a::row(K::Layout, "Theta/2-Theta scan", 3, 2, 3),
+    a::row(K::Layout, "TwoThetaOmega scan", 3, 1, 3),
+    a::row(K::Layout, "TwoThetaTheta scan", 4, 3, 4),
+    a::row(K::Record, "angle axis", 3, 2, 3),
+    a::row(K::Record, "attenuated points", 1, 1, 1),
+    a::row(K::Record, "two_theta axis", 9, 5, 9),
+    a::row(K::SampleLayout, "intensity in counts", 12, 7, 12),
 ];
 // END GENERATED rigaku-ras
 
@@ -155,12 +157,13 @@ const RIGAKU_RAS_VALIDATED: &[Validated] = &[
 const RIGAKU_RASX_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const RIGAKU_RASX_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 2, 2, 8),
-    a::row(K::Field, "experiment.instrument.model", 2, 2, 8),
+    a::row(K::Field, "experiment.acquisition.started_at", 7, 6, 13),
+    a::row(K::Field, "experiment.instrument.model", 7, 6, 13),
+    a::row(K::FormatVersion, "RASX 1.1.0.0", 12, 8, 12),
     a::row(K::Layout, "TwoTheta scan", 2, 1, 2),
     a::row(K::Layout, "TwoThetaOmega scan", 1, 1, 1),
-    a::row(K::Layout, "TwoThetaTheta scan", 5, 5, 5),
-    a::row(K::Record, "two_theta axis", 8, 5, 8),
-    a::row(K::SampleLayout, "intensity in counts", 8, 5, 8),
+    a::row(K::Layout, "TwoThetaTheta scan", 10, 9, 10),
+    a::row(K::Record, "two_theta axis", 13, 9, 13),
+    a::row(K::SampleLayout, "intensity in counts", 13, 9, 13),
 ];
 // END GENERATED rigaku-rasx

@@ -1,0 +1,22 @@
+{
+ "id": "xrd-zenodo17227355-brml-tumba64",
+ "file": "xrd-zenodo17227355-brml-tumba64.brml",
+ "format": "bruker-brml",
+ "family": "bench",
+ "readers": [
+  "the .brml XML members, read with regular expressions"
+ ],
+ "checks": [
+  {
+   "field": "RawData TimeStampStarted",
+   "scope": "metadata",
+   "cmd": [
+    "info"
+   ],
+   "ours": "/experiment/acquisition/started_at",
+   "theirs": "2024-02-12T11:02:20.7466851+01:00",
+   "cmp": "time",
+   "zone": true
+  }
+ ]
+}

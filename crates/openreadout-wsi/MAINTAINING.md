@@ -41,7 +41,7 @@ Whole-slide formats that keep their pyramid as many small stored images next to 
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `mirax` | [format note](../../docs/formats/mirax.md), [provenance log](../../docs/provenance/mirax.md) | medium | prior art | 8 / 8 | 1 | - |
+| `mirax` | [format note](../../docs/formats/mirax.md), [provenance log](../../docs/provenance/mirax.md) | high | prior art | 13 / 13 | 5 | - |
 | `philips-isyntax` | [format note](../../docs/formats/philips-isyntax.md), [provenance log](../../docs/provenance/philips-isyntax.md) | low | prior art | 1 / 1 | 1 | - |
 | `hamamatsu-vms` | [format note](../../docs/formats/hamamatsu-vms.md), [provenance log](../../docs/provenance/hamamatsu-vms.md) | low | prior art | 1 / 1 | 1 | - |
 
@@ -100,28 +100,32 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `hamamatsu-vms` | layout | `map at 1/8` | metadata, pixels | 1 | 1 | `openslide-vms-cmu-1` |
 | `hamamatsu-vms` | layout | `optimisation file` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
 | `hamamatsu-vms` | sample_layout | `uint8x3` | pixels | 1 | 1 | `openslide-vms-cmu-1` |
-| `mirax` | acquisition | `brightfield` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
+| `mirax` | acquisition | `brightfield` | pixels | 11 | 11 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09`, `github-sasvarip-mrxs-ds-b01r-01s` |
 | `mirax` | acquisition | `fluorescence filters as colour components` | pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
 | `mirax` | codec | `bmp` | pixels | 1 | 1 | `openslide-mirax2-2-4-bmp` |
-| `mirax` | codec | `jpeg` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
+| `mirax` | codec | `jpeg` | pixels | 11 | 11 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09`, `github-sasvarip-mrxs-ds-b01r-01s` |
 | `mirax` | codec | `png` | pixels | 1 | 1 | `openslide-mirax2-2-4-png` |
-| `mirax` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
+| `mirax` | field | `experiment.acquisition.started_at` | descriptive | 13 | 13 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09`, `github-sasvarip-mrxs-ds-b01r-01s` |
 | `mirax` | format_version | `1.9` | metadata, pixels | 3 | 3 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | format_version | `2` | metadata, pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
-| `mirax` | format_version | `2.2` | metadata, pixels | 2 | 2 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png` |
-| `mirax` | format_version | `2.3` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-exported` |
-| `mirax` | layout | `camera positions: compressed position table` | metadata, pixels | 2 | 2 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png` |
+| `mirax` | format_version | `2.2` | metadata, pixels | 3 | 3 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png`, `zenodo15497224-mrxs-pdx-2438` |
+| `mirax` | format_version | `2.3` | metadata, pixels | 2 | 2 | `openslide-mirax-cmu-1-exported`, `zenodo21267826-mrxs-f5695-he` |
+| `mirax` | format_version | `2.5` | metadata, pixels | 3 | 3 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09`, `github-sasvarip-mrxs-ds-b01r-01s` |
+| `mirax` | layout | `camera positions: compressed position table` | metadata, pixels | 6 | 6 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09`, `github-sasvarip-mrxs-ds-b01r-01s` |
 | `mirax` | layout | `camera positions: position buffer` | metadata, pixels | 5 | 5 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
-| `mirax` | layout | `level 0 below one camera photo per image` | metadata, pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-2`, `openslide-mirax2-2-4-bmp` |
-| `mirax` | layout | `level 0 one camera photo per image` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-exported` |
+| `mirax` | layout | `level 0 below one camera photo per image` | metadata, pixels | 10 | 10 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09`, `github-sasvarip-mrxs-ds-b01r-01s` |
+| `mirax` | layout | `level 0 one camera photo per image` | metadata, pixels | 2 | 2 | `openslide-mirax-cmu-1-exported`, `zenodo21267826-mrxs-f5695-he` |
 | `mirax` | layout | `level 0 several camera photos per image` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-saved-1-16` |
-| `mirax` | layout | `no camera positions (images on the grid)` | metadata, pixels | 1 | 1 | `openslide-mirax-cmu-1-exported` |
+| `mirax` | layout | `no camera positions (images on the grid)` | metadata, pixels | 2 | 2 | `openslide-mirax-cmu-1-exported`, `zenodo21267826-mrxs-f5695-he` |
 | `mirax` | layout | `saved at reduced resolution` | metadata, pixels | 2 | 2 | `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | sample_layout | `uint8` | pixels | 2 | 2 | `openslide-mirax2-fluorescence-1`, `openslide-mirax2-fluorescence-2` |
-| `mirax` | sample_layout | `uint8x3` | pixels | 6 | 6 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-exported`, `openslide-mirax-cmu-1-saved-1-16` |
+| `mirax` | sample_layout | `uint8x3` | pixels | 11 | 11 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09`, `github-sasvarip-mrxs-ds-b01r-01s` |
 | `mirax` | writer_version | `scanner software 1.12` | descriptive | 4 | 4 | `openslide-mirax-cmu-1`, `openslide-mirax-cmu-1-saved-1-16`, `openslide-mirax-cmu-1-saved-1-2` |
 | `mirax` | writer_version | `scanner software 1.15` | descriptive | 2 | 2 | `openslide-mirax2-2-4-bmp`, `openslide-mirax2-2-4-png` |
 | `mirax` | writer_version | `scanner software 2.0` | descriptive | 1 | 1 | `openslide-mirax2-fluorescence-1` |
+| `mirax` | writer_version | `scanner software 2.2` | descriptive | 1 | 1 | `zenodo15497224-mrxs-pdx-2438` |
+| `mirax` | writer_version | `scanner software 3.1` | descriptive | 2 | 2 | `figshare32955605-mrxs-he-mc09`, `figshare32955605-mrxs-ihc-muc2-mc09` |
+| `mirax` | writer_version | `scanner software 4.0` | descriptive | 1 | 1 | `github-sasvarip-mrxs-ds-b01r-01s` |
 | `philips-isyntax` | codec | `isyntax wavelet method 16` | pixels | 1 | 1 | `zenodo5037046-isyntax-testslide` |
 | `philips-isyntax` | field | `experiment.acquisition.started_at` | descriptive | 1 | 1 | `zenodo5037046-isyntax-testslide` |
 | `philips-isyntax` | field | `experiment.instrument.model` | descriptive | 1 | 1 | `zenodo5037046-isyntax-testslide` |
@@ -136,7 +140,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/isyntax_synthetic.rs`](tests/isyntax_synthetic.rs), [`tests/mirax_synthetic.rs`](tests/mirax_synthetic.rs), [`tests/vms_synthetic.rs`](tests/vms_synthetic.rs)
 - committed fixtures: 13 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_isyntax`, `whole_mirax`, `whole_vms`
-- corpus inputs by tier: full 4, heldout 1, smoke 1, standard 5
+- corpus inputs by tier: full 6, heldout 1, smoke 1, standard 8
 - golden snapshots: [`corpus/snapshots/mirax.jsonl`](../../corpus/snapshots/mirax.jsonl), [`corpus/snapshots/philips-isyntax.jsonl`](../../corpus/snapshots/philips-isyntax.jsonl), [`corpus/snapshots/hamamatsu-vms.jsonl`](../../corpus/snapshots/hamamatsu-vms.jsonl)
 
 ### Open new-variant intakes

@@ -1,0 +1,123 @@
+{
+ "id": "figshare32955605-mrxs-ihc-muc2-mc09",
+ "file": "ihc_muc2_mc09_colon_slide.mrxs",
+ "size": 18729,
+ "sha256": "8f8940da8fbd04d545f492c31e77ca4ad46d0023011dbcbe5e254a60856d00aa",
+ "max_planes_hashed": 64,
+ "reader": "OpenSlide 4.0.1 (openslide-python 1.4.6; LGPL, black box)",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 78225,
+   "size_y": 184136,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 3,
+   "pixel_type": "uint8",
+   "lossy": true,
+   "physical_size_um": {
+    "x": 0.273809523809524,
+    "y": 0.273809523809524
+   },
+   "pyramid_levels": 9,
+   "level_sizes": [
+    [
+     78225,
+     184136
+    ],
+    [
+     39112,
+     92068
+    ],
+    [
+     19556,
+     46034
+    ],
+    [
+     9778,
+     23017
+    ],
+    [
+     4889,
+     11508
+    ],
+    [
+     2444,
+     5754
+    ],
+    [
+     1222,
+     2877
+    ],
+    [
+     611,
+     1438
+    ],
+    [
+     305,
+     719
+    ]
+   ],
+   "planes": [],
+   "levels": [
+    {
+     "level": 5,
+     "size_x": 2444,
+     "size_y": 5754,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "dbd720bd97311fb6b1ec4ca1c8edecfa",
+       "mean": 254.96557924741649
+      }
+     ]
+    },
+    {
+     "level": 6,
+     "size_x": 1222,
+     "size_y": 2877,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "b3e84938eabf32c8edfa00937f19a88b",
+       "mean": 254.9662759804086
+      }
+     ]
+    },
+    {
+     "level": 7,
+     "size_x": 611,
+     "size_y": 1438,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "c2add97591d878c1c9dd5d2b09d72a3d",
+       "mean": 254.96699475767625
+      }
+     ]
+    },
+    {
+     "level": 8,
+     "size_x": 305,
+     "size_y": 719,
+     "planes": [
+      {
+       "c": 0,
+       "z": 0,
+       "t": 0,
+       "xxh3": "b6b5ad53d8ed9c4d5e7bffe591913d4b",
+       "mean": 254.9669227904573
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

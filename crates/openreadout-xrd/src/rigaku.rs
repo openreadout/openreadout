@@ -538,6 +538,38 @@ fn rasx_header(xml: &str) -> Result<Header> {
     Ok(h)
 }
 
+/// The `Version` attribute of the `Root` element of `root.xml`, when the archive has one
+/// (some archives repacked by hand do not).
+fn rasx_container_version(zip: &ZipIndex) -> Result<Option<String>> {
+    let Some(name) = zip
+        .members
+        .iter()
+        .map(|m| m.name.as_str())
+        .find(|n| n.eq_ignore_ascii_case("root.xml"))
+    else {
+        return Ok(None);
+    };
+    let Some(xml) = zip.read_text(name)? else {
+        return Ok(None);
+    };
+    let Ok(d) = Document::parse_with_options(
+        xml.trim_start_matches('\u{feff}'),
+        ParsingOptions {
+            allow_dtd: false,
+            ..ParsingOptions::default()
+        },
+    ) else {
+        return Ok(None);
+    };
+    let r = d.root_element();
+    Ok((r.tag_name().name() == "Root")
+        .then(|| r.attribute("Version"))
+        .flatten()
+        .map(str::trim)
+        .filter(|v| !v.is_empty())
+        .map(str::to_string))
+}
+
 /// The number a member name ends with (`Data12` → 12); `u64::MAX` when it ends with none.
 fn trailing_number(s: &str) -> u64 {
     let digits = s.len() - s.trim_end_matches(|c: char| c.is_ascii_digit()).len();
@@ -630,11 +662,21 @@ pub(crate) fn parse_rasx(zip: &ZipIndex) -> Result<SeriesFile> {
     header_facts(&mut facts, &headers[0], "RASX conditions");
     let mut vendor = Map::new();
     vendor.insert("rasx".into(), json!(headers));
+    // `root.xml` lists the members with their hashes; its `Version` is the archive's version
+    let container = rasx_container_version(zip)?;
+    if let Some(v) = &container {
+        observations.feature(
+            FeatureKind::FormatVersion,
+            format!("RASX {v}"),
+            &[Scope::Traces, Scope::Metadata],
+        );
+        vendor.insert("container_version".into(), json!(v));
+    }
     Ok(finish(
         scans,
         facts,
         FileParts {
-            format_version: None,
+            format_version: container.map(|v| format!("RASX {v}")),
             vendor: Value::Object(vendor),
             entries,
             findings,

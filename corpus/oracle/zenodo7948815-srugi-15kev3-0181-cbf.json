@@ -1,0 +1,50 @@
+{
+ "id": "zenodo7948815-srugi-15kev3-0181-cbf",
+ "file": "zenodo7948815-SruGI-15keV3_0181.cbf",
+ "size": 6282558,
+ "sha256": "6ba6e3818caaae43f78a51326920e4ac14b2844e1d713a91091d85f0c3536921",
+ "max_planes_hashed": 64,
+ "reader": "fabio 2026.6.0",
+ "kind": "cbf",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 2463,
+   "size_y": 2527,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "pixel_type": "int32",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "187f68109b2b13450241bdf97ad60caf"
+    }
+   ],
+   "check_diffraction": {
+    "wavelength_a": 0.82656,
+    "distance_mm": 200.0,
+    "beam_center_px": [
+     1231.0,
+     1263.0
+    ],
+    "pixel_size_mm": [
+     0.17200000000000001,
+     0.17200000000000001
+    ],
+    "oscillation_start_deg": 270.0,
+    "oscillation_width_deg": 1.0,
+    "exposure_s": 4.0,
+    "overload": 1071980.0
+   }
+  }
+ ],
+ "counts": {
+  "min": -2,
+  "max": 1062557,
+  "negative": 526609
+ }
+}

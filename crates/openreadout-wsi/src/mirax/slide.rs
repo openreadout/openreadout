@@ -589,7 +589,7 @@ impl MiraxSlide {
     }
 
     /// Level-0 size in pixels. With camera positions: `cameras · (photo − o) + o` per axis,
-    /// photo = image size · divisions / level-0 step, o = round(level-0 `OVERLAP`) / level-0
+    /// photo = image size · divisions / level-0 step, o = ⌈level-0 `OVERLAP`⌉ / level-0
     /// step (the size OpenSlide reports, so coordinates agree with OpenSlide-based tools).
     /// Without positions (pixels refused): the image grid, `IMAGENUMBER / step · image size`.
     pub fn level0_size(&self) -> (u32, u32) {
@@ -597,17 +597,10 @@ impl MiraxSlide {
         let s = l0.step as f64;
         let (cx, cy) = self.camera_grid();
         let axis = |cams: u32, img: u32, ov: f64, cells: u32| -> u32 {
-            let v = if self.cameras.is_some() {
-                let photo = f64::from(img) * f64::from(self.divisions) / s;
-                let o = ov.round() / s;
-                f64::from(cams) * (photo - o) + o
+            if self.cameras.is_some() {
+                camera_axis_len(cams, img, self.divisions, s, ov)
             } else {
-                (f64::from(cells) / s).ceil() * f64::from(img)
-            };
-            if v.is_finite() && v >= 1.0 {
-                v.min(f64::from(u32::MAX)).floor() as u32
-            } else {
-                1
+                pixels((f64::from(cells) / s).ceil() * f64::from(img))
             }
         };
         (
@@ -632,9 +625,43 @@ impl MiraxSlide {
     }
 }
 
+/// Level-0 length of one axis of a slide with camera positions: `cameras · (photo − o) + o`,
+/// `photo = image size · divisions / step`, `o = ⌈overlap⌉ / step`, truncated.
+fn camera_axis_len(cams: u32, img: u32, divisions: u32, step: f64, overlap: f64) -> u32 {
+    let photo = f64::from(img) * f64::from(divisions) / step;
+    let o = overlap.ceil() / step;
+    pixels(f64::from(cams) * (photo - o) + o)
+}
+
+/// A length in pixels, truncated, at least 1.
+fn pixels(v: f64) -> u32 {
+    if v.is_finite() && v >= 1.0 {
+        v.min(f64::from(u32::MAX)).floor() as u32
+    } else {
+        1
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn level0_lengths_round_the_overlap_up() {
+        // github-sasvarip-mrxs-ds-b01r-01s: 37 x 109 cameras, 359 x 271 images, 8 divisions,
+        // OVERLAP 97.14 (OpenSlide: 102736 x 225728)
+        assert_eq!(
+            camera_axis_len(37, 359, 8, 1.0, 97.139_584_824_624_5),
+            102_736
+        );
+        assert_eq!(
+            camera_axis_len(109, 271, 8, 1.0, 97.139_057_239_057_5),
+            225_728
+        );
+        // openslide-mirax-cmu-1: a whole-number overlap is used as it is
+        assert_eq!(camera_axis_len(88, 340, 4, 1.0, 120.0), 109_240);
+        assert_eq!(pixels(f64::NAN), 1);
+    }
 
     #[test]
     fn creation_times() {
