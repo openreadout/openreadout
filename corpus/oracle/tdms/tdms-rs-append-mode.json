@@ -1,0 +1,55 @@
+{
+ "id": "tdms-rs-append-mode",
+ "format": "ni-tdms",
+ "reader": "npTDMS 1.13.0 (LGPL-3.0, black box)",
+ "independent": true,
+ "channels": [
+  {
+   "group": "Group",
+   "channel": "Channel1",
+   "dtype": "Int8",
+   "count": 6,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0
+   ],
+   "last": 6.0,
+   "sampled": [
+    [
+     0,
+     1.0
+    ],
+    [
+     1,
+     2.0
+    ],
+    [
+     2,
+     3.0
+    ],
+    [
+     3,
+     4.0
+    ],
+    [
+     4,
+     5.0
+    ],
+    [
+     5,
+     6.0
+    ]
+   ],
+   "sum": 21.0,
+   "sum_abs": 21.0,
+   "min": 1.0,
+   "max": 6.0
+  }
+ ]
+}

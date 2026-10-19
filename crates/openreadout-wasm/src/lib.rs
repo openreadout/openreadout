@@ -160,6 +160,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_echem::NdaReader))
         .with(Box::new(openreadout_echem::NdaxReader))
         .with(Box::new(openreadout_echem::ArbinReader))
+        .with(Box::new(openreadout_tdms::TdmsReader))
         .with(Box::new(openreadout_thermal::NgbReader))
         .with(Box::new(openreadout_thermal::TaReader))
         .with(Box::new(openreadout_thermal::TriosReader))

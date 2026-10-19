@@ -196,7 +196,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - committed fixtures: 31 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `seq_cram_codecs`, `seq_interop`, `seq_vbz`, `whole_bam`, `whole_cram`, `whole_fast5`, `whole_fastq`, `whole_illumina_bcl`, `whole_illumina_cbcl`, `whole_pod5`
 - corpus inputs by tier: smoke 58, standard 6
-- golden snapshots: [`corpus/snapshots/illumina-run.jsonl`](../../corpus/snapshots/illumina-run.jsonl), [`corpus/snapshots/pod5.jsonl`](../../corpus/snapshots/pod5.jsonl), [`corpus/snapshots/fast5.jsonl`](../../corpus/snapshots/fast5.jsonl), [`corpus/snapshots/fastq.jsonl`](../../corpus/snapshots/fastq.jsonl), [`corpus/snapshots/bam.jsonl`](../../corpus/snapshots/bam.jsonl)
+- golden snapshots: [`corpus/snapshots/illumina-run.jsonl`](../../corpus/snapshots/illumina-run.jsonl), [`corpus/snapshots/pod5.jsonl`](../../corpus/snapshots/pod5.jsonl), [`corpus/snapshots/fast5.jsonl`](../../corpus/snapshots/fast5.jsonl), [`corpus/snapshots/fastq.jsonl`](../../corpus/snapshots/fastq.jsonl), [`corpus/snapshots/bam.jsonl`](../../corpus/snapshots/bam.jsonl), [`corpus/snapshots/cram.jsonl`](../../corpus/snapshots/cram.jsonl)
 
 ### Open new-variant intakes
 

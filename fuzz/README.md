@@ -94,6 +94,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_ta001` | TA Instruments `.001`: UTF-16 header, signal count, records, end record |
 | `whole_trios` | TA Instruments TRIOS `.tri`: header strings, step objects, typed properties, signal records with flag arrays, parallel-plate moduli |
 | `whole_scn` | Bio-Rad Image Lab `.scn`: MIME multipart parts (nested, with and without lengths), XML headers, 16-bit image data |
+| `whole_tdms` | National Instruments TDMS: segment lead-ins, metadata (objects, raw-data indexes, DAQmx scalers, properties), contiguous and interleaved chunks, strings, scaling |
 | `whole_sgd` | Syngene GeneSys `.sgd`: compound-file structure, capture list, `PixelData` headers, `Capture`/`Description` streams, pixel reads through sector chains |
 | `whole_unicorn_res`, `whole_unicorn_zip` | Cytiva ÄKTA / UNICORN results: `.res` block directory and descriptors; UNICORN 6/7 export zips with nested padded zips and MS-NRBF records |
 | `whole_rdml`, `whole_eds`, `whole_rex`, `whole_pcrd`, `whole_ixo`, `whole_qpcr_export` | qPCR: RDML (zip or XML), Applied Biosystems `.eds` (zip; seeds in the SDS, 7500 and JSON layouts, written by hand), Rotor-Gene `.rex`, Bio-Rad `.pcrd` (detection and refusal only), LightCycler 480 `.ixo` (a small synthetic object stream with a zlib acquisition store), results exports as text (a CFX CSV; the `.xls` path goes through calamine, see Known issues) |

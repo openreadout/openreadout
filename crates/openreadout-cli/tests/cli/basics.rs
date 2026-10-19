@@ -138,6 +138,7 @@ fn formats_lists_all_readers() {
             "neware-nda",
             "neware-ndax",
             "arbin-res",
+            "ni-tdms",
             "netzsch-ngb",
             "ta-universal-analysis",
             "ta-trios",

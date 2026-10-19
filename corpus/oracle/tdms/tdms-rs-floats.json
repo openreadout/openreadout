@@ -1,0 +1,92 @@
+{
+ "id": "tdms-rs-floats",
+ "format": "ni-tdms",
+ "reader": "npTDMS 1.13.0 (LGPL-3.0, black box)",
+ "independent": true,
+ "channels": [
+  {
+   "group": "Floats",
+   "channel": "Float32",
+   "dtype": "SingleFloat",
+   "count": 5,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    0.0,
+    -1.0,
+    1.0,
+    3.141590118408203,
+    1.2299999907483539e-10
+   ],
+   "last": 1.2299999907483539e-10,
+   "sampled": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     -1.0
+    ],
+    [
+     2,
+     1.0
+    ],
+    [
+     3,
+     3.141590118408203
+    ],
+    [
+     4,
+     1.2299999907483539e-10
+    ]
+   ],
+   "sum": 3.141590118531203,
+   "sum_abs": 5.141590118531203,
+   "min": -1.0,
+   "max": 3.141590118408203
+  },
+  {
+   "group": "Floats",
+   "channel": "Float64",
+   "dtype": "DoubleFloat",
+   "count": 5,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    0.0,
+    -1.0,
+    1.0,
+    3.1415926535,
+    1.23e-20
+   ],
+   "last": 1.23e-20,
+   "sampled": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     -1.0
+    ],
+    [
+     2,
+     1.0
+    ],
+    [
+     3,
+     3.1415926535
+    ],
+    [
+     4,
+     1.23e-20
+    ]
+   ],
+   "sum": 3.1415926535,
+   "sum_abs": 5.1415926535,
+   "min": -1.0,
+   "max": 3.1415926535
+  }
+ ]
+}

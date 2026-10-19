@@ -135975,6 +135975,896 @@
       ]
     },
     {
+      "id": "tdms-rs-append-mode",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-booleans",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-edge-cases",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-empty-segment",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-floats",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-integers",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int64",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-linear-scaling",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-multiple-segments",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-standard-layout",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-strings",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-timestamps",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "timestamp",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-unicode-paths",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo10404440-straingauge",
+      "format": "ni-tdms",
+      "source": "zenodo:10404440",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "DAQmx raw data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "linear scale",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo14505832-geolab",
+      "format": "ni-tdms",
+      "source": "zenodo:14505832",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo14860707-vna-v4712",
+      "format": "ni-tdms",
+      "source": "zenodo:14860707",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo14923316-ta",
+      "format": "ni-tdms",
+      "source": "zenodo:14923316",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo15379761-daqmx-poly",
+      "format": "ni-tdms",
+      "source": "zenodo:15379761",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "DAQmx raw data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "polynomial scale",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo15420253-geolab",
+      "format": "ni-tdms",
+      "source": "zenodo:15420253",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo17582347-ldv",
+      "format": "ni-tdms",
+      "source": "zenodo:17582347",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo17747449-saw-v4712",
+      "format": "ni-tdms",
+      "source": "zenodo:17747449",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo3563513-signalexpress",
+      "format": "ni-tdms",
+      "source": "zenodo:3563513",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SignalExpress 2015",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo5011086-rtdc",
+      "format": "ni-tdms",
+      "source": "zenodo:5011086",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo5792896-febid",
+      "format": "ni-tdms",
+      "source": "zenodo:5792896",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo6200886-pxi",
+      "format": "ni-tdms",
+      "source": "zenodo:6200886",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo7758683-cdaq",
+      "format": "ni-tdms",
+      "source": "zenodo:7758683",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
       "id": "figshare33265719-microct-01-wt-f",
       "format": "nifti",
       "source": "figshare 33265719 'a de novo gmds p.",

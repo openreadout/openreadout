@@ -52,6 +52,7 @@ mod shimadzu_oracle;
 mod spectra;
 mod spike2x_oracle;
 mod tables;
+mod tdms_oracle;
 mod traces;
 
 #[derive(Deserialize)]
@@ -294,6 +295,8 @@ fn family_scopes(format: &str, oracle_text: &str) -> Vec<&'static str> {
         }
     } else if format == "abif" {
         vec!["metadata", "tables", "traces"]
+    } else if tdms_oracle::FORMATS.contains(&format) {
+        vec!["metadata", "traces"]
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::scopes(format)
     } else if hyperspec_oracle::FORMATS.contains(&format) {
@@ -613,6 +616,8 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("hyperspec")
     } else if seq_oracle::FORMATS.contains(&format) {
         Some("seq")
+    } else if tdms_oracle::FORMATS.contains(&format) {
+        Some("tdms")
     } else {
         None
     }
@@ -709,6 +714,8 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         hyperspec_oracle::compare_file(format, id, path, &o)
     } else if seq_oracle::FORMATS.contains(&format) {
         seq_oracle::compare_file(format, id, path, &o)
+    } else if tdms_oracle::FORMATS.contains(&format) {
+        tdms_oracle::compare_file(id, path, &o)
     } else {
         qpcr_oracle::compare_file(format, id, path, &o)
     })

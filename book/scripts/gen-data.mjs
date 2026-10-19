@@ -51,6 +51,7 @@ const FIELD = {
   nmr: "NMR",
   "flow-cytometry": "Flow cytometry",
   electrophysiology: "Electrophysiology",
+  "data-acquisition": "Data acquisition",
   qpcr: "Plate readers and qPCR",
   "plate-reader": "Plate readers and qPCR",
   calorimetry: "Bench biophysics",

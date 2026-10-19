@@ -81566,6 +81566,381 @@ notes = "CRAM 3.1, 6 slices, bzip2 and rANS Nx16, embedded reference. Ground tru
 oracle_skip = "two external blocks of each slice share content id 10, one with read names and one with the embedded reference; htslib (pysam) takes the read-name block as the reference, so its bases differ, while the reader takes the block whose MD5 matches the slice"
 
 [[file]]
+id = "tdms-zenodo3563513-signalexpress"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo3563513-signalexpress.tdms"
+url = "https://zenodo.org/records/3563513/files/19873%20Voltage.tdms"
+sha256 = "e5618d909ea0c57aff7c8af26a54c388b98511e6e216268f8eb2c4bd52027f17"
+size = 101466
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/3563513 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 3563513, 19873 Voltage.tdms"
+attribution = "Dirkjan Schokker; I.N. Athanasiadis; B. Visser; R.F. Veerkamp et al."
+notes = "written by NI SignalExpress 2015: one DAQ channel (Dev1/ai0) with waveform timing properties. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo5011086-rtdc"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo5011086-rtdc.tdms"
+url = "https://zenodo.org/records/5011086/files/Figure2_RT_DC_CytoD1_10_M1_data.tdms"
+sha256 = "5acc4a08fee984a7796584b99a9e688cb174ebc352cff06ee549fba272f3f0d4"
+size = 749640
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/api/records/5011086 metadata.license.id (cc-zero), 2026-10-19"
+source = "Zenodo record 5011086, Figure2_RT_DC_CytoD1_10_M1_data.tdms"
+attribution = "Pires, Ricardo H.; Shree, Nithya; Manu, Emmanuel; Guzniczak, Ewa et al."
+notes = "real-time deformability cytometry results: group Cell Track, channels with description and unit properties. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo10404440-straingauge"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo10404440-straingauge.tdms"
+url = "https://zenodo.org/records/10404440/files/softPDMS_P1_B5__Ind_003.tdms"
+sha256 = "8e8984fa5b06c542df4ea68d53cbd8560d9c8c65debaa5716b0fac68e87c9d8d"
+size = 636551
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/10404440 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 10404440, softPDMS_P1_B5__Ind_003.tdms"
+attribution = "Bielawski, Kevin"
+notes = "DAQmx raw data (interleaved int16 raw buffer) with linear scales: strain gauge, auxiliary and displacement channels. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo15379761-daqmx-poly"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo15379761-daqmx-poly.tdms"
+url = "https://zenodo.org/records/15379761/files/2020%E5%B9%B403%E6%9C%8805%E6%97%A5-13%E6%97%B643%E5%88%8648%E7%A7%92.tdms"
+sha256 = "9e3dcdd199b43a40b809cc71b25fe296f15ccbfe0782c0894f99d6ae9eaaffe2"
+size = 8409291
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/15379761 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 15379761, 2020年03月05日-13时43分48秒.tdms"
+attribution = "Shen, Hui"
+notes = "DAQmx raw data with polynomial scales, task _unnamedTask<E>, channels Dev1/ai0 and more. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo6200886-pxi"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo6200886-pxi.tdms"
+url = "https://zenodo.org/records/6200886/files/S15_converted.tdms"
+sha256 = "2f2de085f6554440432e40a97944cf22f07c2d3691d1340dd73268f5e4aa8227"
+size = 176875
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/6200886 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 6200886, S15_converted.tdms"
+attribution = "Paglialunga Federica; Passelègue François; Brantut Nicolas; Barras Fabian et al."
+notes = "PXI waveform channels (PXI1Slot2/ai…) with wf_increment and NI_Exp properties. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo7758683-cdaq"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo7758683-cdaq.tdms"
+url = "https://zenodo.org/records/7758683/files/Waveforms%20Point09.tdms"
+sha256 = "8e57adef907300718c83cd6f376873726422e66aa4a79cae97b8313dc7be3cf3"
+size = 526053
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/7758683 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 7758683, Waveforms Point09.tdms"
+attribution = "Saullo G. P. Castro"
+notes = "cDAQ waveform channel (cDAQ1Mod1_ai0) with NI sound and vibration sensor properties. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo17582347-ldv"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo17582347-ldv.tdms"
+url = "https://zenodo.org/records/17582347/files/07_2024-05-02T122903_0200.tdms"
+sha256 = "fc90eb5eff4b356f2554ae8a6e725fc2c955f64a0254d81e076fa3f8e93f6ce3"
+size = 10111500
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/17582347 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 17582347, 07_2024-05-02T122903_0200.tdms"
+attribution = "Bochmann, Melanie"
+notes = "laser Doppler vibrometer data: a timestamp channel and channels with string properties. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo14923316-ta"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo14923316-ta.tdms"
+url = "https://zenodo.org/records/14923316/files/A_Naphta_scan003.tdms"
+sha256 = "b307f74731b698fb28e3b5120d0131d9076959554f722ac38d7a28fdf44a5e85"
+size = 4692669
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/14923316 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 14923316, A_Naphta_scan003.tdms"
+attribution = "Binzer"
+notes = "transient absorption scans: file properties (title, author, description, datetime) and many float64 channels. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo15420253-geolab"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo15420253-geolab.tdms"
+url = "https://zenodo.org/records/15420253/files/NS2p0_2025_04_11_0002.tdms"
+sha256 = "811a09083ea6e7d25a0680377075a8b2417bd32a362ea03f0ca64e7dd821603f"
+size = 442021
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/15420253 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 15420253, NS2p0_2025_04_11_0002.tdms"
+attribution = "Gajewski, Marcin Daniel; Gajewska, Beata; Lenart, Stanislav; Žlender, Bojan et al."
+notes = "GEOLAB shear apparatus log: groups of float32 channels. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo14505832-geolab"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo14505832-geolab.tdms"
+url = "https://zenodo.org/records/14505832/files/NS2p0_2024_10_17_0001.tdms"
+sha256 = "98fe4b4973d0cc5c4fd4433dc4289397d131bea73d0b64122f08d92a5bc62c69"
+size = 7986
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/14505832 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 14505832, NS2p0_2024_10_17_0001.tdms"
+attribution = "Jara Barrera, Nubia Andrea; Maugeri, Valerio; Lenart, Stanislav; Žlender, Bojan et al."
+notes = "GEOLAB shear apparatus log, an earlier test: groups of float32 channels of different lengths. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo5792896-febid"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo5792896-febid.tdms"
+url = "https://zenodo.org/records/5792896/files/20210825_IV_Bsweep_0-6T_360mK_with-offset-correction_lockin.tdms"
+sha256 = "cad20a14d2176631fbe9428c201e880a97629808b58ff816aace992726c1f24d"
+size = 741765
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/5792896 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 5792896, 20210825_IV_Bsweep_0-6T_360mK_with-offset-correction_lockin.tdms"
+attribution = "lim, willy"
+notes = "current-voltage sweeps of a FEBID device: group AllData, float64 channels. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo14860707-vna-v4712"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo14860707-vna-v4712.tdms"
+url = "https://zenodo.org/records/14860707/files/Figure.1%20%28f%29_Raw.tdms"
+sha256 = "aafe4941f9311e5eb87fa6f97827f6aaa04abf243e8380be728ee0d7100540e7"
+size = 1246876
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/14860707 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 14860707, Figure.1 (f)_Raw.tdms"
+attribution = "Al-Hamdo, Hassan; Wagner, Tobias; Schwenke, Philipp; Kendzo Dempowo, Gutenberg et al."
+notes = "TDMS version 4712: VNA magnetization-dynamics data, groups Field and VNA. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-zenodo17747449-saw-v4712"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-zenodo17747449-saw-v4712.tdms"
+url = "https://zenodo.org/records/17747449/files/FigS3_b%29_bottom.tdms"
+sha256 = "398ac1fa8ba3d1da9817806ca344e3edf337d4fdafcb1bf966dea64d324146e8"
+size = 6584
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/17747449 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 17747449, FigS3_b)_bottom.tdms"
+attribution = "Schwenke, Philipp; Spindler, Ephraim; Vasyuchka, Vitaliy; HAMADEH, Abbass et al."
+notes = "TDMS version 4712: a surface-acoustic-wave measurement, group SAW. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-strings"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-strings.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/03_datatypes/strings.tdms"
+sha256 = "c04360a2649f4166af6db5074b74fe4587f27589630b6119af9c808547454bc7"
+size = 166
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/03_datatypes/strings.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: string channel. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-timestamps"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-timestamps.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/03_datatypes/timestamps.tdms"
+sha256 = "bf94a84f6dcb663d1f7fca0b95a91367b25b86b0349a8b05bd159dbb040c57d0"
+size = 172
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/03_datatypes/timestamps.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: timestamp channel. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-integers"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-integers.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/03_datatypes/integers.tdms"
+sha256 = "e4b44cd85dcdd23986f0991d1e067c4194e3e96aa330395e1d8dabbed165a862"
+size = 589
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/03_datatypes/integers.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: 8- to 64-bit signed and unsigned integer channels. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-floats"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-floats.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/03_datatypes/floats.tdms"
+sha256 = "29f83fbea18f8c60bde459c6888d16152241149d6606194825cb313ac26475f1"
+size = 220
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/03_datatypes/floats.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: float32 and float64 channels. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-booleans"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-booleans.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/03_datatypes/booleans.tdms"
+sha256 = "f550f0457f755f205692db31d050134f1bab361e9b19e6185b290eddc6ddf875"
+size = 121
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/03_datatypes/booleans.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: boolean channel. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-multiple-segments"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-multiple-segments.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/02_structure_variants/multiple_segments.tdms"
+sha256 = "972a8f8a6646bfa4ca8d486ffe3827f869d6811b271df2ec552d950b85a99d55"
+size = 274
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/02_structure_variants/multiple_segments.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: values over several segments. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-empty-segment"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-empty-segment.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/02_structure_variants/empty_segment.tdms"
+sha256 = "6017b082f3063311035d9be7094a79ec993e0aabab5eea1f41524757e467212a"
+size = 183
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/02_structure_variants/empty_segment.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: a segment without values. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-standard-layout"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-standard-layout.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/08_raw_vs_interleaved/standard_layout.tdms"
+sha256 = "e64d9a5bc7aedbaf2ef9eafb6b81ad2f11db9b7aeaa08b9029d64bfd3f6602e7"
+size = 947
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/08_raw_vs_interleaved/standard_layout.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: contiguous layout. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-linear-scaling"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-linear-scaling.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/09_scaling_and_units/linear_scaling.tdms"
+sha256 = "1f52bd28179e6fc8e4c5e8ddb3b2f367fd8560384c4e7a990ec53b6fc19acc7f"
+size = 309
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/09_scaling_and_units/linear_scaling.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: a channel with scaling and unit properties. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-append-mode"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-append-mode.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/11_incremental_writes/append_mode.tdms"
+sha256 = "f036077396109fcebb7a2c27bed855bf2f54d11cb5d152a9659091c6cc0adc05"
+size = 230
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/11_incremental_writes/append_mode.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: values appended in later segments. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-unicode-paths"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-unicode-paths.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/13_unicode_and_encoding/unicode_paths.tdms"
+sha256 = "b71540341e8258833abff56aab8e1a61aa9cc39270969ae0046a248c734bfd47"
+size = 127
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/13_unicode_and_encoding/unicode_paths.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: non-ASCII group and channel names. Ground truth: npTDMS."
+
+[[file]]
+id = "tdms-rs-edge-cases"
+format = "ni-tdms"
+role = "input"
+tier = "smoke"
+filename = "tdms-rs-edge-cases.tdms"
+url = "https://raw.githubusercontent.com/robingkn/tdms-rs/61ffd31240ca64c6296c2764568296806569654a/tests/fixtures/tdms_corpus/05_string_edge_cases/edge_cases.tdms"
+sha256 = "cf3462549f01797ab9c4ca105b104cc20a5083587d0d181669fd259c5be41154"
+size = 10158
+license = "MIT OR Apache-2.0"
+license_checked = "LICENSE-MIT and LICENSE-APACHE at commit 61ffd31, crates.io tdms-rs 2.0.0 (MIT OR Apache-2.0), 2026-10-19"
+source = "GitHub robingkn/tdms-rs (commit 61ffd31), tests/fixtures/tdms_corpus/05_string_edge_cases/edge_cases.tdms"
+attribution = "tdms-rs developers (test corpus written with npTDMS)"
+notes = "synthetic test file: string edge cases. Ground truth: npTDMS."
+
+[[file]]
 id = "abif-biopython-310"
 format = "abif"
 family = "electrophoresis"
