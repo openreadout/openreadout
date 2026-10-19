@@ -10,6 +10,7 @@
   "NMR",
   "Flow cytometry",
   "Electrophysiology",
+  "Data acquisition",
   "Plate readers and qPCR",
   "Bench biophysics",
   "Electrophoresis",
@@ -223,6 +224,26 @@
    "field": "Mass spectrometry"
   },
   {
+   "id": "mgf",
+   "name": "MGF (Mascot generic format) peak lists",
+   "vendor": "Matrix Science open text format (written by many converters)",
+   "extensions": [
+    "mgf",
+    "mgf.gz"
+   ],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "MGF holds processed peak lists (usually centroided MS/MS), not raw scans; spectra are reported centroided",
+    "Peptide-mass-fingerprint lines outside BEGIN IONS blocks are counted, not read as spectra",
+    "Polarity is known only when a block names it (IONMODE / ION_MODE); otherwise `unknown`"
+   ],
+   "page": "mgf",
+   "field": "Mass spectrometry"
+  },
+  {
    "id": "bruker-tdf",
    "name": "Bruker timsTOF (TDF/TSF .d)",
    "vendor": "Bruker",
@@ -264,6 +285,25 @@
     "The third centroid array (read as peak widths), several list records and analysis.baf_xtr are not decoded"
    ],
    "page": "bruker-baf",
+   "field": "Mass spectrometry"
+  },
+  {
+   "id": "bruker-flex",
+   "name": "Bruker flex MALDI-TOF (fid + acqus)",
+   "vendor": "Bruker (flexControl: autoflex, ultraflex, microflex, MALDI Biotyper, rapifleX)",
+   "extensions": [],
+   "family": "mass-spectrometry",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Input is a spot directory (or its fid / acqus) or a directory above spot directories, not a single file",
+    "The raw fid is read; flexAnalysis's processed spectrum (pdata/1/1r) and peak lists are not",
+    "Intensities are returned as 32-bit floats, exact up to 2^24",
+    "LIFT fragment spectra get m/z from the ML1 to ML3 constants in acqus; flexControl's fragment calibration (NTBCal) is not applied",
+    "The instrument model is not in the files (only the host name INSTRUM and a numeric InstTyp)"
+   ],
+   "page": "bruker-flex",
    "field": "Mass spectrometry"
   },
   {
@@ -567,7 +607,7 @@
    "family": "qpcr",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "No Cq values: Rotor-Gene files keep raw channel readings and the run setup; the analysis lives in the vendor software (`analyze qpcr --compute-cq` computes Cq)",
     "Melt channels are read when the file records them as readings of a melt step; gain optimisation and other auxiliary readings are listed only"
@@ -2352,7 +2392,7 @@
    "family": "electrophoresis",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Fragment sizes are the instrument's when the file stores its size map (Data Collection 3 and later), else computed here by Local Southern against the size standard the file names, or the best-fitting standard for the standard's dye",
     "Base calls are the basecaller's (PBAS2/PCON2/PLOC2); edited calls, when they differ, are a second table",
@@ -2372,7 +2412,7 @@
    "family": "electrophoresis",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Native .xad files are not read: export the chip from 2100 Expert as XML (File > Export)",
     "Each well's processed signal is sized over the ladder's range only; signal outside it is left out",
@@ -2391,7 +2431,7 @@
    "family": "electrophoresis",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "medium",
    "known_gaps": [
     "Native run files (.D1000, .RNA, ...) are not read: export the XML and the electropherogram CSV from TapeStation Analysis",
     "Lane signals are sized here against the ladder (aligned on the markers), not by the instrument; peak and region sizes are the instrument's",
@@ -2517,6 +2557,25 @@
    "field": "Materials and electrochemistry"
   },
   {
+   "id": "ni-tdms",
+   "name": "National Instruments TDMS",
+   "vendor": "National Instruments (LabVIEW, DAQmx, SignalExpress)",
+   "extensions": [
+    "tdms"
+   ],
+   "family": "data-acquisition",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "String channels are listed (count, first values in `vendor`), not returned as traces",
+    "Extended-precision, complex and fixed-point values, DAQmx digital-line data and scale types other than linear and polynomial are not read; `notes` name the channels",
+    "The `.tdms_index` file is not needed and not read: the segments of the `.tdms` file are walked directly"
+   ],
+   "page": "ni-tdms",
+   "field": "Data acquisition"
+  },
+  {
    "id": "netzsch-ngb",
    "name": "NETZSCH Proteus (.ngb-*)",
    "vendor": "NETZSCH",
@@ -2608,7 +2667,7 @@
    "family": "sequencing",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "Base calls are not in POD5; basecalled reads come as FASTQ or BAM (read those files)",
     "The read-id index tables are not used; reads are listed in the order of the reads table",
@@ -2648,7 +2707,7 @@
    "family": "sequencing",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "info estimates read counts of files larger than its scan (32 MB of file); check counts every read",
     "Read names are not returned in tables; sequences and qualities are summarised, not listed"
@@ -2666,13 +2725,33 @@
    "family": "sequencing",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "Summaries count primary records as reads; secondary and supplementary alignments are listed in table 0 but not counted",
     "Alignments are not interpreted (no CIGAR, coverage or pileup): use samtools for that",
-    "CRAM is not read"
+    "CRAM is read by its own reader (`cram`)"
    ],
    "page": "sequence-reads",
+   "field": "DNA sequencers"
+  },
+  {
+   "id": "cram",
+   "name": "CRAM (reference-compressed alignments)",
+   "vendor": "",
+   "extensions": [
+    "cram"
+   ],
+   "family": "sequencing",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Bases of aligned reads need the reference: embedded in the file, or a FASTA beside it with the same name (.fa, .fasta, .fna); without it their GC and N counts are null and a note says so",
+    "Summaries count primary records as reads; secondary and supplementary alignments are listed in table 0 but not counted",
+    "Alignments are not interpreted (no CIGAR, coverage or pileup): use samtools for that",
+    "CRAM 1.0 and the draft 4.0 are not read (exit 6)"
+   ],
+   "page": "cram",
    "field": "DNA sequencers"
   },
   {
