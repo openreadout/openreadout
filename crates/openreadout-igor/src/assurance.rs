@@ -68,7 +68,26 @@ fn observe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED igor (cargo xtask assurance-audit --write; do not edit)
-const IGOR_CONFIDENCE: Confidence = Confidence::Low;
+const IGOR_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
-const IGOR_VALIDATED: &[Validated] = &[];
+const IGOR_VALIDATED: &[Validated] = &[
+    a::row(K::FormatVersion, "ibw 2", 2, 1, 2),
+    a::row(K::FormatVersion, "ibw 5", 15, 12, 15),
+    a::row(K::FormatVersion, "pxp wave 2", 1, 1, 1),
+    a::row(K::FormatVersion, "pxp wave 5", 15, 13, 15),
+    a::row(K::Layout, "big-endian", 1, 1, 1),
+    a::row(K::Layout, "image from two dimensions", 6, 5, 6),
+    a::row(K::Layout, "image with layers as channels", 4, 4, 4),
+    a::row(K::Layout, "image with layers as z", 1, 1, 1),
+    a::row(K::Layout, "little-endian", 32, 27, 32),
+    a::row(K::Layout, "trace from labelled columns", 2, 2, 2),
+    a::row(K::Layout, "trace from one dimension", 22, 18, 22),
+    a::row(K::SampleLayout, "float32", 19, 18, 19),
+    a::row(K::SampleLayout, "float64", 18, 16, 18),
+    a::row(K::SampleLayout, "int8", 1, 1, 1),
+    a::row(K::WriterVersion, "Igor Pro 6", 1, 1, 1),
+    a::row(K::WriterVersion, "Igor Pro 7", 2, 2, 2),
+    a::row(K::WriterVersion, "Igor Pro 8", 8, 7, 8),
+    a::row(K::WriterVersion, "Igor Pro 9", 5, 4, 5),
+];
 // END GENERATED igor

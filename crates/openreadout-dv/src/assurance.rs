@@ -35,7 +35,23 @@ fn observe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED deltavision (cargo xtask assurance-audit --write; do not edit)
-const DELTAVISION_CONFIDENCE: Confidence = Confidence::Low;
+const DELTAVISION_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
-const DELTAVISION_VALIDATED: &[Validated] = &[];
+const DELTAVISION_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "mode 0", 1, 1, 1),
+    a::row(K::Codec, "mode 1", 2, 1, 2),
+    a::row(K::Codec, "mode 2", 1, 1, 1),
+    a::row(K::Codec, "mode 6", 7, 6, 7),
+    a::row(K::Layout, "big-endian", 1, 1, 1),
+    a::row(K::Layout, "little-endian", 10, 8, 10),
+    a::row(K::Layout, "sections WZT", 2, 2, 2),
+    a::row(K::Layout, "sections ZTW", 5, 4, 5),
+    a::row(K::Layout, "sections ZWT", 4, 3, 4),
+    a::row(K::SampleLayout, "float", 1, 1, 1),
+    a::row(K::SampleLayout, "int16", 2, 1, 2),
+    a::row(K::SampleLayout, "uint16", 7, 6, 7),
+    a::row(K::SampleLayout, "uint8", 1, 1, 1),
+    a::row(K::Writer, "acquisition", 6, 5, 6),
+    a::row(K::Writer, "softWoRx deconvolution", 5, 4, 5),
+];
 // END GENERATED deltavision

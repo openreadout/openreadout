@@ -63,7 +63,33 @@ fn observe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED andor-sif (cargo xtask assurance-audit --write; do not edit)
-const ANDOR_SIF_CONFIDENCE: Confidence = Confidence::Low;
+const ANDOR_SIF_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
-const ANDOR_SIF_VALIDATED: &[Validated] = &[];
+const ANDOR_SIF_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "binned", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 5, 2, 20),
+    a::row(K::FormatVersion, "65555", 1, 1, 1),
+    a::row(K::FormatVersion, "65559", 1, 1, 1),
+    a::row(K::FormatVersion, "65564", 5, 3, 5),
+    a::row(K::FormatVersion, "65567", 14, 5, 14),
+    a::row(K::Instrument, "DH334T-18F-03", 1, 1, 1),
+    a::row(K::Instrument, "DH334T-18F-63", 1, 1, 1),
+    a::row(K::Instrument, "DH734_18mm", 1, 1, 1),
+    a::row(K::Instrument, "DU401_BVF", 1, 1, 1),
+    a::row(K::Instrument, "DU420_BX2DD", 1, 1, 1),
+    a::row(K::Instrument, "DU420_OE", 1, 1, 1),
+    a::row(K::Instrument, "DU491_17", 1, 1, 1),
+    a::row(K::Instrument, "DU888_BV", 2, 1, 2),
+    a::row(K::Instrument, "DU897_BV", 2, 1, 2),
+    a::row(K::Instrument, "DU920P_BX2DD", 4, 2, 4),
+    a::row(K::Instrument, "DU934P_BR,DD", 1, 1, 1),
+    a::row(K::Instrument, "DU940P", 3, 1, 3),
+    a::row(K::Instrument, "DV420_BU2", 1, 1, 1),
+    a::row(K::Instrument, "ZYLA-4.2P-USB3", 1, 1, 1),
+    a::row(K::Layout, "image", 9, 4, 9),
+    a::row(K::Layout, "spectrum, calibrated axis", 12, 4, 12),
+    a::row(K::Record, "background block", 5, 3, 5),
+    a::row(K::Record, "live block", 2, 1, 2),
+    a::row(K::Record, "signal block", 21, 7, 21),
+];
 // END GENERATED andor-sif
