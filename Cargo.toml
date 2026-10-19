@@ -195,7 +195,7 @@ image-webp = "0.2"
 # pool (the TIFF reader decodes chunks in parallel)
 jxl-oxide = { version = "0.12", default-features = false }
 # TIFF LERC (34887) tiles; pure-Rust LERC2 (its decoder has no unsafe)
-lerc-rs = { version = "0.5", default-features = false, features = ["std"] }
+lerc-rs = { version = "0.7", default-features = false, features = ["std"] }
 # HDF5 (pure Rust; EMD files)
 hdf5-pure = "0.47"
 # tiff
