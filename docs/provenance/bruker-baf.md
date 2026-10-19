@@ -36,3 +36,22 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 ## 2026-10-12 — fuzzing
 
 `whole_baf` (seed: the synthetic fixture from `oracle/make_baf_fixtures.py`) found a trailer-index offset near the top of the u64 range that overflowed an addition while opening. Offsets are now added with saturation, and the record chain checks lengths against the remaining bytes. The input is `crates/openreadout-bruker-tims/tests/fixtures/malformed/bundle-whole_baf-trailer-offset-overflow.bin`.
+
+## 2026-10-18 — more depositors; zlib-compressed float32 profiles (Richard Zimring with Claude as assistant)
+
+**Corpus files** (each with the depositor's vendor-library conversion, whose source-file SHA-1 equals the `analysis.baf`'s; none is used by a held-out entry):
+
+| id | instrument, software | source | licence |
+| --- | --- | --- | --- |
+| `msv000095055-baf-microtof` | micrOTOF-Q, micrOTOFcontrol 3.4 | MassIVE MSV000095055, ProteoWizard 3.0.24066 mzML | CC0-1.0 |
+| `msv000080102-baf-maxis-impact` | maXis impact, otofControl 3.4 | MassIVE MSV000080102, CompassXport 3.0.13 mzXML | CC0-1.0 |
+| `msv000078982-baf-microqtof` | micrOTOF-Q, otofControl 3.4.14 | MassIVE MSV000078982, ProteoWizard 3.0.6948 with CompassXtract 3.1.7 mzML | CC0-1.0 |
+| `msv000086640-baf-solarix-xr` | solariX XR 9.4 T, ftmsControl | MassIVE MSV000086640, CompassXport 3.0.6 profile mzML | CC0-1.0 |
+
+**Prior art:** none. The mzML and mzXML files were read with pyteomics (Apache-2.0).
+
+**What was inferred from what:**
+
+- The first two files read unchanged: 1759 and 2208 spectra agree with their conversions.
+- In `msv000078982-baf-microqtof`, 29 MS1 spectra have a profile and an empty centroid block. The CompassXtract export labels every spectrum centroided but holds these 29 profiles, without the first and last samples and a few other zero samples. Their non-zero samples equal ours in m/z (as float32) and intensity. The reader keeps reporting the empty centroid list for these spectra; the corpus harness compares them by their non-zero profile points (manifest `export_profile_for_empty_centroids`).
+- In `msv000086640-baf-solarix-xr` the profile block's coding bytes are `02 01 09 00` (the packed coding has `02 01 06 00`). Its payload starts with `78 01`, a zlib header; inflated, it is 32 078 332 bytes, 8 019 583 little-endian float32 samples, and the first u32 of the header after the coding bytes is the compressed length. The 635 756 non-zero samples equal the export's non-zero intensities exactly, in order. So coding byte 2 = 9 with byte 1 = 1 is read as zlib-compressed float32 samples.

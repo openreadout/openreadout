@@ -361,6 +361,48 @@ pub(crate) fn check_spectra(
         if o.peaks_not_compared.is_some() {
             continue;
         }
+        // An export that wrote the profile where the file stores no centroid (manifest
+        // `export_profile_for_empty_centroids`), leaving out some zero-intensity samples:
+        // compare our profile's non-zero points with the export's.
+        if o.export_profile_for_empty_centroids.is_some()
+            && view == SpectrumView::Centroid
+            && sp.mz.is_empty()
+            && s.n_peaks > 0
+            && let (Some(n), Some(hm), Some(hi)) =
+                (s.n_nonzero, &s.xxh3_mz_nonzero, &s.xxh3_intensity_nonzero)
+        {
+            let profile = ds
+                .read_spectrum_view(0, at, SpectrumView::Primary)
+                .map_err(|e| format!("scan {}: profile: {e}", s.scan_number))?;
+            let (mz, int): (Vec<f64>, Vec<f32>) = profile
+                .mz
+                .iter()
+                .zip(&profile.intensity)
+                .filter(|p| *p.1 != 0.0)
+                .map(|(&x, &y)| {
+                    let x = if s.mz_bits == Some(32) {
+                        f64::from(x as f32)
+                    } else {
+                        x
+                    };
+                    (x, y)
+                })
+                .unzip();
+            if mz.len() == n && xxh3_f64(&mz) == *hm && xxh3_f32(&int) == *hi {
+                exact += 1;
+            } else {
+                differ += 1;
+                note(
+                    format!(
+                        "scan {}: {} non-zero profile points (oracle {n}) where no centroid is stored",
+                        s.scan_number,
+                        mz.len()
+                    ),
+                    &mut first_diffs,
+                );
+            }
+            continue;
+        }
         // An export that kept only the points inside the scan's m/z range (ANDI-MS).
         if let Some([lo, hi]) = s.mz_window {
             let keep: Vec<bool> = sp.mz.iter().map(|&x| x >= lo && x <= hi).collect();

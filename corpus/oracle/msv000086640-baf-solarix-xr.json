@@ -1,0 +1,105 @@
+{
+ "id": "msv000086640-baf-solarix-xr",
+ "file": "analysis.baf",
+ "size": 2717108,
+ "sha256": "4473c15169f67c7c76b1c2b8ecb1dc3237b7bd0495afafbd2d0d31adc6d1a074",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 on the depositor's mzML (BY2WT-profileMSconvert.mzML)",
+ "paired_export": "BY2WT-profileMSconvert.mzML",
+ "export_software": [
+  [
+   "exportSoftware",
+   "3.0.6"
+  ],
+  [
+   "instrumentSoftware",
+   "Compass ftmsControl Version.Build"
+  ],
+  [
+   "recalibrationSoftware",
+   "5.1.201"
+  ],
+  [
+   "pwiz_3.0.20357",
+   "3.0.20357"
+  ]
+ ],
+ "peak_picking_in_export": false,
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "native_id": "scan=1",
+    "ms_level": 1,
+    "rt_s": 6.04698,
+    "polarity": "positive",
+    "centroided": false,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "isolation_target_mz": null,
+    "activation": null,
+    "collision_energy": null,
+    "total_ion_current": 60945584566.490295,
+    "base_peak_mz": 1534.56243117,
+    "n_peaks": 713976,
+    "n_nonzero": 635756,
+    "mz_bits": 64,
+    "xxh3_mz": "668899e13a4b2b448ab123698afb4842",
+    "xxh3_intensity": "2fc1a2ba97614653d5037e39e03e90ff",
+    "xxh3_mz_nonzero": "4f1d264198c1d22c9b5f74a362c4673d",
+    "xxh3_intensity_nonzero": "7865e8888f5816356d69eebac01c8fbf",
+    "sum_intensity": 60945584566.490295,
+    "mz_min": 154.17324456355814,
+    "mz_max": 3499.8100151726208,
+    "first_peaks": [
+     [
+      154.17324456355814,
+      0.0
+     ],
+     [
+      154.1732629641088,
+      21618.142578125
+     ],
+     [
+      154.17328136466386,
+      27888.634765625
+     ],
+     [
+      154.1732997652233,
+      38634.37109375
+     ],
+     [
+      154.17331816578712,
+      50926.453125
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      154.1732629641088,
+      21618.142578125
+     ],
+     [
+      154.17328136466386,
+      27888.634765625
+     ],
+     [
+      154.1732997652233,
+      38634.37109375
+     ],
+     [
+      154.17331816578712,
+      50926.453125
+     ],
+     [
+      154.17333656635537,
+      62095.5625
+     ]
+    ]
+   }
+  ]
+ }
+}

@@ -322,9 +322,10 @@ impl BafDataset {
         // The first profile block's coding and the first centroid block's element code.
         if let Some(off) = ds.spectra.iter().find_map(|s| s.profile) {
             let h = read_exact(&ds.file, &ds.baf, off, 24)?;
-            ds.profile_coding = Some(match h.get(21) {
-                Some(4) => "float32",
-                Some(1) => "packed",
+            ds.profile_coding = Some(match (h.get(21), h.get(22)) {
+                (Some(4), _) => "float32",
+                (Some(1), Some(&crate::baf::spectrum::ZLIB_CODING)) => "zlib float32",
+                (Some(1), _) => "packed",
                 _ => "unknown",
             });
         }
