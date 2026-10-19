@@ -641,16 +641,25 @@ impl PlaneDataset {
         let (format, path) = (src.format, src.path);
         let bps = self.pixel_type.bytes_per_sample() as u64;
         let [cz, cy, cx] = *chunk;
-        let chunk_bytes = usize::try_from(cz * cy * cx * bps)
-            .map_err(|_| Error::Other("chunk too large".into()))?;
+        let chunk_bytes = cz
+            .checked_mul(cy)
+            .and_then(|v| v.checked_mul(cx))
+            .and_then(|v| v.checked_mul(bps))
+            .and_then(|v| usize::try_from(v).ok())
+            .ok_or_else(|| {
+                Error::corrupt(
+                    format,
+                    format!("{}: chunks of {cz}x{cy}x{cx} samples", self.path),
+                )
+            })?;
         let mut f = src.fs.open(path).map_err(|e| Error::io(path, e))?;
         let flen = f.metadata().map_err(|e| Error::io(path, e))?.len();
         for (off, addr, size, mask) in chunks {
-            if !(off[0] <= z && z < off[0] + cz)
+            if !(off[0] <= z && z < off[0].saturating_add(cz))
                 || off[1] >= ry + rh
-                || off[1] + cy <= ry
+                || off[1].saturating_add(cy) <= ry
                 || off[2] >= rx + rw
-                || off[2] + cx <= rx
+                || off[2].saturating_add(cx) <= rx
             {
                 continue;
             }
@@ -687,8 +696,8 @@ impl PlaneDataset {
                 d
             };
             let zi = z - off[0];
-            let (x0, x1) = (off[2].max(rx), (off[2] + cx).min(rx + rw));
-            let (y0, y1) = (off[1].max(ry), (off[1] + cy).min(ry + rh));
+            let (x0, x1) = (off[2].max(rx), off[2].saturating_add(cx).min(rx + rw));
+            let (y0, y1) = (off[1].max(ry), off[1].saturating_add(cy).min(ry + rh));
             let n = ((x1 - x0) * bps) as usize;
             for y in y0..y1 {
                 let src = ((zi * cy + (y - off[1])) * cx + (x0 - off[2])) * bps;

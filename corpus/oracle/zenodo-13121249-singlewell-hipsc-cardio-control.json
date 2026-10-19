@@ -1,0 +1,43 @@
+{
+ "id": "zenodo-13121249-singlewell-hipsc-cardio-control",
+ "file": "SingleWell_HiPSC_cardio_Control.h5",
+ "size": 9400016,
+ "sha256": "49d3f0533cde55032ed0da13e4a087297c647aa23e6a433a16f0535b12160cc2",
+ "max_planes_hashed": 64,
+ "reader": "h5py 3.16.0 with the MCS-HDF5 definition's formula; McsPyDataTools cross-check",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "C-00068 36"
+   ],
+   "channel_units": [
+    "V"
+   ],
+   "sample_rate_hz": 10000.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2325000,
+     "channels": [
+      {
+       "xxh3": "4f40e401d55da06827d555bf8ad246ce",
+       "first": [
+        -2.2377269999999998e-05,
+        -1.940346e-05,
+        -2.099874e-05,
+        -2.1674999999999998e-05,
+        -1.549329e-05,
+        -1.6889159999999998e-05,
+        -2.9972189999999997e-05,
+        -2.9842139999999996e-05
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
