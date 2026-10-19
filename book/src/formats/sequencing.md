@@ -7,6 +7,7 @@ OpenReadout reads what DNA sequencers write, without the vendor's software:
 | Illumina run folders: `RunInfo.xml`, `RunParameters.xml`, InterOp metrics, BCL and CBCL base calls | `illumina-run` | [Illumina run folders](illumina-run.md) |
 | Oxford Nanopore raw signal | `pod5`, `fast5` | [POD5 and FAST5](nanopore.md) |
 | Reads as sequencers and basecallers hand them on (Illumina, PacBio HiFi, Oxford Nanopore) | `fastq`, `bam` | [FASTQ and BAM](sequence-reads.md) |
+| Reference-compressed alignments (CRAM 2.0 to 3.1); bases need the reference, embedded or as a FASTA beside the file | `cram` | [CRAM](cram.md) |
 
 ![Run quality of an Illumina NovaSeq 6000 run, drawn by openreadout preview](../img/gallery/run-quality.png)
 

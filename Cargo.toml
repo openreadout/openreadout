@@ -174,6 +174,9 @@ miniz_oxide = { version = "0.9", features = ["block-boundary"] }
 crc32fast = "1.4"
 ruzstd = "0.9"
 weezl = "0.2"
+# CRAM blocks compressed with bzip2 or xz/LZMA (pure-Rust decoders)
+bzip2-rs = "0.1"
+lzma-rs = "0.3"
 # JPEG (baseline, progressive, lossless up to 16 bit); no default features = no rayon threads.
 # `platform_independent`: the portable integer IDCT and colour conversion on every target. Without
 # it x86/x86_64 switch at run time to an SSSE3 IDCT whose 16-bit fixed point rounds differently
@@ -217,6 +220,8 @@ parquet = { version = "60", default-features = false, features = ["arrow", "snap
 xxhash-rust = { version = "0.8", features = ["xxh3"] }
 sha2 = "0.11"
 sha1 = "0.11"
+# CRAM reference checksums (SAM @SQ M5, slice MD5)
+md-5 = "0.11"
 # cli
 clap = { version = "4.6", features = ["derive", "wrap_help"] }
 clap_complete = "4.5"

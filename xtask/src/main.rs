@@ -795,6 +795,7 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("illumina", "illumina-run"),
             ("nanopore", "nanopore"),
             ("reads", "sequence-reads"),
+            ("cram", "cram"),
             // format ids, for `repo::doc_of`; no source file starts with these
             ("pod5", "nanopore"),
             ("fast5", "nanopore"),

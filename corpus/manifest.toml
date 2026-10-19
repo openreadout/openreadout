@@ -80665,6 +80665,907 @@ attribution = "Genome Research Ltd. (htslib test data)"
 notes = "coordinate-sorted Illumina alignments written by scramble 1.14.7 (SAM 1.4), 112 records over 7 references. Ground truth: pysam."
 
 [[file]]
+id = "cram-specs-0300-unmapped"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-0300-unmapped.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/0300_unmapped.cram"
+sha256 = "a15a7cab800e622d68bd0a270fda76fe0b123e329e36729e4f0096eb4723eae3"
+size = 721
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/0300_unmapped.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0 conformance file: one unmapped read, raw blocks. Ground truth: pysam."
+
+[[file]]
+id = "cram-specs-0500-mapped"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-0500-mapped.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/0500_mapped.cram"
+sha256 = "e8685d364962e69c2059f83ed14c2be6072d4fb5d43f71507060af0001175cdf"
+size = 939
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/0500_mapped.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0 conformance file: two mapped reads against an external reference, raw blocks. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-specs-0500-mapped-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-specs-0500-mapped.fa"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/ce.fa"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "reference FASTA companion of cram-specs-0500-mapped (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-specs-0600-embedded"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-0600-embedded.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/0600_mapped.cram"
+sha256 = "e78dc9c480713aa4d243fe95ad61ef951fa3e3078af6e153d13e16eaea687adb"
+size = 1279
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/0600_mapped.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0 conformance file: mapped reads with the reference embedded in the slice. Ground truth: pysam."
+
+[[file]]
+id = "cram-specs-0902-bzip2"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-0902-bzip2.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/0902_comp_bz2.cram"
+sha256 = "753dfd181efab85af88fe8171c54d7903e338d08d871925401ed4b216f4cc009"
+size = 1005
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/0902_comp_bz2.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0 conformance file: bzip2 and gzip blocks. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-specs-0902-bzip2-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-specs-0902-bzip2.fa"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/ce.fa"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "reference FASTA companion of cram-specs-0902-bzip2 (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-specs-0903-lzma"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-0903-lzma.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/0903_comp_lzma.cram"
+sha256 = "64f6fd69eb80bcc768ec74aab648359be8afc1f005c4f1a04e0d677558b9b1fc"
+size = 1153
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/0903_comp_lzma.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0 conformance file: lzma (xz) and gzip blocks. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-specs-0903-lzma-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-specs-0903-lzma.fa"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/ce.fa"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "reference FASTA companion of cram-specs-0903-lzma (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-specs-0905-rans1"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-0905-rans1.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/0905_comp_rans1.cram"
+sha256 = "dac3888e5ead0d680074502275c640f2c370d1d588272a75242e9b15568e5169"
+size = 1119
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/0905_comp_rans1.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0 conformance file: rANS 4x8 order-1 blocks. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-specs-0905-rans1-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-specs-0905-rans1.fa"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/ce.fa"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "reference FASTA companion of cram-specs-0905-rans1 (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-specs-1000-names"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-1000-names.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/1000_name.cram"
+sha256 = "71aa3f76b30238f0eaeae6ff761c747fd0c05d0f1220515598a524856d1a1e91"
+size = 2036
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/1000_name.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0 conformance file: read-name edge cases over two containers. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-specs-1000-names-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-specs-1000-names.fa"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/ce.fa"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "reference FASTA companion of cram-specs-1000-names (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-specs-v30-level1"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-v30-level1.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.0/passed/level-1.cram"
+sha256 = "cfbb58025cd1d1de7bfafeca7aebc17ca5d4f3945d8cbe6a938d35da097a6609"
+size = 613073
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.0/passed/level-1.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.0, 20,000 NA12878 reads (bwa via scramble 1.15.0) with embedded references; gzip and rANS 4x8. Ground truth: pysam."
+
+[[file]]
+id = "cram-specs-v31-level2"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-v31-level2.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.1/passed/level-2.cram"
+sha256 = "bf6824bdfc55e64903c8b4edb2863ec2eb68c2505e9160905c161ba6f3a272e5"
+size = 497803
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.1/passed/level-2.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.1, the same reads with rANS Nx16 and the name tokeniser (tok3), embedded references. Ground truth: pysam."
+
+[[file]]
+id = "cram-specs-v31-level4"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-specs-v31-level4.cram"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/3.1/passed/level-4.cram"
+sha256 = "1d1b62e0d2a2dc58915bed76285bf9175e40405c6fa63aa51cbc467491797974"
+size = 448120
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/3.1/passed/level-4.cram"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "CRAM 3.1, the same reads with lzma, bzip2, fqzcomp, the arithmetic coder and tok3, embedded references. Ground truth: pysam."
+
+[[file]]
+id = "cram-htslib-range"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-htslib-range.cram"
+url = "https://raw.githubusercontent.com/samtools/htslib/3829a92491f43df726d7af7ec8d6b30561a9727c/test/range.cram"
+sha256 = "ea9217f5a0dd7e57c0f2a94d55d6285d1e8d35cc741de53f12c19eecd0e84326"
+size = 11182
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat for everything outside cram/; test data are under test/), 2026-10-19"
+source = "GitHub samtools/htslib (commit 3829a92), test/range.cram"
+attribution = "Genome Research Ltd (htslib test data)"
+notes = "CRAM 3.0 written by scramble 1.14.7, 112 reads over 7 contigs. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-htslib-range-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-htslib-range.fa"
+url = "https://raw.githubusercontent.com/samtools/htslib/3829a92491f43df726d7af7ec8d6b30561a9727c/test/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat for everything outside cram/; test data are under test/), 2026-10-19"
+source = "GitHub samtools/htslib (commit 3829a92), test/ce.fa"
+attribution = "Genome Research Ltd (htslib test data)"
+notes = "reference FASTA companion of cram-htslib-range (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-htslib-ce5b-java"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-htslib-ce5b-java.cram"
+url = "https://raw.githubusercontent.com/samtools/htslib/3829a92491f43df726d7af7ec8d6b30561a9727c/test/ce%235b_java.cram"
+sha256 = "12bb51d85161f18136a4df5f6ad9565bd4148e1e01083a95c2d7a8242b1d75e2"
+size = 6784
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat for everything outside cram/; test data are under test/), 2026-10-19"
+source = "GitHub samtools/htslib (commit 3829a92), test/ce#5b_java.cram"
+attribution = "Genome Research Ltd (htslib test data)"
+notes = "CRAM 3.0 written by cramtools 3.0 (Java), 5 containers. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-htslib-ce5b-java-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-htslib-ce5b-java.fa"
+url = "https://raw.githubusercontent.com/samtools/htslib/3829a92491f43df726d7af7ec8d6b30561a9727c/test/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat for everything outside cram/; test data are under test/), 2026-10-19"
+source = "GitHub samtools/htslib (commit 3829a92), test/ce.fa"
+attribution = "Genome Research Ltd (htslib test data)"
+notes = "reference FASTA companion of cram-htslib-ce5b-java (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-htslib-auxf-java"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-htslib-auxf-java.cram"
+url = "https://raw.githubusercontent.com/samtools/htslib/3829a92491f43df726d7af7ec8d6b30561a9727c/test/auxf%23values_java.cram"
+sha256 = "e1885105587e59f3e268dfa401eee94ee4057d0accef0ba12b675a27aa092c05"
+size = 5152
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat for everything outside cram/; test data are under test/), 2026-10-19"
+source = "GitHub samtools/htslib (commit 3829a92), test/auxf#values_java.cram"
+attribution = "Genome Research Ltd (htslib test data)"
+notes = "CRAM 3.0 written by cramtools 3.0 (Java): tag-type edge cases. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-htslib-auxf-java-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-htslib-auxf-java.fa"
+url = "https://raw.githubusercontent.com/samtools/htslib/3829a92491f43df726d7af7ec8d6b30561a9727c/test/auxf.fa"
+sha256 = "f334eafb55fd48af94d12ceb96f41051d92b3863a2574c30d7594cce8cdd3ec9"
+size = 29
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat for everything outside cram/; test data are under test/), 2026-10-19"
+source = "GitHub samtools/htslib (commit 3829a92), test/auxf.fa"
+attribution = "Genome Research Ltd (htslib test data)"
+notes = "reference FASTA companion of cram-htslib-auxf-java (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-samtools-chk2-v31"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-samtools-chk2-v31.cram"
+url = "https://raw.githubusercontent.com/samtools/samtools/1b7899d95994a200ed71ddf3d8188d778a611e7b/test/checksum/chk2.cram"
+sha256 = "c56f78490fb9c90433ea9bbe266921c2c82fe76a785780ef65950e5cbd26966f"
+size = 6879
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat; test data are under test/), 2026-10-19"
+source = "GitHub samtools/samtools (commit 1b7899d), test/checksum/chk2.cram"
+attribution = "Genome Research Ltd (samtools test data)"
+notes = "CRAM 3.1 written by samtools 1.21 (level 9, embedded reference) from crumble 0.9.1 output, rANS Nx16. Ground truth: pysam."
+
+[[file]]
+id = "cram-samtools-ce5b-v20"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-samtools-ce5b-v20.cram"
+url = "https://raw.githubusercontent.com/samtools/samtools/1b7899d95994a200ed71ddf3d8188d778a611e7b/test/mpileup/ce%235b.cram"
+sha256 = "ba2e100bc2b011b5b8b86745f64cdde29c1c2098f7eca9dbce463b6004e14859"
+size = 13183
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat; test data are under test/), 2026-10-19"
+source = "GitHub samtools/samtools (commit 1b7899d), test/mpileup/ce#5b.cram"
+attribution = "Genome Research Ltd (samtools test data)"
+notes = "CRAM 2.0, 7 reads in 5 containers. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-samtools-ce5b-v20-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-samtools-ce5b-v20.fa"
+url = "https://raw.githubusercontent.com/samtools/samtools/1b7899d95994a200ed71ddf3d8188d778a611e7b/test/mpileup/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat; test data are under test/), 2026-10-19"
+source = "GitHub samtools/samtools (commit 1b7899d), test/mpileup/ce.fa"
+attribution = "Genome Research Ltd (samtools test data)"
+notes = "reference FASTA companion of cram-samtools-ce5b-v20 (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-samtools-input1a"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-samtools-input1a.cram"
+url = "https://raw.githubusercontent.com/samtools/samtools/1b7899d95994a200ed71ddf3d8188d778a611e7b/test/dat/test_input_1_a.cram"
+sha256 = "9eaf3889f6c48a53a6e0ec9b8f6c3eb3857d1e0657b193ddf490402fb11e7b28"
+size = 3178
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat; test data are under test/), 2026-10-19"
+source = "GitHub samtools/samtools (commit 1b7899d), test/dat/test_input_1_a.cram"
+attribution = "Genome Research Ltd (samtools test data)"
+notes = "CRAM 3.0, 15 reads. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-samtools-input1a-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-samtools-input1a.fa"
+url = "https://raw.githubusercontent.com/samtools/samtools/1b7899d95994a200ed71ddf3d8188d778a611e7b/test/dat/mpileup.ref.fa"
+sha256 = "52e3b93a4d1e614ef2d93b7986dd2f06c8f731f4c0388cdf974cb9014ee10d53"
+size = 4284
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat; test data are under test/), 2026-10-19"
+source = "GitHub samtools/samtools (commit 1b7899d), test/dat/mpileup.ref.fa"
+attribution = "Genome Research Ltd (samtools test data)"
+notes = "reference FASTA companion of cram-samtools-input1a (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-nfcore-paired-end"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-nfcore-paired-end.cram"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/illumina/cram/test.paired_end.sorted.cram"
+sha256 = "ed91bbc0633ab1c55be281e31aab165b9fb6ecd5c8775b1c5240a0d117d8bc9a"
+size = 76810
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/illumina/cram/test.paired_end.sorted.cram"
+attribution = "nf-core (modules test data)"
+notes = "CRAM 3.0 from bwa mem 0.7.17 and samtools 1.13: coordinate-sorted Illumina pairs over 40 kb of chr22. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-nfcore-paired-end-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-nfcore-paired-end.fa"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/genome/genome.fasta"
+sha256 = "48d0bbb875d37e529640d43f2751ec2a25e0ba1144f1994773e9c643d3cf9d05"
+size = 40675
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/genome/genome.fasta"
+attribution = "nf-core (modules test data)"
+notes = "reference FASTA companion of cram-nfcore-paired-end (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-nfcore-rnaseq"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-nfcore-rnaseq.cram"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/illumina/cram/test.rna.paired_end.sorted.cram"
+sha256 = "9aeba9d83971773c1a7ae8f57b3bd0e867244f5ba2686957c1abd8183d54df47"
+size = 225941
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/illumina/cram/test.rna.paired_end.sorted.cram"
+attribution = "nf-core (modules test data)"
+notes = "CRAM 3.0 from STAR 2.7.10a: spliced RNA-seq pairs. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-nfcore-rnaseq-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-nfcore-rnaseq.fa"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/genome/genome.fasta"
+sha256 = "48d0bbb875d37e529640d43f2751ec2a25e0ba1144f1994773e9c643d3cf9d05"
+size = 40675
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/genome/genome.fasta"
+attribution = "nf-core (modules test data)"
+notes = "reference FASTA companion of cram-nfcore-rnaseq (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-nfcore-scramble"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-nfcore-scramble.cram"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/scramble/test.cram"
+sha256 = "77cc534f016616baf1e2ceb747a9ebed746c1fdea554c235ee1198ce071e1f61"
+size = 679409
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/scramble/test.cram"
+attribution = "nf-core (modules test data)"
+notes = "CRAM 3.0 from bwa 0.7.17 and samtools 1.10, 16,095 reads on chr3. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-nfcore-scramble-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-nfcore-scramble.fa"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/scramble/test.fa"
+sha256 = "cd03098144fbc08a150bd4df046c4634dfa320c19bafc6698e532ffee7a3c204"
+size = 120047
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/scramble/test.fa"
+attribution = "nf-core (modules test data)"
+notes = "reference FASTA companion of cram-nfcore-scramble (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-nfcore-ont"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-nfcore-ont.cram"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/nanopore/bam/HG002_ont_telomere/HG002_ont_tel_sub.cram"
+sha256 = "33195712d4f953bceecc9a7df24a30565cfa2ec79fe3b11a8f095aec40c075b1"
+size = 316330
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/nanopore/bam/HG002_ont_telomere/HG002_ont_tel_sub.cram"
+attribution = "nf-core (modules test data)"
+notes = "CRAM 3.0 from samtools 1.23.1: Oxford Nanopore R10.4.1 reads (dorado), 17 long reads. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-nfcore-ont-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-nfcore-ont.fa"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/nanopore/bam/HG002_ont_telomere/HG002_ont_tel_sub_ref.fa"
+sha256 = "82a12357404f310af0beb056d18f818cfae0bfd18d91d6979350973f0e67532b"
+size = 152463
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/nanopore/bam/HG002_ont_telomere/HG002_ont_tel_sub_ref.fa"
+attribution = "nf-core (modules test data)"
+notes = "reference FASTA companion of cram-nfcore-ont (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-nfcore-pacbio-unmapped"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-nfcore-pacbio-unmapped.cram"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/eukaryotes/Pipistrellus_nathusii/genome/test.cram"
+sha256 = "22a3d6b3245e34377a86b5c9fa1fffcee915bf55b0609d77ca158fd289e8009c"
+size = 18687
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/eukaryotes/Pipistrellus_nathusii/genome/test.cram"
+attribution = "nf-core (modules test data)"
+notes = "CRAM 3.0 from samtools 1.23.1: unmapped PacBio CCS reads, no @SQ. Ground truth: pysam."
+
+[[file]]
+id = "cram-jbrowse-volvox-sorted"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-jbrowse-volvox-sorted.cram"
+url = "https://raw.githubusercontent.com/GMOD/jbrowse-components/9b652a019948fedcc28172e58d38cecd3e9849b7/test_data/volvox/volvox-sorted.cram"
+sha256 = "b55528b7e269689f310bedb83358bdc2aea72d8511fa42a57caaf8b77b14a89b"
+size = 141022
+license = "Apache-2.0"
+license_checked = "GitHub API repos/GMOD/jbrowse-components/license (Apache-2.0), 2026-10-19"
+source = "GitHub GMOD/jbrowse-components (commit 9b652a0), test_data/volvox/volvox-sorted.cram"
+attribution = "JBrowse developers (volvox test data)"
+notes = "CRAM 3.0 from samtools 1.11: 10,000 reads on the synthetic volvox genome. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-jbrowse-volvox-sorted-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-jbrowse-volvox-sorted.fa"
+url = "https://raw.githubusercontent.com/GMOD/jbrowse-components/9b652a019948fedcc28172e58d38cecd3e9849b7/test_data/volvox/volvox.fa"
+sha256 = "a7c58c310f917cee599b0557e75e613ff85c628af365ebf7e3942fff91c30c92"
+size = 56987
+license = "Apache-2.0"
+license_checked = "GitHub API repos/GMOD/jbrowse-components/license (Apache-2.0), 2026-10-19"
+source = "GitHub GMOD/jbrowse-components (commit 9b652a0), test_data/volvox/volvox.fa"
+attribution = "JBrowse developers (volvox test data)"
+notes = "reference FASTA companion of cram-jbrowse-volvox-sorted (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-jbrowse-volvox-noref"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-jbrowse-volvox-noref.cram"
+url = "https://raw.githubusercontent.com/GMOD/jbrowse-components/9b652a019948fedcc28172e58d38cecd3e9849b7/test_data/volvox/volvox-sorted.noref.cram"
+sha256 = "fa0d545044bf016f0738e89e423b51e767cb6e7b82011eb6e3bee25d054c703e"
+size = 233404
+license = "Apache-2.0"
+license_checked = "GitHub API repos/GMOD/jbrowse-components/license (Apache-2.0), 2026-10-19"
+source = "GitHub GMOD/jbrowse-components (commit 9b652a0), test_data/volvox/volvox-sorted.noref.cram"
+attribution = "JBrowse developers (volvox test data)"
+notes = "CRAM 3.0, the same reads written without a reference (bases stored verbatim). Ground truth: pysam."
+
+[[file]]
+id = "cram-jbrowse-volvox-rg"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-jbrowse-volvox-rg.cram"
+url = "https://raw.githubusercontent.com/GMOD/jbrowse-components/9b652a019948fedcc28172e58d38cecd3e9849b7/test_data/volvox/volvox-rg.cram"
+sha256 = "5ca4b169e6f566139150666e87f9b29939c1bacf15b5d725d90395c8111e2789"
+size = 5425
+license = "Apache-2.0"
+license_checked = "GitHub API repos/GMOD/jbrowse-components/license (Apache-2.0), 2026-10-19"
+source = "GitHub GMOD/jbrowse-components (commit 9b652a0), test_data/volvox/volvox-rg.cram"
+attribution = "JBrowse developers (volvox test data)"
+notes = "CRAM 3.0 from bwa 0.7.17 and samtools 1.11: 400 reads with read groups. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-jbrowse-volvox-rg-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-jbrowse-volvox-rg.fa"
+url = "https://raw.githubusercontent.com/GMOD/jbrowse-components/9b652a019948fedcc28172e58d38cecd3e9849b7/test_data/volvox/volvox.fa"
+sha256 = "a7c58c310f917cee599b0557e75e613ff85c628af365ebf7e3942fff91c30c92"
+size = 56987
+license = "Apache-2.0"
+license_checked = "GitHub API repos/GMOD/jbrowse-components/license (Apache-2.0), 2026-10-19"
+source = "GitHub GMOD/jbrowse-components (commit 9b652a0), test_data/volvox/volvox.fa"
+attribution = "JBrowse developers (volvox test data)"
+notes = "reference FASTA companion of cram-jbrowse-volvox-rg (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-jbrowse-volvox-long"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-jbrowse-volvox-long.cram"
+url = "https://raw.githubusercontent.com/GMOD/jbrowse-components/9b652a019948fedcc28172e58d38cecd3e9849b7/test_data/volvox/volvox-long-reads.fastq.sorted.cram"
+sha256 = "5e3f0d592e82a712791d729c2ae2d72951115ca248f6fad33b5c8e7b36afb6e2"
+size = 9878
+license = "Apache-2.0"
+license_checked = "GitHub API repos/GMOD/jbrowse-components/license (Apache-2.0), 2026-10-19"
+source = "GitHub GMOD/jbrowse-components (commit 9b652a0), test_data/volvox/volvox-long-reads.fastq.sorted.cram"
+attribution = "JBrowse developers (volvox test data)"
+notes = "CRAM 3.0 from bwa mem 0.7.15: 11 long reads. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-jbrowse-volvox-long-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-jbrowse-volvox-long.fa"
+url = "https://raw.githubusercontent.com/GMOD/jbrowse-components/9b652a019948fedcc28172e58d38cecd3e9849b7/test_data/volvox/volvox.fa"
+sha256 = "a7c58c310f917cee599b0557e75e613ff85c628af365ebf7e3942fff91c30c92"
+size = 56987
+license = "Apache-2.0"
+license_checked = "GitHub API repos/GMOD/jbrowse-components/license (Apache-2.0), 2026-10-19"
+source = "GitHub GMOD/jbrowse-components (commit 9b652a0), test_data/volvox/volvox.fa"
+attribution = "JBrowse developers (volvox test data)"
+notes = "reference FASTA companion of cram-jbrowse-volvox-long (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-rusthts-unmapped-v31"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-rusthts-unmapped-v31.cram"
+url = "https://raw.githubusercontent.com/rust-bio/rust-htslib/96afbc960fa9510f67db927d264dff296fecea59/test/test_cram_unmapped.cram"
+sha256 = "ad3d6fa6e7a51543bc6668a18dd8078f5045be73bc978cc15b22ebc346d031b8"
+size = 1695
+license = "MIT"
+license_checked = "LICENSE.md at the pinned commit (MIT), 2026-10-19"
+source = "GitHub rust-bio/rust-htslib (commit 96afbc9), test/test_cram_unmapped.cram"
+attribution = "rust-htslib developers (test data)"
+notes = "CRAM 3.1 from samtools 1.22.1: 8 reads, 2 unmapped, rANS Nx16. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-rusthts-unmapped-v31-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-rusthts-unmapped-v31.fa"
+url = "https://raw.githubusercontent.com/rust-bio/rust-htslib/96afbc960fa9510f67db927d264dff296fecea59/test/test_cram.fa"
+sha256 = "4b6302683d1c642363b05d40a7e5d2157769b4872bc817a3a1e85b117973c975"
+size = 384
+license = "MIT"
+license_checked = "LICENSE.md at the pinned commit (MIT), 2026-10-19"
+source = "GitHub rust-bio/rust-htslib (commit 96afbc9), test/test_cram.fa"
+attribution = "rust-htslib developers (test data)"
+notes = "reference FASTA companion of cram-rusthts-unmapped-v31 (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-rusthts-unmapped-noref"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-rusthts-unmapped-noref.cram"
+url = "https://raw.githubusercontent.com/rust-bio/rust-htslib/96afbc960fa9510f67db927d264dff296fecea59/test/test_unmapped.cram"
+sha256 = "4d81c5fd676b57274477466ecc8c0bdfa2ebd0ed180168eaeac09dc581c80c76"
+size = 1165
+license = "MIT"
+license_checked = "LICENSE.md at the pinned commit (MIT), 2026-10-19"
+source = "GitHub rust-bio/rust-htslib (commit 96afbc9), test/test_unmapped.cram"
+attribution = "rust-htslib developers (test data)"
+notes = "CRAM 3.0: 8 unmapped reads, no @SQ. Ground truth: pysam."
+
+[[file]]
+id = "cram-adam-artificial"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-adam-artificial.cram"
+url = "https://raw.githubusercontent.com/bigdatagenomics/adam/6f2aec83d2289f48104801a88c326b894ec7df2c/adam-core/src/test/resources/artificial.cram"
+sha256 = "497ee5d4807e8debb9a9dcee37be1c9dd159b8766684fbdd3054176e84f77957"
+size = 888
+license = "Apache-2.0"
+license_checked = "LICENSE.txt at the pinned commit (Apache License 2.0), 2026-10-19"
+source = "GitHub bigdatagenomics/adam (commit 6f2aec8), adam-core/src/test/resources/artificial.cram"
+attribution = "Big Data Genomics (ADAM test data)"
+notes = "CRAM 3.0: 10 artificial reads. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-adam-artificial-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-adam-artificial.fa"
+url = "https://raw.githubusercontent.com/bigdatagenomics/adam/6f2aec83d2289f48104801a88c326b894ec7df2c/adam-core/src/test/resources/artificial.fa"
+sha256 = "8300570c267fd4f79ca080091684e2c9dd02a0267b9864445a937b7e94035b6e"
+size = 1154
+license = "Apache-2.0"
+license_checked = "LICENSE.txt at the pinned commit (Apache License 2.0), 2026-10-19"
+source = "GitHub bigdatagenomics/adam (commit 6f2aec8), adam-core/src/test/resources/artificial.fa"
+attribution = "Big Data Genomics (ADAM test data)"
+notes = "reference FASTA companion of cram-adam-artificial (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-igvrep-minigenome"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-igvrep-minigenome.cram"
+url = "https://raw.githubusercontent.com/igvteam/igv-reports/21341fd9da2032fc59c1312b06002fb091284637/test/data/minigenome/alignments.cram"
+sha256 = "27a4236994a5fbd7fe89dfdbb638f64aad73058a01e59ed6b8ad54ee60eac0a5"
+size = 282627
+license = "MIT"
+license_checked = "LICENSE.md at the pinned commit (MIT), 2026-10-19"
+source = "GitHub igvteam/igv-reports (commit 21341fd), test/data/minigenome/alignments.cram"
+attribution = "IGV team (igv-reports test data)"
+notes = "CRAM 3.0 from STAR 2.6.1a: 10,212 spliced reads. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-igvrep-minigenome-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-igvrep-minigenome.fa"
+url = "https://raw.githubusercontent.com/igvteam/igv-reports/21341fd9da2032fc59c1312b06002fb091284637/test/data/minigenome/minigenome.fa"
+sha256 = "22b21e8fe3a3d8ed22c7e3ec697a3111fa0495595a5db6d1456f18f86ce9a6d4"
+size = 269424
+license = "MIT"
+license_checked = "LICENSE.md at the pinned commit (MIT), 2026-10-19"
+source = "GitHub igvteam/igv-reports (commit 21341fd), test/data/minigenome/minigenome.fa"
+attribution = "IGV team (igv-reports test data)"
+notes = "reference FASTA companion of cram-igvrep-minigenome (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-disq-valid-v21"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-disq-valid-v21.cram"
+url = "https://raw.githubusercontent.com/disq-bio/disq/de2e2067163f55b96fd882eef032a0ada92bb7cd/src/test/resources/valid.cram"
+sha256 = "c373fe84c91a600f785558dc0c3df9f769da8eb68cbf18d851c66f49146ce8a1"
+size = 13330
+license = "MIT"
+license_checked = "LICENSE.txt at the pinned commit (MIT), 2026-10-19"
+source = "GitHub disq-bio/disq (commit de2e206), src/test/resources/valid.cram"
+attribution = "Disq developers (test data from Picard/GATK)"
+notes = "CRAM 2.1 Picard/GATK test file: 8 contigs, 3 read groups. Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-disq-valid-v21-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-disq-valid-v21.fa"
+url = "https://raw.githubusercontent.com/disq-bio/disq/de2e2067163f55b96fd882eef032a0ada92bb7cd/src/test/resources/valid.fasta"
+sha256 = "dbe27d6ae197952e168b18993fb25d05b9c493e14eae7cc27d60cb32c9236491"
+size = 1292
+license = "MIT"
+license_checked = "LICENSE.txt at the pinned commit (MIT), 2026-10-19"
+source = "GitHub disq-bio/disq (commit de2e206), src/test/resources/valid.fasta"
+attribution = "Disq developers (test data from Picard/GATK)"
+notes = "reference FASTA companion of cram-disq-valid-v21 (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-igvjs-ce5"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-igvjs-ce5.cram"
+url = "https://raw.githubusercontent.com/igvteam/igv.js/b5d64807ee940a2eaf9a64b093f71445e9a3c620/test/data/cram/ce_5.tmp.cram"
+sha256 = "a927477a7d4fc4cd510e273ebaa037e298ac6e937deb32b46c2cb2e2b48022df"
+size = 1530
+license = "MIT"
+license_checked = "GitHub API repos/igvteam/igv.js/license (MIT), 2026-10-19"
+source = "GitHub igvteam/igv.js (commit b5d6480), test/data/cram/ce_5.tmp.cram"
+attribution = "IGV team (igv.js test data)"
+notes = "CRAM 3.0: 6 reads (reference: the hts-specs ce.fa). Ground truth: pysam with the companion reference."
+
+[[file]]
+id = "cram-igvjs-ce5-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-igvjs-ce5.fa"
+url = "https://raw.githubusercontent.com/samtools/hts-specs/510c107ba89aa13113818c9e4fa3071283cb7f7b/test/cram/ce.fa"
+sha256 = "5eca163c91918ada9774080ee2274208155f4d1b2d00700ee950cdd7b269508c"
+size = 1060702
+license = "Apache-2.0"
+license_checked = "test/cram/3.0/LICENSE and test/cram/3.1/LICENSE at the pinned commit (Apache License 2.0, Genome Research Ltd), 2026-10-19"
+source = "GitHub samtools/hts-specs (commit 510c107), test/cram/ce.fa"
+attribution = "Genome Research Ltd (hts-specs CRAM conformance tests)"
+notes = "reference FASTA companion of cram-igvjs-ce5 (same stem), as published by the depositor"
+
+[[file]]
+id = "cram-zenodo-lariat-mt"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-zenodo-lariat-mt.cram"
+url = "https://zenodo.org/records/3582619/files/linkedread.lariat-chrom.MT.cram"
+sha256 = "147908b2160db8966e896577d9ab73c1e3eb4ebd6637e1ab90d90bd5fd8742ac"
+size = 78703
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/3582619 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 3582619, linkedread.lariat-chrom.MT.cram"
+attribution = "Karaoglanoglu F, Ricketts C, Ebren E, Eslami Rasekh M, Hajirasouliha I, Alkan C (2019)"
+notes = "10x Lariat (longranger) aligned simulated linked reads, b37 header, the MT contig. Ground truth: pysam with the rCRS reference (nf-core human_mt_rCRS.fasta, sequence MT)."
+
+[[file]]
+id = "cram-zenodo-lariat-mt-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-zenodo-lariat-mt.fa"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/genome/human_mt_rCRS.fasta"
+sha256 = "4da9dfb12d8d954c5c57f1cb99137c001914797c56a8b2eb40284a18748a652f"
+size = 16885
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/genome/human_mt_rCRS.fasta"
+attribution = "nf-core (modules test data)"
+notes = "reference FASTA companion of cram-zenodo-lariat-mt: the revised Cambridge reference sequence (NC_012920.1) named MT"
+
+[[file]]
+id = "cram-zenodo-ilmn-mt"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-zenodo-ilmn-mt.cram"
+url = "https://zenodo.org/records/3581178/files/sim_ilmn_bwa-chrom.MT.cram"
+sha256 = "e887e7d65eb3ca1f769728dbad669a57ea6c49fe024fd0684106ae02ecdb0a4b"
+size = 334078
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/3581178 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 3581178, sim_ilmn_bwa-chrom.MT.cram"
+attribution = "Karaoglanoglu F, Ricketts C, Ebren E, Eslami Rasekh M, Hajirasouliha I, Alkan C (2019)"
+notes = "bwa 0.7.12 mem aligned simulated Illumina reads, the MT contig. Ground truth: pysam with the rCRS reference (nf-core human_mt_rCRS.fasta, sequence MT)."
+
+[[file]]
+id = "cram-zenodo-ilmn-mt-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-zenodo-ilmn-mt.fa"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/genome/human_mt_rCRS.fasta"
+sha256 = "4da9dfb12d8d954c5c57f1cb99137c001914797c56a8b2eb40284a18748a652f"
+size = 16885
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/genome/human_mt_rCRS.fasta"
+attribution = "nf-core (modules test data)"
+notes = "reference FASTA companion of cram-zenodo-ilmn-mt: the revised Cambridge reference sequence (NC_012920.1) named MT"
+
+[[file]]
+id = "cram-zenodo-pacbio-mt"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-zenodo-pacbio-mt.cram"
+url = "https://zenodo.org/records/3582131/files/sim_ngmlr-chrom.MT.cram"
+sha256 = "20efc63984183cf6a30ab571dce42962eefdb6584b503269f816aefd2d8b3a4e"
+size = 303196
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/api/records/3582131 metadata.license.id (cc-by-4.0), 2026-10-19"
+source = "Zenodo record 3582131, sim_ngmlr-chrom.MT.cram"
+attribution = "Karaoglanoglu F, Ricketts C, Ebren E, Eslami Rasekh M, Hajirasouliha I, Alkan C (2019)"
+notes = "ngmlr 0.2.7 and sambamba aligned simulated PacBio reads, the MT contig. Ground truth: pysam with the rCRS reference (nf-core human_mt_rCRS.fasta, sequence MT)."
+
+[[file]]
+id = "cram-zenodo-pacbio-mt-ref"
+format = "cram"
+role = "companion"
+tier = "smoke"
+filename = "cram-zenodo-pacbio-mt.fa"
+url = "https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/genome/human_mt_rCRS.fasta"
+sha256 = "4da9dfb12d8d954c5c57f1cb99137c001914797c56a8b2eb40284a18748a652f"
+size = 16885
+license = "MIT"
+license_checked = "GitHub API repos/nf-core/test-datasets/license (MIT), 2026-10-19"
+source = "GitHub nf-core/test-datasets (commit 76179c1), data/genomics/homo_sapiens/genome/human_mt_rCRS.fasta"
+attribution = "nf-core (modules test data)"
+notes = "reference FASTA companion of cram-zenodo-pacbio-mt: the revised Cambridge reference sequence (NC_012920.1) named MT"
+
+[[file]]
+id = "cram-samtools-mpileup1-v31"
+format = "cram"
+role = "input"
+tier = "smoke"
+filename = "cram-samtools-mpileup1-v31.cram"
+url = "https://raw.githubusercontent.com/samtools/samtools/1b7899d95994a200ed71ddf3d8188d778a611e7b/test/cram_size/mpileup.1.cram"
+sha256 = "6b85512a56443335338f260a2fbbf6e4d3e3b74da09562c962b20e5e4f6f1e27"
+size = 60965
+license = "MIT"
+license_checked = "LICENSE at the pinned commit (MIT/Expat; test data are under test/), 2026-10-19"
+source = "GitHub samtools/samtools (commit 1b7899d), test/cram_size/mpileup.1.cram"
+attribution = "Genome Research Ltd (samtools test data)"
+notes = "CRAM 3.1, 6 slices, bzip2 and rANS Nx16, embedded reference. Ground truth: pysam."
+oracle_skip = "two external blocks of each slice share content id 10, one with read names and one with the embedded reference; htslib (pysam) takes the read-name block as the reference, so its bases differ, while the reader takes the block whose MD5 matches the slice"
+
+[[file]]
 id = "abif-biopython-310"
 format = "abif"
 family = "electrophoresis"

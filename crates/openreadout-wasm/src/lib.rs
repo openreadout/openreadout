@@ -170,6 +170,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_seq::Fast5Reader))
         .with(Box::new(openreadout_seq::FastqReader))
         .with(Box::new(openreadout_seq::BamReader))
+        .with(Box::new(openreadout_seq::CramReader))
         .with(Box::new(openreadout_hdf5::Hdf5Reader))
         .with(Box::new(openreadout_plate::PlateReader))
 }

@@ -146,6 +146,7 @@ fn formats_lists_all_readers() {
             "fast5",
             "fastq",
             "bam",
+            "cram",
             "hdf5",
             "plate",
         ]

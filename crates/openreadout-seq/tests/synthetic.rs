@@ -1,14 +1,15 @@
 //! The readers on the committed synthetic fixtures (`oracle/make_seq_fixtures.py`): tiny Illumina
-//! run folders with BCL and CBCL base calls, FASTQ, BAM, POD5 and FAST5, with values known by
-//! construction.
+//! run folders with BCL and CBCL base calls, FASTQ, BAM, CRAM, POD5 and FAST5, with values known
+//! by construction.
 #![allow(clippy::float_cmp, clippy::many_single_char_names)] // values known exactly by construction
 
 use std::path::{Path, PathBuf};
 
+use openreadout_core::source::Input;
 use openreadout_core::{Dataset, FormatReader};
 use openreadout_seq::{
-    BamReader, Fast5Reader, FastqOptions, FastqReader, IlluminaRun, IlluminaRunReader, Pod5Reader,
-    export_fastq,
+    BamReader, CramReader, Fast5Reader, FastqOptions, FastqReader, IlluminaRun, IlluminaRunReader,
+    Pod5Reader, export_fastq,
 };
 
 fn fixture(name: &str) -> PathBuf {
@@ -149,6 +150,81 @@ fn bam_records_and_tags() {
         (q[0] - 30.0).abs() < 1e-9 && (q[1] - 31.0).abs() < 1e-9,
         "{q:?}"
     );
+}
+
+#[test]
+fn cram_with_and_without_its_reference() {
+    let p = fixture("mini.cram");
+    let head = std::fs::read(&p).unwrap();
+    assert!(CramReader.sniff(&head, &p).is_some());
+    assert!(BamReader.sniff(&head, &p).is_none());
+    let mut ds = CramReader.open(&p).unwrap();
+    let info = ds.info().unwrap();
+    assert_eq!(info.format_version.as_deref(), Some("3.0"));
+    let e = &info.tables[0].extra;
+    assert_eq!(e["summary"]["records"], 3);
+    assert_eq!(e["summary"]["mapped"], 2);
+    assert_eq!(e["platform"], "PACBIO");
+    assert_eq!(e["reference"]["source"], "mini.fa");
+    assert!(info.notes.is_empty(), "{:?}", info.notes);
+    assert_eq!(column(&mut *ds, 0, "length"), vec![23.0, 30.0, 8.0]);
+    assert_eq!(column(&mut *ds, 0, "flag"), vec![0.0, 16.0, 4.0]);
+    assert_eq!(column(&mut *ds, 0, "mapq"), vec![60.0, 30.0, 0.0]);
+    let pos = column(&mut *ds, 0, "pos");
+    assert!(
+        pos[0] == 1.0 && pos[1] == 21.0 && pos[2].is_nan(),
+        "{pos:?}"
+    );
+    assert_eq!(column(&mut *ds, 0, "passes")[1], 7.0);
+    // GGACGTCCGTTTGGAAACCAAGG: 13 G or C of 23; the 30 reference bases from position 21: 17 of 30
+    let gc = column(&mut *ds, 0, "gc_percent");
+    assert!((gc[0] - 13.0 / 23.0 * 100.0).abs() < 1e-9, "{gc:?}");
+    assert!((gc[1] - 17.0 / 30.0 * 100.0).abs() < 1e-9, "{gc:?}");
+    assert!((gc[2] - 50.0).abs() < 1e-9, "{gc:?}");
+    assert_eq!(column(&mut *ds, 0, "n_bases")[2], 4.0);
+
+    // the same bytes without the FASTA beside them: no bases for the aligned reads
+    let input = Input::from_bytes("alone.cram", head);
+    let mut ds = CramReader.open_input(&input).unwrap();
+    let info = ds.info().unwrap();
+    assert_eq!(info.tables[0].extra["summary"]["reads_without_bases"], 2);
+    assert!(
+        info.notes.iter().any(|n| n.contains("were not restored")),
+        "{:?}",
+        info.notes
+    );
+    let gc = column(&mut *ds, 0, "gc_percent");
+    assert!(
+        gc[0].is_nan() && gc[1].is_nan() && (gc[2] - 50.0).abs() < 1e-9,
+        "{gc:?}"
+    );
+    assert_eq!(column(&mut *ds, 0, "length"), vec![23.0, 30.0, 8.0]);
+    let rep = ds.check().unwrap();
+    assert!(rep.findings.iter().any(|f| f.code == "reference_missing"));
+}
+
+#[test]
+fn cram_damage_is_an_error_not_a_panic() {
+    let good = std::fs::read(fixture("mini.cram")).unwrap();
+    for cut in (27..good.len()).step_by(7) {
+        let input = Input::from_bytes("cut.cram", good[..cut].to_vec());
+        if let Ok(mut ds) = CramReader.open_input(&input) {
+            let _ = ds.info();
+            let _ = ds.check();
+        }
+    }
+    for i in (26..good.len()).step_by(3) {
+        let mut b = good.clone();
+        b[i] ^= 0x5a;
+        let input = Input::from_bytes("flip.cram", b);
+        if let Ok(mut ds) = CramReader.open_input(&input) {
+            let _ = ds.info();
+            if let Ok(info) = ds.info() {
+                let _ = ds.read_table(0, 0, info.tables[0].row_count);
+            }
+            let _ = ds.check();
+        }
+    }
 }
 
 #[test]

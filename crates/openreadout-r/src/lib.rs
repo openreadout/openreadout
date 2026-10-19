@@ -159,6 +159,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_seq::Fast5Reader))
         .with(Box::new(openreadout_seq::FastqReader))
         .with(Box::new(openreadout_seq::BamReader))
+        .with(Box::new(openreadout_seq::CramReader))
         // loose: any other HDF5 file (after EMD, Imaris and NWB, which claim theirs definitely)
         .with(Box::new(openreadout_hdf5::Hdf5Reader))
         // last: text/CSV/XLSX exports; the generic plate-matrix fallback is the loosest sniff

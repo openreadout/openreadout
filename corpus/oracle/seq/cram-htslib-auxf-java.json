@@ -1,0 +1,42 @@
+{
+ "id": "cram-htslib-auxf-java",
+ "format": "cram",
+ "reader": "pysam 0.24.1 (MIT)",
+ "records": 2,
+ "primary": 2,
+ "mapped": 2,
+ "bases": 20,
+ "n50": 10,
+ "sort_order": "unsorted",
+ "platform": null,
+ "references": 1,
+ "sampled": [
+  {
+   "i": 0,
+   "flag": 16,
+   "mapq": 86,
+   "ref_id": 0,
+   "pos": 1,
+   "length": 10,
+   "mean_quality": 9.0,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 60.0,
+   "n_bases": 0
+  },
+  {
+   "i": 1,
+   "flag": 16,
+   "mapq": 11,
+   "ref_id": 0,
+   "pos": 11,
+   "length": 10,
+   "mean_quality": null,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 0.0,
+   "n_bases": 0
+  }
+ ],
+ "reference_given": true
+}

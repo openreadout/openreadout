@@ -48,6 +48,61 @@ pub(crate) static BAM: AssuranceProfile = AssuranceProfile {
     basis: Basis::OpenSpec,
 };
 
+pub(crate) static CRAM: AssuranceProfile = AssuranceProfile {
+    format_id: "cram",
+    observe: observe_cram,
+    validated: CRAM_VALIDATED,
+    confidence: CRAM_CONFIDENCE,
+    basis: Basis::OpenSpec,
+};
+
+/// CRAM: the container version and the block codecs decide how records are decoded; where the
+/// reference comes from decides how bases are restored.
+fn observe_cram(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, format!("CRAM {v}"), &[Scope::Tables]);
+    }
+    if let Some(t) = info.tables.first() {
+        if let Some(c) = t.extra.get("cram_codecs").and_then(|v| v.as_object()) {
+            for k in c.keys() {
+                o.feature(K::Codec, k, &[Scope::Tables]);
+            }
+        }
+        if let Some(r) = t.extra.get("reference") {
+            let n = |k: &str| r.get(k).and_then(serde_json::Value::as_u64).unwrap_or(0);
+            if n("slices_embedded") > 0 {
+                o.feature(K::Layout, "reference embedded", &[Scope::Tables]);
+            }
+            if n("slices_external") > 0 {
+                o.feature(K::Layout, "reference external", &[Scope::Tables]);
+            }
+            if n("containers_reference_not_required") > 0 {
+                o.feature(K::Layout, "reference not required", &[Scope::Tables]);
+            }
+        }
+        for k in ["sort_order", "platform"] {
+            if let Some(v) = a::extra_str(&t.extra, k) {
+                let kind = if k == "platform" {
+                    K::Instrument
+                } else {
+                    K::Layout
+                };
+                o.feature(kind, format!("{k} {v}"), &[Scope::Tables]);
+            }
+        }
+        if let Some(v) = a::extra_str(&t.extra, "writer") {
+            o.feature(K::Writer, format!("writer {v}"), &[]);
+        }
+    }
+    for n in &info.notes {
+        if n.contains("reads were not restored") {
+            o.undecoded("bases (reference sequence not available)", &[], n.clone());
+        }
+    }
+    o
+}
+
 fn observe_illumina(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     if let Some(t) = info.tables.first() {
@@ -236,3 +291,41 @@ const BAM_VALIDATED: &[Validated] = &[
     a::row(K::Writer, "writer update_bam.py", 2, 1, 2),
 ];
 // END GENERATED bam
+
+// BEGIN GENERATED cram (cargo xtask assurance-audit --write; do not edit)
+const CRAM_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const CRAM_VALIDATED: &[Validated] = &[
+    a::row(K::Codec, "arith", 1, 1, 1),
+    a::row(K::Codec, "bzip2", 2, 1, 3),
+    a::row(K::Codec, "fqzcomp", 1, 1, 1),
+    a::row(K::Codec, "gzip", 29, 13, 30),
+    a::row(K::Codec, "lzma", 2, 1, 2),
+    a::row(K::Codec, "rans4x8", 20, 11, 20),
+    a::row(K::Codec, "ransNx16", 4, 3, 5),
+    a::row(K::Codec, "raw", 29, 11, 30),
+    a::row(K::Codec, "tok3", 2, 1, 2),
+    a::row(K::FormatVersion, "CRAM 2.0", 1, 1, 1),
+    a::row(K::FormatVersion, "CRAM 2.1", 1, 1, 1),
+    a::row(K::FormatVersion, "CRAM 3.0", 28, 12, 28),
+    a::row(K::FormatVersion, "CRAM 3.1", 4, 3, 5),
+    a::row(K::Instrument, "platform 10X", 1, 1, 1),
+    a::row(K::Instrument, "platform ILLUMINA", 7, 6, 8),
+    a::row(K::Instrument, "platform ONT", 1, 1, 1),
+    a::row(K::Instrument, "platform PACBIO", 1, 1, 1),
+    a::row(K::Layout, "reference embedded", 5, 2, 6),
+    a::row(K::Layout, "reference external", 26, 13, 26),
+    a::row(K::Layout, "reference not required", 8, 3, 9),
+    a::row(K::Layout, "sort_order coordinate", 15, 11, 16),
+    a::row(K::Layout, "sort_order unsorted", 2, 2, 2),
+    a::row(K::Writer, "writer Hey!", 1, 1, 1),
+    a::row(K::Writer, "writer MarkDuplicates", 1, 1, 1),
+    a::row(K::Writer, "writer bwa", 1, 1, 1),
+    a::row(K::Writer, "writer cow", 1, 1, 1),
+    a::row(K::Writer, "writer cramtools", 2, 1, 2),
+    a::row(K::Writer, "writer longranger", 1, 1, 1),
+    a::row(K::Writer, "writer sambamba-6DEDF075", 1, 1, 1),
+    a::row(K::Writer, "writer samtools", 12, 6, 13),
+    a::row(K::Writer, "writer scramble", 4, 2, 4),
+];
+// END GENERATED cram

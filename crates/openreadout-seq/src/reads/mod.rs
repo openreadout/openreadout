@@ -1,4 +1,4 @@
-//! FASTQ and BAM read files: what a sequencer (or its basecaller) hands on.
+//! FASTQ, BAM and CRAM read files: what a sequencer (or its basecaller) hands on.
 //!
 //! `info` streams the first part of the file (up to [`INFO_SCAN_BYTES`] of it, so it stays fast
 //! on files of hundreds of gigabytes) and reports read counts, lengths (N50), qualities and
@@ -8,6 +8,7 @@
 //! totals. Table 0 lists one row per record (length, mean quality, GC, and for BAM the flag,
 //! mapping quality, position and PacBio passes and accuracy); tables 1–3 are the quality by
 //! position, the read-length histogram and the read-quality histogram of the scanned reads.
+//! CRAM records come from [`crate::cram`] and fill the same table as BAM.
 
 pub mod records;
 pub mod stats;
@@ -15,6 +16,7 @@ pub mod stats;
 use std::cell::OnceCell;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex};
 
 use openreadout_core::experiment::{Experiment, ExperimentInstrument, Method, Quantity, Sample};
 use openreadout_core::model::{
@@ -27,6 +29,7 @@ use openreadout_core::source::Input;
 use openreadout_core::{Error, Result, vocab};
 use serde_json::{Value, json};
 
+use crate::cram::{self, CramFacts, CramHeader, CramRecords, Fasta};
 use crate::table::{Col, MemTable, tidy};
 use records::{BamHeader, BamRecords, FastqRecords, Rec, Records};
 use stats::ReadStats;
@@ -35,6 +38,11 @@ use stats::ReadStats;
 pub const FASTQ_FORMAT_ID: &str = "fastq";
 /// Format id of BAM files.
 pub const BAM_FORMAT_ID: &str = "bam";
+/// Format id of CRAM files.
+pub const CRAM_FORMAT_ID: &str = "cram";
+
+/// What to do when a CRAM file's reference is missing.
+pub const REFERENCE_HINT: &str = "Put the reference FASTA (uncompressed, with or without its .fai index) beside the CRAM file with the same name and the extension .fa, .fasta or .fna, then run the command again.";
 
 /// File bytes `info` reads at most (compressed bytes for gzip and BGZF).
 pub const INFO_SCAN_BYTES: u64 = 32 << 20;
@@ -46,6 +54,8 @@ pub enum ReadFormat {
     Fastq,
     /// BAM.
     Bam,
+    /// CRAM.
+    Cram,
 }
 
 /// What the scan of `info` found.
@@ -61,6 +71,16 @@ struct Scan {
     first_name: Vec<u8>,
     /// The first FASTQ title line, without the `@` (empty for BAM).
     first_title: Vec<u8>,
+    /// CRAM: what decoding found.
+    cram: Option<CramFacts>,
+}
+
+/// A CRAM file's header and reference.
+struct CramState {
+    header: CramHeader,
+    fasta: Option<Arc<Fasta>>,
+    /// A reference FASTA was found but could not be used.
+    fasta_problem: Option<String>,
 }
 
 /// An open FASTQ or BAM file.
@@ -74,6 +94,7 @@ pub struct ReadsDataset {
     bai: Option<(u64, u64)>,
     scan: OnceCell<std::result::Result<Scan, String>>,
     cursor: Option<(Box<dyn Records>, u64)>,
+    cram: Option<CramState>,
 }
 
 impl std::fmt::Debug for ReadsDataset {
@@ -90,22 +111,41 @@ impl ReadsDataset {
         match self.format {
             ReadFormat::Fastq => FASTQ_FORMAT_ID,
             ReadFormat::Bam => BAM_FORMAT_ID,
+            ReadFormat::Cram => CRAM_FORMAT_ID,
         }
     }
 
     fn records(&self) -> Result<Box<dyn Records>> {
+        self.records_with(Arc::new(Mutex::new(CramFacts::default())))
+    }
+
+    /// The record stream; CRAM decoding reports what it found to `facts`.
+    fn records_with(&self, facts: Arc<Mutex<CramFacts>>) -> Result<Box<dyn Records>> {
         let f = self.input.open()?;
+        if let Some(c) = &self.cram {
+            return Ok(Box::new(CramRecords::new(
+                f,
+                &c.header,
+                c.fasta.clone(),
+                facts,
+            )?));
+        }
         let (r, n) = records::open_stream(f, self.gz);
         Ok(match self.format {
             ReadFormat::Fastq => Box::new(FastqRecords::new(r, n, FASTQ_FORMAT_ID)),
-            ReadFormat::Bam => Box::new(BamRecords::new(r, n)?),
+            ReadFormat::Bam | ReadFormat::Cram => Box::new(BamRecords::new(r, n)?),
         })
+    }
+
+    fn has_alignments(&self) -> bool {
+        self.format != ReadFormat::Fastq
     }
 
     /// Stream records, feeding primary reads to the statistics, until the end or `budget`
     /// file bytes.
     fn run_scan(&self, budget: u64) -> Result<Scan> {
-        let mut recs = self.records()?;
+        let facts = Arc::new(Mutex::new(CramFacts::default()));
+        let mut recs = self.records_with(facts.clone())?;
         let mut s = Scan {
             stats: ReadStats::default(),
             records: 0,
@@ -118,6 +158,7 @@ impl ReadsDataset {
             } else {
                 Vec::new()
             },
+            cram: None,
         };
         let mut rec = Rec::default();
         loop {
@@ -130,7 +171,11 @@ impl ReadsDataset {
             }
             s.records += 1;
             if !rec.is_extra_alignment() {
-                s.stats.add(&rec.seq, &rec.qual);
+                if rec.bases_unknown {
+                    s.stats.add_without_bases(rec.seq.len() as u64, &rec.qual);
+                } else {
+                    s.stats.add(&rec.seq, &rec.qual);
+                }
                 if rec.min_qchar < s.stats.min_qchar {
                     s.stats.min_qchar = rec.min_qchar;
                 }
@@ -143,6 +188,10 @@ impl ReadsDataset {
             }
         }
         s.consumed = recs.consumed();
+        drop(recs);
+        if self.cram.is_some() {
+            s.cram = facts.lock().ok().map(|f| f.clone());
+        }
         Ok(s)
     }
 
@@ -185,7 +234,7 @@ impl ReadsDataset {
             Col::num("gc_percent", Some("%")),
             Col::int("n_bases"),
         ];
-        if self.format == ReadFormat::Bam {
+        if self.has_alignments() {
             c.extend([
                 Col::int("flag"),
                 Col::int("mapq"),
@@ -196,6 +245,24 @@ impl ReadsDataset {
             ]);
         }
         c
+    }
+
+    /// The note `info` adds when CRAM bases could not be restored.
+    fn cram_bases_note(&self, s: &Scan) -> Option<String> {
+        let f = s.cram.as_ref()?;
+        if f.reads_without_bases == 0 {
+            return None;
+        }
+        let why = self
+            .cram
+            .as_ref()
+            .and_then(|c| c.fasta_problem.clone())
+            .or_else(|| f.reference_problem.clone())
+            .unwrap_or_else(|| "the reference sequence is not available".into());
+        Some(format!(
+            "the bases of {} reads were not restored: {why}. Their GC and N counts are left out (null); lengths, qualities, flags and positions do not need the reference. {REFERENCE_HINT}",
+            f.reads_without_bases
+        ))
     }
 
     fn header_facts(&self) -> BTreeMap<String, Value> {
@@ -347,6 +414,7 @@ impl Dataset for ReadsDataset {
             json!(match self.format {
                 ReadFormat::Fastq => "fastq_reads",
                 ReadFormat::Bam => "bam_records",
+                ReadFormat::Cram => "cram_records",
             }),
         );
         let mut info0 = reads.info(0);
@@ -382,7 +450,7 @@ impl Dataset for ReadsDataset {
             summary["reads_estimated"] = json!(self.estimate(s, s.stats.reads));
             summary["bases_estimated"] = json!(self.estimate(s, s.stats.bases));
         }
-        if self.format == ReadFormat::Bam {
+        if self.has_alignments() {
             summary["records"] = json!(s.records);
             summary["mapped"] = json!(s.mapped);
             if let Some((m, u)) = self.bai {
@@ -395,10 +463,50 @@ impl Dataset for ReadsDataset {
             "compression".into(),
             json!(match (self.format, self.gz) {
                 (ReadFormat::Bam, _) => "bgzf",
+                (ReadFormat::Cram, _) => "cram blocks",
                 (_, true) => "gzip",
                 _ => "none",
             }),
         );
+        if let Some(c) = &self.cram {
+            e.insert(
+                "cram_version".into(),
+                json!(format!("{}.{}", c.header.major, c.header.minor)),
+            );
+            if let Some(f) = &s.cram {
+                e.insert("cram_codecs".into(), json!(f.methods));
+                let reference =
+                    if f.external_reference_slices == 0 && f.embedded_reference_slices == 0 {
+                        "not needed (no aligned reads, or bases stored verbatim)".to_string()
+                    } else if let Some(fa) = &c.fasta {
+                        format!(
+                            "{}{}",
+                            fa.path
+                                .file_name()
+                                .map_or_else(String::new, |n| n.to_string_lossy().into_owned()),
+                            if f.embedded_reference_slices > 0 {
+                                " and embedded in the file"
+                            } else {
+                                ""
+                            }
+                        )
+                    } else if f.external_reference_slices == 0 {
+                        "embedded in the file".to_string()
+                    } else {
+                        "not found".to_string()
+                    };
+                e.insert(
+                    "reference".into(),
+                    json!({
+                        "source": reference,
+                        "slices_embedded": f.embedded_reference_slices,
+                        "slices_external": f.external_reference_slices,
+                        "containers_reference_not_required": f.reference_not_required,
+                        "slices_checksum_mismatch": f.reference_mismatches,
+                    }),
+                );
+            }
+        }
         if self.format == ReadFormat::Fastq && s.stats.reads > 0 {
             e.insert(
                 "quality_encoding".into(),
@@ -431,7 +539,7 @@ impl Dataset for ReadsDataset {
                 }),
             );
         }
-        let notes = if s.complete || exact {
+        let mut notes = if s.complete || exact {
             vec![]
         } else {
             vec![format!(
@@ -439,15 +547,21 @@ impl Dataset for ReadsDataset {
                 INFO_SCAN_BYTES as f64 / 1e6
             )]
         };
+        if let Some(n) = self.cram_bases_note(s) {
+            notes.push(n);
+        }
         Ok(FileInfo {
             path: self.input.path().display().to_string(),
             size_bytes: self.size,
             format: self.descriptor.clone(),
-            format_version: self
-                .header_facts()
-                .get("sam_version")
-                .and_then(Value::as_str)
-                .map(str::to_string),
+            format_version: match &self.cram {
+                Some(c) => Some(format!("{}.{}", c.header.major, c.header.minor)),
+                None => self
+                    .header_facts()
+                    .get("sam_version")
+                    .and_then(Value::as_str)
+                    .map(str::to_string),
+            },
             images: vec![],
             tables: vec![info0, t1.info(1), t2.info(2), t3.info(3)],
             spectra: vec![],
@@ -527,12 +641,16 @@ impl Dataset for ReadsDataset {
             }
             at += 1;
             got += 1;
-            let v = stats.add(&rec.seq, &rec.qual);
+            let v = if rec.bases_unknown {
+                stats.add_without_bases(rec.seq.len() as u64, &rec.qual)
+            } else {
+                stats.add(&rec.seq, &rec.qual)
+            };
             cols[0].push(Some(v.length as f64));
             cols[1].push(Some(v.mean_quality).filter(|x| x.is_finite()));
             cols[2].push(Some(v.gc_percent).filter(|x| x.is_finite()));
-            cols[3].push(Some(v.n_count as f64));
-            if self.format == ReadFormat::Bam {
+            cols[3].push(v.n_count.map(|n| n as f64));
+            if self.has_alignments() {
                 cols[4].push(rec.flag.map(f64::from));
                 cols[5].push(rec.mapq.map(f64::from));
                 cols[6].push(rec.ref_id.map(f64::from));
@@ -575,6 +693,32 @@ impl Dataset for ReadsDataset {
                             .map_or("-".into(), |v| format!("{}", tidy(v, 4)))
                     ),
                 ));
+                if let Some(f) = &s.cram {
+                    r.performed("decompressed every CRAM block and checked the CRC32 of container headers and blocks (CRAM 3)");
+                    if f.crc_failures > 0 {
+                        r.push(Finding::error(
+                            "crc_mismatch",
+                            format!(
+                                "{} CRAM blocks or container headers fail their CRC32",
+                                f.crc_failures
+                            ),
+                        ));
+                    }
+                    if f.reference_mismatches > 0 {
+                        r.push(Finding::error(
+                            "reference_mismatch",
+                            format!(
+                                "{} slices: the reference FASTA does not match the slice checksum (MD5), so their bases were not restored. {REFERENCE_HINT}",
+                                f.reference_mismatches
+                            ),
+                        ));
+                    } else if f.reads_without_bases > 0 {
+                        r.push(Finding::warning(
+                            "reference_missing",
+                            self.cram_bases_note(&s).unwrap_or_default(),
+                        ));
+                    }
+                }
                 if let (Some((m, u)), ReadFormat::Bam) = (self.bai, self.format) {
                     let primary = s.stats.reads;
                     if m + u != primary && m + u != s.records {
@@ -710,6 +854,10 @@ pub struct FastqReader;
 #[derive(Debug, Default, Clone, Copy)]
 pub struct BamReader;
 
+/// Reader of CRAM files.
+#[derive(Debug, Default, Clone, Copy)]
+pub struct CramReader;
+
 fn open_reads(desc: FormatDescriptor, format: ReadFormat, input: &Input) -> Result<ReadsDataset> {
     let mut head = [0u8; 4];
     let f = input.open()?;
@@ -725,8 +873,32 @@ fn open_reads(desc: FormatDescriptor, format: ReadFormat, input: &Input) -> Resu
         bai: None,
         scan: OnceCell::new(),
         cursor: None,
+        cram: None,
     };
-    if format == ReadFormat::Bam {
+    if format == ReadFormat::Cram {
+        let header = cram::read_header(&input.open()?)?;
+        ds.header = Some(header.sam.clone());
+        let mut state = CramState {
+            header,
+            fasta: None,
+            fasta_problem: None,
+        };
+        if let Some(p) = cram::find_reference(input, &state.header.sam) {
+            match Fasta::open(input.fs(), &p) {
+                Ok(f) => state.fasta = Some(Arc::new(f)),
+                Err(e) => {
+                    state.fasta_problem = Some(format!(
+                        "the reference FASTA {} could not be read ({e})",
+                        p.display()
+                    ));
+                }
+            }
+        }
+        ds.cram = Some(state);
+        // decode the first container now, so a damaged file fails at open
+        let mut recs = ds.records()?;
+        recs.next_rec(&mut Rec::default())?;
+    } else if format == ReadFormat::Bam {
         let (r, n) = records::open_stream(input.open()?, true);
         let b = BamRecords::new(r, n)?;
         ds.header = Some(b.header.clone());
@@ -836,7 +1008,7 @@ impl FormatReader for BamReader {
             known_gaps: vec![
                 "Summaries count primary records as reads; secondary and supplementary alignments are listed in table 0 but not counted".into(),
                 "Alignments are not interpreted (no CIGAR, coverage or pileup): use samtools for that".into(),
-                "CRAM is not read".into(),
+                "CRAM is read by its own reader (`cram`)".into(),
             ],
         }
     }
@@ -866,6 +1038,62 @@ impl FormatReader for BamReader {
         Ok(Box::new(open_reads(
             self.descriptor(),
             ReadFormat::Bam,
+            input,
+        )?))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
+impl FormatReader for CramReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&crate::assurance::CRAM)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        FormatDescriptor {
+            id: CRAM_FORMAT_ID.into(),
+            name: "CRAM (reference-compressed alignments)".into(),
+            vendor: String::new(),
+            extensions: vec!["cram".into()],
+            family: "sequencing".into(),
+            can_read: true,
+            can_write: false,
+            confidence: crate::assurance::CRAM.confidence,
+            known_gaps: vec![
+                "Bases of aligned reads need the reference: embedded in the file, or a FASTA beside it with the same name (.fa, .fasta, .fna); without it their GC and N counts are null and a note says so".into(),
+                "Summaries count primary records as reads; secondary and supplementary alignments are listed in table 0 but not counted".into(),
+                "Alignments are not interpreted (no CIGAR, coverage or pileup): use samtools for that".into(),
+                "CRAM 1.0 and the draft 4.0 are not read (exit 6)".into(),
+            ],
+        }
+    }
+
+    fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
+        if cram::is_cram(head) {
+            return Some(Detection {
+                format_id: CRAM_FORMAT_ID,
+                confidence: DetectConfidence::Definite,
+                note: None,
+            });
+        }
+        (has_extension(path, &["cram"]) && !head.is_empty()).then_some(Detection {
+            format_id: CRAM_FORMAT_ID,
+            confidence: DetectConfidence::ExtensionOnly,
+            note: Some("CRAM extension but no CRAM magic".into()),
+        })
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        Ok(Box::new(open_reads(
+            self.descriptor(),
+            ReadFormat::Cram,
             input,
         )?))
     }

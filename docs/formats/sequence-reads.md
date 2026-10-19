@@ -105,7 +105,7 @@ and minimap2 (CIGAR in the `CG` tag).
 | `mean_quality` | Mean quality: the Phred value of the mean error probability (NaN without qualities) |
 | `min_qchar` | Smallest raw quality character (FASTQ) |
 | `n50` | The length at which reads of that length or longer hold half the bases |
-| `n_count` | N bases |
+| `n_count` | N bases (none when the bases are not known) |
 | `name` | Name (FASTQ title up to the first space, BAM read name) |
 | `new` | Records of the stream `r` |
 | `no_quality` | Reads without qualities (BAM `*`) |
@@ -133,3 +133,9 @@ and minimap2 (CIGAR in the `CG` tag).
 | `seq` | Bases as letters |
 | `summary` | The summary for `info` |
 | `text` | The SAM header text |
+| `add_without_bases` | Add one read whose bases are not known (CRAM without its reference): it counts in lengths and qualities, not in base composition |
+| `bases_unknown` | The record's bases could not be restored (CRAM without its reference); its sequence holds `N` placeholders of the read's length |
+| `CRAM_FORMAT_ID` | Format id of CRAM files (`cram`; see `docs/formats/cram.md`) |
+| `CramReader` | Reader of CRAM files (`docs/formats/cram.md`) |
+| `REFERENCE_HINT` | What `info` and `check` tell the user to do when a CRAM file's reference is missing |
+| `unknown_bases` | Reads whose bases are not known (CRAM without its reference) |

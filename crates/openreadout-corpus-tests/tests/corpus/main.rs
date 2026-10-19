@@ -835,6 +835,28 @@ fn corpus_matches_oracle() {
             continue;
         }
         let text = openreadout_corpus_tests::oracle_json::read_to_string(&oracle_path).unwrap();
+        // a family oracle the manifest says not to compare: opened only, as for other formats
+        if let (Some(why), Some(_)) = (&e.oracle_skip, family_for(&e.format, &e.id)) {
+            let status = match reg.open(&path).and_then(|(_, ds)| ds.info()) {
+                Ok(_) | Err(openreadout_core::Error::Unsupported { .. }) => "skip".to_string(),
+                Err(err) => format!("FAIL (open: {err})"),
+            };
+            let outcome = Outcome {
+                id: e.id.clone(),
+                format: e.format.clone(),
+                status,
+                detail: why.clone(),
+                independent: true,
+                compared: Vec::new(),
+                fields: Vec::new(),
+            };
+            println!(
+                "{:<6} {:<5} {:<60} {}",
+                outcome.status, outcome.format, outcome.id, outcome.detail
+            );
+            outcomes.push(outcome);
+            continue;
+        }
         if let Some(r) = check_family(&e.format, &e.id, &path, &text) {
             let (status, detail) = match r {
                 Ok(d) if family_oracle_is_empty(&text) => (

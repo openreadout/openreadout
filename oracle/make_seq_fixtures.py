@@ -2,7 +2,10 @@
 """Committed test fixtures of the sequencing readers (`crates/openreadout-seq/tests/fixtures/`),
 made from the synthetic fuzz seeds that `fuzz/seeds.py` (`sequencing_seeds`) writes: two tiny
 Illumina run folders (BCL and CBCL, unpacked from their seed bundles), FASTQ (plain and gzip),
-BAM, a one-read POD5 written by the `pod5` package, and a one-read FAST5 written here with h5py.
+BAM, a one-read POD5 written by the `pod5` package, a one-read FAST5 written here with h5py, and a
+three-record CRAM 3.0 with its 60-base reference FASTA written here with pysam (htslib): a read
+with a substitution, an insertion and a soft clip, a PacBio-style read with `np`/`rq` tags, and an
+unmapped read.
 
 Usage:  python make_seq_fixtures.py   (after `python fuzz/seeds.py` or its `sequencing_seeds()`)
 """
@@ -60,6 +63,58 @@ def fast5(path: Path) -> None:
         c.attrs["sequencing_kit"] = np.bytes_(b"sqk-lsk114")
 
 
+def cram(path: Path) -> None:
+    """`mini.cram` and `mini.fa`: written with pysam from records given here."""
+    import hashlib
+    import os
+
+    import pysam
+
+    os.environ["REF_PATH"] = "/nonexistent"
+    os.environ["REF_CACHE"] = "/nonexistent"
+    ref = "ACGTACGTTTGGCCAAGGTTACGATCGATCGGGCCCAAATTTGCGCGCATATATCGCGAT"
+    fa = path.with_suffix(".fa")
+    fa.write_text(">chr1\n" + ref[:30] + "\n" + ref[30:] + "\n")
+    pysam.faidx(str(fa))
+    md5 = hashlib.md5(ref.encode()).hexdigest()
+    header = {"HD": {"VN": "1.6", "SO": "coordinate"}, "SQ": [{"SN": "chr1", "LN": len(ref), "M5": md5}],
+              "RG": [{"ID": "rg1", "SM": "sample1", "PL": "PACBIO"}],
+              "PG": [{"ID": "openreadout-fixture", "PN": "make_seq_fixtures.py"}]}
+    with pysam.AlignmentFile(str(path), "wc", header=header, reference_filename=str(fa),
+                             format_options=[b"version=3.0"]) as out:
+        a = pysam.AlignedSegment(out.header)
+        a.query_name = "read1"
+        a.query_sequence = "ggACGTCCGTTTGGAAACCAAGG"  # 2 soft-clipped, substitution, 2 inserted
+        a.flag = 0
+        a.reference_id = 0
+        a.reference_start = 0
+        a.mapping_quality = 60
+        a.cigar = [(4, 2), (0, 12), (1, 2), (0, 7)]
+        a.query_qualities = pysam.qualitystring_to_array("I" * 23)
+        a.set_tag("RG", "rg1")
+        out.write(a)
+        b = pysam.AlignedSegment(out.header)
+        b.query_name = "m64011_190830_220126/1/ccs"
+        b.query_sequence = ref[20:50]
+        b.flag = 16
+        b.reference_id = 0
+        b.reference_start = 20
+        b.mapping_quality = 30
+        b.cigar = [(0, 30)]
+        b.query_qualities = pysam.qualitystring_to_array("5" * 30)
+        b.set_tag("np", 7, "i")
+        b.set_tag("rq", 0.998, "f")
+        out.write(b)
+        c = pysam.AlignedSegment(out.header)
+        c.query_name = "unmapped1"
+        c.query_sequence = "NNACGTNN"
+        c.flag = 4
+        c.reference_id = -1
+        c.reference_start = -1
+        c.query_qualities = pysam.qualitystring_to_array("!!++55??")
+        out.write(c)
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for name, names, seed in [("run-bcl", BCL, "whole_illumina_bcl/mini.bundle"), ("run-cbcl", CBCL, "whole_illumina_cbcl/mini.bundle")]:
@@ -72,6 +127,7 @@ def main() -> None:
     if (SEEDS / "whole_pod5" / "mini.pod5").exists():
         shutil.copy(SEEDS / "whole_pod5" / "mini.pod5", OUT / "mini.pod5")
     fast5(OUT / "mini.fast5")
+    cram(OUT / "mini.cram")
     print("wrote", sorted(p.name for p in OUT.iterdir()))
 
 

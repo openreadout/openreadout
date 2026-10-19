@@ -1265,6 +1265,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_cram"
+path = "fuzz_targets/whole_cram.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "codec_bitshuffle"
 path = "fuzz_targets/codec_bitshuffle.rs"
 test = false
@@ -1288,6 +1295,13 @@ bench = false
 [[bin]]
 name = "seq_vbz"
 path = "fuzz_targets/seq_vbz.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "seq_cram_codecs"
+path = "fuzz_targets/seq_cram_codecs.rs"
 test = false
 doc = false
 bench = false

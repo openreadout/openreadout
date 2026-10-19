@@ -34,6 +34,9 @@ pub struct Rec {
     pub accuracy: Option<f64>,
     /// Smallest raw quality character (FASTQ).
     pub min_qchar: u8,
+    /// The bases could not be restored (CRAM without its reference); `seq` then holds `N`
+    /// placeholders of the read's length.
+    pub bases_unknown: bool,
 }
 
 impl Rec {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Ground truth for DNA sequencer output (`illumina-run`, `pod5`, `fast5`, `fastq`, `bam`) from
+"""Ground truth for DNA sequencer output (`illumina-run`, `pod5`, `fast5`, `fastq`, `bam`, `cram`) from
 independent readers, run as black boxes:
 
 - Illumina run folders: the `interop` package (Illumina, GPL-3.0) for the run summary (per read and
@@ -16,6 +16,10 @@ independent readers, run as black boxes:
   length and mean quality at sampled reads; Biopython (BSD-3) counts the records again.
 - BAM: pysam `AlignmentFile`: records, primary records, mapped primaries, bases, N50, and per record
   flag, MAPQ, position, length, `np` and `rq` at sampled records.
+- CRAM: pysam `AlignmentFile` (htslib) with the reference FASTA given explicitly (the file's
+  companion `<stem>.fa`/`.fasta`, when there is one) and htslib's reference lookups switched off
+  (`REF_PATH`/`REF_CACHE` point nowhere, so nothing is fetched): as for BAM, plus the GC content
+  and N count of the sampled records' bases, and whether the reference was given.
 
 Usage:  python seq_oracle.py [--out DIR] [--picard JAR] --id ID --format FMT PATH
 
@@ -70,6 +74,16 @@ def n50(lengths: list[int]) -> int | None:
         if acc >= half:
             return x
     return None
+
+
+def _composition(seq) -> dict:
+    """GC percent of the A, C, G and T bases, and the N count, of a read's bases."""
+    if not seq:  # no bases (`*`): no GC, no N
+        return {"gc_percent": None, "n_bases": 0}
+    s = seq.upper()
+    acgt = sum(s.count(b) for b in "ACGT")
+    gc = s.count("G") + s.count("C")
+    return {"gc_percent": gc / acgt * 100 if acgt else None, "n_bases": s.count("N")}
 
 
 def mean_q(quals) -> float | None:
@@ -325,17 +339,19 @@ def fastq(path: Path) -> dict:
     }
 
 
-def bam(path: Path) -> dict:
+def bam(path: Path, mode: str = "rb", reference=None) -> dict:
     import pysam
 
     recs = []
     lengths = []
     primary = mapped = 0
-    with pysam.AlignmentFile(str(path), "rb", check_sq=False) as fh:
+    kw = {"reference_filename": str(reference)} if reference else {}
+    with pysam.AlignmentFile(str(path), mode, check_sq=False, **kw) as fh:
         header = fh.header.to_dict()
         for a in fh.fetch(until_eof=True):
             q = a.query_qualities
-            tags = dict(a.get_tags())
+            # only the two tags compared; pysam's get_tags() refuses some tag types it does not know
+            tags = {t: a.get_tag(t) for t in ("np", "rq") if a.has_tag(t)}
             recs.append({
                 "flag": a.flag,
                 "mapq": a.mapping_quality,
@@ -345,6 +361,7 @@ def bam(path: Path) -> dict:
                 "mean_quality": mean_q(list(q)) if q is not None else None,
                 "passes": tags.get("np"),
                 "accuracy": _f(tags.get("rq")),
+                **(_composition(a.query_sequence) if mode == "rc" else {}),
             })
             if not (a.is_secondary or a.is_supplementary):
                 primary += 1
@@ -364,6 +381,25 @@ def bam(path: Path) -> dict:
         "references": len(header.get("SQ", [])),
         "sampled": [dict(i=i, **recs[i]) for i in idx],
     }
+
+
+def _companion_fasta(path: Path):
+    for ext in (".fa", ".fasta", ".fna"):
+        q = path.with_suffix(ext)
+        if q.exists():
+            return q
+    return None
+
+
+def cram(path: Path) -> dict:
+    import os
+
+    os.environ["REF_PATH"] = "/nonexistent"
+    os.environ["REF_CACHE"] = "/nonexistent"
+    ref = _companion_fasta(path)
+    out = bam(path, mode="rc", reference=ref)
+    out["reference_given"] = ref is not None
+    return out
 
 
 def main(argv: list[str]) -> int:
@@ -391,6 +427,7 @@ def main(argv: list[str]) -> int:
             "fast5": lambda: fast5(p),
             "fastq": lambda: fastq(p),
             "bam": lambda: bam(p),
+            "cram": lambda: cram(p),
         }[fmt]()
     except Exception as e:  # recorded so the comparison reports it instead of skipping
         body = {"error": f"{type(e).__name__}: {e}"}

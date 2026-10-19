@@ -9,6 +9,8 @@
 //! - FAST5: every read's metadata and signal against h5py (pA from the stored calibration); the
 //!   reads of `seq-fast5-multi-zip` also against pod5's reading of their POD5 conversion.
 //! - FASTQ and BAM: counts, bases, N50, Q30 bases, GC and sampled records against pysam.
+//! - CRAM: as BAM, plus the GC content and N count of the sampled records' bases (pysam with
+//!   the file's companion reference FASTA).
 #![allow(dead_code)] // each test binary that includes this module uses a part of it
 #![allow(clippy::many_single_char_names)]
 #![allow(clippy::float_cmp)]
@@ -19,7 +21,7 @@ use openreadout_core::{Dataset, FormatReader};
 use serde_json::Value;
 
 /// Format ids this module compares.
-pub const FORMATS: &[&str] = &["illumina-run", "pod5", "fast5", "fastq", "bam"];
+pub const FORMATS: &[&str] = &["illumina-run", "pod5", "fast5", "fastq", "bam", "cram"];
 
 fn close(a: f64, b: f64, rel: f64, abs: f64) -> bool {
     (a - b).abs() <= abs.max(rel * a.abs().max(b.abs()))
@@ -44,7 +46,7 @@ pub fn compare_file(format: &str, id: &str, path: &Path, o: &Value) -> Result<St
             }
             Ok(r)
         }
-        "fastq" | "bam" => reads(format, path, o),
+        "fastq" | "bam" | "cram" => reads(format, path, o),
         _ => Err(format!("no comparison for {format}")),
     }
 }
@@ -399,11 +401,12 @@ fn cross_check_pod5(path: &Path) -> Result<(), String> {
 }
 
 fn reads(format: &str, path: &Path, o: &Value) -> Result<String, String> {
-    let reader: &dyn FormatReader = if format == "bam" {
-        &openreadout_seq::BamReader
-    } else {
-        &openreadout_seq::FastqReader
+    let reader: &dyn FormatReader = match format {
+        "bam" => &openreadout_seq::BamReader,
+        "cram" => &openreadout_seq::CramReader,
+        _ => &openreadout_seq::FastqReader,
     };
+    let aligned = format != "fastq";
     let mut ds = reader.open(path).map_err(|e| format!("open failed: {e}"))?;
     let info = ds.info().map_err(|e| e.to_string())?;
     let t0 = &info.tables[0];
@@ -419,7 +422,7 @@ fn reads(format: &str, path: &Path, o: &Value) -> Result<String, String> {
             (None, None) => {}
             (a, b) => problems.push(format!("{what}: {a:?} vs pysam {b:?}")),
         };
-    if format == "bam" {
+    if aligned {
         cmp(&s["records"], &o["records"], "records", 0.0);
         cmp(&s["reads"], &o["primary"], "primary records", 0.0);
         cmp(&s["mapped"], &o["mapped"], "mapped", 0.0);
@@ -441,7 +444,20 @@ fn reads(format: &str, path: &Path, o: &Value) -> Result<String, String> {
     let mut sampled = 0;
     for r in o["sampled"].as_array().into_iter().flatten() {
         let i = r["i"].as_u64().unwrap_or(0) as usize;
-        let keys: &[(&str, &str, f64)] = if format == "bam" {
+        let keys: &[(&str, &str, f64)] = if format == "cram" {
+            &[
+                ("length", "length", 0.0),
+                ("mean_quality", "mean_quality", 1e-9),
+                ("flag", "flag", 0.0),
+                ("mapq", "mapq", 0.0),
+                ("ref_id", "ref_id", 0.0),
+                ("pos", "pos", 0.0),
+                ("passes", "passes", 0.0),
+                ("accuracy", "accuracy", 1e-7),
+                ("gc_percent", "gc_percent", 1e-9),
+                ("n_bases", "n_bases", 0.0),
+            ]
+        } else if format == "bam" {
             &[
                 ("length", "length", 0.0),
                 ("mean_quality", "mean_quality", 1e-9),
@@ -468,7 +484,12 @@ fn reads(format: &str, path: &Path, o: &Value) -> Result<String, String> {
     }
     if problems.is_empty() {
         Ok(format!(
-            "counts, bases, N50 and {sampled} sampled records agree with pysam"
+            "counts, bases, N50 and {sampled} sampled records{} agree with pysam",
+            if format == "cram" {
+                " (with their bases' GC and N)"
+            } else {
+                ""
+            }
         ))
     } else {
         problems.truncate(12);

@@ -77,6 +77,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_seq::Fast5Reader))
         .with(Box::new(openreadout_seq::FastqReader))
         .with(Box::new(openreadout_seq::BamReader))
+        .with(Box::new(openreadout_seq::CramReader))
         .with(Box::new(openreadout_waters::WatersRawReader))
         .with(Box::new(openreadout_fcs::FcsReader))
         .with(Box::new(openreadout_mzml::ImzmlReader))
