@@ -65759,7 +65759,6 @@ source = "Zenodo 10798153 (Lim et al. 2024, \"Integrated electro-biocatalysis fo
 attribution = "Guiyeoul Lim, Donato Calabrese, Allison Wolder et al."
 notes = "Chromeleon 7.2 archive, GC-FID (GC_1), 14 signals, all decoded and equal to the sequence file's description; stored results: 14 of 14 stored peaks reproduced by `openreadout check` (area and height within 1e-6)"
 
-# ketoisophorone: 2 of 84 stored peaks not reproduced (see notes)
 [[file]]
 id = "cmbx-lim-ketoisophorone-standards"
 format = "chromeleon"
@@ -65774,7 +65773,7 @@ license = "CC-BY-4.0"
 license_checked = "Zenodo record licence cc-by-4.0 (https://zenodo.org/api/records/10798153, metadata.license.id), 2026-10-06"
 source = "Zenodo 10798153 (Lim et al. 2024, \"Integrated electro-biocatalysis for flavin-dependent ene-reduction in continuous flow system\")"
 attribution = "Guiyeoul Lim, Donato Calabrese, Allison Wolder et al."
-notes = "Chromeleon 7.2 archive, GC-FID (GC_1), 50 signals, all decoded and equal to the sequence file's description; stored results: 82 of 84 stored peaks reproduced by `openreadout check` (area and height within 1e-6). NOT REPRODUCED: two peaks of the injection `blank` at the very start of GC_1 (peak 1 at 0.020 min: stored area 0.3418683 height 28.470412, ours 0.3412786 / 28.470412; peak 2 at 0.032 min: stored area 0.0574033 height 11.324000, ours 0.0579931 / 11.438018), i.e. the boundary between the first two peaks is placed differently. Adding this archive records a stored-result failure until that is resolved"
+notes = "Chromeleon 7.2 archive, GC-FID (GC_1), 50 signals, all decoded and equal to the sequence file's description; stored results: all 84 stored peaks reproduced by `openreadout check` (area and height within 1e-6). The rider at 0.032 min of the injection `blank` is the one skim line in the corpus whose stored slope is not the slope between its two points; Chromeleon integrated above the line between the points (docs/provenance/chromeleon.md, 2026-10-18)"
 
 # ---------------------------------------------------------------- openlab-cds
 
