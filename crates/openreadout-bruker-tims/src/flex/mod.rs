@@ -2,7 +2,7 @@
 //! Biotyper, rapifleX): one spectrum per acquisition directory, `fid` (32-bit integers, `TD`
 //! points) beside its `acqus` parameter file, in a tree `<run>/<spot>/<n>/<1SLin|1SRef|1Ref|
 //! <mass>.LIFT/1SRef>/`. m/z comes from the time-of-flight calibration in `acqus`
-//! ([`params::Calibration`]). Notes: `docs/formats/bruker-flex.md`; provenance:
+//! (`params::Calibration`). Notes: `docs/formats/bruker-flex.md`; provenance:
 //! `docs/provenance/bruker-flex.md`.
 //!
 //! The input is a spot directory (or its `fid` / `acqus`), or any directory above spot
