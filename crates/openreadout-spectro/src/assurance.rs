@@ -449,15 +449,17 @@ fn observe_uvprobe(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED shimadzu-uvprobe (cargo xtask assurance-audit --write; do not edit)
-const SHIMADZU_UVPROBE_CONFIDENCE: Confidence = Confidence::Low;
+const SHIMADZU_UVPROBE_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const SHIMADZU_UVPROBE_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "UV/VIS SPECTRUM", 0, 0, 5),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 5),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
-    a::row(K::FormatVersion, "file format 0x120", 0, 0, 5),
-    a::row(K::Record, "value code 2", 0, 0, 4),
+    a::row(K::Acquisition, "UV/VIS SPECTRUM", 8, 2, 9),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 9),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 9),
+    a::row(K::FormatVersion, "file format 0x120", 8, 2, 9),
+    a::row(K::Record, "value code 2", 8, 2, 8),
     a::row(K::Record, "value code 4", 0, 0, 1),
+    a::row(K::WriterVersion, "UVProbe 2.43", 8, 2, 8),
+    a::row(K::WriterVersion, "UVProbe 2.71", 0, 0, 1),
 ];
 // END GENERATED shimadzu-uvprobe
 
@@ -602,7 +604,7 @@ const BRUKER_OPUS_VALIDATED: &[Validated] = &[
 // END GENERATED bruker-opus
 
 // BEGIN GENERATED thermo-omnic (cargo xtask assurance-audit --write; do not edit)
-const THERMO_OMNIC_CONFIDENCE: Confidence = Confidence::Medium;
+const THERMO_OMNIC_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const THERMO_OMNIC_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "INFRARED INTERFEROGRAM", 22, 12, 22),
@@ -611,7 +613,10 @@ const THERMO_OMNIC_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "final format %Transmittance", 5, 4, 5),
     a::row(K::Acquisition, "final format Absorbance", 11, 3, 11),
     a::row(K::Acquisition, "final format Volts", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 21, 9, 30),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 30),
+    a::row(K::FormatVersion, "revision 0x209", 14, 7, 15),
+    a::row(K::FormatVersion, "revision 0x3c0", 1, 1, 1),
+    a::row(K::FormatVersion, "revision 0x3ca", 17, 8, 19),
     a::row(K::Layout, "map, series layout", 0, 0, 1),
     a::row(K::Layout, "map, spa layout", 0, 0, 2),
     a::row(K::Layout, "spa", 22, 13, 22),
@@ -749,18 +754,18 @@ fn observe_cary(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED agilent-cary (cargo xtask assurance-audit --write; do not edit)
-const AGILENT_CARY_CONFIDENCE: Confidence = Confidence::Medium;
+const AGILENT_CARY_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const AGILENT_CARY_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "UV/VIS SPECTRUM", 20, 5, 24),
+    a::row(K::Acquisition, "UV/VIS SPECTRUM", 24, 6, 24),
     a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 24),
     a::row(K::Field, "experiment.instrument.model", 0, 0, 24),
-    a::row(K::Layout, "explicit x values", 0, 0, 4),
-    a::row(K::Record, "baseline store", 0, 0, 3),
-    a::row(K::Record, "x mode Nanometers", 20, 5, 23),
-    a::row(K::Record, "y mode Abs", 20, 5, 24),
+    a::row(K::Layout, "explicit x values", 4, 1, 4),
+    a::row(K::Record, "baseline store", 3, 1, 3),
+    a::row(K::Record, "x mode Nanometers", 23, 6, 23),
+    a::row(K::Record, "y mode Abs", 24, 6, 24),
     a::row(K::Writer, "Scan 3.00(182)", 20, 5, 20),
-    a::row(K::Writer, "Scan 5.0.0.999", 0, 0, 3),
-    a::row(K::Writer, "Scanning Kinetics 5.0.0.999", 0, 0, 1),
+    a::row(K::Writer, "Scan 5.0.0.999", 3, 1, 3),
+    a::row(K::Writer, "Scanning Kinetics 5.0.0.999", 1, 1, 1),
 ];
 // END GENERATED agilent-cary
