@@ -1,0 +1,81 @@
+{
+ "id": "flex-zenodo15744631-maldipickr-a7",
+ "file": "fid",
+ "size": 82448,
+ "sha256": "f1ce3bb1b7d373d7d337a746ba2424be3487f19270bcd5dd0d02a2be344bdd66",
+ "max_planes_hashed": 64,
+ "reader": "pyopenms 3.6.0 FileHandler (XMASS)",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "n_peaks": 20612,
+    "n_nonzero": 20174,
+    "mz_bits": null,
+    "xxh3_mz": "a4581ec7a39b1b0303a9fd4c4c9c55fa",
+    "xxh3_intensity": "f0928b49f6f9ee6c52e8fc2c0c94bf5f",
+    "xxh3_mz_nonzero": "1d8a8f81cf020fbfb9d33b43da573aa4",
+    "xxh3_intensity_nonzero": "34fcc8b3190ba20ada0d296915c9e26f",
+    "sum_intensity": 152922864.0,
+    "mz_min": 1999.7598085667212,
+    "mz_max": 19997.789567104686,
+    "first_peaks": [
+     [
+      1999.7598085667212,
+      48060.0
+     ],
+     [
+      2000.1782569812767,
+      48204.0
+     ],
+     [
+      2000.596749283025,
+      48646.0
+     ],
+     [
+      2001.0152854728324,
+      48546.0
+     ],
+     [
+      2001.4338655499032,
+      48951.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      1999.7598085667212,
+      48060.0
+     ],
+     [
+      2000.1782569812767,
+      48204.0
+     ],
+     [
+      2000.596749283025,
+      48646.0
+     ],
+     [
+      2001.0152854728324,
+      48546.0
+     ],
+     [
+      2001.4338655499032,
+      48951.0
+     ]
+    ]
+   }
+  ]
+ }
+}

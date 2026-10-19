@@ -4268,6 +4268,56 @@ def mgf_(p: Path) -> dict:
         "spectra": {"scan_count": len(scans), "by_index": True, "scans": scans},
     }
 
+def _is_flex_fid(p: Path) -> bool:
+    """A Bruker flex `fid`: an XMASS parameter file (`acqus` or `acqu`) beside it."""
+    if p.name != "fid" or not p.is_file():
+        return False
+    for n in ("acqus", "acqu"):
+        q = p.parent / n
+        if q.is_file():
+            return "XMASS" in q.read_text("latin-1")[:400]
+    return False
+
+
+def flex_(p: Path) -> dict:
+    """A Bruker flex MALDI-TOF spot (`fid` + `acqus`) read with pyOpenMS (BSD-3-Clause)
+    `FileHandler.loadExperiment`, which computes m/z from the acqus calibration. pyOpenMS
+    rejects an `AQ_DATE` with a negative UTC offset, so it reads a temporary copy of the spot
+    whose `AQ_DATE` has the offset removed (the date is not compared). One spectrum: MS level,
+    polarity and precursor as pyOpenMS reports them, the points as `_peaks` summarizes them."""
+    import shutil
+    import tempfile
+    import pyopenms as oms
+    from importlib.metadata import version as pkg_version
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "spot"
+        d.mkdir()
+        shutil.copyfile(p, d / "fid")
+        par = next(p.parent / n for n in ("acqus", "acqu") if (p.parent / n).is_file())
+        text = par.read_text("latin-1")
+        text = re.sub(r"(##\$AQ_DATE= <[^>]*?)[+-]\d\d:\d\d>", r"\1>", text)
+        (d / "acqus").write_text(text, "latin-1")
+        exp = oms.MSExperiment()
+        oms.FileHandler().loadExperiment(str(d / "fid"), exp)
+    spectra = exp.getSpectra()
+    if len(spectra) != 1:
+        raise ValueError(f"pyOpenMS gave {len(spectra)} spectra")
+    sp = spectra[0]
+    mz, it = sp.get_peaks()
+    pol = {oms.IonSource.Polarity.POSITIVE: "positive", oms.IonSource.Polarity.NEGATIVE: "negative"}.get(
+        sp.getInstrumentSettings().getPolarity())
+    pre = sp.getPrecursors()
+    return {
+        "reader": f"pyopenms {pkg_version('pyopenms')} FileHandler (XMASS)",
+        "images": [],
+        "spectra": {"scan_count": 1, "by_index": True, "scans": [{
+            "index": 0, "scan_number": 1, "ms_level": sp.getMSLevel(), "rt_s": None, "polarity": pol,
+            "centroided": None, "filter": None,
+            "precursor_mz": pre[0].getMZ() if pre and pre[0].getMZ() > 0 else None, "precursor_charge": None,
+            "activation": None, **_peaks(mz, it, None),
+        }]},
+    }
+
 def thermo(p: Path, q: Path = None) -> dict:
     """Ground truth for a Thermo .raw file = the depositor's own open-format conversion of it.
     No reader of the .raw itself is run (none may be: see docs/provenance/thermo-raw.md)."""
@@ -6568,6 +6618,8 @@ def main():
                 data = diffraction.cbf(p)
             elif ext == ".nxs" or p.name.lower().endswith(("_master.h5", "_master_rev.h5")):
                 data = diffraction.nxmx(p, MAX_PLANES)
+            elif _is_flex_fid(p):
+                data = flex_(p)
             elif ext == ".mdoc":
                 data = diffraction.mdoc(p)
             elif p.is_file() and (sk := spectro.kind(p)):

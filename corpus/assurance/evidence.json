@@ -36838,6 +36838,445 @@
       ]
     },
     {
+      "id": "flex-openms-xmass",
+      "format": "bruker-flex",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 2.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 0",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo14192252-vipera-f6",
+      "format": "bruker-flex",
+      "source": "zenodo:14192252",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 2",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo15744631-maldipickr-a7",
+      "format": "bruker-flex",
+      "source": "zenodo:15744631",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo15744631-maldipickr-blank-e12",
+      "format": "bruker-flex",
+      "source": "zenodo:15744631",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo18848797-rapiflex-1ref-f5",
+      "format": "bruker-flex",
+      "source": "zenodo:18848797",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "reflector",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl 4.2",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 18",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo18848797-rapiflex-lift-f5",
+      "format": "bruker-flex",
+      "source": "zenodo:18848797",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "acquisition",
+          "LIFT",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl 4.2",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 18",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo22714443-vibrio-a4",
+      "format": "bruker-flex",
+      "source": "zenodo:22714443",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo22714443-vibrio-d3",
+      "format": "bruker-flex",
+      "source": "zenodo:22714443",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4020648-cereulide-e19",
+      "format": "bruker-flex",
+      "source": "zenodo:4020648",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "reflector",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.3",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 8",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4020648-cereulide-i15",
+      "format": "bruker-flex",
+      "source": "zenodo:4020648",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "reflector",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.3",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 8",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4271724-phytophthora-j19",
+      "format": "bruker-flex",
+      "source": "zenodo:4271724",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 8",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4978608-harpacticoida-e1",
+      "format": "bruker-flex",
+      "source": "zenodo:4978608",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo7773644-clostritof-d7",
+      "format": "bruker-flex",
+      "source": "zenodo:7773644",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
       "id": "nmrglue-bruker-1d",
       "format": "bruker-nmr",
       "source": "nmrglue test data archive",

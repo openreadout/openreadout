@@ -1,0 +1,81 @@
+{
+ "id": "flex-openms-xmass",
+ "file": "fid",
+ "size": 321912,
+ "sha256": "eb0ae4f34458a0d8edc7133f27e8fa9318b6f74a67fe4f2f68d147e87546e11e",
+ "max_planes_hashed": 64,
+ "reader": "pyopenms 3.6.0 FileHandler (XMASS)",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "n_peaks": 80478,
+    "n_nonzero": 80478,
+    "mz_bits": null,
+    "xxh3_mz": "fa9d641c665f379488f071060c13e73c",
+    "xxh3_intensity": "e5977b424d04614c0ac14b12218b6ab8",
+    "xxh3_mz_nonzero": "fa9d641c665f379488f071060c13e73c",
+    "xxh3_intensity_nonzero": "e5977b424d04614c0ac14b12218b6ab8",
+    "sum_intensity": 11446435.0,
+    "mz_min": 500.22733603400656,
+    "mz_max": 7653.59580705649,
+    "first_peaks": [
+     [
+      500.22733603400656,
+      317.0
+     ],
+     [
+      500.26346610651245,
+      324.0
+     ],
+     [
+      500.2995974852335,
+      344.0
+     ],
+     [
+      500.3357301704646,
+      346.0
+     ],
+     [
+      500.3718641620588,
+      344.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      500.22733603400656,
+      317.0
+     ],
+     [
+      500.26346610651245,
+      324.0
+     ],
+     [
+      500.2995974852335,
+      344.0
+     ],
+     [
+      500.3357301704646,
+      346.0
+     ],
+     [
+      500.3718641620588,
+      344.0
+     ]
+    ]
+   }
+  ]
+ }
+}

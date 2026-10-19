@@ -4,7 +4,7 @@ Bruker NMR spectrometers (TopSpin and the older XWIN-NMR) store each experiment 
 
 Derived from nmrglue's documentation and source (BSD-3-Clause, read as prior art and used as a reference reader) and public corpus experiment directories (XWIN-NMR 3.1/3.5, TOPSPIN 1.3, TopSpin 3.5 to 4.3.0). Provenance: `docs/provenance/bruker-nmr.md`. Format id `bruker-nmr`, family `nmr`.
 
-A data set is a **directory**, not a file. OpenReadout opens the experiment directory `<name>/<expno>/`; a path to a file inside it (`fid`, `ser`, `acqus`, `acqu2s`, `pulseprogram`, `nuslist`) or to a processing directory (`pdata`, `pdata/<procno>`, or its `procs`/`1r`/`2rr`) resolves to that experiment (`resolve_experiment_dir`). The `<name>/` directory above several experiments is detected (`find_experiments`) but not opened: the error lists the experiment numbers (exit 2).
+A data set is a **directory**, not a file. OpenReadout opens the experiment directory `<name>/<expno>/`; a path to a file inside it (`fid`, `ser`, `acqus`, `acqu2s`, `pulseprogram`, `nuslist`) or to a processing directory (`pdata`, `pdata/<procno>`, or its `procs`/`1r`/`2rr`) resolves to that experiment (`resolve_experiment_dir`). The `<name>/` directory above several experiments is detected (`find_experiments`) but not opened: the error lists the experiment numbers (exit 2). A directory whose `acqus` names XMASS in its first lines is a Bruker flex MALDI-TOF spectrum, not an NMR experiment: it is left to the flex reader (`docs/formats/bruker-flex.md`).
 
 ```
 <name>/<expno>/

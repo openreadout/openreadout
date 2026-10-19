@@ -763,6 +763,22 @@ pub fn parse_nuslist(bytes: &[u8]) -> std::result::Result<Vec<Vec<u32>>, String>
     Ok(rows)
 }
 
+/// Whether `d` holds a Bruker flex (XMASS) mass-spectrometry parameter file rather than a
+/// TopSpin one: such directories also hold `acqus` and `fid`, and belong to the flex reader.
+fn is_xmass(fs: &Fs, d: &Path) -> bool {
+    ["acqus", "acqu"].iter().any(|n| {
+        let p = d.join(n);
+        fs.open(&p).is_ok_and(|f| {
+            let mut head = [0u8; 256];
+            let n = f.read_at(0, &mut head).unwrap_or(0);
+            let t = String::from_utf8_lossy(&head[..n]);
+            t.lines().take(4).any(|l| {
+                (l.starts_with("##TITLE=") || l.starts_with("##ORIGIN=")) && l.contains("XMASS")
+            })
+        })
+    })
+}
+
 /// Resolve a path to its experiment directory: the directory itself when it holds `acqus`
 /// (or `acqu`) and `fid`/`ser`/`pdata`; the parent of `fid`/`ser`/`acqus`/`acquNs`/`pulseprogram`;
 /// or the experiment above `pdata/<procno>` and its files.
@@ -777,6 +793,7 @@ pub(crate) fn resolve_experiment_dir_in(fs: &Fs, path: &Path) -> Option<PathBuf>
             && (fs.is_file(&d.join("fid"))
                 || fs.is_file(&d.join("ser"))
                 || fs.is_dir(&d.join("pdata")))
+            && !is_xmass(fs, d)
     };
     let meta = fs.metadata(path).ok()?;
     if meta.is_dir() {

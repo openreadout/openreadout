@@ -31,6 +31,7 @@ fn formats_lists_all_readers() {
             "mgf",
             "bruker-tdf",
             "bruker-baf",
+            "bruker-flex",
             "oir",
             "vsi",
             "mirax",

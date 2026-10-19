@@ -42,6 +42,7 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_mzml::MgfReader))
         .with(Box::new(openreadout_bruker_tims::BrukerTimsReader))
         .with(Box::new(openreadout_bruker_tims::BrukerBafReader))
+        .with(Box::new(openreadout_bruker_tims::BrukerFlexReader))
         .with(Box::new(openreadout_oir::OirReader))
         .with(Box::new(openreadout_vsi::VsiReader))
         .with(Box::new(openreadout_wsi::MiraxReader))

@@ -1,0 +1,81 @@
+{
+ "id": "flex-zenodo22714443-vibrio-d3",
+ "file": "fid",
+ "size": 86088,
+ "sha256": "a226f64b411b1fae55e903e4978d37f8393e93fce09c25f0ff2e1d07faefe560",
+ "max_planes_hashed": 64,
+ "reader": "pyopenms 3.6.0 FileHandler (XMASS)",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "n_peaks": 21522,
+    "n_nonzero": 18050,
+    "mz_bits": null,
+    "xxh3_mz": "c227eb3b035482490ef991e2684b6134",
+    "xxh3_intensity": "ad6c12b65b15ad365b23b05ebfc9d45b",
+    "xxh3_mz_nonzero": "181558ac36b27d86c061a36a00db861f",
+    "xxh3_intensity_nonzero": "674a317f38461dc25b961216208bcd9b",
+    "sum_intensity": 5818031.0,
+    "mz_min": 2000.5432241599024,
+    "mz_max": 21200.543586272768,
+    "first_peaks": [
+     [
+      2000.5432241599024,
+      268.0
+     ],
+     [
+      2000.9615260336682,
+      303.0
+     ],
+     [
+      2001.3798717298612,
+      302.0
+     ],
+     [
+      2001.7982612490002,
+      295.0
+     ],
+     [
+      2002.216694590625,
+      319.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      2000.5432241599024,
+      268.0
+     ],
+     [
+      2000.9615260336682,
+      303.0
+     ],
+     [
+      2001.3798717298612,
+      302.0
+     ],
+     [
+      2001.7982612490002,
+      295.0
+     ],
+     [
+      2002.216694590625,
+      319.0
+     ]
+    ]
+   }
+  ]
+ }
+}

@@ -29,6 +29,15 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 - TimsCompressionType 1 frames hold more scans than `Frames.NumScans`; all are read.
 - The SQLite reader supports ordinary rowid tables only; a schema change to WITHOUT ROWID tables would need new code.
 
+## Bruker flex MALDI-TOF (`flex/`, `bruker-flex`)
+
+Format note: [docs/formats/bruker-flex.md](../../docs/formats/bruker-flex.md); provenance: [docs/provenance/bruker-flex.md](../../docs/provenance/bruker-flex.md).
+
+- `flex/mod.rs` finds spot directories (`find_spots`: `fid` beside an `acqus` that names XMASS), takes the acquisition mode from the directory names, then `PATH`, then `AQ_mod`, and reads `fid` as 32-bit integers. `flex/params.rs` parses `acqus` and computes m/z (`Calibration`).
+- The NMR reader skips directories whose `acqus` names XMASS (`openreadout-nmr` `bruker_layout.rs` `is_xmass`). Keep both checks in step.
+- Ground truth: pyOpenMS on each spot (`oracle/gen.py` `flex_`). The synthetic run in `tests/fixtures/flex-synthetic/` comes from `oracle/make_flex_fixtures.py`.
+- Fragile: LIFT fragment m/z. The fragment calibration in `NTBCal` is not decoded, so LIFT spectra use the plain `ML` constants and say so.
+
 <!-- BEGIN GENERATED guide -->
 ## Facts (generated)
 
@@ -39,6 +48,7 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-tdf` | [format note](../../docs/formats/bruker-tdf.md), [provenance log](../../docs/provenance/bruker-tdf.md) | high | prior art | 13 / 13 | 7 | - |
+| `bruker-flex` | [format note](../../docs/formats/bruker-flex.md), [provenance log](../../docs/provenance/bruker-flex.md) | high | prior art | 13 / 12 | 9 | - |
 | `bruker-baf` | [format note](../../docs/formats/bruker-baf.md), [provenance log](../../docs/provenance/bruker-baf.md) | high | reverse engineered | 11 / 11 | 11 | - |
 
 ### Source map
@@ -53,6 +63,8 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 | [`src/baf/spectrum.rs`](src/baf/spectrum.rs) | A BAF spectrum's records: the spectrum header (`0xBFA02002`), its centroid block (`0xBFA01002`) and its profile block (`0xBFA01001`), plain or packed |
 | [`src/calibration.rs`](src/calibration.rs) | The m/z (`MzCalibration`) and 1/K0 (`TimsCalibration`) models stored in a timsTOF database, applied per frame |
 | [`src/dataset.rs`](src/dataset.rs) | The `.d` dataset: SQLite metadata, frame blobs, spectra, chromatograms |
+| [`src/flex/mod.rs`](src/flex/mod.rs) | Bruker flex series MALDI-TOF spectra (flexControl: autoflex, ultraflex, microflex, MALDI Biotyper, rapifleX): one spectrum per acquisition directory, `fid` (32-bit integers, `TD` |
+| [`src/flex/params.rs`](src/flex/params.rs) | The `acqus` / `acqu` parameter file of a Bruker flex spectrum: JCAMP-DX style `##$KEY= value` lines (`docs/formats/bruker-flex.md` § Parameters) |
 | [`src/frame.rs`](src/frame.rs) | Frame blobs of `analysis.tdf_bin` (TDF) and `analysis.tsf_bin` (TSF) |
 | [`src/lib.rs`](src/lib.rs) | Clean-room readers for Bruker `.d` directories: timsTOF acquisitions (TDF/TSF, format id `bruker-tdf`) and BAF acquisitions of the other TOF and FT-ICR instruments (module `baf`, |
 | [`src/sqlite.rs`](src/sqlite.rs) | A minimal, read-only reader of SQLite database files: enough to read whole ordinary (rowid) tables, including a write-ahead log left next to the database |
@@ -69,6 +81,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `format!("{name} model {t}")`
 - feature layout `"not closed properly"`
 - feature layout `"uncheckpointed WAL"`
+- feature acquisition `k`
 - feature format_version `family`
 - feature codec `format!("{c} profile")`
 - feature layout `format!("centroid element code {c}")`
@@ -79,6 +92,8 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `"m/z from a Calibrator.ami payload found by scanning"`
 - feature instrument `m` (descriptive)
 - feature writer_version `format!("timsControl {v}")` (descriptive)
+- feature writer_version `format!("flexControl {}", mm.join("."))` (descriptive)
+- feature instrument `format!("InstTyp {v}")` (descriptive)
 - feature writer_version `format!("{} {v}", i.software.as_deref().unwrap_or("software")),` (descriptive)
 - undecoded "frames of an unsupported compression type"
 - undecoded "m/z conversion parameters"
@@ -124,6 +139,18 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `bruker-baf` | writer_version | `Bruker otofControl 5` | descriptive | 1 | 1 | `mtbls14117-baf-impacthd` |
 | `bruker-baf` | writer_version | `Bruker otofControl 6` | descriptive | 1 | 1 | `mtbls6740-baf-methanolneg-4` |
 | `bruker-baf` | writer_version | `otofControl 3` | descriptive | 5 | 5 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
+| `bruker-flex` | acquisition | `LIFT` | spectra | 0 | 1 |  |
+| `bruker-flex` | acquisition | `linear` | spectra | 9 | 9 | `flex-openms-xmass`, `flex-zenodo14192252-vipera-f6`, `flex-zenodo15744631-maldipickr-a7` |
+| `bruker-flex` | acquisition | `reflector` | spectra | 3 | 3 | `flex-zenodo18848797-rapiflex-1ref-f5`, `flex-zenodo4020648-cereulide-e19`, `flex-zenodo4020648-cereulide-i15` |
+| `bruker-flex` | instrument | `InstTyp 0` | descriptive | 1 | 1 | `flex-openms-xmass` |
+| `bruker-flex` | instrument | `InstTyp 18` | descriptive | 1 | 2 | `flex-zenodo18848797-rapiflex-1ref-f5` |
+| `bruker-flex` | instrument | `InstTyp 2` | descriptive | 1 | 1 | `flex-zenodo14192252-vipera-f6` |
+| `bruker-flex` | instrument | `InstTyp 8` | descriptive | 3 | 3 | `flex-zenodo4020648-cereulide-e19`, `flex-zenodo4020648-cereulide-i15`, `flex-zenodo4271724-phytophthora-j19` |
+| `bruker-flex` | instrument | `InstTyp 9` | descriptive | 6 | 6 | `flex-zenodo15744631-maldipickr-a7`, `flex-zenodo15744631-maldipickr-blank-e12`, `flex-zenodo22714443-vibrio-a4` |
+| `bruker-flex` | writer_version | `flexControl 4.2` | descriptive | 1 | 2 | `flex-zenodo18848797-rapiflex-1ref-f5` |
+| `bruker-flex` | writer_version | `flexControl flexControl 2.4` | descriptive | 1 | 1 | `flex-openms-xmass` |
+| `bruker-flex` | writer_version | `flexControl flexControl 3.3` | descriptive | 2 | 2 | `flex-zenodo4020648-cereulide-e19`, `flex-zenodo4020648-cereulide-i15` |
+| `bruker-flex` | writer_version | `flexControl flexControl 3.4` | descriptive | 8 | 8 | `flex-zenodo14192252-vipera-f6`, `flex-zenodo15744631-maldipickr-a7`, `flex-zenodo15744631-maldipickr-blank-e12` |
 | `bruker-tdf` | acquisition | `DDA-PASEF` | spectra | 7 | 7 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | acquisition | `DIA-PASEF` | spectra | 3 | 3 | `pwiz-bruker-diapasef`, `pxd074950-b1-diapasef`, `timsrust-test-dia` |
 | `bruker-tdf` | acquisition | `line spectra (TSF)` | spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
@@ -160,17 +187,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `bruker-tdf` | layout | `tdf` | spectra | 11 | 11 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | layout | `tsf` | spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
 | `bruker-tdf` | layout | `uncheckpointed WAL` | metadata, spectra | 1 | 1 | `pxd074950-b1-diapasef` |
-| `bruker-tdf` | writer_version | `timsControl 3` | descriptive | 4 | 4 | `mtbls13504-balf-neg`, `mtbls13504-balf-pos`, `pwiz-bruker-maldi-tsf` |
-| `bruker-tdf` | writer_version | `timsControl 5` | descriptive | 3 | 3 | `pwiz-bruker-hela-pasef`, `pwiz-bruker-thyroglob-prm`, `pxd074950-b1-diapasef` |
-| `bruker-tdf` | writer_version | `timsControl 6` | descriptive | 4 | 4 | `mtbls12332-tft-neg`, `pwiz-bruker-diapasef`, `pxd075355-dda-pasef` |
+
+… 3 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
-- integration tests: [`tests/baf_synthetic.rs`](tests/baf_synthetic.rs), [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
-- committed fixtures: 6 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `tims_frame`, `tims_sqlite`, `whole_baf`, `whole_tims`
-- corpus inputs by tier: full 7, heldout 2, smoke 7, standard 10
-- golden snapshots: [`corpus/snapshots/bruker-tdf.jsonl`](../../corpus/snapshots/bruker-tdf.jsonl), [`corpus/snapshots/bruker-baf.jsonl`](../../corpus/snapshots/bruker-baf.jsonl)
+- integration tests: [`tests/baf_synthetic.rs`](tests/baf_synthetic.rs), [`tests/flex_synthetic.rs`](tests/flex_synthetic.rs), [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
+- committed fixtures: 12 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- fuzz targets (`fuzz/fuzz_targets/`): `tims_frame`, `tims_sqlite`, `whole_baf`, `whole_flex`, `whole_tims`
+- corpus inputs by tier: full 7, heldout 2, smoke 20, standard 10
+- golden snapshots: [`corpus/snapshots/bruker-tdf.jsonl`](../../corpus/snapshots/bruker-tdf.jsonl), [`corpus/snapshots/bruker-flex.jsonl`](../../corpus/snapshots/bruker-flex.jsonl), [`corpus/snapshots/bruker-baf.jsonl`](../../corpus/snapshots/bruker-baf.jsonl)
 
 ### Open new-variant intakes
 
