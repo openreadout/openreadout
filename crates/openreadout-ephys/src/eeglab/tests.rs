@@ -291,10 +291,79 @@ fn damaged_and_foreign_files_fail_cleanly() {
     // a MAT-file without an EEG structure
     std::fs::write(&p, mat(&[double("x", &[1, 1], &[1.0])])).unwrap();
     assert!(EeglabDataset::open(&p).is_err());
-    // MAT 7.3 is refused with a hint
+    // a MAT 7.3 header without an HDF5 file after it fails cleanly
     let mut h = b"MATLAB 7.3 MAT-file, Platform: GLNXA64, Created on: Mon Oct 19 10:00:00 2026 HDF5 schema 1.00 .".to_vec();
     h.resize(512, b' ');
     std::fs::write(&p, &h).unwrap();
-    let e = EeglabDataset::open(&p).unwrap_err();
-    assert!(e.hint().is_some());
+    assert!(EeglabDataset::open(&p).is_err());
+}
+
+/// A MAT 7.3 (HDF5) dataset with one variable per field, written with hdf5-pure's MAT writer.
+fn mat73(pnts: usize, trials: usize, data: &[f32], fdt: Option<&str>) -> Vec<u8> {
+    let mut b = hdf5_pure::mat::MatBuilder::new(hdf5_pure::mat::Options::default());
+    b.write_scalar_f64("nbchan", 2.0).unwrap();
+    b.write_scalar_f64("pnts", pnts as f64).unwrap();
+    b.write_scalar_f64("trials", trials as f64).unwrap();
+    b.write_scalar_f64("srate", 500.0).unwrap();
+    b.write_scalar_f64("xmin", 0.0).unwrap();
+    b.write_char("setname", "h5").unwrap();
+    match fdt {
+        Some(n) => b.write_char("data", n).unwrap(),
+        None if trials > 1 => b.write_f32("data", &[2, pnts, trials], data).unwrap(),
+        None => b.write_f32("data", &[2, pnts], data).unwrap(),
+    };
+    b.finish().unwrap()
+}
+
+#[test]
+fn mat73_embedded_and_epoched() {
+    let dir = tempfile::tempdir().unwrap();
+    let p = dir.path().join("h.set");
+    std::fs::write(&p, mat73(3, 1, &samples(6), None)).unwrap();
+    let mut ds = EeglabDataset::open(&p).unwrap();
+    let info = ds.info().unwrap();
+    assert_eq!(info.format_version.as_deref(), Some("MAT 7.3"));
+    assert_eq!(info.traces[0].sample_count, 3);
+    let tr = ds.read_trace(0, 0, 1, 2).unwrap();
+    assert_eq!(tr.channels[0], vec![1.0, 2.0]);
+    assert_eq!(tr.channels[1], vec![1.5, 2.5]);
+    // 2 channels × 3 points × 2 epochs, read by epoch rows
+    std::fs::write(&p, mat73(3, 2, &samples(12), None)).unwrap();
+    let mut ds = EeglabDataset::open(&p).unwrap();
+    assert_eq!(ds.info().unwrap().traces[0].sweep_count, 2);
+    let tr = ds.read_trace(0, 1, 1, 2).unwrap();
+    assert_eq!(tr.channels[0], vec![4.0, 5.0]);
+    assert_eq!(tr.channels[1], vec![4.5, 5.5]);
+    // the samples in a .fdt
+    std::fs::write(&p, mat73(3, 1, &[], Some("h.fdt"))).unwrap();
+    std::fs::write(
+        dir.path().join("h.fdt"),
+        samples(6)
+            .iter()
+            .flat_map(|x| x.to_le_bytes())
+            .collect::<Vec<_>>(),
+    )
+    .unwrap();
+    let mut ds = EeglabDataset::open(&p).unwrap();
+    assert_eq!(
+        ds.read_trace(0, 0, 0, 3).unwrap().channels[1],
+        vec![0.5, 1.5, 2.5]
+    );
+}
+
+#[test]
+fn mat73_large_data_read_by_rows() {
+    let dir = tempfile::tempdir().unwrap();
+    let p = dir.path().join("big.set");
+    let n = 600_000; // 2 × 600,000 float32: past the parse-time limit
+    let v: Vec<f32> = (0..2 * n).map(|i| i as f32).collect();
+    std::fs::write(&p, mat73(n, 1, &v, None)).unwrap();
+    let mut ds = EeglabDataset::open(&p).unwrap();
+    let tr = ds.read_trace(0, 0, 599_998, 10).unwrap();
+    assert_eq!(tr.channels[0], vec![1_199_996.0, 1_199_998.0]);
+    assert_eq!(tr.channels[1], vec![1_199_997.0, 1_199_999.0]);
+    std::fs::write(&p, mat73(n / 2, 2, &v, None)).unwrap();
+    let mut ds = EeglabDataset::open(&p).unwrap();
+    let tr = ds.read_trace(0, 1, 0, 1).unwrap();
+    assert_eq!(tr.channels[1], vec![600_001.0]);
 }

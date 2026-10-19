@@ -5,6 +5,7 @@
 //! `docs/provenance/eeglab.md`.
 
 pub mod mat;
+pub mod mat73;
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -50,6 +51,18 @@ pub enum EeglabData {
         values: Option<Vec<f64>>,
         /// The array class (`double`, `single`, …).
         class: String,
+    },
+    /// The `data` dataset of a MAT 7.3 (HDF5) `.set`, read by rows along HDF5's first dimension
+    /// (samples, or epochs when the array has three dimensions).
+    Hdf5 {
+        /// The dataset's path in the file.
+        dataset: String,
+        /// The values, when the array was small enough to read at parse time.
+        values: Option<Vec<f64>>,
+        /// The array class (`double`, `single`, …).
+        class: String,
+        /// The array has three dimensions (channels × points × epochs).
+        epochs_are_rows: bool,
     },
 }
 
@@ -212,6 +225,27 @@ pub fn read_set(fs: &Fs, set: &Path, mat: MatFile) -> Result<EeglabSet> {
             }
             EeglabData::Fdt(resolve(fs, set, &named))
         }
+        Some(MatValue::Numeric { class, data, dims }) if mat.hdf5 => {
+            if data.count != total {
+                return Err(Error::corrupt(
+                    EEGLAB_FORMAT_ID,
+                    format!(
+                        "the data array holds {} values; nbchan × pnts × trials is {total}",
+                        data.count
+                    ),
+                ));
+            }
+            EeglabData::Hdf5 {
+                dataset: if single {
+                    "EEG/data".into()
+                } else {
+                    "data".into()
+                },
+                values: data.values.clone(),
+                class: class_name(*class).into(),
+                epochs_are_rows: dims.len() >= 3 && dims[2] > 1,
+            }
+        }
         Some(MatValue::Numeric { class, data, .. }) => {
             if data.count != total {
                 return Err(Error::corrupt(
@@ -356,6 +390,10 @@ impl EeglabSet {
             None => "MATLAB".into(),
         }
     }
+    /// `5.0` (level 5, MATLAB 5 to 7) or `7.3` (HDF5).
+    pub fn mat_version(&self) -> &'static str {
+        if self.mat.hdf5 { "7.3" } else { "5.0" }
+    }
     /// The MAT-file's variables hold compressed (`miCOMPRESSED`, version 7) data.
     pub fn compressed(&self) -> bool {
         self.mat.variables.iter().any(|v| v.compressed.is_some())
@@ -382,7 +420,7 @@ impl FormatReader for EeglabReader {
             can_write: false,
             confidence: crate::assurance::EEGLAB.confidence,
             known_gaps: vec![
-                "MAT-file version 7.3 (HDF5) datasets and old .dat sample files are refused".into(),
+                "Old .dat sample files are refused; MAT 7.3 (HDF5) files are read through HDF5".into(),
                 "EEGLAB stores no unit; the values are as stored (µV by EEGLAB's convention)".into(),
                 "ICA weights, channel positions and the history are kept in the vendor metadata, not decoded".into(),
             ],
@@ -457,7 +495,16 @@ impl EeglabDataset {
         };
         let mut f = fs.open(&path).map_err(|e| Error::io(&path, e))?;
         let set_len = f.size().map_err(|e| Error::io(&path, e))?;
-        let parsed = mat::parse_mat(&mut f, &path, set_len)?;
+        let mut head = vec![0u8; set_len.min(mat::MAT_HEADER_LEN) as usize];
+        std::io::Read::read_exact(&mut f, &mut head).map_err(|e| Error::io(&path, e))?;
+        let parsed = if mat::mat_version(&head) == Some("7.3") {
+            let text = openreadout_core::bytes::latin1(&head[..head.len().min(116)])
+                .trim_end_matches(['\0', ' '])
+                .to_string();
+            mat73::parse_mat73(&fs, &path, text)?
+        } else {
+            mat::parse_mat(&mut f, &path, set_len)?
+        };
         let mut set = read_set(&fs, &path, parsed)?;
         let total = set.channels * set.points * set.trials;
         let data_len = match &set.data {
@@ -484,6 +531,7 @@ impl EeglabDataset {
                 n
             }
             EeglabData::Embedded { stored, .. } => total * mat::mi_size(*stored),
+            EeglabData::Hdf5 { .. } => total * 8,
         };
         let mut kinds: Vec<String> = Vec::new();
         for e in &set.events {
@@ -514,7 +562,7 @@ impl EeglabDataset {
                 let frame = self.set.channels * 4;
                 (self.data_len / frame) / self.set.points.max(1)
             }
-            EeglabData::Embedded { .. } => self.set.trials,
+            EeglabData::Embedded { .. } | EeglabData::Hdf5 { .. } => self.set.trials,
         }
     }
 
@@ -534,6 +582,45 @@ impl EeglabDataset {
                     ));
                 }
                 Ok((b.bytes, mat::MI_SINGLE))
+            }
+            EeglabData::Hdf5 {
+                dataset,
+                values,
+                epochs_are_rows,
+                ..
+            } => {
+                if let Some(v) = values {
+                    let a = (first * nch) as usize;
+                    let b = ((first + n) * nch) as usize;
+                    let out = v
+                        .get(a..b)
+                        .unwrap_or_default()
+                        .iter()
+                        .flat_map(|x| x.to_le_bytes())
+                        .collect();
+                    return Ok((out, 0));
+                }
+                let pnts = self.set.points.max(1);
+                let (row0, rows, skip) = if epochs_are_rows {
+                    let a = first / pnts;
+                    let b = (first + n).div_ceil(pnts);
+                    (a, b - a, first - a * pnts)
+                } else {
+                    (first, n, 0)
+                };
+                let (raw, t, be) = mat73::read_rows(&self.fs, &self.path, &dataset, row0, rows)?;
+                let size = mat::mi_size(t);
+                let vals = mat::decode_values(be, t, &raw);
+                let a = (skip * nch) as usize;
+                let b = a + (n * nch) as usize;
+                if vals.len() < b || size == 0 {
+                    return Err(Error::corrupt(
+                        EEGLAB_FORMAT_ID,
+                        "the data dataset is shorter than nbchan × pnts × trials",
+                    ));
+                }
+                let out = vals[a..b].iter().flat_map(|x| x.to_le_bytes()).collect();
+                Ok((out, 0))
             }
             EeglabData::Embedded {
                 variable,
@@ -619,7 +706,7 @@ impl Dataset for EeglabDataset {
                         .map(|n| n.to_string_lossy().into_owned())
                         .unwrap_or_default()
                 ),
-                EeglabData::Embedded { .. } => "inside the .set".into(),
+                EeglabData::Embedded { .. } | EeglabData::Hdf5 { .. } => "inside the .set".into(),
             }
         )];
         notes.push(
@@ -637,10 +724,10 @@ impl Dataset for EeglabDataset {
         let epochs = self.whole_epochs().min(s.trials);
         let dtype = match &s.data {
             EeglabData::Fdt(_) => "float32".to_string(),
-            EeglabData::Embedded { class, .. } => class.clone(),
+            EeglabData::Embedded { class, .. } | EeglabData::Hdf5 { class, .. } => class.clone(),
         };
         let mut extra = BTreeMap::new();
-        extra.insert("mat_version".into(), json!("5.0"));
+        extra.insert("mat_version".into(), json!(s.mat_version()));
         extra.insert("mat_writer".into(), json!(s.mat_writer()));
         extra.insert("application".into(), json!("EEGLAB"));
         if let Some(v) = &s.eeglab_version {
@@ -650,7 +737,7 @@ impl Dataset for EeglabDataset {
             "sample_storage".into(),
             json!(match &s.data {
                 EeglabData::Fdt(_) => "fdt",
-                EeglabData::Embedded { .. } => "embedded",
+                EeglabData::Embedded { .. } | EeglabData::Hdf5 { .. } => "embedded",
             }),
         );
         if !s.setname.is_empty() {
@@ -735,7 +822,7 @@ impl Dataset for EeglabDataset {
             path: self.path.display().to_string(),
             size_bytes: self.set_len,
             format: EeglabReader.descriptor(),
-            format_version: Some("MAT 5.0".into()),
+            format_version: Some(format!("MAT {}", s.mat_version())),
             images: Vec::new(),
             tables,
             spectra: Vec::new(),

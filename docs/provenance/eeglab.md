@@ -27,3 +27,24 @@ element in column-major order; a cell's body is one array per element; character
 code units (`miUINT16`) in column-major order for m×n arrays. A numeric array's values are
 decoded by the type in their own element's tag, which can be narrower than the array's class
 (SciPy's table lists the class and the stored type separately).
+
+## 2026-10-19 — MAT 7.3 (HDF5) datasets (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** `openneuro-ds005628-sub-1-task-edzna-run-1` (samples inside the `.set`)
+and `openneuro-ds005048-sub-02-task-40hzauditoryentrainment` (samples in the `.fdt`), OpenNeuro
+ds005628 and ds005048 (CC0), both written by MATLAB on PCWIN64.
+
+**Prior art consulted:** `hdf5-pure` 0.47 (MIT OR Apache-2.0, https://github.com/CramBL/hdf5-pure),
+its `mat` module's documentation of the MAT 7.3 conventions (the 512-byte userblock,
+`MATLAB_class`, reversed shapes, UTF-16 `char`, `#refs#`), and its reading API (`dereference`,
+`read_raw_rows`). The datasets' tree was listed with h5py (BSD-3-Clause).
+
+**What was inferred from the files:**
+- Both files store the EEG fields as top-level variables. Scalars are (1, 1) float64 datasets,
+  text is (n, 1) `uint16` `char`, and empty fields are (2,) `uint64` datasets of their dimensions
+  with `MATLAB_empty`.
+- `chanlocs` and `event` are groups without their own `MATLAB_class` on the fields: each field is
+  a dataset of object references, (1, 8) in one file and (19, 1) in the other, one per element.
+- ds005628's `data` is a (15250, 8) float32 dataset: HDF5 rows are samples and the 8 channels are
+  contiguous within a row, the same order as a `.fdt`.
+- pymatreader (BSD-2-Clause), run as the oracle for these files, reads the same structure.

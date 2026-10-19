@@ -6097,8 +6097,9 @@ def brainvision(p: Path) -> dict:
 
 
 def eeglab(p: Path) -> dict:
-    """EEGLAB .set (+ .fdt) via SciPy's MAT-file reader (BSD-3, `scipy.io.loadmat`) for the EEG
-    structure, checked against MNE-Python (BSD-3), both black boxes. The samples are the `data`
+    """EEGLAB .set (+ .fdt) via SciPy's MAT-file reader (BSD-3, `scipy.io.loadmat`), or
+    pymatreader (BSD-2) for MAT 7.3 (HDF5) files, for the EEG structure, checked against
+    MNE-Python (BSD-3), all black boxes. The samples are the `data`
     array, or the .fdt it names read as MNE reads it (little-endian float32, nbchan x pnts x
     trials in column-major order); MNE's values (V, divided by its 1e-6) must agree to 1e-6
     relative. One trace whose sweeps are the epochs. Events: (latency - 1) / srate, duration /
@@ -6107,12 +6108,29 @@ def eeglab(p: Path) -> dict:
     import mne
     import scipy.io as sio
 
-    m = sio.loadmat(str(p), squeeze_me=True, struct_as_record=False, appendmat=False)
-    if "EEG" in m:
-        eeg = m["EEG"]
-        get = lambda k, d=None: getattr(eeg, k, d)  # noqa: E731
+    v73 = p.open("rb").read(19) == b"MATLAB 7.3 MAT-file"
+    if v73:
+        # MAT 7.3 is HDF5: pymatreader (BSD-2, h5py) gives dicts, struct arrays as dicts of lists
+        import pymatreader
+        m = pymatreader.read_mat(str(p))
+        eeg = m.get("EEG", m)
+        get = lambda k, d=None: eeg.get(k, d)  # noqa: E731
     else:
-        get = lambda k, d=None: m.get(k, d)  # noqa: E731
+        m = sio.loadmat(str(p), squeeze_me=True, struct_as_record=False, appendmat=False)
+        if "EEG" in m:
+            eeg = m["EEG"]
+            get = lambda k, d=None: getattr(eeg, k, d)  # noqa: E731
+        else:
+            get = lambda k, d=None: m.get(k, d)  # noqa: E731
+
+    def rows(obj):
+        """A struct array as a list of {field: value} (SciPy objects or pymatreader dicts)."""
+        if obj is None or (not isinstance(obj, dict) and np.size(obj) == 0):
+            return []
+        if isinstance(obj, dict):
+            n = max((len(v) if isinstance(v, list) else 1) for v in obj.values()) if obj else 0
+            return [{k: (v[i] if isinstance(v, list) else v) for k, v in obj.items()} for i in range(n)]
+        return [{k: getattr(e, k) for k in e._fieldnames} for e in np.atleast_1d(obj)]
     nbchan, pnts = int(get("nbchan")), int(get("pnts"))
     trials = max(1, int(get("trials", 1) or 1))
     srate = float(get("srate"))
@@ -6139,8 +6157,7 @@ def eeglab(p: Path) -> dict:
     worst = float(np.max(np.abs(mne_v - arr) / np.maximum(1.0, np.abs(arr)))) if arr.size else 0.0
     if worst > 1e-6:
         raise ValueError(f"MNE values differ from the stored samples by {worst:.3g}")
-    locs = get("chanlocs")
-    labels = [str(getattr(c, "labels", "")).strip() for c in np.atleast_1d(locs)] if locs is not None and np.size(locs) else []
+    labels = [str(r.get("labels", "")).strip() for r in rows(get("chanlocs"))]
     if len(labels) != nbchan:
         labels = [""] * nbchan
     trace = {"index": 0, "sweep_count": trials, "channel_count": nbchan,
@@ -6149,31 +6166,30 @@ def eeglab(p: Path) -> dict:
                          "channels": [{"xxh3": _trace_hash(arr[c, :, t]), "first": _first(arr[c, :, t])} for c in range(nbchan)]}
                         for t in range(min(trials, MAX_SWEEPS))],
              "mne_channel_names": list(mne_names)}
-    out = {"reader": f"SciPy {__import__('scipy').__version__} loadmat (EEG structure), numpy (.fdt float32); MNE {mne.__version__} cross-check",
+    mat_reader = f"pymatreader {__import__('pymatreader').__version__}" if v73 else f"SciPy {__import__('scipy').__version__} loadmat"
+    out = {"reader": f"{mat_reader} (EEG structure), numpy (.fdt float32); MNE {mne.__version__} cross-check",
            "traces": [trace]}
-    events = get("event")
-    rows = []
-    if events is not None and np.size(events):
-        for e in np.atleast_1d(events):
-            lat = getattr(e, "latency", None)
-            if lat is None or np.size(lat) != 1:
-                continue
-            lat = float(lat)
-            if not hasattr(e, "duration"):
-                dur = 0.0
-            elif np.size(e.duration) == 0:
-                dur = float("nan")
-            else:
-                dur = float(e.duration)
-            rows.append((lat, dur))
-    if rows:
-        lat = np.array([r[0] for r in rows])
-        dur = np.array([r[1] for r in rows])
+    ev_rows = []
+    for e in rows(get("event")):
+        lat = e.get("latency")
+        if lat is None or np.size(lat) != 1:
+            continue
+        lat = float(np.asarray(lat).ravel()[0])
+        if "duration" not in e:
+            dur = 0.0
+        elif np.size(e["duration"]) == 0:
+            dur = float("nan")
+        else:
+            dur = float(np.asarray(e["duration"]).ravel()[0])
+        ev_rows.append((lat, dur))
+    if ev_rows:
+        lat = np.array([r[0] for r in ev_rows])
+        dur = np.array([r[1] for r in ev_rows])
         if trials == 1:
             n_mne = len(mne.io.read_raw_eeglab(str(p), preload=False, verbose="error").annotations)
-            if n_mne != len(rows):
+            if n_mne != len(ev_rows):
                 out["mne_annotation_count"] = n_mne
-        out["tables"] = [{"index": 0, "event_count": len(rows),
+        out["tables"] = [{"index": 0, "event_count": len(ev_rows),
                           "parameter_names": ["onset_s", "duration_s", "latency", "duration", "epoch", "type"],
                           "xxh3": None,
                           "sorted_row_hashes": [_sorted_rows([("onset_s", (lat - 1.0) / srate), ("duration_s", dur / srate),

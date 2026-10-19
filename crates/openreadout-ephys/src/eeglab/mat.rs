@@ -205,6 +205,8 @@ pub struct MatFile {
     pub big_endian: bool,
     /// The variables, in file order.
     pub variables: Vec<MatVariable>,
+    /// A MAT 7.3 file (HDF5), parsed by `mat73`.
+    pub hdf5: bool,
 }
 
 impl MatFile {
@@ -672,8 +674,8 @@ pub fn parse_mat(f: &mut SourceFile, path: &Path, file_len: u64) -> Result<MatFi
         Some(v) => {
             return Err(Error::unsupported(
                 EEGLAB_FORMAT_ID,
-                format!("MAT-file version {v} (HDF5)"),
-                "Resave the dataset in EEGLAB with the default MAT-file version (pop_saveset, or save -v7 in MATLAB).",
+                format!("MAT-file version {v} (HDF5) in the level-5 parser"),
+                "Open the file with the EEGLAB reader, which reads MAT 7.3 files through HDF5.",
             ));
         }
         None => {
@@ -757,6 +759,7 @@ pub fn parse_mat(f: &mut SourceFile, path: &Path, file_len: u64) -> Result<MatFi
             .to_string(),
         big_endian,
         variables,
+        hdf5: false,
     })
 }
 

@@ -14,7 +14,7 @@ Independent readers share the crate; `src/lib.rs` registers each and its `detect
 - **MC_DataTool `.raw`** (`src/mcsraw/`): the text header up to `EOH` and interleaved uint16 frames, scaled with the `El` gain and `ADC zero`; one trace.
 - **EDF, EDF+, BDF and BDF+** (`src/edf/`): the 256-byte header and 256 bytes per signal (stored field by field), then data records holding each signal's samples in turn (2-byte or, in BDF, 3-byte little-endian). Signals with the same samples per record are one trace; the `EDF Annotations` / `BDF Annotations` signals are read at open: their time-keeping TALs give each record's start (EDF+D runs of contiguous records become sweeps) and the other TALs the `annotations` table. TAL times are parsed to exact nanoseconds and count from the first record's start.
 - **BrainVision** (`src/brainvision/`): the `.vhdr` INI header (identification line, `[Common Infos]`, `[Binary Infos]` or `[ASCII Infos]`, `[Channel Infos]`, `[Coordinates]`, free text from `[Comment]` on) names the data and marker files; the dataset opens from any of the three. Samples are multiplexed frames or vectorized channel runs of INT_16, UINT_16, INT_32 or IEEE_FLOAT_32 (ASCII multiplexed lines are indexed at open), × each channel's resolution. `MARKERBASED` segments that divide the data evenly are sweeps; the `.vmrk` markers are the `markers` table.
-- **EEGLAB** (`src/eeglab/`): `mat.rs` parses a level-5 MAT-file (128-byte header, tagged elements padded to 8, `miCOMPRESSED` variables inflated with zlib as a stream) into arrays, keeping only the place of numeric arrays over `MAX_MAT_INLINE` bytes. `mod.rs` reads the `EEG` structure from the variable `EEG` or from one variable per field, finds the samples (a `.fdt` of float32 frames, or the `data` array, read at its place or inflated once), and makes one trace with the epochs as sweeps and `EEG.event` as the `events` table.
+- **EEGLAB** (`src/eeglab/`): `mat.rs` parses a level-5 MAT-file (128-byte header, tagged elements padded to 8, `miCOMPRESSED` variables inflated with zlib as a stream) into arrays, keeping only the place of numeric arrays over `MAX_MAT_INLINE` bytes. `mat73.rs` turns a MAT 7.3 (HDF5) file into the same arrays. `mod.rs` reads the `EEG` structure from the variable `EEG` or from one variable per field, finds the samples (a `.fdt` of float32 frames, or the `data` array, read at its place or inflated once), and makes one trace with the epochs as sweeps and `EEG.event` as the `events` table.
 - **Open Ephys** (`src/openephys/`). `mod.rs` claims a recording directory (or its `structure.oebin` / a `.continuous` file) and picks the layout. `binary.rs`: `[Record Node N/]experimentE/recordingR/` with `structure.oebin` (JSON), interleaved int16 `continuous.dat`, `sample_numbers.npy` (GUI 0.6+) or integer `timestamps.npy` (older), and `events/<stream>/*.npy`; `npy.rs` is the minimal `.npy` reader. `legacy.rs`: one `.continuous` file per channel (1024-byte text header, 2070-byte records of 1024 big-endian int16 samples), `.events` and `.spikes`, with `_2`, `_3` … suffixes for later experiments. `dataset.rs` joins both into traces per stream.
 
 Versions branch at: the bundle signature and writer version (`bundle.rs`), the tree magic, level count and record sizes (`tree.rs`), the Spike2 file version in the header (`file.rs`), and the Open Ephys GUI version in `structure.oebin` / the legacy header (`binary.rs`, `legacy.rs`). The TDT reader branches on the event type and data format codes of each store (`tsq.rs`) and on block versus tank (`mod.rs`); Axona on the tetrode file header (`num_chans`, `bytes_per_sample`); MC_DataTool on the stream kinds in `Streams`; EDF on the version field (16- or 24-bit samples) and the reserved field (`EDF+C`, `EDF+D`: annotations and record times); BrainVision on `DataFormat`, `DataOrientation` and `BinaryFormat`; EEGLAB on the MAT-file version and compression, one `EEG` variable or one per field, and `.fdt` or embedded samples. The assurance profile (`src/assurance.rs`) turns each of these into a variant feature.
@@ -52,7 +52,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 - **EDF signal groups.** A trace is a set of signals with equal samples per record; a writer that changes a signal's count would move it to another trace, and the oracle groups the same way.
 - **BrainVision float scaling.** The reader multiplies every format by the channel's resolution, as MNE and the pybv writer do; Neo leaves IEEE_FLOAT_32 values unscaled. Files with float data and a resolution other than 1 are where the two would differ.
 - **BrainVision file names.** Renamed recordings often name a data file that no longer exists; the reader then takes the header's own stem (as MNE and Neo do), and finds names that differ only in case.
-- **EEGLAB MAT-files.** Large `data` arrays are located, not read, when the `.set` is parsed; in a compressed `.set` reading them inflates the whole variable once (capped at `MAX_EEGLAB_INFLATED`). A writer that stores `data` as a cell or sparse array would be refused, not misread. MAT 7.3 (HDF5) files are refused.
+- **EEGLAB MAT-files.** Large `data` arrays are located, not read, when the `.set` is parsed; in a compressed `.set` reading them inflates the whole variable once (capped at `MAX_EEGLAB_INFLATED`). A writer that stores `data` as a cell or sparse array would be refused, not misread. MAT 7.3 files (`mat73.rs`) are walked with `hdf5-pure`: a group whose datasets are all object references without a `MATLAB_class` is taken as a struct array; a new MATLAB writer that marks those fields would read as a scalar struct of cells.
 - **Spike2 pauses and ticks.** Sweep boundaries come from gaps between data blocks; a writer that splits blocks without a pause would create spurious sweeps. Times depend on the file's tick (µs per time unit × base).
 
 <!-- BEGIN GENERATED guide -->
@@ -69,7 +69,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | `winwcp` | [format note](../../docs/formats/winwcp.md), [provenance log](../../docs/provenance/winwcp.md) | medium | prior art | 4 / 4 | 3 | - |
 | `edf` | [format note](../../docs/formats/edf.md), [provenance log](../../docs/provenance/edf.md) | high | open spec | 27 / 27 | 16 | - |
 | `brainvision` | [format note](../../docs/formats/brainvision.md), [provenance log](../../docs/provenance/brainvision.md) | high | prior art | 13 / 13 | 8 | - |
-| `eeglab` | [format note](../../docs/formats/eeglab.md), [provenance log](../../docs/provenance/eeglab.md) | high | prior art | 11 / 11 | 9 | - |
+| `eeglab` | [format note](../../docs/formats/eeglab.md), [provenance log](../../docs/provenance/eeglab.md) | high | prior art | 13 / 13 | 11 | - |
 | `tdt-tank` | [format note](../../docs/formats/tdt-tank.md), [provenance log](../../docs/provenance/tdt-tank.md) | high | prior art | 11 / 11 | 6 | - |
 | `axona-dacqusb` | [format note](../../docs/formats/axona-dacqusb.md), [provenance log](../../docs/provenance/axona-dacqusb.md) | low | prior art | 3 / 3 | 1 | - |
 | `mcs-raw` | [format note](../../docs/formats/mcs-raw.md), [provenance log](../../docs/provenance/mcs-raw.md) | low | prior art | 1 / 1 | 1 | - |
@@ -87,6 +87,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | [`src/edf/mod.rs`](src/edf/mod.rs) | European Data Format files: EDF, EDF+ (`.edf`), and BioSemi's 24-bit variants BDF and BDF+ (`.bdf`) |
 | [`src/edf/tests.rs`](src/edf/tests.rs) | Synthetic-file tests of the EDF / BDF reader |
 | [`src/eeglab/mat.rs`](src/eeglab/mat.rs) | MATLAB level-5 MAT-files (the container of EEGLAB `.set` files): a 128-byte header, then data elements, each a tag (type, byte count) and its bytes padded to 8; top-level variables |
+| [`src/eeglab/mat73.rs`](src/eeglab/mat73.rs) | MATLAB 7.3 MAT-files: HDF5 files after a 512-byte userblock |
 | [`src/eeglab/mod.rs`](src/eeglab/mod.rs) | EEGLAB datasets (`.set`, with the samples inside it or in a `.fdt` next to it): a MATLAB MAT-file holding the `EEG` structure, either as one variable `EEG` or as one variable per |
 | [`src/eeglab/tests.rs`](src/eeglab/tests.rs) | Synthetic-dataset tests of the EEGLAB reader, with MAT-files written here |
 | [`src/heka/bundle.rs`](src/heka/bundle.rs) | The PatchMaster "bundle" header: a signature, the writing program's version, and up to twelve items, each the start, length and extension of an embedded file (`.dat` samples… |
@@ -239,35 +240,35 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `edf` | sample_layout | `int16` | traces | 21 | 21 | `edfio-short-psg`, `gin-edf-autoscaled-offsets`, `gin-edf-cross-kind-offsets-corrupt-header` |
 | `edf` | sample_layout | `int24` | traces | 5 | 5 | `gin-edf-event-markers-bdf`, `mnepython-test-bdf`, `openneuro-ds005648-sub-03-task-targets` |
 | `eeglab` | format_version | `MAT 5.0` | metadata, tables, traces | 11 | 11 | `figshare-14459286-311-epochs-before`, `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files` |
+| `eeglab` | format_version | `MAT 7.3` | metadata, tables, traces | 2 | 2 | `openneuro-ds005048-sub-02-task-40hzauditoryentrainment`, `openneuro-ds005628-sub-1-task-edzna-run-1` |
 | `eeglab` | layout | `epochs` | traces | 4 | 4 | `figshare-14459286-311-epochs-before`, `gin-eeglab-epoched-ica`, `openneuro-ds006923-sub-1009sg-task-restingstate-acq-epochs` |
-| `eeglab` | record | `events` | tables | 9 | 9 | `figshare-14459286-311-epochs-before`, `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files` |
-| `eeglab` | sample_layout | `embedded float32` | traces | 5 | 5 | `gin-eeglab-continuous-one-file`, `openneuro-ds004362-sub-001-task-motion-run-1`, `openneuro-ds006260-sub-mc02-ses-1-task-smartickdataset-run-2` |
+| `eeglab` | record | `events` | tables | 10 | 10 | `figshare-14459286-311-epochs-before`, `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files` |
+| `eeglab` | sample_layout | `embedded float32` | traces | 6 | 6 | `gin-eeglab-continuous-one-file`, `openneuro-ds004362-sub-001-task-motion-run-1`, `openneuro-ds005628-sub-1-task-edzna-run-1` |
 | `eeglab` | sample_layout | `embedded float64` | traces | 1 | 1 | `openneuro-ds003800-sub-001-task-rest` |
-| `eeglab` | sample_layout | `fdt float32` | traces | 5 | 5 | `figshare-14459286-311-epochs-before`, `gin-eeglab-continuous-two-files`, `gin-eeglab-epoched-ica` |
+| `eeglab` | sample_layout | `fdt float32` | traces | 6 | 6 | `figshare-14459286-311-epochs-before`, `gin-eeglab-continuous-two-files`, `gin-eeglab-epoched-ica` |
 | `eeglab` | writer | `MATLAB MACA64` | descriptive | 2 | 2 | `openneuro-ds006394-sub-01-task-sid`, `openneuro-ds007406-sub-002-task-extremeversustraditionalvideos` |
-| `eeglab` | writer | `MATLAB PCWIN64` | descriptive | 6 | 6 | `figshare-14459286-311-epochs-before`, `openneuro-ds003800-sub-001-task-rest`, `openneuro-ds004362-sub-001-task-motion-run-1` |
+| `eeglab` | writer | `MATLAB PCWIN64` | descriptive | 8 | 8 | `figshare-14459286-311-epochs-before`, `openneuro-ds003800-sub-001-task-rest`, `openneuro-ds004362-sub-001-task-motion-run-1` |
 | `eeglab` | writer | `SciPy` | descriptive | 3 | 3 | `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files`, `gin-eeglab-epoched-ica` |
 | `eeglab` | writer_version | `14.1.2` | descriptive | 1 | 1 | `figshare-14459286-311-epochs-before` |
 | `eeglab` | writer_version | `2020.0` | descriptive | 1 | 1 | `openneuro-ds003800-sub-001-task-rest` |
 | `eeglab` | writer_version | `2022.0` | descriptive | 1 | 1 | `openneuro-ds006923-sub-1009sg-task-restingstate-acq-epochs` |
 | `eeglab` | writer_version | `2022.1` | descriptive | 1 | 1 | `openneuro-ds004362-sub-001-task-motion-run-1` |
+| `eeglab` | writer_version | `2023.1` | descriptive | 1 | 1 | `openneuro-ds005048-sub-02-task-40hzauditoryentrainment` |
 | `eeglab` | writer_version | `2024.0` | descriptive | 1 | 1 | `openneuro-ds006394-sub-01-task-sid` |
+| `eeglab` | writer_version | `2024.2` | descriptive | 1 | 1 | `openneuro-ds005628-sub-1-task-edzna-run-1` |
 | `eeglab` | writer_version | `2025.0.0` | descriptive | 2 | 2 | `openneuro-ds006260-sub-mc02-ses-1-task-smartickdataset-run-2`, `openneuro-ds007006-sub-001-task-ivan` |
 | `eeglab` | writer_version | `2025.1.0` | descriptive | 1 | 1 | `openneuro-ds007406-sub-002-task-extremeversustraditionalvideos` |
 | `eeglab` | writer_version | `synthetic (not written by EEGLAB)` | descriptive | 2 | 2 | `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files` |
 | `heka-patchmaster` | acquisition | `current-clamp` | descriptive | 7 | 7 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages` |
-| `heka-patchmaster` | acquisition | `no-mode` | descriptive | 1 | 1 | `zenodo4311847-feb0821c` |
-| `heka-patchmaster` | acquisition | `whole-cell` | descriptive | 6 | 6 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `zenodo3827171-w2019-07-08b` |
-| `heka-patchmaster` | format_version | `2.11` | metadata, traces | 1 | 1 | `zenodo4992914-04-11-12-hek-prestin` |
 
-… 41 more values: the generated table in `src/assurance.rs` has all of them.
+… 44 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_brainvision`, `whole_edf`, `whole_eeglab`, `whole_heka`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
-- corpus inputs by tier: full 1, heldout 5, smoke 63, standard 58
+- corpus inputs by tier: full 1, heldout 5, smoke 64, standard 59
 - golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/edf.jsonl`](../../corpus/snapshots/edf.jsonl), [`corpus/snapshots/brainvision.jsonl`](../../corpus/snapshots/brainvision.jsonl), [`corpus/snapshots/eeglab.jsonl`](../../corpus/snapshots/eeglab.jsonl), [`corpus/snapshots/tdt-tank.jsonl`](../../corpus/snapshots/tdt-tank.jsonl), [`corpus/snapshots/axona-dacqusb.jsonl`](../../corpus/snapshots/axona-dacqusb.jsonl), [`corpus/snapshots/mcs-raw.jsonl`](../../corpus/snapshots/mcs-raw.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
 
 ### Open new-variant intakes

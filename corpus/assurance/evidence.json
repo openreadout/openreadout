@@ -78172,6 +78172,100 @@
       ]
     },
     {
+      "id": "openneuro-ds005048-sub-02-task-40hzauditoryentrainment",
+      "format": "eeglab",
+      "source": "openneuro ds005048",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 7.3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2023.1",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds005628-sub-1-task-edzna-run-1",
+      "format": "eeglab",
+      "source": "openneuro ds005628",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 7.3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2024.2",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
       "id": "openneuro-ds006260-sub-mc02-ses-1-task-smartickdataset-run-2",
       "format": "eeglab",
       "source": "openneuro ds006260",
