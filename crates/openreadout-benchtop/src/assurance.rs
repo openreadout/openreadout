@@ -1,4 +1,4 @@
-//! Assurance profiles (`docs/assurance.md`) of the NanoDrop and Qubit export readers: the export
+//! Assurance profiles (`docs/assurance.md`) of the NanoDrop, Qubit and ddPCR export readers: the export
 //! layouts are the variant features. The tables between the GENERATED markers are written by
 //! `cargo xtask assurance-audit --write`.
 
@@ -23,6 +23,37 @@ pub(crate) static QUBIT: AssuranceProfile = AssuranceProfile {
     confidence: QUBIT_CONFIDENCE,
     basis: Basis::ReverseEngineered,
 };
+
+pub(crate) static DDPCR: AssuranceProfile = AssuranceProfile {
+    format_id: "biorad-ddpcr",
+    observe,
+    validated: DDPCR_VALIDATED,
+    confidence: DDPCR_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
+pub(crate) static QLP: AssuranceProfile = AssuranceProfile {
+    format_id: "biorad-qlp",
+    observe: observe_qlp,
+    validated: QLP_VALIDATED,
+    confidence: QLP_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
+/// A `.qlp`: the QuantaSoft version that wrote it (major.minor) decides the layout.
+fn observe_qlp(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        let short: String = v.split('.').take(2).collect::<Vec<_>>().join(".");
+        o.feature(K::WriterVersion, short, &[Scope::Metadata, Scope::Tables]);
+    }
+    o.undecoded(
+        "per-droplet third value and flags",
+        &[],
+        "each droplet record's third value per channel and the 8 flag bytes per droplet are not read",
+    );
+    o
+}
 
 fn observe(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
@@ -59,3 +90,17 @@ const QUBIT_VALIDATED: &[Validated] = &[
     a::row(K::Field, "experiment.instrument.model", 0, 0, 4),
 ];
 // END GENERATED qubit
+
+// BEGIN GENERATED biorad-ddpcr (cargo xtask assurance-audit --write; do not edit)
+const DDPCR_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const DDPCR_VALIDATED: &[Validated] = &[
+];
+// END GENERATED biorad-ddpcr
+
+// BEGIN GENERATED biorad-qlp (cargo xtask assurance-audit --write; do not edit)
+const QLP_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const QLP_VALIDATED: &[Validated] = &[
+];
+// END GENERATED biorad-qlp

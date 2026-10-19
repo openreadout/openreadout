@@ -35,6 +35,7 @@ mod benchtop_oracle;
 mod biacore_oracle;
 mod chip_oracle;
 mod chromeleon_oracle;
+mod export_table_oracle;
 mod fplc_oracle;
 mod gpr_oracle;
 mod hcs;
@@ -298,6 +299,8 @@ fn family_scopes(format: &str, oracle_text: &str) -> Vec<&'static str> {
         series_oracle::scopes(format)
     } else if hyperspec_oracle::FORMATS.contains(&format) {
         hyperspec_oracle::scopes(oracle_text)
+    } else if export_table_oracle::FORMATS.contains(&format) {
+        vec!["metadata", "tables"]
     } else {
         vec!["metadata", "tables", "traces"]
     }
@@ -613,6 +616,8 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("hyperspec")
     } else if seq_oracle::FORMATS.contains(&format) {
         Some("seq")
+    } else if export_table_oracle::FORMATS.contains(&format) {
+        Some("export-tables")
     } else {
         None
     }
@@ -709,6 +714,8 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         hyperspec_oracle::compare_file(format, id, path, &o)
     } else if seq_oracle::FORMATS.contains(&format) {
         seq_oracle::compare_file(format, id, path, &o)
+    } else if export_table_oracle::FORMATS.contains(&format) {
+        export_table_oracle::compare_file(format, id, path, &o)
     } else {
         qpcr_oracle::compare_file(format, id, path, &o)
     })

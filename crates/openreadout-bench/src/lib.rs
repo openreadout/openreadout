@@ -46,6 +46,8 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_gel::SyngeneReader))
         .with(Box::new(openreadout_benchtop::NanoDropReader))
         .with(Box::new(openreadout_benchtop::QubitReader))
+        .with(Box::new(openreadout_benchtop::DdpcrReader))
+        .with(Box::new(openreadout_benchtop::QlpReader))
         .with(Box::new(openreadout_fplc::UnicornResReader))
         .with(Box::new(openreadout_fplc::UnicornZipReader))
         .with(Box::new(openreadout_epr::Bes3tReader))

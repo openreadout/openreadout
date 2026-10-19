@@ -69,6 +69,13 @@ pub(crate) struct Parsed {
     pub(crate) serial: Option<String>,
     pub(crate) operator: Option<String>,
     pub(crate) software_version: Option<String>,
+    /// The software that wrote the export, when the layout says (`QuantaSoft`, `QX Manager`).
+    pub(crate) software: Option<String>,
+    /// Name and kind of table 0 (`samples` when empty; `results`, `droplets`).
+    pub(crate) table_name: &'static str,
+    pub(crate) table_kind: &'static str,
+    /// The well a single-well export belongs to (from its file name).
+    pub(crate) well: Option<String>,
     /// NanoDrop application or Qubit assay (`dsDNA`, `Protein A280`, `1x dsDNA High Sensitivity`).
     pub(crate) application: Option<String>,
     pub(crate) columns: Vec<Column>,
@@ -182,8 +189,21 @@ impl Dataset for SampleTableDataset {
             })
             .collect();
         let mut extra = BTreeMap::new();
-        extra.insert("kind".to_string(), json!("samples"));
+        let table_name = if p.table_name.is_empty() {
+            "samples"
+        } else {
+            p.table_name
+        };
+        let kind = if p.table_kind.is_empty() {
+            "samples"
+        } else {
+            p.table_kind
+        };
+        extra.insert("kind".to_string(), json!(kind));
         extra.insert("layout".to_string(), json!(p.layout));
+        if let Some(w) = &p.well {
+            extra.insert("well".to_string(), json!(w));
+        }
         if p.spectra.is_some() {
             extra.insert("spectra_trace".to_string(), json!(0));
         }
@@ -243,7 +263,7 @@ impl Dataset for SampleTableDataset {
             images: Vec::new(),
             tables: vec![TableInfo {
                 index: 0,
-                name: Some("samples".into()),
+                name: Some(table_name.into()),
                 row_count: p.rows as u64,
                 columns,
                 extra,
@@ -363,7 +383,7 @@ impl Dataset for SampleTableDataset {
             vendor: Some(self.vendor.into()),
             model: p.model.clone(),
             serial: p.serial.clone(),
-            software: None,
+            software: p.software.clone(),
             software_version: p.software_version.clone(),
             // a spectrophotometer; the curated terms have none for a fluorometer
             kind: (self.technique == "CHMO:0000292")
@@ -381,6 +401,10 @@ impl Dataset for SampleTableDataset {
                 "instrument.serial".into(),
                 inferred("the `Serial Number` header line"),
             );
+        }
+        if p.software.is_some() {
+            exp.provenance
+                .insert("instrument.software".into(), inferred("the export layout"));
         }
         if p.software_version.is_some() {
             exp.provenance.insert(
@@ -403,8 +427,10 @@ impl Dataset for SampleTableDataset {
                 inferred("the application or assay the export names"),
             );
         }
-        exp.provenance
-            .insert("method.technique".into(), inferred("the instrument family"));
+        if method.technique.is_some() {
+            exp.provenance
+                .insert("method.technique".into(), inferred("the instrument family"));
+        }
         if let Some(Column::Numbers { values, .. }) = p.column("dilution_factor")
             && let Some(d) = values.iter().find(|v| v.is_finite())
             && values
@@ -473,7 +499,11 @@ impl Dataset for SampleTableDataset {
         exp.measurements.push(Measurement {
             kind: MeasurementKind::Table,
             indices: vec![0],
-            what: format!("{} sample measurement(s)", p.rows),
+            what: match p.table_kind {
+                "droplets" => format!("{} droplet(s)", p.rows),
+                "well_targets" => format!("{} well × target result(s)", p.rows),
+                _ => format!("{} sample measurement(s)", p.rows),
+            },
             technique: vocab::term(self.technique),
             terms: Vec::new(),
             parameters: BTreeMap::new(),

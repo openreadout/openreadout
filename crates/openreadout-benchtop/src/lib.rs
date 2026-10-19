@@ -9,6 +9,11 @@
 //! - **Thermo Fisher Qubit** (`qubit`): Qubit 4 and Qubit Flex exports (`.csv`): one row per
 //!   tube read with the assay, the tube and original sample concentrations with their units,
 //!   the dilution, the standards' and the sample's fluorescence. Notes: `docs/formats/qubit.md`.
+//! - **Bio-Rad droplet digital PCR** (`biorad-ddpcr`): QuantaSoft and QX Manager CSV exports.
+//!   A results export is table 0 `results`, one row per well and target: concentration in
+//!   copies/µL with its confidence intervals, positive, negative and accepted droplets. An
+//!   amplitude export is table 0 `droplets`, one row per droplet of one well: the channel
+//!   amplitudes and the cluster or per-target calls. Notes: `docs/formats/biorad-ddpcr.md`.
 //!
 //! # Example
 //!
@@ -41,8 +46,10 @@
 #![warn(missing_docs)]
 
 mod assurance;
+mod ddpcr;
 mod model;
 mod nanodrop;
+mod qlp;
 mod qubit;
 mod table;
 mod text;
@@ -55,12 +62,19 @@ use openreadout_core::source::Input;
 use openreadout_core::{Error, Result};
 
 pub use model::SampleTableDataset;
+pub use qlp::QlpDataset;
 
 /// Format id of NanoDrop exports.
 pub const NANODROP_FORMAT_ID: &str = nanodrop::FORMAT_ID;
 
 /// Format id of Qubit exports.
 pub const QUBIT_FORMAT_ID: &str = qubit::FORMAT_ID;
+
+/// Format id of Bio-Rad droplet digital PCR exports.
+pub const DDPCR_FORMAT_ID: &str = ddpcr::FORMAT_ID;
+
+/// Format id of Bio-Rad QuantaSoft plate files (`.qlp`).
+pub const QLP_FORMAT_ID: &str = qlp::FORMAT_ID;
 
 const VENDOR: &str = "Thermo Fisher Scientific";
 
@@ -199,6 +213,121 @@ impl FormatReader for QubitReader {
     fn reads_any_source(&self) -> bool {
         true
     }
+}
+
+/// The Bio-Rad droplet digital PCR export reader (QuantaSoft, QX Manager).
+#[derive(Debug, Default, Clone, Copy)]
+pub struct DdpcrReader;
+
+impl FormatReader for DdpcrReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&assurance::DDPCR)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        FormatDescriptor {
+            id: DDPCR_FORMAT_ID.into(),
+            name: "Bio-Rad droplet digital PCR exports (QuantaSoft, QX Manager)".into(),
+            vendor: "Bio-Rad".into(),
+            extensions: vec!["csv".into()],
+            family: "qpcr".into(),
+            can_read: true,
+            can_write: false,
+            confidence: assurance::DDPCR.confidence,
+            known_gaps: vec![
+                "QX Manager `.ddpcr` files are encrypted archives and are not read: export the results and amplitudes as CSV".into(),
+                "Concentrations, confidence intervals and droplet counts are the software's own, as exported; nothing is recomputed from the amplitudes".into(),
+            ],
+        }
+    }
+
+    fn sniff(&self, head: &[u8], _path: &Path) -> Option<Detection> {
+        ddpcr::sniff(&head_text(head)).map(|layout| Detection {
+            format_id: DDPCR_FORMAT_ID,
+            confidence: DetectConfidence::Definite,
+            note: Some(format!("{layout} layout")),
+        })
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        let (bytes, len) = read_all(input, DDPCR_FORMAT_ID, ddpcr::MAX_BYTES)?;
+        let name = input
+            .path()
+            .file_name()
+            .map(|n| n.to_string_lossy().into_owned())
+            .unwrap_or_default();
+        let p = ddpcr::parse(&text::decode(&bytes), &name)?;
+        Ok(Box::new(SampleTableDataset::new(
+            self.descriptor(),
+            input.path().to_path_buf(),
+            len,
+            p,
+            "Bio-Rad",
+            "",
+        )))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
+/// The Bio-Rad QuantaSoft plate file reader (`.qlp`).
+#[derive(Debug, Default, Clone, Copy)]
+pub struct QlpReader;
+
+impl FormatReader for QlpReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&assurance::QLP)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        FormatDescriptor {
+            id: QLP_FORMAT_ID.into(),
+            name: "Bio-Rad QuantaSoft droplet digital PCR plate".into(),
+            vendor: "Bio-Rad".into(),
+            extensions: vec!["qlp".into()],
+            family: "qpcr".into(),
+            can_read: true,
+            can_write: false,
+            confidence: assurance::QLP.confidence,
+            known_gaps: vec![
+                "Concentrations and confidence intervals are not stored in the file and are not computed; the droplet counts per class are".into(),
+                "Each droplet's third value per channel and the per-droplet flags are not read".into(),
+                "Plate setups in a layout other than QuantaSoft 1.7's 1386-byte well records are left out (samples and targets empty)".into(),
+            ],
+        }
+    }
+
+    fn sniff(&self, head: &[u8], _path: &Path) -> Option<Detection> {
+        qlp::sniff(head).then_some(Detection {
+            format_id: QLP_FORMAT_ID,
+            confidence: DetectConfidence::Definite,
+            note: None,
+        })
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        Ok(Box::new(QlpDataset::open(input, self.descriptor())?))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
+#[doc(hidden)]
+/// Parse a ddPCR export from bytes (fuzz targets).
+pub fn fuzz_ddpcr(bytes: &[u8]) {
+    let _ = ddpcr::parse(&text::decode(bytes), "fuzz_A01_Amplitude.csv");
 }
 
 #[doc(hidden)]

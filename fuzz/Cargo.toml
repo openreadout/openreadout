@@ -1178,6 +1178,20 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_ddpcr"
+path = "fuzz_targets/whole_ddpcr.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_qlp"
+path = "fuzz_targets/whole_qlp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_smv"
 path = "fuzz_targets/whole_smv.rs"
 test = false

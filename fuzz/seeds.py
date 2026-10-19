@@ -143,6 +143,10 @@ COMMITTED_CUTS = [
     ("whole_nanodrop", "nanodrop-one-uvvis-nanodrop-r.tsv", 16 * 1024),  # MIT (nanodRop)
     ("whole_qubit", "qubit4-out-of-range.csv", 16 * 1024),  # MIT (allotropy test data)
     ("whole_qubit", "qubit-flex-sep-header.csv", 16 * 1024),  # MIT (allotropy test data)
+    ("whole_ddpcr", "figshare24302350-ddpcr-results.csv", 16 * 1024),  # CC-BY-4.0
+    ("whole_ddpcr", "daattali-ddpcr-quant.csv", 16 * 1024),  # MIT
+    ("whole_ddpcr", "daattali-ddpcr-quant-a01-amplitude.csv", 16 * 1024),  # MIT
+    ("whole_ddpcr", "dpcp-10ng-a01-amplitude.csv", 8 * 1024),  # MIT
 ]
 # (target, [(corpus file, bytes to keep), ...]) joined by BUNDLE_SEP in the target's order
 OIF = "olympus-fv/zenodo4421962-oif/Bead12/"
@@ -1038,6 +1042,8 @@ def imager_seeds() -> None:
     put("whole_tiff", "incucyte.tif", mini_tiff([(4, 2, 8, bytes(range(8)), [sw]),
                                                   (1, 1, 8, b"\0", [(254, 4, 1, struct.pack("<I", 1)), sw, ascii_tag(60020, xml)])]))
     put("whole_sgd", "mini.sgd", mini_sgd())
+    # the synthetic plate of oracle/make_qlp_fixture.py
+    put("whole_qlp", "mini.qlp", (ROOT.parent / "crates/openreadout-benchtop/tests/fixtures/qlp-synthetic.qlp").read_bytes())
 
 
 def main() -> None:

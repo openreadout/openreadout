@@ -38,6 +38,7 @@ const PAGE = {
   "agilent-bioanalyzer-xml": "agilent-electrophoresis", "agilent-tapestation": "agilent-electrophoresis",
   paravision: "bruker-paravision",
   pod5: "nanopore", fast5: "nanopore", fastq: "sequence-reads", bam: "sequence-reads",
+  "biorad-qlp": "biorad-ddpcr",
 };
 
 // The fields the site groups formats under (the CLI's families are finer).

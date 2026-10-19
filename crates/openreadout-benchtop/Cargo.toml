@@ -1,6 +1,6 @@
 [package]
 name = "openreadout-benchtop"
-description = "Readers for NanoDrop and Qubit exports, part of OpenReadout"
+description = "Readers for NanoDrop, Qubit and Bio-Rad ddPCR exports, part of OpenReadout"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
