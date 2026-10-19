@@ -549,6 +549,17 @@ fn meta_str(s: &Stream, category: u16, field: u16) -> Option<String> {
         .filter(|v| !v.is_empty())
 }
 
+/// `8.0.2` from a Proteus version banner `Version 8.0.2  (10.07.2020) 20192.201`.
+fn proteus_version(s: &str) -> Option<String> {
+    let tok = s.trim_start().strip_prefix("Version")?.split_whitespace().next()?;
+    let parts: Vec<&str> = tok.split('.').collect();
+    (parts.len() >= 3
+        && parts
+            .iter()
+            .all(|p| !p.is_empty() && p.bytes().all(|b| b.is_ascii_digit())))
+    .then(|| tok.to_string())
+}
+
 /// The kind of instrument from the file extension's letters (`ss3`: STA, `sd7`: DSC, `dla`: DIL).
 pub(crate) fn kind_of(ext: &str) -> &'static str {
     match ext.get(..1) {
@@ -741,6 +752,24 @@ pub(crate) fn parse(zip: &ZipIndex) -> Result<SeriesFile> {
         );
         vendor.insert("instrument_model".into(), json!(m));
     }
+    // the Proteus version banner (`Version 8.0.2  (10.07.2020) 20192.201`), a string field of a
+    // stream-1 table
+    let banner = s1
+        .tables
+        .iter()
+        .flat_map(|t| t.fields.iter())
+        .filter(|f| f.dtype == T_STRING)
+        .filter_map(|f| scalar(&s1.raw, f).as_str().map(str::to_string))
+        .find(|s| proteus_version(s).is_some());
+    let proteus = banner.as_deref().and_then(proteus_version);
+    if let (Some(b), Some(v)) = (&banner, &proteus) {
+        facts.set(
+            "instrument.software_version",
+            v,
+            "stream 1 version banner (`Version <n>.<n>.<n> ...`)",
+        );
+        vendor.insert("application_version".into(), json!(b.trim()));
+    }
     for (key, cat, field) in [
         ("instrument", 0x1775u16, 0x1059u16),
         ("project", 0x1772, 0x083C),
@@ -863,6 +892,12 @@ pub(crate) fn parse(zip: &ZipIndex) -> Result<SeriesFile> {
     if let Some(m) = &model {
         observations.feature(FeatureKind::Instrument, m, &[]);
     }
+    if let Some(v) = proteus
+        .as_deref()
+        .and_then(|v| openreadout_core::assurance::version_prefix(v, 2))
+    {
+        observations.context(FeatureKind::WriterVersion, format!("NETZSCH Proteus {v}"));
+    }
     for c in &names {
         observations.feature(
             FeatureKind::Record,
@@ -918,6 +953,16 @@ pub(crate) fn parse(zip: &ZipIndex) -> Result<SeriesFile> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn proteus_version_banner() {
+        assert_eq!(
+            proteus_version("Version 8.0.2  (10.07.2020) 20192.201").as_deref(),
+            Some("8.0.2")
+        );
+        assert_eq!(proteus_version("Version 8.0"), None);
+        assert_eq!(proteus_version("C:\\NETZSCH\\Proteus80\\x.tmp"), None);
+    }
 
     fn record(id: u16, dtype: u8, array: Option<u32>, payload: &[u8]) -> Vec<u8> {
         let mut r = HEADER.to_vec();

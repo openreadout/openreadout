@@ -44232,6 +44232,134 @@ source = "Zenodo record 18902844, PEF_600um.ngb-sd7"
 attribution = "Paszkiewicz, Sandra; Irska, Izabela; Walkowiak, Konrad"
 notes = "NETZSCH DSC .ngb-sd7 (heat, cool, heat) with the depositors' Proteus ExpDat exports of its segments. Ground truth: pyNGB (black box) and the exports (calibrated temperature at the exported times)."
 
+[[file]]
+id = "ngb-darus5199-hsh64-acoh"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-darus5199-hsh64-acoh.ngb-ds3"
+url = "https://darus.uni-stuttgart.de/api/access/datafile/397905"
+sha256 = "0d9063013d1afa8aec54a12ef6034a01e5450836e87c36f97f69ca005b5c38de"
+size = 796539
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.18419/DARUS-5199 (CC BY 4.0, Dataverse API), 2026-10-19"
+source = "DaRUS doi:10.18419/DARUS-5199 (Data for: Linker-Cluster Cooperativity in Confinement of Proline-Functionalized Zr-Based Metal-Organic Frameworks and its Effect on the Organocatalytic Aldol Reaction), Raw TGA-DTA Files/m-UiO-67-NHPro-AcOH_deprotected_HSH-64-dpro_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397905)"
+attribution = "Dadgar Yeganeh, Ardeshir"
+notes = "STA 449 F3 Jupiter (Proteus 8.0.2) TG-DTA of a metal-organic framework in synthetic air, sample and correction runs. Ground truth: pyNGB (black box)."
+
+[[file]]
+id = "ngb-darus5199-hsh65-ba"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-darus5199-hsh65-ba.ngb-ds3"
+url = "https://darus.uni-stuttgart.de/api/access/datafile/397904"
+sha256 = "53f05ae66435167e112ab564c8a1d14af6a440c7331bda6e88014d220084a927"
+size = 793484
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.18419/DARUS-5199 (CC BY 4.0, Dataverse API), 2026-10-19"
+source = "DaRUS doi:10.18419/DARUS-5199, Raw TGA-DTA Files/m-UiO-67-NHPro-BA_deprotected_HSH-65-dpro_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397904)"
+attribution = "Dadgar Yeganeh, Ardeshir"
+notes = "STA 449 F3 Jupiter TG-DTA, sample and correction runs. Ground truth: pyNGB (black box)."
+
+[[file]]
+id = "ngb-darus5199-ady95-tfa"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-darus5199-ady95-tfa.ngb-ds3"
+url = "https://darus.uni-stuttgart.de/api/access/datafile/397896"
+sha256 = "6a1d1ef36186708c17f0dfb9c6cb7eed37e9b1379b734514017f29c991d48138"
+size = 798682
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.18419/DARUS-5199 (CC BY 4.0, Dataverse API), 2026-10-19"
+source = "DaRUS doi:10.18419/DARUS-5199, Raw TGA-DTA Files/m-UiO-67-NHPro-TFA_ADY-95_ExpDat_TGDTA_5Kmin_30to800C_synthAir.ngb-ds3 (datafile 397896)"
+attribution = "Dadgar Yeganeh, Ardeshir"
+notes = "STA 449 F3 Jupiter TG-DTA, sample and correction runs. Ground truth: pyNGB (black box)."
+
+[[file]]
+id = "ngb-darus5230-jek77"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-darus5230-jek77.ngb-ds3"
+url = "https://darus.uni-stuttgart.de/api/access/datafile/458418"
+sha256 = "a2cca2e0935b7ad17d4c4c2abc5e1ac8ee1796a78896e2256f3030d1e137da5b"
+size = 785112
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.18419/DARUS-5230 (CC BY 4.0, Dataverse API), 2026-10-19"
+source = "DaRUS doi:10.18419/DARUS-5230 (Replication Data for: Dynamic breathing behaviour of the titanium-based metal-organic framework NTU-9 upon adsorption of water and organic solvents), measurements/TGA/TG_DTA_JEK77_1_SiC_10Kmin_30to1000C_Al2O3_synthAir.ngb-ds3 (datafile 458418)"
+attribution = "Knapp, Julia; Ortín-Rubio, Borja; Heck, Fabian; Gjorgjevikj, Kristina; Sleptsova, Anastasia; Krause, Simon; Bette, Sebastian; Lotsch, Bettina V."
+notes = "STA 449 F3 Jupiter TG-DTA at 10 K/min to 1000 C, sample and correction runs; the same institute's instrument as the DARUS-5199 files, another record and group. Ground truth: pyNGB (black box)."
+
+[[file]]
+id = "ngb-darus5230-jek85"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-darus5230-jek85.ngb-ds3"
+url = "https://darus.uni-stuttgart.de/api/access/datafile/458421"
+sha256 = "7d72da95d8403b01fa193d7ae63296f6e12c0747b9ceafb7f7bc6afa3ecb28a5"
+size = 1021614
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.18419/DARUS-5230 (CC BY 4.0, Dataverse API), 2026-10-19"
+source = "DaRUS doi:10.18419/DARUS-5230, measurements/TGA/TG_DTA_JEK85_1_SiC_5Kmin_30to1200C_Al2O3_synthAir.ngb-ds3 (datafile 458421)"
+attribution = "Knapp, Julia; Ortín-Rubio, Borja; Heck, Fabian; Gjorgjevikj, Kristina; Sleptsova, Anastasia; Krause, Simon; Bette, Sebastian; Lotsch, Bettina V."
+notes = "STA 449 F3 Jupiter TG-DTA at 5 K/min to 1200 C, sample and correction runs. Ground truth: pyNGB (black box)."
+
+[[file]]
+id = "ngb-figshare26496859-pac16"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-figshare26496859-pac16.ngb-st9"
+url = "https://ndownloader.figshare.com/files/52342301"
+sha256 = "362edb56b414cda19e52107269593e898e011ed0ed770c027e51f23170e4c9ee"
+size = 220816
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\", AH230427_PAC16_10mM.ngb-st9"
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "TG 209 F1 Libra (Proteus 8.0.1) TGA `.ngb-st9`, one run in oxygen and nitrogen. Ground truth: pyNGB (black box)."
+
+[[file]]
+id = "ngb-figshare26496859-pcb-recycling"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-figshare26496859-pcb-recycling.ngb-st9"
+url = "https://ndownloader.figshare.com/files/52342130"
+sha256 = "bde231f410d255c4ba557f12f9605c61b111e3cd8d99dbbd563d2dab4211032a"
+size = 219424
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859, LM240626_PCB recycling_PAC3Imida-PAC10Ph_after 3rd cycle.ngb-st9"
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "TG 209 F1 Libra TGA `.ngb-st9` of a particle after three recycling cycles. Ground truth: pyNGB (black box)."
+
+[[file]]
+id = "ngb-figshare26496859-comar"
+format = "netzsch-ngb"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "ngb-figshare26496859-comar.ngb-st9"
+url = "https://ndownloader.figshare.com/files/52342433"
+sha256 = "ce3eb12fdec18c3110a226a20bc84673d9febd9df2f9552e4c3c59f474c5b166"
+size = 220537
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859, LM240704_Comar_new.ngb-st9"
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "TG 209 F1 Libra TGA `.ngb-st9`. Ground truth: pyNGB (black box)."
+
 # ---- held out: NETZSCH Proteus .ngb, added 2026-09-26
 
 [[file]]
@@ -53441,6 +53569,199 @@ license_checked = "https://zenodo.org/records/19193123 (CC-BY-4.0, Zenodo API), 
 source = "Zenodo 19193123: Nano4Water - OP JAK MSCA-PF (2025-2026)"
 attribution = "Daniel José da Silva"
 notes = "The Zetasizer records table (record, sample, date, T, ZP, mobility, conductivity) of every record of the .dts, copied into Excel by the depositor."
+
+
+[[file]]
+id = "zetasizer-figshare26496859-pac16"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "input"
+tier = "standard"
+filename = "zetasizer-figshare26496859-pac16.dts"
+url = "https://ndownloader.figshare.com/files/52342457"
+sha256 = "13a2b1b9aadd099735c989498ae76f3aa36bbeac60e69c2a8215c50fd46c8b55"
+size = 2214912
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer 7.13 (MAL1201890): 56 size and zeta records of PAC16-functionalised iron oxide particles across a pH series. Ground truth: the depositor's tab-separated Zetasizer export of every record (German dates, no Record column)."
+
+[[file]]
+id = "zetasizer-figshare26496859-pac16"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "oracle-export"
+tier = "standard"
+filename = "zetasizer-figshare26496859-pac16-export.txt"
+url = "https://ndownloader.figshare.com/files/52342241"
+sha256 = "c3c4a3cc32119ca8d68699d547befa4039ccacc84a0c5dcd2d00cf4ac2a1fb00"
+size = 5219
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer records table export of AH230606_PAC16.dts (\"PAC16 export.txt\": type, sample, S/W version, serial, date, Z-average, PdI, zeta), every record in record order."
+
+[[file]]
+id = "zetasizer-figshare26496859-pac10ph"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "input"
+tier = "standard"
+filename = "zetasizer-figshare26496859-pac10ph.dts"
+url = "https://ndownloader.figshare.com/files/52342388"
+sha256 = "692c0f8f36f386a5c5f0542a3a5b346b24d98d7fa9292a33c07b825199127d18"
+size = 1583616
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer 7.13: 40 size and zeta records (PAC10Phenyl). Ground truth: the depositor's tab-separated Zetasizer export."
+
+[[file]]
+id = "zetasizer-figshare26496859-pac10ph"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "oracle-export"
+tier = "standard"
+filename = "zetasizer-figshare26496859-pac10ph-export.txt"
+url = "https://ndownloader.figshare.com/files/52342229"
+sha256 = "8c10e3f7e1484ec7145c965a145bbcecd7c46f3046536e078e644acf7e545ef9"
+size = 4579
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer records table export of AH230607_PAC10Phenyl.dts (\"PAC10Ph export.txt\"), every record in record order."
+
+[[file]]
+id = "zetasizer-figshare26496859-pac3imida"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "input"
+tier = "standard"
+filename = "zetasizer-figshare26496859-pac3imida.dts"
+url = "https://ndownloader.figshare.com/files/52342394"
+sha256 = "2d3697375e9fba4d93d44303c31a13fb85df5595d278b15464a418f78f01702f"
+size = 1580544
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer 7.13: 40 size and zeta records (PAC3Imida). Ground truth: the depositor's tab-separated Zetasizer export."
+
+[[file]]
+id = "zetasizer-figshare26496859-pac3imida"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "oracle-export"
+tier = "standard"
+filename = "zetasizer-figshare26496859-pac3imida-export.txt"
+url = "https://ndownloader.figshare.com/files/52342259"
+sha256 = "c89a5223b2be0f8b9d9ae7a7b515a45f0ed17ced20459b316a81154f3ca304b9"
+size = 3918
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer records table export of AH230607_PAC3Imida.dts (\"PAC3Imi export.txt\"), every record in record order."
+
+[[file]]
+id = "zetasizer-figshare26496859-mixed"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "input"
+tier = "standard"
+filename = "zetasizer-figshare26496859-mixed.dts"
+url = "https://ndownloader.figshare.com/files/52342565"
+sha256 = "f185a1a06873f40f3908df62b4cdbd8ee683098d549be9bd52c544c3447be74b"
+size = 3165696
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer 7.13: 80 size and zeta records of two mixed coatings in one file. Ground truth: the depositor's tab-separated Zetasizer export."
+
+[[file]]
+id = "zetasizer-figshare26496859-mixed"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "oracle-export"
+tier = "standard"
+filename = "zetasizer-figshare26496859-mixed-export.txt"
+url = "https://ndownloader.figshare.com/files/52342271"
+sha256 = "cac9fde04d21d22723746cf07ade953711dabaceafedefc3b85b6d5dafbe71b9"
+size = 8360
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer records table export of AH230613_PAC3Imida_PAC16_und_PAC3Imida_PAC10Phenyl.dts (\"PAC3Imi-PAC16 and PAC10Ph export.txt\"), every record in record order."
+
+[[file]]
+id = "zetasizer-figshare26496859-feox"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "input"
+tier = "standard"
+filename = "zetasizer-figshare26496859-feox.dts"
+url = "https://ndownloader.figshare.com/files/52342418"
+sha256 = "5ec655fe27229f1c780d46b15fcd35da9ed3031e925eecab729c9201ecd09ada"
+size = 1583104
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer 7.13: 40 size and zeta records of uncoated iron oxide particles (pH 5.3 to 8.9). Ground truth: the depositor's tab-separated Zetasizer export (\"unfunc SPIONs export.txt\"; its sample names and times are those of this file)."
+
+[[file]]
+id = "zetasizer-figshare26496859-feox"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "oracle-export"
+tier = "standard"
+filename = "zetasizer-figshare26496859-feox-export.txt"
+url = "https://ndownloader.figshare.com/files/52342277"
+sha256 = "7886e375a43c06948557688a5e2a412f6b10c5ada30fa260c2e78d2d98a51b22"
+size = 3957
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/dataset/26496859 (CC BY 4.0, figshare API), 2026-10-19"
+source = "figshare 26496859 (doi:10.6084/m9.figshare.26496859.v2): Source and measurement data \"Tailorable nanoparticles for magnetic water cleaning of polychlorinated biphenyls (PCBs)\""
+attribution = "Müller, Lukas; Zehetmeier, Anna; Höfling, Anna; Gaß, Henrik; Voß, Johannes et al."
+notes = "Zetasizer records table export of AH230912_FeOx.dts (\"unfunc SPIONs export.txt\"), every record in record order."
+
+[[file]]
+id = "zetasizer-zenodo19044980-bismuth"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "input"
+tier = "standard"
+filename = "zetasizer-zenodo19044980-bismuth.dts"
+url = "https://zenodo.org/api/records/19044980/files/Bizmut_DMSO.dts/content"
+sha256 = "f6b8762c3bbc36eda90c2a86651794794faa499f65cdeab90582c762c97ac84b"
+size = 1288192
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/19044980 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 19044980: Bismuth nanoparticles"
+attribution = "Błaszkiewicz, Paulina"
+notes = "Zetasizer 7.13: size and zeta records of bismuth selenide particles in DMSO. Ground truth: the depositor's Zetasizer export of records 28-30 (zeta) and 34-36 (size), Polish dates, Windows-1250 text."
+
+[[file]]
+id = "zetasizer-zenodo19044980-bismuth"
+format = "malvern-zetasizer-dts"
+family = "particle-sizing"
+role = "oracle-export"
+tier = "standard"
+filename = "zetasizer-zenodo19044980-bismuth-export.txt"
+url = "https://zenodo.org/api/records/19044980/files/exported.txt/content"
+sha256 = "00a2130a4ae15bf95c0b0b1f1755c68002f94d8d3116b4cdecc888c1a5a58e2f"
+size = 994
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/19044980 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 19044980: Bismuth nanoparticles"
+attribution = "Błaszkiewicz, Paulina"
+notes = "Zetasizer records table export (\"exported.txt\") of six records of Bizmut_DMSO.dts, with record numbers."
 
 [[file]]
 id = "zetasizer-zenodo6552819-ps30k"
@@ -82466,6 +82787,54 @@ license_checked = "https://github.com/beabock/nanodRop/blob/d5088583/LICENSE, 20
 source = "beabock/nanodRop (R package) example data inst/extdata/nanodrop_example.tsv, commit d5088583"
 attribution = "Beatrice Bock"
 notes = "NanoDrop One UV-Vis spectrum export: 24 measurement blocks (sample and repeat), 190-850 nm at 0.5 nm, //WLCalib lines. Ground truth: pandas."
+
+[[file]]
+id = "nanodrop-one-utf16-tab-mop"
+format = "nanodrop"
+family = "spectrophotometer"
+role = "input"
+tier = "smoke"
+filename = "nanodrop-one-utf16-tab-mop.csv"
+url = "https://raw.githubusercontent.com/kaiaragaki/mop/bb7f2b7f314783ba8cc92cdc38854deceda2cf6a/inst/extdata/nanodrop.csv"
+sha256 = "d4e12475e50baf8d445bc7ecafea06da9e1169e4ff3180020e6e91ea3750218f"
+size = 3558
+license = "MIT"
+license_checked = "https://github.com/KaiAragaki/mop/blob/bb7f2b7f314783ba8cc92cdc38854deceda2cf6a/DESCRIPTION (MIT + file LICENSE), 2026-10-19"
+source = "GitHub KaiAragaki/mop (R package) example data inst/extdata/nanodrop.csv, commit bb7f2b7f"
+attribution = "Kai Aragaki (mop authors)"
+notes = "NanoDrop One nucleic-acid report saved as UTF-16 LE with tabs (despite the .csv name), 18 samples from 2021, nucleic acid factor 40. Ground truth: allotropy (after the csv module rewrites the fields comma-separated)."
+
+[[file]]
+id = "nanodrop-one-kelps-dna"
+format = "nanodrop"
+family = "spectrophotometer"
+role = "input"
+tier = "smoke"
+filename = "nanodrop-one-kelps-dna.csv"
+url = "https://raw.githubusercontent.com/lukaseamus/kelps-vs-urchins/d6d416b2fc38e1a334ba4bcbda2c9b490413915e/Microbes/DNA/Concentration.csv"
+sha256 = "5f3809568fe421f52ffbdfe004cf11fd5f66aa379974a0bf04c462710ba64a88"
+size = 1610
+license = "GPL-3.0-only"
+license_checked = "https://github.com/lukaseamus/kelps-vs-urchins/blob/d6d416b2fc38e1a334ba4bcbda2c9b490413915e/LICENSE (GPL-3.0, GitHub API), 2026-10-19"
+source = "GitHub lukaseamus/kelps-vs-urchins, Microbes/DNA/Concentration.csv, commit d6d416b2"
+attribution = "Luka Seamus Wright (kelps-vs-urchins)"
+notes = "NanoDrop One nucleic-acid report (comma-separated, UTF-8 BOM, 24-hour times, dates as 01/11/2024 read month first like allotropy), 21 low-concentration microbial DNA extracts with noisy ratios. Ground truth: allotropy."
+
+[[file]]
+id = "nanodrop-one-tab-freezerbox"
+format = "nanodrop"
+family = "spectrophotometer"
+role = "input"
+tier = "smoke"
+filename = "nanodrop-one-tab-freezerbox.tsv"
+url = "https://raw.githubusercontent.com/kalekundert/freezerbox/3339626979a2f9d6acaabea163cef559f060e0c4/tests/mock_nanodrop/nanodrop_one.tsv"
+sha256 = "1c2ee0f3ec4cf1805919bcc9bc85d6c11b991fd80312302816be6f3e54e83147"
+size = 535
+license = "MIT"
+license_checked = "https://github.com/kalekundert/freezerbox/blob/3339626979a2f9d6acaabea163cef559f060e0c4/LICENSE.txt (MIT, GitHub API), 2026-10-19"
+source = "GitHub kalekundert/freezerbox, tests/mock_nanodrop/nanodrop_one.tsv, commit 33396269"
+attribution = "Kale Kundert (freezerbox)"
+notes = "NanoDrop One nucleic-acid report saved tab-separated with quoted titles and year-first dates; a test file whose concentrations look edited (500.000, 400.000), 2 samples. Ground truth: allotropy (after the csv module rewrites the fields comma-separated)."
 
 [[file]]
 id = "incucyte-incucytedrc-mda-mb-468"

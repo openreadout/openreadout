@@ -2,7 +2,8 @@
 """Ground truth for Malvern Zetasizer `.dts` files (`malvern-zetasizer-dts`) from the Zetasizer
 software's own export of the same records, written by the depositor: the tab-separated text
 export (`File > Export`, decimal comma or point, any language) or a spreadsheet copy of the
-records table (`.xlsx`, a header row, an optional units row).
+records table (`.xlsx`, a header row, an optional units row). An export without the `Record`
+column lists every record of the file in record order; its rows are numbered from 1.
 
 Recorded, in `oracle/series_oracle.py`'s table format (`crates/openreadout-corpus-tests/tests/
 series_oracle/mod.rs` compares): per exported record, in record-number order (the export must
@@ -37,6 +38,8 @@ MONTHS = {
     "agosto": 8, "setembro": 9, "outubro": 10, "novembro": 11, "dezembro": 12,
     "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6, "july": 7,
     "august": 8, "september": 9, "october": 10, "november": 11, "december": 12,
+    "januar": 1, "februar": 2, "märz": 3, "mai": 5, "juni": 6, "juli": 7, "oktober": 10,
+    "dezember": 12,
 }
 
 # export column (prefix, case-insensitive) -> our column
@@ -115,12 +118,20 @@ def rows_of(path: Path) -> list[dict]:
             except UnicodeDecodeError:
                 continue
         raw = _csv_rows(text) if path.suffix.lower() == ".csv" else [l.split("\t") for l in text.splitlines()]
-    head =[str(h or "").strip() for h in raw[0]]
+    head = [str(h or "").strip() for h in raw[0]]
     out = []
+    numbered = "Record" in head
     for r in raw[1:]:
-        if not r or num(r[0]) is None or not float(num(r[0])).is_integer():
-            continue  # units row, blank and summary rows
-        out.append({head[i]: r[i] for i in range(min(len(head), len(r)))})
+        if numbered:
+            if not r or num(r[0]) is None or not float(num(r[0])).is_integer():
+                continue  # units row, blank and summary rows
+        elif not r or not str(r[head.index("Sample Name")] if "Sample Name" in head else r[0]).strip():
+            continue  # blank rows
+        row = {head[i]: r[i] for i in range(min(len(head), len(r)))}
+        if not numbered:
+            # an export without the Record column lists every record in record order
+            row["Record"] = len(out) + 1
+        out.append(row)
     return out
 
 

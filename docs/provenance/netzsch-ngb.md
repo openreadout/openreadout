@@ -39,3 +39,20 @@ Paszkiewicz exports, which Proteus resamples at every kelvin and converts to mW/
 sensitivity calibration, the sample temperature and time at the exported points and the DSC
 signal as export × sensitivity × sample mass (the export's sensitivity column), within the
 exports' printed precision.
+
+## 2026-10-19: Proteus version, three more depositors (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `ngb-darus5199-*` (DaRUS doi:10.18419/DARUS-5199, STA 449 F3, Proteus 8.0.2,
+each with its ExpDat text export), `ngb-darus5230-*` (DaRUS doi:10.18419/DARUS-5230, the same
+instrument and operator in another record of the same institute), `ngb-figshare26496859-*`
+(figshare 26496859, TG 209 F1 Libra `.ngb-st9`, Proteus 8.0.1).
+
+**Prior art consulted:** pyNGB 0.6.0 (<https://github.com/GraysonBellamy/pyngb>, MIT), read as
+documentation (`format/extract.py`, `extract_app_license`): the version banner is a stream-1
+string that starts `Version <n>.<n>.<n>`.
+
+**Inferred from the files:** every new file holds one such string field in stream 1 (UTF-16,
+`Version 8.0.2  (10.07.2020) 20192.201`, `Version 8.0.1  (21.08.2019) 19233.3`). The reader takes
+the first string field of stream 1 that matches as the Proteus version
+(`instrument.software_version`) and the whole banner as `application_version` in the vendor tree.
+The assurance profile observes it as the writer version (`NETZSCH Proteus 8.0`), descriptive.
