@@ -307,6 +307,7 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
                 .join(", ")
         ));
     }
+    parsed.format_version = crate::omnic::revision(&top);
     parsed.vendor = json!({
         "records": keys.iter().map(|k| json!({"key": k.key, "offset": k.offset, "length": k.length, "set": k.set, "index": k.index})).collect::<Vec<_>>(),
         "series": {"points": series.points, "spectra": series.count, "title": info.title,

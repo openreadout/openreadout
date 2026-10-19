@@ -12,6 +12,7 @@ Derived from SpectroChemPy's OMNIC reader (CeCILL-B, a BSD-style licence; read a
 | --- | --- | --- |
 | 0 | 18 bytes | `Spectral Data File` |
 | 30 | 256 bytes | title (the spectrum's title; the group's file name in `.spg`) |
+| 290 | u16 | layout revision: 0x209, 0x3c0 or 0x3ca in the corpus (`format_version` `revision 0x3ca`; files with 0x3ca carry key 128; not used for decoding) |
 | 294 | u16 | number of key records |
 | 296 | u32 | timestamp: seconds since 1899-12-31T00:00:00Z (UTC) |
 | 304 | 16 × n | key records: key byte, u32 offset at +2, u32 length at +6, u16 spectrum number at +10 (`.spg`) |

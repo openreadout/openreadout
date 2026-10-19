@@ -61,3 +61,16 @@
 export: every point's x and y, and the facts the CSV repeats); the Cary 60 files have no export
 and are checked for self-consistency only (stored extremes, parameter Start/Stop against the x
 range, the store chain ending at the file's end).
+
+## 2026-10-18 — an independent reader for the Cary 60 files (Richard Zimring with Claude as assistant)
+
+**Corpus files:** the four Zenodo 21041480 files (`cary-pyspecdata-*`: two `.BSW`, one `.DSW`,
+one `.BSK`; Scan 5.0.0.999 and Scanning Kinetics 5.0.0.999).
+
+**Prior art consulted:** pySpecData 0.9.45.16, `pyspecdata.load_files.load_cary`
+(https://github.com/jmfrancklab/pyspecdata, BSD-3-Clause), run as a black box; its source was
+not read.
+
+**What was inferred:** nothing new about the format. pySpecData returns one spectrum per
+spectrum store in file order (12, 2, 8 and 9 spectra) and skips the baseline store. Its
+wavelengths and absorbances are the oracle for these files (`corpus/oracle/series/cary-pyspecdata-*.json`).

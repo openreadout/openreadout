@@ -58,7 +58,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | `heka-patchmaster` | [format note](../../docs/formats/heka-patchmaster.md), [provenance log](../../docs/provenance/heka-patchmaster.md) | high | vendor docs | 10 / 10 | 6 | - |
 | `ced-spike2` | [format note](../../docs/formats/ced-spike2.md), [provenance log](../../docs/provenance/ced-spike2.md) | high | prior art | 24 / 22 | 11 | - |
 | `winwcp` | [format note](../../docs/formats/winwcp.md), [provenance log](../../docs/provenance/winwcp.md) | medium | prior art | 4 / 4 | 3 | - |
-| `tdt-tank` | [format note](../../docs/formats/tdt-tank.md), [provenance log](../../docs/provenance/tdt-tank.md) | low | prior art | 6 / 6 | 1 | - |
+| `tdt-tank` | [format note](../../docs/formats/tdt-tank.md), [provenance log](../../docs/provenance/tdt-tank.md) | high | prior art | 11 / 11 | 6 | - |
 | `axona-dacqusb` | [format note](../../docs/formats/axona-dacqusb.md), [provenance log](../../docs/provenance/axona-dacqusb.md) | low | prior art | 3 / 3 | 1 | - |
 | `mcs-raw` | [format note](../../docs/formats/mcs-raw.md), [provenance log](../../docs/provenance/mcs-raw.md) | low | prior art | 1 / 1 | 1 | - |
 | `open-ephys` | [format note](../../docs/formats/open-ephys.md), [provenance log](../../docs/provenance/open-ephys.md) | high | vendor docs | 18 / 18 | 4 | - |
@@ -205,28 +205,35 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `open-ephys` | layout | `binary` | metadata, tables, traces | 11 | 11 | `oe-bin-neural-and-non-neural-data-mixed`, `oe-bin-v0-4-4-1-with-spikes`, `oe-bin-v0-4-4-1-with-video-tracking` |
 | `open-ephys` | layout | `legacy` | metadata, tables, traces | 7 | 7 | `oe-legacy-rhythmdata-test-nodes`, `oe-legacy-sampledata-1`, `oe-legacy-sampledata-2-multiple-starts` |
 | `open-ephys` | layout | `several sweeps` | descriptive | 2 | 2 | `oe-bin-v0-5-x-two-nodes`, `oe-legacy-sampledata-2-multiple-starts` |
-| `tdt-tank` | field | `experiment.acquisition.started_at` | descriptive | 3 | 3 | `gin-tdt-aep-05`, `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block` |
+| `tdt-tank` | field | `experiment.acquisition.started_at` | descriptive | 8 | 8 | `figshare11828958-pple56s2-block-3`, `figshare26019082-159459-l`, `figshare30742631-k247-recall` |
 | `tdt-tank` | layout | `block` | metadata, tables, traces | 5 | 5 | `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block`, `gin-tdt-epocs-with-offsets-1` |
-| `tdt-tank` | layout | `tank` | metadata, tables, traces | 1 | 1 | `gin-tdt-aep-05` |
-| `tdt-tank` | record | `snippet` | tables | 1 | 1 | `gin-tdt-aep-05` |
-| `tdt-tank` | record | `stream` | traces | 3 | 3 | `gin-tdt-aep-05`, `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block` |
-| `tdt-tank` | record | `strobe` | tables | 4 | 4 | `gin-tdt-aep-05`, `gin-tdt-epocs-with-offsets-1`, `gin-tdt-epocs-with-offsets-2` |
-| `tdt-tank` | record | `strobe-off` | tables | 2 | 2 | `gin-tdt-epocs-with-offsets-1`, `gin-tdt-epocs-with-offsets-2` |
-| `tdt-tank` | sample_layout | `float32` | traces | 2 | 2 | `gin-tdt-dataset-0-single-block`, `gin-tdt-dataset-1-single-block` |
-| `tdt-tank` | sample_layout | `int16` | traces | 1 | 1 | `gin-tdt-aep-05` |
+| `tdt-tank` | layout | `tank` | metadata, tables, traces | 6 | 6 | `figshare11828958-pple56s2-block-3`, `figshare26019082-159459-l`, `figshare30742631-k247-recall` |
+| `tdt-tank` | record | `snippet` | tables | 2 | 2 | `figshare11828958-pple56s2-block-3`, `gin-tdt-aep-05` |
+| `tdt-tank` | record | `stream` | traces | 8 | 8 | `figshare11828958-pple56s2-block-3`, `figshare26019082-159459-l`, `figshare30742631-k247-recall` |
+| `tdt-tank` | record | `strobe` | tables | 9 | 9 | `figshare11828958-pple56s2-block-3`, `figshare26019082-159459-l`, `figshare30742631-k247-recall` |
+| `tdt-tank` | record | `strobe-off` | tables | 5 | 5 | `figshare11828958-pple56s2-block-3`, `gin-tdt-epocs-with-offsets-1`, `gin-tdt-epocs-with-offsets-2` |
+| `tdt-tank` | sample_layout | `float32` | traces | 6 | 6 | `figshare26019082-159459-l`, `figshare30742631-k247-recall`, `gin-tdt-dataset-0-single-block` |
+| `tdt-tank` | sample_layout | `int16` | traces | 2 | 2 | `figshare11828958-pple56s2-block-3`, `gin-tdt-aep-05` |
+| `tdt-tank` | writer_version | `Synapse 39174P` | descriptive | 1 | 1 | `gin-tdt-dataset-0-single-block` |
+| `tdt-tank` | writer_version | `Synapse 41743P` | descriptive | 1 | 1 | `gin-tdt-dataset-1-single-block` |
+| `tdt-tank` | writer_version | `Synapse 44132P` | descriptive | 1 | 1 | `figshare26019082-159459-l` |
+| `tdt-tank` | writer_version | `Synapse 47410P` | descriptive | 1 | 1 | `zenodo7718682-abb07` |
+| `tdt-tank` | writer_version | `Synapse 49313` | descriptive | 1 | 1 | `preshre-ptc-fp-gcamp-b730-ptc-training` |
+| `tdt-tank` | writer_version | `Synapse 50105` | descriptive | 1 | 1 | `figshare30742631-k247-recall` |
 | `winwcp` | field | `experiment.acquisition.started_at` | descriptive | 2 | 2 | `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file` |
 | `winwcp` | format_version | `8` | metadata, traces | 1 | 1 | `winwcp-file-winwcp-1` |
 | `winwcp` | format_version | `9` | metadata, traces | 3 | 3 | `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file`, `winwcp-xarray-graph-example` |
 | `winwcp` | layout | `2 channels` | traces | 4 | 4 | `winwcp-file-winwcp-1`, `winwcp-file-winwcp-2`, `winwcp-myokit-wcp-file` |
 | `winwcp` | writer_version | `V5.3.7` | descriptive | 1 | 1 | `winwcp-file-winwcp-2` |
-| `winwcp` | writer_version | `V5.8.1` | descriptive | 1 | 1 | `winwcp-xarray-graph-example` |
+
+… 1 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_heka`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
-- corpus inputs by tier: full 1, heldout 5, smoke 30, standard 35
+- corpus inputs by tier: full 1, heldout 5, smoke 30, standard 40
 - golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/tdt-tank.jsonl`](../../corpus/snapshots/tdt-tank.jsonl), [`corpus/snapshots/axona-dacqusb.jsonl`](../../corpus/snapshots/axona-dacqusb.jsonl), [`corpus/snapshots/mcs-raw.jsonl`](../../corpus/snapshots/mcs-raw.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
 
 ### Open new-variant intakes

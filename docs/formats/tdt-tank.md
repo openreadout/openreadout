@@ -75,16 +75,25 @@ Text items `NAME=…;TYPE=…;VALUE=…;` (store name, channel count, point coun
 sampling rate…) between binary bytes. They are reported in `vendor_metadata`
 (`store_headers`), not used for decoding (at most `MAX_TBK_BYTES`).
 
+### The `.tin` (`synapse`)
+
+Synapse writes a `.tin` beside the `.tsq`: a zip archive holding `Summary.txt`, the experiment
+(`.synexpz`) and the rig (`.synrig`). `Summary.txt` ends with `Versions:`, one
+`  <component>: <version>` line per software component. The reader keeps the `SynapseAPI` line
+(`41743P`) and reports `format_version` `Synapse 41743P` (`vendor_metadata`:
+`synapse_api_version`). It reads only `Summary.txt`, at most `MAX_SUMMARY_BYTES`. A block without
+a `.tin`, or with one it cannot read, names no writer and is read the same way.
+
 ### Not read
 
 `.sev` files (one per channel of a store that the newer Synapse versions write outside the
-`.tev`), `.Tdx`, `.tin` (a zip archive with a summary) and `.tnt` (notes). A stream store with
+`.tev`), `.Tdx`, the rest of the `.tin` and `.tnt` (notes). A stream store with
 `.sev` files is listed in `unread_stores` and the notes.
 
 ## Mapping (`TdtDataset`)
 
 - Blocks are sorted by start mark (`blocks`: `TdtBlock` with `files`, `index`, `tev_len`,
-  `store_headers`). Times count from the first block's start mark (`origin`; the first time stamp
+  `store_headers`, `synapse`). Times count from the first block's start mark (`origin`; the first time stamp
   when there is no start mark).
 - **Traces** (`traces`: `TdtTrace` with `store`, `channels`, `format`, `chunk_samples`,
   `sample_rate_hz`, `blocks`), one per readable stream store, sorted by store name. Channels are
@@ -155,6 +164,7 @@ misses the stores. `store` and `duration_s` are not compared.
 | `Snippet`, `time`, `store`, `channel`, `sort_code`, `offset`, `bytes` | a snippet record |
 | `Strobe`, `onset_store`, `value`, `off` | a strobe record |
 | `TdtBlock`, `files`, `index`, `tev_len`, `store_headers`, `parse_store_headers`, `MAX_TBK_BYTES` | an opened block |
+| `synapse`, `synapse_version`, `summary_synapse_version`, `MAX_SUMMARY_BYTES`, `synapse_api_version` | the Synapse version from the `.tin` |
 | `TdtTrace`, `blocks`, `BlockStream`, `chunks`, `indexed_chunks`, `start_s`, `MAX_TDT_READ_VALUES` | traces |
 | `traces`, `unread_stores`, `origin`, `snippet_width`, `epoc_stores`, `epocs`, `unpaired_offsets` | the dataset |
 | `EpocRow`, `time_s`, `block`, `duration_s` | an `epocs` row |

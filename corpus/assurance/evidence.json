@@ -7504,9 +7504,12 @@
       "id": "cary-pyspecdata-200703-ellman-before-sl",
       "format": "agilent-cary",
       "source": "zenodo:21041480",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
       "features": [
         [
           "writer",
@@ -7564,9 +7567,12 @@
       "id": "cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal",
       "format": "agilent-cary",
       "source": "zenodo:21041480",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
       "features": [
         [
           "writer",
@@ -7631,9 +7637,12 @@
       "id": "cary-pyspecdata-pure-t177r1a-pr-210615",
       "format": "agilent-cary",
       "source": "zenodo:21041480",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
       "features": [
         [
           "writer",
@@ -7698,9 +7707,12 @@
       "id": "cary-pyspecdata-ras-stability4",
       "format": "agilent-cary",
       "source": "zenodo:21041480",
-      "oracle": "none",
-      "independent": false,
-      "compared": [],
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
       "assumed": [
         "traces[].extra.axis.unit"
       ],
@@ -146477,7 +146489,7 @@
       "format": "shimadzu-uvprobe",
       "source": "figshare 29858651 'tailored nanosized agins<sub>2</sub>-zns heterostructures via substituted thioureas",
       "oracle": "pass",
-      "independent": false,
+      "independent": true,
       "compared": [
         "metadata",
         "traces"
@@ -146504,6 +146516,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
         ],
         [
           "field",
@@ -146526,7 +146543,7 @@
       "format": "shimadzu-uvprobe",
       "source": "figshare 29858651 'tailored nanosized agins<sub>2</sub>-zns heterostructures via substituted thioureas",
       "oracle": "pass",
-      "independent": false,
+      "independent": true,
       "compared": [
         "metadata",
         "traces"
@@ -146553,6 +146570,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
         ],
         [
           "field",
@@ -146575,7 +146597,7 @@
       "format": "shimadzu-uvprobe",
       "source": "figshare 29858651 'tailored nanosized agins<sub>2</sub>-zns heterostructures via substituted thioureas",
       "oracle": "pass",
-      "independent": false,
+      "independent": true,
       "compared": [
         "metadata",
         "traces"
@@ -146602,6 +146624,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
         ],
         [
           "field",
@@ -146653,6 +146680,11 @@
           ]
         ],
         [
+          "writer_version",
+          "UVProbe 2.71",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -146669,11 +146701,11 @@
       ]
     },
     {
-      "id": "figshare31645174-uvprobe-usl19-69",
+      "id": "figshare31645174-uvprobe-usl17-17",
       "format": "shimadzu-uvprobe",
       "source": "figshare 31645174 'design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'",
       "oracle": "pass",
-      "independent": false,
+      "independent": true,
       "compared": [
         "metadata",
         "traces"
@@ -146700,6 +146732,590 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare31645174-uvprobe-usl19-69",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 31645174 'design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare31645174-uvprobe-usl19-69b",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 31645174 'design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare31645174-uvprobe-usl19-69c",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 31645174 'design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare31645174-uvprobe-usl19-69d",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 31645174 'design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "figshare33102008-uvprobe-film-usl19-67a",
+      "format": "shimadzu-uvprobe",
+      "source": "figshare 33102008 'donor-controlled photophysics in divinyl-functionalized phenanthroimidazole emitters'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.43",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-cheminfo-spc-parser-uvprobe-ole",
+      "format": "shimadzu-uvprobe",
+      "source": "github:cheminfo/spc-parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.62",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-sukritranjan-sulfite-kinetics-release-uvprobe-blank",
+      "format": "shimadzu-uvprobe",
+      "source": "github:sukritranjan/sulfite-kinetics-release",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.70",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-sukritranjan-sulfite-kinetics-release-uvprobe-ph7-1",
+      "format": "shimadzu-uvprobe",
+      "source": "github:sukritranjan/sulfite-kinetics-release",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.70",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "gh-tillbiskup-uvvispy-uvprobe-sa281-02-280k",
+      "format": "shimadzu-uvprobe",
+      "source": "github:tillbiskup/uvvispy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo13884418-uvprobe-ni-f-uv",
+      "format": "shimadzu-uvprobe",
+      "source": "zenodo:13884418",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.50",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "zenodo13884418-uvprobe-ni-f-wo3-au-uv",
+      "format": "shimadzu-uvprobe",
+      "source": "zenodo:13884418",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "file format 0x120",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "UV/VIS SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "value code 2",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "UVProbe 2.50",
+          []
         ],
         [
           "field",
@@ -150328,6 +150944,192 @@
       ]
     },
     {
+      "id": "figshare11828958-pple56s2-block-3",
+      "format": "tdt-tank",
+      "source": "figshare 11828958 'mld responses in normal reared and cross fostered zebra finches'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "layout",
+          "tank",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "snippet",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe-off",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "figshare26019082-159459-l",
+      "format": "tdt-tank",
+      "source": "figshare 26019082 'example photometry data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "fixed_refuses": [
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Synapse 44132P",
+          []
+        ],
+        [
+          "layout",
+          "tank",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "figshare30742631-k247-recall",
+      "format": "tdt-tank",
+      "source": "figshare 30742631 'ly et al 2025 backwards conditioning dataset'",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Synapse 50105",
+          []
+        ],
+        [
+          "layout",
+          "tank",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
       "id": "gin-tdt-aep-05",
       "format": "tdt-tank",
       "source": "gin:neuralensemble/ephy_testing_data",
@@ -150403,6 +151205,11 @@
       ],
       "features": [
         [
+          "writer_version",
+          "Synapse 39174P",
+          []
+        ],
+        [
           "layout",
           "block",
           [
@@ -150451,6 +151258,11 @@
         "traces"
       ],
       "features": [
+        [
+          "writer_version",
+          "Synapse 41743P",
+          []
+        ],
         [
           "layout",
           "block",
@@ -150599,6 +151411,142 @@
       ]
     },
     {
+      "id": "preshre-ptc-fp-gcamp-b730-ptc-training",
+      "format": "tdt-tank",
+      "source": "github preshre/ptc-fp-gcamp-pipeline",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "fixed_refuses": [
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Synapse 49313",
+          []
+        ],
+        [
+          "layout",
+          "tank",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe-off",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "zenodo7718682-abb07",
+      "format": "tdt-tank",
+      "source": "github:agordonfennell/tidy_lab_tools",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "fixed_refuses": [
+        "tables"
+      ],
+      "features": [
+        [
+          "writer_version",
+          "Synapse 47410P",
+          []
+        ],
+        [
+          "layout",
+          "tank",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "strobe",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "strobe-off",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        9
+      ]
+    },
+    {
       "id": "figshare23797077-plastic-1-1",
       "format": "thermo-omnic",
       "source": "figshare 23797077 'ft-ir raw data from plastic debris at kung wiman beach'",
@@ -150609,6 +151557,11 @@
         "traces"
       ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -150658,6 +151611,11 @@
       "compared": [],
       "features": [
         [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
+        [
           "layout",
           "map, spa layout",
           [
@@ -150689,6 +151647,11 @@
       "independent": false,
       "compared": [],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "map, spa layout",
@@ -150724,6 +151687,11 @@
         "traces"
       ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spg",
@@ -150767,10 +151735,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -150807,10 +151777,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -150847,10 +151819,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spg",
@@ -150887,10 +151861,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -150934,10 +151910,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spg",
@@ -150981,10 +151959,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spg",
@@ -151030,6 +152010,11 @@
       ],
       "features": [
         [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
+        [
           "layout",
           "srs",
           [
@@ -151061,6 +152046,11 @@
         "traces"
       ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "srs",
@@ -151099,6 +152089,11 @@
       ],
       "features": [
         [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
+        [
           "layout",
           "srs",
           [
@@ -151135,6 +152130,11 @@
         "traces"
       ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "srs",
@@ -151175,6 +152175,11 @@
       ],
       "features": [
         [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
+        [
           "layout",
           "srs",
           [
@@ -151212,6 +152217,11 @@
       ],
       "features": [
         [
+          "format_version",
+          "revision 0x3c0",
+          []
+        ],
+        [
           "layout",
           "srs",
           [
@@ -151247,10 +152257,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151301,10 +152313,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151355,10 +152369,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151409,10 +152425,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151463,10 +152481,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151517,10 +152537,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151571,10 +152593,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151625,10 +152649,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151678,6 +152704,11 @@
       "compared": [],
       "features": [
         [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
+        [
           "layout",
           "map, series layout",
           [
@@ -151711,10 +152742,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151765,10 +152798,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151812,10 +152847,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151868,6 +152905,11 @@
       ],
       "features": [
         [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
+        [
           "layout",
           "spa",
           [
@@ -151910,10 +152952,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -151959,6 +153003,11 @@
       ],
       "features": [
         [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
+        [
           "layout",
           "spa",
           [
@@ -152003,6 +153052,11 @@
       ],
       "features": [
         [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
+        [
           "layout",
           "spa",
           [
@@ -152045,10 +153099,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -152099,10 +153155,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x3ca",
+          []
+        ],
         [
           "layout",
           "spa",
@@ -152153,10 +153211,12 @@
         "metadata",
         "traces"
       ],
-      "fields": [
-        "experiment.acquisition.started_at"
-      ],
       "features": [
+        [
+          "format_version",
+          "revision 0x209",
+          []
+        ],
         [
           "layout",
           "spa",

@@ -1,5 +1,5 @@
 //! Readers of sampled-column files (EPR, X-ray diffraction, electrochemistry, thermal analysis,
-//! rheology, particle sizing, Cary UV-Vis) against their ground truth (`oracle/series_oracle.py`), for every
+//! rheology, particle sizing, Cary and UVProbe UV-Vis) against their ground truth (`oracle/series_oracle.py`), for every
 //! entry (development and held-out) through one code path (`tests/corpus/`).
 //!
 //! The oracle lists, per trace, sampled rows `[i, x, y]` taken from an independent source (the
@@ -39,6 +39,7 @@ pub const FORMATS: &[&str] = &[
     "rigaku-ras",
     "rigaku-rasx",
     "agilent-cary",
+    "shimadzu-uvprobe",
 ];
 
 /// The outputs the comparison covers for a format (assurance evidence).
@@ -56,7 +57,8 @@ pub fn scopes(format: &str) -> Vec<&'static str> {
         | "netzsch-ngb"
         | "ta-universal-analysis"
         | "ta-trios"
-        | "agilent-cary" => {
+        | "agilent-cary"
+        | "shimadzu-uvprobe" => {
             vec!["metadata", "traces"]
         }
         "malvern-zetasizer-dts" => vec!["metadata", "tables"],
@@ -85,6 +87,7 @@ fn open(format: &str, path: &Path) -> Result<Box<dyn Dataset>, String> {
         "rigaku-ras" => Box::new(openreadout_xrd::RasReader),
         "rigaku-rasx" => Box::new(openreadout_xrd::RasxReader),
         "agilent-cary" => Box::new(openreadout_spectro::CaryReader),
+        "shimadzu-uvprobe" => Box::new(openreadout_spectro::UvProbeReader),
         other => return Err(format!("no reader for {other}")),
     };
     r.open(path).map_err(|e| format!("open failed: {e}"))

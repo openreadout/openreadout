@@ -1,0 +1,109 @@
+{
+ "id": "figshare11828958-pple56s2-block-3",
+ "file": "pple56s2",
+ "size": 1557250,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 TdtRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "name": "PD__",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PD__ 1"
+   ],
+   "sample_rate_hz": 1525.87890625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 109568,
+     "channels": [
+      {
+       "xxh3": "527587a8cea94b2d23fc865aa3d3fb8f",
+       "first": [
+        1095.0,
+        -1842.0,
+        1953.0,
+        -1496.0,
+        1528.0,
+        -1260.0,
+        1529.0,
+        -1614.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 4352,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "time_s",
+      "block",
+      "channel",
+      "sort_code",
+      "w0",
+      "w1",
+      "w2",
+      "w3",
+      "w4",
+      "w5",
+      "w6",
+      "w7",
+      "w8",
+      "w9",
+      "w10",
+      "w11",
+      "w12",
+      "w13",
+      "w14",
+      "w15",
+      "w16",
+      "w17",
+      "w18",
+      "w19",
+      "w20",
+      "w21",
+      "w22",
+      "w23",
+      "w24",
+      "w25",
+      "w26",
+      "w27",
+      "w28",
+      "w29"
+     ],
+     "count": 4352,
+     "xxh3": "73bc7407ad3fe52e977974e415016acf"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "event_count": 102,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "time_s",
+      "block",
+      "value"
+     ],
+     "count": 102,
+     "xxh3": "7f989c4f03e10a98d334a772769e8b6f"
+    }
+   ]
+  }
+ ]
+}

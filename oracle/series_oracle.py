@@ -111,7 +111,10 @@ def export_trace(path: Path, a: dict) -> dict:
         "sweep": int(a.get("sweep", 0)),
         "channel": a.get("channel", "intensity"),
         "n": len(ys) if not a.get("no_count") else None,
-        "samples": [[i, None if xs[i] is None else xs[i] * xm, ys[i] * ym] for i in idx],
+        # `--by-x`: rows carry no index and are matched by their x (an export that lists the
+        # points in the other order, as UVProbe's does)
+        "samples": [[None if a.get("by_x") else i, None if xs[i] is None else xs[i] * xm, ys[i] * ym]
+                    for i in idx],
         "x_tol": float(a.get("x_tol", 1e-6)),
         "y_tol_rel": float(a.get("y_tol_rel", 1e-6)),
         "y_tol_abs": float(a.get("y_tol_abs", 0.0)),
@@ -651,6 +654,28 @@ def neware_reader_traces(path: Path) -> list[dict]:
     return out
 
 
+def uvprobe_stream_traces(path: Path, a: dict) -> list[dict]:
+    """Shimadzu UVProbe `.spc`: the `X Data.1` and `Y Data.1` float64 arrays of each data set,
+    read from the compound file with olefile (BSD-2-Clause, black box). The stream layout is our
+    format note's, so this is a second implementation (use with `--second-implementation`); the
+    depositor's UVProbe text export (`--export ... --by-x`) is the independent check."""
+    import olefile
+    import numpy as np
+    o = olefile.OleFileIO(str(path))
+    out = []
+    n = 1
+    while o.exists(f"DataStorage1/DataSetGroup/DataSet{n}/DataSpectrumStorage/Data/X Data.1"):
+        d = f"DataStorage1/DataSetGroup/DataSet{n}/DataSpectrumStorage/Data/"
+        x = np.frombuffer(o.openstream(d + "X Data.1").read(), "<f8")
+        y = np.frombuffer(o.openstream(d + "Y Data.1").read(), "<f8")
+        out.append({"trace": n - 1, "sweep": 0, "channel": a.get("channel", "absorbance"), "n": int(len(y)),
+                    "samples": [[i, float(x[i]), float(y[i])] for i in pick(len(y))],
+                    "x_tol": 0.0, "y_tol_rel": 0.0, "y_tol_abs": 0.0,
+                    "source": "UVProbe X/Y Data streams read with olefile"})
+        n += 1
+    return out
+
+
 def main() -> None:
     args = sys.argv[1:]
     out_dir = OUT
@@ -669,6 +694,7 @@ def main() -> None:
     ngbs: list[dict] = []
     tas: list[tuple[Path, dict]] = []
     trios: list[tuple[Path, dict]] = []
+    uvs: dict | None = None
     cur: dict | None = None
     i = 0
     while i < len(args):
@@ -729,7 +755,9 @@ def main() -> None:
             if tol:
                 f["tol_rel"] = float(tol)
             facts.append(f); i += 2
-        elif k in ("--decimal-comma", "--no-count", "--optional", "--time-total"):
+        elif k == "--uvprobe-streams":
+            cur = {}; uvs = cur; i += 1
+        elif k in ("--decimal-comma", "--no-count", "--optional", "--time-total", "--by-x"):
             assert cur is not None
             cur[k[2:].replace("-", "_")] = True; i += 1
         elif k.startswith("--"):
@@ -768,6 +796,8 @@ def main() -> None:
             facts += nf
         if nwr:
             traces += neware_reader_traces(target)
+        if uvs is not None:
+            traces += uvprobe_stream_traces(target, uvs)
         for g in galv:
             # labels EC-Lab's export shares with galvani: required
             exp = next((Path(m["file"]) for m in mpts), target if str(target).lower().endswith((".mpt", ".txt")) else None)

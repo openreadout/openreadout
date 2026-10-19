@@ -1,0 +1,123 @@
+{
+ "id": "preshre-ptc-fp-gcamp-b730-ptc-training",
+ "file": "MonoFP_LBank_GCaMP_singletone-250203-160434",
+ "size": 23533588,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 TdtRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "name": "405A",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "405A 1"
+   ],
+   "sample_rate_hz": 1017.2526245117188,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 658816,
+     "channels": [
+      {
+       "xxh3": "627163860f284838daf0b5a268a2768f",
+       "first": [
+        0.48495274782180786,
+        0.49757421016693115,
+        0.5099158883094788,
+        0.5219618678092957,
+        0.5336960554122925,
+        0.5451036095619202,
+        0.5561700463294983,
+        0.5668815970420837
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "465A",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "465A 1"
+   ],
+   "sample_rate_hz": 1017.2526245117188,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 658816,
+     "channels": [
+      {
+       "xxh3": "80cb16e8b435ce10e54f7bfb8836a20d",
+       "first": [
+        0.08812320977449417,
+        0.08870138227939606,
+        0.08930006623268127,
+        0.08991734683513641,
+        0.09055173397064209,
+        0.09120208770036697,
+        0.09186766296625137,
+        0.09254810214042664
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Fi1r",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Fi1r 1"
+   ],
+   "sample_rate_hz": 6103.515625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3953152,
+     "channels": [
+      {
+       "xxh3": "6f1950bbf9b991a33dec99d71a1c3d16",
+       "first": [
+        0.0009155413135886192,
+        -0.009460598230361938,
+        -0.0012207264080643654,
+        0.009765774011611938,
+        -0.0024414481595158577,
+        -0.005188072100281715,
+        -0.003051809035241604,
+        -0.00030518509447574615
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 7137,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "time_s",
+      "block",
+      "value"
+     ],
+     "count": 7137,
+     "xxh3": "88ad3bad34dcc2f1024c06d2a3a19508"
+    }
+   ]
+  }
+ ],
+ "oracle_note": "Neo's .Tbk parse lists 9 of the 7 strobe stores; strobe-on records read with Neo's .tsq record layout"
+}

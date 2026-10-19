@@ -70,6 +70,10 @@ pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
 fn observe_tdt(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        // `Synapse 41743P`, from the `.tin`; the reader does not branch on it
+        o.context(K::WriterVersion, v);
+    }
     if a::note_with(info, "TDT tank").is_some() {
         o.feature(K::Layout, "tank", &all);
     } else {
@@ -497,18 +501,24 @@ const MCS_RAW_VALIDATED: &[Validated] = &[
 // END GENERATED mcs-raw
 
 // BEGIN GENERATED tdt-tank (cargo xtask assurance-audit --write; do not edit)
-const TDT_TANK_CONFIDENCE: Confidence = Confidence::Low;
+const TDT_TANK_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const TDT_TANK_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 3),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 8),
     a::row(K::Layout, "block", 5, 1, 5),
-    a::row(K::Layout, "tank", 1, 1, 1),
-    a::row(K::Record, "snippet", 1, 1, 1),
-    a::row(K::Record, "stream", 3, 1, 3),
-    a::row(K::Record, "strobe", 4, 1, 4),
-    a::row(K::Record, "strobe-off", 2, 1, 2),
-    a::row(K::SampleLayout, "float32", 2, 1, 2),
-    a::row(K::SampleLayout, "int16", 1, 1, 1),
+    a::row(K::Layout, "tank", 6, 6, 6),
+    a::row(K::Record, "snippet", 2, 2, 2),
+    a::row(K::Record, "stream", 8, 6, 8),
+    a::row(K::Record, "strobe", 9, 6, 9),
+    a::row(K::Record, "strobe-off", 5, 4, 5),
+    a::row(K::SampleLayout, "float32", 6, 5, 6),
+    a::row(K::SampleLayout, "int16", 2, 2, 2),
+    a::row(K::WriterVersion, "Synapse 39174P", 1, 1, 1),
+    a::row(K::WriterVersion, "Synapse 41743P", 1, 1, 1),
+    a::row(K::WriterVersion, "Synapse 44132P", 1, 1, 1),
+    a::row(K::WriterVersion, "Synapse 47410P", 1, 1, 1),
+    a::row(K::WriterVersion, "Synapse 49313", 1, 1, 1),
+    a::row(K::WriterVersion, "Synapse 50105", 1, 1, 1),
 ];
 // END GENERATED tdt-tank
 

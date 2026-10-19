@@ -895,6 +895,24 @@ impl Dataset for SpectroDataset {
         Ok(self.parsed.vendor.clone())
     }
 
+    /// UVProbe names its own version (`UVProbe 2.43`) only in the experiment facts, which the
+    /// profile does not see.
+    fn assurance_observations(&self) -> openreadout_core::assurance::Observations {
+        let mut o = openreadout_core::assurance::Observations::default();
+        if self.descriptor.id == crate::UVPROBE_FORMAT_ID
+            && let (Some((sw, _)), Some((v, _))) = (
+                &self.parsed.facts.software,
+                &self.parsed.facts.software_version,
+            )
+        {
+            o.context(
+                openreadout_core::assurance::FeatureKind::WriterVersion,
+                format!("{sw} {v}"),
+            );
+        }
+        o
+    }
+
     fn provenance(&self) -> ProvenanceMap {
         self.parsed.provenance.clone()
     }

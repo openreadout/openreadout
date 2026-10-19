@@ -59,3 +59,24 @@ written from real event data by the depositors, as their README says).
 Corpus: none (a CI fuzz input, `crates/openreadout-ephys/tests/fixtures/malformed/bundle-whole_tdt-snippet-size-oom.bin`).
 Prior art: none. The spikes table's width now comes only from snippets that lie wholly in the
 `.tev`, and at most 4096 samples. A damaged record size had declared millions of columns.
+
+## 2026-10-18: the Synapse version from the `.tin`
+
+Corpus: `gin-tdt-dataset-0-single-block` (2018) and `gin-tdt-dataset-1-single-block` (2022).
+Prior art: none; the `.tin` is a plain zip archive, listed with `unzip -l`. The `.tin` of both
+blocks holds `Summary.txt` (the experiment, subject, user, recording paths and start time, then
+`Versions:` with one `  <component>: <version>` line per software component), a `.synexpz`
+experiment and a `.synrig` rig file, the file types of TDT's Synapse. Most components carry the
+same build: `SynapseAPI: 39174P` in 2018 and `SynapseAPI: 41743P` in 2022. The reader reports
+`Synapse <SynapseAPI version>` as the writer and its version (`format_version`). Blocks without a `.tin` (the OpenEx-era `aep_05` and
+the three `epocs_*` blocks) name no writer.
+
+## 2026-10-18: five more depositors
+
+Corpus: `zenodo7718682-abb07` (Zenodo 7718682, Synapse 2022), `figshare11828958-pple56s2-block-3`
+(figshare 11828958, OpenEx with an OpenSorter sort), `figshare30742631-k247-recall` (figshare
+30742631, Synapse, RZ5D, 2023), `figshare26019082-159459-l` (figshare 26019082, Synapse 2022,
+three stream rates), `preshre-ptc-fp-gcamp-b730-ptc-training` (GitHub preshre/ptc-fp-gcamp-pipeline,
+MIT, Synapse 2025). Three of them were deposited without their tank folder; the folder name is
+taken from the block's file names. Prior art: python-neo's `TdtRawIO` (BSD-3-Clause), run as a
+black box for the oracle. Nothing new was inferred: all five read unchanged and match neo.

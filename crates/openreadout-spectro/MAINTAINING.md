@@ -41,16 +41,16 @@ Optical and vibrational spectroscopy, one module per format: Bruker OPUS (`bruke
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-opus` | [format note](../../docs/formats/bruker-opus.md), [provenance log](../../docs/provenance/bruker-opus.md) | high | prior art | 26 / 25 | 12 | 2 / 0 |
-| `thermo-omnic` | [format note](../../docs/formats/thermo-omnic.md), [provenance log](../../docs/provenance/thermo-omnic.md) | medium | prior art | 35 / 32 | 14 | 2 / 0 |
+| `thermo-omnic` | [format note](../../docs/formats/thermo-omnic.md), [provenance log](../../docs/provenance/thermo-omnic.md) | high | prior art | 35 / 32 | 14 | 2 / 0 |
 | `renishaw-wdf` | [format note](../../docs/formats/renishaw-wdf.md), [provenance log](../../docs/provenance/renishaw-wdf.md) | high | prior art | 17 / 17 | 7 | 2 / 0 |
 | `perkinelmer-sp` | [format note](../../docs/formats/perkinelmer-sp.md), [provenance log](../../docs/provenance/perkinelmer-sp.md) | medium | prior art | 16 / 13 | 11 | 1 / 0 |
 | `galactic-spc` | [format note](../../docs/formats/galactic-spc.md), [provenance log](../../docs/provenance/galactic-spc.md) | high | prior art | 13 / 13 | 11 | - |
 | `jasco-jws` | [format note](../../docs/formats/jasco-jws.md), [provenance log](../../docs/provenance/jasco-jws.md) | high | prior art | 28 / 23 | 9 | - |
 | `witec-project` | [format note](../../docs/formats/witec-project.md), [provenance log](../../docs/provenance/witec-project.md) | high | prior art | 14 / 14 | 9 | - |
-| `shimadzu-uvprobe` | [format note](../../docs/formats/shimadzu-uvprobe.md), [provenance log](../../docs/provenance/shimadzu-uvprobe.md) | low | reverse engineered | 5 / 0 | 0 | - |
+| `shimadzu-uvprobe` | [format note](../../docs/formats/shimadzu-uvprobe.md), [provenance log](../../docs/provenance/shimadzu-uvprobe.md) | high | reverse engineered | 16 / 15 | 7 | - |
 | `perkinelmer-fsm` | [format note](../../docs/formats/perkinelmer-fsm.md), [provenance log](../../docs/provenance/perkinelmer-fsm.md) | low | prior art | 2 / 2 | 2 | - |
 | `agilent-fpa` | [format note](../../docs/formats/agilent-fpa.md), [provenance log](../../docs/provenance/agilent-fpa.md) | medium | prior art | 13 / 13 | 2 | - |
-| `agilent-cary` | [format note](../../docs/formats/agilent-cary.md), [provenance log](../../docs/provenance/agilent-cary.md) | medium | reverse engineered | 24 / 20 | 5 | - |
+| `agilent-cary` | [format note](../../docs/formats/agilent-cary.md), [provenance log](../../docs/provenance/agilent-cary.md) | high | reverse engineered | 24 / 24 | 6 | - |
 
 ### Source map
 
@@ -119,6 +119,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature instrument `i` (descriptive)
 - feature writer `"OPUS"` (descriptive)
 - feature writer_version `format!("OPUS {v}")` (descriptive)
+- feature format_version `v` (descriptive)
 - feature writer `s` (descriptive)
 - undecoded "damaged blocks"
 - undecoded "data blocks without a data-status block"
@@ -134,16 +135,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `agilent-cary` | acquisition | `UV/VIS SPECTRUM` | traces | 20 | 24 | `cary-z10873570-antybiotyk`, `cary-z10873570-au`, `cary-z10873570-aunps-peg-pbs-20-iii` |
-| `agilent-cary` | field | `experiment.acquisition.started_at` | descriptive | 20 | 24 | `cary-z10873570-antybiotyk`, `cary-z10873570-au`, `cary-z10873570-aunps-peg-pbs-20-iii` |
-| `agilent-cary` | field | `experiment.instrument.model` | descriptive | 20 | 24 | `cary-z10873570-antybiotyk`, `cary-z10873570-au`, `cary-z10873570-aunps-peg-pbs-20-iii` |
-| `agilent-cary` | layout | `explicit x values` | traces | 0 | 4 |  |
-| `agilent-cary` | record | `baseline store` | traces | 0 | 3 |  |
-| `agilent-cary` | record | `x mode Nanometers` | traces | 20 | 23 | `cary-z10873570-antybiotyk`, `cary-z10873570-au`, `cary-z10873570-aunps-peg-pbs-20-iii` |
-| `agilent-cary` | record | `y mode Abs` | traces | 20 | 24 | `cary-z10873570-antybiotyk`, `cary-z10873570-au`, `cary-z10873570-aunps-peg-pbs-20-iii` |
+| `agilent-cary` | acquisition | `UV/VIS SPECTRUM` | traces | 24 | 24 | `cary-pyspecdata-200703-ellman-before-sl`, `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615` |
+| `agilent-cary` | field | `experiment.acquisition.started_at` | descriptive | 24 | 24 | `cary-pyspecdata-200703-ellman-before-sl`, `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615` |
+| `agilent-cary` | field | `experiment.instrument.model` | descriptive | 24 | 24 | `cary-pyspecdata-200703-ellman-before-sl`, `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615` |
+| `agilent-cary` | layout | `explicit x values` | traces | 4 | 4 | `cary-pyspecdata-200703-ellman-before-sl`, `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615` |
+| `agilent-cary` | record | `baseline store` | traces | 3 | 3 | `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615`, `cary-pyspecdata-ras-stability4` |
+| `agilent-cary` | record | `x mode Nanometers` | traces | 23 | 23 | `cary-pyspecdata-200703-ellman-before-sl`, `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615` |
+| `agilent-cary` | record | `y mode Abs` | traces | 24 | 24 | `cary-pyspecdata-200703-ellman-before-sl`, `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615` |
 | `agilent-cary` | writer | `Scan 3.00(182)` | metadata, traces | 20 | 20 | `cary-z10873570-antybiotyk`, `cary-z10873570-au`, `cary-z10873570-aunps-peg-pbs-20-iii` |
-| `agilent-cary` | writer | `Scan 5.0.0.999` | metadata, traces | 0 | 3 |  |
-| `agilent-cary` | writer | `Scanning Kinetics 5.0.0.999` | metadata, traces | 0 | 1 |  |
+| `agilent-cary` | writer | `Scan 5.0.0.999` | metadata, traces | 3 | 3 | `cary-pyspecdata-200703-ellman-before-sl`, `cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal`, `cary-pyspecdata-pure-t177r1a-pr-210615` |
+| `agilent-cary` | writer | `Scanning Kinetics 5.0.0.999` | metadata, traces | 1 | 1 | `cary-pyspecdata-ras-stability4` |
 | `agilent-fpa` | acquisition | `INFRARED INTERFEROGRAM` | traces | 6 | 6 | `agilentformat-4-noimage-agg256-seq`, `agilentformat-5-mosaic-agg1024-0000-0001-drd`, `agilentformat-background-agg1024-seq` |
 | `agilent-fpa` | acquisition | `INFRARED SPECTRUM` | traces | 7 | 7 | `agilentformat-4-noimage-agg256-dat`, `agilentformat-5-mosaic-agg1024-0000-0000-dmd`, `agilentformat-5-mosaic-agg1024-dms` |
 | `agilent-fpa` | acquisition | `y Absorbance` | traces | 9 | 9 | `agilentformat-4-noimage-agg256-dat`, `agilentformat-4-noimage-agg256-seq`, `agilentformat-5-mosaic-agg1024-0000-0000-dmd` |
@@ -215,14 +216,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `galactic-spc` | writer | `WITec` | descriptive | 1 | 1 | `figshare29990276-pbio-raman-spc` |
 | `jasco-jws` | acquisition | `CIRCULAR DICHROISM SPECTRUM` | traces | 6 | 6 | `figshare13601282-dk-cd`, `jws-jws2txt-001hg`, `jws-jws2txt-bgr` |
 
-… 104 more values: the generated table in `src/assurance.rs` has all of them.
+… 112 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/cary_synthetic.rs`](tests/cary_synthetic.rs), [`tests/jasco_synthetic.rs`](tests/jasco_synthetic.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 5 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_agilent_fpa`, `whole_cary`, `whole_fsm`, `whole_jws`, `whole_omnic`, `whole_opus`, `whole_pesp`, `whole_spc`, `whole_uvprobe`, `whole_wdf`, `whole_witec`
-- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 51
+- corpus inputs by tier: full 1, heldout 27, hold 11, smoke 130, standard 62
 - golden snapshots: [`corpus/snapshots/bruker-opus.jsonl`](../../corpus/snapshots/bruker-opus.jsonl), [`corpus/snapshots/thermo-omnic.jsonl`](../../corpus/snapshots/thermo-omnic.jsonl), [`corpus/snapshots/renishaw-wdf.jsonl`](../../corpus/snapshots/renishaw-wdf.jsonl), [`corpus/snapshots/perkinelmer-sp.jsonl`](../../corpus/snapshots/perkinelmer-sp.jsonl), [`corpus/snapshots/galactic-spc.jsonl`](../../corpus/snapshots/galactic-spc.jsonl), [`corpus/snapshots/jasco-jws.jsonl`](../../corpus/snapshots/jasco-jws.jsonl), [`corpus/snapshots/witec-project.jsonl`](../../corpus/snapshots/witec-project.jsonl), [`corpus/snapshots/shimadzu-uvprobe.jsonl`](../../corpus/snapshots/shimadzu-uvprobe.jsonl), [`corpus/snapshots/perkinelmer-fsm.jsonl`](../../corpus/snapshots/perkinelmer-fsm.jsonl), [`corpus/snapshots/agilent-fpa.jsonl`](../../corpus/snapshots/agilent-fpa.jsonl), [`corpus/snapshots/agilent-cary.jsonl`](../../corpus/snapshots/agilent-cary.jsonl)
 
 ### Open new-variant intakes

@@ -227,6 +227,14 @@ struct Spectrum {
     history: Option<String>,
 }
 
+/// The u16 at offset 290 of the file header (`.spa`, `.spg`, `.srs`, `.map`): 0x209, 0x3c0 or
+/// 0x3ca in the corpus, the same in every file of a record. Files with 0x3ca carry a key-128
+/// record and a longer key-130 record, so the word marks a revision of the layout; the reader
+/// does not branch on it. Reported as `format_version` (`revision 0x3ca`).
+pub(crate) fn revision(head: &[u8]) -> Option<String> {
+    head.u16_at(290).map(|w| format!("revision {w:#x}"))
+}
+
 /// Parse an OMNIC `.spa` or `.spg` file.
 pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed> {
     let head = read_at(f, path, 0, 304, file_len)?;
@@ -784,6 +792,7 @@ pub(crate) fn parse(f: &SourceFile, path: &Path, file_len: u64) -> Result<Parsed
         }
     }
     parsed.facts = facts;
+    parsed.format_version = revision(&head);
     if !is_map {
         parsed.notes.push(if is_group {
             format!("OMNIC group file (.spg) of {} spectra", spectra.len())

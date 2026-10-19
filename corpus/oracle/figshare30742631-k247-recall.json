@@ -1,0 +1,199 @@
+{
+ "id": "figshare30742631-k247-recall",
+ "file": "FiPho-230408",
+ "size": 121126718,
+ "max_planes_hashed": 64,
+ "reader": "neo 0.14.5 TdtRawIO",
+ "traces": [
+  {
+   "index": 0,
+   "name": "405S",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "405S 1"
+   ],
+   "sample_rate_hz": 1017.2526245117188,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1109248,
+     "channels": [
+      {
+       "xxh3": "29da794edae3b790985dbf9d211dbb60",
+       "first": [
+        0.3265284597873688,
+        0.3167342245578766,
+        0.30684250593185425,
+        0.2968735098838806,
+        0.28684914112091064,
+        0.27679306268692017,
+        0.26673075556755066,
+        0.25668972730636597
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "465S",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "465S 1"
+   ],
+   "sample_rate_hz": 1017.2526245117188,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1109248,
+     "channels": [
+      {
+       "xxh3": "7ddb8e26e0b456cd3330df0d35c026a1",
+       "first": [
+        0.3513279855251312,
+        0.3407213091850281,
+        0.33008068799972534,
+        0.31941723823547363,
+        0.30874139070510864,
+        0.2980633080005646,
+        0.28739291429519653,
+        0.27673956751823425
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "Fi1d",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "Fi1d 1",
+    "Fi1d 2"
+   ],
+   "sample_rate_hz": 6103.515625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6656000,
+     "channels": [
+      {
+       "xxh3": "fecdbd393d144ec158988c02738d9d33",
+       "first": [
+        0.0,
+        0.1226620227098465,
+        0.12461388856172562,
+        0.11757082492113113,
+        0.10358544439077377,
+        0.0867336168885231,
+        0.07192665338516235,
+        0.06347984820604324
+       ]
+      },
+      {
+       "xxh3": "5683eb37738b0354fe746c2854b69470",
+       "first": [
+        0.0,
+        0.10951158404350281,
+        0.11495646089315414,
+        0.11940473318099976,
+        0.12264734506607056,
+        0.12453190982341766,
+        0.12496986240148544,
+        0.12394062429666519
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "Fi1r",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Fi1r 1"
+   ],
+   "sample_rate_hz": 6103.515625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6656000,
+     "channels": [
+      {
+       "xxh3": "bef44d8da6ab6a254949e05902a6cc2d",
+       "first": [
+        0.016784923151135445,
+        0.005188067443668842,
+        0.0061036087572574615,
+        0.0015259021893143654,
+        0.0161745622754097,
+        0.003356984816491604,
+        -0.0054932525381445885,
+        0.7605096101760864
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "eS2r",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "eS2r 1"
+   ],
+   "sample_rate_hz": 6103.515625,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6656000,
+     "channels": [
+      {
+       "xxh3": "04e9095daf0cc0d7cf6dda78f9dd5ea2",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 25502,
+   "parameter_names": [],
+   "dtypes": [],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "time_s",
+      "block",
+      "value"
+     ],
+     "count": 25502,
+     "xxh3": "c9f69ad7ec1a679856e8536a3cb41009"
+    }
+   ]
+  }
+ ],
+ "oracle_note": "Neo's .Tbk parse lists 14 of the 2 strobe stores; strobe-on records read with Neo's .tsq record layout"
+}

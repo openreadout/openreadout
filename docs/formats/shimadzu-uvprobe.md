@@ -34,7 +34,7 @@ Texts are UTF-8 when valid, else Latin-1; files written on Chinese-language PCs 
 
 ## Validation
 
-Six development files with UVProbe's own text export (wavelength and value, three decimals): every wavelength equal, every value within half the last printed digit. Two reflectance files from a second depositor (UVProbe 2.71, Chinese-language PC) have no export; their method text names the measuring mode. The oracle (`oracle/spectro.py`, `uvprobe`) reads the same streams with olefile (BSD-2-Clause) as a black box.
+Six development files with UVProbe's own text export (wavelength and value, three decimals): every wavelength equal, every value within half the last printed digit. Two reflectance files from a second depositor (UVProbe 2.71, Chinese-language PC) have no export; their method text names the measuring mode. The corpus test compares every development file that has an export with it (`oracle/series_oracle.py --export ... --by-x`, `corpus/oracle/series/`). A file without one is compared only with the same streams read by olefile (BSD-2-Clause) as a black box (`--uvprobe-streams`), which is not an independent check.
 
 ## Known gaps
 
