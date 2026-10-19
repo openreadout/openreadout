@@ -272,6 +272,8 @@ const ROCHE_LIGHTCYCLER_IXO_VALIDATED: &[Validated] = &[
     a::row(K::Record, "melt", 4, 1, 4),
     a::row(K::Record, "melt derivative", 4, 1, 4),
     a::row(K::Writer, "LightCycler", 10, 2, 10),
+    a::row(K::WriterVersion, "LightCycler 1.5.0", 1, 1, 1),
+    a::row(K::WriterVersion, "LightCycler 1.5.1", 9, 2, 9),
 ];
 // END GENERATED roche-lightcycler-ixo
 
@@ -291,17 +293,17 @@ const ROTOR_GENE_REX_VALIDATED: &[Validated] = &[
 // END GENERATED rotor-gene-rex
 
 // BEGIN GENERATED qpcr-results-export (cargo xtask assurance-audit --write; do not edit)
-const QPCR_RESULTS_EXPORT_CONFIDENCE: Confidence = Confidence::Medium;
+const QPCR_RESULTS_EXPORT_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const QPCR_RESULTS_EXPORT_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "Comparative Cт (ΔΔCт)", 2, 2, 2),
     a::row(K::Acquisition, "Standard Curve", 2, 2, 2),
     a::row(K::Acquisition, "chemistry SYBR_GREEN", 6, 6, 6),
     a::row(K::Acquisition, "chemistry TAQMAN", 1, 1, 1),
-    a::row(K::Codec, "comma-delimited text", 2, 1, 2),
+    a::row(K::Codec, "comma-delimited text", 4, 3, 4),
     a::row(K::Codec, "xls workbook", 7, 6, 7),
     a::row(K::Dialect, "applied-biosystems-export", 7, 6, 7),
-    a::row(K::Dialect, "bio-rad-cfx-export", 2, 1, 2),
+    a::row(K::Dialect, "bio-rad-cfx-export", 4, 3, 4),
     a::row(K::Field, "experiment.instrument.model", 0, 0, 7),
     a::row(K::Instrument, "QuantStudio 12K Flex", 1, 1, 1),
     a::row(K::Instrument, "QuantStudio(TM) 7 Flex System", 1, 1, 1),
@@ -312,5 +314,7 @@ const QPCR_RESULTS_EXPORT_VALIDATED: &[Validated] = &[
     a::row(K::Record, "amplification baseline-corrected", 2, 2, 2),
     a::row(K::Record, "melt", 2, 2, 2),
     a::row(K::Record, "melt derivative", 2, 2, 2),
+    a::row(K::Writer, "Applied Biosystems qPCR software", 7, 6, 7),
+    a::row(K::Writer, "Bio-Rad CFX Manager or CFX Maestro", 4, 3, 4),
 ];
 // END GENERATED qpcr-results-export

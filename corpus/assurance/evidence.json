@@ -137737,6 +137737,11 @@
           ]
         ],
         [
+          "writer",
+          "Applied Biosystems qPCR software",
+          []
+        ],
+        [
           "field",
           "experiment.instrument.model",
           []
@@ -137821,6 +137826,11 @@
           ]
         ],
         [
+          "writer",
+          "Applied Biosystems qPCR software",
+          []
+        ],
+        [
           "field",
           "experiment.instrument.model",
           []
@@ -137877,6 +137887,11 @@
           ]
         ],
         [
+          "writer",
+          "Applied Biosystems qPCR software",
+          []
+        ],
+        [
           "field",
           "experiment.instrument.model",
           []
@@ -137926,6 +137941,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "Applied Biosystems qPCR software",
+          []
         ],
         [
           "field",
@@ -137979,6 +137999,11 @@
           ]
         ],
         [
+          "writer",
+          "Applied Biosystems qPCR software",
+          []
+        ],
+        [
           "field",
           "experiment.instrument.model",
           []
@@ -138028,6 +138053,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "Applied Biosystems qPCR software",
+          []
         ],
         [
           "field",
@@ -138114,6 +138144,11 @@
           ]
         ],
         [
+          "writer",
+          "Applied Biosystems qPCR software",
+          []
+        ],
+        [
           "field",
           "experiment.instrument.model",
           []
@@ -138153,6 +138188,11 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "Bio-Rad CFX Manager or CFX Maestro",
+          []
         ]
       ],
       "inferred": [
@@ -138189,6 +138229,93 @@
             "traces",
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "Bio-Rad CFX Manager or CFX Maestro",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-cfx-horns-epn-screen-plate1",
+      "format": "qpcr-results-export",
+      "source": "github:felixhorns/rna-export-2023",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bio-rad-cfx-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "comma-delimited text",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Bio-Rad CFX Manager or CFX Maestro",
+          []
+        ]
+      ],
+      "inferred": [
+        28,
+        28
+      ]
+    },
+    {
+      "id": "qpcrx-cfx-liulab-chi3l3-retnla",
+      "format": "qpcr-results-export",
+      "source": "github:wendyliulab/hsieh2016pcr",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "dialect",
+          "bio-rad-cfx-export",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "comma-delimited text",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Bio-Rad CFX Manager or CFX Maestro",
+          []
         ]
       ],
       "inferred": [
@@ -140798,6 +140925,11 @@
           []
         ],
         [
+          "writer_version",
+          "LightCycler 1.5.0",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -140871,6 +141003,11 @@
         [
           "derivation",
           "traces[].melt by LightCycler 480 melting-program readings at each acquisition's temperature",
+          []
+        ],
+        [
+          "writer_version",
+          "LightCycler 1.5.1",
           []
         ],
         [
@@ -140950,6 +141087,11 @@
           []
         ],
         [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -141026,6 +141168,11 @@
           []
         ],
         [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -141075,6 +141222,11 @@
           ]
         ],
         [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -141117,6 +141269,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
         ],
         [
           "field",
@@ -141163,6 +141320,11 @@
           ]
         ],
         [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -141205,6 +141367,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
         ],
         [
           "field",
@@ -141251,6 +141418,11 @@
           ]
         ],
         [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
+        ],
+        [
           "field",
           "experiment.acquisition.started_at",
           []
@@ -141293,6 +141465,11 @@
           [
             "traces"
           ]
+        ],
+        [
+          "writer_version",
+          "LightCycler 1.5.1",
+          []
         ],
         [
           "field",
