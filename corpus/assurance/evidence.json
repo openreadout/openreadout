@@ -19030,6 +19030,176 @@
       ]
     },
     {
+      "id": "seq-bam-htslib-scramble-range",
+      "format": "bam",
+      "source": "github:samtools/htslib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer scramble",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.4",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-igv-minimap2-long-cigar",
+      "format": "bam",
+      "source": "github:igvteam/igv.js",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer minimap2",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-igv-revio-hg002",
+      "format": "bam",
+      "source": "github:igvteam/igv.js",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.6",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-igv-tophat-sam10",
+      "format": "bam",
+      "source": "github:igvteam/igv.js",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order sorted",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer TopHat",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.0",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "seq-bam-illumina-paired-sorted",
       "format": "bam",
       "source": "github:nf-core/test-datasets",
@@ -19061,6 +19231,16 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "writer bwa",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.6",
+          []
         ]
       ],
       "inferred": [
@@ -19100,6 +19280,256 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "writer ccs",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-pbcore-blasr-aligned",
+      "format": "bam",
+      "source": "github:pacificbiosciences/pbcore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer update_bam.py",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-pbcore-rs-ccs",
+      "format": "bam",
+      "source": "github:pacificbiosciences/pbcore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order unknown",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer update_bam.py",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-pbcore-sequel-subreads",
+      "format": "bam",
+      "source": "github:pacificbiosciences/pbcore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order unknown",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer bax2bam",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-picard-na12891-markdup",
+      "format": "bam",
+      "source": "github:broadinstitute/picard",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.4",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-picard-unaligned-queryname",
+      "format": "bam",
+      "source": "github:broadinstitute/picard",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order queryname",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
         ]
       ],
       "inferred": [
@@ -77065,6 +77495,112 @@
       ]
     },
     {
+      "id": "seq-fastq-biopython-454-wrapped",
+      "format": "fastq",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression none",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-chopper-ont",
+      "format": "fastq",
+      "source": "github:wdecoster/chopper",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression none",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention nanopore",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-fastcat-dorado-tags",
+      "format": "fastq",
+      "source": "github:epi2me-labs/fastcat",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention nanopore sam tags",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "seq-fastq-illumina-test1",
       "format": "fastq",
       "source": "github:nf-core/test-datasets",
@@ -77121,6 +77657,85 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "title_convention sra",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-seqkit-hiseqx",
+      "format": "fastq",
+      "source": "github:shenwei356/seqkit",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention illumina 1.8+",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-seqkit-ont-pcs109",
+      "format": "fastq",
+      "source": "github:shenwei356/seqkit",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression none",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention nanopore minknow",
+          []
         ]
       ],
       "inferred": [
