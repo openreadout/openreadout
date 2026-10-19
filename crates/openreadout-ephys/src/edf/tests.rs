@@ -223,27 +223,30 @@ fn bdf_24_bit_samples() {
         Sig {
             label: "A1",
             unit: "uV",
-            phys: (-262144.0, 262143.0),
-            dig: (-8388608, 8388607),
+            phys: (-262_144.0, 262_143.0),
+            dig: (-8_388_608, 8_388_607),
             spr: 3,
         },
         Sig {
             label: "Status",
             unit: "Boolean",
-            phys: (-8388608.0, 8388607.0),
-            dig: (-8388608, 8388607),
+            phys: (-8_388_608.0, 8_388_607.0),
+            dig: (-8_388_608, 8_388_607),
             spr: 3,
         },
     ];
-    let records = vec![vec![i24s(&[-8388608, 0, 8388607]), i24s(&[-1, 5, 65536])]];
+    let records = vec![vec![
+        i24s(&[-8_388_608, 0, 8_388_607]),
+        i24s(&[-1, 5, 65536]),
+    ]];
     let bytes = build(true, "24BIT", "1", &sigs, &records);
     let (_d, mut ds) = open(&bytes, "b.bdf");
     let info = ds.info().unwrap();
     assert_eq!(info.format_version.as_deref(), Some("BDF"));
     assert_eq!(info.traces[0].channels[0].dtype, "int24");
     let tr = ds.read_trace(0, 0, 0, 10).unwrap();
-    assert!((tr.channels[0][0] + 262144.0).abs() < 1e-9);
-    assert!((tr.channels[0][2] - 262143.0).abs() < 1e-9);
+    assert!((tr.channels[0][0] + 262_144.0).abs() < 1e-9);
+    assert!((tr.channels[0][2] - 262_143.0).abs() < 1e-9);
     assert_eq!(tr.channels[1], vec![-1.0, 5.0, 65536.0]);
 }
 
