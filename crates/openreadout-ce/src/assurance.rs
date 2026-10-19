@@ -107,33 +107,36 @@ fn observe_chip(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED agilent-bioanalyzer-xml (cargo xtask assurance-audit --write; do not edit)
-const AGILENT_BIOANALYZER_XML_CONFIDENCE: Confidence = Confidence::Low;
+const AGILENT_BIOANALYZER_XML_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const AGILENT_BIOANALYZER_XML_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "DNA 1000", 1, 1, 1),
     a::row(K::Acquisition, "DNA 1000 Series II", 1, 1, 1),
     a::row(K::Acquisition, "Eukaryote Total RNA Nano", 1, 1, 1),
     a::row(K::Acquisition, "High Sensitivity DNA Assay", 1, 1, 1),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 3),
-    a::row(K::Record, "size by point-to-point standard curve", 3, 1, 3),
-    a::row(K::SampleLayout, "sized in bp", 2, 1, 2),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
+    a::row(K::Record, "size by point-to-point standard curve", 4, 2, 5),
+    a::row(K::SampleLayout, "sized in bp", 3, 2, 3),
     a::row(K::SampleLayout, "sized in nt", 1, 1, 1),
     a::row(K::WriterVersion, "B.01.02.SI136", 2, 1, 2),
     a::row(K::WriterVersion, "B.02.07.SI529", 1, 1, 1),
+    a::row(K::WriterVersion, "B.02.08.SI648", 1, 1, 1),
 ];
 // END GENERATED agilent-bioanalyzer-xml
 
 // BEGIN GENERATED agilent-tapestation (cargo xtask assurance-audit --write; do not edit)
-const AGILENT_TAPESTATION_CONFIDENCE: Confidence = Confidence::Low;
+const AGILENT_TAPESTATION_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const AGILENT_TAPESTATION_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "D1000", 1, 1, 1),
     a::row(K::Acquisition, "D1000 High  Sensitivity", 1, 1, 1),
-    a::row(K::Acquisition, "Genomic DNA", 1, 1, 1),
-    a::row(K::Acquisition, "RNA", 1, 1, 1),
-    a::row(K::Field, "experiment.instrument.model", 0, 0, 4),
-    a::row(K::Record, "size by ladder aligned on the markers", 4, 1, 4),
+    a::row(K::Acquisition, "Genomic DNA", 3, 2, 3),
+    a::row(K::Acquisition, "RNA", 2, 2, 2),
+    a::row(K::Field, "experiment.instrument.model", 0, 0, 7),
+    a::row(K::Record, "size by ladder aligned on the markers", 4, 1, 7),
     a::row(K::SampleLayout, "sized in bp", 3, 1, 3),
     a::row(K::SampleLayout, "sized in nt", 1, 1, 1),
-    a::row(K::WriterVersion, "3.2.0.37131", 4, 1, 4),
+    a::row(K::WriterVersion, "2.1.17.8091", 1, 1, 1),
+    a::row(K::WriterVersion, "3.2.0.37131", 6, 2, 6),
 ];
 // END GENERATED agilent-tapestation

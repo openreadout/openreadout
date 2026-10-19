@@ -80335,6 +80335,86 @@ notes = "The electropherogram CSV of agilent-tapestation-hsd1000."
 # NIfTI (nibabel test data, MIT; OpenNeuro, CC0) and Bruker ParaVision (BrukerAPI test data, CC BY 4.0).
 
 [[file]]
+id = "agilent-tapestation-allotropy-rna-plate"
+format = "agilent-tapestation"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-tapestation-allotropy-rna-plate.xml"
+url = "https://raw.githubusercontent.com/Benchling-Open-Source/allotropy/bf24b8bd518dbb482c46371d22b5cce47a3def0e/tests/parsers/agilent_tapestation_analysis/testdata/agilent_tapestation_analysis_example_01.xml"
+sha256 = "78a8e05350352087a627a09b378b276d02bd31a13b7d132c1a5eec02a701c8b3"
+size = 18221
+license = "MIT (allotropy repository); Agilent demo data, redistribution not confirmed"
+license_checked = "GitHub API repos/Benchling-Open-Source/allotropy/license (MIT), 2026-10-19; the run is one of the demo files that ship with Agilent's software, so the hold tier keeps it out of automatic fetches until its redistribution is settled"
+source = "Benchling-Open-Source/allotropy test data (tests/parsers/agilent_tapestation_analysis/testdata), pinned to commit bf24b8bd"
+attribution = "Agilent Technologies (demo run); exported by allotropy contributors"
+notes = "TapeStation RNA ScreenTape (Eukaryotic RNA-Plate-64 demo), XML export of TapeStation Analysis Software 2.1.17 with RINe 5.1.0, no electropherogram CSV. Ground truth: the instrument's peak sizes."
+
+[[file]]
+id = "agilent-tapestation-allotropy-gdna-16"
+format = "agilent-tapestation"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-tapestation-allotropy-gdna-16.xml"
+url = "https://raw.githubusercontent.com/Benchling-Open-Source/allotropy/bf24b8bd518dbb482c46371d22b5cce47a3def0e/tests/parsers/agilent_tapestation_analysis/testdata/agilent_tapestation_analysis_example_02_error.xml"
+sha256 = "5a5593c78b6d0bed7bbf557ebf997bb99d07a12fd59858a71b35885bc174d00d"
+size = 71840
+license = "MIT (allotropy repository); Agilent demo data, redistribution not confirmed"
+license_checked = "GitHub API repos/Benchling-Open-Source/allotropy/license (MIT), 2026-10-19; the run is one of the demo files that ship with Agilent's software, so the hold tier keeps it out of automatic fetches until its redistribution is settled"
+source = "Benchling-Open-Source/allotropy test data (tests/parsers/agilent_tapestation_analysis/testdata), pinned to commit bf24b8bd"
+attribution = "Agilent Technologies (demo run); exported by allotropy contributors"
+notes = "TapeStation Genomic DNA ScreenTape (gDNA-Tubes-16 demo, 16 samples) exported by TapeStation Analysis Software 3.2 in 2020 with an empty Assay element, no electropherogram CSV. Ground truth: the instrument's peak sizes."
+
+[[file]]
+id = "agilent-tapestation-allotropy-gdna-5"
+format = "agilent-tapestation"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-tapestation-allotropy-gdna-5.xml"
+url = "https://raw.githubusercontent.com/Benchling-Open-Source/allotropy/bf24b8bd518dbb482c46371d22b5cce47a3def0e/tests/parsers/agilent_tapestation_analysis/testdata/agilent_tapestation_analysis_example_04.xml"
+sha256 = "832d5af34749490860564bdaa05f8df53a35195990bb77107cb1e04ebc233f42"
+size = 19406
+license = "MIT (allotropy repository); Agilent demo data, redistribution not confirmed"
+license_checked = "GitHub API repos/Benchling-Open-Source/allotropy/license (MIT), 2026-10-19; the run is one of the demo files that ship with Agilent's software, so the hold tier keeps it out of automatic fetches until its redistribution is settled"
+source = "Benchling-Open-Source/allotropy test data (tests/parsers/agilent_tapestation_analysis/testdata), pinned to commit bf24b8bd"
+attribution = "Agilent Technologies (demo run); exported by allotropy contributors"
+notes = "TapeStation Genomic DNA ScreenTape (5 samples of the gDNA-Tubes-16 demo) exported by TapeStation Analysis Software 3.2, with regions, no electropherogram CSV. Ground truth: the instrument's peak sizes."
+
+[[file]]
+id = "agilent-bioanalyzer-wtsi-dna1000"
+format = "agilent-bioanalyzer-xml"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-bioanalyzer-wtsi-dna1000.xml"
+url = "https://raw.githubusercontent.com/wtsi-clarity/wtsi_clarity/7258b5d64944c8afb835706806f2988bd72ea137/src/perl/t/data/isc/agilent/1234567890_A1_A6.xml"
+sha256 = "3641b23360cad0fee290c46b7292eb89bcca71b72671eedf1216a01a0e178efa"
+size = 4982680
+license = "GPL (declared in the repository's src/perl/Build.PL; no licence file)"
+license_checked = "https://github.com/wtsi-clarity/wtsi_clarity/blob/7258b5d64944c8afb835706806f2988bd72ea137/src/perl/Build.PL (license => 'gpl'); the GitHub licence API reports none, 2026-10-19; hold tier until the licence is confirmed"
+source = "wtsi-clarity/wtsi_clarity test data (src/perl/t/data/isc/agilent), pinned to commit 7258b5d6"
+attribution = "Wellcome Sanger Institute (WTSI Clarity LIMS scripts)"
+notes = "2100 Bioanalyzer DNA 1000 Series II chip run in 2014 (12 wells and the ladder, firmware C.01.069), exported by 2100 Expert as XML with signals and peak tables. Ground truth: the instrument's own peak sizes in the file."
+
+[[file]]
+id = "agilent-bioanalyzer-slimarray-rna-2004"
+format = "agilent-bioanalyzer-xml"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-bioanalyzer-slimarray-rna-2004.xml"
+url = "https://raw.githubusercontent.com/systemsbiology/slimarray/995aebaa18334675dffb1d5b36760c4756b1d1d3/spec/fixtures/bioanalyzer_files/2100%20expert_EukaryoteTotal%20RNA%20Nano_DE02000308_2004-07-29_11-23-22.xml"
+sha256 = "82b88a6b3258d840960cbe5e7d4d770390c765dcbe520b59be22adedf0385731"
+size = 6985
+license = "GPL-2.0"
+license_checked = "GitHub API repos/systemsbiology/slimarray/license (GPL-2.0), 2026-10-19; only the data file is used"
+source = "systemsbiology/slimarray test fixtures (spec/fixtures/bioanalyzer_files), pinned to commit 995aebaa"
+attribution = "Institute for Systems Biology (SLIMarray)"
+notes = "2100 Expert XML of a Eukaryote Total RNA Nano chip from 2004 holding results only (concentration, rRNA ratio, RIN per well; no signals). Ground truth: an independent pass over the XML."
+
+[[file]]
 id = "pydicom-ct-small"
 format = "dicom"
 role = "input"

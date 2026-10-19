@@ -7,7 +7,10 @@ Usage:  python chip_oracle.py [--out DIR] --id ID FILE.xml[.gz] [CSV[.gz]]
 
 Recorded per well: the name, the number of signal values, their sum and values at up to 64 evenly
 spaced positions with each position's own coordinate (migration time in s, or run distance in %);
-RIN, RINe and DIN; and every peak that is not a marker: its position and the instrument's size.
+RIN, RINe and DIN; the TapeStation concentration; and every peak that is not a marker: its
+position and the instrument's size. A TapeStation XML without its electropherogram CSV, and a
+Bioanalyzer XML without signals, give no signal: such a well is compared with the reader's samples
+and peaks tables instead of its trace.
 
 Writes `<DIR>/<ID>.json`; `crates/openreadout-corpus-tests/tests/corpus/chip_oracle/mod.rs`
 compares.
@@ -83,15 +86,21 @@ def bioanalyzer(root):
 
 
 def tapestation(root, csv_bytes):
-    text = csv_bytes.decode("latin-1").lstrip("﻿")
-    rows = list(csv.reader(io.StringIO(text)))
-    head = [h.split(":")[0].strip() for h in rows[0]]
-    data = [r for r in rows[1:] if r]
+    """Without the electropherogram CSV (`csv_bytes` None) only the results are recorded."""
+    head, data = [], []
+    if csv_bytes is not None:
+        text = csv_bytes.decode("latin-1").lstrip("﻿")
+        rows = list(csv.reader(io.StringIO(text)))
+        head = [h.split(":")[0].strip() for h in rows[0]]
+        data = [r for r in rows[1:] if r]
     n = len(data)
     wells = []
     for s in root.find("Samples"):
         well = s.findtext("WellNumber")
         w = {"well": well, "name": (s.findtext("Comment") or "").strip()}
+        conc = num(s.findtext("Concentration"))
+        if conc is not None:
+            w["concentration"] = conc
         for k, tag in (("rine", "RNA/RINe"), ("din", "DIN")):
             v = num(s.findtext(tag))
             if v is not None:
@@ -126,7 +135,8 @@ def main(argv):
     if root.tag == "Chipset":
         body, fmt = bioanalyzer(root), "agilent-bioanalyzer-xml"
     else:
-        body, fmt = tapestation(root, read(files[1])), "agilent-tapestation"
+        csv_bytes = read(files[1]) if len(files) > 1 else None
+        body, fmt = tapestation(root, csv_bytes), "agilent-tapestation"
     out = {"id": ident, "format": fmt, "reader": "Python xml.etree, base64, csv (standard library)", **body}
     out_dir.mkdir(parents=True, exist_ok=True)
     oracle_json.write_text(out_dir / f"{ident}.json", json.dumps(out, indent=1, ensure_ascii=False) + "\n")

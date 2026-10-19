@@ -8266,6 +8266,85 @@
       ]
     },
     {
+      "id": "agilent-bioanalyzer-slimarray-rna-2004",
+      "format": "agilent-bioanalyzer-xml",
+      "source": "github:systemsbiology/slimarray",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "record",
+          "size by point-to-point standard curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "agilent-bioanalyzer-wtsi-dna1000",
+      "format": "agilent-bioanalyzer-xml",
+      "source": "github:wtsi-clarity/wtsi_clarity",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in bp",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "DNA 1000",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "B.02.08.SI648",
+          []
+        ],
+        [
+          "record",
+          "size by point-to-point standard curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
       "id": "cary-pyspecdata-200703-ellman-before-sl",
       "format": "agilent-cary",
       "source": "zenodo:21041480",
@@ -13941,6 +14020,132 @@
       ],
       "inferred": [
         2,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-allotropy-gdna-16",
+      "format": "agilent-tapestation",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "Genomic DNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-allotropy-gdna-5",
+      "format": "agilent-tapestation",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "Genomic DNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-allotropy-rna-plate",
+      "format": "agilent-tapestation",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "RNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "2.1.17.8091",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
         2
       ]
     },
