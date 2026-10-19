@@ -251,18 +251,28 @@ const MZXML_VALIDATED: &[Validated] = &[
 // END GENERATED mzxml
 
 // BEGIN GENERATED mzmlb (cargo xtask assurance-audit --write; do not edit)
-const MZMLB_CONFIDENCE: Confidence = Confidence::Medium;
+const MZMLB_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const MZMLB_VALIDATED: &[Validated] = &[
-    a::row(K::Acquisition, "MS1 spectrum", 4, 1, 4),
-    a::row(K::Acquisition, "MSn spectrum", 4, 1, 4),
-    a::row(K::Field, "experiment.acquisition.started_at", 1, 1, 1),
-    a::row(K::FormatVersion, "1.1.0", 4, 1, 4),
-    a::row(K::FormatVersion, "mzMLb 1.0", 4, 1, 4),
-    a::row(K::Instrument, "LTQ FT", 4, 1, 4),
-    a::row(K::Record, "total ion current chromatogram", 4, 1, 4),
-    a::row(K::Writer, "ProteoWizard software", 1, 1, 1),
-    a::row(K::Writer, "Xcalibur", 1, 1, 1),
-    a::row(K::Writer, "python-psims", 3, 0, 3),
+    a::row(K::Acquisition, "MS1 spectrum", 5, 2, 5),
+    a::row(K::Acquisition, "MSn spectrum", 7, 4, 7),
+    a::row(K::Acquisition, "centroid spectrum", 2, 2, 2),
+    a::row(K::Acquisition, "profile spectrum", 1, 1, 1),
+    a::row(K::Acquisition, "total ion current chromatogram", 1, 1, 1),
+    a::row(K::Field, "experiment.acquisition.started_at", 1, 1, 2),
+    a::row(K::FormatVersion, "1.1.0", 7, 4, 7),
+    a::row(K::FormatVersion, "mzMLb 1.0", 6, 3, 6),
+    a::row(K::Instrument, "LCQ Deca", 1, 1, 1),
+    a::row(K::Instrument, "LTQ FT", 5, 2, 5),
+    a::row(K::Record, "basepeak chromatogram", 1, 1, 1),
+    a::row(K::Record, "selected ion current chromatogram", 1, 1, 1),
+    a::row(K::Record, "total ion current chromatogram", 6, 3, 6),
+    a::row(K::Writer, "Bioworks", 1, 1, 1),
+    a::row(K::Writer, "CompassXtract", 1, 1, 1),
+    a::row(K::Writer, "ProteoWizard", 1, 1, 1),
+    a::row(K::Writer, "ProteoWizard software", 2, 2, 2),
+    a::row(K::Writer, "Xcalibur", 2, 2, 2),
+    a::row(K::Writer, "ms_deisotope", 1, 1, 1),
+    a::row(K::Writer, "python-psims", 4, 1, 4),
 ];
 // END GENERATED mzmlb

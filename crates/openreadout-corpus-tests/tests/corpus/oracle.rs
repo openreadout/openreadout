@@ -299,6 +299,12 @@ pub(crate) struct OracleSpectra {
     /// Set from the manifest entry (`window_centre_precursor`).
     #[serde(skip)]
     pub(crate) window_centre_precursor: Option<String>,
+    /// Set from the manifest entry (`export_profile_for_empty_centroids`).
+    #[serde(skip)]
+    pub(crate) export_profile_for_empty_centroids: Option<String>,
+    /// Set from the manifest entry (`export_zero_runs_trimmed`).
+    #[serde(skip)]
+    pub(crate) export_zero_runs_trimmed: Option<String>,
 }
 #[derive(Deserialize)]
 pub(crate) struct OracleScan {
@@ -330,6 +336,13 @@ pub(crate) struct OracleScan {
     pub(crate) mz_bits: Option<u32>,
     pub(crate) xxh3_mz: String,
     pub(crate) xxh3_intensity: String,
+    /// Hashes of the points with non-zero intensity, when the oracle recorded them.
+    #[serde(default)]
+    pub(crate) n_nonzero: Option<usize>,
+    #[serde(default)]
+    pub(crate) xxh3_mz_nonzero: Option<String>,
+    #[serde(default)]
+    pub(crate) xxh3_intensity_nonzero: Option<String>,
     pub(crate) sum_intensity: f64,
     pub(crate) mz_min: Option<f64>,
     pub(crate) mz_max: Option<f64>,

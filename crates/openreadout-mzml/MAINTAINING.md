@@ -41,7 +41,7 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 | `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 131 / 120 | 56 | 3 / 0 |
 | `imzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 12 / 12 | 7 | - |
 | `mzxml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 15 / 14 | 13 | - |
-| `mzmlb` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | medium | open spec | 4 / 4 | 1 | 1 / 0 |
+| `mzmlb` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 7 / 7 | 4 | 1 / 0 |
 
 ### Source map
 
@@ -160,14 +160,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mzml` | record | `flow rate chromatogram` | traces | 4 | 10 | `mtbls4722-1`, `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
 | `mzml` | record | `pressure chromatogram` | traces | 5 | 16 | `mtbls4722-1`, `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
 
-… 49 more values: the generated table in `src/assurance.rs` has all of them.
+… 59 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `mzml_binary`, `whole_imzml`, `whole_mzml_gz`, `whole_mzml`, `whole_mzmlb`, `whole_mzxml`
-- corpus inputs by tier: heldout 12, smoke 22, standard 8
+- corpus inputs by tier: heldout 12, smoke 24, standard 9
 - golden snapshots: [`corpus/snapshots/mzml.jsonl`](../../corpus/snapshots/mzml.jsonl), [`corpus/snapshots/imzml.jsonl`](../../corpus/snapshots/imzml.jsonl), [`corpus/snapshots/mzxml.jsonl`](../../corpus/snapshots/mzxml.jsonl), [`corpus/snapshots/mzmlb.jsonl`](../../corpus/snapshots/mzmlb.jsonl)
 
 ### Open new-variant intakes

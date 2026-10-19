@@ -14,6 +14,9 @@ use super::records::{
 
 /// Most samples a profile may declare.
 pub const MAX_SAMPLES: usize = 64 << 20;
+/// Third coding byte of a profile whose payload is zlib-compressed float32 samples (the packed
+/// delta coding has 6 there).
+pub const ZLIB_CODING: u8 = 9;
 /// First word of a packed profile in every development file.
 pub const PACKED_MARKER: u32 = 0xEE77;
 
@@ -202,6 +205,24 @@ pub fn parse_profile(rec: &[u8]) -> Result<(u32, Vec<f64>)> {
             }
             Ok((id, array_values(rec, hdr, n, 4)?))
         }
+        1 if coding[2] == ZLIB_CODING => {
+            let clen = le_u32(rec, 24).unwrap_or(0) as usize;
+            if hdr + clen != rec.len() {
+                return Err(bad(format!(
+                    "profile block {id}: {clen} compressed bytes do not fill its {} bytes",
+                    rec.len() - hdr
+                )));
+            }
+            let raw = openreadout_codecs::zlib_decode(&rec[hdr..], 4 * MAX_SAMPLES + 4)
+                .map_err(|e| bad(format!("profile block {id}: {e}")))?;
+            if raw.len() % 4 != 0 || raw.len() > 4 * MAX_SAMPLES {
+                return Err(bad(format!(
+                    "profile block {id}: {} inflated bytes are not float32 samples",
+                    raw.len()
+                )));
+            }
+            Ok((id, array_values(&raw, 0, raw.len() / 4, 4)?))
+        }
         1 => {
             let v = decode_packed(&rec[hdr..])?;
             Ok((id, v.into_iter().map(|x| x as f64).collect()))
@@ -212,7 +233,7 @@ pub fn parse_profile(rec: &[u8]) -> Result<(u32, Vec<f64>)> {
                 "profile coding {:02x} {:02x} {:02x} {:02x}",
                 coding[0], coding[1], coding[2], coding[3]
             ),
-            "Only plain float32 profiles and the packed delta coding are known; the centroids are still readable (`spectrum --view centroid`).",
+            "Only float32 profiles (plain or zlib-compressed) and the packed delta coding are known; the centroids are still readable (`spectrum --view centroid`).",
         )),
     }
 }
@@ -367,6 +388,43 @@ mod tests {
             self.put(0, c);
             self.put(1, 1);
         }
+    }
+
+    /// A profile record with coding `02 01 09 00`: a zlib stream (one stored deflate block)
+    /// of float32 samples.
+    #[test]
+    fn zlib_float32_profiles() {
+        let samples = [0.0f32, 21618.143, 0.0, 62095.562];
+        let raw: Vec<u8> = samples.iter().flat_map(|v| v.to_le_bytes()).collect();
+        let (mut sum1, mut sum2) = (1u32, 0u32);
+        for &x in &raw {
+            sum1 = (sum1 + u32::from(x)) % 65521;
+            sum2 = (sum2 + sum1) % 65521;
+        }
+        let mut stream = vec![0x78, 0x01, 0x01];
+        let stored = raw.len() as u16;
+        stream.extend_from_slice(&stored.to_le_bytes());
+        stream.extend_from_slice(&(!stored).to_le_bytes());
+        stream.extend_from_slice(&raw);
+        stream.extend_from_slice(&((sum2 << 16) | sum1).to_be_bytes());
+        let mut rec = Vec::new();
+        rec.extend_from_slice(&((44 + stream.len()) as u32).to_le_bytes());
+        rec.extend_from_slice(&super::super::records::TAG_PROFILE.to_le_bytes());
+        rec.extend_from_slice(&44u32.to_le_bytes());
+        rec.extend_from_slice(&7u32.to_le_bytes());
+        rec.extend_from_slice(&7u32.to_le_bytes());
+        rec.extend_from_slice(&[2, 1, ZLIB_CODING, 0]);
+        rec.extend_from_slice(&(stream.len() as u32).to_le_bytes());
+        rec.resize(44, 0);
+        rec.extend_from_slice(&stream);
+        let (id, values) = parse_profile(&rec).unwrap();
+        assert_eq!(id, 7);
+        let want: Vec<f64> = samples.iter().map(|&x| f64::from(x)).collect();
+        assert_eq!(values, want);
+        // a compressed length that does not fill the record is corrupt
+        let mut short = rec.clone();
+        short[24] = short[24].wrapping_sub(1);
+        assert_eq!(parse_profile(&short).unwrap_err().exit_code(), 4);
     }
 
     #[test]

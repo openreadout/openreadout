@@ -45,7 +45,7 @@ impl FormatReader for BrukerBafReader {
             known_gaps: vec![
                 "No specification: the layout was derived from public files and checked against the depositors' vendor-library conversions".into(),
                 "m/z use the recalibration in Calibrator.ami when the directory holds one, found by scanning that file for a payload like the spectra's (its container is not decoded); without it, the acquisition calibration, which can differ from vendor exports of recalibrated runs by a few ppm".into(),
-                "Calibration kinds other than time of flight 3 and 10 and the FT-ICR form, and profile codings other than plain float32 and the packed delta coding, are refused (exit 6)".into(),
+                "Calibration kinds other than time of flight 3 and 10 and the FT-ICR form, and profile codings other than float32 (plain or zlib-compressed) and the packed delta coding, are refused (exit 6)".into(),
                 "Spectra are returned one by one as stored; vendor converters may combine repeated MS/MS of one precursor".into(),
                 "The third centroid array (read as peak widths), several list records and analysis.baf_xtr are not decoded".into(),
             ],

@@ -70,6 +70,10 @@ struct Entry {
     /// Fraction of reference spectra allowed to have no counterpart (default 0).
     #[serde(default)]
     mz_unmatched_spectra_max: Option<f64>,
+    /// The export holds a scan's profile where the file stores no centroid (see the corpus
+    /// test): such scans are compared with our profile.
+    #[serde(default)]
+    export_profile_for_empty_centroids: Option<String>,
 }
 
 fn root() -> PathBuf {
@@ -366,6 +370,15 @@ fn vendor_readers_match_vendor_calibrated_conversions() {
                         SpectrumView::Primary
                     };
                     let sp = match ours.read_spectrum_view(run, at, view) {
+                        Ok(sp)
+                            if sp.mz.is_empty()
+                                && !theirs.mz.is_empty()
+                                && view == SpectrumView::Centroid
+                                && e.export_profile_for_empty_centroids.is_some() =>
+                        {
+                            ours.read_spectrum_view(run, at, SpectrumView::Primary)
+                                .unwrap_or(sp)
+                        }
                         Ok(sp) => sp,
                         Err(err) => {
                             st.spectra_unmatched += 1;
