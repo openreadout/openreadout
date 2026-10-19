@@ -79,6 +79,7 @@ Patient-identifying values are never printed. `extra.personal_data` lists which 
 | `arrangement` | how frames became Z, T and C (table above) |
 | `files` | files the image is read from |
 | `transfer_syntax` | `{uid, name, lossy}` |
+| `implementation_version` | Implementation Version Name from the file meta group: the software that wrote the file |
 | `lossy_compression` | Lossy Image Compression is `01` |
 | `photometric_interpretation`, `stored_pixel_type`, `bits_stored` | the stored samples |
 | `rescale` | `{slope, intercept, applied}`, `{lut_entries, lut_first_value, lut_bits, applied}` or `{varies, transforms, applied}` |

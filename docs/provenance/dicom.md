@@ -21,3 +21,7 @@ DICOM is an open standard (NEMA PS3), published free of charge at https://dicom.
 - Planes are returned with the modality rescale applied (stored × slope + intercept), so CT values are Hounsfield units. The pixel type is the smallest signed or unsigned integer type that holds the rescaled range of BitsStored when slope and intercept are whole numbers, float32 otherwise. `extra.stored_pixel_type` keeps the stored type.
 - A folder is grouped into images by SeriesInstanceUID, then by frame size and orientation; slices are sorted along the slice normal (ImagePositionPatient · normal), falling back to InstanceNumber. The Z step is the median distance between neighbouring positions.
 - Patient-identifying elements are never printed: `info` lists them under `extra.personal_data` (tag, keyword and kind, no value) and the vendor tree replaces their values with `withheld`.
+
+## 2026-10-18 — the writing software (Richard Zimring with Claude as assistant)
+
+`images[].extra.implementation_version` is the Implementation Version Name (0002,0013) of the file meta group, which PS3.10 §7.1 defines as the name of the implementation that wrote the file. The assurance profile records its name without the version as the writer. Corpus files: the existing pydicom, pydicom-data, OpenSlide and IDC entries. Prior art: none.
