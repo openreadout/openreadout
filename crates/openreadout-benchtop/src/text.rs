@@ -103,6 +103,11 @@ pub(crate) fn datetime(s: &str, month_first: bool) -> Option<(String, bool)> {
         let sep = if date.contains('/') { '/' } else { '.' };
         let f: Vec<&str> = date.split(sep).collect();
         let [a, b, c] = f[..] else { return None };
+        if a.len() == 4 {
+            // year first (`2019/08/06`): always year, month, day
+            let (y, m, d): (i32, u32, u32) = (a.parse().ok()?, b.parse().ok()?, c.parse().ok()?);
+            return finish(y, m, d, false, time, ampm, offset);
+        }
         let (a, b, y): (u32, u32, i32) = (a.parse().ok()?, b.parse().ok()?, c.parse().ok()?);
         let y = if y < 100 { 2000 + y } else { y };
         if sep == '.' || a > 12 {
@@ -115,6 +120,19 @@ pub(crate) fn datetime(s: &str, month_first: bool) -> Option<(String, bool)> {
             (y, b, a, a != b)
         }
     };
+    finish(y, m, d, ambiguous, time, ampm, offset)
+}
+
+/// The ISO text of a date and an optional time of day (`ampm`: `AM`/`PM`; `offset`: `+hh:mm`).
+fn finish(
+    y: i32,
+    m: u32,
+    d: u32,
+    ambiguous: bool,
+    time: Option<&str>,
+    ampm: Option<&str>,
+    offset: Option<String>,
+) -> Option<(String, bool)> {
     if !(1..=12).contains(&m) || !(1..=31).contains(&d) || !(1900..=2200).contains(&y) {
         return None;
     }
@@ -203,6 +221,10 @@ mod tests {
             "2022-12-13T16:41:09"
         );
         assert_eq!(datetime("2023-12-12", true).unwrap().0, "2023-12-12");
+        assert_eq!(
+            datetime("2019/08/06 12:31:14", false).unwrap(),
+            ("2019-08-06T12:31:14".to_string(), false)
+        );
         let (iso, amb) = datetime("04/11/2023 1:06:59 AM", false).unwrap();
         assert_eq!(iso, "2023-11-04T01:06:59");
         assert!(amb);

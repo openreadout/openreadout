@@ -60,3 +60,24 @@
 
 15 files, all pass against allotropy 0.1.147 and pandas: 432 sample values (names,
 concentrations, absorbances, ratios) and 39 spectra.
+
+## 2026-10-19 — tab-separated One reports, three more depositors (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `nanodrop-one-utf16-tab-mop` (GitHub KaiAragaki/mop, MIT),
+`nanodrop-one-kelps-dna` (GitHub lukaseamus/kelps-vs-urchins, GPL-3.0),
+`nanodrop-one-tab-freezerbox` (GitHub kalekundert/freezerbox, MIT).
+
+**Prior art consulted:** none beyond allotropy 0.1.147 (MIT), run as a black box for ground truth.
+
+**Inferred from the files:** the One report is also saved tab-separated: in UTF-16 LE with a BOM
+(mop, named `.csv`), or in UTF-8 with quoted titles and year-first dates `"2019/08/06 12:31:14"`
+(freezerbox). The header row is the same as the comma-separated report's. The reader now finds
+the separator from the header row (`Date`, `Sample Name`, then a nucleic-acid or A260/A280
+column), and reads a date whose first part has four digits as year, month, day. allotropy reads
+the One report only comma-separated, so the oracle rewrites tab-separated fields with Python's
+csv module before handing them over.
+
+**Assurance:** the exports record no software version. Each layout comes from one instrument's
+software, so the profile now names that software as the writer (`NanoDrop 8000 software`,
+`NanoDrop Eight software`, `NanoDrop One software`), as the plate reader does for its export
+kinds.
