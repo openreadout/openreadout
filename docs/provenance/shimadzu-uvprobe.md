@@ -29,3 +29,23 @@ decimal comma (`200,0	6,000`). They list the points from the shortest wavelength
 reverse of the stored order, so the oracle matches rows by wavelength. All 601–661 points of each
 file agree with the export to within half the last printed digit. UVProbe's own version
 (`UVProbe 2.43`, `UVProbe 2.71`, from `DataSetHeaderInfo`) is now observed as the writer version.
+
+## 2026-10-19 — five more depositors (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `zenodo13884418-uvprobe-ni-f-uv`, `zenodo13884418-uvprobe-ni-f-wo3-au-uv`
+(Zenodo 13884418, CC BY 4.0, UV-2600, UVProbe 2.50), `figshare33102008-uvprobe-film-usl19-67a`
+(figshare 33102008, CC BY 4.0, UV-3600 Plus, UVProbe 2.43; the lab of figshare 29858651),
+`gh-sukritranjan-sulfite-kinetics-release-uvprobe-ph7-1` and `-blank` (GitHub
+sukritranjan/sulfite-kinetics-release, MIT with a citation request, UV-1900, UVProbe 2.70),
+`gh-tillbiskup-uvvispy-uvprobe-sa281-02-280k` (GitHub tillbiskup/uvvispy test data,
+BSD-2-Clause, UV-1601PC, UVProbe 2.43), `gh-cheminfo-spc-parser-uvprobe-ole` (GitHub
+cheminfo/spc-parser test data, MIT, UV-2600, UVProbe 2.62). Each has the UVProbe text export
+beside it.
+
+**Prior art consulted:** none; only the test data of uvvispy and spc-parser was used, not
+their code.
+
+**What was inferred:** nothing new about the format; every file reads unchanged and agrees with
+its export. Two scans store 0.2 nm steps (3001 and 1501 points); the Zenodo 13884418 exports
+list only every fifth point, so their rows are matched by wavelength without a count check. The
+sulfite exports print five decimals.

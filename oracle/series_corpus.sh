@@ -235,3 +235,13 @@ for id in figshare31645174-uvprobe-usl19-69 figshare31645174-uvprobe-usl19-69b f
           figshare31645174-uvprobe-usl19-69d figshare31645174-uvprobe-usl17-17; do uvx $id --decimal-comma; done
 $PY series_oracle.py --id figshare30231052-uvprobe-dpvc --format shimadzu-uvprobe $C/figshare30231052-uvprobe-dpvc.spc \
   --uvprobe-streams --channel reflectance --second-implementation
+uvx figshare33102008-uvprobe-film-usl19-67a --decimal-comma
+uvx gh-tillbiskup-uvvispy-uvprobe-sa281-02-280k --decimal-comma
+uvx gh-cheminfo-spc-parser-uvprobe-ole
+# the export holds every fifth stored point (1 nm steps of a 0.2 nm scan)
+uvx zenodo13884418-uvprobe-ni-f-uv --no-count
+uvx zenodo13884418-uvprobe-ni-f-wo3-au-uv --no-count
+# five printed decimals
+for id in gh-sukritranjan-sulfite-kinetics-release-uvprobe-ph7-1 gh-sukritranjan-sulfite-kinetics-release-uvprobe-blank; do
+  uvx $id --y-tol-abs 5.0001e-6
+done
