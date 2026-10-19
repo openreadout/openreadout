@@ -103,15 +103,26 @@ fn parse_token(tok: &str) -> Option<(f64, f64)> {
 }
 
 /// Rows `(x, y, y_half_ulp)` of a two-column text export (comma, tab or space separated;
-/// lines starting with `#` skipped).
+/// lines starting with `#` skipped). In a tab or semicolon separated line a comma is a decimal
+/// comma: UVProbe on a German or French system writes `200,0<TAB>-0,168`.
 fn read_export(p: &Path) -> Vec<(f64, f64, f64)> {
     let text = String::from_utf8_lossy(&std::fs::read(p).unwrap()).to_string();
     text.lines()
         .filter(|l| !l.trim_start().starts_with('#'))
         .filter_map(|l| {
-            let mut it = l.split([',', '\t', ' ', ';']).filter(|s| !s.is_empty());
-            let (x, _) = parse_token(it.next()?)?;
-            let (y, h) = parse_token(it.next()?)?;
+            let tokens: Vec<String> = if l.contains(['\t', ';']) {
+                l.split(['\t', ' ', ';'])
+                    .filter(|s| !s.is_empty())
+                    .map(|s| s.replace(',', "."))
+                    .collect()
+            } else {
+                l.split([',', ' '])
+                    .filter(|s| !s.is_empty())
+                    .map(str::to_owned)
+                    .collect()
+            };
+            let (x, _) = parse_token(tokens.first()?)?;
+            let (y, h) = parse_token(tokens.get(1)?)?;
             Some((x, y, h))
         })
         .collect()
