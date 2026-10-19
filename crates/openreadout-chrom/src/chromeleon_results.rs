@@ -1154,7 +1154,10 @@ mod tests {
         };
         let ((t0, b0), (t1, b1)) = r.baseline_line(&r.peaks[0]).unwrap();
         assert_eq!((t0, t1), (0.022, 0.032));
-        assert!((b0 - 27.54).abs() < 1e-12 && (b1 - 15.81).abs() < 1e-12, "{b0} {b1}");
+        assert!(
+            (b0 - 27.54).abs() < 1e-12 && (b1 - 15.81).abs() < 1e-12,
+            "{b0} {b1}"
+        );
     }
 
     #[test]
