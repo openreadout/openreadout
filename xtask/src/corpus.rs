@@ -720,7 +720,8 @@ fn human(b: u64) -> String {
 fn unzip(archive: &Path, dir: &Path) -> Result<()> {
     let name = archive.to_string_lossy().to_ascii_lowercase();
     // gzip tarballs (sequencer run folders) go straight to tar
-    let tarball = name.ends_with(".tar.gz") || name.ends_with(".tgz");
+    let tarball =
+        name.ends_with(".tar.gz") || Path::new(&name).extension().is_some_and(|e| e == "tgz");
     let ok = !tarball
         && std::process::Command::new("unzip")
             .arg("-o")
