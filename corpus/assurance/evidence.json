@@ -145824,6 +145824,67 @@
       ]
     },
     {
+      "id": "lcd-labpublic-a1",
+      "format": "shimadzu",
+      "source": "github:actolonen/lab_public",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.01",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "SPD-20A",
+          []
+        ],
+        [
+          "layout",
+          "chromatogram in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "RID-10A",
+          []
+        ],
+        [
+          "layout",
+          "status trace in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "vendor peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
       "id": "lcd-streamfind-adc-uv",
       "format": "shimadzu",
       "source": "github:odea-project/streamfind",

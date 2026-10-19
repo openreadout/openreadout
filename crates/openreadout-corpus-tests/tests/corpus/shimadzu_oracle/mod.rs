@@ -16,6 +16,9 @@
 //!   section one of our status traces (by `extra.export_section`, else in order), in the
 //!   export's unit, every value within half a printed unit; every `[Peak Table(<signal>)]` row a
 //!   `vendor_peaks` row of that signal (retention time, area, height);
+//! - a depositor's chromConverter conversion (`chromconverter_table`): each detector's points
+//!   are the stored points of one of our chromatogram traces, and our axis starts at its first
+//!   time;
 //! - for LC-MS data, msconvert's ground-truth slice or a whole export of the run
 //!   (`ms_ground_truth`, written by `oracle/shimadzu_ms_gt.py`): every MRM/SIM spectrum's MS level
 //!   and points (m/z within 0.005, intensities equal), and from a whole export also its time,
@@ -100,6 +103,9 @@ pub fn compare_file(id: &str, path: &Path, oracle: &Value) -> Result<String, Str
     if let Some(tables) = oracle["shimadzu_export"]["peak_tables"].as_object() {
         compare_export_peaks(ds.as_mut(), &info, tables, &mut problems, &mut done);
     }
+    if let Some(table) = oracle["chromconverter_table"].as_array() {
+        compare_chromconverter_table(ds.as_mut(), &info, table, &mut problems, &mut done);
+    }
     if let Some(spectra) = oracle["ms_ground_truth"]["spectra"].as_array() {
         let by_rt = oracle["ms_ground_truth"]["match_by_rt"].as_bool() == Some(true);
         compare_ms_ground_truth(ds.as_mut(), spectra, by_rt, &mut problems, &mut done);
@@ -113,6 +119,74 @@ pub fn compare_file(id: &str, path: &Path, oracle: &Value) -> Result<String, Str
         Ok(done.join("; "))
     } else {
         Err(problems.join("; "))
+    }
+}
+
+/// A depositor's chromConverter table (`chromconverter_table`, written by
+/// `oracle/shimadzu_export.py --chromconverter`): each detector's points must be the stored
+/// points of one of our chromatogram traces (chromConverter prints the stored integers divided
+/// by 1000; ours are the stored integers times `extra.raw_scale`, after the vendor's leading
+/// point), and our axis must start at chromConverter's first time (the channel's start time).
+fn compare_chromconverter_table(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &openreadout_core::FileInfo,
+    table: &[Value],
+    problems: &mut Vec<String>,
+    done: &mut Vec<String>,
+) {
+    for d in table {
+        let name = d["detector"].as_str().unwrap_or_default();
+        let want: Vec<i64> = d["values"]
+            .as_array()
+            .map(|a| {
+                a.iter()
+                    .filter_map(Value::as_f64)
+                    .map(|v| (v * 1000.0).round() as i64)
+                    .collect()
+            })
+            .unwrap_or_default();
+        let first = d["first_min"].as_f64().unwrap_or(f64::NAN);
+        let mut found = None;
+        for t in info.traces.iter().filter(|t| {
+            t.extra.get("detector").and_then(Value::as_str) == Some("chromatogram")
+                && t.extra.get("stored_points").and_then(Value::as_u64) == Some(want.len() as u64)
+        }) {
+            let Some(k) = t.extra.get("raw_scale").and_then(Value::as_f64) else {
+                continue;
+            };
+            let lead = t.sample_count - want.len() as u64;
+            let Ok(tr) = ds.read_trace(t.index, 0, lead, want.len() as u64) else {
+                continue;
+            };
+            let ours: Vec<i64> = tr.channels[0]
+                .iter()
+                .map(|v| (v / k).round() as i64)
+                .collect();
+            if ours == want {
+                found = Some(t);
+                break;
+            }
+        }
+        let Some(t) = found else {
+            problems.push(format!(
+                "chromConverter's {name}: no chromatogram trace holds its {} points",
+                want.len()
+            ));
+            continue;
+        };
+        let ours_first = t.extra["axis"]["first"].as_f64().unwrap_or(f64::NAN);
+        if (ours_first - first).abs() > 1e-9 {
+            problems.push(format!(
+                "{}: axis starts at {ours_first} min, chromConverter's {name} at {first}",
+                t.name.as_deref().unwrap_or_default()
+            ));
+            continue;
+        }
+        done.push(format!(
+            "{} = chromConverter's {name}: {} stored points equal, axis from {first} min",
+            t.name.as_deref().unwrap_or_default(),
+            want.len()
+        ));
     }
 }
 

@@ -2,6 +2,12 @@
 same run (LabSolutions "ASCII conversion"), read with the Python standard library.
 
     python shimadzu_export.py --id ID FILE.lcd EXPORT.txt     -> ../corpus/oracle/shimadzu/<id>.json
+    python shimadzu_export.py --id ID --chromconverter FILE.lcd TABLE.txt
+
+With `--chromconverter`, TABLE.txt is not a LabSolutions export but a depositor's chromConverter
+(GPL-3.0, an independent reader) conversion of the run, a tab-separated table of `Minutes`,
+`Intensity`, `File`, `Detector`: per detector its point count, first and last time and values
+(chromConverter prints the stored integers divided by 1000).
 
 Every `[LC Chromatogram(<detector>)]` section: `# of Points`, `Interval(msec)`, `Start Time(min)`,
 `End Time(min)`, `Intensity Units`, `Intensity Multiplier`, the first values and every value of
@@ -82,15 +88,37 @@ def labsolutions_export(txt: Path) -> dict:
             "shimadzu_export": {"chromatograms": chroms, "peak_tables": tables, "status_traces": status}}
 
 
+def chromconverter_table(txt: Path) -> dict:
+    """A chromConverter table (`Minutes`, `Intensity`, `File`, `Detector`) per detector."""
+    import csv
+
+    rows = list(csv.reader(txt.open(encoding="utf-8"), delimiter="\t"))
+    if [c.strip('"') for c in rows[0][:4]] != ["Minutes", "Intensity", "File", "Detector"]:
+        raise SystemExit(f"{txt}: not a chromConverter table")
+    by: dict[str, list[tuple[float, float]]] = {}
+    for r in rows[1:]:
+        by.setdefault(r[3].strip('"'), []).append((float(r[0]), float(r[1])))
+    return {"reader": "the depositor's chromConverter conversion of the same file (an independent reader, GPL-3.0)",
+            "chromconverter_table": [{"detector": k, "points": len(v), "first_min": v[0][0], "last_min": v[-1][0],
+                                      "values": [x[1] for x in v]} for k, v in by.items()]}
+
+
 def main() -> None:
     args = sys.argv[1:]
+    cc = "--chromconverter" in args
+    if cc:
+        args.remove("--chromconverter")
     if len(args) != 4 or args[0] != "--id":
         raise SystemExit(__doc__)
     fid, lcd, txt = args[1], Path(args[2]), Path(args[3])
     data = {"id": fid, "file": lcd.name, "size": lcd.stat().st_size,
-            "sha256": hashlib.sha256(lcd.read_bytes()).hexdigest(), **labsolutions_export(txt)}
+            "sha256": hashlib.sha256(lcd.read_bytes()).hexdigest(),
+            **(chromconverter_table(txt) if cc else labsolutions_export(txt))}
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / f"{fid}.json").write_text(json.dumps(data, indent=1) + "\n")
+    if cc:
+        print("wrote", f"{fid}.json", f"{len(data['chromconverter_table'])} detectors (chromConverter table)")
+        return
     ex = data["shimadzu_export"]
     print("wrote", f"{fid}.json", f"{len(ex['chromatograms'])} chromatograms, {len(ex['status_traces'])} status traces, {sum(len(v) for v in ex['peak_tables'].values())} peaks (vendor export)")
 

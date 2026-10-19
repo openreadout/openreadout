@@ -24642,6 +24642,37 @@ source = "DataverseNL doi:10.34894/HRKHDQ, file 472361 'GPC_R1-300h.txt'"
 attribution = "Schick, Simon"
 notes = "LabSolutions ASCII export of lcd-dvnl-hrkhdq-r1-300h"
 
+# ---- A LabSolutions run whose UV channels start 600 ms late, with the depositor's chromConverter conversion (finding N-L1 of held-out draw B), added 2026-10-18.
+[[file]]
+id = "lcd-labpublic-a1"
+format = "shimadzu"
+role = "input"
+tier = "standard"
+filename = "shimadzu-labpublic/A1.lcd"
+url = "https://raw.githubusercontent.com/actolonen/Lab_Public/ea9e5ffcb3bb63ba234f65409d1981a743431fb7/Metabolites/HPLC/Analysis/Data/LCD_LabSolutions/A1.lcd"
+sha256 = "860f2e536a2388f2a6e34a7440ae73f9f16e1881a35a0af1502967af48ba1a06"
+size = 1724416
+license = "MIT"
+license_checked = "GitHub API repos/actolonen/Lab_Public/license (MIT), 2026-10-18"
+source = "GitHub actolonen/Lab_Public @ea9e5ff, Metabolites/HPLC/Analysis/Data/LCD_LabSolutions/A1.lcd"
+attribution = "actolonen/Lab_Public contributors"
+notes = "LabSolutions newer layout (LSS Raw Data): an SPD-20A UV detector with two channels (260 and 210 nm, 5,999 stored points each, starting 600 ms after injection) and an RID-10A (6,000 points from 0), 50 min at 500 ms; status logs. The same lab as a held-out record (a separate repository, other runs). Ground truth: the depositor's chromConverter conversion of the file (lcd-labpublic-a1-cc)."
+
+[[file]]
+id = "lcd-labpublic-a1-cc"
+format = "shimadzu"
+role = "oracle-export"
+tier = "standard"
+filename = "shimadzu-labpublic/A1.txt"
+url = "https://raw.githubusercontent.com/actolonen/Lab_Public/ea9e5ffcb3bb63ba234f65409d1981a743431fb7/Metabolites/HPLC/Analysis/Data/ChromConverter/A1.txt"
+sha256 = "573c4e20afa9a90528417f3386cab5076831015d94c8f2d66e2bb3e39e1f6431"
+size = 839576
+license = "MIT"
+license_checked = "GitHub API repos/actolonen/Lab_Public/license (MIT), 2026-10-18"
+source = "GitHub actolonen/Lab_Public @ea9e5ff, Metabolites/HPLC/Analysis/Data/ChromConverter/A1.txt"
+attribution = "actolonen/Lab_Public contributors"
+notes = "chromConverter's conversion of lcd-labpublic-a1 (Minutes, Intensity, File, Detector): three detectors; the UV channels' times start at 0.01 min"
+
 # ---- WiRE map with a LiveTrack Z list named `Z data` (finding N-L2 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
