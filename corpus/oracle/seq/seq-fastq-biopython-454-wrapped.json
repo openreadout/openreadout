@@ -1,0 +1,75 @@
+{
+ "id": "seq-fastq-biopython-454-wrapped",
+ "format": "fastq",
+ "reader": "pysam 0.24.1 (MIT); Biopython 1.88 (BSD-3) counts",
+ "reads": 10,
+ "reads_biopython": 10,
+ "bases": 3665,
+ "length_min": 145,
+ "length_max": 507,
+ "n50": 395,
+ "q30_bases": 2115,
+ "percent_gc": 39.407366380504016,
+ "sampled": [
+  {
+   "i": 0,
+   "length": 395,
+   "mean_quality": 13.929320869099826,
+   "gc_percent": 36.92307692307693
+  },
+  {
+   "i": 1,
+   "length": 145,
+   "mean_quality": 14.279434648204134,
+   "gc_percent": 39.436619718309856
+  },
+  {
+   "i": 2,
+   "length": 382,
+   "mean_quality": 20.625840251921026,
+   "gc_percent": 40.78947368421053
+  },
+  {
+   "i": 3,
+   "length": 381,
+   "mean_quality": 21.79532500953473,
+   "gc_percent": 48.54881266490765
+  },
+  {
+   "i": 4,
+   "length": 507,
+   "mean_quality": 11.547798779051522,
+   "gc_percent": 51.02040816326531
+  },
+  {
+   "i": 5,
+   "length": 258,
+   "mean_quality": 10.518645995862618,
+   "gc_percent": 50.84033613445378
+  },
+  {
+   "i": 6,
+   "length": 453,
+   "mean_quality": 20.90326870559644,
+   "gc_percent": 44.24778761061947
+  },
+  {
+   "i": 7,
+   "length": 411,
+   "mean_quality": 17.92308577836745,
+   "gc_percent": 34.474327628361856
+  },
+  {
+   "i": 8,
+   "length": 309,
+   "mean_quality": 21.815069149826112,
+   "gc_percent": 23.051948051948052
+  },
+  {
+   "i": 9,
+   "length": 424,
+   "mean_quality": 20.21474621395415,
+   "gc_percent": 23.87706855791962
+  }
+ ]
+}

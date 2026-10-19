@@ -38,3 +38,27 @@ counts, lengths and qualities; Biopython (BSD-3) `SeqIO` as a second reading of 
 **Inferred:** nothing beyond the specifications was needed; the files follow them. Illumina
 FASTQ titles of the development file are of the bcl2fastq form
 `<instrument>:<run>:<flowcell>:<lane>:<tile>:<x>:<y> <read>:<filtered>:<control>:<index>`.
+
+## 2026-10-19 — more writers, and who wrote the file (Richard Zimring with Claude as assistant)
+
+**Corpus files added** (GitHub test data; licences in `corpus/manifest.toml`): FASTQ
+`seq-fastq-seqkit-hiseqx`, `seq-fastq-seqkit-ont-pcs109` (shenwei356/seqkit, MIT),
+`seq-fastq-chopper-ont` (wdecoster/chopper, MIT), `seq-fastq-biopython-454-wrapped`
+(biopython/biopython, BSD-3-Clause), `seq-fastq-fastcat-dorado-tags` (epi2me-labs/fastcat, BSD);
+BAM `seq-bam-picard-unaligned-queryname`, `seq-bam-picard-na12891-markdup`
+(broadinstitute/picard, MIT), `seq-bam-igv-revio-hg002`, `seq-bam-igv-tophat-sam10`,
+`seq-bam-igv-minimap2-long-cigar` (igvteam/igv.js, MIT), `seq-bam-pbcore-rs-ccs`,
+`seq-bam-pbcore-sequel-subreads`, `seq-bam-pbcore-blasr-aligned` (PacificBiosciences/pbcore,
+BSD-3-Clause), `seq-bam-htslib-scramble-range` (samtools/htslib, MIT).
+
+**Ground truth:** pysam and Biopython as before (`oracle/seq_oracle.py`).
+
+**Inferred:** the writer of a BAM is the last `@PG` record that no other `@PG` names as its
+previous program (`PP`, SAMv1 § 1.3); `info` reports its `PN`, else its `ID`, as `writer`. FASTQ
+records no writer, but the title lines follow the writing software's convention, seen in these
+files: Illumina 1.8+ (`ST-E00493:56:H33MFALXX:4:1101:23439:1379 1:N:0:NACAACCA`), Illumina before
+1.8 (`HWI-EAS209_0006_FC706VJ:5:58:5894:21141#ATCACG/1`, Cock et al. 2010), PacBio
+(`<movie>/<zmw>/ccs`), Oxford Nanopore read ids with MinKNOW `key=value` comments (`runid=`,
+`read=`, `ch=`, `start_time=`), with SAM tags as tab-separated comments (`qs:f:12.4562`, from a
+BAM converted to FASTQ) or bare, and SRA run accessions (`SRR<run>.<spot>`). `info` reports the
+convention as `title_convention`. Neither changes how records are decoded.

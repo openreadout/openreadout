@@ -1,0 +1,213 @@
+{
+ "id": "seq-bam-pbcore-rs-ccs",
+ "format": "bam",
+ "reader": "pysam 0.24.1 (MIT)",
+ "records": 18,
+ "primary": 18,
+ "mapped": 0,
+ "bases": 85803,
+ "n50": 4958,
+ "sort_order": "unknown",
+ "platform": "PACBIO",
+ "references": 0,
+ "sampled": [
+  {
+   "i": 0,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4485,
+   "mean_quality": 11.280122790160698,
+   "passes": 5,
+   "accuracy": 0.925000011920929
+  },
+  {
+   "i": 1,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 2994,
+   "mean_quality": 10.450663889907077,
+   "passes": 5,
+   "accuracy": 0.9089999794960022
+  },
+  {
+   "i": 2,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 6192,
+   "mean_quality": 13.831236876601928,
+   "passes": 4,
+   "accuracy": 0.9580000042915344
+  },
+  {
+   "i": 3,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 3863,
+   "mean_quality": 13.675627085587687,
+   "passes": 4,
+   "accuracy": 0.9570000171661377
+  },
+  {
+   "i": 4,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 5147,
+   "mean_quality": 12.216594979712859,
+   "passes": 4,
+   "accuracy": 0.9390000104904175
+  },
+  {
+   "i": 5,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4473,
+   "mean_quality": 13.894362266708333,
+   "passes": 4,
+   "accuracy": 0.9589999914169312
+  },
+  {
+   "i": 6,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4414,
+   "mean_quality": 11.869997448971969,
+   "passes": 4,
+   "accuracy": 0.9340000152587891
+  },
+  {
+   "i": 7,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 3691,
+   "mean_quality": 10.26335522809281,
+   "passes": 4,
+   "accuracy": 0.9049999713897705
+  },
+  {
+   "i": 8,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4893,
+   "mean_quality": 13.87244747944645,
+   "passes": 5,
+   "accuracy": 0.9589999914169312
+  },
+  {
+   "i": 9,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 5532,
+   "mean_quality": 11.407091728202328,
+   "passes": 5,
+   "accuracy": 0.9269999861717224
+  },
+  {
+   "i": 10,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 5070,
+   "mean_quality": 13.175775815667897,
+   "passes": 4,
+   "accuracy": 0.9509999752044678
+  },
+  {
+   "i": 11,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4582,
+   "mean_quality": 16.233535824133114,
+   "passes": 5,
+   "accuracy": 0.9760000109672546
+  },
+  {
+   "i": 12,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4312,
+   "mean_quality": 12.19981895647502,
+   "passes": 4,
+   "accuracy": 0.9390000104904175
+  },
+  {
+   "i": 13,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 5251,
+   "mean_quality": 16.3940130897497,
+   "passes": 5,
+   "accuracy": 0.9769999980926514
+  },
+  {
+   "i": 14,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4882,
+   "mean_quality": 17.45068044665875,
+   "passes": 5,
+   "accuracy": 0.9819999933242798
+  },
+  {
+   "i": 15,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 4958,
+   "mean_quality": 10.398287253339777,
+   "passes": 3,
+   "accuracy": 0.9079999923706055
+  },
+  {
+   "i": 16,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 5311,
+   "mean_quality": 15.09152313946531,
+   "passes": 4,
+   "accuracy": 0.968999981880188
+  },
+  {
+   "i": 17,
+   "flag": 4,
+   "mapq": 255,
+   "ref_id": -1,
+   "pos": null,
+   "length": 5753,
+   "mean_quality": 14.354012006809382,
+   "passes": 4,
+   "accuracy": 0.9629999995231628
+  }
+ ]
+}

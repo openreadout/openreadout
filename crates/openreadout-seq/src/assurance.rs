@@ -120,6 +120,17 @@ fn observe_reads(info: &FileInfo) -> Observations {
                 o.feature(kind, format!("{k} {v}"), &[Scope::Tables]);
             }
         }
+        // Who wrote the file: the program at the end of a BAM's @PG chain, or the convention
+        // of a FASTQ's titles. Records are decoded the same way whoever wrote them.
+        for k in ["writer", "title_convention"] {
+            if let Some(v) = a::extra_str(&t.extra, k) {
+                o.feature(K::Writer, format!("{k} {v}"), &[]);
+            }
+        }
+    }
+    // The SAM version of the @HD line: descriptive too, BAM records have kept their layout.
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, format!("SAM {v}"), &[]);
     }
     o
 }
