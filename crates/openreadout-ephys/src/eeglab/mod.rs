@@ -29,6 +29,8 @@ pub const EEGLAB_FORMAT_ID: &str = "eeglab";
 pub const MAX_EEGLAB_READ: u64 = 1 << 24;
 /// Bytes read per `read_trace` call at most (one sample frame is always read).
 pub const MAX_EEGLAB_READ_BYTES: u64 = 64 << 20;
+/// Channels accepted at most.
+pub const MAX_EEGLAB_CHANNELS: u64 = 65_536;
 /// Samples inside a compressed `.set` are inflated into memory once, up to this many bytes.
 pub const MAX_EEGLAB_INFLATED: u64 = 2 << 30;
 
@@ -175,7 +177,10 @@ pub fn read_set(fs: &Fs, set: &Path, mat: MatFile) -> Result<EeglabSet> {
     let channels = required("nbchan")? as u64;
     let points = required("pnts")? as u64;
     let trials = number(get("trials")).unwrap_or(1.0).max(1.0) as u64;
-    if srate.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) || channels == 0 {
+    if srate.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater)
+        || channels == 0
+        || channels > MAX_EEGLAB_CHANNELS
+    {
         return Err(Error::corrupt(
             EEGLAB_FORMAT_ID,
             format!("srate {srate} and nbchan {channels} are not usable"),
@@ -185,7 +190,8 @@ pub fn read_set(fs: &Fs, set: &Path, mat: MatFile) -> Result<EeglabSet> {
     let mut labels = Vec::new();
     let mut types = Vec::new();
     if let Some(c) = get("chanlocs").filter(|c| matches!(c, MatValue::Struct { .. })) {
-        for e in 0..c.len() {
+        // the elements the file holds, not its declared dimensions
+        for e in 0..c.elements() {
             labels.push(text(c.field(e, "labels")));
             types.push(text(c.field(e, "type")));
         }
@@ -275,7 +281,7 @@ pub fn read_set(fs: &Fs, set: &Path, mat: MatFile) -> Result<EeglabSet> {
     };
     let mut events = Vec::new();
     if let Some(ev) = get("event").filter(|c| matches!(c, MatValue::Struct { .. })) {
-        for e in 0..ev.len() {
+        for e in 0..ev.elements() {
             let kind = match ev.field(e, "type") {
                 Some(v @ MatValue::Char { .. }) => text(Some(v)),
                 Some(v) => v.as_f64().map(number_text).unwrap_or_default(),
@@ -296,12 +302,12 @@ pub fn read_set(fs: &Fs, set: &Path, mat: MatFile) -> Result<EeglabSet> {
                 epoch: number(ev.field(e, "epoch")).unwrap_or(0.0),
             });
         }
-        if (events.len() as u64) < ev.len() {
+        if (events.len() as u64) < ev.elements() {
             findings.push(Finding::warning(
                 "event_without_latency",
                 format!(
                     "{} event(s) without a numeric latency were left out",
-                    ev.len() - events.len() as u64
+                    ev.elements() - events.len() as u64
                 ),
             ));
         }

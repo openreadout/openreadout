@@ -905,7 +905,8 @@ impl BrainVisionDataset {
         let block = read_block(self.handle()?, &path, a, b - a, len)?;
         let text = String::from_utf8_lossy(&block.bytes);
         let comma = self.header.decimal_symbol == ',';
-        let mut out = vec![Vec::with_capacity(count as usize); nch];
+        // grown as values are parsed: a line count says nothing about the bytes behind it
+        let mut out = vec![Vec::new(); nch];
         for (k, line) in text.lines().filter(|l| !l.trim().is_empty()).enumerate() {
             let fields: Vec<&str> = if comma {
                 line.split([' ', '\t', ';'])

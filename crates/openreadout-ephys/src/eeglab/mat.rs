@@ -17,6 +17,8 @@ use super::EEGLAB_FORMAT_ID;
 pub const MAT_HEADER_LEN: u64 = 128;
 /// Numeric arrays of at most this many bytes are read when the file is parsed.
 pub const MAX_MAT_INLINE: u64 = 4 << 20;
+/// Bytes of one character array read at most.
+pub const MAX_MAT_TEXT: u64 = 64 << 20;
 /// Nesting depth of cells and structs accepted at most.
 pub const MAX_MAT_DEPTH: usize = 32;
 /// Arrays (every cell, struct field and number array counts) accepted at most per file.
@@ -138,7 +140,25 @@ impl MatValue {
             | MatValue::Struct { dims, .. } => dims,
             MatValue::Other { .. } => return 0,
         };
-        dims.iter().product()
+        dims.iter().fold(1u64, |a, &d| a.saturating_mul(d))
+    }
+    /// Number of elements actually stored: a struct's or cell's values, a numeric array's read
+    /// or located values, a character array's characters. Unlike [`MatValue::len`], which
+    /// multiplies the declared dimensions, it cannot exceed what the file holds.
+    pub fn elements(&self) -> u64 {
+        match self {
+            MatValue::Struct { fields, values, .. } => {
+                if fields.is_empty() {
+                    0
+                } else {
+                    (values.len() / fields.len()) as u64
+                }
+            }
+            MatValue::Cell { items, .. } => items.len() as u64,
+            MatValue::Numeric { data, .. } => data.count,
+            MatValue::Char { text, .. } => text.chars().count() as u64,
+            MatValue::Other { .. } => 0,
+        }
     }
     /// True when the array has no elements.
     pub fn is_empty(&self) -> bool {
@@ -371,8 +391,7 @@ impl Parser {
                 format!("an element of {} bytes is too large here", t.len),
             ));
         }
-        let mut v = vec![0u8; t.len as usize];
-        s.read_into(&mut v)?;
+        let v = read_vec(s, t.len)?;
         s.skip(pad(t.len))?;
         Ok(v)
     }
@@ -566,9 +585,12 @@ impl Parser {
             }
             4 => {
                 let t = self.tag(s)?;
-                let b = self.data(s, &t, 64 << 20)?;
+                let b = self.data(s, &t, MAX_MAT_TEXT)?;
                 let chars = self.text(t.ty, &b);
-                let rows = dims.first().copied().unwrap_or(1).max(1) as usize;
+                // rows only as many as the characters stored allow (a declared row count is not trusted)
+                let rows = usize::try_from(dims.first().copied().unwrap_or(1))
+                    .unwrap_or(1)
+                    .clamp(1, chars.len().max(1));
                 let text = if rows == 1 {
                     chars.into_iter().collect()
                 } else {
@@ -655,6 +677,22 @@ impl Parser {
         let (_, v) = self.matrix(s, t.len, depth + 1)?;
         Ok(v)
     }
+}
+
+/// Read `n` bytes, growing the buffer as bytes arrive, so a byte count from the file cannot
+/// reserve memory the file does not hold.
+fn read_vec(s: &mut dyn Stream, n: u64) -> Result<Vec<u8>> {
+    const STEP: u64 = 1 << 20;
+    let mut v = Vec::with_capacity(n.min(STEP) as usize);
+    let mut left = n;
+    while left > 0 {
+        let k = left.min(STEP) as usize;
+        let at = v.len();
+        v.resize(at + k, 0);
+        s.read_into(&mut v[at..])?;
+        left -= k as u64;
+    }
+    Ok(v)
 }
 
 fn pad(len: u64) -> u64 {
@@ -788,8 +826,9 @@ pub fn read_stream(
     at: u64,
     bytes: u64,
 ) -> Result<Vec<u8>> {
-    let n = usize::try_from(bytes).map_err(|_| Error::Other("read too large for memory".into()))?;
-    let mut out = vec![0u8; n];
+    if usize::try_from(bytes).is_err() {
+        return Err(corrupt(at, "a read is too large for memory"));
+    }
     match var.compressed {
         None => {
             let mut s = FileStream {
@@ -798,15 +837,14 @@ pub fn read_stream(
                 pos: at,
                 end: file_len,
             };
-            s.read_into(&mut out)?;
+            read_vec(&mut s, bytes)
         }
         Some((off, len)) => {
             let mut z = open_z(f, path, off, len)?;
             z.skip(at)?;
-            z.read_into(&mut out)?;
+            read_vec(&mut z, bytes)
         }
     }
-    Ok(out)
 }
 
 /// Decode raw stored values (as [`read_stream`] returns them) to f64.

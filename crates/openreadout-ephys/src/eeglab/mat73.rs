@@ -14,9 +14,9 @@ use openreadout_hdf5::h5util::{attr_text, big_endian, open_h5_in};
 
 use super::EEGLAB_FORMAT_ID;
 use super::mat::{
-    MAX_MAT_DEPTH, MAX_MAT_INLINE, MAX_MAT_NODES, MI_DOUBLE, MI_INT8, MI_INT16, MI_INT32, MI_INT64,
-    MI_SINGLE, MI_UINT8, MI_UINT16, MI_UINT32, MI_UINT64, MatFile, MatNumbers, MatValue,
-    MatVariable, MiType, decode_values,
+    MAX_MAT_DEPTH, MAX_MAT_INLINE, MAX_MAT_NODES, MAX_MAT_TEXT, MI_DOUBLE, MI_INT8, MI_INT16,
+    MI_INT32, MI_INT64, MI_SINGLE, MI_UINT8, MI_UINT16, MI_UINT32, MI_UINT64, MatFile, MatNumbers,
+    MatValue, MatVariable, MiType, decode_values,
 };
 
 /// The level-5 type a dataset's elements correspond to, and their byte order.
@@ -99,8 +99,18 @@ impl Walker<'_> {
         } else {
             shape.iter().rev().copied().collect()
         };
-        let count: u64 = dims.iter().product();
+        let count = dims
+            .iter()
+            .try_fold(1u64, |a, &d| a.checked_mul(d))
+            .filter(|n| *n <= super::mat::MAX_MAT_ELEMENTS)
+            .ok_or_else(|| h5err(self.path, "a dataset's shape is too large"))?;
         if ds.dtype().map_err(|e| h5err(self.path, e))? == DType::ObjectReference {
+            if count > MAX_MAT_NODES as u64 {
+                return Err(h5err(
+                    self.path,
+                    "a cell or struct array declares more elements than are read",
+                ));
+            }
             let objs = ds.dereference().map_err(|e| h5err(self.path, e))?;
             let mut items = Vec::with_capacity(objs.len());
             for o in &objs {
@@ -134,6 +144,9 @@ impl Walker<'_> {
         };
         let size = super::mat::mi_size(stored);
         if class == "char" {
+            if count.saturating_mul(2) > MAX_MAT_TEXT {
+                return Err(h5err(self.path, "a character array is too large"));
+            }
             let raw = ds.read_raw().map_err(|e| h5err(self.path, e))?;
             let units: Vec<u16> = decode_values(be, MI_UINT16, &raw)
                 .into_iter()
@@ -142,7 +155,10 @@ impl Walker<'_> {
             let chars: Vec<char> = char::decode_utf16(units.iter().copied())
                 .map(|c| c.unwrap_or(char::REPLACEMENT_CHARACTER))
                 .collect();
-            let rows = dims.first().copied().unwrap_or(1).max(1) as usize;
+            // rows only as many as the characters stored allow (a declared row count is not trusted)
+            let rows = usize::try_from(dims.first().copied().unwrap_or(1))
+                .unwrap_or(1)
+                .clamp(1, chars.len().max(1));
             let text = if rows == 1 {
                 chars.into_iter().collect()
             } else {
