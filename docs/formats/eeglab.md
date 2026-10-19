@@ -108,12 +108,12 @@ NumPy the `.fdt` as MNE does; MNE-Python's values must agree with them. Events f
 | identifier | meaning |
 | --- | --- |
 | `EeglabReader`, `EEGLAB_FORMAT_ID`, `EeglabDataset`, `open`, `open_input`, `eeglab` | entry points |
-| `EeglabSet`, `read_set`, `single_variable`, `setname`, `channels`, `points`, `trials`, `srate`, `xmin`, `labels`, `types`, `reference`, `data`, `events`, `ica_components`, `eeglab_version`, `findings`, `mat_writer`, `compressed` | the EEG structure |
+| `EeglabSet`, `read_set`, `single_variable`, `setname`, `channels`, `points`, `trials`, `srate`, `xmin`, `labels`, `types`, `reference`, `data`, `events`, `ica_components`, `eeglab_version`, `findings`, `mat_writer`, `compressed`, `MAX_EEGLAB_CHANNELS` | the EEG structure (the largest `nbchan` the reader accepts) |
 | `EeglabData`, `Fdt`, `Embedded`, `Hdf5`, `variable`, `stored`, `at`, `values`, `class`, `dataset`, `epochs_are_rows`, `mat_version` | where the samples are |
 | `mat73`, `parse_mat73`, `read_rows`, `hdf5` | MAT 7.3 files |
 | `EeglabEvent`, `kind`, `latency`, `duration`, `epoch` | an event |
 | `MAX_EEGLAB_READ`, `MAX_EEGLAB_READ_BYTES`, `MAX_EEGLAB_INFLATED`, `looks_like_mat` | limits and detection |
 | `mat`, `MatFile`, `parse_mat`, `mat_version`, `header_text`, `big_endian`, `endian`, `variables`, `variable`, `MatVariable`, `name`, `value`, `MAT_HEADER_LEN` | the MAT-file |
 | `MatValue`, `Numeric`, `Char`, `Cell`, `Struct`, `Other`, `dims`, `text`, `items`, `fields`, `class_name`, `len`, `is_empty`, `as_str`, `as_f64`, `as_f64s`, `field`, `field_names` | MATLAB arrays |
-| `MatNumbers`, `count`, `read_stream`, `decode_values`, `MAX_MAT_INLINE`, `MAX_MAT_DEPTH`, `MAX_MAT_NODES`, `MAX_MAT_ELEMENTS` | numeric values |
+| `MatNumbers`, `count`, `read_stream`, `decode_values`, `MAX_MAT_INLINE`, `MAX_MAT_DEPTH`, `MAX_MAT_NODES`, `MAX_MAT_ELEMENTS`, `MAX_MAT_TEXT` | numeric values and the limits on what a file may declare |
 | `MiType`, `mi_size`, `MI_INT8`, `MI_UINT8`, `MI_INT16`, `MI_UINT16`, `MI_INT32`, `MI_UINT32`, `MI_SINGLE`, `MI_DOUBLE`, `MI_INT64`, `MI_UINT64`, `MI_MATRIX`, `MI_COMPRESSED`, `MI_UTF8`, `MI_UTF16`, `MI_UTF32` | element types |
