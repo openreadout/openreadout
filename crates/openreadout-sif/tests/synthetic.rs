@@ -67,7 +67,13 @@ fn write(dir: &tempfile::TempDir, name: &str, b: &[u8]) -> std::path::PathBuf {
 #[test]
 fn calibrated_kinetic_spectra_with_a_background_block() {
     let dir = tempfile::tempdir().unwrap();
-    let signal = block(4, 1, 2, "400 0.5 0 0", &[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]);
+    let signal = block(
+        4,
+        1,
+        2,
+        "400 0.5 0 0",
+        &[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+    );
     let background = block(4, 1, 1, "400 0.5 0 0", &[0.5, 0.5, 0.5, 0.5]);
     let p = write(&dir, "spectra.sif", &file(&[(0, signal), (2, background)]));
     let mut ds = SifReader.open(&p).unwrap();
@@ -82,7 +88,10 @@ fn calibrated_kinetic_spectra_with_a_background_block() {
     let s1 = ds.read_trace(0, 1, 0, 10).unwrap();
     assert_eq!(s1.channels[0], vec![400.5, 401.0, 401.5, 402.0]);
     assert_eq!(s1.channels[1], vec![5.0, 6.0, 7.0, 8.0]);
-    assert_eq!(ds.read_trace(1, 0, 0, 10).unwrap().channels[1], vec![0.5; 4]);
+    assert_eq!(
+        ds.read_trace(1, 0, 0, 10).unwrap().channels[1],
+        vec![0.5; 4]
+    );
     let v = ds.vendor_metadata().unwrap();
     assert!(v["xml"].is_object(), "{v}");
     let r = ds.check().unwrap();
@@ -93,7 +102,11 @@ fn calibrated_kinetic_spectra_with_a_background_block() {
 fn an_image_block() {
     let dir = tempfile::tempdir().unwrap();
     let vals: Vec<f32> = (0..6).map(|x| x as f32).collect();
-    let p = write(&dir, "image.sif", &file(&[(0, block(3, 2, 1, "0 1 0 0", &vals))]));
+    let p = write(
+        &dir,
+        "image.sif",
+        &file(&[(0, block(3, 2, 1, "0 1 0 0", &vals))]),
+    );
     let mut ds = SifReader.open(&p).unwrap();
     let info = ds.info().unwrap();
     let im = &info.images[0];
@@ -112,7 +125,13 @@ fn damaged_files_give_clean_errors() {
     cut.truncate(good.len() - 160);
     let p = write(&dir, "cut.sif", &cut);
     let mut ds = SifReader.open(&p).unwrap();
-    assert!(ds.check().unwrap().findings.iter().any(|f| f.code == "truncated"));
+    assert!(
+        ds.check()
+            .unwrap()
+            .findings
+            .iter()
+            .any(|f| f.code == "truncated")
+    );
     assert!(ds.read_trace(0, 1, 0, 4).is_err());
     for i in (0..good.len()).step_by(5) {
         let mut b = good.clone();

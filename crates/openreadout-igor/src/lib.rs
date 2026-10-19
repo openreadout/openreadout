@@ -95,7 +95,7 @@ impl FormatReader for IgorReader {
             name: "Igor Pro binary wave / packed experiment".into(),
             vendor: "WaveMetrics (Igor Pro)".into(),
             extensions: vec!["ibw".into(), "bwav".into(), "pxp".into(), "pxt".into()],
-            family: "data-analysis".into(),
+            family: "container".into(),
             can_read: true,
             can_write: false,
             confidence: assurance::IGOR.confidence,

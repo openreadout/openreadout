@@ -29,7 +29,7 @@
    "family": "microscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "JPEG (id 1) subblocks decode with jpeg-decoder (8-bit) and our own 12-bit decoder, which differ from libjpeg-turbo by up to a few grey levels on lossy streams (lossless JPEG is bit-exact); 12-bit progressive or chroma-subsampled JPEG is not decoded",
     "Chunked subblocks (id 7) are validated on synthetic files only (imagecodecs-written; no public file uses id 7); the HiLo split over more than one chunk is refused because libCZI's documentation and imagecodecs read it differently",
@@ -213,7 +213,7 @@
    "family": "mass-spectrometry",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "The truncation + prediction encodings (MS:1003089/1003090) are recognised but not decoded (exit 6)",
     "HDF5 filters other than deflate, shuffle, Fletcher-32, LZ4 and Blosc (e.g. SZIP) are not decoded",
@@ -255,11 +255,11 @@
    "family": "mass-spectrometry",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "No specification: the layout was derived from public files and checked against the depositors' vendor-library conversions",
     "m/z use the recalibration in Calibrator.ami when the directory holds one, found by scanning that file for a payload like the spectra's (its container is not decoded); without it, the acquisition calibration, which can differ from vendor exports of recalibrated runs by a few ppm",
-    "Calibration kinds other than time of flight 3 and 10 and the FT-ICR form, and profile codings other than plain float32 and the packed delta coding, are refused (exit 6)",
+    "Calibration kinds other than time of flight 3 and 10 and the FT-ICR form, and profile codings other than float32 (plain or zlib-compressed) and the packed delta coding, are refused (exit 6)",
     "Spectra are returned one by one as stored; vendor converters may combine repeated MS/MS of one precursor",
     "The third centroid array (read as peak widths), several list records and analysis.baf_xtr are not decoded"
    ],
@@ -613,7 +613,7 @@
    "family": "qpcr",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Applied Biosystems: the Results table (Cq or Undetermined, Cq mean and SD, threshold, baseline window, Amp Status, Tm, quantities, RQ and ΔCq), and amplification (Rn, ΔRn) and melt curves when the export holds those sheets; Sample Setup, Multicomponent Data and Raw Data sheets are not read",
     "Bio-Rad CFX: the Quantification Cq Results table only (no curves); NaN and N/A Cq are read as no Cq; the export holds no plate size",
@@ -847,7 +847,7 @@
    "family": "electrophysiology",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "Input is a block directory, one of its files, or a tank directory (blocks become sweeps)",
     "Stream and snippet values are returned as stored, without units: TDT files record no unit or gain",
@@ -1274,7 +1274,7 @@
    "family": "medical-imaging",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Video transfer syntaxes (MPEG-2, MPEG-4, HEVC) are not decoded",
     "Colour JPEG-LS and segmented palette lookup tables are not decoded",
@@ -1297,7 +1297,7 @@
    "family": "medical-imaging",
    "can_read": true,
    "can_write": true,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "binary (1-bit), float128 and complex256 data types are not decoded",
     "dimensions 6 and 7 are folded into T",
@@ -1682,7 +1682,7 @@
    "family": "spectroscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Series files (.srs: rapid scan, high-speed, GC-IR, TGA-IR) are read from their key table: the series spectra, their times and the backgrounds; the per-series profiles (Gram-Schmidt, chemigrams) and processing records are listed, not decoded; no licensed .srs file was available, so the series layout rests on held test files",
     "Map files (.map) are read as their spectra, the stage position of each (table `positions`) and the video image; there is no independent reader to check them against, and the value OMNIC stores with each map spectrum is not decoded",
@@ -1850,7 +1850,7 @@
    "family": "spectroscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "Validated on UV-3600 Plus files (UVProbe 2.43 and 2.71, absorbance and reflectance scans) against the software's text exports; transmittance, photometric and kinetics files have no development file, and value codes not seen are returned unnamed",
     "Files with several spectra per data set (`.2` arrays) read the first only",
@@ -1872,7 +1872,7 @@
    "family": "spectroscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Validated against the Cary software's CSV exports on Cary 4000 Scan 3.00 files (absorbance over wavelength); Cary 60 files of Scan and Scanning Kinetics 5.0 are read the same way but have no export to check them against",
     "Only the spectrum and baseline stores are decoded; graph, report, database and baseline-info stores are listed by `info --view structure`",
@@ -2059,6 +2059,72 @@
    ],
    "page": "syngene-sgd",
    "field": "Bench biophysics"
+  },
+  {
+   "id": "igor",
+   "name": "Igor Pro binary wave / packed experiment",
+   "vendor": "WaveMetrics (Igor Pro)",
+   "extensions": [
+    "ibw",
+    "bwav",
+    "pxp",
+    "pxt"
+   ],
+   "family": "container",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Each wave is one trace or one image: how an instrument's software grouped waves (sweeps of one recording, channels of one image) is not reconstructed",
+    "16-, 32- and 64-bit integer, unsigned and complex waves follow the published type bits; no corpus file holds one yet",
+    "Version-1 and version-3 binary waves follow the published sizes; no corpus file has one",
+    "Dependent variables, packed notebooks, procedure files and window recreation are not decoded",
+    "HDF5 packed experiments (.h5xp) are HDF5 files, not this format"
+   ],
+   "page": "igor",
+   "field": "Containers"
+  },
+  {
+   "id": "andor-sif",
+   "name": "Andor SIF",
+   "vendor": "Andor Technology (Oxford Instruments)",
+   "extensions": [
+    "sif"
+   ],
+   "family": "spectroscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Derived without a specification from corpus files of SIF versions 65555, 65559, 65564 and 65567",
+    "Blocks after the signal are named by their position (reference, background, live, source); which data each one holds is not confirmed",
+    "The calibration polynomial is applied to the 1-based column number of the frame, as sif_parser does; for a sub-image that does not start at the first detector column the axis may be offset",
+    "Spooled acquisitions (.sifx with .dat files) are not read",
+    "Most settings on the header lines are listed as found, not named"
+   ],
+   "page": "andor-sif",
+   "field": "IR, Raman and UV-Vis"
+  },
+  {
+   "id": "deltavision",
+   "name": "DeltaVision",
+   "vendor": "GE Healthcare / Applied Precision (DeltaVision, softWoRx)",
+   "extensions": [
+    "dv",
+    "r3d"
+   ],
+   "family": "microscopy",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "The lens id is reported as a number; the objective's name and numerical aperture are not looked up",
+    "The `.log` and `_log.txt` files softWoRx writes next to a file are not read (acquisition date, objective, filters)",
+    "Multi-panel (tiled) acquisitions are read as one image of the stored sections",
+    "Pixel mode 3 (complex 16-bit) is refused"
+   ],
+   "page": "deltavision",
+   "field": "Light microscopy"
   },
   {
    "id": "nanodrop",

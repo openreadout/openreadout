@@ -263,7 +263,7 @@ impl SifDataset {
             index: 0,
             name: (!b.data_type.is_empty()).then(|| b.data_type.clone()),
             exposure_ms: (b.exposure_s.is_finite() && b.exposure_s > 0.0)
-                .then(|| b.exposure_s * 1e3),
+                .then_some(b.exposure_s * 1e3),
             ..ChannelInfo::default()
         }];
         im.extra = self.extra(b);
@@ -273,7 +273,7 @@ impl SifDataset {
     fn read_frame(&mut self, b: &Block, frame: u64, first: u64, count: u64) -> Result<Vec<u8>> {
         let at = b
             .data_offset
-            .checked_add(frame.checked_mul(b.frame_bytes()).unwrap_or(u64::MAX))
+            .checked_add(frame.saturating_mul(b.frame_bytes()))
             .and_then(|o| o.checked_add(first * 4))
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "sample offset overflows"))?;
         let len = count * 4;
@@ -310,7 +310,11 @@ impl Dataset for SifDataset {
             sig.version,
             sig.detector,
             l.blocks.len(),
-            l.blocks.iter().map(Block::name).collect::<Vec<_>>().join(", ")
+            l.blocks
+                .iter()
+                .map(Block::name)
+                .collect::<Vec<_>>()
+                .join(", ")
         ));
         if l.blocks.len() > 1 {
             notes.push("blocks after the signal are named by their position (reference, background, live, source), as Andor Solis orders them".into());
@@ -476,6 +480,7 @@ impl Dataset for SifDataset {
         })
     }
 
+    #[allow(clippy::many_single_char_names)]
     fn read_trace(&mut self, index: u32, sweep: u32, first: u64, max: u64) -> Result<Trace> {
         let b = self
             .block_of(Exposed::Trace(index))
@@ -496,7 +501,9 @@ impl Dataset for SifDataset {
         let count = max.min(n - first).min(MAX_TRACE_READ);
         let raw = self.read_frame(&b, u64::from(sweep), first, count)?;
         let y: Vec<f64> = raw
-            .chunks_exact(4)
+            .as_chunks::<4>()
+            .0
+            .iter()
             .map(|c| f64::from(f32::from_le_bytes([c[0], c[1], c[2], c[3]])))
             .collect();
         let mut channels = Vec::new();

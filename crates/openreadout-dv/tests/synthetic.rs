@@ -7,9 +7,27 @@ use openreadout_dv::DvReader;
 
 /// 2 × 2 pixels, 2 wavelengths, 3 Z, 2 time points, uint16; sample value = section index.
 fn dv(order: i16, big: bool) -> Vec<u8> {
-    let i32b = |v: i32| if big { v.to_be_bytes() } else { v.to_le_bytes() };
-    let i16b = |v: i16| if big { v.to_be_bytes() } else { v.to_le_bytes() };
-    let f32b = |v: f32| if big { v.to_be_bytes() } else { v.to_le_bytes() };
+    let i32b = |v: i32| {
+        if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        }
+    };
+    let i16b = |v: i16| {
+        if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        }
+    };
+    let f32b = |v: f32| {
+        if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        }
+    };
     let (nc, nz, nt) = (2, 3, 2);
     let sections = nc * nz * nt;
     let ext_len = 2048;
@@ -86,7 +104,11 @@ fn every_section_order_in_both_byte_orders() {
                 _ => 2 + 3 * (1 + 2),
             };
             let plane = ds.read_plane(0, PlaneIndex { c: 1, z: 2, t: 1 }).unwrap();
-            assert_eq!(&plane.data[0..2], &want.to_le_bytes(), "order {order} big {big}");
+            assert_eq!(
+                &plane.data[0..2],
+                &want.to_le_bytes(),
+                "order {order} big {big}"
+            );
             assert!(ds.check().unwrap().findings.is_empty());
         }
     }
@@ -100,7 +122,13 @@ fn damaged_files_give_clean_errors() {
     cut.truncate(good.len() - 10);
     let p = write(&dir, "cut.dv", &cut);
     let mut ds = DvReader.open(&p).unwrap();
-    assert!(ds.check().unwrap().findings.iter().any(|f| f.code == "truncated"));
+    assert!(
+        ds.check()
+            .unwrap()
+            .findings
+            .iter()
+            .any(|f| f.code == "truncated")
+    );
     assert!(ds.read_plane(0, PlaneIndex { c: 1, z: 2, t: 1 }).is_err());
     let p = write(&dir, "short.dv", &good[..500]);
     assert!(DvReader.open(&p).is_err());

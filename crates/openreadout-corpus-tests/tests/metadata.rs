@@ -97,6 +97,8 @@ fn registry() -> Registry {
         .with(Box::new(openreadout_oif::OibReader))
         .with(Box::new(openreadout_oif::OifReader))
         .with(Box::new(openreadout_dcimg::DcimgReader))
+        .with(Box::new(openreadout_dv::DvReader))
+        .with(Box::new(openreadout_sif::SifReader))
         .with(Box::new(openreadout_qpcr::RdmlReader))
         .with(Box::new(openreadout_qpcr::EdsReader))
         .with(Box::new(openreadout_qpcr::PcrdReader))

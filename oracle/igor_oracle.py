@@ -119,14 +119,13 @@ def igor(p: Path, max_planes: int = 64) -> dict:
             if d < 4 and u:
                 dim_units[d] = _text(u)
         steps = list(h["sfA"]) if version == 5 else [h["hsA"]]
-        offsets = list(h["sfB"]) if version == 5 else [h["hsB"]]
         complex_ = np.iscomplexobj(a)
         if rank <= 1 or (rank == 2 and any(col_labels)):
             rows = dims[0] if dims[0] > 0 else a.shape[0]
             cols = dims[1] if rank == 2 else 1
             m = a.reshape((rows, cols), order="F")
-            names = [w_name for w_name in ([full.split(":")[-1]] if rank <= 1 else
-                     [col_labels[c] if c < len(col_labels) and col_labels[c] else f"column {c}" for c in range(cols)])]
+            names = ([full.split(":")[-1]] if rank <= 1 else
+                     [col_labels[c] if c < len(col_labels) and col_labels[c] else f"column {c}" for c in range(cols)])
             chans, ch_names = [], []
             for c in range(cols):
                 v = m[:, c]

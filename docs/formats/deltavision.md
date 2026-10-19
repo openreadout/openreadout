@@ -53,7 +53,7 @@ A header without the identifier, with sizes ≤ 0, sections that are not a whole
 
 ## Validation (2026-10-19)
 
-11 corpus files from 8 sources (OME sample images `DV/siRNAi-HeLa`, `will/FRAP`, `elena/P-TRE`, `U2OS`, `alexia/cajal-bodies`; Zenodo 5887370, 15919154, 377035): raw `.r3d` (big-endian) and processed `.dv` files (deconvolved, projected, volume renderings, FRAP); pixel modes 0, 1, 2 and 6; section orders 0, 1 and 2; 1 to 4 wavelengths, 1 to 33 time points, up to 150 sections. Every compared plane is bit-exact with `mrc`'s `DVFile`; Bio-Formats 8.5.0 reports the same sizes and pixel type for every file.
+10 corpus files from 7 sources (OME sample images `DV/siRNAi-HeLa`, `will/FRAP`, `elena/P-TRE`, `U2OS`, `alexia/cajal-bodies`; Zenodo 5887370, 15919154): raw `.r3d` (big-endian) and processed `.dv` files (deconvolved, projected, volume renderings, FRAP); pixel modes 0, 1, 2 and 6; section orders 0, 1 and 2; 1 to 4 wavelengths, 1 to 31 time points, up to 150 sections. Every compared plane is bit-exact with `mrc`'s `DVFile`; Bio-Formats 8.5.0 reports the same sizes and pixel type for every file.
 
 ## Vocabulary (every public identifier in `openreadout-dv/src` must appear here)
 

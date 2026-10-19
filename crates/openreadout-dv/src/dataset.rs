@@ -35,7 +35,11 @@ pub struct DvDataset {
 }
 
 fn num(v: f32) -> Value {
-    if v.is_finite() { json!(round(v)) } else { Value::Null }
+    if v.is_finite() {
+        json!(round(v))
+    } else {
+        Value::Null
+    }
 }
 
 /// A float32 as the decimal it was written as (`0.065` rather than `0.06499999761581421`).
@@ -197,7 +201,10 @@ impl Dataset for DvDataset {
     fn info(&self) -> Result<FileInfo> {
         let h = &self.header;
         let mut im = ImageInfo::new(0, h.width as u32, h.height as u32, self.pixel_type());
-        im.name = self.path.file_stem().map(|s| s.to_string_lossy().to_string());
+        im.name = self
+            .path
+            .file_stem()
+            .map(|s| s.to_string_lossy().to_string());
         im.size_c = h.channel_count();
         im.size_z = h.z_count().unwrap_or(1);
         im.size_t = h.time_count();
@@ -211,7 +218,11 @@ impl Dataset for DvDataset {
         im.physical_size = PhysicalSize::micrometres(
             sp(h.spacing_um[0]),
             sp(h.spacing_um[1]),
-            if im.size_z > 1 { sp(h.spacing_um[2]) } else { None },
+            if im.size_z > 1 {
+                sp(h.spacing_um[2])
+            } else {
+                None
+            },
         );
         im.channels = (0..im.size_c)
             .map(|c| {
@@ -228,7 +239,9 @@ impl Dataset for DvDataset {
                     name: wave.map(|w| format!("{w}")),
                     excitation_nm: s.and_then(|s| pos(s.excitation_nm)),
                     emission_nm: s.and_then(|s| pos(s.emission_nm)).or(wave),
-                    exposure_ms: s.and_then(|s| pos(s.exposure_s)).map(|x| round((x * 1e3) as f32)),
+                    exposure_ms: s
+                        .and_then(|s| pos(s.exposure_s))
+                        .map(|x| round((x * 1e3) as f32)),
                     ..ChannelInfo::default()
                 }
             })
@@ -243,7 +256,10 @@ impl Dataset for DvDataset {
             }
         }
         let mut extra = BTreeMap::new();
-        extra.insert("section_order".into(), json!(SectionOrder::from_code(h.sequence).map(SectionOrder::name)));
+        extra.insert(
+            "section_order".into(),
+            json!(SectionOrder::from_code(h.sequence).map(SectionOrder::name)),
+        );
         extra.insert("pixel_mode".into(), json!(h.mode));
         extra.insert(
             "byte_order".into(),
@@ -284,7 +300,11 @@ impl Dataset for DvDataset {
                 Endian::Big => "big-endian",
             }
         )];
-        if self.problems.iter().any(|p| p.severity == openreadout_core::model::Severity::Error) {
+        if self
+            .problems
+            .iter()
+            .any(|p| p.severity == openreadout_core::model::Severity::Error)
+        {
             notes.push("structural problems found (e.g. truncation); run `check`".into());
         }
         Ok(FileInfo {
@@ -387,7 +407,9 @@ impl Dataset for DvDataset {
 
     fn read_plane(&mut self, image: u32, index: PlaneIndex) -> Result<Plane> {
         if image != 0 {
-            return Err(Error::Usage(format!("image index {image} out of range (1 image)")));
+            return Err(Error::Usage(format!(
+                "image index {image} out of range (1 image)"
+            )));
         }
         let h = self.header.clone();
         let s = h.section_of(index.c, index.z, index.t).ok_or_else(|| {

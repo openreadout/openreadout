@@ -8,8 +8,8 @@ use std::path::{Path, PathBuf};
 
 use openreadout_core::bytes::Endian;
 use openreadout_core::model::{
-    ChannelInfo, CheckReport, FileInfo, Finding, ImageInfo, LsEntry,
-    PhysicalSize, SignalChannelInfo, Trace, TraceInfo,
+    ChannelInfo, CheckReport, FileInfo, Finding, ImageInfo, LsEntry, PhysicalSize,
+    SignalChannelInfo, Trace, TraceInfo,
 };
 use openreadout_core::provenance::{ProvenanceMap, Source};
 use openreadout_core::reader::{Dataset, FormatReader, PlaneIndex};
@@ -107,7 +107,10 @@ impl WaveEntry {
         }
     }
     fn complex(&self) -> bool {
-        matches!(self.wave.kind, Some(WaveKind::Numeric { complex: true, .. }))
+        matches!(
+            self.wave.kind,
+            Some(WaveKind::Numeric { complex: true, .. })
+        )
     }
 }
 
@@ -157,7 +160,8 @@ fn classify(w: &Wave) -> (Role, LayerAxis) {
         return (Role::Empty, layers);
     }
     let rank = w.rank();
-    let labelled_columns = rank == 2 && w.element_labels(1).is_some() && w.dims[1] <= MAX_TRACE_COLUMNS;
+    let labelled_columns =
+        rank == 2 && w.element_labels(1).is_some() && w.dims[1] <= MAX_TRACE_COLUMNS;
     if rank <= 1 || labelled_columns {
         // complex integers have no trace dtype problem: values become f64
         (Role::Trace(0), layers)
@@ -174,7 +178,8 @@ pub fn parse_file(f: &SourceFile, file_len: u64, path: &Path) -> Result<IgorFile
     f.read_exact_at(0, &mut head)
         .map_err(|e| Error::io(path, e))?;
     let ibw_ext = openreadout_core::reader::has_extension(path, &["ibw", "bwav"]);
-    let as_wave = crate::looks_like_wave(&head) && (ibw_ext || !packed::looks_like_packed(&head, file_len));
+    let as_wave =
+        crate::looks_like_wave(&head) && (ibw_ext || !packed::looks_like_packed(&head, file_len));
     let mut out = IgorFile {
         container: if as_wave {
             Container::BinaryWave
@@ -332,7 +337,8 @@ pub fn note_fields(note: &str) -> Option<BTreeMap<String, String>> {
         if let Some((k, v)) = split {
             let k = k.trim();
             if !k.is_empty() && k.len() <= 64 {
-                out.entry(k.to_string()).or_insert_with(|| v.trim().to_string());
+                out.entry(k.to_string())
+                    .or_insert_with(|| v.trim().to_string());
             }
         }
     }
@@ -575,9 +581,11 @@ impl IgorDataset {
             "axes".into(),
             json!(
                 (0..wv.rank())
-                    .map(|d| json!({"label": wv.dimension_label(d), "unit": opt(&wv.dim_units[d]),
+                    .map(
+                        |d| json!({"label": wv.dimension_label(d), "unit": opt(&wv.dim_units[d]),
                                     "first": num(wv.offsets[d]), "step": num(wv.steps[d]),
-                                    "size": wv.dims[d]}))
+                                    "size": wv.dims[d]})
+                    )
                     .collect::<Vec<_>>()
             ),
         );
@@ -645,10 +653,10 @@ fn variables_json(v: &Variables) -> Value {
                 imaginary,
                 number_type,
             } => {
-                if *imaginary != 0.0 {
-                    json!({"name": name, "value": num(*real), "imaginary": num(*imaginary), "number_type": number_type})
-                } else {
+                if *imaginary == 0.0 {
                     json!({"name": name, "value": num(*real), "number_type": number_type})
+                } else {
+                    json!({"name": name, "value": num(*real), "imaginary": num(*imaginary), "number_type": number_type})
                 }
             }
             Variable::Text { name, value } => json!({"name": name, "text": value}),
@@ -656,7 +664,12 @@ fn variables_json(v: &Variables) -> Value {
         .collect();
     let mut o = json!({"folder": v.folder, "version": v.version, "variables": user});
     if !v.system.is_empty() {
-        o["system"] = json!(v.system.iter().map(|x| num(f64::from(*x))).collect::<Vec<_>>());
+        o["system"] = json!(
+            v.system
+                .iter()
+                .map(|x| num(f64::from(*x)))
+                .collect::<Vec<_>>()
+        );
     }
     if let Some(u) = &v.undecoded {
         o["undecoded"] = json!(u);
@@ -681,7 +694,9 @@ impl Dataset for IgorDataset {
                         "Igor binary wave version {}: `{}`, {} {}",
                         w.wave.version,
                         w.wave.name,
-                        w.wave.kind.map(WaveKind::label).unwrap_or_else(|| "unknown type".into()),
+                        w.wave
+                            .kind
+                            .map_or_else(|| "unknown type".into(), WaveKind::label),
                         match w.role {
                             Role::Trace(_) => "values as a trace",
                             Role::Image(_) => "values as an image",
@@ -699,11 +714,12 @@ impl Dataset for IgorDataset {
                 }
             }
             Container::Packed => {
-                let folders = f
-                    .packed
-                    .as_ref()
-                    .map(|p| p.records.iter().filter(|r| r.kind == RecordKind::FolderStart).count())
-                    .unwrap_or(0);
+                let folders = f.packed.as_ref().map_or(0, |p| {
+                    p.records
+                        .iter()
+                        .filter(|r| r.kind == RecordKind::FolderStart)
+                        .count()
+                });
                 notes.push(format!(
                     "Igor packed experiment{}: {} waves in {} data folders ({n_trace} traces, {n_image} images, {n_text} text waves)",
                     self.writer().map(|w| format!(" written by {w}")).unwrap_or_default(),
@@ -738,10 +754,9 @@ impl Dataset for IgorDataset {
             .collect();
         let plane_count = images.iter().map(|i| i.plane_count).sum();
         let format_version = Some(match f.container {
-            Container::BinaryWave => format!(
-                "ibw {}",
-                f.waves.first().map(|w| w.wave.version).unwrap_or(0)
-            ),
+            Container::BinaryWave => {
+                format!("ibw {}", f.waves.first().map_or(0, |w| w.wave.version))
+            }
             Container::Packed => "pxp".to_string(),
         });
         Ok(FileInfo {
@@ -761,7 +776,11 @@ impl Dataset for IgorDataset {
     fn vendor_metadata(&self) -> Result<Value> {
         let f = &self.file;
         let handle = self.handle.as_ref();
-        let waves: Vec<Value> = f.waves.iter().map(|w| self.wave_vendor(w, handle)).collect();
+        let waves: Vec<Value> = f
+            .waves
+            .iter()
+            .map(|w| self.wave_vendor(w, handle))
+            .collect();
         let mut v = json!({
             "container": match f.container {
                 Container::BinaryWave => "binary wave",
@@ -878,7 +897,9 @@ impl Dataset for IgorDataset {
     fn read_plane(&mut self, image: u32, index: PlaneIndex) -> Result<Plane> {
         let w = self.image_wave(image)?.clone();
         let wv = &w.wave;
-        let kind = wv.kind.ok_or_else(|| Error::corrupt(FORMAT_ID, "wave type unknown"))?;
+        let kind = wv
+            .kind
+            .ok_or_else(|| Error::corrupt(FORMAT_ID, "wave type unknown"))?;
         let pt = kind.pixel_type().ok_or_else(|| {
             Error::unsupported(
                 FORMAT_ID,
@@ -1000,7 +1021,10 @@ impl Dataset for IgorDataset {
             if w.wave.data_omitted() {
                 r.push(Finding::info(
                     "formula_without_data",
-                    format!("wave `{}` is governed by a formula and was saved without its data", w.path),
+                    format!(
+                        "wave `{}` is governed by a formula and was saved without its data",
+                        w.path
+                    ),
                 ));
             }
         }

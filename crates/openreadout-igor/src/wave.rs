@@ -288,7 +288,7 @@ pub fn checksum_len(version: u16) -> u64 {
 /// True when the 16-bit sum of `b` in byte order `e` is zero.
 pub fn checksum_zero(b: &[u8], e: Endian) -> bool {
     let mut sum: u16 = 0;
-    for w in b.chunks_exact(2) {
+    for w in b.as_chunks::<2>().0 {
         let v = match e {
             Endian::Little => u16::from_le_bytes([w[0], w[1]]),
             Endian::Big => u16::from_be_bytes([w[0], w[1]]),
@@ -334,6 +334,7 @@ fn read_at(f: &SourceFile, offset: u64, len: u64) -> Result<Vec<u8>> {
 
 /// Parse the wave whose binary header starts at `start`; it may occupy bytes up to `limit` (the
 /// file length, or the end of its packed-file record).
+#[allow(clippy::many_single_char_names, clippy::too_many_lines)]
 pub fn parse_wave(f: &SourceFile, start: u64, limit: u64) -> Result<Wave> {
     let avail = limit.saturating_sub(start);
     let head2 = read_at(f, start, avail.min(2))?;
@@ -355,9 +356,7 @@ pub fn parse_wave(f: &SourceFile, start: u64, limit: u64) -> Result<Wave> {
         return Err(Error::corrupt_at(
             FORMAT_ID,
             start,
-            format!(
-                "the version-{version} wave headers need {header_len} bytes; {avail} are left"
-            ),
+            format!("the version-{version} wave headers need {header_len} bytes; {avail} are left"),
         ));
     }
     let h = read_at(f, start, header_len.max(cover.min(avail)))?;
@@ -470,16 +469,15 @@ pub fn parse_wave(f: &SourceFile, start: u64, limit: u64) -> Result<Wave> {
         0
     });
     // the data
-    let data_len = match u64::try_from(data_len_declared) {
-        Ok(n) => n,
-        Err(_) => {
-            problems.push(Problem::error(
-                "bad_size",
-                format!("the wave-section size {wfm_size} is smaller than its header"),
-                start,
-            ));
-            0
-        }
+    let data_len = if let Ok(n) = u64::try_from(data_len_declared) {
+        n
+    } else {
+        problems.push(Problem::error(
+            "bad_size",
+            format!("the wave-section size {wfm_size} is smaller than its header"),
+            start,
+        ));
+        0
     };
     let mut pos = data_offset.saturating_add(data_len);
     if version != 5 {
@@ -547,8 +545,8 @@ pub fn parse_wave(f: &SourceFile, start: u64, limit: u64) -> Result<Wave> {
         Some((at, n))
     };
     let text = |sec: Option<(u64, u64)>,
-                    what: &str,
-                    problems: &mut Vec<Problem>|
+                what: &str,
+                problems: &mut Vec<Problem>|
      -> Result<Option<String>> {
         let Some((at, n)) = sec else { return Ok(None) };
         if n > MAX_TEXT {
@@ -587,13 +585,19 @@ pub fn parse_wave(f: &SourceFile, start: u64, limit: u64) -> Result<Wave> {
                 data_units = u.trim_end_matches('\0').trim().to_string();
             }
             for d in 0..4 {
-                let s = take(dim_eunits[d], "extended dimension units", &mut pos, &mut problems);
+                let s = take(
+                    dim_eunits[d],
+                    "extended dimension units",
+                    &mut pos,
+                    &mut problems,
+                );
                 if let Some(u) = text(s, "extended dimension units", &mut problems)? {
                     dim_units[d] = u.trim_end_matches('\0').trim().to_string();
                 }
             }
             for d in 0..4 {
-                let Some((at, n)) = take(dim_labels[d], "dimension labels", &mut pos, &mut problems)
+                let Some((at, n)) =
+                    take(dim_labels[d], "dimension labels", &mut pos, &mut problems)
                 else {
                     continue;
                 };
@@ -607,7 +611,12 @@ pub fn parse_wave(f: &SourceFile, start: u64, limit: u64) -> Result<Wave> {
                     ));
                 }
                 let b = read_at(f, at, n.min(MAX_LABEL_BYTES))?;
-                labels[d] = b.chunks_exact(LABEL_FIELD).map(field_text).collect();
+                labels[d] = b
+                    .as_chunks::<LABEL_FIELD>()
+                    .0
+                    .iter()
+                    .map(|x| field_text(x))
+                    .collect();
             }
             string_indices = take(sindices_size, "string indices", &mut pos, &mut problems);
         }
@@ -649,10 +658,18 @@ impl Wave {
     /// True when the data is readable: known type, sizes consistent, inside the bytes.
     pub fn readable(&self) -> bool {
         self.kind.is_some()
-            && !self
-                .problems
-                .iter()
-                .any(|p| p.fatal && matches!(p.code, "truncated" | "data_size" | "dims" | "bad_size" | "wave_type" | "bad_points"))
+            && !self.problems.iter().any(|p| {
+                p.fatal
+                    && matches!(
+                        p.code,
+                        "truncated"
+                            | "data_size"
+                            | "dims"
+                            | "bad_size"
+                            | "wave_type"
+                            | "bad_points"
+                    )
+            })
     }
 
     /// The element labels of dimension `d` (without the label of the dimension itself), when any
@@ -695,7 +712,9 @@ impl Wave {
         let len = count
             .checked_mul(eb)
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "read size overflows"))?;
-        if first.saturating_add(count) > self.points || at.saturating_add(len) > self.data_offset + self.data_len {
+        if first.saturating_add(count) > self.points
+            || at.saturating_add(len) > self.data_offset + self.data_len
+        {
             return Err(Error::corrupt_at(
                 FORMAT_ID,
                 at,

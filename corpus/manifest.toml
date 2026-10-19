@@ -88841,19 +88841,3 @@ license = "CC-BY-4.0"
 source = "Zenodo record 15919154 (license cc-by-4.0)"
 attribution = "Salinas Luypaert, Catalina, 'IMAGES || DNA methylation influences human centromere positioning and function' (Zenodo 15919154)"
 notes = "1 image(s), first 1040x1040 c=3 uint16; DeltaVision 1040 × 1040 × 3 sections (3 wavelength(s) × 1 Z × 1 time point(s), order ZWT), little-endian"
-
-[[file]]
-id = "dv-zenodo377035-horse-confluent-h2b-gfp-01-08-r3d-d3d"
-format = "deltavision"
-role = "input"
-tier = "standard"
-filename = "dv/zenodo-377035/Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv"
-url = "https://zenodo.org/records/377035/files/Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv?download=1"
-sha256 = "cfc05c97adf9f93a70101f15ad94bee18e971a059ecd15bb28b8d318a67c9239"
-md5 = "e12034459ac256d3ec70c635a1d68cea"
-size = 38935552
-license = "CC-BY-SA-4.0"
-source = "Zenodo record 377035 (license cc-by-sa-4.0)"
-attribution = "David Miguel Susano Pinto, 'Characterisation of core histone sequences and nuclear mobility using a reproducible research approach' (Zenodo 377035)"
-notes = "1 image(s), first 768x768 t=33 uint16; DeltaVision 768 × 768 × 33 sections (1 wavelength(s) × 1 Z × 33 time point(s), order ZTW), little-endian"
-

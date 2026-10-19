@@ -49,12 +49,16 @@ fn observe(info: &FileInfo) -> Observations {
             "image"
         };
         o.feature(K::Layout, shape, &[Scope::Pixels]);
-        let binned = i.extra.get("sub_images").and_then(|s| s.as_array()).is_some_and(|s| {
-            s.iter().any(|x| {
-                x.get("x_binning").and_then(|v| v.as_i64()) != Some(1)
-                    || x.get("y_binning").and_then(|v| v.as_i64()) != Some(1)
-            })
-        });
+        let binned = i
+            .extra
+            .get("sub_images")
+            .and_then(|s| s.as_array())
+            .is_some_and(|s| {
+                s.iter().any(|x| {
+                    x.get("x_binning").and_then(serde_json::Value::as_i64) != Some(1)
+                        || x.get("y_binning").and_then(serde_json::Value::as_i64) != Some(1)
+                })
+            });
         if binned {
             o.feature(K::Acquisition, "binned", &[Scope::Pixels]);
         }

@@ -52,7 +52,6 @@ def dv(p: Path, max_planes: int = 64, bioformats=None) -> dict:
         img = {"index": 0, "size_x": sizes["X"], "size_y": sizes["Y"], "size_z": nz, "size_c": nc, "size_t": nt,
                "samples_per_pixel": 1, "pixel_type": _dtype_name(f.dtype), "physical_size_um": phys,
                "planes": planes}
-        dtype = f.dtype
     finally:
         f.close()
     out = {"reader": f"mrc {mrc.__version__} (BSD-3-Clause) DVFile", "images": [img]}
@@ -65,5 +64,4 @@ def dv(p: Path, max_planes: int = 64, bioformats=None) -> dict:
             out["bioformats_geometry_agrees"] = bool(agrees)
         except Exception as e:  # noqa: BLE001  (a second opinion only)
             out["bioformats_error"] = f"{type(e).__name__}: {e}"[:300]
-    del dtype
     return out

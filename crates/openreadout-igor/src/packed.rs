@@ -167,7 +167,10 @@ pub fn looks_like_packed(head: &[u8], file_len: u64) -> bool {
             break;
         };
         kinds.push(RecordKind::from_code(e.u16(head, pos).unwrap_or(0)));
-        let Some(next) = usize::try_from(len).ok().and_then(|l| (pos + 8).checked_add(l)) else {
+        let Some(next) = usize::try_from(len)
+            .ok()
+            .and_then(|l| (pos + 8).checked_add(l))
+        else {
             break;
         };
         pos = next;
@@ -193,8 +196,9 @@ pub fn looks_like_packed(head: &[u8], file_len: u64) -> bool {
 /// Walk every record header of the file.
 pub fn walk(f: &SourceFile, file_len: u64) -> Result<Packed> {
     let mut head = vec![0u8; usize::try_from(file_len.min(64 * 1024)).unwrap_or(0)];
-    f.read_exact_at(0, &mut head)
-        .map_err(|e| Error::corrupt_at(FORMAT_ID, 0, format!("cannot read the first record: {e}")))?;
+    f.read_exact_at(0, &mut head).map_err(|e| {
+        Error::corrupt_at(FORMAT_ID, 0, format!("cannot read the first record: {e}"))
+    })?;
     let endian = packed_endian(&head, file_len).ok_or_else(|| {
         Error::corrupt(
             FORMAT_ID,
@@ -245,10 +249,7 @@ pub fn walk(f: &SourceFile, file_len: u64) -> Result<Packed> {
         if pos + RECORD_HEADER + len > file_len {
             problems.push(Problem {
                 code: "truncated",
-                detail: format!(
-                    "record at {pos} ({} bytes) runs past the end of the file",
-                    len
-                ),
+                detail: format!("record at {pos} ({len} bytes) runs past the end of the file"),
                 offset: Some(pos),
                 fatal: true,
             });
@@ -269,15 +270,13 @@ pub fn walk(f: &SourceFile, file_len: u64) -> Result<Packed> {
                     let name = igor_text(openreadout_core::bytes::until_nul(&b));
                     folders.push(name.trim().to_string());
                 }
-                RecordKind::FolderEnd => {
-                    if folders.pop().is_none() {
-                        problems.push(Problem {
-                            code: "folders",
-                            detail: format!("data folder end at {pos} without a start"),
-                            offset: Some(pos),
-                            fatal: false,
-                        });
-                    }
+                RecordKind::FolderEnd if folders.pop().is_none() => {
+                    problems.push(Problem {
+                        code: "folders",
+                        detail: format!("data folder end at {pos} without a start"),
+                        offset: Some(pos),
+                        fatal: false,
+                    });
                 }
                 _ => {}
             }
@@ -393,7 +392,11 @@ pub fn parse_variables(b: &[u8], e: Endian, folder: &str) -> Variables {
     pos += 4 * n_sys;
     let name_at = |p: usize| -> Option<String> {
         let f = b.get(p..p + NAME_FIELD)?;
-        Some(igor_text(openreadout_core::bytes::until_nul(f)).trim().to_string())
+        Some(
+            igor_text(openreadout_core::bytes::until_nul(f))
+                .trim()
+                .to_string(),
+        )
     };
     for _ in 0..n_num {
         let (Some(name), Some(nt), Some(re), Some(im)) = (

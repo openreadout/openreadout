@@ -11,7 +11,7 @@ fn fix_checksum(b: &mut [u8], n: usize, big: bool, at: usize) {
     b[at] = 0;
     b[at + 1] = 0;
     let mut sum: u16 = 0;
-    for w in b[..n].chunks_exact(2) {
+    for w in b[..n].as_chunks::<2>().0 {
         let v = if big {
             u16::from_be_bytes([w[0], w[1]])
         } else {
@@ -20,7 +20,11 @@ fn fix_checksum(b: &mut [u8], n: usize, big: bool, at: usize) {
         sum = sum.wrapping_add(v);
     }
     let c = 0u16.wrapping_sub(sum);
-    let bytes = if big { c.to_be_bytes() } else { c.to_le_bytes() };
+    let bytes = if big {
+        c.to_be_bytes()
+    } else {
+        c.to_le_bytes()
+    };
     b[at..at + 2].copy_from_slice(&bytes);
 }
 
@@ -41,9 +45,27 @@ struct W5 {
 impl W5 {
     fn bytes(&self) -> Vec<u8> {
         let big = self.big;
-        let i16b = |v: i16| if big { v.to_be_bytes() } else { v.to_le_bytes() };
-        let i32b = |v: i32| if big { v.to_be_bytes() } else { v.to_le_bytes() };
-        let f64b = |v: f64| if big { v.to_be_bytes() } else { v.to_le_bytes() };
+        let i16b = |v: i16| {
+            if big {
+                v.to_be_bytes()
+            } else {
+                v.to_le_bytes()
+            }
+        };
+        let i32b = |v: i32| {
+            if big {
+                v.to_be_bytes()
+            } else {
+                v.to_le_bytes()
+            }
+        };
+        let f64b = |v: f64| {
+            if big {
+                v.to_be_bytes()
+            } else {
+                v.to_le_bytes()
+            }
+        };
         let mut b = vec![0u8; 384];
         b[0..2].copy_from_slice(&i16b(5));
         b[4..8].copy_from_slice(&i32b(320 + self.data.len() as i32));
@@ -92,7 +114,13 @@ impl W5 {
 
 fn f32s(v: &[f32], big: bool) -> Vec<u8> {
     v.iter()
-        .flat_map(|x| if big { x.to_be_bytes() } else { x.to_le_bytes() })
+        .flat_map(|x| {
+            if big {
+                x.to_be_bytes()
+            } else {
+                x.to_le_bytes()
+            }
+        })
         .collect()
 }
 
@@ -137,7 +165,11 @@ fn version5_trace_in_both_byte_orders() {
         let v = ds.vendor_metadata().unwrap();
         assert_eq!(v["waves"][0]["note_fields"]["Gain"], "2");
         let r = ds.check().unwrap();
-        assert!(r.findings.iter().all(|f| f.code != "checksum"), "{:?}", r.findings);
+        assert!(
+            r.findings.iter().all(|f| f.code != "checksum"),
+            "{:?}",
+            r.findings
+        );
     }
 }
 
@@ -167,7 +199,10 @@ fn labelled_columns_are_trace_channels_and_labelled_layers_are_image_channels() 
     assert_eq!(t.channels.len(), 2);
     assert_eq!(t.channels[1].name, "Defl");
     assert!(t.extra.contains_key("axis"));
-    assert_eq!(ds.read_trace(0, 0, 0, 10).unwrap().channels[1], vec![10.0, 20.0, 30.0]);
+    assert_eq!(
+        ds.read_trace(0, 0, 0, 10).unwrap().channels[1],
+        vec![10.0, 20.0, 30.0]
+    );
 
     let img = W5 {
         name: "Image0001",
@@ -179,7 +214,12 @@ fn labelled_columns_are_trace_channels_and_labelled_layers_are_image_channels() 
         dim_units: ["m", "m", "", ""],
         data: f32s(&(0..12).map(|x| x as f32).collect::<Vec<_>>(), false),
         note: "",
-        labels: [vec![], vec![], vec!["", "HeightRetrace", "PhaseRetrace"], vec![]],
+        labels: [
+            vec![],
+            vec![],
+            vec!["", "HeightRetrace", "PhaseRetrace"],
+            vec![],
+        ],
         big: false,
     };
     let p = write(&dir, "img.ibw", &img.bytes());
@@ -192,15 +232,29 @@ fn labelled_columns_are_trace_channels_and_labelled_layers_are_image_channels() 
     let plane = ds.read_plane(0, PlaneIndex { c: 1, z: 0, t: 0 }).unwrap();
     let vals: Vec<f32> = plane
         .data
-        .chunks_exact(4)
+        .as_chunks::<4>()
+        .0
+        .iter()
         .map(|c| f32::from_le_bytes([c[0], c[1], c[2], c[3]]))
         .collect();
     assert_eq!(vals, vec![6.0, 7.0, 8.0, 9.0, 10.0, 11.0]);
 }
 
 fn version2(big: bool) -> Vec<u8> {
-    let i16b = |v: i16| if big { v.to_be_bytes() } else { v.to_le_bytes() };
-    let i32b = |v: i32| if big { v.to_be_bytes() } else { v.to_le_bytes() };
+    let i16b = |v: i16| {
+        if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        }
+    };
+    let i32b = |v: i32| {
+        if big {
+            v.to_be_bytes()
+        } else {
+            v.to_le_bytes()
+        }
+    };
     let note = b"This is a test.";
     let mut b = vec![0u8; 16 + 110];
     b[0..2].copy_from_slice(&i16b(2));
@@ -209,7 +263,11 @@ fn version2(big: bool) -> Vec<u8> {
     b[16..18].copy_from_slice(&i16b(2));
     b[22..30].copy_from_slice(b"version2");
     b[58..62].copy_from_slice(&i32b(5));
-    b[64..72].copy_from_slice(&if big { 1.0f64.to_be_bytes() } else { 1.0f64.to_le_bytes() });
+    b[64..72].copy_from_slice(&if big {
+        1.0f64.to_be_bytes()
+    } else {
+        1.0f64.to_le_bytes()
+    });
     b.extend_from_slice(&f32s(&[5.0, 4.0, 3.0, 2.0, 1.0], big));
     b.extend_from_slice(&[0u8; 16]);
     fix_checksum(&mut b, 142, big, 14);
@@ -225,7 +283,10 @@ fn version2_waves_read_in_both_byte_orders() {
         let mut ds = IgorReader.open(&p).unwrap();
         let info = ds.info().unwrap();
         assert_eq!(info.format_version.as_deref(), Some("ibw 2"));
-        assert_eq!(ds.read_trace(0, 0, 0, 5).unwrap().channels[0], vec![5.0, 4.0, 3.0, 2.0, 1.0]);
+        assert_eq!(
+            ds.read_trace(0, 0, 0, 5).unwrap().channels[0],
+            vec![5.0, 4.0, 3.0, 2.0, 1.0]
+        );
         let v = ds.vendor_metadata().unwrap();
         assert_eq!(v["waves"][0]["note"], "This is a test.");
     }
@@ -268,7 +329,10 @@ fn packed() -> Vec<u8> {
     b.extend(record(9, &folder));
     b.extend(record(3, &trace_wave(false).bytes()));
     b.extend(record(10, &[]));
-    b.extend(record(4, b"// Platform=WindowsNT, IGORVersion=9.050, architecture=Intel\r\n"));
+    b.extend(record(
+        4,
+        b"// Platform=WindowsNT, IGORVersion=9.050, architecture=Intel\r\n",
+    ));
     b.extend(record(0x8000 | 3, &version2(false)));
     b
 }
@@ -297,8 +361,17 @@ fn damaged_files_give_clean_errors() {
     b.truncate(390);
     let p = write(&dir, "cut.ibw", &b);
     let mut ds = IgorReader.open(&p).unwrap();
-    assert!(ds.info().unwrap().traces.is_empty(), "the cut wave is not readable");
-    assert!(ds.check().unwrap().findings.iter().any(|f| f.code == "truncated"));
+    assert!(
+        ds.info().unwrap().traces.is_empty(),
+        "the cut wave is not readable"
+    );
+    assert!(
+        ds.check()
+            .unwrap()
+            .findings
+            .iter()
+            .any(|f| f.code == "truncated")
+    );
     let p = write(&dir, "junk.pxp", b"not an igor file at all, just text");
     assert!(IgorReader.open(&p).is_err());
     // byte flips in the headers never panic

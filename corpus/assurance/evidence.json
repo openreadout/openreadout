@@ -68217,60 +68217,6 @@
       ]
     },
     {
-      "id": "dv-zenodo377035-horse-confluent-h2b-gfp-01-08-r3d-d3d",
-      "format": "deltavision",
-      "source": "zenodo:377035",
-      "oracle": "pass",
-      "independent": true,
-      "compared": [
-        "metadata",
-        "pixels"
-      ],
-      "features": [
-        [
-          "sample_layout",
-          "uint16",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "layout",
-          "sections ZTW",
-          [
-            "pixels"
-          ]
-        ],
-        [
-          "layout",
-          "little-endian",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "writer",
-          "softWoRx deconvolution",
-          [
-            "metadata",
-            "pixels"
-          ]
-        ],
-        [
-          "codec",
-          "mode 6",
-          [
-            "pixels"
-          ]
-        ]
-      ],
-      "inferred": [
-        2,
-        13
-      ]
-    },
-    {
       "id": "dv-zenodo5887370-bundle13-snapshot-r3d",
       "format": "deltavision",
       "source": "zenodo:5887370",

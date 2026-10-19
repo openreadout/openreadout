@@ -91,6 +91,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_sif`
 - corpus inputs by tier: smoke 20, standard 1
+- golden snapshots: [`corpus/snapshots/andor-sif.jsonl`](../../corpus/snapshots/andor-sif.jsonl)
 
 ### Open new-variant intakes
 

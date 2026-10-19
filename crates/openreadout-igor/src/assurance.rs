@@ -41,7 +41,12 @@ fn observe(info: &FileInfo) -> Observations {
         o.feature(K::Layout, b, &all);
     }
     for t in &info.traces {
-        let shape = if t.extra.get("dimensions").and_then(|d| d.as_array()).is_some_and(|d| d.len() == 2) {
+        let shape = if t
+            .extra
+            .get("dimensions")
+            .and_then(|d| d.as_array())
+            .is_some_and(|d| d.len() == 2)
+        {
             "trace from labelled columns"
         } else {
             "trace from one dimension"
@@ -49,8 +54,16 @@ fn observe(info: &FileInfo) -> Observations {
         o.feature(K::Layout, shape, &[Scope::Traces]);
     }
     for i in &info.images {
-        let layers = i.extra.get("layers_as").and_then(|v| v.as_str()).unwrap_or("z");
-        let rank = i.extra.get("dimensions").and_then(|d| d.as_array()).map_or(2, Vec::len);
+        let layers = i
+            .extra
+            .get("layers_as")
+            .and_then(|v| v.as_str())
+            .unwrap_or("z");
+        let rank = i
+            .extra
+            .get("dimensions")
+            .and_then(|d| d.as_array())
+            .map_or(2, Vec::len);
         let shape = match (rank, layers) {
             (2, _) => "image from two dimensions".to_string(),
             (_, l) => format!("image with layers as {l}"),

@@ -134,7 +134,11 @@ impl DvHeader {
         let f32_ = |o: usize| e.f32(b, o).unwrap_or(f32::NAN);
         let titles = b[224..HEADER_LEN]
             .chunks(80)
-            .map(|t| openreadout_core::bytes::latin1(openreadout_core::bytes::until_nul(t)).trim().to_string())
+            .map(|t| {
+                openreadout_core::bytes::latin1(openreadout_core::bytes::until_nul(t))
+                    .trim()
+                    .to_string()
+            })
             .filter(|t| !t.is_empty())
             .collect();
         Some(DvHeader {
@@ -237,7 +241,10 @@ pub fn section_info(ext: &[u8], h: &DvHeader, section: u64) -> Option<SectionInf
         return None;
     }
     let stride = (ints + floats).checked_mul(4)?;
-    let at = usize::try_from(section).ok()?.checked_mul(stride)?.checked_add(ints * 4)?;
+    let at = usize::try_from(section)
+        .ok()?
+        .checked_mul(stride)?
+        .checked_add(ints * 4)?;
     let f = |k: usize| h.endian.f32(ext, at + 4 * k);
     Some(SectionInfo {
         photosensor: f(0)?,

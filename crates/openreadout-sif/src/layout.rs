@@ -147,7 +147,12 @@ impl Block {
             return None;
         }
         let p = (i + 1) as f64;
-        Some(self.calibration.iter().rev().fold(0.0, |acc, c| acc * p + c))
+        Some(
+            self.calibration
+                .iter()
+                .rev()
+                .fold(0.0, |acc, c| acc * p + c),
+        )
     }
 }
 
@@ -207,7 +212,12 @@ impl<'a> Cur<'a> {
         std::str::from_utf8(t)
             .ok()
             .and_then(|s| s.trim().parse().ok())
-            .ok_or_else(|| self.err(format!("`{}` is not an integer", String::from_utf8_lossy(t))))
+            .ok_or_else(|| {
+                self.err(format!(
+                    "`{}` is not an integer",
+                    String::from_utf8_lossy(t)
+                ))
+            })
     }
     fn float(&mut self) -> Result<f64> {
         let t = self.token()?;
@@ -236,7 +246,13 @@ impl<'a> Cur<'a> {
     fn bytes(&mut self, n: usize) -> Result<&'a [u8]> {
         let s = self
             .b
-            .get(self.pos..self.pos.checked_add(n).ok_or_else(|| self.err("length overflows"))?)
+            .get(
+                self.pos
+                    ..self
+                        .pos
+                        .checked_add(n)
+                        .ok_or_else(|| self.err("length overflows"))?,
+            )
             .ok_or_else(|| self.err(format!("{n} bytes run past the header")))?;
         self.pos += n;
         Ok(s)
@@ -268,6 +284,7 @@ fn number_line(b: &[u8], p: usize) -> Option<(u64, usize)> {
 
 /// The axis names and the image-structure line at `p`, if they start there: three
 /// length-prefixed printable strings, then a line of at least nine integers starting with 655xx.
+#[allow(clippy::many_single_char_names)]
 fn axes_at(b: &[u8], p: usize) -> Option<([String; 3], Vec<i64>, usize)> {
     let mut q = p;
     let mut names: [String; 3] = Default::default();
@@ -305,11 +322,13 @@ fn floats(line: &[u8]) -> Option<Vec<f64>> {
 }
 
 /// Parse one block whose first line starts at `start`; `limit` is the file length.
+#[allow(clippy::many_single_char_names, clippy::too_many_lines)]
 fn parse_block(f: &SourceFile, start: u64, file_len: u64, role: usize) -> Result<Block> {
     let n = file_len.saturating_sub(start).min(MAX_HEADER);
     let mut buf = vec![0u8; usize::try_from(n).unwrap_or(0)];
-    f.read_exact_at(start, &mut buf)
-        .map_err(|e| Error::corrupt_at(FORMAT_ID, start, format!("cannot read a SIF header: {e}")))?;
+    f.read_exact_at(start, &mut buf).map_err(|e| {
+        Error::corrupt_at(FORMAT_ID, start, format!("cannot read a SIF header: {e}"))
+    })?;
     let mut c = Cur {
         b: &buf,
         pos: 0,
@@ -337,7 +356,10 @@ fn parse_block(f: &SourceFile, start: u64, file_len: u64, role: usize) -> Result
     // the end of the first line: the newline followed by the detector line and a size line
     let mut end = None;
     let mut p = c.pos;
-    while let Some(i) = buf.get(p..).and_then(|r| r.iter().take(4096).position(|x| *x == b'\n')) {
+    while let Some(i) = buf
+        .get(p..)
+        .and_then(|r| r.iter().take(4096).position(|x| *x == b'\n'))
+    {
         let nl = p + i;
         let det_end = buf
             .get(nl + 1..)
@@ -390,7 +412,9 @@ fn parse_block(f: &SourceFile, start: u64, file_len: u64, role: usize) -> Result
     }
     let user_len = usize::try_from(user_len).map_err(|_| c.err("negative user-text length"))?;
     let user = c.bytes(user_len)?;
-    let user_text = printable(openreadout_core::bytes::until_nul(user)).trim().to_string();
+    let user_text = printable(openreadout_core::bytes::until_nul(user))
+        .trim()
+        .to_string();
     c.line()?; // newline after the user text
     c.line()?; // shutter line
     let settings_start = c.pos;
@@ -512,12 +536,11 @@ fn parse_block(f: &SourceFile, start: u64, file_len: u64, role: usize) -> Result
             let mut q = after;
             let mut ok = true;
             for _ in 0..frames {
-                match number_line(&buf, q) {
-                    Some((_, a)) => q = a,
-                    None => {
-                        ok = false;
-                        break;
-                    }
+                if let Some((_, a)) = number_line(&buf, q) {
+                    q = a;
+                } else {
+                    ok = false;
+                    break;
                 }
             }
             if ok {
@@ -612,8 +635,7 @@ pub fn parse(f: &SourceFile, file_len: u64) -> Result<SifLayout> {
     let mut xml = None;
     if pos > file_len {
         problems.push(format!(
-            "the signal data ends at {}, past the end of the file ({file_len} bytes): the file is cut short",
-            pos
+            "the signal data ends at {pos}, past the end of the file ({file_len} bytes): the file is cut short"
         ));
         return Ok(SifLayout {
             file_len,
@@ -624,13 +646,10 @@ pub fn parse(f: &SourceFile, file_len: u64) -> Result<SifLayout> {
         });
     }
     // four flags, each followed by its block when 1
-    for role in 1..BLOCK_NAMES.len() {
+    for (role, block_name) in BLOCK_NAMES.iter().enumerate().skip(1) {
         if !trailer_flag_at(f, pos, file_len) {
             if pos < file_len {
-                problems.push(format!(
-                    "no flag for the {} block at {pos}",
-                    BLOCK_NAMES[role]
-                ));
+                problems.push(format!("no flag for the {block_name} block at {pos}"));
             }
             break;
         }
@@ -645,14 +664,13 @@ pub fn parse(f: &SourceFile, file_len: u64) -> Result<SifLayout> {
                     blocks.push(bl);
                     if pos > file_len {
                         problems.push(format!(
-                            "the {} data runs past the end of the file",
-                            BLOCK_NAMES[role]
+                            "the {block_name} data runs past the end of the file"
                         ));
                         break;
                     }
                 }
                 Err(e) => {
-                    problems.push(format!("the {} block cannot be read: {e}", BLOCK_NAMES[role]));
+                    problems.push(format!("the {block_name} block cannot be read: {e}"));
                     break;
                 }
             }
@@ -665,7 +683,11 @@ pub fn parse(f: &SourceFile, file_len: u64) -> Result<SifLayout> {
             .map_err(|e| Error::corrupt_at(FORMAT_ID, pos, e.to_string()))?;
         let t = b.trim_ascii_start();
         if t.starts_with(b"<?xml") || t.starts_with(b"<") {
-            xml = Some(String::from_utf8_lossy(t).trim_end_matches('\0').to_string());
+            xml = Some(
+                String::from_utf8_lossy(t)
+                    .trim_end_matches('\0')
+                    .to_string(),
+            );
         } else {
             trailing_bytes = file_len - pos;
         }
