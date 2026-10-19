@@ -1,0 +1,8 @@
+{
+ "id": "gin-biocam-brainwave5-hw3-0-fw1-7",
+ "file": "BioCAM_BrainWave5_HW_3.0_FW_1.7.brw",
+ "size": 1143616,
+ "sha256": "223dbb7bd3949518e63a240ae1753006a5a5778ea7ad832b4284814cdd1eb533",
+ "max_planes_hashed": 64,
+ "error": "ValueError: Please set `fill_gaps_strategy` to 'zeros' or 'synthetic_noise'."
+}
