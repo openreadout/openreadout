@@ -76449,6 +76449,46 @@
       ]
     },
     {
+      "id": "figshare-28485251-1",
+      "format": "edf",
+      "source": "figshare 28485251",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+D",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
       "id": "gin-edf-autoscaled-offsets",
       "format": "edf",
       "source": "gin:neuralensemble/ephy_testing_data",

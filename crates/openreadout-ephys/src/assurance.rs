@@ -679,10 +679,10 @@ const EDF_VALIDATED: &[Validated] = &[
     a::row(K::FormatVersion, "BDF+C", 3, 3, 3),
     a::row(K::FormatVersion, "EDF", 5, 5, 5),
     a::row(K::FormatVersion, "EDF+C", 16, 10, 16),
-    a::row(K::FormatVersion, "EDF+D", 1, 1, 1),
+    a::row(K::FormatVersion, "EDF+D", 2, 2, 2),
     a::row(K::Layout, "several sample rates", 4, 4, 4),
-    a::row(K::Record, "annotations", 13, 9, 14),
-    a::row(K::SampleLayout, "int16", 21, 13, 21),
+    a::row(K::Record, "annotations", 13, 9, 15),
+    a::row(K::SampleLayout, "int16", 22, 14, 22),
     a::row(K::SampleLayout, "int24", 5, 5, 5),
 ];
 // END GENERATED edf
