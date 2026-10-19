@@ -6096,7 +6096,92 @@ def brainvision(p: Path) -> dict:
     return out
 
 
-EPHYS = {"wcp": winwcp, "edf": edf, "bdf": edf, "vhdr": brainvision, "set": axona, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
+def eeglab(p: Path) -> dict:
+    """EEGLAB .set (+ .fdt) via SciPy's MAT-file reader (BSD-3, `scipy.io.loadmat`) for the EEG
+    structure, checked against MNE-Python (BSD-3), both black boxes. The samples are the `data`
+    array, or the .fdt it names read as MNE reads it (little-endian float32, nbchan x pnts x
+    trials in column-major order); MNE's values (V, divided by its 1e-6) must agree to 1e-6
+    relative. One trace whose sweeps are the epochs. Events: (latency - 1) / srate, duration /
+    srate (0 without a duration field, NaN when it is empty), latency and duration, compared
+    order-free; MNE's annotation count must match for continuous data."""
+    import mne
+    import scipy.io as sio
+
+    m = sio.loadmat(str(p), squeeze_me=True, struct_as_record=False, appendmat=False)
+    if "EEG" in m:
+        eeg = m["EEG"]
+        get = lambda k, d=None: getattr(eeg, k, d)  # noqa: E731
+    else:
+        get = lambda k, d=None: m.get(k, d)  # noqa: E731
+    nbchan, pnts = int(get("nbchan")), int(get("pnts"))
+    trials = max(1, int(get("trials", 1) or 1))
+    srate = float(get("srate"))
+    data = get("data")
+    if isinstance(data, str):
+        name = Path(data).name
+        fdt = p.parent / name
+        if not fdt.exists():
+            fdt = p.with_suffix(".fdt")
+        raw_vals = np.fromfile(fdt, dtype="<f4").astype(np.float64)
+        arr = raw_vals[: nbchan * pnts * trials].reshape((nbchan, pnts, trials), order="F")
+    else:
+        arr = np.asarray(data, dtype=np.float64).reshape((nbchan, pnts, trials), order="F")
+    # MNE cross-check
+    if trials == 1:
+        mne_v = mne.io.read_raw_eeglab(str(p), preload=True, verbose="error").get_data()[:, :, None] / 1e-6
+        mne_names = mne.io.read_raw_eeglab(str(p), preload=False, verbose="error").ch_names
+    else:
+        ep = mne.read_epochs_eeglab(str(p), verbose="error")
+        mne_v = np.transpose(ep.get_data(), (1, 2, 0)) / 1e-6
+        mne_names = ep.ch_names
+    if mne_v.shape != arr.shape:
+        raise ValueError(f"MNE gives {mne_v.shape}, the samples {arr.shape}")
+    worst = float(np.max(np.abs(mne_v - arr) / np.maximum(1.0, np.abs(arr)))) if arr.size else 0.0
+    if worst > 1e-6:
+        raise ValueError(f"MNE values differ from the stored samples by {worst:.3g}")
+    locs = get("chanlocs")
+    labels = [str(getattr(c, "labels", "")).strip() for c in np.atleast_1d(locs)] if locs is not None and np.size(locs) else []
+    if len(labels) != nbchan:
+        labels = [""] * nbchan
+    trace = {"index": 0, "sweep_count": trials, "channel_count": nbchan,
+             "channel_names": labels, "sample_rate_hz": srate,
+             "sweeps": [{"sweep": t, "sample_count": pnts,
+                         "channels": [{"xxh3": _trace_hash(arr[c, :, t]), "first": _first(arr[c, :, t])} for c in range(nbchan)]}
+                        for t in range(min(trials, MAX_SWEEPS))],
+             "mne_channel_names": list(mne_names)}
+    out = {"reader": f"SciPy {__import__('scipy').__version__} loadmat (EEG structure), numpy (.fdt float32); MNE {mne.__version__} cross-check",
+           "traces": [trace]}
+    events = get("event")
+    rows = []
+    if events is not None and np.size(events):
+        for e in np.atleast_1d(events):
+            lat = getattr(e, "latency", None)
+            if lat is None or np.size(lat) != 1:
+                continue
+            lat = float(lat)
+            if not hasattr(e, "duration"):
+                dur = 0.0
+            elif np.size(e.duration) == 0:
+                dur = float("nan")
+            else:
+                dur = float(e.duration)
+            rows.append((lat, dur))
+    if rows:
+        lat = np.array([r[0] for r in rows])
+        dur = np.array([r[1] for r in rows])
+        if trials == 1:
+            n_mne = len(mne.io.read_raw_eeglab(str(p), preload=False, verbose="error").annotations)
+            if n_mne != len(rows):
+                out["mne_annotation_count"] = n_mne
+        out["tables"] = [{"index": 0, "event_count": len(rows),
+                          "parameter_names": ["onset_s", "duration_s", "latency", "duration", "epoch", "type"],
+                          "xxh3": None,
+                          "sorted_row_hashes": [_sorted_rows([("onset_s", (lat - 1.0) / srate), ("duration_s", dur / srate),
+                                                              ("latency", lat), ("duration", dur)])]}]
+    return out
+
+
+EPHYS = {"wcp": winwcp, "edf": edf, "bdf": edf, "vhdr": brainvision, "set": lambda p: eeglab(p) if p.open("rb").read(6) == b"MATLAB" else axona(p), "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
          "nse": neuralynx, "nst": neuralynx, "ntt": neuralynx, "plx": plexon, "pl2": pl2, "smr": spike2,
          **{f"ns{i}": blackrock for i in range(1, 7)}}
 

@@ -77431,6 +77431,574 @@
       ]
     },
     {
+      "id": "figshare-14459286-311-epochs-before",
+      "format": "eeglab",
+      "source": "figshare 14459286",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "14.1.2",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "gin-eeglab-continuous-one-file",
+      "format": "eeglab",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SciPy",
+          []
+        ],
+        [
+          "writer_version",
+          "synthetic (not written by EEGLAB)",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "gin-eeglab-continuous-two-files",
+      "format": "eeglab",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SciPy",
+          []
+        ],
+        [
+          "writer_version",
+          "synthetic (not written by EEGLAB)",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "gin-eeglab-epoched-ica",
+      "format": "eeglab",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SciPy",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds003800-sub-001-task-rest",
+      "format": "eeglab",
+      "source": "openneuro ds003800",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float64",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2020.0",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds004362-sub-001-task-motion-run-1",
+      "format": "eeglab",
+      "source": "openneuro ds004362",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2022.1",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds006260-sub-mc02-ses-1-task-smartickdataset-run-2",
+      "format": "eeglab",
+      "source": "openneuro ds006260",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2025.0.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds006394-sub-01-task-sid",
+      "format": "eeglab",
+      "source": "openneuro ds006394",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB MACA64",
+          []
+        ],
+        [
+          "writer_version",
+          "2024.0",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds006923-sub-1009sg-task-restingstate-acq-epochs",
+      "format": "eeglab",
+      "source": "openneuro ds006923",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2022.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds007006-sub-001-task-ivan",
+      "format": "eeglab",
+      "source": "openneuro ds007006",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2025.0.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds007406-sub-002-task-extremeversustraditionalvideos",
+      "format": "eeglab",
+      "source": "openneuro ds007406",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB MACA64",
+          []
+        ],
+        [
+          "writer_version",
+          "2025.1.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
       "id": "ncem-emd-acquisition-18",
       "format": "emd",
       "source": "github:ercius/openncem",

@@ -728,6 +728,44 @@ def ephys_new_seeds() -> None:
     vmrk = (b"Brain Vision Data Exchange Marker File, Version 1.0\r\n[Marker Infos]\r\n"
             b"Mk1=New Segment,,1,1,0,20200124040556123456\r\nMk2=Stimulus,S  1,3,1,0\r\n")
     put("whole_brainvision", "mini.bundle", BUNDLE_SEP.join([vhdr, vmrk, struct.pack("<8h", 1, -1, 2, -2, 3, -3, 4, -4)]))
+    put("whole_eeglab", "mini.bundle", BUNDLE_SEP.join([_mini_eeglab_set(), struct.pack("<8f", *range(8))]))
+
+
+
+def _mini_eeglab_set() -> bytes:
+    """A MAT 5.0 file with an EEG struct (2 channels, 4 points, chanlocs, one event) whose data
+    names r.fdt; one field compressed, as MATLAB's -v7 writes."""
+    def pad(b: bytes) -> bytes:
+        return b + bytes(-len(b) % 8)
+
+    def el(ty: int, data: bytes) -> bytes:
+        return pad(struct.pack("<II", ty, len(data)) + data)
+
+    def mat(cls: int, dims, name: str, body: bytes) -> bytes:
+        b = el(6, struct.pack("<II", cls, 0)) + el(5, struct.pack(f"<{len(dims)}i", *dims)) + el(1, name.encode()) + body
+        return el(14, b)
+
+    def num(v: float) -> bytes:
+        return mat(6, [1, 1], "", el(9, struct.pack("<d", v)))
+
+    def txt(t: str) -> bytes:
+        return mat(4, [1, len(t)], "", el(4, t.encode("utf-16-le")))
+
+    def strukt(name: str, fields, rows) -> bytes:
+        body = struct.pack("<IIi", 5, 4, 32) + bytes(4)
+        body += el(1, b"".join(f.encode().ljust(32, b"\0") for f in fields))
+        body += b"".join(b"".join(r) for r in rows)
+        return mat(2, [1, len(rows)], name, body)
+
+    eeg = strukt("EEG", ["nbchan", "pnts", "trials", "srate", "xmin", "data", "chanlocs", "event"], [[
+        num(2), num(4), num(1), num(250), num(0), txt("r.fdt"),
+        strukt("", ["labels"], [[txt("Fz")], [txt("Cz")]]),
+        strukt("", ["type", "latency"], [[txt("stim"), num(2)]]),
+    ]])
+    head = b"MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: Mon Oct 19 10:00:00 2026".ljust(116, b" ")
+    head += bytes(8) + struct.pack("<H", 0x0100) + b"IM"
+    z = zlib.compress(eeg)
+    return head + struct.pack("<II", 15, len(z)) + z
 
 
 def _mini_edf(bdf: bool) -> bytes:

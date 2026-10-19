@@ -53,6 +53,7 @@ const TRACE_FORMATS: &[&str] = &[
     "mcs-raw",
     "edf",
     "brainvision",
+    "eeglab",
     "magritek-spinsolve",
     "mzml",
     "mzxml",

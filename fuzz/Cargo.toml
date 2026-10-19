@@ -1122,6 +1122,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_eeglab"
+path = "fuzz_targets/whole_eeglab.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_uvprobe"
 path = "fuzz_targets/whole_uvprobe.rs"
 test = false

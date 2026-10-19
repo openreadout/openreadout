@@ -2353,6 +2353,7 @@ dependencies = [
 name = "openreadout-ephys"
 version = "0.4.0"
 dependencies = [
+ "flate2",
  "openreadout-core",
  "serde_json",
  "tempfile",
