@@ -458,15 +458,15 @@ const CHEMSTATION_VALIDATED: &[Validated] = &[
 // END GENERATED chemstation
 
 // BEGIN GENERATED openlab-cds (cargo xtask assurance-audit --write; do not edit)
-const OPENLAB_CDS_CONFIDENCE: Confidence = Confidence::Medium;
+const OPENLAB_CDS_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const OPENLAB_CDS_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "InstrumentTrace179", 6, 2, 6),
-    a::row(K::Codec, "Signal179", 13, 4, 13),
-    a::row(K::Codec, "Spectra131", 2, 1, 2),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 13),
+    a::row(K::Codec, "InstrumentTrace179", 7, 3, 7),
+    a::row(K::Codec, "Signal179", 14, 5, 14),
+    a::row(K::Codec, "Spectra131", 3, 2, 3),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 14),
     a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
-    a::row(K::FormatVersion, "signal 131", 2, 1, 2),
+    a::row(K::FormatVersion, "signal 131", 3, 2, 3),
     a::row(K::FormatVersion, "signal 179", 11, 4, 11),
     a::row(K::Instrument, "7890B", 1, 1, 1),
     a::row(K::Instrument, "G1364F", 1, 1, 1),
@@ -490,9 +490,9 @@ const OPENLAB_CDS_VALIDATED: &[Validated] = &[
 const EMPOWER_ARW_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const EMPOWER_ARW_VALIDATED: &[Validated] = &[
-    a::row(K::Dialect, "CR line endings", 10, 2, 10),
+    a::row(K::Dialect, "CR line endings", 12, 3, 12),
     a::row(K::Dialect, "CRLF line endings", 13, 2, 13),
-    a::row(K::Layout, "2D, evenly spaced times", 23, 3, 23),
+    a::row(K::Layout, "2D, evenly spaced times", 25, 4, 25),
     a::row(K::Layout, "one field per line", 13, 2, 13),
 ];
 // END GENERATED empower-arw
@@ -527,32 +527,34 @@ const SHIMADZU_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "LC-MS mrm", 3, 2, 7),
     a::row(K::Acquisition, "LC-MS product ion scan", 2, 1, 2),
     a::row(K::Acquisition, "LC-MS sim", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 15),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 19),
     a::row(K::FormatVersion, "2.00", 0, 0, 1),
     a::row(K::FormatVersion, "3.00", 2, 2, 2),
     a::row(K::FormatVersion, "4.00", 2, 2, 2),
-    a::row(K::FormatVersion, "5.01", 10, 6, 13),
+    a::row(K::FormatVersion, "5.01", 14, 9, 17),
+    a::row(K::Instrument, "RID-10A", 1, 1, 1),
+    a::row(K::Instrument, "RID-20A", 3, 2, 3),
     a::row(K::Instrument, "SFID1", 1, 1, 1),
-    a::row(K::Instrument, "SPD-20A", 1, 1, 3),
+    a::row(K::Instrument, "SPD-20A", 2, 2, 4),
     a::row(K::Instrument, "SPD-20AV", 1, 1, 1),
     a::row(K::Layout, "chromatogram (f64) in LSS Raw Data", 1, 1, 1),
     a::row(K::Layout, "chromatogram in LC Raw Data", 2, 2, 2),
-    a::row(K::Layout, "chromatogram in LSS Raw Data", 0, 0, 2),
-    a::row(K::Layout, "pda max plot in PDA 3D Raw Data", 4, 4, 4),
-    a::row(K::Layout, "pda spectra in PDA 3D Raw Data", 4, 4, 4),
+    a::row(K::Layout, "chromatogram in LSS Raw Data", 4, 3, 6),
+    a::row(K::Layout, "pda max plot in PDA 3D Raw Data", 5, 5, 5),
+    a::row(K::Layout, "pda spectra in PDA 3D Raw Data", 5, 5, 5),
     a::row(K::Layout, "status trace in LC Raw Data", 2, 2, 2),
-    a::row(K::Layout, "status trace in LSS Raw Data", 9, 6, 12),
-    a::row(K::Record, "vendor peak table", 1, 1, 7),
+    a::row(K::Layout, "status trace in LSS Raw Data", 13, 9, 16),
+    a::row(K::Record, "vendor peak table", 4, 3, 11),
 ];
 // END GENERATED shimadzu
 
 // BEGIN GENERATED chromeleon (cargo xtask assurance-audit --write; do not edit)
-const CHROMELEON_CONFIDENCE: Confidence = Confidence::Medium;
+const CHROMELEON_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const CHROMELEON_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "3DRawSpc", 0, 0, 2),
     a::row(K::Codec, "PtsDDCmp", 1, 1, 1),
-    a::row(K::Codec, "PtsLDiff", 11, 3, 16),
+    a::row(K::Codec, "PtsLDiff", 12, 3, 16),
     a::row(K::Codec, "PtsLL2Df", 1, 1, 1),
     a::row(K::FormatVersion, "stored results 1", 1, 1, 12),
     a::row(K::FormatVersion, "stored results 2", 0, 0, 3),
@@ -572,9 +574,9 @@ const CHROMELEON_VALIDATED: &[Validated] = &[
     a::row(K::Layout, "20 Hz signal in mAU", 1, 1, 1),
     a::row(K::Layout, "25 Hz 3D field in mAU", 0, 0, 1),
     a::row(K::Layout, "25 Hz signal in mAU", 1, 1, 1),
-    a::row(K::Layout, "50 Hz signal in mV", 9, 2, 12),
+    a::row(K::Layout, "50 Hz signal in mV", 10, 2, 12),
     a::row(K::Layout, "irregular signal in counts", 1, 1, 1),
-    a::row(K::WriterVersion, "Chromeleon 7.2", 11, 4, 15),
+    a::row(K::WriterVersion, "Chromeleon 7.2", 12, 4, 15),
     a::row(K::WriterVersion, "Chromeleon 7.3", 2, 1, 2),
 ];
 // END GENERATED chromeleon

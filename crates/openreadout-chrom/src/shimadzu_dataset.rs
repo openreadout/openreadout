@@ -122,6 +122,9 @@ pub struct ShimadzuSignal {
     pub label: Option<crate::shimadzu_channels::ChannelLabel>,
     /// The stream holds f64 values after its header (GC `.gcd`), not integer blocks.
     pub f64_values: bool,
+    /// Time of the trace's first point, ms: the channel's start time in its status record
+    /// (`Chromatogram Status`, `StatusLog Status`, u32 at +12), else 0.
+    pub start_ms: u32,
 }
 
 impl ShimadzuSignal {
@@ -692,6 +695,7 @@ impl ShimadzuDataset {
                     wavelengths: Vec::new(),
                     label: None,
                     f64_values: crate::shimadzu_signal::is_f64_record(c.size, n),
+                    start_ms: 0,
                 });
             }
         }
@@ -728,8 +732,17 @@ impl ShimadzuDataset {
                 } else {
                     sc::label_lss_channels(&chans, &items, &lss_statuses)
                 };
-                for (i, l) in idx.into_iter().zip(labels) {
+                let starts = if storage == "LC Raw Data/" {
+                    &statuses
+                } else {
+                    &lss_statuses
+                };
+                for ((i, l), ch) in idx.into_iter().zip(labels).zip(&chans) {
                     signals[i].label = l.filter(|l| !l.name.is_empty());
+                    signals[i].start_ms = starts
+                        .iter()
+                        .find(|s| s.channel == *ch)
+                        .map_or(0, |s| s.start_ms);
                 }
             }
         }
@@ -762,6 +775,7 @@ impl ShimadzuDataset {
                     wavelengths: Vec::new(),
                     label: None,
                     f64_values: false,
+                    start_ms: 0,
                 });
                 if !wl.is_empty() && raw.size > 0 {
                     signals.push(ShimadzuSignal {
@@ -772,6 +786,7 @@ impl ShimadzuDataset {
                         wavelengths: wl,
                         label: None,
                         f64_values: false,
+                        start_ms: 0,
                     });
                 }
             }
@@ -814,7 +829,11 @@ impl ShimadzuDataset {
                 } else {
                     sc::label_lss_status(&chans, &items, &statuses)
                 };
-                for ((_, e), label) in logs.into_iter().zip(labels) {
+                for ((n, e), label) in logs.into_iter().zip(labels) {
+                    let start_ms = statuses
+                        .iter()
+                        .find(|s| s.channel == n)
+                        .map_or(0, |s| s.start_ms);
                     // unscaled logs (no status record) are not exposed: their unit is unknown
                     let Some(label) = label else { continue };
                     let head = read(&e.path).unwrap_or_default();
@@ -829,6 +848,7 @@ impl ShimadzuDataset {
                         wavelengths: Vec::new(),
                         label: Some(label),
                         f64_values: false,
+                        start_ms,
                     });
                 }
             }
@@ -974,11 +994,15 @@ impl ShimadzuDataset {
         let step_min = f64::from(sig.interval_ms) / 60_000.0;
         let mut extra = BTreeMap::new();
         extra.insert("stream".into(), json!(sig.stream));
+        let first_min = f64::from(sig.start_ms) / 60_000.0;
         extra.insert(
             "axis".into(),
-            json!({"quantity": "retention_time", "unit": "min", "first": 0.0, "step": step_min}),
+            json!({"quantity": "retention_time", "unit": "min", "first": first_min, "step": step_min}),
         );
         extra.insert("interval_ms".into(), json!(sig.interval_ms));
+        if sig.start_ms > 0 {
+            extra.insert("start_ms".into(), json!(sig.start_ms));
+        }
         let (name, unit, scale, detector) = match sig.kind {
             ShimadzuSignalKind::Chromatogram => {
                 let storage = sig.stream.split('/').next().unwrap_or("");
@@ -1109,7 +1133,7 @@ impl ShimadzuDataset {
             sample_count: u64::from(sig.points()),
             sweep_count: 1,
             channels,
-            start_s: Some(0.0),
+            start_s: Some(f64::from(sig.start_ms) / 1000.0),
             extra,
         }
     }
@@ -1303,8 +1327,9 @@ impl ShimadzuDataset {
                 _ => 1000.0,
             };
             let dt = f64::from(sig.interval_ms) / 1000.0;
+            let t0 = f64::from(sig.start_ms) / 1000.0;
             for p in peaks {
-                let idx = |m: f64| (m * 60.0 / dt).round() as usize;
+                let idx = |m: f64| ((m * 60.0 - t0) / dt).round().max(0.0) as usize;
                 let (i0, i1) = (idx(p.start_min), idx(p.end_min));
                 if i1 <= i0 || i1 >= v.len() {
                     continue;

@@ -24636,6 +24636,128 @@ source = "GitHub odea-project/streamfind @69f75b6, bindings/r/dev/dev_reader/exa
 attribution = "odea-project/streamfind contributors (Ricardo Cunha)"
 notes = "LabSolutions ASCII export of lcd-streamfind-adc-uv: [LC Chromatogram(Detector A-Ch1)], [LC Chromatogram(AD1)], six [LC Status Trace(...)] sections, peak tables"
 
+# ---- LabSolutions newer-layout (LSS Raw Data) runs with a refractive-index detector, each with its ASCII export, added 2026-10-18.
+[[file]]
+id = "lcd-dvnl-afbyvf-nb-bta"
+format = "shimadzu"
+role = "input"
+tier = "standard"
+filename = "shimadzu-dataverse/dvnl-afbyvf-nb-bta.lcd"
+url = "https://dataverse.nl/api/access/datafile/378794"
+sha256 = "0b03af0e4b30b287a2ec00eecc9391f52bf4b2ab9b020d21145db746d461b960"
+size = 3137536
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.34894/AFBYVF (CC-BY-4.0, Dataverse API), 2026-10-18"
+source = "DataverseNL doi:10.34894/AFBYVF, file 378794 'Nb BTA.lcd': In Situ Covalent Reinforcement of a Benzene-1,3,5-Tricarboxamide Supramolecular Polymer Enables Biomimetic, Tough, and Fibrous Hydrogels and Bioinks"
+attribution = "Hafeez, Shahzad; Baker, Matt"
+notes = "LabSolutions 5.98 GPC run (instrument 'GPC_DMF', 2020), newer layout (LSS Raw Data): an RID-20A refractive-index detector 'Detector B' (1800 stored points at 500 ms), a PDA, eight status logs and LabSolutions' peak tables. Ground truth: the depositor's LabSolutions ASCII export of the run (lcd-dvnl-afbyvf-nb-bta-txt), written with decimal commas."
+
+[[file]]
+id = "lcd-dvnl-afbyvf-nb-bta-txt"
+format = "shimadzu"
+role = "oracle-export"
+tier = "standard"
+filename = "shimadzu-dataverse/dvnl-afbyvf-nb-bta.txt"
+url = "https://dataverse.nl/api/access/datafile/378865"
+sha256 = "a71f5580afdace8b716395c32c70a6f008e23179ec3854d5dc3832447514ee80"
+size = 2584272
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.34894/AFBYVF (CC-BY-4.0, Dataverse API), 2026-10-18"
+source = "DataverseNL doi:10.34894/AFBYVF, file 378865 'Nb BTA.txt'"
+attribution = "Hafeez, Shahzad; Baker, Matt"
+notes = "LabSolutions ASCII export of lcd-dvnl-afbyvf-nb-bta: [LC Chromatogram(Detector B-Ch1)] (1801 points, mV), eight [LC Status Trace(...)] sections, peak tables, PDA sections"
+
+[[file]]
+id = "lcd-dvnl-hrkhdq-pla-c-300h"
+format = "shimadzu"
+role = "input"
+tier = "standard"
+filename = "shimadzu-dataverse/dvnl-hrkhdq-pla-c-300h.lcd"
+url = "https://dataverse.nl/api/access/datafile/472495"
+sha256 = "d3e6f807e60f0b37ff181c78cdac22cbfe2d1c4764b0f12529023bc56914f0eb"
+size = 3964928
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.34894/HRKHDQ (CC-BY-4.0, Dataverse API), 2026-10-18"
+source = "DataverseNL doi:10.34894/HRKHDQ, file 472495 'GPC_PLA-C-300h.lcd': Effect of Fiber Cross-Sectional and Surface Properties on the Degradation of Biobased Polymers"
+attribution = "Schick, Simon"
+notes = "LabSolutions 5.124 SP1 GPC run (LC-2030, 2024), newer layout (LSS Raw Data): refractive-index detector 'Detector B' (3960 stored points), six status logs, GPC peak tables. Ground truth: the depositor's LabSolutions ASCII export (lcd-dvnl-hrkhdq-pla-c-300h-txt), decimal commas."
+
+[[file]]
+id = "lcd-dvnl-hrkhdq-pla-c-300h-txt"
+format = "shimadzu"
+role = "oracle-export"
+tier = "standard"
+filename = "shimadzu-dataverse/dvnl-hrkhdq-pla-c-300h.txt"
+url = "https://dataverse.nl/api/access/datafile/472588"
+sha256 = "acef9037c529f1015b4f558ec6544604a0530134ab1f17d3cba68144ea9405d7"
+size = 276302
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.34894/HRKHDQ (CC-BY-4.0, Dataverse API), 2026-10-18"
+source = "DataverseNL doi:10.34894/HRKHDQ, file 472588 'GPC_PLA-C-300h.txt'"
+attribution = "Schick, Simon"
+notes = "LabSolutions ASCII export of lcd-dvnl-hrkhdq-pla-c-300h: [LC Chromatogram(Detector B-Ch1)] (3961 points, mV), six [LC Status Trace(...)] sections, peak tables"
+
+[[file]]
+id = "lcd-dvnl-hrkhdq-r1-300h"
+format = "shimadzu"
+role = "input"
+tier = "full"
+filename = "shimadzu-dataverse/dvnl-hrkhdq-r1-300h.lcd"
+url = "https://dataverse.nl/api/access/datafile/472490"
+sha256 = "7f924dcc1692f442587866fe8dd442d8a858c18783d7de946b9a792fc15d9a1e"
+size = 3969024
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.34894/HRKHDQ (CC-BY-4.0, Dataverse API), 2026-10-18"
+source = "DataverseNL doi:10.34894/HRKHDQ, file 472490 'GPC_R1-300h.lcd'"
+attribution = "Schick, Simon"
+notes = "A second run of the same GPC series as lcd-dvnl-hrkhdq-pla-c-300h. Ground truth: its LabSolutions ASCII export (lcd-dvnl-hrkhdq-r1-300h-txt)."
+
+[[file]]
+id = "lcd-dvnl-hrkhdq-r1-300h-txt"
+format = "shimadzu"
+role = "oracle-export"
+tier = "full"
+filename = "shimadzu-dataverse/dvnl-hrkhdq-r1-300h.txt"
+url = "https://dataverse.nl/api/access/datafile/472361"
+sha256 = "993a031ba4fd82d938668c594ed5a6abfdecf75b0ce08fe91c77af352b494dc3"
+size = 286094
+license = "CC-BY-4.0"
+license_checked = "https://doi.org/10.34894/HRKHDQ (CC-BY-4.0, Dataverse API), 2026-10-18"
+source = "DataverseNL doi:10.34894/HRKHDQ, file 472361 'GPC_R1-300h.txt'"
+attribution = "Schick, Simon"
+notes = "LabSolutions ASCII export of lcd-dvnl-hrkhdq-r1-300h"
+
+# ---- A LabSolutions run whose UV channels start 600 ms late, with the depositor's chromConverter conversion (finding N-L1 of held-out draw B), added 2026-10-18.
+[[file]]
+id = "lcd-labpublic-a1"
+format = "shimadzu"
+role = "input"
+tier = "standard"
+filename = "shimadzu-labpublic/A1.lcd"
+url = "https://raw.githubusercontent.com/actolonen/Lab_Public/ea9e5ffcb3bb63ba234f65409d1981a743431fb7/Metabolites/HPLC/Analysis/Data/LCD_LabSolutions/A1.lcd"
+sha256 = "860f2e536a2388f2a6e34a7440ae73f9f16e1881a35a0af1502967af48ba1a06"
+size = 1724416
+license = "MIT"
+license_checked = "GitHub API repos/actolonen/Lab_Public/license (MIT), 2026-10-18"
+source = "GitHub actolonen/Lab_Public @ea9e5ff, Metabolites/HPLC/Analysis/Data/LCD_LabSolutions/A1.lcd"
+attribution = "actolonen/Lab_Public contributors"
+notes = "LabSolutions newer layout (LSS Raw Data): an SPD-20A UV detector with two channels (260 and 210 nm, 5,999 stored points each, starting 600 ms after injection) and an RID-10A (6,000 points from 0), 50 min at 500 ms; status logs. The same lab as a held-out record (a separate repository, other runs). Ground truth: the depositor's chromConverter conversion of the file (lcd-labpublic-a1-cc)."
+
+[[file]]
+id = "lcd-labpublic-a1-cc"
+format = "shimadzu"
+role = "oracle-export"
+tier = "standard"
+filename = "shimadzu-labpublic/A1.txt"
+url = "https://raw.githubusercontent.com/actolonen/Lab_Public/ea9e5ffcb3bb63ba234f65409d1981a743431fb7/Metabolites/HPLC/Analysis/Data/ChromConverter/A1.txt"
+sha256 = "573c4e20afa9a90528417f3386cab5076831015d94c8f2d66e2bb3e39e1f6431"
+size = 839576
+license = "MIT"
+license_checked = "GitHub API repos/actolonen/Lab_Public/license (MIT), 2026-10-18"
+source = "GitHub actolonen/Lab_Public @ea9e5ff, Metabolites/HPLC/Analysis/Data/ChromConverter/A1.txt"
+attribution = "actolonen/Lab_Public contributors"
+notes = "chromConverter's conversion of lcd-labpublic-a1 (Minutes, Intensity, File, Detector): three detectors; the UV channels' times start at 0.01 min"
+
 # ---- WiRE map with a LiveTrack Z list named `Z data` (finding N-L2 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
@@ -39491,6 +39613,41 @@ license_checked = "https://zenodo.org/records/10810569 (CC-BY-4.0, Zenodo API), 
 source = "Zenodo record 10810569, HPLC_raw.zip"
 attribution = "Kutscherauer, Jakub; Stránský, Jan (Institute of Biotechnology, Czech Academy of Sciences)"
 notes = "UNICORN 7.4.0.800 result export of an ÄKTA SEC run of immunoglobulin G (SEC-SAXS): 15 curves, a UV peak table (2 peaks) that names the evaluated baseline curve UV_CUT_TEMP@100,BASEM (curve 15). Ground truth: UNICORN's peak table (heights and areas measured above the baseline curve), PyCORN and allotropy (black boxes); the record's HPLC_extracted.zip holds the depositors' CSV conversion."
+
+# ---- UNICORN 6.4 result exports (ÄKTA pure, analytical SEC) with the depositors' CSV exports, added 2026-10-18
+[[file]]
+id = "unicorn-zip-zenodo3519436-hpf1-alone-1"
+format = "cytiva-unicorn-zip"
+family = "chromatography"
+role = "input"
+tier = "standard"
+filename = "unicorn-zenodo3519436/hpf1-alone-1.zip"
+url = "https://zenodo.org/api/records/3519436/files/analytical-SEC.zip/content"
+zip_member = "analytical-SEC/chromatograms-unicorn/HPF1 alone 1.zip"
+sha256 = "6399a7b1427adddefad6261c17fe837846020e7cd796a518fb0fb63e2343f989"
+size = 683159
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/3519436 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 3519436: analytical-SEC.zip, chromatograms-unicorn/HPF1 alone 1.zip"
+attribution = "Gaullier, Guillaume; Luger, Karolin et al."
+notes = "UNICORN 6.4.0.2172 result export (Result.xml FormatVersion 4) of an ÄKTA pure analytical SEC run: 15 curves. Fetched from the deposit's zip by HTTP range requests (zip_member). Ground truth: allotropy's data cubes and the curves PyCORN reads (black boxes); the record's chromatograms-csv/ holds UNICORN's CSV export of the same run."
+
+[[file]]
+id = "unicorn-zip-zenodo3519436-qfrd-nuc165-1"
+format = "cytiva-unicorn-zip"
+family = "chromatography"
+role = "input"
+tier = "full"
+filename = "unicorn-zenodo3519436/qfrd-nuc165-1.zip"
+url = "https://zenodo.org/api/records/3519436/files/analytical-SEC.zip/content"
+zip_member = "analytical-SEC/chromatograms-unicorn/QFRD Nuc165 1.zip"
+sha256 = "3f9ab0468e6dd45af09055eb75d1155bb6f17e6817b089a0fd3d385a2f9de9f1"
+size = 675766
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/3519436 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 3519436: analytical-SEC.zip, chromatograms-unicorn/QFRD Nuc165 1.zip"
+attribution = "Gaullier, Guillaume; Luger, Karolin et al."
+notes = "A second run of the same SEC series as unicorn-zip-zenodo3519436-hpf1-alone-1 (UNICORN 6.4). Ground truth as for that file."
 
 # ---- electrochemistry: Neware BTS .nda/.ndax (openreadout-echem), added 2026-09-26
 
@@ -65753,7 +65910,6 @@ source = "Zenodo 10798153 (Lim et al. 2024, \"Integrated electro-biocatalysis fo
 attribution = "Guiyeoul Lim, Donato Calabrese, Allison Wolder et al."
 notes = "Chromeleon 7.2 archive, GC-FID (GC_1), 14 signals, all decoded and equal to the sequence file's description; stored results: 14 of 14 stored peaks reproduced by `openreadout check` (area and height within 1e-6)"
 
-# ketoisophorone: 2 of 84 stored peaks not reproduced (see notes)
 [[file]]
 id = "cmbx-lim-ketoisophorone-standards"
 format = "chromeleon"
@@ -65768,9 +65924,25 @@ license = "CC-BY-4.0"
 license_checked = "Zenodo record licence cc-by-4.0 (https://zenodo.org/api/records/10798153, metadata.license.id), 2026-10-06"
 source = "Zenodo 10798153 (Lim et al. 2024, \"Integrated electro-biocatalysis for flavin-dependent ene-reduction in continuous flow system\")"
 attribution = "Guiyeoul Lim, Donato Calabrese, Allison Wolder et al."
-notes = "Chromeleon 7.2 archive, GC-FID (GC_1), 50 signals, all decoded and equal to the sequence file's description; stored results: 82 of 84 stored peaks reproduced by `openreadout check` (area and height within 1e-6). NOT REPRODUCED: two peaks of the injection `blank` at the very start of GC_1 (peak 1 at 0.020 min: stored area 0.3418683 height 28.470412, ours 0.3412786 / 28.470412; peak 2 at 0.032 min: stored area 0.0574033 height 11.324000, ours 0.0579931 / 11.438018), i.e. the boundary between the first two peaks is placed differently. Adding this archive records a stored-result failure until that is resolved"
+notes = "Chromeleon 7.2 archive, GC-FID (GC_1), 50 signals, all decoded and equal to the sequence file's description; stored results: all 84 stored peaks reproduced by `openreadout check` (area and height within 1e-6). The rider at 0.032 min of the injection `blank` is the one skim line in the corpus whose stored slope is not the slope between its two points; Chromeleon integrated above the line between the points (docs/provenance/chromeleon.md, 2026-10-18)"
 
 # ---------------------------------------------------------------- openlab-cds
+
+# ChromTroller example data (GPL-3.0): an OpenLab CDS 2.8 LC-DAD-MS injection, added 2026-10-18
+[[file]]
+id = "chromtroller-openlab-simple1"
+format = "openlab-cds"
+role = "input"
+tier = "standard"
+filename = "openlab-chromtroller/example_simple1.dx"
+url = "https://raw.githubusercontent.com/ombayley/ChromTroller/1247d08af6f0204a08de552fd65cd26377c34004/docs/example_datasets/hplc/simple/example_simple1.dx"
+sha256 = "313bb85d8189d3230f20fbe1b6a3d9073c59e2536ddd627edd36e3d79241026d"
+size = 47711960
+license = "GPL-3.0"
+license_checked = "LICENSE.md of ombayley/ChromTroller @1247d08 (GPL-3.0, GitHub API license.spdx_id), 2026-10-18; only the data file is used"
+source = "GitHub ombayley/ChromTroller @1247d08, docs/example_datasets/hplc/simple/example_simple1.dx"
+attribution = "ombayley/ChromTroller contributors"
+notes = "OpenLab CDS 2.8 injection from an Agilent 1290 Infinity II UPLC-MS (2025-09-11): one DAD signal part, 23 instrument curves (pump, DAD, column oven, autosampler and LC/MS module), a DAD spectra part and LC/MS data (MSData/, not read). Oracle: oracle/openlab_cds.py (rainbow-api and chromConverter 0.9.0 agree)"
 
 # pyGecko test data (MIT): an OpenLab CDS GC-FID injection
 [[file]]
@@ -66047,6 +66219,40 @@ license_checked = "LICENSE of ArchercatNEO/HPLC @ac89e1d (GPL-2.0, GitHub API li
 source = "GitHub ArchercatNEO/HPLC @ac89e1d (HPLC-RS), test/samples/PC12/"
 attribution = "ArchercatNEO (HPLC-RS)"
 notes = "Empower export from a Waters Alliance HPLC (2025, glycosphingolipid profiling of PC-12 cells): header of one \"name\"<TAB>\"value\" field per line (SampleName, System Name, Sample Set Name, Date Acquired, Sample Set Start Date), then 3,301 points 0-55 min. READER GAP: openreadout reads the first two lines as a names row and a values row and then stops (exit 4, data row 1 is not two numbers). Oracle ready: chromConverter 0.9.0, numeric rows only"
+
+
+# ---- Empower GPC exports with a header row (refractive-index detector, CR line endings), added 2026-10-18
+[[file]]
+id = "empower-zenodo21245297-blue"
+format = "empower-arw"
+role = "input"
+tier = "standard"
+filename = "empower-zenodo21245297/blue.arw"
+url = "https://zenodo.org/api/records/21245297/files/002_Data_repository.zip/content"
+zip_member = "002_Data_repository/Crushed_waste/GPC/blue.arw"
+sha256 = "2f30bddf0fb9aba9fd71086f45cac6e3d15ebb3324312987f7b7a06b60ffda49"
+size = 30694
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/21245297 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 21245297: 002_Data_repository.zip, Crushed_waste/GPC/blue.arw"
+attribution = "Chodounská, Anežka; Kadeřábková, Alena; Froš, Denis; Kalousková, Radka et al."
+notes = "Empower GPC export (2024) with a row of field names (Sample Name, Channel, Run Time, Channel Description, Detector Units) and a row of their values (RI detector 410, MV), then 1,800 points over 30 min; CR line endings. Fetched from the deposit's zip by HTTP range requests (zip_member). Ground truth: chromConverter 0.9.0 (oracle/empower_arw_chromconverter.py)."
+
+[[file]]
+id = "empower-zenodo21245297-red"
+format = "empower-arw"
+role = "input"
+tier = "full"
+filename = "empower-zenodo21245297/red.arw"
+url = "https://zenodo.org/api/records/21245297/files/002_Data_repository.zip/content"
+zip_member = "002_Data_repository/Crushed_waste/GPC/red.arw"
+sha256 = "bbd6a8e3c2fdcd025ae554b01ef968cd8ac3cd0264e57c98c338d4fa9351b749"
+size = 30804
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/21245297 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 21245297: 002_Data_repository.zip, Crushed_waste/GPC/red.arw"
+attribution = "Chodounská, Anežka; Kadeřábková, Alena; Froš, Denis; Kalousková, Radka et al."
+notes = "A second export of the same GPC series as empower-zenodo21245297-blue. Ground truth: chromConverter 0.9.0."
 
 [[file]]
 id = "hplcrs-empower-46804"

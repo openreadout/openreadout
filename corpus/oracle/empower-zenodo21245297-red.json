@@ -1,0 +1,45 @@
+{
+ "id": "empower-zenodo21245297-red",
+ "file": "red.arw",
+ "size": 30804,
+ "sha256": "bbd6a8e3c2fdcd025ae554b01ef968cd8ac3cd0264e57c98c338d4fa9351b749",
+ "reader": "chromConverter 0.9.0 read_chroms(format_in = 'waters_arw') (GPL-3.0, black box)",
+ "oracle_note": "every row chromConverter returned (1800)",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "410 "
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sample_rate_hz": 1.0000000001111728,
+   "x_first_min": 0.01666667,
+   "x_last_min": 30.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1800,
+     "channels": [
+      {
+       "xxh3": "458f4992cc9002abb36a53a7c46c0793",
+       "first": [
+        1.357447,
+        0.5242553,
+        0.2012766,
+        0.07489362,
+        0.02808511,
+        0.009361702,
+        0.004680851,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

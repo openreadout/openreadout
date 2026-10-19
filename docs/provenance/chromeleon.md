@@ -81,3 +81,13 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **For `chromeleon.rs` `ARCHIVES`:** (id, traces, 3D fields, damaged, stored peaks) = (`cmbx-lim-cyclohexenone-standards`, 19, 0, 0, 195), (`cmbx-lim-s-carvone-reactions`, 18, 0, 0, 18), (`cmbx-lim-con-sp22-group-ab`, 17, 0, 0, 19), (`cmbx-lim-cyclohexanone-reaction`, 14, 0, 0, 14). `info` gives the same trace counts.
 
 **Searched without result:** the three development archives that no independent evidence covers. `cmbx-lauterbach-plate-screening` and `cmbx-lauterbach-repuox` hold no stored peaks. The only other file in their record, the PDF report, covers the sequence "2025.11.16 AtRePuOx Conditions" (the in-vivo cascade archive) and none of their injections. `cmbx-baobab-volatiles-ms` has no export in its record; the record's other file is a 1.78 GB archive. A Zenodo search for `filetype:"cmbx"` finds six records: five are in the corpus and one (5717897) is held out. The figshare search finds one article with `.cmbx` files (28560326, already used). That article also holds two Chromeleon ASCII exports that the corpus does not use (`blank-water.txt`, `10x standard mix.txt`). Both are probably injections of the milks archive, which is already confirmed.
+
+## 2026-10-18 — a rider's skim line is the straight line between its two stored points (Richard Zimring with Claude as assistant)
+
+**Corpus files:** every development archive with stored results (the 16 of `tests/chromeleon.rs`), and in particular `cmbx-lim-ketoisophorone-standards` (Zenodo 10798153, CC-BY-4.0). No held-out record.
+
+**Prior art consulted:** none.
+
+**Observed.** The archives hold 275 rider peaks on 228 skim lines (several riders can share one line). On 227 of the lines the stored slope equals the slope between the line's two stored points, to 1e-9 relative. On peak 2 of the injection `blank` (`GC_1`) of `cmbx-lim-ketoisophorone-standards` it does not: the skim line runs from (0.022 min, 27.54) to (0.032 min, 15.81), a slope of −1173.0, and its stored slope is −1184.79 at both ends. The line through the first point with the stored slope misses the second point by 0.118. Integrating above the line between the two points reproduces both stored peaks exactly: the rider's area 0.0574033 and height 11.324000, and the main peak's area 0.3418683 (its own area minus the rider's).
+
+**Inferred.** The skim line under a rider is the straight line between the skim line's stored start and end points. The stored slopes are kept as stored. What makes the stored slope differ on that one line is not known.

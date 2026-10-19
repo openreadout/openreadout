@@ -25,8 +25,14 @@ for (kind in names(x)) {
     # free-text fields keep printable ASCII only: a non-ASCII method path that chromConverter
     # decodes badly would otherwise cut the CSV row short
     a <- function(k) gsub("[^ -~]", " ", g(k), useBytes = TRUE)
+    # a unit with a non-ASCII sign (µA) can come back in an encoding the UTF-8 index cannot
+    # hold, which cut the CSV row short: convert it, reading it as Latin-1 when it is not UTF-8
+    u <- function(x) {
+      r <- iconv(x, from = "UTF-8", to = "UTF-8")
+      if (is.na(r)) iconv(x, from = "latin1", to = "UTF-8") else r
+    }
     rows[[length(rows) + 1]] <- data.frame(kind = kind, i = i, rows = nrow(d), signal = g("signal"),
-                                           units = g("units"), sample_name = a("sample_name"),
+                                           units = u(g("units")), sample_name = a("sample_name"),
                                            operator = a("operator"), method = a("method"))
   }
 }

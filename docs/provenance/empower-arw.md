@@ -40,3 +40,8 @@ The channel name is now `Channel` without its surrounding spaces: GPCreader's ex
 **Corpus files used:** the development `.arw` inputs (unchanged results). **Prior art consulted:** none.
 **Observed:** running `check` over public CSV files that mention plate readers found ordinary comma-separated tables with a quoted header (`"iata","airport",…`) and text files whose first line is quoted detected as Empower exports and reported corrupt (exit 4). The first line has no tab, so it was one cell that starts and ends with a quote.
 **Decided:** the first line must hold at least two tab-separated cells, each one quoted name with no quote inside it (every development export has two or more). Such files are now unknown (exit 3).
+
+## 2026-10-18 — GPC exports from a new depositor (no parsing change) (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `empower-zenodo21245297-blue` and `-red` (Zenodo 21245297, CC-BY-4.0): exports with a row of field names and a row of values (Sample Name, Channel, Run Time, Channel Description, Detector Units), CR line endings, 1,800 points. **Prior art consulted:** none.
+**What was compared.** chromConverter 0.9.0 (`oracle/empower_arw_chromconverter.py`, black box): every value and the first and last times agree on both files. The header names the detector's unit (`Detector Units` `MV`); the reader does not take units from the export yet, so the unit stays assumed.

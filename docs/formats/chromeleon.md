@@ -139,7 +139,7 @@ line a rider peak rides on, 0 for none); after the peaks a count of baseline seg
 count of (time, value) points. A value never seen before where "always absent" stands is refused
 (the chromatogram's results are listed as not decoded).
 
-A peak's baseline is its skim line, else the baseline segment containing its limits. Its area
+A peak's baseline is its skim line (the straight line between the line's two points; the stored slope is that line's slope on all but one line in the corpus), else the baseline segment containing its limits. Its area
 is the trapezoidal integral of (signal − baseline) between its limits, minus the areas of the
 rider peaks inside it; its height is signal − baseline at the apex; both are stored as
 magnitudes. Chromeleon stores results only when it has computed and saved them: injections at

@@ -10,7 +10,7 @@
 //!   export's section title). `DT` is 52 for LabSolutions 5.1 chromatograms but 48 for
 //!   chromatograms and status logs alike in a later writer, so the title decides.
 
-use openreadout_core::bytes::{latin1_field, le_f32, le_f64, le_u16};
+use openreadout_core::bytes::{latin1_field, le_f32, le_f64, le_u16, le_u32};
 
 /// Bytes of one `Chromatogram Status` record.
 pub const STATUS_RECORD: usize = 64;
@@ -39,6 +39,8 @@ pub struct ChannelStatus {
     pub wavelength_nm: Option<f64>,
     /// Unit of the scaled values, as the record writes it at +40 (`mV`, `uV`, `bar`, `C`).
     pub unit: Option<String>,
+    /// Start time of the channel's first point, ms (u32 at +12; 0 in most files).
+    pub start_ms: u32,
 }
 
 impl ChannelStatus {
@@ -79,6 +81,7 @@ pub fn channel_statuses(b: &[u8]) -> Vec<ChannelStatus> {
             divisor,
             wavelength_nm: wl,
             unit,
+            start_ms: le_u32(r, 12).unwrap_or(0),
         });
     }
     out
@@ -426,6 +429,17 @@ mod tests {
         r[56..56 + model.len()].copy_from_slice(model.as_bytes());
         r[72..72 + name.len()].copy_from_slice(name.as_bytes());
         r
+    }
+
+    /// A channel that starts later holds its start time (ms) at +12 (`lcd-labpublic-a1`: 600 on
+    /// both UV channels, 0 on the RID channel).
+    #[test]
+    fn channel_start_time() {
+        let mut st = status(0x34, 50_000.0 / 2_097_152.0, 260.0);
+        st[12..16].copy_from_slice(&600u32.to_le_bytes());
+        st.extend(status(0x35, 0.003_230_57, 0.0));
+        let s = channel_statuses(&st);
+        assert_eq!((s[0].start_ms, s[1].start_ms), (600, 0));
     }
 
     #[test]

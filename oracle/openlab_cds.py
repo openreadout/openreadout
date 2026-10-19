@@ -131,6 +131,16 @@ def dx(p: Path) -> dict:
             if c is None:
                 raise RuntimeError(f"chromConverter has no instrument curve {s['ChannelName']}")
             x, y, meta = c
+            d = np.diff(np.asarray(x, dtype=np.float64))
+            step = (x[-1] - x[0]) / (len(x) - 1) if len(x) > 1 else 0.0
+            if len(d) and (step <= 0 or np.abs(d - step).max() > 1e-6 * step):
+                # samples at uneven times (LC/MS module curves): the times are a second
+                # channel, in minutes, as for spectra stored at more than one rate in gen.py
+                t = gen._chrom_trace(len(traces), [s["ChannelName"], "time"], [meta["units"], "min"], x,
+                                     [y, np.asarray(x, dtype=np.float64)], rate=0.0, x_check=False)
+                t["name"] = meta["signal"]
+                traces.append(t)
+                continue
             t = gen._chrom_trace(len(traces), [s["ChannelName"]], [meta["units"]], x, [y])
             t["name"] = meta["signal"]
             traces.append(t)
@@ -153,7 +163,15 @@ def dx(p: Path) -> dict:
                 data = data * scale
             unit = (df.metadata or {}).get("unit", "")
             names_w = [f"{w:g} nm" for w in np.asarray(df.ylabels, dtype=np.float64)]
-            t = gen._chrom_trace(len(traces), names_w, [unit] * len(names_w), x, [data[:, k] for k in range(data.shape[1])])
+            cols = [data[:, k] for k in range(data.shape[1])]
+            dt = np.diff(x) * 60_000.0
+            if len(dt) > 1 and dt.max() - dt.min() > 1.0:
+                # spectra stored at more than one rate: the times are a last channel, in
+                # minutes (gen.py's rule for ChemStation .uv files)
+                t = gen._chrom_trace(len(traces), names_w + ["time"], [unit] * len(names_w) + ["min"], x,
+                                     cols + [x], rate=0.0, x_check=False)
+            else:
+                t = gen._chrom_trace(len(traces), names_w, [unit] * len(names_w), x, cols)
             t["name"] = s.get("Description") or s["ChannelName"]
             traces.append(t)
             notes.append(f"spectra part {part}: rainbow-api parse_uv ({data.shape[0]} spectra x {data.shape[1]} wavelengths){' x the scale factor once more (tag-70 f64 records)' if first_tag == 70 else ''}")

@@ -272,7 +272,16 @@ impl StoredResults {
         let eps = 1e-9 * t1.abs().max(1.0);
         if peak.skim > 0 {
             let s = self.skims.get(usize::from(peak.skim) - 1)?;
-            let at = |t: f64| s.start.1 + s.start_slope * (t - s.start.0);
+            // The line between the skim line's two points. Its stored slope is almost always
+            // that line's slope, but not on every line, and the stored peaks follow the points
+            // (docs/provenance/chromeleon.md, 2026-10-18).
+            let at = |t: f64| {
+                if s.end.0 > s.start.0 {
+                    s.start.1 + (s.end.1 - s.start.1) * (t - s.start.0) / (s.end.0 - s.start.0)
+                } else {
+                    s.start.1 + s.start_slope * (t - s.start.0)
+                }
+            };
             return Some(((t0, at(t0)), (t1, at(t1))));
         }
         let seg = self.baselines.iter().find(|s| {
@@ -1111,6 +1120,44 @@ mod tests {
             parse_stored_results(&v),
             Err(SignalError::Unsupported(_))
         ));
+    }
+
+    /// A rider is integrated above the line between its skim line's two points, also when the
+    /// stored slope is not that line's (`cmbx-lim-ketoisophorone-standards`, injection `blank`).
+    #[test]
+    fn skim_line_runs_between_its_points() {
+        let rider = StoredPeak {
+            start: (0.022, 27.54),
+            end: (0.032, 15.81),
+            code: 0,
+            apex: (0.031_666_666_666_667, 27.525),
+            leading: PeakFlank::default(),
+            trailing: PeakFlank::default(),
+            retention_min: 0.031_666_666_666_667,
+            area: 0.0,
+            height: 0.0,
+            component_key: None,
+            component_values: None,
+            skim: 1,
+        };
+        let r = StoredResults {
+            version: 1,
+            skims: vec![SkimLine {
+                kind: 0,
+                start: (0.022, 27.54),
+                start_slope: -1_184.794_965_510_683,
+                end: (0.032, 15.81),
+                end_slope: -1_184.794_965_510_683,
+            }],
+            peaks: vec![rider],
+            baselines: Vec::new(),
+        };
+        let ((t0, b0), (t1, b1)) = r.baseline_line(&r.peaks[0]).unwrap();
+        assert_eq!((t0, t1), (0.022, 0.032));
+        assert!(
+            (b0 - 27.54).abs() < 1e-12 && (b1 - 15.81).abs() < 1e-12,
+            "{b0} {b1}"
+        );
     }
 
     #[test]

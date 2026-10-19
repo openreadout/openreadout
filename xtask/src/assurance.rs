@@ -177,6 +177,15 @@ fn depositor(e: &Entry) -> (String, bool) {
             }
         }
     }
+    // A Dataverse dataset named by its DOI ("DataverseNL doi:10.34894/AFBYVF, …"). Its file
+    // URLs carry only a file id, and the text before the colon names the installation, which
+    // would make every dataset of one installation a single depositor.
+    if let Some(k) = crate::heldout::source_keys(s)
+        .into_iter()
+        .find(|k| k.starts_with("dataverse:"))
+    {
+        return (k, false);
+    }
     // A G-Node GIN repository named in the source text (`owner/repo on G-Node GIN …`, the form
     // directory entries without a URL use) is the same record as its `gin.g-node.org` URLs.
     if let Some(i) = lower.find(" on g-node gin") {
@@ -1448,6 +1457,15 @@ mod tests {
             ))
             .0,
             "github:proteowizard/pwiz"
+        );
+        // two datasets of one Dataverse installation are two depositors
+        assert_eq!(
+            depositor(&e(
+                "https://dataverse.nl/api/access/datafile/378794",
+                "DataverseNL doi:10.34894/AFBYVF (Hafeez and Baker), Nb BTA.lcd"
+            ))
+            .0,
+            "dataverse:10.34894/afbyvf"
         );
     }
 }

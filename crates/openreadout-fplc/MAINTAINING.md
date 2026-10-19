@@ -40,7 +40,7 @@ Cytiva ÄKTA / UNICORN protein-purification results: UNICORN 3–5 `.res` files 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `cytiva-unicorn-res` | [format note](../../docs/formats/cytiva-unicorn.md), [provenance log](../../docs/provenance/cytiva-unicorn.md) | medium | reverse engineered | 5 / 5 | 3 | - |
-| `cytiva-unicorn-zip` | [format note](../../docs/formats/cytiva-unicorn.md), [provenance log](../../docs/provenance/cytiva-unicorn.md) | medium | prior art | 11 / 11 | 4 | - |
+| `cytiva-unicorn-zip` | [format note](../../docs/formats/cytiva-unicorn.md), [provenance log](../../docs/provenance/cytiva-unicorn.md) | high | prior art | 13 / 13 | 5 | - |
 
 ### Source map
 
@@ -83,31 +83,32 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `cytiva-unicorn-res` | record | `events fractions` | tables | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
 | `cytiva-unicorn-res` | record | `events injections` | tables | 4 | 4 | `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038`, `unicorn-res-pycorngui-koko135` |
 | `cytiva-unicorn-res` | record | `events logbook` | tables | 5 | 5 | `unicorn-res-pycorn-sample1`, `unicorn-res-pycorngui-koko029`, `unicorn-res-pycorngui-koko038` |
-| `cytiva-unicorn-zip` | field | `experiment.acquisition.started_at` | descriptive | 10 | 10 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
-| `cytiva-unicorn-zip` | field | `experiment.instrument.model` | descriptive | 11 | 11 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-cd20-sec-a` |
+| `cytiva-unicorn-zip` | field | `experiment.acquisition.started_at` | descriptive | 12 | 12 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
+| `cytiva-unicorn-zip` | field | `experiment.instrument.model` | descriptive | 13 | 13 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-cd20-sec-a` |
 | `cytiva-unicorn-zip` | format_version | `UNICORN 100` | metadata, tables, traces | 1 | 1 | `unicorn-zip-allotropy-1` |
+| `cytiva-unicorn-zip` | format_version | `UNICORN 4` | metadata, tables, traces | 2 | 2 | `unicorn-zip-zenodo3519436-hpf1-alone-1`, `unicorn-zip-zenodo3519436-qfrd-nuc165-1` |
 | `cytiva-unicorn-zip` | format_version | `UNICORN 5` | metadata, tables, traces | 9 | 9 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
-| `cytiva-unicorn-zip` | layout | `volume-grid curve` | traces | 2 | 2 | `unicorn-zip-allotropy-1`, `unicorn-zip-zenodo10810569-hplc` |
-| `cytiva-unicorn-zip` | record | `UNICORN peak table` | tables | 3 | 3 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-sample`, `unicorn-zip-zenodo10810569-hplc` |
-| `cytiva-unicorn-zip` | record | `curve concentration_b` | traces | 9 | 9 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
-| `cytiva-unicorn-zip` | record | `curve conductivity` | traces | 9 | 9 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
-| `cytiva-unicorn-zip` | record | `curve conductivity_percent` | traces | 9 | 9 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
-| `cytiva-unicorn-zip` | record | `curve flow` | traces | 10 | 10 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
-| `cytiva-unicorn-zip` | record | `curve other` | traces | 10 | 10 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
+| `cytiva-unicorn-zip` | layout | `volume-grid curve` | traces | 4 | 4 | `unicorn-zip-allotropy-1`, `unicorn-zip-zenodo10810569-hplc`, `unicorn-zip-zenodo3519436-hpf1-alone-1` |
+| `cytiva-unicorn-zip` | record | `UNICORN peak table` | tables | 5 | 5 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-sample`, `unicorn-zip-zenodo10810569-hplc` |
+| `cytiva-unicorn-zip` | record | `curve concentration_b` | traces | 11 | 11 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
+| `cytiva-unicorn-zip` | record | `curve conductivity` | traces | 11 | 11 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
+| `cytiva-unicorn-zip` | record | `curve conductivity_percent` | traces | 11 | 11 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
+| `cytiva-unicorn-zip` | record | `curve flow` | traces | 12 | 12 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
+| `cytiva-unicorn-zip` | record | `curve other` | traces | 12 | 12 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
 | `cytiva-unicorn-zip` | record | `curve ph` | traces | 5 | 5 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
-| `cytiva-unicorn-zip` | record | `curve pressure` | traces | 9 | 9 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
-| `cytiva-unicorn-zip` | record | `curve temperature` | traces | 10 | 10 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
-| `cytiva-unicorn-zip` | record | `curve uv` | traces | 10 | 10 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
-| `cytiva-unicorn-zip` | record | `events fractions` | tables | 8 | 8 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-sample` |
-| `cytiva-unicorn-zip` | record | `events injections` | tables | 11 | 11 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-cd20-sec-a` |
-| `cytiva-unicorn-zip` | record | `events logbook` | tables | 11 | 11 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-cd20-sec-a` |
+| `cytiva-unicorn-zip` | record | `curve pressure` | traces | 11 | 11 | `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b`, `unicorn-zip-fs-pd1-sec` |
+| `cytiva-unicorn-zip` | record | `curve temperature` | traces | 12 | 12 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
+| `cytiva-unicorn-zip` | record | `curve uv` | traces | 12 | 12 | `unicorn-zip-allotropy-1`, `unicorn-zip-fs-cd20-sec-a`, `unicorn-zip-fs-cd20-sec-b` |
+| `cytiva-unicorn-zip` | record | `events fractions` | tables | 10 | 10 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-sample` |
+| `cytiva-unicorn-zip` | record | `events injections` | tables | 13 | 13 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-cd20-sec-a` |
+| `cytiva-unicorn-zip` | record | `events logbook` | tables | 13 | 13 | `unicorn-zip-allotropy-1`, `unicorn-zip-allotropy-single-uv`, `unicorn-zip-fs-cd20-sec-a` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_unicorn_res`, `whole_unicorn_zip`
-- corpus inputs by tier: heldout 1, smoke 8, standard 8
+- corpus inputs by tier: full 1, heldout 1, smoke 8, standard 9
 - golden snapshots: [`corpus/snapshots/cytiva-unicorn-res.jsonl`](../../corpus/snapshots/cytiva-unicorn-res.jsonl), [`corpus/snapshots/cytiva-unicorn-zip.jsonl`](../../corpus/snapshots/cytiva-unicorn-zip.jsonl)
 
 ### Open new-variant intakes

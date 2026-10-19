@@ -64,13 +64,7 @@ const ARCHIVES: [(&str, usize, usize, usize, usize); 16] = [
 
 /// Stored peaks our integration does not reproduce, per archive, and why. Such an archive's
 /// results line is a failure: the disagreement is recorded, not hidden.
-const UNREPRODUCED: [(&str, usize, &str); 1] = [(
-    "cmbx-lim-ketoisophorone-standards",
-    2,
-    "injection blank, GC_1: a peak that starts at the first sample, and its rider. Their areas \
-     differ from ours by the same amount in opposite directions and the rider's height by 1 %, \
-     so the rider's skim line is not the straight line between its stored ends. Not explained.",
-)];
+const UNREPRODUCED: [(&str, usize, &str); 0] = [];
 
 fn open(id: &str) -> Option<Box<dyn Dataset>> {
     let path = corpus_dir().join(format!("chromeleon/{id}.cmbx"));
