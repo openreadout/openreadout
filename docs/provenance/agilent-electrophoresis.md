@@ -85,3 +85,10 @@ TapeStation export:
   compared with the reader's samples and peaks tables (RIN, RINe, DIN, TapeStation concentration,
   each peak's position and size) instead of a trace. Every file matched with the reader
   unchanged; nothing new was inferred.
+
+## 2026-10-19 — no trace measurement without signals (Richard Zimring with Claude as assistant)
+
+- Corpus files: `agilent-bioanalyzer-slimarray-rna-2004`, `agilent-tapestation-allotropy-rna-plate`,
+  `-gdna-16`, `-gdna-5` (results only, no signals). The readers described a trace measurement with
+  no traces ("0 wells sized in bp"). They now leave it out when the export has no signals, as the
+  experiment conformance test expects. No prior art consulted and no change to decoding.

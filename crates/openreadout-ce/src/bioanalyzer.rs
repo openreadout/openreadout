@@ -493,15 +493,18 @@ pub(crate) fn parse(xml: &str) -> Result<SeriesFile> {
     let n_samples = wells.len();
     f.technique("CHMO:0001024", "the file format (chip electrophoresis)");
     f.instrument_kind("OBI:0001132");
-    f.measurement(
-        MeasurementKind::Trace,
-        (0..traces.len() as u32).collect(),
-        format!(
-            "chip electrophoresis, {} wells sized in {size_unit}",
-            traces.len()
-        ),
-        Some("CHMO:0001024"),
-    );
+    // A results-only export has no signals, so there is no trace measurement to describe.
+    if !traces.is_empty() {
+        f.measurement(
+            MeasurementKind::Trace,
+            (0..traces.len() as u32).collect(),
+            format!(
+                "chip electrophoresis, {} wells sized in {size_unit}",
+                traces.len()
+            ),
+            Some("CHMO:0001024"),
+        );
+    }
     let mut obs = Observations::default();
     if let Some(t) = header.and_then(|h| text(h, "Title")) {
         obs.feature(K::Acquisition, t, &[Scope::Traces, Scope::Tables]);
