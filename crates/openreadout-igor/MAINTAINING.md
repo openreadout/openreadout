@@ -87,7 +87,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_igor`
-- corpus inputs by tier: smoke 33
+- corpus inputs by tier: smoke 31, standard 2
 - golden snapshots: [`corpus/snapshots/igor.jsonl`](../../corpus/snapshots/igor.jsonl)
 
 ### Open new-variant intakes

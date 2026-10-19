@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 324 |
+| MIT License | 327 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 7 |
 | Unicode License v3 | 5 |
@@ -3511,6 +3511,7 @@ Used by:
 - [openreadout-czi 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-dcimg 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-diffraction 0.4.0](https://github.com/openreadout/openreadout)
+- [openreadout-dv 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-echem 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-em 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-ephys 0.4.0](https://github.com/openreadout/openreadout)
@@ -3521,6 +3522,7 @@ Used by:
 - [openreadout-gel 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-hcs 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-hdf5 0.4.0](https://github.com/openreadout/openreadout)
+- [openreadout-igor 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-index 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-intan 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-lif 0.4.0](https://github.com/openreadout/openreadout)
@@ -3545,6 +3547,7 @@ Used by:
 - [openreadout-quant 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-sciex 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-seq 0.4.0](https://github.com/openreadout/openreadout)
+- [openreadout-sif 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-signal 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-spectro 0.4.0](https://github.com/openreadout/openreadout)
 - [openreadout-spikeglx 0.4.0](https://github.com/openreadout/openreadout)
