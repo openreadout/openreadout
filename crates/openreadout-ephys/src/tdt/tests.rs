@@ -286,3 +286,17 @@ fn files_without_an_index_are_refused() {
     };
     assert_eq!(e.exit_code(), 6);
 }
+
+#[test]
+fn synapse_version_from_summary() {
+    let text = "Recording:\r\n  Block: B1\r\n\r\nVersions:\r\n  ActxWrap: NONE\r\n  SynapseAPI: 41743P\r\n  SynServer: 41743P\r\n";
+    assert_eq!(
+        dataset::summary_synapse_version(text).as_deref(),
+        Some("41743P")
+    );
+    assert_eq!(
+        dataset::summary_synapse_version("  SynapseAPI: NONE\n"),
+        None
+    );
+    assert_eq!(dataset::summary_synapse_version("no versions"), None);
+}

@@ -70,6 +70,10 @@ pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
 fn observe_tdt(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        // `Synapse 41743P`, from the `.tin`; the reader does not branch on it
+        o.context(K::WriterVersion, v);
+    }
     if a::note_with(info, "TDT tank").is_some() {
         o.feature(K::Layout, "tank", &all);
     } else {

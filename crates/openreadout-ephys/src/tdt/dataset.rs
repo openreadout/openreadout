@@ -39,6 +39,9 @@ pub struct TdtBlock {
     pub tev_len: u64,
     /// Store header items of the `.Tbk` (`NAME` → `VALUE`), in file order.
     pub store_headers: Vec<BTreeMap<String, String>>,
+    /// The `SynapseAPI` version in the `Summary.txt` of the block's `.tin` (Synapse writes it),
+    /// e.g. `41743P`; `None` without a `.tin`.
+    pub synapse: Option<String>,
     handle: Option<SourceFile>,
     window: Block,
 }
@@ -79,6 +82,36 @@ impl TdtBlock {
             .window
             .slice(at, usize::try_from(n).unwrap_or(usize::MAX)))
     }
+}
+
+/// Bytes of the `.tin`'s `Summary.txt` read at most.
+const MAX_SUMMARY_BYTES: u64 = 1 << 20;
+
+/// The `SynapseAPI` version that Synapse writes in the `Versions:` list of the `Summary.txt` in
+/// a block's `.tin` (a zip archive): `  SynapseAPI: 41743P`. `None` when the `.tin` cannot be
+/// read or names no version; the block is read either way.
+fn synapse_version(fs: &Fs, files: &BlockFiles) -> Option<String> {
+    let tin = files
+        .members
+        .iter()
+        .find(|p| p.extension().is_some_and(|e| e.eq_ignore_ascii_case("tin")))?;
+    let z = openreadout_core::zip::ZipIndex::open(fs, tin, TDT_FORMAT_ID)
+        .ok()?
+        .with_max_member(MAX_SUMMARY_BYTES);
+    let text = z.read_text("Summary.txt").ok()??;
+    summary_synapse_version(&text)
+}
+
+/// The `SynapseAPI` line of a Synapse `Summary.txt`.
+pub(crate) fn summary_synapse_version(text: &str) -> Option<String> {
+    text.lines().find_map(|l| {
+        let v = l.trim().strip_prefix("SynapseAPI:")?.trim();
+        (!v.is_empty()
+            && v != "NONE"
+            && v.len() <= 32
+            && v.chars().all(|c| c.is_ascii_alphanumeric() || c == '.'))
+        .then(|| v.to_string())
+    })
 }
 
 /// Parse the `NAME=…;TYPE=…;VALUE=…;` items of a `.Tbk`; a new item starts at each `StoreName`.
@@ -213,11 +246,13 @@ impl TdtDataset {
                 )?),
                 None => Vec::new(),
             };
+            let synapse = synapse_version(&fs, &b);
             blocks.push(TdtBlock {
                 files: b,
                 index,
                 tev_len,
                 store_headers,
+                synapse,
                 handle: None,
                 window: Block::default(),
             });
@@ -715,7 +750,12 @@ impl Dataset for TdtDataset {
             path: self.path.display().to_string(),
             size_bytes: size,
             format: TdtReader.descriptor(),
-            format_version: None,
+            // the writer: `Synapse 41743P` (the first block that names it)
+            format_version: self
+                .blocks
+                .iter()
+                .find_map(|b| b.synapse.as_ref())
+                .map(|v| format!("Synapse {v}")),
             images: Vec::new(),
             tables: self.tables(),
             spectra: Vec::new(),
@@ -742,6 +782,7 @@ impl Dataset for TdtDataset {
                 })).collect::<Vec<_>>(),
                 "snippet_stores": b.index.snippet_stores,
                 "store_headers": b.store_headers,
+                "synapse_api_version": b.synapse,
                 "sev_files": b.files.sev.iter().map(|(p, s, c)| json!({
                     "file": p.file_name().map(|n| n.to_string_lossy().to_string()),
                     "store": s, "channel": c,

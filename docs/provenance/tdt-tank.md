@@ -59,3 +59,14 @@ written from real event data by the depositors, as their README says).
 Corpus: none (a CI fuzz input, `crates/openreadout-ephys/tests/fixtures/malformed/bundle-whole_tdt-snippet-size-oom.bin`).
 Prior art: none. The spikes table's width now comes only from snippets that lie wholly in the
 `.tev`, and at most 4096 samples. A damaged record size had declared millions of columns.
+
+## 2026-10-18: the Synapse version from the `.tin`
+
+Corpus: `gin-tdt-dataset-0-single-block` (2018) and `gin-tdt-dataset-1-single-block` (2022).
+Prior art: none; the `.tin` is a plain zip archive, listed with `unzip -l`. The `.tin` of both
+blocks holds `Summary.txt` (the experiment, subject, user, recording paths and start time, then
+`Versions:` with one `  <component>: <version>` line per software component), a `.synexpz`
+experiment and a `.synrig` rig file, the file types of TDT's Synapse. Most components carry the
+same build: `SynapseAPI: 39174P` in 2018 and `SynapseAPI: 41743P` in 2022. The reader reports
+`Synapse <SynapseAPI version>` as the writer and its version (`format_version`). Blocks without a `.tin` (the OpenEx-era `aep_05` and
+the three `epocs_*` blocks) name no writer.

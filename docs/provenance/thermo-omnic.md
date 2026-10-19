@@ -138,9 +138,10 @@ SpectroChemPy test data, Orange's `sample1.spa`, figshare 23797077, 32180061, 91
 **Prior art consulted:** SpectroChemPy's `read_omnic` (CeCILL-B), to check that it does not read
 offset 290; it does not.
 
-**What was inferred:** the u16 at offset 290 takes three values: 0x209 in 18 files (2006–2023),
-0x3ca in 17 files (2020–2024) and 0x3c0 in one series (2019). It is the same in every file of a
-record. Every 0x3ca `.spa` has a key-128 record and a key-130 record of 724–904 bytes, while
-most 0x209 files have neither (key 130 there is 12 bytes or absent). So the word marks a
-revision of the file layout. Which OMNIC versions write which value is not known. It is reported
-as `format_version` (`revision 0x3ca`); the reader does not branch on it.
+**What was inferred:** the u16 at offset 290 takes three values: 0x209 in 15 files (2006–2023),
+0x3ca in 19 files (2020–2024) and 0x3c0 in one series (2019). It is the same in every file of a
+record. Every 0x3ca `.spa` has a key-128 record, and its key-130 record (when there is one) is
+724–904 bytes long. Most 0x209 files have no key-128 record, and their key-130 record is 12
+bytes. So the word marks a revision of the file layout. Which OMNIC versions write which value
+is not known. It is reported as `format_version` (`revision 0x3ca`); the reader does not branch
+on it.
