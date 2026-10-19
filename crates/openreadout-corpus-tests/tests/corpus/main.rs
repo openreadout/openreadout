@@ -281,7 +281,18 @@ fn family_scopes(format: &str, oracle_text: &str) -> Vec<&'static str> {
         vec!["metadata", "traces"]
     } else if format == "genepix-gpr" {
         vec!["metadata", "tables"]
-    } else if format == "abif" || chip_oracle::FORMATS.contains(&format) {
+    } else if chip_oracle::FORMATS.contains(&format) {
+        // an export without signals (results only) checks the tables, not the traces
+        let o: serde_json::Value = serde_json::from_str(oracle_text).unwrap_or_default();
+        if o["wells"]
+            .as_array()
+            .is_some_and(|w| w.iter().any(|w| w["signal"].is_object()))
+        {
+            vec!["metadata", "tables", "traces"]
+        } else {
+            vec!["metadata", "tables"]
+        }
+    } else if format == "abif" {
         vec!["metadata", "tables", "traces"]
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::scopes(format)

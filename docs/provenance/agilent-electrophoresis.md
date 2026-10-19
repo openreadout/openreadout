@@ -72,3 +72,16 @@ TapeStation export:
   most 7 %). The reader follows both: with two markers a linear map and linear sizes (the
   logarithm put two High Sensitivity D1000 peaks 4 % off), with a lower marker only scaling and
   the logarithm of size.
+
+## 2026-10-19 — exports from more depositors (Richard Zimring with Claude as assistant)
+
+- Corpus files added (hold tier): `agilent-bioanalyzer-wtsi-dna1000` (wtsi-clarity/wtsi_clarity
+  test data, GPL declared in its `Build.PL`: a 2014 DNA 1000 Series II chip with signals),
+  `agilent-bioanalyzer-slimarray-rna-2004` (systemsbiology/slimarray, GPL-2.0: an RNA Nano export
+  with results only), and `agilent-tapestation-allotropy-rna-plate`, `-gdna-16`, `-gdna-5`
+  (Benchling-Open-Source/allotropy test data, MIT: TapeStation XML exports of Agilent demo runs,
+  without electropherogram CSVs).
+- Ground truth: `oracle/chip_oracle.py` now also reads an export without signals. Such a well is
+  compared with the reader's samples and peaks tables (RIN, RINe, DIN, TapeStation concentration,
+  each peak's position and size) instead of a trace. Every file matched with the reader
+  unchanged; nothing new was inferred.

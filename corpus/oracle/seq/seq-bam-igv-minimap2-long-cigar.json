@@ -1,0 +1,48 @@
+{
+ "id": "seq-bam-igv-minimap2-long-cigar",
+ "format": "bam",
+ "reader": "pysam 0.24.1 (MIT)",
+ "records": 3,
+ "primary": 3,
+ "mapped": 3,
+ "bases": 744466,
+ "n50": 457350,
+ "sort_order": null,
+ "platform": null,
+ "references": 86,
+ "sampled": [
+  {
+   "i": 0,
+   "flag": 0,
+   "mapq": 60,
+   "ref_id": 0,
+   "pos": 73215340,
+   "length": 138226,
+   "mean_quality": null,
+   "passes": null,
+   "accuracy": null
+  },
+  {
+   "i": 1,
+   "flag": 0,
+   "mapq": 60,
+   "ref_id": 12,
+   "pos": 53909930,
+   "length": 457350,
+   "mean_quality": null,
+   "passes": null,
+   "accuracy": null
+  },
+  {
+   "i": 2,
+   "flag": 16,
+   "mapq": 60,
+   "ref_id": 17,
+   "pos": 48271893,
+   "length": 148890,
+   "mean_quality": null,
+   "passes": null,
+   "accuracy": null
+  }
+ ]
+}

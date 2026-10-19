@@ -45,7 +45,7 @@ Real-time PCR run files: RDML 1.0–1.4 (`rdml`, read and written), Applied Bios
 | `applied-biosystems-eds` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | reverse engineered | 28 / 28 | 20 | 2 / 0 |
 | `bio-rad-pcrd` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | open spec | 0 / 0 | 0 | - |
 | `roche-lightcycler-ixo` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 10 / 10 | 2 | - |
-| `rotor-gene-rex` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | low | reverse engineered | 1 / 1 | 1 | 1 / 0 |
+| `rotor-gene-rex` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | medium | reverse engineered | 6 / 6 | 2 | 1 / 0 |
 | `qpcr-results-export` | [format note](../../docs/formats/qpcr.md), [provenance log](../../docs/provenance/qpcr.md) | high | reverse engineered | 11 / 11 | 9 | - |
 
 ### Source map
@@ -186,7 +186,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 7 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_eds`, `whole_ixo`, `whole_pcrd`, `whole_qpcr_export`, `whole_rdml`, `whole_rex`
-- corpus inputs by tier: heldout 10, smoke 34, standard 26
+- corpus inputs by tier: heldout 10, smoke 39, standard 26
 - golden snapshots: [`corpus/snapshots/rdml.jsonl`](../../corpus/snapshots/rdml.jsonl), [`corpus/snapshots/applied-biosystems-eds.jsonl`](../../corpus/snapshots/applied-biosystems-eds.jsonl), [`corpus/snapshots/bio-rad-pcrd.jsonl`](../../corpus/snapshots/bio-rad-pcrd.jsonl), [`corpus/snapshots/roche-lightcycler-ixo.jsonl`](../../corpus/snapshots/roche-lightcycler-ixo.jsonl), [`corpus/snapshots/rotor-gene-rex.jsonl`](../../corpus/snapshots/rotor-gene-rex.jsonl), [`corpus/snapshots/qpcr-results-export.jsonl`](../../corpus/snapshots/qpcr-results-export.jsonl)
 
 ### Open new-variant intakes

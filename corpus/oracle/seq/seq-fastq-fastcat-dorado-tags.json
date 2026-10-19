@@ -1,0 +1,141 @@
+{
+ "id": "seq-fastq-fastcat-dorado-tags",
+ "format": "fastq",
+ "reader": "pysam 0.24.1 (MIT); Biopython 1.88 (BSD-3) counts",
+ "reads": 21,
+ "reads_biopython": 21,
+ "bases": 533743,
+ "length_min": 4778,
+ "length_max": 51091,
+ "n50": 33277,
+ "q30_bases": 422146,
+ "percent_gc": 40.21130019503769,
+ "sampled": [
+  {
+   "i": 0,
+   "length": 6795,
+   "mean_quality": 12.493272091604391,
+   "gc_percent": 48.12362030905077
+  },
+  {
+   "i": 1,
+   "length": 6001,
+   "mean_quality": 20.049603929684118,
+   "gc_percent": 42.026328945175806
+  },
+  {
+   "i": 2,
+   "length": 13705,
+   "mean_quality": 19.6779508933791,
+   "gc_percent": 46.95366654505655
+  },
+  {
+   "i": 3,
+   "length": 24324,
+   "mean_quality": 21.68106779212941,
+   "gc_percent": 43.81269528038151
+  },
+  {
+   "i": 4,
+   "length": 19938,
+   "mean_quality": 22.35841472925989,
+   "gc_percent": 38.99588725047648
+  },
+  {
+   "i": 5,
+   "length": 19543,
+   "mean_quality": 17.128913957340007,
+   "gc_percent": 36.171519214040835
+  },
+  {
+   "i": 6,
+   "length": 13220,
+   "mean_quality": 20.911310931435587,
+   "gc_percent": 37.11043872919819
+  },
+  {
+   "i": 7,
+   "length": 34998,
+   "mean_quality": 20.569244961184545,
+   "gc_percent": 42.71386936396365
+  },
+  {
+   "i": 8,
+   "length": 4778,
+   "mean_quality": 19.943841628113827,
+   "gc_percent": 47.467559648388445
+  },
+  {
+   "i": 9,
+   "length": 15039,
+   "mean_quality": 23.3142199426859,
+   "gc_percent": 41.52536737815014
+  },
+  {
+   "i": 10,
+   "length": 26532,
+   "mean_quality": 20.190180072404512,
+   "gc_percent": 40.927936077189806
+  },
+  {
+   "i": 11,
+   "length": 33277,
+   "mean_quality": 20.53604060872943,
+   "gc_percent": 39.86537247949034
+  },
+  {
+   "i": 12,
+   "length": 35894,
+   "mean_quality": 18.44145953941702,
+   "gc_percent": 40.36886387697108
+  },
+  {
+   "i": 13,
+   "length": 17380,
+   "mean_quality": 20.60886236983297,
+   "gc_percent": 43.45799769850402
+  },
+  {
+   "i": 14,
+   "length": 31459,
+   "mean_quality": 16.541984858858193,
+   "gc_percent": 44.298928764423536
+  },
+  {
+   "i": 15,
+   "length": 45259,
+   "mean_quality": 23.612437447124957,
+   "gc_percent": 36.319847986035924
+  },
+  {
+   "i": 16,
+   "length": 33473,
+   "mean_quality": 16.774056608626196,
+   "gc_percent": 37.492904729184716
+  },
+  {
+   "i": 17,
+   "length": 28836,
+   "mean_quality": 21.42507569496692,
+   "gc_percent": 34.11014010264947
+  },
+  {
+   "i": 18,
+   "length": 44928,
+   "mean_quality": 17.75222413815331,
+   "gc_percent": 34.54638532763533
+  },
+  {
+   "i": 19,
+   "length": 27273,
+   "mean_quality": 22.84675344273854,
+   "gc_percent": 39.73893594397389
+  },
+  {
+   "i": 20,
+   "length": 51091,
+   "mean_quality": 21.31611629099478,
+   "gc_percent": 45.49137812922041
+  }
+ ]
+}

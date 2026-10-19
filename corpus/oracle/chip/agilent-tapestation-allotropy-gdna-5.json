@@ -1,0 +1,74 @@
+{
+ "id": "agilent-tapestation-allotropy-gdna-5",
+ "format": "agilent-tapestation",
+ "reader": "Python xml.etree, base64, csv (standard library)",
+ "position": "run_distance",
+ "wells": [
+  {
+   "well": "A1",
+   "name": "Ladder",
+   "concentration": 58.2,
+   "peaks": [
+    [
+     78.0,
+     250.0
+    ],
+    [
+     73.7,
+     400.0
+    ],
+    [
+     69.6,
+     600.0
+    ],
+    [
+     65.7,
+     900.0
+    ]
+   ]
+  },
+  {
+   "well": "B1",
+   "name": "gDNA sample 1",
+   "concentration": 27.2,
+   "din": 9.5,
+   "peaks": []
+  },
+  {
+   "well": "C1",
+   "name": "gDNA sample 2",
+   "concentration": 28.1,
+   "din": 5.9,
+   "peaks": [
+    [
+     46.1,
+     10247.0
+    ]
+   ]
+  },
+  {
+   "well": "D1",
+   "name": "gDNA sample 2",
+   "concentration": 25.5,
+   "din": 5.8,
+   "peaks": [
+    [
+     46.5,
+     8525.0
+    ]
+   ]
+  },
+  {
+   "well": "E1",
+   "name": "gDNA sample 3",
+   "concentration": 38.7,
+   "din": 4.0,
+   "peaks": [
+    [
+     59.9,
+     1893.0
+    ]
+   ]
+  }
+ ]
+}

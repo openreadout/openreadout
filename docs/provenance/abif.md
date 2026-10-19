@@ -103,3 +103,15 @@ seven `-k` runs.
   GS600 LIZ (60–600) with its own peak matching, differs from `SMap` 2 by at most 0.07 bp at the
   instrument's peaks of `-k1`, `multiplex` and `error`. The reader therefore uses `SMap` 2 when
   it is present and its own sizing otherwise.
+
+## 2026-10-19 — files from more depositors (Richard Zimring with Claude as assistant)
+
+- Corpus files added: `abif-sangeranalyser-achl-3730xl`, `abif-sangeranalyser-dmel-3730xl`
+  (roblanf/sangeranalyseR, MIT), `abif-zenodo5214117-turtle-fsa`,
+  `abif-zenodo5306701-anteater-3500-fsa`, `abif-zenodo5718845-geminivirus-3730xl`,
+  `abif-zenodo20724184-arctic-16s-3130xl`, `abif-zenodo10251208-3500-bicc1`,
+  `abif-zenodo16753160-3500-tilapia`, `abif-zenodo1144120-anemone-3130xl-fsa` (Zenodo, CC0 or
+  CC-BY-4.0). They add the 3500 Sanger layout (`Sequencing Format 2.0`), 3500 Data Collection 1.0
+  and 3500 Series Data Collection Software 3 v3.3, and the GS120 LIZ size standard.
+- Ground truth: Biopython `AbiIO` (`oracle/abif_oracle.py`). Every file matched it with the
+  reader unchanged; nothing new was inferred.

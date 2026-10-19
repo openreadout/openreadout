@@ -1,0 +1,77 @@
+{
+ "id": "agilent-bioanalyzer-slimarray-rna-2004",
+ "format": "agilent-bioanalyzer-xml",
+ "reader": "Python xml.etree, base64, csv (standard library)",
+ "position": "time",
+ "wells": [
+  {
+   "well": "1",
+   "name": "Control_1 total",
+   "rin": 10.0,
+   "peaks": []
+  },
+  {
+   "well": "2",
+   "name": "Control_2 total",
+   "rin": 9.29875,
+   "peaks": []
+  },
+  {
+   "well": "3",
+   "name": "Disease_1 total",
+   "rin": 10.0,
+   "peaks": []
+  },
+  {
+   "well": "4",
+   "name": "Disease_2 total",
+   "rin": 10.0,
+   "peaks": []
+  },
+  {
+   "well": "5",
+   "name": "Control_1 cRNA",
+   "peaks": []
+  },
+  {
+   "well": "6",
+   "name": "Control_2 cRNA",
+   "peaks": []
+  },
+  {
+   "well": "7",
+   "name": "Disease_1 cRNA",
+   "peaks": []
+  },
+  {
+   "well": "8",
+   "name": "Disease_2 cRNA",
+   "peaks": []
+  },
+  {
+   "well": "9",
+   "name": "Control_1 fragmented",
+   "peaks": []
+  },
+  {
+   "well": "10",
+   "name": "Control_2 fragmented",
+   "peaks": []
+  },
+  {
+   "well": "11",
+   "name": "Disease_1 fragmented",
+   "peaks": []
+  },
+  {
+   "well": "12",
+   "name": "Disease_2 fragmented",
+   "peaks": []
+  },
+  {
+   "well": "13",
+   "name": "Ladder",
+   "peaks": []
+  }
+ ]
+}

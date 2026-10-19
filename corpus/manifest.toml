@@ -24522,6 +24522,91 @@ notes = "Rotor-Gene Q (REX 3.15), 72-well rotor: 40-cycle Green channel and 55-9
 # ---- Shimadzu .lcd with its LabSolutions ASCII export (finding N-L1 of held-out draw B, 2026-09-24), added 2026-09-24.
 
 [[file]]
+id = "rex-figshare10050587-camel-hrm-1"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-1.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 1. Amplification of Anaplasma spp. in camel blood; samples 1-70.rex"
+sha256 = "0575e1880963b541fc3d52606ccc7df8ce09d8844471e094108af4da6bec1a64"
+size = 499086
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 1. Amplification of Anaplasma spp. in camel blood; samples 1-70.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood; samples 1-70. Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-2"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-2.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 2. Amplification of Anaplasma spp. in camel blood; samples 71-140.rex"
+sha256 = "3e00920aaadfd5495bf6f0b5886483216873b19296dcfc781aa481c0ffd65257"
+size = 505390
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 2. Amplification of Anaplasma spp. in camel blood; samples 71-140.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood; samples 71-140. Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-3"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-3.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 3. Amplification of Anaplasma spp. in camel blood; samples 141-162.rex"
+sha256 = "bedf7ccc545ed366d48ce41c8374ff722717f7ca42a15e74f15d62b461842da9"
+size = 497180
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 3. Amplification of Anaplasma spp. in camel blood; samples 141-162.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood; samples 141-162. Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-4"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-4.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 4. Amplification of Anaplasma spp. in camel blood and keds; samples 163-200, H1-H21 (Camel keds).rex"
+sha256 = "2214f7621d8b6f71c4c39ec87832a3a1363063aff03640a89b7814fa35a00256"
+size = 507255
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 4. Amplification of Anaplasma spp. in camel blood and keds; samples 163-200, H1-H21 (Camel keds).rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel blood and keds; samples 163-200, H1-H21 (Camel keds). Ground truth: ElementTree over the XML."
+
+[[file]]
+id = "rex-figshare10050587-camel-hrm-5"
+format = "rotor-gene-rex"
+family = "qpcr"
+role = "input"
+tier = "smoke"
+filename = "rex-figshare10050587-camel-hrm-5.rex"
+url = "https://ndownloader.figshare.com/files/18113717"
+zip_member = "File 5. Amplification of Anaplasma spp. in camel keds; samples H22-H117.rex"
+sha256 = "60f41a9a10be99b1e0c57466bedb33dfdc8057f9942dee8bd45682009ee67ced"
+size = 621891
+license = "CC0-1.0"
+license_checked = "https://api.figshare.com/v2/articles/10050587 (CC0), 2026-10-19"
+source = "Figshare 10.6084/m9.figshare.10050587 'Detection of Anaplasma and Trypanosomes in camels and camel keds', member 'File 5. Amplification of Anaplasma spp. in camel keds; samples H22-H117.rex' of the item's zip"
+attribution = "Kevin Kidambasi, Daniel K. Masiga, Jandouwe Villinger, Mark Carrington, Joel L. Bargul"
+notes = "Rotor-Gene Q (Rotor-Gene Q Series Software 2.3.1, REX 3.15): Anaplasma PCR with HRM, Amplification of Anaplasma spp. in camel keds; samples H22-H117. Ground truth: ElementTree over the XML."
+
+[[file]]
 id = "lcd-streamfind-adc-uv"
 format = "shimadzu"
 role = "input"
@@ -79298,6 +79383,67 @@ attribution = "Oxford Nanopore Technologies (pod5 test data)"
 notes = "the 10 reads of multi_fast5_zip.fast5 converted to POD5 (MinION, 4 kHz, R9.4.1). Ground truth: pod5 (black box)."
 
 [[file]]
+id = "seq-pod5-multi-fast5-zip-v3"
+format = "pod5"
+role = "input"
+tier = "smoke"
+filename = "seq-pod5-multi-fast5-zip-v3.pod5"
+url = "https://media.githubusercontent.com/media/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/multi_fast5_zip_v3.pod5"
+sha256 = "b87153aa81a5884205b047df336a2e15e95becce6dc997a38a76b972cf6a82bc"
+size = 1323624
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-19"
+source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/multi_fast5_zip_v3.pod5 (Git LFS)"
+attribution = "Oxford Nanopore Technologies (pod5 test data)"
+notes = "the 10 reads of multi_fast5_zip.fast5 converted to POD5 by an early pod5 (file version 0.0.40, MinION, 4 kHz, R9.4.1). Ground truth: pod5 (black box)."
+
+[[file]]
+id = "seq-pod5-multi-fast5-zip-v4"
+format = "pod5"
+role = "input"
+tier = "smoke"
+filename = "seq-pod5-multi-fast5-zip-v4.pod5"
+url = "https://media.githubusercontent.com/media/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/multi_fast5_zip_v4.pod5"
+sha256 = "9d0bdb7faef6ada8181eb620eb6f41256c6437680585b104fc19ee674c88d5f1"
+size = 1323824
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-19"
+source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/multi_fast5_zip_v4.pod5 (Git LFS)"
+attribution = "Oxford Nanopore Technologies (pod5 test data)"
+notes = "the same 10 reads written by pod5 0.3.30 (MinION, 4 kHz, R9.4.1). Ground truth: pod5 (black box)."
+
+[[file]]
+id = "seq-pod5-multi-fast5-zip-v5"
+format = "pod5"
+role = "input"
+tier = "smoke"
+filename = "seq-pod5-multi-fast5-zip-v5.pod5"
+url = "https://media.githubusercontent.com/media/nanoporetech/pod5-file-format/3f3f240a91c02ce9499e291991c02402ef925529/test_data/multi_fast5_zip_v5.pod5"
+sha256 = "47f1a22ce2073c0bfa300a6b1a26d9ee1b47492717f8d6b2590a855f7c02c91d"
+size = 1324256
+license = "MPL-2.0"
+license_checked = "https://github.com/nanoporetech/pod5-file-format/blob/3f3f240a91c02ce9499e291991c02402ef925529/LICENSE.md (MPL-2.0), 2026-10-19"
+source = "GitHub nanoporetech/pod5-file-format (commit 3f3f240), test_data/multi_fast5_zip_v5.pod5 (Git LFS)"
+attribution = "Oxford Nanopore Technologies (pod5 test data)"
+notes = "the same 10 reads written by pod5 0.3.45 (MinION, 4 kHz, R9.4.1). Ground truth: pod5 (black box)."
+
+[[file]]
+id = "seq-pod5-dna-storage-minion"
+format = "pod5"
+role = "input"
+tier = "standard"
+filename = "seq-pod5-dna-storage-minion.pod5"
+url = "https://zenodo.org/api/records/16883332/files/Real-Time-Data-Readout-for-DNA-Storage.zip/content"
+zip_member = "Real-Time-Data-Readout-for-DNA-Storage/real time readout data basecalling/pod5/FBA30051_658d3083_6f499f8b_0.pod5"
+sha256 = "6c95988694c0e13776c3f23573028d732b401a16f92381c52b27f3b5a9794ad8"
+size = 26408368
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/16883332 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 16883332 'Datasets of Real-Time Data Readout for DNA Storage', member .../pod5/FBA30051_658d3083_6f499f8b_0.pod5 of Real-Time-Data-Readout-for-DNA-Storage.zip"
+attribution = "Weigang Chen"
+notes = "1,291 reads of synthetic DNA from a MinION Mk1B run (MinKNOW 24.11.8 with Dorado 7.6.7, R10.4.1 FLO-MIN114, SQK-RBK114-24, 5 kHz), POD5 0.3.18. Ground truth: pod5 (black box)."
+
+[[file]]
 id = "seq-fast5-multi-zip"
 format = "fast5"
 role = "input"
@@ -79401,6 +79547,216 @@ license_checked = "https://github.com/nf-core/test-datasets/blob/618f1541382c4ad
 source = "GitHub nf-core/test-datasets (branch modules, commit 618f154), data/genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam"
 attribution = "nf-core (modules test data)"
 notes = "coordinate-sorted Illumina paired-end alignments (bwa mem 0.7.17), 5,644 records with 2 supplementary. Ground truth: pysam."
+[[file]]
+id = "seq-fastq-seqkit-hiseqx"
+format = "fastq"
+role = "input"
+tier = "smoke"
+filename = "seq-fastq-seqkit-hiseqx.fastq.gz"
+url = "https://raw.githubusercontent.com/shenwei356/seqkit/50eaa0035fcd5e179e77981a30d5e9bda372f1d6/tests/Illimina1.8.fq.gz"
+sha256 = "8136b4239cb4b9b85b099ebe68fdebf5a6783330f2a4b20b916eba63bf472024"
+size = 866680
+license = "MIT"
+license_checked = "GitHub API repos/shenwei356/seqkit/license (MIT), 2026-10-19"
+source = "GitHub shenwei356/seqkit (commit 50eaa00), tests/Illimina1.8.fq.gz"
+attribution = "Wei Shen (SeqKit test data)"
+notes = "gzip FASTQ, 10,000 Illumina HiSeq X reads of 150 bp with Illumina 1.8+ titles (ST-E00493, flow cell H33MFALXX). Ground truth: pysam, Biopython."
+
+[[file]]
+id = "seq-fastq-seqkit-ont-pcs109"
+format = "fastq"
+role = "input"
+tier = "standard"
+filename = "seq-fastq-seqkit-ont-pcs109.fastq"
+url = "https://raw.githubusercontent.com/shenwei356/seqkit/50eaa0035fcd5e179e77981a30d5e9bda372f1d6/tests/pcs109_5k.fq"
+sha256 = "660a83a45a0fb621ffbe048e00e31563e94370a63d13ad43bf1106b076579225"
+size = 9215134
+license = "MIT"
+license_checked = "GitHub API repos/shenwei356/seqkit/license (MIT), 2026-10-19"
+source = "GitHub shenwei356/seqkit (commit 50eaa00), tests/pcs109_5k.fq"
+attribution = "Wei Shen (SeqKit test data)"
+notes = "plain FASTQ, 5,000 Oxford Nanopore cDNA reads (PCS109 kit, SIRV mix, 2019) with MinKNOW titles (read id, runid=, read=, ch=, start_time=). Ground truth: pysam, Biopython."
+
+[[file]]
+id = "seq-fastq-chopper-ont"
+format = "fastq"
+role = "input"
+tier = "standard"
+filename = "seq-fastq-chopper-ont.fastq"
+url = "https://raw.githubusercontent.com/wdecoster/chopper/e64216b5782879d3b08dba0f51e6c5b1015e24cf/test-data/test.fastq"
+sha256 = "11cdf042987ffbf2b877224231414fc40de3ecb8769b6337d3909a267004ba12"
+size = 9890604
+license = "MIT"
+license_checked = "GitHub API repos/wdecoster/chopper/license (MIT), 2026-10-19"
+source = "GitHub wdecoster/chopper (commit e64216b), test-data/test.fastq"
+attribution = "Wouter De Coster (chopper test data)"
+notes = "plain FASTQ, 250 Oxford Nanopore reads up to 76.8 kb, titles are bare read ids. Ground truth: pysam, Biopython."
+
+[[file]]
+id = "seq-fastq-biopython-454-wrapped"
+format = "fastq"
+role = "input"
+tier = "smoke"
+filename = "seq-fastq-biopython-454-wrapped.fastq"
+url = "https://raw.githubusercontent.com/biopython/biopython/3c6f1357248184ef45e39f98fc3fd823c172ab87/Tests/Quality/longreads_original_sanger.fastq"
+sha256 = "09b5f250b24d2744fdcfb49d5372ed92666e4d6d3e694a466509e2f179880261"
+size = 9466
+license = "BSD-3-Clause"
+license_checked = "https://github.com/biopython/biopython/blob/3c6f1357248184ef45e39f98fc3fd823c172ab87/LICENSE.rst (Biopython License Agreement, files dual-licensed BSD-3-Clause), 2026-10-19"
+source = "GitHub biopython/biopython (commit 3c6f135), Tests/Quality/longreads_original_sanger.fastq"
+attribution = "The Biopython contributors (Cock et al. 2010 FASTQ test files)"
+notes = "10 Roche 454 reads with sequence and quality wrapped over several lines (multi-line records, Phred+33). Ground truth: pysam, Biopython."
+
+[[file]]
+id = "seq-fastq-fastcat-dorado-tags"
+format = "fastq"
+role = "input"
+tier = "smoke"
+filename = "seq-fastq-fastcat-dorado-tags.fastq.gz"
+url = "https://raw.githubusercontent.com/epi2me-labs/fastcat/9bcfe31c709ad551db7f266a078bbe4752c13d25/test/fixtures/fastq/metadata/dna_r10.4.1_e8.2_400bps_hac@v5.0.0.bam.fastq.gz"
+sha256 = "90f8c771efd0c97ef335472d359ee8975b374f9d9e40dccaeec21ffcaaed4019"
+size = 520159
+license = "BSD-4-Clause"
+license_checked = "https://github.com/epi2me-labs/fastcat/blob/9bcfe31c709ad551db7f266a078bbe4752c13d25/LICENSE (BSD licence with an advertising clause, Oxford Nanopore Technologies Plc.), 2026-10-19"
+source = "GitHub epi2me-labs/fastcat (commit 9bcfe31), test/fixtures/fastq/metadata/dna_r10.4.1_e8.2_400bps_hac@v5.0.0.bam.fastq.gz"
+attribution = "Oxford Nanopore Technologies Plc. (fastcat test data)"
+notes = "gzip FASTQ of 21 R10.4.1 reads basecalled with the hac v5.0.0 model and converted from BAM, the SAM tags (qs, ch, st, RG, ...) kept as tab-separated title comments. Ground truth: pysam, Biopython."
+
+[[file]]
+id = "seq-bam-picard-unaligned-queryname"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-picard-unaligned-queryname.bam"
+url = "https://raw.githubusercontent.com/broadinstitute/picard/c2a483d497d1b0fe6d0ab518b1b32fe98fad0741/testdata/picard/sam/test.bam"
+sha256 = "1d499e5683479b88fad373b2de8b49f85cceae68a316e06b3cfdf60491fd7990"
+size = 940749
+license = "MIT"
+license_checked = "GitHub API repos/broadinstitute/picard/license (MIT), 2026-10-19"
+source = "GitHub broadinstitute/picard (commit c2a483d), testdata/picard/sam/test.bam"
+attribution = "Broad Institute (Picard test data)"
+notes = "unaligned, queryname-sorted Illumina BAM (SAM 1.5, no @PG), 5,000 paired records. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-picard-na12891-markdup"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-picard-na12891-markdup.bam"
+url = "https://raw.githubusercontent.com/broadinstitute/picard/c2a483d497d1b0fe6d0ab518b1b32fe98fad0741/testdata/picard/fingerprint/index_test/files/NA12891.over.fingerprints.r1.bam"
+sha256 = "9017c86da3ae2b25fb147e2bdd0d874b320d127b054c90d2708dbbd852325f0c"
+size = 127035
+license = "MIT"
+license_checked = "GitHub API repos/broadinstitute/picard/license (MIT), 2026-10-19"
+source = "GitHub broadinstitute/picard (commit c2a483d), testdata/picard/fingerprint/index_test/files/NA12891.over.fingerprints.r1.bam"
+attribution = "Broad Institute (Picard test data; 1000 Genomes sample NA12891)"
+notes = "coordinate-sorted Illumina alignments (SAM 1.4) over fingerprinting sites, processed by GATK IndelRealigner and PrintReads and Picard MarkDuplicates. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-igv-revio-hg002"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-igv-revio-hg002.bam"
+url = "https://raw.githubusercontent.com/igvteam/igv.js/b5d64807ee940a2eaf9a64b093f71445e9a3c620/test/data/bam/HG002_chr11_119076212_119102218_2.bam"
+sha256 = "3aff4730c933beae58628cd73617ce496f8e56d97d17abe97cbaa12695a02003"
+size = 736269
+license = "MIT"
+license_checked = "GitHub API repos/igvteam/igv.js/license (MIT), 2026-10-19"
+source = "GitHub igvteam/igv.js (commit b5d6480), test/data/bam/HG002_chr11_119076212_119102218_2.bam"
+attribution = "IGV team (igv.js test data; GIAB sample HG002)"
+notes = "PacBio Revio HiFi reads aligned with pbmm2 (ccs 7.0.0, primrose, fibertools-rs, samtools 1.13), SAM 1.6, 64 records with 2 supplementary. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-igv-tophat-sam10"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-igv-tophat-sam10.bam"
+url = "https://raw.githubusercontent.com/igvteam/igv.js/b5d64807ee940a2eaf9a64b093f71445e9a3c620/test/data/bam/gstt1_sample.bam"
+sha256 = "27f97efcf6ad1afcb4ba2812f7f54601d65b95fa06e06e14f52619bdab37555e"
+size = 60872
+license = "MIT"
+license_checked = "GitHub API repos/igvteam/igv.js/license (MIT), 2026-10-19"
+source = "GitHub igvteam/igv.js (commit b5d6480), test/data/bam/gstt1_sample.bam"
+attribution = "IGV team (igv.js test data)"
+notes = "RNA-seq alignments written by TopHat 1.1.4 (SAM 1.0, SO:sorted), 1,661 records around GSTT1. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-igv-minimap2-long-cigar"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-igv-minimap2-long-cigar.bam"
+url = "https://raw.githubusercontent.com/igvteam/igv.js/b5d64807ee940a2eaf9a64b093f71445e9a3c620/test/data/bam/long_cigar/cigar-64k.bam"
+sha256 = "6960c2afeedba5760e0afcbbd9b374042cf45f3ee12be6b3ff5ae5093ad32e63"
+size = 471738
+license = "MIT"
+license_checked = "GitHub API repos/igvteam/igv.js/license (MIT), 2026-10-19"
+source = "GitHub igvteam/igv.js (commit b5d6480), test/data/bam/long_cigar/cigar-64k.bam"
+attribution = "IGV team (igv.js test data)"
+notes = "3 long reads aligned by minimap2 2.2 with more than 65,535 CIGAR operations (the real CIGAR in the CG tag), no @HD line. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-pbcore-rs-ccs"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-pbcore-rs-ccs.bam"
+url = "https://raw.githubusercontent.com/PacificBiosciences/pbcore/9fc7d3bd78eaf7d9014b223f1705b6109e2f0b15/pbcore/data/m130727_114215_42211_c100569412550000001823090301191423_s1_p0.ccs.bam"
+sha256 = "52fe41fc9707641735d36fb181efefd1e4ee5e18721f49f03e7ef2b0c97ac55e"
+size = 278396
+license = "BSD-3-Clause"
+license_checked = "https://github.com/PacificBiosciences/pbcore/blob/9fc7d3bd78eaf7d9014b223f1705b6109e2f0b15/LICENSE (BSD-3-Clause, Pacific Biosciences), 2026-10-19"
+source = "GitHub PacificBiosciences/pbcore (commit 9fc7d3b), pbcore/data/m130727_114215_42211_c100569412550000001823090301191423_s1_p0.ccs.bam"
+attribution = "Pacific Biosciences (pbcore test data)"
+notes = "unaligned PacBio RS II CCS reads converted by bax2bam 0.0.2 (SAM 1.5, PacBio BAM 3.0.1), 18 reads with np and rq. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-pbcore-sequel-subreads"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-pbcore-sequel-subreads.bam"
+url = "https://raw.githubusercontent.com/PacificBiosciences/pbcore/9fc7d3bd78eaf7d9014b223f1705b6109e2f0b15/pbcore/data/m140905_042212_sidney_c100564852550000001823085912221377_s1_X0.subreads.bam"
+sha256 = "53678f3cc348dfbc6110e1e8d8b49fb148c9f0a7b8d62c5daa1431b1dfc2b2a4"
+size = 192364
+license = "BSD-3-Clause"
+license_checked = "https://github.com/PacificBiosciences/pbcore/blob/9fc7d3bd78eaf7d9014b223f1705b6109e2f0b15/LICENSE (BSD-3-Clause, Pacific Biosciences), 2026-10-19"
+source = "GitHub PacificBiosciences/pbcore (commit 9fc7d3b), pbcore/data/m140905_042212_sidney_c100564852550000001823085912221377_s1_X0.subreads.bam"
+attribution = "Pacific Biosciences (pbcore test data)"
+notes = "unaligned PacBio subreads (bax2bam 0.0.2, SAM 1.5, PacBio BAM 3.0.1), 117 records with per-base QV tags. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-pbcore-blasr-aligned"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-pbcore-blasr-aligned.bam"
+url = "https://raw.githubusercontent.com/PacificBiosciences/pbcore/9fc7d3bd78eaf7d9014b223f1705b6109e2f0b15/pbcore/data/m140905_042212_sidney_c100564852550000001823085912221377_s1_X0.aligned_subreads.bam"
+sha256 = "3c1b2464d1e845d065f7c3d70e98e8d5a8d8f46187dd87e24b3028ae23b8dcd0"
+size = 202014
+license = "BSD-3-Clause"
+license_checked = "https://github.com/PacificBiosciences/pbcore/blob/9fc7d3bd78eaf7d9014b223f1705b6109e2f0b15/LICENSE (BSD-3-Clause, Pacific Biosciences), 2026-10-19"
+source = "GitHub PacificBiosciences/pbcore (commit 9fc7d3b), pbcore/data/m140905_042212_sidney_c100564852550000001823085912221377_s1_X0.aligned_subreads.bam"
+attribution = "Pacific Biosciences (pbcore test data)"
+notes = "PacBio subreads aligned to lambda by BLASR 2.0, coordinate-sorted (SAM 1.5), 112 records. Ground truth: pysam."
+
+[[file]]
+id = "seq-bam-htslib-scramble-range"
+format = "bam"
+role = "input"
+tier = "smoke"
+filename = "seq-bam-htslib-scramble-range.bam"
+url = "https://raw.githubusercontent.com/samtools/htslib/3829a92491f43df726d7af7ec8d6b30561a9727c/test/range.bam"
+sha256 = "e15d14e3994027d433431c960bf1c5f2d6939f26b5094cd5a86bc6229a5b2661"
+size = 13337
+license = "MIT"
+license_checked = "https://github.com/samtools/htslib/blob/3829a92491f43df726d7af7ec8d6b30561a9727c/LICENSE (MIT/Expat for files outside cram/), 2026-10-19"
+source = "GitHub samtools/htslib (commit 3829a92), test/range.bam"
+attribution = "Genome Research Ltd. (htslib test data)"
+notes = "coordinate-sorted Illumina alignments written by scramble 1.14.7 (SAM 1.4), 112 records over 7 references. Ground truth: pysam."
+
 [[file]]
 id = "abif-biopython-310"
 format = "abif"
@@ -79687,6 +80043,157 @@ attribution = "Clinical Genomics Umeå (Fraggler)"
 notes = "3500 Dx multiplex fragment analysis (5 dyes, GS600 LIZ) from the Fraggler paper; peaks also exported by PeakScanner (abif-fraggler-peakscanner). Ground truth: Biopython; sizing: the instrument's and PeakScanner's."
 
 [[file]]
+id = "abif-sangeranalyser-achl-3730xl"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-sangeranalyser-achl-3730xl.ab1"
+url = "https://raw.githubusercontent.com/roblanf/sangeranalyseR/4c5ebc9298a873c209819f12b7dfd85e126f1406/inst/extdata/Allolobophora_chlorotica/ACHLO/Achl_ACHLO006-09_1_F.ab1"
+sha256 = "fa16320fddcaf0a0d9003551c188192c0bcfb3efc93716017c8443bb28054646"
+size = 216576
+license = "MIT"
+license_checked = "GitHub API repos/roblanf/sangeranalyseR/license (MIT), 2026-10-19"
+source = "roblanf/sangeranalyseR example data (inst/extdata), pinned to commit 4c5ebc92"
+attribution = "Robert Lanfear, Kuan-Hao Chao and sangeranalyseR contributors"
+notes = "3730xl Sanger trace (Data Collection 3.0, 2010) of an earthworm COI barcode. Ground truth: Biopython."
+
+[[file]]
+id = "abif-sangeranalyser-dmel-3730xl"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-sangeranalyser-dmel-3730xl.ab1"
+url = "https://raw.githubusercontent.com/roblanf/sangeranalyseR/4c5ebc9298a873c209819f12b7dfd85e126f1406/inst/extdata/Drosophila_melanogaster/Dmel_BBDCN941-10_1_F.ab1"
+sha256 = "41030cd8922a81e3e77c76220068e6b9337792b86c95f0037b89a04217b79de2"
+size = 208439
+license = "MIT"
+license_checked = "GitHub API repos/roblanf/sangeranalyseR/license (MIT), 2026-10-19"
+source = "roblanf/sangeranalyseR example data (inst/extdata), pinned to commit 4c5ebc92"
+attribution = "Robert Lanfear, Kuan-Hao Chao and sangeranalyseR contributors"
+notes = "3730xl Sanger trace (2011) of a Drosophila COI barcode. Ground truth: Biopython."
+
+[[file]]
+id = "abif-zenodo5214117-turtle-fsa"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-zenodo5214117-turtle-fsa.fsa"
+url = "https://zenodo.org/api/records/5214117/files/B116_GT1_N.fsa/content"
+sha256 = "f9e2c07e440fb7f834faf8e05a7c25b02530c4233b953a7cc298f390de51377c"
+size = 138659
+md5 = "6d84d9f3a9c0e902f4d458c68266ee19"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/5214117 (CC0-1.0, Zenodo API), 2026-10-19"
+source = "Zenodo 5214117 'Genotype data not consistent with clonal transmission of sea turtle fibropapillomatosis or goldfish schwannoma', B116_GT1_N.fsa"
+attribution = "Máire Ní Leathlobhair, Kelsey Yetsko, Jessica A. Farrell, Carmelo Iaria, Gabriele Marino, David J. Duffy et al."
+notes = "3730xl microsatellite fragment analysis (Data Collection 3.0, 2018, 5 dyes, GS600 LIZ) of a green turtle sample. Ground truth: Biopython."
+
+[[file]]
+id = "abif-zenodo5306701-anteater-3500-fsa"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-zenodo5306701-anteater-3500-fsa.fsa"
+url = "https://zenodo.org/api/records/5306701/files/PoolA__44_4FAM_7PET_11VIC_C11_03.fsa/content"
+sha256 = "2c954ec2eb6422ba0c98e651f0b9b1fe79580627c35cb0491709d21704bc2b8d"
+size = 178590
+md5 = "75895ff9897a39500f49bdce0ad96cd4"
+license = "CC0-1.0"
+license_checked = "https://zenodo.org/records/5306701 (CC0-1.0, Zenodo API), 2026-10-19"
+source = "Zenodo 5306701 'Identifying priority giant anteater (Myrmecophaga tridactyla) populations for conservation in São Paulo State, Brazil', PoolA__44_4FAM_7PET_11VIC_C11_03.fsa"
+attribution = "Ricardo Sartori, Alessandro Lopes, Luiz Aires, Rita Bianchi, Cinara de Mattos, Adriana Morales et al."
+notes = "3500 multiplexed microsatellite fragment analysis (3500 Data Collection 1.0, 2016, ABIF 3.00, 5 dyes, GS600 LIZ). Ground truth: Biopython."
+
+[[file]]
+id = "abif-zenodo5718845-geminivirus-3730xl"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-zenodo5718845-geminivirus-3730xl.ab1"
+url = "https://zenodo.org/api/records/5718845/files/plant%2003%20Col-0%20MT1%20reverse.ab1/content"
+sha256 = "73ee108ccabee6cec08f16d17a25de335683bcd2e26c3ce8083dbc53b865208c"
+size = 313964
+md5 = "7eab29ea03046449e7b0dbc65f5c9017"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/5718845 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 5718845 'Chromatograms: Rapid multilocus adaptation of clonal cabbage leaf curl virus populations to Arabidopsis thaliana', plant 03 Col-0 MT1 reverse.ab1"
+attribution = "Olivia W. Wilkins, J. Steen Hoyer, José Trinidad Ascencio-Ibáñez"
+notes = "3730xl Sanger trace (Data Collection 3.0, 2016) of a viral amplicon from Arabidopsis. Ground truth: Biopython."
+
+[[file]]
+id = "abif-zenodo20724184-arctic-16s-3130xl"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-zenodo20724184-arctic-16s-3130xl.ab1"
+url = "https://zenodo.org/api/records/20724184/files/ArcA5T10_27F.ab1/content"
+sha256 = "2b4c7a03d11348308fba6c6346efeca6984991cca9bcc20041b3a8f053681e2d"
+size = 255208
+md5 = "145f5100fd9de47513af6d9dfa643340"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/20724184 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 20724184 'Sequences from cold-adapted bacteria isolated from Arctic and Antarctic soils', ArcA5T10_27F.ab1"
+attribution = "Felipe Nóbrega, Luciano Lopes Queiroz"
+notes = "3130xl Sanger trace (Data Collection 3.0, 2013) of a bacterial 16S rRNA gene. Ground truth: Biopython."
+
+[[file]]
+id = "abif-zenodo10251208-3500-bicc1"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-zenodo10251208-3500-bicc1.ab1"
+url = "https://zenodo.org/api/records/10251208/files/5_pcDNA3.1-Bicc1-C-Flag_BGHreverse_F05_06.ab1/content"
+sha256 = "abd281e1ad5e2541f045a70b8bf66a8ee314d569c27901772faf96a5b919a8c6"
+size = 261497
+md5 = "c221f028274836e94d629ac164696a9c"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/10251208 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 10251208 'Sanger sequencing of BICC1-FL construct', 5_pcDNA3.1-Bicc1-C-Flag_BGHreverse_F05_06.ab1"
+attribution = "Heloísa Prado"
+notes = "3500 Sanger trace (3500 Data Collection 1.0, Sequencing Format 2.0, 2016) of a plasmid construct. Ground truth: Biopython."
+
+[[file]]
+id = "abif-zenodo16753160-3500-tilapia"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-zenodo16753160-3500-tilapia.ab1"
+url = "https://zenodo.org/api/records/16753160/files/COX1_R_2025-05-29.ab1/content"
+sha256 = "276cc649d9700ff9f898a588c7d8c1c9cd65356f8d6d3f3b53567eb61879961f"
+size = 265314
+md5 = "722fd70204a3ebd98b90a510a1e0ba46"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/16753160 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 16753160 'Oreochromis mossambicus mitochondrial genes chromatography files', COX1_R_2025-05-29.ab1"
+attribution = "University of Pretoria"
+notes = "3500 Sanger trace (3500 Series Data Collection Software 3 v3.3, 2025) of a tilapia COX1 amplicon. Ground truth: Biopython."
+
+[[file]]
+id = "abif-zenodo1144120-anemone-3130xl-fsa"
+format = "abif"
+family = "electrophoresis"
+role = "input"
+tier = "smoke"
+filename = "abif-zenodo1144120-anemone-3130xl-fsa.fsa"
+url = "https://zenodo.org/api/records/1144120/files/Act011_B07.fsa/content"
+sha256 = "6dfa8300556a0e945e5ff944790375f79aba50a69d1250172db432d5cf022fd8"
+size = 89892
+md5 = "276ecf802a2a205a092c83797d00d355"
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/1144120 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 1144120 '13 STR polymorphic loci for Aulactinia stella and Cribrinopsis albopunctata', Act011_B07.fsa"
+attribution = "Ekaterina S. Bocharova, Alexey A. Sergeev, Aleksandr A. Volkov"
+notes = "3130xl STR fragment analysis (Data Collection 3.1, 2017, 5 dyes, GS120 LIZ) of a sea anemone. Ground truth: Biopython."
+
+[[file]]
 id = "abif-fraggler-peakscanner"
 format = "csv"
 family = "electrophoresis"
@@ -79911,6 +80418,86 @@ attribution = "Agilent Technologies (demo runs); exported by Joseph W. Foley"
 notes = "The electropherogram CSV of agilent-tapestation-hsd1000."
 # ---- Medical imaging: DICOM (pydicom test files, MIT; NCI Imaging Data Commons, CC BY; OpenSlide DICOM WSI, CC0),
 # NIfTI (nibabel test data, MIT; OpenNeuro, CC0) and Bruker ParaVision (BrukerAPI test data, CC BY 4.0).
+
+[[file]]
+id = "agilent-tapestation-allotropy-rna-plate"
+format = "agilent-tapestation"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-tapestation-allotropy-rna-plate.xml"
+url = "https://raw.githubusercontent.com/Benchling-Open-Source/allotropy/bf24b8bd518dbb482c46371d22b5cce47a3def0e/tests/parsers/agilent_tapestation_analysis/testdata/agilent_tapestation_analysis_example_01.xml"
+sha256 = "78a8e05350352087a627a09b378b276d02bd31a13b7d132c1a5eec02a701c8b3"
+size = 18221
+license = "MIT (allotropy repository); Agilent demo data, redistribution not confirmed"
+license_checked = "GitHub API repos/Benchling-Open-Source/allotropy/license (MIT), 2026-10-19; the run is one of the demo files that ship with Agilent's software, so the hold tier keeps it out of automatic fetches until its redistribution is settled"
+source = "Benchling-Open-Source/allotropy test data (tests/parsers/agilent_tapestation_analysis/testdata), pinned to commit bf24b8bd"
+attribution = "Agilent Technologies (demo run); exported by allotropy contributors"
+notes = "TapeStation RNA ScreenTape (Eukaryotic RNA-Plate-64 demo), XML export of TapeStation Analysis Software 2.1.17 with RINe 5.1.0, no electropherogram CSV. Ground truth: the instrument's peak sizes."
+
+[[file]]
+id = "agilent-tapestation-allotropy-gdna-16"
+format = "agilent-tapestation"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-tapestation-allotropy-gdna-16.xml"
+url = "https://raw.githubusercontent.com/Benchling-Open-Source/allotropy/bf24b8bd518dbb482c46371d22b5cce47a3def0e/tests/parsers/agilent_tapestation_analysis/testdata/agilent_tapestation_analysis_example_02_error.xml"
+sha256 = "5a5593c78b6d0bed7bbf557ebf997bb99d07a12fd59858a71b35885bc174d00d"
+size = 71840
+license = "MIT (allotropy repository); Agilent demo data, redistribution not confirmed"
+license_checked = "GitHub API repos/Benchling-Open-Source/allotropy/license (MIT), 2026-10-19; the run is one of the demo files that ship with Agilent's software, so the hold tier keeps it out of automatic fetches until its redistribution is settled"
+source = "Benchling-Open-Source/allotropy test data (tests/parsers/agilent_tapestation_analysis/testdata), pinned to commit bf24b8bd"
+attribution = "Agilent Technologies (demo run); exported by allotropy contributors"
+notes = "TapeStation Genomic DNA ScreenTape (gDNA-Tubes-16 demo, 16 samples) exported by TapeStation Analysis Software 3.2 in 2020 with an empty Assay element, no electropherogram CSV. Ground truth: the instrument's peak sizes."
+
+[[file]]
+id = "agilent-tapestation-allotropy-gdna-5"
+format = "agilent-tapestation"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-tapestation-allotropy-gdna-5.xml"
+url = "https://raw.githubusercontent.com/Benchling-Open-Source/allotropy/bf24b8bd518dbb482c46371d22b5cce47a3def0e/tests/parsers/agilent_tapestation_analysis/testdata/agilent_tapestation_analysis_example_04.xml"
+sha256 = "832d5af34749490860564bdaa05f8df53a35195990bb77107cb1e04ebc233f42"
+size = 19406
+license = "MIT (allotropy repository); Agilent demo data, redistribution not confirmed"
+license_checked = "GitHub API repos/Benchling-Open-Source/allotropy/license (MIT), 2026-10-19; the run is one of the demo files that ship with Agilent's software, so the hold tier keeps it out of automatic fetches until its redistribution is settled"
+source = "Benchling-Open-Source/allotropy test data (tests/parsers/agilent_tapestation_analysis/testdata), pinned to commit bf24b8bd"
+attribution = "Agilent Technologies (demo run); exported by allotropy contributors"
+notes = "TapeStation Genomic DNA ScreenTape (5 samples of the gDNA-Tubes-16 demo) exported by TapeStation Analysis Software 3.2, with regions, no electropherogram CSV. Ground truth: the instrument's peak sizes."
+
+[[file]]
+id = "agilent-bioanalyzer-wtsi-dna1000"
+format = "agilent-bioanalyzer-xml"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-bioanalyzer-wtsi-dna1000.xml"
+url = "https://raw.githubusercontent.com/wtsi-clarity/wtsi_clarity/7258b5d64944c8afb835706806f2988bd72ea137/src/perl/t/data/isc/agilent/1234567890_A1_A6.xml"
+sha256 = "3641b23360cad0fee290c46b7292eb89bcca71b72671eedf1216a01a0e178efa"
+size = 4982680
+license = "GPL (declared in the repository's src/perl/Build.PL; no licence file)"
+license_checked = "https://github.com/wtsi-clarity/wtsi_clarity/blob/7258b5d64944c8afb835706806f2988bd72ea137/src/perl/Build.PL (license => 'gpl'); the GitHub licence API reports none, 2026-10-19; hold tier until the licence is confirmed"
+source = "wtsi-clarity/wtsi_clarity test data (src/perl/t/data/isc/agilent), pinned to commit 7258b5d6"
+attribution = "Wellcome Sanger Institute (WTSI Clarity LIMS scripts)"
+notes = "2100 Bioanalyzer DNA 1000 Series II chip run in 2014 (12 wells and the ladder, firmware C.01.069), exported by 2100 Expert as XML with signals and peak tables. Ground truth: the instrument's own peak sizes in the file."
+
+[[file]]
+id = "agilent-bioanalyzer-slimarray-rna-2004"
+format = "agilent-bioanalyzer-xml"
+family = "electrophoresis"
+role = "input"
+tier = "hold"
+filename = "agilent-bioanalyzer-slimarray-rna-2004.xml"
+url = "https://raw.githubusercontent.com/systemsbiology/slimarray/995aebaa18334675dffb1d5b36760c4756b1d1d3/spec/fixtures/bioanalyzer_files/2100%20expert_EukaryoteTotal%20RNA%20Nano_DE02000308_2004-07-29_11-23-22.xml"
+sha256 = "82b88a6b3258d840960cbe5e7d4d770390c765dcbe520b59be22adedf0385731"
+size = 6985
+license = "GPL-2.0"
+license_checked = "GitHub API repos/systemsbiology/slimarray/license (GPL-2.0), 2026-10-19; only the data file is used"
+source = "systemsbiology/slimarray test fixtures (spec/fixtures/bioanalyzer_files), pinned to commit 995aebaa"
+attribution = "Institute for Systems Biology (SLIMarray)"
+notes = "2100 Expert XML of a Eukaryote Total RNA Nano chip from 2004 holding results only (concentration, rRNA ratio, RIN per well; no signals). Ground truth: an independent pass over the XML."
 
 [[file]]
 id = "pydicom-ct-small"

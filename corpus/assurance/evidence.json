@@ -7351,6 +7351,771 @@
       ]
     },
     {
+      "id": "abif-sangeranalyser-achl-3730xl",
+      "format": "abif",
+      "source": "github:roblanf/sangeranalyser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-sangeranalyser-dmel-3730xl",
+      "format": "abif",
+      "source": "github:roblanf/sangeranalyser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo10251208-3500-bicc1",
+      "format": "abif",
+      "source": "zenodo:10251208",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Sequencing Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Data Collection Version 1.0 - 3500 FC_090519180136-0700 Build Number: 837",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo1144120-anemone-3130xl-fsa",
+      "format": "abif",
+      "source": "zenodo:1144120",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS120LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3130xl",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.1",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "abif-zenodo16753160-3500-tilapia",
+      "format": "abif",
+      "source": "zenodo:16753160",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Sequencing Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Series Data Collection Software 3 v3.3 (2,251)",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo20724184-arctic-16s-3130xl",
+      "format": "abif",
+      "source": "zenodo:20724184",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3130xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "abif-zenodo5214117-turtle-fsa",
+      "format": "abif",
+      "source": "zenodo:5214117",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "abif-zenodo5306701-anteater-3500-fsa",
+      "format": "abif",
+      "source": "zenodo:5306701",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "5 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "size standard GS600LIZ",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "fragment size by Local Southern",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "fragment_analysis",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3500",
+          []
+        ],
+        [
+          "layout",
+          "Fragment Format 2.0",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Data Collection 3500 Data Collection Version 1.0 - 3500 FC_090519180136-0700 Build Number: 837",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 300",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "sized trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "abif-zenodo5718845-geminivirus-3730xl",
+      "format": "abif",
+      "source": "zenodo:5718845",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "4 dyes",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "sanger",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "3730xl",
+          []
+        ],
+        [
+          "writer_version",
+          "Data Collection 3.0",
+          []
+        ],
+        [
+          "format_version",
+          "ABIF 101",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "analyzed trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "raw trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "run monitor trace",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "base calls",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
       "id": "agilent-bioanalyzer-dna1000",
       "format": "agilent-bioanalyzer-xml",
       "source": "github:jwfoley/bioanalyzer",
@@ -7480,6 +8245,85 @@
         [
           "writer_version",
           "B.01.02.SI136",
+          []
+        ],
+        [
+          "record",
+          "size by point-to-point standard curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "agilent-bioanalyzer-slimarray-rna-2004",
+      "format": "agilent-bioanalyzer-xml",
+      "source": "github:systemsbiology/slimarray",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "record",
+          "size by point-to-point standard curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "agilent-bioanalyzer-wtsi-dna1000",
+      "format": "agilent-bioanalyzer-xml",
+      "source": "github:wtsi-clarity/wtsi_clarity",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "sized in bp",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "DNA 1000",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "B.02.08.SI648",
           []
         ],
         [
@@ -13176,6 +14020,132 @@
       ],
       "inferred": [
         2,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-allotropy-gdna-16",
+      "format": "agilent-tapestation",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "Genomic DNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-allotropy-gdna-5",
+      "format": "agilent-tapestation",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "Genomic DNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "3.2.0.37131",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "agilent-tapestation-allotropy-rna-plate",
+      "format": "agilent-tapestation",
+      "source": "github:benchling-open-source/allotropy",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "RNA",
+          [
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer_version",
+          "2.1.17.8091",
+          []
+        ],
+        [
+          "record",
+          "size by ladder aligned on the markers",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
         2
       ]
     },
@@ -19030,6 +20000,176 @@
       ]
     },
     {
+      "id": "seq-bam-htslib-scramble-range",
+      "format": "bam",
+      "source": "github:samtools/htslib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer scramble",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.4",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-igv-minimap2-long-cigar",
+      "format": "bam",
+      "source": "github:igvteam/igv.js",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer minimap2",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-igv-revio-hg002",
+      "format": "bam",
+      "source": "github:igvteam/igv.js",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.6",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-igv-tophat-sam10",
+      "format": "bam",
+      "source": "github:igvteam/igv.js",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order sorted",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer TopHat",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.0",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "seq-bam-illumina-paired-sorted",
       "format": "bam",
       "source": "github:nf-core/test-datasets",
@@ -19061,6 +20201,16 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "writer bwa",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.6",
+          []
         ]
       ],
       "inferred": [
@@ -19100,6 +20250,256 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "writer ccs",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-pbcore-blasr-aligned",
+      "format": "bam",
+      "source": "github:pacificbiosciences/pbcore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer update_bam.py",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-pbcore-rs-ccs",
+      "format": "bam",
+      "source": "github:pacificbiosciences/pbcore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order unknown",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer update_bam.py",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-pbcore-sequel-subreads",
+      "format": "bam",
+      "source": "github:pacificbiosciences/pbcore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order unknown",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer bax2bam",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-picard-na12891-markdup",
+      "format": "bam",
+      "source": "github:broadinstitute/picard",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ],
+        [
+          "format_version",
+          "SAM 1.4",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-bam-picard-unaligned-queryname",
+      "format": "bam",
+      "source": "github:broadinstitute/picard",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression bgzf",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order queryname",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "format_version",
+          "SAM 1.5",
+          []
         ]
       ],
       "inferred": [
@@ -77065,6 +78465,112 @@
       ]
     },
     {
+      "id": "seq-fastq-biopython-454-wrapped",
+      "format": "fastq",
+      "source": "github:biopython/biopython",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression none",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-chopper-ont",
+      "format": "fastq",
+      "source": "github:wdecoster/chopper",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression none",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention nanopore",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-fastcat-dorado-tags",
+      "format": "fastq",
+      "source": "github:epi2me-labs/fastcat",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention nanopore sam tags",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
       "id": "seq-fastq-illumina-test1",
       "format": "fastq",
       "source": "github:nf-core/test-datasets",
@@ -77121,6 +78627,85 @@
           [
             "tables"
           ]
+        ],
+        [
+          "writer",
+          "title_convention sra",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-seqkit-hiseqx",
+      "format": "fastq",
+      "source": "github:shenwei356/seqkit",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention illumina 1.8+",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "seq-fastq-seqkit-ont-pcs109",
+      "format": "fastq",
+      "source": "github:shenwei356/seqkit",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "codec",
+          "compression none",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "quality_encoding phred+33",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "title_convention nanopore minknow",
+          []
         ]
       ],
       "inferred": [
@@ -138676,6 +140261,46 @@
       ]
     },
     {
+      "id": "seq-pod5-dna-storage-minion",
+      "format": "pod5",
+      "source": "zenodo:16883332",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.18",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MinKNOW 24.11.8 (Bream 8.2.5, Core 6.2.6, Dorado 7.6.7+de8939544)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
       "id": "seq-pod5-hg002-10reads",
       "format": "pod5",
       "source": "github:nf-core/test-datasets",
@@ -138705,6 +140330,126 @@
         [
           "writer",
           "MinKNOW 24.02.10 (Bream 7.9.4, Core 5.9.7, Dorado 7.3.9+b2176f600)",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "seq-pod5-multi-fast5-zip-v3",
+      "format": "pod5",
+      "source": "github nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.0.40",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "python-pod5-converter",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "seq-pod5-multi-fast5-zip-v4",
+      "format": "pod5",
+      "source": "github nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.30",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "python-pod5-converter",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "seq-pod5-multi-fast5-zip-v5",
+      "format": "pod5",
+      "source": "github nanoporetech/pod5-file-format",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "0.3.45",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "vbz",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "python-pod5-converter",
           [
             "metadata"
           ]
@@ -142538,6 +144283,296 @@
         [
           "field",
           "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-1",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-2",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-3",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-4",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        13,
+        28
+      ]
+    },
+    {
+      "id": "rex-figshare10050587-camel-hrm-5",
+      "format": "rotor-gene-rex",
+      "source": "figshare:10050587",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "REX 3.15",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "dialect",
+          "rex",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "Rotor-Gene Q Series Software",
+          []
+        ],
+        [
+          "record",
+          "amplification",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
           []
         ]
       ],

@@ -47,8 +47,10 @@ it once.
   `extra.summary`: reads, bases, shortest, longest, mean, median, N50, % bases ≥ Q20 and ≥ Q30,
   median read quality, % GC, % N, reads without qualities; BAM: records, mapped, index counts.
   `extra`: compression, quality encoding, sort order, SAM version, platform, read groups,
-  programs, references, and facts from the first read's name (Illumina instrument, run and
-  flow cell; a PacBio movie; an Oxford Nanopore UUID).
+  programs, the BAM's `writer` (the last program of the `@PG` chain), references, the FASTQ
+  `title_convention` (`illumina 1.8+`, `illumina before 1.8`, `pacbio`, `nanopore minknow`,
+  `nanopore sam tags`, `nanopore`, `sra`) and facts from the first read's name (Illumina
+  instrument, run and flow cell; a PacBio movie; an Oxford Nanopore UUID).
 - **Table 1, quality by position** (mean quality per position, binned to at most 1000 rows),
   **table 2, read lengths** (a histogram: about two bins per square root of the reads, linear
   or logarithmic) and **table 3, read quality** (reads per whole Phred unit of mean quality).
@@ -65,8 +67,11 @@ it once.
 Biopython), bases, shortest and longest read, N50, bases ≥ Q30, GC and sampled reads' length,
 mean quality and GC against pysam; BAM records, primary records, mapped primaries, bases, N50
 and sampled records' flag, MAPQ, reference, position, length, mean quality, passes and accuracy
-against pysam. Development files: Illumina and PacBio HiFi FASTQ, an unaligned PacBio CCS BAM
-and a coordinate-sorted Illumina BAM.
+against pysam. Development files: FASTQ from Illumina (HiSeq X, simulated), PacBio HiFi, Oxford
+Nanopore (MinKNOW titles, bare read ids, SAM tags from a converted BAM) and Roche 454 (wrapped
+records); BAM from PacBio (RS II CCS, Sequel subreads, BLASR alignments, Revio HiFi with pbmm2),
+Illumina (bwa, GATK and Picard, scramble, an unaligned queryname-sorted file), TopHat (SAM 1.0)
+and minimap2 (CIGAR in the `CG` tag).
 
 ## Vocabulary (public API of `openreadout-seq`: `src/reads/`)
 

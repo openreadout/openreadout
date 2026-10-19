@@ -72,3 +72,12 @@ with `vbz_h5py_plugin` (ONT, MPL-2.0).
 - A table's row count is what its record batches declare, capped at its longest decoded column. A
   damaged file that declares billions of rows no longer makes the reader allocate and loop over
   them.
+
+## 2026-10-19 — POD5 from more writers (Richard Zimring with Claude as assistant)
+
+- Corpus files added: `seq-pod5-multi-fast5-zip-v3`, `-v4`, `-v5` (nanoporetech/pod5-file-format
+  test data, MPL-2.0: the same 10 reads written by pod5 0.0.40, 0.3.30 and 0.3.45) and
+  `seq-pod5-dna-storage-minion` (Zenodo 16883332, CC-BY-4.0: 1,291 reads from a MinION Mk1B,
+  MinKNOW 24.11.8, 5 kHz).
+- Ground truth: the `pod5` package (MPL-2.0), run as a black box (`oracle/seq_oracle.py`). Every
+  read matched with the reader unchanged; nothing new was inferred.

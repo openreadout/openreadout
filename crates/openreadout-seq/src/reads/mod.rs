@@ -59,6 +59,8 @@ struct Scan {
     complete: bool,
     consumed: u64,
     first_name: Vec<u8>,
+    /// The first FASTQ title line, without the `@` (empty for BAM).
+    first_title: Vec<u8>,
 }
 
 /// An open FASTQ or BAM file.
@@ -111,6 +113,11 @@ impl ReadsDataset {
             complete: false,
             consumed: 0,
             first_name: Vec::new(),
+            first_title: if self.format == ReadFormat::Fastq {
+                self.first_title()?
+            } else {
+                Vec::new()
+            },
         };
         let mut rec = Rec::default();
         loop {
@@ -137,6 +144,22 @@ impl ReadsDataset {
         }
         s.consumed = recs.consumed();
         Ok(s)
+    }
+
+    /// The first line of a FASTQ file without the `@` and the line ending (at most 64 KiB).
+    fn first_title(&self) -> Result<Vec<u8>> {
+        use std::io::{BufRead, Read};
+        let (mut r, _) = records::open_stream(self.input.open()?, self.gz);
+        let mut line = Vec::new();
+        // a read error here also stops the scan that follows, which reports it
+        let _ = (&mut r).take(64 << 10).read_until(b'\n', &mut line);
+        while line.last().is_some_and(|b| *b == b'\n' || *b == b'\r') {
+            line.pop();
+        }
+        Ok(line
+            .strip_prefix(b"@")
+            .map(<[u8]>::to_vec)
+            .unwrap_or_default())
     }
 
     fn scan(&self) -> Result<&Scan> {
@@ -206,6 +229,25 @@ impl ReadsDataset {
         if !rgs.is_empty() {
             m.insert("read_groups".into(), json!(rgs));
         }
+        // the program that wrote the file: the last @PG that no other @PG names as its
+        // previous program (`PP`)
+        let previous: Vec<&str> = pgs
+            .iter()
+            .filter_map(|p| p.get("PP").and_then(Value::as_str))
+            .collect();
+        if let Some(w) = pgs
+            .iter()
+            .rev()
+            .find(|p| {
+                p.get("ID")
+                    .and_then(Value::as_str)
+                    .is_none_or(|id| !previous.contains(&id))
+            })
+            .and_then(|p| p.get("PN").or_else(|| p.get("ID")))
+            .and_then(Value::as_str)
+        {
+            m.insert("writer".into(), json!(w));
+        }
         if !pgs.is_empty() {
             m.insert("programs".into(), json!(pgs));
         }
@@ -241,6 +283,59 @@ impl ReadsDataset {
         }
         m
     }
+}
+
+/// The convention of a FASTQ title line (without the `@`), which tells which kind of software
+/// wrote the file: Illumina 1.8+ (`instrument:run:flowcell:lane:tile:x:y read:filtered:control:index`),
+/// Illumina before 1.8 (`instrument:lane:tile:x:y#index/read`), PacBio (`movie/zmw/...`),
+/// Oxford Nanopore read ids with MinKNOW `key=value` comments or with SAM tags (`qs:f:12.5`, as
+/// `samtools fastq -T` writes them from a basecaller's BAM), or SRA (`SRR123.1`).
+fn title_convention(title: &[u8]) -> Option<&'static str> {
+    let t = String::from_utf8_lossy(title);
+    let (name, comment) = t
+        .split_once([' ', '\t'])
+        .map_or((t.as_ref(), ""), |(n, c)| (n, c));
+    let digits = |s: &str| !s.is_empty() && s.bytes().all(|b| b.is_ascii_digit());
+    let parts: Vec<&str> = name.split(':').collect();
+    if parts.len() == 7 && digits(parts[3]) && digits(parts[4]) {
+        return Some("illumina 1.8+");
+    }
+    let bare = name.split(['#', '/']).next().unwrap_or(name);
+    let old: Vec<&str> = bare.split(':').collect();
+    if old.len() == 5 && old[1..].iter().all(|p| digits(p)) {
+        return Some("illumina before 1.8");
+    }
+    let movie = name.split('/').next().unwrap_or("");
+    if name.contains('/') && movie.starts_with('m') && movie.matches('_').count() >= 2 {
+        return Some("pacbio");
+    }
+    if name.len() == 36 && name.matches('-').count() == 4 {
+        let sam_tag = |w: &str| {
+            let b = w.as_bytes();
+            b.len() > 5
+                && b[0].is_ascii_alphabetic()
+                && b[1].is_ascii_alphanumeric()
+                && b[2] == b':'
+                && b"AifZHB".contains(&b[3])
+                && b[4] == b':'
+        };
+        return Some(
+            if comment.split_whitespace().any(|w| w.starts_with("runid=")) {
+                "nanopore minknow"
+            } else if comment.split_whitespace().any(sam_tag) {
+                "nanopore sam tags"
+            } else {
+                "nanopore"
+            },
+        );
+    }
+    let sra = name
+        .strip_prefix("SRR")
+        .or_else(|| name.strip_prefix("ERR"))
+        .or_else(|| name.strip_prefix("DRR"))
+        .and_then(|r| r.split_once('.'))
+        .is_some_and(|(run, spot)| digits(run) && digits(spot.split('/').next().unwrap_or("")));
+    sra.then_some("sra")
 }
 
 impl Dataset for ReadsDataset {
@@ -316,6 +411,9 @@ impl Dataset for ReadsDataset {
         }
         for (k, v) in self.header_facts() {
             e.insert(k, v);
+        }
+        if let Some(c) = title_convention(&s.first_title) {
+            e.insert("title_convention".into(), json!(c));
         }
         for (k, v) in Self::name_facts(&s.first_name) {
             e.entry(k).or_insert(v);
@@ -790,5 +888,32 @@ mod tests {
         assert_eq!(f.unwrap().confidence, DetectConfidence::Definite);
         let facts = ReadsDataset::name_facts(b"A00834:183:HMTFYDRXX:1:2101:1000:1000");
         assert_eq!(facts["flowcell"], json!("HMTFYDRXX"));
+    }
+
+    /// Title lines as the development files have them (`docs/provenance/sequence-reads.md`).
+    #[test]
+    fn title_conventions() {
+        let c = |t: &str| title_convention(t.as_bytes());
+        assert_eq!(
+            c("ST-E00493:56:H33MFALXX:4:1101:23439:1379 1:N:0:NACAACCA"),
+            Some("illumina 1.8+")
+        );
+        assert_eq!(
+            c("HWI-EAS209_0006_FC706VJ:5:58:5894:21141#ATCACG/1"),
+            Some("illumina before 1.8")
+        );
+        assert_eq!(c("m64011_190830_220126/1/ccs"), Some("pacbio"));
+        assert_eq!(
+            c("83ccd09b-02bf-4623-b1e5-2233a3fb1d35 runid=8c23 read=27944 ch=481"),
+            Some("nanopore minknow")
+        );
+        assert_eq!(
+            c("9ae4818c-61e9-4011-bf40-ca5721922da4\tqs:f:12.4562\tch:i:783"),
+            Some("nanopore sam tags")
+        );
+        assert_eq!(c("c4f3c65f-4440-4a5f-80dd-cf576cea6e51"), Some("nanopore"));
+        assert_eq!(c("SRR1234567.1 1 length=100"), Some("sra"));
+        assert_eq!(c("1"), None);
+        assert_eq!(c("FSRRS4401BE7HA [length=395]"), None);
     }
 }

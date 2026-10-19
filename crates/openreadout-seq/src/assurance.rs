@@ -120,6 +120,17 @@ fn observe_reads(info: &FileInfo) -> Observations {
                 o.feature(kind, format!("{k} {v}"), &[Scope::Tables]);
             }
         }
+        // Who wrote the file: the program at the end of a BAM's @PG chain, or the convention
+        // of a FASTQ's titles. Records are decoded the same way whoever wrote them.
+        for k in ["writer", "title_convention"] {
+            if let Some(v) = a::extra_str(&t.extra, k) {
+                o.feature(K::Writer, format!("{k} {v}"), &[]);
+            }
+        }
+    }
+    // The SAM version of the @HD line: descriptive too, BAM records have kept their layout.
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, format!("SAM {v}"), &[]);
     }
     o
 }
@@ -154,14 +165,19 @@ const ILLUMINA_RUN_VALIDATED: &[Validated] = &[
 // END GENERATED illumina-run
 
 // BEGIN GENERATED pod5 (cargo xtask assurance-audit --write; do not edit)
-const POD5_CONFIDENCE: Confidence = Confidence::Low;
+const POD5_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const POD5_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "vbz", 2, 2, 2),
+    a::row(K::Codec, "vbz", 6, 3, 6),
+    a::row(K::FormatVersion, "0.0.40", 1, 1, 1),
+    a::row(K::FormatVersion, "0.3.18", 1, 1, 1),
+    a::row(K::FormatVersion, "0.3.30", 1, 1, 1),
     a::row(K::FormatVersion, "0.3.39", 1, 1, 1),
+    a::row(K::FormatVersion, "0.3.45", 1, 1, 1),
     a::row(K::FormatVersion, "0.3.46", 1, 1, 1),
     a::row(K::Writer, "MinKNOW 24.02.10 (Bream 7.9.4, Core 5.9.7, Dorado 7.3.9+b2176f600)", 1, 1, 1),
-    a::row(K::Writer, "python-pod5-converter", 1, 1, 1),
+    a::row(K::Writer, "MinKNOW 24.11.8 (Bream 8.2.5, Core 6.2.6, Dorado 7.6.7+de8939544)", 1, 1, 1),
+    a::row(K::Writer, "python-pod5-converter", 4, 1, 4),
 ];
 // END GENERATED pod5
 
@@ -181,22 +197,42 @@ const FAST5_VALIDATED: &[Validated] = &[
 // END GENERATED fast5
 
 // BEGIN GENERATED fastq (cargo xtask assurance-audit --write; do not edit)
-const FASTQ_CONFIDENCE: Confidence = Confidence::Low;
+const FASTQ_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const FASTQ_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "compression gzip", 2, 1, 2),
-    a::row(K::SampleLayout, "quality_encoding phred+33", 2, 1, 2),
+    a::row(K::Codec, "compression gzip", 4, 3, 4),
+    a::row(K::Codec, "compression none", 3, 3, 3),
+    a::row(K::SampleLayout, "quality_encoding phred+33", 7, 5, 7),
+    a::row(K::Writer, "title_convention illumina 1.8+", 1, 1, 1),
+    a::row(K::Writer, "title_convention nanopore", 1, 1, 1),
+    a::row(K::Writer, "title_convention nanopore minknow", 1, 1, 1),
+    a::row(K::Writer, "title_convention nanopore sam tags", 1, 1, 1),
+    a::row(K::Writer, "title_convention sra", 1, 1, 1),
 ];
 // END GENERATED fastq
 
 // BEGIN GENERATED bam (cargo xtask assurance-audit --write; do not edit)
-const BAM_CONFIDENCE: Confidence = Confidence::Low;
+const BAM_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const BAM_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "compression bgzf", 2, 1, 2),
-    a::row(K::Instrument, "platform ILLUMINA", 1, 1, 1),
-    a::row(K::Instrument, "platform PACBIO", 1, 1, 1),
-    a::row(K::Layout, "sort_order coordinate", 1, 1, 1),
-    a::row(K::Layout, "sort_order unknown", 1, 1, 1),
+    a::row(K::Codec, "compression bgzf", 11, 5, 11),
+    a::row(K::FormatVersion, "SAM 1.0", 1, 1, 1),
+    a::row(K::FormatVersion, "SAM 1.4", 2, 2, 2),
+    a::row(K::FormatVersion, "SAM 1.5", 5, 3, 5),
+    a::row(K::FormatVersion, "SAM 1.6", 2, 2, 2),
+    a::row(K::Instrument, "platform ILLUMINA", 4, 3, 4),
+    a::row(K::Instrument, "platform PACBIO", 5, 3, 5),
+    a::row(K::Layout, "sort_order coordinate", 5, 5, 5),
+    a::row(K::Layout, "sort_order queryname", 1, 1, 1),
+    a::row(K::Layout, "sort_order sorted", 1, 1, 1),
+    a::row(K::Layout, "sort_order unknown", 3, 2, 3),
+    a::row(K::Writer, "writer TopHat", 1, 1, 1),
+    a::row(K::Writer, "writer bax2bam", 1, 1, 1),
+    a::row(K::Writer, "writer bwa", 1, 1, 1),
+    a::row(K::Writer, "writer ccs", 1, 1, 1),
+    a::row(K::Writer, "writer minimap2", 1, 1, 1),
+    a::row(K::Writer, "writer samtools", 2, 2, 2),
+    a::row(K::Writer, "writer scramble", 1, 1, 1),
+    a::row(K::Writer, "writer update_bam.py", 2, 1, 2),
 ];
 // END GENERATED bam

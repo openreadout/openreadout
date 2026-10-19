@@ -1,0 +1,87 @@
+{
+ "id": "agilent-tapestation-allotropy-rna-plate",
+ "format": "agilent-tapestation",
+ "reader": "Python xml.etree, base64, csv (standard library)",
+ "position": "run_distance",
+ "wells": [
+  {
+   "well": "L1",
+   "name": "Ladder",
+   "concentration": 86.8,
+   "peaks": [
+    [
+     68.1,
+     200.0
+    ],
+    [
+     61.3,
+     500.0
+    ],
+    [
+     54.5,
+     1000.0
+    ],
+    [
+     47.6,
+     2000.0
+    ],
+    [
+     41.2,
+     4000.0
+    ],
+    [
+     38.2,
+     6000.0
+    ]
+   ]
+  },
+  {
+   "well": "A1",
+   "name": "Rat Kidney 400 ng/µl",
+   "concentration": 363.0,
+   "rine": 8.6,
+   "peaks": [
+    [
+     48.3,
+     1730.0
+    ],
+    [
+     39.9,
+     4405.0
+    ]
+   ]
+  },
+  {
+   "well": "B1",
+   "name": "Rat Kidney 400 ng/µl",
+   "concentration": 361.0,
+   "rine": 8.8,
+   "peaks": [
+    [
+     48.1,
+     1752.0
+    ],
+    [
+     39.6,
+     4547.0
+    ]
+   ]
+  },
+  {
+   "well": "C1",
+   "name": "Rat Kidney 200 ng/µl",
+   "concentration": 181.0,
+   "rine": 9.0,
+   "peaks": [
+    [
+     47.6,
+     1738.0
+    ],
+    [
+     39.0,
+     4617.0
+    ]
+   ]
+  }
+ ]
+}

@@ -40,10 +40,10 @@ Start with `openreadout info <file> --json` and `openreadout check <file>`. The 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `illumina-run` | [format note](../../docs/formats/illumina-run.md), [provenance log](../../docs/provenance/illumina-run.md) | low | vendor docs | 2 / 2 | 1 | - |
-| `pod5` | [format note](../../docs/formats/nanopore.md), [provenance log](../../docs/provenance/nanopore.md) | low | vendor docs | 2 / 2 | 2 | - |
+| `pod5` | [format note](../../docs/formats/nanopore.md), [provenance log](../../docs/provenance/nanopore.md) | high | vendor docs | 6 / 6 | 3 | - |
 | `fast5` | [format note](../../docs/formats/nanopore.md), [provenance log](../../docs/provenance/nanopore.md) | medium | reverse engineered | 3 / 3 | 2 | - |
-| `fastq` | [format note](../../docs/formats/sequence-reads.md), [provenance log](../../docs/provenance/sequence-reads.md) | low | open spec | 2 / 2 | 1 | - |
-| `bam` | [format note](../../docs/formats/sequence-reads.md), [provenance log](../../docs/provenance/sequence-reads.md) | low | open spec | 2 / 2 | 1 | - |
+| `fastq` | [format note](../../docs/formats/sequence-reads.md), [provenance log](../../docs/provenance/sequence-reads.md) | high | open spec | 7 / 7 | 5 | - |
+| `bam` | [format note](../../docs/formats/sequence-reads.md), [provenance log](../../docs/provenance/sequence-reads.md) | high | open spec | 11 / 11 | 5 | - |
 
 ### Source map
 
@@ -78,16 +78,32 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature codec `c`
 - feature layout `c`
 - feature writer `w`
+- feature writer `format!("{k} {v}")`
+- feature format_version `format!("SAM {v}")`
 
 ### Validated variants and the corpus files that pin them
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bam` | codec | `compression bgzf` | tables | 2 | 2 | `seq-bam-illumina-paired-sorted`, `seq-bam-pacbio-alz-ccs` |
-| `bam` | instrument | `platform ILLUMINA` | tables | 1 | 1 | `seq-bam-illumina-paired-sorted` |
-| `bam` | instrument | `platform PACBIO` | tables | 1 | 1 | `seq-bam-pacbio-alz-ccs` |
-| `bam` | layout | `sort_order coordinate` | tables | 1 | 1 | `seq-bam-illumina-paired-sorted` |
-| `bam` | layout | `sort_order unknown` | tables | 1 | 1 | `seq-bam-pacbio-alz-ccs` |
+| `bam` | codec | `compression bgzf` | tables | 11 | 11 | `seq-bam-htslib-scramble-range`, `seq-bam-igv-minimap2-long-cigar`, `seq-bam-igv-revio-hg002` |
+| `bam` | format_version | `SAM 1.0` | descriptive | 1 | 1 | `seq-bam-igv-tophat-sam10` |
+| `bam` | format_version | `SAM 1.4` | descriptive | 2 | 2 | `seq-bam-htslib-scramble-range`, `seq-bam-picard-na12891-markdup` |
+| `bam` | format_version | `SAM 1.5` | descriptive | 5 | 5 | `seq-bam-pacbio-alz-ccs`, `seq-bam-pbcore-blasr-aligned`, `seq-bam-pbcore-rs-ccs` |
+| `bam` | format_version | `SAM 1.6` | descriptive | 2 | 2 | `seq-bam-igv-revio-hg002`, `seq-bam-illumina-paired-sorted` |
+| `bam` | instrument | `platform ILLUMINA` | tables | 4 | 4 | `seq-bam-htslib-scramble-range`, `seq-bam-illumina-paired-sorted`, `seq-bam-picard-na12891-markdup` |
+| `bam` | instrument | `platform PACBIO` | tables | 5 | 5 | `seq-bam-igv-revio-hg002`, `seq-bam-pacbio-alz-ccs`, `seq-bam-pbcore-blasr-aligned` |
+| `bam` | layout | `sort_order coordinate` | tables | 5 | 5 | `seq-bam-htslib-scramble-range`, `seq-bam-igv-revio-hg002`, `seq-bam-illumina-paired-sorted` |
+| `bam` | layout | `sort_order queryname` | tables | 1 | 1 | `seq-bam-picard-unaligned-queryname` |
+| `bam` | layout | `sort_order sorted` | tables | 1 | 1 | `seq-bam-igv-tophat-sam10` |
+| `bam` | layout | `sort_order unknown` | tables | 3 | 3 | `seq-bam-pacbio-alz-ccs`, `seq-bam-pbcore-rs-ccs`, `seq-bam-pbcore-sequel-subreads` |
+| `bam` | writer | `writer TopHat` | descriptive | 1 | 1 | `seq-bam-igv-tophat-sam10` |
+| `bam` | writer | `writer bax2bam` | descriptive | 1 | 1 | `seq-bam-pbcore-sequel-subreads` |
+| `bam` | writer | `writer bwa` | descriptive | 1 | 1 | `seq-bam-illumina-paired-sorted` |
+| `bam` | writer | `writer ccs` | descriptive | 1 | 1 | `seq-bam-pacbio-alz-ccs` |
+| `bam` | writer | `writer minimap2` | descriptive | 1 | 1 | `seq-bam-igv-minimap2-long-cigar` |
+| `bam` | writer | `writer samtools` | descriptive | 2 | 2 | `seq-bam-igv-revio-hg002`, `seq-bam-picard-na12891-markdup` |
+| `bam` | writer | `writer scramble` | descriptive | 1 | 1 | `seq-bam-htslib-scramble-range` |
+| `bam` | writer | `writer update_bam.py` | descriptive | 2 | 2 | `seq-bam-pbcore-blasr-aligned`, `seq-bam-pbcore-rs-ccs` |
 | `fast5` | codec | `gzip` | traces | 2 | 2 | `seq-fast5-multi-zip`, `seq-fast5-single-read` |
 | `fast5` | codec | `vbz` | traces | 1 | 1 | `seq-fast5-vbz-reads` |
 | `fast5` | format_version | `1.0` | metadata, traces | 1 | 1 | `seq-fast5-multi-zip` |
@@ -96,8 +112,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `fast5` | layout | `multi-read` | traces | 3 | 3 | `seq-fast5-multi-zip`, `seq-fast5-single-read`, `seq-fast5-vbz-reads` |
 | `fast5` | writer | `MinKNOW 3.4.0-rc3` | metadata | 1 | 1 | `seq-fast5-multi-zip` |
 | `fast5` | writer | `MinKNOW 3.6.0-rc2` | metadata | 2 | 2 | `seq-fast5-single-read`, `seq-fast5-vbz-reads` |
-| `fastq` | codec | `compression gzip` | tables | 2 | 2 | `seq-fastq-illumina-test1`, `seq-fastq-pacbio-hifi` |
-| `fastq` | sample_layout | `quality_encoding phred+33` | tables | 2 | 2 | `seq-fastq-illumina-test1`, `seq-fastq-pacbio-hifi` |
+| `fastq` | codec | `compression gzip` | tables | 4 | 4 | `seq-fastq-fastcat-dorado-tags`, `seq-fastq-illumina-test1`, `seq-fastq-pacbio-hifi` |
+| `fastq` | codec | `compression none` | tables | 3 | 3 | `seq-fastq-biopython-454-wrapped`, `seq-fastq-chopper-ont`, `seq-fastq-seqkit-ont-pcs109` |
+| `fastq` | sample_layout | `quality_encoding phred+33` | tables | 7 | 7 | `seq-fastq-biopython-454-wrapped`, `seq-fastq-chopper-ont`, `seq-fastq-fastcat-dorado-tags` |
+| `fastq` | writer | `title_convention illumina 1.8+` | descriptive | 1 | 1 | `seq-fastq-seqkit-hiseqx` |
+| `fastq` | writer | `title_convention nanopore` | descriptive | 1 | 1 | `seq-fastq-chopper-ont` |
+| `fastq` | writer | `title_convention nanopore minknow` | descriptive | 1 | 1 | `seq-fastq-seqkit-ont-pcs109` |
+| `fastq` | writer | `title_convention nanopore sam tags` | descriptive | 1 | 1 | `seq-fastq-fastcat-dorado-tags` |
+| `fastq` | writer | `title_convention sra` | descriptive | 1 | 1 | `seq-fastq-pacbio-hifi` |
 | `illumina-run` | codec | `bcl` | tables | 1 | 1 | `seq-nfcore-miseq-k9h97` |
 | `illumina-run` | codec | `cbcl` | tables | 1 | 1 | `seq-nfcore-novaseq-hmtfydrxx` |
 | `illumina-run` | field | `experiment.instrument.model` | descriptive | 2 | 2 | `seq-nfcore-miseq-k9h97`, `seq-nfcore-novaseq-hmtfydrxx` |
@@ -115,18 +137,23 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `illumina-run` | instrument | `MiSeq` | metadata | 1 | 1 | `seq-nfcore-miseq-k9h97` |
 | `illumina-run` | instrument | `NovaSeq 6000` | metadata | 1 | 1 | `seq-nfcore-novaseq-hmtfydrxx` |
 | `illumina-run` | writer_version | `RTA 3.4` | tables | 1 | 1 | `seq-nfcore-novaseq-hmtfydrxx` |
-| `pod5` | codec | `vbz` | traces | 2 | 2 | `seq-pod5-hg002-10reads`, `seq-pod5-multi-fast5-zip-v6` |
+| `pod5` | codec | `vbz` | traces | 6 | 6 | `seq-pod5-dna-storage-minion`, `seq-pod5-hg002-10reads`, `seq-pod5-multi-fast5-zip-v3` |
+| `pod5` | format_version | `0.0.40` | metadata, traces | 1 | 1 | `seq-pod5-multi-fast5-zip-v3` |
+| `pod5` | format_version | `0.3.18` | metadata, traces | 1 | 1 | `seq-pod5-dna-storage-minion` |
+| `pod5` | format_version | `0.3.30` | metadata, traces | 1 | 1 | `seq-pod5-multi-fast5-zip-v4` |
 | `pod5` | format_version | `0.3.39` | metadata, traces | 1 | 1 | `seq-pod5-hg002-10reads` |
+| `pod5` | format_version | `0.3.45` | metadata, traces | 1 | 1 | `seq-pod5-multi-fast5-zip-v5` |
 | `pod5` | format_version | `0.3.46` | metadata, traces | 1 | 1 | `seq-pod5-multi-fast5-zip-v6` |
 | `pod5` | writer | `MinKNOW 24.02.10 (Bream 7.9.4, Core 5.9.7, Dorado…` | metadata | 1 | 1 | `seq-pod5-hg002-10reads` |
-| `pod5` | writer | `python-pod5-converter` | metadata | 1 | 1 | `seq-pod5-multi-fast5-zip-v6` |
+| `pod5` | writer | `MinKNOW 24.11.8 (Bream 8.2.5, Core 6.2.6, Dorado…` | metadata | 1 | 1 | `seq-pod5-dna-storage-minion` |
+| `pod5` | writer | `python-pod5-converter` | metadata | 4 | 4 | `seq-pod5-multi-fast5-zip-v3`, `seq-pod5-multi-fast5-zip-v4`, `seq-pod5-multi-fast5-zip-v5` |
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - committed fixtures: 28 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `seq_interop`, `seq_vbz`, `whole_bam`, `whole_fast5`, `whole_fastq`, `whole_illumina_bcl`, `whole_illumina_cbcl`, `whole_pod5`
-- corpus inputs by tier: smoke 8, standard 3
+- corpus inputs by tier: smoke 23, standard 6
 - golden snapshots: [`corpus/snapshots/illumina-run.jsonl`](../../corpus/snapshots/illumina-run.jsonl), [`corpus/snapshots/pod5.jsonl`](../../corpus/snapshots/pod5.jsonl), [`corpus/snapshots/fast5.jsonl`](../../corpus/snapshots/fast5.jsonl), [`corpus/snapshots/fastq.jsonl`](../../corpus/snapshots/fastq.jsonl), [`corpus/snapshots/bam.jsonl`](../../corpus/snapshots/bam.jsonl)
 
 ### Open new-variant intakes
