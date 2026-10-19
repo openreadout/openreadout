@@ -653,6 +653,9 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("tdt", "tdt-tank"),
             ("axona", "axona-dacqusb"),
             ("mcsraw", "mcs-raw"),
+            ("edf", "edf"),
+            ("brainvision", "brainvision"),
+            ("eeglab", "eeglab"),
         ],
     ),
     (

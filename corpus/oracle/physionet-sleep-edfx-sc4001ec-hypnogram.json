@@ -1,0 +1,36 @@
+{
+ "id": "physionet-sleep-edfx-sc4001ec-hypnogram",
+ "file": "sleep-edfx-SC4001EC-Hypnogram.edf",
+ "size": 4620,
+ "sha256": "a4cf67694ade1b52a0ddd06d5817fd45d2d3e8bac5302f640f3e9cfbbf12a996",
+ "max_planes_hashed": 64,
+ "reader": "pyedflib digital samples; MNE 1.13.2 header extremes and units; pyedflib 0.1.42 annotations",
+ "traces": [],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 154,
+   "parameter_names": [
+    "onset_s",
+    "duration_s",
+    "text"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "int32"
+   ],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "onset_s",
+      "duration_s"
+     ],
+     "count": 154,
+     "xxh3": "753cff69a85bec04c77cbcce875f0b6c"
+    }
+   ]
+  }
+ ]
+}

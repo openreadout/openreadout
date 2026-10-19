@@ -1290,6 +1290,15 @@ wheels = [
 ]
 
 [[package]]
+name = "decorator"
+version = "5.3.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/60/8b/32f9823da46cde7df2087faa08cd98d01b908f8dcab982cdba9c84e85355/decorator-5.3.1.tar.gz", hash = "sha256:4cbcdd55a6efadb9dbea26b858f4fb3264567b52d69ca0d25b721b553f60ea82", size = 58084, upload-time = "2026-05-18T06:03:28.057Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/05/7f/798705f5296a58ca505d600456748d1be48078eac8a7050d8a98bc9edb89/decorator-5.3.1-py3-none-any.whl", hash = "sha256:f47fe6fdbd2edd623ecfe36875d37aba411624e2670dd395dddae1358689bb3c", size = 10365, upload-time = "2026-05-18T06:03:26.517Z" },
+]
+
+[[package]]
 name = "defusedxml"
 version = "0.7.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2720,6 +2729,28 @@ wheels = [
 ]
 
 [[package]]
+name = "mne"
+version = "1.13.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "decorator", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "jinja2", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "lazy-loader", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "matplotlib", version = "3.11.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "packaging", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "pooch", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "tqdm", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/cf/19/004114922a8e6afcc713cbc6122c015b2487f17fc7ca021db700501868ea/mne-1.13.2.tar.gz", hash = "sha256:729829e35010a7273cce8608d61d930c973fbead6edc1a70316c01e3a5551521", size = 7362367, upload-time = "2026-09-11T16:35:08.004Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/e4/face21e5da320fdc3a3e016ea93a28d1b786d01b36d75872627161a837aa/mne-1.13.2-py3-none-any.whl", hash = "sha256:36bbdd9fdc68431309a75e9dc6331b9de085cb6836688ac50b7b89f141a83cc3", size = 7668762, upload-time = "2026-09-11T16:35:05.268Z" },
+]
+
+[[package]]
 name = "more-itertools"
 version = "11.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -3769,6 +3800,7 @@ dependencies = [
     { name = "liffile", version = "2026.7.14", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "load-heka-python" },
     { name = "lxml" },
+    { name = "mne", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "mrcfile" },
     { name = "ncempy" },
     { name = "nd2" },
@@ -3794,6 +3826,7 @@ dependencies = [
     { name = "pyabf" },
     { name = "pyarrow" },
     { name = "pydicom" },
+    { name = "pyedflib" },
     { name = "pyheka" },
     { name = "pyimzml" },
     { name = "pyjpegls" },
@@ -3802,6 +3835,7 @@ dependencies = [
     { name = "pylibjpeg-libjpeg" },
     { name = "pylibjpeg-openjpeg" },
     { name = "pylibjpeg-rle" },
+    { name = "pymatreader" },
     { name = "pynumpress" },
     { name = "pynwb" },
     { name = "pyopenms" },
@@ -3878,6 +3912,7 @@ requires-dist = [
     { name = "liffile" },
     { name = "load-heka-python", git = "https://github.com/easy-electrophysiology/load-heka-python?rev=185f6edb54ac562de26aa7ce33643b453c45894d" },
     { name = "lxml" },
+    { name = "mne", marker = "python_full_version >= '3.11'", specifier = ">=1.13" },
     { name = "mrcfile", specifier = ">=1.5" },
     { name = "ncempy", specifier = ">=1.16" },
     { name = "nd2" },
@@ -3899,6 +3934,7 @@ requires-dist = [
     { name = "pyabf", specifier = ">=2.3.8" },
     { name = "pyarrow", specifier = ">=17" },
     { name = "pydicom", specifier = ">=3.0" },
+    { name = "pyedflib", specifier = ">=0.1.42" },
     { name = "pyheka", specifier = ">=1.0.1" },
     { name = "pyimzml" },
     { name = "pyjpegls", specifier = ">=1.5" },
@@ -3907,6 +3943,7 @@ requires-dist = [
     { name = "pylibjpeg-libjpeg", specifier = ">=2.3" },
     { name = "pylibjpeg-openjpeg", specifier = ">=2.4" },
     { name = "pylibjpeg-rle", specifier = ">=2.1" },
+    { name = "pymatreader", specifier = ">=1.0" },
     { name = "pynumpress" },
     { name = "pynwb", specifier = ">=2.8" },
     { name = "pyopenms", specifier = ">=3.2" },
@@ -4275,6 +4312,20 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/06/8f/d741afb1dcd1848161189e017d27972e7e78556d8dce66b94d4235093706/polars_runtime_32-1.44.2-cp310-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:c4a09fb14aad711526346efc0cb2015c2fd0555ce4118b6524e5debbaea65ff5", size = 49887654, upload-time = "2026-09-09T07:40:37.455Z" },
     { url = "https://files.pythonhosted.org/packages/ba/e7/c61c1c7eea37705920fe7c1302d1dd80d1165db2b928f0da3eae6d1ebb75/polars_runtime_32-1.44.2-cp310-abi3-win_amd64.whl", hash = "sha256:8598e7a20efba70bb74978c7df7af7c606ff4d79b9b48fdd808250b189bc9a13", size = 51297967, upload-time = "2026-09-09T07:40:41.993Z" },
     { url = "https://files.pythonhosted.org/packages/e7/a0/d0dd0d2ec95fa328dd47055905fae53ba3cd79f11c8973326ebe75a49e4c/polars_runtime_32-1.44.2-cp310-abi3-win_arm64.whl", hash = "sha256:d51040d3ab40157f6db3c62be59cab5b80fb3c8d158924769c4982a1c8eef730", size = 44303345, upload-time = "2026-09-09T07:40:47.081Z" },
+]
+
+[[package]]
+name = "pooch"
+version = "1.9.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "platformdirs", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "requests", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/83/43/85ef45e8b36c6a48546af7b266592dc32d7f67837a6514d111bced6d7d75/pooch-1.9.0.tar.gz", hash = "sha256:de46729579b9857ffd3e741987a2f6d5e0e03219892c167c6578c0091fb511ed", size = 61788, upload-time = "2026-01-30T19:15:09.649Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2a/2d/d4bf65e47cea8ff2c794a600c4fd1273a7902f268757c531e0ee9f18aa58/pooch-1.9.0-py3-none-any.whl", hash = "sha256:f265597baa9f760d25ceb29d0beb8186c243d6607b0f60b83ecf14078dbc703b", size = 67175, upload-time = "2026-01-30T19:15:08.36Z" },
 ]
 
 [[package]]
@@ -4858,6 +4909,45 @@ wheels = [
 ]
 
 [[package]]
+name = "pyedflib"
+version = "0.1.42"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8b/29/5080bc311a9f0f3802fb2919f3a7ff790f1ddbf352b21c282a479b895e10/pyedflib-0.1.42.tar.gz", hash = "sha256:39f35c60ce213f23ee954f89117f79b2adb5ef4894500fd9bf0f9298fb240efc", size = 2262626, upload-time = "2025-06-26T18:38:23.931Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b3/6b/e9258512a7d4706a2779efeb793a657622dae26f226c045eaefde66d0d4f/pyedflib-0.1.42-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:cf7ee08a47a7648e18c666bc766a930335364c6501d2aad3cfd9420ea0cb7e54", size = 2317284, upload-time = "2025-06-26T18:37:24.305Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/a6/257e2bd0b8941dc9b9483502323899092ce7b0b01bea35047282a3856c8a/pyedflib-0.1.42-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:b154d682e7d1dc96ef0b670781871ba18183c5b741d30f8c4cf54072f206b007", size = 2307965, upload-time = "2025-06-26T18:37:25.437Z" },
+    { url = "https://files.pythonhosted.org/packages/d5/88/92139981c78615a1251bac2109d17d0e7af676eda86a1e4884ff884c2683/pyedflib-0.1.42-cp310-cp310-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:9f010ae011471c61f64b5821e45ac930b18e637e03c3809ec9aaf7fecc63d5cb", size = 2834136, upload-time = "2025-06-26T18:37:26.509Z" },
+    { url = "https://files.pythonhosted.org/packages/95/21/03b01c5316db827c025defaa43b7d846ef5c1b31700f762fdbedc69be5a5/pyedflib-0.1.42-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4fa086362bebf0fdf1f6987a4f935e22cd49afad8c1fd42b810652e6120467e6", size = 2825911, upload-time = "2025-06-26T18:37:27.665Z" },
+    { url = "https://files.pythonhosted.org/packages/98/20/49758d0768e894cf4aa21486a742ac79c3c409daab74ffb1e6ff95bc2da2/pyedflib-0.1.42-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:b839a06b75ea04a7a99345cf0ed61849c84d03b5dbd7108af5167229d770e356", size = 2788661, upload-time = "2025-06-26T18:37:28.867Z" },
+    { url = "https://files.pythonhosted.org/packages/54/8e/b67779edb3f750af82122137a8cd1b8e649ad1b16d078c38cfa7f139b0d1/pyedflib-0.1.42-cp310-cp310-musllinux_1_2_i686.whl", hash = "sha256:15a920e9544703011c67173c655c08d4632eb2d09f12438f7958bd574e37ef4f", size = 2789970, upload-time = "2025-06-26T18:37:30.138Z" },
+    { url = "https://files.pythonhosted.org/packages/f9/2b/fab5b33deb7eb7af671153547bf092f2ae2f57ac864ba7d7db556421de3f/pyedflib-0.1.42-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:cfc439fc986fa18f4b24f3e9d196d3c06616d90adc18d82dfde7969827b349a4", size = 2804447, upload-time = "2025-06-26T18:37:31.341Z" },
+    { url = "https://files.pythonhosted.org/packages/ce/76/e9793830817e7ea13d94128cd3befbe34fc6ae751a625268af75ec5d48a1/pyedflib-0.1.42-cp310-cp310-win32.whl", hash = "sha256:928d6d68deaaeb20df291bdd5f0489a648f7ec1bebeb43e05f713d860fe6ea96", size = 2285226, upload-time = "2025-06-26T18:37:32.634Z" },
+    { url = "https://files.pythonhosted.org/packages/30/e2/39ab13ca9334390427bf5d74645e9f8e75602efd161d46c3c3118f8e51f6/pyedflib-0.1.42-cp310-cp310-win_amd64.whl", hash = "sha256:3467afe4683e87e1619626ae2d001b977056f867cef7669eb0399097c1017ced", size = 2296955, upload-time = "2025-06-26T18:37:36.212Z" },
+    { url = "https://files.pythonhosted.org/packages/b7/7c/7f3697b6d9c2799e3455f576834e22c4b1e6b41d50ef74569f22cf9b909f/pyedflib-0.1.42-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:c1cbe156c87e4952b21f12dedb8dc7c2e3a68330bbf526f6560c3eaa4458d480", size = 2319344, upload-time = "2025-06-26T18:37:37.385Z" },
+    { url = "https://files.pythonhosted.org/packages/14/13/5b03e466964ce1260563c1cf0407014f0f7ec8574f1b76e3734c07bb9cb4/pyedflib-0.1.42-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:46778b28e163d7e318651a7883ba35bf1f3898d6e774dd2a22874959e0c9b760", size = 2309770, upload-time = "2025-06-26T18:37:38.493Z" },
+    { url = "https://files.pythonhosted.org/packages/e7/ac/64e151ceb1a4ee3437ab212f18ce41905811ce21b556609f2a37d1830c51/pyedflib-0.1.42-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:bb58686ecb9a175a71fb893910985677cf0e83cf622d032db406cc23e44172ed", size = 2861301, upload-time = "2025-06-26T18:37:39.783Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/fc/336258bb410870ffe36f00b6854ff7fb77ea2d36c34e3dc9f9c214bfc9a6/pyedflib-0.1.42-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e2c27139608631319101936c16b408a1c0cd2c53c96a9ae0899f8374673d1c75", size = 2857707, upload-time = "2025-06-26T18:37:40.964Z" },
+    { url = "https://files.pythonhosted.org/packages/e6/ff/5d10917002af4c811012fcd8534d1f08eb30eabf1402e35692a745d5e793/pyedflib-0.1.42-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:86b182d1e748a42e3169cdb67e3bc4b4f9585d3e6abf4a531f14815d312919cb", size = 2814331, upload-time = "2025-06-26T18:37:42.165Z" },
+    { url = "https://files.pythonhosted.org/packages/a3/01/7b5fd465c939cbea3c2c3e7faa48aace914efa2ff93471f3665ac6c211ff/pyedflib-0.1.42-cp311-cp311-musllinux_1_2_i686.whl", hash = "sha256:b59bdd6c3c009af9f06026e4533dbefb7a9900c3377e4a9bee1e9fec9dec376d", size = 2818893, upload-time = "2025-06-26T18:37:43.42Z" },
+    { url = "https://files.pythonhosted.org/packages/00/47/e17e763e94acef5ff53260f5167408dfbd53f1116b3dde737f04b69b681c/pyedflib-0.1.42-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:1e2cf53cee3a84428c98fd0f35ac52b2a2dc5e08e05c3ca345a70165892ed98d", size = 2831638, upload-time = "2025-06-26T18:37:44.606Z" },
+    { url = "https://files.pythonhosted.org/packages/42/29/451b8af95458fbeac449ac25efa91db168fc48599e10c4bd951147a09355/pyedflib-0.1.42-cp311-cp311-win32.whl", hash = "sha256:50ef1d51759baee8dcf8e886abadecea23594fc4d76a397998e33a0b046857af", size = 2285335, upload-time = "2025-06-26T18:37:46.403Z" },
+    { url = "https://files.pythonhosted.org/packages/d3/21/0bb26247f05c939fe26d112f55e7b0f9c3fb2b1e0dfcd95e6012f9f3b7b2/pyedflib-0.1.42-cp311-cp311-win_amd64.whl", hash = "sha256:1d21e7e4af0c93a0e18a200d89a6e96d5bc99804ac7993286ccb821054a5641e", size = 2298353, upload-time = "2025-06-26T18:37:47.515Z" },
+    { url = "https://files.pythonhosted.org/packages/3f/0d/f846c6f2b1ec383166b500af354ac4a282c416fa1d6279bc9e1b80ff3366/pyedflib-0.1.42-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:4e9c52bac8c12d8981a288c203e48929ce8ae8b54ac0a0839060499a25f61073", size = 2319498, upload-time = "2025-06-26T18:37:48.645Z" },
+    { url = "https://files.pythonhosted.org/packages/4a/b7/a8740dbdb9c6949e4531956cc2e222cbab4a5f49ee7048ecef6a80c2ae24/pyedflib-0.1.42-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:539f8b35717070f0fcefcee5de3475daf717762f539bab61c1804f11fa258a98", size = 2308186, upload-time = "2025-06-26T18:37:49.825Z" },
+    { url = "https://files.pythonhosted.org/packages/42/77/3793a769b266ff4d01fe4c85ee7e8fcc27e9cc0c000f2f5b1836ea865047/pyedflib-0.1.42-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:b8284c0607660ed1227efcff54837ef077284957a138075edcdf78afc24fb8cb", size = 2857156, upload-time = "2025-06-26T18:37:52.333Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/37/6970d38c7ba23f355505aa5e6cd73903ce327d0f2d20313c7c426ea2f779/pyedflib-0.1.42-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f9e7f877cf90882166e035cfa03a1c9c8dfb6e3a396abea94f592973455b0581", size = 2837600, upload-time = "2025-06-26T18:37:53.873Z" },
+    { url = "https://files.pythonhosted.org/packages/86/0b/2ab04d3d6790445547ed435f5e3674dc8eaf7730e6dba87e8ca7f8ac30de/pyedflib-0.1.42-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:80bc2725c01aa1c1d396fc86c936f31b54ad305deff688e6604f4f3ae5d90905", size = 2830520, upload-time = "2025-06-26T18:37:55.258Z" },
+    { url = "https://files.pythonhosted.org/packages/75/cf/a4bd2179655a5f0e0283c6d355e9dd9a851d3ca141ad321b9eabb4194952/pyedflib-0.1.42-cp312-cp312-win32.whl", hash = "sha256:b06595aa21fe909109c6acaf0b27e254f4ed8c537ff0a69f1f4153a6e9fbeeff", size = 2285968, upload-time = "2025-06-26T18:37:56.866Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/c8/b3b1bcfb6efe191d2e0f7cddd5bcb647c5539b79ead66dbf11f594c26c69/pyedflib-0.1.42-cp312-cp312-win_amd64.whl", hash = "sha256:7d691e76ff2fb46c6ccabedf6dd2844278469d0b656cf290f4566839229634e7", size = 2298642, upload-time = "2025-06-26T18:37:58.464Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/71/432dc85d346d0a168ef75e56b8a60043f64cdf60a75856559ce888c00e51/pyedflib-0.1.42-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:4a00c11bcd4ca65c298fd5934cad5e4660a7e9493a6d0d0089536b6174b71b0b", size = 2856992, upload-time = "2025-06-26T18:37:59.642Z" },
+]
+
+[[package]]
 name = "pygments"
 version = "2.21.0"
 source = { registry = "https://pypi.org/simple" }
@@ -5084,6 +5174,25 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/1f/dc/e2bb31b6760dd2bd27474e594b18719870d0849268493d9652664ced49f7/pylibjpeg_rle-2.2.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:b608b5df84b6b60c9b1b21fa0a4c2f49094d34eb68386d040fbb23ddb769ffb4", size = 270593, upload-time = "2025-09-07T23:21:35.519Z" },
     { url = "https://files.pythonhosted.org/packages/95/cf/1ec283fe78921c333d966f12af7218f08cbd66f35250e6fe93f511fa1ac4/pylibjpeg_rle-2.2.0-cp313-cp313-win32.whl", hash = "sha256:f6901768e0c80f6ed805467a65f535eab941d261d34d2bc787b44b4101130e16", size = 135178, upload-time = "2025-09-07T23:21:36.754Z" },
     { url = "https://files.pythonhosted.org/packages/28/05/ed075b9ba7c0bf942dc5794278382379f9b1ea39616af0a9b7711d63ebf8/pylibjpeg_rle-2.2.0-cp313-cp313-win_amd64.whl", hash = "sha256:0664634915a50967165df569e31f44e6dbbc2390164dea02b556254c352e9ab0", size = 140865, upload-time = "2025-09-07T23:21:38.429Z" },
+]
+
+[[package]]
+name = "pymatreader"
+version = "1.3.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "h5py" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "xmltodict" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/48/1e/4d33764d2256d6eaf77186e2e17b95c5dbd982890cd984bd48751820b7ae/pymatreader-1.3.2.tar.gz", hash = "sha256:8850b52d735df75b120b6ae5c5f80c92e07d8c163ed653c814d7b904fac7afc5", size = 37134822, upload-time = "2026-09-28T12:56:48.403Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cf/7e/3fadfe6b6ef3f71bf171bca80f8663d0a566133c0e9b8b2434e66945fd5b/pymatreader-1.3.2-py3-none-any.whl", hash = "sha256:fa6499cf12f26a39edc2def05672d95bd7a053e5d7c12296fd16e4b6d903e26a", size = 10713, upload-time = "2026-09-28T12:56:46.484Z" },
 ]
 
 [[package]]

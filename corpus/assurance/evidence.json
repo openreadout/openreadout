@@ -31550,6 +31550,721 @@
       ]
     },
     {
+      "id": "gin-brainvision-1",
+      "format": "brainvision",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Analyzer",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "gin-brainvision-2",
+      "format": "brainvision",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "marker-based segments",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Analyzer",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "gin-brainvision-3-float32",
+      "format": "brainvision",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "marker-based segments",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Analyzer",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "gin-brainvision-3-int16",
+      "format": "brainvision",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "INT_16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "marker-based segments",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Analyzer",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "gin-brainvision-3-int32",
+      "format": "brainvision",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "INT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "marker-based segments",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Analyzer",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "gin-brainvision-4-float32",
+      "format": "brainvision",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "FieldTrip",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "mnepython-bv-test",
+      "format": "brainvision",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "INT_16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Recorder",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "openneuro-ds003190-sub-017-ses-03-task-cnos-run-4",
+      "format": "brainvision",
+      "source": "openneuro ds003190",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "FieldTrip",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "openneuro-ds005262-sub-10-ses-8-task-innerspeech",
+      "format": "brainvision",
+      "source": "openneuro ds005262",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "pybv",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "openneuro-ds005530-sub-03112021304-task-sleep-run-02",
+      "format": "brainvision",
+      "source": "openneuro ds005530",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "INT_16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Recorder",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "openneuro-ds007541-sub-01-ses-02-task-verification-run-05",
+      "format": "brainvision",
+      "source": "openneuro ds007541",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "pybv",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "openneuro-ds007720-sub-p2-ses-5-task-rsvpcopyphrase-run-6",
+      "format": "brainvision",
+      "source": "openneuro ds007720",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "MULTIPLEXED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "pybv",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
+      "id": "zenodo-8407716-subject-19-exp-postsleep",
+      "format": "brainvision",
+      "source": "zenodo:8407716",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "2",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "sample_layout",
+          "IEEE_FLOAT_32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "VECTORIZED",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "BrainVision Analyzer",
+          []
+        ],
+        [
+          "record",
+          "markers",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        10
+      ]
+    },
+    {
       "id": "msv000078982-baf-microqtof",
       "format": "bruker-baf",
       "source": "massive:MSV000078982",
@@ -76215,6 +76930,1730 @@
       "inferred": [
         5,
         13
+      ]
+    },
+    {
+      "id": "edfio-short-psg",
+      "format": "edf",
+      "source": "github:the-siesta-group/edfio",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "figshare-28485251-1",
+      "format": "edf",
+      "source": "figshare 28485251",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+D",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-autoscaled-offsets",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-cross-kind-offsets-corrupt-header",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-edf-c",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-electrode-and-analog-data",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-event-edge-cases",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-event-markers-bdf",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-full-metadata",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-same-unit-offsets-multirate",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-test-subsecond",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnepython-test-bdf",
+      "format": "edf",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnepython-test-edf",
+      "format": "edf",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnepython-test-edf-stim-channel",
+      "format": "edf",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnetestingdata-nihonkohden-da00100e",
+      "format": "edf",
+      "source": "github:mne-tools/mne-testing-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds003810-sub-02-task-mivsrest-run-0",
+      "format": "edf",
+      "source": "openneuro ds003810",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds004448-sub-001-ses-03-task-smrbmi",
+      "format": "edf",
+      "source": "openneuro ds004448",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds004752-sub-02-ses-05-task-verbalwm-run-01",
+      "format": "edf",
+      "source": "openneuro ds004752",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds004840-sub-02-ses-02-task-postmusictherapy",
+      "format": "edf",
+      "source": "openneuro ds004840",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds005648-sub-03-task-targets",
+      "format": "edf",
+      "source": "openneuro ds005648",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds005857-sub-ltp505-ses-2-task-ltpdelayrepfrreadonly",
+      "format": "edf",
+      "source": "openneuro ds005857",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds008851-sub-01-ses-01-task-cuereactivity",
+      "format": "edf",
+      "source": "openneuro ds008851",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "physionet-eegmmidb-s001r01",
+      "format": "edf",
+      "source": "physionet eegmmidb 1.0.0",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "physionet-sleep-edfx-sc4001ec-hypnogram",
+      "format": "edf",
+      "source": "physionet sleep-edfx 1.0.0",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "pyedflib-test-generator-bdf",
+      "format": "edf",
+      "source": "github:holgern/pyedflib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "pyedflib-test-generator-edf",
+      "format": "edf",
+      "source": "github:holgern/pyedflib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "zenodo-3885755-p14-2",
+      "format": "edf",
+      "source": "zenodo:3885755",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "zenodo-4688758-s65",
+      "format": "edf",
+      "source": "zenodo:4688758",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+D",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "figshare-14459286-311-epochs-before",
+      "format": "eeglab",
+      "source": "figshare 14459286",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "14.1.2",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "gin-eeglab-continuous-one-file",
+      "format": "eeglab",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SciPy",
+          []
+        ],
+        [
+          "writer_version",
+          "synthetic (not written by EEGLAB)",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "gin-eeglab-continuous-two-files",
+      "format": "eeglab",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SciPy",
+          []
+        ],
+        [
+          "writer_version",
+          "synthetic (not written by EEGLAB)",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "gin-eeglab-epoched-ica",
+      "format": "eeglab",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SciPy",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds003800-sub-001-task-rest",
+      "format": "eeglab",
+      "source": "openneuro ds003800",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float64",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2020.0",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds004362-sub-001-task-motion-run-1",
+      "format": "eeglab",
+      "source": "openneuro ds004362",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2022.1",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds005048-sub-02-task-40hzauditoryentrainment",
+      "format": "eeglab",
+      "source": "openneuro ds005048",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 7.3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2023.1",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds005628-sub-1-task-edzna-run-1",
+      "format": "eeglab",
+      "source": "openneuro ds005628",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 7.3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2024.2",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds006260-sub-mc02-ses-1-task-smartickdataset-run-2",
+      "format": "eeglab",
+      "source": "openneuro ds006260",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2025.0.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds006394-sub-01-task-sid",
+      "format": "eeglab",
+      "source": "openneuro ds006394",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB MACA64",
+          []
+        ],
+        [
+          "writer_version",
+          "2024.0",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds006923-sub-1009sg-task-restingstate-acq-epochs",
+      "format": "eeglab",
+      "source": "openneuro ds006923",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2022.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds007006-sub-001-task-ivan",
+      "format": "eeglab",
+      "source": "openneuro ds007006",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "fdt float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB PCWIN64",
+          []
+        ],
+        [
+          "writer_version",
+          "2025.0.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "openneuro-ds007406-sub-002-task-extremeversustraditionalvideos",
+      "format": "eeglab",
+      "source": "openneuro ds007406",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "MAT 5.0",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "embedded float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "epochs",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "MATLAB MACA64",
+          []
+        ],
+        [
+          "writer_version",
+          "2025.1.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        1,
+        7
       ]
     },
     {

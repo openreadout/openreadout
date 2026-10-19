@@ -78,6 +78,13 @@ const BUNDLES: &[Bundle] = &[
     ("whole_tdt", "b", &["b/s_B1.tsq", "b/s_B1.tev"], None),
     ("whole_axona", "", &["s.set", "s.bin", "s.1"], Some(0)),
     (
+        "whole_brainvision",
+        "",
+        &["r.vhdr", "r.vmrk", "r.eeg"],
+        Some(0),
+    ),
+    ("whole_eeglab", "", &["r.set", "r.fdt"], Some(0)),
+    (
         "whole_vms",
         "",
         &[

@@ -5900,7 +5900,304 @@ def mcs_raw(p: Path) -> dict:
                          "channels": [{"xxh3": _trace_hash(v), "first": _first(v)} for v in cols]}]}
     return {"reader": f"neo {__import__('neo').__version__} RawMCSRawIO", "traces": [trace]}
 
-EPHYS = {"wcp": winwcp, "set": axona, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
+def edf(p: Path) -> dict:
+    """EDF, EDF+, BDF and BDF+ via pyedflib (BSD-2, EDFlib) and MNE-Python (BSD-3), both black
+    boxes. pyedflib gives every signal's digital samples, the samples per data record, the record
+    duration and the annotations; MNE gives the header's physical and digital extremes and units.
+    Values are the digital samples x scale + offset with scale = (physical max - physical min) /
+    (digital max - digital min) and offset = physical min - digital min x scale (the EDF
+    specification's linear map), in float64; pyedflib's and MNE's own physical values must agree
+    with them to 1e-9. Signals sharing a sample count per record form one trace, in the order
+    their first signal appears. Annotation onsets count from the first data record (pyedflib
+    subtracts the subsecond start); a TAL without a duration has duration 0 (pyedflib -1).
+
+    pyedflib refuses some files that MNE reads (a header field outside the specification, an
+    EDF+D file, an equal physical minimum and maximum). For those the digital samples are MNE's
+    physical values mapped back through the same scale and offset and rounded to integers (each
+    must land within 1e-6 of an integer), and annotations are compared by count only (MNE rounds
+    onsets to microseconds). The record says which reader gave the samples."""
+    import mne
+    import pyedflib
+    f, why = None, None
+    try:
+        f = pyedflib.EdfReader(str(p))
+    except OSError as e:
+        why = str(e).split(": ", 1)[-1]
+    read = mne.io.read_raw_bdf if p.suffix.lower() == ".bdf" else mne.io.read_raw_edf
+    raw = None
+    try:
+        raw = read(str(p), preload=True, verbose="error", infer_types=False, stim_channel=[])
+    except ValueError as e:
+        if "No appropriate channels" not in str(e):  # an annotation-only file has none
+            raise
+    try:
+        if raw is None and f is None:
+            raise ValueError(f"neither reader opens the file (pyedflib: {why})")
+        traces = []
+        worst = 0.0
+        if raw is not None:
+            ex = raw._raw_extras[0]
+            n = len(raw.ch_names)
+            mne_data = raw.get_data() if n else np.zeros((0, 0))
+            if f is not None and n != f.signals_in_file:
+                raise ValueError(f"pyedflib has {f.signals_in_file} signals, MNE {n}")
+            if f is not None:
+                spr_of = [int(f.samples_in_datarecord(i)) for i in range(n)]
+                dur = float(f.datarecord_duration)
+            else:
+                # MNE's per-signal sample counts per record, without the annotation signals
+                tal = set(np.atleast_1d(ex.get("tal_idx", [])).tolist())
+                spr_of = [int(s) for k, s in enumerate(ex["n_samps"]) if k not in tal][:n]
+                dur = float(np.atleast_1d(ex["record_length"])[0])
+            groups = []  # (samples per record, [signal indices])
+            for i in range(n):
+                if spr_of[i] == 0:
+                    continue
+                for g in groups:
+                    if g[0] == spr_of[i]:
+                        g[1].append(i)
+                        break
+                else:
+                    groups.append((spr_of[i], [i]))
+            for gi, (spr, sigs) in enumerate(groups):
+                chans, names, units = [], [], []
+                count = None
+                for i in sigs:
+                    pmin, pmax = float(ex["physical_min"][i]), float(ex["physical_max"][i])
+                    dmin, dmax = float(ex["digital_min"][i]), float(ex["digital_max"][i])
+                    cal = (pmax - pmin) / (dmax - dmin) if dmax != dmin else float("nan")
+                    if dmax == dmin or not np.isfinite(cal) or not np.isfinite(pmin):
+                        cal, off = 1.0, 0.0
+                    else:
+                        off = pmin - dmin * cal
+                    unit = float(ex["units"][i]) or 1.0
+                    phys_mne = mne_data[i] / unit
+                    if f is not None:
+                        dig = np.asarray(f.readSignal(i, digital=True), dtype=np.float64)
+                    elif spr != max(spr_of):
+                        raise NotImplementedError("MNE resamples signals below the highest rate; no digital samples for them")
+                    elif cal == 0:
+                        dig = np.zeros(len(phys_mne))
+                    else:
+                        est = (phys_mne - off) / cal
+                        dig = np.round(est)
+                        if len(est) and np.max(np.abs(est - dig)) > 1e-6:
+                            raise ValueError(f"signal {i}: MNE values do not map back to integers")
+                    v = dig * cal + off
+                    refs = [phys_mne] + ([np.asarray(f.readSignal(i), dtype=np.float64)] if f is not None else [])
+                    for r in refs:
+                        if len(r) == len(v) and len(v):
+                            worst = max(worst, float(np.max(np.abs(r - v) / np.maximum(1.0, np.abs(v)))))
+                    count = len(v) if count is None else count
+                    chans.append({"xxh3": _trace_hash(v), "first": _first(v)})
+                    names.append(f.getLabel(i).strip() if f is not None else str(raw.ch_names[i]))
+                    units.append(f.getPhysicalDimension(i).strip() if f is not None else "")
+                trace = {"index": gi, "sweep_count": 1, "channel_count": len(sigs),
+                         "channel_names": names, "sample_rate_hz": spr / dur,
+                         "sweeps": [{"sweep": 0, "sample_count": int(count), "channels": chans}]}
+                if f is not None:
+                    trace["channel_units"] = units
+                traces.append(trace)
+        if worst > 1e-9:
+            raise ValueError(f"pyedflib/MNE physical values differ from the linear map by {worst:.3g}")
+        source = "pyedflib digital samples" if f is not None else f"MNE values mapped back to digital (pyedflib refuses: {why})"
+        out = {"reader": f"{source}; MNE {mne.__version__} header extremes and units; pyedflib {pyedflib.__version__} annotations",
+               "traces": traces}
+        if f is not None:
+            onsets, durations, _ = f.readAnnotations()
+            if len(onsets):
+                d = np.asarray(durations, dtype=np.float64)
+                d = np.where(d < 0, 0.0, d)
+                out["tables"] = [{"index": 0, "event_count": int(len(onsets)),
+                                  "parameter_names": ["onset_s", "duration_s", "text"],
+                                  "dtypes": ["float64", "float64", "int32"], "xxh3": None,
+                                  "sorted_row_hashes": [_sorted_rows([("onset_s", np.asarray(onsets, dtype=np.float64)),
+                                                                      ("duration_s", d)])]}]
+        elif raw is not None and len(raw.annotations):
+            out["tables"] = [{"index": 0, "event_count": int(len(raw.annotations)),
+                              "parameter_names": ["onset_s", "duration_s", "text"],
+                              "dtypes": ["float64", "float64", "int32"], "xxh3": None}]
+        return out
+    finally:
+        if f is not None:
+            f.close()
+
+
+def brainvision(p: Path) -> dict:
+    """BrainVision header + markers + data via MNE-Python (BSD-3) and Neo's BrainVisionRawIO
+    (BSD-3), both black boxes. Neo gives the stored samples in their own type (INT_16, INT_32,
+    IEEE_FLOAT_32; MULTIPLEXED or VECTORIZED); MNE gives each channel's resolution (`cal`), unit
+    and the markers (`_read_mrk`: every marker, positions from 0). Values are the stored samples
+    x resolution in float64; MNE's own values (V, divided by its unit factor) must agree to 1e-9.
+    A header with SegmentationType=MARKERBASED and a SegmentDataPoints that divides the data
+    evenly is split into sweeps of that many samples (the reader's convention), in file order.
+    Marker rows (onset_s, duration_s, sample, points) are compared order-free."""
+    import configparser
+    import mne
+    from mne.io.brainvision.brainvision import _read_mrk
+    from neo.rawio import brainvisionrawio as bvr
+    raw = mne.io.read_raw_brainvision(str(p), preload=True, verbose="error", misc=[], eog=[])
+    r = bvr.BrainVisionRawIO(filename=str(p))
+    r.parse_header()
+    n = r.get_signal_size(0, 0, 0)
+    stored = np.asarray(r.get_analogsignal_chunk(0, 0, 0, n, 0))
+    chs = raw.info["chs"]
+    if stored.shape[1] != len(chs):
+        raise ValueError(f"Neo has {stored.shape[1]} channels, MNE {len(chs)}")
+    mne_data = raw.get_data()
+    cols, worst = [], 0.0
+    for i, ch in enumerate(chs):
+        v = stored[:, i].astype(np.float64) * float(ch["cal"])
+        ref = mne_data[i] / float(ch["range"])
+        if len(ref) == len(v) and len(v):
+            worst = max(worst, float(np.max(np.abs(ref - v) / np.maximum(1.0, np.abs(v)))))
+        cols.append(v)
+    if worst > 1e-9:
+        raise ValueError(f"MNE values differ from stored x resolution by {worst:.3g}")
+    # segmentation, from the header's own keys
+    cfg = configparser.ConfigParser(interpolation=None, strict=False)
+    text = p.read_bytes().decode("utf-8", "replace").split("[Comment]")[0]
+    cfg.read_string("\n".join(text.splitlines()[1:]))
+    common = next((cfg[s] for s in cfg.sections() if s.lower() == "common infos"), {})
+    seg = str(common.get("SegmentationType", "")).upper()
+    seg_n = int(common.get("SegmentDataPoints", "0") or 0)
+    sweeps = [(0, n)]
+    if seg == "MARKERBASED" and seg_n > 0 and n % seg_n == 0 and n > seg_n:
+        sweeps = [(k * seg_n, (k + 1) * seg_n) for k in range(n // seg_n)]
+    names = [str(x).replace("\\1", ",") for x in r.header["signal_channels"]["name"]]
+    # units: Neo's where it read one from the header (it gives '' or 'u' when the channel line
+    # has no unit field), else MNE's (which defaults to µV and writes 'n/a' for units it maps to none)
+    neo_units = [str(u) for u in r.header["signal_channels"]["units"]]
+    units = [u if u not in ("", "u") else raw._orig_units.get(ch["ch_name"], "") for u, ch in zip(neo_units, chs)]
+    trace = {"index": 0, "name": "signals", "sweep_count": len(sweeps), "channel_count": len(chs),
+             "channel_names": names, "channel_units": units, "sample_rate_hz": float(raw.info["sfreq"]),
+             "sweeps": [{"sweep": k, "sample_count": int(b - a),
+                         "channels": [{"xxh3": _trace_hash(c[a:b]), "first": _first(c[a:b])} for c in cols]}
+                        for k, (a, b) in enumerate(sweeps[:MAX_SWEEPS])]}
+    out = {"reader": f"Neo {__import__('neo').__version__} BrainVisionRawIO (stored samples); MNE {mne.__version__} (resolutions, units, markers)",
+           "traces": [trace]}
+    vmrk = None
+    for s in cfg.sections():
+        if s.lower() == "common infos" and cfg[s].get("MarkerFile"):
+            vmrk = p.parent / cfg[s]["MarkerFile"]
+    if vmrk is None or not vmrk.exists():
+        vmrk = p.with_suffix(".vmrk")
+    if vmrk.exists():
+        onset, duration, _, _, _ = _read_mrk(str(vmrk))
+        if len(onset):
+            sfreq = float(raw.info["sfreq"])
+            s = np.asarray(onset, dtype=np.float64)
+            d = np.asarray(duration, dtype=np.float64)
+            out["tables"] = [{"index": 0, "event_count": int(len(s)),
+                              "parameter_names": ["onset_s", "duration_s", "sample", "points", "channel", "type", "description"],
+                              "xxh3": None,
+                              "sorted_row_hashes": [_sorted_rows([("onset_s", s / sfreq), ("duration_s", d / sfreq),
+                                                                  ("sample", s), ("points", d)])]}]
+    return out
+
+
+def eeglab(p: Path) -> dict:
+    """EEGLAB .set (+ .fdt) via SciPy's MAT-file reader (BSD-3, `scipy.io.loadmat`), or
+    pymatreader (BSD-2) for MAT 7.3 (HDF5) files, for the EEG structure, checked against
+    MNE-Python (BSD-3), all black boxes. The samples are the `data`
+    array, or the .fdt it names read as MNE reads it (little-endian float32, nbchan x pnts x
+    trials in column-major order); MNE's values (V, divided by its 1e-6) must agree to 1e-6
+    relative. One trace whose sweeps are the epochs. Events: (latency - 1) / srate, duration /
+    srate (0 without a duration field, NaN when it is empty), latency and duration, compared
+    order-free; MNE's annotation count must match for continuous data."""
+    import mne
+    import scipy.io as sio
+
+    v73 = p.open("rb").read(19) == b"MATLAB 7.3 MAT-file"
+    if v73:
+        # MAT 7.3 is HDF5: pymatreader (BSD-2, h5py) gives dicts, struct arrays as dicts of lists
+        import pymatreader
+        m = pymatreader.read_mat(str(p))
+        eeg = m.get("EEG", m)
+        get = lambda k, d=None: eeg.get(k, d)  # noqa: E731
+    else:
+        m = sio.loadmat(str(p), squeeze_me=True, struct_as_record=False, appendmat=False)
+        if "EEG" in m:
+            eeg = m["EEG"]
+            get = lambda k, d=None: getattr(eeg, k, d)  # noqa: E731
+        else:
+            get = lambda k, d=None: m.get(k, d)  # noqa: E731
+
+    def rows(obj):
+        """A struct array as a list of {field: value} (SciPy objects or pymatreader dicts)."""
+        if obj is None or (not isinstance(obj, dict) and np.size(obj) == 0):
+            return []
+        if isinstance(obj, dict):
+            n = max((len(v) if isinstance(v, list) else 1) for v in obj.values()) if obj else 0
+            return [{k: (v[i] if isinstance(v, list) else v) for k, v in obj.items()} for i in range(n)]
+        return [{k: getattr(e, k) for k in e._fieldnames} for e in np.atleast_1d(obj)]
+    nbchan, pnts = int(get("nbchan")), int(get("pnts"))
+    trials = max(1, int(get("trials", 1) or 1))
+    srate = float(get("srate"))
+    data = get("data")
+    if isinstance(data, str):
+        name = Path(data).name
+        fdt = p.parent / name
+        if not fdt.exists():
+            fdt = p.with_suffix(".fdt")
+        raw_vals = np.fromfile(fdt, dtype="<f4").astype(np.float64)
+        arr = raw_vals[: nbchan * pnts * trials].reshape((nbchan, pnts, trials), order="F")
+    else:
+        arr = np.asarray(data, dtype=np.float64).reshape((nbchan, pnts, trials), order="F")
+    # MNE cross-check
+    if trials == 1:
+        mne_v = mne.io.read_raw_eeglab(str(p), preload=True, verbose="error").get_data()[:, :, None] / 1e-6
+        mne_names = mne.io.read_raw_eeglab(str(p), preload=False, verbose="error").ch_names
+    else:
+        ep = mne.read_epochs_eeglab(str(p), verbose="error")
+        mne_v = np.transpose(ep.get_data(), (1, 2, 0)) / 1e-6
+        mne_names = ep.ch_names
+    if mne_v.shape != arr.shape:
+        raise ValueError(f"MNE gives {mne_v.shape}, the samples {arr.shape}")
+    worst = float(np.max(np.abs(mne_v - arr) / np.maximum(1.0, np.abs(arr)))) if arr.size else 0.0
+    if worst > 1e-6:
+        raise ValueError(f"MNE values differ from the stored samples by {worst:.3g}")
+    labels = [str(r.get("labels", "")).strip() for r in rows(get("chanlocs"))]
+    if len(labels) != nbchan:
+        labels = [""] * nbchan
+    trace = {"index": 0, "sweep_count": trials, "channel_count": nbchan,
+             "channel_names": labels, "sample_rate_hz": srate,
+             "sweeps": [{"sweep": t, "sample_count": pnts,
+                         "channels": [{"xxh3": _trace_hash(arr[c, :, t]), "first": _first(arr[c, :, t])} for c in range(nbchan)]}
+                        for t in range(min(trials, MAX_SWEEPS))],
+             "mne_channel_names": list(mne_names)}
+    mat_reader = f"pymatreader {__import__('pymatreader').__version__}" if v73 else f"SciPy {__import__('scipy').__version__} loadmat"
+    out = {"reader": f"{mat_reader} (EEG structure), numpy (.fdt float32); MNE {mne.__version__} cross-check",
+           "traces": [trace]}
+    ev_rows = []
+    for e in rows(get("event")):
+        lat = e.get("latency")
+        if lat is None or np.size(lat) != 1:
+            continue
+        lat = float(np.asarray(lat).ravel()[0])
+        if "duration" not in e:
+            dur = 0.0
+        elif np.size(e["duration"]) == 0:
+            dur = float("nan")
+        else:
+            dur = float(np.asarray(e["duration"]).ravel()[0])
+        ev_rows.append((lat, dur))
+    if ev_rows:
+        lat = np.array([r[0] for r in ev_rows])
+        dur = np.array([r[1] for r in ev_rows])
+        if trials == 1:
+            n_mne = len(mne.io.read_raw_eeglab(str(p), preload=False, verbose="error").annotations)
+            if n_mne != len(ev_rows):
+                out["mne_annotation_count"] = n_mne
+        out["tables"] = [{"index": 0, "event_count": len(ev_rows),
+                          "parameter_names": ["onset_s", "duration_s", "latency", "duration", "epoch", "type"],
+                          "xxh3": None,
+                          "sorted_row_hashes": [_sorted_rows([("onset_s", (lat - 1.0) / srate), ("duration_s", dur / srate),
+                                                              ("latency", lat), ("duration", dur)])]}]
+    return out
+
+
+EPHYS = {"wcp": winwcp, "edf": edf, "bdf": edf, "vhdr": brainvision, "set": lambda p: eeglab(p) if p.open("rb").read(6) == b"MATLAB" else axona(p), "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
          "nse": neuralynx, "nst": neuralynx, "ntt": neuralynx, "plx": plexon, "pl2": pl2, "smr": spike2,
          **{f"ns{i}": blackrock for i in range(1, 7)}}
 

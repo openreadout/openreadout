@@ -59,6 +59,155 @@ fn observe_winwcp(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static EDF: AssuranceProfile = AssuranceProfile {
+    format_id: "edf",
+    observe: observe_edf,
+    validated: EDF_VALIDATED,
+    confidence: EDF_CONFIDENCE,
+    basis: Basis::OpenSpec,
+};
+
+fn observe_edf(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &all);
+    }
+    for t in &info.traces {
+        if let Some(c) = t.channels.first() {
+            o.feature(K::SampleLayout, &c.dtype, &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "discontinuous records", &[Scope::Traces]);
+        }
+    }
+    if info.traces.len() > 1 {
+        o.feature(K::Layout, "several sample rates", &[Scope::Traces]);
+    }
+    if info
+        .tables
+        .iter()
+        .any(|t| t.name.as_deref() == Some("annotations"))
+    {
+        o.feature(K::Record, "annotations", &[Scope::Tables]);
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "digital to physical values",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "digital × (physical max − physical min) / (digital max − digital min) + offset, per signal",
+        );
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
+pub(crate) static BRAINVISION: AssuranceProfile = AssuranceProfile {
+    format_id: "brainvision",
+    observe: observe_brainvision,
+    validated: BRAINVISION_VALIDATED,
+    confidence: BRAINVISION_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_brainvision(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &[Scope::Metadata]);
+    }
+    for t in &info.traces {
+        if let Some(f) = a::extra_str(&t.extra, "binary_format") {
+            o.feature(K::SampleLayout, f, &[Scope::Traces]);
+        }
+        if let Some(f) = a::extra_str(&t.extra, "orientation") {
+            o.feature(K::Layout, f, &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "marker-based segments", &[Scope::Traces]);
+        }
+        if let Some(w) = a::extra_str(&t.extra, "application") {
+            o.context(K::Writer, w);
+        }
+        o.calibration(
+            "stored values to channel units",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "every stored sample × the channel's resolution",
+        );
+    }
+    if info
+        .tables
+        .iter()
+        .any(|t| t.name.as_deref() == Some("markers"))
+    {
+        o.feature(K::Record, "markers", &[Scope::Tables]);
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
+pub(crate) static EEGLAB: AssuranceProfile = AssuranceProfile {
+    format_id: "eeglab",
+    observe: observe_eeglab,
+    validated: EEGLAB_VALIDATED,
+    confidence: EEGLAB_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_eeglab(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &all);
+    }
+    if a::note_with(info, ", compressed)").is_some() {
+        o.feature(K::Codec, "zlib (MAT 7)", &all);
+    }
+    for t in &info.traces {
+        if let Some(s) = a::extra_str(&t.extra, "sample_storage") {
+            let dtype = t.channels.first().map_or("", |c| c.dtype.as_str());
+            o.feature(K::SampleLayout, format!("{s} {dtype}"), &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "epochs", &[Scope::Traces]);
+        }
+        if let Some(w) = a::extra_str(&t.extra, "mat_writer") {
+            o.context(K::Writer, w);
+        }
+        if let Some(v) = a::extra_str(&t.extra, "application_version") {
+            o.context(K::WriterVersion, v);
+        }
+    }
+    if info
+        .tables
+        .iter()
+        .any(|t| t.name.as_deref() == Some("events"))
+    {
+        o.feature(K::Record, "events", &[Scope::Tables]);
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
 pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
     format_id: "tdt-tank",
     observe: observe_tdt,
@@ -521,6 +670,70 @@ const TDT_TANK_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "Synapse 50105", 1, 1, 1),
 ];
 // END GENERATED tdt-tank
+
+// BEGIN GENERATED edf (cargo xtask assurance-audit --write; do not edit)
+const EDF_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const EDF_VALIDATED: &[Validated] = &[
+    a::row(K::FormatVersion, "BDF", 2, 2, 2),
+    a::row(K::FormatVersion, "BDF+C", 3, 3, 3),
+    a::row(K::FormatVersion, "EDF", 5, 5, 5),
+    a::row(K::FormatVersion, "EDF+C", 16, 10, 16),
+    a::row(K::FormatVersion, "EDF+D", 2, 2, 2),
+    a::row(K::Layout, "several sample rates", 4, 4, 4),
+    a::row(K::Record, "annotations", 13, 9, 15),
+    a::row(K::SampleLayout, "int16", 22, 14, 22),
+    a::row(K::SampleLayout, "int24", 5, 5, 5),
+];
+// END GENERATED edf
+
+// BEGIN GENERATED brainvision (cargo xtask assurance-audit --write; do not edit)
+const BRAINVISION_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const BRAINVISION_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 8),
+    a::row(K::FormatVersion, "1", 9, 7, 9),
+    a::row(K::FormatVersion, "2", 4, 2, 4),
+    a::row(K::Layout, "MULTIPLEXED", 12, 7, 12),
+    a::row(K::Layout, "VECTORIZED", 1, 1, 1),
+    a::row(K::Layout, "marker-based segments", 4, 1, 4),
+    a::row(K::Record, "markers", 11, 7, 11),
+    a::row(K::SampleLayout, "IEEE_FLOAT_32", 9, 6, 9),
+    a::row(K::SampleLayout, "INT_16", 3, 3, 3),
+    a::row(K::SampleLayout, "INT_32", 1, 1, 1),
+    a::row(K::Writer, "BrainVision Analyzer", 6, 2, 6),
+    a::row(K::Writer, "BrainVision Recorder", 2, 2, 2),
+    a::row(K::Writer, "FieldTrip", 2, 2, 2),
+    a::row(K::Writer, "pybv", 3, 3, 3),
+];
+// END GENERATED brainvision
+
+// BEGIN GENERATED eeglab (cargo xtask assurance-audit --write; do not edit)
+const EEGLAB_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const EEGLAB_VALIDATED: &[Validated] = &[
+    a::row(K::FormatVersion, "MAT 5.0", 11, 9, 11),
+    a::row(K::FormatVersion, "MAT 7.3", 2, 2, 2),
+    a::row(K::Layout, "epochs", 4, 4, 4),
+    a::row(K::Record, "events", 10, 8, 10),
+    a::row(K::SampleLayout, "embedded float32", 6, 6, 6),
+    a::row(K::SampleLayout, "embedded float64", 1, 1, 1),
+    a::row(K::SampleLayout, "fdt float32", 6, 5, 6),
+    a::row(K::Writer, "MATLAB MACA64", 2, 2, 2),
+    a::row(K::Writer, "MATLAB PCWIN64", 8, 8, 8),
+    a::row(K::Writer, "SciPy", 3, 1, 3),
+    a::row(K::WriterVersion, "14.1.2", 1, 1, 1),
+    a::row(K::WriterVersion, "2020.0", 1, 1, 1),
+    a::row(K::WriterVersion, "2022.0", 1, 1, 1),
+    a::row(K::WriterVersion, "2022.1", 1, 1, 1),
+    a::row(K::WriterVersion, "2023.1", 1, 1, 1),
+    a::row(K::WriterVersion, "2024.0", 1, 1, 1),
+    a::row(K::WriterVersion, "2024.2", 1, 1, 1),
+    a::row(K::WriterVersion, "2025.0.0", 2, 2, 2),
+    a::row(K::WriterVersion, "2025.1.0", 1, 1, 1),
+    a::row(K::WriterVersion, "synthetic (not written by EEGLAB)", 2, 1, 2),
+];
+// END GENERATED eeglab
 
 #[cfg(test)]
 mod tests {

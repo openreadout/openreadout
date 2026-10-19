@@ -717,6 +717,77 @@ def ephys_new_seeds() -> None:
     put("whole_mcs_raw", "mini.raw",
         b"MC_DataTool binary conversion\r\nVersion 2.6.10\r\nSample rate = 20000\r\nADC zero = 32768\r\n"
         b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
+    put("whole_edf", "mini-edfplus.edf", _mini_edf(False))
+    put("whole_edf", "mini-bdf.bdf", _mini_edf(True))
+    vhdr = (b"Brain Vision Data Exchange Header File Version 1.0\r\n; Data created by the Vision Recorder\r\n"
+            b"[Common Infos]\r\nDataFile=r.eeg\r\nMarkerFile=r.vmrk\r\nDataFormat=BINARY\r\n"
+            b"DataOrientation=MULTIPLEXED\r\nNumberOfChannels=2\r\nSamplingInterval=2000\r\n"
+            b"SegmentationType=MARKERBASED\r\nSegmentDataPoints=2\r\n"
+            b"[Binary Infos]\r\nBinaryFormat=INT_16\r\n[Channel Infos]\r\nCh1=Fp1,,0.5,\xc2\xb5V\r\nCh2=A\\1B,REF,2\r\n"
+            b"[Coordinates]\r\nCh1=1,-90,-72\r\n[Comment]\r\nsettings\r\n")
+    vmrk = (b"Brain Vision Data Exchange Marker File, Version 1.0\r\n[Marker Infos]\r\n"
+            b"Mk1=New Segment,,1,1,0,20200124040556123456\r\nMk2=Stimulus,S  1,3,1,0\r\n")
+    put("whole_brainvision", "mini.bundle", BUNDLE_SEP.join([vhdr, vmrk, struct.pack("<8h", 1, -1, 2, -2, 3, -3, 4, -4)]))
+    put("whole_eeglab", "mini.bundle", BUNDLE_SEP.join([_mini_eeglab_set(), struct.pack("<8f", *range(8))]))
+
+
+
+def _mini_eeglab_set() -> bytes:
+    """A MAT 5.0 file with an EEG struct (2 channels, 4 points, chanlocs, one event) whose data
+    names r.fdt; one field compressed, as MATLAB's -v7 writes."""
+    def pad(b: bytes) -> bytes:
+        return b + bytes(-len(b) % 8)
+
+    def el(ty: int, data: bytes) -> bytes:
+        return pad(struct.pack("<II", ty, len(data)) + data)
+
+    def mat(cls: int, dims, name: str, body: bytes) -> bytes:
+        b = el(6, struct.pack("<II", cls, 0)) + el(5, struct.pack(f"<{len(dims)}i", *dims)) + el(1, name.encode()) + body
+        return el(14, b)
+
+    def num(v: float) -> bytes:
+        return mat(6, [1, 1], "", el(9, struct.pack("<d", v)))
+
+    def txt(t: str) -> bytes:
+        return mat(4, [1, len(t)], "", el(4, t.encode("utf-16-le")))
+
+    def strukt(name: str, fields, rows) -> bytes:
+        body = struct.pack("<IIi", 5, 4, 32) + bytes(4)
+        body += el(1, b"".join(f.encode().ljust(32, b"\0") for f in fields))
+        body += b"".join(b"".join(r) for r in rows)
+        return mat(2, [1, len(rows)], name, body)
+
+    eeg = strukt("EEG", ["nbchan", "pnts", "trials", "srate", "xmin", "data", "chanlocs", "event"], [[
+        num(2), num(4), num(1), num(250), num(0), txt("r.fdt"),
+        strukt("", ["labels"], [[txt("Fz")], [txt("Cz")]]),
+        strukt("", ["type", "latency"], [[txt("stim"), num(2)]]),
+    ]])
+    head = b"MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: Mon Oct 19 10:00:00 2026".ljust(116, b" ")
+    head += bytes(8) + struct.pack("<H", 0x0100) + b"IM"
+    z = zlib.compress(eeg)
+    return head + struct.pack("<II", 15, len(z)) + z
+
+
+def _mini_edf(bdf: bool) -> bytes:
+    """Two data records of one 4-sample signal and an annotation signal (EDF+C / BDF+C)."""
+    def pad(t: str, n: int) -> bytes:
+        return t.encode().ljust(n, b" ")
+    ann = "BDF Annotations" if bdf else "EDF Annotations"
+    sigs = [("EEG Fpz-Cz", "uV", "-500", "500", "-2048", "2047", 4), (ann, "", "-1", "1", "-32768", "32767", 10)]
+    h = (b"\xffBIOSEMI" if bdf else pad("0", 8)) + pad("X X X X", 80) + pad("Startdate 02-MAR-2002 X X X", 80)
+    h += pad("02.03.02", 8) + pad("11.25.00", 8) + pad(str(256 * 3), 8) + pad("BDF+C" if bdf else "EDF+C", 44)
+    h += pad("2", 8) + pad("1", 8) + pad("2", 4)
+    for k, w in enumerate([16, 80, 8, 8, 8, 8, 8, 80, 8, 32]):
+        for sg in sigs:
+            v = {0: sg[0], 2: sg[1], 3: sg[2], 4: sg[3], 5: sg[4], 6: sg[5], 8: str(sg[6])}.get(k, "")
+            h += pad(v, w)
+    width = 3 if bdf else 2
+    out = h
+    for r in range(2):
+        out += b"".join(int(v).to_bytes(width, "little", signed=True) for v in (r, -r, 100, -100))
+        tal = f"+{r}\x14\x14\x00".encode() + (b"+0.5\x151\x14Spike\x14\x00" if r == 0 else b"")
+        out += tal.ljust(10 * width, b"\x00")
+    return out
 
 
 def _bgzf(data: bytes) -> bytes:
