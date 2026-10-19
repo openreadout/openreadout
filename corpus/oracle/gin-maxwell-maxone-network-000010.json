@@ -1,0 +1,8 @@
+{
+ "id": "gin-maxwell-maxone-network-000010",
+ "file": "MaxOne_data_Network_000010_data.raw.h5",
+ "size": 3172286,
+ "sha256": "cd1475269c6c3426feb44b6c7332dc98520f1ce92248353c0e155f545c99ef56",
+ "max_planes_hashed": 64,
+ "error": "OSError: Can't synchronously read data (can't open directory (/Users/runner/work/h5py/h5py/cache/hdf5/2.0.0-arm64/lib/plugin). Please verify its existence)"
+}

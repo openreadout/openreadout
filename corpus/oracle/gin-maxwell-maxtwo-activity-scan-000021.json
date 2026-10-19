@@ -1,0 +1,8 @@
+{
+ "id": "gin-maxwell-maxtwo-activity-scan-000021",
+ "file": "MaxTwo_data_Activity_Scan_000021_data.raw.h5",
+ "size": 2123650,
+ "sha256": "850f54e6b94a4dfd8531e6cba493921262abfb3c10debcd369ca42dacb80aded",
+ "max_planes_hashed": 64,
+ "error": "OSError: Can't synchronously read data (can't open directory (/Users/runner/work/h5py/h5py/cache/hdf5/2.0.0-arm64/lib/plugin). Please verify its existence)"
+}

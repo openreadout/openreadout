@@ -1,0 +1,7 @@
+{"id":"gin-maxwell-maxone-activity-scan-000008","format":null,"error":"unsupported_feature","check":{"error":"unsupported_feature"}}
+{"id":"gin-maxwell-maxone-network-000010","format":null,"error":"unsupported_feature","check":{"error":"unsupported_feature"}}
+{"id":"gin-maxwell-maxone-record-000011","format":null,"error":"unsupported_feature","check":{"error":"unsupported_feature"}}
+{"id":"gin-maxwell-maxone-recording-non-assay","format":null,"error":"unsupported_feature","check":{"error":"unsupported_feature"}}
+{"id":"gin-maxwell-maxtwo-activity-scan-000021","format":null,"error":"unsupported_feature","check":{"error":"unsupported_feature"}}
+{"id":"gin-maxwell-maxtwo-network-000028","format":null,"error":"unsupported_feature","check":{"error":"unsupported_feature"}}
+{"id":"zenodo-6578989-drug-2950-50um","format":"maxwell-h5","info":{"format_version":"20160704","traces":["1 sweeps x 1020 ch x 3600000 samples @ 20000.0 Hz"],"plane_count":0},"info_xxh3":"1972c95f82747859ec77a5f79a1ce5ec","assurance":{"level":"partially_validated","fingerprint":"maxwell-h5|format_version=20160704|sample_layout=uint16","strict_refuses":[]},"check":{"ok":true,"findings":[]}}

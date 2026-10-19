@@ -1,0 +1,8 @@
+{
+ "id": "gin-maxwell-maxone-recording-non-assay",
+ "file": "MaxOne_data_Reording_non_assay.raw.h5",
+ "size": 1169737,
+ "sha256": "4118f5cd6f28fae14c746011f7e204e478b17f94459342139df435ff5d9a6ac8",
+ "max_planes_hashed": 64,
+ "error": "OSError: Can't synchronously read data (can't open directory (/Users/runner/work/h5py/h5py/cache/hdf5/2.0.0-arm64/lib/plugin). Please verify its existence)"
+}
