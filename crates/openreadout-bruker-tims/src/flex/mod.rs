@@ -254,9 +254,16 @@ impl FlexDataset {
                     fid_len / 4
                 ));
             }
-            let rel = d
-                .strip_prefix(&base)
-                .map_or_else(|_| d.display().to_string(), |p| p.display().to_string());
+            // `/` on every platform, so the spot names in the output don't depend on the OS
+            let rel = d.strip_prefix(&base).map_or_else(
+                |_| d.display().to_string(),
+                |p| {
+                    p.components()
+                        .map(|c| c.as_os_str().to_string_lossy())
+                        .collect::<Vec<_>>()
+                        .join("/")
+                },
+            );
             let mode = mode_of(&d, &params);
             spots.push(Spot {
                 calibration: Calibration::from(&params),
