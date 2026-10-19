@@ -93,3 +93,26 @@ generation `0E`) and, from the same record, `crosslink HPC-01.tri`, which reads.
 0 and no values; the rest of the 88 KB file is the thumbnail, the procedure, the instrument's
 calibration records and settings. The run holds no data points, so the reader returns the
 file's facts with no traces and says so, instead of refusing it as an unsupported layout.
+
+## 2026-10-19 — instrument compliance in the oscillation moduli; three more depositors (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `trios-zenodo15030675-p3ht-shear` (Zenodo 15030675, Discovery HR-3, a stiff
+P3HT disc, 8 mm plate), `trios-dvn-t4eyxj-*` (Harvard Dataverse doi:10.7910/DVN/T4EYXJ, Discovery
+HR20, PEG hydrogels, 8 mm plate), `trios-zenodo13143510-prepolymer-dsc` and `-tga` (Zenodo
+13143510, DSC250 and SDT650), each with TRIOS's Excel export.
+
+**Prior art consulted:** none.
+
+**Inferred from the files:** on the P3HT disc (moduli near 1e8 Pa) our moduli were 20 % below
+TRIOS's, while the stored torque, phase and displacement matched the export. At every point
+1/G*(ours) − 1/G*(TRIOS) is the same real number, 1.787e-9 1/Pa: TRIOS removes a series
+compliance. That number equals C × K_γ / K_τ, with C the float64 property `07d6e110-…`
+(0.00202 in this file, 0.00103 in the HR20 and HR30 files, rad/(N·m)), the strain constant K_γ =
+R/h at the point's gap and the stress constant K_τ. So G* = 1 / (1/G*_m − C K_γ/K_τ), where G*_m
+is the modulus with the inertia term as before. On the soft gels the correction is under 1e-4 of
+the modulus, which is why the earlier exports agreed without it. The reader now applies it, and
+computes no moduli when the file does not store C.
+
+The Excel exports of these DSC and TGA runs give `Heat Flow (Normalized)` with the stored sign
+(the CSV exports of Zenodo 15584951 give it with the opposite sign), and the TGA export gives
+the weight in percent, which the oracle does not compare.

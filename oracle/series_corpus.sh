@@ -143,6 +143,12 @@ $PY series_oracle.py --id ngb-zenodo18902844-pef-fw --format netzsch-ngb $C/ngb-
 $PY series_oracle.py --id ngb-zenodo18902844-pef-200um --format netzsch-ngb $C/ngb-zenodo18902844-pef-200um.ngb-sd7 --pyngb --expdat $C/ngb-zenodo18902844-pef-200um-export-1.xlsx --expdat $C/ngb-zenodo18902844-pef-200um-export-2-grzanie.xlsx --expdat $C/ngb-zenodo18902844-pef-200um-export-chlodzenie.xlsx
 $PY series_oracle.py --id ngb-zenodo18902844-pef-600um --format netzsch-ngb $C/ngb-zenodo18902844-pef-600um.ngb-sd7 --pyngb --expdat $C/ngb-zenodo18902844-pef-600um-export-1.xlsx --expdat $C/ngb-zenodo18902844-pef-600um-export-2-grzanie.xlsx --expdat $C/ngb-zenodo18902844-pef-600um-export-chlodzenie.xlsx
 $PY series_oracle.py --id ngb-zenodo18902844-pla-pef-pla --format netzsch-ngb $C/ngb-zenodo18902844-pla-pef-pla.ngb-sd7 --pyngb --expdat $C/ngb-zenodo18902844-pla-pef-pla-export-1-grzanie.xlsx --expdat $C/ngb-zenodo18902844-pla-pef-pla-export-2-grzanie.xlsx --expdat $C/ngb-zenodo18902844-pla-pef-pla-export-chlodzenie.xlsx
+for id in ngb-darus5199-hsh64-acoh ngb-darus5199-hsh65-ba ngb-darus5199-ady95-tfa ngb-darus5230-jek77 ngb-darus5230-jek85; do
+  $PY series_oracle.py --id $id --format netzsch-ngb $C/$id.ngb-ds3 --pyngb
+done
+for id in ngb-figshare26496859-pac16 ngb-figshare26496859-pcb-recycling ngb-figshare26496859-comar; do
+  $PY series_oracle.py --id $id --format netzsch-ngb $C/$id.ngb-st9 --pyngb
+done
 # ---- TA Instruments (Universal Analysis exports)
 $PY series_oracle.py --id ta-zenodo17293641-pcl-standard --format ta-universal-analysis $C/ta-zenodo17293641-pcl-standard.001 --ta-export $C/ta-zenodo17293641-pcl-standard.export.txt
 $PY series_oracle.py --id ta-zenodo17293641-pcl-mdsc-r --format ta-universal-analysis $C/ta-zenodo17293641-pcl-mdsc-r.001 --ta-export $C/ta-zenodo17293641-pcl-mdsc-r.export.txt --ta-interp

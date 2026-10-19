@@ -64,8 +64,13 @@ For steps with angular frequency ω, torque M, raw phase φ, displacement θ and
 
 - R = (2 / (π K_τ))^(1/3), strain constant K_γ = R / h;
 - I = instrument inertia + geometry inertia + π ρ h R⁴ / 6 (the sample);
-- G′ = K_τ (M cos φ + I ω² θ) / (K_γ θ), G″ = K_τ M sin φ / (K_γ θ), tan δ = G″ / G′,
-  |η*| = √(G′² + G″²) / ω.
+- G′_m = K_τ (M cos φ + I ω² θ) / (K_γ θ), G″_m = K_τ M sin φ / (K_γ θ);
+- the instrument compliance C (`07d6e110-…`, rad/(N·m)) in series: 1/G* = 1/G*_m − C K_γ / K_τ,
+  with G* = G′ + i G″ and G*_m = G′_m + i G″_m (it matters for stiff samples: 20 % at 1e8 Pa
+  with an 8 mm plate, under 1e-4 for soft gels);
+- tan δ = G″ / G′, |η*| = √(G′² + G″²) / ω.
+
+The moduli are left out when the file does not store all of K_τ, both inertias, ρ and C.
 
 These are TRIOS's numbers: in 30 of 30 exports of one depositor (three sessions with different
 inertia calibrations, a 12 mm plate) within 2e-5 relative in time sweeps and 4e-4 in frequency

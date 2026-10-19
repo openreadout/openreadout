@@ -1420,6 +1420,23 @@ fn model_name(unit: &str) -> String {
 }
 
 impl Dataset for BiacoreDataset {
+    /// Result files: the control software that wrote them (`Environment` `Application` and
+    /// `Version`), descriptive.
+    fn assurance_observations(&self) -> openreadout_core::assurance::Observations {
+        use openreadout_core::assurance::{FeatureKind, Observations, version_prefix};
+        let mut o = Observations::default();
+        if self.descriptor.id != FORMAT_ID {
+            return o;
+        }
+        if let Some(app) = self.env("Application").map(str::trim).filter(|s| !s.is_empty()) {
+            o.context(FeatureKind::Writer, app);
+            if let Some(v) = self.env("Version").and_then(|v| version_prefix(v, 2)) {
+                o.context(FeatureKind::WriterVersion, format!("{app} {v}"));
+            }
+        }
+        o
+    }
+
     fn info(&self) -> Result<FileInfo> {
         let traces = self
             .blr

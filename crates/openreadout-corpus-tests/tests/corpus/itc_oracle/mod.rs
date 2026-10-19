@@ -105,7 +105,10 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
             .filter_map(Value::as_f64)
             .collect();
         let ours = &inj.columns[1];
-        if vols.len() > ours.len() || vols.iter().zip(ours).any(|(a, b)| (a - b).abs() > 1e-9) {
+        // a table holding single-precision values says so (`tol_rel`)
+        let rel = h.get("tol_rel").and_then(Value::as_f64).unwrap_or(0.0);
+        let near = |a: f64, b: f64| (a - b).abs() <= 1e-9 + rel * b.abs();
+        if vols.len() > ours.len() || vols.iter().zip(ours).any(|(a, b)| !near(*a, *b)) {
             problems.push(format!(
                 "injection volumes {:?} vs Origin's {vols:?}",
                 &ours[..ours.len().min(vols.len())]
@@ -115,7 +118,7 @@ pub fn compare_file(_id: &str, path: &Path, oracle: &Value) -> Result<String, St
         }
         if let Some(mt) = h["cell_concentration_mM"].as_f64() {
             match param("cell_concentration") {
-                Some(c) if (c - mt).abs() <= 1e-9 => {
+                Some(c) if near(c, mt) => {
                     done.push("cell concentration matches Origin".into())
                 }
                 other => problems.push(format!("cell concentration {other:?}, Origin {mt}")),

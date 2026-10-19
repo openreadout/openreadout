@@ -35497,6 +35497,39 @@ source = "Zenodo 21479520: A disulfide bond sculpts the CTNIP4 phytocytokine fol
 attribution = "Broyart, Caroline; Jimenez-Sandoval, Pedro"
 notes = "MicroCal ITC (MICROCALITC_MAL1177627, software 1.29.32, run 2025-04-15), 19 injections, 9 data columns. No export: self-consistency."
 
+
+[[file]]
+id = "itc-ftitc-prlr-w392a"
+format = "microcal-itc"
+family = "calorimetry"
+role = "input"
+tier = "smoke"
+filename = "itc-ftitc-prlr-w392a.itc"
+url = "https://raw.githubusercontent.com/FrederikTheisen/FT-ITC-Analysis/cce4933e784747b7c5c9dfeeea3ae87760ce2002/AnalysisITC.Tests/FileTypeTests/230908_PRLRlong_W392A_run1.itc"
+sha256 = "b54324d06b441014057b1f800dde3947712ebc105916e9062787c29aff200615"
+size = 231272
+license = "MIT"
+license_checked = "https://github.com/FrederikTheisen/FT-ITC-Analysis/blob/cce4933e784747b7c5c9dfeeea3ae87760ce2002/LICENSE.md (MIT), 2026-10-19"
+source = "GitHub FrederikTheisen/FT-ITC-Analysis (commit cce4933e), AnalysisITC.Tests/FileTypeTests/230908_PRLRlong_W392A_run1.itc"
+attribution = "Frederik Theisen (FT-ITC Analysis)"
+notes = "MicroCal ITC (software 1.30.4, run 2023-09-08) at 37 C, 19 injections, 0.203 mM in the cell. Ground truth: the injection table exported next to it (DH, INJV, Xt, Mt, ...; comma-separated, single precision)."
+
+[[file]]
+id = "itc-ftitc-prlr-w392a"
+format = "text"
+family = "calorimetry"
+role = "oracle-export"
+tier = "smoke"
+filename = "itc-ftitc-prlr-w392a-heats.dat"
+url = "https://raw.githubusercontent.com/FrederikTheisen/FT-ITC-Analysis/cce4933e784747b7c5c9dfeeea3ae87760ce2002/AnalysisITC.Tests/FileTypeTests/230908_PRLRlong_W392A_run1.dat"
+sha256 = "fd6da04b81f24296bd96e42b0006c5eb42c588c680743b7b6cfa15d1775466ac"
+size = 2867
+license = "MIT"
+license_checked = "https://github.com/FrederikTheisen/FT-ITC-Analysis/blob/cce4933e784747b7c5c9dfeeea3ae87760ce2002/LICENSE.md (MIT), 2026-10-19"
+source = "GitHub FrederikTheisen/FT-ITC-Analysis (commit cce4933e), AnalysisITC.Tests/FileTypeTests/230908_PRLRlong_W392A_run1.dat"
+attribution = "Frederik Theisen (FT-ITC Analysis)"
+notes = "Integrated heats table of 230908_PRLRlong_W392A_run1 (DH, INJV, Xt, Mt, XMt, NDH, DY, Fit)"
+
 [[file]]
 id = "ho-zenodo21529576-itc-igp1-serk2"
 format = "microcal-itc"
@@ -36697,6 +36730,205 @@ license_checked = "https://zenodo.org/records/22110629, 2026-09-26"
 source = "Zenodo 22110629: Artificial Humic Substances Production and Encapsulation Dataset"
 attribution = "Guiu-Sans, Robert; Filonenko, Svitlana; Doskaliuk, Nataliia; Garcia-Valls, Ricard"
 notes = "DMA850 (TRIOS 5.9) stress ramp in compression, 526 points. No export: structure only."
+
+
+[[file]]
+id = "trios-zenodo15030675-p3ht-shear"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "trios-zenodo15030675-p3ht-shear.tri"
+url = "https://zenodo.org/api/records/15030675/files/OSR_P3HT%20discs.zip/content"
+zip_member = "SH240812_P3HT_shear modulus_test5222024 (2).tri"
+sha256 = "432b7290dd4c94d2aba8fd4bf1b479bfaa617f627b1d7a88bddb69a0b5316acf"
+size = 1058877
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/15030675 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 15030675, member SH240812_P3HT_shear modulus_test5222024 (2).tri of OSR_P3HT discs.zip"
+attribution = "Paleti, Sri Harish Kumar"
+notes = "Discovery HR-3 (TRIOS 5.7) oscillation on P3HT discs with an 8 mm parallel plate, three steps. Ground truth: TRIOS's Excel export of the same run."
+
+[[file]]
+id = "trios-zenodo15030675-p3ht-shear"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "oracle-export"
+tier = "standard"
+filename = "trios-zenodo15030675-p3ht-shear.xls"
+url = "https://zenodo.org/api/records/15030675/files/OSR_P3HT%20discs.zip/content"
+zip_member = "SH240812_P3HT_shear modulus_test5222024 (2).xls"
+sha256 = "089eb59eb04539ddf4c44da572b4da119591eeb6bbc147278c3b0339defb6024"
+size = 91648
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/15030675 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 15030675, member SH240812_P3HT_shear modulus_test5222024 (2).xls of OSR_P3HT discs.zip"
+attribution = "Paleti, Sri Harish Kumar"
+notes = "TRIOS Excel export of the oscillation run"
+
+[[file]]
+id = "trios-zenodo13143510-prepolymer-dsc"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "trios-zenodo13143510-prepolymer-dsc.tri"
+url = "https://zenodo.org/api/records/13143510/files/Fig%202.zip/content"
+zip_member = "Fig 2/Fig.2D/DSC of Prepolymer/Prepolymer.tri"
+sha256 = "9efc5d5225eaefde87e6d3fbcb65d6c8c0cfdfac14bc606ceda6c1e35dd656cb"
+size = 2470159
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/13143510 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 13143510 (Data to reproduce results from the work titled: Sustainable Castor Oil-derived Cross-linked Poly(ester-urethane) Elastomeric Films for Stretchable Transparent Conductive Electrodes and Heaters), member Fig 2/Fig.2D/DSC of Prepolymer/Prepolymer.tri of Fig 2.zip"
+attribution = "Laukkanen, Timo; Pulikanti, Guruprasad Reddy; Barua, Amit; Kumar, Manish; Kolpakov, Kristofer et al."
+notes = "DSC250 (TRIOS 5.5) of a polyurethane prepolymer: an isothermal step and a 20 C/min ramp. Ground truth: TRIOS's Excel export (normalized heat flow, the Details sheet's sample mass)."
+
+[[file]]
+id = "trios-zenodo13143510-prepolymer-dsc"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "oracle-export"
+tier = "standard"
+filename = "trios-zenodo13143510-prepolymer-dsc.xls"
+url = "https://zenodo.org/api/records/13143510/files/Fig%202.zip/content"
+zip_member = "Fig 2/Fig.2D/DSC of Prepolymer/Prepolymer.xls"
+sha256 = "bdc2e137b1f5ad8236a4034d8aea6dd614efdf99a5652763659befac91e867f9"
+size = 607744
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/13143510 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 13143510, member Fig 2/Fig.2D/DSC of Prepolymer/Prepolymer.xls of Fig 2.zip"
+attribution = "Laukkanen, Timo; Pulikanti, Guruprasad Reddy; Barua, Amit; Kumar, Manish; Kolpakov, Kristofer et al."
+notes = "TRIOS Excel export of the DSC run (Details, Analysis and one sheet per step)"
+
+[[file]]
+id = "trios-zenodo13143510-prepolymer-tga"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "trios-zenodo13143510-prepolymer-tga.tri"
+url = "https://zenodo.org/api/records/13143510/files/Fig%202.zip/content"
+zip_member = "Fig 2/Fig.2D/TGA of prepolymer/Prepolymer.tri"
+sha256 = "5056ee079e511ff843dad3d222949be880feeb56be707350ba4acc4cda4e254a"
+size = 9496325
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/13143510 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 13143510, member Fig 2/Fig.2D/TGA of prepolymer/Prepolymer.tri of Fig 2.zip"
+attribution = "Laukkanen, Timo; Pulikanti, Guruprasad Reddy; Barua, Amit; Kumar, Manish; Kolpakov, Kristofer et al."
+notes = "SDT650 (TRIOS 5.5) TGA-DSC of the prepolymer to 600 C. Ground truth: TRIOS's Excel export (time, temperature and normalized heat flow; its weight is in percent and not compared)."
+
+[[file]]
+id = "trios-zenodo13143510-prepolymer-tga"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "oracle-export"
+tier = "standard"
+filename = "trios-zenodo13143510-prepolymer-tga.xls"
+url = "https://zenodo.org/api/records/13143510/files/Fig%202.zip/content"
+zip_member = "Fig 2/Fig.2D/TGA of prepolymer/Prepolymer.xls"
+sha256 = "4fc7c8fd199d83f51bc1cde79731b4b8abec707f9a9bd40762d39569024bb552"
+size = 2784256
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/13143510 (CC-BY-4.0, Zenodo API), 2026-10-19"
+source = "Zenodo 13143510, member Fig 2/Fig.2D/TGA of prepolymer/Prepolymer.xls of Fig 2.zip"
+attribution = "Laukkanen, Timo; Pulikanti, Guruprasad Reddy; Barua, Amit; Kumar, Manish; Kolpakov, Kristofer et al."
+notes = "TRIOS Excel export of the TGA run"
+
+[[file]]
+id = "trios-dvn-t4eyxj-peg-strainsweep"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "trios-dvn-t4eyxj-peg-strainsweep.tri"
+url = "https://dataverse.harvard.edu/api/access/datafile/10449457"
+sha256 = "4831c9c2edd0c10adcfff6cba6f178b7c495678f9a01664232f8c6bc7fe311a8"
+size = 265535
+license = "CC0-1.0"
+license_checked = "https://doi.org/10.7910/DVN/T4EYXJ (CC0 1.0, Dataverse API), 2026-10-19"
+source = "Harvard Dataverse doi:10.7910/DVN/T4EYXJ (Replication Data for: Photoinitiator-free light-mediated crosslinking of dynamic polymer and pristine protein networks), Figure 2B-VI/oNBA-SH comparisons 10%PEG4MA_0.05%LAP_20mW_PBS_50um_StrainSweep.tri (datafile 10449457)"
+attribution = "Rizzo, Riccardo"
+notes = "Discovery HR20 (TRIOS 5.4) strain sweep of a PEG hydrogel, 8 mm plate. Ground truth: TRIOS's Excel export of the same run."
+
+[[file]]
+id = "trios-dvn-t4eyxj-peg-strainsweep"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "oracle-export"
+tier = "standard"
+filename = "trios-dvn-t4eyxj-peg-strainsweep.xls"
+url = "https://dataverse.harvard.edu/api/access/datafile/10449349?format=original"
+sha256 = "57280415734cc9c4dbc4627d14ed34bdac7be3efcd6fa4852def31f9c438d437"
+size = 46080
+license = "CC0-1.0"
+license_checked = "https://doi.org/10.7910/DVN/T4EYXJ (CC0 1.0, Dataverse API), 2026-10-19"
+source = "Harvard Dataverse doi:10.7910/DVN/T4EYXJ, Figure 2B-VI/oNBA-SH comparisons 10%PEG4MA_0.05%LAP_20mW_PBS_50um_StrainSweep.xls (datafile 10449349)"
+attribution = "Rizzo, Riccardo"
+notes = "TRIOS Excel export of the strain sweep"
+
+[[file]]
+id = "trios-dvn-t4eyxj-peg-fig1c"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "trios-dvn-t4eyxj-peg-fig1c.tri"
+url = "https://dataverse.harvard.edu/api/access/datafile/10449732"
+sha256 = "b53884489d84e9dbfcec17c77f9e3b3d17af875f8e7300148fea2b81ea4a41af"
+size = 574915
+license = "CC0-1.0"
+license_checked = "https://doi.org/10.7910/DVN/T4EYXJ (CC0 1.0, Dataverse API), 2026-10-19"
+source = "Harvard Dataverse doi:10.7910/DVN/T4EYXJ, Figure 1C 10%PEG4MA_20mWcm2_50umgap_PBS_0.05%.tri (datafile 10449732)"
+attribution = "Rizzo, Riccardo"
+notes = "Discovery HR20 (TRIOS 5.4) photo-rheology time sweep of a PEG hydrogel, 8 mm plate. Ground truth: TRIOS's Excel export of the same run."
+
+[[file]]
+id = "trios-dvn-t4eyxj-peg-fig1c"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "oracle-export"
+tier = "standard"
+filename = "trios-dvn-t4eyxj-peg-fig1c.xls"
+url = "https://dataverse.harvard.edu/api/access/datafile/10449389?format=original"
+sha256 = "7234703514706ee15375325e8e76a9cecd7f64c40deba718632f8b91e281ba77"
+size = 66048
+license = "CC0-1.0"
+license_checked = "https://doi.org/10.7910/DVN/T4EYXJ (CC0 1.0, Dataverse API), 2026-10-19"
+source = "Harvard Dataverse doi:10.7910/DVN/T4EYXJ, Figure 1C 10%PEG4MA_20mWcm2_50umgap_PBS_0.05%.xls (datafile 10449389)"
+attribution = "Rizzo, Riccardo"
+notes = "TRIOS Excel export of the time sweep"
+
+[[file]]
+id = "trios-dvn-t4eyxj-peg-fig2b"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "input"
+tier = "standard"
+filename = "trios-dvn-t4eyxj-peg-fig2b.tri"
+url = "https://dataverse.harvard.edu/api/access/datafile/10449748"
+sha256 = "06145c455462e6e57781eb8d58009e8c30ac5366497002c8d8f639e118ce9a10"
+size = 574827
+license = "CC0-1.0"
+license_checked = "https://doi.org/10.7910/DVN/T4EYXJ (CC0 1.0, Dataverse API), 2026-10-19"
+source = "Harvard Dataverse doi:10.7910/DVN/T4EYXJ, Figure 2B-I 1.25%PEG4oNBA_1.25%PEG4NH2_20mWcm2_50_PBS.tri (datafile 10449748)"
+attribution = "Rizzo, Riccardo"
+notes = "Discovery HR20 (TRIOS 5.4) photo-rheology time sweep, 8 mm plate. Ground truth: TRIOS's Excel export of the same run."
+
+[[file]]
+id = "trios-dvn-t4eyxj-peg-fig2b"
+format = "ta-trios"
+family = "thermal-analysis"
+role = "oracle-export"
+tier = "standard"
+filename = "trios-dvn-t4eyxj-peg-fig2b.xls"
+url = "https://dataverse.harvard.edu/api/access/datafile/10449834?format=original"
+sha256 = "27a823deec1a8bcf11bae6b2fee8095f5515bada28529ae7af7b1100b965de6d"
+size = 67072
+license = "CC0-1.0"
+license_checked = "https://doi.org/10.7910/DVN/T4EYXJ (CC0 1.0, Dataverse API), 2026-10-19"
+source = "Harvard Dataverse doi:10.7910/DVN/T4EYXJ, Figure 2B-I 1.25%PEG4oNBA_1.25%PEG4NH2_20mWcm2_50_PBS.xls (datafile 10449834)"
+attribution = "Rizzo, Riccardo"
+notes = "TRIOS Excel export of the time sweep"
 
 [[file]]
 id = "trios-zenodo17946405-hr30-25c"

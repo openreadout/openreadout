@@ -17,7 +17,10 @@ With `--subset` the export may list only some of the file's records (a depositor
 size records and left out the zeta ones): `rows` is left out and the table says `"key": "record"`,
 so a comparison has to find each oracle row by its record number instead of by its position.
 
-Usage:  python zetasizer_oracle.py --id ID EXPORT [--out DIR] [--subset]
+`--no-width` leaves out the peak 1 width an export's `%Pd Peak 1` gives: the reader withholds
+peak widths (NaN) until an export confirms them (docs/formats/malvern-zetasizer.md).
+
+Usage:  python zetasizer_oracle.py --id ID EXPORT [--out DIR] [--subset] [--no-width]
 """
 from __future__ import annotations
 
@@ -136,11 +139,13 @@ def rows_of(path: Path) -> list[dict]:
 
 
 def main(argv: list[str]) -> int:
-    out_dir, ident, files, subset = OUT, None, [], False
+    out_dir, ident, files, subset, with_width = OUT, None, [], False, True
     it = iter(argv)
     for a in it:
         if a == "--subset":
             subset = True
+        elif a == "--no-width":
+            with_width = False
         elif a == "--out":
             out_dir = Path(next(it))
         elif a == "--id":
@@ -174,7 +179,7 @@ def main(argv: list[str]) -> int:
         pd_raw = next((v for c, v in r.items() if c.lower().startswith("%pd peak 1")), None)
         mean_raw = r.get("Pk 1 Mean Int (d.nm)")
         pd, mean = num(pd_raw), num(mean_raw)
-        if pd and mean:
+        if pd and mean and with_width:
             w = pd * mean / 100.0
             tol = w * (half_unit(pd_raw) / pd + half_unit(mean_raw) / mean) * 1.01
             cells.append([k, "peak1_width", w, tol])
