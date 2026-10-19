@@ -160,3 +160,8 @@ the two earlier `.res` files.
 Outcome with the release binary: for all 25 curves of the three files, the sample count, the 128
 sampled values, the sum, the maximum and its position agree with PyCORN, and so do the volume
 differences between sampled points. Nothing was inferred from these files.
+
+## 2026-10-18 — UNICORN 6.4 result exports from a new depositor (no parsing change) (Richard Zimring with Claude as assistant)
+
+**Corpus files:** `unicorn-zip-zenodo3519436-hpf1-alone-1` and `-qfrd-nuc165-1` (Zenodo 3519436, CC-BY-4.0; ÄKTA pure analytical SEC runs). `Result.xml` names UNICORN 6.4.0.2172 and `FormatVersion` 4, a version the corpus did not have. **Prior art consulted:** none.
+**What was compared.** `oracle/fplc_oracle.py`: allotropy's four data cubes (UV at three wavelengths, conductivity) and the event marks and UNICORN's own peak table from `Chrom.1.Xml` agree with the reader on both files. PyCORN 0.19 stops on these exports (`KeyError: 'CoordinateData.Volumes'`) after one curve, which agrees too.

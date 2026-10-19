@@ -39529,6 +39529,41 @@ source = "Zenodo record 10810569, HPLC_raw.zip"
 attribution = "Kutscherauer, Jakub; Stránský, Jan (Institute of Biotechnology, Czech Academy of Sciences)"
 notes = "UNICORN 7.4.0.800 result export of an ÄKTA SEC run of immunoglobulin G (SEC-SAXS): 15 curves, a UV peak table (2 peaks) that names the evaluated baseline curve UV_CUT_TEMP@100,BASEM (curve 15). Ground truth: UNICORN's peak table (heights and areas measured above the baseline curve), PyCORN and allotropy (black boxes); the record's HPLC_extracted.zip holds the depositors' CSV conversion."
 
+# ---- UNICORN 6.4 result exports (ÄKTA pure, analytical SEC) with the depositors' CSV exports, added 2026-10-18
+[[file]]
+id = "unicorn-zip-zenodo3519436-hpf1-alone-1"
+format = "cytiva-unicorn-zip"
+family = "chromatography"
+role = "input"
+tier = "standard"
+filename = "unicorn-zenodo3519436/hpf1-alone-1.zip"
+url = "https://zenodo.org/api/records/3519436/files/analytical-SEC.zip/content"
+zip_member = "analytical-SEC/chromatograms-unicorn/HPF1 alone 1.zip"
+sha256 = "6399a7b1427adddefad6261c17fe837846020e7cd796a518fb0fb63e2343f989"
+size = 683159
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/3519436 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 3519436: analytical-SEC.zip, chromatograms-unicorn/HPF1 alone 1.zip"
+attribution = "Gaullier, Guillaume; Luger, Karolin et al."
+notes = "UNICORN 6.4.0.2172 result export (Result.xml FormatVersion 4) of an ÄKTA pure analytical SEC run: 15 curves. Fetched from the deposit's zip by HTTP range requests (zip_member). Ground truth: allotropy's data cubes and the curves PyCORN reads (black boxes); the record's chromatograms-csv/ holds UNICORN's CSV export of the same run."
+
+[[file]]
+id = "unicorn-zip-zenodo3519436-qfrd-nuc165-1"
+format = "cytiva-unicorn-zip"
+family = "chromatography"
+role = "input"
+tier = "full"
+filename = "unicorn-zenodo3519436/qfrd-nuc165-1.zip"
+url = "https://zenodo.org/api/records/3519436/files/analytical-SEC.zip/content"
+zip_member = "analytical-SEC/chromatograms-unicorn/QFRD Nuc165 1.zip"
+sha256 = "3f9ab0468e6dd45af09055eb75d1155bb6f17e6817b089a0fd3d385a2f9de9f1"
+size = 675766
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/3519436 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 3519436: analytical-SEC.zip, chromatograms-unicorn/QFRD Nuc165 1.zip"
+attribution = "Gaullier, Guillaume; Luger, Karolin et al."
+notes = "A second run of the same SEC series as unicorn-zip-zenodo3519436-hpf1-alone-1 (UNICORN 6.4). Ground truth as for that file."
+
 # ---- electrochemistry: Neware BTS .nda/.ndax (openreadout-echem), added 2026-09-26
 
 [[file]]
@@ -65808,6 +65843,22 @@ notes = "Chromeleon 7.2 archive, GC-FID (GC_1), 50 signals, all decoded and equa
 
 # ---------------------------------------------------------------- openlab-cds
 
+# ChromTroller example data (GPL-3.0): an OpenLab CDS 2.8 LC-DAD-MS injection, added 2026-10-18
+[[file]]
+id = "chromtroller-openlab-simple1"
+format = "openlab-cds"
+role = "input"
+tier = "standard"
+filename = "openlab-chromtroller/example_simple1.dx"
+url = "https://raw.githubusercontent.com/ombayley/ChromTroller/1247d08af6f0204a08de552fd65cd26377c34004/docs/example_datasets/hplc/simple/example_simple1.dx"
+sha256 = "313bb85d8189d3230f20fbe1b6a3d9073c59e2536ddd627edd36e3d79241026d"
+size = 47711960
+license = "GPL-3.0"
+license_checked = "LICENSE.md of ombayley/ChromTroller @1247d08 (GPL-3.0, GitHub API license.spdx_id), 2026-10-18; only the data file is used"
+source = "GitHub ombayley/ChromTroller @1247d08, docs/example_datasets/hplc/simple/example_simple1.dx"
+attribution = "ombayley/ChromTroller contributors"
+notes = "OpenLab CDS 2.8 injection from an Agilent 1290 Infinity II UPLC-MS (2025-09-11): one DAD signal part, 23 instrument curves (pump, DAD, column oven, autosampler and LC/MS module), a DAD spectra part and LC/MS data (MSData/, not read). Oracle: oracle/openlab_cds.py (rainbow-api and chromConverter 0.9.0 agree)"
+
 # pyGecko test data (MIT): an OpenLab CDS GC-FID injection
 [[file]]
 id = "pygecko-openlab-fkb-fa-060-ri"
@@ -66083,6 +66134,40 @@ license_checked = "LICENSE of ArchercatNEO/HPLC @ac89e1d (GPL-2.0, GitHub API li
 source = "GitHub ArchercatNEO/HPLC @ac89e1d (HPLC-RS), test/samples/PC12/"
 attribution = "ArchercatNEO (HPLC-RS)"
 notes = "Empower export from a Waters Alliance HPLC (2025, glycosphingolipid profiling of PC-12 cells): header of one \"name\"<TAB>\"value\" field per line (SampleName, System Name, Sample Set Name, Date Acquired, Sample Set Start Date), then 3,301 points 0-55 min. READER GAP: openreadout reads the first two lines as a names row and a values row and then stops (exit 4, data row 1 is not two numbers). Oracle ready: chromConverter 0.9.0, numeric rows only"
+
+
+# ---- Empower GPC exports with a header row (refractive-index detector, CR line endings), added 2026-10-18
+[[file]]
+id = "empower-zenodo21245297-blue"
+format = "empower-arw"
+role = "input"
+tier = "standard"
+filename = "empower-zenodo21245297/blue.arw"
+url = "https://zenodo.org/api/records/21245297/files/002_Data_repository.zip/content"
+zip_member = "002_Data_repository/Crushed_waste/GPC/blue.arw"
+sha256 = "2f30bddf0fb9aba9fd71086f45cac6e3d15ebb3324312987f7b7a06b60ffda49"
+size = 30694
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/21245297 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 21245297: 002_Data_repository.zip, Crushed_waste/GPC/blue.arw"
+attribution = "Chodounská, Anežka; Kadeřábková, Alena; Froš, Denis; Kalousková, Radka et al."
+notes = "Empower GPC export (2024) with a row of field names (Sample Name, Channel, Run Time, Channel Description, Detector Units) and a row of their values (RI detector 410, MV), then 1,800 points over 30 min; CR line endings. Fetched from the deposit's zip by HTTP range requests (zip_member). Ground truth: chromConverter 0.9.0 (oracle/empower_arw_chromconverter.py)."
+
+[[file]]
+id = "empower-zenodo21245297-red"
+format = "empower-arw"
+role = "input"
+tier = "full"
+filename = "empower-zenodo21245297/red.arw"
+url = "https://zenodo.org/api/records/21245297/files/002_Data_repository.zip/content"
+zip_member = "002_Data_repository/Crushed_waste/GPC/red.arw"
+sha256 = "bbd6a8e3c2fdcd025ae554b01ef968cd8ac3cd0264e57c98c338d4fa9351b749"
+size = 30804
+license = "CC-BY-4.0"
+license_checked = "https://zenodo.org/records/21245297 (CC-BY-4.0, Zenodo API), 2026-10-18"
+source = "Zenodo 21245297: 002_Data_repository.zip, Crushed_waste/GPC/red.arw"
+attribution = "Chodounská, Anežka; Kadeřábková, Alena; Froš, Denis; Kalousková, Radka et al."
+notes = "A second export of the same GPC series as empower-zenodo21245297-blue. Ground truth: chromConverter 0.9.0."
 
 [[file]]
 id = "hplcrs-empower-46804"
