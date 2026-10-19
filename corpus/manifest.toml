@@ -80896,6 +80896,66 @@ attribution = "Schonberg et al. 2012; OpenNeuro"
 notes = "BOLD fMRI run, 64x64x33, 300 volumes, TR 2 s"
 
 [[file]]
+id = "openneuro-ds000002-sub-01-inplanet2"
+format = "nifti"
+role = "input"
+tier = "standard"
+filename = "openneuro/openneuro-ds000002-sub-01_inplaneT2.nii.gz"
+url = "https://s3.amazonaws.com/openneuro.org/ds000002/sub-01/anat/sub-01_inplaneT2.nii.gz"
+sha256 = "deba3d2957c5b4f06643434a6f8f333f530e40f1446ee4801de50c6108ff4f3a"
+size = 486655
+license = "PDDL-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds000002/dataset_description.json (License: Public Domain Dedication and License v1.0), 2026-10-18"
+source = "OpenNeuro ds000002 (Classification learning), sub-01"
+attribution = "Aron, Gluck and Poldrack; OpenfMRI / OpenNeuro"
+notes = "in-plane T2-weighted MRI, 128x128x25, 1.5625 x 1.5625 x 5 mm, int16, written by FSL 4.0"
+
+[[file]]
+id = "openneuro-ds000030-sub-10159-t1w"
+format = "nifti"
+role = "input"
+tier = "standard"
+filename = "openneuro/openneuro-ds000030-sub-10159_T1w.nii.gz"
+url = "https://s3.amazonaws.com/openneuro.org/ds000030/sub-10159/anat/sub-10159_T1w.nii.gz"
+sha256 = "0cb8a28928917b452b516e4e4694b3b79eb96b4c558f47ac63603035d0072e8b"
+size = 11637742
+license = "CC0-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds000030/dataset_description.json (License: CC0), 2026-10-18"
+source = "OpenNeuro ds000030 (UCLA Consortium for Neuropsychiatric Phenomics LA5c Study), sub-10159"
+attribution = "Bilder, Poldrack, Cannon, London, Freimer, Congdon, Karlsgodt and Sabb; OpenNeuro"
+notes = "T1-weighted brain MRI (defaced), 176x256x256, 1 mm, float32, written by FreeSurfer"
+
+[[file]]
+id = "openneuro-ds003097-sub-0001-t1w"
+format = "nifti"
+role = "input"
+tier = "standard"
+filename = "openneuro/openneuro-ds003097-sub-0001_run-1_T1w.nii.gz"
+url = "https://s3.amazonaws.com/openneuro.org/ds003097/sub-0001/anat/sub-0001_run-1_T1w.nii.gz"
+sha256 = "e9d16f1c58d38ce1695873ad855a05299a0502184d98187ce28ef8a433d12ec0"
+size = 6076303
+license = "CC0-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds003097/dataset_description.json (License: CC0), 2026-10-18"
+source = "OpenNeuro ds003097 (AOMIC-ID1000), sub-0001"
+attribution = "Snoek et al. 2021 (AOMIC); OpenNeuro"
+notes = "T1-weighted brain MRI (defaced), 160x256x256, 1 mm, float32, written by FSL 5.0"
+
+[[file]]
+id = "figshare33265719-microct-01-wt-f"
+format = "nifti"
+role = "input"
+tier = "full"
+filename = "figshare33265719-microct-01-wt-f.nii.gz"
+url = "https://ndownloader.figshare.com/files/67593906"
+sha256 = "c52af3907a69b9f055b62209aacddc475da1f55438fb0573eccb45c5f0e92ccd"
+size = 198162451
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/33265719 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 33265719 'A de novo GMDS p.(Arg55Trp) variant causes severe, fucose-responsive functional impairment in mouse,'"
+attribution = "Abdullah Syafiq Edyanto, Yuji Imai, Akiteru Maeno et al."
+notes = "micro-CT of a wild-type mouse skull, 1247x1247x608, uint8, no spatial unit; upstream edyanto-fig3-hijkl-microct-01-wt-f.nii.gz"
+
+[[file]]
 id = "brukerapi-pv7"
 format = "zip"
 role = "bundle"
