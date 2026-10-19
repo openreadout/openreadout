@@ -895,6 +895,66 @@
    "field": "Electrophysiology"
   },
   {
+   "id": "edf",
+   "name": "European Data Format (EDF, EDF+, BDF, BDF+)",
+   "vendor": "open specification (edfplus.info); BDF by BioSemi",
+   "extensions": [
+    "edf",
+    "bdf"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Signals with different sample rates are separate traces; nothing is resampled",
+    "The BioSemi Status channel is scaled like any signal; its trigger bits are not split out",
+    "Local patient identification is kept in the vendor metadata only"
+   ],
+   "page": "edf",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "brainvision",
+   "name": "BrainVision Core Data Format (.vhdr, .vmrk, .eeg)",
+   "vendor": "Brain Products (BrainVision Recorder, Analyzer); also pybv, MNE-Python, FieldTrip, EEGLAB",
+   "extensions": [
+    "vhdr",
+    "vmrk"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Frequency-domain data (DataType other than TIMEDOMAIN) and VECTORIZED ASCII data are refused",
+    "The [Comment] section (amplifier and filter settings) is kept as text, not parsed",
+    "Marker-based segments are sweeps only when SegmentDataPoints divides the data evenly"
+   ],
+   "page": "brainvision",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "eeglab",
+   "name": "EEGLAB dataset (.set, .fdt)",
+   "vendor": "Swartz Center for Computational Neuroscience (EEGLAB); also MNE-Python, eeglabio",
+   "extensions": [
+    "set",
+    "fdt"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Old .dat sample files are refused; MAT 7.3 (HDF5) files are read through HDF5",
+    "EEGLAB stores no unit; the values are as stored (µV by EEGLAB's convention)",
+    "ICA weights, channel positions and the history are kept in the vendor metadata, not decoded"
+   ],
+   "page": "eeglab",
+   "field": "Electrophysiology"
+  },
+  {
    "id": "open-ephys",
    "name": "Open Ephys recording (binary or Open Ephys format)",
    "vendor": "Open Ephys GUI",
