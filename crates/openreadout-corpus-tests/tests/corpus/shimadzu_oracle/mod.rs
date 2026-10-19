@@ -323,7 +323,23 @@ fn compare_export_peaks(
             continue;
         }
         let key = |s: &str| s.chars().filter(|c| !c.is_whitespace()).collect::<String>();
-        let Some(code) = cats.iter().position(|c| key(c) == key(signal)) else {
+        // The export titles the peak table of a detector with one channel by the detector
+        // alone (`[Peak Table(Detector B)]` for the chromatogram `Detector B-Ch1`).
+        let one_channel = || {
+            let mut m = cats
+                .iter()
+                .enumerate()
+                .filter(|(_, c)| key(c).starts_with(&format!("{}-Ch", key(signal))));
+            match (m.next(), m.next()) {
+                (Some((i, _)), None) => Some(i),
+                _ => None,
+            }
+        };
+        let Some(code) = cats
+            .iter()
+            .position(|c| key(c) == key(signal))
+            .or_else(one_channel)
+        else {
             problems.push(format!(
                 "the export's [Peak Table({signal})]: no vendor_peaks signal of that name"
             ));

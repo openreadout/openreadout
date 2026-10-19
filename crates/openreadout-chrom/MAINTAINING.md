@@ -46,8 +46,8 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 | `openlab-cds` | [format note](../../docs/formats/openlab-cds.md), [provenance log](../../docs/provenance/openlab-cds.md) | medium | reverse engineered | 13 / 13 | 4 | - |
 | `andi-chrom` | [format note](../../docs/formats/andi-chrom.md), [provenance log](../../docs/provenance/andi-chrom.md) | high | open spec | 25 / 25 | 5 | 1 / 0 |
 | `empower-arw` | [format note](../../docs/formats/empower-arw.md), [provenance log](../../docs/provenance/empower-arw.md) | medium | reverse engineered | 23 / 23 | 3 | - |
-| `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 18 / 14 | 9 | 0 / 1 |
-| `chromeleon` | [format note](../../docs/formats/chromeleon.md), [provenance log](../../docs/provenance/chromeleon.md) | medium | reverse engineered | 17 / 2 | 2 | - |
+| `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 21 / 17 | 11 | 0 / 1 |
+| `chromeleon` | [format note](../../docs/formats/chromeleon.md), [provenance log](../../docs/provenance/chromeleon.md) | high | reverse engineered | 17 / 2 | 2 | - |
 
 ### Source map
 
@@ -213,13 +213,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `openlab-cds` | instrument | `7890B` | descriptive | 1 | 1 | `pygecko-openlab-fkb-fa-060-ri` |
 | `openlab-cds` | instrument | `G1364F` | descriptive | 1 | 1 | `cct-openlab-sirslt-norbert` |
 
-… 36 more values: the generated table in `src/assurance.rs` has all of them.
+… 37 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `chrom_cfb`, `chrom_netcdf`, `whole_andi`, `whole_chemstation`, `whole_chromeleon`, `whole_empower_arw`, `whole_openlab`, `whole_shimadzu`
-- corpus inputs by tier: full 3, heldout 19, smoke 62, standard 60
+- corpus inputs by tier: full 4, heldout 19, smoke 62, standard 62
 - golden snapshots: [`corpus/snapshots/chemstation.jsonl`](../../corpus/snapshots/chemstation.jsonl), [`corpus/snapshots/openlab-cds.jsonl`](../../corpus/snapshots/openlab-cds.jsonl), [`corpus/snapshots/andi-chrom.jsonl`](../../corpus/snapshots/andi-chrom.jsonl), [`corpus/snapshots/empower-arw.jsonl`](../../corpus/snapshots/empower-arw.jsonl), [`corpus/snapshots/shimadzu.jsonl`](../../corpus/snapshots/shimadzu.jsonl), [`corpus/snapshots/chromeleon.jsonl`](../../corpus/snapshots/chromeleon.jsonl)
 
 ### Open new-variant intakes

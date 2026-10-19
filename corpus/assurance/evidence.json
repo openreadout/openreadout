@@ -47278,7 +47278,7 @@
       "oracle": "none",
       "independent": false,
       "compared": [],
-      "stored_result": "FAIL",
+      "stored_result": "pass",
       "stored_result_compared": [
         "traces"
       ],
@@ -145616,6 +145616,191 @@
         [
           "layout",
           "chromatogram (f64) in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "vendor peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "lcd-dvnl-afbyvf-nb-bta",
+      "format": "shimadzu",
+      "source": "dataverse:10.34894/afbyvf",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.01",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "RID-20A",
+          []
+        ],
+        [
+          "layout",
+          "chromatogram in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "pda max plot in PDA 3D Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "pda spectra in PDA 3D Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "status trace in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "vendor peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "lcd-dvnl-hrkhdq-pla-c-300h",
+      "format": "shimadzu",
+      "source": "dataverse:10.34894/hrkhdq",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.01",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "RID-20A",
+          []
+        ],
+        [
+          "layout",
+          "chromatogram in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "status trace in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "vendor peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "lcd-dvnl-hrkhdq-r1-300h",
+      "format": "shimadzu",
+      "source": "dataverse:10.34894/hrkhdq",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "5.01",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "RID-20A",
+          []
+        ],
+        [
+          "layout",
+          "chromatogram in LSS Raw Data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "status trace in LSS Raw Data",
           [
             "traces"
           ]

@@ -527,32 +527,33 @@ const SHIMADZU_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "LC-MS mrm", 3, 2, 7),
     a::row(K::Acquisition, "LC-MS product ion scan", 2, 1, 2),
     a::row(K::Acquisition, "LC-MS sim", 1, 1, 1),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 15),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 18),
     a::row(K::FormatVersion, "2.00", 0, 0, 1),
     a::row(K::FormatVersion, "3.00", 2, 2, 2),
     a::row(K::FormatVersion, "4.00", 2, 2, 2),
-    a::row(K::FormatVersion, "5.01", 10, 6, 13),
+    a::row(K::FormatVersion, "5.01", 13, 8, 16),
+    a::row(K::Instrument, "RID-20A", 3, 2, 3),
     a::row(K::Instrument, "SFID1", 1, 1, 1),
     a::row(K::Instrument, "SPD-20A", 1, 1, 3),
     a::row(K::Instrument, "SPD-20AV", 1, 1, 1),
     a::row(K::Layout, "chromatogram (f64) in LSS Raw Data", 1, 1, 1),
     a::row(K::Layout, "chromatogram in LC Raw Data", 2, 2, 2),
-    a::row(K::Layout, "chromatogram in LSS Raw Data", 0, 0, 2),
-    a::row(K::Layout, "pda max plot in PDA 3D Raw Data", 4, 4, 4),
-    a::row(K::Layout, "pda spectra in PDA 3D Raw Data", 4, 4, 4),
+    a::row(K::Layout, "chromatogram in LSS Raw Data", 3, 2, 5),
+    a::row(K::Layout, "pda max plot in PDA 3D Raw Data", 5, 5, 5),
+    a::row(K::Layout, "pda spectra in PDA 3D Raw Data", 5, 5, 5),
     a::row(K::Layout, "status trace in LC Raw Data", 2, 2, 2),
-    a::row(K::Layout, "status trace in LSS Raw Data", 9, 6, 12),
-    a::row(K::Record, "vendor peak table", 1, 1, 7),
+    a::row(K::Layout, "status trace in LSS Raw Data", 12, 8, 15),
+    a::row(K::Record, "vendor peak table", 4, 3, 10),
 ];
 // END GENERATED shimadzu
 
 // BEGIN GENERATED chromeleon (cargo xtask assurance-audit --write; do not edit)
-const CHROMELEON_CONFIDENCE: Confidence = Confidence::Medium;
+const CHROMELEON_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const CHROMELEON_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "3DRawSpc", 0, 0, 2),
     a::row(K::Codec, "PtsDDCmp", 1, 1, 1),
-    a::row(K::Codec, "PtsLDiff", 11, 3, 16),
+    a::row(K::Codec, "PtsLDiff", 12, 3, 16),
     a::row(K::Codec, "PtsLL2Df", 1, 1, 1),
     a::row(K::FormatVersion, "stored results 1", 1, 1, 12),
     a::row(K::FormatVersion, "stored results 2", 0, 0, 3),
@@ -572,9 +573,9 @@ const CHROMELEON_VALIDATED: &[Validated] = &[
     a::row(K::Layout, "20 Hz signal in mAU", 1, 1, 1),
     a::row(K::Layout, "25 Hz 3D field in mAU", 0, 0, 1),
     a::row(K::Layout, "25 Hz signal in mAU", 1, 1, 1),
-    a::row(K::Layout, "50 Hz signal in mV", 9, 2, 12),
+    a::row(K::Layout, "50 Hz signal in mV", 10, 2, 12),
     a::row(K::Layout, "irregular signal in counts", 1, 1, 1),
-    a::row(K::WriterVersion, "Chromeleon 7.2", 11, 4, 15),
+    a::row(K::WriterVersion, "Chromeleon 7.2", 12, 4, 15),
     a::row(K::WriterVersion, "Chromeleon 7.3", 2, 1, 2),
 ];
 // END GENERATED chromeleon
