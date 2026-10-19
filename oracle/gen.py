@@ -6197,8 +6197,282 @@ def eeglab(p: Path) -> dict:
     return out
 
 
+# FIF unit codes -> the symbols openreadout reports (SI; unitless and "none" are empty)
+_FIF_UNITS = {-1: "", 0: "", 1: "m", 2: "kg", 3: "s", 4: "A", 5: "K", 6: "mol", 7: "rad", 8: "sr", 9: "cd",
+              10: "mol/m^3", 101: "Hz", 102: "N", 103: "Pa", 104: "J", 105: "W", 106: "C", 107: "V", 108: "F",
+              109: "Ohm", 110: "S", 111: "Wb", 112: "T", 113: "H", 114: "Cel", 115: "lm", 116: "lx",
+              117: "V/m^2", 118: "s^2", 201: "T/m", 202: "Am", 203: "Am/m^2", 204: "Am/m^3", 210: "px"}
+
+
+def fif(p: Path) -> dict:
+    """FIF raw, continuous and MaxShield recordings via MNE-Python (BSD-3), a black box:
+    read_raw_fif (allow_maxshield, split parts followed) gives the channel names, units, sample
+    rate and the values (stored number x range x cal, float64, no projections or compensation
+    applied: MNE applies them only on request). MNE fills data skips with zeros; the oracle
+    instead takes the runs of buffers between skips (MNE's buffer table, `_raw_extras` bounds
+    with no entry for a skip) as sweeps, as openreadout does, and hashes MNE's get_data over each
+    run. Annotations: MNE's read_annotations (every annotation the file stores); their count and
+    description codes (first appearance order) are compared."""
+    import mne
+    raw = mne.io.read_raw_fif(str(p), allow_maxshield=True, preload=False, verbose="error")
+    runs = []
+    offset = 0
+    for ex in raw._raw_extras:
+        bounds = np.asarray(ex["bounds"])
+        b0 = int(bounds[0])
+        prev_end = None
+        for k, ent in enumerate(ex["ent"]):
+            a, b = int(bounds[k]) - b0 + offset, int(bounds[k + 1]) - b0 + offset
+            if ent is None:
+                prev_end = None
+                continue
+            if runs and prev_end == a:
+                runs[-1][1] = b
+            else:
+                runs.append([a, b])
+            prev_end = b
+        offset += int(bounds[-1]) - b0
+    chans = raw.info["chs"]
+    sweeps = []
+    for s, (a, b) in enumerate(runs[:MAX_SWEEPS]):
+        data = raw.get_data(start=a, stop=b)
+        sweeps.append({"sweep": s, "sample_count": int(b - a),
+                       "channels": [{"xxh3": _trace_hash(data[c]), "first": _first(data[c])} for c in range(len(chans))]})
+    trace = {"index": 0, "sweep_count": len(runs), "channel_count": len(chans),
+             "channel_names": list(raw.ch_names),
+             "channel_units": [_FIF_UNITS.get(int(c["unit"]), "?") for c in chans],
+             "sample_rate_hz": float(raw.info["sfreq"]), "sweeps": sweeps}
+    out = {"reader": f"MNE {mne.__version__} read_raw_fif", "traces": [trace]}
+    # the file's own annotations (read_annotations); the raw object drops those outside the
+    # data and adds BAD_ACQ_SKIP ones for skips
+    try:
+        stored = mne.read_annotations(str(p))
+    except Exception:  # no annotation block
+        stored = []
+    ann = [(float(o), float(d), str(t)) for o, d, t in zip(stored.onset, stored.duration, stored.description)] if len(stored) else []
+    if ann:
+        texts = []
+        for _, _, t in ann:
+            if t not in texts:
+                texts.append(t)
+        codes = np.array([texts.index(t) for _, _, t in ann], dtype=np.float64)
+        out["tables"] = [{"index": 0, "event_count": len(ann), "parameter_names": ["onset_s", "duration_s", "text"],
+                          "dtypes": ["float64", "float64", "int32"], "xxh3": None,
+                          "column_hashes": {"text": _col_hash(codes)}}]
+    return out
+
+
+def _numbered(names, prefix):
+    out = []
+    for n in names:
+        if n.startswith(prefix) and n[len(prefix):].isdigit():
+            out.append((int(n[len(prefix):]), n))
+    return sorted(out)
+
+
+def _h5_str(v) -> str:
+    if isinstance(v, bytes):
+        v = v.decode("utf-8", "replace")
+    return str(v).split("\x00")[0].strip()
+
+
+def mcs_hdf5(p: Path) -> dict:
+    """Multi Channel Systems HDF5 (RawData protocol) read with h5py (BSD-3), values by the
+    formula of Multi Channel Systems' published definition: (stored - ADZero) x ConversionFactor x
+    10^Exponent, float64, channel c from row RowIndex[c] of ChannelData; digital streams keep their
+    stored numbers. Each row of ChannelDataTimeStamps (first time stamp in us, first and last
+    column) is a sweep. McsPyDataTools (BSD-3, Multi Channel Systems), run as a black box, must
+    give the same values to 1e-9 relative for every non-digital channel. Events (EventEntity_x:
+    time stamps and durations in us) and time stamps (TimeStampEntity_x) become one table each,
+    entities numbered in recording, stream and entity order; rows compared order-free."""
+    import h5py
+    import McsPy.McsData as McsData
+    McsData.VERBOSE = False
+    mcs = McsData.RawData(str(p))
+    f = h5py.File(p, "r")
+    traces, worst = [], 0.0
+    events = {"events": [], "timestamps": []}
+    ent_no = {"events": 0, "timestamps": 0}
+    for rec_no, rec_name in _numbered(f["Data"].keys(), "Recording_"):
+        rec = f["Data"][rec_name]
+        for kind, prefix, table in (("AnalogStream", None, None), ("EventStream", "EventEntity_", "events"),
+                                    ("TimeStampStream", "TimeStampEntity_", "timestamps")):
+            if kind not in rec:
+                continue
+            for s_no, s_name in _numbered(rec[kind].keys(), "Stream_"):
+                g = rec[kind][s_name]
+                if table is not None:
+                    for _, e_name in _numbered(g.keys(), prefix):
+                        v = np.asarray(g[e_name][()], dtype=np.int64)
+                        t = v[0] if v.ndim == 2 else v
+                        d = v[1] if v.ndim == 2 and v.shape[0] >= 2 else np.zeros(len(t), dtype=np.int64)
+                        for ti_, di_ in zip(t, d):
+                            events[table].append((ti_ / 1e6, di_ / 1e6, float(ent_no[table])))
+                        ent_no[table] += 1
+                    continue
+                info = g["InfoChannel"][()]
+                data = g["ChannelData"]
+                digital = _h5_str(g.attrs.get("DataSubType", "")).lower() == "digital"
+                segs = np.asarray(g["ChannelDataTimeStamps"][()], dtype=np.int64).reshape(-1, 3)
+                ticks = set(int(x) for x in info["Tick"])
+                if len(ticks) != 1:
+                    raise ValueError(f"{s_name}: channels with ticks {ticks}")
+                vals = []
+                for c in range(len(info)):
+                    raw = np.asarray(data[int(info["RowIndex"][c]), :], dtype=np.float64)
+                    if digital:
+                        vals.append(raw)
+                        continue
+                    step = float(int(info["ConversionFactor"][c])) * float(f"1e{int(info['Exponent'][c])}")
+                    v = (raw - float(int(info["ADZero"][c]))) * step
+                    ref, _ = mcs.recordings[rec_no].analog_streams[s_no].get_channel_in_range(int(info["ChannelID"][c]), 0, len(raw) - 1)
+                    ref = np.asarray(getattr(ref, "magnitude", ref), dtype=np.float64)
+                    if len(ref) != len(v):
+                        raise ValueError(f"{s_name} channel {c}: McsPyDataTools gives {len(ref)} samples, the matrix {len(v)}")
+                    if len(v):
+                        worst = max(worst, float(np.max(np.abs(ref - v) / np.maximum(np.abs(v), 1e-30 + np.max(np.abs(v))))))
+                    vals.append(v)
+                sweeps = []
+                for k, (ts, a, b) in enumerate(segs[:MAX_SWEEPS]):
+                    sweeps.append({"sweep": k, "sample_count": int(b - a + 1),
+                                   "channels": [{"xxh3": _trace_hash(v[a:b + 1]), "first": _first(v[a:b + 1])} for v in vals]})
+                traces.append({"index": len(traces), "sweep_count": len(segs), "channel_count": len(info),
+                               "channel_names": [_h5_str(x) for x in info["Label"]],
+                               "channel_units": ["" if _h5_str(u) == "NoUnit" else _h5_str(u) for u in info["Unit"]],
+                               "sample_rate_hz": 1e6 / ticks.pop(), "sweeps": sweeps})
+    if worst > 1e-9:
+        raise ValueError(f"McsPyDataTools values differ from the documented formula by {worst:.3g} (relative)")
+    out = {"reader": f"h5py {h5py.__version__} with the MCS-HDF5 definition's formula; McsPyDataTools cross-check",
+           "traces": traces}
+    tables = []
+    for name in ("events", "timestamps"):
+        rows = events[name]
+        if rows:
+            cols = [("time_s", [r[0] for r in rows]), ("duration_s", [r[1] for r in rows]), ("entity", [r[2] for r in rows])]
+            tables.append({"index": len(tables), "event_count": len(rows), "parameter_names": ["time_s", "duration_s", "entity"],
+                           "dtypes": ["float64", "float64", "int32"], "xxh3": None, "sorted_row_hashes": [_sorted_rows(cols)]})
+    if tables:
+        out["tables"] = tables
+    return out
+
+
+def brw(p: Path) -> dict:
+    """3Brain BrainWave .brw (HDF5) via Neo's BiocamRawIO (BSD-3), a black box: Neo's raw
+    uint16 chunk (for BRW 3.x with signal inversion -1 it is already 4096 - stored) x gain +
+    offset, float64, one trace, one sweep. Channel names: for BRW 3.x Neo's `ch<row>-<col>` from
+    the stored channel table; for BRW 4.x Neo names channels from a square grid, so the oracle
+    names them `ch<index>` from the well's StoredChIdxs (h5py) as openreadout does and keeps
+    Neo's names in `neo_channel_names`."""
+    import h5py
+    from neo.rawio.biocamrawio import BiocamRawIO
+    r = BiocamRawIO(filename=str(p), fill_gaps_strategy=None)
+    r.parse_header()
+    ch = r.header["signal_channels"]
+    n = r.get_signal_size(0, 0, 0)
+    raw = np.asarray(r.get_analogsignal_chunk(0, 0, 0, n, 0), dtype=np.float64)
+    gains = [float(g) for g in ch["gain"]]
+    note = None
+    with h5py.File(p, "r") as f:
+        if "3BRecInfo" in f and not all(np.isfinite(gains)):
+            # Neo 0.14 computes 2**BitDepth in the stored uint8 type, which wraps to 0: the
+            # gain is recomputed with Python integers from the same recording variables.
+            v = f["3BRecInfo/3BRecVars"]
+            g = (float(v["MaxVolt"][0]) - float(v["MinVolt"][0])) / (2 ** int(v["BitDepth"][0]))
+            gains = [g] * len(ch)
+            note = "gain recomputed: Neo's 2**BitDepth wraps in uint8"
+    cols = [raw[:, k] * gains[k] + float(ch["offset"][k]) for k in range(len(ch))]
+    names = [str(x) for x in ch["name"]]
+    neo_names = None
+    with h5py.File(p, "r") as f:
+        if "3BRecInfo" not in f:
+            well = next(k for k in f if k.startswith("Well_"))
+            neo_names, names = names, [f"ch{int(i)}" for i in f[well]["StoredChIdxs"][()]]
+    trace = {"index": 0, "sweep_count": 1, "channel_count": len(ch), "channel_names": names,
+             "channel_units": ["µV"] * len(ch), "sample_rate_hz": float(ch["sampling_rate"][0]),
+             "sweeps": [{"sweep": 0, "sample_count": int(n),
+                         "channels": [{"xxh3": _trace_hash(v), "first": _first(v)} for v in cols]}]}
+    if neo_names is not None:
+        trace["neo_channel_names"] = neo_names
+    out = {"reader": f"neo {__import__('neo').__version__} BiocamRawIO", "traces": [trace]}
+    if note:
+        out["oracle_note"] = note
+    return out
+
+
+MAXWELL_HASHED = int(os.environ.get("ORACLE_MAXWELL_FRAMES", "100000"))  # frames hashed per channel
+
+
+def maxwell(p: Path) -> dict:
+    """MaxWell MaxOne/MaxTwo `.raw.h5` read with h5py (BSD-3): layout 20160704 takes channel c
+    from row c of /sig for every mapped channel; later layouts take each row of
+    groups/routed/raw with the channel groups/routed/channels names. Values are stored level x
+    lsb x 1e6 (uV), float64, channels in channel order, the first MAXWELL_HASHED frames hashed.
+    Neo's MaxwellRawIO (BSD-3), a black box, decodes the same matrix: its columns must equal
+    h5py's rows (Neo labels the columns with the mapping in its own order, so only the matrix is
+    compared). Files compressed with MaxWell's filter 401 cannot be decoded by either."""
+    import h5py
+    from neo.rawio.maxwellrawio import MaxwellRawIO
+    f = h5py.File(p, "r")
+    version = _h5_str(f["version"][0])
+    recs = []
+    if version == "20160704":
+        m = f["mapping"][()]
+        lsb = float(f["settings/lsb"][0]) if "lsb" in f["settings"] else 3.3 / (1024 * float(f["settings/gain"][0]))
+        chans = sorted(int(c) for c in m["channel"] if c >= 0)
+        recs.append(("sig", f["sig"], [(c, c) for c in chans], 20000.0, lsb))
+    else:
+        for n in sorted(f["data_store"].keys()):
+            g = f["data_store"][n]
+            if "groups" not in g or "routed" not in g["groups"]:
+                continue
+            rows = [int(c) for c in g["groups/routed/channels"][()]]
+            s = g["settings"]
+            lsb = float(s["lsb"][0]) if "lsb" in s else 3.3 / (1024 * float(s["gain"][0]))
+            order = sorted(range(len(rows)), key=lambda r: rows[r])
+            recs.append((n, g["groups/routed/raw"], [(rows[r], r) for r in order], float(s["sampling"][0]), lsb))
+    traces = []
+    neo_checked = None
+    for ti, (name, ds, chans, rate, lsb) in enumerate(recs):
+        n = ds.shape[1]
+        keep = min(n, MAXWELL_HASHED)
+        block = np.asarray(ds[:, :keep], dtype=np.float64)
+        if ti == 0:
+            r = MaxwellRawIO(filename=str(p))
+            r.parse_header()
+            neo = np.asarray(r.get_analogsignal_chunk(0, 0, 0, min(keep, 2000), 0), dtype=np.float64)
+            k = min(neo.shape[1], block.shape[0])
+            if not np.array_equal(neo[:, :k].T, block[:k, :neo.shape[0]]):
+                raise ValueError("Neo's matrix differs from h5py's")
+            neo_checked = f"Neo matrix equal on {neo.shape[0]} frames x {k} rows"
+        uv = lsb * 1e6
+        channels = [{"xxh3": _trace_hash(block[row] * uv), "first": _first(block[row] * uv)} for _, row in chans]
+        traces.append({"index": ti, "sweep_count": 1, "channel_count": len(chans),
+                       "channel_names": [f"ch{c}" for c, _ in chans], "channel_units": ["µV"] * len(chans),
+                       "sample_rate_hz": rate,
+                       "sweeps": [{"sweep": 0, "sample_count": int(n), "hashed_samples": int(keep), "channels": channels}]})
+    return {"reader": f"h5py {h5py.__version__}; neo {__import__('neo').__version__} MaxwellRawIO cross-check ({neo_checked})",
+            "traces": traces}
+
+
+def _mea_h5(p: Path):
+    """The oracle of an MEA HDF5 file (MCS, MaxWell), or None."""
+    if not p.is_file():
+        return None
+    try:
+        import h5py
+        with h5py.File(p, "r") as f:
+            if _h5_str(f.attrs.get("McsHdf5ProtocolType", "")) == "RawData":
+                return mcs_hdf5
+            if "version" in f and ("sig" in f or "wells" in f or "data_store" in f):
+                return maxwell
+    except OSError:
+        return None
+    return None
+
+
 EPHYS = {"wcp": winwcp, "edf": edf, "bdf": edf, "vhdr": brainvision, "set": lambda p: eeglab(p) if p.open("rb").read(6) == b"MATLAB" else axona(p), "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
          "nse": neuralynx, "nst": neuralynx, "ntt": neuralynx, "plx": plexon, "pl2": pl2, "smr": spike2,
+         "fif": fif, "brw": brw,
          **{f"ns{i}": blackrock for i in range(1, 7)}}
 
 # ---------------------------------------------------------------- chromatography
@@ -6518,6 +6792,8 @@ def main():
                 data = medical.oracle(p)
             elif _hcs.is_hcs(p):
                 data = _hcs.hcs_plate(p)
+            elif ext in (".h5", ".hdf5") and (mea := _mea_h5(p)):
+                data = mea(p)
             elif ext == ".cbf":
                 data = diffraction.cbf(p)
             elif ext == ".nxs" or p.name.lower().endswith("_master.h5"):

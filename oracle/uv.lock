@@ -2729,6 +2729,23 @@ wheels = [
 ]
 
 [[package]]
+name = "mcspydatatools"
+version = "0.4.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "h5py" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "pandas" },
+    { name = "pint", version = "0.24.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "pint", version = "0.25.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "pint", version = "0.26.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "tabulate" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/03/c6/c8c27deb687b51fba77825d8b50f1eb443c5b61387924d1e1617608eca26/McsPyDataTools-0.4.3.tar.gz", hash = "sha256:29b1fc30acd5af12951747df5820bb9440f2d451940b15063421d77151011f5a", size = 2119045, upload-time = "2022-05-19T13:45:02.553Z" }
+
+[[package]]
 name = "mne"
 version = "1.13.2"
 source = { registry = "https://pypi.org/simple" }
@@ -3800,6 +3817,7 @@ dependencies = [
     { name = "liffile", version = "2026.7.14", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "load-heka-python" },
     { name = "lxml" },
+    { name = "mcspydatatools" },
     { name = "mne", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "mrcfile" },
     { name = "ncempy" },
@@ -3912,6 +3930,7 @@ requires-dist = [
     { name = "liffile" },
     { name = "load-heka-python", git = "https://github.com/easy-electrophysiology/load-heka-python?rev=185f6edb54ac562de26aa7ce33643b453c45894d" },
     { name = "lxml" },
+    { name = "mcspydatatools", specifier = ">=0.4.3" },
     { name = "mne", marker = "python_full_version >= '3.11'", specifier = ">=1.13" },
     { name = "mrcfile", specifier = ">=1.5" },
     { name = "ncempy", specifier = ">=1.16" },

@@ -656,6 +656,11 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("edf", "edf"),
             ("brainvision", "brainvision"),
             ("eeglab", "eeglab"),
+            ("fif", "fif"),
+            ("mcsh5", "mcs-hdf5"),
+            ("h5rec", "mcs-hdf5"),
+            ("brw", "brw"),
+            ("maxwell", "maxwell-h5"),
         ],
     ),
     (

@@ -1365,7 +1365,7 @@ checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 
 [[package]]
 name = "openreadout-abf"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1373,7 +1373,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-agilent-ms"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1382,7 +1382,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-arrow"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "arrow-array",
  "arrow-buffer",
@@ -1399,7 +1399,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-assay"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "openreadout-figure",
@@ -1410,7 +1410,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-batch"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "arrow-array",
  "arrow-schema",
@@ -1433,7 +1433,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-benchtop"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1441,7 +1441,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-biophys"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "base64 0.23.1",
  "openreadout-core",
@@ -1451,7 +1451,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-blackrock"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1459,7 +1459,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-bruker-tims"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1468,7 +1468,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-ce"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "base64 0.23.1",
  "flate2",
@@ -1481,7 +1481,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-chrom"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "miniz_oxide 0.9.1",
  "openreadout-codecs",
@@ -1492,7 +1492,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-codecs"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "dicom-toolkit-jpeg2000",
  "flate2",
@@ -1510,7 +1510,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-core"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "crc32fast",
  "glob",
@@ -1526,7 +1526,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-czi"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1537,7 +1537,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-dcimg"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1545,7 +1545,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-diffraction"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1553,7 +1553,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-echem"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "crc32fast",
  "openreadout-core",
@@ -1563,7 +1563,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-em"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "hdf5-pure",
  "openreadout-core",
@@ -1575,15 +1575,18 @@ dependencies = [
 
 [[package]]
 name = "openreadout-ephys"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
+ "flate2",
+ "hdf5-pure",
  "openreadout-core",
+ "openreadout-hdf5",
  "serde_json",
 ]
 
 [[package]]
 name = "openreadout-epr"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1591,7 +1594,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-fcs"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -1600,7 +1603,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-figure"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "miniz_oxide 0.9.1",
  "openreadout-core",
@@ -1611,7 +1614,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-fplc"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "base64 0.23.1",
  "openreadout-core",
@@ -1682,7 +1685,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-gel"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -1691,7 +1694,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-hcs"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "openreadout-tiff",
@@ -1702,7 +1705,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-hdf5"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "hdf5-pure",
  "openreadout-codecs",
@@ -1715,7 +1718,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-index"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "arrow-array",
  "arrow-schema",
@@ -1734,7 +1737,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-intan"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1742,11 +1745,11 @@ dependencies = [
 
 [[package]]
 name = "openreadout-jpegxr"
-version = "0.3.0"
+version = "0.4.0"
 
 [[package]]
 name = "openreadout-lif"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1758,7 +1761,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-medical"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "flate2",
  "miniz_oxide 0.9.1",
@@ -1771,7 +1774,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-mzml"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "hdf5-pure",
  "openreadout-codecs",
@@ -1785,7 +1788,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-nd2"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1795,7 +1798,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-neuralynx"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1803,7 +1806,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-nmr"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "schemars",
@@ -1813,7 +1816,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-oif"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "openreadout-tiff",
@@ -1822,7 +1825,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-oir"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -1831,7 +1834,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-ometiff"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "flate2",
  "openreadout-core",
@@ -1848,7 +1851,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-omezarr"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "openreadout-ometiff",
@@ -1862,7 +1865,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-plate"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "calamine",
  "miniz_oxide 0.9.1",
@@ -1875,7 +1878,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-plexon"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1883,7 +1886,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-qpcr"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "calamine",
  "miniz_oxide 0.9.1",
@@ -1896,7 +1899,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-quant"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "openreadout-figure",
@@ -1908,7 +1911,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-sciex"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1916,7 +1919,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-seq"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "arrow-ipc",
  "flate2",
@@ -1933,7 +1936,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-signal"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "schemars",
@@ -1943,7 +1946,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-spectro"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1952,7 +1955,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-spikeglx"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1960,7 +1963,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-thermal"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1968,7 +1971,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-thermo"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -1976,7 +1979,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-tiff"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1987,7 +1990,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-vsi"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-codecs",
  "openreadout-core",
@@ -1997,7 +2000,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-waters"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",
@@ -2005,7 +2008,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-wsi"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "base64 0.23.1",
  "openreadout-codecs",
@@ -2018,7 +2021,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-xrd"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "roxmltree 0.21.1",
@@ -2027,7 +2030,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-zarr"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "flate2",
  "openreadout-codecs",
@@ -2039,7 +2042,7 @@ dependencies = [
 
 [[package]]
 name = "openreadout-zvi"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "openreadout-core",
  "serde_json",

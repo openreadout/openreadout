@@ -732,6 +732,83 @@ def ephys_new_seeds() -> None:
 
 
 
+def fif_mea_seeds() -> None:
+    """FIF, MCS HDF5, BRW and MaxWell seeds written here (h5py for the HDF5 ones)."""
+    put("whole_fif", "mini_raw.fif", _mini_fif())
+    try:
+        import io
+        import h5py
+        import numpy as np
+    except ImportError:
+        return
+    vl = h5py.string_dtype()
+    buf = io.BytesIO()
+    with h5py.File(buf, "w") as f:
+        f.attrs["McsHdf5ProtocolType"] = "RawData"
+        f.attrs["McsHdf5ProtocolVersion"] = np.int32(3)
+        s = f.create_group("Data/Recording_0/AnalogStream/Stream_0")
+        s.attrs["Label"] = "Electrode Raw Data"
+        dt = np.dtype([("ChannelID", "<i4"), ("RowIndex", "<i4"), ("Label", vl), ("Unit", vl),
+                       ("Exponent", "<i4"), ("ADZero", "<i4"), ("Tick", "<i8"), ("ConversionFactor", "<i8")])
+        s.create_dataset("InfoChannel", data=np.array([(0, 1, "E1", "V", -12, 0, 50, 1000), (1, 0, "E2", "V", -12, 0, 50, 1000)], dtype=dt))
+        s.create_dataset("ChannelData", data=np.arange(16, dtype="<i4").reshape(2, 8), chunks=(2, 4), compression="gzip", shuffle=True)
+        s.create_dataset("ChannelDataTimeStamps", data=np.array([[0, 0, 3], [500, 4, 7]], dtype="<i8"))
+        e = f.create_group("Data/Recording_0/EventStream/Stream_0")
+        e.create_dataset("EventEntity_0", data=np.array([[10, 20], [1, 2]], dtype="<i8"))
+    put("whole_mcs_hdf5", "mini.h5", buf.getvalue())
+    buf = io.BytesIO()
+    with h5py.File(buf, "w") as f:
+        v = f.create_group("3BRecInfo/3BRecVars")
+        for k, val, t in [("BitDepth", 12, "u1"), ("MaxVolt", 4125.0, "<f8"), ("MinVolt", -4125.0, "<f8"),
+                          ("NRecFrames", 4, "<i8"), ("SamplingRate", 17855.5, "<f8"), ("SignalInversion", 1.0, "<f8")]:
+            v.create_dataset(k, data=np.array([val], dtype=t))
+        f.create_dataset("3BRecInfo/3BMeaStreams/Raw/Chs", data=np.array([(1, 1), (1, 2)], dtype=[("Row", "<i2"), ("Col", "<i2")]))
+        d = f.create_group("3BData")
+        d.attrs["Version"] = np.int64(101)
+        d.create_dataset("Raw", data=np.arange(8, dtype="<u2") * 100)
+    put("whole_brw", "mini-v3.brw", buf.getvalue())
+    buf = io.BytesIO()
+    with h5py.File(buf, "w") as f:
+        f.create_dataset("version", data=np.array([b"20160704"]))
+        f.create_dataset("message_0", data=np.array([b"Recorded with MaxLab (C) in sequence mode"]))
+        f.create_dataset("mapping", data=np.array([(1, 10, 0.0, 17.5), (3, 30, 17.5, 0.0)],
+                                                  dtype=[("channel", "<i4"), ("electrode", "<i4"), ("x", "<f8"), ("y", "<f8")]))
+        f.create_dataset("sig", data=np.arange(16, dtype="<u2").reshape(4, 4), chunks=(4, 2), compression="gzip")
+        f.create_dataset("settings/lsb", data=np.array([6.29425e-6]))
+    put("whole_maxwell", "mini-legacy.raw.h5", buf.getvalue())
+
+
+def _mini_fif() -> bytes:
+    """A two-channel FIF raw file: file id, measurement info, two int16 data buffers."""
+    out = bytearray()
+
+    def tag(kind: int, ty: int, data: bytes) -> None:
+        out.extend(struct.pack(">iIii", kind, ty, len(data), 0) + data)
+
+    def i32(kind: int, v: int) -> None:
+        tag(kind, 3, struct.pack(">i", v))
+
+    tag(100, 31, struct.pack(">5i", 0x10004, 1, 2, 1600000000, 0))
+    i32(101, -1)
+    i32(104, 100)
+    i32(104, 101)
+    tag(204, 3, struct.pack(">2i", 1551255482, 250000))
+    i32(200, 2)
+    tag(201, 4, struct.pack(">f", 200.0))
+    for scan, kind, cal, unit, name in [(1, 2, 1e-6, 107, b"EEG 001"), (2, 3, 1.0, 0, b"STI 014")]:
+        tag(203, 30, struct.pack(">3iffi12f2i", scan, scan, kind, 1.0, cal, 0, *([0.0] * 12), unit, 0) + name.ljust(16, b"\0"))
+    i32(105, 101)
+    i32(104, 102)
+    i32(208, 10)
+    for k in range(2):
+        tag(300, 16, struct.pack(">6h", k, -k, 100, -100, 3, 4))
+        if k == 0:
+            i32(301, 1)
+    i32(105, 102)
+    i32(105, 100)
+    return bytes(out)
+
+
 def _mini_eeglab_set() -> bytes:
     """A MAT 5.0 file with an EEG struct (2 channels, 4 points, chanlocs, one event) whose data
     names r.fdt; one field compressed, as MATLAB's -v7 writes."""
@@ -1272,6 +1349,7 @@ def main() -> None:
     new_format_seeds()
     synthetic_fixture_seeds()
     ephys_new_seeds()
+    fif_mea_seeds()
     sequencing_seeds()
     structural_seeds()
     put("codec_packbits", "runs.bin", struct.pack("<I", 64)[:3] + bytes([0xFD, 7, 2, 1, 2, 3, 0x81, 9]))

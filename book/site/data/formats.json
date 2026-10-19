@@ -955,6 +955,79 @@
    "field": "Electrophysiology"
   },
   {
+   "id": "fif",
+   "name": "FIF (MEGIN / Elekta Neuromag MEG and EEG, MNE)",
+   "vendor": "MEGIN (Elekta Neuromag); also written by MNE-Python and MNE-C",
+   "extensions": [
+    "fif"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Raw and continuous data only: epochs, evoked responses, forward and inverse solutions are refused",
+    "Projections and gradient compensation stored in the file are listed, not applied",
+    "Compressed `.fif.gz` files are not read; decompress them first"
+   ],
+   "page": "fif",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "mcs-hdf5",
+   "name": "Multi Channel Systems HDF5 (Multi Channel DataManager)",
+   "vendor": "Multi Channel Systems MCS GmbH",
+   "extensions": [
+    "h5"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "high",
+   "known_gaps": [
+    "Segment streams (spike cutouts and averages) and frame streams (CMOS sensor frames) are listed, not read",
+    "CMOS-MEA protocol files are refused"
+   ],
+   "page": "mcs-hdf5",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "brw",
+   "name": "3Brain BrainWave raw data (BRW 3.x and 4.x)",
+   "vendor": "3Brain AG",
+   "extensions": [
+    "brw"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "medium",
+   "known_gaps": [
+    "Event-based sparse raw data (BrainWave 5 compressed recordings) are refused",
+    "BRW 4.x channel names are the stored channel indices; their place on the chip is not derived"
+   ],
+   "page": "brw",
+   "field": "Electrophysiology"
+  },
+  {
+   "id": "maxwell-h5",
+   "name": "MaxWell Biosystems MaxOne / MaxTwo recording (.raw.h5)",
+   "vendor": "MaxWell Biosystems AG",
+   "extensions": [
+    "h5"
+   ],
+   "family": "electrophysiology",
+   "can_read": true,
+   "can_write": false,
+   "confidence": "low",
+   "known_gaps": [
+    "Recordings compressed with MaxWell's own HDF5 filter (401) are refused: no open decoder exists",
+    "Spike tables and frame numbers are not read"
+   ],
+   "page": "maxwell-h5",
+   "field": "Electrophysiology"
+  },
+  {
    "id": "open-ephys",
    "name": "Open Ephys recording (binary or Open Ephys format)",
    "vendor": "Open Ephys GUI",

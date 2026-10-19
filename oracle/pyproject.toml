@@ -36,6 +36,9 @@ dependencies = [
     "pyedflib>=0.1.42",
     "mne>=1.13 ; python_version >= '3.11'",
     "pymatreader>=1.0",
+    # MEA: McsPyDataTools (BSD-3, Multi Channel Systems) cross-checks MCS HDF5 files; Neo
+    # (above) reads 3Brain BRW and MaxWell files
+    "McsPyDataTools>=0.4.3",
     "probeinterface>=0.3",  # MIT; SpikeGLX probe geometry oracle
     "nept>=0.1.0",  # MIT (vandermeerlab); Neuralynx .nvt oracle (needs shapely)
     "shapely>=2",

@@ -45534,6 +45534,180 @@
       ]
     },
     {
+      "id": "gin-biocam-brainwave5-hw3-0-fw1-7",
+      "format": "brw",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "unreadable",
+      "independent": false,
+      "compared": [],
+      "features": [],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "gin-biocam-hw3-0-fw1-6",
+      "format": "brw",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BRW 3.x",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved (3BData unversioned)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "1.6.1.6",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        8
+      ]
+    },
+    {
+      "id": "gin-biocam-hw3-0-fw1-7-0-12-raw",
+      "format": "brw",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BRW 4.x",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved per well",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "1.7.0.12",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        8
+      ]
+    },
+    {
+      "id": "gin-biocam-version-100",
+      "format": "brw",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BRW 3.x",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "frame matrix (3BData 100)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "1.6.-1.-1",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        8
+      ]
+    },
+    {
+      "id": "gin-biocam-version-101",
+      "format": "brw",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BRW 3.x",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved (3BData 101)",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "1.6.-1.-1",
+          [
+            "metadata"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        8
+      ]
+    },
+    {
       "id": "dials-centroid-0001-cbf",
       "format": "cbf",
       "source": "github:dials/data-files",
@@ -85675,6 +85849,572 @@
       ]
     },
     {
+      "id": "mnepython-brainvision-test-bin-raw-fif",
+      "format": "fif",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "mnepython-bti-exported4d-linux-raw-fif",
+      "format": "fif",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "mnepython-kit-test-bin-raw-fif",
+      "format": "fif",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "mnepython-test-chpi-raw-sss-fif",
+      "format": "fif",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.2",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "hpi_psd 1.5",
+          []
+        ],
+        [
+          "writer",
+          "maxfilter 2.1.15",
+          []
+        ],
+        [
+          "writer",
+          "create_ct_matrix 1.0",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "mnepython-test-ctf-comp-raw-fif",
+      "format": "fif",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.2",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "mnepython-test-raw-fif",
+      "format": "fif",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.2",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "hpi_psd 1.0",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "mnepython-test-withbads-raw-fif",
+      "format": "fif",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.2",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "hpi_psd 1.0",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "openneuro-ds000248-sub-emptyroom-task-noise",
+      "format": "fif",
+      "source": "openneuro ds000248",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "zenodo-14564285-resting-eo-200hz-raw",
+      "format": "fif",
+      "source": "zenodo:14564285",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "zenodo-14564285-sub-02-mne-raw",
+      "format": "fif",
+      "source": "zenodo:14564285",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "zenodo-18186380-prob1-stimuli-channel-raw",
+      "format": "fif",
+      "source": "zenodo:18186380",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "zenodo-22820861-sub-0006-sr200-raw",
+      "format": "fif",
+      "source": "zenodo:22820861",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "raw",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        13
+      ]
+    },
+    {
       "id": "figshare29990276-pbio-raman-spc",
       "format": "galactic-spc",
       "source": "figshare 29990276 'the raman spectra data underlying s3b fig.'",
@@ -102944,6 +103684,430 @@
       "inferred": [
         1,
         1
+      ]
+    },
+    {
+      "id": "gin-maxwell-maxone-activity-scan-000008",
+      "format": "maxwell-h5",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "unreadable",
+      "independent": false,
+      "compared": [],
+      "features": [],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "gin-maxwell-maxone-network-000010",
+      "format": "maxwell-h5",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "unreadable",
+      "independent": false,
+      "compared": [],
+      "features": [],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "gin-maxwell-maxone-record-000011",
+      "format": "maxwell-h5",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "unreadable",
+      "independent": false,
+      "compared": [],
+      "features": [],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "gin-maxwell-maxone-recording-non-assay",
+      "format": "maxwell-h5",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "unreadable",
+      "independent": false,
+      "compared": [],
+      "features": [],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "gin-maxwell-maxtwo-activity-scan-000021",
+      "format": "maxwell-h5",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "unreadable",
+      "independent": false,
+      "compared": [],
+      "features": [],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "gin-maxwell-maxtwo-network-000028",
+      "format": "maxwell-h5",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "unreadable",
+      "independent": false,
+      "compared": [],
+      "features": [],
+      "inferred": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "zenodo-6578989-drug-2950-50um",
+      "format": "maxwell-h5",
+      "source": "zenodo:6578989",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "assumed": [
+        "traces[].sample_rate_hz"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20160704",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        7
+      ]
+    },
+    {
+      "id": "mcspydatatools-w8-standard-all-500hz",
+      "format": "mcs-hdf5",
+      "source": "github:multichannelsystems/mcspydatatools",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "RawData 1",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Multi Channel Experimenter",
+          []
+        ],
+        [
+          "writer_version",
+          "0.9.8.2",
+          []
+        ],
+        [
+          "layout",
+          "digital stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "timestamps",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "zenodo-13121249-mcsrecording-2023-03-09t15-51-00",
+      "format": "mcs-hdf5",
+      "source": "zenodo:13121249",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "RawData 3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Multi Channel DataManager",
+          []
+        ],
+        [
+          "writer_version",
+          "1.14.10.23023",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "zenodo-13121249-singlewell-hipsc-cardio-control",
+      "format": "mcs-hdf5",
+      "source": "zenodo:13121249",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "RawData 3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Multi Channel DataManager",
+          []
+        ],
+        [
+          "writer_version",
+          "1.14.10.23023",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "zenodo-3814727-apr1218-10003",
+      "format": "mcs-hdf5",
+      "source": "zenodo:3814727",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "RawData 3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "segments",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "digital stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Multi Channel DataManager",
+          []
+        ],
+        [
+          "writer_version",
+          "1.8.6.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": "zenodo-3814727-apr1218-10004",
+      "format": "mcs-hdf5",
+      "source": "zenodo:3814727",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "RawData 3",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "segments",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "digital stream",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Multi Channel DataManager",
+          []
+        ],
+        [
+          "writer_version",
+          "1.8.6.0",
+          []
+        ],
+        [
+          "record",
+          "events",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        1,
+        12
       ]
     },
     {

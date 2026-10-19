@@ -1129,6 +1129,34 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_fif"
+path = "fuzz_targets/whole_fif.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_mcs_hdf5"
+path = "fuzz_targets/whole_mcs_hdf5.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_brw"
+path = "fuzz_targets/whole_brw.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_maxwell"
+path = "fuzz_targets/whole_maxwell.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_uvprobe"
 path = "fuzz_targets/whole_uvprobe.rs"
 test = false

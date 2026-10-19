@@ -4,12 +4,13 @@
 //! (`winwcp`), Tucker-Davis Technologies tanks and blocks (`tdt-tank`), Axona DacqUSB sessions
 //! (`axona-dacqusb`), Multi Channel Systems MC_DataTool binary exports (`mcs-raw`), and EEG
 //! recordings in the European Data Format: EDF, EDF+, BDF and BDF+ (`edf`), in the BrainVision
-//! Core Data Format (`brainvision`) and as EEGLAB datasets (`eeglab`).
+//! Core Data Format (`brainvision`) and as EEGLAB datasets (`eeglab`), and MEG and EEG
+//! recordings in the FIF format of MEGIN / Elekta Neuromag systems and MNE (`fif`).
 //!
 //! Layout and vocabulary: `docs/formats/heka-patchmaster.md`, `docs/formats/ced-spike2.md`,
 //! `docs/formats/open-ephys.md`, `docs/formats/winwcp.md`, `docs/formats/tdt-tank.md`,
 //! `docs/formats/axona-dacqusb.md`, `docs/formats/mcs-raw.md`, `docs/formats/edf.md`, `docs/formats/brainvision.md`,
-//! `docs/formats/eeglab.md`.
+//! `docs/formats/eeglab.md`, `docs/formats/fif.md`.
 //! Provenance: `docs/provenance/heka-patchmaster.md` (HEKA's public file-format documents and the
 //! MIT-licensed load-heka-python), `docs/provenance/ced-spike2.md` (Neo's BSD-3 `Spike2RawIO`); no
 //! vendor software or SDK was opened.
@@ -56,11 +57,21 @@ pub mod axona;
 #[doc(hidden)]
 pub mod brainvision;
 #[doc(hidden)]
+pub mod brw;
+#[doc(hidden)]
 pub mod edf;
 #[doc(hidden)]
 pub mod eeglab;
 #[doc(hidden)]
+pub mod fif;
+#[doc(hidden)]
+pub mod h5rec;
+#[doc(hidden)]
 pub mod heka;
+#[doc(hidden)]
+pub mod maxwell;
+#[doc(hidden)]
+pub mod mcsh5;
 #[doc(hidden)]
 pub mod mcsraw;
 #[doc(hidden)]
@@ -74,9 +85,13 @@ pub mod winwcp;
 
 pub use axona::{AXONA_FORMAT_ID, AxonaReader};
 pub use brainvision::{BRAINVISION_FORMAT_ID, BrainVisionReader};
+pub use brw::{BRW_FORMAT_ID, BrwReader};
 pub use edf::{EDF_FORMAT_ID, EdfReader};
 pub use eeglab::{EEGLAB_FORMAT_ID, EeglabReader};
+pub use fif::{FIF_FORMAT_ID, FifReader};
 pub use heka::{HEKA_FORMAT_ID, HekaReader};
+pub use maxwell::{MAXWELL_FORMAT_ID, MaxwellReader};
+pub use mcsh5::{MCS_HDF5_FORMAT_ID, McsHdf5Reader};
 pub use mcsraw::{MCS_RAW_FORMAT_ID, McsRawReader};
 pub use openephys::{OPEN_EPHYS_FORMAT_ID, OpenEphysReader};
 pub use spike2::{SPIKE2_FORMAT_ID, Spike2Reader};

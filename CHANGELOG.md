@@ -9,6 +9,10 @@ All notable changes to this project are documented here. The format is based on 
 - EEG and polysomnography recordings in the European Data Format: EDF, EDF+, BDF and BDF+ (`edf`), with one trace per sample rate, EDF+ annotations as a table and discontinuous EDF+D recordings as sweeps. Checked against pyedflib and MNE-Python.
 - BrainVision recordings (`brainvision`: `.vhdr` header, `.vmrk` markers, `.eeg` samples) in INT_16, UINT_16, INT_32, IEEE_FLOAT_32 or ASCII, multiplexed or vectorized, with the markers as a table and marker-based segments as sweeps. Checked against MNE-Python and Neo.
 - EEGLAB datasets (`eeglab`: `.set` MAT-files, with the samples inside or in a `.fdt`), continuous or epoched, with `EEG.event` as a table. A pure-Rust reader of level-5 MAT-files (compressed or not) underlies it, and MAT 7.3 (HDF5) files are read through `hdf5-pure`. Checked against SciPy, pymatreader and MNE-Python.
+- MEG and EEG recordings in FIF (`fif`): MEGIN / Elekta Neuromag raw, continuous and MaxShield data and the `_raw.fif` files MNE writes, with data skips as sweeps, split files read as one and MNE annotations as a table. Checked against MNE-Python.
+- Multi Channel Systems HDF5 files (`mcs-hdf5`, Multi Channel DataManager's RawData protocol): analog streams as traces with their segments as sweeps, event and time-stamp streams as tables. Checked against McsPyDataTools.
+- 3Brain BrainWave raw data (`brw`, BRW 3.x and 4.x). Checked against Neo.
+- MaxWell MaxOne and MaxTwo recordings (`maxwell-h5`) in uncompressed layouts; files compressed with MaxWell's own HDF5 filter are refused with a hint. Checked against Neo.
 
 ## [0.4.0] - 2026-10-17
 

@@ -1,6 +1,6 @@
 # Maintaining `openreadout-ephys`
 
-Formats: `heka-patchmaster`, `ced-spike2`, `winwcp`, `open-ephys`, `tdt-tank`, `axona-dacqusb`, `mcs-raw`, `edf`, `brainvision`, `eeglab`. Start with [docs/maintaining.md](../../docs/maintaining.md) for the project-wide process.
+Formats: `heka-patchmaster`, `ced-spike2`, `winwcp`, `open-ephys`, `tdt-tank`, `axona-dacqusb`, `mcs-raw`, `edf`, `brainvision`, `eeglab`, `fif`, `mcs-hdf5`, `brw`, `maxwell-h5`. Start with [docs/maintaining.md](../../docs/maintaining.md) for the project-wide process.
 
 ## Decode pipeline
 
@@ -15,9 +15,11 @@ Independent readers share the crate; `src/lib.rs` registers each and its `detect
 - **EDF, EDF+, BDF and BDF+** (`src/edf/`): the 256-byte header and 256 bytes per signal (stored field by field), then data records holding each signal's samples in turn (2-byte or, in BDF, 3-byte little-endian). Signals with the same samples per record are one trace; the `EDF Annotations` / `BDF Annotations` signals are read at open: their time-keeping TALs give each record's start (EDF+D runs of contiguous records become sweeps) and the other TALs the `annotations` table. TAL times are parsed to exact nanoseconds and count from the first record's start.
 - **BrainVision** (`src/brainvision/`): the `.vhdr` INI header (identification line, `[Common Infos]`, `[Binary Infos]` or `[ASCII Infos]`, `[Channel Infos]`, `[Coordinates]`, free text from `[Comment]` on) names the data and marker files; the dataset opens from any of the three. Samples are multiplexed frames or vectorized channel runs of INT_16, UINT_16, INT_32 or IEEE_FLOAT_32 (ASCII multiplexed lines are indexed at open), × each channel's resolution. `MARKERBASED` segments that divide the data evenly are sweeps; the `.vmrk` markers are the `markers` table.
 - **EEGLAB** (`src/eeglab/`): `mat.rs` parses a level-5 MAT-file (128-byte header, tagged elements padded to 8, `miCOMPRESSED` variables inflated with zlib as a stream) into arrays, keeping only the place of numeric arrays over `MAX_MAT_INLINE` bytes. `mat73.rs` turns a MAT 7.3 (HDF5) file into the same arrays. `mod.rs` reads the `EEG` structure from the variable `EEG` or from one variable per field, finds the samples (a `.fdt` of float32 frames, or the `data` array, read at its place or inflated once), and makes one trace with the epochs as sweeps and `EEG.event` as the `events` table.
+- **FIF** (`src/fif/`): the tag directory (or a scan that follows each tag's `next`, also backwards) is nested into blocks; the measurement info gives the channels (96-byte channel-info tags, extended by the per-channel blocks) and the rate; the raw, continuous or MaxShield data block lists data buffers (samples × channels, big-endian int16, int32, float32 or float64), numbered from the first-sample tag, with data skips cutting sweeps. Split files are followed through their reference blocks. One trace, values × range × cal; MNE annotations become a table.
+- **MEA HDF5 files** share `src/h5rec.rs`: compound tables with variable-length strings (resolved in the global heap) and column windows of 2-D sample matrices through `openreadout_hdf5::h5util::PlaneDataset`. **MCS HDF5** (`src/mcsh5/`): every `/Data/Recording_x/AnalogStream/Stream_x` is a trace (channels by `InfoChannel.RowIndex`, segments of `ChannelDataTimeStamps` as sweeps, the vendor's value formula), event and time-stamp streams are tables. **BRW** (`src/brw/`): BRW 3.x recording variables and `3BData/Raw` (matrix or interleaved), BRW 4.x JSON settings and `Well_*/Raw`. **MaxWell** (`src/maxwell/`): layout 20160704 `/sig` rows by mapped channel, later layouts `data_store/*/groups/routed/raw`; filter 401 is refused.
 - **Open Ephys** (`src/openephys/`). `mod.rs` claims a recording directory (or its `structure.oebin` / a `.continuous` file) and picks the layout. `binary.rs`: `[Record Node N/]experimentE/recordingR/` with `structure.oebin` (JSON), interleaved int16 `continuous.dat`, `sample_numbers.npy` (GUI 0.6+) or integer `timestamps.npy` (older), and `events/<stream>/*.npy`; `npy.rs` is the minimal `.npy` reader. `legacy.rs`: one `.continuous` file per channel (1024-byte text header, 2070-byte records of 1024 big-endian int16 samples), `.events` and `.spikes`, with `_2`, `_3` … suffixes for later experiments. `dataset.rs` joins both into traces per stream.
 
-Versions branch at: the bundle signature and writer version (`bundle.rs`), the tree magic, level count and record sizes (`tree.rs`), the Spike2 file version in the header (`file.rs`), and the Open Ephys GUI version in `structure.oebin` / the legacy header (`binary.rs`, `legacy.rs`). The TDT reader branches on the event type and data format codes of each store (`tsq.rs`) and on block versus tank (`mod.rs`); Axona on the tetrode file header (`num_chans`, `bytes_per_sample`); MC_DataTool on the stream kinds in `Streams`; EDF on the version field (16- or 24-bit samples) and the reserved field (`EDF+C`, `EDF+D`: annotations and record times); BrainVision on `DataFormat`, `DataOrientation` and `BinaryFormat`; EEGLAB on the MAT-file version and compression, one `EEG` variable or one per field, and `.fdt` or embedded samples. The assurance profile (`src/assurance.rs`) turns each of these into a variant feature.
+Versions branch at: the bundle signature and writer version (`bundle.rs`), the tree magic, level count and record sizes (`tree.rs`), the Spike2 file version in the header (`file.rs`), and the Open Ephys GUI version in `structure.oebin` / the legacy header (`binary.rs`, `legacy.rs`). The TDT reader branches on the event type and data format codes of each store (`tsq.rs`) and on block versus tank (`mod.rs`); Axona on the tetrode file header (`num_chans`, `bytes_per_sample`); MC_DataTool on the stream kinds in `Streams`; EDF on the version field (16- or 24-bit samples) and the reserved field (`EDF+C`, `EDF+D`: annotations and record times); BrainVision on `DataFormat`, `DataOrientation` and `BinaryFormat`; EEGLAB on the MAT-file version and compression, one `EEG` variable or one per field, and `.fdt` or embedded samples; FIF on the file-id version, the buffer type and the data block (raw, continuous, MaxShield); MCS HDF5 on the protocol version and the stream sub-type (digital streams unscaled); BRW on the generation and the `3BData` version; MaxWell on `/version`. The assurance profile (`src/assurance.rs`) turns each of these into a variant feature.
 
 ## Invariants and checks
 
@@ -35,7 +37,7 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 1. `openreadout info FILE --view format` and `openreadout info FILE --json`, then read `assurance` (which variant feature is unseen) and `notes`.
 2. `openreadout info FILE --view structure` lists the bundle items, tree levels, Spike2 channels and block counts, or the Open Ephys streams; `openreadout info FILE --view full` prints the parsed headers and the vendor tree.
 3. `openreadout check FILE` for structural problems (damaged blocks, records past the end).
-4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO`, `OpenEphysBinaryRawIO`/`OpenEphysRawIO`, `WinWcpRawIO`, `TdtRawIO`, `AxonaRawIO` and `RawMCSRawIO` for the others, pyedflib and MNE-Python for EDF, MNE-Python and Neo's `BrainVisionRawIO` for BrainVision, SciPy's `loadmat` and MNE-Python for EEGLAB (run as documented in `oracle/`; see each provenance log for licences).
+4. Compare with the oracles the corpus uses: load-heka-python and pyHEKA for PatchMaster, Neo's `Spike2RawIO`, `OpenEphysBinaryRawIO`/`OpenEphysRawIO`, `WinWcpRawIO`, `TdtRawIO`, `AxonaRawIO` and `RawMCSRawIO` for the others, pyedflib and MNE-Python for EDF, MNE-Python and Neo's `BrainVisionRawIO` for BrainVision, SciPy's `loadmat` and MNE-Python for EEGLAB, MNE-Python for FIF, h5py with McsPyDataTools for MCS HDF5, Neo's `BiocamRawIO` for BRW and h5py with Neo's `MaxwellRawIO` for MaxWell (run as documented in `oracle/`; see each provenance log for licences).
 5. Start from the synthetic fixtures in `src/spike2/tests.rs` and `src/openephys/tests.rs` to reproduce a layout without the corpus, and add the file with `cargo xtask variant intake` (`docs/maintaining.md`).
 
 ## Fragile spots
@@ -53,6 +55,11 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 - **BrainVision float scaling.** The reader multiplies every format by the channel's resolution, as MNE and the pybv writer do; Neo leaves IEEE_FLOAT_32 values unscaled. Files with float data and a resolution other than 1 are where the two would differ.
 - **BrainVision file names.** Renamed recordings often name a data file that no longer exists; the reader then takes the header's own stem (as MNE and Neo do), and finds names that differ only in case.
 - **EEGLAB MAT-files.** Large `data` arrays are located, not read, when the `.set` is parsed; in a compressed `.set` reading them inflates the whole variable once (capped at `MAX_EEGLAB_INFLATED`). A writer that stores `data` as a cell or sparse array would be refused, not misread. MAT 7.3 files (`mat73.rs`) are walked with `hdf5-pure`: a group whose datasets are all object references without a `MATLAB_class` is taken as a struct array; a new MATLAB writer that marks those fields would read as a scalar struct of cells.
+- **FIF tag chains.** MNE-C links blocks written last back into the chain (`next` pointing backwards); a scan that stops at a backward pointer misses the measurement info. Directory entries of −1s end the directory.
+- **FIF reads across buffers.** A read that runs out of its byte budget inside a buffer must stop there; the next page starts in the same buffer.
+- **MCS digital streams** carry conversion factor 0 or 1: their stored numbers are kept rather than scaled to 0.
+- **BRW channel names.** BRW 4.x names are stored indices; Neo names them from a square grid, which is wrong for subsets (the oracle uses the stored indices).
+- **MaxWell compression.** Files from MaxLab 20.x usually use filter 401, which only MaxWell's binary plugin decodes; they are refused, and the corpus keeps them as refusal cases. Layout 20160704 stores no frame rate (20 kHz assumed).
 - **Spike2 pauses and ticks.** Sweep boundaries come from gaps between data blocks; a writer that splits blocks without a pause would create spurious sweeps. Times depend on the file's tick (µs per time unit × base).
 
 <!-- BEGIN GENERATED guide -->
@@ -70,6 +77,10 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | `edf` | [format note](../../docs/formats/edf.md), [provenance log](../../docs/provenance/edf.md) | high | open spec | 28 / 28 | 17 | - |
 | `brainvision` | [format note](../../docs/formats/brainvision.md), [provenance log](../../docs/provenance/brainvision.md) | high | prior art | 13 / 13 | 8 | - |
 | `eeglab` | [format note](../../docs/formats/eeglab.md), [provenance log](../../docs/provenance/eeglab.md) | high | prior art | 13 / 13 | 11 | - |
+| `fif` | [format note](../../docs/formats/fif.md), [provenance log](../../docs/provenance/fif.md) | high | prior art | 12 / 12 | 5 | - |
+| `mcs-hdf5` | [format note](../../docs/formats/mcs-hdf5.md), [provenance log](../../docs/provenance/mcs-hdf5.md) | high | vendor docs | 5 / 5 | 3 | - |
+| `brw` | [format note](../../docs/formats/brw.md), [provenance log](../../docs/provenance/brw.md) | medium | prior art | 4 / 4 | 1 | - |
+| `maxwell-h5` | [format note](../../docs/formats/maxwell-h5.md), [provenance log](../../docs/provenance/maxwell-h5.md) | low | prior art | 1 / 1 | 1 | - |
 | `tdt-tank` | [format note](../../docs/formats/tdt-tank.md), [provenance log](../../docs/provenance/tdt-tank.md) | high | prior art | 11 / 11 | 6 | - |
 | `axona-dacqusb` | [format note](../../docs/formats/axona-dacqusb.md), [provenance log](../../docs/provenance/axona-dacqusb.md) | low | prior art | 3 / 3 | 1 | - |
 | `mcs-raw` | [format note](../../docs/formats/mcs-raw.md), [provenance log](../../docs/provenance/mcs-raw.md) | low | prior art | 1 / 1 | 1 | - |
@@ -84,17 +95,26 @@ Versions branch at: the bundle signature and writer version (`bundle.rs`), the t
 | [`src/axona/tests.rs`](src/axona/tests.rs) | Synthetic-session tests of the Axona reader |
 | [`src/brainvision/mod.rs`](src/brainvision/mod.rs) | BrainVision Core Data Format recordings: a text header (`.vhdr`), a text marker file (`.vmrk`) and the samples (`.eeg`, or `.dat`), as BrainVision Recorder and Analyzer, pybv, |
 | [`src/brainvision/tests.rs`](src/brainvision/tests.rs) | Synthetic-recording tests of the BrainVision reader |
+| [`src/brw/mod.rs`](src/brw/mod.rs) | 3Brain BrainWave raw data files (`.brw`, HDF5) of BioCAM high-density MEA systems |
+| [`src/brw/tests.rs`](src/brw/tests.rs) | Synthetic-file tests of the BRW reader, with HDF5 files written by hdf5-pure |
 | [`src/edf/mod.rs`](src/edf/mod.rs) | European Data Format files: EDF, EDF+ (`.edf`), and BioSemi's 24-bit variants BDF and BDF+ (`.bdf`) |
 | [`src/edf/tests.rs`](src/edf/tests.rs) | Synthetic-file tests of the EDF / BDF reader |
 | [`src/eeglab/mat.rs`](src/eeglab/mat.rs) | MATLAB level-5 MAT-files (the container of EEGLAB `.set` files): a 128-byte header, then data elements, each a tag (type, byte count) and its bytes padded to 8; top-level variables |
 | [`src/eeglab/mat73.rs`](src/eeglab/mat73.rs) | MATLAB 7.3 MAT-files: HDF5 files after a 512-byte userblock |
 | [`src/eeglab/mod.rs`](src/eeglab/mod.rs) | EEGLAB datasets (`.set`, with the samples inside it or in a `.fdt` next to it): a MATLAB MAT-file holding the `EEG` structure, either as one variable `EEG` or as one variable per |
 | [`src/eeglab/tests.rs`](src/eeglab/tests.rs) | Synthetic-dataset tests of the EEGLAB reader, with MAT-files written here |
+| [`src/fif/mod.rs`](src/fif/mod.rs) | FIF files (Functional Image File format): the MEG and EEG recordings of MEGIN / Elekta Neuromag systems and the files MNE-Python and MNE-C write |
+| [`src/fif/tests.rs`](src/fif/tests.rs) | Synthetic-file tests of the FIF reader, with FIF files written here |
+| [`src/h5rec.rs`](src/h5rec.rs) | HDF5 helpers shared by the multi-electrode-array readers (`mcsh5`, `brw`, `maxwell`): table datasets of compound records whose members may be variable-length strings (resolved… |
 | [`src/heka/bundle.rs`](src/heka/bundle.rs) | The PatchMaster "bundle" header: a signature, the writing program's version, and up to twelve items, each the start, length and extension of an embedded file (`.dat` samples… |
 | [`src/heka/dataset.rs`](src/heka/dataset.rs) | `Dataset` for a PatchMaster bundle: every series is a trace (sweeps × channels); channels of a series whose sample interval or point counts differ form further traces of that… |
 | [`src/heka/mod.rs`](src/heka/mod.rs) | HEKA PatchMaster bundle files (`.dat`): a bundle header, the samples, and the pulsed tree (Root → Group → Series → Sweep → Trace) |
 | [`src/heka/tree.rs`](src/heka/tree.rs) | HEKA's "Tree" container and the pulsed tree (`.pul`) inside a bundle: Root → Group → Series → Sweep → Trace records, each followed by its child count |
 | [`src/lib.rs`](src/lib.rs) | Readers for electrophysiology recordings that have no other home in OpenReadout: HEKA PatchMaster bundles (`heka-patchmaster`), CED Spike2 `.smr`/`.smrx` files (`ced-spike2`), |
+| [`src/maxwell/mod.rs`](src/maxwell/mod.rs) | MaxWell Biosystems MaxOne and MaxTwo recordings (`.raw.h5`, HDF5) |
+| [`src/maxwell/tests.rs`](src/maxwell/tests.rs) | Synthetic-file tests of the MaxWell reader, with HDF5 files written by hdf5-pure |
+| [`src/mcsh5/mod.rs`](src/mcsh5/mod.rs) | Multi Channel Systems HDF5 files (`.h5`, MCS-HDF5 protocol type `RawData`), as Multi Channel DataManager writes them when it converts MC_Rack, Multi Channel Experimenter and Multi… |
+| [`src/mcsh5/tests.rs`](src/mcsh5/tests.rs) | Synthetic-file tests of the MCS HDF5 reader, with HDF5 files written by hdf5-pure |
 | [`src/mcsraw/mod.rs`](src/mcsraw/mod.rs) | Multi Channel Systems MC_DataTool binary exports (`.raw` written with the header option): a text header ending at `EOH`, then interleaved uint16 frames of every stream |
 | [`src/mcsraw/tests.rs`](src/mcsraw/tests.rs) | Synthetic-file tests of the MC_DataTool reader |
 | [`src/openephys/binary.rs`](src/openephys/binary.rs) | Open Ephys binary format: `[Record Node N/]experimentE/recordingR/` directories, each with a `structure.oebin` (JSON), `continuous/<stream>/continuous.dat` (interleaved int16) with |
@@ -134,6 +154,15 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature sample_layout `format!("{s} {dtype}")`
 - feature layout `"epochs"`
 - feature record `"events"`
+- feature layout `b`
+- feature layout `"skips"`
+- feature layout `"split file"`
+- feature layout `"segments"`
+- feature layout `"digital stream"`
+- feature record `n`
+- feature layout `l`
+- feature layout `"signal inversion"`
+- feature writer_version `v`
 - feature layout `"tank", &all`
 - feature layout `"block", &all`
 - feature record `"stream"`
@@ -142,7 +171,6 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature record `"strobe-off"`
 - feature layout `"raw packets"`
 - feature record `"tetrode spikes"`
-- feature writer_version `v`
 - feature record `k`
 - feature layout `"binary"`
 - feature format_version `format!("GUI {p}")`
@@ -153,10 +181,12 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature record `what`
 - feature writer_version `v` (descriptive)
 - feature writer `w` (descriptive)
+- feature writer `c` (descriptive)
 - feature layout `"several sweeps"` (descriptive)
 - feature acquisition `m` (descriptive)
 - feature layout `"series split by sample grid"` (descriptive)
 - undecoded "cut-short files"
+- undecoded "segment and frame streams"
 - undecoded "unread stores"
 - undecoded "scalar records"
 - undecoded "data past the end of the .tev"
@@ -168,11 +198,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - undecoded "missing streams"
 - undecoded "unvalidated traces"
 - undecoded "damaged trace records"
+- assumed "traces[].sample_rate_hz"
 - assumed "channel units"
 - assumed "zero subtraction"
 - calibration "ADC counts to channel units"
 - calibration "digital to physical values"
 - calibration "stored values to channel units"
+- calibration "stored numbers to channel units"
+- calibration "stored steps to channel units"
+- calibration "digital levels to µV"
+- calibration "levels to µV"
 - calibration "ADC counts to µV"
 - calibration "ADC counts to amperes and volts"
 
@@ -198,6 +233,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `brainvision` | writer | `BrainVision Recorder` | descriptive | 2 | 2 | `mnepython-bv-test`, `openneuro-ds005530-sub-03112021304-task-sleep-run-02` |
 | `brainvision` | writer | `FieldTrip` | descriptive | 2 | 2 | `gin-brainvision-4-float32`, `openneuro-ds003190-sub-017-ses-03-task-cnos-run-4` |
 | `brainvision` | writer | `pybv` | descriptive | 3 | 3 | `openneuro-ds005262-sub-10-ses-8-task-innerspeech`, `openneuro-ds007541-sub-01-ses-02-task-verification-run-05`, `openneuro-ds007720-sub-p2-ses-5-task-rsvpcopyphrase-run-6` |
+| `brw` | field | `experiment.acquisition.started_at` | descriptive | 1 | 1 | `gin-biocam-hw3-0-fw1-7-0-12-raw` |
+| `brw` | format_version | `BRW 3.x` | metadata, traces | 3 | 3 | `gin-biocam-hw3-0-fw1-6`, `gin-biocam-version-100`, `gin-biocam-version-101` |
+| `brw` | format_version | `BRW 4.x` | metadata, traces | 1 | 1 | `gin-biocam-hw3-0-fw1-7-0-12-raw` |
+| `brw` | layout | `frame matrix (3BData 100)` | traces | 1 | 1 | `gin-biocam-version-100` |
+| `brw` | layout | `interleaved (3BData 101)` | traces | 1 | 1 | `gin-biocam-version-101` |
+| `brw` | layout | `interleaved (3BData unversioned)` | traces | 1 | 1 | `gin-biocam-hw3-0-fw1-6` |
+| `brw` | layout | `interleaved per well` | traces | 1 | 1 | `gin-biocam-hw3-0-fw1-7-0-12-raw` |
+| `brw` | writer_version | `1.6.-1.-1` | metadata | 2 | 2 | `gin-biocam-version-100`, `gin-biocam-version-101` |
+| `brw` | writer_version | `1.6.1.6` | metadata | 1 | 1 | `gin-biocam-hw3-0-fw1-6` |
+| `brw` | writer_version | `1.7.0.12` | metadata | 1 | 1 | `gin-biocam-hw3-0-fw1-7-0-12-raw` |
 | `ced-spike2` | field | `experiment.acquisition.started_at` | descriptive | 21 | 23 | `figshare25112837-fig2-aud-smrx`, `figshare26177569-sssort-doubleab-smrx`, `figshare26177569-sssort-singlea-smrx` |
 | `ced-spike2` | format_version | `3` | metadata, tables, traces | 2 | 2 | `spike2-file-spike2-3-smr`, `zenodo4985334-aa-mvc-smr` |
 | `ced-spike2` | format_version | `4` | metadata, tables, traces | 1 | 1 | `spike2-file-spike2-1-smr` |
@@ -250,26 +295,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `eeglab` | writer | `MATLAB PCWIN64` | descriptive | 8 | 8 | `figshare-14459286-311-epochs-before`, `openneuro-ds003800-sub-001-task-rest`, `openneuro-ds004362-sub-001-task-motion-run-1` |
 | `eeglab` | writer | `SciPy` | descriptive | 3 | 3 | `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files`, `gin-eeglab-epoched-ica` |
 | `eeglab` | writer_version | `14.1.2` | descriptive | 1 | 1 | `figshare-14459286-311-epochs-before` |
-| `eeglab` | writer_version | `2020.0` | descriptive | 1 | 1 | `openneuro-ds003800-sub-001-task-rest` |
-| `eeglab` | writer_version | `2022.0` | descriptive | 1 | 1 | `openneuro-ds006923-sub-1009sg-task-restingstate-acq-epochs` |
-| `eeglab` | writer_version | `2022.1` | descriptive | 1 | 1 | `openneuro-ds004362-sub-001-task-motion-run-1` |
-| `eeglab` | writer_version | `2023.1` | descriptive | 1 | 1 | `openneuro-ds005048-sub-02-task-40hzauditoryentrainment` |
-| `eeglab` | writer_version | `2024.0` | descriptive | 1 | 1 | `openneuro-ds006394-sub-01-task-sid` |
-| `eeglab` | writer_version | `2024.2` | descriptive | 1 | 1 | `openneuro-ds005628-sub-1-task-edzna-run-1` |
-| `eeglab` | writer_version | `2025.0.0` | descriptive | 2 | 2 | `openneuro-ds006260-sub-mc02-ses-1-task-smartickdataset-run-2`, `openneuro-ds007006-sub-001-task-ivan` |
-| `eeglab` | writer_version | `2025.1.0` | descriptive | 1 | 1 | `openneuro-ds007406-sub-002-task-extremeversustraditionalvideos` |
-| `eeglab` | writer_version | `synthetic (not written by EEGLAB)` | descriptive | 2 | 2 | `gin-eeglab-continuous-one-file`, `gin-eeglab-continuous-two-files` |
-| `heka-patchmaster` | acquisition | `current-clamp` | descriptive | 7 | 7 | `gin-ephy-testing-data-heka-generation-v2x65-two-series-mixed-modes`, `gin-ephy-testing-data-heka-generation-v2x90-2-two-amplifier-channels`, `gin-ephy-testing-data-heka-generation-v2x90-3-eight-headstages` |
 
-… 44 more values: the generated table in `src/assurance.rs` has all of them.
+… 83 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: none (unit tests in `src/`)
 - committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_brainvision`, `whole_edf`, `whole_eeglab`, `whole_heka`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
-- corpus inputs by tier: full 1, heldout 5, smoke 64, standard 60
-- golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/edf.jsonl`](../../corpus/snapshots/edf.jsonl), [`corpus/snapshots/brainvision.jsonl`](../../corpus/snapshots/brainvision.jsonl), [`corpus/snapshots/eeglab.jsonl`](../../corpus/snapshots/eeglab.jsonl), [`corpus/snapshots/tdt-tank.jsonl`](../../corpus/snapshots/tdt-tank.jsonl), [`corpus/snapshots/axona-dacqusb.jsonl`](../../corpus/snapshots/axona-dacqusb.jsonl), [`corpus/snapshots/mcs-raw.jsonl`](../../corpus/snapshots/mcs-raw.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
+- fuzz targets (`fuzz/fuzz_targets/`): `whole_axona`, `whole_brainvision`, `whole_brw`, `whole_edf`, `whole_eeglab`, `whole_fif`, `whole_heka`, `whole_maxwell`, `whole_mcs_hdf5`, `whole_mcs_raw`, `whole_openephys`, `whole_spike2`, `whole_tdt`, `whole_winwcp`
+- corpus inputs by tier: full 2, heldout 5, smoke 70, standard 82
+- golden snapshots: [`corpus/snapshots/heka-patchmaster.jsonl`](../../corpus/snapshots/heka-patchmaster.jsonl), [`corpus/snapshots/ced-spike2.jsonl`](../../corpus/snapshots/ced-spike2.jsonl), [`corpus/snapshots/winwcp.jsonl`](../../corpus/snapshots/winwcp.jsonl), [`corpus/snapshots/edf.jsonl`](../../corpus/snapshots/edf.jsonl), [`corpus/snapshots/brainvision.jsonl`](../../corpus/snapshots/brainvision.jsonl), [`corpus/snapshots/eeglab.jsonl`](../../corpus/snapshots/eeglab.jsonl), [`corpus/snapshots/fif.jsonl`](../../corpus/snapshots/fif.jsonl), [`corpus/snapshots/mcs-hdf5.jsonl`](../../corpus/snapshots/mcs-hdf5.jsonl), [`corpus/snapshots/brw.jsonl`](../../corpus/snapshots/brw.jsonl), [`corpus/snapshots/maxwell-h5.jsonl`](../../corpus/snapshots/maxwell-h5.jsonl), [`corpus/snapshots/tdt-tank.jsonl`](../../corpus/snapshots/tdt-tank.jsonl), [`corpus/snapshots/axona-dacqusb.jsonl`](../../corpus/snapshots/axona-dacqusb.jsonl), [`corpus/snapshots/mcs-raw.jsonl`](../../corpus/snapshots/mcs-raw.jsonl), [`corpus/snapshots/open-ephys.jsonl`](../../corpus/snapshots/open-ephys.jsonl)
 
 ### Open new-variant intakes
 

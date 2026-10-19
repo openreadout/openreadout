@@ -208,6 +208,183 @@ fn observe_eeglab(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static FIF: AssuranceProfile = AssuranceProfile {
+    format_id: "fif",
+    observe: observe_fif,
+    validated: FIF_VALIDATED,
+    confidence: FIF_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_fif(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &all);
+    }
+    for t in &info.traces {
+        if let Some(c) = t.channels.first() {
+            o.feature(K::SampleLayout, &c.dtype, &[Scope::Traces]);
+        }
+        if let Some(b) = a::extra_str(&t.extra, "data_block") {
+            o.feature(K::Layout, b, &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "skips", &[Scope::Traces]);
+        }
+        if t.extra.contains_key("split_parts") {
+            o.feature(K::Layout, "split file", &[Scope::Traces]);
+        }
+        if let Some(cs) = t.extra.get("creators").and_then(|v| v.as_array()) {
+            for c in cs.iter().filter_map(|c| c.as_str()) {
+                o.context(K::Writer, c);
+            }
+        }
+    }
+    if info
+        .tables
+        .iter()
+        .any(|t| t.name.as_deref() == Some("annotations"))
+    {
+        o.feature(K::Record, "annotations", &[Scope::Tables]);
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "stored numbers to channel units",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "stored value × range × cal per channel; projections and compensation are not applied",
+        );
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded("cut-short files", &[Scope::Traces], n.to_string());
+    }
+    o
+}
+
+pub(crate) static MCS_HDF5: AssuranceProfile = AssuranceProfile {
+    format_id: "mcs-hdf5",
+    observe: observe_mcs_hdf5,
+    validated: MCS_HDF5_VALIDATED,
+    confidence: MCS_HDF5_CONFIDENCE,
+    basis: Basis::VendorDocs,
+};
+
+fn observe_mcs_hdf5(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &all);
+    }
+    for t in &info.traces {
+        if let Some(c) = t.channels.first() {
+            o.feature(K::SampleLayout, &c.dtype, &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "segments", &[Scope::Traces]);
+        }
+        if a::extra_str(&t.extra, "data_subtype") == Some("Digital") {
+            o.feature(K::Layout, "digital stream", &[Scope::Traces]);
+        }
+        if let Some(w) = a::extra_str(&t.extra, "writer") {
+            o.context(K::Writer, w);
+        }
+        if let Some(v) = a::extra_str(&t.extra, "writer_version") {
+            o.context(K::WriterVersion, v);
+        }
+    }
+    for t in &info.tables {
+        if let Some(n) = t.name.as_deref() {
+            o.feature(K::Record, n, &[Scope::Tables]);
+        }
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "stored steps to channel units",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "(stored − ADZero) × ConversionFactor × 10^Exponent per channel; digital streams unscaled",
+        );
+    }
+    if let Some(n) = a::note_with(info, "streams not read") {
+        o.undecoded("segment and frame streams", &[], n.to_string());
+    }
+    o
+}
+
+pub(crate) static BRW: AssuranceProfile = AssuranceProfile {
+    format_id: "brw",
+    observe: observe_brw,
+    validated: BRW_VALIDATED,
+    confidence: BRW_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_brw(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &[Scope::Metadata, Scope::Traces]);
+    }
+    for t in &info.traces {
+        if let Some(l) = a::extra_str(&t.extra, "layout") {
+            o.feature(K::Layout, l, &[Scope::Traces]);
+        }
+        if t.extra.contains_key("signal_inversion") {
+            o.feature(K::Layout, "signal inversion", &[Scope::Traces]);
+        }
+        if let Some(v) = a::extra_str(&t.extra, "firmware_version") {
+            o.feature(K::WriterVersion, v, &[Scope::Metadata]);
+        }
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "digital levels to µV",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "level × (max − min analog value) / digital range + min analog value",
+        );
+    }
+    o
+}
+
+pub(crate) static MAXWELL: AssuranceProfile = AssuranceProfile {
+    format_id: "maxwell-h5",
+    observe: observe_maxwell,
+    validated: MAXWELL_H5_VALIDATED,
+    confidence: MAXWELL_H5_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_maxwell(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &[Scope::Metadata, Scope::Traces]);
+    }
+    for t in &info.traces {
+        if let Some(c) = t.channels.first() {
+            o.feature(K::SampleLayout, &c.dtype, &[Scope::Traces]);
+        }
+        if let Some(v) = a::extra_str(&t.extra, "mxw_version") {
+            o.feature(K::WriterVersion, v, &[Scope::Metadata]);
+        }
+        if t.extra.contains_key("sample_rate_assumed") {
+            o.assumed(
+                "traces[].sample_rate_hz",
+                "layout 20160704 stores no frame rate; 20 kHz assumed",
+            );
+        }
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "levels to µV",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "stored level × lsb × 10^6; the level of 0 V is not subtracted",
+        );
+    }
+    o
+}
+
 pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
     format_id: "tdt-tank",
     observe: observe_tdt,
@@ -734,6 +911,73 @@ const EEGLAB_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "synthetic (not written by EEGLAB)", 2, 1, 2),
 ];
 // END GENERATED eeglab
+
+// BEGIN GENERATED fif (cargo xtask assurance-audit --write; do not edit)
+const FIF_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const FIF_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 9),
+    a::row(K::FormatVersion, "1.1", 1, 1, 1),
+    a::row(K::FormatVersion, "1.2", 4, 1, 4),
+    a::row(K::FormatVersion, "1.3", 2, 1, 2),
+    a::row(K::FormatVersion, "1.4", 5, 4, 5),
+    a::row(K::Layout, "raw", 12, 5, 12),
+    a::row(K::Record, "annotations", 2, 2, 2),
+    a::row(K::SampleLayout, "float32", 9, 4, 9),
+    a::row(K::SampleLayout, "int16", 3, 2, 3),
+    a::row(K::Writer, "create_ct_matrix 1.0", 1, 1, 1),
+    a::row(K::Writer, "hpi_psd 1.0", 2, 1, 2),
+    a::row(K::Writer, "hpi_psd 1.5", 1, 1, 1),
+    a::row(K::Writer, "maxfilter 2.1.15", 1, 1, 1),
+];
+// END GENERATED fif
+
+// BEGIN GENERATED mcs-hdf5 (cargo xtask assurance-audit --write; do not edit)
+const MCS_HDF5_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const MCS_HDF5_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 5),
+    a::row(K::FormatVersion, "RawData 1", 1, 1, 1),
+    a::row(K::FormatVersion, "RawData 3", 4, 2, 4),
+    a::row(K::Layout, "digital stream", 3, 2, 3),
+    a::row(K::Layout, "segments", 2, 1, 2),
+    a::row(K::Record, "events", 3, 2, 3),
+    a::row(K::Record, "timestamps", 1, 1, 1),
+    a::row(K::SampleLayout, "int32", 5, 3, 5),
+    a::row(K::Writer, "Multi Channel DataManager", 4, 2, 4),
+    a::row(K::Writer, "Multi Channel Experimenter", 1, 1, 1),
+    a::row(K::WriterVersion, "0.9.8.2", 1, 1, 1),
+    a::row(K::WriterVersion, "1.14.10.23023", 2, 1, 2),
+    a::row(K::WriterVersion, "1.8.6.0", 2, 1, 2),
+];
+// END GENERATED mcs-hdf5
+
+// BEGIN GENERATED brw (cargo xtask assurance-audit --write; do not edit)
+const BRW_CONFIDENCE: Confidence = Confidence::Medium;
+#[rustfmt::skip]
+const BRW_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 1),
+    a::row(K::FormatVersion, "BRW 3.x", 3, 1, 3),
+    a::row(K::FormatVersion, "BRW 4.x", 1, 1, 1),
+    a::row(K::Layout, "frame matrix (3BData 100)", 1, 1, 1),
+    a::row(K::Layout, "interleaved (3BData 101)", 1, 1, 1),
+    a::row(K::Layout, "interleaved (3BData unversioned)", 1, 1, 1),
+    a::row(K::Layout, "interleaved per well", 1, 1, 1),
+    a::row(K::WriterVersion, "1.6.-1.-1", 2, 1, 2),
+    a::row(K::WriterVersion, "1.6.1.6", 1, 1, 1),
+    a::row(K::WriterVersion, "1.7.0.12", 1, 1, 1),
+];
+// END GENERATED brw
+
+// BEGIN GENERATED maxwell-h5 (cargo xtask assurance-audit --write; do not edit)
+const MAXWELL_H5_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const MAXWELL_H5_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 1),
+    a::row(K::FormatVersion, "20160704", 1, 1, 1),
+    a::row(K::SampleLayout, "uint16", 1, 1, 1),
+];
+// END GENERATED maxwell-h5
 
 #[cfg(test)]
 mod tests {
