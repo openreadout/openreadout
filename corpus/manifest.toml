@@ -56138,7 +56138,7 @@ license = "CC0-1.0"
 license_checked = "https://zenodo.org/records/21041480 (CC0 1.0, record metadata), 2026-09-26"
 source = "Zenodo 21041480: UV-Vis documentation examples for pySpecdata, 221110_BSAexerciseWK_0p07-0percentBSAcalibration.BSW"
 attribution = "Franck, John; Kincaid, Warren; Guinness, Alexandria; Betts, Samantha"
-notes = "Cary 60 batch Scan 5.0 (.BSW), several spectra. No export: checked for self-consistency (stored extremes, parameter start/stop)."
+notes = "Cary 60 batch Scan 5.0 (.BSW), twelve spectra and a baseline. No export; ground truth: pySpecData load_cary (BSD-3-Clause)."
 
 [[file]]
 id = "cary-pyspecdata-pure-t177r1a-pr-210615"
@@ -56154,7 +56154,7 @@ license = "CC0-1.0"
 license_checked = "https://zenodo.org/records/21041480 (CC0 1.0, record metadata), 2026-09-26"
 source = "Zenodo 21041480: UV-Vis documentation examples for pySpecdata, Pure_T177R1a_pR_210615.BSW"
 attribution = "Franck, John; Kincaid, Warren; Guinness, Alexandria; Betts, Samantha"
-notes = "Cary 60 batch Scan 5.0 (.BSW). No export: checked for self-consistency."
+notes = "Cary 60 batch Scan 5.0 (.BSW), two spectra and a baseline. No export; ground truth: pySpecData load_cary (BSD-3-Clause)."
 
 [[file]]
 id = "cary-pyspecdata-200703-ellman-before-sl"
@@ -56170,7 +56170,7 @@ license = "CC0-1.0"
 license_checked = "https://zenodo.org/records/21041480 (CC0 1.0, record metadata), 2026-09-26"
 source = "Zenodo 21041480: UV-Vis documentation examples for pySpecdata, 200703_Ellman_before_SL.DSW"
 attribution = "Franck, John; Kincaid, Warren; Guinness, Alexandria; Betts, Samantha"
-notes = "Cary 60 Scan 5.0 (.DSW), eight spectra. No export: checked for self-consistency."
+notes = "Cary 60 Scan 5.0 (.DSW), eight spectra. No export; ground truth: pySpecData load_cary (BSD-3-Clause)."
 
 [[file]]
 id = "cary-pyspecdata-ras-stability4"
@@ -56186,7 +56186,7 @@ license = "CC0-1.0"
 license_checked = "https://zenodo.org/records/21041480 (CC0 1.0, record metadata), 2026-09-26"
 source = "Zenodo 21041480: UV-Vis documentation examples for pySpecdata, Ras_Stability4.BSK"
 attribution = "Franck, John; Kincaid, Warren; Guinness, Alexandria; Betts, Samantha"
-notes = "Cary 60 Scanning Kinetics 5.0 (.BSK): nine spectra and a baseline; `[Time]` scheduled times. No export: checked for self-consistency."
+notes = "Cary 60 Scanning Kinetics 5.0 (.BSK): nine spectra and a baseline; `[Time]` scheduled times. No export; ground truth: pySpecData load_cary (BSD-3-Clause)."
 
 [[file]]
 id = "gel-zenodo17516010-typhoon-phosphor"
@@ -78357,6 +78357,150 @@ license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare A
 source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
 attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
 notes = "UV-3600 Plus, UVProbe 2.43, absorbance 200-800 nm, 601 points (another study); upstream USL19-69.spc"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69-txt.txt"
+url = "https://ndownloader.figshare.com/files/62636674"
+sha256 = "ff943437fee777ecb6f3bc0594991c22c9e52fde5447deed0a3511f0c9a6c4bb"
+size = 7974
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UVProbe text export (wavelength, Abs., three decimals with a decimal comma) of the .spc with the same stem; upstream USL19-69.txt"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69b"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69b.spc"
+url = "https://ndownloader.figshare.com/files/62636677"
+sha256 = "74c0b27145ff96bbb41af41e09dc5b71a1d4184d10c63285708061f6fbcfa642"
+size = 22016
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance 200-800 nm, 601 points; upstream USL19-69b.spc"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69b-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69b-txt.txt"
+url = "https://ndownloader.figshare.com/files/62636686"
+sha256 = "8876d94fa763d1649f338cc303adf09b3d4d675f428da012bf02690e9d3315d2"
+size = 7976
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UVProbe text export (wavelength, Abs., three decimals with a decimal comma) of the .spc with the same stem; upstream USL19-69b.txt"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69c"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69c.spc"
+url = "https://ndownloader.figshare.com/files/62636695"
+sha256 = "7d4a0b91ccfe1c499bde5e23c698c19a1ba31b1a892422f07d242d7b475ec4bf"
+size = 22016
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance 200-800 nm, 601 points; upstream USL19-69c.spc"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69c-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69c-txt.txt"
+url = "https://ndownloader.figshare.com/files/62636692"
+sha256 = "2e77a4b6aeac8aa26c1dcb41b4a0b73efac57968e1169cd06c50fb4017b81cb5"
+size = 7931
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UVProbe text export (wavelength, Abs., three decimals with a decimal comma) of the .spc with the same stem; upstream USL19-69c.txt"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69d"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69d.spc"
+url = "https://ndownloader.figshare.com/files/62636683"
+sha256 = "17f8b5377e35a69ec76512afbf435c4f83edb3f6cd7d4daf9935950371ebd1eb"
+size = 22016
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance 200-800 nm, 601 points; upstream USL19-69d.spc"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl19-69d-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl19-69d-txt.txt"
+url = "https://ndownloader.figshare.com/files/62636689"
+sha256 = "8a0ff47998112a05f8d2d8bd5b8b2fa73c918638cf5790bf120442db41128340"
+size = 7905
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UVProbe text export (wavelength, Abs., three decimals with a decimal comma) of the .spc with the same stem; upstream USL19-69d.txt"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl17-17"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "input"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl17-17.spc"
+url = "https://ndownloader.figshare.com/files/62636704"
+sha256 = "361072280dbfda04919d205ab26658af154f84a2ec4318a76dca221f69d554af"
+size = 21504
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UV-3600 Plus, UVProbe 2.43, absorbance 200-800 nm, 601 points; upstream USL17-17.spc"
+
+[[file]]
+id = "figshare31645174-uvprobe-usl17-17-txt"
+format = "shimadzu-uvprobe"
+family = "spectroscopy"
+role = "oracle-export"
+tier = "standard"
+filename = "figshare31645174-uvprobe-usl17-17-txt.txt"
+url = "https://ndownloader.figshare.com/files/62636710"
+sha256 = "958c0e9d9cfa6b10a2d2949b8e0cac3598488df131b3e7b00fa9f1eaa7e4d478"
+size = 7929
+license = "CC-BY-4.0"
+license_checked = "https://figshare.com/articles/31645174 (CC BY 4.0, figshare API), 2026-10-18"
+source = "figshare 31645174 'Design and synthesis of thiophene-engineered phenanthroimidazoles with vinyl functionality for polymer integration'"
+attribution = "Liudmila Loghina, Jiri Jancalek, Zuzana Olmrova Zmrhalova et al."
+notes = "UVProbe text export (wavelength, Abs., three decimals with a decimal comma) of the .spc with the same stem; upstream USL17-17.txt"
 
 [[file]]
 id = "figshare30231052-uvprobe-dpvc"

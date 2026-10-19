@@ -90,8 +90,11 @@ export checks them); anything else under its own lower-cased name without a unit
 
 `corpus/oracle/series/cary-*.json` (oracle/series_oracle.py on each file's CSV export): every
 point's x (to 5·10⁻⁴ nm) and y (the CSV writes the float32 values to ten significant digits). The
-Cary 60 files have no export: checked for self-consistency (stored extremes; the parameter
-Start/Stop against the x range; the store chain ending 4 bytes before the end of the file).
+Cary 60 files (Scan 5.0, Scanning Kinetics 5.0) have no export. pySpecData's `load_cary`
+(BSD-3-Clause, run as a black box by `oracle/cary_pyspecdata.py`) reads them: every spectrum's
+wavelengths and absorbances agree with ours, in the same order. It does not return the baseline
+store, which is checked for self-consistency only (stored extremes, the store chain ending 4
+bytes before the end of the file).
 
 ## Vocabulary
 

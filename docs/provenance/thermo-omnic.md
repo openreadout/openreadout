@@ -128,3 +128,19 @@ record holds, before it lists one image channel per point. The corpus maps
 **Corpus files:** none; the nightly fuzz run's input (`crates/openreadout-spectro/tests/fixtures/malformed/file-fuzz-omnic-map-record-past-end.spa`, 1,455 bytes).
 
 **What was inferred:** nothing new about the format. The 2026-10-15 guard compared a map's point count with the declared length of its longest intensity record, and a damaged key can declare far more bytes than the file has. It now counts a record only up to the end of the file, so the 10.9-million-point header of this input is refused instead of listed as 10.9 million image channels.
+
+## 2026-10-18 — header revision word (Richard Zimring with Claude as assistant)
+
+**Corpus files:** all 32 development `.spa`, `.spg`, `.srs` and `.map` inputs (Toffolo library,
+SpectroChemPy test data, Orange's `sample1.spa`, figshare 23797077, 32180061, 91210, Zenodo
+5789186, 5789207, 5789246, 5789256, 6422486, 8268790, 10598031, 11071240, 16108826, 17528768).
+
+**Prior art consulted:** SpectroChemPy's `read_omnic` (CeCILL-B), to check that it does not read
+offset 290; it does not.
+
+**What was inferred:** the u16 at offset 290 takes three values: 0x209 in 18 files (2006–2023),
+0x3ca in 17 files (2020–2024) and 0x3c0 in one series (2019). It is the same in every file of a
+record. Every 0x3ca `.spa` has a key-128 record and a key-130 record of 724–904 bytes, while
+most 0x209 files have neither (key 130 there is 12 bytes or absent). So the word marks a
+revision of the file layout. Which OMNIC versions write which value is not known. It is reported
+as `format_version` (`revision 0x3ca`); the reader does not branch on it.

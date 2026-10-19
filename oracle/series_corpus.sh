@@ -189,6 +189,13 @@ $PY series_oracle.py --id cary-z14893496-rb-02-nano200 --format agilent-cary $C/
   --export $C/cary-z14893496-rb-02-nano200.export.csv --skip-until Wavelength --xcol 0 --ycol 1 --delim , --channel absorbance --x-tol 5e-4 --y-tol-rel 1e-7 --y-tol-abs 1e-9
 $PY series_oracle.py --id cary-z14893496-rb-dichloro --format agilent-cary $C/cary-z14893496-rb-dichloro.dsw \
   --export $C/cary-z14893496-rb-dichloro.export.csv --skip-until Wavelength --xcol 0 --ycol 1 --delim , --channel absorbance --x-tol 5e-4 --y-tol-rel 1e-7 --y-tol-abs 1e-9
+# ---- agilent-cary without an export (Cary 60, Scan 5.0 and Scanning Kinetics 5.0, Zenodo 21041480): pySpecData's
+# load_cary (BSD-3-Clause) in its own environment
+PSD=${PSD:-uv run --no-project --python 3.12 --with pyspecdata==0.9.45.16 python}
+for f in cary-pyspecdata-221110-bsaexercisewk-0p07-0percentbsacal.bsw cary-pyspecdata-pure-t177r1a-pr-210615.bsw \
+         cary-pyspecdata-200703-ellman-before-sl.dsw cary-pyspecdata-ras-stability4.bsk; do
+  $PSD cary_pyspecdata.py --id ${f%.*} $C/$f
+done
 # ---- 2026-10-06: other readers, each in a venv of its own (see the scripts' docstrings)
 # cwepr (BSD-2-Clause) on Bruker ESP/WinEPR .par/.spc; ESPY: a Python with cwepr and setuptools<81
 ESPY=${ESPY:-$PY}
@@ -219,3 +226,12 @@ $XRDPY rigaku_oracle.py --id xrd-figshare28490114-rasx-prosser-cultivated $C/xrd
 # impedance.py (MIT) on a Gamry EIS file gamry-parser refuses; IMPY: a Python with impedance
 IMPY=${IMPY:-$PY}
 $IMPY gamry_impedancepy.py --id echem-impedancepy-eis-abort $C/echem-impedancepy-eis-abort.DTA
+# ---- shimadzu-uvprobe: the depositor's UVProbe text export of each .spc (ascending wavelengths, three
+# decimals: rows matched by x); a file without an export gets the olefile second implementation only
+uvx() { $PY series_oracle.py --id $1 --format shimadzu-uvprobe $C/$1.spc --export $C/$1-txt.txt --skip-until '"Abs."' \
+  --xcol 0 --ycol 1 --channel absorbance --by-x --x-tol 1e-6 --y-tol-rel 0 --y-tol-abs 5.0001e-4 "${@:2}"; }
+for id in figshare29858651-uvprobe-substrate figshare29858651-uvprobe-baseline-air figshare29858651-uvprobe-usl18-52-1; do uvx $id; done
+for id in figshare31645174-uvprobe-usl19-69 figshare31645174-uvprobe-usl19-69b figshare31645174-uvprobe-usl19-69c \
+          figshare31645174-uvprobe-usl19-69d figshare31645174-uvprobe-usl17-17; do uvx $id --decimal-comma; done
+$PY series_oracle.py --id figshare30231052-uvprobe-dpvc --format shimadzu-uvprobe $C/figshare30231052-uvprobe-dpvc.spc \
+  --uvprobe-streams --channel reflectance --second-implementation

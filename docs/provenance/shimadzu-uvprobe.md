@@ -15,3 +15,17 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 - `DataSetHeaderInfo`: a one-byte-length text (the data set name, `RawData`), four zero bytes, a float64 OLE Automation date (days since 1899-12-30, local time; the history record `DataSetHistory` "Created new data set" carries the same value), six zero bytes, a text (an organization name), eight zero bytes, then texts: software (`UVProbe`), its version (`2.43`, `2.71`), the instrument model (`UV-3600Plus`; `UV-3600Plu`, cut to ten characters, in the Chinese-language files), the instrument series (`UV-3600Plus Series`), a u32 (1), a second model text and the serial number (`A12015200066`). Texts are GBK on the Chinese-language PC.
 - `DataSetGroupHeaderInfo` (u32) is 1 in every file, with one `DataSet1`; a file with more data sets or with `.2` arrays has no development file and is refused per data set (`unsupported_data_set` finding).
 - `MethodStorage/PageTexts0..4`: method pages, each a list of one-byte-length label and value texts (`Wavelength Range (nm.):`, `Scan Speed:`, `Slit Width:`); they are kept as text in the vendor tree, not named.
+
+## 2026-10-18 — the text exports as the oracle (Richard Zimring with Claude as assistant)
+
+**Corpus files:** the three `.spc` of figshare 29858651 and five of figshare 31645174
+(`USL19-69`, `USL19-69b`, `USL19-69c`, `USL19-69d`, `USL17-17`), each with the UVProbe text
+export saved beside it (CC BY 4.0); `figshare30231052-uvprobe-dpvc` (no export).
+
+**Prior art consulted:** none.
+
+**What was inferred:** nothing new about the format. The exports of figshare 31645174 write a
+decimal comma (`200,0	6,000`). They list the points from the shortest wavelength up, the
+reverse of the stored order, so the oracle matches rows by wavelength. All 601–661 points of each
+file agree with the export to within half the last printed digit. UVProbe's own version
+(`UVProbe 2.43`, `UVProbe 2.71`, from `DataSetHeaderInfo`) is now observed as the writer version.

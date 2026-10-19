@@ -144,6 +144,11 @@ fn observe_opus(info: &FileInfo) -> Observations {
 
 fn observe_omnic(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        // the header word at offset 290 (`revision 0x209`, `revision 0x3c0`, `revision 0x3ca`):
+        // the reader does not branch on it, so it only describes the file
+        o.context(K::FormatVersion, v);
+    }
     if a::has_note(info, "OMNIC single-spectrum file (.spa)") {
         o.feature(K::Layout, "spa", &[Scope::Metadata, Scope::Traces]);
     }
