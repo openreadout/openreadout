@@ -40,6 +40,7 @@ Readers used (all run as black boxes):
         (pydicom, nibabel, brukerapi; MIT)
   .nd   (MetaMorph series) -> Bio-Formats 8.5.0 bfconvert/showinf (GPL, black box), planes
         cross-checked with tifffile on the member STK/TIFF files
+  .ibw .bwav .pxp .pxt -> igor2 (LGPL-3.0, black box) via oracle/igor_oracle.py
   .dcimg -> Bio-Formats 8.5.0 bfconvert (GPL, black box; rows flipped back to stored order),
         dcimg (MIT) second opinion and frame counters / time stamps
   .raw  -> (Thermo) no reader of the .raw is run: the depositor's own mzML/mzXML (or ANDI-MS) conversion with
@@ -6550,6 +6551,10 @@ def main():
                 data = pl2_plx(p, export)
             elif ext == ".sgd":
                 data = syngene_sgd(p)
+            elif ext in (".ibw", ".bwav", ".pxp", ".pxt"):
+                import igor_oracle  # Igor Pro waves and packed experiments (oracle/igor_oracle.py)
+
+                data = igor_oracle.igor(p, MAX_PLANES)
             elif ext == ".scn" and _is_image_lab(p):
                 data = biorad_scn(p)
             elif ext == ".wiff":

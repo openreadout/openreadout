@@ -1950,6 +1950,7 @@ dependencies = [
  "openreadout-gel",
  "openreadout-hcs",
  "openreadout-hdf5",
+ "openreadout-igor",
  "openreadout-index",
  "openreadout-intan",
  "openreadout-lif",
@@ -2091,6 +2092,7 @@ dependencies = [
  "openreadout-fplc",
  "openreadout-gel",
  "openreadout-hdf5",
+ "openreadout-igor",
  "openreadout-lif",
  "openreadout-mzml",
  "openreadout-mzml-writer",
@@ -2252,6 +2254,7 @@ dependencies = [
  "openreadout-gel",
  "openreadout-hcs",
  "openreadout-hdf5",
+ "openreadout-igor",
  "openreadout-index",
  "openreadout-intan",
  "openreadout-lif",
@@ -2437,6 +2440,15 @@ dependencies = [
  "serde_json",
  "tempfile",
  "xxhash-rust",
+]
+
+[[package]]
+name = "openreadout-igor"
+version = "0.4.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+ "tempfile",
 ]
 
 [[package]]
@@ -2778,6 +2790,7 @@ dependencies = [
  "openreadout-gel",
  "openreadout-hcs",
  "openreadout-hdf5",
+ "openreadout-igor",
  "openreadout-intan",
  "openreadout-lif",
  "openreadout-medical",
@@ -2869,6 +2882,7 @@ dependencies = [
  "openreadout-gel",
  "openreadout-hcs",
  "openreadout-hdf5",
+ "openreadout-igor",
  "openreadout-intan",
  "openreadout-lif",
  "openreadout-medical",
@@ -3026,6 +3040,7 @@ dependencies = [
  "openreadout-fplc",
  "openreadout-gel",
  "openreadout-hdf5",
+ "openreadout-igor",
  "openreadout-intan",
  "openreadout-lif",
  "openreadout-medical",

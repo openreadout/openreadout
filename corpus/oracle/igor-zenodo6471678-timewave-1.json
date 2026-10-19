@@ -1,0 +1,44 @@
+{
+ "id": "igor-zenodo6471678-timewave-1",
+ "file": "timewave_1.ibw",
+ "size": 720,
+ "sha256": "2eabe44e96cf5874d7a2d3f1527d4719f60a90973222b132245bac168afae341",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "timewave",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "timewave"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 42,
+     "channels": [
+      {
+       "xxh3": "dc7d472df16ddbc702f5fba16b8d5a56",
+       "first": [
+        -0.6666666666666667,
+        -0.5333333333333333,
+        -0.4,
+        -0.2666666666666667,
+        -0.13333333333333336,
+        0.0,
+        0.13333333333333328,
+        0.2666666666666667
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

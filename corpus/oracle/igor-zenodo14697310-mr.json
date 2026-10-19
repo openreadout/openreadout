@@ -1,0 +1,143 @@
+{
+ "id": "igor-zenodo14697310-mr",
+ "file": "MR.pxp",
+ "size": 24927,
+ "sha256": "133d909b4264c9c1133870a3165fd5d9954bb6f0c8fd49337ad9a8edb2f9c47f",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:D1_Y",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "D1_Y"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 601,
+     "channels": [
+      {
+       "xxh3": "8aa3600a00322e46ac6e3b1e5022170c",
+       "first": [
+        -0.06470468271382313,
+        -0.08112928148169551,
+        -0.07889930271178791,
+        -0.0801787027875811,
+        -0.09298000652221416,
+        -0.09343304267578345,
+        -0.09505583908741011,
+        -0.08673691945344508
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:D1_X",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "D1_X"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 601,
+     "channels": [
+      {
+       "xxh3": "a0801684a673557d9f6084024130a9b4",
+       "first": [
+        1.0,
+        0.996666666666667,
+        0.993333333333333,
+        0.99,
+        0.986666666666667,
+        0.983333333333333,
+        0.98,
+        0.976666666666667
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:D1_XX",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "D1_XX"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 601,
+     "channels": [
+      {
+       "xxh3": "e28183683835c54a63ef9db190ce76fb",
+       "first": [
+        0.0,
+        0.030566237921592077,
+        0.0632555919130473,
+        0.09725731892546996,
+        0.12741324737965964,
+        0.12538715295260516,
+        0.10340586337005409,
+        0.09019991896250801
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:D1_YY",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "D1_YY"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 601,
+     "channels": [
+      {
+       "xxh3": "4d9096515c33ae2fe261fecdc8fcaff8",
+       "first": [
+        -1.0,
+        -0.996666666666667,
+        -0.993333333333333,
+        -0.99,
+        -0.986666666666667,
+        -0.983333333333333,
+        -0.98,
+        -0.976666666666667
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

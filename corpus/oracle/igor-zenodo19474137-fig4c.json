@@ -1,0 +1,34 @@
+{
+ "id": "igor-zenodo19474137-fig4c",
+ "file": "Fig4C.ibw",
+ "size": 16768,
+ "sha256": "d6ac9deb6662edc63d54b84d2f83186a5631a39ae6653c5526009c025d6c0070",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "map24fram12",
+   "size_x": 64,
+   "size_y": 64,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4408463b2f4bcb1096cb46c2d4896400"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

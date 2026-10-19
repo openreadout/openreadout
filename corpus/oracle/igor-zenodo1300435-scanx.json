@@ -1,0 +1,44 @@
+{
+ "id": "igor-zenodo1300435-scanx",
+ "file": "ScanX.ibw",
+ "size": 4384,
+ "sha256": "d194474a883426cb316f1759b3f16661b9a32d5ab8062ca3a2cf24ee1a94636d",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "ScanX",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ScanX"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1000,
+     "channels": [
+      {
+       "xxh3": "ddb0838597d1205b00ddb80b6a5eddfa",
+       "first": [
+        115.32731628417969,
+        116.04572296142578,
+        114.43463134765625,
+        108.73342895507812,
+        102.63236999511719,
+        100.45343780517578,
+        96.21553039550781,
+        93.34078216552734
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

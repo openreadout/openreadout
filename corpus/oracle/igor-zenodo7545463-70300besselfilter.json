@@ -1,0 +1,53 @@
+{
+ "id": "igor-zenodo7545463-70300besselfilter",
+ "file": "70300BesselFilter.ibw",
+ "size": 1322,
+ "sha256": "2e8a5043a8d6254200088f1f9b51666e4aefbbd838525431e1bebd57c460129a",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "IIRBessel70300Notch",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "channel_names": [
+    "numerators",
+    "denominators"
+   ],
+   "channel_units": [
+    "",
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "69ba050e72d7211bc73a7737f1944917",
+       "first": [
+        0.034894946962594986,
+        -0.06977750360965729,
+        8.993295552706115e-10,
+        0.06977750360965729,
+        -0.034894946962594986
+       ]
+      },
+      {
+       "xxh3": "3d2d9d4a97f2bf0b40a5477400e26331",
+       "first": [
+        1.0,
+        -3.925992727279663,
+        5.780495643615723,
+        -3.7829833030700684,
+        0.9284809231758118
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "id": "igor-zenodo19474137-s14d-map",
+ "file": "S14D_map.ibw",
+ "size": 131456,
+ "sha256": "457c8e2e04026a5a27057d53134ef8af20893274781af09c96b4a6063566a384",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Map183_150mV",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "double",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7451afdd791cb68220a3df534251ee49"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

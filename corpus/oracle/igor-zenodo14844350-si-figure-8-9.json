@@ -1,0 +1,732 @@
+{
+ "id": "igor-zenodo14844350-si-figure-8-9",
+ "file": "SI_Figure_8-9.pxp",
+ "size": 40967,
+ "sha256": "1bd27d076cd4ac4d35ccde38c765c1195ded33a62b9606a99174b3d108fd0f5c",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:wave1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave1"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "be2e9e42499d80219e9defea1ff9fa83",
+       "first": [
+        5.0,
+        5.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:DS016_dye_NPratio",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DS016_dye_NPratio"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "a481bdad3d1563bd569a0cc879d8241c",
+       "first": [
+        0.0,
+        0.85272,
+        1.79325,
+        2.50711,
+        3.60587,
+        4.56168,
+        7.9996,
+        9.73081
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:DS016_onlydye_PL",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DS016_onlydye_PL"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "ef9dbb6d4e85f45c451bce3ab45cedf0",
+       "first": [
+        0.0,
+        79144.5469,
+        147346.109,
+        196395.234,
+        261920.359,
+        330080.563,
+        526462.25,
+        610199.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:DS016_dyeandNP_PL",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DS016_dyeandNP_PL"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "bea0e6a9e0ae9411232e70ee0f97b5f2",
+       "first": [
+        17.92374,
+        18005.9707,
+        47164.1836
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:DS016_x_dye",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DS016_x_dye"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "461397b15ad55885439bd454f8f382e8",
+       "first": [
+        0.0,
+        15.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:DS016_y_dye",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DS016_y_dye"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "dd881deb026f2223df090dbfe414db7a",
+       "first": [
+        46797.16101,
+        881169.39816
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:LM191_dye_NPratio",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM191_dye_NPratio"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "0f4102f90baa425869ad9f283bb8b770",
+       "first": [
+        0.0,
+        0.93098,
+        1.96608,
+        2.73676,
+        3.7424,
+        4.3884,
+        6.65179,
+        8.54296
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:LM191_onlydye_PL",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM191_onlydye_PL"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "d9af4bd2ce9573b7bfe68b719695cd46",
+       "first": [
+        55.31026,
+        59457.2852,
+        129226.75,
+        184320.594,
+        250603.391,
+        284752.656,
+        414344.375,
+        520056.594
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "root:LM191_dyeandNP_PL",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM191_dyeandNP_PL"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "78e49816828b417570512122c726959c",
+       "first": [
+        230.66394,
+        15874.4473,
+        27213.252,
+        38286.8945,
+        62416.2305,
+        95316.7734,
+        189694.609,
+        294332.094
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "root:LM191_x_dye",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM191_x_dye"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "461397b15ad55885439bd454f8f382e8",
+       "first": [
+        0.0,
+        15.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "root:LM191_y_dye",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM191_y_dye"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "19c03d6ad9d5b8111fa6eebd5e837185",
+       "first": [
+        20206.3,
+        874517.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "root:LM251_dye_NPratio",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM251_dye_NPratio"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "06c021cb5fbd76ac38de2dd50fefdff8",
+       "first": [
+        0.0,
+        0.98372,
+        1.83197,
+        2.84088,
+        3.59238,
+        5.06369,
+        7.36355,
+        9.28168
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "root:LM251_dye_PL",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM251_dye_PL"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "23dab3a160869ef0bc1d2892a78cea8c",
+       "first": [
+        11.71186,
+        76480.7578,
+        137169.453,
+        195206.344,
+        253931.219,
+        340865.531,
+        468548.219,
+        561283.813
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "root:LM251_dyeandNP_PL",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM251_dyeandNP_PL"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 10,
+     "channels": [
+      {
+       "xxh3": "b06aad0394e2f48192368a3d691b27b7",
+       "first": [
+        -31.32711,
+        18058.9648,
+        43507.6602,
+        73605.8516,
+        91918.75,
+        142075.703,
+        263259.938,
+        347220.281
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "root:LM251_x_dye",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM251_x_dye"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "461397b15ad55885439bd454f8f382e8",
+       "first": [
+        0.0,
+        15.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "name": "root:LM251_y_dye",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM251_y_dye"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "0216da161420a07c119c9f7cb7cafe08",
+       "first": [
+        35600.99886,
+        866216.2007
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "root:automated",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "automated"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "6c9386618c485611657f87fb05c2c1a1",
+       "first": [
+        5.09961,
+        4.74663,
+        4.80131
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "name": "root:std_automated",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "std_automated"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "6100ccd116cd6b5a019b434a271da679",
+       "first": [
+        0.48906,
+        0.58672,
+        0.78581
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "name": "root:DS016_autofit_x",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DS016_autofit_x"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "b30d291696a73fc63e09d2c258246e47",
+       "first": [
+        0.0,
+        0.99631,
+        2.00686,
+        4.7823,
+        4.79653,
+        4.81076,
+        14.2188
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "name": "root:DS016_autofit_y",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "DS016_autofit_y"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "6312a890cdfe71be8c83d2d17cb75d2c",
+       "first": [
+        0.0,
+        31448.02386,
+        63345.3052,
+        150950.51453,
+        151399.77201,
+        151998.57742,
+        597737.16569
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "name": "root:LM191_autofit_x",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM191_autofit_x"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "9aa2474ced15e836619b278ea07978e4",
+       "first": [
+        0.0,
+        5.08649,
+        5.09902,
+        5.11155,
+        12.51578
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "name": "root:LM191_autofit_y",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM191_autofit_y"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "7daa2ef000ee2c1eaa637c9bc8c8303f",
+       "first": [
+        0.0,
+        92249.85752,
+        92477.07392,
+        93183.65386,
+        524738.82385
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "name": "root:LM251_autofit_x",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM251_autofit_x"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "ec17fbd8b79c2c33522fa3604db7b398",
+       "first": [
+        0.0,
+        4.74404,
+        4.75804,
+        4.77203,
+        13.98023
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "name": "root:LM251_autofit_y",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LM251_autofit_y"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "f34c34c6c86cfbc13d57a95edbb6f394",
+       "first": [
+        0.0,
+        119405.81652,
+        120102.12311,
+        120876.37468,
+        630333.90877
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "id": "igor-zenodo4610489-raw-data-fig8piezo",
+ "file": "Raw_Data_Fig8Piezo.ibw",
+ "size": 863523,
+ "sha256": "9f28b2b3115b2319063a54dc8ea694e1ae64d9d6f528b9e144caf81901f20d44",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Image0110",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.09803921568627451,
+    "y": 0.09803921568627451
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "4528a4a879607a986db78160a9259f49"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "68bfb20d08f31afa1247c2154ff572cd"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "c551cd717c2e01191d5185693e492275"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

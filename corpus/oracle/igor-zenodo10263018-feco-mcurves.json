@@ -1,0 +1,275 @@
+{
+ "id": "igor-zenodo10263018-feco-mcurves",
+ "file": "FeCo_MCurves.pxp",
+ "size": 15645,
+ "sha256": "46eda08e74a13ad5e9de63a9e0fa6567ab4bdf3ee3b67c8d1951ce16259f8fd4",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:FeCo_NPs_300K_H_avr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FeCo_NPs_300K_H_avr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 121,
+     "channels": [
+      {
+       "xxh3": "a44decdba894fc100c9fda8567d5bb00",
+       "first": [
+        0.9999657273292542,
+        0.9500444531440735,
+        0.8999733328819275,
+        0.8500421047210693,
+        0.7999923825263977,
+        0.7500019669532776,
+        0.7000064253807068,
+        0.6499643325805664
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:FeCo_NPs_300K_M_avr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FeCo_NPs_300K_M_avr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 121,
+     "channels": [
+      {
+       "xxh3": "ed218a98f78e3df13f7e0677f09a7ef6",
+       "first": [
+        0.00014720919716637582,
+        0.00014697504229843616,
+        0.00014661507157143205,
+        0.00014615748659707606,
+        0.00014568532060366124,
+        0.00014504978025797755,
+        0.00014433891919907182,
+        0.0001432239223504439
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:FeCo_NCs_300K_H_avr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FeCo_NCs_300K_H_avr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 125,
+     "channels": [
+      {
+       "xxh3": "8730f81096826de3a6230523bfde8b2f",
+       "first": [
+        0.9999744892120361,
+        0.8999834060668945,
+        0.7999987006187439,
+        0.6999699473381042,
+        0.5999851822853088,
+        0.49996522068977356,
+        0.45000240206718445,
+        0.39999181032180786
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:FeCo_NCs_300K_M_avr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FeCo_NCs_300K_M_avr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 125,
+     "channels": [
+      {
+       "xxh3": "fa3e943b168fd97dc3fff12a73e3c9c4",
+       "first": [
+        0.00015356070070993155,
+        0.00015370658366009593,
+        0.00015326141146942973,
+        0.00015302548126783222,
+        0.00015279109356924891,
+        0.00015153286221902817,
+        0.00015037997218314558,
+        0.0001487083063693717
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:FeCo_NWs_300K_H_avr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FeCo_NWs_300K_H_avr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 125,
+     "channels": [
+      {
+       "xxh3": "66921489169197b8e17ec480a2271ce1",
+       "first": [
+        0.9999505877494812,
+        0.8999795913696289,
+        0.7999973893165588,
+        0.6999812722206116,
+        0.6000003218650818,
+        0.4999614357948303,
+        0.45000240206718445,
+        0.4000144600868225
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:FeCo_NWs_300K_M_avr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "FeCo_NWs_300K_M_avr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 125,
+     "channels": [
+      {
+       "xxh3": "6d9733a9730ab38d9956cd4147ffb016",
+       "first": [
+        0.0001442843786207959,
+        0.00014405287220142782,
+        0.00014362121874000877,
+        0.0001431043929187581,
+        0.00014212130918167531,
+        0.00014067198208067566,
+        0.0001394072314724326,
+        0.00013766426127403975
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:Norm_M_NP",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Norm_M_NP"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 121,
+     "channels": [
+      {
+       "xxh3": "df7813cb4176e355da32461a49196c89",
+       "first": [
+        1.000001311302185,
+        0.998410701751709,
+        0.9959654211997986,
+        0.9928569793701172,
+        0.9896495342254639,
+        0.9853323101997375,
+        0.9805033802986145,
+        0.9729291200637817
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:Norm_M_NC",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Norm_M_NC"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 125,
+     "channels": [
+      {
+       "xxh3": "d8c7759d9f6742d6940ff971d4016d75",
+       "first": [
+        0.9990509152412415,
+        1.0,
+        0.997103750705719,
+        0.9955688118934631,
+        0.9940439462661743,
+        0.9858580231666565,
+        0.9783574342727661,
+        0.9674817323684692
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

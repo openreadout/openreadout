@@ -1,0 +1,44 @@
+{
+ "id": "igor-zenodo15071889-xps",
+ "file": "XPS.pxp",
+ "size": 52527,
+ "sha256": "01b9cd2e8667babd588bfe7b93fcece17da30faeb0894e4349a98b5b595faabe",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:profile",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "profile"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6051,
+     "channels": [
+      {
+       "xxh3": "0458322721b7fbce39a182700c800607",
+       "first": [
+        338.9580460718533,
+        339.2769919237802,
+        340.6579420523636,
+        337.75645124619604,
+        339.49114111168296,
+        341.0880404658091,
+        338.5343863679227,
+        339.2475422611018
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

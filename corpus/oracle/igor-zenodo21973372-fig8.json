@@ -1,0 +1,389 @@
+{
+ "id": "igor-zenodo21973372-fig8",
+ "file": "Fig8.pxp",
+ "size": 20352,
+ "sha256": "414fe340bc6b571e001e4eb5862ef1d81f12e58bfe293418f3eb1e58d85c25d8",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:Fig8:mass_model",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mass_model"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "1012eabfd3b2e44c4afb73685e64fe1c",
+       "first": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        5.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:Fig8:abs_model",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "abs_model"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "80e286399219ced658a5f5214439938c",
+       "first": [
+        0.0,
+        7.13,
+        14.26,
+        21.39,
+        35.65
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:Fig8:day9-14:mass",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mass"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 37,
+     "channels": [
+      {
+       "xxh3": "e54122591d9ed52868e03e48b92d223a",
+       "first": [
+        0.97071,
+        0.5211231,
+        0.5846462,
+        0.9488143,
+        0.9755795,
+        0.9506433,
+        0.8350647,
+        0.7163646
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:Fig8:day9-14:babs",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "babs"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 37,
+     "channels": [
+      {
+       "xxh3": "78140ef46e2ce18efdacde62025ba1d0",
+       "first": [
+        10.456736,
+        6.084937,
+        5.311499,
+        8.705281,
+        9.485571,
+        9.270573,
+        8.312517,
+        7.211072
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:Fig8:day9-14:fit_babs",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_babs"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "ee069b76106c47be4671f8a50b5fb075",
+       "first": [
+        4.888905472130057,
+        9.577465715811668
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:Fig8:day9-14:UC_babs",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "UC_babs"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "0b8a3e2967a5c92df6f3fdd563698d88",
+       "first": [
+        5.261019787319691,
+        5.282066373192344,
+        5.30311677053039,
+        5.3241710580611485,
+        5.34522931656802,
+        5.3662916289533005,
+        5.387358080303119,
+        5.408428757954521
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:Fig8:day9-14:LC_babs",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LC_babs"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "7ccba3a44a4d57b64d836fc3b0457100",
+       "first": [
+        4.516791156940423,
+        4.542865779546983,
+        4.568936590688149,
+        4.595003511636602,
+        4.621066461608944,
+        4.647125357702874,
+        4.673180114832269,
+        4.699230645660078
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:Fig8:night22-6:mass35",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mass35"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55,
+     "channels": [
+      {
+       "xxh3": "4ae1aac7d3c736a1b8fdb5cb4c57333b",
+       "first": [
+        1.5589091,
+        1.7215926,
+        1.9067699,
+        1.9372276,
+        1.9117545,
+        2.1686345,
+        2.4048431,
+        1.6326353
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "root:Fig8:night22-6:abs35",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "abs35"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 55,
+     "channels": [
+      {
+       "xxh3": "d640ff56df53c65a7474c39bd7ad1c2a",
+       "first": [
+        12.529048,
+        13.508739,
+        15.411449,
+        15.285988,
+        15.307929,
+        16.600338,
+        18.209162,
+        12.390958
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "root:Fig8:night22-6:fit_abs35",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_abs35"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "5288514d4c874d9610ae5ec2b3363de4",
+       "first": [
+        11.313656302605885,
+        17.851406698992424
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "root:Fig8:night22-6:UC_abs35",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "UC_abs35"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "8c091fba84a35263608b6ef89a454361",
+       "first": [
+        11.666554126116923,
+        11.696288451304186,
+        11.726032017416584,
+        11.755785075357029,
+        11.78554788438596,
+        11.815320712431337,
+        11.845103836409947,
+        11.874897542560358
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "root:Fig8:night22-6:LC_abs35",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "LC_abs35"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "582df50fde8e1f46b6e5b3fb94bd5fc4",
+       "first": [
+        10.960758479094848,
+        10.99673018804212,
+        11.032692656064258,
+        11.068645632258356,
+        11.10458885736396,
+        11.140522063453123,
+        11.176444973609048,
+        11.212357301593176
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "id": "igor-zenodo12759092-xas-07",
+ "file": "XAS_07.ibw",
+ "size": 1736,
+ "sha256": "2af4c56f48f2f98cc3eb69af250069403930437493edee833b6e641da67f234e",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "PFY_02",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PFY_02"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 169,
+     "channels": [
+      {
+       "xxh3": "59a46919424b8d1ab7705ffd1b979394",
+       "first": [
+        0.02437809892891113,
+        -0.002588980913008498,
+        0.0063480139597595015,
+        0.008746795776687579,
+        0.016079594702712034,
+        0.009040787846129147,
+        0.012054281861799186,
+        0.010030595699061598
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

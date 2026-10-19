@@ -1,0 +1,41 @@
+{
+ "id": "igor-gin-ephy-win-version2",
+ "file": "win-version2.ibw",
+ "size": 177,
+ "sha256": "8b4c5caa5f6087bf0afae40d67ee117cd39a3f1ea9e16b0c595b96d845cdbb82",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "version2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "version2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "12018fc34139faea3fcc73b50333dd61",
+       "first": [
+        5.0,
+        4.0,
+        3.0,
+        2.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

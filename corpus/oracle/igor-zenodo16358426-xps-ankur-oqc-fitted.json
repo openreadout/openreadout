@@ -1,0 +1,1642 @@
+{
+ "id": "igor-zenodo16358426-xps-ankur-oqc-fitted",
+ "file": "XPS_Ankur_OQC_Fitted.pxp",
+ "size": 118405,
+ "sha256": "b2ade28178006e5a2744e8d4e0f78d69e7f35c8483d531193f725e3d7e20058c",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "root:M_Covar",
+   "size_x": 4,
+   "size_y": 4,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "double",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "8bb5ba6bc27b1824673a4ca63493931b"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:Packages:PeakFitting:Line0Parameter",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "bae5efb1ddf7fdc7d5252ba1fbde0ccb"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:Packages:PeakFitting:Line1Parameter",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "dac2ea74a76efbc2205ab7af6ff09030"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:Packages:PeakFitting:Line2Parameter",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:Packages:PeakFitting:Line3Parameter",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:Packages:PeakFitting:Line4Parameter",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:Packages:PeakFitting:Line5Parameter",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:Packages:PeakFitting:Line0Hold",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "97de5b4ca16304759ebb75791a8801c1"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "root:Packages:PeakFitting:Line1Hold",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "1ca94506c4d91624b80b65747b12e920"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "root:Packages:PeakFitting:Line2Hold",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "root:Packages:PeakFitting:Line3Hold",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "root:Packages:PeakFitting:Line4Hold",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "root:Packages:PeakFitting:Line5Hold",
+   "size_x": 2,
+   "size_y": 8,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b388416ffd4823362ffb6918c12c256e"
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "root:Packages:PeakFitting:PeakAreaWhole",
+   "size_x": 6,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "034aa4862913ecc95af6b3336e354363"
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "root:Packages:PeakFitting:PeakAreaRange",
+   "size_x": 6,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "70e3681ae873a46d5ea0bcbf29f88986"
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "name": "root:Packages:PeakFitting:PeakAreaWholeDisplay",
+   "size_x": 6,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "034aa4862913ecc95af6b3336e354363"
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "root:Packages:PeakFitting:PeakAreaRangeDisplay",
+   "size_x": 6,
+   "size_y": 2,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "70e3681ae873a46d5ea0bcbf29f88986"
+    }
+   ]
+  }
+ ],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:Eu3d",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Eu3d"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "a1ab8c2ec9b213aeeca4f814f501c8f6",
+       "first": [
+        43559.25,
+        43632.5,
+        43646.5,
+        43598.75,
+        43585.5,
+        43680.0,
+        43746.25,
+        43758.25
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "abc0ada4d9fd204cd10bb3cbf1cddc07",
+       "first": [
+        39072.6484375,
+        39145.8984375,
+        39159.8984375,
+        39112.1484375,
+        39098.8984375,
+        39193.3984375,
+        39259.6484375,
+        39271.6484375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:Line1a_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Line1a_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "c125adf3c6e21f70d4c3a176c0b12f1f",
+       "first": [
+        39037.89453125,
+        39023.52734375,
+        39009.08984375,
+        38994.5859375,
+        38979.9921875,
+        38965.30078125,
+        38950.48828125,
+        38935.53125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:bgr_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "bgr_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "6eb6f0e2def808a85a2e615fcc1ac258",
+       "first": [
+        38010.8984375,
+        37996.87109375,
+        37982.8359375,
+        37968.8046875,
+        37954.76953125,
+        37940.73828125,
+        37926.7109375,
+        37912.67578125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:Line1b_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Line1b_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "7d4e3e203790dd3ce6175b189753a9b7",
+       "first": [
+        39058.26953125,
+        39048.76171875,
+        39040.234375,
+        39032.88671875,
+        39026.91796875,
+        39022.56640625,
+        39020.09375,
+        39019.78515625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:Line2a_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Line2a_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "480ae5e643afa506abc011401ce11062",
+       "first": [
+        39085.65234375,
+        39078.18359375,
+        39071.9609375,
+        39067.1953125,
+        39064.10546875,
+        39062.9140625,
+        39063.83984375,
+        39067.08984375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:fit_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "b2587c7855967b48bf1470f8476ffa48",
+       "first": [
+        39106.28515625,
+        39103.67578125,
+        39103.3671875,
+        39105.76171875,
+        39111.3046875,
+        39120.4609375,
+        39133.73828125,
+        39151.640625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:ShirleySum_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ShirleySum_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "16b16e6a6e12d7be7ad0a53ee1fec3a8",
+       "first": [
+        39037.890625,
+        39023.5234375,
+        39009.08203125,
+        38994.578125,
+        38979.98046875,
+        38965.28515625,
+        38950.46875,
+        38935.50390625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "root:Shirley_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Shirley_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "e2744c96b69999b4950d0cb59e46c4e4",
+       "first": [
+        71.24494934082031,
+        71.01927185058594,
+        70.7596664428711,
+        70.45985412597656,
+        70.1125259399414,
+        69.70944213867188,
+        69.24136352539062,
+        68.69808959960938
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "root:res_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "res_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "64b6f8ecb484039a95adc387579ed898",
+       "first": [
+        -33.63671875,
+        42.22265625,
+        56.53125,
+        6.38671875,
+        -12.40625,
+        72.9375,
+        125.91015625,
+        120.0078125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "root:Eu3d_SatAO_x",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Eu3d_SatAO_x"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "aa09e2335dbb55924d836091c9c00a9c",
+       "first": [
+        1140.989990234375,
+        1140.7900390625,
+        1140.5899658203125,
+        1140.3900146484375,
+        1140.18994140625,
+        1139.989990234375,
+        1139.7900390625,
+        1139.5899658203125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "root:W_sigma",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_sigma"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 20,
+     "channels": [
+      {
+       "xxh3": "daf5f2d0fe35600b117f184ea71ccefb",
+       "first": [
+        47.13034047437447,
+        0.020085162571900142,
+        0.03649896800238814,
+        0.0,
+        0.06668908010827501,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "root:W_sigma_0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_sigma_0"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12,
+     "channels": [
+      {
+       "xxh3": "412b089b9049c4612e8438e55f390039",
+       "first": [
+        47.13034047437447,
+        0.020085162571900142,
+        0.03649896800238814,
+        0.0,
+        0.06668908010827501,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "root:W_sigma_1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_sigma_1"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "546cb8be933fafbfa566ae53f92fa50c",
+       "first": [
+        60.75807366755793,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "root:W_sigma_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_sigma_2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "659e88ffcf9af08f106e9bae708b3ff9",
+       "first": [
+        34.267847362980824,
+        3.266302328275681
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "name": "root:Line2b_Eu3d_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Line2b_Eu3d_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "16b16e6a6e12d7be7ad0a53ee1fec3a8",
+       "first": [
+        39037.890625,
+        39023.5234375,
+        39009.08203125,
+        38994.578125,
+        38979.98046875,
+        38965.28515625,
+        38950.46875,
+        38935.50390625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "root:Eu3d_paper",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Eu3d_paper"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "815b59118ddbf8b478679a62c7e1bed4",
+       "first": [
+        34.7578125,
+        122.375,
+        150.81640625,
+        117.5703125,
+        118.91796875,
+        228.11328125,
+        309.1796875,
+        336.14453125
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "name": "root:Eu3d_paper_2+",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Eu3d_paper_2+"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "0f5733a43b93aa82eee5aec5309eeed1",
+       "first": [
+        20.3828125,
+        25.2421875,
+        31.1640625,
+        38.3125,
+        46.9453125,
+        57.296875,
+        69.640625,
+        84.3046875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "name": "root:Eu3d_paper_3+",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Eu3d_paper_3+"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "579fea8aa3d362619bd176cc8a88ff5c",
+       "first": [
+        47.76171875,
+        54.66015625,
+        62.87890625,
+        72.6171875,
+        84.125,
+        97.62890625,
+        113.37109375,
+        131.5859375
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "name": "root:Eu3d_paper_fit",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Eu3d_paper_fit"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 116,
+     "channels": [
+      {
+       "xxh3": "30e8498c25bb2197260fdc8fbe1f38dd",
+       "first": [
+        68.39453125,
+        80.15234375,
+        94.28515625,
+        111.18359375,
+        131.32421875,
+        155.17578125,
+        183.26953125,
+        216.13671875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "name": "root:W_coef",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_coef"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4,
+     "channels": [
+      {
+       "xxh3": "fc64bb032a146a68c9e4dfd6fbbb12d2",
+       "first": [
+        10331.689220134205,
+        36933.62748908217,
+        560.5998639763392,
+        3.6184368874536137
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "name": "root:fit_XTiext",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_XTiext"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "20190e9f275974807d5a807b9b7dfd68",
+       "first": [
+        44497.726270673265,
+        44539.958923169324,
+        44581.90556882427,
+        44623.56502801057,
+        44664.936128175126,
+        44706.01770388957,
+        44746.80859690956,
+        44787.30765622453
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "name": "root:Packages:PeakFitting:Doublet",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Doublet"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "399d10ccffa17fac8dd00cf541154aae",
+       "first": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "name": "root:Packages:PeakFitting:SigmoidalAsymmetry",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "SigmoidalAsymmetry"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "505cd4e066810498e255222d4cbbadba",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "name": "root:Packages:PeakFitting:NumberOfParameters",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "NumberOfParameters"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "2cdb38e667514ccce0c116bb7ff74641",
+       "first": [
+        12.0,
+        6.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "name": "root:Packages:PeakFitting:coefbg",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "coefbg"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4,
+     "channels": [
+      {
+       "xxh3": "e6d42d72c1ca20cbf19643260c3f0e5f",
+       "first": [
+        37204.06640625,
+        70.15940856933594,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "name": "root:Packages:PeakFitting:coefbgHold",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "coefbgHold"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 4,
+     "channels": [
+      {
+       "xxh3": "c65c7e947dcb9db487c67aeb44bcd4ee",
+       "first": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "name": "root:Packages:PeakFitting:coefbgShort",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "coefbgShort"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "f740e477a98afe93da945a871b4c92a9",
+       "first": [
+        37204.06640625,
+        70.15940856933594
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "name": "root:Packages:PeakFitting:BackGroundScaling",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "BackGroundScaling"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "d8e77253924d2812ab2d2987dca69c54",
+       "first": [
+        1.0031499862670898
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "name": "root:Packages:PeakFitting:BackGroundScalingHold",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "BackGroundScalingHold"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "2c0a8a99dc147d5445c3b49d035665b2",
+       "first": [
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "name": "root:Packages:PeakFitting:Line0ParameterShort",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Line0ParameterShort"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 12,
+     "channels": [
+      {
+       "xxh3": "81f599ba89f94932f6f96c58d3813bcb",
+       "first": [
+        7261.4287109375,
+        1126.4041748046875,
+        4.467827320098877,
+        0.0,
+        0.5879659056663513,
+        0.024374600499868393,
+        0.19812600314617157,
+        7.97353982925415
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "name": "root:Packages:PeakFitting:Line1ParameterShort",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Line1ParameterShort"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "aece529f35d6cb576104befe4bf61e35",
+       "first": [
+        659.0612182617188,
+        1135.8699951171875,
+        4.699999809265137,
+        0.20000000298023224,
+        0.0,
+        0.024374600499868393
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "name": "root:X240308D:Xwidescan",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Xwidescan"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1301,
+     "channels": [
+      {
+       "xxh3": "f528e54af26e15848efbdc6bca4785d9",
+       "first": [
+        191105.5,
+        267603.0,
+        265299.5,
+        263169.0,
+        260268.5,
+        257259.0,
+        255574.0,
+        253484.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "name": "root:X240308D:XEu3p",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "XEu3p"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 401,
+     "channels": [
+      {
+       "xxh3": "f1a13dc885fdad66c6234230c3cd74e0",
+       "first": [
+        56637.0,
+        56684.75,
+        56579.5,
+        56572.0,
+        56667.75,
+        56679.25,
+        56753.0,
+        56477.5
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "name": "root:X240308D:XTiext",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "XTiext"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 801,
+     "channels": [
+      {
+       "xxh3": "a5d02c95ae0b958701d18a7befed5be6",
+       "first": [
+        31747.599609375,
+        32163.44921875,
+        32238.724609375,
+        32259.32421875,
+        32218.82421875,
+        32301.625,
+        32286.92578125,
+        32220.69921875
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "name": "root:X240308D:XPd",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "XPd"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 301,
+     "channels": [
+      {
+       "xxh3": "ae70441f717eb41b3da4a2893857dbc6",
+       "first": [
+        22270.0,
+        22427.5,
+        22276.5,
+        22395.75,
+        22169.5,
+        22176.25,
+        22313.0,
+        22346.5
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "name": "root:X240308D:XEu3p_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "XEu3p_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 401,
+     "channels": [
+      {
+       "xxh3": "64e0c88499d1bcdbfc20405a009f2be9",
+       "first": [
+        50803.390625,
+        50851.140625,
+        50745.890625,
+        50738.390625,
+        50834.140625,
+        50845.640625,
+        50919.390625,
+        50643.890625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "name": "root:X240308D:XTiext_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "XTiext_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 801,
+     "channels": [
+      {
+       "xxh3": "a28d876cfc798e60c583bda4fd88cb55",
+       "first": [
+        28477.59765625,
+        28893.447265625,
+        28968.72265625,
+        28989.322265625,
+        28948.822265625,
+        29031.623046875,
+        29016.923828125,
+        28950.697265625
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "name": "root:X240308D:XPd_SatAO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "XPd_SatAO"
+   ],
+   "channel_units": [
+    "cps"
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 301,
+     "channels": [
+      {
+       "xxh3": "70fbd5468fb038ee4c5cfbd8500c6745",
+       "first": [
+        19976.189453125,
+        20133.689453125,
+        19982.689453125,
+        20101.939453125,
+        19875.689453125,
+        19882.439453125,
+        20019.189453125,
+        20052.689453125
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

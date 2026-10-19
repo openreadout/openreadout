@@ -1,0 +1,41 @@
+{
+ "id": "igor-gin-ephy-mac-version2",
+ "file": "mac-version2.ibw",
+ "size": 177,
+ "sha256": "1c9433043339c105c29145964b983bb5b0b440a6c0f4aa319bb097567ed1aa9e",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "version2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "version2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 5,
+     "channels": [
+      {
+       "xxh3": "12018fc34139faea3fcc73b50333dd61",
+       "first": [
+        5.0,
+        4.0,
+        3.0,
+        2.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

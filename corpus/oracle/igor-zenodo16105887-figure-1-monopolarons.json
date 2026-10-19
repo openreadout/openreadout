@@ -1,0 +1,103 @@
+{
+ "id": "igor-zenodo16105887-figure-1-monopolarons",
+ "file": "Figure_1_Spectra_and_manipulations_of_monopolarons.pxp",
+ "size": 269007,
+ "sha256": "99afd6bd2c795e46f55d2e2a8e84fea60354711c82fb2bf85b1744dedff6e805",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "root:Figure 1d",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.00023437499999999996,
+    "y": 0.00023437499999999996
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "0691e0e32d80a45dedf40012c3ba4c6c"
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:Figure 1c",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.00023437499999999996,
+    "y": 0.00023437499999999996
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e993c89627f9c7b9e0e0724b9da831ed"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:Figure 1a",
+   "size_x": 128,
+   "size_y": 128,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.00023437499999999996,
+    "y": 0.00023437499999999996
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7021c21fdc255ebcf0a126f6bf2c7d31"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:Figure 1b",
+   "size_x": 41,
+   "size_y": 401,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.00021048922500000003,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "f2df9fcc2c9db3d8ef441e332c72caa9"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

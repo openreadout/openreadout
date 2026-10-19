@@ -1,0 +1,104 @@
+{
+ "id": "igor-zenodo15386850-s4",
+ "file": "S4.pxp",
+ "size": 8123,
+ "sha256": "0cc4336f0a5e15351c129d92c8ebf0079f14f2edabcfa2ec663b2a231fab8779",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:Ti_275_2_x",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Ti_275_2_x"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 9,
+     "channels": [
+      {
+       "xxh3": "6cf7639506bfa2f12f0de0b8f3dd6f6a",
+       "first": [
+        10.200000000000001,
+        30.0,
+        60.0,
+        90.0,
+        120.0,
+        150.0,
+        180.0,
+        240.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:Ti_275_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Ti_275_2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 9,
+     "channels": [
+      {
+       "xxh3": "93e7a7e92c3fe3fe5acd334f26edf6d1",
+       "first": [
+        0.31744196560000004,
+        0.28289949480000004,
+        0.21756778680000002,
+        0.15954474600000002,
+        0.0621063664,
+        0.0056987596000000005,
+        0.0029572444,
+        -6.248560000000001e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:fit_Ti_275_2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_Ti_275_2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "3577b15f0f55367dafc9fef06e646496",
+       "first": [
+        0.3263250382544906,
+        0.0065400326812908305
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

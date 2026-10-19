@@ -1,0 +1,46 @@
+{
+ "id": "igor-zenodo21638845-f1d",
+ "file": "F1d.ibw",
+ "size": 866294,
+ "sha256": "a627e411909210a180cab77012ed02605dbce327dacf10eb17795e142c99c67b",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "s20001",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 3,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.011764705882352941,
+    "y": 0.011764705882352941
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e2ab2c515347af8513c6305c3b81d80d"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "fa9f17a738bb249c17eb13087c19e051"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "30b73f51f6a08b9818685356931ef19e"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

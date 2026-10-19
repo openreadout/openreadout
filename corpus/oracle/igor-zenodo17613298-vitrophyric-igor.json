@@ -1,0 +1,1364 @@
+{
+ "id": "igor-zenodo17613298-vitrophyric-igor",
+ "file": "vitrophyric-Igor.pxp",
+ "size": 63771,
+ "sha256": "3339171a54ca5a075b542e46b8a9712f4b4714f7137ddf0b1c55632cf830c0a7",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:wave0",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave0"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "4c6e3f5f511b0d5d6e5d9cfc6073f1d4",
+       "first": [
+        2.148649946e-05,
+        2.426150058e-05,
+        2.703649989e-05,
+        2.981149919e-05,
+        3.258650031e-05,
+        3.536149961e-05,
+        3.813649892e-05,
+        4.091149822e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:wave1",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave1"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "3e958b1bf64ac25a01f7fcc3eb6d5d3a",
+       "first": [
+        2.343929918e-05,
+        2.898929961e-05,
+        3.453929821e-05,
+        4.008930046e-05,
+        4.563929906e-05,
+        5.11893013e-05,
+        5.673929991e-05,
+        6.228929851e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:wave2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "bdc88ca86a482626f2b6ab8dd8b5bdcd",
+       "first": [
+        10381899780.0,
+        4571189760.0,
+        2102259968.0,
+        1151810048.0,
+        698038016.0,
+        433020992.0,
+        290267008.0,
+        223980992.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:wave3",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave3"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "378caa08260d95cbe4690f3a0a60aeb8",
+       "first": [
+        306796992.0,
+        58984200.0,
+        22558300.0,
+        9915920.0,
+        6902450.0,
+        4892200.0,
+        3657810.0,
+        3106640.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:wave4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "d9bc2675d6581da6f88d40ab1c66920f",
+       "first": [
+        2.343929992e-07,
+        2.898929949e-07,
+        3.453930049e-07,
+        4.008929864e-07,
+        4.563929963e-07,
+        5.118930062e-07,
+        5.673929877e-07,
+        6.22893026e-07
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:wave5",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave5"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "3e958b1bf64ac25a01f7fcc3eb6d5d3a",
+       "first": [
+        2.343929918e-05,
+        2.898929961e-05,
+        3.453929821e-05,
+        4.008930046e-05,
+        4.563929906e-05,
+        5.11893013e-05,
+        5.673929991e-05,
+        6.228929851e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:wave6",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave6"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "5b91dbe4652227b4cdd8d1c3a158ca65",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:wave7",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave7"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "900043f92828fff2e07f8e98759c2d54",
+       "first": [
+        2.3439e-05,
+        2.365e-05,
+        2.3862e-05,
+        2.4076e-05,
+        2.4292e-05,
+        2.451e-05,
+        2.4729e-05,
+        2.4951e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "root:wave8",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave8"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "b7226f5e2b7451f73e49b8539c7ae5f6",
+       "first": [
+        10453000000.0,
+        10080000000.0,
+        9720500000.0,
+        9373500000.0,
+        9038900000.0,
+        8716300000.0,
+        8405200000.0,
+        8105100000.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "root:wave9",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave9"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "f49ce85b5f9aed149fc45dfa3fe665b4",
+       "first": [
+        8.4489e-05,
+        8.5105e-05,
+        8.5724e-05,
+        8.6349e-05,
+        8.6977e-05,
+        8.7611e-05,
+        8.8249e-05,
+        8.8891e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "root:wave10",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave10"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "da5cb6f7deaf0f554c5d60abd64ffc5e",
+       "first": [
+        0.002682999941,
+        0.003170999931,
+        0.003658999922,
+        0.004147000145,
+        0.004635000136,
+        0.005123000126,
+        0.005609999876,
+        0.006097999867
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "root:wave11",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave11"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "b5a0e311a78ffbd615aa8de61ea565f9",
+       "first": [
+        2217.0,
+        1651.0,
+        890.0999756,
+        542.2999878,
+        357.3999939,
+        251.0,
+        182.8000031,
+        137.3000031
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "root:wave12",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave12"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "760753d2559f71d5997472cdc5a6d47f",
+       "first": [
+        82.15000153,
+        72.68000031,
+        30.63999939,
+        14.65999985,
+        7.822000027,
+        4.741000175,
+        2.970000029,
+        2.062999964
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "root:wave13",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave13"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "bbd8f43793c2c68f15c8f102887bed35",
+       "first": [
+        0.0008689999813,
+        0.0008844999829,
+        0.0008879000088,
+        0.0008923999849,
+        0.0008982999716,
+        0.0009055000264,
+        0.0009136999724,
+        0.0009228999843
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "root:wave14",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave14"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "db01ae0a96ff81265c8c3fe1a204da22",
+       "first": [
+        0.002897999948,
+        0.003287000116,
+        0.003757999977,
+        0.004234000109,
+        0.004712999798,
+        0.005193000194,
+        0.005675000139,
+        0.006157999858
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "name": "root:wave15",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave15"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "0d5df47523aecd924ba077f66375b012",
+       "first": [
+        0.7972999811,
+        0.9973000288,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "root:wave16",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave16"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "3c167478295525b229de52a98685dc4f",
+       "first": [
+        0.002683,
+        0.0027307,
+        0.0027793,
+        0.0028287,
+        0.002879,
+        0.0029303,
+        0.0029824,
+        0.0030354
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "name": "root:wave17",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave17"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "aa141e1e12b4c2b5d7b369fbb945065e",
+       "first": [
+        2426.7,
+        2283.9,
+        2149.5,
+        2023.0,
+        1903.9,
+        1791.9,
+        1686.4,
+        1587.2
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "name": "root:wave18",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave18"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "da5cb6f7deaf0f554c5d60abd64ffc5e",
+       "first": [
+        0.002682999941,
+        0.003170999931,
+        0.003658999922,
+        0.004147000145,
+        0.004635000136,
+        0.005123000126,
+        0.005609999876,
+        0.006097999867
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "name": "root:wave19",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave19"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "540def82a2768c515f0ebecd54d9c6d8",
+       "first": [
+        4723.0,
+        3939.0,
+        2454.0,
+        1645.0,
+        1168.0,
+        854.0,
+        640.2000122,
+        492.6000061
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "name": "root:wave20",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave20"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "1c99a1b5408521fd72a24845ba178d3f",
+       "first": [
+        180.8000031,
+        134.1000061,
+        65.30000305,
+        35.83000183,
+        21.12000084,
+        14.06999969,
+        9.217000008,
+        5.868999958
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "name": "root:wave21",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave21"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "bbd8f43793c2c68f15c8f102887bed35",
+       "first": [
+        0.0008689999813,
+        0.0008844999829,
+        0.0008879000088,
+        0.0008923999849,
+        0.0008982999716,
+        0.0009055000264,
+        0.0009136999724,
+        0.0009228999843
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "name": "root:wave22",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave22"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "db01ae0a96ff81265c8c3fe1a204da22",
+       "first": [
+        0.002897999948,
+        0.003287000116,
+        0.003757999977,
+        0.004234000109,
+        0.004712999798,
+        0.005193000194,
+        0.005675000139,
+        0.006157999858
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "name": "root:wave23",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave23"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "0d5df47523aecd924ba077f66375b012",
+       "first": [
+        0.7972999811,
+        0.9973000288,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "name": "root:wave24",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave24"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "59c132c753eb79c065e86fb4991f62c7",
+       "first": [
+        0.002683,
+        0.0027377,
+        0.0027934,
+        0.0028504,
+        0.0029084,
+        0.0029677,
+        0.0030281,
+        0.0030898
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "name": "root:wave25",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave25"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 153,
+     "channels": [
+      {
+       "xxh3": "20e1afc40f5a51ba60753b55adb2e8de",
+       "first": [
+        6366.8,
+        5976.9,
+        5610.8,
+        5267.2,
+        4944.6,
+        4641.8,
+        4357.6,
+        4090.7
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "name": "root:wave26",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave26"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "45943e4a438f6f2f8f83217bbbbff575",
+       "first": [
+        3.782460044e-05,
+        4.337459904e-05,
+        4.892460129e-05,
+        5.447459989e-05,
+        6.00245985e-05,
+        6.55745971e-05,
+        7.112460298e-05,
+        7.667460159e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "name": "root:wave27",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave27"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "50376b49a1f392973596ebbdef2f4b62",
+       "first": [
+        6521869824.0,
+        3884480000.0,
+        2415889920.0,
+        1571709952.0,
+        1039409984.0,
+        728470016.0,
+        582174016.0,
+        472611008.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "name": "root:wave28",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave28"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "05d00cd2ced17f717d4d51f0e77671a6",
+       "first": [
+        39191800.0,
+        20592500.0,
+        14452500.0,
+        10462600.0,
+        7768480.0,
+        6028840.0,
+        5262300.0,
+        4671420.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "name": "root:wave29",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave29"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "95fcc52a0a5bcd82bbceaf802ca6cf0f",
+       "first": [
+        3.782459999e-07,
+        4.337460098e-07,
+        4.892460197e-07,
+        5.447460012e-07,
+        6.002459827e-07,
+        6.55746021e-07,
+        7.112460025e-07,
+        7.66745984e-07
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "name": "root:wave30",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave30"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "45943e4a438f6f2f8f83217bbbbff575",
+       "first": [
+        3.782460044e-05,
+        4.337459904e-05,
+        4.892460129e-05,
+        5.447459989e-05,
+        6.00245985e-05,
+        6.55745971e-05,
+        7.112460298e-05,
+        7.667460159e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "name": "root:wave31",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave31"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "c0c42ca493e8732391941b1f41d86300",
+       "first": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "name": "root:wave32",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave32"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "7b6ee0c1d81ffc2f306a048cab52b498",
+       "first": [
+        3.7825e-05,
+        3.8096e-05,
+        3.8368e-05,
+        3.8643e-05,
+        3.892e-05,
+        3.9199e-05,
+        3.948e-05,
+        3.9762e-05
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "name": "root:wave33",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave33"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "102f4b971af29e5c41bf92405dde527d",
+       "first": [
+        6397500000.0,
+        6225800000.0,
+        6058700000.0,
+        5896100000.0,
+        5737900000.0,
+        5583900000.0,
+        5434100000.0,
+        5288200000.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "name": "root:wave34",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave34"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "305be7086f1571a9d92e0c3765f336cc",
+       "first": [
+        0.00010443,
+        0.00010508,
+        0.00010573,
+        0.00010639,
+        0.00010705,
+        0.00010772,
+        0.00010839,
+        0.00010907
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "name": "root:wave35",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave35"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "9a3865b5af03dce2849f921c0f10340d",
+       "first": [
+        190880000.0,
+        186730000.0,
+        182680000.0,
+        178710000.0,
+        174840000.0,
+        171040000.0,
+        167330000.0,
+        163700000.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "name": "root:wave36",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave36"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "cbb6f6f5759cf9d5447a5adde875ebf0",
+       "first": [
+        115240000.0,
+        112590000.0,
+        110010000.0,
+        107490000.0,
+        105020000.0,
+        102620000.0,
+        100260000.0,
+        97964000.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "name": "root:wave37",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave37"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "98178685df426a298d3287e03b80f391",
+       "first": [
+        0.00031759,
+        0.00032447,
+        0.00033149,
+        0.00033867,
+        0.00034601,
+        0.0003535,
+        0.00036115,
+        0.00036898
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "name": "root:wave38",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave38"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "48898e73fdfc7a96e06f937b86c15c3e",
+       "first": [
+        2149700.0,
+        2007300.0,
+        1874400.0,
+        1750300.0,
+        1634400.0,
+        1526200.0,
+        1425200.0,
+        1330800.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "name": "root:wave39",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave39"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "bb6769c20a9c9ec7589fd462da4688b2",
+       "first": [
+        0.00034307,
+        0.00035023,
+        0.00035753,
+        0.00036499,
+        0.0003726,
+        0.00038036,
+        0.0003883,
+        0.00039639
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "name": "root:wave40",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "wave40"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 100,
+     "channels": [
+      {
+       "xxh3": "580164d53eb73d658567eb7458604844",
+       "first": [
+        2989500.0,
+        2807000.0,
+        2635700.0,
+        2474800.0,
+        2323800.0,
+        2181900.0,
+        2048800.0,
+        1923700.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

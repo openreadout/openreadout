@@ -1,0 +1,43 @@
+{
+ "id": "igor-zenodo12759092-arpesn5d-67ev",
+ "file": "ARPESn5d_67eV.ibw",
+ "size": 440,
+ "sha256": "94d907c3b723d62646454ee32aebb6f222318ad9eca9c15826c68cff99e2a50b",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "Aa_n5d",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Aa_n5d"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "2ad46dacf4f8dabf744a3721db4c6ffc",
+       "first": [
+        0.9999158819999999,
+        0.986255802,
+        0.957919032,
+        0.6271812539999999,
+        0.606209478,
+        0.585366012,
+        0.500663646
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
