@@ -458,15 +458,15 @@ const CHEMSTATION_VALIDATED: &[Validated] = &[
 // END GENERATED chemstation
 
 // BEGIN GENERATED openlab-cds (cargo xtask assurance-audit --write; do not edit)
-const OPENLAB_CDS_CONFIDENCE: Confidence = Confidence::Medium;
+const OPENLAB_CDS_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const OPENLAB_CDS_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "InstrumentTrace179", 6, 2, 6),
-    a::row(K::Codec, "Signal179", 13, 4, 13),
-    a::row(K::Codec, "Spectra131", 2, 1, 2),
-    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 13),
+    a::row(K::Codec, "InstrumentTrace179", 7, 3, 7),
+    a::row(K::Codec, "Signal179", 14, 5, 14),
+    a::row(K::Codec, "Spectra131", 3, 2, 3),
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 14),
     a::row(K::Field, "experiment.instrument.model", 0, 0, 5),
-    a::row(K::FormatVersion, "signal 131", 2, 1, 2),
+    a::row(K::FormatVersion, "signal 131", 3, 2, 3),
     a::row(K::FormatVersion, "signal 179", 11, 4, 11),
     a::row(K::Instrument, "7890B", 1, 1, 1),
     a::row(K::Instrument, "G1364F", 1, 1, 1),
@@ -490,9 +490,9 @@ const OPENLAB_CDS_VALIDATED: &[Validated] = &[
 const EMPOWER_ARW_CONFIDENCE: Confidence = Confidence::Medium;
 #[rustfmt::skip]
 const EMPOWER_ARW_VALIDATED: &[Validated] = &[
-    a::row(K::Dialect, "CR line endings", 10, 2, 10),
+    a::row(K::Dialect, "CR line endings", 12, 3, 12),
     a::row(K::Dialect, "CRLF line endings", 13, 2, 13),
-    a::row(K::Layout, "2D, evenly spaced times", 23, 3, 23),
+    a::row(K::Layout, "2D, evenly spaced times", 25, 4, 25),
     a::row(K::Layout, "one field per line", 13, 2, 13),
 ];
 // END GENERATED empower-arw

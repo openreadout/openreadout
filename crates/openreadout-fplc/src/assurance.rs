@@ -80,27 +80,28 @@ const CYTIVA_UNICORN_RES_VALIDATED: &[Validated] = &[
 // END GENERATED cytiva-unicorn-res
 
 // BEGIN GENERATED cytiva-unicorn-zip (cargo xtask assurance-audit --write; do not edit)
-const CYTIVA_UNICORN_ZIP_CONFIDENCE: Confidence = Confidence::Medium;
+const CYTIVA_UNICORN_ZIP_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const CYTIVA_UNICORN_ZIP_VALIDATED: &[Validated] = &[
-    a::row(K::Field, "experiment.acquisition.started_at", 10, 4, 10),
-    a::row(K::Field, "experiment.instrument.model", 11, 4, 11),
+    a::row(K::Field, "experiment.acquisition.started_at", 10, 4, 12),
+    a::row(K::Field, "experiment.instrument.model", 11, 4, 13),
     a::row(K::FormatVersion, "UNICORN 100", 1, 1, 1),
+    a::row(K::FormatVersion, "UNICORN 4", 2, 1, 2),
     a::row(K::FormatVersion, "UNICORN 5", 9, 3, 9),
-    a::row(K::Layout, "volume-grid curve", 2, 2, 2),
-    a::row(K::Record, "UNICORN peak table", 3, 3, 3),
-    a::row(K::Record, "curve concentration_b", 9, 3, 9),
-    a::row(K::Record, "curve conductivity", 9, 3, 9),
-    a::row(K::Record, "curve conductivity_percent", 9, 3, 9),
-    a::row(K::Record, "curve flow", 10, 4, 10),
-    a::row(K::Record, "curve other", 10, 4, 10),
+    a::row(K::Layout, "volume-grid curve", 4, 3, 4),
+    a::row(K::Record, "UNICORN peak table", 5, 4, 5),
+    a::row(K::Record, "curve concentration_b", 11, 4, 11),
+    a::row(K::Record, "curve conductivity", 11, 4, 11),
+    a::row(K::Record, "curve conductivity_percent", 11, 4, 11),
+    a::row(K::Record, "curve flow", 12, 5, 12),
+    a::row(K::Record, "curve other", 12, 5, 12),
     a::row(K::Record, "curve ph", 5, 2, 5),
-    a::row(K::Record, "curve pressure", 9, 3, 9),
-    a::row(K::Record, "curve temperature", 10, 4, 10),
-    a::row(K::Record, "curve uv", 10, 4, 10),
-    a::row(K::Record, "events fractions", 8, 4, 8),
-    a::row(K::Record, "events injections", 11, 4, 11),
-    a::row(K::Record, "events logbook", 11, 4, 11),
+    a::row(K::Record, "curve pressure", 11, 4, 11),
+    a::row(K::Record, "curve temperature", 12, 5, 12),
+    a::row(K::Record, "curve uv", 12, 5, 12),
+    a::row(K::Record, "events fractions", 10, 5, 10),
+    a::row(K::Record, "events injections", 13, 5, 13),
+    a::row(K::Record, "events logbook", 13, 5, 13),
 ];
 // END GENERATED cytiva-unicorn-zip
 

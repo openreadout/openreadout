@@ -43,9 +43,9 @@ Shared: `binary.rs` (Pascal strings, bounded whole-file reads, date and number f
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `chemstation` | [format note](../../docs/formats/chemstation.md), [provenance log](../../docs/provenance/chemstation.md) | high | prior art | 29 / 29 | 10 | 3 / 0 |
-| `openlab-cds` | [format note](../../docs/formats/openlab-cds.md), [provenance log](../../docs/provenance/openlab-cds.md) | medium | reverse engineered | 13 / 13 | 4 | - |
+| `openlab-cds` | [format note](../../docs/formats/openlab-cds.md), [provenance log](../../docs/provenance/openlab-cds.md) | high | reverse engineered | 14 / 14 | 5 | - |
 | `andi-chrom` | [format note](../../docs/formats/andi-chrom.md), [provenance log](../../docs/provenance/andi-chrom.md) | high | open spec | 25 / 25 | 5 | 1 / 0 |
-| `empower-arw` | [format note](../../docs/formats/empower-arw.md), [provenance log](../../docs/provenance/empower-arw.md) | medium | reverse engineered | 23 / 23 | 3 | - |
+| `empower-arw` | [format note](../../docs/formats/empower-arw.md), [provenance log](../../docs/provenance/empower-arw.md) | medium | reverse engineered | 25 / 25 | 4 | - |
 | `shimadzu` | [format note](../../docs/formats/shimadzu.md), [provenance log](../../docs/provenance/shimadzu.md) | medium | reverse engineered | 22 / 18 | 12 | 0 / 1 |
 | `chromeleon` | [format note](../../docs/formats/chromeleon.md), [provenance log](../../docs/provenance/chromeleon.md) | high | reverse engineered | 17 / 2 | 2 | - |
 
@@ -199,16 +199,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `chromeleon` | layout | `irregular signal in counts` | traces | 0 | 1 |  |
 | `chromeleon` | writer_version | `Chromeleon 7.2` | metadata, traces | 1 | 15 | `cmbx-lauterbach-invivo-cascade` |
 | `chromeleon` | writer_version | `Chromeleon 7.3` | metadata, traces | 1 | 2 | `cmbx-figshare-milks-sugars` |
-| `empower-arw` | dialect | `CR line endings` | traces | 10 | 10 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
+| `empower-arw` | dialect | `CR line endings` | traces | 12 | 12 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
 | `empower-arw` | dialect | `CRLF line endings` | traces | 13 | 13 | `gpcreader-empower-calib1`, `gpcreader-empower-calib2`, `gpcreader-empower-sample1` |
-| `empower-arw` | layout | `2D, evenly spaced times` | traces | 23 | 23 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
+| `empower-arw` | layout | `2D, evenly spaced times` | traces | 25 | 25 | `appia-empower-results1844`, `appia-empower-results1845`, `appia-empower-results1848` |
 | `empower-arw` | layout | `one field per line` | traces | 13 | 13 | `gpcreader-empower-calib1`, `gpcreader-empower-calib2`, `gpcreader-empower-sample1` |
-| `openlab-cds` | codec | `InstrumentTrace179` | traces | 6 | 6 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
-| `openlab-cds` | codec | `Signal179` | traces | 13 | 13 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
-| `openlab-cds` | codec | `Spectra131` | traces | 2 | 2 | `cct-openlab-meoh1`, `cct-openlab-sirslt-norbert` |
-| `openlab-cds` | field | `experiment.acquisition.started_at` | descriptive | 13 | 13 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | codec | `InstrumentTrace179` | traces | 7 | 7 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | codec | `Signal179` | traces | 14 | 14 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
+| `openlab-cds` | codec | `Spectra131` | traces | 3 | 3 | `cct-openlab-meoh1`, `cct-openlab-sirslt-norbert`, `chromtroller-openlab-simple1` |
+| `openlab-cds` | field | `experiment.acquisition.started_at` | descriptive | 14 | 14 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
 | `openlab-cds` | field | `experiment.instrument.model` | descriptive | 5 | 5 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
-| `openlab-cds` | format_version | `signal 131` | metadata, traces | 2 | 2 | `cct-openlab-meoh1`, `cct-openlab-sirslt-norbert` |
+| `openlab-cds` | format_version | `signal 131` | metadata, traces | 3 | 3 | `cct-openlab-meoh1`, `cct-openlab-sirslt-norbert`, `chromtroller-openlab-simple1` |
 | `openlab-cds` | format_version | `signal 179` | metadata, traces | 11 | 11 | `allotropy-openlab-luxo-01`, `allotropy-openlab-luxo-03`, `allotropy-openlab-sirius-01` |
 | `openlab-cds` | instrument | `7890B` | descriptive | 1 | 1 | `pygecko-openlab-fkb-fa-060-ri` |
 | `openlab-cds` | instrument | `G1364F` | descriptive | 1 | 1 | `cct-openlab-sirslt-norbert` |
@@ -219,7 +219,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 - integration tests: none (unit tests in `src/`)
 - fuzz targets (`fuzz/fuzz_targets/`): `chrom_cfb`, `chrom_netcdf`, `whole_andi`, `whole_chemstation`, `whole_chromeleon`, `whole_empower_arw`, `whole_openlab`, `whole_shimadzu`
-- corpus inputs by tier: full 4, heldout 19, smoke 62, standard 63
+- corpus inputs by tier: full 5, heldout 19, smoke 62, standard 65
 - golden snapshots: [`corpus/snapshots/chemstation.jsonl`](../../corpus/snapshots/chemstation.jsonl), [`corpus/snapshots/openlab-cds.jsonl`](../../corpus/snapshots/openlab-cds.jsonl), [`corpus/snapshots/andi-chrom.jsonl`](../../corpus/snapshots/andi-chrom.jsonl), [`corpus/snapshots/empower-arw.jsonl`](../../corpus/snapshots/empower-arw.jsonl), [`corpus/snapshots/shimadzu.jsonl`](../../corpus/snapshots/shimadzu.jsonl), [`corpus/snapshots/chromeleon.jsonl`](../../corpus/snapshots/chromeleon.jsonl)
 
 ### Open new-variant intakes

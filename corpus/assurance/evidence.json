@@ -50743,6 +50743,262 @@
       ]
     },
     {
+      "id": "unicorn-zip-zenodo3519436-hpf1-alone-1",
+      "format": "cytiva-unicorn-zip",
+      "source": "zenodo:3519436",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "UNICORN 4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "curve uv",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve conductivity",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve conductivity_percent",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve concentration_b",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve pressure",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "volume-grid curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve other",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "events fractions",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "events injections",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "events logbook",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "UNICORN peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "unicorn-zip-zenodo3519436-qfrd-nuc165-1",
+      "format": "cytiva-unicorn-zip",
+      "source": "zenodo:3519436",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "UNICORN 4",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "curve uv",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve conductivity",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve conductivity_percent",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve concentration_b",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve flow",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve pressure",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "volume-grid curve",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve temperature",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "curve other",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "events fractions",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "events injections",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "events logbook",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "UNICORN peak table",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        2,
+        2
+      ]
+    },
+    {
       "id": "aics-NoSceneNames",
       "format": "czi",
       "source": "allen institute for cell science aicsimageio test resources",
@@ -76224,6 +76480,74 @@
       "id": "appia-empower-results1853",
       "format": "empower-arw",
       "source": "github:plethorachutney/appia",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "assumed": [
+        "traces[].channels[].unit"
+      ],
+      "features": [
+        [
+          "layout",
+          "2D, evenly spaced times",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "dialect",
+          "CR line endings",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "empower-zenodo21245297-blue",
+      "format": "empower-arw",
+      "source": "zenodo:21245297",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "assumed": [
+        "traces[].channels[].unit"
+      ],
+      "features": [
+        [
+          "layout",
+          "2D, evenly spaced times",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "dialect",
+          "CR line endings",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "empower-zenodo21245297-red",
+      "format": "empower-arw",
+      "source": "zenodo:21245297",
       "oracle": "pass",
       "independent": true,
       "compared": [
@@ -129385,6 +129709,57 @@
         [
           "codec",
           "InstrumentTrace179",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        16,
+        19
+      ]
+    },
+    {
+      "id": "chromtroller-openlab-simple1",
+      "format": "openlab-cds",
+      "source": "github:ombayley/chromtroller",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "signal 131",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "Signal179",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "InstrumentTrace179",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "Spectra131",
           [
             "traces"
           ]
