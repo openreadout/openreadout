@@ -200,13 +200,20 @@ fn corpus_index() {
         missing.join("\n")
     );
 
-    // Values of flagged fields never reach the tables.
-    let mut problems_text = String::new();
+    // A data set's flagged values never reach its rows in the problems table. The check is per
+    // data set: a value flagged in one file can be a plain word in another file's message (the
+    // shared account `array` on a Bioanalyzer export, and "array of 51344 floats" in a damaged
+    // UNICORN curve).
+    let mut problems_text: HashMap<String, String> = HashMap::new();
     scan_table(&tmp.join("problems.parquet"), None, &mut |rows| {
+        let path_col = rows.names().iter().position(|n| n == "path").unwrap();
         for r in 0..rows.len() {
+            let text = problems_text
+                .entry(rows.cell(r, path_col).to_text())
+                .or_default();
             for c in 0..rows.names().len() {
-                problems_text.push_str(&rows.cell(r, c).to_text());
-                problems_text.push('\n');
+                text.push_str(&rows.cell(r, c).to_text());
+                text.push('\n');
             }
         }
         Ok(())
@@ -215,25 +222,29 @@ fn corpus_index() {
     let mut req = SearchRequest::default();
     req.query = "pii=person_name".into();
     req.limit = Some(0);
-    req.fields = vec!["operator".into()];
+    req.fields = vec!["path".into(), "operator".into()];
     let flagged = openreadout_index::search(&tmp, &req).unwrap();
     for h in &flagged.results {
-        if let Some(op) = h["operator"].as_str() {
-            // Whole words only ("Sam" is in "SamplePrecision"); paths are not values.
-            let hit = problems_text.lines().find(|l| {
-                !l.starts_with('/')
-                    && l.match_indices(op).any(|(i, _)| {
-                        let before = l[..i].chars().next_back();
-                        let after = l[i + op.len()..].chars().next();
-                        !before.is_some_and(char::is_alphanumeric)
-                            && !after.is_some_and(char::is_alphanumeric)
-                    })
-            });
-            assert!(
-                hit.is_none(),
-                "a flagged value reached problems.parquet: {hit:?}"
-            );
-        }
+        let (Some(op), Some(path)) = (h["operator"].as_str(), h["path"].as_str()) else {
+            continue;
+        };
+        let Some(text) = problems_text.get(path) else {
+            continue;
+        };
+        // Whole words only ("Sam" is in "SamplePrecision"); paths are not values.
+        let hit = text.lines().find(|l| {
+            !l.starts_with('/')
+                && l.match_indices(op).any(|(i, _)| {
+                    let before = l[..i].chars().next_back();
+                    let after = l[i + op.len()..].chars().next();
+                    !before.is_some_and(char::is_alphanumeric)
+                        && !after.is_some_and(char::is_alphanumeric)
+                })
+        });
+        assert!(
+            hit.is_none(),
+            "a flagged value of {path} reached problems.parquet: {hit:?}"
+        );
     }
 
     // Search agrees with the tables.
