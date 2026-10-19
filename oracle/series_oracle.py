@@ -15,6 +15,7 @@ Sources, never our reader:
 
 Usage:
   python series_oracle.py --id ID --format FMT FILE [--out DIR]
+      [--export PATH --parse map-row --row K --sweep K]   (a LabSpec map export, spectrum K)
       [--export PATH --parse table [--skip-until TEXT] [--xcol 0] [--ycol 1] [--delim ,]
        [--decimal-comma] [--trace 0] [--sweep 0] [--channel intensity] [--x-tol 1e-6]
        [--y-tol-rel 1e-6] [--y-tol-abs 0] [--y-mult 1] [--first-row 0] [--x-mult 1]] ...
@@ -101,8 +102,24 @@ def parse_values(path: Path, a: dict) -> tuple[list[float | None], list[float]]:
     return [None] * len(ys), ys
 
 
+def parse_map_row(path: Path, a: dict) -> tuple[list[float | None], list[float]]:
+    """A map export as a matrix (LabSpec): `#` header lines, then a row of x values after two
+    empty cells, then one row per spectrum (its two positions, then its values); `--row K` takes
+    spectrum K."""
+    text = path.read_bytes().decode("latin-1").lstrip("\ufeff")
+    rows = [l.split("\t") for l in text.splitlines() if l.strip() and not l.startswith("#")]
+    comma = a.get("decimal_comma", False)
+    xs = [num(c, comma) for c in rows[0][2:]]
+    k = int(a["row"])
+    ys = [num(c, comma) for c in rows[1 + k][2:]]
+    return xs, ys
+
+
 def export_trace(path: Path, a: dict) -> dict:
-    xs, ys = parse_values(path, a) if a.get("parse") == "values" else parse_table(path, a)
+    if a.get("parse") == "map-row":
+        xs, ys = parse_map_row(path, a)
+    else:
+        xs, ys = parse_values(path, a) if a.get("parse") == "values" else parse_table(path, a)
     ym = float(a.get("y_mult", 1.0))
     xm = float(a.get("x_mult", 1.0))
     idx = pick(len(ys))

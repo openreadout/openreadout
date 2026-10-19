@@ -112,6 +112,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_spectro::AgilentFpaReader))
         .with(Box::new(openreadout_spectro::FsmReader))
         .with(Box::new(openreadout_spectro::UvProbeReader))
+        .with(Box::new(openreadout_spectro::LabSpecReader))
         .with(Box::new(openreadout_spectro::CaryReader))
         .with(Box::new(openreadout_biophys::ItcReader))
         .with(Box::new(openreadout_biophys::BiacoreReader))

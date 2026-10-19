@@ -6,7 +6,7 @@
 
 **Corpus files used** (all in `corpus/manifest.toml`): the nine results exports of figshare 24278779, 24295207, 24297802, 24298027, 24298105, 24298141, 24302305, 24302329 and 24302350 (CC BY 4.0, García-Escudero, Avila et al.); `ddpcr-nipd-19-3581` and `ddpcr-nipd-20-0618` (github.com/joe-m-shaw/ddpcr_nipd, MIT); `daattali-ddpcr-quant`, `daattali-ddpcr-quant-a01-amplitude`, `daattali-ddpcr-small`, `daattali-ddpcr-small-a05-amplitude` (github.com/daattali/ddpcr, MIT); `dpcp-10ng-a01-amplitude`, `dpcp-0-0195ng-b04-amplitude` (github.com/alfodefalco/dPCP, MIT); `podcall-vim-4plex-d04-amplitude` (github.com/bioc/PoDCall, GPL-3, data only); `ornelles-ddpcr-demo-a01-amplitude` (github.com/ornelles/ddpcr, GPL-3, data only). No file is held out yet.
 
-**Prior art consulted:** none. The R packages above were not read; only their data files were used. Python's `csv` module reads the same files as the oracle (`oracle/export_tables.py`).
+**Prior art consulted:** none. Python's `csv` module reads the same files as the oracle (`oracle/export_tables.py`).
 
 **Inferred from the files:**
 

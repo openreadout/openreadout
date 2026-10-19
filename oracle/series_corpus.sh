@@ -257,3 +257,15 @@ uvx zenodo13884418-uvprobe-ni-f-wo3-au-uv --no-count
 for id in gh-sukritranjan-sulfite-kinetics-release-uvprobe-ph7-1 gh-sukritranjan-sulfite-kinetics-release-uvprobe-blank; do
   uvx $id --y-tol-abs 5.0001e-6
 done
+# ---- horiba-labspec: LabSpec's text export of each .l6s (x, intensity; six significant digits).
+# The map export is a matrix with one row per spectrum: rows 0, 35 and 71 are compared.
+LSTOL="--x-tol 5.0001e-3 --y-tol-rel 5.0001e-6 --y-tol-abs 5.0001e-4"
+lsx() { $PY series_oracle.py --id $1 --format horiba-labspec $C/$1.l6s --export $C/$1-txt.txt --xcol 0 --ycol 1 $LSTOL; }
+for id in dvn-ulj5h2-glass dvn-ulj5h2-cyclo-3sec dvn-ulj5h2-a1ker0-6spc dvn-ulj5h2-blank-10spc \
+          borealis-ho6ler-tosoh figshare25126925-nit-01 figshare25126925-beads-02 figshare31861468-sampe-1-solid \
+          ncl22790156-calcium-carbonate; do lsx $id; done
+m=horiba-raman-aln-gd2o3-map
+$PY series_oracle.py --id $m --format horiba-labspec $C/$m.l6m \
+  --export $C/$m-txt.txt --parse map-row --row 0 --sweep 0 $LSTOL \
+  --export $C/$m-txt.txt --parse map-row --row 35 --sweep 35 $LSTOL \
+  --export $C/$m-txt.txt --parse map-row --row 71 --sweep 71 $LSTOL

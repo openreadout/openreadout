@@ -21,6 +21,9 @@
 //!   (spectrum series and maps exported by GRAMS, OMNIC, WiRE, Spectragryph and others), float
 //!   or fixed-point values, with the log block's instrument settings. Notes:
 //!   `docs/formats/galactic-spc.md`.
+//! - **HORIBA LabSpec 6** (`horiba-labspec`, `.l6s` spectra and `.l6m` maps): Raman and
+//!   other spectra with their spectral axis and units; maps as one image with X and Y
+//!   positions. Notes: `docs/formats/horiba-labspec.md`.
 //! - **Shimadzu UVProbe** (`shimadzu-uvprobe`, `.spc` compound files from UV-Vis and UV-Vis-NIR
 //!   spectrophotometers): one trace per data set. Notes: `docs/formats/shimadzu-uvprobe.md`.
 //! - **Agilent (Varian) Cary UV-Vis** (`agilent-cary`, `.dsw` Scan, `.bsw` batch Scan, `.bsk`
@@ -91,6 +94,7 @@ mod cary;
 mod common;
 mod fsm;
 mod jasco;
+mod labspec;
 mod omnic;
 mod omnic_map;
 mod omnic_srs;
@@ -133,6 +137,8 @@ pub const AGILENT_FPA_FORMAT_ID: &str = "agilent-fpa";
 pub const WITEC_FORMAT_ID: &str = "witec-project";
 /// Format id of Shimadzu UVProbe `.spc` files.
 pub const UVPROBE_FORMAT_ID: &str = "shimadzu-uvprobe";
+/// Format id of HORIBA LabSpec 6 `.l6s`/`.l6m` files.
+pub const LABSPEC_FORMAT_ID: &str = "horiba-labspec";
 
 /// The Bruker OPUS reader.
 #[derive(Debug, Default, Clone, Copy)]
@@ -843,6 +849,72 @@ impl FormatReader for CaryReader {
                     n,
                 ),
         ))
+    }
+
+    fn reads_any_source(&self) -> bool {
+        true
+    }
+}
+
+/// The HORIBA LabSpec 6 reader (`.l6s` spectra, `.l6m` maps).
+#[derive(Debug, Default, Clone, Copy)]
+pub struct LabSpecReader;
+
+impl FormatReader for LabSpecReader {
+    fn assurance(&self) -> Option<&'static openreadout_core::assurance::AssuranceProfile> {
+        Some(&assurance::HORIBA_LABSPEC)
+    }
+
+    fn descriptor(&self) -> FormatDescriptor {
+        FormatDescriptor {
+            id: LABSPEC_FORMAT_ID.into(),
+            name: "HORIBA LabSpec 6 (.l6s, .l6m)".into(),
+            vendor: "HORIBA Scientific".into(),
+            extensions: vec!["l6s".into(), "l6m".into()],
+            family: "spectroscopy".into(),
+            can_read: true,
+            can_write: false,
+            confidence: assurance::HORIBA_LABSPEC.confidence,
+            known_gaps: vec![
+                "Only the spectrum or X × Y map of the first data object is read; further objects in the file are listed, not read".into(),
+                "Acquisition settings (exposure, accumulations, laser, grating, objective) and the title are not read: they appear in LabSpec's text export".into(),
+                "Files whose body is encoded (header word 1) are refused: export them as text from LabSpec".into(),
+                "LabSpec 5 files (.l5s, .ngs) are not read".into(),
+            ],
+        }
+    }
+
+    fn sniff(&self, head: &[u8], path: &Path) -> Option<Detection> {
+        if head.starts_with(labspec::MAGIC) {
+            return Some(Detection {
+                format_id: LABSPEC_FORMAT_ID,
+                confidence: DetectConfidence::Definite,
+                note: None,
+            });
+        }
+        (has_extension(path, &["l6s", "l6m"]) && head.len() < labspec::MAGIC.len()).then_some(
+            Detection {
+                format_id: LABSPEC_FORMAT_ID,
+                confidence: DetectConfidence::ExtensionOnly,
+                note: Some("LabSpec extension but the file does not start with LabSpec6".into()),
+            },
+        )
+    }
+
+    fn open(&self, path: &Path) -> Result<Box<dyn Dataset>> {
+        self.open_input(&Input::local(path))
+    }
+
+    fn open_input(&self, input: &Input) -> Result<Box<dyn Dataset>> {
+        let (f, len) = common::open_source(input)?;
+        let parsed = labspec::parse(&f, input.path(), len)?;
+        Ok(Box::new(SpectroDataset::new(
+            self.descriptor(),
+            input,
+            f,
+            len,
+            parsed,
+        )))
     }
 
     fn reads_any_source(&self) -> bool {

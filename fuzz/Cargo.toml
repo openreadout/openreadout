@@ -1115,6 +1115,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_labspec"
+path = "fuzz_targets/whole_labspec.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_pod5"
 path = "fuzz_targets/whole_pod5.rs"
 test = false

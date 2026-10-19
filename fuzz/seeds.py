@@ -144,6 +144,8 @@ COMMITTED_CUTS = [
     ("whole_qubit", "qubit4-out-of-range.csv", 16 * 1024),  # MIT (allotropy test data)
     ("whole_qubit", "qubit-flex-sep-header.csv", 16 * 1024),  # MIT (allotropy test data)
     ("whole_ddpcr", "figshare24302350-ddpcr-results.csv", 16 * 1024),  # CC-BY-4.0
+    ("whole_labspec", "figshare31861468-sampe-1-solid.l6s", 16 * 1024),  # CC-BY-4.0
+    ("whole_labspec", "dvn-ulj5h2-glass.l6s", 32 * 1024),  # CC0-1.0
     ("whole_ddpcr", "daattali-ddpcr-quant.csv", 16 * 1024),  # MIT
     ("whole_ddpcr", "daattali-ddpcr-quant-a01-amplitude.csv", 16 * 1024),  # MIT
     ("whole_ddpcr", "dpcp-10ng-a01-amplitude.csv", 8 * 1024),  # MIT

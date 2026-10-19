@@ -65,6 +65,14 @@ pub(crate) static WITEC_PROJECT: AssuranceProfile = AssuranceProfile {
     basis: Basis::PriorArt,
 };
 
+pub(crate) static HORIBA_LABSPEC: AssuranceProfile = AssuranceProfile {
+    format_id: "horiba-labspec",
+    observe: observe_labspec,
+    validated: HORIBA_LABSPEC_VALIDATED,
+    confidence: HORIBA_LABSPEC_CONFIDENCE,
+    basis: Basis::ReverseEngineered,
+};
+
 pub(crate) static SHIMADZU_UVPROBE: AssuranceProfile = AssuranceProfile {
     format_id: "shimadzu-uvprobe",
     observe: observe_uvprobe,
@@ -430,6 +438,26 @@ fn observe_fsm(info: &FileInfo) -> Observations {
     o
 }
 
+/// LabSpec 6: the header word (format version), and whether the data object is a single
+/// spectrum or a map (layout).
+fn observe_labspec(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &[Scope::Metadata, Scope::Traces]);
+    }
+    common(&mut o, info);
+    let layout = if info.images.is_empty() {
+        "single spectrum"
+    } else {
+        "X × Y map"
+    };
+    o.feature(K::Layout, layout, &[Scope::Traces, Scope::Pixels, Scope::Tables]);
+    if let Some(n) = a::note_with(info, "more data object(s) after the first") {
+        o.undecoded("further data objects", &[], n.to_string());
+    }
+    o
+}
+
 fn observe_uvprobe(info: &FileInfo) -> Observations {
     let mut o = Observations::default();
     if let Some(v) = &info.format_version {
@@ -772,3 +800,10 @@ const AGILENT_CARY_VALIDATED: &[Validated] = &[
     a::row(K::Writer, "Scanning Kinetics 5.0.0.999", 1, 1, 1),
 ];
 // END GENERATED agilent-cary
+
+// BEGIN GENERATED horiba-labspec (cargo xtask assurance-audit --write; do not edit)
+const HORIBA_LABSPEC_CONFIDENCE: Confidence = Confidence::Low;
+#[rustfmt::skip]
+const HORIBA_LABSPEC_VALIDATED: &[Validated] = &[
+];
+// END GENERATED horiba-labspec

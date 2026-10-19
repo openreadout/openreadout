@@ -485,6 +485,7 @@ impl SpectroDataset {
             crate::FSM_FORMAT_ID => crate::FSM_FORMAT_ID,
             crate::CARY_FORMAT_ID => crate::CARY_FORMAT_ID,
             crate::UVPROBE_FORMAT_ID => crate::UVPROBE_FORMAT_ID,
+            crate::LABSPEC_FORMAT_ID => crate::LABSPEC_FORMAT_ID,
             _ => crate::PESP_FORMAT_ID,
         }
     }
