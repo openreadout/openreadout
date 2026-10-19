@@ -81,6 +81,10 @@ dependencies = [
     "aston",
     "oiffile>=2026.2.8 ; python_full_version >= '3.11'",
     "dcimg>=0.6.0",
+    # Igor Pro waves and packed experiments: igor2 (LGPL-3.0) is run as a black box only.
+    "igor2>=0.5.14",
+    # Andor SIF: sif_parser (BSD-3); sifreader (MIT) is vendored in third_party/ (its sdist does not build).
+    "sif_parser>=0.3.6",
     "flowkit>=1.2",
     # Whole-slide images: OpenSlide (LGPL-2.1, run as a black box only) decodes Aperio JPEG 2000
     # tiles (33003 YCbCr / 33005 RGB) to RGB, the reference for our JPEG 2000 SVS decoding.

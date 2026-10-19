@@ -37,6 +37,7 @@ openreadout-vsi = { workspace = true }
 openreadout-wsi = { workspace = true }
 openreadout-zvi = { workspace = true }
 openreadout-dcimg = { workspace = true }
+openreadout-sif = { workspace = true }
 openreadout-igor = { workspace = true }
 openreadout-zarr = { workspace = true }
 openreadout-hdf5 = { workspace = true }

@@ -1,0 +1,33 @@
+{
+ "id": "sif-sifparser-issue27-test",
+ "file": "test.sif",
+ "size": 264898,
+ "sha256": "cec885387ff2df969a8e71c24cb1400042d79fc80b5ff1b5b491dcb7a96c9567",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "signal",
+   "size_x": 256,
+   "size_y": 256,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3d6f7d84e7849ba9f5f7e5b8cd54d525"
+    }
+   ],
+   "check_acquired_at": "2023-11-28T12:52:10Z"
+  }
+ ],
+ "sif_version": 65564
+}

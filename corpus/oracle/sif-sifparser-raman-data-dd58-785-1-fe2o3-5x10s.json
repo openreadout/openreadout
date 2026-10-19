@@ -1,0 +1,52 @@
+{
+ "id": "sif-sifparser-raman-data-dd58-785-1-fe2o3-5x10s",
+ "file": "DD58_785_1_Fe2O3_5x10s.sif",
+ "size": 8605,
+ "sha256": "91d440d2c5ad4b3db7f8d213dc65c2aa9954de80689be37eb408131ac757cdb7",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "signal",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1024,
+     "channels": [
+      {
+       "xxh3": "a62c275315b4376ca89d3297b57d2521",
+       "first": [
+        789.8353639187202,
+        789.9430470207619,
+        790.0507201102346,
+        790.1583831871378,
+        790.2660362514719,
+        790.3736793032367,
+        790.4813123424321,
+        790.5889353690584
+       ]
+      },
+      {
+       "xxh3": "90a23434f4b369d6e6cdac183d7ca5ed",
+       "first": [
+        33205.0,
+        33412.0,
+        33532.0,
+        33448.0,
+        33751.0,
+        33687.0,
+        33882.0,
+        33806.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "images": [],
+ "sif_version": 65567
+}

@@ -1,0 +1,52 @@
+{
+ "id": "sif-sifparser-examples-with-calibration-raman1",
+ "file": "raman1.sif",
+ "size": 8390,
+ "sha256": "b7899121e24b2307fd9a1bf2c4e46976823ea00313cab5f5a1c71dcb7ff22d35",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "signal",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1024,
+     "channels": [
+      {
+       "xxh3": "0bb9033b69c19c2d7d602d1bbce4947e",
+       "first": [
+        405.2331717361413,
+        405.2818323378704,
+        405.3304923026145,
+        405.3791516296618,
+        405.4278103183004,
+        405.4764683678185,
+        405.5251257775042,
+        405.5737825466457
+       ]
+      },
+      {
+       "xxh3": "b484db9e6f55c33f3e367fb94e1fe37e",
+       "first": [
+        280099.0,
+        282936.0,
+        283433.0,
+        283748.0,
+        283608.0,
+        283948.0,
+        285134.0,
+        284968.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "images": [],
+ "sif_version": 65567
+}

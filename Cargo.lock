@@ -1975,6 +1975,7 @@ dependencies = [
  "openreadout-quant",
  "openreadout-sciex",
  "openreadout-seq",
+ "openreadout-sif",
  "openreadout-signal",
  "openreadout-spectro",
  "openreadout-spikeglx",
@@ -2102,6 +2103,7 @@ dependencies = [
  "openreadout-omezarr",
  "openreadout-sciex",
  "openreadout-seq",
+ "openreadout-sif",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",
@@ -2275,6 +2277,7 @@ dependencies = [
  "openreadout-quant",
  "openreadout-sciex",
  "openreadout-seq",
+ "openreadout-sif",
  "openreadout-signal",
  "openreadout-spectro",
  "openreadout-spikeglx",
@@ -2811,6 +2814,7 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-sciex",
  "openreadout-seq",
+ "openreadout-sif",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",
@@ -2904,6 +2908,7 @@ dependencies = [
  "openreadout-quant",
  "openreadout-sciex",
  "openreadout-seq",
+ "openreadout-sif",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",
@@ -2945,6 +2950,15 @@ dependencies = [
  "serde_json",
  "tempfile",
  "xxhash-rust",
+]
+
+[[package]]
+name = "openreadout-sif"
+version = "0.4.0"
+dependencies = [
+ "openreadout-core",
+ "serde_json",
+ "tempfile",
 ]
 
 [[package]]
@@ -3057,6 +3071,7 @@ dependencies = [
  "openreadout-qpcr",
  "openreadout-sciex",
  "openreadout-seq",
+ "openreadout-sif",
  "openreadout-spectro",
  "openreadout-spikeglx",
  "openreadout-thermal",
