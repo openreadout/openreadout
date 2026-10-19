@@ -35,6 +35,9 @@ listed names in a scratch directory (`whole_bundle`).
 | target | what it feeds |
 | --- | --- |
 | `whole_czi`, `whole_nd2`, `whole_lif`, `whole_oir`, `whole_zvi`, `whole_dcimg`, `whole_tiff`, `whole_oib` | microscopy files |
+| `whole_igor` | Igor Pro `.ibw` binary waves and `.pxp` packed experiments: wave headers, checksums, optional sections, record chain, data folders, variables |
+| `whole_sif` | Andor SIF: header lines, axis names, image structure and sub-images, time stamps, block flags, XML trailer |
+| `whole_dv` | DeltaVision `.dv`/`.r3d`: header, extended header, section orders, byte order |
 | `whole_oif` | Olympus FluoView OIF: `.oif`, then one plane's `.pty` and `.tif` in its `.oif.files` folder |
 | `whole_hcs_harmony`, `whole_hcs_cellvoyager`, `whole_hcs_imagexpress` | high-content screening plates: index file(s) plus plane TIFFs, as a bundle |
 | `whole_vsi` | `.vsi`, then `_s_/stack1/frame_t_0.ets` |

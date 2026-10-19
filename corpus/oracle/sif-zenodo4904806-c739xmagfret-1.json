@@ -1,0 +1,33 @@
+{
+ "id": "sif-zenodo4904806-c739xmagfret-1",
+ "file": "c739xMagFRET_1.sif",
+ "size": 16781286,
+ "sha256": "7022eff33764fcf5e954025d1f932ff91a59d62fd52b35815e761f1d21cb01e2",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "signal",
+   "size_x": 2048,
+   "size_y": 2048,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "6938b7f0185d2909bb2912c13578976b"
+    }
+   ],
+   "check_acquired_at": "2019-09-13T16:20:21Z"
+  }
+ ],
+ "sif_version": 65567
+}

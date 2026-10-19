@@ -58,6 +58,9 @@ openreadout-hdf5 = { workspace = true }
 openreadout-zvi = { workspace = true }
 openreadout-oif = { workspace = true }
 openreadout-dcimg = { workspace = true }
+openreadout-dv = { workspace = true }
+openreadout-sif = { workspace = true }
+openreadout-igor = { workspace = true }
 openreadout-diffraction = { workspace = true }
 openreadout-hcs = { workspace = true }
 openreadout-spectro = { workspace = true }

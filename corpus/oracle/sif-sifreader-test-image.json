@@ -1,0 +1,31 @@
+{
+ "id": "sif-sifreader-test-image",
+ "file": "test_image.sif",
+ "size": 33481,
+ "sha256": "46f1fb26bdd19c673c73348ba1d09a692fd4473cec3d04a56a484dfe42de04b8",
+ "max_planes_hashed": 64,
+ "reader": "sifreader 0.2.4 (MIT, black box); sif_parser failed: IndexError: list index out of range",
+ "traces": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "signal",
+   "size_x": 151,
+   "size_y": 51,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3cbbb9527e46b9f7df0513a609cdc552"
+    }
+   ]
+  }
+ ]
+}

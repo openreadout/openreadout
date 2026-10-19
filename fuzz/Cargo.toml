@@ -48,6 +48,9 @@ openreadout-oif = { path = "../crates/openreadout-oif" }
 openreadout-plexon = { path = "../crates/openreadout-plexon" }
 openreadout-ephys = { path = "../crates/openreadout-ephys" }
 openreadout-dcimg = { path = "../crates/openreadout-dcimg" }
+openreadout-igor = { path = "../crates/openreadout-igor" }
+openreadout-sif = { path = "../crates/openreadout-sif" }
+openreadout-dv = { path = "../crates/openreadout-dv" }
 openreadout-diffraction = { path = "../crates/openreadout-diffraction" }
 openreadout-hcs = { path = "../crates/openreadout-hcs" }
 openreadout-spectro = { path = "../crates/openreadout-spectro" }
@@ -585,6 +588,27 @@ bench = false
 [[bin]]
 name = "whole_dcimg"
 path = "fuzz_targets/whole_dcimg.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_igor"
+path = "fuzz_targets/whole_igor.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_sif"
+path = "fuzz_targets/whole_sif.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_dv"
+path = "fuzz_targets/whole_dv.rs"
 test = false
 doc = false
 bench = false

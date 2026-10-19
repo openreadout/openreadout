@@ -1906,6 +1906,20 @@ wheels = [
 ]
 
 [[package]]
+name = "igor2"
+version = "0.5.14"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/21/1b/e6f3682b8d6d22b78b191ecb1358a1e98a21d4d40a57d1d643765cf85284/igor2-0.5.14.tar.gz", hash = "sha256:f66bb31d0805029c8b1dcd5eb6971b9fcabbbe773836dd3134302929e3f8303a", size = 62611, upload-time = "2026-10-14T14:23:58.897Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/66/88/c806b8b387b4b297f24950d6715146f71e1d3de89e1e97705dc18ab372c5/igor2-0.5.14-py3-none-any.whl", hash = "sha256:1aa06bd5553b8528d90ca094aa59e82bc7d7693e0928a94fc230e5d81dfe9ade", size = 33203, upload-time = "2026-10-14T14:23:57.866Z" },
+]
+
+[[package]]
 name = "imagecodecs"
 version = "2025.3.30"
 source = { registry = "https://pypi.org/simple" }
@@ -2799,6 +2813,20 @@ resolution-markers = [
 sdist = { url = "https://files.pythonhosted.org/packages/52/b8/c63995bebbb9ac9c059350e0fb8c82c2420c85aeca7d34e40aecf3df9281/more_itertools-11.2.1.tar.gz", hash = "sha256:cbf08fd0af284dc69718b9b76a8e6203df624d70209ea511e4219d350c856f63", size = 154133, upload-time = "2026-10-14T18:50:30.407Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5d/57/3c4b1c6f2e0cc29ba023802458ea3d2a996f87085559e4a5f2192d549532/more_itertools-11.2.1-py3-none-any.whl", hash = "sha256:35a7377edd1dd6608dcb2cdf534ded55ea32d49448875ad042cd3f879fb1ded0", size = 74405, upload-time = "2026-10-14T18:50:29.116Z" },
+]
+
+[[package]]
+name = "mrc"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ff/7c/8b1de9af95ae8279234c757d1f724ac08f80f809a7c07df1104f908213d1/mrc-0.4.0.tar.gz", hash = "sha256:bcddc07adfc743c8b81657e654a9361613e531614d9643e2707c73dbaca6be7f", size = 650000, upload-time = "2026-01-05T21:34:24.277Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9b/f1/ae71165ee7186e84fefbdbde3a64f042aa8f13a7168f94a0474de7523a5b/mrc-0.4.0-py3-none-any.whl", hash = "sha256:a15c6ef9be51ac0c23fcbd379bd4885cb336e1fd8e3b563bf5e2febc4cd94124", size = 27712, upload-time = "2026-01-05T21:34:22.916Z" },
 ]
 
 [[package]]
@@ -3789,6 +3817,7 @@ dependencies = [
     { name = "flowkit" },
     { name = "h5py" },
     { name = "hdf5plugin" },
+    { name = "igor2" },
     { name = "imagecodecs", version = "2025.3.30", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "imagecodecs", version = "2026.3.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "imagecodecs", version = "2026.8.16", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
@@ -3801,6 +3830,7 @@ dependencies = [
     { name = "load-heka-python" },
     { name = "lxml" },
     { name = "mne", marker = "python_full_version >= '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "mrc" },
     { name = "mrcfile" },
     { name = "ncempy" },
     { name = "nd2" },
@@ -3848,6 +3878,7 @@ dependencies = [
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
     { name = "shapely" },
+    { name = "sif-parser" },
     { name = "six" },
     { name = "spc-io" },
     { name = "specio" },
@@ -3905,6 +3936,7 @@ requires-dist = [
     { name = "flowkit", specifier = ">=1.2" },
     { name = "h5py" },
     { name = "hdf5plugin" },
+    { name = "igor2", specifier = ">=0.5.14" },
     { name = "imagecodecs" },
     { name = "interop" },
     { name = "jcamp", specifier = ">=1.2" },
@@ -3913,6 +3945,7 @@ requires-dist = [
     { name = "load-heka-python", git = "https://github.com/easy-electrophysiology/load-heka-python?rev=185f6edb54ac562de26aa7ce33643b453c45894d" },
     { name = "lxml" },
     { name = "mne", marker = "python_full_version >= '3.11'", specifier = ">=1.13" },
+    { name = "mrc", specifier = ">=0.4.0" },
     { name = "mrcfile", specifier = ">=1.5" },
     { name = "ncempy", specifier = ">=1.16" },
     { name = "nd2" },
@@ -3954,6 +3987,7 @@ requires-dist = [
     { name = "renishawwire", specifier = ">=0.1.16" },
     { name = "scipy", specifier = ">=1.15.3" },
     { name = "shapely", specifier = ">=2" },
+    { name = "sif-parser", specifier = ">=0.3.6" },
     { name = "six" },
     { name = "spc-io", specifier = ">=0.2.1" },
     { name = "specio", specifier = ">=0.1" },
@@ -6105,6 +6139,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/8e/605c76808d73503c9333af8f6cbe7e1354d2d238bda5f88eea36bfe0f42a/shapely-2.1.2-cp313-cp313t-win32.whl", hash = "sha256:c8876673449f3401f278c86eb33224c5764582f72b653a415d0e6672fde887bf", size = 1559178, upload-time = "2025-09-24T13:51:10.73Z" },
     { url = "https://files.pythonhosted.org/packages/36/f7/d317eb232352a1f1444d11002d477e54514a4a6045536d49d0c59783c0da/shapely-2.1.2-cp313-cp313t-win_amd64.whl", hash = "sha256:4a44bc62a10d84c11a7a3d7c1c4fe857f7477c3506e24c9062da0db0ae0c449c", size = 1739756, upload-time = "2025-09-24T13:51:12.105Z" },
 ]
+
+[[package]]
+name = "sif-parser"
+version = "0.3.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'group-18-openreadout-oracle-chrom' and extra == 'group-18-openreadout-oracle-plate')" },
+    { name = "pandas" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/86/ee/3791a3305b0c5c50e0f0330e10a11e368eeffc34feb1299f357ce15df39c/sif_parser-0.3.6.tar.gz", hash = "sha256:5faf1e156b1aef7835968bc3df651ad828c4d42f1c2c60a5bd26784519c2a111", size = 18722, upload-time = "2025-08-04T10:22:35.149Z" }
 
 [[package]]
 name = "six"

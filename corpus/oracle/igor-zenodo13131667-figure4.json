@@ -1,0 +1,209 @@
+{
+ "id": "igor-zenodo13131667-figure4",
+ "file": "figure4.pxp",
+ "size": 24681,
+ "sha256": "5be72849079f329d62f2a14e3458cf77a12a61817f6e6c06c23d1526846357ff",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:concentration_h2o",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "concentration_h2o"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 11,
+     "channels": [
+      {
+       "xxh3": "d3297700f0d2448c9ddb3ca0db28689d",
+       "first": [
+        0.5,
+        1.0,
+        1.5,
+        1.8,
+        2.1,
+        2.5,
+        2.8,
+        3.2
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:e_vir_h2o",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "e_vir_h2o"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 11,
+     "channels": [
+      {
+       "xxh3": "c90910c4b50b817fd0541d30405dadb2",
+       "first": [
+        3384.23,
+        3391.67,
+        3391.02,
+        3388.7,
+        3390.05,
+        3391.48,
+        3390.46,
+        3389.32
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:concentration_d2o",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "concentration_d2o"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 13,
+     "channels": [
+      {
+       "xxh3": "b24c1cd7e544d5ec92b228dd2f74c2f2",
+       "first": [
+        0.3,
+        0.6,
+        0.9,
+        1.2,
+        1.5,
+        1.8,
+        2.2,
+        2.5
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:e_vir_d2o",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "e_vir_d2o"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 13,
+     "channels": [
+      {
+       "xxh3": "5ded2b800b2e3090e399b4ca2bbbcb68",
+       "first": [
+        2519.88,
+        2517.62,
+        2520.24,
+        2522.34,
+        2520.28,
+        2521.75,
+        2520.81,
+        2522.34
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:kh(N/cm-1)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "kh(N/cm-1)"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 11,
+     "channels": [
+      {
+       "xxh3": "9019ebc7cb4788126b822250e46c8de1",
+       "first": [
+        6.358707308327424,
+        6.3866964136469715,
+        6.384248678534888,
+        6.375515972604789,
+        6.380596777038947,
+        6.385980873320539,
+        6.382140236795378,
+        6.377849127802353
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:kd(N/cm-1)",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "kd(N/cm-1)"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 13,
+     "channels": [
+      {
+       "xxh3": "75c160423624b2f3e6882dd9cde1f0aa",
+       "first": [
+        6.659095203645108,
+        6.647155899847124,
+        6.660998028791814,
+        6.672103259784663,
+        6.66120947058748,
+        6.668982284400251,
+        6.6640113911953955,
+        6.672103259784663
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

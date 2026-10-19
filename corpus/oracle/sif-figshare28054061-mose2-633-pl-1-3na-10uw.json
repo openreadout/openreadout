@@ -1,0 +1,52 @@
+{
+ "id": "sif-figshare28054061-mose2-633-pl-1-3na-10uw",
+ "file": "MoSe2_633_pl_1-3na_10uw.sif",
+ "size": 7614,
+ "sha256": "d06ce61e2fa5676d7fc5bacfc16d68a5bc1c4c3b24d69827f7ad415c92a7fc33",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "signal",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1024,
+     "channels": [
+      {
+       "xxh3": "9aa068bfec2285b39b7080845e55086e",
+       "first": [
+        708.444836285611,
+        708.5757374884903,
+        708.7066367671179,
+        708.8375341183449,
+        708.9684295390225,
+        709.0993230260017,
+        709.2302145761336,
+        709.3611041862692
+       ]
+      },
+      {
+       "xxh3": "17a61f35644b5f89af92bc4c908b8948",
+       "first": [
+        2794.0,
+        2768.0,
+        2770.0,
+        2682.0,
+        2731.0,
+        2732.0,
+        2680.0,
+        2709.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "images": [],
+ "sif_version": 65567
+}

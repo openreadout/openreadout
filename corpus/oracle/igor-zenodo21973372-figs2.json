@@ -1,0 +1,407 @@
+{
+ "id": "igor-zenodo21973372-figs2",
+ "file": "FigS2.pxp",
+ "size": 24281,
+ "sha256": "f5b4df6ad08c3eb15c5e9f0490c9ad11e86eaf2ae0f5c34f104f4a83ea1eba3e",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:EC:EC",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "EC"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "20d93c081905582aec9e9afa17f7242e",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:EC:ECNEG",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ECNEG"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "bd459fc48eb509881e879ae43463c411",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:EC:MZ",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MZ"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "741d83623b62038c39c95a2957f9363f",
+       "first": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0,
+        8.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:EC:MZNEG",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MZNEG"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "bbbbe5403fc61ad69d2b61c36026d9d7",
+       "first": [
+        -1.0,
+        -2.0,
+        -3.0,
+        -4.0,
+        -5.0,
+        -6.0,
+        -7.0,
+        -8.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:ECOC-NO:BCNO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "BCNO"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "10064e2f477359d81807640d2722f783",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:ECOC-NO:BCNONEG",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "BCNONEG"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "81b2ebdeca6c473da749642127bd8119",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:ECOC-NO:MZ",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MZ"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "741d83623b62038c39c95a2957f9363f",
+       "first": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0,
+        8.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:ECOC-NO:MZNEG",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MZNEG"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "bbbbe5403fc61ad69d2b61c36026d9d7",
+       "first": [
+        -1.0,
+        -2.0,
+        -3.0,
+        -4.0,
+        -5.0,
+        -6.0,
+        -7.0,
+        -8.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "root:ECOC-SO:BCSO",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "BCSO"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "a61482ce7c6f731da84e9f5ec1f85160",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "root:ECOC-SO:BCSONEG",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "BCSONEG"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "8f07dba8a271987f4c5f4788638e91e6",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "root:ECOC-SO:MZ",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MZ"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "741d83623b62038c39c95a2957f9363f",
+       "first": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0,
+        8.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "root:ECOC-SO:MZNEG",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MZNEG"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 250,
+     "channels": [
+      {
+       "xxh3": "bbbbe5403fc61ad69d2b61c36026d9d7",
+       "first": [
+        -1.0,
+        -2.0,
+        -3.0,
+        -4.0,
+        -5.0,
+        -6.0,
+        -7.0,
+        -8.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

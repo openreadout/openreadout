@@ -1,0 +1,52 @@
+{
+ "id": "sif-sifparser-echelle-boron-0-05-1us-750ns-5",
+ "file": "boron_0.05_1us_750ns_5.sif",
+ "size": 94326,
+ "sha256": "5d3baf659801eb8cbce4adf18ebc1ffbe4bbb04f692e6e72fe5acf38f1338b87",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "signal",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 23430,
+     "channels": [
+      {
+       "xxh3": "1039cc29168dd4b77241f5e380661b8f",
+       "first": [
+        199.51445343561753,
+        199.52790734253614,
+        199.54136172085498,
+        199.55481657067313,
+        199.56827189208968,
+        199.5817276852038,
+        199.59518395011452,
+        199.60864068692098
+       ]
+      },
+      {
+       "xxh3": "b018ae1ad5125af297f5c2e77d75e1e0",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "images": [],
+ "sif_version": 65555
+}

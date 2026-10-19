@@ -15513,6 +15513,1178 @@
       ]
     },
     {
+      "id": "sif-figshare28054061-hbn-raman-633-bn-1-3-na",
+      "format": "andor-sif",
+      "source": "figshare 28054061",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU920P_BX2DD",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "background block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-figshare28054061-mose2-633-pl-1-3na-10uw",
+      "format": "andor-sif",
+      "source": "figshare 28054061",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU920P_BX2DD",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-figshare30795137-test-1",
+      "format": "andor-sif",
+      "source": "figshare 30795137",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU491_17",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-cli-cli-0",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU420_OE",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "background block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-echelle-boron-0-05-1us-750ns-5",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65555",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DH734_18mm",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-examples-with-calibration-nd-lum-image-no-glue",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU888_BV",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "background block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "live block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-examples-with-calibration-raman1",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU888_BV",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-issue27-test",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65564",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU897_BV",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "acquisition",
+          "binned",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-issue33-measurement",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DH334T-18F-63",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-issue37-shot25-ar-delay-480us-width-2us-gain-3900",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DH334T-18F-03",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-public-testdata-image",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65559",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU897_BV",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "background block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-raman-data-dd58-785-1-fe2o3-5x10s",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU420_BX2DD",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-raman-data-rubpy3-in-ethanolpulsed",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DV420_BU2",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifparser-step-and-glue-step-and-glue",
+      "format": "andor-sif",
+      "source": "github:fujiisoup/sif_parser",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU401_BVF",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "live block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifreader-test-image",
+      "format": "andor-sif",
+      "source": "github:lightingghost/sifreader",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65564",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU940P",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifreader-test-sequence",
+      "format": "andor-sif",
+      "source": "github:lightingghost/sifreader",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65564",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU940P",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-sifreader-test-spectrum",
+      "format": "andor-sif",
+      "source": "github:lightingghost/sifreader",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65564",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU940P",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-zenodo15118586-4a-755mv-pad5",
+      "format": "andor-sif",
+      "source": "zenodo:15118586",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65564",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU934P_BR,DD",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-zenodo18293266-zp2-1",
+      "format": "andor-sif",
+      "source": "zenodo:18293266",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU920P_BX2DD",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "background block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-zenodo18293266-zp3230-15",
+      "format": "andor-sif",
+      "source": "zenodo:18293266",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "DU920P_BX2DD",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "spectrum, calibrated axis",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
+      "id": "sif-zenodo4904806-c739xmagfret-1",
+      "format": "andor-sif",
+      "source": "zenodo:4904806",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "fields": [
+        "experiment.acquisition.started_at"
+      ],
+      "features": [
+        [
+          "format_version",
+          "65567",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "ZYLA-4.2P-USB3",
+          []
+        ],
+        [
+          "record",
+          "signal block",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        18
+      ]
+    },
+    {
       "id": "eds-7500-abhd17c-ddct",
       "format": "applied-biosystems-eds",
       "source": "figshare:32706510",
@@ -66559,6 +67731,546 @@
       ]
     },
     {
+      "id": "dv-ome-cajal-bodies-090829-1-hela-sictl-coilin-atub01-01-r3d-d3d",
+      "format": "deltavision",
+      "source": "ome-sample:dv/alexia",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZTW",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "softWoRx deconvolution",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 6",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-ome-frap-u20s-rcc1-2-r3d-frap",
+      "format": "deltavision",
+      "source": "ome-sample:dv/will",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections WZT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "acquisition",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-ome-p-tre-p-tre-22-r3d-d3d-vol",
+      "format": "deltavision",
+      "source": "ome-sample:dv/elena",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZTW",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "softWoRx deconvolution",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 0",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-ome-p-tre-p-tre-23-r3d-d3d-vol-d3d",
+      "format": "deltavision",
+      "source": "ome-sample:dv/elena",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZTW",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "softWoRx deconvolution",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 6",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-ome-sirnai-hela-csfv-10-r3d-d3d-prj",
+      "format": "deltavision",
+      "source": "ome-sample:dv/sirnai-hela",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZTW",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "softWoRx deconvolution",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 1",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-ome-sirnai-hela-in-02",
+      "format": "deltavision",
+      "source": "ome-sample:dv/sirnai-hela",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZWT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "big-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "acquisition",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 1",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-ome-u2os-u2os-aurb-aura-001-r3d",
+      "format": "deltavision",
+      "source": "ome-sample:dv/u2os",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZWT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "acquisition",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 6",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-zenodo15919154-fig-1d-dox-flag-af488-cpc-af647-d3d-prj",
+      "format": "deltavision",
+      "source": "zenodo:15919154",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZWT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "acquisition",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 6",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-zenodo15919154-fig-1d-nt-flag-af488-cpc-af647-d3d-prj",
+      "format": "deltavision",
+      "source": "zenodo:15919154",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections ZWT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "acquisition",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 6",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
+      "id": "dv-zenodo5887370-bundle13-snapshot-r3d",
+      "format": "deltavision",
+      "source": "zenodo:5887370",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "sections WZT",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "writer",
+          "acquisition",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "mode 6",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        13
+      ]
+    },
+    {
       "id": "idc-cmb-crc-ct-head",
       "format": "dicom",
       "source": "nci imaging data commons",
@@ -88340,6 +90052,1792 @@
       "inferred": [
         1,
         16
+      ]
+    },
+    {
+      "id": "igor-gin-ephy-mac-version2",
+      "format": "igor",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 2",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "big-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-gin-ephy-win-version2",
+      "format": "igor",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 2",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo10263018-feco-mcurves",
+      "format": "igor",
+      "source": "zenodo:10263018",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo10420306-3-figforn",
+      "format": "igor",
+      "source": "zenodo:10420306",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo12759092-arpesn5d-67ev",
+      "format": "igor",
+      "source": "zenodo:12759092",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo12759092-xas-07",
+      "format": "igor",
+      "source": "zenodo:12759092",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo1300435-scanx",
+      "format": "igor",
+      "source": "zenodo:1300435",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo13131667-figure4",
+      "format": "igor",
+      "source": "zenodo:13131667",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 2",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 6",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo14697310-mr",
+      "format": "igor",
+      "source": "zenodo:14697310",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo14844350-si-figure-8-9",
+      "format": "igor",
+      "source": "zenodo:14844350",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo15071889-xps",
+      "format": "igor",
+      "source": "zenodo:15071889",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo15386850-s16",
+      "format": "igor",
+      "source": "zenodo:15386850",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo15386850-s4",
+      "format": "igor",
+      "source": "zenodo:15386850",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo15497166-figure-2-c",
+      "format": "igor",
+      "source": "zenodo:15497166",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 8",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo16105887-figure-1-monopolarons",
+      "format": "igor",
+      "source": "zenodo:16105887",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 9",
+          []
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image from two dimensions",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo16358426-xps-ankur-oqc-fitted",
+      "format": "igor",
+      "source": "zenodo:16358426",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 9",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image from two dimensions",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo17476438-laniga2-data",
+      "format": "igor",
+      "source": "zenodo:17476438",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 7",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo17613298-vitrophyric-igor",
+      "format": "igor",
+      "source": "zenodo:17613298",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 9",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo19474137-fig4c",
+      "format": "igor",
+      "source": "zenodo:19474137",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image from two dimensions",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo19474137-s14d-map",
+      "format": "igor",
+      "source": "zenodo:19474137",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image from two dimensions",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo20425941-set1",
+      "format": "igor",
+      "source": "zenodo:20425941",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 7",
+          []
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image from two dimensions",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo21638845-f1d",
+      "format": "igor",
+      "source": "zenodo:21638845",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image with layers as channels",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo21973372-fig8",
+      "format": "igor",
+      "source": "zenodo:21973372",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 9",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo21973372-figs2",
+      "format": "igor",
+      "source": "zenodo:21973372",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pxp wave 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Igor Pro 9",
+          []
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo22117056-figure-s2",
+      "format": "igor",
+      "source": "zenodo:22117056",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image with layers as channels",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo3709017-field-outofplane",
+      "format": "igor",
+      "source": "zenodo:3709017",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo3709017-h6-outofplane-stack",
+      "format": "igor",
+      "source": "zenodo:3709017",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image with layers as z",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo3901294-gcl-acs-bxy-projected",
+      "format": "igor",
+      "source": "zenodo:3901294",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image from two dimensions",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo4610489-raw-data-fig8piezo",
+      "format": "igor",
+      "source": "zenodo:4610489",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image with layers as channels",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo4641090-e05a-spot20000",
+      "format": "igor",
+      "source": "zenodo:4641090",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from labelled columns",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo6471678-timewave-1",
+      "format": "igor",
+      "source": "zenodo:6471678",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from one dimension",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo6641837-image0000",
+      "format": "igor",
+      "source": "zenodo:6641837",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "image with layers as channels",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
+      ]
+    },
+    {
+      "id": "igor-zenodo7545463-70300besselfilter",
+      "format": "igor",
+      "source": "zenodo:7545463",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "ibw 5",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "metadata",
+            "pixels",
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "trace from labelled columns",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        24
       ]
     },
     {

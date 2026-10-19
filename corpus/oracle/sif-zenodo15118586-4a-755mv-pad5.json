@@ -1,0 +1,32 @@
+{
+ "id": "sif-zenodo15118586-4a-755mv-pad5",
+ "file": "4A_755mV_pad5.sif",
+ "size": 4197078,
+ "sha256": "801c1d70e0b1fb5b279c3d48b7346b582bbbe08572ddda84eb7a313762096c70",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "signal",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "cb38a9648830cb46e6f6ae4212722dd9"
+    }
+   ]
+  }
+ ],
+ "sif_version": 65564
+}

@@ -1,0 +1,113 @@
+{
+ "id": "sif-sifparser-examples-with-calibration-nd-lum-image-no-glue",
+ "file": "nd_lum_image_no_glue.sif",
+ "size": 8700159,
+ "sha256": "adf94206d113bd457649f177b0b73cec8644c90f82401e436678e28cefaf7334",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "signal",
+   "size_x": 1024,
+   "size_y": 101,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 10,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "be67ce8bb431108668fb235b5b8b5bc3"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 1,
+     "xxh3": "098c9a087554f10518913a7088e16d65"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 2,
+     "xxh3": "4a10f4ce401970c8e053a62046fcc87e"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 3,
+     "xxh3": "f50f66cacd8d6556b992aaa748002743"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 4,
+     "xxh3": "7b93d3254b9d00061f8ff7f1bca82fb6"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 5,
+     "xxh3": "4ab7810bf32cbb6863b5aa6073d3b43f"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 6,
+     "xxh3": "66a9f95310f5775f881f05a7b545b3e0"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 7,
+     "xxh3": "7fb15306b46948522d6f71082e2694bf"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 8,
+     "xxh3": "d9081850460fd9e36253c19e23085158"
+    },
+    {
+     "c": 0,
+     "z": 0,
+     "t": 9,
+     "xxh3": "9be4200d05f6ec70f12902778e70086a"
+    }
+   ],
+   "check_acquired_at": "2017-08-17T19:43:35Z"
+  },
+  {
+   "index": 1,
+   "name": "background",
+   "size_x": 1024,
+   "size_y": 101,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "618811cf65f97229b52ddc74f9323a91"
+    }
+   ],
+   "check_acquired_at": "2017-08-17T19:42:04Z"
+  },
+  {
+   "index": 2,
+   "name": "live",
+   "skip": "ValueError: could not convert string to float: b'2\\x00\\x00\\x00\\x00g\\xc6\\xe7\\x13\\x00\\x00\\x00\\x00\\x06\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00H\\xd1#\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00X\\xd1#\\x01\\x00\\x00\\x00\\x00\\x80\\xd6#\\x01\\x00\\x00\\x00\\x00i\\x0e 2\\x00\\x00\\x00\\x00@\\xd1"
+  }
+ ],
+ "sif_version": 65567
+}

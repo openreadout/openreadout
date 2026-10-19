@@ -1,0 +1,2067 @@
+{
+ "id": "igor-zenodo10420306-3-figforn",
+ "file": "3.FigforN.pxp",
+ "size": 87554,
+ "sha256": "f3859e862a3fed2b7dc1f2d852b4f6af45529cd8632a2467ca30e80c1bc08c60",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:W_coef",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_coef"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "f77fd7c787e9d6949cf4596380b91208",
+       "first": [
+        3.807077229408907
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:W_sigma",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_sigma"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "868a7cc74487bbd003e406d1595e4201",
+       "first": [
+        0.19571302147989686
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:AP4s2N4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AP4s2N4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "a0f1cb37a781f9645f2c7271f42af89c",
+       "first": [
+        0.01336335577070713,
+        0.10376253724098206,
+        0.30213212966918945,
+        0.3909945785999298,
+        0.1897473931312561,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "name": "root:AP4s2N3",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AP4s2N3"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "43320b891f0a19d5f7f17e31d60087cf",
+       "first": [
+        0.012167003005743027,
+        0.12219901382923126,
+        0.4091010093688965,
+        0.45653295516967773,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "name": "root:Ap4s2N5",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Ap4s2N5"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "91b4220a30286ae112f2ca3d50e8a0b3",
+       "first": [
+        0.018452810123562813,
+        0.11276717483997345,
+        0.2756531238555908,
+        0.33690938353538513,
+        0.20588907599449158,
+        0.05032844468951225,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "name": "root:stim2pro4AP",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "stim2pro4AP"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "d7c65e2001ab8fcb33ad4bdea45e793d",
+       "first": [
+        0.0,
+        0.0,
+        0.375,
+        0.375,
+        0.1875,
+        0.0625,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "name": "root:nV",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "nV"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "cd28e7c26f0a15d594fea66acf0fbe07",
+       "first": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "name": "root:AvgParabolas 1B:Bmean",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Bmean"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "6b8746d9be55b24f3d5ba0d3705c750b",
+       "first": [
+        2.945868104696274,
+        2.521909698843956,
+        1.801597222685814,
+        1.4470833092927933,
+        1.2774999756366014,
+        1.0342708267271519,
+        0.785659734159708,
+        0.7608333416283131
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "name": "root:AvgParabolas 1B:Bvar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Bvar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "bfaf7ec1761a5085309e9e45c4ba4136",
+       "first": [
+        0.7901409491896629,
+        1.1511641442775726,
+        1.1972819566726685,
+        1.0149273164570332,
+        0.9148422982543707,
+        0.8744447100907564,
+        0.6269014552235603,
+        0.7227829340845346
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "name": "root:AvgParabolas 1B:mean4APErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "mean4APErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "fd295a9a2b2cc7f9a330c48b82a3eb93",
+       "first": [
+        0.18828446331909282,
+        0.19828102520344792,
+        0.1457824716835028,
+        0.1314285988136762,
+        0.24515214904443305,
+        0.17591523610021667,
+        0.16413719516387676,
+        0.13424268345808793
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "name": "root:AvgParabolas 1B:PTPmean",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PTPmean"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "8edc750a3ee66eec8e6a376adc0022c1",
+       "first": [
+        3.581410229206085,
+        2.2381828129291534,
+        1.8059782534837723,
+        1.3050446063280106,
+        1.0860089510679245,
+        0.7458333373069763,
+        0.5694537535309792,
+        0.5764214098453522
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "name": "root:AvgParabolas 1B:PTPmeanErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PTPmeanErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "566badeaa2cacf32a1d0854b26437836",
+       "first": [
+        0.13023909972448222,
+        0.201470604793073,
+        0.22213489328128658,
+        0.2579268890020474,
+        0.24881769014034644,
+        0.17659885006812906,
+        0.15843012570578408,
+        0.13650429199201403
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "name": "root:AvgParabolas 1B:PTPvar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PTPvar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "f460ef78e2096f5127d8aa7e5776b8ca",
+       "first": [
+        0.8205133527517319,
+        1.1728885620832443,
+        1.2829504683613777,
+        1.3569082655012608,
+        1.1490575522184372,
+        0.7819866091012955,
+        0.6303057819604874,
+        0.522168442606926
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "name": "root:AvgParabolas 1B:PTPVarErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "PTPVarErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "c0b46b93a0e6c753d69edc8982206cf1",
+       "first": [
+        0.09064526430132198,
+        0.13229084331720434,
+        0.16082357477476053,
+        0.2421207203683326,
+        0.23411413136630763,
+        0.19637724801381518,
+        0.1762303263029841,
+        0.097198905588147
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "name": "root:AvgParabolas 1B:Var4APErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Var4APErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "61857be630ad8aee6e43655d05fe4afb",
+       "first": [
+        0.17339416864179072,
+        0.0911508046501819,
+        0.11472485217198929,
+        0.1827551624134824,
+        0.22721111263979868,
+        0.13160962848523008,
+        0.14448740704887436,
+        0.13624531862316525
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "name": "root:AvgParabolas 1B:AvgmeanErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AvgmeanErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "f855fdf2661d37004c306f4556916c2b",
+       "first": [
+        0.09292192653616656,
+        0.11300935601013604,
+        0.15905492317451198,
+        0.1718939177454832,
+        0.2091379159603536,
+        0.23533380150888067,
+        0.24789427189891092,
+        0.2237128310874437
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "name": "root:AvgParabolas 1B:AvgVarErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AvgVarErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "50935525868e5a988257ee66e7d83059",
+       "first": [
+        0.06876736294120675,
+        0.08465390795738259,
+        0.10452427990261312,
+        0.22688515188179928,
+        0.13040435791836114,
+        0.07674497064374305,
+        0.20754398398652318,
+        0.13663561566784577
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "name": "root:AvgParabolas 1B:AvgVar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AvgVar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "2e593c925c955bf8c7d9eae25bb11885",
+       "first": [
+        0.7806638096060071,
+        0.7419958966118949,
+        0.8033602450575147,
+        1.0819586174828666,
+        0.9172702431678772,
+        0.8856717773846218,
+        0.8756548826183591,
+        0.9470323835100446
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "name": "root:AvgParabolas 1B:AvgMean",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AvgMean"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "37fbaa00442c17f4f54c56b8243219c6",
+       "first": [
+        1.3362481508936201,
+        1.7374872480119978,
+        1.71051744052342,
+        1.4700808439935957,
+        1.3836512054715837,
+        1.2661453996385847,
+        1.1328996696642466,
+        1.1146911914859499
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "name": "root:AvgParabolas 1B:Avg4APvar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Avg4APvar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "6d60e7763157fa6095a29c88688d3b00",
+       "first": [
+        0.8315896562167576,
+        1.1099018710000175,
+        1.1383222341537476,
+        1.0061074026993342,
+        0.8431531084435326,
+        0.7907939489398684,
+        0.5650302427155631,
+        0.6236566922494343
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 20,
+   "name": "root:AvgParabolas 1B:avg4apmean",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "avg4apmean"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "692b31effdc3ccbc43a080198163d11d",
+       "first": [
+        2.9381349767957414,
+        2.4878968000411987,
+        1.647539666720799,
+        1.37952378817967,
+        1.2028571218252182,
+        0.9363095121724265,
+        0.7093254029750824,
+        0.669523822409766
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "name": "root:AvgParabolas 1B:AvgPTPvar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AvgPTPvar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "fab3ba292a18efc89ae26c693e688c5b",
+       "first": [
+        0.7486614755221775,
+        1.1240245061261314,
+        1.4121762556689126,
+        1.134412822978837,
+        0.8904990724154881,
+        0.8053137926118714,
+        0.6007877556341035,
+        0.5168415755033493
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "name": "root:AvgParabolas 1B:AvgPTPmean",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "AvgPTPmean"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "be29487c17fb6b972f9979f2412b69f1",
+       "first": [
+        3.4154090200151717,
+        2.5056282622473582,
+        1.6548447183200292,
+        1.192723912852151,
+        0.9240686041968209,
+        0.6896825326340539,
+        0.5476243762033326,
+        0.6004947764532906
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "name": "root:AvgParabolas 1B:W_coef",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_coef"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "b91f0afce93ea1b0c0b7fb0e7029d09f",
+       "first": [
+        4.5952743716039715
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "name": "root:AvgParabolas 1B:fit_AvgVar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_AvgVar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "fda7b3cf0f7e61e35bff2e103da45363",
+       "first": [
+        0.0,
+        0.024457809962128596,
+        0.048585008692735486,
+        0.07238159619182066,
+        0.09584757245938413,
+        0.1189829374954259,
+        0.14178769129994598,
+        0.16426183387294432
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "name": "root:AvgParabolas 1B:W_sigma",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "W_sigma"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1,
+     "channels": [
+      {
+       "xxh3": "af2b234e3356f047f52adc3ed169ff6c",
+       "first": [
+        0.314925971095966
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "name": "root:AvgParabolas 1B:fit_Avg4APvar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_Avg4APvar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "c1ac7afacfdd357bbec398107275cf78",
+       "first": [
+        0.0,
+        0.02448220673256505,
+        0.0486825957744813,
+        0.07260116712574877,
+        0.09623792078636742,
+        0.11959285675633727,
+        0.14266597503565834,
+        0.1654572756243306
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "name": "root:AvgParabolas 1B:fit_AvgPTPvar",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_AvgPTPvar"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "6a57324e517f6c2d70616f8d45705fa9",
+       "first": [
+        0.0,
+        0.024491176161059704,
+        0.04871847348845992,
+        0.07268189198220064,
+        0.09638143164228187,
+        0.11981709246870362,
+        0.14298887446146588,
+        0.16589677762056862
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "name": "root:O21 Binomial Example 1C:nV",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "nV"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "f57aee6e1541f7fff6482d367b3b03c9",
+       "first": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "name": "root:O21 Binomial Example 1C:s1_O21Ctrl",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "s1_O21Ctrl"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "146399203230083b7c9a4b383950d694",
+       "first": [
+        0.20000000298023224,
+        0.46666666865348816,
+        0.20000000298023224,
+        0.13333334028720856,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "name": "root:O21 Binomial Example 1C:s1_O21B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "s1_O21B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "e4f8a3e7fef23937273507a6847db034",
+       "first": [
+        0.0,
+        0.0,
+        0.23999999463558197,
+        0.5199999809265137,
+        0.23999999463558197,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "name": "root:O21 Binomial Example 1C:s1_O21PTP",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "s1_O21PTP"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "fc839a8d27f2975ee89a0e3121697e55",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.10000000149011612,
+        0.8500000238418579,
+        0.05000000074505806,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "name": "root:O21 Binomial Example 1C:rbino_O21CtrlN4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "rbino_O21CtrlN4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "a89056f0048f034fd87509189d03ff14",
+       "first": [
+        0.2400999814271927,
+        0.4115999937057495,
+        0.26460000872612,
+        0.07560000568628311,
+        0.008100001141428947,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "name": "root:O21 Binomial Example 1C:rbino_O21BN4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "rbino_O21BN4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "44b80035feb084c40a83ded5d6cf44c6",
+       "first": [
+        0.006146557629108429,
+        0.06322174519300461,
+        0.2438553273677826,
+        0.4180377721786499,
+        0.26873859763145447,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "name": "root:O21 Binomial Example 1C:rbino_O21PTPN4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "rbino_O21PTPN4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "2878c84747d1ed39161873fdc715e73c",
+       "first": [
+        8.099968908936717e-07,
+        0.00010475970339030027,
+        0.005080850794911385,
+        0.10952066630125046,
+        0.8852928876876831,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "name": "root:Binomial Avg 1D:probino_S30B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "probino_S30B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "35aca7389ad0a0e0bc0477f7acde9d4b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.4375,
+        0.5625,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "name": "root:Binomial Avg 1D:Probino_O21B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Probino_O21B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "e4f8a3e7fef23937273507a6847db034",
+       "first": [
+        0.0,
+        0.0,
+        0.23999999463558197,
+        0.5199999809265137,
+        0.23999999463558197,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "name": "root:Binomial Avg 1D:probino_J5B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "probino_J5B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "b2ac3f47755b2ed6bf5539033c639908",
+       "first": [
+        0.0,
+        0.06666667014360428,
+        0.4000000059604645,
+        0.5333333611488342,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "name": "root:Binomial Avg 1D:probino_A17B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "probino_A17B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "6c5a3c312e77f70c090d84de48018e16",
+       "first": [
+        0.05000000074505806,
+        0.10000000149011612,
+        0.3499999940395355,
+        0.4000000059604645,
+        0.10000000149011612,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "name": "root:Binomial Avg 1D:Probino_S30P",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Probino_S30P"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "c1abee0cb466e4f3c584f3994e88106b",
+       "first": [
+        0.0,
+        0.05000000074505806,
+        0.0,
+        0.550000011920929,
+        0.4000000059604645,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 40,
+   "name": "root:Binomial Avg 1D:probino_O21P",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "probino_O21P"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "fc839a8d27f2975ee89a0e3121697e55",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.10000000149011612,
+        0.8500000238418579,
+        0.05000000074505806,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "name": "root:Binomial Avg 1D:probino_J5P",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "probino_J5P"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "38f707c121039a6f9b71a9e80767b383",
+       "first": [
+        0.0,
+        0.06666667,
+        0.26666668,
+        0.46666667,
+        0.13333334,
+        0.06666667,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "name": "root:Binomial Avg 1D:probino_A17P",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "probino_A17P"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "3bb529ab383e4a77a2af870d9c4aefaf",
+       "first": [
+        0.0,
+        0.0,
+        0.17391304671764374,
+        0.3478260934352875,
+        0.3913043439388275,
+        0.08695652335882187,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "name": "root:Binomial Avg 1D:Rbino_BN4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Rbino_BN4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "3128cf7ed365a626b3360f469ac5b373",
+       "first": [
+        0.00707281194627285,
+        0.06926477700471878,
+        0.2543688714504242,
+        0.41517674922943115,
+        0.2541167736053467,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "name": "root:Binomial Avg 1D:ProbinoBErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ProbinoBErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "e1df78d33265d246610ef54060bce71f",
+       "first": [
+        0.012500000186264515,
+        0.02500000057948961,
+        0.089010767455644,
+        0.03219474793500117,
+        0.12260359122370129,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "name": "root:Binomial Avg 1D:ProbinoB",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ProbinoB"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "26ff69f88d8ec5ab6d4a2a0a022ed3b5",
+       "first": [
+        0.012500000186264515,
+        0.0416666679084301,
+        0.2474999986588955,
+        0.4727083370089531,
+        0.22562499903142452,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "name": "root:Binomial Avg 1D:Rbino_PTPN4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Rbino_PTPN4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "0a1e078db05f18c972047060c755e89b",
+       "first": [
+        0.001049760146997869,
+        0.019128961488604546,
+        0.1307145655155182,
+        0.3969849646091461,
+        0.4521217346191406,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "name": "root:Binomial Avg 1D:Rbino_CtrlN4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Rbino_CtrlN4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "d5f24311fc32ff9b4444fd03091df054",
+       "first": [
+        0.1785062551498413,
+        0.3844749927520752,
+        0.3105374872684479,
+        0.11147499829530716,
+        0.015006248839199543,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "name": "root:Binomial Avg 1D:Probino_S30Ctrl",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Probino_S30Ctrl"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 6,
+     "channels": [
+      {
+       "xxh3": "850e4738473960718b32453d57a4e965",
+       "first": [
+        0.1538461595773697,
+        0.6538461446762085,
+        0.11538461595773697,
+        0.07692307978868484,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "name": "root:Binomial Avg 1D:Probino_O21Ctrl",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Probino_O21Ctrl"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "146399203230083b7c9a4b383950d694",
+       "first": [
+        0.20000000298023224,
+        0.46666666865348816,
+        0.20000000298023224,
+        0.13333334028720856,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "name": "root:Binomial Avg 1D:Probino_J5Ctrl",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Probino_J5Ctrl"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "12640ddd14ba6af77a191512c5ed6b6d",
+       "first": [
+        0.23999999463558197,
+        0.1599999964237213,
+        0.47999998927116394,
+        0.11999999731779099,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "name": "root:Binomial Avg 1D:probino_A17Ctrl",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "probino_A17Ctrl"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "57b006de57a977abc8a7d069f71d2495",
+       "first": [
+        0.13333334028720856,
+        0.30000001192092896,
+        0.4000000059604645,
+        0.1666666716337204,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "name": "root:Binomial Avg 1D:ProbinoPTPErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ProbinoPTPErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "59fe1f15804606adb7c6504c669b9e31",
+       "first": [
+        0.0,
+        0.017179607455038954,
+        0.06635086167626067,
+        0.09792684864037414,
+        0.14890213807575617,
+        0.018574805121861195,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "name": "root:Binomial Avg 1D:ProbinoPTP",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ProbinoPTP"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "b18dfb8f5e76b736c622ea3b17f81452",
+       "first": [
+        0.0,
+        0.029166667686264514,
+        0.11014493167941093,
+        0.3661231942115831,
+        0.4436594284352875,
+        0.05090579852596998,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "name": "root:Binomial Avg 1D:ProbinoCtrlErr",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ProbinoCtrlErr"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "99b36bafb8559869545f0045ed1e7b95",
+       "first": [
+        0.023890224076428043,
+        0.1066096351489015,
+        0.08489086685864534,
+        0.01857323236075382,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 55,
+   "name": "root:Binomial Avg 1D:ProbinoCtrl",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "ProbinoCtrl"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "b57b63c4283de46aaedb3ff2b6187efa",
+       "first": [
+        0.18179487437009811,
+        0.39512820541858673,
+        0.2988461535423994,
+        0.1242307722568512,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "name": "root:Example experiment 1A(S30):VarS30B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "VarS30B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "26de14e7ce044948b598f986e36902c5",
+       "first": [
+        0.26249998807907104,
+        0.862500011920929,
+        0.9166666865348816,
+        0.6000000238418579,
+        0.46666666865348816,
+        0.5958333611488342,
+        0.4958333373069763,
+        0.4000000059604645
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "name": "root:Example experiment 1A(S30):MeanS30B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "MeanS30B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 8,
+     "channels": [
+      {
+       "xxh3": "ee129e7185974879d646e9e164fba060",
+       "first": [
+        3.5625,
+        2.9375,
+        2.125,
+        1.25,
+        1.75,
+        0.9375,
+        0.6875,
+        0.5
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 58,
+   "name": "root:Example experiment 1A(S30):fit_VarS30B",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_VarS30B"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 200,
+     "channels": [
+      {
+       "xxh3": "89c79740a3b4f956a538227b2a23b742",
+       "first": [
+        0.0,
+        0.024463860121740944,
+        0.04860920933118488,
+        0.0724360476283318,
+        0.09594437501318172,
+        0.11913419148573462,
+        0.14200549704599053,
+        0.1645582916939494
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 59,
+   "name": "root:Example experiment 1A(S30):Ap4s1N5",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Ap4s1N5"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "f59a43d17ed0b926b1ddf399915cd0b1",
+       "first": [
+        0.002430000575259328,
+        0.02835000492632389,
+        0.13230000436306,
+        0.30869999527931213,
+        0.36014997959136963,
+        0.168069988489151,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 60,
+   "name": "root:Example experiment 1A(S30):Ap4s1N4",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Ap4s1N4"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "779d7e6c6d6e52bcc6f38dbaf4c13098",
+       "first": [
+        0.0003841598518192768,
+        0.009439357556402683,
+        0.08697694540023804,
+        0.35619133710861206,
+        0.547008216381073,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 61,
+   "name": "root:Example experiment 1A(S30):Ap4s1N3",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Ap4s1N3"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "650f5e8c97f18afce0dbf1cca1d7c276",
+       "first": [
+        0.0021969997324049473,
+        0.04410899803042412,
+        0.2951909899711609,
+        0.658502995967865,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 62,
+   "name": "root:Example experiment 1A(S30):stim1pro4AP",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "stim1pro4AP"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "35aca7389ad0a0e0bc0477f7acde9d4b",
+       "first": [
+        0.0,
+        0.0,
+        0.0,
+        0.4375,
+        0.5625,
+        0.0,
+        0.0
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 63,
+   "name": "root:Example experiment 1A(S30):nV",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "nV"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 7,
+     "channels": [
+      {
+       "xxh3": "cd28e7c26f0a15d594fea66acf0fbe07",
+       "first": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,52 @@
+{
+ "id": "igor-zenodo6641837-image0000",
+ "file": "Image0000.ibw",
+ "size": 103107,
+ "sha256": "0d106c19db068e6ade3bc5ff5985a42d8bbbd5cca57afb5a0ecd8c05ab24b653",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "Image0000",
+   "size_x": 256,
+   "size_y": 20,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.24956709539911576,
+    "y": 0.24956709539911576
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "79d04d0515ea80c96ec31685ba231aab"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "02230622b0c5c76b25a3e4d152220634"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "3e56d5c749e2e38fed34362254b9a93c"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e7f6dfb98f4674ff0e657558793a4d68"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

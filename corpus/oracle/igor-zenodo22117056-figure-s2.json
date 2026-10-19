@@ -1,0 +1,52 @@
+{
+ "id": "igor-zenodo22117056-figure-s2",
+ "file": "Figure_S2.ibw",
+ "size": 4306674,
+ "sha256": "d99ae4a6d2df6e6953abf838e680421cb0ed6d0d7b590824f007b61d63957606",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "PAN_brushes0011",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": 0.05870841427933094,
+    "y": 0.05870841427933094
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "42ea33652cda4b1832e291a44c3e455b"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "328e2edd9330a873615d61f2e396fa6a"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "7e01419056e4b30f39fb1b2d7f797059"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "82232de34d0067b743e9a86c0f5a071f"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

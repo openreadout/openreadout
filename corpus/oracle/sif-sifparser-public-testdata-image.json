@@ -1,0 +1,54 @@
+{
+ "id": "sif-sifparser-public-testdata-image",
+ "file": "image.sif",
+ "size": 2102426,
+ "sha256": "9ec78ef1ba44d57963ec22840318410740f0ce47701d28732d775a72f0cdffa3",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "signal",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e79c2218bd4967d04b84a2f93c17f4fa"
+    }
+   ],
+   "check_acquired_at": "2009-09-30T17:01:22Z"
+  },
+  {
+   "index": 1,
+   "name": "background",
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2d8bff669bd7b145698c76747e01950d"
+    }
+   ],
+   "check_acquired_at": "2009-09-30T16:46:57Z"
+  }
+ ],
+ "sif_version": 65559
+}

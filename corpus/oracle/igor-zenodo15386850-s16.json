@@ -1,0 +1,94 @@
+{
+ "id": "igor-zenodo15386850-s16",
+ "file": "S16.pxp",
+ "size": 6609,
+ "sha256": "3f67aeb7b5e8a378e63e540b37e1eb8f28c80bedb5a5291ffe586e7cf1b4d214",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [],
+ "traces": [
+  {
+   "index": 0,
+   "name": "root:1/T",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "1/T"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "da1e0ab4ca3315c34a60d47c28cda239",
+       "first": [
+        0.001912046,
+        0.001824818,
+        0.001745201
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "name": "root:lnk2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "lnk2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 3,
+     "channels": [
+      {
+       "xxh3": "8f7c1a86377ce7748b1b9a416e71bf8c",
+       "first": [
+        -4.51,
+        -3.82,
+        -3.22
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "name": "root:fit_lnk2",
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "fit_lnk2"
+   ],
+   "channel_units": [
+    ""
+   ],
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2,
+     "channels": [
+      {
+       "xxh3": "3bf4a7c3d3ddaad2fac9f9cacaf84ada",
+       "first": [
+        -3.214574600727161,
+        -4.505047989018381
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

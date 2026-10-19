@@ -1,0 +1,34 @@
+{
+ "id": "igor-zenodo3901294-gcl-acs-bxy-projected",
+ "file": "GCL_ACs_BXY_projected.ibw",
+ "size": 9564,
+ "sha256": "97bd23183b520462300ed5e1d30f7c72cb5a76f4102ff17ed2473bb345a9dab7",
+ "max_planes_hashed": 64,
+ "reader": "igor2 0.5.14 (LGPL-3.0, black box)",
+ "images": [
+  {
+   "index": 0,
+   "name": "BXY_projected",
+   "size_x": 765,
+   "size_y": 3,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {
+    "x": null,
+    "y": null
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2e25338844af2057cc96a92cb4042e57"
+    }
+   ]
+  }
+ ],
+ "traces": []
+}

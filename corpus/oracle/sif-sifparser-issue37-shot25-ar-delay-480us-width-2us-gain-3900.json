@@ -1,0 +1,33 @@
+{
+ "id": "sif-sifparser-issue37-shot25-ar-delay-480us-width-2us-gain-3900",
+ "file": "shot25-Ar-delay_480us-width_2us-gain_3900.sif",
+ "size": 4198476,
+ "sha256": "f7eb14468a45b5b1a7d92a1d5237bcf2cfad341d2a65b7880423092f916dbbda",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [],
+ "images": [
+  {
+   "index": 0,
+   "name": "signal",
+   "size_x": 1024,
+   "size_y": 1024,
+   "size_z": 1,
+   "size_c": 1,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "float",
+   "physical_size_um": {},
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "d5d956a7e1e1a29f8a868802142c98e4"
+    }
+   ],
+   "check_acquired_at": "2024-06-21T10:30:38Z"
+  }
+ ],
+ "sif_version": 65567
+}

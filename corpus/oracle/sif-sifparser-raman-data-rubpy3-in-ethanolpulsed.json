@@ -1,0 +1,52 @@
+{
+ "id": "sif-sifparser-raman-data-rubpy3-in-ethanolpulsed",
+ "file": "rubpy3_in_ethanolpulsed.sif",
+ "size": 8639,
+ "sha256": "a98b95fa5909aeb97808eaa3b6c1c631a572417f1eb20e8e70592973a377c14b",
+ "max_planes_hashed": 64,
+ "reader": "sif_parser 0.3.6 (BSD-3-Clause)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "signal",
+   "sweep_count": 1,
+   "channel_count": 2,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 1024,
+     "channels": [
+      {
+       "xxh3": "c359c810761ae031eb6b335c17aa81ee",
+       "first": [
+        357.87978792445017,
+        357.90094979910117,
+        357.92211121878506,
+        357.94327218350185,
+        357.9644326932515,
+        357.98559274803404,
+        358.0067523478494,
+        358.0279114926976
+       ]
+      },
+      {
+       "xxh3": "fa84287eca694effca34b0c3127566c6",
+       "first": [
+        12108.0,
+        12280.0,
+        12506.0,
+        12740.0,
+        12852.0,
+        13069.0,
+        13178.0,
+        13272.0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "images": [],
+ "sif_version": 65567
+}

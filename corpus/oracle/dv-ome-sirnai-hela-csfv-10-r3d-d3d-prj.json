@@ -1,0 +1,59 @@
+{
+ "id": "dv-ome-sirnai-hela-csfv-10-r3d-d3d-prj",
+ "file": "CSFV_10.r3d_D3D_PRJ.dv",
+ "size": 2099200,
+ "sha256": "1555e087b67a995257db81a29012374812e7088e283a691e64e5df7b9498b0ad",
+ "max_planes_hashed": 64,
+ "reader": "mrc 0.4.0 (BSD-3-Clause) DVFile",
+ "images": [
+  {
+   "index": 0,
+   "size_x": 512,
+   "size_y": 512,
+   "size_z": 1,
+   "size_c": 4,
+   "size_t": 1,
+   "samples_per_pixel": 1,
+   "pixel_type": "int16",
+   "physical_size_um": {
+    "x": 0.06502940505743027,
+    "y": 0.06502940505743027
+   },
+   "planes": [
+    {
+     "c": 0,
+     "z": 0,
+     "t": 0,
+     "xxh3": "a75d3a4fe043ae9015015cabc67a6c52"
+    },
+    {
+     "c": 1,
+     "z": 0,
+     "t": 0,
+     "xxh3": "e177a2b0315baf5431b14ff7676410be"
+    },
+    {
+     "c": 2,
+     "z": 0,
+     "t": 0,
+     "xxh3": "2eb6ed936cacf41511b9d0ea220bfd4a"
+    },
+    {
+     "c": 3,
+     "z": 0,
+     "t": 0,
+     "xxh3": "b7ebd54e8c5dbd04e40ffe46a1fd1c51"
+    }
+   ]
+  }
+ ],
+ "bioformats_geometry": {
+  "width": 512,
+  "height": 512,
+  "size_z": 1,
+  "size_c": 4,
+  "size_t": 1,
+  "pixel_type": "int16"
+ },
+ "bioformats_geometry_agrees": true
+}
