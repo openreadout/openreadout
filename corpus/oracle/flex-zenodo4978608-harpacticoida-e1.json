@@ -1,0 +1,81 @@
+{
+ "id": "flex-zenodo4978608-harpacticoida-e1",
+ "file": "fid",
+ "size": 83456,
+ "sha256": "ccfd20aa784c5fb6a1e4453ee0311f194f97c17ad1c99923920f1e088adde3f7",
+ "max_planes_hashed": 64,
+ "reader": "pyopenms 3.6.0 FileHandler (XMASS)",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "n_peaks": 20864,
+    "n_nonzero": 20864,
+    "mz_bits": null,
+    "xxh3_mz": "9ed0c6bae85b45e4fe46d58ef340ec00",
+    "xxh3_intensity": "c726a356235473e3c1b187a7119d035b",
+    "xxh3_mz_nonzero": "9ed0c6bae85b45e4fe46d58ef340ec00",
+    "xxh3_intensity_nonzero": "c726a356235473e3c1b187a7119d035b",
+    "sum_intensity": 20650080.0,
+    "mz_min": 1999.9343934338212,
+    "mz_max": 20135.510780855762,
+    "first_peaks": [
+     [
+      1999.9343934338212,
+      2117.0
+     ],
+     [
+      2000.349919303847,
+      2148.0
+     ],
+     [
+      2000.7654884422673,
+      2229.0
+     ],
+     [
+      2001.181100848683,
+      2483.0
+     ],
+     [
+      2001.5967565235585,
+      2234.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      1999.9343934338212,
+      2117.0
+     ],
+     [
+      2000.349919303847,
+      2148.0
+     ],
+     [
+      2000.7654884422673,
+      2229.0
+     ],
+     [
+      2001.181100848683,
+      2483.0
+     ],
+     [
+      2001.5967565235585,
+      2234.0
+     ]
+    ]
+   }
+  ]
+ }
+}

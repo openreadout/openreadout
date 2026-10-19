@@ -1,0 +1,81 @@
+{
+ "id": "flex-zenodo4020648-cereulide-e19",
+ "file": "fid",
+ "size": 598016,
+ "sha256": "b60684c2e26d3563707871b8762024473ba40cb6774eb579d88638328f66b046",
+ "max_planes_hashed": 64,
+ "reader": "pyopenms 3.6.0 FileHandler (XMASS)",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "n_peaks": 149504,
+    "n_nonzero": 75076,
+    "mz_bits": null,
+    "xxh3_mz": "6ec349134a424481cca8936fdccffd26",
+    "xxh3_intensity": "167d505a1a8fe16514ba118788148087",
+    "xxh3_mz_nonzero": "3195b4111d1449c734565a1011b87ff6",
+    "xxh3_intensity_nonzero": "ec19125752ada1bf4285d2495eeb4ea1",
+    "sum_intensity": 549976.0,
+    "mz_min": 703.3772902221466,
+    "mz_max": 3520.5295947208087,
+    "first_peaks": [
+     [
+      703.3772902221466,
+      14.0
+     ],
+     [
+      703.388848163387,
+      7.0
+     ],
+     [
+      703.4004062006649,
+      19.0
+     ],
+     [
+      703.411964334028,
+      15.0
+     ],
+     [
+      703.4235225634764,
+      8.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      703.3772902221466,
+      14.0
+     ],
+     [
+      703.388848163387,
+      7.0
+     ],
+     [
+      703.4004062006649,
+      19.0
+     ],
+     [
+      703.411964334028,
+      15.0
+     ],
+     [
+      703.4235225634764,
+      8.0
+     ]
+    ]
+   }
+  ]
+ }
+}

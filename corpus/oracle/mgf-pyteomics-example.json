@@ -1,0 +1,81 @@
+{
+ "id": "mgf-pyteomics-example",
+ "file": "mgf-pyteomics-example.mgf",
+ "size": 768,
+ "sha256": "c32687aba71bb61def1fb7e39045ef948e6185146e9d4185465f4b9e67a9c74f",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 mgf.MGF",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 2,
+    "rt_s": null,
+    "polarity": null,
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": 342.70559,
+    "precursor_charge": 2,
+    "activation": null,
+    "n_peaks": 41,
+    "n_nonzero": 41,
+    "mz_bits": null,
+    "xxh3_mz": "4ac7aac0ccadf8bb240c6f7c29c083ee",
+    "xxh3_intensity": "6dc2abd1c91f32df97ae02548a083e61",
+    "xxh3_mz_nonzero": "4ac7aac0ccadf8bb240c6f7c29c083ee",
+    "xxh3_intensity_nonzero": "6dc2abd1c91f32df97ae02548a083e61",
+    "sum_intensity": 967721.2880859375,
+    "mz_min": 155.08127,
+    "mz_max": 556.30743,
+    "first_peaks": [
+     [
+      155.08127,
+      2297.60009765625
+     ],
+     [
+      176.77814,
+      7543.7998046875
+     ],
+     [
+      177.11287,
+      2635.60009765625
+     ],
+     [
+      226.11824,
+      5689.7998046875
+     ],
+     [
+      229.64627,
+      5041.7998046875
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      155.08127,
+      2297.60009765625
+     ],
+     [
+      176.77814,
+      7543.7998046875
+     ],
+     [
+      177.11287,
+      2635.60009765625
+     ],
+     [
+      226.11824,
+      5689.7998046875
+     ],
+     [
+      229.64627,
+      5041.7998046875
+     ]
+    ]
+   }
+  ]
+ }
+}

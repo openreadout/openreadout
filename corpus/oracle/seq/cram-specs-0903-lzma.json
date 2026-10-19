@@ -1,0 +1,68 @@
+{
+ "id": "cram-specs-0903-lzma",
+ "format": "cram",
+ "reader": "pysam 0.24.1 (MIT)",
+ "records": 4,
+ "primary": 4,
+ "mapped": 4,
+ "bases": 400,
+ "n50": 100,
+ "sort_order": null,
+ "platform": null,
+ "references": 1,
+ "sampled": [
+  {
+   "i": 0,
+   "flag": 99,
+   "mapq": 40,
+   "ref_id": 0,
+   "pos": 1000,
+   "length": 100,
+   "mean_quality": 7.3675016348879545,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 35.35353535353536,
+   "n_bases": 1
+  },
+  {
+   "i": 1,
+   "flag": 147,
+   "mapq": 40,
+   "ref_id": 0,
+   "pos": 1200,
+   "length": 100,
+   "mean_quality": 7.3675016348879545,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 23.232323232323232,
+   "n_bases": 1
+  },
+  {
+   "i": 2,
+   "flag": 99,
+   "mapq": 40,
+   "ref_id": 0,
+   "pos": 1000,
+   "length": 100,
+   "mean_quality": 7.3675016348879545,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 35.35353535353536,
+   "n_bases": 1
+  },
+  {
+   "i": 3,
+   "flag": 147,
+   "mapq": 40,
+   "ref_id": 0,
+   "pos": 1200,
+   "length": 100,
+   "mean_quality": 7.3675016348879545,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 23.232323232323232,
+   "n_bases": 1
+  }
+ ],
+ "reference_given": true
+}

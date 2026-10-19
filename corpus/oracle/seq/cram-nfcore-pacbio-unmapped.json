@@ -1,0 +1,81 @@
+{
+ "id": "cram-nfcore-pacbio-unmapped",
+ "format": "cram",
+ "reader": "pysam 0.24.1 (MIT)",
+ "records": 5,
+ "primary": 5,
+ "mapped": 0,
+ "bases": 50316,
+ "n50": 14095,
+ "sort_order": null,
+ "platform": null,
+ "references": 0,
+ "sampled": [
+  {
+   "i": 0,
+   "flag": 4,
+   "mapq": 0,
+   "ref_id": -1,
+   "pos": null,
+   "length": 13979,
+   "mean_quality": 39.93163189611397,
+   "passes": 17,
+   "accuracy": 0.9999970197677612,
+   "gc_percent": 36.99835467486945,
+   "n_bases": 0
+  },
+  {
+   "i": 1,
+   "flag": 4,
+   "mapq": 0,
+   "ref_id": -1,
+   "pos": null,
+   "length": 2608,
+   "mean_quality": 40.0,
+   "passes": 60,
+   "accuracy": 0.9999989867210388,
+   "gc_percent": 33.9340490797546,
+   "n_bases": 0
+  },
+  {
+   "i": 2,
+   "flag": 4,
+   "mapq": 0,
+   "ref_id": -1,
+   "pos": null,
+   "length": 16661,
+   "mean_quality": 17.444574226086182,
+   "passes": 3,
+   "accuracy": 0.9931740164756775,
+   "gc_percent": 45.00930316307545,
+   "n_bases": 0
+  },
+  {
+   "i": 3,
+   "flag": 4,
+   "mapq": 0,
+   "ref_id": -1,
+   "pos": null,
+   "length": 14095,
+   "mean_quality": 27.33000221323262,
+   "passes": 6,
+   "accuracy": 0.999409019947052,
+   "gc_percent": 45.739623980134795,
+   "n_bases": 0
+  },
+  {
+   "i": 4,
+   "flag": 4,
+   "mapq": 0,
+   "ref_id": -1,
+   "pos": null,
+   "length": 2973,
+   "mean_quality": 40.0,
+   "passes": 45,
+   "accuracy": 1.0,
+   "gc_percent": 54.86041035990582,
+   "n_bases": 0
+  }
+ ],
+ "reference_given": false
+}

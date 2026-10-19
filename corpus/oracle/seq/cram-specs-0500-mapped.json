@@ -1,0 +1,42 @@
+{
+ "id": "cram-specs-0500-mapped",
+ "format": "cram",
+ "reader": "pysam 0.24.1 (MIT)",
+ "records": 2,
+ "primary": 2,
+ "mapped": 2,
+ "bases": 200,
+ "n50": 100,
+ "sort_order": null,
+ "platform": null,
+ "references": 1,
+ "sampled": [
+  {
+   "i": 0,
+   "flag": 99,
+   "mapq": 40,
+   "ref_id": 0,
+   "pos": 1000,
+   "length": 100,
+   "mean_quality": 7.3675016348879545,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 34.0,
+   "n_bases": 0
+  },
+  {
+   "i": 1,
+   "flag": 147,
+   "mapq": 40,
+   "ref_id": 0,
+   "pos": 1200,
+   "length": 100,
+   "mean_quality": 7.3675016348879545,
+   "passes": null,
+   "accuracy": null,
+   "gc_percent": 21.0,
+   "n_bases": 0
+  }
+ ],
+ "reference_given": true
+}

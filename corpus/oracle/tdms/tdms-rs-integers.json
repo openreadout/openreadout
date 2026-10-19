@@ -1,0 +1,304 @@
+{
+ "id": "tdms-rs-integers",
+ "format": "ni-tdms",
+ "reader": "npTDMS 1.13.0 (LGPL-3.0, black box)",
+ "independent": true,
+ "channels": [
+  {
+   "group": "Integers",
+   "channel": "Int8",
+   "dtype": "Int8",
+   "count": 5,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    -128.0,
+    -1.0,
+    0.0,
+    1.0,
+    127.0
+   ],
+   "last": 127.0,
+   "sampled": [
+    [
+     0,
+     -128.0
+    ],
+    [
+     1,
+     -1.0
+    ],
+    [
+     2,
+     0.0
+    ],
+    [
+     3,
+     1.0
+    ],
+    [
+     4,
+     127.0
+    ]
+   ],
+   "sum": -1.0,
+   "sum_abs": 257.0,
+   "min": -128.0,
+   "max": 127.0
+  },
+  {
+   "group": "Integers",
+   "channel": "Int16",
+   "dtype": "Int16",
+   "count": 5,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    -32768.0,
+    -1.0,
+    0.0,
+    1.0,
+    32767.0
+   ],
+   "last": 32767.0,
+   "sampled": [
+    [
+     0,
+     -32768.0
+    ],
+    [
+     1,
+     -1.0
+    ],
+    [
+     2,
+     0.0
+    ],
+    [
+     3,
+     1.0
+    ],
+    [
+     4,
+     32767.0
+    ]
+   ],
+   "sum": -1.0,
+   "sum_abs": 65537.0,
+   "min": -32768.0,
+   "max": 32767.0
+  },
+  {
+   "group": "Integers",
+   "channel": "Int32",
+   "dtype": "Int32",
+   "count": 5,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    -2147483648.0,
+    -1.0,
+    0.0,
+    1.0,
+    2147483647.0
+   ],
+   "last": 2147483647.0,
+   "sampled": [
+    [
+     0,
+     -2147483648.0
+    ],
+    [
+     1,
+     -1.0
+    ],
+    [
+     2,
+     0.0
+    ],
+    [
+     3,
+     1.0
+    ],
+    [
+     4,
+     2147483647.0
+    ]
+   ],
+   "sum": -1.0,
+   "sum_abs": 4294967297.0,
+   "min": -2147483648.0,
+   "max": 2147483647.0
+  },
+  {
+   "group": "Integers",
+   "channel": "Int64",
+   "dtype": "Int64",
+   "count": 5,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    -9.223372036854776e+18,
+    -1.0,
+    0.0,
+    1.0,
+    9.223372036854776e+18
+   ],
+   "last": 9.223372036854776e+18,
+   "sampled": [
+    [
+     0,
+     -9.223372036854776e+18
+    ],
+    [
+     1,
+     -1.0
+    ],
+    [
+     2,
+     0.0
+    ],
+    [
+     3,
+     1.0
+    ],
+    [
+     4,
+     9.223372036854776e+18
+    ]
+   ],
+   "sum": 0.0,
+   "sum_abs": 1.8446744073709552e+19,
+   "min": -9.223372036854776e+18,
+   "max": 9.223372036854776e+18
+  },
+  {
+   "group": "Unsigned",
+   "channel": "Uint8",
+   "dtype": "Uint8",
+   "count": 3,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    0.0,
+    1.0,
+    255.0
+   ],
+   "last": 255.0,
+   "sampled": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     255.0
+    ]
+   ],
+   "sum": 256.0,
+   "sum_abs": 256.0,
+   "min": 0.0,
+   "max": 255.0
+  },
+  {
+   "group": "Unsigned",
+   "channel": "Uint16",
+   "dtype": "Uint16",
+   "count": 3,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    0.0,
+    1.0,
+    65535.0
+   ],
+   "last": 65535.0,
+   "sampled": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     65535.0
+    ]
+   ],
+   "sum": 65536.0,
+   "sum_abs": 65536.0,
+   "min": 0.0,
+   "max": 65535.0
+  },
+  {
+   "group": "Unsigned",
+   "channel": "Uint32",
+   "dtype": "Uint32",
+   "count": 3,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    0.0,
+    1.0,
+    4294967295.0
+   ],
+   "last": 4294967295.0,
+   "sampled": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     4294967295.0
+    ]
+   ],
+   "sum": 4294967296.0,
+   "sum_abs": 4294967296.0,
+   "min": 0.0,
+   "max": 4294967295.0
+  },
+  {
+   "group": "Unsigned",
+   "channel": "Uint64",
+   "dtype": "Uint64",
+   "count": 3,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    0.0,
+    1.0,
+    1.8446744073709552e+19
+   ],
+   "last": 1.8446744073709552e+19,
+   "sampled": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     1.8446744073709552e+19
+    ]
+   ],
+   "sum": 1.8446744073709552e+19,
+   "sum_abs": 1.8446744073709552e+19,
+   "min": 0.0,
+   "max": 1.8446744073709552e+19
+  }
+ ]
+}

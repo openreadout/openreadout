@@ -1,0 +1,50 @@
+{
+ "id": "tdms-rs-linear-scaling",
+ "format": "ni-tdms",
+ "reader": "npTDMS 1.13.0 (LGPL-3.0, black box)",
+ "independent": true,
+ "channels": [
+  {
+   "group": "Scaling",
+   "channel": "Linear",
+   "dtype": "DoubleFloat",
+   "count": 5,
+   "unit": "V",
+   "wf_increment": 0.5,
+   "first": [
+    0.0,
+    1.0,
+    2.0,
+    3.0,
+    4.0
+   ],
+   "last": 4.0,
+   "sampled": [
+    [
+     0,
+     0.0
+    ],
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     2.0
+    ],
+    [
+     3,
+     3.0
+    ],
+    [
+     4,
+     4.0
+    ]
+   ],
+   "sum": 10.0,
+   "sum_abs": 10.0,
+   "min": 0.0,
+   "max": 4.0
+  }
+ ]
+}

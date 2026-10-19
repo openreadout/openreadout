@@ -1,6 +1,6 @@
 # Maintaining `openreadout-mzml`
 
-The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; `mzml`), imzML with its `.ibd` (`imzml`), mzXML 2.x/3.x (`mzxml`), mzMLb (`mzmlb`), and their `.gz` forms. Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Layout and vocabulary: [docs/formats/mzml.md](../../docs/formats/mzml.md); provenance: [docs/provenance/mzml.md](../../docs/provenance/mzml.md) (open specifications; PSI-MS CV terms checked against `psi-ms.obo`).
+The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; `mzml`), imzML with its `.ibd` (`imzml`), mzXML 2.x/3.x (`mzxml`), mzMLb (`mzmlb`), MGF peak lists (`mgf`), and their `.gz` forms. Project-wide process: [docs/maintaining.md](../../docs/maintaining.md). Layout and vocabulary: [docs/formats/mzml.md](../../docs/formats/mzml.md); provenance: [docs/provenance/mzml.md](../../docs/provenance/mzml.md) (open specifications; PSI-MS CV terms checked against `psi-ms.obo`).
 
 ## Decode pipeline
 
@@ -8,7 +8,8 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 2. **Containers** (`gz.rs` `ContainerDataset`): `.gz` files are decompressed once into a random-access view (`openreadout_core::gzip::GzipSource`, restart points about every megabyte, no temporary file); mzMLb reads the XML through a byte view of the HDF5 `mzML` dataset and the arrays from HDF5 datasets (`mzmlb.rs` `H5Arrays`, deflate/shuffle/Blosc filters).
 3. **Locating spectra** (`scan.rs`): the trailing offset index (`indexedmzML`, mzXML `index`) is read and spot-checked (`read_written_index`, `verify_offsets`); without a usable index the file is scanned once (`walk`). Nothing is loaded whole: `xml.rs` materialises only the element asked for (`element_at`).
 4. **Metadata** (`mzml.rs` `header_node`, `instrument`, `software`, `summaries`; `cv.rs`): controlled-vocabulary parameters and referenceable parameter groups interpreted by accession (`activation`, `value_type`, `compression`, `array_kind`, `seconds_per`). **Writer and spec versions branch here**: mzML 1.0/0.99 drafts, the writing software's conventions (scan numbers from native ids, `scan_number_of`), mzXML 2.x vs 3.x attributes.
-5. **Arrays** (`binary.rs` `decode_array`): base64, then zlib or zstd, then numeric encodings (float32/64, int32/64) or MS-Numpress (`numpress.rs`: linear, pic, slof). imzML: arrays at offsets in the `.ibd` (`external`, `check_ibd`: UUID and SHA-1).
+5. **MGF** (`mgf.rs`): text, no index. `open_in` reads the file once line by line and keeps each `BEGIN IONS` block's byte range, parameters and peak-line count; `spectrum(i)` reads block `i` again and parses its peaks. Charges, retention-time ranges and the dialect are interpreted in `precursors`, `parse_rt` and `dialect` ([docs/formats/mgf.md](../../docs/formats/mgf.md)).
+6. **Arrays** (`binary.rs` `decode_array`): base64, then zlib or zstd, then numeric encodings (float32/64, int32/64) or MS-Numpress (`numpress.rs`: linear, pic, slof). imzML: arrays at offsets in the `.ibd` (`external`, `check_ibd`: UUID and SHA-1).
 
 ## Invariants and checks
 
@@ -21,13 +22,14 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 - `openreadout scans FILE` lists spectrum headers from the index without decoding arrays; `openreadout spectrum FILE --spectrum N --json` decodes one; `info --view full --json` → `vendor` has the header (cvList, fileDescription, software, instrument configurations).
 - A file written by new software: compare its `softwareList` and native-id format with a corpus file (`corpus/snapshots/mzml.jsonl` lists the writers seen).
 - The CV terms interpreted are listed in `cv.rs`; a new term is added there with its accession checked against `psi-ms.obo`.
-- No integration tests in this crate: unit tests in `binary.rs`, `numpress.rs`, `scan.rs`, `mzmlb.rs`; the corpus (pyteomics oracles in `oracle/gen.py`, and the m/z agreement test against vendor-library conversions) and `oracle/make_mzml_fixtures.py` synthetic files pin it.
+- Unit tests in `binary.rs`, `numpress.rs`, `scan.rs`, `mzmlb.rs`, `mgf.rs`; `tests/mgf.rs` reads the hand-written `tests/fixtures/mgf-synthetic.mgf`; the corpus (pyteomics oracles in `oracle/gen.py`, and the m/z agreement test against vendor-library conversions) and `oracle/make_mzml_fixtures.py` synthetic files pin it.
 
 ## Fragile spots
 
 - Scan numbers are derived from native ids whose conventions differ by vendor converter (Thermo `scan=`, Agilent/Sciex/Waters forms).
 - imzML pixels are spectra with `extra.position`; the `.ibd` MD5 is not verified.
 - Large files without an index trigger a full scan at open (slow but correct); a wrong index is detected by the spot check and falls back to the scan.
+- MGF writers add parameters of their own (`MSLEVEL`, `IONMODE`, `FEATURE_ID`, `SPECTRUMID`); the MS level, polarity and dialect depend on them. A block's `PEPMASS` charge wins over its `CHARGE`, which wins over the file's `CHARGE`, as pyteomics reads them.
 
 <!-- BEGIN GENERATED guide -->
 ## Facts (generated)
@@ -39,9 +41,10 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `mzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 131 / 120 | 56 | 3 / 0 |
-| `imzml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 12 / 12 | 7 | - |
-| `mzxml` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 15 / 14 | 13 | - |
+| `imzml` | [format note](../../docs/formats/mgf.md), [provenance log](../../docs/provenance/mgf.md) | high | open spec | 12 / 12 | 7 | - |
+| `mzxml` | [format note](../../docs/formats/mgf.md), [provenance log](../../docs/provenance/mgf.md) | high | open spec | 15 / 14 | 13 | - |
 | `mzmlb` | [format note](../../docs/formats/mzml.md), [provenance log](../../docs/provenance/mzml.md) | high | open spec | 7 / 7 | 4 | 1 / 0 |
+| `mgf` | [format note](../../docs/formats/mgf.md), [provenance log](../../docs/provenance/mgf.md) | high | vendor docs | 12 / 12 | 7 | - |
 
 ### Source map
 
@@ -52,7 +55,8 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 | [`src/cv.rs`](src/cv.rs) | PSI-MS controlled-vocabulary terms the mzML reader interprets |
 | [`src/experiment.rs`](src/experiment.rs) | Experiment facts of an mzML/imzML header that the normalized model cannot carry (`Dataset::experiment`): the sample the run measured, from `sampleList/sample` (`@name`, else `@id`) |
 | [`src/gz.rs`](src/gz.rs) | Containers around an mzML/mzXML document: gzip (`.mzML.gz`, `.mzXML.gz`: how PRIDE and MetaboLights often serve them) and mzMLb (HDF5, see [`crate::mzmlb`]) |
-| [`src/lib.rs`](src/lib.rs) | Readers for the open mass-spectrometry exchange formats mzML 1.1 (HUPO-PSI) and mzXML 2.x/3.x (ISB) |
+| [`src/lib.rs`](src/lib.rs) | Readers for the open mass-spectrometry exchange formats mzML 1.1 (HUPO-PSI) and mzXML 2.x/3.x (ISB), and for MGF (Mascot generic format) peak lists |
+| [`src/mgf.rs`](src/mgf.rs) | MGF (Mascot generic format) peak lists — the dataset |
 | [`src/mzml.rs`](src/mzml.rs) | mzML 1.1 (and the 1.0/0.99 drafts that share its structure) — the dataset |
 | [`src/mzmlb.rs`](src/mzmlb.rs) | mzMLb: mzML inside an HDF5 file (Bhamber et al., J |
 | [`src/mzxml.rs`](src/mzxml.rs) | mzXML 2.x / 3.x (ISB / Seattle Proteome Center) — the dataset |
@@ -64,14 +68,17 @@ The open mass-spectrometry exchange formats: mzML 1.1 (and the 1.0/0.99 drafts; 
 
 The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these features (each value is looked up in the validated table below; a value never confirmed makes the file `unvalidated` for the feature's outputs) and reports these structures and assumptions:
 
+- feature dialect `d`
+- feature codec `"gzip container"`
 - feature format_version `v`
 - feature acquisition `c`
 - feature layout `"imaging (.ibd)"`
-- feature codec `"gzip container"`
 - feature record `c`
 - feature layout `"index rebuilt by scanning"`
+- feature writer `w` (descriptive)
 - feature writer `n` (descriptive)
 - feature instrument `m` (descriptive)
+- undecoded "peptide mass fingerprint queries"
 - undecoded "chromatograms"
 - assumed "spectra[].ms_levels"
 
@@ -98,6 +105,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `imzml` | writer | `Xcalibur` | descriptive | 2 | 2 | `imzml-example-continuous`, `imzml-example-processed` |
 | `imzml` | writer | `custom unreleased software tool` | descriptive | 7 | 7 | `i2nca-cp`, `i2nca-pc`, `i2nca-pp` |
 | `imzml` | writer | `pyimzml` | descriptive | 1 | 1 | `metaspace-untreated-3-434` |
+| `mgf` | dialect | `annotated peptide spectra (SEQ)` | spectra | 1 | 1 | `mgf-casanovo-sample` |
+| `mgf` | dialect | `feature export (FEATURE_ID)` | spectra | 1 | 1 | `mgf-openms-gnpsexport1` |
+| `mgf` | dialect | `peak list` | spectra | 5 | 5 | `mgf-ms2pip-massivekb500`, `mgf-ms2rescore-test`, `mgf-msdeisotope-small` |
+| `mgf` | dialect | `search submission (file parameters)` | spectra | 2 | 2 | `mgf-openms-idconv33`, `mgf-pyteomics-test` |
+| `mgf` | dialect | `spectral library (GNPS)` | spectra | 3 | 3 | `mgf-matchms-pesticides`, `mgf-matchms-testdata`, `mgf-openms-mgf-gnps` |
+| `mgf` | writer | `GNPS` | descriptive | 3 | 3 | `mgf-matchms-pesticides`, `mgf-matchms-testdata`, `mgf-openms-mgf-gnps` |
+| `mgf` | writer | `OpenMS` | descriptive | 1 | 1 | `mgf-openms-idconv33` |
 | `mzml` | acquisition | `MS1 spectrum` | spectra, traces | 78 | 84 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv97728-tsq9610-gc-crbalf03` |
 | `mzml` | acquisition | `MSn spectrum` | spectra, traces | 75 | 79 | `msv102435-iqx-leaf-qc-neg-03`, `msv94528-idx-msnlib-peptide01-b18`, `msv99294-astral-nanopots-1cell-b9` |
 | `mzml` | acquisition | `SRM spectrum` | spectra, traces | 1 | 1 | `pwiz-waters-160109-mix1-calcurve-070-mzml` |
@@ -152,23 +166,16 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `mzml` | instrument | `Waters instrument model` | descriptive | 19 | 23 | `mtbls7290-scfa240-001-neg-blank-raw`, `pwiz-waters-091204-nfdm-008-mzml`, `pwiz-waters-160109-mix1-calcurve-070-mzml` |
 | `mzml` | instrument | `instrument model` | descriptive | 2 | 2 | `mtbls6991-tsq-altis-plus-sar11-40`, `openms-tutorial-gaussfilter` |
 | `mzml` | layout | `index rebuilt by scanning` | spectra | 4 | 4 | `mtbls10098-discovery-desi-174`, `mtbls20-caffeine-pos`, `mtbls20-hydroxymethoxycinnamic-neg` |
-| `mzml` | record | `absorption chromatogram` | traces | 1 | 2 | `pwiz-agilent-tof-sulfas-mzml` |
-| `mzml` | record | `basepeak chromatogram` | traces | 14 | 27 | `mtbls2240-bal-214-ecoli`, `mtbls6084-sl-st-blank2`, `mzdata-diapasef` |
-| `mzml` | record | `chromatogram` | traces | 2 | 2 | `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
-| `mzml` | record | `electromagnetic radiation chromatogram` | traces | 1 | 1 | `pwiz-waters-qc-lcms2-2-23-268-1-1-mzml` |
-| `mzml` | record | `emission chromatogram` | traces | 0 | 1 |  |
-| `mzml` | record | `flow rate chromatogram` | traces | 4 | 10 | `mtbls4722-1`, `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
-| `mzml` | record | `pressure chromatogram` | traces | 5 | 16 | `mtbls4722-1`, `pwiz-bruker-urine-tsf-centroid-mzml`, `pwiz-bruker-urine-tsf-mzml` |
 
-… 59 more values: the generated table in `src/assurance.rs` has all of them.
+… 66 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
-- integration tests: none (unit tests in `src/`)
-- committed fixtures: 3 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
-- fuzz targets (`fuzz/fuzz_targets/`): `mzml_binary`, `whole_imzml`, `whole_mzml_gz`, `whole_mzml`, `whole_mzmlb`, `whole_mzxml`
-- corpus inputs by tier: heldout 12, smoke 24, standard 9
-- golden snapshots: [`corpus/snapshots/mzml.jsonl`](../../corpus/snapshots/mzml.jsonl), [`corpus/snapshots/imzml.jsonl`](../../corpus/snapshots/imzml.jsonl), [`corpus/snapshots/mzxml.jsonl`](../../corpus/snapshots/mzxml.jsonl), [`corpus/snapshots/mzmlb.jsonl`](../../corpus/snapshots/mzmlb.jsonl)
+- integration tests: [`tests/mgf.rs`](tests/mgf.rs)
+- committed fixtures: 4 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- fuzz targets (`fuzz/fuzz_targets/`): `mzml_binary`, `whole_imzml`, `whole_mgf`, `whole_mzml_gz`, `whole_mzml`, `whole_mzmlb`, `whole_mzxml`
+- corpus inputs by tier: heldout 12, smoke 36, standard 9
+- golden snapshots: [`corpus/snapshots/mzml.jsonl`](../../corpus/snapshots/mzml.jsonl), [`corpus/snapshots/imzml.jsonl`](../../corpus/snapshots/imzml.jsonl), [`corpus/snapshots/mzxml.jsonl`](../../corpus/snapshots/mzxml.jsonl), [`corpus/snapshots/mzmlb.jsonl`](../../corpus/snapshots/mzmlb.jsonl), [`corpus/snapshots/mgf.jsonl`](../../corpus/snapshots/mgf.jsonl)
 
 ### Open new-variant intakes
 

@@ -1,0 +1,24 @@
+{
+ "id": "tdms-rs-strings",
+ "format": "ni-tdms",
+ "reader": "npTDMS 1.13.0 (LGPL-3.0, black box)",
+ "independent": true,
+ "channels": [
+  {
+   "group": "Strings",
+   "channel": "Basic",
+   "dtype": "String",
+   "count": 5,
+   "unit": null,
+   "wf_increment": null,
+   "string": true,
+   "first_strings": [
+    "Hello",
+    "World",
+    "",
+    "TDMS",
+    "File Format"
+   ]
+  }
+ ]
+}

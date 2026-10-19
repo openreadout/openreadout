@@ -64,3 +64,9 @@ of the same name (every Bruker oracle regenerated since then failed); renamed `_
 **Corpus files:** every development input of this format on disk (`corpus/assurance/evidence.json` lists them); no held-out file.
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: the writer (TopSpin / XWIN-NMR), data file, byte order, sample type, AQ_mod, dimensions, encodings, NUS, and the digital-filter group delay (available, removed only when processing). The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
+
+## 2026-10-19 — Bruker flex directories are not NMR experiments
+
+**Corpus files:** the `flex-*` entries (Bruker flex MALDI-TOF spots).
+**Prior art consulted:** none.
+**What was inferred.** Flex spot directories also hold `fid` and `acqus`. Their `acqus` names XMASS in its `##TITLE=` or `##ORIGIN=` line, which TopSpin and XWIN-NMR files in the corpus do not, so `resolve_experiment_dir_in` now skips such directories.

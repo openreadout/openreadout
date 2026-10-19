@@ -153,6 +153,35 @@ fn observe(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static BRUKER_FLEX: AssuranceProfile = AssuranceProfile {
+    format_id: "bruker-flex",
+    observe: observe_flex,
+    validated: BRUKER_FLEX_VALIDATED,
+    confidence: BRUKER_FLEX_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+/// Bruker flex: the acquisition mode (linear, reflector, LIFT) changes the calibration shape;
+/// the flexControl version and the instrument type code describe the writer and instrument.
+fn observe_flex(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    for s in &info.spectra {
+        if let Some(m) = s.extra.get("modes").and_then(|m| m.as_object()) {
+            for k in m.keys() {
+                o.feature(K::Acquisition, k, &[Scope::Spectra]);
+            }
+        }
+        for v in a::extra_values_in(&s.extra, "software_versions") {
+            let mm: Vec<&str> = v.split(['.', '_']).take(2).collect();
+            o.context(K::WriterVersion, format!("flexControl {}", mm.join(".")));
+        }
+        for v in a::extra_values_in(&s.extra, "instrument_types") {
+            o.context(K::Instrument, format!("InstTyp {v}"));
+        }
+    }
+    o
+}
+
 pub(crate) static BRUKER_BAF: AssuranceProfile = AssuranceProfile {
     format_id: "bruker-baf",
     observe: observe_baf,
@@ -321,3 +350,22 @@ const BRUKER_TDF_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "timsControl 6", 4, 4, 4),
 ];
 // END GENERATED bruker-tdf
+
+// BEGIN GENERATED bruker-flex (cargo xtask assurance-audit --write; do not edit)
+const BRUKER_FLEX_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const BRUKER_FLEX_VALIDATED: &[Validated] = &[
+    a::row(K::Acquisition, "LIFT", 0, 0, 1),
+    a::row(K::Acquisition, "linear", 9, 7, 9),
+    a::row(K::Acquisition, "reflector", 3, 2, 3),
+    a::row(K::Instrument, "InstTyp 0", 1, 1, 1),
+    a::row(K::Instrument, "InstTyp 18", 1, 1, 2),
+    a::row(K::Instrument, "InstTyp 2", 1, 1, 1),
+    a::row(K::Instrument, "InstTyp 8", 3, 2, 3),
+    a::row(K::Instrument, "InstTyp 9", 6, 4, 6),
+    a::row(K::WriterVersion, "flexControl 4.2", 1, 1, 2),
+    a::row(K::WriterVersion, "flexControl flexControl 2.4", 1, 1, 1),
+    a::row(K::WriterVersion, "flexControl flexControl 3.3", 2, 1, 2),
+    a::row(K::WriterVersion, "flexControl flexControl 3.4", 8, 6, 8),
+];
+// END GENERATED bruker-flex

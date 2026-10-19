@@ -1,0 +1,81 @@
+{
+ "id": "flex-zenodo4271724-phytophthora-j19",
+ "file": "fid",
+ "size": 258048,
+ "sha256": "178b5f40ee457dae99f430e8a60248059ea1c9230c838a369d0679ee2231281a",
+ "max_planes_hashed": 64,
+ "reader": "pyopenms 3.6.0 FileHandler (XMASS)",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "n_peaks": 64512,
+    "n_nonzero": 64512,
+    "mz_bits": null,
+    "xxh3_mz": "28adc648bb3e618d22dc7fd9f5bb4f66",
+    "xxh3_intensity": "0a4fed54d1a5ba4580ed2e0ef17519a3",
+    "xxh3_mz_nonzero": "28adc648bb3e618d22dc7fd9f5bb4f66",
+    "xxh3_intensity_nonzero": "0a4fed54d1a5ba4580ed2e0ef17519a3",
+    "sum_intensity": 227274280.0,
+    "mz_min": 1997.2232169520425,
+    "mz_max": 20050.45707235907,
+    "first_peaks": [
+     [
+      1997.2232169520425,
+      11585.0
+     ],
+     [
+      1997.3572025855312,
+      11587.0
+     ],
+     [
+      1997.4911927218277,
+      11544.0
+     ],
+     [
+      1997.6251873612791,
+      11454.0
+     ],
+     [
+      1997.7591865035392,
+      11370.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      1997.2232169520425,
+      11585.0
+     ],
+     [
+      1997.3572025855312,
+      11587.0
+     ],
+     [
+      1997.4911927218277,
+      11544.0
+     ],
+     [
+      1997.6251873612791,
+      11454.0
+     ],
+     [
+      1997.7591865035392,
+      11370.0
+     ]
+    ]
+   }
+  ]
+ }
+}

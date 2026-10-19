@@ -4226,6 +4226,98 @@ def mzxml_(p: Path) -> dict:
         "spectra": {"scan_count": len(scans), "by_index": True, "scans": scans},
     }
 
+def mgf_(p: Path) -> dict:
+    """MGF peak lists read with pyteomics (Apache-2.0) `mgf.MGF`, file parameters merged into
+    each spectrum as pyteomics does by default (`use_header=True`: a file-level CHARGE applies to
+    every query without one). Recorded per spectrum: scan number (`SCANS` when it is one whole
+    number, else the position from 1), MS level (`MSLEVEL`, else 2: MGF holds MS/MS queries),
+    `RTINSECONDS`, the first `PEPMASS` m/z, a single precursor charge, and the peaks in file
+    order. Polarity and centroiding are not stated by the format and are not recorded."""
+    from importlib.metadata import version as pkg_version
+    from pyteomics import mgf
+    scans = []
+    # the sequential reader: the indexed one keys spectra by TITLE and drops repeated titles
+    with mgf.MGF(str(p), use_header=True, convert_arrays=1, read_charges=True) as r:
+        for i, sp in enumerate(r):
+            par = sp["params"]
+            sc = str(par.get("scans", "")).strip()
+            rt = par.get("rtinseconds")
+            try:
+                rt = float(rt) if rt is not None else None
+            except (TypeError, ValueError):
+                rt = None
+            ch = par.get("charge")
+            charges = list(ch) if isinstance(ch, (list, tuple)) else ([ch] if ch is not None else [])
+            pep = par.get("pepmass") or (None,)
+            scans.append({
+                "index": i,
+                "scan_number": int(sc) if sc.isdigit() else i + 1,
+                "ms_level": int(par.get("mslevel", 2)),
+                "rt_s": rt,
+                "polarity": None,
+                "centroided": None,
+                "filter": None,
+                "precursor_mz": float(pep[0]) if pep[0] is not None else None,
+                "precursor_charge": int(charges[0]) if len(charges) == 1 else None,
+                "activation": None,
+                **_peaks(sp["m/z array"], sp["intensity array"], None),
+            })
+    return {
+        "reader": f"pyteomics {pkg_version('pyteomics')} mgf.MGF",
+        "images": [],
+        "spectra": {"scan_count": len(scans), "by_index": True, "scans": scans},
+    }
+
+def _is_flex_fid(p: Path) -> bool:
+    """A Bruker flex `fid`: an XMASS parameter file (`acqus` or `acqu`) beside it."""
+    if p.name != "fid" or not p.is_file():
+        return False
+    for n in ("acqus", "acqu"):
+        q = p.parent / n
+        if q.is_file():
+            return "XMASS" in q.read_text("latin-1")[:400]
+    return False
+
+
+def flex_(p: Path) -> dict:
+    """A Bruker flex MALDI-TOF spot (`fid` + `acqus`) read with pyOpenMS (BSD-3-Clause)
+    `FileHandler.loadExperiment`, which computes m/z from the acqus calibration. pyOpenMS
+    rejects an `AQ_DATE` with a negative UTC offset, so it reads a temporary copy of the spot
+    whose `AQ_DATE` has the offset removed (the date is not compared). One spectrum: MS level,
+    polarity and precursor as pyOpenMS reports them, the points as `_peaks` summarizes them."""
+    import shutil
+    import tempfile
+    import pyopenms as oms
+    from importlib.metadata import version as pkg_version
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "spot"
+        d.mkdir()
+        shutil.copyfile(p, d / "fid")
+        par = next(p.parent / n for n in ("acqus", "acqu") if (p.parent / n).is_file())
+        text = par.read_text("latin-1")
+        text = re.sub(r"(##\$AQ_DATE= <[^>]*?)[+-]\d\d:\d\d>", r"\1>", text)
+        (d / "acqus").write_text(text, "latin-1")
+        exp = oms.MSExperiment()
+        oms.FileHandler().loadExperiment(str(d / "fid"), exp)
+    spectra = exp.getSpectra()
+    if len(spectra) != 1:
+        raise ValueError(f"pyOpenMS gave {len(spectra)} spectra")
+    sp = spectra[0]
+    mz, it = sp.get_peaks()
+    pol = {oms.IonSource.Polarity.POSITIVE: "positive", oms.IonSource.Polarity.NEGATIVE: "negative"}.get(
+        sp.getInstrumentSettings().getPolarity())
+    pre = sp.getPrecursors()
+    return {
+        "reader": f"pyopenms {pkg_version('pyopenms')} FileHandler (XMASS)",
+        "images": [],
+        "spectra": {"scan_count": 1, "by_index": True, "scans": [{
+            "index": 0, "scan_number": 1, "ms_level": sp.getMSLevel(), "rt_s": None, "polarity": pol,
+            "centroided": None, "filter": None,
+            "precursor_mz": pre[0].getMZ() if pre and pre[0].getMZ() > 0 else None, "precursor_charge": None,
+            "activation": None, **_peaks(mz, it, None),
+        }]},
+    }
+
 def thermo(p: Path, q: Path = None) -> dict:
     """Ground truth for a Thermo .raw file = the depositor's own open-format conversion of it.
     No reader of the .raw itself is run (none may be: see docs/provenance/thermo-raw.md)."""
@@ -6499,7 +6591,7 @@ def main():
         ext = p.suffix.lower()
         is_tiff = ext in TIFF_SUFFIXES or p.name.lower().endswith(".companion.ome")
         # A .lifext sidecar shares its stem with its .lif; its oracle id gets a -lifext suffix.
-        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs|isyntax|vms)$", "",
+        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|mgf|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs|isyntax|vms)$", "",
                                  re.sub(r"\.lifext$", "-lifext", p.name, flags=re.I), flags=re.I)
         if (is_tiff or ext in (".nd", ".dcimg", ".ndpis")) and not given_id:
             fid = _corpus_id(p)
@@ -6509,7 +6601,7 @@ def main():
             fid = p.stem  # plate corpus ids are the file stems
         em = {e: mrc for e in ("mrc", "mrcs", "map", "rec", "st", "ali", "ccp4")} | {"dm3": dm, "dm4": dm, "dm5": dm, "ser": ser, "emd": emd}
         try:
-            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
+            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "mgf": mgf_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
             import spectro
 
             import medical  # DICOM, NIfTI, ParaVision (oracle/medical.py)
@@ -6526,6 +6618,8 @@ def main():
                 data = diffraction.cbf(p)
             elif ext == ".nxs" or p.name.lower().endswith(("_master.h5", "_master_rev.h5")):
                 data = diffraction.nxmx(p, MAX_PLANES)
+            elif _is_flex_fid(p):
+                data = flex_(p)
             elif ext == ".mdoc":
                 data = diffraction.mdoc(p)
             elif p.is_file() and (sk := spectro.kind(p)):

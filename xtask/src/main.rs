@@ -672,8 +672,16 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
     ("agilent-ms", &[("", "agilent-masshunter")]),
     ("waters", &[("", "waters-raw")]),
     ("sciex", &[("", "sciex-wiff")]),
-    ("mzml", &[("", "mzml")]),
-    ("bruker-tims", &[("baf", "bruker-baf"), ("", "bruker-tdf")]),
+    ("mzml", &[("mgf", "mgf"), ("", "mzml")]),
+    ("tdms", &[("", "ni-tdms")]),
+    (
+        "bruker-tims",
+        &[
+            ("baf", "bruker-baf"),
+            ("flex", "bruker-flex"),
+            ("", "bruker-tdf"),
+        ],
+    ),
     // file-name prefixes per format; lib.rs/binary.rs are checked against all four documents
     (
         "chrom",
@@ -795,6 +803,7 @@ const VOCAB: &[(&str, &[(&str, &str)])] = &[
             ("illumina", "illumina-run"),
             ("nanopore", "nanopore"),
             ("reads", "sequence-reads"),
+            ("cram", "cram"),
             // format ids, for `repo::doc_of`; no source file starts with these
             ("pod5", "nanopore"),
             ("fast5", "nanopore"),

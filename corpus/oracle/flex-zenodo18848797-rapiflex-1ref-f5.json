@@ -1,0 +1,81 @@
+{
+ "id": "flex-zenodo18848797-rapiflex-1ref-f5",
+ "file": "fid",
+ "size": 1310584,
+ "sha256": "aadc8cbc4271b0b7b58e0c3792a837a74481ba058366839a8b68ccbbd3e0b81d",
+ "max_planes_hashed": 64,
+ "reader": "pyopenms 3.6.0 FileHandler (XMASS)",
+ "images": [],
+ "spectra": {
+  "scan_count": 1,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 1,
+    "rt_s": null,
+    "polarity": "positive",
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": null,
+    "precursor_charge": null,
+    "activation": null,
+    "n_peaks": 327646,
+    "n_nonzero": 327646,
+    "mz_bits": null,
+    "xxh3_mz": "be11f3ef9f02d750fde92a92e58506a7",
+    "xxh3_intensity": "1dfc23df9558eac9ad1024b644892321",
+    "xxh3_mz_nonzero": "be11f3ef9f02d750fde92a92e58506a7",
+    "xxh3_intensity_nonzero": "1dfc23df9558eac9ad1024b644892321",
+    "sum_intensity": 2481674899.0,
+    "mz_min": 299.88365444095837,
+    "mz_max": 3210.3444109907946,
+    "first_peaks": [
+     [
+      299.88365444095837,
+      7438.0
+     ],
+     [
+      299.8877956950091,
+      7242.0
+     ],
+     [
+      299.89193697778586,
+      7197.0
+     ],
+     [
+      299.89607828922266,
+      7644.0
+     ],
+     [
+      299.90021962938516,
+      7656.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      299.88365444095837,
+      7438.0
+     ],
+     [
+      299.8877956950091,
+      7242.0
+     ],
+     [
+      299.89193697778586,
+      7197.0
+     ],
+     [
+      299.89607828922266,
+      7644.0
+     ],
+     [
+      299.90021962938516,
+      7656.0
+     ]
+    ]
+   }
+  ]
+ }
+}

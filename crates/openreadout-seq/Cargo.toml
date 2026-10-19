@@ -1,6 +1,6 @@
 [package]
 name = "openreadout-seq"
-description = "Readers for DNA sequencer output (Illumina run folders, Oxford Nanopore POD5 and FAST5, FASTQ and BAM), part of OpenReadout"
+description = "Readers for DNA sequencer output (Illumina run folders, Oxford Nanopore POD5 and FAST5, FASTQ, BAM and CRAM), part of OpenReadout"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -8,7 +8,7 @@ license.workspace = true
 authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
-keywords = ["sequencing", "illumina", "nanopore", "fastq", "bam"]
+keywords = ["sequencing", "illumina", "nanopore", "bam", "cram"]
 categories = ["parser-implementations", "science"]
 readme = "README.md"
 documentation = "https://docs.rs/openreadout-seq"
@@ -22,6 +22,10 @@ hdf5-pure = { workspace = true }
 arrow-ipc = { workspace = true }
 flate2 = { workspace = true }
 ruzstd = { workspace = true }
+bzip2-rs = { workspace = true }
+lzma-rs = { workspace = true }
+md-5 = { workspace = true }
+crc32fast = { workspace = true }
 roxmltree = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

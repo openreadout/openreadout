@@ -1,0 +1,213 @@
+{
+ "id": "mgf-pyteomics-pepmass",
+ "file": "mgf-pyteomics-pepmass.mgf",
+ "size": 388,
+ "sha256": "255dbad9326d3e2026c07db1c3e472a9d096ebb94e5f0242755a800f39301d35",
+ "max_planes_hashed": 64,
+ "reader": "pyteomics 5.0.1 mgf.MGF",
+ "images": [],
+ "spectra": {
+  "scan_count": 3,
+  "by_index": true,
+  "scans": [
+   {
+    "index": 0,
+    "scan_number": 1,
+    "ms_level": 2,
+    "rt_s": null,
+    "polarity": null,
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": 983.6,
+    "precursor_charge": 2,
+    "activation": null,
+    "n_peaks": 6,
+    "n_nonzero": 6,
+    "mz_bits": null,
+    "xxh3_mz": "41b400cd683dde22984840443a9a2ebf",
+    "xxh3_intensity": "a050b07d9baab34bfde4f565c4ea2d83",
+    "xxh3_mz_nonzero": "41b400cd683dde22984840443a9a2ebf",
+    "xxh3_intensity_nonzero": "a050b07d9baab34bfde4f565c4ea2d83",
+    "sum_intensity": 578.0,
+    "mz_min": 846.6,
+    "mz_max": 1895.5,
+    "first_peaks": [
+     [
+      846.6,
+      73.0
+     ],
+     [
+      846.8,
+      44.0
+     ],
+     [
+      847.6,
+      67.0
+     ],
+     [
+      1640.1,
+      291.0
+     ],
+     [
+      1640.6,
+      54.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      846.6,
+      73.0
+     ],
+     [
+      846.8,
+      44.0
+     ],
+     [
+      847.6,
+      67.0
+     ],
+     [
+      1640.1,
+      291.0
+     ],
+     [
+      1640.6,
+      54.0
+     ]
+    ]
+   },
+   {
+    "index": 1,
+    "scan_number": 2,
+    "ms_level": 2,
+    "rt_s": null,
+    "polarity": null,
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": 983.6,
+    "precursor_charge": 2,
+    "activation": null,
+    "n_peaks": 6,
+    "n_nonzero": 6,
+    "mz_bits": null,
+    "xxh3_mz": "41b400cd683dde22984840443a9a2ebf",
+    "xxh3_intensity": "a050b07d9baab34bfde4f565c4ea2d83",
+    "xxh3_mz_nonzero": "41b400cd683dde22984840443a9a2ebf",
+    "xxh3_intensity_nonzero": "a050b07d9baab34bfde4f565c4ea2d83",
+    "sum_intensity": 578.0,
+    "mz_min": 846.6,
+    "mz_max": 1895.5,
+    "first_peaks": [
+     [
+      846.6,
+      73.0
+     ],
+     [
+      846.8,
+      44.0
+     ],
+     [
+      847.6,
+      67.0
+     ],
+     [
+      1640.1,
+      291.0
+     ],
+     [
+      1640.6,
+      54.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      846.6,
+      73.0
+     ],
+     [
+      846.8,
+      44.0
+     ],
+     [
+      847.6,
+      67.0
+     ],
+     [
+      1640.1,
+      291.0
+     ],
+     [
+      1640.6,
+      54.0
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "scan_number": 3,
+    "ms_level": 2,
+    "rt_s": null,
+    "polarity": null,
+    "centroided": null,
+    "filter": null,
+    "precursor_mz": 983.6,
+    "precursor_charge": 2,
+    "activation": null,
+    "n_peaks": 6,
+    "n_nonzero": 6,
+    "mz_bits": null,
+    "xxh3_mz": "41b400cd683dde22984840443a9a2ebf",
+    "xxh3_intensity": "a050b07d9baab34bfde4f565c4ea2d83",
+    "xxh3_mz_nonzero": "41b400cd683dde22984840443a9a2ebf",
+    "xxh3_intensity_nonzero": "a050b07d9baab34bfde4f565c4ea2d83",
+    "sum_intensity": 578.0,
+    "mz_min": 846.6,
+    "mz_max": 1895.5,
+    "first_peaks": [
+     [
+      846.6,
+      73.0
+     ],
+     [
+      846.8,
+      44.0
+     ],
+     [
+      847.6,
+      67.0
+     ],
+     [
+      1640.1,
+      291.0
+     ],
+     [
+      1640.6,
+      54.0
+     ]
+    ],
+    "first_nonzero_peaks": [
+     [
+      846.6,
+      73.0
+     ],
+     [
+      846.8,
+      44.0
+     ],
+     [
+      847.6,
+      67.0
+     ],
+     [
+      1640.1,
+      291.0
+     ],
+     [
+      1640.6,
+      54.0
+     ]
+    ]
+   }
+  ]
+ }
+}

@@ -52,6 +52,7 @@ mod shimadzu_oracle;
 mod spectra;
 mod spike2x_oracle;
 mod tables;
+mod tdms_oracle;
 mod traces;
 
 #[derive(Deserialize)]
@@ -294,6 +295,8 @@ fn family_scopes(format: &str, oracle_text: &str) -> Vec<&'static str> {
         }
     } else if format == "abif" {
         vec!["metadata", "tables", "traces"]
+    } else if tdms_oracle::FORMATS.contains(&format) {
+        vec!["metadata", "traces"]
     } else if series_oracle::FORMATS.contains(&format) {
         series_oracle::scopes(format)
     } else if hyperspec_oracle::FORMATS.contains(&format) {
@@ -613,6 +616,8 @@ fn family_dir(format: &str) -> Option<&'static str> {
         Some("hyperspec")
     } else if seq_oracle::FORMATS.contains(&format) {
         Some("seq")
+    } else if tdms_oracle::FORMATS.contains(&format) {
+        Some("tdms")
     } else {
         None
     }
@@ -709,6 +714,8 @@ fn check_family(format: &str, id: &str, path: &Path, text: &str) -> Option<Resul
         hyperspec_oracle::compare_file(format, id, path, &o)
     } else if seq_oracle::FORMATS.contains(&format) {
         seq_oracle::compare_file(format, id, path, &o)
+    } else if tdms_oracle::FORMATS.contains(&format) {
+        tdms_oracle::compare_file(id, path, &o)
     } else {
         qpcr_oracle::compare_file(format, id, path, &o)
     })
@@ -835,6 +842,28 @@ fn corpus_matches_oracle() {
             continue;
         }
         let text = openreadout_corpus_tests::oracle_json::read_to_string(&oracle_path).unwrap();
+        // a family oracle the manifest says not to compare: opened only, as for other formats
+        if let (Some(why), Some(_)) = (&e.oracle_skip, family_for(&e.format, &e.id)) {
+            let status = match reg.open(&path).and_then(|(_, ds)| ds.info()) {
+                Ok(_) | Err(openreadout_core::Error::Unsupported { .. }) => "skip".to_string(),
+                Err(err) => format!("FAIL (open: {err})"),
+            };
+            let outcome = Outcome {
+                id: e.id.clone(),
+                format: e.format.clone(),
+                status,
+                detail: why.clone(),
+                independent: true,
+                compared: Vec::new(),
+                fields: Vec::new(),
+            };
+            println!(
+                "{:<6} {:<5} {:<60} {}",
+                outcome.status, outcome.format, outcome.id, outcome.detail
+            );
+            outcomes.push(outcome);
+            continue;
+        }
         if let Some(r) = check_family(&e.format, &e.id, &path, &text) {
             let (status, detail) = match r {
                 Ok(d) if family_oracle_is_empty(&text) => (

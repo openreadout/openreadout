@@ -58,6 +58,7 @@ openreadout-biophys = { path = "../crates/openreadout-biophys" }
 openreadout-gel = { path = "../crates/openreadout-gel" }
 openreadout-thermal = { path = "../crates/openreadout-thermal" }
 openreadout-echem = { path = "../crates/openreadout-echem" }
+openreadout-tdms = { path = "../crates/openreadout-tdms" }
 openreadout-xrd = { path = "../crates/openreadout-xrd" }
 openreadout-seq = { path = "../crates/openreadout-seq" }
 openreadout-ce = { path = "../crates/openreadout-ce" }
@@ -411,6 +412,20 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_mgf"
+path = "fuzz_targets/whole_mgf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_tdms"
+path = "fuzz_targets/whole_tdms.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "whole_oir"
 path = "fuzz_targets/whole_oir.rs"
 test = false
@@ -490,6 +505,13 @@ bench = false
 [[bin]]
 name = "whole_baf"
 path = "fuzz_targets/whole_baf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "whole_flex"
+path = "fuzz_targets/whole_flex.rs"
 test = false
 doc = false
 bench = false
@@ -1258,6 +1280,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "whole_cram"
+path = "fuzz_targets/whole_cram.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "codec_bitshuffle"
 path = "fuzz_targets/codec_bitshuffle.rs"
 test = false
@@ -1281,6 +1310,13 @@ bench = false
 [[bin]]
 name = "seq_vbz"
 path = "fuzz_targets/seq_vbz.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "seq_cram_codecs"
+path = "fuzz_targets/seq_cram_codecs.rs"
 test = false
 doc = false
 bench = false

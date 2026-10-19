@@ -44,6 +44,8 @@ pub struct ReadStats {
     pub min_qchar: u8,
     /// Largest quality character seen.
     pub max_qchar: u8,
+    /// Reads whose bases are not known (CRAM without its reference).
+    pub unknown_bases: u64,
     table: [f64; 94],
 }
 
@@ -66,6 +68,7 @@ impl Default for ReadStats {
             pos_q: Vec::new(),
             min_qchar: u8::MAX,
             max_qchar: 0,
+            unknown_bases: 0,
             table,
         }
     }
@@ -80,8 +83,8 @@ pub struct ReadValues {
     pub mean_quality: f64,
     /// GC content in percent of A, C, G and T bases.
     pub gc_percent: f64,
-    /// N bases.
-    pub n_count: u64,
+    /// N bases (`None` when the bases are not known).
+    pub n_count: Option<u64>,
 }
 
 /// The base-composition slot of a base letter.
@@ -100,22 +103,37 @@ impl ReadStats {
     /// Add one read: its bases as letters and its qualities as Phred values (empty when it has
     /// none).
     pub fn add(&mut self, seq: &[u8], qual: &[u8]) -> ReadValues {
-        let len = seq.len() as u64;
-        self.reads += 1;
-        self.bases += len;
-        *self.lengths.entry(len).or_default() += 1;
         let mut comp = [0u64; 6];
         for &b in seq {
             comp[slot(b)] += 1;
         }
-        for (a, c) in self.composition.iter_mut().zip(comp) {
-            *a += c;
-        }
-        let acgt = comp[0] + comp[1] + comp[2] + comp[3];
-        let gc = if acgt > 0 {
-            (comp[1] + comp[2]) as f64 / acgt as f64 * 100.0
-        } else {
-            f64::NAN
+        self.add_counts(seq.len() as u64, Some(comp), qual)
+    }
+
+    /// Add one read whose bases are not known (only its length and qualities): it counts in
+    /// lengths and qualities, not in base composition.
+    pub fn add_without_bases(&mut self, len: u64, qual: &[u8]) -> ReadValues {
+        self.unknown_bases += 1;
+        self.add_counts(len, None, qual)
+    }
+
+    fn add_counts(&mut self, len: u64, comp: Option<[u64; 6]>, qual: &[u8]) -> ReadValues {
+        self.reads += 1;
+        self.bases += len;
+        *self.lengths.entry(len).or_default() += 1;
+        let gc = match comp {
+            Some(comp) => {
+                for (a, c) in self.composition.iter_mut().zip(comp) {
+                    *a += c;
+                }
+                let acgt = comp[0] + comp[1] + comp[2] + comp[3];
+                if acgt > 0 {
+                    (comp[1] + comp[2]) as f64 / acgt as f64 * 100.0
+                } else {
+                    f64::NAN
+                }
+            }
+            None => f64::NAN,
         };
         let mean_q = if qual.is_empty() {
             self.no_quality += 1;
@@ -152,7 +170,7 @@ impl ReadStats {
             length: len,
             mean_quality: mean_q,
             gc_percent: gc,
-            n_count: comp[4],
+            n_count: comp.map(|c| c[4]),
         }
     }
 
@@ -188,7 +206,7 @@ impl ReadStats {
     pub fn summary(&self) -> Value {
         let total_comp: u64 = self.composition.iter().sum();
         let acgt: u64 = self.composition[..4].iter().sum();
-        json!({
+        let mut s = json!({
             "reads": self.reads,
             "bases": self.bases,
             "length_min": self.lengths.keys().next(),
@@ -202,7 +220,11 @@ impl ReadStats {
             "percent_gc": (acgt > 0).then(|| tidy((self.composition[1] + self.composition[2]) as f64 / acgt as f64 * 100.0, 5)),
             "percent_n": (total_comp > 0).then(|| tidy(self.composition[4] as f64 / total_comp as f64 * 100.0, 4)),
             "reads_without_quality": self.no_quality,
-        })
+        });
+        if self.unknown_bases > 0 {
+            s["reads_without_bases"] = json!(self.unknown_bases);
+        }
+        s
     }
 
     fn median_read_quality(&self) -> Option<u32> {
@@ -335,7 +357,7 @@ mod tests {
         let v = s.add(b"ACGTNN", &[30, 30, 30, 30, 2, 2]);
         assert_eq!(v.length, 6);
         assert!((v.gc_percent - 50.0).abs() < 1e-9);
-        assert_eq!(v.n_count, 2);
+        assert_eq!(v.n_count, Some(2));
         s.add(b"AAAAAAAAAA", &[40; 10]);
         s.add(b"CC", &[]);
         assert_eq!(s.reads, 3);

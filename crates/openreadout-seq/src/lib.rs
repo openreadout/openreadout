@@ -8,11 +8,13 @@
 //! - **Oxford Nanopore POD5** (`pod5`) and **FAST5** (`fast5`): every read's raw signal in pA (a
 //!   trace with one sweep per read), the reads table (channel, well, start, duration, end
 //!   reason, open-pore level) and the run's metadata.
-//! - **FASTQ** (`fastq`, also gzip-compressed) and **BAM** (`bam`): read counts, length and
-//!   quality distributions and the header facts, streamed; the reads themselves as a table.
+//! - **FASTQ** (`fastq`, also gzip-compressed), **BAM** (`bam`) and **CRAM** (`cram`): read
+//!   counts, length and quality distributions and the header facts, streamed; the reads
+//!   themselves as a table. CRAM bases need the reference: embedded in the file, or a FASTA
+//!   beside it.
 //!
 //! Notes: `docs/formats/illumina-run.md`, `docs/formats/nanopore.md`,
-//! `docs/formats/sequence-reads.md`.
+//! `docs/formats/sequence-reads.md`, `docs/formats/cram.md`.
 //!
 //! # Example
 //!
@@ -34,6 +36,8 @@
 
 mod assurance;
 #[doc(hidden)]
+pub mod cram;
+#[doc(hidden)]
 pub mod illumina;
 #[doc(hidden)]
 pub mod nanopore;
@@ -48,7 +52,7 @@ pub use illumina::fastq::{
 };
 pub use illumina::{IlluminaRun, IlluminaRunReader};
 pub use nanopore::{Fast5Reader, Pod5Reader};
-pub use reads::{BamReader, FastqReader};
+pub use reads::{BamReader, CramReader, FastqReader};
 
 /// Give every value of `e` that has no origin yet the one `origin` names for its path
 /// (`instrument.vendor`, `method.parameters.cycles`, ...).
@@ -74,6 +78,8 @@ pub(crate) fn cover(
 pub const FASTQ_FORMAT_ID: &str = reads::FASTQ_FORMAT_ID;
 /// Format id of BAM files.
 pub const BAM_FORMAT_ID: &str = reads::BAM_FORMAT_ID;
+/// Format id of CRAM files.
+pub const CRAM_FORMAT_ID: &str = reads::CRAM_FORMAT_ID;
 
 /// Format id of Illumina run folders.
 pub const ILLUMINA_RUN_FORMAT_ID: &str = illumina::FORMAT_ID;

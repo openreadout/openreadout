@@ -51,9 +51,10 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_dicom`, `whole_nifti`; `whole_paravision`; `codec_jpegls` | medical imaging: DICOM files, NIfTI (and gzip); a ParaVision experiment (`acqp`, `method`, `pdata/1/visu_pars`, `pdata/1/2dseq`); JPEG-LS streams |
 | `whole_mdoc` | SerialEM `.mdoc` metadata |
 | `whole_cbf`, `whole_smv`; `nxmx_links` | diffraction images (CBF/miniCBF, SMV); the external-link scan of NeXus master files |
-| `whole_thermo`, `whole_mzml`, `whole_mzxml`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry; gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
+| `whole_thermo`, `whole_mzml`, `whole_mzxml`, `whole_mgf`; `whole_mzml_gz`, `whole_mzmlb`; `whole_imzml`; `whole_tims` | mass spectrometry (MGF: text peak lists); gzip-compressed mzML and mzMLb; imzML + `.ibd`; timsTOF `.d` (`analysis.tdf` SQLite + `analysis.tdf_bin`) |
 | `whole_chemstation`, `whole_waters`; `whole_andi`, `whole_shimadzu`; `whole_sciex` | ChemStation `.D` and MassLynx `.raw` directories; ANDI netCDF, Shimadzu `.lcd`; Sciex `.wiff` + `.wiff.scan` |
 | `whole_baf` | Bruker BAF `.d`: `analysis.baf`, then `Calibrator.ami` (seed: the synthetic fixture) |
+| `whole_flex` | Bruker flex MALDI-TOF spot: `acqus`, then `fid` (seed: the synthetic fixture) |
 | `whole_masshunter` | Agilent MassHunter `.d`: `AcqData/` scan-index schema, scan index, centroid and profile data, calibrations, time segments, contents, devices, sample info and one LC signal pair (seeds: two MetaboLights directories, cut) |
 | `whole_openlab` | Agilent OpenLab CDS injection: `.dx` + `.rx` + sequence `.acaml` in one folder (seed: allotropy's MIT-licensed test result set) |
 | `whole_chromeleon` | Thermo Scientific Chromeleon 7 archive `.cmbx` (a small synthetic archive: header.xml, a protocol-buffers sequence file, one PtsLDiff signal) |
@@ -74,9 +75,9 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_nanodrop`, `whole_qubit` | NanoDrop exports (8000, Eight with spectra, One, One UV-Vis spectrum blocks) and Qubit 4 and Flex CSV exports: layouts, delimited lines, decimal commas, dates, units |
 | `measure_lanes` | the lane and band analysis of `stats --lanes` on an 8-bit plane (first byte: width; second: lane count, polarity, ladder) |
 | `whole_itc` | MicroCal `.itc` text: header, injection lines, block markers, data rows |
-| `whole_pod5`, `whole_fast5`, `whole_fastq`, `whole_bam` | DNA sequencer files: POD5 (FlatBuffer footer, Arrow IPC tables, VBZ rows), FAST5 (HDF5, deflate and VBZ), FASTQ (plain or gzip), BAM (BGZF, records, tags) |
+| `whole_pod5`, `whole_fast5`, `whole_fastq`, `whole_bam`, `whole_cram` | DNA sequencer files: POD5 (FlatBuffer footer, Arrow IPC tables, VBZ rows), FAST5 (HDF5, deflate and VBZ), FASTQ (plain or gzip), BAM (BGZF, records, tags), CRAM (containers, blocks, encodings, records; seeds from the hts-specs conformance files) |
 | `whole_illumina_bcl`, `whole_illumina_cbcl` | Illumina run folders: RunInfo and RunParameters XML, InterOp metric files, filter, BCL or CBCL and locations files, as a bundle |
-| `seq_vbz`, `seq_interop` | VBZ signal decoders (POD5 rows, FAST5 chunks); InterOp metric parsers and the CBCL header |
+| `seq_vbz`, `seq_interop`, `seq_cram_codecs` | VBZ signal decoders (POD5 rows, FAST5 chunks); InterOp metric parsers and the CBCL header; the CRAM entropy codecs (rANS 4x8 and Nx16, arithmetic, fqzcomp, name tokeniser) |
 | `whole_bes3t` | Bruker BES3T `.DSC` + `.DTA` (+ `.YGF`) bundle: descriptor layers, formats, axis files |
 | `whole_esp` | Bruker ESP/WinEPR `.par` + `.spc` bundle: parameter keys, point counts, byte orders |
 | `whole_xrdml` | PANalytical XRDML: scans, positions, intensities/counts, attenuation |
@@ -94,6 +95,7 @@ listed names in a scratch directory (`whole_bundle`).
 | `whole_ta001` | TA Instruments `.001`: UTF-16 header, signal count, records, end record |
 | `whole_trios` | TA Instruments TRIOS `.tri`: header strings, step objects, typed properties, signal records with flag arrays, parallel-plate moduli |
 | `whole_scn` | Bio-Rad Image Lab `.scn`: MIME multipart parts (nested, with and without lengths), XML headers, 16-bit image data |
+| `whole_tdms` | National Instruments TDMS: segment lead-ins, metadata (objects, raw-data indexes, DAQmx scalers, properties), contiguous and interleaved chunks, strings, scaling |
 | `whole_sgd` | Syngene GeneSys `.sgd`: compound-file structure, capture list, `PixelData` headers, `Capture`/`Description` streams, pixel reads through sector chains |
 | `whole_unicorn_res`, `whole_unicorn_zip` | Cytiva ÄKTA / UNICORN results: `.res` block directory and descriptors; UNICORN 6/7 export zips with nested padded zips and MS-NRBF records |
 | `whole_rdml`, `whole_eds`, `whole_rex`, `whole_pcrd`, `whole_ixo`, `whole_qpcr_export` | qPCR: RDML (zip or XML), Applied Biosystems `.eds` (zip; seeds in the SDS, 7500 and JSON layouts, written by hand), Rotor-Gene `.rex`, Bio-Rad `.pcrd` (detection and refusal only), LightCycler 480 `.ixo` (a small synthetic object stream with a zlib acquisition store), results exports as text (a CFX CSV; the `.xls` path goes through calamine, see Known issues) |

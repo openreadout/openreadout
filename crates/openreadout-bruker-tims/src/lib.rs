@@ -1,6 +1,8 @@
 //! Clean-room readers for Bruker `.d` directories: timsTOF acquisitions (TDF/TSF, format id
 //! `bruker-tdf`) and BAF acquisitions of the other TOF and FT-ICR instruments (module `baf`,
-//! [`BrukerBafReader`], format id `bruker-baf`; `docs/formats/bruker-baf.md`).
+//! [`BrukerBafReader`], format id `bruker-baf`; `docs/formats/bruker-baf.md`), and flex series
+//! MALDI-TOF spectra (`fid` + `acqus` spot directories; [`BrukerFlexReader`], format id
+//! `bruker-flex`; `docs/formats/bruker-flex.md`).
 //!
 //! A TDF dataset (`analysis.tdf` + `analysis.tdf_bin`) stores frames of trapped-ion-mobility
 //! scans; a TSF dataset (`analysis.tsf` + `analysis.tsf_bin`) one line spectrum per frame. The
@@ -63,6 +65,8 @@ pub mod calibration;
 #[doc(hidden)]
 pub mod dataset;
 #[doc(hidden)]
+pub mod flex;
+#[doc(hidden)]
 pub mod frame;
 #[doc(hidden)]
 pub mod sqlite;
@@ -90,6 +94,7 @@ pub use frame::{
 pub use sqlite::{SqlTable, SqlValue, SqliteDb, SqliteError};
 
 pub use baf::BrukerBafReader;
+pub use flex::{BrukerFlexReader, FLEX_FORMAT_ID};
 
 /// Format id on the command line and in JSON.
 pub const FORMAT_ID: &str = "bruker-tdf";

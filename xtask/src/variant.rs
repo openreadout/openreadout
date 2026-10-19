@@ -62,7 +62,7 @@ pub struct IntakeArgs {
     /// Public URL of the file (a Zenodo record file, ...).
     #[arg(long)]
     pub url: Option<String>,
-    /// Licence (`CC0-1.0`, `CC-BY-4.0`, or "donated with written permission, <date>").
+    /// Licence (`CC0-1.0`, `CC-BY-4.0`, or "donated with written permission, `<date>`").
     #[arg(long)]
     pub license: Option<String>,
     /// Depositor / source record ("Zenodo record 1234567: ...").

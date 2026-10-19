@@ -1,0 +1,40 @@
+{
+ "id": "tdms-rs-empty-segment",
+ "format": "ni-tdms",
+ "reader": "npTDMS 1.13.0 (LGPL-3.0, black box)",
+ "independent": true,
+ "channels": [
+  {
+   "group": "Group",
+   "channel": "Channel1",
+   "dtype": "Int8",
+   "count": 3,
+   "unit": null,
+   "wf_increment": null,
+   "first": [
+    1.0,
+    2.0,
+    3.0
+   ],
+   "last": 3.0,
+   "sampled": [
+    [
+     0,
+     1.0
+    ],
+    [
+     1,
+     2.0
+    ],
+    [
+     2,
+     3.0
+    ]
+   ],
+   "sum": 6.0,
+   "sum_abs": 6.0,
+   "min": 1.0,
+   "max": 3.0
+  }
+ ]
+}

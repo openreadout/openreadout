@@ -36838,6 +36838,445 @@
       ]
     },
     {
+      "id": "flex-openms-xmass",
+      "format": "bruker-flex",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 2.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 0",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo14192252-vipera-f6",
+      "format": "bruker-flex",
+      "source": "zenodo:14192252",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 2",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo15744631-maldipickr-a7",
+      "format": "bruker-flex",
+      "source": "zenodo:15744631",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo15744631-maldipickr-blank-e12",
+      "format": "bruker-flex",
+      "source": "zenodo:15744631",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo18848797-rapiflex-1ref-f5",
+      "format": "bruker-flex",
+      "source": "zenodo:18848797",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "reflector",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl 4.2",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 18",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo18848797-rapiflex-lift-f5",
+      "format": "bruker-flex",
+      "source": "zenodo:18848797",
+      "oracle": "none",
+      "independent": false,
+      "compared": [],
+      "features": [
+        [
+          "acquisition",
+          "LIFT",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl 4.2",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 18",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo22714443-vibrio-a4",
+      "format": "bruker-flex",
+      "source": "zenodo:22714443",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo22714443-vibrio-d3",
+      "format": "bruker-flex",
+      "source": "zenodo:22714443",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4020648-cereulide-e19",
+      "format": "bruker-flex",
+      "source": "zenodo:4020648",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "reflector",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.3",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 8",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4020648-cereulide-i15",
+      "format": "bruker-flex",
+      "source": "zenodo:4020648",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "reflector",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.3",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 8",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4271724-phytophthora-j19",
+      "format": "bruker-flex",
+      "source": "zenodo:4271724",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 8",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo4978608-harpacticoida-e1",
+      "format": "bruker-flex",
+      "source": "zenodo:4978608",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "flex-zenodo7773644-clostritof-d7",
+      "format": "bruker-flex",
+      "source": "zenodo:7773644",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "acquisition",
+          "linear",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer_version",
+          "flexControl flexControl 3.4",
+          []
+        ],
+        [
+          "instrument",
+          "InstTyp 9",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        5
+      ]
+    },
+    {
       "id": "nmrglue-bruker-1d",
       "format": "bruker-nmr",
       "source": "nmrglue test data archive",
@@ -51447,6 +51886,2150 @@
       "inferred": [
         26,
         26
+      ]
+    },
+    {
+      "id": "cram-adam-artificial",
+      "format": "cram",
+      "source": "github:bigdatagenomics/adam",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-disq-valid-v21",
+      "format": "cram",
+      "source": "github:disq-bio/disq",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 2.1",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer Hey!",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-htslib-auxf-java",
+      "format": "cram",
+      "source": "github:samtools/htslib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order unsorted",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer cramtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-htslib-ce5b-java",
+      "format": "cram",
+      "source": "github:samtools/htslib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer cramtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-htslib-range",
+      "format": "cram",
+      "source": "github:samtools/htslib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer scramble",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-igvjs-ce5",
+      "format": "cram",
+      "source": "github:igvteam/igv.js",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-igvrep-minigenome",
+      "format": "cram",
+      "source": "github:igvteam/igv-reports",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-jbrowse-volvox-long",
+      "format": "cram",
+      "source": "github:gmod/jbrowse-components",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer bwa",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-jbrowse-volvox-noref",
+      "format": "cram",
+      "source": "github:gmod/jbrowse-components",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-jbrowse-volvox-rg",
+      "format": "cram",
+      "source": "github:gmod/jbrowse-components",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-jbrowse-volvox-sorted",
+      "format": "cram",
+      "source": "github:gmod/jbrowse-components",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-nfcore-ont",
+      "format": "cram",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ONT",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-nfcore-pacbio-unmapped",
+      "format": "cram",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-nfcore-paired-end",
+      "format": "cram",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-nfcore-rnaseq",
+      "format": "cram",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-nfcore-scramble",
+      "format": "cram",
+      "source": "github:nf-core/test-datasets",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-rusthts-unmapped-noref",
+      "format": "cram",
+      "source": "github:rust-bio/rust-htslib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order unsorted",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-rusthts-unmapped-v31",
+      "format": "cram",
+      "source": "github:rust-bio/rust-htslib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.1",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "ransNx16",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-samtools-ce5b-v20",
+      "format": "cram",
+      "source": "github:samtools/samtools",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 2.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-samtools-chk2-v31",
+      "format": "cram",
+      "source": "github:samtools/samtools",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.1",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "ransNx16",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference embedded",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-samtools-input1a",
+      "format": "cram",
+      "source": "github:samtools/samtools",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer cow",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-samtools-mpileup1-v31",
+      "format": "cram",
+      "source": "github:samtools/samtools",
+      "oracle": "skip",
+      "independent": true,
+      "compared": [],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.1",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "bzip2",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "ransNx16",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference embedded",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-0300-unmapped",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-0500-mapped",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer samtools",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-0600-embedded",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference embedded",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-0902-bzip2",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "bzip2",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-0903-lzma",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "lzma",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-0905-rans1",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-1000-names",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-v30-level1",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference embedded",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer scramble",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-v31-level2",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.1",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "ransNx16",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "tok3",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference embedded",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer scramble",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-specs-v31-level4",
+      "format": "cram",
+      "source": "github:samtools/hts-specs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.1",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "arith",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "bzip2",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "fqzcomp",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "lzma",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "ransNx16",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "tok3",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference embedded",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference not required",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer scramble",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-zenodo-ilmn-mt",
+      "format": "cram",
+      "source": "zenodo:3581178",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform 10X",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer MarkDuplicates",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-zenodo-lariat-mt",
+      "format": "cram",
+      "source": "zenodo:3582619",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform ILLUMINA",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer longranger",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "cram-zenodo-pacbio-mt",
+      "format": "cram",
+      "source": "zenodo:3582131",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "CRAM 3.0",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "rans4x8",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "codec",
+          "raw",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "reference external",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "layout",
+          "sort_order coordinate",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "instrument",
+          "platform PACBIO",
+          [
+            "tables"
+          ]
+        ],
+        [
+          "writer",
+          "writer sambamba-6DEDF075",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        1
       ]
     },
     {
@@ -107475,6 +110058,314 @@
       ]
     },
     {
+      "id": "mgf-casanovo-sample",
+      "format": "mgf",
+      "source": "github:noble-lab/casanovo",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "annotated peptide spectra (SEQ)",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-matchms-pesticides",
+      "format": "mgf",
+      "source": "github:matchms/matchms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "spectral library (GNPS)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "GNPS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-matchms-testdata",
+      "format": "mgf",
+      "source": "github:matchms/matchms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "spectral library (GNPS)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "GNPS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-ms2pip-massivekb500",
+      "format": "mgf",
+      "source": "github:compomics/ms2pip",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-ms2rescore-test",
+      "format": "mgf",
+      "source": "github:compomics/ms2rescore",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-msdeisotope-small",
+      "format": "mgf",
+      "source": "github:mobiusklein/ms_deisotope",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-openms-gnpsexport1",
+      "format": "mgf",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "feature export (FEATURE_ID)",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-openms-idconv33",
+      "format": "mgf",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "search submission (file parameters)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "OpenMS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-openms-mgf-gnps",
+      "format": "mgf",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "spectral library (GNPS)",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "writer",
+          "GNPS",
+          []
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-pyteomics-example",
+      "format": "mgf",
+      "source": "github:levitsky/pyteomics",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-pyteomics-pepmass",
+      "format": "mgf",
+      "source": "github:levitsky/pyteomics",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "peak list",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
+      "id": "mgf-pyteomics-test",
+      "format": "mgf",
+      "source": "github:levitsky/pyteomics",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "dialect",
+          "search submission (file parameters)",
+          [
+            "spectra"
+          ]
+        ]
+      ],
+      "inferred": [
+        3,
+        9
+      ]
+    },
+    {
       "id": "itc-bitc-adh10",
       "format": "microcal-itc",
       "source": "github:choderalab/bayesian-itc",
@@ -133520,6 +136411,896 @@
       "inferred": [
         1,
         2
+      ]
+    },
+    {
+      "id": "tdms-rs-append-mode",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-booleans",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-edge-cases",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-empty-segment",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-floats",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-integers",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int64",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-linear-scaling",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-multiple-segments",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-standard-layout",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-strings",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-timestamps",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "timestamp",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-rs-unicode-paths",
+      "format": "ni-tdms",
+      "source": "github:robingkn/tdms-rs",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int8",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo10404440-straingauge",
+      "format": "ni-tdms",
+      "source": "zenodo:10404440",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "DAQmx raw data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "linear scale",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo14505832-geolab",
+      "format": "ni-tdms",
+      "source": "zenodo:14505832",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo14860707-vna-v4712",
+      "format": "ni-tdms",
+      "source": "zenodo:14860707",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo14923316-ta",
+      "format": "ni-tdms",
+      "source": "zenodo:14923316",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo15379761-daqmx-poly",
+      "format": "ni-tdms",
+      "source": "zenodo:15379761",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "DAQmx raw data",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "codec",
+          "polynomial scale",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo15420253-geolab",
+      "format": "ni-tdms",
+      "source": "zenodo:15420253",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "interleaved",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo17582347-ldv",
+      "format": "ni-tdms",
+      "source": "zenodo:17582347",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo17747449-saw-v4712",
+      "format": "ni-tdms",
+      "source": "zenodo:17747449",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4712",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo3563513-signalexpress",
+      "format": "ni-tdms",
+      "source": "zenodo:3563513",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "SignalExpress 2015",
+          []
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo5011086-rtdc",
+      "format": "ni-tdms",
+      "source": "zenodo:5011086",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo5792896-febid",
+      "format": "ni-tdms",
+      "source": "zenodo:5792896",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo6200886-pxi",
+      "format": "ni-tdms",
+      "source": "zenodo:6200886",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "tdms-zenodo7758683-cdaq",
+      "format": "ni-tdms",
+      "source": "zenodo:7758683",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "TDMS 4713",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        2,
+        5
       ]
     },
     {
