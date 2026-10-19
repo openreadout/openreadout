@@ -4,7 +4,8 @@ EEGLAB, the MATLAB toolbox for EEG analysis, saves a dataset as a `.set` file: a
 holding the `EEG` structure. The samples are either inside the `.set` or in a `.fdt` file next
 to it. MNE-Python, eeglabio and FieldTrip write the same files, and BIDS accepts them for EEG.
 OpenReadout reads level-5 MAT-files (MATLAB's `-v6` and `-v7`, compressed or not, and files
-written by SciPy or Octave); MAT 7.3 files are HDF5 and are refused.
+written by SciPy or Octave) and MAT 7.3 files, which are HDF5 and which EEGLAB writes for
+datasets over 2 GB.
 
 Derived from the BSD-licensed readers that document both layers (SciPy's MAT-file reader,
 MNE-Python's EEGLAB reader, pymatreader) and from the corpus files
@@ -42,6 +43,19 @@ own reader.
 - `read_stream` reads located values later (re-inflating a compressed variable), and
   `decode_values` turns them into f64.
 
+## MAT 7.3 files (`mat73::parse_mat73`)
+
+HDF5 after a 512-byte userblock that starts with `MATLAB 7.3 MAT-file`, read with `hdf5-pure`
+(`openreadout-hdf5`'s byte-source adapter). Each variable is a dataset or group with a
+`MATLAB_class` attribute. HDF5 shapes are MATLAB's dimensions reversed, so the bytes are in
+MATLAB's column-major order, as in level-5 files; characters are `uint16` UTF-16 code units; an
+empty array is a dataset of its dimensions with `MATLAB_empty`; a struct is a group (a struct
+array's fields are datasets of object references, one per element, into `#refs#`); a cell is a
+dataset of object references. They become the same `MatValue` tree (`hdf5` is set on the
+`MatFile`). The `data` array is read later by rows along HDF5's first dimension (`read_rows`):
+samples, or whole epochs when it has three dimensions (`EeglabData::Hdf5`: `dataset`,
+`epochs_are_rows`).
+
 ## The EEG structure (`read_set` → `EeglabSet`)
 
 - The fields are those of the variable `EEG` (`single_variable`), or each field is its own
@@ -74,7 +88,8 @@ own reader.
 - **Table** `events` (when there are any): `onset_s` = (latency − 1) / srate (after the first
   sample of the first epoch), `duration_s` = duration / srate, `latency`, `duration`, `epoch`, and
   `type` as a code into the column's `extra.categories`.
-- `format_version` is `MAT 5.0`. `member_files` lists the `.set` and the `.fdt`.
+- `format_version` is `MAT 5.0` or `MAT 7.3` (`mat_version`). `member_files` lists the `.set`
+  and the `.fdt`.
 - Reads are capped at `MAX_EEGLAB_READ` samples per channel and `MAX_EEGLAB_READ_BYTES` bytes;
   samples inside a compressed `.set` are inflated once, up to `MAX_EEGLAB_INFLATED` bytes.
 
@@ -85,8 +100,8 @@ own reader.
 
 ## Oracle mapping
 
-`oracle/gen.py` `eeglab()`: SciPy's `loadmat` reads the EEG structure, NumPy the `.fdt` as MNE
-does; MNE-Python's values must agree with them. Events from SciPy's struct, compared order-free.
+`oracle/gen.py` `eeglab()`: SciPy's `loadmat` (pymatreader for MAT 7.3) reads the EEG structure,
+NumPy the `.fdt` as MNE does; MNE-Python's values must agree with them. Events from SciPy's struct, compared order-free.
 
 ## Vocabulary (every public identifier in `crates/openreadout-ephys/src/eeglab/` must appear here)
 
@@ -94,7 +109,8 @@ does; MNE-Python's values must agree with them. Events from SciPy's struct, comp
 | --- | --- |
 | `EeglabReader`, `EEGLAB_FORMAT_ID`, `EeglabDataset`, `open`, `open_input`, `eeglab` | entry points |
 | `EeglabSet`, `read_set`, `single_variable`, `setname`, `channels`, `points`, `trials`, `srate`, `xmin`, `labels`, `types`, `reference`, `data`, `events`, `ica_components`, `eeglab_version`, `findings`, `mat_writer`, `compressed` | the EEG structure |
-| `EeglabData`, `Fdt`, `Embedded`, `variable`, `stored`, `at`, `values`, `class` | where the samples are |
+| `EeglabData`, `Fdt`, `Embedded`, `Hdf5`, `variable`, `stored`, `at`, `values`, `class`, `dataset`, `epochs_are_rows`, `mat_version` | where the samples are |
+| `mat73`, `parse_mat73`, `read_rows`, `hdf5` | MAT 7.3 files |
 | `EeglabEvent`, `kind`, `latency`, `duration`, `epoch` | an event |
 | `MAX_EEGLAB_READ`, `MAX_EEGLAB_READ_BYTES`, `MAX_EEGLAB_INFLATED`, `looks_like_mat` | limits and detection |
 | `mat`, `MatFile`, `parse_mat`, `mat_version`, `header_text`, `big_endian`, `endian`, `variables`, `variable`, `MatVariable`, `name`, `value`, `MAT_HEADER_LEN` | the MAT-file |

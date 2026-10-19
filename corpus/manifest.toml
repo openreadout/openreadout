@@ -84717,3 +84717,51 @@ license = "CC-BY-4.0"
 license_checked = "https://api.figshare.com/v2/articles/14459286 (CC BY 4.0), 2026-10-19"
 source = "Figshare 14459286 (Sajovic, caffeine and auditory oddball EEG, doi:10.6084/m9.figshare.14459286.v1), subject 311"
 attribution = "Jakob Sajovic"
+
+# EEGLAB MAT 7.3 (HDF5) datasets (OpenNeuro).
+
+[[file]]
+id = "openneuro-ds005628-sub-1-task-edzna-run-1"
+format = "eeglab"
+family = "electrophysiology"
+role = "input"
+tier = "smoke"
+filename = "openneuro/ds005628/sub-1_task-Edzna_run-1_eeg.set"
+url = "https://s3.amazonaws.com/openneuro.org/ds005628/sub-1/eeg/sub-1_task-Edzna_run-1_eeg.set"
+sha256 = "e4ba3df70d6467a3c00283f81bcf59a26381279aafb0307a3e810d0af96996c0"
+size = 558848
+license = "CC0-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds005628/dataset_description.json (License: CC0), 2026-10-19"
+source = "OpenNeuro ds005628 (snapshot 1.0.0), sub-1"
+attribution = "Rosado-Aíza, Domínguez-Morales, Pech-Canul et al.; OpenNeuro"
+notes = "MAT 7.3 (HDF5), 8 channels at 250 Hz, samples inside the .set"
+
+[[file]]
+id = "openneuro-ds005048-sub-02-task-40hzauditoryentrainment"
+format = "eeglab"
+family = "electrophysiology"
+role = "input"
+tier = "standard"
+filename = "openneuro/ds005048/sub-02_task-40HzAuditoryEntrainment_eeg.set"
+url = "https://s3.amazonaws.com/openneuro.org/ds005048/sub-02/eeg/sub-02_task-40HzAuditoryEntrainment_eeg.set"
+sha256 = "c24e1381da73d347890ce5fc988bab3bf36ebb23f57a3c201de36c891bc6947e"
+size = 419297
+license = "CC0-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds005048/dataset_description.json (License: CC0), 2026-10-19"
+source = "OpenNeuro ds005048 (snapshot 1.0.1), sub-02"
+attribution = "Lahijanian, Aghajan, Vahabi; OpenNeuro"
+notes = "MAT 7.3 (HDF5) header, 250 Hz, samples in the .fdt"
+
+[[file]]
+id = "openneuro-ds005048-sub-02-task-40hzauditoryentrainment-fdt"
+format = "eeglab"
+role = "part"
+tier = "standard"
+filename = "openneuro/ds005048/sub-02_task-40HzAuditoryEntrainment_eeg.fdt"
+url = "https://s3.amazonaws.com/openneuro.org/ds005048/sub-02/eeg/sub-02_task-40HzAuditoryEntrainment_eeg.fdt"
+sha256 = "b1fe568bddf1f2655c0fe0b6477d8a28a3898279fbf7ba3b5c8ba1a8ef0777c7"
+size = 6650000
+license = "CC0-1.0"
+license_checked = "https://s3.amazonaws.com/openneuro.org/ds005048/dataset_description.json (License: CC0), 2026-10-19"
+source = "OpenNeuro ds005048 (snapshot 1.0.1), sub-02"
+attribution = "Lahijanian, Aghajan, Vahabi; OpenNeuro"

@@ -2354,7 +2354,9 @@ name = "openreadout-ephys"
 version = "0.4.0"
 dependencies = [
  "flate2",
+ "hdf5-pure",
  "openreadout-core",
+ "openreadout-hdf5",
  "serde_json",
  "tempfile",
 ]
