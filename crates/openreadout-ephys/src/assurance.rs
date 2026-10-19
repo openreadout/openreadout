@@ -109,6 +109,56 @@ fn observe_edf(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static BRAINVISION: AssuranceProfile = AssuranceProfile {
+    format_id: "brainvision",
+    observe: observe_brainvision,
+    validated: BRAINVISION_VALIDATED,
+    confidence: BRAINVISION_CONFIDENCE,
+    basis: Basis::PriorArt,
+};
+
+fn observe_brainvision(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &[Scope::Metadata]);
+    }
+    for t in &info.traces {
+        if let Some(f) = a::extra_str(&t.extra, "binary_format") {
+            o.feature(K::SampleLayout, f, &[Scope::Traces]);
+        }
+        if let Some(f) = a::extra_str(&t.extra, "orientation") {
+            o.feature(K::Layout, f, &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "marker-based segments", &[Scope::Traces]);
+        }
+        if let Some(w) = a::extra_str(&t.extra, "application") {
+            o.context(K::Writer, w);
+        }
+        o.calibration(
+            "stored values to channel units",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "every stored sample × the channel's resolution",
+        );
+    }
+    if info
+        .tables
+        .iter()
+        .any(|t| t.name.as_deref() == Some("markers"))
+    {
+        o.feature(K::Record, "markers", &[Scope::Tables]);
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
 pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
     format_id: "tdt-tank",
     observe: observe_tdt,
@@ -587,6 +637,27 @@ const EDF_VALIDATED: &[Validated] = &[
     a::row(K::SampleLayout, "int24", 5, 5, 5),
 ];
 // END GENERATED edf
+
+// BEGIN GENERATED brainvision (cargo xtask assurance-audit --write; do not edit)
+const BRAINVISION_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const BRAINVISION_VALIDATED: &[Validated] = &[
+    a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 8),
+    a::row(K::FormatVersion, "1", 9, 7, 9),
+    a::row(K::FormatVersion, "2", 4, 2, 4),
+    a::row(K::Layout, "MULTIPLEXED", 12, 7, 12),
+    a::row(K::Layout, "VECTORIZED", 1, 1, 1),
+    a::row(K::Layout, "marker-based segments", 4, 1, 4),
+    a::row(K::Record, "markers", 11, 7, 11),
+    a::row(K::SampleLayout, "IEEE_FLOAT_32", 9, 6, 9),
+    a::row(K::SampleLayout, "INT_16", 3, 3, 3),
+    a::row(K::SampleLayout, "INT_32", 1, 1, 1),
+    a::row(K::Writer, "BrainVision Analyzer", 6, 2, 6),
+    a::row(K::Writer, "BrainVision Recorder", 2, 2, 2),
+    a::row(K::Writer, "FieldTrip", 2, 2, 2),
+    a::row(K::Writer, "pybv", 3, 3, 3),
+];
+// END GENERATED brainvision
 
 #[cfg(test)]
 mod tests {

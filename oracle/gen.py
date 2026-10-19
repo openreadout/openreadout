@@ -6023,7 +6023,80 @@ def edf(p: Path) -> dict:
             f.close()
 
 
-EPHYS = {"wcp": winwcp, "edf": edf, "bdf": edf, "set": axona, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
+def brainvision(p: Path) -> dict:
+    """BrainVision header + markers + data via MNE-Python (BSD-3) and Neo's BrainVisionRawIO
+    (BSD-3), both black boxes. Neo gives the stored samples in their own type (INT_16, INT_32,
+    IEEE_FLOAT_32; MULTIPLEXED or VECTORIZED); MNE gives each channel's resolution (`cal`), unit
+    and the markers (`_read_mrk`: every marker, positions from 0). Values are the stored samples
+    x resolution in float64; MNE's own values (V, divided by its unit factor) must agree to 1e-9.
+    A header with SegmentationType=MARKERBASED and a SegmentDataPoints that divides the data
+    evenly is split into sweeps of that many samples (the reader's convention), in file order.
+    Marker rows (onset_s, duration_s, sample, points) are compared order-free."""
+    import configparser
+    import mne
+    from mne.io.brainvision.brainvision import _read_mrk
+    from neo.rawio import brainvisionrawio as bvr
+    raw = mne.io.read_raw_brainvision(str(p), preload=True, verbose="error", misc=[], eog=[])
+    r = bvr.BrainVisionRawIO(filename=str(p))
+    r.parse_header()
+    n = r.get_signal_size(0, 0, 0)
+    stored = np.asarray(r.get_analogsignal_chunk(0, 0, 0, n, 0))
+    chs = raw.info["chs"]
+    if stored.shape[1] != len(chs):
+        raise ValueError(f"Neo has {stored.shape[1]} channels, MNE {len(chs)}")
+    mne_data = raw.get_data()
+    cols, worst = [], 0.0
+    for i, ch in enumerate(chs):
+        v = stored[:, i].astype(np.float64) * float(ch["cal"])
+        ref = mne_data[i] / float(ch["range"])
+        if len(ref) == len(v) and len(v):
+            worst = max(worst, float(np.max(np.abs(ref - v) / np.maximum(1.0, np.abs(v)))))
+        cols.append(v)
+    if worst > 1e-9:
+        raise ValueError(f"MNE values differ from stored x resolution by {worst:.3g}")
+    # segmentation, from the header's own keys
+    cfg = configparser.ConfigParser(interpolation=None, strict=False)
+    text = p.read_bytes().decode("utf-8", "replace").split("[Comment]")[0]
+    cfg.read_string("\n".join(text.splitlines()[1:]))
+    common = next((cfg[s] for s in cfg.sections() if s.lower() == "common infos"), {})
+    seg = str(common.get("SegmentationType", "")).upper()
+    seg_n = int(common.get("SegmentDataPoints", "0") or 0)
+    sweeps = [(0, n)]
+    if seg == "MARKERBASED" and seg_n > 0 and n % seg_n == 0 and n > seg_n:
+        sweeps = [(k * seg_n, (k + 1) * seg_n) for k in range(n // seg_n)]
+    names = [str(x).replace("\\1", ",") for x in r.header["signal_channels"]["name"]]
+    # units: Neo's where it read one from the header (it gives '' or 'u' when the channel line
+    # has no unit field), else MNE's (which defaults to µV and writes 'n/a' for units it maps to none)
+    neo_units = [str(u) for u in r.header["signal_channels"]["units"]]
+    units = [u if u not in ("", "u") else raw._orig_units.get(ch["ch_name"], "") for u, ch in zip(neo_units, chs)]
+    trace = {"index": 0, "name": "signals", "sweep_count": len(sweeps), "channel_count": len(chs),
+             "channel_names": names, "channel_units": units, "sample_rate_hz": float(raw.info["sfreq"]),
+             "sweeps": [{"sweep": k, "sample_count": int(b - a),
+                         "channels": [{"xxh3": _trace_hash(c[a:b]), "first": _first(c[a:b])} for c in cols]}
+                        for k, (a, b) in enumerate(sweeps[:MAX_SWEEPS])]}
+    out = {"reader": f"Neo {__import__('neo').__version__} BrainVisionRawIO (stored samples); MNE {mne.__version__} (resolutions, units, markers)",
+           "traces": [trace]}
+    vmrk = None
+    for s in cfg.sections():
+        if s.lower() == "common infos" and cfg[s].get("MarkerFile"):
+            vmrk = p.parent / cfg[s]["MarkerFile"]
+    if vmrk is None or not vmrk.exists():
+        vmrk = p.with_suffix(".vmrk")
+    if vmrk.exists():
+        onset, duration, _, _, _ = _read_mrk(str(vmrk))
+        if len(onset):
+            sfreq = float(raw.info["sfreq"])
+            s = np.asarray(onset, dtype=np.float64)
+            d = np.asarray(duration, dtype=np.float64)
+            out["tables"] = [{"index": 0, "event_count": int(len(s)),
+                              "parameter_names": ["onset_s", "duration_s", "sample", "points", "channel", "type", "description"],
+                              "xxh3": None,
+                              "sorted_row_hashes": [_sorted_rows([("onset_s", s / sfreq), ("duration_s", d / sfreq),
+                                                                  ("sample", s), ("points", d)])]}]
+    return out
+
+
+EPHYS = {"wcp": winwcp, "edf": edf, "bdf": edf, "vhdr": brainvision, "set": axona, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
          "nse": neuralynx, "nst": neuralynx, "ntt": neuralynx, "plx": plexon, "pl2": pl2, "smr": spike2,
          **{f"ns{i}": blackrock for i in range(1, 7)}}
 

@@ -1,0 +1,207 @@
+{
+ "id": "openneuro-ds005530-sub-03112021304-task-sleep-run-02",
+ "file": "sub-03112021304_task-sleep_run-02_eeg.vhdr",
+ "size": 2601,
+ "sha256": "45aad1504448a07462e3c9b6a1731050e804906e6c9f2965a7b446da3fa72971",
+ "max_planes_hashed": 64,
+ "reader": "Neo 0.14.5 BrainVisionRawIO (stored samples); MNE 1.13.2 (resolutions, units, markers)",
+ "traces": [
+  {
+   "index": 0,
+   "name": "signals",
+   "sweep_count": 1,
+   "channel_count": 10,
+   "channel_names": [
+    "F3",
+    "F4",
+    "C3",
+    "C4",
+    "O1",
+    "O2",
+    "LEOG",
+    "REOG",
+    "LEMG",
+    "REMG"
+   ],
+   "channel_units": [
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV",
+    "uV"
+   ],
+   "sample_rate_hz": 500.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 124440,
+     "channels": [
+      {
+       "xxh3": "f3ae314557fcd5040a8103b15776ee14",
+       "first": [
+        50.0,
+        49.5,
+        49.5,
+        49.5,
+        49.5,
+        47.5,
+        45.5,
+        43.5
+       ]
+      },
+      {
+       "xxh3": "37bf07d5cb8be4b3dbf96ad6d32a4cc0",
+       "first": [
+        36.5,
+        46.0,
+        48.5,
+        40.5,
+        28.0,
+        10.0,
+        0.0,
+        -5.0
+       ]
+      },
+      {
+       "xxh3": "cacf09a64a4a3fe229dbb4b4a8a8daf7",
+       "first": [
+        37.5,
+        38.0,
+        38.5,
+        41.0,
+        42.0,
+        43.0,
+        42.0,
+        38.0
+       ]
+      },
+      {
+       "xxh3": "0cb8f815c5d26d41d9c2fcd03f34e19f",
+       "first": [
+        -20.0,
+        2.0,
+        24.0,
+        55.0,
+        66.5,
+        68.0,
+        44.5,
+        20.5
+       ]
+      },
+      {
+       "xxh3": "7a825a603d8e3c7f4c58872f01eada2b",
+       "first": [
+        44.5,
+        44.0,
+        44.5,
+        44.5,
+        45.0,
+        44.0,
+        43.5,
+        41.0
+       ]
+      },
+      {
+       "xxh3": "0bf4bd5f549a94cb9cf9f0f4a116c80c",
+       "first": [
+        35.0,
+        36.5,
+        37.0,
+        37.5,
+        36.5,
+        33.5,
+        32.5,
+        30.5
+       ]
+      },
+      {
+       "xxh3": "e852a015dcf04140cdcef22f8cef48f8",
+       "first": [
+        0.5,
+        -1.0,
+        -1.5,
+        -6.5,
+        -9.5,
+        -12.0,
+        -15.5,
+        -16.0
+       ]
+      },
+      {
+       "xxh3": "3c7daf80d8f9bfa518e3e35d5871e550",
+       "first": [
+        -39.5,
+        -39.0,
+        -38.5,
+        -40.5,
+        -42.5,
+        -44.5,
+        -47.0,
+        -48.5
+       ]
+      },
+      {
+       "xxh3": "62204c92d8b2e4e700b5ceeac972a4e3",
+       "first": [
+        -38.5,
+        -39.5,
+        -38.0,
+        -41.5,
+        -45.5,
+        -51.5,
+        -53.5,
+        -55.0
+       ]
+      },
+      {
+       "xxh3": "3a7e8437c38c636edcb8dc8564323ae4",
+       "first": [
+        -31.5,
+        -30.0,
+        -28.5,
+        -29.5,
+        -29.5,
+        -31.5,
+        -30.5,
+        -31.5
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 1,
+   "parameter_names": [
+    "onset_s",
+    "duration_s",
+    "sample",
+    "points",
+    "channel",
+    "type",
+    "description"
+   ],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "onset_s",
+      "duration_s",
+      "sample",
+      "points"
+     ],
+     "count": 1,
+     "xxh3": "4538e994c54f4f97074e70f9c13cccc6"
+    }
+   ]
+  }
+ ]
+}

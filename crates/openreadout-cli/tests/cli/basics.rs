@@ -61,6 +61,7 @@ fn formats_lists_all_readers() {
             "axona-dacqusb",
             "mcs-raw",
             "edf",
+            "brainvision",
             "open-ephys",
             "agilent-masshunter",
             "sciex-wiff",
