@@ -662,6 +662,7 @@ fn pad(len: u64) -> u64 {
 }
 
 /// Parse a level-5 MAT-file's header and every variable (large numeric arrays only located).
+#[allow(clippy::many_single_char_names)]
 pub fn parse_mat(f: &mut SourceFile, path: &Path, file_len: u64) -> Result<MatFile> {
     let mut head = vec![0u8; MAT_HEADER_LEN as usize];
     if file_len < MAT_HEADER_LEN {

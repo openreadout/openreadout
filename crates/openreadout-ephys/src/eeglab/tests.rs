@@ -7,7 +7,7 @@ use openreadout_core::reader::{Dataset, FormatReader};
 use super::{EeglabDataset, EeglabReader};
 
 fn pad8(b: &mut Vec<u8>) {
-    while b.len() % 8 != 0 {
+    while !b.len().is_multiple_of(8) {
         b.push(0);
     }
 }
@@ -254,11 +254,11 @@ fn fields_as_variables_compressed_with_fdt_and_epochs() {
 fn large_embedded_data_is_read_lazily() {
     let dir = tempfile::tempdir().unwrap();
     let p = dir.path().join("c.set");
-    let n = 600_000; // 2 × 300,000 doubles: past the parse-time limit
-    let v: Vec<f64> = (0..2 * n).map(|i| f64::from(i as u32) * 0.25).collect();
-    let data = double("data", &[2, n as i32], &v);
+    let n: i32 = 600_000; // 2 × 600,000 doubles: past the parse-time limit
+    let v: Vec<f64> = (0..2 * n).map(|i| f64::from(i) * 0.25).collect();
+    let data = double("data", &[2, n], &v);
     for compress in [false, true] {
-        let vars: Vec<Vec<u8>> = fields(n as i32, 1, data.clone())
+        let vars: Vec<Vec<u8>> = fields(n, 1, data.clone())
             .into_iter()
             .map(|(_, v)| if compress { compressed(&v) } else { v })
             .collect();
