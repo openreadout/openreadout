@@ -63354,6 +63354,11 @@
           ]
         ],
         [
+          "writer",
+          "0.5",
+          []
+        ],
+        [
           "acquisition",
           "CT",
           []
@@ -63415,6 +63420,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "0.5",
+          []
         ],
         [
           "acquisition",
@@ -63480,6 +63490,11 @@
           ]
         ],
         [
+          "writer",
+          "dcm4che-1.4.27",
+          []
+        ],
+        [
           "acquisition",
           "PT",
           []
@@ -63541,6 +63556,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "0.5",
+          []
         ],
         [
           "acquisition",
@@ -63606,6 +63626,11 @@
           ]
         ],
         [
+          "writer",
+          "0.5",
+          []
+        ],
+        [
           "acquisition",
           "CT",
           []
@@ -63667,6 +63692,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "0.5",
+          []
         ],
         [
           "acquisition",
@@ -63732,6 +63762,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_366",
+          []
+        ],
+        [
           "acquisition",
           "SEG",
           []
@@ -63793,6 +63828,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "0.5",
+          []
         ],
         [
           "acquisition",
@@ -63858,6 +63898,11 @@
           ]
         ],
         [
+          "writer",
+          "0.5",
+          []
+        ],
+        [
           "acquisition",
           "RF",
           []
@@ -63919,6 +63964,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "PIXELMEDJAVA001",
+          []
         ],
         [
           "acquisition",
@@ -64089,6 +64139,11 @@
           ]
         ],
         [
+          "writer",
+          "DCTOOL100",
+          []
+        ],
+        [
           "acquisition",
           "CT",
           []
@@ -64152,6 +64207,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_362",
+          []
+        ],
+        [
           "acquisition",
           "CT",
           []
@@ -64208,6 +64268,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "1.4.16/OTHER",
+          []
         ],
         [
           "acquisition",
@@ -64273,6 +64338,11 @@
           ]
         ],
         [
+          "writer",
+          "Tiller_SV500",
+          []
+        ],
+        [
           "acquisition",
           "US",
           []
@@ -64334,6 +64404,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -64399,6 +64474,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_360",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -64455,6 +64535,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "OFFIS_DCMTK_361",
+          []
         ],
         [
           "acquisition",
@@ -64515,6 +64600,11 @@
           ]
         ],
         [
+          "writer",
+          "GDCM",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -64571,6 +64661,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "GDCM",
+          []
         ],
         [
           "acquisition",
@@ -64631,6 +64726,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_361",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -64687,6 +64787,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "ALOKA20010925",
+          []
         ],
         [
           "acquisition",
@@ -64752,6 +64857,11 @@
           ]
         ],
         [
+          "writer",
+          "PYDICOM",
+          []
+        ],
+        [
           "record",
           "Secondary Capture Image Storage",
           [
@@ -64805,6 +64915,11 @@
           ]
         ],
         [
+          "writer",
+          "PYDICOM",
+          []
+        ],
+        [
           "record",
           "Secondary Capture Image Storage",
           [
@@ -64856,6 +64971,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -64921,6 +65041,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_362",
+          []
+        ],
+        [
           "acquisition",
           "US",
           []
@@ -64982,6 +65107,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "OFFIS_DCMTK_361",
+          []
         ],
         [
           "acquisition",
@@ -65047,6 +65177,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_361",
+          []
+        ],
+        [
           "acquisition",
           "SEG",
           []
@@ -65108,6 +65243,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "OFFIS_DCMTK_361",
+          []
         ],
         [
           "acquisition",
@@ -65173,6 +65313,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_351",
+          []
+        ],
+        [
           "acquisition",
           "OT",
           []
@@ -65229,6 +65374,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "MR_2004V_VB11A",
+          []
         ],
         [
           "acquisition",
@@ -65294,6 +65444,11 @@
           ]
         ],
         [
+          "writer",
+          "DCTOOL100",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -65355,6 +65510,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -65420,6 +65580,11 @@
           ]
         ],
         [
+          "writer",
+          "OSIRIX",
+          []
+        ],
+        [
           "acquisition",
           "US",
           []
@@ -65481,6 +65646,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "GDCM",
+          []
         ],
         [
           "acquisition",
@@ -65546,6 +65716,11 @@
           ]
         ],
         [
+          "writer",
+          "highdicom0.23.0",
+          []
+        ],
+        [
           "acquisition",
           "OT",
           []
@@ -65609,6 +65784,11 @@
           ]
         ],
         [
+          "writer",
+          "highdicom0.23.0",
+          []
+        ],
+        [
           "acquisition",
           "OT",
           []
@@ -65670,6 +65850,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -65793,6 +65978,11 @@
           ]
         ],
         [
+          "writer",
+          "DCTOOL100",
+          []
+        ],
+        [
           "acquisition",
           "US",
           []
@@ -65857,6 +66047,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -65976,6 +66171,11 @@
           ]
         ],
         [
+          "writer",
+          "MR_2004V_VB11A",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -66037,6 +66237,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "OSIRIX",
+          []
         ],
         [
           "acquisition",
@@ -66102,6 +66307,11 @@
           ]
         ],
         [
+          "writer",
+          "DCTOOL100",
+          []
+        ],
+        [
           "acquisition",
           "US",
           []
@@ -66163,6 +66373,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "Tiller_SV500",
+          []
         ],
         [
           "acquisition",
@@ -66243,6 +66458,11 @@
           ]
         ],
         [
+          "writer",
+          "DCTOOL100",
+          []
+        ],
+        [
           "acquisition",
           "OT",
           []
@@ -66299,6 +66519,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -66364,6 +66589,11 @@
           ]
         ],
         [
+          "writer",
+          "PYDICOM",
+          []
+        ],
+        [
           "record",
           "Secondary Capture Image Storage",
           [
@@ -66417,6 +66647,11 @@
           ]
         ],
         [
+          "writer",
+          "PYDICOM",
+          []
+        ],
+        [
           "record",
           "Secondary Capture Image Storage",
           [
@@ -66468,6 +66703,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -66533,6 +66773,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_361",
+          []
+        ],
+        [
           "acquisition",
           "SEG",
           []
@@ -66594,6 +66839,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "DCTOOL100",
+          []
         ],
         [
           "acquisition",
@@ -66659,6 +66909,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_363",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -66720,6 +66975,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "OFFIS_DCMTK_363",
+          []
         ],
         [
           "acquisition",
@@ -66785,6 +67045,11 @@
           ]
         ],
         [
+          "writer",
+          "GDCM",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -66846,6 +67111,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "GDCM",
+          []
         ],
         [
           "acquisition",
@@ -66911,6 +67181,11 @@
           ]
         ],
         [
+          "writer",
+          "DCTOOL100",
+          []
+        ],
+        [
           "acquisition",
           "MR",
           []
@@ -66972,6 +67247,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "OFFIS_DCMTK_361",
+          []
         ],
         [
           "acquisition",
@@ -67100,6 +67380,11 @@
           ]
         ],
         [
+          "writer",
+          "GDCM",
+          []
+        ],
+        [
           "acquisition",
           "RTDOSE",
           []
@@ -67163,6 +67448,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_365",
+          []
+        ],
+        [
           "record",
           "Secondary Capture Image Storage",
           [
@@ -67214,6 +67504,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "highdicom",
+          []
         ],
         [
           "acquisition",
@@ -67274,6 +67569,11 @@
           ]
         ],
         [
+          "writer",
+          "GDCM",
+          []
+        ],
+        [
           "acquisition",
           "OT",
           []
@@ -67332,6 +67632,11 @@
           ]
         ],
         [
+          "writer",
+          "OFFIS_DCMTK_363",
+          []
+        ],
+        [
           "acquisition",
           "OT",
           []
@@ -67388,6 +67693,11 @@
           [
             "pixels"
           ]
+        ],
+        [
+          "writer",
+          "OFFIS_DCMTK_362",
+          []
         ],
         [
           "acquisition",
@@ -122118,6 +122428,53 @@
       ]
     },
     {
+      "id": "figshare33265719-microct-01-wt-f",
+      "format": "nifti",
+      "source": "figshare 33265719 'a de novo gmds p.",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
       "id": "nibabel-anatomical",
       "format": "nifti",
       "source": "github:nipy/nibabel",
@@ -122444,6 +122801,147 @@
         [
           "sample_layout",
           "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "openneuro-ds000002-sub-01-inplanet2",
+      "format": "nifti",
+      "source": "openneuro ds000002",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "openneuro-ds000030-sub-10159-t1w",
+      "format": "nifti",
+      "source": "openneuro ds000030",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "little-endian",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "codec",
+          "gzip",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        12
+      ]
+    },
+    {
+      "id": "openneuro-ds003097-sub-0001-t1w",
+      "format": "nifti",
+      "source": "openneuro ds003097",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "NIfTI-1",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
           [
             "pixels"
           ]
@@ -176722,8 +177220,8 @@
       "fail": 0
     },
     "czi": {
-      "pass": 3,
-      "fail": 1
+      "pass": 13,
+      "fail": 0
     },
     "dm": {
       "pass": 2,

@@ -40,8 +40,8 @@ Formats: `dicom`, `nifti`, `bruker-paravision`, one module directory each. Notes
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dicom` | [format note](../../docs/formats/dicom.md), [provenance log](../../docs/provenance/dicom.md) | medium | open spec | 67 / 67 | 5 | - |
-| `nifti` | [format note](../../docs/formats/nifti.md), [provenance log](../../docs/provenance/nifti.md) | medium | open spec | 8 / 8 | 2 | - |
+| `dicom` | [format note](../../docs/formats/dicom.md), [provenance log](../../docs/provenance/dicom.md) | high | open spec | 67 / 67 | 5 | - |
+| `nifti` | [format note](../../docs/formats/nifti.md), [provenance log](../../docs/provenance/nifti.md) | high | open spec | 12 / 12 | 6 | - |
 | `bruker-paravision` | [format note](../../docs/formats/bruker-paravision.md), [provenance log](../../docs/provenance/bruker-paravision.md) | low | prior art | 5 / 5 | 1 | - |
 
 ### Source map
@@ -87,6 +87,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature layout `d`
 - feature codec `"gzip"`
 - feature layout `g`
+- feature writer `a::writer_name_only(w)` (descriptive)
 - feature acquisition `m` (descriptive)
 - undecoded "segmented palette"
 - assumed "images[].physical_size.z"
@@ -176,13 +177,13 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `dicom` | instrument | `EPIQ 7C` | descriptive | 1 | 1 | `pydicom-data-jpglosslessp14sv1-1s-1f-8b` |
 | `dicom` | instrument | `Encore2` | descriptive | 1 | 1 | `idc-varepop-nm` |
 
-… 63 more values: the generated table in `src/assurance.rs` has all of them.
+… 83 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_dicom`, `whole_nifti`, `whole_paravision`
-- corpus inputs by tier: smoke 62, standard 18
+- corpus inputs by tier: full 1, smoke 62, standard 21
 - golden snapshots: [`corpus/snapshots/dicom.jsonl`](../../corpus/snapshots/dicom.jsonl), [`corpus/snapshots/nifti.jsonl`](../../corpus/snapshots/nifti.jsonl), [`corpus/snapshots/bruker-paravision.jsonl`](../../corpus/snapshots/bruker-paravision.jsonl)
 
 ### Open new-variant intakes
