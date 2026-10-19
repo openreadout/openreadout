@@ -122,7 +122,7 @@ impl FormatReader for FcsReader {
             id: FORMAT_ID.into(),
             name: "FCS (Flow Cytometry Standard)".into(),
             vendor: "ISAC open standard (all cytometer vendors)".into(),
-            extensions: vec!["fcs".into(), "lmd".into()],
+            extensions: vec!["fcs".into(), "lmd".into(), "lxb".into()],
             family: "flow-cytometry".into(),
             can_read: true,
             can_write: false,
@@ -151,7 +151,7 @@ impl FormatReader for FcsReader {
         }
         // A file shorter than the 58-byte FCS header is a cut-off FCS file (exit 4); a longer
         // one that does not start with `FCS` is another kind of file (exit 3).
-        if has_extension(path, &["fcs", "lmd"]) && (head.len() < 58 || head.starts_with(b"FCS")) {
+        if has_extension(path, &["fcs", "lmd", "lxb"]) && (head.len() < 58 || head.starts_with(b"FCS")) {
             return Some(Detection {
                 format_id: FORMAT_ID,
                 confidence: DetectConfidence::ExtensionOnly,

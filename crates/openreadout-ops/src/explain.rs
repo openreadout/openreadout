@@ -1108,6 +1108,15 @@ fn platform_paragraph(t: &TableInfo, pl: &Value, ex: &mut Explanation) {
                 "Mass-cytometry values are ion counts; analyses usually take arcsinh(x / 5) first (`openreadout table FILE --transform arcsinh-cofactor:5`).".into(),
             );
         }
+        Some("bead-array") => {
+            let mut p = format!(
+                "Data set {} is a Luminex xMAP bead-array read{}: each event is one bead. RID is the bead region, which says which analyte the bead carries; the CL channels are the classification dyes the region is decoded from; RP1 is the reporter signal",
+                t.index,
+                s("well").map(|w| format!(" of well {w}")).unwrap_or_default()
+            );
+            p.push_str(". The assay readout is the median reporter (MFI) of each bead region.");
+            ex.paragraphs.push(p);
+        }
         _ => {}
     }
 }
@@ -1131,6 +1140,11 @@ fn flow_parameter_kinds(t: &TableInfo) -> String {
             ("imaging_feature", "image-derived feature"),
             ("mass", "metal-isotope (mass)"),
             ("gaussian_parameter", "pulse-shape (Gaussian) parameter"),
+            ("bead_region", "bead region"),
+            ("classification", "bead classification"),
+            ("reporter", "reporter"),
+            ("doublet_discriminator", "doublet discriminator"),
+            ("gate_flag", "gate flag"),
             ("event_length", "event length"),
             ("background", "background"),
             ("other", "other"),

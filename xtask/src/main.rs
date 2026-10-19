@@ -35,6 +35,7 @@ mod publish;
 mod repo;
 mod rpkg;
 mod snapshot;
+mod tarmember;
 mod variant;
 mod zipmember;
 

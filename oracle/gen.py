@@ -9,7 +9,7 @@ Readers used (all run as black boxes):
   .lif .lifext .lof .xlif .xlef .xlcf -> liffile (BSD-3); bioio-lif (GPL) is run separately, by hand, as a second opinion
   .czi  -> czifile (BSD-3)      + pylibCZIrw (LGPL, second opinion) when installed
   .nd2  -> nd2 (BSD-3)          + bioio-nd2 (BSD-3, second opinion)
-  .fcs/.lmd -> flowio (BSD-3)   + fcsparser (MIT, second opinion on data set 0)
+  .fcs/.lmd/.lxb -> flowio (BSD-3)   + fcsparser (MIT, second opinion on data set 0)
   .mrc .mrcs .map .rec .st .ali -> mrcfile (BSD-3)
   .dm3 .dm4 -> pyDM3reader dm3_lib (MIT) tag dictionary + NumPy
   .ser      -> ncempy.io.ser (GPL-3.0-or-later, black box)
@@ -6198,7 +6198,7 @@ def main():
         ext = p.suffix.lower()
         is_tiff = ext in TIFF_SUFFIXES or p.name.lower().endswith(".companion.ome")
         # A .lifext sidecar shares its stem with its .lif; its oracle id gets a -lifext suffix.
-        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs|isyntax|vms)$", "",
+        fid = given_id or re.sub(r"\.(lif|lof|xlif|xlef|xlcf|czi|nd2|fcs|lmd|lxb|abf|atf|jdx|dx|jcamp|jcm|raw|wiff|mzml|mzxml|imzml|mrc|mrcs|map|rec|st|ali|dm3|dm4|dm5|ser|emd|oir|vsi|zip|zarr|ims|nwb|zvi|oib|oif|jdf|dat|spc|mrxs|isyntax|vms)$", "",
                                  re.sub(r"\.lifext$", "-lifext", p.name, flags=re.I), flags=re.I)
         if (is_tiff or ext in (".nd", ".dcimg", ".ndpis")) and not given_id:
             fid = _corpus_id(p)
@@ -6208,7 +6208,7 @@ def main():
             fid = p.stem  # plate corpus ids are the file stems
         em = {e: mrc for e in ("mrc", "mrcs", "map", "rec", "st", "ali", "ccp4")} | {"dm3": dm, "dm4": dm, "dm5": dm, "ser": ser, "emd": emd}
         try:
-            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
+            dispatch = {"nd": metamorph_nd, "dcimg": dcimg_, "czi": czi, "nd2": nd2_, "fcs": fcs, "lmd": fcs, "lxb": fcs, "abf": abf, "atf": atf, "raw": thermo, "mzml": mzml_, "mzxml": mzxml_, "imzml": imzml_, "oir": oir, "vsi": vsi, "ims": ims, "nwb": nwb, "zvi": zvi, "oib": oif_, "oif": oif_, "mrxs": mirax, "isyntax": isyntax_, "vms": vms, **EPHYS, **em}
             import spectro
 
             import medical  # DICOM, NIfTI, ParaVision (oracle/medical.py)

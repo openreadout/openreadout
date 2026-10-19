@@ -106,6 +106,10 @@ pub(crate) struct Entry {
     /// `sha256`/`size` are the member's).
     #[serde(default)]
     zip_member: String,
+    /// When set, `url` is a gzip-compressed tar archive and only this member is taken out of
+    /// it, streaming the archive from its start (`sha256`/`size` are the member's).
+    #[serde(default)]
+    tar_member: String,
     /// A directory data set fetched file by file (vendor `.raw`/`.d` directories published as
     /// loose files): `filename` is the directory, `parts_url` the URL of that directory
     /// (ending in `/`), and each part `"<path relative to the directory>  <sha256>"`.
@@ -443,6 +447,11 @@ fn download_checked(e: &Entry, dst: &Path, stage: Option<&Path>) -> Result<Strin
     let sha = if mirror::take_staged(stage, &e.filename, &e.sha256, dst) {
         println!("mirror   {}  ({})", e.id, human(e.size));
         e.sha256.clone()
+    } else if !e.tar_member.is_empty() {
+        println!("fetch    {}  ({}, from a tar archive)", e.id, human(e.size));
+        fetch_tar_member_retrying(&e.url, &e.tar_member, dst)
+            .with_context(|| format!("download {} from its archive", e.id))?;
+        sha256_file(dst)?.0
     } else if e.zip_member.is_empty() {
         println!("fetch    {}  ({})", e.id, human(e.size));
         download(&e.url, dst).with_context(|| format!("download {}", e.id))?
@@ -783,6 +792,26 @@ fn download(url: &str, dst: &Path) -> Result<String> {
                     std::thread::sleep(std::time::Duration::from_secs(
                         u64::from(attempt.min(10)) * 3,
                     ));
+                }
+            }
+        }
+    }
+    Err(last.expect("at least one attempt"))
+}
+
+/// One member of a remote `.tar.gz`, retrying dropped connections. Each attempt streams the
+/// archive from its start again.
+fn fetch_tar_member_retrying(url: &str, member: &str, dst: &Path) -> Result<()> {
+    const ATTEMPTS: u32 = 5;
+    let mut last = None;
+    for attempt in 1..=ATTEMPTS {
+        match crate::tarmember::fetch_member(url, member, dst) {
+            Ok(()) => return Ok(()),
+            Err(e) => {
+                eprintln!("  attempt {attempt}/{ATTEMPTS}: {e:#}");
+                last = Some(e);
+                if attempt < ATTEMPTS {
+                    std::thread::sleep(std::time::Duration::from_secs(u64::from(attempt) * 5));
                 }
             }
         }

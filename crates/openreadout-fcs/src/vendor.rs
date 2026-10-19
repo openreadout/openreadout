@@ -29,6 +29,9 @@ pub enum Family {
     SonySorter,
     /// Mass cytometers (CyTOF, Helios, XT; DVS Sciences / Fluidigm / Standard BioTools).
     MassCytometry,
+    /// Luminex xMAP bead-array readers (FLEXMAP 3D, Luminex 200, MAGPIX) and their `.lxb`
+    /// files: one data set per well, one event per bead.
+    LuminexBeadArray,
 }
 
 impl Family {
@@ -40,6 +43,7 @@ impl Family {
             Family::BeckmanCytoflex => "Beckman Coulter",
             Family::SonySpectral | Family::SonySorter => "Sony Biotechnology",
             Family::MassCytometry => "Standard BioTools (formerly Fluidigm, DVS Sciences)",
+            Family::LuminexBeadArray => "Luminex (DiaSorin)",
         }
     }
 
@@ -48,6 +52,7 @@ impl Family {
         match self {
             Family::CytekSpectral | Family::SonySpectral | Family::BdSpectral => "spectral",
             Family::MassCytometry => "mass",
+            Family::LuminexBeadArray => "bead-array",
             _ => "conventional",
         }
     }
@@ -62,6 +67,7 @@ impl Family {
             Family::SonySpectral => "sony-spectral",
             Family::SonySorter => "sony-sorter",
             Family::MassCytometry => "mass-cytometry",
+            Family::LuminexBeadArray => "luminex-bead-array",
         }
     }
 }
@@ -70,9 +76,20 @@ fn kw<'a>(ds: &'a DataSet, k: &str) -> Option<&'a str> {
     ds.keyword(k).map(str::trim).filter(|s| !s.is_empty())
 }
 
+/// Bead-array parameters named in `.lxb` files: the bead region, the classification channels
+/// and the reporter. A data set with all four is a bead-array read.
+const BEAD_ARRAY_PARAMETERS: [&str; 4] = ["RID", "CL1", "CL2", "RP1"];
+
 /// Recognise the instrument family.
 pub fn family(ds: &DataSet) -> Option<Family> {
     let cyt = kw(ds, "$CYT").unwrap_or_default().to_ascii_uppercase();
+    if BEAD_ARRAY_PARAMETERS.iter().all(|n| {
+        ds.parameters
+            .iter()
+            .any(|p| p.short_name.trim().eq_ignore_ascii_case(n))
+    }) {
+        return Some(Family::LuminexBeadArray);
+    }
     let creator = kw(ds, "CREATOR").unwrap_or_default();
     let tokens: Vec<&str> = cyt.split(|c: char| !c.is_ascii_alphanumeric()).collect();
     if tokens
@@ -234,6 +251,9 @@ pub fn channel_kind(p: &Parameter, fam: Option<Family>) -> &'static str {
         }
         return "other";
     }
+    if fam == Some(Family::LuminexBeadArray) {
+        return bead_array_kind(&up);
+    }
     if fam == Some(Family::CytekSpectral) && spectral_laser(n).is_some() {
         return "spectral_detector";
     }
@@ -241,6 +261,22 @@ pub fn channel_kind(p: &Parameter, fam: Option<Family>) -> &'static str {
         return "fluorescence";
     }
     "other"
+}
+
+/// Role of a bead-array parameter (upper-cased short name): `bead_region` (`RID`),
+/// `classification` (`CL1`, `CL2`, `CL3`), `reporter` (`RP1`, and `RP1ATT`, the attenuated
+/// reporter), `doublet_discriminator` (`DD`), `gate_flag` (`DDG`, `DBL`), or `other`.
+fn bead_array_kind(up: &str) -> &'static str {
+    match up {
+        "RID" => "bead_region",
+        "RP1" | "RP1ATT" => "reporter",
+        "DD" => "doublet_discriminator",
+        "DDG" | "DBL" => "gate_flag",
+        _ if up.len() > 2 && up.starts_with("CL") && up[2..].chars().all(|c| c.is_ascii_digit()) => {
+            "classification"
+        }
+        _ => "other",
+    }
 }
 
 /// Per-column extras: `channel_kind`, `measure` (`area`/`height`/`width`), `laser` (spectral
@@ -490,6 +526,17 @@ pub fn platform(ds: &DataSet) -> Option<Value> {
             if let Some(c) = kw(ds, "CYTOMETER CONFIGURATION NAME") {
                 out.insert("cytometer_configuration".into(), json!(c));
             }
+        }
+        Family::LuminexBeadArray => {
+            // `.lxb` files keep the well in `$SMNO` (`A10` in `A10.lxb`, `F3` in a file named
+            // `..._F03.lxb`).
+            if let Some(w) = kw(ds, "$SMNO") {
+                out.insert("well".into(), json!(w));
+            }
+            out.insert(
+                "note".into(),
+                json!("one event per bead: RID is the bead region (analyte), CL channels classify the bead, RP1 is the reporter signal; the per-region median reporter is the usual readout"),
+            );
         }
         Family::BeckmanCytoflex => {
             for (k, name) in [

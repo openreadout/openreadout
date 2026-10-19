@@ -107,10 +107,12 @@ fn entry_files(e: &Entry) -> Result<Vec<MirrorFile<'_>>> {
         if !is_sha256(&e.sha256) {
             return Ok(Vec::new());
         }
-        let url = if e.zip_member.is_empty() {
-            e.url.clone()
-        } else {
+        let url = if !e.zip_member.is_empty() {
             format!("{} (zip member {})", e.url, e.zip_member)
+        } else if !e.tar_member.is_empty() {
+            format!("{} (tar member {})", e.url, e.tar_member)
+        } else {
+            e.url.clone()
         };
         return Ok(vec![MirrorFile {
             path: e.filename.clone(),

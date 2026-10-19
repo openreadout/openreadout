@@ -146,6 +146,15 @@ pub(crate) fn record_key(url: &str) -> Option<String> {
             return Some(format!("massive:MSV{d}"));
         }
     }
+    if let Some(rest) = after("ncbi.nlm.nih.gov/geo/series/") {
+        // an NCBI GEO series (`GSE70nnn/GSE70138/suppl/...`)
+        if let Some(gse) = rest.split('/').nth(1).and_then(|s| s.strip_prefix("gse")) {
+            let d = digits(gse);
+            if !d.is_empty() {
+                return Some(format!("geo:GSE{d}"));
+            }
+        }
+    }
     if let Some(rest) = after("dandiarchive.org/api/dandisets/") {
         let d = digits(rest);
         if !d.is_empty() {
@@ -642,6 +651,11 @@ url = "https://zenodo.org/api/records/222/files/sample_b_image.czi/content"
 
     #[test]
     fn record_keys() {
+        assert_eq!(
+            record_key("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE70nnn/GSE70138/suppl/x.tar.gz")
+                .as_deref(),
+            Some("geo:GSE70138")
+        );
         assert_eq!(
             record_key("https://zenodo.org/api/records/7015307/files/x.czi/content").as_deref(),
             Some("zenodo:7015307")
