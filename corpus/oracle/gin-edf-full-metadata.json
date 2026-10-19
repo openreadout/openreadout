@@ -1,0 +1,115 @@
+{
+ "id": "gin-edf-full-metadata",
+ "file": "full_metadata.edf",
+ "size": 23156,
+ "sha256": "8c6e354a22e6814dad5f4671d16edad822cd2293e34f8a53a14f1cd29e03b2b9",
+ "max_planes_hashed": 64,
+ "reader": "pyedflib digital samples; MNE 1.13.2 header extremes and units; pyedflib 0.1.42 annotations",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 4,
+   "channel_names": [
+    "EEG Fpz-Cz",
+    "EEG Pz-Oz",
+    "EOG horizontal",
+    "EMG submental"
+   ],
+   "sample_rate_hz": 256.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 2560,
+     "channels": [
+      {
+       "xxh3": "e830483e976c0bdb1597a138d6d0c498",
+       "first": [
+        18.4942167424543,
+        701.2237922299875,
+        842.2498245185706,
+        273.8731040375988,
+        680.6848353526414,
+        22.217474898525957,
+        484.11511581774346,
+        -460.4632709738456
+       ]
+      },
+      {
+       "xxh3": "6b4c001cf2dba6a5de9769038085e786",
+       "first": [
+        407.6357310708945,
+        467.20786156804104,
+        371.0745567186499,
+        -765.8314767906735,
+        -904.9653614917447,
+        183.14157536545915,
+        508.4078493606372,
+        -505.3559984130375
+       ]
+      },
+      {
+       "xxh3": "ba3331f2dd84ef6d006de5d4a35b9d15",
+       "first": [
+        -847.682119205298,
+        867.0918912320323,
+        -929.1665395062105,
+        345.5000457777642,
+        -160.77150791955322,
+        340.8307138279366,
+        18.67732779931028,
+        417.3100985747856
+       ]
+      },
+      {
+       "xxh3": "c8a119ebf085087251e2c953189a21d1",
+       "first": [
+        -689.9014252143925,
+        81.17923520615253,
+        965.1783806878872,
+        -956.69423505356,
+        892.3001800592059,
+        -807.0009460737938,
+        -126.56025879696035,
+        981.9330423902096
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV",
+    "uV",
+    "uV",
+    "uV"
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 5,
+   "parameter_names": [
+    "onset_s",
+    "duration_s",
+    "text"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "int32"
+   ],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "onset_s",
+      "duration_s"
+     ],
+     "count": 5,
+     "xxh3": "5071d3802c529d062dc7edc89c555834"
+    }
+   ]
+  }
+ ]
+}

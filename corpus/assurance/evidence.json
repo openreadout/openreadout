@@ -76128,6 +76128,1028 @@
       ]
     },
     {
+      "id": "edfio-short-psg",
+      "format": "edf",
+      "source": "github:the-siesta-group/edfio",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-autoscaled-offsets",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-cross-kind-offsets-corrupt-header",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-edf-c",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-electrode-and-analog-data",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-event-edge-cases",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-event-markers-bdf",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-full-metadata",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-same-unit-offsets-multirate",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "gin-edf-test-subsecond",
+      "format": "edf",
+      "source": "gin:neuralensemble/ephy_testing_data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnepython-test-bdf",
+      "format": "edf",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnepython-test-edf",
+      "format": "edf",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnepython-test-edf-stim-channel",
+      "format": "edf",
+      "source": "github:mne-tools/mne-python",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "mnetestingdata-nihonkohden-da00100e",
+      "format": "edf",
+      "source": "github:mne-tools/mne-testing-data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds003810-sub-02-task-mivsrest-run-0",
+      "format": "edf",
+      "source": "openneuro ds003810",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds004448-sub-001-ses-03-task-smrbmi",
+      "format": "edf",
+      "source": "openneuro ds004448",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds004752-sub-02-ses-05-task-verbalwm-run-01",
+      "format": "edf",
+      "source": "openneuro ds004752",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds004840-sub-02-ses-02-task-postmusictherapy",
+      "format": "edf",
+      "source": "openneuro ds004840",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds005648-sub-03-task-targets",
+      "format": "edf",
+      "source": "openneuro ds005648",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds005857-sub-ltp505-ses-2-task-ltpdelayrepfrreadonly",
+      "format": "edf",
+      "source": "openneuro ds005857",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "openneuro-ds008851-sub-01-ses-01-task-cuereactivity",
+      "format": "edf",
+      "source": "openneuro ds008851",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "physionet-eegmmidb-s001r01",
+      "format": "edf",
+      "source": "physionet eegmmidb 1.0.0",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "physionet-sleep-edfx-sc4001ec-hypnogram",
+      "format": "edf",
+      "source": "physionet sleep-edfx 1.0.0",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "pyedflib-test-generator-bdf",
+      "format": "edf",
+      "source": "github:holgern/pyedflib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "BDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int24",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "pyedflib-test-generator-edf",
+      "format": "edf",
+      "source": "github:holgern/pyedflib",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "zenodo-3885755-p14-2",
+      "format": "edf",
+      "source": "zenodo:3885755",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+C",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "several sample rates",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
+      "id": "zenodo-4688758-s65",
+      "format": "edf",
+      "source": "zenodo:4688758",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "EDF+D",
+          [
+            "metadata",
+            "traces",
+            "tables"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int16",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "annotations",
+          [
+            "tables"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        14
+      ]
+    },
+    {
       "id": "ncem-emd-acquisition-18",
       "format": "emd",
       "source": "github:ercius/openncem",

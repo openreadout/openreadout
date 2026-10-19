@@ -51,6 +51,7 @@ const TRACE_FORMATS: &[&str] = &[
     "tdt-tank",
     "axona-dacqusb",
     "mcs-raw",
+    "edf",
     "magritek-spinsolve",
     "mzml",
     "mzxml",

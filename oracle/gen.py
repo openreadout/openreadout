@@ -5900,7 +5900,130 @@ def mcs_raw(p: Path) -> dict:
                          "channels": [{"xxh3": _trace_hash(v), "first": _first(v)} for v in cols]}]}
     return {"reader": f"neo {__import__('neo').__version__} RawMCSRawIO", "traces": [trace]}
 
-EPHYS = {"wcp": winwcp, "set": axona, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
+def edf(p: Path) -> dict:
+    """EDF, EDF+, BDF and BDF+ via pyedflib (BSD-2, EDFlib) and MNE-Python (BSD-3), both black
+    boxes. pyedflib gives every signal's digital samples, the samples per data record, the record
+    duration and the annotations; MNE gives the header's physical and digital extremes and units.
+    Values are the digital samples x scale + offset with scale = (physical max - physical min) /
+    (digital max - digital min) and offset = physical min - digital min x scale (the EDF
+    specification's linear map), in float64; pyedflib's and MNE's own physical values must agree
+    with them to 1e-9. Signals sharing a sample count per record form one trace, in the order
+    their first signal appears. Annotation onsets count from the first data record (pyedflib
+    subtracts the subsecond start); a TAL without a duration has duration 0 (pyedflib -1).
+
+    pyedflib refuses some files that MNE reads (a header field outside the specification, an
+    EDF+D file, an equal physical minimum and maximum). For those the digital samples are MNE's
+    physical values mapped back through the same scale and offset and rounded to integers (each
+    must land within 1e-6 of an integer), and annotations are compared by count only (MNE rounds
+    onsets to microseconds). The record says which reader gave the samples."""
+    import mne
+    import pyedflib
+    f, why = None, None
+    try:
+        f = pyedflib.EdfReader(str(p))
+    except OSError as e:
+        why = str(e).split(": ", 1)[-1]
+    read = mne.io.read_raw_bdf if p.suffix.lower() == ".bdf" else mne.io.read_raw_edf
+    raw = None
+    try:
+        raw = read(str(p), preload=True, verbose="error", infer_types=False, stim_channel=[])
+    except ValueError as e:
+        if "No appropriate channels" not in str(e):  # an annotation-only file has none
+            raise
+    try:
+        if raw is None and f is None:
+            raise ValueError(f"neither reader opens the file (pyedflib: {why})")
+        traces = []
+        worst = 0.0
+        if raw is not None:
+            ex = raw._raw_extras[0]
+            n = len(raw.ch_names)
+            mne_data = raw.get_data() if n else np.zeros((0, 0))
+            if f is not None and n != f.signals_in_file:
+                raise ValueError(f"pyedflib has {f.signals_in_file} signals, MNE {n}")
+            if f is not None:
+                spr_of = [int(f.samples_in_datarecord(i)) for i in range(n)]
+                dur = float(f.datarecord_duration)
+            else:
+                # MNE's per-signal sample counts per record, without the annotation signals
+                tal = set(np.atleast_1d(ex.get("tal_idx", [])).tolist())
+                spr_of = [int(s) for k, s in enumerate(ex["n_samps"]) if k not in tal][:n]
+                dur = float(np.atleast_1d(ex["record_length"])[0])
+            groups = []  # (samples per record, [signal indices])
+            for i in range(n):
+                if spr_of[i] == 0:
+                    continue
+                for g in groups:
+                    if g[0] == spr_of[i]:
+                        g[1].append(i)
+                        break
+                else:
+                    groups.append((spr_of[i], [i]))
+            for gi, (spr, sigs) in enumerate(groups):
+                chans, names, units = [], [], []
+                count = None
+                for i in sigs:
+                    pmin, pmax = float(ex["physical_min"][i]), float(ex["physical_max"][i])
+                    dmin, dmax = float(ex["digital_min"][i]), float(ex["digital_max"][i])
+                    cal = (pmax - pmin) / (dmax - dmin) if dmax != dmin else float("nan")
+                    if dmax == dmin or not np.isfinite(cal) or not np.isfinite(pmin):
+                        cal, off = 1.0, 0.0
+                    else:
+                        off = pmin - dmin * cal
+                    unit = float(ex["units"][i]) or 1.0
+                    phys_mne = mne_data[i] / unit
+                    if f is not None:
+                        dig = np.asarray(f.readSignal(i, digital=True), dtype=np.float64)
+                    elif spr != max(spr_of):
+                        raise NotImplementedError("MNE resamples signals below the highest rate; no digital samples for them")
+                    elif cal == 0:
+                        dig = np.zeros(len(phys_mne))
+                    else:
+                        est = (phys_mne - off) / cal
+                        dig = np.round(est)
+                        if len(est) and np.max(np.abs(est - dig)) > 1e-6:
+                            raise ValueError(f"signal {i}: MNE values do not map back to integers")
+                    v = dig * cal + off
+                    refs = [phys_mne] + ([np.asarray(f.readSignal(i), dtype=np.float64)] if f is not None else [])
+                    for r in refs:
+                        if len(r) == len(v) and len(v):
+                            worst = max(worst, float(np.max(np.abs(r - v) / np.maximum(1.0, np.abs(v)))))
+                    count = len(v) if count is None else count
+                    chans.append({"xxh3": _trace_hash(v), "first": _first(v)})
+                    names.append(f.getLabel(i).strip() if f is not None else str(raw.ch_names[i]))
+                    units.append(f.getPhysicalDimension(i).strip() if f is not None else "")
+                trace = {"index": gi, "sweep_count": 1, "channel_count": len(sigs),
+                         "channel_names": names, "sample_rate_hz": spr / dur,
+                         "sweeps": [{"sweep": 0, "sample_count": int(count), "channels": chans}]}
+                if f is not None:
+                    trace["channel_units"] = units
+                traces.append(trace)
+        if worst > 1e-9:
+            raise ValueError(f"pyedflib/MNE physical values differ from the linear map by {worst:.3g}")
+        source = "pyedflib digital samples" if f is not None else f"MNE values mapped back to digital (pyedflib refuses: {why})"
+        out = {"reader": f"{source}; MNE {mne.__version__} header extremes and units; pyedflib {pyedflib.__version__} annotations",
+               "traces": traces}
+        if f is not None:
+            onsets, durations, _ = f.readAnnotations()
+            if len(onsets):
+                d = np.asarray(durations, dtype=np.float64)
+                d = np.where(d < 0, 0.0, d)
+                out["tables"] = [{"index": 0, "event_count": int(len(onsets)),
+                                  "parameter_names": ["onset_s", "duration_s", "text"],
+                                  "dtypes": ["float64", "float64", "int32"], "xxh3": None,
+                                  "sorted_row_hashes": [_sorted_rows([("onset_s", np.asarray(onsets, dtype=np.float64)),
+                                                                      ("duration_s", d)])]}]
+        elif raw is not None and len(raw.annotations):
+            out["tables"] = [{"index": 0, "event_count": int(len(raw.annotations)),
+                              "parameter_names": ["onset_s", "duration_s", "text"],
+                              "dtypes": ["float64", "float64", "int32"], "xxh3": None}]
+        return out
+    finally:
+        if f is not None:
+            f.close()
+
+
+EPHYS = {"wcp": winwcp, "edf": edf, "bdf": edf, "set": axona, "ncs": neuralynx, "nvt": neuralynx_nvt, "bin": spikeglx, "rhd": intan, "rhs": intan, "nev": lambda p: blackrock(p) if _is_blackrock(p) else neuralynx(p),
          "nse": neuralynx, "nst": neuralynx, "ntt": neuralynx, "plx": plexon, "pl2": pl2, "smr": spike2,
          **{f"ns{i}": blackrock for i in range(1, 7)}}
 

@@ -717,6 +717,30 @@ def ephys_new_seeds() -> None:
     put("whole_mcs_raw", "mini.raw",
         b"MC_DataTool binary conversion\r\nVersion 2.6.10\r\nSample rate = 20000\r\nADC zero = 32768\r\n"
         b"El = 0.2083\xb5V/AD\r\nStreams = El_12;El_13\r\nEOH\r\n" + struct.pack("<8H", *range(32760, 32768)))
+    put("whole_edf", "mini-edfplus.edf", _mini_edf(False))
+    put("whole_edf", "mini-bdf.bdf", _mini_edf(True))
+
+
+def _mini_edf(bdf: bool) -> bytes:
+    """Two data records of one 4-sample signal and an annotation signal (EDF+C / BDF+C)."""
+    def pad(t: str, n: int) -> bytes:
+        return t.encode().ljust(n, b" ")
+    ann = "BDF Annotations" if bdf else "EDF Annotations"
+    sigs = [("EEG Fpz-Cz", "uV", "-500", "500", "-2048", "2047", 4), (ann, "", "-1", "1", "-32768", "32767", 10)]
+    h = (b"\xffBIOSEMI" if bdf else pad("0", 8)) + pad("X X X X", 80) + pad("Startdate 02-MAR-2002 X X X", 80)
+    h += pad("02.03.02", 8) + pad("11.25.00", 8) + pad(str(256 * 3), 8) + pad("BDF+C" if bdf else "EDF+C", 44)
+    h += pad("2", 8) + pad("1", 8) + pad("2", 4)
+    for k, w in enumerate([16, 80, 8, 8, 8, 8, 8, 80, 8, 32]):
+        for sg in sigs:
+            v = {0: sg[0], 2: sg[1], 3: sg[2], 4: sg[3], 5: sg[4], 6: sg[5], 8: str(sg[6])}.get(k, "")
+            h += pad(v, w)
+    width = 3 if bdf else 2
+    out = h
+    for r in range(2):
+        out += b"".join(int(v).to_bytes(width, "little", signed=True) for v in (r, -r, 100, -100))
+        tal = f"+{r}\x14\x14\x00".encode() + (b"+0.5\x151\x14Spike\x14\x00" if r == 0 else b"")
+        out += tal.ljust(10 * width, b"\x00")
+    return out
 
 
 def _bgzf(data: bytes) -> bytes:

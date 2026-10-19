@@ -59,6 +59,56 @@ fn observe_winwcp(info: &FileInfo) -> Observations {
     o
 }
 
+pub(crate) static EDF: AssuranceProfile = AssuranceProfile {
+    format_id: "edf",
+    observe: observe_edf,
+    validated: EDF_VALIDATED,
+    confidence: EDF_CONFIDENCE,
+    basis: Basis::OpenSpec,
+};
+
+fn observe_edf(info: &FileInfo) -> Observations {
+    let mut o = Observations::default();
+    let all = [Scope::Metadata, Scope::Traces, Scope::Tables];
+    if let Some(v) = &info.format_version {
+        o.feature(K::FormatVersion, v, &all);
+    }
+    for t in &info.traces {
+        if let Some(c) = t.channels.first() {
+            o.feature(K::SampleLayout, &c.dtype, &[Scope::Traces]);
+        }
+        if t.sweep_count > 1 {
+            o.feature(K::Layout, "discontinuous records", &[Scope::Traces]);
+        }
+    }
+    if info.traces.len() > 1 {
+        o.feature(K::Layout, "several sample rates", &[Scope::Traces]);
+    }
+    if info
+        .tables
+        .iter()
+        .any(|t| t.name.as_deref() == Some("annotations"))
+    {
+        o.feature(K::Record, "annotations", &[Scope::Tables]);
+    }
+    if !info.traces.is_empty() {
+        o.calibration(
+            "digital to physical values",
+            CalibrationStatus::Applied,
+            &[Scope::Traces],
+            "digital × (physical max − physical min) / (digital max − digital min) + offset, per signal",
+        );
+    }
+    if let Some(n) = a::note_with(info, "structural problems found") {
+        o.undecoded(
+            "cut-short files",
+            &[Scope::Traces, Scope::Tables],
+            n.to_string(),
+        );
+    }
+    o
+}
+
 pub(crate) static TDT: AssuranceProfile = AssuranceProfile {
     format_id: "tdt-tank",
     observe: observe_tdt,
@@ -521,6 +571,22 @@ const TDT_TANK_VALIDATED: &[Validated] = &[
     a::row(K::WriterVersion, "Synapse 50105", 1, 1, 1),
 ];
 // END GENERATED tdt-tank
+
+// BEGIN GENERATED edf (cargo xtask assurance-audit --write; do not edit)
+const EDF_CONFIDENCE: Confidence = Confidence::High;
+#[rustfmt::skip]
+const EDF_VALIDATED: &[Validated] = &[
+    a::row(K::FormatVersion, "BDF", 2, 2, 2),
+    a::row(K::FormatVersion, "BDF+C", 3, 3, 3),
+    a::row(K::FormatVersion, "EDF", 5, 5, 5),
+    a::row(K::FormatVersion, "EDF+C", 16, 10, 16),
+    a::row(K::FormatVersion, "EDF+D", 1, 1, 1),
+    a::row(K::Layout, "several sample rates", 4, 4, 4),
+    a::row(K::Record, "annotations", 13, 9, 14),
+    a::row(K::SampleLayout, "int16", 21, 13, 21),
+    a::row(K::SampleLayout, "int24", 5, 5, 5),
+];
+// END GENERATED edf
 
 #[cfg(test)]
 mod tests {

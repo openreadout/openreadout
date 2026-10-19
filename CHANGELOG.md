@@ -4,6 +4,10 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- EEG and polysomnography recordings in the European Data Format: EDF, EDF+, BDF and BDF+ (`edf`), with one trace per sample rate, EDF+ annotations as a table and discontinuous EDF+D recordings as sweeps. Checked against pyedflib and MNE-Python.
+
 ## [0.4.0] - 2026-10-17
 
 In short:

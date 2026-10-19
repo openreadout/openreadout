@@ -1,0 +1,70 @@
+{
+ "id": "gin-edf-event-markers-bdf",
+ "file": "event_markers.bdf",
+ "size": 70386,
+ "sha256": "c85b130f3006e9c5982e928f2393b8d6079d2da2c7a3c4dacf00b85cc2ad46af",
+ "max_planes_hashed": 64,
+ "reader": "pyedflib digital samples; MNE 1.13.2 header extremes and units; pyedflib 0.1.42 annotations",
+ "traces": [
+  {
+   "index": 0,
+   "sweep_count": 1,
+   "channel_count": 1,
+   "channel_names": [
+    "Marker Channel"
+   ],
+   "sample_rate_hz": 1.0,
+   "sweeps": [
+    {
+     "sweep": 0,
+     "sample_count": 150,
+     "channels": [
+      {
+       "xxh3": "d5ab7e7a52cbb4590118ba114794be77",
+       "first": [
+        675.1509517611207,
+        -476.7758222551134,
+        -781.3890911804547,
+        -403.0178073665866,
+        -172.37271933230392,
+        628.4514222683218,
+        -97.45980470893439,
+        -816.1681671343049
+       ]
+      }
+     ]
+    }
+   ],
+   "channel_units": [
+    "uV"
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 541,
+   "parameter_names": [
+    "onset_s",
+    "duration_s",
+    "text"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "int32"
+   ],
+   "xxh3": null,
+   "sorted_row_hashes": [
+    {
+     "columns": [
+      "onset_s",
+      "duration_s"
+     ],
+     "count": 541,
+     "xxh3": "d91e92e8a6fcbaa32239cdf9209debe6"
+    }
+   ]
+  }
+ ]
+}

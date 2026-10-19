@@ -2,11 +2,12 @@
 //! HEKA PatchMaster bundles (`heka-patchmaster`), CED Spike2 `.smr`/`.smrx` files (`ced-spike2`),
 //! Open Ephys recordings (`open-ephys`, binary and legacy formats), WinWCP `.wcp` files
 //! (`winwcp`), Tucker-Davis Technologies tanks and blocks (`tdt-tank`), Axona DacqUSB sessions
-//! (`axona-dacqusb`) and Multi Channel Systems MC_DataTool binary exports (`mcs-raw`).
+//! (`axona-dacqusb`), Multi Channel Systems MC_DataTool binary exports (`mcs-raw`) and EEG
+//! recordings in the European Data Format: EDF, EDF+, BDF and BDF+ (`edf`).
 //!
 //! Layout and vocabulary: `docs/formats/heka-patchmaster.md`, `docs/formats/ced-spike2.md`,
 //! `docs/formats/open-ephys.md`, `docs/formats/winwcp.md`, `docs/formats/tdt-tank.md`,
-//! `docs/formats/axona-dacqusb.md`, `docs/formats/mcs-raw.md`.
+//! `docs/formats/axona-dacqusb.md`, `docs/formats/mcs-raw.md`, `docs/formats/edf.md`.
 //! Provenance: `docs/provenance/heka-patchmaster.md` (HEKA's public file-format documents and the
 //! MIT-licensed load-heka-python), `docs/provenance/ced-spike2.md` (Neo's BSD-3 `Spike2RawIO`); no
 //! vendor software or SDK was opened.
@@ -51,6 +52,8 @@ mod assurance;
 #[doc(hidden)]
 pub mod axona;
 #[doc(hidden)]
+pub mod edf;
+#[doc(hidden)]
 pub mod heka;
 #[doc(hidden)]
 pub mod mcsraw;
@@ -64,6 +67,7 @@ pub mod tdt;
 pub mod winwcp;
 
 pub use axona::{AXONA_FORMAT_ID, AxonaReader};
+pub use edf::{EDF_FORMAT_ID, EdfReader};
 pub use heka::{HEKA_FORMAT_ID, HekaReader};
 pub use mcsraw::{MCS_RAW_FORMAT_ID, McsRawReader};
 pub use openephys::{OPEN_EPHYS_FORMAT_ID, OpenEphysReader};
