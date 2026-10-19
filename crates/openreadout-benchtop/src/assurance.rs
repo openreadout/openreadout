@@ -10,7 +10,7 @@ use openreadout_core::provenance::Confidence;
 
 pub(crate) static NANODROP: AssuranceProfile = AssuranceProfile {
     format_id: "nanodrop",
-    observe,
+    observe: observe_nanodrop,
     validated: NANODROP_VALIDATED,
     confidence: NANODROP_CONFIDENCE,
     basis: Basis::ReverseEngineered,
@@ -32,6 +32,23 @@ fn observe(info: &FileInfo) -> Observations {
             v,
             &[Scope::Metadata, Scope::Tables, Scope::Traces],
         );
+    }
+    o
+}
+
+/// NanoDrop exports carry no software name or version, but each layout is written by one
+/// instrument's software, so the layout names the writer (as the plate reader does for its
+/// export kinds).
+fn observe_nanodrop(info: &FileInfo) -> Observations {
+    let mut o = observe(info);
+    let writer = match info.format_version.as_deref() {
+        Some("nanodrop-8000") => Some("NanoDrop 8000 software"),
+        Some("nanodrop-eight") => Some("NanoDrop Eight software"),
+        Some("nanodrop-one" | "nanodrop-spectra") => Some("NanoDrop One software"),
+        _ => None,
+    };
+    if let Some(w) = writer {
+        o.context(K::Writer, w);
     }
     o
 }
