@@ -467,12 +467,12 @@ fn decode_nx16_at(r: &mut Cursor, len: Option<usize>, depth: u32) -> DecodeResul
         if n == 0 {
             return Err("rANS Nx16 stripe of 0 streams".into());
         }
-        let mut clens = Vec::with_capacity(n);
+        let mut stripe_lens = Vec::with_capacity(n);
         for _ in 0..n {
-            clens.push(r.uint7_len(MAX_OUT, "stripe")?);
+            stripe_lens.push(r.uint7_len(MAX_OUT, "stripe")?);
         }
         let mut parts = Vec::with_capacity(n);
-        for (j, cl) in clens.iter().enumerate() {
+        for (j, cl) in stripe_lens.iter().enumerate() {
             let ulen = len / n + usize::from(len % n > j);
             let sub = r.take(*cl)?;
             parts.push(decode_nx16_at(

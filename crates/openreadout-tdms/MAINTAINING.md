@@ -89,6 +89,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_tdms`
 - corpus inputs by tier: smoke 25
+- golden snapshots: [`corpus/snapshots/ni-tdms.jsonl`](../../corpus/snapshots/ni-tdms.jsonl)
 
 ### Open new-variant intakes
 

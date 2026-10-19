@@ -190,12 +190,12 @@ fn decode_at(r: &mut Cursor, len: Option<usize>, depth: u32) -> DecodeResult<Vec
         if n == 0 {
             return Err("arithmetic stripe of 0 streams".into());
         }
-        let mut clens = Vec::with_capacity(n);
+        let mut stripe_lens = Vec::with_capacity(n);
         for _ in 0..n {
-            clens.push(r.uint7_len(MAX_OUT, "stripe")?);
+            stripe_lens.push(r.uint7_len(MAX_OUT, "stripe")?);
         }
         let mut out = vec![0u8; len];
-        for (j, cl) in clens.iter().enumerate() {
+        for (j, cl) in stripe_lens.iter().enumerate() {
             let ulen = len / n + usize::from(len % n > j);
             let sub = r.take(*cl)?;
             let t = decode_at(&mut Cursor::new(sub), Some(ulen), depth + 1)?;
