@@ -396,31 +396,31 @@ mod tests {
     fn zlib_float32_profiles() {
         let samples = [0.0f32, 21618.143, 0.0, 62095.562];
         let raw: Vec<u8> = samples.iter().flat_map(|v| v.to_le_bytes()).collect();
-        let (mut a, mut b) = (1u32, 0u32);
+        let (mut sum1, mut sum2) = (1u32, 0u32);
         for &x in &raw {
-            a = (a + u32::from(x)) % 65521;
-            b = (b + a) % 65521;
+            sum1 = (sum1 + u32::from(x)) % 65521;
+            sum2 = (sum2 + sum1) % 65521;
         }
-        let mut z = vec![0x78, 0x01, 0x01];
-        let n = raw.len() as u16;
-        z.extend_from_slice(&n.to_le_bytes());
-        z.extend_from_slice(&(!n).to_le_bytes());
-        z.extend_from_slice(&raw);
-        z.extend_from_slice(&((b << 16) | a).to_be_bytes());
+        let mut stream = vec![0x78, 0x01, 0x01];
+        let stored = raw.len() as u16;
+        stream.extend_from_slice(&stored.to_le_bytes());
+        stream.extend_from_slice(&(!stored).to_le_bytes());
+        stream.extend_from_slice(&raw);
+        stream.extend_from_slice(&((sum2 << 16) | sum1).to_be_bytes());
         let mut rec = Vec::new();
-        rec.extend_from_slice(&((44 + z.len()) as u32).to_le_bytes());
+        rec.extend_from_slice(&((44 + stream.len()) as u32).to_le_bytes());
         rec.extend_from_slice(&super::super::records::TAG_PROFILE.to_le_bytes());
         rec.extend_from_slice(&44u32.to_le_bytes());
         rec.extend_from_slice(&7u32.to_le_bytes());
         rec.extend_from_slice(&7u32.to_le_bytes());
         rec.extend_from_slice(&[2, 1, ZLIB_CODING, 0]);
-        rec.extend_from_slice(&(z.len() as u32).to_le_bytes());
+        rec.extend_from_slice(&(stream.len() as u32).to_le_bytes());
         rec.resize(44, 0);
-        rec.extend_from_slice(&z);
-        let (id, v) = parse_profile(&rec).unwrap();
+        rec.extend_from_slice(&stream);
+        let (id, values) = parse_profile(&rec).unwrap();
         assert_eq!(id, 7);
         let want: Vec<f64> = samples.iter().map(|&x| f64::from(x)).collect();
-        assert_eq!(v, want);
+        assert_eq!(values, want);
         // a compressed length that does not fill the record is corrupt
         let mut short = rec.clone();
         short[24] = short[24].wrapping_sub(1);

@@ -408,9 +408,7 @@ pub(crate) fn check_spectra(
         if o.export_zero_runs_trimmed.is_some() && !sp.centroided {
             let nz: Vec<bool> = sp.intensity.iter().map(|&v| v != 0.0).collect();
             let keep: Vec<bool> = (0..nz.len())
-                .map(|i| {
-                    nz[i] || (i > 0 && nz[i - 1]) || nz.get(i + 1).copied().unwrap_or(false)
-                })
+                .map(|i| nz[i] || (i > 0 && nz[i - 1]) || nz.get(i + 1).copied().unwrap_or(false))
                 .collect();
             let mut k = keep.iter();
             sp.mz.retain(|_| *k.next().unwrap_or(&true));
