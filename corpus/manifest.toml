@@ -7177,7 +7177,7 @@ license = "BSD-3-Clause"
 license_checked = "https://github.com/OpenMS/OpenMS/blob/develop/LICENSE (OpenMS: BSD 3-clause), 2026-10-18"
 source = "OpenMS/OpenMS test data (src/tests/class_tests/openms/data/test_old.mzMLb), pinned to commit 6e6c892"
 attribution = "The OpenMS developers"
-notes = "mzMLb written by python-psims from an LTQ FT run: 2 MS2 spectra; the HDF5 file has no `version` attribute naming mzMLb 1.0"
+notes = "mzMLb written by python-psims from an LTQ FT run: 2 MS1 profile spectra; the HDF5 file has no `version` attribute naming mzMLb 1.0, and its spectrumList count says 3 (a cut test file: `check` reports count_mismatch)"
 
 [[file]]
 id = "pwiz-tiny-mzmlb"
@@ -52728,7 +52728,8 @@ license = "CC0-1.0"
 license_checked = "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?accession=MSV000086640 (MassIVE public dataset, CC0 1.0), 2026-10-18"
 source = "MassIVE MSV000086640 (dataset licence CC0 1.0 Universal), raw/BY2-WT.d/analysis.baf"
 attribution = "Catherine Navarre and MSV000086640 contributors"
-notes = "solariX XR 9.4 T FT-ICR (ftmsControl, AIDA 4.7.436.6), one MS1 spectrum with a packed profile"
+notes = "solariX XR 9.4 T FT-ICR (ftmsControl, AIDA 4.7.436.6), one MS1 spectrum with a zlib-compressed float32 profile of 8 019 583 samples"
+export_zero_runs_trimmed = "the CompassXport profile keeps the 635 756 non-zero samples and the zero samples next to them (713 976 points); docs/provenance/bruker-baf.md, 2026-10-18"
 mz_references = ["msv000086640-baf-solarix-xr-mzml"]
 mz_match = "scan-number"
 

@@ -131,6 +131,10 @@ struct Entry {
     /// compared by their non-zero profile points. The text says why.
     #[serde(default)]
     export_profile_for_empty_centroids: Option<String>,
+    /// Spectra: the export's profiles keep the non-zero samples and the zero samples next to
+    /// them only; ours are reduced the same way before they are compared. The text says why.
+    #[serde(default)]
+    export_zero_runs_trimmed: Option<String>,
 }
 
 const LOSSY_MEAN_TOLERANCE: f64 = 0.05;
@@ -722,6 +726,8 @@ fn apply_entry_settings(oracle: &mut Oracle, e: &Entry) {
             .clone_from(&e.window_centre_precursor);
         sp.export_profile_for_empty_centroids
             .clone_from(&e.export_profile_for_empty_centroids);
+        sp.export_zero_runs_trimmed
+            .clone_from(&e.export_zero_runs_trimmed);
     }
     oracle.srm_product_tolerance = e.srm_product_tolerance;
     oracle

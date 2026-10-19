@@ -39,7 +39,7 @@ Bruker timsTOF acquisitions (`.d` directories; TDF and TSF; `bruker-tdf`). Proje
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
 | `bruker-tdf` | [format note](../../docs/formats/bruker-tdf.md), [provenance log](../../docs/provenance/bruker-tdf.md) | high | prior art | 13 / 13 | 7 | - |
-| `bruker-baf` | [format note](../../docs/formats/bruker-baf.md), [provenance log](../../docs/provenance/bruker-baf.md) | medium | reverse engineered | 7 / 7 | 7 | - |
+| `bruker-baf` | [format note](../../docs/formats/bruker-baf.md), [provenance log](../../docs/provenance/bruker-baf.md) | high | reverse engineered | 11 / 11 | 11 | - |
 
 ### Source map
 
@@ -92,13 +92,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 
 | format | kind | value | outputs | confirmed files | read | example corpus files |
 | --- | --- | --- | --- | --- | --- | --- |
-| `bruker-baf` | acquisition | `MS/MS` | spectra | 4 | 4 | `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd`, `mtbls4823-baf-microtofq` |
+| `bruker-baf` | acquisition | `MS/MS` | spectra | 6 | 6 | `msv000078982-baf-microqtof`, `msv000094648-baf-impact2`, `msv000095055-baf-microtof` |
 | `bruker-baf` | acquisition | `negative ions` | spectra | 3 | 3 | `msv000088109-baf-solarix`, `mtbls4823-baf-microtofq`, `mtbls6740-baf-methanolneg-4` |
-| `bruker-baf` | acquisition | `positive ions` | spectra | 4 | 4 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
+| `bruker-baf` | acquisition | `positive ions` | spectra | 8 | 8 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
 | `bruker-baf` | codec | `float32 profile` | spectra | 2 | 2 | `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
-| `bruker-baf` | codec | `packed profile` | spectra | 5 | 5 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
-| `bruker-baf` | field | `experiment.instrument.model` | descriptive | 7 | 7 | `msv000080036-baf-maxis`, `msv000088109-baf-solarix`, `msv000094648-baf-impact2` |
-| `bruker-baf` | format_version | `AIDA4` | metadata, spectra | 3 | 3 | `msv000080036-baf-maxis`, `msv000088109-baf-solarix`, `mtbls4823-baf-microtofq` |
+| `bruker-baf` | codec | `packed profile` | spectra | 8 | 8 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
+| `bruker-baf` | codec | `zlib float32 profile` | spectra | 1 | 1 | `msv000086640-baf-solarix-xr` |
+| `bruker-baf` | field | `experiment.instrument.model` | descriptive | 11 | 11 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
+| `bruker-baf` | format_version | `AIDA4` | metadata, spectra | 7 | 7 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
 | `bruker-baf` | format_version | `AIDA5` | metadata, spectra | 2 | 2 | `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
 | `bruker-baf` | format_version | `AIDA6` | metadata, spectra | 1 | 1 | `mtbls6740-baf-methanolneg-4` |
 | `bruker-baf` | format_version | `BCC4_3_72_0` | metadata, spectra | 1 | 1 | `pwiz-bruker-csi-apexqe` |
@@ -106,21 +107,23 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `bruker-baf` | instrument | `impact HD` | descriptive | 1 | 1 | `mtbls14117-baf-impacthd` |
 | `bruker-baf` | instrument | `impact II` | descriptive | 1 | 1 | `msv000094648-baf-impact2` |
 | `bruker-baf` | instrument | `maXis` | descriptive | 1 | 1 | `msv000080036-baf-maxis` |
-| `bruker-baf` | instrument | `micrOTOF-Q` | descriptive | 1 | 1 | `mtbls4823-baf-microtofq` |
+| `bruker-baf` | instrument | `maXis impact` | descriptive | 1 | 1 | `msv000080102-baf-maxis-impact` |
+| `bruker-baf` | instrument | `micrOTOF-Q` | descriptive | 3 | 3 | `msv000078982-baf-microqtof`, `msv000095055-baf-microtof`, `mtbls4823-baf-microtofq` |
 | `bruker-baf` | instrument | `solariX` | descriptive | 1 | 1 | `msv000088109-baf-solarix` |
+| `bruker-baf` | instrument | `solariX XR` | descriptive | 1 | 1 | `msv000086640-baf-solarix-xr` |
 | `bruker-baf` | instrument | `timsTOF Pro` | descriptive | 1 | 1 | `mtbls6740-baf-methanolneg-4` |
-| `bruker-baf` | layout | `calibration FT-ICR` | spectra | 2 | 2 | `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
-| `bruker-baf` | layout | `calibration time of flight, kind 10` | spectra | 1 | 1 | `msv000080036-baf-maxis` |
-| `bruker-baf` | layout | `calibration time of flight, kind 3` | spectra | 4 | 4 | `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd`, `mtbls4823-baf-microtofq` |
-| `bruker-baf` | layout | `centroid element code 1` | spectra | 1 | 1 | `mtbls4823-baf-microtofq` |
-| `bruker-baf` | layout | `centroid element code 2` | spectra | 2 | 2 | `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
-| `bruker-baf` | layout | `centroid element code 3` | spectra | 4 | 4 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
-| `bruker-baf` | layout | `m/z from a Calibrator.ami payload found by scanning` | spectra | 5 | 5 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `mtbls14117-baf-impacthd` |
-| `bruker-baf` | layout | `trailer index` | spectra | 7 | 7 | `msv000080036-baf-maxis`, `msv000088109-baf-solarix`, `msv000094648-baf-impact2` |
+| `bruker-baf` | layout | `calibration FT-ICR` | spectra | 3 | 3 | `msv000086640-baf-solarix-xr`, `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
+| `bruker-baf` | layout | `calibration time of flight, kind 10` | spectra | 3 | 3 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
+| `bruker-baf` | layout | `calibration time of flight, kind 3` | spectra | 5 | 5 | `msv000094648-baf-impact2`, `msv000095055-baf-microtof`, `mtbls14117-baf-impacthd` |
+| `bruker-baf` | layout | `centroid element code 1` | spectra | 3 | 3 | `msv000078982-baf-microqtof`, `msv000095055-baf-microtof`, `mtbls4823-baf-microtofq` |
+| `bruker-baf` | layout | `centroid element code 2` | spectra | 3 | 3 | `msv000086640-baf-solarix-xr`, `msv000088109-baf-solarix`, `pwiz-bruker-csi-apexqe` |
+| `bruker-baf` | layout | `centroid element code 3` | spectra | 5 | 5 | `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact`, `msv000094648-baf-impact2` |
+| `bruker-baf` | layout | `m/z from a Calibrator.ami payload found by scanning` | spectra | 6 | 6 | `msv000080036-baf-maxis`, `msv000094648-baf-impact2`, `msv000095055-baf-microtof` |
+| `bruker-baf` | layout | `trailer index` | spectra | 11 | 11 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
 | `bruker-baf` | writer_version | `Bruker otofControl 4` | descriptive | 1 | 1 | `msv000094648-baf-impact2` |
 | `bruker-baf` | writer_version | `Bruker otofControl 5` | descriptive | 1 | 1 | `mtbls14117-baf-impacthd` |
 | `bruker-baf` | writer_version | `Bruker otofControl 6` | descriptive | 1 | 1 | `mtbls6740-baf-methanolneg-4` |
-| `bruker-baf` | writer_version | `otofControl 3` | descriptive | 2 | 2 | `msv000080036-baf-maxis`, `mtbls4823-baf-microtofq` |
+| `bruker-baf` | writer_version | `otofControl 3` | descriptive | 5 | 5 | `msv000078982-baf-microqtof`, `msv000080036-baf-maxis`, `msv000080102-baf-maxis-impact` |
 | `bruker-tdf` | acquisition | `DDA-PASEF` | spectra | 7 | 7 | `mtbls12332-tft-neg`, `mtbls13504-balf-neg`, `mtbls13504-balf-pos` |
 | `bruker-tdf` | acquisition | `DIA-PASEF` | spectra | 3 | 3 | `pwiz-bruker-diapasef`, `pxd074950-b1-diapasef`, `timsrust-test-dia` |
 | `bruker-tdf` | acquisition | `line spectra (TSF)` | spectra | 2 | 2 | `pwiz-bruker-maldi-tsf`, `pwiz-bruker-urine-tsf` |
@@ -166,7 +169,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - integration tests: [`tests/baf_synthetic.rs`](tests/baf_synthetic.rs), [`tests/fuzz_regressions.rs`](tests/fuzz_regressions.rs)
 - committed fixtures: 6 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `tims_frame`, `tims_sqlite`, `whole_baf`, `whole_tims`
-- corpus inputs by tier: full 5, heldout 2, smoke 7, standard 8
+- corpus inputs by tier: full 7, heldout 2, smoke 7, standard 10
 - golden snapshots: [`corpus/snapshots/bruker-tdf.jsonl`](../../corpus/snapshots/bruker-tdf.jsonl), [`corpus/snapshots/bruker-baf.jsonl`](../../corpus/snapshots/bruker-baf.jsonl)
 
 ### Open new-variant intakes

@@ -403,6 +403,20 @@ pub(crate) fn check_spectra(
             }
             continue;
         }
+        // An export that kept only the non-zero samples and their zero neighbours (manifest
+        // `export_zero_runs_trimmed`).
+        if o.export_zero_runs_trimmed.is_some() && !sp.centroided {
+            let nz: Vec<bool> = sp.intensity.iter().map(|&v| v != 0.0).collect();
+            let keep: Vec<bool> = (0..nz.len())
+                .map(|i| {
+                    nz[i] || (i > 0 && nz[i - 1]) || nz.get(i + 1).copied().unwrap_or(false)
+                })
+                .collect();
+            let mut k = keep.iter();
+            sp.mz.retain(|_| *k.next().unwrap_or(&true));
+            let mut k = keep.iter();
+            sp.intensity.retain(|_| *k.next().unwrap_or(&true));
+        }
         // An export that kept only the points inside the scan's m/z range (ANDI-MS).
         if let Some([lo, hi]) = s.mz_window {
             let keep: Vec<bool> = sp.mz.iter().map(|&x| x >= lo && x <= hi).collect();

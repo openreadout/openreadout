@@ -302,6 +302,9 @@ pub(crate) struct OracleSpectra {
     /// Set from the manifest entry (`export_profile_for_empty_centroids`).
     #[serde(skip)]
     pub(crate) export_profile_for_empty_centroids: Option<String>,
+    /// Set from the manifest entry (`export_zero_runs_trimmed`).
+    #[serde(skip)]
+    pub(crate) export_zero_runs_trimmed: Option<String>,
 }
 #[derive(Deserialize)]
 pub(crate) struct OracleScan {

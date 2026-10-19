@@ -30138,6 +30138,88 @@
       ]
     },
     {
+      "id": "msv000078982-baf-microqtof",
+      "format": "bruker-baf",
+      "source": "massive:MSV000078982",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA4",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 10",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "MS/MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "micrOTOF-Q",
+          []
+        ],
+        [
+          "writer_version",
+          "otofControl 3",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
       "id": "msv000080036-baf-maxis",
       "format": "bruker-baf",
       "source": "massive:MSV000080036",
@@ -30206,6 +30288,151 @@
         [
           "writer_version",
           "otofControl 3",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "msv000080102-baf-maxis-impact",
+      "format": "bruker-baf",
+      "source": "massive:MSV000080102",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA4",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 10",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "maXis impact",
+          []
+        ],
+        [
+          "writer_version",
+          "otofControl 3",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "msv000086640-baf-solarix-xr",
+      "format": "bruker-baf",
+      "source": "massive:MSV000086640",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA4",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "zlib float32 profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 2",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration FT-ICR",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "solariX XR",
           []
         ],
         [
@@ -30365,6 +30592,95 @@
         [
           "writer_version",
           "Bruker otofControl 4",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "msv000095055-baf-microtof",
+      "format": "bruker-baf",
+      "source": "massive:MSV000095055",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "AIDA4",
+          [
+            "metadata",
+            "spectra"
+          ]
+        ],
+        [
+          "codec",
+          "packed profile",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "centroid element code 1",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "calibration time of flight, kind 3",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "trailer index",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "positive ions",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "acquisition",
+          "MS/MS",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "layout",
+          "m/z from a Calibrator.ami payload found by scanning",
+          [
+            "spectra"
+          ]
+        ],
+        [
+          "instrument",
+          "micrOTOF-Q",
+          []
+        ],
+        [
+          "writer_version",
+          "otofControl 3",
           []
         ],
         [
@@ -110167,6 +110483,100 @@
       ]
     },
     {
+      "id": "msdeisotope-agp-29-30",
+      "format": "mzmlb",
+      "source": "github:mobiusklein/ms_deisotope",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "ms_deisotope",
+          []
+        ],
+        [
+          "acquisition",
+          "centroid spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "profile spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MS1 spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "total ion current chromatogram",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "format_version",
+          "mzMLb 1.0",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "basepeak chromatogram",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
       "id": "mzdata-small-mzmlb",
       "format": "mzmlb",
       "source": "github:mobiusklein/mzdata",
@@ -110236,6 +110646,150 @@
         [
           "record",
           "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        10
+      ]
+    },
+    {
+      "id": "openms-test-old-mzmlb",
+      "format": "mzmlb",
+      "source": "github:openms/openms",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Xcalibur",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard",
+          []
+        ],
+        [
+          "writer",
+          "python-psims",
+          []
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "LTQ FT",
+          []
+        ]
+      ],
+      "inferred": [
+        0,
+        8
+      ]
+    },
+    {
+      "id": "pwiz-tiny-mzmlb",
+      "format": "mzmlb",
+      "source": "github:proteowizard/pwiz",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "spectra",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "1.1.0",
+          [
+            "metadata",
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "Bioworks",
+          []
+        ],
+        [
+          "writer",
+          "ProteoWizard software",
+          []
+        ],
+        [
+          "writer",
+          "CompassXtract",
+          []
+        ],
+        [
+          "acquisition",
+          "MSn spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "centroid spectrum",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "LCQ Deca",
+          []
+        ],
+        [
+          "format_version",
+          "mzMLb 1.0",
+          [
+            "spectra",
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "total ion current chromatogram",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "selected ion current chromatogram",
           [
             "traces"
           ]
