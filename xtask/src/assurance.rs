@@ -342,10 +342,19 @@ pub fn refresh(
         files,
         heldout: BTreeMap::new(),
     };
-    if let Some(h) = heldout {
-        ev.heldout = heldout_counts(h)?;
-    } else if let Ok(old) = load(root) {
+    // With `--format`, a held-out report replaces the counts of those formats only.
+    if let Ok(old) = load(root) {
         ev.heldout = old.heldout;
+    }
+    if let Some(h) = heldout {
+        let new = heldout_counts(h)?;
+        if formats.is_empty() {
+            ev.heldout = new;
+        } else {
+            ev.heldout.retain(|f, _| !formats.contains(f));
+            ev.heldout
+                .extend(new.into_iter().filter(|(f, _)| formats.contains(f)));
+        }
     }
     let path = root.join(EVIDENCE);
     fs::create_dir_all(path.parent().expect("has a parent"))?;

@@ -147,7 +147,7 @@ pub(crate) fn internal<'a>(
 }
 
 // BEGIN GENERATED czi (cargo xtask assurance-audit --write; do not edit)
-const CZI_CONFIDENCE: Confidence = Confidence::Medium;
+const CZI_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const CZI_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "chunked", 3, 0, 3),

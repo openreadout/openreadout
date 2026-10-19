@@ -476,6 +476,11 @@ impl DicomDataset {
         );
         put("protocol_name", ds.text(t::PROTOCOL_NAME).map(Value::from));
         put("body_part", ds.text(t::BODY_PART_EXAMINED).map(Value::from));
+        // the software that wrote the file (PS3.10 §7.1, File Meta Information)
+        put(
+            "implementation_version",
+            f.meta.text(t::IMPLEMENTATION_VERSION_NAME).map(Value::from),
+        );
         put(
             "transfer_syntax",
             Some(json!({"uid": f.syntax_uid, "name": f.syntax.name, "lossy": f.syntax.lossy})),

@@ -56,6 +56,9 @@ fn observe_dicom(info: &FileInfo) -> Observations {
         {
             o.feature(K::Codec, ts, &[Scope::Pixels]);
         }
+        if let Some(w) = a::extra_str(&im.extra, "implementation_version") {
+            o.context(K::Writer, a::writer_name_only(w));
+        }
         if let Some(m) = a::extra_str(&im.extra, "modality") {
             o.context(K::Acquisition, m);
         }
@@ -151,7 +154,7 @@ fn observe_paravision(info: &FileInfo) -> Observations {
 }
 
 // BEGIN GENERATED dicom (cargo xtask assurance-audit --write; do not edit)
-const DICOM_CONFIDENCE: Confidence = Confidence::Medium;
+const DICOM_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const DICOM_VALIDATED: &[Validated] = &[
     a::row(K::Acquisition, "CR", 2, 2, 2),
@@ -245,20 +248,40 @@ const DICOM_VALIDATED: &[Validated] = &[
     a::row(K::SampleLayout, "uint16", 19, 3, 19),
     a::row(K::SampleLayout, "uint32", 3, 2, 3),
     a::row(K::SampleLayout, "uint8", 22, 4, 22),
+    a::row(K::Writer, "0.5", 7, 1, 7),
+    a::row(K::Writer, "1.4.16/OTHER", 1, 1, 1),
+    a::row(K::Writer, "ALOKA20010925", 1, 1, 1),
+    a::row(K::Writer, "DCTOOL100", 14, 3, 14),
+    a::row(K::Writer, "GDCM", 7, 2, 7),
+    a::row(K::Writer, "MR_2004V_VB11A", 2, 2, 2),
+    a::row(K::Writer, "OFFIS_DCMTK_351", 1, 1, 1),
+    a::row(K::Writer, "OFFIS_DCMTK_360", 1, 1, 1),
+    a::row(K::Writer, "OFFIS_DCMTK_361", 7, 2, 7),
+    a::row(K::Writer, "OFFIS_DCMTK_362", 3, 2, 3),
+    a::row(K::Writer, "OFFIS_DCMTK_363", 3, 1, 3),
+    a::row(K::Writer, "OFFIS_DCMTK_365", 1, 1, 1),
+    a::row(K::Writer, "OFFIS_DCMTK_366", 1, 1, 1),
+    a::row(K::Writer, "OSIRIX", 2, 2, 2),
+    a::row(K::Writer, "PIXELMEDJAVA001", 1, 1, 1),
+    a::row(K::Writer, "PYDICOM", 4, 2, 4),
+    a::row(K::Writer, "Tiller_SV500", 2, 2, 2),
+    a::row(K::Writer, "dcm4che-1.4.27", 1, 1, 1),
+    a::row(K::Writer, "highdicom", 1, 1, 1),
+    a::row(K::Writer, "highdicom0.23.0", 2, 1, 2),
 ];
 // END GENERATED dicom
 // BEGIN GENERATED nifti (cargo xtask assurance-audit --write; do not edit)
-const NIFTI_CONFIDENCE: Confidence = Confidence::Medium;
+const NIFTI_CONFIDENCE: Confidence = Confidence::High;
 #[rustfmt::skip]
 const NIFTI_VALIDATED: &[Validated] = &[
-    a::row(K::Codec, "gzip", 5, 2, 5),
-    a::row(K::FormatVersion, "NIfTI-1", 7, 2, 7),
+    a::row(K::Codec, "gzip", 9, 6, 9),
+    a::row(K::FormatVersion, "NIfTI-1", 11, 6, 11),
     a::row(K::FormatVersion, "NIfTI-2", 1, 1, 1),
     a::row(K::Layout, "big-endian", 2, 1, 2),
-    a::row(K::Layout, "little-endian", 6, 2, 6),
-    a::row(K::SampleLayout, "float32", 1, 1, 1),
-    a::row(K::SampleLayout, "int16", 6, 2, 6),
-    a::row(K::SampleLayout, "uint8", 1, 1, 1),
+    a::row(K::Layout, "little-endian", 10, 6, 10),
+    a::row(K::SampleLayout, "float32", 3, 3, 3),
+    a::row(K::SampleLayout, "int16", 7, 3, 7),
+    a::row(K::SampleLayout, "uint8", 2, 2, 2),
 ];
 // END GENERATED nifti
 // BEGIN GENERATED bruker-paravision (cargo xtask assurance-audit --write; do not edit)

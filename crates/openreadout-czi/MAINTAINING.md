@@ -39,7 +39,7 @@ Zeiss CZI (`czi`): confocal, widefield, Airyscan, lattice light-sheet and whole-
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `czi` | [format note](../../docs/formats/czi.md), [provenance log](../../docs/provenance/czi.md) | medium | prior art | 180 / 174 | 111 | 3 / 1 |
+| `czi` | [format note](../../docs/formats/czi.md), [provenance log](../../docs/provenance/czi.md) | high | prior art | 180 / 174 | 111 | 13 / 0 |
 
 ### Source map
 
