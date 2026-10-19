@@ -1675,6 +1675,11 @@ fn length_words(um: f64) -> String {
 }
 
 fn modality(c: &Ctx<'_>, im: &ImageInfo) -> (&'static str, &'static str) {
+    // Generic data containers (Igor Pro waves) hold arrays from any instrument: an AFM scan or
+    // a spectral map is not light microscopy, so no technique is claimed.
+    if c.family() == "container" {
+        return ("image", "");
+    }
     if c.family() == "electron-microscopy" {
         let text = [
             im.extra.get("mode").and_then(Value::as_str),
