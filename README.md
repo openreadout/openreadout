@@ -1,20 +1,40 @@
 # OpenReadout
 
-> **OpenReadout is an open-source reader for lab-instrument files, designed for AI agents.**
-
-**Give AI agents full access to raw data from microscopes, mass spectrometers, cytometers, electrophysiology rigs, and 120+ other instrument file formats — in one command.**
-
-Open-source. Single binary. No vendor software. No dependencies. No network access. Works everywhere.
-
-**OpenReadout makes data stored in proprietary instrument file formats readable: it pulls out the metadata, images, traces, spectra, and tables as structured JSON and renders previews so your agent can see and understand the data.** Every format is validated against real data and independent libraries.
+OpenReadout lets AI agents open and analyze raw files from lab instruments: microscopes, mass spectrometers, flow cytometers, electrophysiology rigs, plate readers, NMR and more, 120+ formats in all. It's one open-source binary that needs no vendor software, and it runs as an MCP server, a command-line tool, and Python and R packages.
 
 [![CI](https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg)](https://github.com/openreadout/openreadout/actions/workflows/ci.yml)
 [![Docs](https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg)](https://openreadout.github.io/openreadout/)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 
 <p align="center">
-  <strong>📖 Docs:</strong> <a href="https://openreadout.github.io/openreadout/">openreadout.github.io/openreadout</a> &nbsp;|&nbsp; <strong>🧪 Try it:</strong> <a href="https://openreadout.github.io/openreadout/demo/index.html">browser demo</a>
+  <strong>🧪 Try it:</strong> <a href="https://openreadout.github.io/openreadout/demo/">browser demo</a> &nbsp;|&nbsp; <strong>📖 Docs:</strong> <a href="https://openreadout.github.io/openreadout/">openreadout.github.io/openreadout</a>
 </p>
+
+https://github.com/user-attachments/assets/ac587ab7-3388-44a2-9fc2-b58cea75a29f
+
+<p align="center"><em>An agent answers "Did my GMDS knockout work?" from 31 files made by five instruments. Data: Edyanto et al., figshare <a href="https://doi.org/10.6084/m9.figshare.33265719">10.6084/m9.figshare.33265719</a> (CC BY 4.0).</em></p>
+
+<details>
+<summary>Another example: the agent finds the cerebellum in a 3.7 GB slide scan and labels the layers</summary>
+
+https://github.com/user-attachments/assets/7ee0f9fe-e6e0-4378-a46d-5cdc04d57151
+
+</details>
+
+## Get Started
+
+Install OpenReadout, then connect it to your agent:
+
+```bash
+brew install openreadout/tap/openreadout    # other ways under Installation below
+openreadout mcp --install claude-desktop    # or claude, codex, cursor, vscode, gemini
+```
+
+Then ask your agent about a file, for example "What's in cells.czi?" or "Plot the growth curves in run1.pda by well." In Claude Code you can install the MCP server and the skill together as a plugin (see [AI Integration](#ai-integration)).
+
+To try it without installing anything, open the [browser demo](https://openreadout.github.io/openreadout/demo/) and tap one of its sample files, or drop in a file of your own. It runs OpenReadout compiled to WebAssembly inside the page, and nothing is uploaded.
+
+## What It Reads
 
 <p align="center">
   <img src=".github/assets/mouse-czi.jpg" alt="Sagittal section of a whole mouse, trichrome stained, decoded from a Zeiss CZI slide scan" width="100%">
@@ -22,13 +42,11 @@ Open-source. Single binary. No vendor software. No dependencies. No network acce
 
 <p align="center"><em>A whole-mouse section from a 3.7 GB Zeiss slide scan: 190,309 × 69,378 pixels at 0.22 µm.</em></p>
 
-<table>
-<tr>
-<td width="33%"><img src=".github/assets/mouse-zoom-1.jpg" alt="Zoomed view of the mouse section"></td>
-<td width="33%"><img src=".github/assets/mouse-zoom-2.jpg" alt="Closer view of the same region"></td>
-<td width="33%"><img src=".github/assets/mouse-zoom-3.jpg" alt="The same region at full resolution"></td>
-</tr>
-</table>
+<p align="center">
+  <img src="book/public/img/gallery/slide-fold.png" alt="One fold of the mouse cerebellum at full resolution, with the layers labelled at file-pixel coordinates">
+</p>
+
+<p align="center"><em>One fold of its cerebellum at full resolution, labelled the way an agent does it: the rulers are file pixels, so labels go where the agent sees each layer.</em></p>
 
 <p align="center">—</p>
 <p align="center"><strong>Microscopy</strong></p>
@@ -47,81 +65,52 @@ Open-source. Single binary. No vendor software. No dependencies. No network acce
 </table>
 
 <p align="center">—</p>
-<p align="center"><strong>Spectra, Traces, and Curves</strong></p>
+<p align="center"><strong>Figures, Drawn From the Raw Files</strong></p>
 
 <table>
 <tr>
-<td width="33%"><img src=".github/assets/qpcr-rdml.png" alt="qPCR amplification curves from a Roche LightCycler 96 RDML file"></td>
-<td width="33%"><img src=".github/assets/ms2-thermo-raw.png" alt="MS2 spectrum from a Thermo Orbitrap RAW file"></td>
-<td width="33%"><img src=".github/assets/hplc-andi.png" alt="HPLC diode-array chromatogram from an Agilent ChemStation export"></td>
+<td width="50%"><img src="book/public/img/gallery/plate-grid.png" alt="96 growth curves from a SoftMax plate read, drawn in plate positions"></td>
+<td width="50%"><img src="book/public/img/gallery/fcs-gates.png" alt="CD4 and CD8 T-cell populations gated from a FlowJo workspace"></td>
 </tr>
 <tr>
-<td align="center"><sub>Roche LightCycler · qPCR amplification</sub></td>
-<td align="center"><sub>Thermo Orbitrap RAW · MS2 spectrum</sub></td>
-<td align="center"><sub>Agilent HPLC · DAD chromatogram</sub></td>
+<td align="center"><sub>SoftMax .pda · 96 growth curves in plate positions</sub></td>
+<td align="center"><sub>BD FCS and FlowJo · gated T cells</sub></td>
 </tr>
 <tr>
-<td width="33%"><img src=".github/assets/patch-clamp-abf.png" alt="Two channels of a gap-free Axon ABF patch-clamp recording"></td>
-<td width="33%"><img src=".github/assets/epr-bruker.png" alt="Continuous-wave X-band EPR spectrum from a Bruker ELEXSYS file"></td>
-<td width="33%"><img src=".github/assets/gc-chemstation.png" alt="GC-FID chromatogram from an Agilent ChemStation file"></td>
+<td width="50%"><img src="book/public/img/gallery/fi.png" alt="Firing rate against injected current, with example sweeps, from an Axon ABF recording"></td>
+<td width="50%"><img src="book/public/img/gallery/qpcr.png" alt="qPCR amplification curves on a log axis from an Applied Biosystems run"></td>
 </tr>
 <tr>
-<td align="center"><sub>Axon ABF · patch clamp</sub></td>
-<td align="center"><sub>Bruker ELEXSYS · EPR spectrum</sub></td>
-<td align="center"><sub>Agilent ChemStation · GC-FID</sub></td>
+<td align="center"><sub>Axon ABF · firing against current</sub></td>
+<td align="center"><sub>Applied Biosystems .eds · qPCR amplification</sub></td>
+</tr>
+<tr>
+<td width="50%"><img src="book/public/img/gallery/ir-overlay.png" alt="Four ATR-FTIR spectra stacked with their bands labelled"></td>
+<td width="50%"><img src="book/public/img/gallery/nmr.png" alt="A proton NMR spectrum of sucrose processed from the raw FID"></td>
+</tr>
+<tr>
+<td align="center"><sub>Thermo OMNIC .spa · FTIR spectra</sub></td>
+<td align="center"><sub>Bruker TopSpin · NMR from the raw FID</sub></td>
 </tr>
 </table>
 
-<p align="center"><em>Everything above was decoded by OpenReadout from raw files — no vendor software, no conversion.</em></p>
+<p align="center"><em>Everything above was read by OpenReadout from raw files, with no vendor software. The <a href="https://openreadout.github.io/openreadout/gallery.html">gallery</a> has more, with the command behind each picture.</em></p>
 
-## For AI Agents — Get Started in One Line
+## What It Does
 
-Paste this into your AI agent's chat — it will read the skill file and install everything:
+- **Inspect** images, channels, traces, spectra, tables, and metadata, in plain text or structured JSON
+- **Check** files for truncation, missing planes, and damaged structure, with exit code 4 when a file is corrupt
+- **Export** to OME-TIFF, OME-Zarr, mzML, NWB, CSV, Parquet, Arrow, JCAMP-DX, Allotrope ASM, and RDML, reading every export back to verify it
+- **Preview** image planes, traces, spectra, and plate heat maps as PNG
+- **Analyze** chromatographic peaks, plate assays (IC50, standard curves), qPCR (Cq, ΔΔCq), NMR peaks, patch-clamp features, spikes, and flow-cytometry gates, with documented methods
+- **Batch** over whole directories, index lab shares, and watch running acquisitions
 
-```
-curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/skills/openreadout/SKILL.md
-```
-
-That's it. The skill file tells the agent how to install the binary and how to use every command.
-
-## For Humans
-
-**Option A — Browser:** Open the [browser demo](https://openreadout.github.io/openreadout/demo/index.html) and tap one of its nine sample files, or drop a file of your own on it. It runs OpenReadout compiled to WebAssembly inside the page; nothing is uploaded.
-
-**Option B — CLI:** Install the binary (see [Installation](#installation)), then connect it to your agent:
+## On the Command Line
 
 ```bash
-openreadout self skill --install all      # skill for Claude Code, Codex, Cursor, Copilot, Gemini CLI
-openreadout mcp --install claude-desktop  # MCP server for Claude Desktop (or cursor, codex, vscode, ...)
-```
-
-Your agent can now open, check, plot, and convert instrument files on your behalf.
-
-## For Developers — See It Live in 30 Seconds
-
-```bash
-# 1. Install (macOS / Linux; other ways below)
+# Install (macOS / Linux; other ways under Installation)
 curl -fsSL https://raw.githubusercontent.com/openreadout/openreadout/main/scripts/install.sh | sh
 
-# 2. See what is in a file — reads headers only, fast on any size
-openreadout info cells.lif
-
-# 3. Look at it — writes cells.preview.png
-openreadout preview cells.lif --composite
-
-# 4. Convert it — read back and verified before it is saved
-openreadout export cells.lif -o cells.ome.tiff
-```
-
-That's it. The same commands work on a CZI, an ND2, a Thermo RAW, an ABF, or any of the other formats.
-
-<p align="center">
-  <img src=".github/assets/demo.gif" alt="Terminal session: openreadout info describes a Leica LIF file, check reports that a truncated copy is incomplete and exits with code 4, export writes a verified OME-TIFF, analyze peaks lists four peaks in a GC chromatogram, and info --json piped to jq prints the pixel size." width="100%">
-</p>
-
-## Quick Start
-
-```bash
 # What is in the file?
 openreadout info cells.lif
 # → format: Leica LIF (lif) v2  size: 16.0 MiB  images: 1  planes: 2
@@ -160,29 +149,11 @@ openreadout info cells.lif --json
 }
 ```
 
-## Why OpenReadout?
+<p align="center">
+  <img src=".github/assets/demo.gif" alt="Terminal session: openreadout info describes a Leica LIF file, check reports that a truncated copy is incomplete and exits with code 4, export writes a verified OME-TIFF, analyze peaks lists four peaks in a GC chromatogram, and info --json piped to jq prints the pixel size." width="100%">
+</p>
 
-What used to take vendor software or a different library for every format:
-
-```python
-import czifile, nd2, liffile, pyabf, flowio
-# ... a different API, metadata layout, and set of quirks for each one ...
-```
-
-Now takes one command, for all of them:
-
-```bash
-openreadout info any-file --json
-```
-
-**What OpenReadout can do:**
-
-- **Inspect** images, channels, traces, spectra, tables, and metadata -- in plain text or structured JSON
-- **Check** files for truncation, missing planes, and damaged structure -- exit code 4 when a file is corrupt
-- **Export** to OME-TIFF, OME-Zarr, mzML, NWB, CSV, Parquet, Arrow, JCAMP-DX, Allotrope ASM, and RDML -- every export read back and verified
-- **Preview** image planes, traces, spectra, and plate heat maps as PNG
-- **Analyze** chromatographic peaks, plate assays (IC50, standard curves), qPCR (Cq, ΔΔCq), NMR peaks, patch-clamp features, spikes, and flow-cytometry gates -- with documented methods
-- **Batch** over whole directories, index lab shares, and watch running acquisitions
+## Formats
 
 | Area | Formats | Export to |
 | --- | --- | --- |
@@ -294,16 +265,16 @@ openreadout self skill --install agents   # ~/.agents/skills/openreadout (Codex,
 
 The skill source is in [`skills/openreadout`](skills/openreadout).
 
-### Why your agent will thrive on OpenReadout
+### Built for Agents
 
-- **Deterministic JSON output** — every command supports `--json` with [published schemas](docs/schema). No regex parsing, no scraping stdout.
-- **Fixed exit codes** — `0` ok, `1` error, `2` usage, `3` unknown format, `4` corrupt file, `5` I/O, `6` unsupported feature. Agents branch on the code, not on the message.
-- **Self-healing errors** — every error carries a `hint` that says what to do next. Agents self-correct without human intervention.
-- **Assurance on every answer** — each result says whether files like it were validated against an independent reader. Agents know when to double-check.
-- **Built-in preview renderer** — `preview` writes a PNG the agent can look at. Agents can *see* the image, trace, or plate they are reasoning about.
-- **Figures in one call** — `plot` (`openreadout_plot`) draws the figure a scientist would ask for, from the files themselves: plate wells in plate positions, group means with bands, a TIC beside the spectrum at its apex, f–I curves, gated dot plots, fits. PNG for the chat, SVG or PDF for the paper.
-- **Cheap metadata** — `info` reads headers only, so a 100 GB file costs the same as a small one. `--only` returns just the fields asked for, saving tokens.
-- **Safe by default** — inputs are opened read-only and nothing connects to the network.
+- **JSON output.** Every command supports `--json`, with [published schemas](docs/schema).
+- **Fixed exit codes.** `0` ok, `1` error, `2` usage, `3` unknown format, `4` corrupt file, `5` I/O, `6` unsupported feature. An agent can branch on the code instead of parsing the message.
+- **Errors that say what to try next.** Every error carries a `hint`.
+- **Assurance on every answer.** Each result says whether files like it were checked against another reader, and `--strict` refuses values that weren't.
+- **Previews the agent can look at.** `preview` writes a PNG of the image, trace or plate the agent is reasoning about.
+- **Figures in one call.** `plot` (`openreadout_plot`) draws the figure a scientist would ask for, from the files themselves: plate wells in plate positions, group means with bands, a TIC beside the spectrum at its apex, f–I curves, gated dot plots, fits. PNG for the chat, SVG or PDF for the paper.
+- **Cheap metadata.** `info` reads headers only, so a 100 GB file costs about the same as a small one. `--only` returns just the fields asked for.
+- **Read-only and offline.** Inputs are opened read-only, and the binary makes no network connections.
 
 ### Error Recovery
 
@@ -359,9 +330,9 @@ openreadout.plot(data={"file": "growth.pda"}, facet="plate").save("plate.pdf")
 
 ## Validation
 
-Each reader is tested on public instrument files and compared with independent libraries, as [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html) explains.
+Each reader is tested on public instrument files and compared with other readers where one exists, as [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html) explains. Each result reports how far its format variant was confirmed.
 
-Every reader was written from public files and permissively licensed documentation — no vendor SDKs, headers, DLLs, or GPL source code. See the [clean-room policy](docs/legal/clean-room-policy.md).
+The readers were written from public files, published specifications and the source of permissively licensed readers, which are credited in [NOTICE](NOTICE). No vendor SDKs, headers or DLLs were used, and GPL readers such as Bio-Formats are only run as black boxes in the tests. Each format keeps a provenance log in [`docs/provenance/`](docs/provenance), and the rules are in the [clean-room policy](docs/legal/clean-room-policy.md).
 
 ## Documentation
 
@@ -383,7 +354,7 @@ Licensed under either the [Apache License 2.0](LICENSE-APACHE) or the [MIT licen
 
 Bug reports and contributions are welcome on [GitHub Issues](https://github.com/openreadout/openreadout/issues). See [CONTRIBUTING.md](CONTRIBUTING.md), and read the [clean-room policy](docs/legal/clean-room-policy.md) before working on a reader.
 
-Images and demo files come from the public test corpus ([`corpus/manifest.toml`](corpus/manifest.toml)), used under their licences: mouse section, Zeiss sample images for Bio-Formats ([Zenodo 10577621](https://zenodo.org/records/10577621), CC-BY-4.0); Convallaria lambda scan, Maria Manuela Azevedo ([Zenodo 14976703](https://zenodo.org/records/14976703), CC-BY-4.0); BaTiO3 STEM, Rama Vasudevan and Gerd Duscher ([Zenodo 8190744](https://zenodo.org/records/8190744), CC-BY-4.0); H&E QPTIFF, PerkinElmer via the OME sample images (CC-BY-4.0); qPCR, the [RDML](https://github.com/kablag/RDML) R package (MIT); MS2, [ProteoWizard](https://github.com/ProteoWizard/pwiz) test data (Apache-2.0); HPLC, [cheminfo](https://github.com/cheminfo/netcdf-gcms) (MIT); EPR, [EasySpin](https://github.com/StollLab/EasySpin) (MIT); patch clamp, [pyABF](https://github.com/swharden/pyABF) (MIT); GC-FID, [entab](https://github.com/bovee/entab) (MIT); terminal demo, Allen Institute for Cell Science (BSD-3-Clause). [`demo.tape`](.github/assets/demo.tape) regenerates the demo.
+Images and demo files come from the public test corpus ([`corpus/manifest.toml`](corpus/manifest.toml)), used under their licences: mouse section, Zeiss sample images for Bio-Formats ([Zenodo 10577621](https://zenodo.org/records/10577621), CC-BY-4.0); Convallaria lambda scan, Maria Manuela Azevedo ([Zenodo 14976703](https://zenodo.org/records/14976703), CC-BY-4.0); BaTiO3 STEM, Rama Vasudevan and Gerd Duscher ([Zenodo 8190744](https://zenodo.org/records/8190744), CC-BY-4.0); H&E QPTIFF, PerkinElmer via the OME sample images (CC-BY-4.0); terminal demo, Allen Institute for Cell Science (BSD-3-Clause); knockout chat, Edyanto et al. ([figshare](https://doi.org/10.6084/m9.figshare.33265719), CC-BY-4.0). The figures come from the docs gallery, which lists each source file. [`demo.tape`](.github/assets/demo.tape) regenerates the demo.
 
 ---
 
