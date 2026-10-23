@@ -69,7 +69,7 @@ openreadout-hdf5 = { path = "../crates/openreadout-hdf5" }
 openreadout-benchtop = { path = "../crates/openreadout-benchtop" }
 openreadout-quant = { path = "../crates/openreadout-quant" }
 serde_json = { version = "1", features = ["preserve_order"] }
-roxmltree = "0.20"
+roxmltree = "0.21"
 
 # Not a member of the main workspace: it needs nightly and libFuzzer instrumentation.
 [workspace]
