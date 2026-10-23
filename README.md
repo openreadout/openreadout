@@ -38,7 +38,7 @@ Then ask your agent about a file, like "What's in cells.czi?" In Claude Code you
 
 Or try the [browser demo](https://openreadout.github.io/openreadout/demo/) with no install. Your files never leave your computer.
 
-## What It Reads
+## Gallery
 
 <p align="center">
   <img src=".github/assets/mouse-czi.jpg" alt="Sagittal section of a whole mouse, trichrome stained, decoded from a Zeiss CZI slide scan" width="100%">
