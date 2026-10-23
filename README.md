@@ -1,6 +1,6 @@
 # OpenReadout
 
-OpenReadout lets AI agents open and analyze raw files from lab instruments: microscopes, mass spectrometers, flow cytometers, electrophysiology rigs, plate readers, NMR and more, 120+ formats in all. It's one open-source binary that needs no vendor software, and it runs as an MCP server, a command-line tool, and Python and R packages.
+OpenReadout lets AI agents read and analyze raw files from lab instruments like microscopes, mass specs, flow cytometers, plate readers and NMR. It reads 120+ formats without vendor software, and runs as an MCP server, a CLI, or a Python or R package.
 
 [![CI](https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg)](https://github.com/openreadout/openreadout/actions/workflows/ci.yml)
 [![Docs](https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg)](https://openreadout.github.io/openreadout/)
@@ -12,29 +12,29 @@ OpenReadout lets AI agents open and analyze raw files from lab instruments: micr
 
 https://github.com/user-attachments/assets/7ee0f9fe-e6e0-4378-a46d-5cdc04d57151
 
-<p align="center"><em>An agent looks at a 3.7 GB Zeiss slide scan of a young mouse, finds the cerebellum on its own and labels the layers. Data: Zeiss sample images for Bio-Formats, <a href="https://zenodo.org/records/10577621">Zenodo 10577621</a> (CC BY 4.0).</em></p>
+<p align="center"><em>An agent finds the cerebellum in a 3.7 GB slide scan and labels its layers. Data: <a href="https://zenodo.org/records/10577621">Zenodo 10577621</a> (CC BY 4.0).</em></p>
 
 <details>
-<summary>Another example: an agent checks a gene knockout across 31 files from five instruments</summary>
+<summary>Another example: checking a gene knockout across five instruments</summary>
 
 https://github.com/user-attachments/assets/658d300b-dc9d-4164-af84-bb48261fd33f
 
-<p align="center"><em>Data: Edyanto et al., figshare <a href="https://doi.org/10.6084/m9.figshare.33265719">10.6084/m9.figshare.33265719</a> (CC BY 4.0).</em></p>
+<p align="center"><em>Data: Edyanto et al., <a href="https://doi.org/10.6084/m9.figshare.33265719">figshare</a> (CC BY 4.0).</em></p>
 
 </details>
 
 ## Get Started
 
-Install OpenReadout, then connect it to your agent:
+Install it, then connect it to your agent:
 
 ```bash
 brew install openreadout/tap/openreadout    # other ways under Installation below
 openreadout mcp --install claude-desktop    # or claude, codex, cursor, vscode, gemini
 ```
 
-Then ask your agent about a file, for example "What's in cells.czi?" or "Plot the growth curves in run1.pda by well." In Claude Code you can install the MCP server and the skill together as a plugin (see [AI Integration](#ai-integration)).
+Then ask your agent about a file, like "What's in cells.czi?" In Claude Code you can install it as a plugin instead (see [AI Integration](#ai-integration)).
 
-To try it without installing anything, open the [browser demo](https://openreadout.github.io/openreadout/demo/) and tap one of its sample files, or drop in a file of your own. It runs OpenReadout compiled to WebAssembly inside the page, and nothing is uploaded.
+Or try the [browser demo](https://openreadout.github.io/openreadout/demo/) with no install. Your files never leave your computer.
 
 ## What It Reads
 
@@ -42,13 +42,13 @@ To try it without installing anything, open the [browser demo](https://openreado
   <img src=".github/assets/mouse-czi.jpg" alt="Sagittal section of a whole mouse, trichrome stained, decoded from a Zeiss CZI slide scan" width="100%">
 </p>
 
-<p align="center"><em>A whole-mouse section from a 3.7 GB Zeiss slide scan: 190,309 × 69,378 pixels at 0.22 µm.</em></p>
+<p align="center"><em>A whole mouse section from a 3.7 GB Zeiss slide scan.</em></p>
 
 <p align="center">
   <img src="book/public/img/gallery/slide-fold.png" alt="One fold of the mouse cerebellum at full resolution, with the layers labelled at file-pixel coordinates">
 </p>
 
-<p align="center"><em>One fold of its cerebellum at full resolution, labelled the way an agent does it: the rulers are file pixels, so labels go where the agent sees each layer.</em></p>
+<p align="center"><em>One fold of the cerebellum, labelled by an agent.</em></p>
 
 <p align="center">—</p>
 <p align="center"><strong>Microscopy</strong></p>
@@ -67,7 +67,7 @@ To try it without installing anything, open the [browser demo](https://openreado
 </table>
 
 <p align="center">—</p>
-<p align="center"><strong>Figures, Drawn From the Raw Files</strong></p>
+<p align="center"><strong>Figures</strong></p>
 
 <table>
 <tr>
@@ -96,7 +96,7 @@ To try it without installing anything, open the [browser demo](https://openreado
 </tr>
 </table>
 
-<p align="center"><em>Everything above was read by OpenReadout from raw files, with no vendor software. The <a href="https://openreadout.github.io/openreadout/gallery.html">gallery</a> has more, with the command behind each picture.</em></p>
+<p align="center"><em>All read from the raw files. More in the <a href="https://openreadout.github.io/openreadout/gallery.html">gallery</a>.</em></p>
 
 ## What It Does
 
@@ -175,23 +175,6 @@ openreadout info cells.lif --json
 
 The [format list](https://openreadout.github.io/openreadout/formats.html) lists every format OpenReadout reads, with its known gaps.
 
-## Use Cases
-
-**For Researchers:**
-- Open instrument files on any computer, without the acquisition software
-- Convert a folder of raw files to OME-Zarr, mzML, or NWB for analysis and sharing
-- Verify that files copied off an instrument PC are complete
-
-**For AI Agents:**
-- Answer questions about a file: channels, pixel size, objective, acquisition time, scan count
-- Extract metadata, traces, spectra, and tables as JSON
-- Run documented analyses (peak areas, IC50s, Cq values) and report the method used
-
-**For Core Facilities and Pipelines:**
-- Index a lab share into searchable Parquet tables with `index` and `search`
-- Watch instrument directories and flag stalled or damaged acquisitions with `watch`
-- Run in Nextflow, Snakemake, and Galaxy pipelines ([`integrations/`](integrations))
-
 ## Installation
 
 Ships as a single self-contained binary. No Java, no Python, no vendor DLLs -- nothing else to install.
@@ -269,35 +252,14 @@ The skill source is in [`skills/openreadout`](skills/openreadout).
 
 ### Built for Agents
 
-- **JSON output.** Every command supports `--json`, with [published schemas](docs/schema).
-- **Fixed exit codes.** `0` ok, `1` error, `2` usage, `3` unknown format, `4` corrupt file, `5` I/O, `6` unsupported feature. An agent can branch on the code instead of parsing the message.
-- **Errors that say what to try next.** Every error carries a `hint`.
-- **Assurance on every answer.** Each result says whether files like it were checked against another reader, and `--strict` refuses values that weren't.
-- **Previews the agent can look at.** `preview` writes a PNG of the image, trace or plate the agent is reasoning about.
-- **Figures in one call.** `plot` (`openreadout_plot`) draws the figure a scientist would ask for, from the files themselves: plate wells in plate positions, group means with bands, a TIC beside the spectrum at its apex, f–I curves, gated dot plots, fits. PNG for the chat, SVG or PDF for the paper.
-- **Cheap metadata.** `info` reads headers only, so a 100 GB file costs about the same as a small one. `--only` returns just the fields asked for.
-- **Read-only and offline.** Inputs are opened read-only, and the binary makes no network connections.
-
-### Error Recovery
-
-```bash
-# Agent asks for an image that does not exist
-openreadout preview cells.lif --image 3 --json
-```
-
-```json
-{
-  "ok": false,
-  "error": {
-    "code": "usage",
-    "message": "usage error: image 3 not found (file has 1 images)",
-    "hint": "Indices are zero-based; `openreadout info FILE --json` lists the images, traces (sweep_count, sample_count), tables (row_count) and spectra the file holds.",
-    "exit_code": 2
-  }
-}
-```
-
-The agent follows the hint, lists the images, and picks the right index.
+- **JSON output** for every command, with [published schemas](docs/schema).
+- **Fixed exit codes:** `0` ok, `1` error, `2` usage, `3` unknown format, `4` corrupt, `5` I/O, `6` unsupported.
+- **Errors with a hint** about what to try next.
+- **Assurance on every result:** whether that kind of file was checked against another reader. `--strict` refuses anything that wasn't.
+- **Previews** the agent can look at, as PNG.
+- **Figures** from `plot`: plate grids, dose-response fits, gated dot plots and more, as PNG, SVG or PDF.
+- **Fast metadata:** `info` reads headers only, so a 100 GB file is as quick as a small one.
+- **Read-only and offline.**
 
 ## Python and R
 
@@ -332,9 +294,9 @@ openreadout.plot(data={"file": "growth.pda"}, facet="plate").save("plate.pdf")
 
 ## Validation
 
-Each reader is tested on public instrument files and compared with other readers where one exists, as [How we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html) explains. Each result reports how far its format variant was confirmed.
+Each reader is tested against other readers on public instrument files. See [how we validate](https://openreadout.github.io/openreadout/project/how-we-validate.html).
 
-The readers were written from public files, published specifications and the source of permissively licensed readers, which are credited in [NOTICE](NOTICE). No vendor SDKs, headers or DLLs were used, and GPL readers such as Bio-Formats are only run as black boxes in the tests. Each format keeps a provenance log in [`docs/provenance/`](docs/provenance), and the rules are in the [clean-room policy](docs/legal/clean-room-policy.md).
+The readers were written from public files, published specifications and permissively licensed readers (credited in [NOTICE](NOTICE)), without vendor SDKs or DLLs. GPL readers such as Bio-Formats are only run as black boxes in tests. See the [clean-room policy](docs/legal/clean-room-policy.md) and the per-format [provenance logs](docs/provenance).
 
 ## Documentation
 
