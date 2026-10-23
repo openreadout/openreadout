@@ -25,3 +25,7 @@ DICOM is an open standard (NEMA PS3), published free of charge at https://dicom.
 ## 2026-10-18 — the writing software (Richard Zimring with Claude as assistant)
 
 `images[].extra.implementation_version` is the Implementation Version Name (0002,0013) of the file meta group, which PS3.10 §7.1 defines as the name of the implementation that wrote the file. The assurance profile records its name without the version as the writer. Corpus files: the existing pydicom, pydicom-data, OpenSlide and IDC entries. Prior art: none.
+
+## 2026-10-23 — technique (Richard Zimring with Claude as assistant)
+
+The experiment's technique comes from Modality (0008,0060): MR is `OBI:0002985`, CT is `FBbi:00001002`, PT is `OBI:0002987`. SM (slide microscopy) keeps the microscopy rules. Other modalities get no technique. Corpus files: `pydicom-ct-small`, `pydicom-mr-small`. Prior art: PS3.3 C.7.3.1.1.1 (defined terms for Modality).
