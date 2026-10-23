@@ -64457,7 +64457,7 @@ notes = "1 image; image 0 200 x 200, z 1, c 1, t 200, float"
 [[file]]
 id = "zenodo14172249-lafm-gltph"
 format = "mrc"
-role = "corrupt"
+role = "input"
 tier = "standard"
 filename = "zenodo14172249-lafm-gltph.mrc"
 url = "https://zenodo.org/api/records/14172249/files/GltPh-IFSo1_3D-LAFM.mrc/content"
@@ -64467,7 +64467,7 @@ md5 = "0514f53ee4071a3b04ff133bdb17466b"
 license = "CC-BY-4.0"
 source = "Zenodo record 14172249: "
 attribution = ""
-notes = "MRC2014 density map from 3D localization AFM (EXTTYP AFM1), 471 x 471 x 57 float32; the file is 16 bytes shorter than its header says (the last section is incomplete), so check must report it truncated"
+notes = "MRC2014 density map from 3D localization AFM (EXTTYP AFM1), 471 x 471 x 57 float32. NSYMBT declares a 16-byte extended header that was never written: the file is exactly 1024 + data bytes and the data start at byte 1024 (docs/provenance/mrc.md, 2026-10-22). mrcfile reads the geometry but no planes (it expects the data 16 bytes later)"
 
 [[file]]
 id = "zenodo23184057-cryonet-0775"

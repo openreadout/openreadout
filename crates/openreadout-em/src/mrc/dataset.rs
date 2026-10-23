@@ -68,6 +68,9 @@ pub struct MrcDataset {
     extension: String,
     ext: Vec<u8>,
     ext_kind: ExtKind,
+    /// NSYMBT declares an extended header that the file does not hold: the file is exactly
+    /// 1024 + data bytes long, so the data start at byte 1024.
+    ext_absent: bool,
     layout: Layout,
     /// The SerialEM `.mdoc` next to the file (`stack.mrc.mdoc`), when there is one.
     mdoc: Option<(PathBuf, crate::mdoc::Mdoc)>,
@@ -191,6 +194,13 @@ impl MrcDataset {
             ));
         }
         let want = u64::try_from(header.nsymbt).unwrap_or(0);
+        let ext_absent = want > 0
+            && header
+                .section_bytes()
+                .and_then(|s| s.checked_mul(u64::try_from(header.nz).ok()?))
+                .and_then(|d| d.checked_add(HEADER_LEN as u64))
+                == Some(blob.len);
+        let want = if ext_absent { 0 } else { want };
         let avail = blob.len.saturating_sub(HEADER_LEN as u64);
         let ext = blob.read_upto(HEADER_LEN as u64, want.min(avail).min(MAX_EXT_BYTES))?;
         let ext_kind = classify_ext(&header, &ext);
@@ -207,6 +217,7 @@ impl MrcDataset {
             extension,
             ext,
             ext_kind,
+            ext_absent,
             layout,
         })
     }
@@ -339,6 +350,20 @@ impl MrcDataset {
             .checked_mul(u64::try_from(self.header.nz).ok()?)
     }
 
+    /// Bytes of extended header in the file: NSYMBT, or 0 when the declared one is absent.
+    fn ext_bytes(&self) -> u64 {
+        if self.ext_absent {
+            0
+        } else {
+            u64::try_from(self.header.nsymbt.max(0)).unwrap_or(0)
+        }
+    }
+
+    /// First byte of the data block.
+    fn data_offset(&self) -> u64 {
+        HEADER_LEN as u64 + self.ext_bytes()
+    }
+
     #[allow(clippy::many_single_char_names)]
     fn image_info(&self) -> ImageInfo {
         let h = &self.header;
@@ -440,7 +465,7 @@ impl MrcDataset {
             ex.insert("labels".into(), json!(labels));
         }
         ex.insert("mrc_version".into(), Value::from(h.nversion));
-        if h.nsymbt > 0 {
+        if self.ext_bytes() > 0 {
             let (records, _) = self.records(Some(0));
             ex.insert(
                 "extended_header".into(),
@@ -585,9 +610,15 @@ impl Dataset for MrcDataset {
                 notes.push(format!("gzip: {p}"));
             }
         }
+        if self.ext_absent {
+            notes.push(format!(
+                "NSYMBT declares {} bytes of extended header, but the file is exactly 1024 + data bytes long: no extended header was written and the data start at byte 1024",
+                h.nsymbt
+            ));
+        }
         let need = self
             .data_len()
-            .and_then(|d| d.checked_add(h.data_offset()))
+            .and_then(|d| d.checked_add(self.data_offset()))
             .unwrap_or(u64::MAX);
         if need > self.blob.len {
             notes.push(format!(
@@ -677,7 +708,7 @@ impl Dataset for MrcDataset {
             header["imod_flags"] = Value::from(h.imod_flags);
         }
         let mut out = json!({ "header": header });
-        if h.nsymbt > 0 {
+        if self.ext_bytes() > 0 {
             let mut ext =
                 json!({"type": h.exttyp, "bytes": h.nsymbt, "decoded_as": self.ext_kind_name()});
             match self.ext_kind {
@@ -730,7 +761,7 @@ impl Dataset for MrcDataset {
             image: None,
             details: json!({"mode": h.mode.code(), "nx": h.nx, "ny": h.ny, "nz": h.nz, "byte_order": byte_order_name(h.endian()), "map_id": h.has_map_id}),
         }];
-        if h.nsymbt > 0 {
+        if self.ext_bytes() > 0 {
             let (records, _) = self.records(Some(0));
             out.push(LsEntry {
                 kind: "metadata".into(),
@@ -745,7 +776,7 @@ impl Dataset for MrcDataset {
         out.push(LsEntry {
             kind: "image".into(),
             name: "data".into(),
-            offset: Some(h.data_offset()),
+            offset: Some(self.data_offset()),
             size: self.data_len(),
             image: Some(0),
             details: json!({"sections": h.nz, "section_bytes": sec, "layout": self.layout.label()}),
@@ -756,7 +787,7 @@ impl Dataset for MrcDataset {
                 out.push(LsEntry {
                     kind: "plane".into(),
                     name: format!("section {s}"),
-                    offset: Some(h.data_offset().saturating_add(s.saturating_mul(sec))),
+                    offset: Some(self.data_offset().saturating_add(s.saturating_mul(sec))),
                     size: Some(sec),
                     image: Some(0),
                     details: json!({"z": s % u64::from(size_z), "t": s / u64::from(size_z)}),
@@ -779,7 +810,7 @@ impl Dataset for MrcDataset {
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "section size overflows"))?;
         let off = s
             .checked_mul(sec)
-            .and_then(|o| o.checked_add(h.data_offset()))
+            .and_then(|o| o.checked_add(self.data_offset()))
             .ok_or_else(|| Error::corrupt(FORMAT_ID, "section offset overflows"))?;
         let raw = self.blob.read_at(FORMAT_ID, off, sec)?;
         let data = self.decode(raw);
@@ -806,7 +837,7 @@ impl Dataset for MrcDataset {
             "extended header: EXTTYP set, NSYMBT within the file, FEI block size consistent",
         );
         r.performed(
-            "file size equals 1024 + NSYMBT + NX*NY*NZ*sample size (truncation, trailing bytes)",
+            "file size equals 1024 + NSYMBT + NX*NY*NZ*sample size (truncation, trailing bytes; a file of exactly 1024 + data bytes has no extended header)",
         );
         if !h.has_map_id {
             r.push(
@@ -937,7 +968,18 @@ impl Dataset for MrcDataset {
                     .at(104),
                 );
             }
-            if HEADER_LEN as u64 + h.nsymbt as u64 > self.blob.len {
+            if self.ext_absent {
+                r.push(
+                    Finding::warning(
+                        "extended_header_absent",
+                        format!(
+                            "NSYMBT declares {} bytes of extended header, but the file is exactly 1024 + data bytes long: the data start at byte 1024",
+                            h.nsymbt
+                        ),
+                    )
+                    .at(92),
+                );
+            } else if HEADER_LEN as u64 + h.nsymbt as u64 > self.blob.len {
                 r.push(
                     Finding::error(
                         "truncated",
@@ -949,7 +991,7 @@ impl Dataset for MrcDataset {
                     .at(HEADER_LEN as u64),
                 );
             }
-            if matches!(h.exttyp.as_str(), "FEI1" | "FEI2") {
+            if !self.ext_absent && matches!(h.exttyp.as_str(), "FEI1" | "FEI2") {
                 match self.ext_kind {
                     ExtKind::Fei { block } => {
                         let blocks = self.ext.len() / block;
@@ -973,11 +1015,14 @@ impl Dataset for MrcDataset {
                 }
             }
         }
-        match self.data_len().and_then(|d| d.checked_add(h.data_offset())) {
+        match self
+            .data_len()
+            .and_then(|d| d.checked_add(self.data_offset()))
+        {
             None => r.push(Finding::error("bad_dimensions", "data size overflows")),
             Some(need) if need > self.blob.len => {
                 let sec = h.section_bytes().unwrap_or(1).max(1);
-                let have = self.blob.len.saturating_sub(h.data_offset()) / sec;
+                let have = self.blob.len.saturating_sub(self.data_offset()) / sec;
                 r.push(Finding::error("truncated", format!("file is {} bytes but the header describes {need}: {} bytes missing, {have} of {} sections complete", self.blob.len, need - self.blob.len, h.nz)).at(self.blob.len));
             }
             Some(need) if need < self.blob.len => {
@@ -996,7 +1041,7 @@ impl Dataset for MrcDataset {
 
     fn attachments(&self) -> Result<Vec<AttachmentInfo>> {
         let h = &self.header;
-        if h.nsymbt <= 0 {
+        if self.ext_bytes() == 0 {
             return Ok(Vec::new());
         }
         let mut extra = BTreeMap::new();
@@ -1011,19 +1056,19 @@ impl Dataset for MrcDataset {
             },
             extension: "bin".into(),
             offset: Some(HEADER_LEN as u64),
-            size: h.nsymbt as u64,
+            size: self.ext_bytes(),
             extra,
         }])
     }
 
     fn read_attachment(&mut self, index: u32) -> Result<Vec<u8>> {
-        if index != 0 || self.header.nsymbt <= 0 {
+        if index != 0 || self.ext_bytes() == 0 {
             return Err(Error::Usage(format!(
                 "attachment #{index} does not exist; `info --view structure` lists them"
             )));
         }
         self.blob
-            .read_at(FORMAT_ID, HEADER_LEN as u64, self.header.nsymbt as u64)
+            .read_at(FORMAT_ID, HEADER_LEN as u64, self.ext_bytes())
     }
 
     fn frames(&self, image: u32, limit: Option<usize>) -> Result<(u64, Vec<Value>)> {
