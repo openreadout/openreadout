@@ -111982,6 +111982,60 @@
       ]
     },
     {
+      "id": "empiar10987-fe33-3-0989-mrc-movie",
+      "format": "mrc",
+      "source": "empiar:10987",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "pixels"
+      ],
+      "features": [
+        [
+          "format_version",
+          "pre-2014 (no NVERSION)",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "uint8",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 0",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "image-stack",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "unsigned mode 0 (IMOD)",
+          [
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
       "id": "mrcfile-emd-3001",
       "format": "mrc",
       "source": "github:ccpem/mrcfile",
@@ -112524,6 +112578,60 @@
         [
           "layout",
           "volume",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "zenodo14172249-lafm-gltph",
+      "format": "mrc",
+      "source": "zenodo:14172249",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata"
+      ],
+      "features": [
+        [
+          "format_version",
+          "20140",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "sample_layout",
+          "mode 2",
+          [
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "volume",
+          [
+            "metadata",
+            "pixels"
+          ]
+        ],
+        [
+          "layout",
+          "declared extended header absent",
           [
             "metadata",
             "pixels"

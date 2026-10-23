@@ -79,6 +79,8 @@ Kept raw as attachment `#0` (`extract FILE #0`, content type = EXTTYP). Decoded 
 - **CCP4** (and blank EXTTYP with ISPG > 0 and text content): symmetry operators as 80-character lines → `vendor.extended_header.symmetry`.
 - **HDF5** and anything else: raw only.
 
+Some writers set NSYMBT but write no extended header. When NSYMBT > 0 and the file is exactly 1024 + data bytes long, the data are read from byte 1024, there is no attachment, and `check` reports `extended_header_absent`. Seen in `zenodo14172249-lafm-gltph` (EXTTYP `AFM1`, NSYMBT 16).
+
 ### FEI metadata fields (our names; byte offset within a block)
 
 | our name | offset | type | normalized use (units inferred from corpus values) |
@@ -155,6 +157,7 @@ The reserved camera and STEM parameters (bytes 474–489, 494–517, 551–570) 
 | `exttyp_unknown` | warning | EXTTYP not one of the registered codes |
 | `fei_blocks`, `fei_block_size`, `fei_unreadable`, `pixel_size_mismatch` | warning | FEI extended header inconsistent with NZ, 768, itself, or CELLA/MX |
 | `trailing_bytes` | warning | bytes after the data block |
+| `extended_header_absent` | warning | NSYMBT > 0, but the file is exactly 1024 + data bytes long, so the data start at byte 1024 |
 | `nonstandard_mode`, `no_version`, `stats_undetermined`, `exttyp_unset` | info | IMOD mode 16; NVERSION 0; statistics flagged undetermined; extended header without EXTTYP |
 
 ## Observed corpus values

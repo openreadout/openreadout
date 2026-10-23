@@ -42,7 +42,7 @@ Shared helpers: `util.rs` (bounded reads, endian-aware numbers, half floats, OLE
 
 | format id | notes and provenance | confidence | basis | development files: read / confirmed | depositors | held-out pass / fail |
 | --- | --- | --- | --- | --- | --- | --- |
-| `mrc` | [format note](../../docs/formats/mrc.md), [provenance log](../../docs/provenance/mrc.md) | high | open spec | 23 / 23 | 17 | 2 / 0 |
+| `mrc` | [format note](../../docs/formats/mrc.md), [provenance log](../../docs/provenance/mrc.md) | high | open spec | 25 / 25 | 19 | 2 / 0 |
 | `dm` | [format note](../../docs/formats/dm.md), [provenance log](../../docs/provenance/dm.md) | high | prior art | 114 / 114 | 39 | 2 / 0 |
 | `ser` | [format note](../../docs/formats/ser.md), [provenance log](../../docs/provenance/ser.md) | high | prior art | 22 / 22 | 5 | 1 / 0 |
 | `emd` | [format note](../../docs/formats/emd.md), [provenance log](../../docs/provenance/emd.md) | high | prior art | 37 / 37 | 14 | 1 / 0 |
@@ -87,6 +87,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 - feature record `format!("extended header {t}")`
 - feature layout `"permuted axes"`
 - feature codec `"gzip"`
+- feature layout `"declared extended header absent"`
 - feature sample_layout `"unsigned mode 0 (IMOD)"`
 - feature format_version `v`
 - feature sample_layout `d`
@@ -193,14 +194,14 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 | `emd` | layout | `eels spectrum image` | metadata, pixels | 1 | 1 | `zenodo18267156-STEM-EELS-1-DyScO3` |
 | `emd` | layout | `multi-frame` | pixels | 4 | 4 | `rsciio-emd-fei-example-tem-stack`, `zenodo13893137-alcumg-haadf`, `zenodo20131712-0017-SI-Nano-1.4um` |
 
-… 75 more values: the generated table in `src/assurance.rs` has all of them.
+… 78 more values: the generated table in `src/assurance.rs` has all of them.
 
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic_emd.rs`](tests/synthetic_emd.rs), [`tests/synthetic_mrc.rs`](tests/synthetic_mrc.rs)
 - committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_dm`, `whole_emd`, `whole_mdoc`, `whole_mrc`, `whole_ser`
-- corpus inputs by tier: heldout 22, smoke 136, standard 66
+- corpus inputs by tier: heldout 22, smoke 136, standard 67
 - golden snapshots: [`corpus/snapshots/mrc.jsonl`](../../corpus/snapshots/mrc.jsonl), [`corpus/snapshots/dm.jsonl`](../../corpus/snapshots/dm.jsonl), [`corpus/snapshots/ser.jsonl`](../../corpus/snapshots/ser.jsonl), [`corpus/snapshots/emd.jsonl`](../../corpus/snapshots/emd.jsonl), [`corpus/snapshots/mdoc.jsonl`](../../corpus/snapshots/mdoc.jsonl)
 
 ### Open new-variant intakes

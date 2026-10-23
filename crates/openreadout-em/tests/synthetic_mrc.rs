@@ -496,6 +496,41 @@ fn truncation_is_an_error_in_check_and_on_read() {
 }
 
 #[test]
+fn declared_extended_header_missing_from_the_file() {
+    // NSYMBT says 16 bytes, but the writer put the data right after the 1024-byte header
+    let dir = tempfile::tempdir().unwrap();
+    let data: Vec<u8> = (0..24).flat_map(|v| (v as f32).to_le_bytes()).collect();
+    let s = Spec {
+        exttyp: b"AFM1",
+        ext: vec![0; 16],
+        ..Spec::default()
+    };
+    let mut bytes = header(&s);
+    bytes.extend_from_slice(&data);
+    let p = dir.path().join("noext.mrc");
+    std::fs::write(&p, bytes).unwrap();
+    let mut ds = open(&p);
+    let info = ds.info().unwrap();
+    assert!(info.notes.iter().any(|n| n.contains("start at byte 1024")));
+    assert!(!info.notes.iter().any(|n| n.contains("truncated")));
+    assert_eq!(plane(&mut ds, 0, 0), data[..48].to_vec());
+    assert_eq!(plane(&mut ds, 1, 0), data[48..].to_vec());
+    assert!(ds.attachments().unwrap().is_empty());
+    let r = ds.check().unwrap();
+    assert!(r.ok, "{:?}", r.findings);
+    assert!(
+        r.findings
+            .iter()
+            .any(|f| f.code == "extended_header_absent")
+    );
+    // the same header with its 16 bytes written is read after them
+    let p = write(dir.path(), "ext.mrc", &s, &data);
+    let mut ds = open(&p);
+    assert_eq!(plane(&mut ds, 1, 0), data[48..].to_vec());
+    assert_eq!(ds.attachments().unwrap().len(), 1);
+}
+
+#[test]
 fn header_inconsistencies_are_findings() {
     let dir = tempfile::tempdir().unwrap();
     let s = Spec {
