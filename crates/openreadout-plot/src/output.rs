@@ -66,6 +66,9 @@ pub struct AxisOutput {
     /// Range shown, `[left, right]` or `[bottom, top]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub range: Option<[f64; 2]>,
+    /// The range of each small multiple, in facet order, when they do not share this axis.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub facet_ranges: Vec<[f64; 2]>,
     /// `linear`, `log`, `category` or the transform of a flow axis (`logicle`).
     pub scale: String,
     /// Categories, left to right.

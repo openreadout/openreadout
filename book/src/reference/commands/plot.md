@@ -38,7 +38,7 @@ A figure is one panel, with the panel's keys at the top level, or several in `pa
 | `title`, `caption` | Text over and under the figure. |
 | `panels` | Several panels, each with its own `title` and the panel keys below. |
 | `columns` | Panels per row; with one faceted panel, small multiples per row. |
-| `share` | `x`, `y` or `both`: panels use the same range. |
+| `share` | `x`, `y` or `both`: panels use the same range. With one faceted panel, `y` or `both` keeps its small plots on one y range and `x` or `none` gives each its own. |
 | `width`, `height` | Pixels. Default 1200 wide (960 for a lone dot plot) and a height that suits the content; at most 3000. |
 | `theme` | `light` (default) or `dark`. |
 | `strict` | Refuse values that this file's assurance does not validate. |
@@ -48,7 +48,7 @@ A figure is one panel, with the panel's keys at the top level, or several in `pa
 | Key | What it does |
 | --- | --- |
 | `data` | One series spec or a list. |
-| `facet` | `series`: one small plot per series (sweeps, files, groups) on shared axes. `plate`: plate wells in their positions, with the layout groups as row headings. |
+| `facet` | `series`: one small plot per series (sweeps, files, groups, channels) on a shared x axis. They share y too, unless they sit further apart than the tallest is high (EEG channels with their own DC offsets); then each has its own y range, listed in `y.facet_ranges`. `plate`: plate wells in their positions, with the layout groups as row headings. |
 | `x`, `y` | Axis: `label`, `log`, `range` `[low, high]`, `reverse`, and for time axes `unit` (`s`, `min`, `h`). An x `range` without a y `range` fits y to the data inside it. |
 | `annotate` | A list of bands, lines, labelled points, arrows and notes (below). |
 | `legend` | `direct` (labels at the line ends), `key` or `none`. Default: direct labels when they fit. |
@@ -61,7 +61,7 @@ A series names its data by `file` and selector, by a `table` file and its column
 
 | `show` | Data | Selectors |
 | --- | --- | --- |
-| `trace` | A sampled signal or 1-D spectrum (IR, Raman, UV-Vis, NMR, ÄKTA, detector traces) | `trace`, `sweep` (one or a list), `channel`, `x_range`, `process` (NMR FIDs), `peaks` |
+| `trace` | A sampled signal or 1-D spectrum (IR, Raman, UV-Vis, NMR, ÄKTA, detector traces) | `trace`, `sweep` (one or a list), `channel` or `y` (a channel by name), `x` (a channel by name for the x axis, such as `angular_frequency`), `x_range`, `process` (NMR FIDs), `peaks` |
 | `sweeps` | Patch-clamp sweeps, named by their current step | `sweep` (default all), `spikes` marks action potentials |
 | `fi` | Spikes in the current step (or `y: "rate_hz"`) against injected current | `trace`, `channel`, `sweep` |
 | `chromatogram` | TIC (default for mass spectrometry), BPC, XICs, stored or detector traces | `chromatogram`, `mz`, `ppm`, `trace`, `x_range` (minutes), `peaks` |

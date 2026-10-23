@@ -412,7 +412,11 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             spec: ps,
             series,
             plate: ctx.plate.take(),
+            share: None,
         });
+    }
+    if let [only] = ins.as_mut_slice() {
+        only.share = spec.share;
     }
     {
         let mut all: Vec<&mut model::Series> =
