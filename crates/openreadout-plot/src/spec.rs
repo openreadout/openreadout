@@ -63,7 +63,8 @@ pub struct PlotSpec {
     /// Panels (or facets of a single panel) per row. Default: all panels in one row; facets in
     /// a near-square grid.
     pub columns: Option<u32>,
-    /// Panels that share an axis range. Default none.
+    /// Panels that share an axis range. Default none. With one faceted panel, `y` or `both`
+    /// keeps its small plots on one y range, `x` or `none` gives each its own.
     pub share: Option<Share>,
     /// Width in px (default 1200, at most 3000).
     pub width: Option<u32>,
@@ -124,7 +125,8 @@ pub struct PanelSpec {
     pub file: Option<OneOrMany<String>>,
     /// What to draw: one series spec or a list of them, drawn in order (first at the back).
     pub data: Option<OneOrMany<SeriesSpec>>,
-    /// Small multiples: `series` = one small plot per series (sweeps, files, groups, wells);
+    /// Small multiples: `series` = one small plot per series (sweeps, files, groups, wells,
+    /// channels), on one y range unless they sit too far apart for one;
     /// `plate` = plate wells in their plate positions.
     pub facet: Option<Facet>,
     /// The x axis.
@@ -348,8 +350,9 @@ pub struct SeriesSpec {
     /// rule `{"at": 6, "below": 0.1, "label": "crashed", "else": "grew"}` (at in x units).
     pub color_by: Option<ColorBy>,
 
-    /// FCS parameter, table column, f–I measure, or frames: t or a recorded value, for the x
-    /// axis; histogram: the column to bin (read files: `length` by default, `mean_quality`;
+    /// FCS parameter, table column, f–I measure, a trace channel by name (a frequency sweep's
+    /// `angular_frequency`), or frames: t or a recorded value, for the x axis; histogram: the
+    /// column to bin (read files: `length` by default, `mean_quality`;
     /// nanopore reads: `duration`).
     pub x: Option<String>,
     /// FCS parameter, table column, f–I measure (`spike_count`, `rate_hz`), a trace channel by

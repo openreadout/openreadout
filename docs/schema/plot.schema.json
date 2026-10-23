@@ -165,6 +165,19 @@
           "minItems": 2,
           "maxItems": 2
         },
+        "facet_ranges": {
+          "description": "The range of each small multiple, in facet order, when they do not share this axis.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
         "scale": {
           "description": "`linear`, `log`, `category` or the transform of a flow axis (`logicle`).",
           "type": "string"
