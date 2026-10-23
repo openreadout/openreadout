@@ -1,10 +1,12 @@
 # OpenReadout
 
-OpenReadout lets AI agents read and analyze raw files from lab instruments like microscopes, mass specs, flow cytometers, plate readers and NMR. It reads 120+ formats without vendor software, and runs as an MCP server, a CLI, or a Python or R package.
+OpenReadout lets AI agents read and analyze raw files from lab instruments like microscopes, mass specs, flow cytometers, plate readers and NMR, in 120+ formats.
 
-[![CI](https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg)](https://github.com/openreadout/openreadout/actions/workflows/ci.yml)
-[![Docs](https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg)](https://openreadout.github.io/openreadout/)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
+<p align="center">
+  <a href="https://github.com/openreadout/openreadout/actions/workflows/ci.yml"><img src="https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://openreadout.github.io/openreadout/"><img src="https://github.com/openreadout/openreadout/actions/workflows/docs.yml/badge.svg" alt="Docs"></a>
+  <a href="#license"><img src="https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg" alt="License: MIT OR Apache-2.0"></a>
+</p>
 
 <p align="center">
   <strong>🧪 Try it:</strong> <a href="https://openreadout.github.io/openreadout/demo/">browser demo</a> &nbsp;|&nbsp; <strong>📖 Docs:</strong> <a href="https://openreadout.github.io/openreadout/">openreadout.github.io/openreadout</a>
