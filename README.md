@@ -10,14 +10,16 @@ OpenReadout lets AI agents open and analyze raw files from lab instruments: micr
   <strong>🧪 Try it:</strong> <a href="https://openreadout.github.io/openreadout/demo/">browser demo</a> &nbsp;|&nbsp; <strong>📖 Docs:</strong> <a href="https://openreadout.github.io/openreadout/">openreadout.github.io/openreadout</a>
 </p>
 
-https://github.com/user-attachments/assets/ac587ab7-3388-44a2-9fc2-b58cea75a29f
+https://github.com/user-attachments/assets/7ee0f9fe-e6e0-4378-a46d-5cdc04d57151
 
-<p align="center"><em>An agent answers "Did my GMDS knockout work?" from 31 files made by five instruments. Data: Edyanto et al., figshare <a href="https://doi.org/10.6084/m9.figshare.33265719">10.6084/m9.figshare.33265719</a> (CC BY 4.0).</em></p>
+<p align="center"><em>An agent looks at a 3.7 GB Zeiss slide scan of a young mouse, finds the cerebellum on its own and labels the layers. Data: Zeiss sample images for Bio-Formats, <a href="https://zenodo.org/records/10577621">Zenodo 10577621</a> (CC BY 4.0).</em></p>
 
 <details>
-<summary>Another example: the agent finds the cerebellum in a 3.7 GB slide scan and labels the layers</summary>
+<summary>Another example: an agent checks a gene knockout across 31 files from five instruments</summary>
 
-https://github.com/user-attachments/assets/7ee0f9fe-e6e0-4378-a46d-5cdc04d57151
+https://github.com/user-attachments/assets/658d300b-dc9d-4164-af84-bb48261fd33f
+
+<p align="center"><em>Data: Edyanto et al., figshare <a href="https://doi.org/10.6084/m9.figshare.33265719">10.6084/m9.figshare.33265719</a> (CC BY 4.0).</em></p>
 
 </details>
 
