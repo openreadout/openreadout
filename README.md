@@ -1,6 +1,6 @@
 # OpenReadout
 
-OpenReadout lets AI agents read and analyze raw files from lab instruments like microscopes, mass specs, flow cytometers, plate readers and NMR, in 120+ formats.
+OpenReadout lets AI agents read and analyze raw files from lab instruments like microscopes, mass specs, flow cytometers, plate readers and NMR. It reads 120+ formats without vendor software, and runs as an MCP server, a CLI, or a Python or R package.
 
 <p align="center">
   <a href="https://github.com/openreadout/openreadout/actions/workflows/ci.yml"><img src="https://github.com/openreadout/openreadout/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
