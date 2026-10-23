@@ -40,65 +40,102 @@ Or try the [browser demo](https://openreadout.github.io/openreadout/demo/) with 
 
 ## Gallery
 
-<p align="center">
-  <img src=".github/assets/mouse-czi.jpg" alt="Sagittal section of a whole mouse, trichrome stained, decoded from a Zeiss CZI slide scan" width="100%">
-</p>
-
-<p align="center"><em>A whole mouse section from a 3.7 GB Zeiss slide scan.</em></p>
-
-<p align="center">
-  <img src="book/public/img/gallery/slide-fold.png" alt="One fold of the mouse cerebellum at full resolution, with the layers labelled at file-pixel coordinates">
-</p>
-
-<p align="center"><em>One fold of the cerebellum, labelled by an agent.</em></p>
-
-<p align="center">—</p>
-<p align="center"><strong>Microscopy</strong></p>
+<p align="center"><strong>Light Microscopy</strong></p>
 
 <table>
 <tr>
-<td width="33%"><img src=".github/assets/convallaria-lif.jpg" alt="Convallaria rhizome cross-section from a Leica LIF lambda scan"></td>
-<td width="33%"><img src=".github/assets/batio3-dm3.jpg" alt="Atomic-resolution STEM image of barium titanate from a Gatan DM3 file"></td>
-<td width="33%"><img src=".github/assets/he-qptiff.jpg" alt="H&amp;E-stained tissue section from a PerkinElmer QPTIFF whole-slide scan"></td>
+<td width="33%"><img src=".github/assets/gallery/drosophila-egg-chamber.jpg" alt="Confocal image of a fruit fly egg chamber in three colours, from a Leica LIF file"></td>
+<td width="33%"><img src=".github/assets/gallery/hela-cajal-bodies.jpg" alt="Deconvolved max projection of HeLa cells with tubulin, nuclei and Cajal bodies, from a DeltaVision file"></td>
+<td width="33%"><img src=".github/assets/gallery/convallaria-root.jpg" alt="Spinning-disk image of a Convallaria root cross-section, from an Imaris file"></td>
 </tr>
 <tr>
-<td align="center"><sub>Leica LIF · confocal lambda scan</sub></td>
-<td align="center"><sub>Gatan DM3 · atomic-resolution STEM</sub></td>
-<td align="center"><sub>PerkinElmer QPTIFF · H&amp;E whole slide</sub></td>
+<td align="center"><sub>Leica LIF · fly egg chamber</sub></td>
+<td align="center"><sub>DeltaVision · HeLa cells</sub></td>
+<td align="center"><sub>Imaris · plant root section</sub></td>
+</tr>
+<tr>
+<td width="33%"><img src=".github/assets/gallery/neuron-imaris.jpg" alt="Max projection of one neuron and its dendrites, from an Imaris file"></td>
+<td width="33%"><img src=".github/assets/gallery/cell-painting-cv8000.jpg" alt="Cell Painting field with three stains from a Yokogawa CV8000 plate"></td>
+<td width="33%"><img src=".github/assets/gallery/testes-oir.jpg" alt="Confocal image of testes from an Evident OIR file"></td>
+</tr>
+<tr>
+<td align="center"><sub>Imaris · a single neuron</sub></td>
+<td align="center"><sub>Yokogawa CellVoyager · Cell Painting</sub></td>
+<td align="center"><sub>Evident OIR · testes, confocal</sub></td>
 </tr>
 </table>
 
-<p align="center">—</p>
+<p align="center"><strong>Electron Microscopy</strong></p>
+
+<table>
+<tr>
+<td width="33%"><img src=".github/assets/gallery/virus-capsid-map.jpg" alt="Projection of a virus capsid density map from an MRC file"></td>
+<td width="33%"><img src=".github/assets/gallery/hzo-ptychography.jpg" alt="Atomic columns of HfZrO2 imaged by electron ptychography, from a Gatan DM3 file"></td>
+<td width="33%"><img src=".github/assets/gallery/zno-nanorods.jpg" alt="ZnO nanorods on graphene oxide, from a Gatan DM4 file"></td>
+</tr>
+<tr>
+<td align="center"><sub>EMDB MRC · virus capsid</sub></td>
+<td align="center"><sub>Gatan DM3 · atoms by ptychography</sub></td>
+<td align="center"><sub>Gatan DM4 · ZnO nanorods</sub></td>
+</tr>
+<tr>
+<td width="33%"><img src=".github/assets/gallery/saed-spot-pattern.jpg" alt="Single-crystal electron diffraction spots with the beam stop, from a Gatan DM4 file"></td>
+<td width="33%"><img src=".github/assets/gallery/nanoparticles-haadf.jpg" alt="Nanoparticles on a support film, a STEM HAADF image from a Velox EMD file"></td>
+<td width="33%"><img src=".github/assets/gallery/silica-particles-tem.jpg" alt="Chains of silica particles in TEM, from an FEI SER file"></td>
+</tr>
+<tr>
+<td align="center"><sub>Gatan DM4 · electron diffraction</sub></td>
+<td align="center"><sub>Velox EMD · STEM HAADF</sub></td>
+<td align="center"><sub>FEI SER · silica particles</sub></td>
+</tr>
+</table>
+
 <p align="center"><strong>Figures</strong></p>
 
 <table>
 <tr>
-<td width="50%"><img src="book/public/img/gallery/plate-grid.png" alt="96 growth curves from a SoftMax plate read, drawn in plate positions"></td>
-<td width="50%"><img src="book/public/img/gallery/fcs-gates.png" alt="CD4 and CD8 T-cell populations gated from a FlowJo workspace"></td>
+<td width="33%"><img src=".github/assets/gallery/sanger-read.png" alt="Sanger sequencing trace with base calls and quality bars"></td>
+<td width="33%"><img src=".github/assets/gallery/raman-graphene.png" alt="Raman spectra of graphene with one to three layers, stacked"></td>
+<td width="33%"><img src=".github/assets/gallery/itc-thermogram.png" alt="Isothermal titration calorimetry thermogram with 39 injections"></td>
 </tr>
 <tr>
-<td align="center"><sub>SoftMax .pda · 96 growth curves in plate positions</sub></td>
-<td align="center"><sub>BD FCS and FlowJo · gated T cells</sub></td>
+<td align="center"><sub>ABI .ab1 · Sanger read</sub></td>
+<td align="center"><sub>WITec · Raman of graphene</sub></td>
+<td align="center"><sub>MicroCal ITC · titration</sub></td>
 </tr>
 <tr>
-<td width="50%"><img src="book/public/img/gallery/fi.png" alt="Firing rate against injected current, with example sweeps, from an Axon ABF recording"></td>
-<td width="50%"><img src="book/public/img/gallery/qpcr.png" alt="qPCR amplification curves on a log axis from an Applied Biosystems run"></td>
+<td width="33%"><img src="book/public/img/gallery/fcs-gates.png" alt="CD4 and CD8 T-cell populations gated from a FlowJo workspace"></td>
+<td width="33%"><img src="book/public/img/gallery/plate-grid.png" alt="96 growth curves drawn in plate positions"></td>
+<td width="33%"><img src="book/public/img/gallery/nmr.png" alt="Proton NMR spectrum of sucrose processed from the raw FID"></td>
+</tr>
+<tr>
+<td align="center"><sub>BD FCS + FlowJo · gated T cells</sub></td>
+<td align="center"><sub>SoftMax .pda · 96 growth curves</sub></td>
+<td align="center"><sub>Bruker TopSpin · NMR from the FID</sub></td>
+</tr>
+<tr>
+<td width="33%"><img src=".github/assets/gallery/epr-power-series.png" alt="EPR spectra of BDPA at 14 microwave powers"></td>
+<td width="33%"><img src=".github/assets/gallery/fragment-analysis.png" alt="Fragment analysis peaks sized against the LIZ ladder"></td>
+<td width="33%"><img src="book/public/img/gallery/tic-spectrum.png" alt="Total ion current with the mass spectrum at its apex"></td>
+</tr>
+<tr>
+<td align="center"><sub>Bruker EPR · power series</sub></td>
+<td align="center"><sub>ABI .fsa · fragment sizing</sub></td>
+<td align="center"><sub>mzML · TIC and spectrum</sub></td>
+</tr>
+<tr>
+<td width="33%"><img src="book/public/img/gallery/fi.png" alt="Firing rate against injected current, with example sweeps"></td>
+<td width="33%"><img src=".github/assets/gallery/cyclic-voltammogram.png" alt="Cyclic voltammogram, cycles 1 and 4"></td>
+<td width="33%"><img src="book/public/img/gallery/qpcr.png" alt="qPCR amplification curves on a log axis"></td>
 </tr>
 <tr>
 <td align="center"><sub>Axon ABF · firing against current</sub></td>
-<td align="center"><sub>Applied Biosystems .eds · qPCR amplification</sub></td>
-</tr>
-<tr>
-<td width="50%"><img src="book/public/img/gallery/ir-overlay.png" alt="Four ATR-FTIR spectra stacked with their bands labelled"></td>
-<td width="50%"><img src="book/public/img/gallery/nmr.png" alt="A proton NMR spectrum of sucrose processed from the raw FID"></td>
-</tr>
-<tr>
-<td align="center"><sub>Thermo OMNIC .spa · FTIR spectra</sub></td>
-<td align="center"><sub>Bruker TopSpin · NMR from the raw FID</sub></td>
+<td align="center"><sub>Gamry · cyclic voltammogram</sub></td>
+<td align="center"><sub>Applied Biosystems .eds · qPCR</sub></td>
 </tr>
 </table>
 
-<p align="center"><em>All read from the raw files. More in the <a href="https://openreadout.github.io/openreadout/gallery.html">gallery</a>.</em></p>
+<p align="center"><em>All read from the raw files. More in the <a href="https://openreadout.github.io/openreadout/gallery.html">gallery</a>, and image credits in <a href=".github/assets/gallery/CREDITS.md">CREDITS.md</a>.</em></p>
 
 ## What It Does
 
@@ -320,7 +357,7 @@ Licensed under either the [Apache License 2.0](LICENSE-APACHE) or the [MIT licen
 
 Bug reports and contributions are welcome on [GitHub Issues](https://github.com/openreadout/openreadout/issues). See [CONTRIBUTING.md](CONTRIBUTING.md), and read the [clean-room policy](docs/legal/clean-room-policy.md) before working on a reader.
 
-Images and demo files come from the public test corpus ([`corpus/manifest.toml`](corpus/manifest.toml)), used under their licences: mouse section, Zeiss sample images for Bio-Formats ([Zenodo 10577621](https://zenodo.org/records/10577621), CC-BY-4.0); Convallaria lambda scan, Maria Manuela Azevedo ([Zenodo 14976703](https://zenodo.org/records/14976703), CC-BY-4.0); BaTiO3 STEM, Rama Vasudevan and Gerd Duscher ([Zenodo 8190744](https://zenodo.org/records/8190744), CC-BY-4.0); H&E QPTIFF, PerkinElmer via the OME sample images (CC-BY-4.0); terminal demo, Allen Institute for Cell Science (BSD-3-Clause); knockout chat, Edyanto et al. ([figshare](https://doi.org/10.6084/m9.figshare.33265719), CC-BY-4.0). The figures come from the docs gallery, which lists each source file. [`demo.tape`](.github/assets/demo.tape) regenerates the demo.
+Demo files and README images come from the public test corpus ([`corpus/manifest.toml`](corpus/manifest.toml)), used under their licences, and are credited in [`.github/assets/gallery/CREDITS.md`](.github/assets/gallery/CREDITS.md). [`demo.tape`](.github/assets/demo.tape) regenerates the terminal demo.
 
 ---
 
