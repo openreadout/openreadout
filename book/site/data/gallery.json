@@ -1,5 +1,5 @@
 {
- "version": "0.3.0",
+ "version": "0.4.0",
  "entries": [
   {
    "name": "slide-fold",
@@ -128,7 +128,7 @@
    "img": "img/gallery/comeback.png",
    "width": 1200,
    "height": 779,
-   "spec": "{\n  \"title\": \"Mean of the HK97 wells with and without phage\",\n  \"data\": [\n    {\n      \"file\": \"softmax5-kinetic-phage-120308b.pda\",\n      \"wells\": \"E1:H2\",\n      \"by\": \"group\",\n      \"subtract\": \"blank\",\n      \"color\": \"muted\",\n      \"label\": \"no phage\"\n    },\n    {\n      \"file\": \"softmax5-kinetic-phage-120308b.pda\",\n      \"wells\": \"E3:H11\",\n      \"by\": \"group\",\n      \"subtract\": \"blank\",\n      \"color\": \"accent\",\n      \"label\": \"with phage (5 to 5×10⁸ pfu)\"\n    }\n  ],\n  \"annotate\": [\n    {\n      \"x\": [\n        7.4,\n        8.6\n      ],\n      \"label\": \"came back 7.4–8.6 h\"\n    }\n  ],\n  \"caption\": \"Mean ± SD; 8 wells without phage, 36 with.\"\n}",
+   "spec": "{\n  \"title\": \"Mean of the HK97 wells with and without phage\",\n  \"data\": [\n    {\n      \"file\": \"softmax5-kinetic-phage-120308b.pda\",\n      \"wells\": \"E1:H2\",\n      \"by\": \"group\",\n      \"subtract\": \"blank\",\n      \"color\": \"muted\",\n      \"label\": \"no phage\"\n    },\n    {\n      \"file\": \"softmax5-kinetic-phage-120308b.pda\",\n      \"wells\": \"E3:H11\",\n      \"by\": \"group\",\n      \"subtract\": \"blank\",\n      \"color\": \"accent\",\n      \"label\": \"with phage (5 to 5×10⁸ pfu)\"\n    }\n  ],\n  \"annotate\": [\n    {\n      \"type\": \"vband\",\n      \"x\": 7.4,\n      \"x2\": 8.6,\n      \"label\": \"came back 7.4–8.6 h\"\n    }\n  ],\n  \"caption\": \"Mean ± SD; 8 wells without phage, 36 with.\"\n}",
    "commands": [
     "openreadout plot comeback.json -o comeback.png"
    ]
@@ -198,7 +198,7 @@
    "img": "img/gallery/nmr.png",
    "width": 1200,
    "height": 742,
-   "spec": "{\n  \"title\": \"Sucrose, ¹H at 600 MHz\",\n  \"data\": {\n    \"file\": \"1\",\n    \"process\": true,\n    \"peaks\": 10,\n    \"x_range\": [\n      3.3,\n      5.6\n    ]\n  },\n  \"y\": {\n    \"range\": [\n      -20000000,\n      1000000000\n    ]\n  },\n  \"annotate\": [\n    {\n      \"x\": [\n        4.6,\n        4.95\n      ],\n      \"label\": \"HDO\",\n      \"color\": \"muted\"\n    }\n  ]\n}",
+   "spec": "{\n  \"title\": \"Sucrose, ¹H at 600 MHz\",\n  \"data\": {\n    \"file\": \"1\",\n    \"process\": true,\n    \"peaks\": 10,\n    \"x_range\": [\n      3.3,\n      5.6\n    ]\n  },\n  \"y\": {\n    \"range\": [\n      -20000000,\n      1000000000\n    ]\n  },\n  \"annotate\": [\n    {\n      \"type\": \"vband\",\n      \"x\": 4.6,\n      \"x2\": 4.95,\n      \"label\": \"HDO\",\n      \"color\": \"muted\"\n    }\n  ]\n}",
    "commands": [
     "openreadout plot nmr.json -o nmr.png"
    ]
@@ -283,6 +283,339 @@
    "spec": "{\n  \"title\": \"Dose-symmetric tilt series\",\n  \"data\": {\n    \"file\": \"empiar10751-G3_TS_001.mrc.mdoc\",\n    \"x\": \"tilt_angle_deg\",\n    \"y\": \"cumulative_dose_e_per_a2\",\n    \"mark\": \"points\"\n  }\n}",
    "commands": [
     "openreadout plot tilt-scheme.json -o tilt-scheme.png"
+   ]
+  },
+  {
+   "name": "drosophila-egg-chamber",
+   "section": "light",
+   "wide": false,
+   "title": "A fruit fly egg chamber",
+   "caption": "A Leica SP5 confocal image with its three channels overlaid, propidium iodide in red.",
+   "img": "img/gallery/drosophila-egg-chamber.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo8298760-Orb-Vas-PI-1-mei-P26-1-uninf-4-5d-211024.lif --composite --axes scale-bar --max-size 1400 -o drosophila-egg-chamber.png"
+   ]
+  },
+  {
+   "name": "hela-cajal-bodies",
+   "section": "light",
+   "wide": false,
+   "title": "HeLa cells and their Cajal bodies",
+   "caption": "A deconvolved DeltaVision stack of 50 planes as a maximum projection. The green dots are coilin in Cajal bodies.",
+   "img": "img/gallery/hela-cajal-bodies.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview 090829_1_HeLa_siCTL_coilin_ATUB01_01_R3D_D3D.dv --composite --mip z --region 32,32,448,448 --axes scale-bar --max-size 1400 -o hela-cajal-bodies.png"
+   ]
+  },
+  {
+   "name": "convallaria-root",
+   "section": "light",
+   "wide": false,
+   "title": "A root in cross-section",
+   "caption": "A lily of the valley (Convallaria) root, imaged as a 2 × 2 grid of confocal tiles and stored in one Imaris file.",
+   "img": "img/gallery/convallaria-root.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview Convallaria_3C_1T_2x2grid_confocal.ims --composite --axes scale-bar --max-size 1400 -o convallaria-root.png"
+   ]
+  },
+  {
+   "name": "neuron-imaris",
+   "section": "light",
+   "wide": false,
+   "title": "One neuron and its dendrites",
+   "caption": "A maximum projection of 98 planes from an Imaris file.",
+   "img": "img/gallery/neuron-imaris.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo14235726-performanceTestImage.ims --composite --mip z --axes scale-bar --max-size 1400 -o neuron-imaris.png"
+   ]
+  },
+  {
+   "name": "cell-painting-cv8000",
+   "section": "light",
+   "wide": false,
+   "title": "A Cell Painting field",
+   "caption": "One field of a JUMP consortium plate from a Yokogawa CV8000: the Hoechst, concanavalin A and WGA/phalloidin channels, projected over three planes.",
+   "img": "img/gallery/cell-painting-cv8000.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview MeasurementData.mlf --select c=0,1,3 --mip z --axes scale-bar --max-size 1400 -o cell-painting-cv8000.png"
+   ]
+  },
+  {
+   "name": "testes-oir",
+   "section": "light",
+   "wide": false,
+   "title": "A confocal image of testes",
+   "caption": "One 2,048 × 2,048 channel from an Evident FV3000, read from its OIR file.",
+   "img": "img/gallery/testes-oir.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview figshare22922456-E3-6-testes.oir --composite --axes scale-bar --max-size 1400 -o testes-oir.png"
+   ]
+  },
+  {
+   "name": "chicken-embryo-mesospim",
+   "section": "light",
+   "wide": false,
+   "title": "A chicken embryo by light sheet",
+   "caption": "A 6,510 × 8,978 pixel maximum projection from a mesoSPIM, read from OME-Zarr in the Image Data Resource.",
+   "img": "img/gallery/chicken-embryo-mesospim.png",
+   "width": 995,
+   "height": 1400,
+   "commands": [
+    "openreadout preview ExpD_chicken_embryo_MIP.ome.zarr --axes scale-bar --max-size 1400 -o chicken-embryo-mesospim.png"
+   ]
+  },
+  {
+   "name": "intestine-villi-lsm710",
+   "section": "light",
+   "wide": false,
+   "title": "Intestinal villi",
+   "caption": "A three-channel confocal image of mouse intestine from a Zeiss LSM 710 CZI file.",
+   "img": "img/gallery/intestine-villi-lsm710.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo5823010-inflammasome.czi --composite --axes scale-bar --max-size 1400 -o intestine-villi-lsm710.png"
+   ]
+  },
+  {
+   "name": "virus-capsid-map",
+   "section": "em",
+   "wide": false,
+   "title": "A virus capsid from a density map",
+   "caption": "EMDB entry EMD-1016, read from the gzipped MRC map and projected by maximum along z.",
+   "img": "img/gallery/virus-capsid-map.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview emdb-emd-1016.map.gz --mip z --axes scale-bar --max-size 1400 -o virus-capsid-map.png"
+   ]
+  },
+  {
+   "name": "hzo-ptychography",
+   "section": "em",
+   "wide": false,
+   "title": "Atoms seen by electron ptychography",
+   "caption": "Hf₀.₅Zr₀.₅O₂ reconstructed by ptychography, with the 16 slices of a Gatan DM3 file added up.",
+   "img": "img/gallery/hzo-ptychography.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo18373896-hzo-ptycho.dm3 --sum t --axes scale-bar --max-size 1400 -o hzo-ptychography.png"
+   ]
+  },
+  {
+   "name": "zno-nanorods",
+   "section": "em",
+   "wide": false,
+   "title": "ZnO nanorods on graphene oxide",
+   "caption": "A TEM image from a Gatan DM4 file.",
+   "img": "img/gallery/zno-nanorods.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo10848941-go-zno.dm4 --axes scale-bar --max-size 1400 -o zno-nanorods.png"
+   ]
+  },
+  {
+   "name": "saed-spot-pattern",
+   "section": "em",
+   "wide": false,
+   "title": "A selected-area diffraction pattern",
+   "caption": "Diffraction spots of a single crystal and the beam stop, from a Gatan DM4 file.",
+   "img": "img/gallery/saed-spot-pattern.png",
+   "width": 1024,
+   "height": 1024,
+   "commands": [
+    "openreadout preview zenodo13821437-Figure-2e.dm4 --axes none --max-size 1400 -o saed-spot-pattern.png"
+   ]
+  },
+  {
+   "name": "nanoparticles-haadf",
+   "section": "em",
+   "wide": false,
+   "title": "Nanoparticles in STEM",
+   "caption": "The 50 HAADF frames of a Velox EMD file, summed.",
+   "img": "img/gallery/nanoparticles-haadf.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo20131712-0017-SI-Nano-1.4um.emd --sum t --axes scale-bar --max-size 1400 -o nanoparticles-haadf.png"
+   ]
+  },
+  {
+   "name": "silica-particles-tem",
+   "section": "em",
+   "wide": false,
+   "title": "Chains of silica particles",
+   "caption": "A STEM image from a Tecnai Osiris, read from an FEI TIA SER file.",
+   "img": "img/gallery/silica-particles-tem.png",
+   "width": 1351,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo17463176-Fig_b1_1.ser --axes scale-bar --max-size 1400 -o silica-particles-tem.png"
+   ]
+  },
+  {
+   "name": "cryo-et-tomogram",
+   "section": "em",
+   "wide": false,
+   "title": "Virions in a cryo-electron tomogram",
+   "caption": "One slice of a reconstructed tomogram, read from an IMOD MRC file.",
+   "img": "img/gallery/cryo-et-tomogram.png",
+   "width": 801,
+   "height": 1400,
+   "commands": [
+    "openreadout preview zenodo10526574-IPPK-TS08-rec.rec --axes scale-bar --max-size 1400 -o cryo-et-tomogram.png"
+   ]
+  },
+  {
+   "name": "lego-phantom-mri",
+   "section": "em",
+   "wide": false,
+   "title": "A Lego phantom by MRI",
+   "caption": "A FLASH image from a Bruker BioSpec 94/30, read from its ParaVision 7 study folder.",
+   "img": "img/gallery/lego-phantom-mri.png",
+   "width": 512,
+   "height": 585,
+   "commands": [
+    "openreadout preview 20210128_122257_LEGO_PHANTOM_API_TEST_1_1 --image 14 --axes none --max-size 1400 -o lego-phantom-mri.png"
+   ]
+  },
+  {
+   "name": "cyclic-voltammogram",
+   "section": "previews",
+   "wide": false,
+   "title": "A cyclic voltammogram",
+   "caption": "Cycles 1 and 4 of a Gamry DTA file, current against potential.",
+   "img": "img/gallery/cyclic-voltammogram.png",
+   "width": 2400,
+   "height": 1816,
+   "commands": [
+    "openreadout preview echem-zenodo7245929-rde-cv-dimethyl.DTA --trace 1 --max-size 1200 --scale 2 -o cyclic-voltammogram.png"
+   ]
+  },
+  {
+   "name": "sanger-read",
+   "section": "figures",
+   "wide": false,
+   "title": "A Sanger read with its base calls",
+   "caption": "Sixty bases of an Applied Biosystems 3730xl read: the four dye traces, the called bases and their quality values.",
+   "img": "img/gallery/sanger-read.png",
+   "width": 1200,
+   "height": 635,
+   "spec": "{\n  \"title\": \"A Sanger read: bases 100 to 160 of 1,165\",\n  \"data\": {\n    \"file\": \"abif-biopython-3730.ab1\",\n    \"show\": \"sanger\",\n    \"x_range\": [\n      100,\n      160\n    ]\n  }\n}",
+   "commands": [
+    "openreadout plot sanger-read.json -o sanger-read.png"
+   ]
+  },
+  {
+   "name": "raman-graphene",
+   "section": "figures",
+   "wide": false,
+   "title": "Raman spectra of graphene by layer",
+   "caption": "The averaged spectra a WITec project file stores for one, two and three layers of graphene, stacked.",
+   "img": "img/gallery/raman-graphene.png",
+   "width": 1200,
+   "height": 779,
+   "spec": "{\n  \"title\": \"Raman spectra of graphene, one to three layers\",\n  \"data\": [\n    {\n      \"file\": \"witio-a-v5-graphene.wip\",\n      \"trace\": 1,\n      \"label\": \"1 layer\"\n    },\n    {\n      \"file\": \"witio-a-v5-graphene.wip\",\n      \"trace\": 2,\n      \"label\": \"2 layers\"\n    },\n    {\n      \"file\": \"witio-a-v5-graphene.wip\",\n      \"trace\": 3,\n      \"label\": \"3 layers, ABA\"\n    },\n    {\n      \"file\": \"witio-a-v5-graphene.wip\",\n      \"trace\": 4,\n      \"label\": \"3 layers, ABC\"\n    }\n  ],\n  \"x\": {\n    \"range\": [\n      1400,\n      2900\n    ]\n  },\n  \"stack\": 0.6,\n  \"caption\": \"Averaged spectra from a WITec Raman map. The 2D band on the left broadens and changes shape as layers are added.\"\n}",
+   "commands": [
+    "openreadout plot raman-graphene.json -o raman-graphene.png"
+   ]
+  },
+  {
+   "name": "itc-thermogram",
+   "section": "figures",
+   "wide": false,
+   "title": "An ITC thermogram",
+   "caption": "The differential power of a MicroCal ITC run with 39 injections.",
+   "img": "img/gallery/itc-thermogram.png",
+   "width": 1200,
+   "height": 742,
+   "spec": "{\n  \"title\": \"Isothermal titration calorimetry: 39 injections\",\n  \"data\": {\n    \"file\": \"itc-zenodo6608282-d25-50um.itc\",\n    \"channel\": 0\n  }\n}",
+   "commands": [
+    "openreadout plot itc-thermogram.json -o itc-thermogram.png"
+   ]
+  },
+  {
+   "name": "epr-power-series",
+   "section": "figures",
+   "wide": false,
+   "title": "An EPR power series",
+   "caption": "Fourteen field sweeps of BDPA from a Bruker BES3T file, one per microwave power.",
+   "img": "img/gallery/epr-power-series.png",
+   "width": 1200,
+   "height": 779,
+   "spec": "{\n  \"title\": \"EPR of BDPA at 14 microwave powers\",\n  \"data\": {\n    \"file\": \"epr-cwepr-bdpa-2dfieldpower.DSC\",\n    \"sweep\": [\n      0,\n      1,\n      2,\n      3,\n      4,\n      5,\n      6,\n      7,\n      8,\n      9,\n      10,\n      11,\n      12,\n      13\n    ]\n  },\n  \"x\": {\n    \"range\": [\n      3510,\n      3522\n    ]\n  },\n  \"legend\": \"none\",\n  \"caption\": \"A 2D Bruker Xepr data set: one field sweep per power.\"\n}",
+   "commands": [
+    "openreadout plot epr-power-series.json -o epr-power-series.png"
+   ]
+  },
+  {
+   "name": "fragment-analysis",
+   "section": "figures",
+   "wide": false,
+   "title": "Fragment sizes from a capillary run",
+   "caption": "The 6-FAM peaks of an Applied Biosystems FSA file, sized against the LIZ ladder in the same run.",
+   "img": "img/gallery/fragment-analysis.png",
+   "width": 1200,
+   "height": 760,
+   "spec": "{\n  \"title\": \"Fragment analysis: 6-FAM peaks sized against the LIZ ladder\",\n  \"panels\": [\n    {\n      \"title\": \"6-FAM\",\n      \"data\": {\n        \"file\": \"abif-fraggler-multiplex.fsa\",\n        \"trace\": 0,\n        \"channel\": 1,\n        \"peaks\": 8,\n        \"color\": \"blue\"\n      },\n      \"x\": {\n        \"range\": [\n          100,\n          300\n        ]\n      }\n    },\n    {\n      \"title\": \"LIZ size standard\",\n      \"data\": {\n        \"file\": \"abif-fraggler-multiplex.fsa\",\n        \"trace\": 0,\n        \"channel\": 5,\n        \"peaks\": 12,\n        \"color\": \"ochre\"\n      },\n      \"x\": {\n        \"range\": [\n          100,\n          300\n        ]\n      }\n    }\n  ],\n  \"columns\": 1,\n  \"width\": 1200,\n  \"height\": 760\n}",
+   "commands": [
+    "openreadout plot fragment-analysis.json -o fragment-analysis.png"
+   ]
+  },
+  {
+   "name": "xrd-three-makers",
+   "section": "figures",
+   "wide": false,
+   "title": "Powder diffraction from three makers",
+   "caption": "Scans from Bruker, Rigaku and Malvern Panalytical files, with the largest peaks labelled.",
+   "img": "img/gallery/xrd-three-makers.png",
+   "width": 1200,
+   "height": 1100,
+   "spec": "{\n  \"title\": \"Powder X-ray diffraction from three instrument makers\",\n  \"panels\": [\n    {\n      \"title\": \"Mudstone · Bruker D8 (.raw)\",\n      \"data\": {\n        \"file\": \"xrd-zenodo17012484-raw1-mudstone.raw\",\n        \"peaks\": 4\n      }\n    },\n    {\n      \"title\": \"CoWO₄ · Rigaku SmartLab (.ras)\",\n      \"data\": {\n        \"file\": \"xrd-zenodo11161891-ras-cowo4.ras\",\n        \"peaks\": 5,\n        \"color\": \"accent\"\n      }\n    },\n    {\n      \"title\": \"Nb-doped rutile · PANalytical X'Pert PRO (.xrdml)\",\n      \"data\": {\n        \"file\": \"xrd-zenodo5484779-rutile-nb5.xrdml\",\n        \"peaks\": 5,\n        \"color\": \"blue\"\n      }\n    }\n  ],\n  \"columns\": 1,\n  \"share\": \"x\",\n  \"width\": 1200,\n  \"height\": 1100\n}",
+   "commands": [
+    "openreadout plot xrd-three-makers.json -o xrd-three-makers.png"
+   ]
+  },
+  {
+   "name": "bli-sensor",
+   "section": "figures",
+   "wide": false,
+   "title": "A bio-layer interferometry sensor",
+   "caption": "One sensor of an Octet run through all 115 of its assay steps.",
+   "img": "img/gallery/bli-sensor.png",
+   "width": 1200,
+   "height": 779,
+   "spec": "{\n  \"title\": \"Bio-layer interferometry: one sensor through 115 assay steps\",\n  \"data\": {\n    \"file\": \"octet-pykingenie-230309_001.frd\",\n    \"channel\": 1\n  },\n  \"caption\": \"Each rise is an association step and each fall a dissociation, as the Octet stored them.\"\n}",
+   "commands": [
+    "openreadout plot bli-sensor.json -o bli-sensor.png"
+   ]
+  },
+  {
+   "name": "dsc-thermogram",
+   "section": "figures",
+   "wide": false,
+   "title": "A DSC heat-cool-heat run",
+   "caption": "Heat flow of polycaprolactone from a TA Instruments Universal Analysis file.",
+   "img": "img/gallery/dsc-thermogram.png",
+   "width": 1200,
+   "height": 779,
+   "spec": "{\n  \"title\": \"Polycaprolactone by DSC: heat, cool, heat\",\n  \"data\": {\n    \"file\": \"ta-zenodo17293641-pcl-standard.001\",\n    \"channel\": 2\n  },\n  \"caption\": \"Melting on heating, crystallisation on cooling, melting again.\"\n}",
+   "commands": [
+    "openreadout plot dsc-thermogram.json -o dsc-thermogram.png"
    ]
   }
  ]

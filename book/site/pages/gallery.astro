@@ -13,6 +13,18 @@ const sections = [
       "A preview is a quick look at one thing in a file: an image plane, a trace, a spectrum, a plate or a cytometry run. Images come with rulers in file pixels, so an agent can read positions off the picture, zoom into a region and put labelled marks where it sees something. Ask for one with `openreadout preview`, the agent tool `openreadout_preview` or `File.preview()` in Python.",
   },
   {
+    id: "light",
+    title: "Light microscopy",
+    intro:
+      "Previews of confocal, light-sheet and high-content images in seven file formats. Channels are overlaid, and the scale bar comes from the pixel size stored in the file.",
+  },
+  {
+    id: "em",
+    title: "Electron microscopy and other imaging",
+    intro:
+      "Previews of electron micrographs, a diffraction pattern, a density map, a tomogram and an MRI scan. `--sum` adds up frames and `--mip` projects a stack.",
+  },
+  {
     id: "figures",
     title: "Figures",
     intro:
@@ -25,7 +37,7 @@ const md = (s: string) => s.replace(/`([^`]+)`/g, "<code>$1</code>");
 <Editorial
   page="gallery"
   title="Gallery · OpenReadout"
-  description="Previews and figures drawn by OpenReadout from public lab-instrument files: slide scans, plate reads, spectra, sweeps, cytometry and NMR."
+  description="Previews and figures drawn by OpenReadout from public lab-instrument files: microscopy, electron microscopy, plate reads, spectra, sweeps, cytometry, sequencing and NMR."
 >
   <header class="col hero">
     <div class="kicker"><span>Gallery</span><span>Drawn by OpenReadout from public files</span></div>
@@ -74,8 +86,9 @@ const md = (s: string) => s.replace(/`([^`]+)`/g, "<code>$1</code>");
       <code>openreadout_plot()</code> and <code>openreadout_preview()</code> (<a href={base + "guides/r.html"}>R guide</a>).
     </p>
     <p class="g-note">
-      Drawn by OpenReadout {gallery.version} with <code>node book/scripts/gallery.mjs</code>. The files are public: Zenodo, Dryad, figshare and MetaboLights records,
-      and the test data of pyABF, FlowKit and nmrXiv, used under their licences (<a href="https://github.com/openreadout/openreadout/blob/main/corpus/manifest.toml">corpus manifest</a>).
+      Drawn by OpenReadout {gallery.version} with <code>node book/scripts/gallery.mjs</code>. The files are public: Zenodo, Dryad, figshare, MetaboLights, EMDB, EMPIAR and Image Data Resource records,
+      the OME sample images, the Cell Painting Gallery, and the test data of pyABF, FlowKit, nmrXiv, Biopython, wit_io, cwepr, Fraggler,
+      pykingenie and brukerapi, used under their licences (<a href="https://github.com/openreadout/openreadout/blob/main/corpus/manifest.toml">corpus manifest</a>).
     </p>
   </section>
 </Editorial>
