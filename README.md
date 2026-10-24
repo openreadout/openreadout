@@ -12,32 +12,6 @@ OpenReadout lets AI agents read and analyze raw files from lab instruments like 
   <strong>🧪 Try it:</strong> <a href="https://openreadout.github.io/openreadout/demo/">browser demo</a> &nbsp;|&nbsp; <strong>📖 Docs:</strong> <a href="https://openreadout.github.io/openreadout/">openreadout.github.io/openreadout</a>
 </p>
 
-https://github.com/user-attachments/assets/7ee0f9fe-e6e0-4378-a46d-5cdc04d57151
-
-<p align="center"><em>An agent finds the cerebellum in a 3.7 GB slide scan and labels its layers. Data: <a href="https://zenodo.org/records/10577621">Zenodo 10577621</a> (CC BY 4.0).</em></p>
-
-<details>
-<summary>Another example: checking a gene knockout across five instruments</summary>
-
-https://github.com/user-attachments/assets/658d300b-dc9d-4164-af84-bb48261fd33f
-
-<p align="center"><em>Data: Edyanto et al., <a href="https://doi.org/10.6084/m9.figshare.33265719">figshare</a> (CC BY 4.0).</em></p>
-
-</details>
-
-## Get Started
-
-Install it, then connect it to your agent:
-
-```bash
-brew install openreadout/tap/openreadout    # other ways under Installation below
-openreadout mcp --install claude-desktop    # or claude, codex, cursor, vscode, gemini
-```
-
-Then ask your agent about a file, like "What's in cells.czi?" In Claude Code you can install it as a plugin instead (see [AI Integration](#ai-integration)).
-
-Or try the [browser demo](https://openreadout.github.io/openreadout/demo/) with no install. Your files never leave your computer.
-
 ## Gallery
 
 <p align="center"><strong>Light Microscopy</strong></p>
@@ -136,6 +110,33 @@ Or try the [browser demo](https://openreadout.github.io/openreadout/demo/) with 
 </table>
 
 <p align="center"><em>All read from the raw files. More in the <a href="https://openreadout.github.io/openreadout/gallery.html">gallery</a>, and image credits in <a href=".github/assets/gallery/CREDITS.md">CREDITS.md</a>.</em></p>
+
+## Get Started
+
+Install it, then connect it to your agent:
+
+```bash
+brew install openreadout/tap/openreadout    # other ways under Installation below
+openreadout mcp --install claude-desktop    # or claude, codex, cursor, vscode, gemini
+```
+
+Then ask your agent about a file, like "What's in cells.czi?" In Claude Code you can install it as a plugin instead (see [AI Integration](#ai-integration)).
+
+Or try the [browser demo](https://openreadout.github.io/openreadout/demo/) with no install. Your files never leave your computer.
+
+## With an Agent
+
+**Claude finds the cerebellum in a 3.7 GB slide scan and labels its layers.**
+
+https://github.com/user-attachments/assets/7ee0f9fe-e6e0-4378-a46d-5cdc04d57151
+
+<p align="center"><em>Data: <a href="https://zenodo.org/records/10577621">Zenodo 10577621</a> (CC BY 4.0).</em></p>
+
+**Claude checks a gene knockout with files from five instruments.**
+
+https://github.com/user-attachments/assets/658d300b-dc9d-4164-af84-bb48261fd33f
+
+<p align="center"><em>Data: Edyanto et al., <a href="https://doi.org/10.6084/m9.figshare.33265719">figshare</a> (CC BY 4.0).</em></p>
 
 ## What It Does
 
