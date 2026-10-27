@@ -13,3 +13,7 @@ The ParaVision manuals were not consulted.
 **Corpus files used:** the BrukerAPI test data sets on Zenodo (CC-BY-4.0; records 4522220, 4048253, 4048286): ParaVision 7.0.0, 6.0.1 and 5.1 phantom studies. Expnos 6 (B1 map, FG_ECHO × FG_SLICE, 32-bit), 10 (DTI EPI, FG_DIFFUSION), 20 (flow map, FG_FLOW) and 35 (single-pulse spectroscopy) of the PV 7.0.0 study were dumped while writing the reader.
 
 **Decisions (ours):** FG_SLICE is Z; FG_CYCLE and FG_MOVIE are T; every other group is a channel named by `VisuFGElemComment`. Values are float32 when any frame has a slope other than 1 or an offset other than 0. Spectroscopy reconstructions are traces with a ppm axis centred on `PVM_FrqWorkPpm` (inferred from the parameter names and values, not validated by an oracle). Subject names, IDs, birth dates and referring users are withheld.
+
+## 2026-10-23 — technique (Richard Zimring with Claude as assistant)
+
+ParaVision writes MRI data only, so the experiment's technique is `OBI:0002985` (magnetic resonance imaging assay) instead of the light-microscopy default. Corpus file: `brukerapi-pv7-lego-phantom-e6`. Prior art: none.
