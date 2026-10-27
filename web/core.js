@@ -6,6 +6,7 @@
 
 import { BUILT } from "./built.js";
 import * as R from "./reader.js";
+import { watchDownloads } from "./store.js";
 
 /** `post(message, transfer)` sends a message to the page. */
 export function createCore(post) {
@@ -13,6 +14,7 @@ export function createCore(post) {
   const queue = [];
   let running = false;
   let module = null;
+  watchDownloads((on) => post({ downloading: on }));
 
   const loadModule = () => {
     module ??= (async () => {

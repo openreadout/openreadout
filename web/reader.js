@@ -3,7 +3,8 @@
 // in the browser tab and in Node (web/test/demo.test.mjs), on the npm wrapper of the
 // WebAssembly build (packaging/wasm/index.js).
 
-import { load, open } from "./openreadout/index.js";
+import { load, open, openAmong, openStore } from "./openreadout/index.js";
+import { locate } from "./store.js";
 
 let loading = null;
 let loaded = false;
@@ -33,21 +34,39 @@ const settle = (p) =>
   );
 
 /**
- * Open a file (a File, Blob or bytes) and read what the page shows first: `info`, `info --view
- * explain` and `check`, each settled on its own, so a file the reader half understands still
- * shows what it could read. The returned `file` stays open for the views; close it when done.
+ * Open what the page was given and read what it shows first: `info`, `info --view explain`
+ * and `check`, each settled on its own, so a file the reader half understands still shows
+ * what it could read. `source` is a file (a File, Blob or bytes), a dropped folder
+ * (`{ folder: [{ path, data }], root }`, opened as one data set) or a file or folder at an
+ * HTTPS address (`{ url }`, from `webAddress`). The returned `file` stays open for the views;
+ * close it when done.
  */
 export async function openFile(source, name) {
   await ready();
   const started = performance.now();
-  const file = await open(source, name ? { name } : {});
+  let file;
+  let size;
+  let shown;
+  if (source.url) {
+    const at = await locate(source.url);
+    file = await openStore(at.root, at.get, { path: at.path });
+    shown = at.name;
+  } else if (source.folder) {
+    file = await openAmong(source.folder, source.root);
+    size = source.folder.reduce((n, f) => n + (f.data.size ?? f.data.byteLength), 0);
+  } else {
+    file = await open(source, name ? { name } : {});
+    size = source.size ?? source.byteLength;
+  }
   const info = await settle(file.info());
   const explain = await settle(file.info({ view: "explain" }));
-  const check = await settle(file.check());
+  // Over HTTP a full check would download the whole file, so a URL gets the checks
+  // of its metadata only.
+  const check = await settle(file.check({ headersOnly: Boolean(source.url) }));
   return {
     file,
-    name: file.name,
-    size: source.size ?? source.byteLength,
+    name: shown ?? file.name,
+    size,
     info,
     explain,
     check,
