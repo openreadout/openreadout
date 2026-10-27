@@ -63,5 +63,10 @@ updates:
     groups:
       npm:
         patterns: ["*"]
+    # Starlight imports js-yaml 4's default export, and the site build resolves that to the
+    # site's own copy, so the site stays on js-yaml 4 until Starlight moves.
+    ignore:
+      - dependency-name: js-yaml
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: "chore(deps)"
