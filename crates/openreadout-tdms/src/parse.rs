@@ -708,7 +708,10 @@ fn place(
         break;
     }
     let data = &data[..sizes.len()];
-    let chunk: u64 = sizes.iter().sum();
+    let chunk = sizes
+        .iter()
+        .try_fold(0u64, |a, b| a.checked_add(*b))
+        .ok_or_else(|| format!("segment at byte {seg_pos}: channel sizes overflow"))?;
     if chunk == 0 {
         return Ok(0);
     }

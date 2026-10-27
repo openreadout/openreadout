@@ -17,3 +17,7 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 - The timestamp layout in little-endian files: the 64-bit fraction first, then the seconds (`tdms-rs-timestamps`, `tdms-zenodo17582347-ldv`).
 - String raw data stores end offsets (`tdms-rs-strings`, `tdms-rs-edge-cases`).
 - The writer names a file property can give (`WriterName` in `tdms-zenodo3563513-signalexpress`).
+
+## 2026-10-27 — channel size overflow (Richard Zimring with Claude as assistant)
+
+The `whole_tdms` fuzz target found that a segment's per-channel byte sizes could add up past `u64`. The sum is checked now, and such a segment is reported as unreadable. Fixture: `crates/openreadout-tdms/tests/fixtures/malformed/file-fuzz-chunk-size-overflow.tdms` (fuzzer output from the `mini.tdms` fixture). Prior art: none.
