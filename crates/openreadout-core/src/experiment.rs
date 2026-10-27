@@ -1680,6 +1680,23 @@ fn modality(c: &Ctx<'_>, im: &ImageInfo) -> (&'static str, &'static str) {
     if c.family() == "container" {
         return ("image", "");
     }
+    // ParaVision only writes MRI. DICOM names its modality, and its slide-microscopy images
+    // (SM) go on to the microscopy rules below. NIfTI and Analyze volumes can come from MRI, CT
+    // or a microscope, so they get no technique.
+    if c.family() == "medical-imaging" {
+        let modality = if c.format() == "bruker-paravision" {
+            Some("MR")
+        } else {
+            im.extra.get("modality").and_then(Value::as_str)
+        };
+        match modality {
+            Some("MR") => return ("MRI", "OBI:0002985"),
+            Some("CT") => return ("CT", "FBbi:00001002"),
+            Some("PT") => return ("PET", "OBI:0002987"),
+            Some("SM") => {}
+            _ => return ("image", ""),
+        }
+    }
     if c.family() == "electron-microscopy" {
         let text = [
             im.extra.get("mode").and_then(Value::as_str),
@@ -3441,6 +3458,35 @@ mod tests {
             Some("Carl Zeiss Microscopy")
         );
         assert_eq!(e.provenance["instrument.vendor"].from, "format.vendor");
+    }
+
+    #[test]
+    fn medical_imaging_technique() {
+        let technique = |format: &str, modality: Option<&str>| {
+            let mut f = file(format, "medical-imaging", "various");
+            let mut im = ImageInfo::new(0, 128, 128, PixelType::Float);
+            if let Some(m) = modality {
+                im.extra.insert("modality".into(), m.into());
+            }
+            f.images.push(im.finish());
+            let e = derive(&f, &ProvenanceMap::new());
+            check(&e);
+            e.measurements[0].technique.as_ref().map(|t| t.id.clone())
+        };
+        assert_eq!(
+            technique("bruker-paravision", None).as_deref(),
+            Some("OBI:0002985")
+        );
+        assert_eq!(
+            technique("dicom", Some("MR")).as_deref(),
+            Some("OBI:0002985")
+        );
+        assert_eq!(
+            technique("dicom", Some("CT")).as_deref(),
+            Some("FBbi:00001002")
+        );
+        assert_eq!(technique("dicom", Some("US")), None);
+        assert_eq!(technique("nifti", None), None);
     }
 
     #[test]

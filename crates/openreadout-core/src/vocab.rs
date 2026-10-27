@@ -126,6 +126,10 @@ pub const TERMS: &[(&str, &str)] = &[
     ("FBbi:00000256", "electron microscopy"),
     ("FBbi:00000258", "transmission electron microscopy"),
     ("FBbi:00000380", "scanning-transmission electron microscopy"),
+    // medical imaging (ParaVision, DICOM), checked on EBI OLS 2026-10-23
+    ("OBI:0002985", "magnetic resonance imaging assay"),
+    ("OBI:0002987", "positron emission tomography imaging assay"),
+    ("FBbi:00001002", "X-ray computed tomography"),
     // EPR (Bruker BES3T/ESP), checked on EBI OLS 2026-09-26
     ("CHMO:0000328", "electron spin resonance spectroscopy"),
     (
