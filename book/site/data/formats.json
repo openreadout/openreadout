@@ -295,7 +295,7 @@
    "family": "mass-spectrometry",
    "can_read": true,
    "can_write": false,
-   "confidence": "low",
+   "confidence": "high",
    "known_gaps": [
     "Input is a spot directory (or its fid / acqus) or a directory above spot directories, not a single file",
     "The raw fid is read; flexAnalysis's processed spectrum (pdata/1/1r) and peak lists are not",
@@ -363,7 +363,7 @@
    "family": "microscopy",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "No specification: the layout comes from OpenSlide's public format documentation and the corpus files; placement of camera photos was derived by comparison with OpenSlide run as a black box",
     "Levels above 0 place camera photos at fractional pixels: values are bilinear resamplings as OpenSlide renders them (within a few grey levels of OpenSlide), not stored samples",
@@ -509,7 +509,7 @@
    "family": "diffraction",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Byte-offset and uncompressed binary sections are decoded; packed, canonical and other CBFlib compressions are refused (exit 6)",
     "Full imgCIF: only the wavelength is taken from the CIF categories; the axis and detector-geometry categories are listed raw (`info --view full`), not turned into a beam centre or distance",
@@ -1075,7 +1075,7 @@
    "family": "chromatography",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Detector signals (.CH, Signal179), instrument curves (.IT: pressure, flow, solvent ratios, temperatures) and DAD spectra parts (.UV, Spectra131: one trace, one channel per wavelength; bit-identical to rainbow-api, unit checked against the DAD's own channels) are traces; spectra directories (.UVD) and parts of other content types are listed, not decoded",
     "Vendor peaks (.rx) are a table with the vendor's retention times, areas, heights, area %, limits and baseline codes; compound amounts, calibration and custom fields (e.g. GPC results) are not read, and every corpus file has unnamed compounds",
@@ -1189,7 +1189,7 @@
    "family": "chromatography",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Read: every archived 2D signal (detector channels, PDA-extracted channels, MS extracted-ion chromatograms, pump pressure and flow; encodings PtsLDiff, PtsLL2Df, PtsDDCmp) and every 3D field (PDA spectra: one trace, one channel per wavelength) of every injection, and the calibration standards a processing method holds, as traces with their unit, device and recorded range from the sequence file. Validated point for point against Chromeleon's own ASCII exports (6 HPAEC-PAD injections, 55,446 points, Chromeleon 7.3.1) and a Chromeleon 7.2.10 PDF report (57 GC-FID injections); every signal and 3D field of 10 archives equals the sequence file's recorded point count, times, minimum and maximum; Chromeleon's extracted channels equal our 3D fields bit for bit",
     "Chromeleon's own integration results, as it last saved them, are tables[0] vendor_peaks (retention time, limits, baseline, area, height, component, 50/10/5 % points; widths, asymmetry, tailing, plates and resolution computed from those points): equal to the PDF report's printed values, and every one of 5,360 stored peaks of 9 archives reproduced by our integration on our decoded signal within 1e-6. Injection details (position, volume, inject time, type, status, level, methods) are tables[1] injections and traces[].extra, equal to the vendor's exports and report. Amounts are not stored with the peaks and are not computed; injections Chromeleon saved no results for have none",
@@ -1408,7 +1408,7 @@
     "String, structured and datetime data types are not read (exit 6); float16 is widened to float32, bool is uint8 0/1",
     "Scale and translation transformations are composed (physical sizes, `extra.origin_um`); NGFF 0.6 coordinate systems and affine/rotation transformations are reported, not applied",
     "Axes other than t/c/z/y/x are read at index 0",
-    "Remote (HTTP/S3) stores are not opened: the binary has no network access"
+    "The command line and MCP server don't open remote (HTTP/S3) stores: the binary has no network access. The WebAssembly build reads them through the page (`openStore`)"
    ],
    "page": "ome-zarr",
    "field": "Light microscopy"
@@ -1555,7 +1555,7 @@
    "family": "diffraction",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Images come from the data files the master links to (`/entry/data/data_NNNNNN`); a virtual dataset (`/entry/data/data` in `.nxs` files) is not read, its source files are",
     "Multi-module detectors are read as the stored full frame; per-module geometry (`NXdetector_module` offsets and orientations) is listed raw, not applied",
@@ -2030,7 +2030,7 @@
    "family": "particle-sizing",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Size and zeta results are returned as stored; the size distributions, correlation functions and phase plots are not decoded",
     "Size peak widths and the number and volume peaks are stored but withheld: no Zetasizer export in the corpus holds them to check against",
@@ -2178,7 +2178,7 @@
    "family": "spectrophotometer",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Native NanoDrop workbooks (.twbk, .sql) and Excel saves of the exports are not read: export the data as text",
     "The NanoDrop 8000's standards table (a second table after a blank line) is kept as text in the vendor metadata, not parsed",
@@ -2235,7 +2235,7 @@
    "family": "chromatography",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Validated on UNICORN 7.1, 7.3 and 7.7 exports (ÄKTA pure 25, pure 150L, avant); UNICORN 6 exports have no public sample",
     "Curves are read at full resolution; reduced-resolution point files, if an export has them, are not used",
@@ -2335,7 +2335,7 @@
    "family": "diffraction",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "2D detector frames (recorded views wider than one value) are refused (exit 6); integrated 1D counts are read",
     "Counts are returned as stored; absorber factors are a separate channel and are not applied",
@@ -2354,7 +2354,7 @@
    "family": "diffraction",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Intensities are returned as stored; the attenuation column is a separate channel and is not applied (a file with factors other than 1 is flagged)"
    ],
@@ -2591,7 +2591,7 @@
    "family": "thermal-analysis",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "The DSC signal is returned in µV as stored; Proteus's sensitivity calibration (to mW, mW/mg) is not applied",
     "The temperature program, PID settings and calibration tables are not decoded",
@@ -2630,7 +2630,7 @@
    "family": "thermal-analysis",
    "can_read": true,
    "can_write": false,
-   "confidence": "medium",
+   "confidence": "high",
    "known_gaps": [
     "Values are the stored signals; variables TRIOS computes (normalised heat flow, derivatives, viscosities of flow steps, DMA moduli) are not, except the oscillation moduli of parallel-plate rheometer steps",
     "Signals of unknown meaning are returned as signal_<guid> without a unit",

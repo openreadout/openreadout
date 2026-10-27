@@ -6,8 +6,9 @@
 //   const { data, type } = await f.preview();  // the picture's bytes and MIME type
 //
 // Nothing is uploaded or fetched: the module has no network code. Bytes come from the object
-// you pass. Blobs up to `wholeFileLimit` (default 256 MiB) are read at once; larger ones are
-// read in blocks, only where the readers look.
+// you pass. Blobs up to `wholeFileLimit` (default 256 MiB) are read at once; larger ones, the
+// files of a dropped folder and the files of a store you fetch yourself (`openStore`) are read
+// in blocks, only where the readers look.
 
 import init, * as wasm from "./pkg/openreadout.js";
 
@@ -77,9 +78,11 @@ const isBlob = (x) => typeof Blob !== "undefined" && x instanceof Blob;
  * (`--json`) or rejects with an {@link InstrumentError}.
  */
 export class InstrumentFile {
-  constructor(inner, fetchRange, options = {}) {
+  constructor(inner, host, options = {}) {
     this._inner = inner;
-    this._fetch = fetchRange; // (offset, length) => Promise<Uint8Array>, for lazy files
+    // For lazily read files: `read(path, offset, length)` resolves to bytes, and for stores,
+    // `lookup(path)` answers whether a file exists (see `_run`).
+    this._host = host;
     this._maxSpan = options.maxSpan ?? 32 * 1024 * 1024;
   }
 
@@ -90,17 +93,22 @@ export class InstrumentFile {
 
   async _run(op) {
     let span = 0;
+    let last = null;
     for (;;) {
       const out = op(this._inner);
-      const pending = this._fetch ? this._inner.pending() : undefined;
-      if (!pending) return out;
-      // Read ahead: each further miss in the same operation doubles the span.
-      const [at, len] = pending;
-      span = Math.min(Math.max(len, span * 2), this._maxSpan);
-      const size = this._size;
-      const end = Math.min(at + Math.max(span, len), size);
-      const bytes = await this._fetch(at, end - at);
-      this._inner.provide(at, bytes);
+      const needs = this._host ? this._inner.pending() : undefined;
+      if (!needs) return out;
+      // A pass that only checked for files asks for all of them at once: look them up together.
+      await Promise.all(needs.filter((n) => n.lookup).map((n) => this._host.lookup(this._inner, n.path)));
+      for (const need of needs.filter((n) => !n.lookup)) {
+        // Read ahead: each further miss in the same file doubles the span.
+        if (need.path !== last) span = 0;
+        last = need.path;
+        span = Math.min(Math.max(need.length, span * 2), this._maxSpan);
+        const end = Math.min(need.offset + Math.max(span, need.length), need.size);
+        const bytes = await this._host.read(need.path, need.offset, end - need.offset);
+        this._inner.provide(need.path, need.offset, bytes);
+      }
     }
   }
 
@@ -192,23 +200,65 @@ export async function open(source, options = {}) {
   } else {
     throw new TypeError("open() takes a File/Blob, bytes, or { size, read(offset, length) }");
   }
-  const f = new InstrumentFile(wasm.InstrumentFile.lazy(name, size), fetchRange, options);
-  f._size = size;
-  return f;
+  const host = { read: (_path, at, len) => fetchRange(at, len) };
+  return new InstrumentFile(wasm.InstrumentFile.lazy(name, size), host, options);
 }
 
 /**
  * Open a file among several (a dropped folder): `files` is an array of `File`s (with
- * `webkitRelativePath`) or `{ path, data }` pairs; `path` names the one to open. Every file is
- * read into memory.
+ * `webkitRelativePath`) or `{ path, data }` pairs (`data` a Blob or bytes); `path` names the
+ * one to open, or the folder
+ * itself for a data set that is a directory (an OME-Zarr image, a Bruker `.d`). Files are read
+ * only where the readers look.
  */
 export async function openAmong(files, path, options = {}) {
   await load(options.module);
-  const set = new wasm.Files();
+  const byPath = new Map();
   for (const f of files) {
     const p = f.path ?? (f.webkitRelativePath || f.name);
-    const data = f.data !== undefined ? toBytes(f.data) : new Uint8Array(await f.arrayBuffer());
-    set.add(p, data);
+    const data = f.data ?? f;
+    byPath.set(p, isBlob(data) ? data : new Blob([toBytes(data)]));
   }
-  return new InstrumentFile(set.open(path));
+  const paths = [...byPath.keys()];
+  const sizes = paths.map((p) => byPath.get(p).size);
+  const host = {
+    read: async (p, at, len) => new Uint8Array(await byPath.get(p).slice(at, at + len).arrayBuffer()),
+  };
+  return new InstrumentFile(wasm.InstrumentFile.lazyFiles(paths, sizes, path), host, options);
+}
+
+/**
+ * Open a directory whose files you fetch yourself, such as a folder on a web server: the
+ * directory itself (an OME-Zarr image), or with `options.path`, a file inside it whose
+ * companion files are fetched the same way. `name` is the directory's name (`image.zarr`).
+ * `get(path, offset, length)` is given a path inside the directory (`0/.zarray`) and resolves
+ * to `{ data, size }`: up to `length` bytes of that file from `offset` (fewer at its end) and
+ * the file's size, or to `null` when there is no such file. Files are looked up and read only
+ * as the readers ask for them, and the directory is never listed.
+ */
+export async function openStore(name, get, options = {}) {
+  await load(options.module);
+  const inside = (p) => p.slice(name.length + 1);
+  // A lookup asks for the start of the file too: most Zarr chunks are smaller than this, so
+  // one request brings the whole chunk.
+  const first = 4 * wasm.InstrumentFile.blockSize();
+  const host = {
+    lookup: async (inner, p) => {
+      const r = await get(inside(p), 0, first);
+      if (!r) {
+        inner.absent(p);
+        return;
+      }
+      inner.found(p, r.size);
+      const data = toBytes(r.data);
+      if (data.length > 0) inner.provide(p, 0, data);
+    },
+    read: async (p, at, len) => {
+      const r = await get(inside(p), at, len);
+      if (!r) throw new Error(`${p} is no longer there`);
+      return toBytes(r.data);
+    },
+  };
+  const path = options.path === undefined ? undefined : `${name}/${options.path}`;
+  return new InstrumentFile(wasm.InstrumentFile.lazyStore(name, path), host, options);
 }

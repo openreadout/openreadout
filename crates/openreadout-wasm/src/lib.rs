@@ -11,13 +11,16 @@
 //!   function, e.g. `FileReaderSync` in a Web Worker or `fs.readSync` in Node. Only the bytes
 //!   the readers ask for are read.
 //! - [`InstrumentFile::lazy`]: for asynchronous hosts (a `Blob` on the main thread, an HTTP
-//!   range reader the page implements). Operations that need bytes not yet provided fail with a
-//!   pending range ([`InstrumentFile::pending`]); the host reads it, calls
+//!   range reader the page implements). Operations that need bytes not yet provided fail and
+//!   say what they need ([`InstrumentFile::pending`]); the host reads it, calls
 //!   [`InstrumentFile::provide`] and repeats the operation. The npm wrapper
 //!   (`packaging/wasm/index.js`) runs that loop.
 //!
-//! [`Files`] holds several files (a dropped folder) so multi-file data sets resolve their
-//! siblings. Every operation returns the `--json` envelope of the CLI command of the same name
+//! Data sets spread over several files, or that are a directory, come in the same ways:
+//! [`Files`] holds files in memory, [`InstrumentFile::lazy_files`] names files whose bytes are
+//! provided as the readers ask for them (a dropped folder), and [`InstrumentFile::lazy_store`]
+//! opens a directory whose files the host looks up one by one (an OME-Zarr image the page
+//! reads over HTTP). Every operation returns the `--json` envelope of the CLI command of the same name
 //! as a string: `{"ok":true,"schema_version":"2","tool":{…},"data":{…}}` or `{"ok":false,…,
 //! "error":{code,message,hint,exit_code}}`.
 #![forbid(unsafe_code)]
@@ -26,22 +29,22 @@
 use std::cell::RefCell;
 use std::collections::BTreeMap;
 use std::io;
-use std::path::PathBuf;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex, PoisonError};
 
 use openreadout_core::envelope::ToolId;
 use openreadout_core::model::{DetectOutput, Dump, FormatsOutput, Listing, TableSlice};
 use openreadout_core::reader::{DEFAULT_FRAME_RECORDS, SpectrumView, attach_frames};
-use openreadout_core::source::{ByteSource, Fs, Input, MemFs, MemSource};
+use openreadout_core::source::{
+    ByteSource, DirEntry, DirSource, EntryMeta, Fs, Input, MemFs, MemSource,
+};
 use openreadout_core::trace::TraceRequest;
 use openreadout_core::{Dataset, Detection, Envelope, Error, InfoOutput, Registry, SpectrumOutput};
 use openreadout_preview::{Axes, Encoding, PreviewOptions, PreviewRequest};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
-/// Every reader this build carries, in the CLI's detection order. The OME-Zarr reader is left
-/// out: its `zarrs` array types are not `Send` on `wasm32`.
+/// Every reader this build carries, in the CLI's detection order.
 pub fn registry() -> Registry {
     Registry::new()
         .with(Box::new(openreadout_czi::CziReader))
@@ -105,6 +108,7 @@ pub fn registry() -> Registry {
         .with(Box::new(openreadout_medical::DicomReader))
         .with(Box::new(openreadout_medical::NiftiReader))
         .with(Box::new(openreadout_tiff::TiffReader))
+        .with(Box::new(openreadout_zarr::ZarrReader))
         .with(Box::new(openreadout_em::MrcReader))
         .with(Box::new(openreadout_em::MdocReader))
         .with(Box::new(openreadout_em::DmReader))
@@ -269,30 +273,48 @@ impl ByteSource for JsCallbackSource {
 /// Default `max_size` of a preview: the demo page shows it at about this width.
 pub const DEFAULT_WASM_PREVIEW_SIZE: u32 = 768;
 
-/// Default block size of a [`InstrumentFile::lazy`] file (1 MiB).
+/// Block size of lazily provided files (1 MiB).
 pub const LAZY_BLOCK: u64 = 1 << 20;
 
+/// What an operation needed from the host and did not have. Each is recorded once, and the
+/// operation is repeated once the host has provided them. A file that isn't there doesn't stop
+/// a reader that only checks for it, so one pass can ask for many lookups, which the host
+/// answers together.
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum Need {
+    /// Does this file exist, and how large is it?
+    Lookup(PathBuf),
+    /// The block of this file starting at `block * LAZY_BLOCK`.
+    Block(PathBuf, u64),
+}
+
+type NeedSlot = Arc<Mutex<Vec<Need>>>;
+
+fn record(slot: &NeedSlot, need: Need) {
+    let mut needs = slot.lock().unwrap_or_else(PoisonError::into_inner);
+    if !needs.contains(&need) {
+        needs.push(need);
+    }
+}
+
+fn would_block(what: &str) -> io::Error {
+    io::Error::new(
+        io::ErrorKind::WouldBlock,
+        format!("{what} has not been provided yet"),
+    )
+}
+
 /// A file whose bytes arrive asynchronously: reads of blocks not yet provided fail and record
-/// the first missing block; the host provides it and repeats the operation.
+/// the block; the host provides it and repeats the operation.
 #[derive(Debug)]
 struct LazySource {
+    path: PathBuf,
     size: u64,
-    name: String,
     blocks: Mutex<BTreeMap<u64, Arc<Vec<u8>>>>,
-    /// First block missed since the last `take_miss`.
-    miss: Mutex<Option<u64>>,
-    missed: AtomicBool,
+    need: NeedSlot,
 }
 
 impl LazySource {
-    fn take_miss(&self) -> Option<u64> {
-        self.missed.store(false, Ordering::SeqCst);
-        self.miss
-            .lock()
-            .unwrap_or_else(PoisonError::into_inner)
-            .take()
-    }
-
     fn provide(&self, offset: u64, data: &[u8]) {
         let mut blocks = self.blocks.lock().unwrap_or_else(PoisonError::into_inner);
         // Only whole blocks (or the file's last, short block) are kept.
@@ -339,14 +361,8 @@ impl ByteSource for LazySource {
             .get(&index)
             .cloned();
         let Some(block) = block else {
-            // After a first miss every read fails fast: the operation is repeated anyway.
-            if !self.missed.swap(true, Ordering::SeqCst) {
-                *self.miss.lock().unwrap_or_else(PoisonError::into_inner) = Some(index);
-            }
-            return Err(io::Error::new(
-                io::ErrorKind::WouldBlock,
-                "these bytes have not been provided yet",
-            ));
+            record(&self.need, Need::Block(self.path.clone(), index));
+            return Err(would_block("this block"));
         };
         let within = usize::try_from(offset - index * LAZY_BLOCK).unwrap_or(usize::MAX);
         let Some(avail) = block.get(within..) else {
@@ -358,7 +374,136 @@ impl ByteSource for LazySource {
     }
 
     fn name(&self) -> String {
-        self.name.clone()
+        self.path.display().to_string()
+    }
+}
+
+/// Files whose sizes and bytes the host provides on request: one large file, a dropped folder
+/// whose files are all named up front, or an open-ended store (a Zarr hierarchy the page reads
+/// over HTTP), whose files are looked up one by one as the readers ask for them.
+#[derive(Debug)]
+struct LazyFs {
+    known: Mutex<MemFs>,
+    sources: Mutex<Vec<Arc<LazySource>>>,
+    /// An open-ended store: a path not yet known may exist (the host looks it up), and
+    /// directories other than the root cannot be listed.
+    open_ended: Option<PathBuf>,
+    absent: Mutex<std::collections::BTreeSet<PathBuf>>,
+    need: NeedSlot,
+}
+
+impl LazyFs {
+    fn new(open_ended: Option<PathBuf>) -> LazyFs {
+        LazyFs {
+            known: Mutex::new(MemFs::new()),
+            sources: Mutex::new(Vec::new()),
+            open_ended,
+            absent: Mutex::new(std::collections::BTreeSet::new()),
+            need: Arc::new(Mutex::new(Vec::new())),
+        }
+    }
+
+    /// The file at `path` exists and holds `size` bytes.
+    fn found(&self, path: &Path, size: u64) {
+        let src = Arc::new(LazySource {
+            path: path.to_path_buf(),
+            size,
+            blocks: Mutex::new(BTreeMap::new()),
+            need: self.need.clone(),
+        });
+        self.known
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .insert(path, src.clone());
+        self.sources
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .push(src);
+    }
+
+    fn absent(&self, path: &Path) {
+        self.absent
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .insert(path.to_path_buf());
+    }
+
+    fn provide(&self, path: &Path, offset: u64, data: &[u8]) {
+        let sources = self.sources.lock().unwrap_or_else(PoisonError::into_inner);
+        if let Some(src) = sources.iter().find(|s| s.path == path) {
+            src.provide(offset, data);
+        }
+    }
+
+    fn bytes_held(&self) -> u64 {
+        self.sources
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .iter()
+            .map(|s| s.bytes_held())
+            .sum()
+    }
+
+    fn clear_needs(&self) {
+        self.need
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .clear();
+    }
+
+    fn needs(&self) -> Vec<Need> {
+        self.need
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .clone()
+    }
+
+    /// For a path the known files do not answer: in an open-ended store, ask the host to look
+    /// it up (unless it already said the file is absent).
+    fn unknown(&self, path: &Path, err: io::Error) -> io::Error {
+        let Some(root) = &self.open_ended else {
+            return err;
+        };
+        if err.kind() != io::ErrorKind::NotFound
+            || !path.starts_with(root)
+            || self
+                .absent
+                .lock()
+                .unwrap_or_else(PoisonError::into_inner)
+                .contains(path)
+        {
+            return err;
+        }
+        record(&self.need, Need::Lookup(path.to_path_buf()));
+        would_block(&path.display().to_string())
+    }
+}
+
+impl DirSource for LazyFs {
+    fn open(&self, path: &Path) -> io::Result<Arc<dyn ByteSource>> {
+        let known = self.known.lock().unwrap_or_else(PoisonError::into_inner);
+        known.open(path).map_err(|e| self.unknown(path, e))
+    }
+
+    fn metadata(&self, path: &Path) -> io::Result<EntryMeta> {
+        if self.open_ended.as_deref() == Some(path) {
+            return Ok(EntryMeta::dir());
+        }
+        let known = self.known.lock().unwrap_or_else(PoisonError::into_inner);
+        known.metadata(path).map_err(|e| self.unknown(path, e))
+    }
+
+    fn list(&self, dir: &Path) -> io::Result<Vec<DirEntry>> {
+        if self.open_ended.is_some() {
+            return Err(io::Error::new(
+                io::ErrorKind::Unsupported,
+                "the files of this store are looked up one by one and cannot be listed",
+            ));
+        }
+        self.known
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .list(dir)
     }
 }
 
@@ -408,7 +553,7 @@ impl Files {
 #[wasm_bindgen]
 pub struct InstrumentFile {
     input: Input,
-    lazy: Option<Arc<LazySource>>,
+    lazy: Option<Arc<LazyFs>>,
     callback: Option<u32>,
     opened: Option<(Detection, &'static str, Box<dyn Dataset>)>,
     image: Vec<u8>,
@@ -455,7 +600,7 @@ fn count_arg(v: f64, what: &str) -> Result<u64, Error> {
 
 #[wasm_bindgen]
 impl InstrumentFile {
-    fn new(input: Input, lazy: Option<Arc<LazySource>>) -> InstrumentFile {
+    fn new(input: Input, lazy: Option<Arc<LazyFs>>) -> InstrumentFile {
         InstrumentFile {
             input,
             lazy,
@@ -501,17 +646,45 @@ impl InstrumentFile {
     }
 
     /// A file of `size` bytes provided asynchronously in blocks of [`LAZY_BLOCK`] bytes: after an
-    /// operation, [`pending`](InstrumentFile::pending) names the range it still needs.
+    /// operation, [`pending`](InstrumentFile::pending) names the block it still needs.
     pub fn lazy(name: &str, size: f64) -> Result<InstrumentFile, JsError> {
-        let src = Arc::new(LazySource {
-            size: size_arg(size)?,
-            name: name.to_string(),
-            blocks: Mutex::new(BTreeMap::new()),
-            miss: Mutex::new(None),
-            missed: AtomicBool::new(false),
-        });
-        let input = Input::from_source(name, src.clone());
-        Ok(InstrumentFile::new(input, Some(src)))
+        let fs = LazyFs::new(None);
+        fs.found(Path::new(name), size_arg(size)?);
+        Ok(InstrumentFile::lazy_in(name, fs))
+    }
+
+    /// The file or folder at `open` among files whose paths and sizes are known up front (a
+    /// dropped folder) and whose bytes are provided as the readers ask for them.
+    #[wasm_bindgen(js_name = lazyFiles)]
+    pub fn lazy_files(
+        paths: Vec<String>,
+        sizes: Vec<f64>,
+        open: &str,
+    ) -> Result<InstrumentFile, JsError> {
+        if paths.len() != sizes.len() {
+            return Err(JsError::new("paths and sizes must have the same length"));
+        }
+        let fs = LazyFs::new(None);
+        for (p, size) in paths.iter().zip(sizes) {
+            fs.found(Path::new(p), size_arg(size)?);
+        }
+        Ok(InstrumentFile::lazy_in(open, fs))
+    }
+
+    /// A store whose files the host looks up as the readers ask for them (a folder the page
+    /// reads over HTTP): nothing in it is known up front, and it cannot be listed. Opens the
+    /// directory `root` itself (a Zarr hierarchy), or the file `open` inside it, whose
+    /// companion files are looked up the same way.
+    #[wasm_bindgen(js_name = lazyStore)]
+    pub fn lazy_store(root: &str, open: Option<String>) -> Result<InstrumentFile, JsError> {
+        let path = open.unwrap_or_else(|| root.to_string());
+        if !Path::new(&path).starts_with(root) {
+            return Err(JsError::new("the file to open must be inside the store"));
+        }
+        Ok(InstrumentFile::lazy_in(
+            &path,
+            LazyFs::new(Some(PathBuf::from(root))),
+        ))
     }
 
     /// Block size of lazy files, in bytes.
@@ -522,25 +695,43 @@ impl InstrumentFile {
         b
     }
 
-    /// Lazy files: `[offset, length]` of the block the last operation needed and did not have
-    /// (its result is to be discarded; provide the bytes and repeat it), or `undefined`.
-    pub fn pending(&self) -> Option<Vec<f64>> {
-        let lazy = self.lazy.as_ref()?;
-        let block = *lazy.miss.lock().unwrap_or_else(PoisonError::into_inner);
-        let at = block? * LAZY_BLOCK;
-        let len = (lazy.size - at).min(LAZY_BLOCK);
-        #[allow(clippy::cast_precision_loss)]
-        Some(vec![at as f64, len as f64])
+    /// Lazy files: what the last operation needed and did not have (its result is to be
+    /// discarded; provide all of it and repeat the operation), or `undefined`. Each item is
+    /// either `{ path, size, offset, length }`, a block of a file of `size` bytes, or
+    /// `{ path, lookup: true }`, a file of an open-ended store to look up (answer with
+    /// [`found`](InstrumentFile::found) or [`absent`](InstrumentFile::absent)).
+    pub fn pending(&self) -> Option<Vec<js_sys::Object>> {
+        let needs = self.lazy.as_ref()?.needs();
+        if needs.is_empty() {
+            return None;
+        }
+        Some(needs.into_iter().map(|n| self.need_object(n)).collect())
     }
 
-    /// Lazy files: bytes of the file starting at `offset` (a multiple of the block size); any
-    /// number of whole blocks, or up to the end of the file.
-    pub fn provide(&mut self, offset: f64, data: &[u8]) -> Result<(), JsError> {
+    /// Lazy files: bytes of the file at `path` starting at `offset` (a multiple of the block
+    /// size); any number of whole blocks, or up to the end of the file.
+    pub fn provide(&mut self, path: &str, offset: f64, data: &[u8]) -> Result<(), JsError> {
         let offset = size_arg(offset)?;
         if let Some(l) = &self.lazy {
-            l.provide(offset, data);
+            l.provide(Path::new(path), offset, data);
         }
         Ok(())
+    }
+
+    /// Open-ended stores: the file at `path` exists and holds `size` bytes.
+    pub fn found(&mut self, path: &str, size: f64) -> Result<(), JsError> {
+        let size = size_arg(size)?;
+        if let Some(l) = &self.lazy {
+            l.found(Path::new(path), size);
+        }
+        Ok(())
+    }
+
+    /// Open-ended stores: there is no file at `path`.
+    pub fn absent(&mut self, path: &str) {
+        if let Some(l) = &self.lazy {
+            l.absent(Path::new(path));
+        }
     }
 
     /// Lazy files: bytes provided so far.
@@ -887,40 +1078,82 @@ fn parse_options<T: serde::de::DeserializeOwned + Default>(
 }
 
 impl InstrumentFile {
-    /// Run `op`; for lazy files, a result computed while bytes were missing is replaced by an
-    /// error (the host provides the pending range and repeats the call).
+    fn lazy_in(path: &str, fs: LazyFs) -> InstrumentFile {
+        let fs = Arc::new(fs);
+        let input = Input::new(path, Fs::new(fs.clone() as Arc<dyn DirSource>));
+        InstrumentFile::new(input, Some(fs))
+    }
+
+    fn need_object(&self, need: Need) -> js_sys::Object {
+        let o = js_sys::Object::new();
+        let set = |k: &str, v: JsValue| {
+            let _ = js_sys::Reflect::set(&o, &JsValue::from_str(k), &v);
+        };
+        match need {
+            Need::Lookup(path) => {
+                set("path", path.display().to_string().into());
+                set("lookup", JsValue::TRUE);
+            }
+            Need::Block(path, block) => {
+                let size = self.lazy_size(&path).unwrap_or(0);
+                let at = block * LAZY_BLOCK;
+                #[allow(clippy::cast_precision_loss)]
+                {
+                    set("path", path.display().to_string().into());
+                    set("size", JsValue::from_f64(size as f64));
+                    set("offset", JsValue::from_f64(at as f64));
+                    set(
+                        "length",
+                        JsValue::from_f64(size.saturating_sub(at).min(LAZY_BLOCK) as f64),
+                    );
+                }
+            }
+        }
+        o
+    }
+
+    fn lazy_size(&self, path: &Path) -> Option<u64> {
+        let l = self.lazy.as_ref()?;
+        let sources = l.sources.lock().unwrap_or_else(PoisonError::into_inner);
+        sources.iter().find(|s| s.path == path).map(|s| s.size)
+    }
+
+    /// Run `op`; for lazy files, a result computed while something was missing is replaced by
+    /// an error (the host provides what [`pending`](InstrumentFile::pending) names and repeats
+    /// the call).
     fn attempt<T>(
         &mut self,
         op: impl FnOnce(&mut Self, &Input) -> Result<T, Error>,
     ) -> Result<T, Error> {
         if let Some(l) = &self.lazy {
-            let _ = l.take_miss();
+            l.clear_needs();
         }
         let input = self.input.clone();
         let r = op(self, &input);
-        let missed = self.lazy.as_ref().is_some_and(|l| {
-            l.miss
-                .lock()
-                .unwrap_or_else(PoisonError::into_inner)
-                .is_some()
-        });
-        if missed {
-            // Whatever the reader made of the missing bytes is discarded, including an opened
-            // data set whose state may reflect them.
-            self.opened = None;
-            let (at, len) = self.pending().map_or((0.0, 0.0), |p| (p[0], p[1]));
-            return Err(Error::Io {
-                path: PathBuf::from(self.name()),
-                source: io::Error::new(
-                    io::ErrorKind::WouldBlock,
-                    format!(
-                        "bytes {at}..{} are needed: provide them and repeat",
-                        at + len
-                    ),
-                ),
-            });
-        }
-        r
+        let Some(need) = self
+            .lazy
+            .as_ref()
+            .and_then(|l| l.needs().into_iter().next())
+        else {
+            return r;
+        };
+        // Whatever the reader made of the missing bytes is discarded, including an opened data
+        // set whose state may reflect them.
+        self.opened = None;
+        let message = match need {
+            Need::Lookup(path) => {
+                format!("{} must be looked up: answer and repeat", path.display())
+            }
+            Need::Block(path, block) => format!(
+                "bytes from {} of {} are needed: provide them and repeat",
+                block * LAZY_BLOCK,
+                path.display()
+            ),
+        };
+        Err(Error::Io {
+            path: PathBuf::from(self.name()),
+            source: io::Error::new(io::ErrorKind::WouldBlock, message),
+        })
     }
 
     fn with_dataset<T>(

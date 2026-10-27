@@ -2,8 +2,15 @@
 //! fixtures read from bytes, through a JS callback and lazily, with the same answers.
 #![cfg(target_arch = "wasm32")]
 
+use std::collections::BTreeMap;
+use std::path::Path;
+use std::sync::Arc;
+
+use openreadout_core::source::MemSource;
+use openreadout_core::zip::ZipIndex;
 use openreadout_wasm::{Files, InstrumentFile, formats, version};
 use serde_json::Value;
+use wasm_bindgen::JsValue;
 use wasm_bindgen_test::wasm_bindgen_test;
 
 const CZI: &[u8] = include_bytes!("../../openreadout-cli/tests/fixtures/mini.czi");
@@ -11,6 +18,9 @@ const ND2: &[u8] = include_bytes!("../../openreadout-cli/tests/fixtures/mini.nd2
 const LIF: &[u8] = include_bytes!("../../openreadout-cli/tests/fixtures/mini.lif");
 const IMS: &[u8] = include_bytes!("../../openreadout-hdf5/tests/fixtures/synthetic-imaris.ims");
 const NWB: &[u8] = include_bytes!("../../openreadout-hdf5/tests/fixtures/synthetic-timeseries.nwb");
+/// A zipped OME-Zarr 0.4 image (Zarr v2, blosc).
+const ZARR: &[u8] =
+    include_bytes!("../../openreadout-zarr/tests/fixtures/ngff04-v2-tczyx-blosc-lz4.zip");
 
 fn parse(s: &str) -> Value {
     serde_json::from_str(s).expect("envelope is JSON")
@@ -154,24 +164,136 @@ fn a_js_callback_reads_only_what_is_asked() {
     assert!(calls.length() > 0);
 }
 
-#[wasm_bindgen_test]
-fn lazy_files_ask_for_the_blocks_they_need() {
-    #[allow(clippy::cast_precision_loss)]
-    let mut f = InstrumentFile::lazy("mini.lif", LIF.len() as f64).unwrap();
+/// The files of the zipped OME-Zarr fixture, under the folder `root`.
+fn zarr_folder(root: &str) -> BTreeMap<String, Vec<u8>> {
+    let src = Arc::new(MemSource::new("image.zip", ZARR));
+    let zip = ZipIndex::from_source(src, Path::new("image.zip"), "test").unwrap();
+    zip.members
+        .iter()
+        .map(|m| (format!("{root}/{}", m.name), zip.read(m).unwrap()))
+        .collect()
+}
+
+fn field(o: &js_sys::Object, key: &str) -> JsValue {
+    js_sys::Reflect::get(o, &JsValue::from_str(key)).unwrap()
+}
+
+/// Repeat `op` on the lazy file `f`, answering what it asks for from `files`, until it needs
+/// nothing more. Returns the last result and the number of rounds.
+fn answered(
+    f: &mut InstrumentFile,
+    files: &BTreeMap<String, Vec<u8>>,
+    mut op: impl FnMut(&mut InstrumentFile) -> String,
+) -> (String, usize) {
     let mut rounds = 0;
-    let out = loop {
-        let out = f.info(None, None);
-        let Some(p) = f.pending() else {
-            break out;
+    loop {
+        let out = op(f);
+        let Some(needs) = f.pending() else {
+            return (out, rounds);
         };
         rounds += 1;
-        assert!(rounds < 64, "no progress");
-        let (at, len) = (p[0] as usize, p[1] as usize);
-        f.provide(p[0], &LIF[at..at + len]).unwrap();
-    };
+        assert!(rounds < 500, "no progress");
+        for need in needs {
+            let path = field(&need, "path").as_string().unwrap();
+            if field(&need, "lookup").is_truthy() {
+                // As the npm wrapper does: the answer brings the file's first block along.
+                match files.get(&path) {
+                    Some(b) => {
+                        #[allow(clippy::cast_precision_loss)]
+                        f.found(&path, b.len() as f64).unwrap();
+                        f.provide(&path, 0.0, &b[..b.len().min(1 << 20)]).unwrap();
+                    }
+                    None => f.absent(&path),
+                }
+            } else {
+                let at = field(&need, "offset").as_f64().unwrap();
+                let len = field(&need, "length").as_f64().unwrap();
+                #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+                let bytes = &files[&path][at as usize..(at + len) as usize];
+                f.provide(&path, at, bytes).unwrap();
+            }
+        }
+    }
+}
+
+#[wasm_bindgen_test]
+fn lazy_files_ask_for_the_blocks_they_need() {
+    let files = BTreeMap::from([("mini.lif".to_string(), LIF.to_vec())]);
+    #[allow(clippy::cast_precision_loss)]
+    let mut f = InstrumentFile::lazy("mini.lif", LIF.len() as f64).unwrap();
+    let (out, rounds) = answered(&mut f, &files, |f| f.info(None, None));
     assert!(rounds >= 1);
     let mut whole = InstrumentFile::from_bytes("mini.lif", LIF.to_vec());
     assert_eq!(parse(&out), parse(&whole.info(None, None)));
+}
+
+#[wasm_bindgen_test]
+fn ome_zarr_reads_from_a_zip_store() {
+    let mut f = InstrumentFile::from_bytes("image.ome.zarr.zip", ZARR.to_vec());
+    let info = data(&f.info(None, None));
+    assert_eq!(info["format"]["id"], "ome-zarr");
+    data(&f.preview(None));
+    assert!(!f.image().is_empty());
+}
+
+/// A dropped `.zarr` folder: every file and its size is known, bytes come as they are needed.
+#[wasm_bindgen_test]
+fn ome_zarr_folders_read_lazily() {
+    let files = zarr_folder("image.zarr");
+    #[allow(clippy::cast_precision_loss)]
+    let sizes = files.values().map(|b| b.len() as f64).collect();
+    let mut f =
+        InstrumentFile::lazy_files(files.keys().cloned().collect(), sizes, "image.zarr").unwrap();
+    let (info, _) = answered(&mut f, &files, |f| f.info(None, None));
+    let mut zip = InstrumentFile::from_bytes("image.ome.zarr.zip", ZARR.to_vec());
+    assert_eq!(data(&info)["images"], data(&zip.info(None, None))["images"]);
+    answered(&mut f, &files, |f| f.preview(None));
+    data(&zip.preview(None));
+    assert_eq!(f.image(), zip.image());
+}
+
+/// A store read over HTTP: nothing is known up front, each file is looked up when a reader
+/// asks for it, and absent files (a missing chunk, a `.zattrs` Zarr v3 does not have) are
+/// answered as such.
+#[wasm_bindgen_test]
+fn ome_zarr_stores_look_files_up_one_by_one() {
+    let files = zarr_folder("6001240.zarr");
+    let mut f = InstrumentFile::lazy_store("6001240.zarr", None).unwrap();
+    let (info, rounds) = answered(&mut f, &files, |f| f.info(None, None));
+    // One round for the files the readers check for while detecting the format, then about
+    // one per Zarr node (the image, its labels and each pyramid level).
+    assert!(rounds <= 8, "{rounds} rounds");
+    let mut zip = InstrumentFile::from_bytes("image.ome.zarr.zip", ZARR.to_vec());
+    assert_eq!(data(&info)["images"], data(&zip.info(None, None))["images"]);
+    answered(&mut f, &files, |f| f.preview(None));
+    data(&zip.preview(None));
+    assert_eq!(f.image(), zip.image());
+}
+
+/// A file opened from a store read over HTTP finds its companion files the same way: the
+/// descriptor of a Bruker EPR spectrum (`.DSC`) is looked up, then its data file (`.DTA`).
+#[wasm_bindgen_test]
+fn files_in_stores_look_up_their_companions() {
+    let dsc = "#DESC\t1.2\nDSRC\tEXP\nBSEQ\tBIG\nIKKF\tREAL\nXTYP\tIDX\nYTYP\tNODATA\nZTYP\tNODATA\nIRFMT\tD\nXPTS\t3\nXMIN\t3300.0\nXWID\t100.0\nTITL\t'test'\nXNAM\t'Field'\nXUNI\t'G'\n";
+    let dta: Vec<u8> = [1.5f64, -2.0, 4.25]
+        .iter()
+        .flat_map(|x| x.to_be_bytes())
+        .collect();
+    let files = BTreeMap::from([
+        ("files/a.DSC".to_string(), dsc.as_bytes().to_vec()),
+        ("files/a.DTA".to_string(), dta),
+    ]);
+    assert!(InstrumentFile::lazy_store("files", Some("elsewhere/a.DSC".into())).is_err());
+    let mut f = InstrumentFile::lazy_store("files", Some("files/a.DSC".into())).unwrap();
+    let (info, _) = answered(&mut f, &files, |f| f.info(None, None));
+    assert_eq!(data(&info)["format"]["id"], "bruker-bes3t");
+    let (trace, _) = answered(&mut f, &files, |f| f.trace(0, 0, 0.0, -1.0, 10.0));
+    let mut held = Files::new();
+    for (p, b) in &files {
+        held.add(p, b.clone());
+    }
+    let mut whole = held.open("files/a.DSC");
+    assert_eq!(data(&trace), data(&whole.trace(0, 0, 0.0, -1.0, 10.0)));
 }
 
 #[wasm_bindgen_test]

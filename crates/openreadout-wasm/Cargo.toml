@@ -58,6 +58,7 @@ openreadout-seq = { workspace = true }
 openreadout-echem = { workspace = true }
 openreadout-tdms = { workspace = true }
 openreadout-xrd = { workspace = true }
+openreadout-zarr = { workspace = true }
 openreadout-ce = { workspace = true }
 openreadout-epr = { workspace = true }
 openreadout-fplc = { workspace = true }

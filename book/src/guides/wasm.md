@@ -36,6 +36,8 @@ import { openAmong } from "openreadout-wasm";
 const f = await openAmong(droppedFiles, "run.D");
 ```
 
+Files and folders on a web server, such as an OME-Zarr image on S3 or a file on Zenodo, open with `openStore(name, get, { path })`. You fetch the files yourself: `get(path, offset, length)` is given a path inside the directory and resolves to `{ data, size }`, up to `length` bytes of that file from `offset` and the file's size, or to `null` when there is no such file. Without `path`, the directory itself is opened (an OME-Zarr image). With it, the file at `path` is opened, and any companion files it needs are asked for through `get` too. The readers ask only for the files and blocks they need, and the directory is never listed. The [package README](https://github.com/openreadout/openreadout/tree/main/packaging/wasm#readme) has an example with `fetch` and HTTP range requests, and the demo page's [`web/store.js`](https://github.com/openreadout/openreadout/blob/main/web/store.js) is a complete one.
+
 Each method is named after a command-line command and returns the same JSON:
 
 | method | command |
