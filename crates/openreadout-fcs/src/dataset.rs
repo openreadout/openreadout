@@ -209,7 +209,7 @@ fn num_value(ds: &DataSet, k: &str) -> Option<Value> {
     ds.keyword(k).and_then(parse_float).map(|f| json!(f))
 }
 
-fn column_info(ds: &DataSet, i: usize) -> ColumnInfo {
+fn column_info(ds: &DataSet, i: usize, fam: Option<crate::vendor::Family>) -> ColumnInfo {
     let p = &ds.parameters[i];
     let mut extra = BTreeMap::new();
     put(
@@ -278,7 +278,7 @@ fn column_info(ds: &DataSet, i: usize) -> ColumnInfo {
         "calibration",
         p.calibration.clone().map(Value::String),
     );
-    for (k, v) in crate::vendor::column_extras(ds, p, crate::vendor::family(ds)) {
+    for (k, v) in crate::vendor::column_extras(ds, p, fam) {
         extra.entry(k).or_insert(v);
     }
     if let Some(t) = p.data_type {
@@ -329,7 +329,9 @@ fn table_info(ds: &DataSet) -> TableInfo {
     if let Some(v) = text_value(ds, "$CYTSN") {
         instrument.insert("serial_number".into(), v);
     }
-    if crate::vendor::family(ds).is_none()
+    // Work out the family once per table: it scans every parameter.
+    let fam = crate::vendor::family(ds);
+    if fam.is_none()
         && let Some(m) = ds.keyword("$CYT").and_then(crate::vendor::manufacturer)
     {
         instrument.insert("manufacturer".into(), json!(m));
@@ -450,7 +452,7 @@ fn table_info(ds: &DataSet) -> TableInfo {
             .map(str::to_string),
         row_count: ds.event_count.unwrap_or(0),
         columns: (0..ds.parameters.len())
-            .map(|i| column_info(ds, i))
+            .map(|i| column_info(ds, i, fam))
             .collect(),
         extra,
     }
