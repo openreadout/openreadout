@@ -365,7 +365,19 @@ pub fn call(
         }),
     );
     if a.outline {
-        out.insert("outline".into(), outline(&info));
+        let mut o = outline(&info);
+        // the title bar's subtitle: what the file holds, as `info` words it, and the instrument
+        let e = openreadout_core::experiment::of_dataset(ds.as_ref(), &info);
+        let instrument = e.instrument.as_ref().map(|i| {
+            [i.vendor.as_deref(), i.model.as_deref()]
+                .into_iter()
+                .flatten()
+                .collect::<Vec<_>>()
+                .join(" ")
+        });
+        o["what"] = json!(e.measurements.first().map(|m| &m.what));
+        o["instrument"] = json!(instrument.filter(|s| !s.is_empty()));
+        out.insert("outline".into(), o);
     }
     let mut notes = Notes::default();
     let mut limits = Map::new();
