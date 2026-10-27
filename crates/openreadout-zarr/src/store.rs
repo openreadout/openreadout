@@ -8,7 +8,7 @@ use openreadout_core::source::Fs;
 use openreadout_core::zip::ZipIndex;
 use openreadout_core::{Error, Result};
 use serde_json::Value;
-#[cfg(feature = "local-store")]
+#[cfg(not(target_arch = "wasm32"))]
 use zarrs::filesystem::FilesystemStore;
 use zarrs::storage::byte_range::{ByteRange, ByteRangeIterator};
 use zarrs::storage::{Bytes, MaybeBytesIterator, ReadableStorageTraits, StorageError, StoreKey};
@@ -102,7 +102,7 @@ impl ReadableStorageTraits for ZipStorage {
 }
 
 /// A directory store read through a byte-source namespace (a folder dropped into a browser, a
-/// directory held in memory; local directories when `local-store` is off).
+/// directory held in memory, any directory on wasm32).
 struct DirStorage {
     fs: Fs,
     root: PathBuf,
@@ -112,12 +112,31 @@ fn source_err(e: &std::io::Error) -> StorageError {
     StorageError::Other(e.to_string())
 }
 
+/// Metadata documents of a Zarr node, v3 and v2.
+const NODE_DOCS: [&str; 4] = ["zarr.json", ".zarray", ".zgroup", ".zattrs"];
+
+impl DirStorage {
+    /// Before a node's metadata document is read, ask about the node's other documents too. A
+    /// namespace whose files arrive asynchronously (a store a web page reads over HTTP) can
+    /// then fetch them together instead of one after another as zarrs tries each name.
+    fn ask_about_node(&self, key: &StoreKey) {
+        let (dir, name) = key.as_str().rsplit_once('/').unwrap_or(("", key.as_str()));
+        if !NODE_DOCS.contains(&name) {
+            return;
+        }
+        for doc in NODE_DOCS.iter().filter(|d| **d != name) {
+            let _ = self.fs.metadata(&self.root.join(dir).join(doc));
+        }
+    }
+}
+
 impl ReadableStorageTraits for DirStorage {
     fn get_partial_many<'a>(
         &'a self,
         key: &StoreKey,
         byte_ranges: ByteRangeIterator<'a>,
     ) -> std::result::Result<MaybeBytesIterator<'a>, StorageError> {
+        self.ask_about_node(key);
         let p = self.root.join(key.as_str());
         let src = match self.fs.source(&p) {
             Ok(s) => s,
@@ -145,6 +164,7 @@ impl ReadableStorageTraits for DirStorage {
     }
 
     fn size_key(&self, key: &StoreKey) -> std::result::Result<Option<u64>, StorageError> {
+        self.ask_about_node(key);
         Ok(self
             .fs
             .metadata(&self.root.join(key.as_str()))
@@ -181,11 +201,11 @@ impl std::fmt::Debug for Store {
     }
 }
 
-/// The storage of a directory store: zarrs' filesystem store for local directories (with the
-/// `local-store` feature), otherwise [`DirStorage`] over the namespace.
-#[allow(clippy::unnecessary_wraps)] // fallible with the `local-store` feature
+/// The storage of a directory store: zarrs' filesystem store for local directories (except on
+/// wasm32), otherwise [`DirStorage`] over the namespace.
+#[allow(clippy::unnecessary_wraps)] // fallible except on wasm32
 fn directory_storage(fs: &Fs, path: &Path) -> Result<Arc<dyn ReadableStorageTraits>> {
-    #[cfg(feature = "local-store")]
+    #[cfg(not(target_arch = "wasm32"))]
     if fs.is_local() {
         let store = FilesystemStore::new(path)
             .map_err(|e| Error::Other(format!("zarr directory store: {e}")))?;
@@ -310,6 +330,15 @@ impl Store {
             .filter(|m| m.name.starts_with(&self.prefix));
         let (n, total) = ms.fold((0usize, 0u64), |(n, t), m| (n + 1, t + m.compressed_size));
         Some((n, total))
+    }
+
+    /// Ask about the metadata documents of the nodes at `paths` (the levels of a pyramid)
+    /// without reading them, so a namespace whose files arrive asynchronously can fetch them
+    /// together instead of one level at a time.
+    pub fn ask_about_nodes<'a>(&self, paths: impl IntoIterator<Item = &'a str>) {
+        for p in paths {
+            let _ = self.size(&join(p, "zarr.json"));
+        }
     }
 
     /// Stored size of `key` in bytes, if present.

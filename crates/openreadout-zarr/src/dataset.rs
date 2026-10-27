@@ -713,6 +713,8 @@ impl ZarrDataset {
                         format!("multiscales of {group:?} lists no datasets"),
                     ));
                 }
+                ds.store
+                    .ask_about_nodes(m.levels.iter().map(|l| l.path.as_str()));
                 let mut levels = Vec::new();
                 for l in &m.levels {
                     let meta = array_meta(&ds.store, &l.path)?.ok_or_else(|| {
@@ -856,6 +858,8 @@ impl ZarrDataset {
                 continue;
             };
             for m in ngff::multiscales(&group, &attrs.ngff) {
+                self.store
+                    .ask_about_nodes(m.levels.iter().map(|l| l.path.as_str()));
                 let mut levels = Vec::new();
                 for l in &m.levels {
                     match array_meta(&self.store, &l.path)? {
@@ -1096,7 +1100,9 @@ impl ZarrDataset {
         Ok(plane)
     }
 
-    fn check_array(&mut self, meta: &ArrayMeta, r: &mut CheckReport) {
+    /// Check one array's metadata against what zarrs reads, and with `chunks`, count its
+    /// stored chunks and decode the first and last.
+    fn check_array(&mut self, meta: &ArrayMeta, chunks: bool, r: &mut CheckReport) {
         let arr = match self.array(&meta.path) {
             Ok(a) => a,
             Err(e) => {
@@ -1114,6 +1120,9 @@ impl ZarrDataset {
                     meta.shape
                 ),
             ));
+        }
+        if !chunks {
+            return;
         }
         let grid: Vec<u64> = arr.chunk_grid_shape().to_vec();
         let total: u64 = grid.iter().product();
@@ -1569,13 +1578,27 @@ impl Dataset for ZarrDataset {
     }
 
     fn check(&mut self) -> Result<CheckReport> {
+        Ok(self.check_with(true))
+    }
+
+    /// The metadata checks only: no chunk is counted or decoded. Counting chunks asks about
+    /// each one, which over HTTP means fetching it.
+    fn check_headers(&mut self) -> Result<CheckReport> {
+        Ok(self.check_with(false))
+    }
+}
+
+impl ZarrDataset {
+    fn check_with(&mut self, chunks: bool) -> CheckReport {
         let mut r = CheckReport::new(self.path.display().to_string(), FORMAT_ID);
         r.performed("store opens; the NGFF group metadata (multiscales / plate / well / bioformats2raw) parses");
         r.performed("every listed dataset has array metadata whose rank matches the axes");
         r.performed("pyramid levels do not grow in x or y; omero channel count matches the c axis");
-        r.performed(format!(
-            "stored chunks are counted (up to {MAX_CHUNKS_CHECKED} per array, evenly sampled beyond) and the first and last stored chunk of every array decodes"
-        ));
+        if chunks {
+            r.performed(format!(
+                "stored chunks are counted (up to {MAX_CHUNKS_CHECKED} per array, evenly sampled beyond) and the first and last stored chunk of every array decodes"
+            ));
+        }
         for n in &self.notes {
             r.push(Finding::warning("metadata", n.clone()));
         }
@@ -1623,10 +1646,10 @@ impl Dataset for ZarrDataset {
                 ));
             }
             for meta in &im.levels {
-                self.check_array(meta, &mut r);
+                self.check_array(meta, chunks, &mut r);
             }
         }
-        Ok(r)
+        r
     }
 }
 

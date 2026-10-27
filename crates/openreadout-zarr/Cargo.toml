@@ -24,11 +24,10 @@ flate2 = { workspace = true }
 # pure-Rust codecs only; blosc and zstd come from openreadout-codecs (see src/codecs.rs)
 zarrs = { workspace = true, features = ["gzip", "zlib", "sharding", "crc32c", "transpose"] }
 
-[features]
-default = ["local-store"]
-# Local directory stores through zarrs' own filesystem store (not available on wasm32; without
-# it, directory stores are read through the input's byte-source namespace).
-local-store = ["zarrs/filesystem"]
+# Local directory stores go through zarrs' own filesystem store. wasm32 has no file system, so
+# there directory stores are read through the input's byte-source namespace.
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+zarrs = { workspace = true, features = ["filesystem"] }
 
 [dev-dependencies]
 tempfile = { workspace = true }
