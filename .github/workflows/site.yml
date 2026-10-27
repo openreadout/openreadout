@@ -28,7 +28,7 @@ jobs:
           save-if: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: "22"
+          node-version: "24"  # Astro needs a newer 22 than the runner image has
       # The format list on the site is the CLI's own (`self formats --json`), and every flag in
       # `<command> --help` must be on that command's reference page.
       - name: Format list and command reference from the CLI
