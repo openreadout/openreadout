@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 333 |
+| MIT License | 335 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 7 |
 | Unicode License v3 | 5 |
@@ -669,8 +669,8 @@ Used by:
 Used by:
 
 - [flatbuffers 25.12.19](https://github.com/google/flatbuffers)
-- [rmcp-macros 3.5.1](https://github.com/modelcontextprotocol/rust-sdk/)
-- [rmcp 3.5.1](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp-macros 3.8.0](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp 3.8.0](https://github.com/modelcontextprotocol/rust-sdk/)
 
 ```text
 Apache License
@@ -1080,7 +1080,7 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- [schemars 1.2.2](https://github.com/GREsau/schemars)
+- [schemars 1.2.3](https://github.com/GREsau/schemars)
 
 ```text
 #![allow(clippy::all)]
@@ -1216,6 +1216,7 @@ DEALINGS IN THE SOFTWARE.
 Used by:
 
 - [cfg-if 1.0.5](https://github.com/rust-lang/cfg-if)
+- [socket2 0.6.5](https://github.com/rust-lang/socket2)
 
 ```text
 Copyright (c) 2014 Alex Crichton
@@ -1243,6 +1244,35 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+```
+
+### MIT License
+
+Used by:
+
+- [mio 1.2.3](https://github.com/tokio-rs/mio)
+
+```text
+Copyright (c) 2014 Carl Lerche and other MIO contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 ```
 
@@ -1969,7 +1999,7 @@ Used by:
 
 - [md-5 0.11.0](https://github.com/RustCrypto/hashes)
 - [sha1 0.11.0](https://github.com/RustCrypto/hashes)
-- [sha2 0.11.0](https://github.com/RustCrypto/hashes)
+- [sha2 0.11.1](https://github.com/RustCrypto/hashes)
 
 ```text
 Copyright (c) 2016-2026 The RustCrypto Project Developers
@@ -2430,9 +2460,9 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- [font-types 0.12.6](https://github.com/googlefonts/fontations)
-- [read-fonts 0.45.0](https://github.com/googlefonts/fontations)
-- [skrifa 0.48.0](https://github.com/googlefonts/fontations)
+- [font-types 0.12.7](https://github.com/googlefonts/fontations)
+- [read-fonts 0.46.0](https://github.com/googlefonts/fontations)
+- [skrifa 0.49.0](https://github.com/googlefonts/fontations)
 
 ```text
 Copyright (c) 2019 Fontations Developers
@@ -3226,7 +3256,7 @@ SOFTWARE.
 
 Used by:
 
-- [crc32fast 1.5.2](https://github.com/srijs/rust-crc32fast)
+- [crc32fast 1.5.3](https://github.com/srijs/rust-crc32fast)
 
 ```text
 MIT License
@@ -3308,8 +3338,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Used by:
 
-- [schemars 1.2.2](https://github.com/GREsau/schemars)
-- [schemars_derive 1.2.2](https://github.com/GREsau/schemars)
+- [schemars 1.2.3](https://github.com/GREsau/schemars)
+- [schemars_derive 1.2.3](https://github.com/GREsau/schemars)
 
 ```text
 MIT License
@@ -3787,7 +3817,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 Used by:
 
 - [tokio-util 0.7.19](https://github.com/tokio-rs/tokio)
-- [tokio 1.53.2](https://github.com/tokio-rs/tokio)
+- [tokio 1.54.1](https://github.com/tokio-rs/tokio)
 
 ```text
 MIT License
@@ -4101,13 +4131,13 @@ Used by:
 - [serde_core 1.0.229](https://github.com/serde-rs/serde)
 - [serde_derive 1.0.229](https://github.com/serde-rs/serde)
 - [serde_derive_internals 0.30.0](https://github.com/serde-rs/serde)
-- [serde_json 1.0.151](https://github.com/serde-rs/json)
+- [serde_json 1.0.154](https://github.com/serde-rs/json)
 - [serde_repr 0.1.21](https://github.com/dtolnay/serde-repr)
 - [syn 2.0.119](https://github.com/dtolnay/syn)
 - [syn 3.0.6](https://github.com/dtolnay/syn)
 - [thiserror-impl 2.0.21](https://github.com/dtolnay/thiserror)
 - [thiserror 2.0.21](https://github.com/dtolnay/thiserror)
-- [typed-path 0.12.3](https://github.com/chipsenkbeil/typed-path)
+- [typed-path 0.13.0](https://github.com/chipsenkbeil/typed-path)
 - [unicode-ident 1.0.26](https://github.com/dtolnay/unicode-ident)
 - [zmij 1.0.23](https://github.com/dtolnay/zmij)
 
@@ -4246,7 +4276,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Used by:
 
 - [tracing-core 0.1.36](https://github.com/tokio-rs/tracing)
-- [zip 8.6.0](https://github.com/zip-rs/zip2)
+- [zip 9.1.2](https://github.com/zip-rs/zip2)
 
 ```text
 The MIT License (MIT)
@@ -4349,6 +4379,37 @@ Used by:
 The MIT License (MIT)
 
 Copyright (c) 2015 Andrew Gallant
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+```
+
+### MIT License
+
+Used by:
+
+- [nix 0.31.3](https://github.com/nix-rust/nix)
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2015 Carl Lerche + nix-rust Authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -4501,7 +4562,7 @@ SOFTWARE.
 
 Used by:
 
-- [calamine 0.36.1](https://github.com/tafia/calamine)
+- [calamine 0.37.0](https://github.com/tafia/calamine)
 - [quick-xml 0.42.0](https://github.com/tafia/quick-xml)
 
 ```text
@@ -4600,7 +4661,7 @@ SOFTWARE.
 
 Used by:
 
-- [roxmltree 0.21.1](https://github.com/RazrFalcon/roxmltree)
+- [roxmltree 0.21.2](https://github.com/RazrFalcon/roxmltree)
 
 ```text
 The MIT License (MIT)
@@ -4758,39 +4819,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-
-```
-
-### MIT License
-
-Used by:
-
-- [quick-xml 0.41.0](https://github.com/tafia/quick-xml)
-
-```text
-The MIT License (MIT)
-
-Copyright (c) 2016 Johann Tuffe
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 ```
 

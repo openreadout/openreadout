@@ -195,7 +195,7 @@ image-webp = "0.2"
 # pool (the TIFF reader decodes chunks in parallel)
 jxl-oxide = { version = "0.12", default-features = false }
 # TIFF LERC (34887) tiles; pure-Rust LERC2 (its decoder has no unsafe)
-lerc-rs = { version = "0.5", default-features = false, features = ["std"] }
+lerc-rs = { version = "0.7", default-features = false, features = ["std"] }
 # HDF5 (pure Rust; EMD files)
 hdf5-pure = "0.47"
 # tiff
@@ -205,9 +205,9 @@ png = "0.18"
 # figures: anti-aliased vector rasterizer (BSD-3-Clause) and font parser (MIT/Apache-2.0); the
 # embedded IBM Plex fonts are WOFF files, inflated at first use (miniz_oxide, above)
 tiny-skia = { version = "0.12", default-features = false, features = ["std"] }
-skrifa = { version = "0.48", default-features = false, features = ["std"] }
+skrifa = { version = "0.49", default-features = false, features = ["std"] }
 # spreadsheets (plate-reader XLSX/XLS exports), pure Rust
-calamine = { version = "0.36", default-features = false }
+calamine = { version = "0.37", default-features = false }
 # zarr (pure Rust; only the filesystem store and gzip codec, no C codecs such as blosc/zstd-sys)
 zarrs = { version = "0.23", default-features = false, features = ["gzip"] }
 # Parquet / Arrow IPC export and the `index` tables (Apache-2.0). No default features: no zstd (C), brotli or zlib
