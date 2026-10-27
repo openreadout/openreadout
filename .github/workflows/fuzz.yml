@@ -64,11 +64,11 @@ jobs:
         with:
           toolchain: nightly
       # The nightly run on main saves the cache; pull requests restore it.
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           workspaces: fuzz
           save-if: ${{ github.event_name != 'pull_request' }}
-      - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad # v2.87.26
+      - uses: taiki-e/install-action@8cca0918f8471c33515202b73f56ab27f2bed283 # v2.87.29
         with:
           tool: cargo-fuzz
       - name: Build fuzz targets
@@ -85,7 +85,7 @@ jobs:
           echo "$PLAN" | python3 -c 'import json,sys; print("\n".join(sorted(json.load(sys.stdin)["targets"])))' > targets.txt
           tar -C "$bin" -cf - -T targets.txt | zstd -T0 -3 -o fuzz-bins.tar.zst
           ls -l fuzz-bins.tar.zst
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: fuzz-bins
           path: fuzz-bins.tar.zst
@@ -105,7 +105,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: fuzz-bins
       - name: Unpack this shard's binaries
@@ -124,7 +124,7 @@ jobs:
         run: python3 fuzz/ci.py run --shard "$SHARD" --bin-dir "$RUNNER_TEMP/fuzz-bins"
       - name: Upload crash inputs
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: fuzz-artifacts-${{ matrix.shard }}
           path: fuzz/artifacts
@@ -132,7 +132,7 @@ jobs:
           retention-days: 30
       - name: Upload the shard report
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: fuzz-report-${{ matrix.shard }}
           path: fuzz/reports
@@ -153,7 +153,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: fuzz-report-*
           path: reports

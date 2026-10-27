@@ -29,9 +29,6 @@ test("ticks are round numbers inside the range", () => {
   const t = v.niceTicks(-0.46, -0.44, 3);
   assert.ok(t.length >= 2 && t.every((x) => x >= -0.46 && x <= -0.44), String(t));
   assert.deepEqual(v.niceTicks(NaN, 1, 4), []);
-  assert.equal(v.niceBelow(7.3), 5);
-  assert.equal(v.niceBelow(0.23), 0.2);
-  assert.equal(v.niceBelow(100), 100);
 });
 
 test("numbers are short", () => {
@@ -114,6 +111,10 @@ test("units read naturally", () => {
   assert.equal(v.fmtLength(0.22), "220 nm");
   assert.equal(v.fmtLength(33), "33 µm");
   assert.equal(v.fmtLength(5000), "5 mm");
+  assert.equal(v.scaleLabel(3900), "3.90 mm");
+  assert.equal(v.scaleLabel(487.2), "487 µm");
+  assert.equal(v.scaleLabel(999.7), "1.00 mm");
+  assert.equal(v.scaleLabel(0.5), "500 nm");
   assert.equal(v.fmtInt(41877.4), "41,877");
   assert.equal(v.timeUnit(18 * 3600).unit, "h");
   assert.equal(v.timeUnit(600).unit, "min");
