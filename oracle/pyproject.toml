@@ -136,7 +136,7 @@ dependencies = [
 #   uv run --group plate python gen.py <plate file>
 #   uv run --group chrom python gen.py <ChemStation / Waters path>
 [dependency-groups]
-plate = ["allotropy==0.1.148"]
+plate = ["allotropy==0.1.150"]
 chrom = ["rainbow-api>=1.5.2"]
 # qPCR: rdmlpython (MIT, RDML consortium) reads and validates RDML (including `export --format rdml`);
 # qslib (EUPL-1.2, copyleft) is run as a black box only, as a second reader of QuantStudio .eds.
@@ -149,7 +149,7 @@ fplc = ["pycorn==0.19"]
 # Gamry .DTA, NewareNDA (BSD-3) for Neware .nda/.ndax, pyngb (MIT) for NETZSCH .ngb; galvani
 # (GPL-3.0) is run as a black box only, for BioLogic .mpr.
 #   uv run --group series python series_oracle.py ...
-series = ["geddes==1.0.0", "gamry-parser==0.4.6", "NewareNDA==2026.6.11", "pyngb==0.6.0", "galvani==0.5.0", "openpyxl"]
+series = ["geddes==1.0.0", "gamry-parser==0.4.6", "NewareNDA==2026.6.11", "pyngb==0.6.1", "galvani==0.5.0", "openpyxl"]
 
 [tool.uv]
 package = false
