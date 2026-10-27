@@ -77,6 +77,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/synthetic.rs`](tests/synthetic.rs)
+- committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_dv`
 - corpus inputs by tier: full 1, smoke 6, standard 3
 - golden snapshots: [`corpus/snapshots/deltavision.jsonl`](../../corpus/snapshots/deltavision.jsonl)
