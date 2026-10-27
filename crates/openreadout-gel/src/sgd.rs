@@ -318,7 +318,7 @@ impl SgdDataset {
             };
             let px_count = u64::from(w) * u64::from(h);
             let data = px.size.saturating_sub(PIXEL_HEADER);
-            let bps = if data == px_count * 2 {
+            let bps = if px_count.checked_mul(2) == Some(data) {
                 2
             } else if data == px_count {
                 1
