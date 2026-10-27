@@ -134,8 +134,23 @@ impl DvDataset {
         let mut ext = vec![0u8; usize::try_from(ext_read).unwrap_or(0)];
         f.read_exact_at(HEADER_LEN as u64, &mut ext)
             .map_err(|e| Error::io(&path, e))?;
-        let plane = (header.width as u64) * (header.height as u64) * pt.bytes_per_sample() as u64;
-        let need = HEADER_LEN as u64 + ext_len + plane * header.sections as u64;
+        // Width, height and sections are positive here, but their product can still overflow.
+        // Checking it once here keeps the later offset sums in range.
+        let plane = (header.width as u64)
+            .checked_mul(header.height as u64)
+            .and_then(|n| n.checked_mul(pt.bytes_per_sample() as u64));
+        let need = plane
+            .and_then(|p| p.checked_mul(header.sections as u64))
+            .and_then(|n| n.checked_add(HEADER_LEN as u64 + ext_len));
+        let (Some(plane), Some(need)) = (plane, need) else {
+            return Err(Error::corrupt(
+                FORMAT_ID,
+                format!(
+                    "the header declares {} × {} × {} sections, more bytes than a file can hold",
+                    header.width, header.height, header.sections
+                ),
+            ));
+        };
         if need > file_len {
             problems.push(Finding::error(
                 "truncated",

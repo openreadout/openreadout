@@ -21,3 +21,7 @@ Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, p
 **Inferred (flagged in the format notes):** that the floats of the extended header are the same 14 in files with more floats per section (the rest are listed, not named); that the exposure time is in seconds and the time stamp in seconds from the start (compared with the `.log` files next to the OME samples); that a negative wavelength is not a wavelength.
 
 **Validation:** `oracle/dv_oracle.py`.
+
+## 2026-10-27 — section size overflow (Richard Zimring with Claude as assistant)
+
+The `whole_dv` fuzz target found that width × height × bytes per sample × sections could overflow `u64` when the header declares huge dimensions. The product and the header length are added with checked arithmetic now, and a header that overflows is reported as a corrupt file. Fixture: `crates/openreadout-dv/tests/fixtures/malformed/file-fuzz-section-bytes-overflow.dv`. Prior art: none.

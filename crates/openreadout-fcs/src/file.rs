@@ -440,7 +440,22 @@ fn read_data_set(
     if kw.contains("$PAR") && par.is_none() {
         findings.push(Finding::error("bad_keyword", "$PAR is not an integer"));
     }
-    let par = par.unwrap_or(0).min(100_000) as u32;
+    // Each parameter needs its own $PnB and $PnN keywords, so TEXT cannot describe more
+    // parameters than it has keywords. Reading past that only reports missing keywords.
+    let par = par.unwrap_or(0).min(100_000);
+    let par = if par > kw.len() as u64 {
+        findings.push(Finding::error(
+            "bad_keyword",
+            format!(
+                "$PAR/{par}/ declares more parameters than TEXT has keywords ({}); only the first {} are read",
+                kw.len(),
+                kw.len()
+            ),
+        ));
+        kw.len() as u32
+    } else {
+        par as u32
+    };
     let parameters = read_parameters(kw, par);
     parameter_findings(&mut findings, &parameters, data_type, &header.version);
 

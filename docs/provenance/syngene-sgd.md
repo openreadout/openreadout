@@ -48,3 +48,7 @@ headers; the Dataverse TIFF export confirms the geometry and, through the correl
 pixel layout. No independent reader decodes the samples, so the corpus test compares geometry and
 pixel type only, not the planes. The meaning of the `Capture` fields beyond the texts and the
 exposure is not known and they are not reported.
+
+## 2026-10-27 — pixel count overflow (Richard Zimring with Claude as assistant)
+
+The `whole_sgd` fuzz target found that doubling the pixel count of a `PixelData` header with width and height near 2^32 overflowed `u64`. The doubling is checked now, and such an image is reported as unreadable. Fixture: `crates/openreadout-gel/tests/fixtures/malformed/file-fuzz-pixel-count-overflow.sgd`. Prior art: none.

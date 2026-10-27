@@ -104,7 +104,7 @@ The assurance profile ([`src/assurance.rs`](src/assurance.rs)) observes these fe
 ### Tests, fixtures, fuzz targets, snapshots
 
 - integration tests: [`tests/sgd.rs`](tests/sgd.rs), [`tests/synthetic.rs`](tests/synthetic.rs)
-- committed fixtures: 1 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
+- committed fixtures: 2 files in [`tests/fixtures/`](tests/fixtures) (malformed ones are replayed through every reader by `openreadout`'s `tests/fuzz_regressions.rs`; all are snapshotted by its `tests/golden.rs`)
 - fuzz targets (`fuzz/fuzz_targets/`): `whole_scn`, `whole_sgd`
 - corpus inputs by tier: heldout 5, smoke 7, standard 8
 - golden snapshots: [`corpus/snapshots/biorad-scn.jsonl`](../../corpus/snapshots/biorad-scn.jsonl), [`corpus/snapshots/syngene-sgd.jsonl`](../../corpus/snapshots/syngene-sgd.jsonl)
