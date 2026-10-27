@@ -12,7 +12,7 @@ cargo fetch --locked && cargo about generate --frozen --fail -m crates/openreado
 
 | license | crates |
 | --- | --- |
-| MIT License | 338 |
+| MIT License | 335 |
 | Apache License 2.0 | 13 |
 | BSD 3-Clause "New" or "Revised" License | 7 |
 | Unicode License v3 | 5 |
@@ -669,8 +669,8 @@ Used by:
 Used by:
 
 - [flatbuffers 25.12.19](https://github.com/google/flatbuffers)
-- [rmcp-macros 3.7.0](https://github.com/modelcontextprotocol/rust-sdk/)
-- [rmcp 3.7.0](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp-macros 3.8.0](https://github.com/modelcontextprotocol/rust-sdk/)
+- [rmcp 3.8.0](https://github.com/modelcontextprotocol/rust-sdk/)
 
 ```text
 Apache License
@@ -2460,9 +2460,9 @@ DEALINGS IN THE SOFTWARE.
 
 Used by:
 
-- [font-types 0.12.6](https://github.com/googlefonts/fontations)
-- [read-fonts 0.45.0](https://github.com/googlefonts/fontations)
-- [skrifa 0.48.0](https://github.com/googlefonts/fontations)
+- [font-types 0.12.7](https://github.com/googlefonts/fontations)
+- [read-fonts 0.46.0](https://github.com/googlefonts/fontations)
+- [skrifa 0.49.0](https://github.com/googlefonts/fontations)
 
 ```text
 Copyright (c) 2019 Fontations Developers
@@ -3256,7 +3256,7 @@ SOFTWARE.
 
 Used by:
 
-- [crc32fast 1.5.2](https://github.com/srijs/rust-crc32fast)
+- [crc32fast 1.5.3](https://github.com/srijs/rust-crc32fast)
 
 ```text
 MIT License
@@ -3787,10 +3787,7 @@ Used by:
 - [windows-link 0.2.1](https://github.com/microsoft/windows-rs)
 - [windows-result 0.4.1](https://github.com/microsoft/windows-rs)
 - [windows-strings 0.5.1](https://github.com/microsoft/windows-rs)
-- [windows-sys 0.52.0](https://github.com/microsoft/windows-rs)
 - [windows-sys 0.61.2](https://github.com/microsoft/windows-rs)
-- [windows-targets 0.52.6](https://github.com/microsoft/windows-rs)
-- [windows_x86_64_msvc 0.52.6](https://github.com/microsoft/windows-rs)
 - [zarrs_plugin 0.4.1](https://github.com/zarrs/zarrs/tree/main/zarrs_plugin)
 
 ```text
@@ -4140,7 +4137,7 @@ Used by:
 - [syn 3.0.6](https://github.com/dtolnay/syn)
 - [thiserror-impl 2.0.21](https://github.com/dtolnay/thiserror)
 - [thiserror 2.0.21](https://github.com/dtolnay/thiserror)
-- [typed-path 0.12.3](https://github.com/chipsenkbeil/typed-path)
+- [typed-path 0.13.0](https://github.com/chipsenkbeil/typed-path)
 - [unicode-ident 1.0.26](https://github.com/dtolnay/unicode-ident)
 - [zmij 1.0.23](https://github.com/dtolnay/zmij)
 
@@ -4279,7 +4276,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Used by:
 
 - [tracing-core 0.1.36](https://github.com/tokio-rs/tracing)
-- [zip 9.0.5](https://github.com/zip-rs/zip2)
+- [zip 9.1.2](https://github.com/zip-rs/zip2)
 
 ```text
 The MIT License (MIT)
@@ -4664,7 +4661,7 @@ SOFTWARE.
 
 Used by:
 
-- [roxmltree 0.21.1](https://github.com/RazrFalcon/roxmltree)
+- [roxmltree 0.21.2](https://github.com/RazrFalcon/roxmltree)
 
 ```text
 The MIT License (MIT)

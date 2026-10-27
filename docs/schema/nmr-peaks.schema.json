@@ -230,14 +230,14 @@
           "description": "`e^{−π·LB·t}`: Lorentzian lines broadened by `line_broadening_hz`.",
           "type": "object",
           "properties": {
+            "kind": {
+              "type": "string",
+              "const": "exponential"
+            },
             "line_broadening_hz": {
               "description": "Added Lorentzian full width at half height, Hz.",
               "type": "number",
               "format": "double"
-            },
-            "kind": {
-              "type": "string",
-              "const": "exponential"
             }
           },
           "required": [
@@ -249,14 +249,14 @@
           "description": "`e^{−(π·GB·t)²/(4 ln 2)}`: multiplies each line by a Gaussian of `line_broadening_hz`\nfull width at half height.",
           "type": "object",
           "properties": {
+            "kind": {
+              "type": "string",
+              "const": "gaussian"
+            },
             "line_broadening_hz": {
               "description": "Gaussian full width at half height, Hz.",
               "type": "number",
               "format": "double"
-            },
-            "kind": {
-              "type": "string",
-              "const": "gaussian"
             }
           },
           "required": [
@@ -286,15 +286,15 @@
           "description": "Polynomial through automatically recognised baseline blocks (module docs).",
           "type": "object",
           "properties": {
+            "kind": {
+              "type": "string",
+              "const": "polynomial"
+            },
             "order": {
               "description": "Polynomial order (0 = constant offset); at most 8.",
               "type": "integer",
               "format": "uint32",
               "minimum": 0
-            },
-            "kind": {
-              "type": "string",
-              "const": "polynomial"
             }
           },
           "required": [

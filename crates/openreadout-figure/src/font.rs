@@ -134,7 +134,10 @@ impl Font {
                     let Some(ci) = f.coverage().ok().and_then(|c| c.get(left)) else {
                         continue;
                     };
-                    let Ok(set) = f.pair_sets().get(usize::from(ci)) else {
+                    let Some(set) = usize::try_from(ci)
+                        .ok()
+                        .and_then(|i| f.pair_sets().get(i).ok())
+                    else {
                         continue;
                     };
                     set.pair_value_records()
@@ -150,12 +153,18 @@ impl Font {
                     let (Ok(c1), Ok(c2)) = (f.class_def1(), f.class_def2()) else {
                         continue;
                     };
-                    f.class1_records()
-                        .get(usize::from(c1.get(left)))
+                    usize::try_from(c1.get(left))
                         .ok()
-                        .and_then(|r| r.class2_records().get(usize::from(c2.get(right))).ok())
+                        .and_then(|i| f.class1_records().get(i).ok())
+                        .and_then(|r| {
+                            let j = usize::try_from(c2.get(right)).ok()?;
+                            r.class2_records().get(j).ok()
+                        })
                         .and_then(|r| r.value_record1().x_advance())
                 }
+                // Formats 3 and 4 are for fonts with more than 65,536 glyphs; the bundled
+                // fonts have fewer.
+                _ => None,
             };
             if let Some(v) = found {
                 return f32::from(v);
