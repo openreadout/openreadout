@@ -12,12 +12,6 @@ ignore = [
     # `paste` (compile-time proc macro, no known vulnerability) is archived/unmaintained.
     # Only reachable through `zarrs` (OME-Zarr export); revisit when zarrs drops it.
     { id = "RUSTSEC-2024-0436", reason = "unmaintained compile-time macro pulled in by zarrs; no vulnerability" },
-    # zip 8.6 comes in only through calamine, which reads spreadsheet parts into memory. These three
-    # are about ZipArchive::extract writing files to disk, which neither calamine nor our code calls.
-    # Drop them when calamine moves to zip 9.
-    { id = "RUSTSEC-2026-0367", reason = "zip extraction to disk; calamine only reads entries in memory" },
-    { id = "RUSTSEC-2026-0368", reason = "zip extraction to disk; calamine only reads entries in memory" },
-    { id = "RUSTSEC-2026-0369", reason = "zip extraction to disk; calamine only reads entries in memory" },
 ]
 
 [licenses]
