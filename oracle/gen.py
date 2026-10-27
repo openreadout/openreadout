@@ -1279,7 +1279,9 @@ def mrc(p: Path) -> dict:
         elif mode == 0:
             ptype = "uint8" if unsigned else "int8"
         else:
-            ptype = dtype_name(data.dtype) if data is not None and data.dtype.kind != "c" else None
+            # a file shorter than its header says gives no data; the header still names the type
+            dt = data.dtype if data is not None else mrcfile.utils.data_dtype_from_header(hd)
+            ptype = dtype_name(dt) if dt.kind != "c" else None
         sections = data.reshape(nz, ny, nx) if data is not None and data.dtype.kind != "c" else None
 
         def get(c, z, t):
@@ -1296,7 +1298,8 @@ def mrc(p: Path) -> dict:
                "mrcfile_voxel_size_angstrom": [float(v) for v in m.voxel_size.item()],
                "planes": _planes_ct(get, 1, Z, T) if sections is not None else []}
         if sections is None:
-            img["skip"] = f"mode {mode} not read by mrcfile"
+            img["skip"] = (f"mode {mode} not read by mrcfile" if data is not None
+                           else "mrcfile read no data: the file is shorter than 1024 + NSYMBT + data")
         ext_h = m.indexed_extended_header if bytes(hd.exttyp) in (b"FEI1", b"FEI2") else None  # mrcfile 1.5.4 fails on other types
         fei = None
         if ext_h is not None and len(ext_h):

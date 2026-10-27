@@ -15,7 +15,7 @@ use serde_json::{Value, json};
 use crate::load::PlateHints;
 use crate::model::{Geom, Series, Weight};
 use crate::output::{AxisOutput, Marked, PanelOutput, SeriesOutput};
-use crate::spec::{Annotation, AnnotationType, Facet, Legend, MarkKind, PanelSpec};
+use crate::spec::{Annotation, AnnotationType, Facet, Legend, MarkKind, PanelSpec, Share};
 use marks::{Ink, draw_series, events_layer};
 pub(crate) use prep::{AxisRes, named_color, prepare as prepare_axes};
 
@@ -25,6 +25,9 @@ pub(crate) struct PanelIn {
     pub spec: PanelSpec,
     pub series: Vec<Series>,
     pub plate: Option<PlateHints>,
+    /// The figure's `share` when this is its only panel: `y` or `both` keep its facets on one
+    /// y range, `x` or `none` give each its own.
+    pub share: Option<Share>,
 }
 
 /// What drawing a panel returns: its summary and the data the viewer needs for hover.
@@ -132,6 +135,7 @@ fn axis_out(a: &AxisRes) -> AxisOutput {
         } else {
             Some([tidy(d.lo), tidy(d.hi)])
         },
+        facet_ranges: Vec::new(),
         scale: a.scale.clone(),
         categories: a.cats.clone(),
     }
@@ -264,13 +268,21 @@ pub(crate) fn draw_panel(
     let layout = layout_of(&p);
     let mut hover = Vec::new();
     let mut ann = Vec::new();
+    let mut y_out = axis_out(&ay);
     let facets = match p.spec.facet {
         Some(Facet::Plate) => Some(draw_plate(
             fig, theme, area, &p, &ax, &ay, &classes, &mut hover, &mut ann,
         )),
-        Some(Facet::Series) => Some(draw_facets(
-            fig, theme, area, &p, &ax, &ay, &classes, columns, &mut hover, &mut ann,
-        )),
+        Some(Facet::Series) => {
+            let (n, own) = draw_facets(
+                fig, theme, area, &p, &ax, &ay, &classes, columns, &mut hover, &mut ann,
+            );
+            if !own.is_empty() {
+                y_out.range = None;
+                y_out.facet_ranges = own;
+            }
+            Some(n)
+        }
         None if p.series.iter().any(|s| s.calls.is_some()) => {
             draw_sanger(fig, theme, area, &p, &ax, &mut hover, &mut ann);
             None
@@ -288,7 +300,7 @@ pub(crate) fn draw_panel(
             layout: layout.into(),
             facets,
             x: axis_out(&ax),
-            y: axis_out(&ay),
+            y: y_out,
             series: summarize_series(&p.series),
             annotations: ann,
         },
@@ -1473,7 +1485,9 @@ fn last_visible(p: &Panel, pts: impl Iterator<Item = (f64, f64)>) -> Option<f32>
     best.map(|b| b.1)
 }
 
-/// Small multiples, one per facet key, on shared axes.
+/// Small multiples, one per facet key, on a shared x axis. They share the y axis too unless
+/// they sit too far apart for one range (see `prep::facets_apart`); then each has its own, and
+/// this returns those ranges.
 #[allow(clippy::too_many_arguments)]
 fn draw_facets(
     fig: &mut Figure,
@@ -1486,9 +1500,31 @@ fn draw_facets(
     columns: Option<u32>,
     hover: &mut Vec<Value>,
     ann: &mut Vec<String>,
-) -> usize {
+) -> (usize, Vec<[f64; 2]>) {
     let fs = theme.font_size;
     let keys = facet_keys(&p.series);
+    let groups: Vec<Vec<&Series>> = keys
+        .iter()
+        .map(|key| {
+            p.series
+                .iter()
+                .filter(|x| x.facet.clone().unwrap_or_else(|| x.name.clone()) == *key)
+                .collect()
+        })
+        .collect();
+    let own_y = match p.share {
+        Some(Share::Y | Share::Both) => false,
+        Some(Share::X | Share::None) => p.spec.y.as_ref().is_none_or(|y| y.range.is_none()),
+        None => prep::facets_apart(&groups, &p.spec),
+    };
+    let ays: Vec<AxisRes> = if own_y {
+        groups
+            .iter()
+            .map(|g| prep::facet_y(g, &p.spec, ax))
+            .collect()
+    } else {
+        Vec::new()
+    };
     let (rows, cols) = grid_shape(keys.len(), columns, area.w);
     let mut area = area;
     // one key for colour classes
@@ -1509,23 +1545,29 @@ fn draw_facets(
     );
     let spec = axes_spec(ax, ay, 0.0, 0.0);
     let Some(c0) = cells.first().copied() else {
-        return 0;
+        return (0, Vec::new());
     };
     // every cell's plot area has the same offsets, so the plots line up
     let mut probe = spec.clone();
     let sub = theme.clone();
     probe.x_label = if rows > 0 { probe.x_label } else { None };
-    let fitted = Panel::fit(c0, ax.domain, ay.domain, &sub, &probe).rect;
-    let (dl, dt) = (fitted.x - c0.x, fitted.y - c0.y);
-    let (dr, db) = (c0.right() - fitted.right(), c0.bottom() - fitted.bottom());
+    let (mut dl, mut dt, mut dr, mut db) = (0.0f32, 0.0f32, 0.0f32, 0.0f32);
+    for d in std::iter::once(ay.domain).chain(ays.iter().map(|a| a.domain)) {
+        let fitted = Panel::fit(c0, ax.domain, d, &sub, &probe).rect;
+        dl = dl.max(fitted.x - c0.x);
+        dt = dt.max(fitted.y - c0.y);
+        dr = dr.max(c0.right() - fitted.right());
+        db = db.max(c0.bottom() - fitted.bottom());
+    }
     let mut notes_once = Vec::new();
     for (k, key) in keys.iter().enumerate() {
         let Some(&cell) = cells.get(k) else { break };
         let (r, c) = (k / cols, k % cols);
         let rect = cell.inset_sides(dl, dt, dr, db);
+        let ay = ays.get(k).unwrap_or(ay);
         let panel = Panel::new(rect, ax.domain, ay.domain);
         let mut s = spec.clone();
-        s.show_y = c == 0;
+        s.show_y = c == 0 || own_y;
         s.show_x = r == rows - 1 || k + cols >= keys.len();
         // the axis names once: y on the first plot, x on the last
         if k != 0 {
@@ -1550,13 +1592,9 @@ fn draw_facets(
                 if k == 0 { &mut notes_once } else { &mut sink },
             );
             draw_axes(fig, theme, &panel, ax, ay, &s);
-            let members: Vec<&Series> = p
-                .series
-                .iter()
-                .filter(|x| x.facet.clone().unwrap_or_else(|| x.name.clone()) == *key)
-                .collect();
+            let members = &groups[k];
             let ink = Ink::for_panel(theme, panel.rect);
-            draw_data(fig, theme, &panel, &members, &ax.cats, ink);
+            draw_data(fig, theme, &panel, members, &ax.cats, ink);
             let mut placer = LabelPlacer::new(panel.rect);
             draw_marks_over(
                 fig,
@@ -1568,18 +1606,19 @@ fn draw_facets(
                 false,
                 if k == 0 { &mut notes_once } else { &mut sink },
             );
-            draw_callouts(fig, theme, &panel, &members, &mut placer, ink);
+            draw_callouts(fig, theme, &panel, members, &mut placer, ink);
             // facet title, above the plot
             let st = TextStyle::new(small_fs * 1.08, theme.ink).face(Face::SansMedium);
             let ty = cell.y - small_fs * 0.55;
             fig.group(Layer::Title, key, |fig| {
                 fig.text(rect.x, ty, &shorten(key, 60), &st);
             });
-            hover.push(hover_panel(&panel, Some(key), &members, 200));
+            hover.push(hover_panel(&panel, Some(key), members, 200));
         });
     }
     ann.extend(notes_once);
-    keys.len()
+    let ranges = ays.iter().filter_map(|a| axis_out(a).range).collect();
+    (keys.len(), ranges)
 }
 
 /// Plate wells in their plate positions: one card per well, column and row headings, the

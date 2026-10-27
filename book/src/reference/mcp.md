@@ -191,7 +191,7 @@ In clients that support [MCP Apps](https://modelcontextprotocol.io/extensions/ap
 
 | data | view | what you can do |
 | --- | --- | --- |
-| images | the image plane, with a scale bar and, when zoomed in, a small map of the whole image | pick the image, channel or composite, z, time point and contrast; zoom with double-click, pinch or the + and − buttons, pan with shift-drag; hover for coordinates in px and µm, mm or nm |
+| images | the image plane, with a scale bar and, when zoomed in, a small map of the whole image | pick the image, channel or composite, z, time point and contrast; pan by dragging, zoom with pinch or the + and − buttons; hover for coordinates in px and µm, mm or nm |
 | electrophysiology, detector traces, 1-D spectra | sweeps, one panel per channel | step through sweeps, choose channels, select a time range |
 | voltammetry | current against potential, one loop per cycle | select a potential range |
 | qPCR | every well's amplification curve, coloured and labelled by target | hover a curve for its well |
@@ -213,7 +213,7 @@ When the assistant zooms into an image with `openreadout_preview` and `region`, 
 
 You can show the assistant what you mean instead of describing it:
 
-- Drag a box on an image, click a point, or click one of the assistant's labels.
+- Shift-drag a box on an image (or press Select first), click a point, or click one of the assistant's labels.
 - Drag across a plot to select a range, or click a chromatogram peak or a peak in a spectrum.
 - Click wells on a plate (shift-click to add more, drag for a block, double-click a group name for all of its wells).
 - Drag a box over flow-cytometry events, or click a population's label.

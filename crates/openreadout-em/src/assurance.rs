@@ -114,6 +114,13 @@ fn observe_mrc(info: &FileInfo) -> Observations {
     if a::has_note(info, "gzip-compressed: ") {
         o.feature(K::Codec, "gzip", &[Scope::Pixels, Scope::Metadata]);
     }
+    if a::has_note(info, "NSYMBT declares ") {
+        o.feature(
+            K::Layout,
+            "declared extended header absent",
+            &[Scope::Pixels, Scope::Metadata],
+        );
+    }
     if a::has_note(info, "mode 0 bytes are unsigned") {
         o.feature(K::SampleLayout, "unsigned mode 0 (IMOD)", &[Scope::Pixels]);
     }
@@ -247,22 +254,25 @@ const MRC_VALIDATED: &[Validated] = &[
     a::row(K::Codec, "gzip", 4, 2, 4),
     a::row(K::Field, "experiment.acquisition.started_at", 0, 0, 2),
     a::row(K::Field, "experiment.instrument.model", 0, 0, 2),
-    a::row(K::FormatVersion, "20140", 4, 3, 4),
+    a::row(K::FormatVersion, "20140", 5, 4, 5),
     a::row(K::FormatVersion, "20141", 4, 4, 4),
-    a::row(K::FormatVersion, "pre-2014 (no NVERSION)", 15, 11, 15),
-    a::row(K::Layout, "image-stack", 12, 11, 12),
+    a::row(K::FormatVersion, "pre-2014 (no NVERSION)", 16, 12, 16),
+    a::row(K::Layout, "declared extended header absent", 1, 1, 1),
+    a::row(K::Layout, "image-stack", 13, 12, 13),
     a::row(K::Layout, "permuted axes", 3, 2, 3),
-    a::row(K::Layout, "volume", 11, 7, 11),
+    a::row(K::Layout, "volume", 12, 8, 12),
     a::row(K::Record, "extended header FEI1", 1, 1, 1),
     a::row(K::Record, "extended header FEI2", 1, 1, 1),
-    a::row(K::SampleLayout, "float", 16, 13, 16),
+    a::row(K::SampleLayout, "float", 16, 13, 17),
     a::row(K::SampleLayout, "int16", 2, 2, 2),
     a::row(K::SampleLayout, "int8", 2, 2, 2),
-    a::row(K::SampleLayout, "mode 0", 2, 2, 2),
+    a::row(K::SampleLayout, "mode 0", 3, 3, 3),
     a::row(K::SampleLayout, "mode 1", 2, 2, 2),
-    a::row(K::SampleLayout, "mode 2", 16, 13, 16),
+    a::row(K::SampleLayout, "mode 2", 16, 13, 17),
     a::row(K::SampleLayout, "mode 6", 3, 2, 3),
     a::row(K::SampleLayout, "uint16", 3, 2, 3),
+    a::row(K::SampleLayout, "uint8", 1, 1, 1),
+    a::row(K::SampleLayout, "unsigned mode 0 (IMOD)", 1, 1, 1),
     a::row(K::Writer, "EPU", 1, 1, 1),
     a::row(K::Writer, "Fei EPU", 1, 1, 1),
     a::row(K::WriterVersion, "EPU 2.9", 1, 1, 1),

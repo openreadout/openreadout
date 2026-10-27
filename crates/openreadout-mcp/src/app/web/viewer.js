@@ -54,13 +54,6 @@ function niceTicks(lo, hi, want) {
   return out;
 }
 
-/** The largest 1, 2 or 5 × 10^k that is at most v (v > 0). */
-function niceBelow(v) {
-  if (!(v > 0)) return 0;
-  const mag = Math.pow(10, Math.floor(Math.log10(v)));
-  return [5, 2, 1].map((m) => m * mag).find((x) => x <= v) || mag;
-}
-
 /** A short label for a number. */
 function fmt(v, digits) {
   if (v === null || v === undefined || !isFinite(v)) return "–";
@@ -137,6 +130,17 @@ function fmtLength(um, digits) {
   if (a >= 1000) return `${fmt(um / 1000, digits || 4)} mm`;
   if (a < 1 && a > 0) return `${fmt(um * 1000, digits || 4)} nm`;
   return `${fmt(um, digits || 4)} µm`;
+}
+
+/** A scale-bar label: always three significant figures (`3.90 mm`, `487 µm`), so the label
+ * keeps its width while the view zooms. */
+function scaleLabel(um) {
+  if (!(um > 0) || !isFinite(um)) return "–";
+  const units = [["nm", 1e-3], ["µm", 1], ["mm", 1e3], ["m", 1e6]];
+  let i = um < 1 ? 0 : um < 1000 ? 1 : um < 1e6 ? 2 : 3;
+  // 999.7 µm rounds to 1000: show it as 1.00 mm
+  if (i < 3 && Number((um / units[i][1]).toPrecision(3)) >= 1000) i++;
+  return `${(um / units[i][1]).toPrecision(3)} ${units[i][0]}`;
 }
 
 /** A duration in seconds in the unit that reads best for a run lasting `span` seconds. */
@@ -579,6 +583,7 @@ function main() {
     ann: null,           // the agent's annotations: { list, view, image }
     fcsScale: {},
     img: null,           // deep-zoom state of an image view
+    selecting: false,    // the Select button is on: the next drag on an image selects instead of panning
     kin: { mode: "curves", t: -1, colorBy: undefined, playing: false, focus: null },
     fig: null,           // a figure result: { img, data, zoom }
     size: [0, 0],
@@ -693,6 +698,8 @@ function main() {
     const sameImage = S.data && S.data.view === "image" && S.args && S.args.file === hint.file && (hint.view === undefined || hint.view === "image") && (hint.image ?? 0) === (S.args.image ?? 0);
     S.sel = null;
     hideAct();
+    // a host that keeps one viewer can send another file: its outline is not this one's
+    if (S.args && S.args.file !== hint.file) S.outline = null;
     S.args = Object.assign({ outline: !S.outline }, hint);
     if (sameImage && S.img) {
       S.img.follow = true;
@@ -788,7 +795,9 @@ function main() {
     S.args.view = d.view;
     if (viewChanged && S.ann && S.ann.view && S.ann.view !== d.view) S.ann = null;
     if (S.ann && !S.ann.view) S.ann.view = d.view;
-    setTitle(S.file && S.file.name, S.file ? S.file.format_name : "");
+    const o = S.outline || {};
+    const format = S.file ? S.file.format_name : "";
+    setTitle(S.file && S.file.name, o.what || format, [format, o.instrument].filter(Boolean).join("\n"));
     renderTabs();
     const notes = (d.notes || []).slice(0, 3);
     $("notes").textContent = notes.join(" · ");
@@ -817,9 +826,17 @@ function main() {
     tellModel();
   }
 
-  function setTitle(name, format) {
-    if (name) $("file-name").textContent = name;
-    $("file-format").textContent = format || "";
+  /** The file name, cut in the middle when it must be (so the end and extension stay), and a
+   * subtitle; `full` is the subtitle's tooltip. */
+  function setTitle(name, sub, full) {
+    if (name) {
+      const cut = Math.max(0, name.length - 12);
+      $("file-head").textContent = name.slice(0, cut);
+      $("file-tail").textContent = name.slice(cut);
+      $("file-name").title = name;
+    }
+    $("file-format").textContent = sub || "";
+    $("file-format").title = full || sub || "";
   }
 
   function overlay(text, isError) {
@@ -848,7 +865,7 @@ function main() {
     const d = S.data;
     let h = "";
     if (!d) h = "";
-    else if (d.view === "image") h = "Drag to select · Shift-drag to pan · double-click to zoom";
+    else if (d.view === "image") h = "Drag to pan · Shift-drag to select · pinch to zoom";
     else if (d.view === "figure") h = "Drag to zoom · double-click to reset";
     else if (d.plot) h = d.plot.kind === "chromatogram" && d.plot.source === "spectra" ? "Drag to select a range · click for the spectrum" : d.plot.kind === "spectrum" ? "Click a peak · drag to select" : "Drag to select a range · double-click to reset";
     else if (d.plate) h = d.plate.kinetic ? "Click wells to select · hover for the curve" : "Click wells to select";
@@ -1098,7 +1115,8 @@ function main() {
   function actionsFor(sel) {
     const d = S.data || {};
     const out = [];
-    if (sel.kind === "region") out.push({ label: "Zoom in", primary: !canMessage(), run: () => { clearSelection(); zoomTo(rectOfRegion(sel.region)); } });
+    // With Ask, the bar is for the question; pinch and the + button zoom.
+    if (sel.kind === "region" && !canMessage()) out.push({ label: "Zoom in", primary: true, run: () => { clearSelection(); zoomTo(rectOfRegion(sel.region)); } });
     if (sel.kind === "xrange") out.push({ label: "Zoom", run: () => { clearSelection(); zoomPlot(sel.x0, sel.x1); } });
     if (sel.kind === "xpoint" || (sel.kind === "peak" && d.plot && d.plot.source === "spectra")) {
       const x = sel.kind === "peak" ? sel.peak.x : sel.x;
@@ -1127,8 +1145,10 @@ function main() {
     try {
       const r = await host.request("ui/message", { role: "user", content: [{ type: "text", text }] }, 15000);
       if (r && r.isError) throw new Error("declined");
-      toast("Sent to the chat");
+      // Some hosts send the message, others put it in the user's message box as a draft.
+      toast("Added to the chat");
       $("act-input").value = "";
+      hideAct();
     } catch (e) {
       toast("The host did not take the message");
     }
@@ -1266,14 +1286,20 @@ function main() {
         const sum = el("input", { type: "checkbox", checked: summed, on: { change: () => reloadPlane(sum.checked ? { sum_t: true, t: undefined } : { sum_t: undefined, t: 0 }) } });
         add(el("label", {}, sum, "Sum frames"));
       }
-      const contrasts = [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["log", "Log"], ["raw", "Full range"]];
+      const contrasts = [["auto", "Auto"], ["min-max", "Min–max"], ["percentile:1,99", "1–99 %"], ["percentile:0.1,99.9", "0.1–99.9 %"], ["log", "Log"]];
+      // 8-bit colour is drawn as stored by Auto already, so Full range would repeat it
+      if (!((info.samples_per_pixel || 1) >= 3 && info.pixel_type === "uint8")) contrasts.push(["raw", "Full range"]);
       (info.windows || []).forEach((w, i) => contrasts.push([`window:file:${i}`, w.name ? `Window: ${w.name}` : `Window ${w.center}/${w.width}`]));
       if (info.value_unit === "HU") {
         [["soft-tissue", "Soft tissue"], ["brain", "Brain"], ["bone", "Bone"], ["lung", "Lung"], ["liver", "Liver"], ["subdural", "Subdural"]]
           .forEach(([k, t]) => contrasts.push([`window:${k}`, `CT ${t}`]));
       }
       add(select("Contrast", contrasts, S.args.contrast || "auto", (v) => reloadPlane({ contrast: v === "auto" ? undefined : v })));
+      const sel = button("Select", () => setSelecting(!S.selecting), false, "Drag to select a region (or Shift-drag)");
+      sel.id = "select-tool";
+      sel.setAttribute("aria-pressed", String(S.selecting));
       add(el("span", { className: "group" },
+        sel,
         button("−", () => zoomBy(1 / 2), false, "Zoom out (−)"),
         button("+", () => zoomBy(2), false, "Zoom in (+)"),
         button("Fit", () => zoomTo(fullRect()), false, "Whole image (0)")));
@@ -2007,13 +2033,13 @@ function main() {
   function drawScaleBar(L) {
     const ps = physical();
     if (!ps) return;
-    const umPerPx = ps.x / L.k;
-    const nice = niceBelow(umPerPx * L.w * 0.18);
-    const len = nice / umPerPx;
+    // The bar and its box keep one size; only the label changes as the view zooms, so the
+    // corner holds still instead of the bar growing and snapping back at each round length.
+    const len = Math.round(Math.min(120, L.w * 0.18));
     if (!(len > 16)) return;
-    const label = fmtLength(nice, 3);
+    const label = scaleLabel((ps.x / L.k) * len);
     g.font = font(11.5, 500, true);
-    const tw = g.measureText(label).width;
+    const tw = g.measureText("00.0 mm").width;
     const bw = Math.max(len, tw) + 20, bh = 30;
     const x = L.w - bw - 12, y = L.h - bh - 12;
     g.save();
@@ -3762,6 +3788,13 @@ function main() {
     return "";
   }
 
+  function setSelecting(on) {
+    S.selecting = on;
+    const b = $("select-tool");
+    if (b) b.setAttribute("aria-pressed", String(on));
+    canvas.classList.toggle("grab", !on && !!S.layout && S.layout.kind === "image");
+  }
+
   function finishSelect(a, b) {
     const L = S.layout;
     if (!L) return;
@@ -3886,9 +3919,10 @@ function main() {
     if (e.button !== 0) return;
     canvas.setPointerCapture(e.pointerId);
     const a = pos(e);
-    const panMode = S.layout && S.layout.kind === "image" && (e.shiftKey || e.button === 1 || spaceDown);
+    // On images a drag pans, as in map viewers; Shift-drag or the Select button selects.
+    const panMode = S.layout && S.layout.kind === "image" && ((!e.shiftKey && !S.selecting) || spaceDown);
     S.drag = { a, b: a, moved: false, mode: panMode ? "pan" : "select", cam: S.img && S.img.cam ? Object.assign({}, S.img.cam) : null };
-    if (panMode) canvas.classList.add("grab");
+    if (panMode) canvas.classList.add("grabbing");
   });
   canvas.addEventListener("pointermove", (e) => {
     const p = pos(e);
@@ -3907,6 +3941,7 @@ function main() {
       }
       return;
     }
+    canvas.classList.toggle("grab", !!(S.layout && S.layout.kind === "image" && !S.selecting && !e.shiftKey));
     const text = hover(p[0], p[1]);
     $("readout").textContent = text.replace(/\n/g, "  ·  ");
     tip(text, p[0], p[1], S.hover && S.hover.tip);
@@ -3916,11 +3951,15 @@ function main() {
   canvas.addEventListener("pointerup", (e) => {
     const drag = S.drag;
     S.drag = null;
-    canvas.classList.remove("grab");
+    canvas.classList.remove("grabbing");
     if (!drag) return;
     const p = pos(e);
     if (drag.moved && drag.mode === "pan") { settle(); return; }
-    if (drag.moved) { finishSelect(drag.a, p); invalidateOverlay(); }
+    if (drag.moved) {
+      if (S.selecting) setSelecting(false);
+      finishSelect(drag.a, p);
+      invalidateOverlay();
+    }
     else click(p[0], p[1], e);
   });
   canvas.addEventListener("pointerleave", () => {
@@ -3965,7 +4004,7 @@ function main() {
     const d = S.data;
     if (!d) return;
     if (e.key === " ") { spaceDown = true; e.preventDefault(); return; }
-    if (e.key === "Escape") { clearSelection(); return; }
+    if (e.key === "Escape") { setSelecting(false); clearSelection(); return; }
     if (d.view === "image" && S.img) {
       const c = S.img.cam;
       if (e.key === "+" || e.key === "=") { e.preventDefault(); zoomBy(2); return; }
@@ -4034,6 +4073,11 @@ function main() {
   const sizeObserver = new ResizeObserver(reportSize);
   sizeObserver.observe(document.documentElement);
   sizeObserver.observe(document.body);
+  // A host-sized frame gives the canvas the height left below the header and controls, so
+  // draw again when they change height (the controls arrive after the first picture).
+  const chromeObserver = new ResizeObserver(() => { if (root.classList.contains("fill")) invalidate(); });
+  chromeObserver.observe($("controls"));
+  chromeObserver.observe(document.querySelector("header.bar"));
   let resizeTimer = 0;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
@@ -4078,7 +4122,7 @@ function main() {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    niceTicks, niceBelow, fmt, fmtTick, tickLabels, fmtInt, fmtLength, timeUnit, legendLabel, ramp, hexRgb, cssHex, fmtValue, plotXs, sampleWindow,
+    niceTicks, fmt, fmtTick, tickLabels, fmtInt, fmtLength, scaleLabel, timeUnit, legendLabel, ramp, hexRgb, cssHex, fmtValue, plotXs, sampleWindow,
     f32FromBase64, bytesFromBase64, scaleFn, scaleInv, scaleTicks, percentile, hintFrom, wellName, parseWell,
     normalizeAnnotations, placeLabels, ease, lerpRect, fitAspect, defaultGroupMap, isBlankGroup, seriesGroup,
     callText, wellSpec, THEMES, categoryColors, spreadLabels,

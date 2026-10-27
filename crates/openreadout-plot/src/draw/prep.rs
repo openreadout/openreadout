@@ -111,29 +111,9 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             }
         }
     }
-    let mut ext = Extent::default();
-    let mut cont = true;
-    for s in series.iter() {
-        if let Geom::Bars { vals, err, .. } = &s.geom {
-            // every bar, so that a log axis starts below the shortest one
-            ext.add(f64::NAN, 0.0);
-            for (i, &v) in vals.iter().enumerate() {
-                let d = err.get(i).copied().filter(|d| d.is_finite()).unwrap_or(0.0);
-                ext.add(f64::NAN, v - d);
-                ext.add(f64::NAN, v);
-                ext.add(f64::NAN, v + d);
-            }
-        } else {
-            ext.merge(&s.geom.extent());
-            cont &= continuous(s.mark) || matches!(s.geom, Geom::Events { .. });
-        }
-        for c in &s.callouts {
-            ext.add(f64::NAN, c.y);
-        }
-    }
+    let (ext, cont) = data_extent(series.iter());
     let first = series.first();
     let x_ticks = series.iter().find_map(|s| s.x_ticks.clone());
-    let y_ticks = series.iter().find_map(|s| s.y_ticks.clone());
     let x_log = xs.log || series.iter().any(|s| s.x_log);
     let x_rev = xs
         .reverse
@@ -142,10 +122,6 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
         .label
         .clone()
         .unwrap_or_else(|| label_of(series.iter().map(|s| &s.x)));
-    let y_label = ys
-        .label
-        .clone()
-        .unwrap_or_else(|| label_of(series.iter().map(|s| &s.y)));
     let ax = if cats.is_empty() {
         let mut xr = ext.x;
         if xs.range.is_none() && !series.is_empty() && series.iter().all(|s| s.x_focus.is_some()) {
@@ -192,6 +168,23 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
             cats,
         }
     };
+    let refs: Vec<&Series> = series.iter().collect();
+    let ay = y_axis(&refs, spec, &ax, floor);
+    repick_peaks(series, &ax, &ay);
+    Ok((ax, ay))
+}
+
+/// The y axis of `series`, drawn under the x axis `ax`.
+fn y_axis(series: &[&Series], spec: &PanelSpec, ax: &AxisRes, floor: Option<f64>) -> AxisRes {
+    let xs = spec.x.clone().unwrap_or_default();
+    let ys = spec.y.clone().unwrap_or_default();
+    let (ext, _) = data_extent(series.iter().copied());
+    let first = series.first();
+    let y_ticks = series.iter().find_map(|s| s.y_ticks.clone());
+    let y_label = ys
+        .label
+        .clone()
+        .unwrap_or_else(|| label_of(series.iter().map(|s| &s.y)));
     // y: from zero for bars, areas, sticks and counts; headroom for labels
     let y_log = ys.log || series.iter().any(|s| s.y_log);
     let zero_based = series.iter().any(|s| {
@@ -203,7 +196,7 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     if let (Some([a, b]), None, true) = (xs.range, ys.range, ax.cats.is_empty()) {
         let (lo, hi) = (a.min(b), a.max(b));
         let mut shown = Extent::default();
-        for s in series.iter() {
+        for s in series {
             shown.merge(&s.geom.extent_in(lo, hi));
             for c in s.callouts.iter().filter(|c| c.x >= lo && c.x <= hi) {
                 shown.add(f64::NAN, c.y);
@@ -246,7 +239,7 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
     } else {
         ext.y_pos
     };
-    let ay = AxisRes {
+    AxisRes {
         domain: axis_domain(&ys, yr, y_pos, y_log, y_ticks.is_none(), true),
         label: y_label,
         unit: first.and_then(|s| s.y.unit.clone()),
@@ -257,9 +250,64 @@ pub(crate) fn prepare(series: &mut [Series], spec: &PanelSpec) -> Result<(AxisRe
         },
         ticks: y_ticks,
         cats: Vec::new(),
-    };
-    repick_peaks(series, &ax, &ay);
-    Ok((ax, ay))
+    }
+}
+
+/// The y axis of one small multiple that does not share the panel's y range.
+pub(crate) fn facet_y(members: &[&Series], spec: &PanelSpec, ax: &AxisRes) -> AxisRes {
+    y_axis(members, spec, ax, None)
+}
+
+/// Whether the small multiples sit at levels further apart than the tallest of them is high
+/// (EEG channels with their own DC offsets): on one shared y range each would draw as a flat
+/// line, so each gets its own. A y range or a log y axis keeps them shared.
+pub(crate) fn facets_apart(groups: &[Vec<&Series>], spec: &PanelSpec) -> bool {
+    let ys = spec.y.clone().unwrap_or_default();
+    if groups.len() < 2 || ys.range.is_some() || ys.log || spec.stack.is_some() {
+        return false;
+    }
+    let mut mids = Vec::new();
+    let mut tallest = 0.0f64;
+    for g in groups {
+        if g.iter().any(|s| s.y_log || s.y_ticks.is_some()) {
+            return false;
+        }
+        let (e, _) = data_extent(g.iter().copied());
+        if !e.has_y() {
+            continue;
+        }
+        mids.push(f64::midpoint(e.y.0, e.y.1));
+        tallest = tallest.max(e.y.1 - e.y.0);
+    }
+    let lo = mids.iter().copied().fold(f64::INFINITY, f64::min);
+    let hi = mids.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    mids.len() > 1 && hi - lo > tallest
+}
+
+/// The extent of the series' data, bars (from zero) and callouts, and whether every series is
+/// drawn as a continuous line, area or event cloud.
+fn data_extent<'a>(series: impl Iterator<Item = &'a Series>) -> (Extent, bool) {
+    let mut ext = Extent::default();
+    let mut cont = true;
+    for s in series {
+        if let Geom::Bars { vals, err, .. } = &s.geom {
+            // every bar, so that a log axis starts below the shortest one
+            ext.add(f64::NAN, 0.0);
+            for (i, &v) in vals.iter().enumerate() {
+                let d = err.get(i).copied().filter(|d| d.is_finite()).unwrap_or(0.0);
+                ext.add(f64::NAN, v - d);
+                ext.add(f64::NAN, v);
+                ext.add(f64::NAN, v + d);
+            }
+        } else {
+            ext.merge(&s.geom.extent());
+            cont &= continuous(s.mark) || matches!(s.geom, Geom::Events { .. });
+        }
+        for c in &s.callouts {
+            ext.add(f64::NAN, c.y);
+        }
+    }
+    (ext, cont)
 }
 
 /// The noise floor of lines that start from a baseline at zero (baseline-subtracted
@@ -272,10 +320,12 @@ pub(crate) fn log_floor(series: &[Series]) -> Option<f64> {
     let mut noises = Vec::new();
     for s in series {
         let Geom::Line(pts) = &s.geom else { continue };
-        if pts.len() < 8 {
+        // a baseline needs at least four points in the first 15 %: a short series (the eleven
+        // frequencies of a rheometer sweep) has no noise to tell apart from its data
+        let k = pts.len() * 15 / 100;
+        if k < 4 {
             continue;
         }
-        let k = (pts.len() * 15 / 100).max(4);
         let early: Vec<f64> = pts[..k]
             .iter()
             .map(|p| p.1)
@@ -302,13 +352,15 @@ pub(crate) fn log_floor(series: &[Series]) -> Option<f64> {
 }
 
 /// Blank each line's points before it last rises above `floor`, so the noise under the floor
-/// draws nothing and every curve enters the panel once.
+/// draws nothing and every curve enters the panel once. Points after the line's last one above
+/// the floor stay as they are: a line that ends low keeps the rise before it.
 fn hide_below(series: &mut [Series], floor: f64) {
     for s in series.iter_mut() {
         let Geom::Line(pts) = &mut s.geom else {
             continue;
         };
-        if let Some(last_low) = pts.iter().rposition(|p| p.1.is_nan() || p.1 < floor) {
+        let end = pts.iter().rposition(|p| p.1 >= floor).unwrap_or(pts.len());
+        if let Some(last_low) = pts[..end].iter().rposition(|p| p.1.is_nan() || p.1 < floor) {
             for p in pts.iter_mut().take(last_low) {
                 p.1 = f64::NAN;
             }

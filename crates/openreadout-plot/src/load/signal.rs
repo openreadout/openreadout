@@ -52,6 +52,44 @@ fn named_by_channel(t: &TraceInfo) -> bool {
     matches!(trace_kind(t), "electropherogram" | "sanger_trace")
 }
 
+/// The channel that holds an irregular x axis (a sized electropherogram's bp, a Raman shift
+/// list), if the trace stores its x values that way.
+fn axis_channel(t: &TraceInfo) -> Option<u32> {
+    t.extra
+        .get("axis")
+        .filter(|a| a.get("irregular").and_then(Value::as_bool) == Some(true))
+        .and_then(|a| a.get("channel"))
+        .and_then(Value::as_u64)
+        .and_then(|c| u32::try_from(c).ok())
+}
+
+/// The channel named by `x`, read as the x values of a trace (a rheometer's angular
+/// frequency in place of the step time).
+fn x_channel(t: &TraceInfo, file: &str, x: &str) -> Result<u32> {
+    t.channels
+        .iter()
+        .find(|c| c.name.eq_ignore_ascii_case(x))
+        .map(|c| c.index)
+        .ok_or_else(|| {
+            usage(format!(
+                "{file}: trace {} has no channel {x} for the x axis; channels: {}",
+                t.index,
+                t.channels
+                    .iter()
+                    .map(|c| c.name.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            ))
+        })
+}
+
+/// Channels of a trace that hold signals (not its x axis). A series from a trace of several
+/// is named by its channel, so that channels drawn side by side tell apart.
+fn signal_count(t: &TraceInfo) -> usize {
+    let axis = axis_channel(t);
+    t.channels.iter().filter(|c| Some(c.index) != axis).count()
+}
+
 fn trace_kind(t: &TraceInfo) -> &str {
     t.extra.get("kind").and_then(Value::as_str).unwrap_or("")
 }
@@ -264,6 +302,12 @@ pub(super) fn trace(
             ))
         })?;
     let overlay = t.extra.get("plot").and_then(Value::as_str) == Some("overlay");
+    // a channel named by `x` in place of the trace's own x axis
+    let xc = match (&spec.x, show) {
+        (Some(x), Show::Trace) if !overlay => Some(x_channel(&t, file, x)?),
+        _ => None,
+    };
+
     let sweeps: Vec<u32> = match &spec.sweep {
         Some(s) => s.to_vec(),
         None if show == Show::Sweeps => (0..t.sweep_count.min(MAX_SWEEPS as u32)).collect(),
@@ -347,15 +391,10 @@ pub(super) fn trace(
             } else {
                 // the first signal: an irregular abscissa stored as a channel (a sized
                 // electropherogram's bp, a Raman shift list) is the x axis, not a signal
-                let axis = t
-                    .extra
-                    .get("axis")
-                    .filter(|a| a.get("irregular").and_then(Value::as_bool) == Some(true))
-                    .and_then(|a| a.get("channel"))
-                    .and_then(Value::as_u64);
+                let axis = axis_channel(&t);
                 t.channels
                     .iter()
-                    .find(|c| Some(u64::from(c.index)) != axis)
+                    .find(|c| Some(c.index) != axis && Some(c.index) != xc)
                     .map_or(0, |c| c.index)
             }
         });
@@ -414,7 +453,27 @@ pub(super) fn trace(
                 super::file_label(file)
             ));
         }
-        let (xq, xs, axis_channel) = abscissa(ds.as_mut(), &t, sw, n_read)?;
+        let (xq, xs, axis_channel) = match xc {
+            Some(c) => {
+                let ch = t.channels.iter().find(|ch| ch.index == c);
+                let unit = ch.and_then(|ch| ch.unit.as_deref());
+                let name = ch.map_or("x", |ch| ch.name.as_str());
+                let v = openreadout_core::trace::read_channels(
+                    ds.as_mut(),
+                    ti,
+                    sw,
+                    0,
+                    n_read as u64,
+                    &[c],
+                )?;
+                (
+                    Quantity::new(signal_name(name, unit), unit),
+                    v.into_iter().next().unwrap_or_default(),
+                    None,
+                )
+            }
+            None => abscissa(ds.as_mut(), &t, sw, n_read)?,
+        };
         // the window asked for
         let (i0, i1) = match spec.x_range {
             Some([a, b]) => {
@@ -456,8 +515,11 @@ pub(super) fn trace(
                 continue;
             };
             let ys = &data[k];
-            let pts: Vec<(f64, f64)> = xs[i0..i0 + ys.len().min(i1 - i0)]
+            let pts: Vec<(f64, f64)> = xs
+                .get(i0..)
+                .unwrap_or_default()
                 .iter()
+                .take(ys.len().min(i1 - i0))
                 .copied()
                 .zip(ys.iter().copied())
                 .collect();
@@ -485,7 +547,11 @@ pub(super) fn trace(
                     Some(p) => format!("{:+} pA", p.round()),
                     None => sweep_label(&t, sw),
                 }
-            } else if let Some(n) = t.name.as_ref().filter(|_| !named_by_channel(&t)) {
+            } else if let Some(n) = t
+                .name
+                .as_ref()
+                .filter(|_| !named_by_channel(&t) && signal_count(&t) == 1)
+            {
                 n.clone()
             } else {
                 ch.name.clone()
