@@ -176,6 +176,11 @@ fn prune_vendor(vendor: &Path) -> Result<()> {
         if makefile.is_file() && !dir.join("build.rs").is_file() {
             fs::remove_file(&makefile)?;
         }
+        // Test directories a manifest names stay, but cargo never runs make in them (nix has a
+        // kernel-module Makefile under test/).
+        for sub in ["test", "tests"] {
+            remove_makefiles(&dir.join(sub))?;
+        }
         let ck = dir.join(".cargo-checksum.json");
         if ck.is_file() {
             let v: serde_json::Value = serde_json::from_str(&fs::read_to_string(&ck)?)?;
@@ -184,6 +189,21 @@ fn prune_vendor(vendor: &Path) -> Result<()> {
                 &ck,
                 serde_json::to_string(&serde_json::json!({ "files": {}, "package": package }))?,
             )?;
+        }
+    }
+    Ok(())
+}
+
+fn remove_makefiles(dir: &Path) -> Result<()> {
+    if !dir.is_dir() {
+        return Ok(());
+    }
+    for entry in fs::read_dir(dir)? {
+        let p = entry?.path();
+        if p.is_dir() {
+            remove_makefiles(&p)?;
+        } else if p.file_name().is_some_and(|n| n == "Makefile") {
+            fs::remove_file(&p)?;
         }
     }
     Ok(())
