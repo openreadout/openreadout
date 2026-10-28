@@ -347,7 +347,9 @@ struct Recorded {
 
 impl Recorded {
     fn note(&self, p: &Path) {
-        self.seen.lock().unwrap().push(p.display().to_string());
+        // Windows joins paths with `\`. Compare them in one spelling.
+        let p = p.display().to_string().replace('\\', "/");
+        self.seen.lock().unwrap().push(p);
     }
 }
 
