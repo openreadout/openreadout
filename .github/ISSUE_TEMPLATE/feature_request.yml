@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest a new feature or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What would you like OpenReadout to do? If it does something today that you'd like changed, describe that too.
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: How you would use it, and links to anything related (sample files, other tools, documentation).
