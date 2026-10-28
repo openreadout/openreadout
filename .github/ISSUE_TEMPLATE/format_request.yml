@@ -1,26 +1,17 @@
 name: Format request
-description: Ask for a new instrument file format, or a feature of a supported one (a compression, a container variant).
+description: Ask for a new file format, or for more from a format that's already supported
 labels: ["format-request"]
 body:
   - type: markdown
     attributes:
       value: |
-        OpenReadout's readers are written clean-room: only from files we may legally hold and from public, permissively licensed documentation (see docs/legal/clean-room-policy.md).
-        **Do not attach or link vendor SDKs, headers, DLLs, or specifications obtained under NDA**, even if you have them. Issues that do are closed.
+        Please leave out vendor SDKs, DLLs and documents shared under an NDA. Our [clean-room policy](https://github.com/openreadout/openreadout/blob/main/docs/legal/clean-room-policy.md) means we can't use them.
 
   - type: input
     id: format
     attributes:
-      label: Format and extension
-      placeholder: Olympus OIR (.oir)
-    validations:
-      required: true
-
-  - type: input
-    id: software
-    attributes:
-      label: Instrument and acquisition software (with versions) that write it
-      placeholder: FluoView FV3000, FV31S-SW 2.6
+      label: Format
+      placeholder: e.g., Olympus OIR (.oir)
     validations:
       required: true
 
@@ -28,23 +19,12 @@ body:
     id: need
     attributes:
       label: What do you need from these files?
-      description: Metadata only, pixels, export to OME-TIFF/OME-Zarr, integrity checks, tables/spectra... and roughly how many files, how large.
+      placeholder: e.g., the metadata, the images, an export to OME-TIFF
     validations:
       required: true
 
   - type: textarea
     id: files
     attributes:
-      label: Public sample files
-      description: Links to files you can share under an open license (CC0, CC-BY, BSD), with the license. This is the single most useful thing for a new reader.
-
-  - type: textarea
-    id: prior
-    attributes:
-      label: Open documentation or permissively licensed readers you know of
-      description: Public format documentation, or MIT/BSD/Apache readers. GPL readers are fine to mention; they can only be used as black-box oracles.
-
-  - type: input
-    id: current
-    attributes:
-      label: Output of `openreadout info FILE --view format --json` on one of the files (if you have run it)
+      label: Sample files
+      description: Links to files you can share under an open license, if you have any.
