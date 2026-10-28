@@ -105,7 +105,7 @@ Chunk presence is counted for up to 100 000 chunks per array (evenly sampled bey
 | `Axis`, `kind`, `unit` | one axis (`type` is `kind`) |
 | `Level`, `scale`, `translation` | one `datasets[]` entry with its combined scale |
 | `length_um`, `time_s`, `color`, `version_of` | unit conversion, `#RRGGBB` colour, NGFF version lookup |
-| `Store`, `StoreKind`, `storage`, `prefix`, `get`, `json`, `exists`, `size`, `zip_summary`, `join`, `ask_about_nodes` | store access (directory or zip); `ask_about_nodes` asks for several nodes' metadata documents at once, so a store read over HTTP fetches them together |
+| `Store`, `StoreKind`, `storage`, `prefix`, `get`, `json`, `exists`, `size`, `zip_summary`, `join`, `format`, `set_format`, `group_docs`, `array_docs`, `ask_about`, `ask_about_groups`, `ask_about_arrays` | store access (directory or zip); `format` is the store's Zarr version once its root is read, and `group_docs` and `array_docs` name only that version's metadata documents; the `ask_about` functions ask for several documents at once, so a store read over HTTP fetches them together |
 | `ZipStorage` | `zarrs` storage over a zip archive |
 | `ZipIndex`, `ZipMember`, `members`, `file_len`, `method`, `compressed_size`, `local_offset`, `encrypted`, `read`, `read_stored_range` | the zip central directory and member reads |
 | `DecodeOnly`, `ChunkCompressor`, `compressor`, `register` | decode-only Blosc / zstd / LZ4 codecs registered with `zarrs` |

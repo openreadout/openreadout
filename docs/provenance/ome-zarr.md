@@ -103,3 +103,9 @@ OME-Zarr is an open standard; no vendor format is involved and nothing was rever
 **Corpus files:** none. The Image Data Resource's NGFF 0.4 store `idr0073A/9798462.zarr` (a 21115 × 16433 RGB slide, read over HTTPS in the demo) gives its arrays the data type `>u1`. A synthetic store in `tests/fixtures.rs` covers it.
 **Prior art consulted:** the Zarr v2 specification (https://zarr-specs.readthedocs.io/, CC-BY-4.0): the first character of a simple data type is the byte order, `|` when it does not apply.
 **What changed.** zarrs knows the one-byte types only as `|u1`, `|i1` and `|b1`, so opening such an array failed. A byte order means nothing for one byte, so the reader now opens these arrays with it dropped.
+
+## 2026-10-28 — Plates read over a network
+
+**Corpus files:** none. The Image Data Resource's NGFF 0.1 plate `plates/7825.zarr` (96 wells of 9 fields, 5 levels each, read over HTTPS in the demo) took many minutes to open. The plate fixture `ngff04-v2-plate`, read through an in-memory namespace in `tests/fixtures.rs`, covers the new path.
+**Prior art consulted:** none.
+**What changed.** No parsing rule changed. Opening a plate read every field's group, label group and level metadata one after another, and each lookup asked for the documents of both Zarr versions. Once the root is read, lookups now ask only for the documents of the store's Zarr version (`.zattrs` for a group and `.zarray` for an array in Zarr v2, `zarr.json` in v3), and arrays are opened from the document already read. When the store is not on the local file system, a plate reads all wells together and only the first field in full. The other fields take the first field's layout until one of them is read or checked, and a note says so.

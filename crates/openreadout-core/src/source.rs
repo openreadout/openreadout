@@ -736,6 +736,12 @@ pub trait DirSource: Send + Sync + fmt::Debug {
     fn is_local(&self) -> bool {
         false
     }
+
+    /// True when each lookup is a request to a server. Readers may then put off work they
+    /// would otherwise do when the file is opened.
+    fn is_remote(&self) -> bool {
+        false
+    }
 }
 
 /// The local file system (`std::fs`).
@@ -927,6 +933,11 @@ impl Fs {
     /// True for the local file system.
     pub fn is_local(&self) -> bool {
         self.0.is_local()
+    }
+
+    /// True when each lookup is a request to a server.
+    pub fn is_remote(&self) -> bool {
+        self.0.is_remote()
     }
 
     /// Open a file (like `std::fs::File::open`).

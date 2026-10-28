@@ -493,6 +493,10 @@ impl DirSource for LazyFs {
         known.metadata(path).map_err(|e| self.unknown(path, e))
     }
 
+    fn is_remote(&self) -> bool {
+        self.open_ended.is_some()
+    }
+
     fn list(&self, dir: &Path) -> io::Result<Vec<DirEntry>> {
         if self.open_ended.is_some() {
             return Err(io::Error::new(
