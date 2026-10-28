@@ -27,7 +27,7 @@ use crate::{FORMAT_ID, ZarrReader};
 /// Largest plane read into memory.
 const MAX_PLANE_BYTES: u64 = 4 << 30;
 /// The note on a plate whose fields after the first are given its layout.
-const ASSUMED_FIELDS: &str = "the plate is read over a network: the fields after the first are taken to have its layout until they are read, and their label images are not listed";
+const ASSUMED_FIELDS: &str = "the plate is read over a network: the fields after the first are taken to have its layout until they are read, and their channel names and label images are not listed";
 /// Chunks whose presence `check` verifies per array (beyond this it samples evenly).
 const MAX_CHUNKS_CHECKED: u64 = 100_000;
 
@@ -145,7 +145,8 @@ fn assumed_field(
             ..l.clone()
         })
         .collect();
-    let mut info = image_info(index, &m, &t.roles, &levels, t.omero.as_ref());
+    // Channel names and colours vary between fields, so an assumed field has none.
+    let mut info = image_info(index, &m, &t.roles, &levels, None);
     info.name.clone_from(&name);
     for (k, v) in &extra {
         info.extra.insert(k.clone(), v.clone());
@@ -157,7 +158,7 @@ fn assumed_field(
         multiscale: m,
         roles: t.roles.clone(),
         levels,
-        omero: t.omero.clone(),
+        omero: None,
         labels: Vec::new(),
         info,
         pending: Some(PendingField {
@@ -796,7 +797,7 @@ impl ZarrDataset {
         ds.labels = label_names(&ds.store, "")?;
         // Over a network, looking up every field of a large plate takes minutes, so the fields
         // after the first take its layout until they are read (`read_field`).
-        let assume_fields = ds.layout == "plate" && !ds.store.fs.is_local();
+        let assume_fields = ds.layout == "plate" && ds.store.fs.is_remote();
         let mut template: Option<ZarrImage> = None;
         for (series_index, (group, name, extra)) in groups.into_iter().enumerate() {
             let index = ds.images.len() as u32;
@@ -1782,7 +1783,7 @@ impl ZarrDataset {
         }
         // A headers-only check of a plate read over a network leaves the fields not yet read:
         // looking them all up would take minutes.
-        if chunks || self.store.fs.is_local() {
+        if chunks || !self.store.fs.is_remote() {
             for i in 0..self.images.len() as u32 {
                 if let Err(e) = self.read_field(i) {
                     r.push(Finding::error("metadata", e.to_string()));

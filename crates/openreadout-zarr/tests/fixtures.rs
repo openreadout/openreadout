@@ -366,6 +366,9 @@ impl openreadout_core::source::DirSource for Recorded {
     fn list(&self, dir: &Path) -> std::io::Result<Vec<openreadout_core::source::DirEntry>> {
         self.inner.list(dir)
     }
+    fn is_remote(&self) -> bool {
+        true
+    }
 }
 
 #[test]
@@ -387,7 +390,7 @@ fn plates_read_over_a_network_read_their_fields_when_used() {
         inner: mem,
         seen: std::sync::Mutex::new(Vec::new()),
     });
-    assert!(!fs.is_local());
+    assert!(fs.is_remote());
     let input = Input::new("plate.zarr", Fs::new(fs.clone()));
     let mut ds = ZarrReader.open_input(&input).unwrap();
     let info = ds.info().unwrap();
