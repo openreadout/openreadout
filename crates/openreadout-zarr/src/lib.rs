@@ -139,7 +139,7 @@ impl FormatReader for ZarrReader {
                 "String, structured and datetime data types are not read (exit 6); float16 is widened to float32, bool is uint8 0/1".into(),
                 "Scale and translation transformations are composed (physical sizes, `extra.origin_um`); NGFF 0.6 coordinate systems and affine/rotation transformations are reported, not applied".into(),
                 "Axes other than t/c/z/y/x are read at index 0".into(),
-                "Remote (HTTP/S3) stores are not opened: the binary has no network access".into(),
+                "The command line and MCP server don't open remote (HTTP/S3) stores: the binary has no network access. The WebAssembly build reads them through the page (`openStore`)".into(),
             ],
         }
     }

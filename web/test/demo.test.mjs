@@ -1,6 +1,7 @@
 // The demo page, assembled by web/build.mjs and driven from Node: the module loads, every
-// sample opens and draws with the view the page shows first, a dropped file still works, and
-// the page can't reach any other site. Run `scripts/wasm.sh build` first.
+// sample opens and draws with the view the page shows first, a dropped file or folder still
+// works, an OME-Zarr image opens from a URL, and the page reaches no other site
+// unless you open one. Run `scripts/wasm.sh build` first.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
@@ -152,18 +153,18 @@ test("every sample has a card, a credit and a notice", () => {
   }
 });
 
-test("the page states and enforces that it reaches no other site", () => {
+test("the page reaches another site only to read a URL you open", () => {
   const html = readFileSync(join(out, "index.html"), "utf8");
   assert.match(html, /Your file stays on your device\./);
   const csp = html.match(/http-equiv="Content-Security-Policy"\s+content="([^"]+)"/)[1];
   assert.match(csp, /default-src 'none'/);
-  assert.match(csp, /connect-src 'self';/);
+  assert.match(csp, /connect-src 'self' https:;/);
   // the worker starts from a blob: URL, so it keeps this policy
   assert.match(csp, /worker-src blob:;/);
   assert.match(csp, /form-action 'none'/);
-  assert.doesNotMatch(csp, /https?:|\*|data:/);
-  // No script talks to another origin: fetch only takes relative paths, and nothing uses
-  // XHR, WebSocket, beacons or server-sent events.
+  assert.doesNotMatch(csp, /http:|\*|data:/);
+  // Only store.js fetches from another site, with GET and HEAD and no body. Every other fetch
+  // takes a path on this site, and nothing uses XHR, WebSocket, beacons or server-sent events.
   const scripts = [];
   const walk = (d) => {
     for (const e of readdirSync(d)) {
@@ -176,8 +177,134 @@ test("the page states and enforces that it reaches no other site", () => {
   for (const p of scripts) {
     const src = readFileSync(p, "utf8");
     assert.doesNotMatch(src, /\b(XMLHttpRequest|WebSocket|sendBeacon|EventSource)\b/, p);
+    if (p.endsWith("store.js")) {
+      assert.doesNotMatch(src, /method:\s*["'](POST|PUT|PATCH|DELETE)|body:/, p);
+      continue;
+    }
     // samples.js holds the credit links, which the page shows as links to follow
     if (!p.endsWith("samples.js")) assert.doesNotMatch(src, /["'`]https?:\/\//, p);
     assert.doesNotMatch(src, /fetch\(\s*["'`](https?:|\/\/)/, p);
   }
+});
+
+/** The files of the zipped OME-Zarr fixture, by path inside the image's folder. */
+function zarrFixture() {
+  const dir = mkdtempSync(join(tmpdir(), "openreadout-zarr-"));
+  execFileSync("unzip", ["-q", join(root, "crates/openreadout-zarr/tests/fixtures/ngff04-v2-tczyx-blosc-lz4.zip"), "-d", dir]);
+  const files = new Map();
+  const walk = (d, rel) => {
+    for (const e of readdirSync(d)) {
+      const p = join(d, e);
+      if (statSync(p).isDirectory()) walk(p, `${rel}${e}/`);
+      else files.set(`${rel}${e}`, readFileSync(p));
+    }
+  };
+  walk(dir, "");
+  rmSync(dir, { recursive: true, force: true });
+  return files;
+}
+
+test("an OME-Zarr image opens from a URL, fetching only what it reads", async () => {
+  const files = zarrFixture();
+  const base = "https://data.example.org/images/image.zarr";
+  const asked = [];
+  const real = globalThis.fetch;
+  // A server that answers range requests and, like S3, hides Content-Range from the page.
+  globalThis.fetch = async (url, options = {}) => {
+    const path = String(url).slice(base.length + 1);
+    asked.push(`${options.method ?? "GET"} ${path}`);
+    const body = files.get(path);
+    if (!String(url).startsWith(base) || !body) return new Response(null, { status: 404 });
+    if (options.method === "HEAD") return new Response(null, { headers: { "content-length": String(body.length) } });
+    const [, from, to] = /bytes=(\d+)-(\d+)/.exec(options.headers.Range);
+    return new Response(body.subarray(Number(from), Number(to) + 1), { status: 206 });
+  };
+  try {
+    const r = await R.analyze({ url: base });
+    assert.ok(r.info.ok && r.explain.ok && r.preview.ok, JSON.stringify(r, null, 1));
+    assert.equal(r.info.value.format.id, "ome-zarr");
+    assert.equal(r.name, "image.zarr");
+  } finally {
+    globalThis.fetch = real;
+  }
+  // Nothing is listed, and nothing is fetched twice.
+  assert.ok(asked.every((a) => /^(GET|HEAD) /.test(a)));
+  assert.equal(new Set(asked).size, asked.length, "a file was fetched twice");
+});
+
+test("a dropped .zarr folder opens as one image", async () => {
+  const folder = [...zarrFixture()].map(([path, bytes]) => ({ path: `image.zarr/${path}`, data: new Blob([bytes]) }));
+  const r = await R.analyze({ folder, root: "image.zarr" });
+  assert.ok(r.info.ok && r.preview.ok, JSON.stringify(r, null, 1));
+  assert.equal(r.info.value.format.id, "ome-zarr");
+});
+
+test("a file opens from a URL, finding its companion files next to it", async () => {
+  // A Bruker EPR spectrum: the descriptor (.DSC) names the data file (.DTA) beside it.
+  const dsc = "#DESC\t1.2\nDSRC\tEXP\nBSEQ\tBIG\nIKKF\tREAL\nXTYP\tIDX\nYTYP\tNODATA\nZTYP\tNODATA\nIRFMT\tD\nXPTS\t3\nXMIN\t3300.0\nXWID\t100.0\nTITL\t'test'\nXNAM\t'Field'\nXUNI\t'G'\n";
+  const dta = new Uint8Array(24);
+  [1.5, -2.0, 4.25].forEach((x, i) => new DataView(dta.buffer).setFloat64(i * 8, x));
+  const files = new Map([["a.DSC", new TextEncoder().encode(dsc)], ["a.DTA", dta]]);
+  const asked = [];
+  const real = globalThis.fetch;
+  // Zenodo's file addresses end in /content, after the file's name.
+  globalThis.fetch = async (url, options = {}) => {
+    asked.push(`${options.method ?? "GET"} ${url}`);
+    const m = /^https:\/\/data\.example\.org\/records\/1\/files\/([^/]+)\/content$/.exec(String(url));
+    const body = m && files.get(decodeURIComponent(m[1]));
+    if (!body) return new Response(null, { status: 404 });
+    if (options.method === "HEAD") return new Response(null, { headers: { "content-length": String(body.length) } });
+    const [, from, to] = /bytes=(\d+)-(\d+)/.exec(options.headers.Range);
+    return new Response(body.subarray(Number(from), Number(to) + 1), { status: 206 });
+  };
+  try {
+    const r = await R.analyze({ url: "https://data.example.org/records/1/files/a.DSC/content" });
+    assert.ok(r.info.ok, JSON.stringify(r, null, 1));
+    assert.equal(r.info.value.format.id, "bruker-bes3t");
+    assert.equal(r.name, "a.DSC");
+  } finally {
+    globalThis.fetch = real;
+  }
+  assert.ok(asked.some((a) => a.includes("/a.DTA/content")), "the data file was not looked up");
+});
+
+test("a URL without the file's name takes it from where it redirects", async () => {
+  const czi = readFileSync(join(root, "crates/openreadout-cli/tests/fixtures/mini.czi"));
+  const real = globalThis.fetch;
+  // Figshare's URLs are numbers that redirect to an address ending in the file's name.
+  globalThis.fetch = async (url, options = {}) => {
+    if (String(url) !== "https://files.example.org/files/123") return new Response(null, { status: 404 });
+    const res =
+      options.method === "HEAD"
+        ? new Response(null, { headers: { "content-length": String(czi.length) } })
+        : (() => {
+            const [, from, to] = /bytes=(\d+)-(\d+)/.exec(options.headers.Range);
+            return new Response(czi.subarray(Number(from), Number(to) + 1), { status: 206 });
+          })();
+    Object.defineProperty(res, "url", { value: "https://bucket.example.org/123/mini.czi?signature=x" });
+    return res;
+  };
+  try {
+    const r = await R.analyze({ url: "https://files.example.org/files/123" });
+    assert.ok(r.info.ok, JSON.stringify(r, null, 1));
+    assert.equal(r.info.value.format.id, "czi");
+    assert.equal(r.name, "mini.czi");
+  } finally {
+    globalThis.fetch = real;
+  }
+});
+
+test("URLs are read as the files and folders they name", async () => {
+  const { webAddress, addressName } = await import(pathToFileURL(join(out, "store.js")).href);
+  assert.equal(webAddress(" https://host.org/a/image.zarr/ "), "https://host.org/a/image.zarr");
+  assert.equal(webAddress("https://host.org/a/image.zarr/zarr.json"), "https://host.org/a/image.zarr");
+  assert.equal(webAddress("https://host.org/a/image.zarr/.zattrs"), "https://host.org/a/image.zarr");
+  assert.equal(webAddress("s3://bucket/a/image.zarr"), "https://bucket.s3.amazonaws.com/a/image.zarr");
+  assert.equal(webAddress("https://host.org/run.czi?sig=1"), "https://host.org/run.czi?sig=1");
+  assert.equal(webAddress("https://zenodo.org/records/7015307/files/a%3D1.czi?download=1"), "https://zenodo.org/api/records/7015307/files/a%3D1.czi/content");
+  assert.equal(webAddress("https://github.com/org/repo/blob/main/data/x.fcs"), "https://raw.githubusercontent.com/org/repo/main/data/x.fcs");
+  assert.equal(addressName("https://host.org/a/image%20one.zarr"), "image one.zarr");
+  assert.equal(addressName("https://zenodo.org/api/records/1/files/a%3D1.czi/content"), "a=1.czi");
+  assert.throws(() => webAddress("http://host.org/image.zarr"), /https/);
+  assert.throws(() => webAddress("not an address"), /not a URL/);
 });

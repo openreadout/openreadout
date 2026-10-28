@@ -14,6 +14,7 @@
 //! and image aggregates and the histograms.
 
 use std::collections::{BTreeMap, HashMap, HashSet};
+#[cfg(not(target_arch = "wasm32"))]
 use std::sync::mpsc;
 
 use rayon::prelude::*;
@@ -1164,15 +1165,29 @@ impl StripFeeds {
 }
 
 /// The statistics of one plane read strip by strip by its reader ([`Dataset::read_strips`]):
-/// width, height, sample type, samples per pixel, pooled and per-component accumulators. The
-/// reader runs on its own thread, at most one strip ahead, while this thread accumulates.
+/// width, height, sample type, samples per pixel, pooled and per-component accumulators.
 fn stitched_plane(
     ds: &mut dyn Dataset,
     r: PlaneRequest,
     strips: &[Region],
     level: Option<(f64, &'static str)>,
 ) -> Result<PlaneAccs> {
-    let feeds = std::thread::scope(|s| {
+    let feeds = strip_feeds(ds, r, strips, level)?;
+    let (w, h, pixel_type, spp) = (feeds.width, feeds.height, feeds.pixel_type, feeds.spp);
+    let (acc, comps) = feeds.finish();
+    Ok((w, h, pixel_type, spp, acc, comps))
+}
+
+/// The accumulators of one plane fed strip by strip. The reader runs on its own thread, at
+/// most one strip ahead, while this thread accumulates.
+#[cfg(not(target_arch = "wasm32"))]
+fn strip_feeds(
+    ds: &mut dyn Dataset,
+    r: PlaneRequest,
+    strips: &[Region],
+    level: Option<(f64, &'static str)>,
+) -> Result<StripFeeds> {
+    std::thread::scope(|s| {
         let (tx, rx) = mpsc::sync_channel::<Plane>(1);
         let reader = s.spawn(move || {
             ds.read_strips(r.image, r.index, r.level, strips, &mut |p| {
@@ -1196,10 +1211,25 @@ fn stitched_plane(
         let feeds = fed?;
         read?;
         feeds.ok_or_else(|| Error::Other("stats: the reader returned no strips".into()))
+    })
+}
+
+/// The accumulators of one plane fed strip by strip. wasm32 has no threads, so each strip is
+/// accumulated as the reader hands it over.
+#[cfg(target_arch = "wasm32")]
+fn strip_feeds(
+    ds: &mut dyn Dataset,
+    r: PlaneRequest,
+    strips: &[Region],
+    level: Option<(f64, &'static str)>,
+) -> Result<StripFeeds> {
+    let mut feeds: Option<StripFeeds> = None;
+    ds.read_strips(r.image, r.index, r.level, strips, &mut |p| {
+        feeds
+            .get_or_insert_with(|| StripFeeds::new(&p, level))
+            .feed(&p)
     })?;
-    let (w, h, pixel_type, spp) = (feeds.width, feeds.height, feeds.pixel_type, feeds.spp);
-    let (acc, comps) = feeds.finish();
-    Ok((w, h, pixel_type, spp, acc, comps))
+    feeds.ok_or_else(|| Error::Other("stats: the reader returned no strips".into()))
 }
 
 /// The statistics [`stitched_plane`] returns.
@@ -1240,28 +1270,31 @@ fn stitched_planes(
         let strips = u.stitch.as_ref().map_or(&[][..], |(s, _)| s.as_slice());
         stitched_plane(ds, r, strips, level_of(r.image))
     };
-    let Some((first, rest)) = group.split_first() else {
-        return Ok(Vec::new());
-    };
-    let opener = match ctx.opener {
-        Some(o) if !rest.is_empty() => o,
-        _ => return Ok(group.iter().map(|u| job(&mut *ds, u)).collect()),
-    };
-    let mut handles = rest.iter().map(|_| opener()).collect::<Result<Vec<_>>>()?;
-    Ok(std::thread::scope(|s| {
-        let others: Vec<_> = rest
-            .iter()
-            .zip(handles.iter_mut())
-            .map(|(u, h)| s.spawn(move || job(h.as_mut(), u)))
-            .collect();
-        let mut out = vec![job(ds, first)];
-        out.extend(
-            others
-                .into_iter()
-                .map(|t| t.join().unwrap_or_else(|e| std::panic::resume_unwind(e))),
-        );
-        out
-    }))
+    #[cfg(not(target_arch = "wasm32"))]
+    if let Some(opener) = ctx.opener
+        && let Some((first, rest)) = group.split_first()
+        && !rest.is_empty()
+    {
+        let mut handles = rest.iter().map(|_| opener()).collect::<Result<Vec<_>>>()?;
+        return Ok(std::thread::scope(|s| {
+            let others: Vec<_> = rest
+                .iter()
+                .zip(handles.iter_mut())
+                .map(|(u, h)| s.spawn(move || job(h.as_mut(), u)))
+                .collect();
+            let mut out = vec![job(ds, first)];
+            out.extend(
+                others
+                    .into_iter()
+                    .map(|t| t.join().unwrap_or_else(|e| std::panic::resume_unwind(e))),
+            );
+            out
+        }));
+    }
+    // wasm32 has no threads: the planes are read one after another.
+    #[cfg(target_arch = "wasm32")]
+    let _ = ctx;
+    Ok(group.iter().map(|u| job(&mut *ds, u)).collect())
 }
 
 /// Per image and channel: planes, pooled samples, samples per pixel, per-component samples.

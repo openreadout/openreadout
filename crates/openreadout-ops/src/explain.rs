@@ -132,11 +132,16 @@ fn explain_info(info: &FileInfo) -> Explanation {
         "" => String::new(),
         f => format!(" {}", f.replace('-', " ")),
     };
+    // A file the reader could open is never empty: 0 means the size is unknown (a store read
+    // over HTTP can't be listed).
+    let size = match info.size_bytes {
+        0 => String::new(),
+        n => format!(", {}", human_bytes(n)),
+    };
     let what = format!(
-        "{} {}{family} file{version}, {}",
+        "{} {}{family} file{version}{size}",
         article(&info.format.name),
         info.format.name,
-        human_bytes(info.size_bytes)
     );
 
     let mut holds = Vec::new();

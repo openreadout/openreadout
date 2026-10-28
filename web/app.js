@@ -1,14 +1,16 @@
 // The demo page: sample cards, your own file, and the result with its picture and controls.
 // OpenReadout runs in a Web Worker (engine.js, core.js), so the page stays responsive while it
-// draws. The page's Content-Security-Policy (`connect-src 'self'`) lets it fetch only its own
-// files from this site, so a file you open can't leave your device. reader.js turns the JSON
-// into what the page lists, and camera.js holds the pan and zoom arithmetic.
+// draws. The page's Content-Security-Policy lets it fetch its own files from this site and,
+// for a URL you open, that address (store.js), and it never sends
+// anything, so a file you open can't leave your device. reader.js turns the JSON into what
+// the page lists, and camera.js holds the pan and zoom arithmetic.
 
 import { BUILT } from "./built.js";
 import * as C from "./camera.js";
-import { call, progress } from "./engine.js";
+import { call, downloading, progress } from "./engine.js";
 import * as R from "./reader.js";
 import { FIRST, SAMPLES } from "./samples.js";
+import { addressName, webAddress } from "./store.js";
 
 const $ = (id) => document.getElementById(id);
 const touch = matchMedia("(hover: none)").matches;
@@ -99,6 +101,17 @@ systemDark.addEventListener("change", () => {
 // ----- the busy state ------------------------------------------------------------------------------
 
 let workId = 0;
+let workText = "";
+let downloadingNow = false;
+
+// While parts of an image opened from an address arrive, the spinner says so.
+function busyText() {
+  $("busy-text").textContent = downloadingNow ? "Downloading" : workText;
+}
+downloading((on) => {
+  downloadingNow = on;
+  busyText();
+});
 
 /**
  * Show that the page is working: the picture dims under a small spinner with `text` (or, with
@@ -109,7 +122,8 @@ function startWork(text, { control, corner = false } = {}) {
   const id = ++workId;
   const box = $("busy");
   box.className = corner ? "busy corner" : "busy";
-  $("busy-text").textContent = text;
+  workText = text;
+  busyText();
   box.hidden = false;
   frame.classList.toggle("dim", !corner);
   const chips = control ? [...control.querySelectorAll(".chip")] : [];
@@ -118,7 +132,9 @@ function startWork(text, { control, corner = false } = {}) {
   let ended = false;
   return {
     text(t) {
-      if (id === workId) $("busy-text").textContent = t;
+      if (id !== workId) return;
+      workText = t;
+      busyText();
     },
     done() {
       if (ended) return;
@@ -232,6 +248,7 @@ async function openSample(id, { scroll = true } = {}) {
   const s = SAMPLES.find((x) => x.id === id);
   if (!s) return;
   const gen = ++S.gen;
+  urlBusy(false);
   pressCard(id);
   if (location.hash !== `#${id}`) history.replaceState(null, "", `#${id}`);
   const key = `sample:${id}`;
@@ -279,22 +296,27 @@ async function openSample(id, { scroll = true } = {}) {
   }
 }
 
-async function openOwn(file) {
-  if (!file) return;
+/**
+ * Open something of your own: a file, a dropped folder (`{ folder, root }`) or a folder at a
+ * URL (`{ url }`). `name` is what the page calls it and `size` its size, if known.
+ */
+async function openOwn(source, name, size) {
+  if (!source) return;
   const gen = ++S.gen;
+  urlBusy(false);
   pressCard(null);
-  history.replaceState(null, "", location.pathname + location.search);
+  if (!source.url) history.replaceState(null, "", location.pathname + location.search);
   if (!S.cur) placeholder(null);
-  const work = startWork(`Opening ${file.name}`);
+  const work = startWork(`Opening ${name}`);
   const key = `own:${++S.own}`;
   try {
     if (!moduleLoaded) {
       progress((f) => gen === S.gen && work.text(`Loading ${Math.round(f * 100)}%`));
       await call("load");
       moduleLoaded = true;
-      work.text(`Opening ${file.name}`);
+      work.text(`Opening ${name}`);
     }
-    const r = await call("open", { key, source: file, name: file.name });
+    const r = await call("open", { key, source, name });
     // keep only the latest file of your own
     for (const [k, old] of S.files) {
       if (k.startsWith("own:")) {
@@ -302,7 +324,8 @@ async function openOwn(file) {
         forget(old);
       }
     }
-    const F = fileState(key, r, null, file.size);
+    const F = fileState(key, r, null, size ?? r.size);
+    F.url = source.url;
     S.files.set(key, F);
     if (gen === S.gen) await show(F, gen, work, true);
     else forget(F);
@@ -311,6 +334,57 @@ async function openOwn(file) {
   } finally {
     work.done();
   }
+}
+
+const openPicked = (file) => file && openOwn(file, file.name, file.size);
+
+/** Open the file or folder at a URL, and keep the URL in the page's own address (`#url=…`). */
+function openUrl(text) {
+  let url;
+  try {
+    url = webAddress(text);
+  } catch (e) {
+    showOpenError(e);
+    return;
+  }
+  const hash = `#url=${encodeURIComponent(url)}`;
+  if (location.hash !== hash) history.replaceState(null, "", hash);
+  // A shared page opens the form too, so its URL shows and can be changed.
+  $("url-form").hidden = false;
+  $("url-toggle").setAttribute("aria-expanded", "true");
+  $("url-input").value = url;
+  const opening = openOwn({ url }, addressName(url));
+  // The form says it is working, where you clicked, until the file shows or something else
+  // is opened instead.
+  const gen = S.gen;
+  urlBusy(true);
+  opening.finally(() => gen === S.gen && urlBusy(false));
+}
+
+function urlBusy(on) {
+  const form = $("url-form");
+  if (on) form.setAttribute("aria-busy", "true");
+  else form.removeAttribute("aria-busy");
+  $("url-open").disabled = on;
+  $("url-open-text").textContent = on ? "Opening" : "Open";
+}
+
+/** The files of a dropped folder, with their paths from the folder's parent. */
+async function folderFiles(dir) {
+  const out = [];
+  const walk = async (d) => {
+    const reader = d.createReader();
+    for (;;) {
+      const batch = await new Promise((ok, fail) => reader.readEntries(ok, fail));
+      if (!batch.length) break;
+      for (const e of batch) {
+        if (e.isDirectory) await walk(e);
+        else out.push({ path: e.fullPath.replace(/^\//, ""), data: await new Promise((ok, fail) => e.file(ok, fail)) });
+      }
+    }
+  };
+  await walk(dir);
+  return out;
 }
 
 function forget(F) {
@@ -410,7 +484,9 @@ function renderHead(F) {
   $("r-title").textContent = F.sample ? F.sample.subject : F.name;
   const format = F.sample?.format ?? (F.info ? R.formatName(F.info) : "Format not recognised");
   const meta = $("r-meta");
-  meta.replaceChildren(el("code", {}, F.name), ` · ${format} · ${R.human(F.size)}`);
+  meta.replaceChildren(el("code", {}, F.name), ` · ${format}`);
+  if (Number.isFinite(F.size)) meta.append(` · ${R.human(F.size)}`);
+  if (F.url) meta.append(" · from ", el("a", { href: F.url, rel: "noreferrer" }, new URL(F.url).host));
   if (F.sample) {
     meta.append(" · ", el("a", { href: `samples/${encodeURIComponent(F.sample.file)}`, download: F.sample.file }, "Download"));
   }
@@ -448,12 +524,14 @@ function renderFacts(F) {
     for (const m of R.measurements(F.info)) list.append(el("li", {}, m));
     for (const [k, v] of R.facts(F.info)) row(k, v);
   }
+  // A URL gets the checks of its metadata only (reader.js).
+  const checked = F.url ? "Metadata check" : "Integrity check";
   if (!F.check.ok) {
-    if (F.info) row("Integrity check", F.check.error.message, "fail");
+    if (F.info) row(checked, F.check.error.message, "fail");
   } else {
     const findings = F.check.value.findings ?? [];
-    if (F.check.value.ok) row("Integrity check", findings.length ? `Passed, ${findings.length} note${findings.length > 1 ? "s" : ""}` : "Passed", "pass");
-    else row("Integrity check", findings.map((f) => f.message).join("; ") || "Problems found", "fail");
+    if (F.check.value.ok) row(checked, findings.length ? `Passed, ${findings.length} note${findings.length > 1 ? "s" : ""}` : "Passed", "pass");
+    else row(checked, findings.map((f) => f.message).join("; ") || "Problems found", "fail");
   }
   if (F.sample) row("Source", el("span", {}, el("a", { href: F.sample.href }, F.sample.credit), ` (${F.sample.licence})`));
 }
@@ -483,6 +561,7 @@ function renderCommand(F) {
     v = { ...v, region: whole ? undefined : { x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height) } };
   }
   $("cmd").textContent = R.command(F.name, F.info, v);
+  $("cli-remote").hidden = !F.url;
 }
 
 // ----- the image viewer ----------------------------------------------------------------------------
@@ -1228,8 +1307,19 @@ for (const card of document.querySelectorAll(".card")) {
 }
 
 $("pick").addEventListener("change", (e) => {
-  openOwn(e.target.files?.[0]);
+  openPicked(e.target.files?.[0]);
   e.target.value = "";
+});
+
+$("url-toggle").addEventListener("click", () => {
+  const form = $("url-form");
+  form.hidden = !form.hidden;
+  $("url-toggle").setAttribute("aria-expanded", String(!form.hidden));
+  if (!form.hidden) $("url-input").focus();
+});
+$("url-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  if ($("url-input").value.trim()) openUrl($("url-input").value);
 });
 
 let dragDepth = 0;
@@ -1252,7 +1342,15 @@ window.addEventListener("drop", (e) => {
   e.preventDefault();
   dragDepth = 0;
   $("dropzone").hidden = true;
-  openOwn(e.dataTransfer.files[0]);
+  const entry = e.dataTransfer.items?.[0]?.webkitGetAsEntry?.();
+  if (entry?.isDirectory) {
+    folderFiles(entry).then(
+      (folder) => openOwn({ folder, root: entry.name }, entry.name),
+      (err) => showOpenError(err),
+    );
+  } else {
+    openPicked(e.dataTransfer.files[0]);
+  }
 });
 
 // A wider or narrower stage: the image viewport keeps showing the same part of the image, and
@@ -1281,13 +1379,21 @@ window.addEventListener("drop", (e) => {
   }).observe($("stage"));
 }
 
-window.addEventListener("hashchange", () => {
-  const id = location.hash.slice(1);
-  if (SAMPLES.some((s) => s.id === id)) openSample(id);
-});
+/** `#url=…` opens that address; `#slide` and the like open a sample. */
+function openHash({ scroll }) {
+  const h = location.hash.slice(1);
+  if (h.startsWith("url=")) {
+    openUrl(decodeURIComponent(h.slice(4)));
+    return true;
+  }
+  if (SAMPLES.some((s) => s.id === h)) {
+    openSample(h, { scroll });
+    return true;
+  }
+  return false;
+}
+
+window.addEventListener("hashchange", () => openHash({ scroll: true }));
 
 syncThumbs();
-{
-  const id = location.hash.slice(1);
-  openSample(SAMPLES.some((s) => s.id === id) ? id : FIRST, { scroll: false });
-}
+if (!openHash({ scroll: false })) openSample(FIRST, { scroll: false });

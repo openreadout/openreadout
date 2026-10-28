@@ -25,7 +25,7 @@ if (!existsSync(wasm)) {
 for (const d of ["openreadout/pkg", "fonts", "samples/thumbs"]) mkdirSync(join(out, d), { recursive: true });
 
 // The page and its scripts.
-for (const f of ["style.css", "theme.js", "app.js", "camera.js", "engine.js", "core.js", "worker.js", "reader.js", "samples.js"]) copyFileSync(join(here, f), join(out, f));
+for (const f of ["style.css", "theme.js", "app.js", "camera.js", "engine.js", "core.js", "worker.js", "reader.js", "store.js", "samples.js"]) copyFileSync(join(here, f), join(out, f));
 copyFileSync(join(root, "packaging/wasm/index.js"), join(out, "openreadout/index.js"));
 copyFileSync(join(pkg, "openreadout.js"), join(out, "openreadout/pkg/openreadout.js"));
 copyFileSync(wasm, join(out, "openreadout/pkg/openreadout_bg.wasm"));

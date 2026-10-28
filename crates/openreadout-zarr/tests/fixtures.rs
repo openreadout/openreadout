@@ -312,3 +312,28 @@ fn errors_are_clean() {
     assert!(r.ok);
     assert!(r.findings.iter().any(|f| f.code == "missing_chunks"));
 }
+
+#[test]
+fn one_byte_types_with_a_byte_order_read() {
+    // The IDR's Zarr 2 images of 8-bit slides (idr0073A) give their data type as `>u1`.
+    let dir = tempfile::tempdir().unwrap();
+    let g = dir.path().join("rgb.zarr");
+    std::fs::create_dir_all(g.join("0")).unwrap();
+    std::fs::write(g.join(".zgroup"), br#"{"zarr_format": 2}"#).unwrap();
+    std::fs::write(
+        g.join(".zattrs"),
+        br#"{"multiscales": [{"version": "0.4", "axes": [{"name": "y", "type": "space"}, {"name": "x", "type": "space"}],
+            "datasets": [{"path": "0", "coordinateTransformations": [{"type": "scale", "scale": [1, 1]}]}]}]}"#,
+    )
+    .unwrap();
+    std::fs::write(
+        g.join("0/.zarray"),
+        br#"{"zarr_format": 2, "shape": [2, 3], "chunks": [2, 3], "dtype": ">u1", "compressor": null,
+            "filters": null, "order": "C", "fill_value": 0}"#,
+    )
+    .unwrap();
+    std::fs::write(g.join("0/0.0"), [1u8, 2, 3, 4, 5, 6]).unwrap();
+    let mut ds = ZarrReader.open(&g).unwrap();
+    let plane = ds.read_plane(0, PlaneIndex::default()).unwrap();
+    assert_eq!(plane.data, [1u8, 2, 3, 4, 5, 6]);
+}

@@ -15,7 +15,7 @@ use openreadout_core::region::{Region, ResolutionLevel};
 use openreadout_core::{Error, PixelType, Plane, Result};
 use openreadout_tiff::{OmeDocument, OmeImage, parse_ome_xml};
 use serde_json::{Value, json};
-use zarrs::array::{Array, ArrayBytes, ArraySubset};
+use zarrs::array::{Array, ArrayBytes, ArrayMetadata, ArrayMetadataV2, ArraySubset};
 use zarrs::storage::ReadableStorageTraits;
 
 use crate::ngff::{self, GroupAttrs, Multiscale, ZarrFormat};
@@ -28,6 +28,27 @@ const MAX_PLANE_BYTES: u64 = 4 << 30;
 const MAX_CHUNKS_CHECKED: u64 = 100_000;
 
 type ZArray = Array<dyn ReadableStorageTraits>;
+
+/// Open the array at `path`. zarrs knows the one-byte Zarr 2 data types only as `|u1`, `|i1`
+/// and `|b1`, but some writers give them a byte order (`>u1`), which means nothing for a
+/// single byte. Those arrays are opened with the byte order dropped.
+fn open_array(store: &Store, path: &str) -> std::result::Result<ZArray, String> {
+    let node = format!("/{path}");
+    if let Some(mut doc) = store
+        .json(&join(path, ".zarray"))
+        .map_err(|e| e.to_string())?
+        && let Some(Value::String(d)) = doc.get_mut("dtype")
+        && d.len() == 3
+        && d.starts_with(['<', '>', '='])
+        && d.ends_with('1')
+    {
+        d.replace_range(..1, "|");
+        let meta: ArrayMetadataV2 = serde_json::from_value(doc).map_err(|e| e.to_string())?;
+        return Array::new_with_metadata(store.storage.clone(), &node, ArrayMetadata::V2(meta))
+            .map_err(|e| e.to_string());
+    }
+    Array::open(store.storage.clone(), &node).map_err(|e| e.to_string())
+}
 
 /// What each array dimension of an image is.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -713,6 +734,8 @@ impl ZarrDataset {
                         format!("multiscales of {group:?} lists no datasets"),
                     ));
                 }
+                ds.store
+                    .ask_about_nodes(m.levels.iter().map(|l| l.path.as_str()));
                 let mut levels = Vec::new();
                 for l in &m.levels {
                     let meta = array_meta(&ds.store, &l.path)?.ok_or_else(|| {
@@ -856,6 +879,8 @@ impl ZarrDataset {
                 continue;
             };
             for m in ngff::multiscales(&group, &attrs.ngff) {
+                self.store
+                    .ask_about_nodes(m.levels.iter().map(|l| l.path.as_str()));
                 let mut levels = Vec::new();
                 for l in &m.levels {
                     match array_meta(&self.store, &l.path)? {
@@ -920,7 +945,7 @@ impl ZarrDataset {
         if let Some(a) = self.arrays.get(path) {
             return Ok(a.clone());
         }
-        let a = Array::open(self.store.storage.clone(), &format!("/{path}"))
+        let a = open_array(&self.store, path)
             .map_err(|e| Error::corrupt(FORMAT_ID, format!("array {path}: {e}")))?;
         let a = Arc::new(a);
         self.arrays.insert(path.to_string(), a.clone());
@@ -1096,7 +1121,9 @@ impl ZarrDataset {
         Ok(plane)
     }
 
-    fn check_array(&mut self, meta: &ArrayMeta, r: &mut CheckReport) {
+    /// Check one array's metadata against what zarrs reads, and with `chunks`, count its
+    /// stored chunks and decode the first and last.
+    fn check_array(&mut self, meta: &ArrayMeta, chunks: bool, r: &mut CheckReport) {
         let arr = match self.array(&meta.path) {
             Ok(a) => a,
             Err(e) => {
@@ -1114,6 +1141,9 @@ impl ZarrDataset {
                     meta.shape
                 ),
             ));
+        }
+        if !chunks {
+            return;
         }
         let grid: Vec<u64> = arr.chunk_grid_shape().to_vec();
         let total: u64 = grid.iter().product();
@@ -1201,8 +1231,7 @@ impl ZarrDataset {
         };
         for (image, im) in self.images.iter().enumerate() {
             let meta = im.levels.first()?;
-            let arr: ZArray =
-                Array::open(self.store.storage.clone(), &format!("/{}", meta.path)).ok()?;
+            let arr = open_array(&self.store, &meta.path).ok()?;
             let grid: Vec<u64> = arr.chunk_grid_shape().to_vec();
             let total: u64 = grid.iter().product();
             if grid.len() != im.roles.len() || total == 0 || total > 4_000_000 {
@@ -1569,13 +1598,27 @@ impl Dataset for ZarrDataset {
     }
 
     fn check(&mut self) -> Result<CheckReport> {
+        Ok(self.check_with(true))
+    }
+
+    /// The metadata checks only: no chunk is counted or decoded. Counting chunks asks about
+    /// each one, which over HTTP means fetching it.
+    fn check_headers(&mut self) -> Result<CheckReport> {
+        Ok(self.check_with(false))
+    }
+}
+
+impl ZarrDataset {
+    fn check_with(&mut self, chunks: bool) -> CheckReport {
         let mut r = CheckReport::new(self.path.display().to_string(), FORMAT_ID);
         r.performed("store opens; the NGFF group metadata (multiscales / plate / well / bioformats2raw) parses");
         r.performed("every listed dataset has array metadata whose rank matches the axes");
         r.performed("pyramid levels do not grow in x or y; omero channel count matches the c axis");
-        r.performed(format!(
-            "stored chunks are counted (up to {MAX_CHUNKS_CHECKED} per array, evenly sampled beyond) and the first and last stored chunk of every array decodes"
-        ));
+        if chunks {
+            r.performed(format!(
+                "stored chunks are counted (up to {MAX_CHUNKS_CHECKED} per array, evenly sampled beyond) and the first and last stored chunk of every array decodes"
+            ));
+        }
         for n in &self.notes {
             r.push(Finding::warning("metadata", n.clone()));
         }
@@ -1623,10 +1666,10 @@ impl Dataset for ZarrDataset {
                 ));
             }
             for meta in &im.levels {
-                self.check_array(meta, &mut r);
+                self.check_array(meta, chunks, &mut r);
             }
         }
-        Ok(r)
+        r
     }
 }
 

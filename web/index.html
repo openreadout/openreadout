@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <!-- connect-src 'self': the page may fetch its own files from this site (the WebAssembly
-         module and the sample files) and nothing else. The browser blocks requests to any
-         other site, and form-action 'none' forbids posting a form. worker-src blob: lets the
-         page start its worker from a blob: URL, which keeps this policy (engine.js). A file
-         you open is read in this tab and never sent anywhere. -->
+    <!-- connect-src 'self' https: the page fetches its own files from this site (the
+         WebAssembly module and the sample files) and, only when you open a URL,
+         that address over HTTPS (store.js). form-action 'none' forbids posting a form.
+         worker-src blob: lets the page start its worker from a blob: URL, which keeps this
+         policy (engine.js). A file you open is read in this tab and never sent anywhere. -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; worker-src blob:; form-action 'none'; base-uri 'none'"
+      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self' https:; worker-src blob:; form-action 'none'; base-uri 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Try OpenReadout in your browser</title>
@@ -61,11 +61,25 @@
           Pick a sample or open your own file. OpenReadout reads it here, without vendor software.
           Your file stays on your device.
         </p>
-        <label class="own" id="own" for="pick">
-          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          Open your own file
-          <input id="pick" type="file" />
-        </label>
+        <div class="opens">
+          <label class="own" id="own" for="pick">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            Open your own file
+            <input id="pick" type="file" />
+          </label>
+          <button type="button" class="url-toggle" id="url-toggle" aria-expanded="false" aria-controls="url-form">or enter a URL</button>
+        </div>
+        <form class="url" id="url-form" hidden>
+          <label class="visually-hidden" for="url-input">URL of a file or an OME-Zarr folder</label>
+          <div class="url-row">
+            <input id="url-input" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="URL of a file or OME-Zarr folder" />
+            <button type="submit" id="url-open"><span class="spinner" aria-hidden="true"></span><span id="url-open-text">Open</span></button>
+          </div>
+          <p class="url-note">
+            <a href="#url=https%3A%2F%2Fuk1s3.embassy.ebi.ac.uk%2Fidr%2Fzarr%2Fv0.5%2Fidr0066%2FExpD_chicken_embryo_MIP.ome.zarr">Try an example</a>
+            from the <a href="https://idr.openmicroscopy.org/" target="_blank" rel="noopener">Image Data Resource</a>.
+          </p>
+        </form>
       </section>
 
       <section class="samples" aria-label="Samples">
@@ -126,6 +140,7 @@
           <h3 id="h-cli">Command line</h3>
           <pre><code id="cmd"></code></pre>
           <p class="small"><a href="../getting-started/install.html">Install OpenReadout</a> to run this on your own computer.</p>
+          <p class="small" id="cli-remote" hidden>The command line reads files on your computer, so download it first.</p>
         </section>
 
         <details class="raw">

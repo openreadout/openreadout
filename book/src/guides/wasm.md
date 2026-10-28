@@ -29,12 +29,14 @@ img.src = URL.createObjectURL(new Blob([data], { type }));
 
 `open` takes a `File` or `Blob`, a byte array, or a range reader: an object with a `size` and a `read(offset, length)` method that the page implements, for example with HTTP range requests. Blobs up to 256 MiB are read whole. For larger ones the readers fetch only the blocks they need, so `info` on a multi-gigabyte file reads only a few megabytes.
 
-Data sets that span several files or a directory (Bruker `.d`, ChemStation `.D`, Waters `.raw`, NMR experiment directories, multi-file OME-TIFF) need their sibling files. Open them with `openAmong(files, path)`, where `files` is a dropped folder:
+Data sets that span several files or a directory (Bruker `.d`, ChemStation `.D`, Waters `.raw`, NMR experiment directories, multi-file OME-TIFF, OME-Zarr) need their sibling files. Open them with `openAmong(files, path)`, where `files` is a dropped folder and `path` is the file to open, or the folder itself when the data set is a directory. Files are read only where the readers look:
 
 ```js
 import { openAmong } from "openreadout-wasm";
 const f = await openAmong(droppedFiles, "run.D");
 ```
+
+Files and folders on a web server, such as an OME-Zarr image on S3 or a file on Zenodo, open with `openStore(name, get, { path })`. You fetch the files yourself: `get(path, offset, length)` is given a path inside the directory and resolves to `{ data, size }`, up to `length` bytes of that file from `offset` and the file's size, or to `null` when there is no such file. Without `path`, the directory itself is opened (an OME-Zarr image). With it, the file at `path` is opened, and any companion files it needs are asked for through `get` too. The readers ask only for the files and blocks they need, and the directory is never listed. The [package README](https://github.com/openreadout/openreadout/tree/main/packaging/wasm#readme) has an example with `fetch` and HTTP range requests, and the demo page's [`web/store.js`](https://github.com/openreadout/openreadout/blob/main/web/store.js) is a complete one.
 
 Each method is named after a command-line command and returns the same JSON:
 
@@ -57,7 +59,6 @@ Errors are thrown as `InstrumentError`, with `code`, `exitCode` and `hint` field
 
 ## What the WebAssembly build leaves out
 
-- the OME-Zarr reader
 - writing files: `export` and the other writers
 - `plot`, `stats` and the analyses, which read files by path
 - `watch`, `index` and the MCP server
@@ -71,10 +72,10 @@ A bug that makes Rust panic stops the WebAssembly instance. The readers are fuzz
 The demo page in [`web/`](https://github.com/openreadout/openreadout/tree/main/web) can't upload your file. Its Content-Security-Policy is:
 
 ```text
-default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self'; worker-src blob:; form-action 'none'; base-uri 'none'
+default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; img-src 'self' blob:; connect-src 'self' https:; worker-src blob:; form-action 'none'; base-uri 'none'
 ```
 
-`connect-src 'self'` lets the page fetch its own files from the site: the WebAssembly module and the sample files. The browser blocks requests to any other site, and the page's scripts never send a file anywhere; a file you open is read into the tab's memory. OpenReadout runs in a Web Worker so the page stays responsive while it draws. The page starts the worker from a `blob:` URL (`worker-src blob:`), and a worker started that way keeps the page's policy. The sample files come from the public test corpus and are credited on the page and in `web/samples/NOTICE.txt`.
+`connect-src 'self' https:` lets the page fetch its own files from the site (the WebAssembly module and the sample files) and, when you open a URL, the file or folder it points to. Only [`web/store.js`](https://github.com/openreadout/openreadout/blob/main/web/store.js) fetches from another site, it does so only after you open a URL, and it only reads: GET and HEAD requests with a byte range and no body. The page's scripts never send a file anywhere; a file you open is read into the tab's memory, and `form-action 'none'` forbids posting a form. OpenReadout runs in a Web Worker so the page stays responsive while it draws. The page starts the worker from a `blob:` URL (`worker-src blob:`), and a worker started that way keeps the page's policy. The sample files come from the public test corpus and are credited on the page and in `web/samples/NOTICE.txt`.
 
 ## Reading from other sources in Rust
 
@@ -103,7 +104,7 @@ scripts/wasm.sh test         # tests in Node
 scripts/wasm.sh demo         # the demo page, after `npm run build` in book/
 ```
 
-`scripts/wasm.sh build` runs `wasm-opt` to shrink the module when binaryen is installed (`cd packaging/wasm && npm install` provides it). The module is about 12 MB, 5 MB gzipped. The figure engine that draws previews, with its embedded fonts, is about 1 MB of that.
+`scripts/wasm.sh build` runs `wasm-opt` to shrink the module when binaryen is installed (`cd packaging/wasm && npm install` provides it). The module is about 16 MB, 7 MB gzipped. The figure engine that draws previews, with its embedded fonts, is about 1 MB of that.
 
 On macOS, some Rust toolchains ship a `rust-lld` that fails with `Library not loaded: @rpath/libLLVM.dylib`. A small linker wrapper fixes this without changing the toolchain:
 

@@ -3,13 +3,17 @@
 // page's Content-Security-Policy, as a worker loaded from its own URL would not. Where module
 // workers are unavailable, core.js runs in the page instead.
 
+import { fetchOnce } from "./store.js";
+
 const pending = new Map();
 let nextId = 1;
 let send = null;
 let onProgress = () => {};
+let onDownloading = () => {};
 
 function receive(m) {
   if (m.progress !== undefined) return onProgress(m.progress);
+  if (m.downloading !== undefined) return onDownloading(m.downloading);
   const p = pending.get(m.id);
   if (!p) return;
   pending.delete(m.id);
@@ -49,10 +53,23 @@ function inWorker() {
       if (!e.data?.hello) return;
       clearTimeout(timer);
       w.removeEventListener("message", first);
-      w.addEventListener("message", (ev) => receive(ev.data));
+      w.addEventListener("message", (ev) => (ev.data.fetch ? fetchFor(w, ev.data.fetch) : receive(ev.data)));
       resolve((m, transfer) => w.postMessage(m, transfer));
     });
   });
+}
+
+/** Make a request for the worker (worker.js), and send it what store.js reads of the answer. */
+async function fetchFor(w, { id, at, options, body }) {
+  try {
+    const res = await fetchOnce(at, options, body);
+    const headers = {};
+    for (const h of ["content-type", "content-length", "content-range"]) if (res.headers.has(h)) headers[h] = res.headers.get(h);
+    const response = { ok: res.ok, status: res.status, url: res.url, headers, data: res.data };
+    w.postMessage({ fetched: { id, response } }, res.data ? [res.data.buffer] : []);
+  } catch (e) {
+    w.postMessage({ fetched: { id, error: { name: e?.name, message: e?.message ?? String(e) } } });
+  }
 }
 
 const started = inWorker().catch(() => inPage());
@@ -70,4 +87,9 @@ export async function call(op, args = {}, { lane, background, transfer = [] } = 
 /** Report the module's download progress (0 to 1) to `f`. */
 export function progress(f) {
   onProgress = f;
+}
+
+/** Tell `f(on)` when the worker starts and stops downloading parts of a file from an address. */
+export function downloading(f) {
+  onDownloading = f;
 }

@@ -13,10 +13,6 @@
 //! plane, or a run of planes that share stored chunks ([`Dataset::z_planes_per_chunk`]), which
 //! one handle reads in turn so that each chunk is decoded once.
 
-use std::sync::{Mutex, PoisonError, mpsc};
-
-use rayon::prelude::*;
-
 use crate::reader::{Dataset, PlaneIndex};
 use crate::{Plane, Result};
 
@@ -89,20 +85,6 @@ impl PlaneRequest {
     }
 }
 
-enum Handle<'d> {
-    Borrowed(&'d mut dyn Dataset),
-    Owned(Box<dyn Dataset>),
-}
-
-impl Handle<'_> {
-    fn get(&mut self) -> &mut dyn Dataset {
-        match self {
-            Handle::Borrowed(d) => &mut **d,
-            Handle::Owned(d) => d.as_mut(),
-        }
-    }
-}
-
 /// Number of planes decoded concurrently for planes of about `plane_bytes` bytes.
 pub fn window(plane_bytes: u64) -> usize {
     let threads = rayon::current_num_threads().max(1);
@@ -115,8 +97,8 @@ pub fn window(plane_bytes: u64) -> usize {
 /// (by position) is the error returned, after every earlier result has been consumed.
 ///
 /// `plane_bytes` is an estimate of one decoded plane (it sizes the window). Decoding is
-/// sequential on `primary` when no opener is given, the pool has one thread, or the window
-/// is a single plane.
+/// sequential on `primary` when no opener is given, the pool has one thread, the window is a
+/// single plane, or the target is wasm32.
 pub fn read_in_order<T: Send>(
     primary: &mut dyn Dataset,
     ctx: &ReadContext<'_>,
@@ -125,113 +107,157 @@ pub fn read_in_order<T: Send>(
     map: &(dyn Fn(&PlaneRequest, Plane) -> Result<T> + Sync),
     sink: &mut dyn FnMut(usize, T) -> Result<()>,
 ) -> Result<()> {
-    let units = units(&*primary, requests, plane_bytes);
-    let longest = units.iter().map(ExactSizeIterator::len).max().unwrap_or(1) as u64;
-    let window = window(plane_bytes.saturating_mul(longest));
-    let opener = match ctx.opener {
-        Some(o) if window > 1 && units.len() > 1 => o,
-        _ => {
-            for (i, r) in requests.iter().enumerate() {
-                let p = r.read(primary)?;
-                sink(i, map(r, p)?)?;
+    #[cfg(not(target_arch = "wasm32"))]
+    if let Some(opener) = ctx.opener {
+        let units = threaded::units(&*primary, requests, plane_bytes);
+        let longest = units.iter().map(ExactSizeIterator::len).max().unwrap_or(1) as u64;
+        let window = window(plane_bytes.saturating_mul(longest));
+        if window > 1 && units.len() > 1 {
+            return threaded::read_threaded(primary, opener, requests, &units, window, map, sink);
+        }
+    }
+    // Only the threaded path uses these, and wasm32 has no threads.
+    #[cfg(target_arch = "wasm32")]
+    let _ = (ctx, plane_bytes);
+    for (i, r) in requests.iter().enumerate() {
+        let p = r.read(primary)?;
+        sink(i, map(r, p)?)?;
+    }
+    Ok(())
+}
+
+/// Decoding on several threads, with extra handles from an [`Opener`]. wasm32 has no threads.
+#[cfg(not(target_arch = "wasm32"))]
+mod threaded {
+    use std::sync::{Mutex, PoisonError, mpsc};
+
+    use rayon::prelude::*;
+
+    use super::{IN_FLIGHT_BYTES, Opener, PlaneRequest};
+    use crate::reader::Dataset;
+    use crate::{Plane, Result};
+
+    enum Handle<'d> {
+        Borrowed(&'d mut dyn Dataset),
+        Owned(Box<dyn Dataset>),
+    }
+
+    impl Handle<'_> {
+        fn get(&mut self) -> &mut dyn Dataset {
+            match self {
+                Handle::Borrowed(d) => &mut **d,
+                Handle::Owned(d) => d.as_mut(),
             }
-            return Ok(());
         }
-    };
-    let pool: Mutex<Vec<Handle<'_>>> = Mutex::new(vec![Handle::Borrowed(primary)]);
-    let take = || -> Result<Handle<'_>> {
-        let h = pool.lock().unwrap_or_else(PoisonError::into_inner).pop();
-        match h {
-            Some(h) => Ok(h),
-            None => Ok(Handle::Owned(opener()?)),
-        }
-    };
-    // A unit's requests are read one after another on one handle, so the stored chunks they
-    // share are decoded once.
-    let decode = |u: &std::ops::Range<usize>| -> Vec<Result<T>> {
-        let mut h = match take() {
-            Ok(h) => h,
-            Err(e) => return vec![Err(e)],
+    }
+
+    /// [`read_in_order`] with `window` units decoded side by side on handles from `opener`.
+    pub(super) fn read_threaded<T: Send>(
+        primary: &mut dyn Dataset,
+        opener: &Opener<'_>,
+        requests: &[PlaneRequest],
+        units: &[std::ops::Range<usize>],
+        window: usize,
+        map: &(dyn Fn(&PlaneRequest, Plane) -> Result<T> + Sync),
+        sink: &mut dyn FnMut(usize, T) -> Result<()>,
+    ) -> Result<()> {
+        let pool: Mutex<Vec<Handle<'_>>> = Mutex::new(vec![Handle::Borrowed(primary)]);
+        let take = || -> Result<Handle<'_>> {
+            let h = pool.lock().unwrap_or_else(PoisonError::into_inner).pop();
+            match h {
+                Some(h) => Ok(h),
+                None => Ok(Handle::Owned(opener()?)),
+            }
         };
-        let mut out = Vec::with_capacity(u.len());
-        for r in &requests[u.clone()] {
-            let res = r.read(h.get()).and_then(|p| map(r, p));
-            let failed = res.is_err();
-            out.push(res);
-            if failed {
-                break;
-            }
-        }
-        pool.lock().unwrap_or_else(PoisonError::into_inner).push(h);
-        out
-    };
-    std::thread::scope(|s| {
-        // Rendezvous channel: the producer decodes window k+1 while the caller consumes k.
-        let (tx, rx) = mpsc::sync_channel::<Vec<Result<T>>>(0);
-        s.spawn(move || {
-            for chunk in units.chunks(window) {
-                let out: Vec<Result<T>> = chunk
-                    .par_iter()
-                    .map(&decode)
-                    .collect::<Vec<_>>()
-                    .into_iter()
-                    .flatten()
-                    .collect();
-                let failed = out.iter().any(Result::is_err);
-                if tx.send(out).is_err() || failed {
+        // A unit's requests are read one after another on one handle, so the stored chunks they
+        // share are decoded once.
+        let decode = |u: &std::ops::Range<usize>| -> Vec<Result<T>> {
+            let mut h = match take() {
+                Ok(h) => h,
+                Err(e) => return vec![Err(e)],
+            };
+            let mut out = Vec::with_capacity(u.len());
+            for r in &requests[u.clone()] {
+                let res = r.read(h.get()).and_then(|p| map(r, p));
+                let failed = res.is_err();
+                out.push(res);
+                if failed {
                     break;
                 }
             }
-        });
-        let mut i = 0usize;
-        for chunk in rx {
-            for r in chunk {
-                sink(i, r?)?;
-                i += 1;
+            pool.lock().unwrap_or_else(PoisonError::into_inner).push(h);
+            out
+        };
+        std::thread::scope(|s| {
+            // Rendezvous channel: the producer decodes window k+1 while the caller consumes k.
+            let (tx, rx) = mpsc::sync_channel::<Vec<Result<T>>>(0);
+            s.spawn(move || {
+                for chunk in units.chunks(window) {
+                    let out: Vec<Result<T>> = chunk
+                        .par_iter()
+                        .map(&decode)
+                        .collect::<Vec<_>>()
+                        .into_iter()
+                        .flatten()
+                        .collect();
+                    let failed = out.iter().any(Result::is_err);
+                    if tx.send(out).is_err() || failed {
+                        break;
+                    }
+                }
+            });
+            let mut i = 0usize;
+            for chunk in rx {
+                for r in chunk {
+                    sink(i, r?)?;
+                    i += 1;
+                }
             }
-        }
-        Ok(())
-    })
-}
-
-/// Most requests in one unit of [`units`].
-const UNIT_MAX: usize = 64;
-
-/// `requests` cut into runs of consecutive requests (index ranges) that each go to one
-/// handle: requests of the same image, level and region whose z planes fall in the same
-/// stored chunk ([`Dataset::z_planes_per_chunk`]), at most [`UNIT_MAX`] of them and about an
-/// eighth of [`IN_FLIGHT_BYTES`]. Without chunks deeper than one plane every request is
-/// its own unit.
-fn units(
-    ds: &dyn Dataset,
-    requests: &[PlaneRequest],
-    plane_bytes: u64,
-) -> Vec<std::ops::Range<usize>> {
-    let cap = usize::try_from((IN_FLIGHT_BYTES / 8) / plane_bytes.max(1))
-        .unwrap_or(usize::MAX)
-        .clamp(1, UNIT_MAX);
-    let mut depth: std::collections::HashMap<(u32, u32), u32> = std::collections::HashMap::new();
-    let mut key = |r: &PlaneRequest| {
-        let g = *depth
-            .entry((r.image, r.level))
-            .or_insert_with(|| ds.z_planes_per_chunk(r.image, r.level).max(1));
-        (g > 1).then_some((r.image, r.level, r.region, r.index.z / g))
-    };
-    let mut out: Vec<std::ops::Range<usize>> = Vec::new();
-    let mut last = None;
-    for (i, r) in requests.iter().enumerate() {
-        let k = key(r);
-        match out.last_mut() {
-            Some(u) if k.is_some() && k == last && u.len() < cap => u.end = i + 1,
-            _ => out.push(i..i + 1),
-        }
-        last = k;
+            Ok(())
+        })
     }
-    out
+
+    /// Most requests in one unit of [`units`].
+    const UNIT_MAX: usize = 64;
+
+    /// `requests` cut into runs of consecutive requests (index ranges) that each go to one
+    /// handle: requests of the same image, level and region whose z planes fall in the same
+    /// stored chunk ([`Dataset::z_planes_per_chunk`]), at most [`UNIT_MAX`] of them and about an
+    /// eighth of [`IN_FLIGHT_BYTES`]. Without chunks deeper than one plane every request is
+    /// its own unit.
+    pub(super) fn units(
+        ds: &dyn Dataset,
+        requests: &[PlaneRequest],
+        plane_bytes: u64,
+    ) -> Vec<std::ops::Range<usize>> {
+        let cap = usize::try_from((IN_FLIGHT_BYTES / 8) / plane_bytes.max(1))
+            .unwrap_or(usize::MAX)
+            .clamp(1, UNIT_MAX);
+        let mut depth: std::collections::HashMap<(u32, u32), u32> =
+            std::collections::HashMap::new();
+        let mut key = |r: &PlaneRequest| {
+            let g = *depth
+                .entry((r.image, r.level))
+                .or_insert_with(|| ds.z_planes_per_chunk(r.image, r.level).max(1));
+            (g > 1).then_some((r.image, r.level, r.region, r.index.z / g))
+        };
+        let mut out: Vec<std::ops::Range<usize>> = Vec::new();
+        let mut last = None;
+        for (i, r) in requests.iter().enumerate() {
+            let k = key(r);
+            match out.last_mut() {
+                Some(u) if k.is_some() && k == last && u.len() < cap => u.end = i + 1,
+                _ => out.push(i..i + 1),
+            }
+            last = k;
+        }
+        out
+    }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::threaded::units;
     use super::*;
     use crate::model::{CheckReport, FileInfo, LsEntry};
     use crate::{Error, PixelType, ProvenanceMap};

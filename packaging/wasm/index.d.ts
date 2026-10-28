@@ -142,9 +142,29 @@ export function open(
   options?: OpenOptions,
 ): Promise<InstrumentFile>;
 
-/** Open `path` among several files (a dropped folder). */
+/**
+ * Open `path` among several files (a dropped folder): a file, or the folder itself for a data
+ * set that is a directory (an OME-Zarr image). Files are read only where the readers look.
+ */
 export function openAmong(
-  files: Array<File | { path: string; data: Uint8Array | ArrayBuffer }>,
+  files: Array<File | { path: string; data: Blob | Uint8Array | ArrayBuffer }>,
   path: string,
   options?: OpenOptions,
+): Promise<InstrumentFile>;
+
+/** The bytes of a file in a store from an offset (fewer at its end), and the file's size. */
+export interface StoreRead {
+  data: Uint8Array | ArrayBuffer;
+  size: number;
+}
+
+/**
+ * Open a directory whose files you fetch yourself (a folder on a web server): the directory
+ * itself (an OME-Zarr image), or the file `options.path` inside it. `name` is the directory's
+ * name; `get` is given paths inside it and resolves to `null` when there is no such file.
+ */
+export function openStore(
+  name: string,
+  get: (path: string, offset: number, length: number) => Promise<StoreRead | null>,
+  options?: OpenOptions & { path?: string },
 ): Promise<InstrumentFile>;

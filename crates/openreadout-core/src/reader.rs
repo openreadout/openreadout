@@ -47,8 +47,27 @@ pub struct PlaneIndex {
     pub t: u32,
 }
 
+pub use maybe::MaybeSend;
+
+/// [`MaybeSend`] is `Send` on native targets, where data sets move between threads. wasm32 has
+/// no threads, and some readers' dependencies (`zarrs`) drop their `Send` bounds there, so it
+/// asks for nothing.
+mod maybe {
+    /// `Send`, except on wasm32.
+    #[cfg(not(target_arch = "wasm32"))]
+    pub trait MaybeSend: Send {}
+    #[cfg(not(target_arch = "wasm32"))]
+    impl<T: Send + ?Sized> MaybeSend for T {}
+
+    /// `Send`, except on wasm32.
+    #[cfg(target_arch = "wasm32")]
+    pub trait MaybeSend {}
+    #[cfg(target_arch = "wasm32")]
+    impl<T: ?Sized> MaybeSend for T {}
+}
+
 /// An open file. Implementations must keep `info` cheap: read headers, never pixels.
-pub trait Dataset: Send {
+pub trait Dataset: MaybeSend {
     /// Header-only summary.
     fn info(&self) -> Result<FileInfo>;
     /// The vendor's metadata tree as JSON, names untouched.
