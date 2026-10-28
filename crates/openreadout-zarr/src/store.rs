@@ -2,7 +2,7 @@
 //! or inside a single top-level directory as zipped `.zarr` folders are usually packed).
 
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
+use std::sync::{Arc, OnceLock};
 
 use openreadout_core::source::Fs;
 use openreadout_core::zip::ZipIndex;
@@ -14,6 +14,7 @@ use zarrs::storage::byte_range::{ByteRange, ByteRangeIterator};
 use zarrs::storage::{Bytes, MaybeBytesIterator, ReadableStorageTraits, StorageError, StoreKey};
 
 use crate::FORMAT_ID;
+use crate::ngff::ZarrFormat;
 
 /// Longest zip member decompressed into memory (a Zarr chunk; larger members are refused).
 const MAX_ZIP_MEMBER: u64 = 1 << 32;
@@ -112,31 +113,12 @@ fn source_err(e: &std::io::Error) -> StorageError {
     StorageError::Other(e.to_string())
 }
 
-/// Metadata documents of a Zarr node, v3 and v2.
-const NODE_DOCS: [&str; 4] = ["zarr.json", ".zarray", ".zgroup", ".zattrs"];
-
-impl DirStorage {
-    /// Before a node's metadata document is read, ask about the node's other documents too. A
-    /// namespace whose files arrive asynchronously (a store a web page reads over HTTP) can
-    /// then fetch them together instead of one after another as zarrs tries each name.
-    fn ask_about_node(&self, key: &StoreKey) {
-        let (dir, name) = key.as_str().rsplit_once('/').unwrap_or(("", key.as_str()));
-        if !NODE_DOCS.contains(&name) {
-            return;
-        }
-        for doc in NODE_DOCS.iter().filter(|d| **d != name) {
-            let _ = self.fs.metadata(&self.root.join(dir).join(doc));
-        }
-    }
-}
-
 impl ReadableStorageTraits for DirStorage {
     fn get_partial_many<'a>(
         &'a self,
         key: &StoreKey,
         byte_ranges: ByteRangeIterator<'a>,
     ) -> std::result::Result<MaybeBytesIterator<'a>, StorageError> {
-        self.ask_about_node(key);
         let p = self.root.join(key.as_str());
         let src = match self.fs.source(&p) {
             Ok(s) => s,
@@ -164,7 +146,6 @@ impl ReadableStorageTraits for DirStorage {
     }
 
     fn size_key(&self, key: &StoreKey) -> std::result::Result<Option<u64>, StorageError> {
-        self.ask_about_node(key);
         Ok(self
             .fs
             .metadata(&self.root.join(key.as_str()))
@@ -189,6 +170,9 @@ pub struct Store {
     zip: Option<Arc<ZipIndex>>,
     /// Where the store is read from.
     pub(crate) fs: Fs,
+    /// The Zarr version of the hierarchy, once its root is read. Lookups then ask only for
+    /// that version's metadata documents.
+    format: OnceLock<ZarrFormat>,
 }
 
 impl std::fmt::Debug for Store {
@@ -238,6 +222,7 @@ impl Store {
                 storage: directory_storage(fs, path)?,
                 zip: None,
                 fs: fs.clone(),
+                format: OnceLock::new(),
             });
         }
         let fname = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
@@ -290,6 +275,7 @@ impl Store {
             }),
             zip: Some(index),
             fs: fs.clone(),
+            format: OnceLock::new(),
         })
     }
 
@@ -332,12 +318,67 @@ impl Store {
         Some((n, total))
     }
 
-    /// Ask about the metadata documents of the nodes at `paths` (the levels of a pyramid)
-    /// without reading them, so a namespace whose files arrive asynchronously can fetch them
-    /// together instead of one level at a time.
-    pub fn ask_about_nodes<'a>(&self, paths: impl IntoIterator<Item = &'a str>) {
+    /// The Zarr version of the hierarchy, when known.
+    pub fn format(&self) -> Option<ZarrFormat> {
+        self.format.get().copied()
+    }
+
+    /// Record the Zarr version of the hierarchy (read from its root).
+    pub fn set_format(&self, format: ZarrFormat) {
+        let _ = self.format.set(format);
+    }
+
+    /// Ask whether `keys` exist without reading them, so a namespace whose files arrive
+    /// asynchronously (a store a web page reads over HTTP) can fetch them together instead of
+    /// one after another.
+    pub fn ask_about<S: AsRef<str>>(&self, keys: impl IntoIterator<Item = S>) {
+        for k in keys {
+            let _ = self.size(k.as_ref());
+        }
+    }
+
+    /// The documents that may hold the metadata of the group at `group`: `zarr.json` in
+    /// Zarr v3, `.zattrs` and `.zgroup` in Zarr v2.
+    pub fn group_docs(&self, group: &str) -> Vec<String> {
+        let docs: &[&str] = match self.format() {
+            Some(ZarrFormat::V3) => &["zarr.json"],
+            Some(ZarrFormat::V2) => &[".zattrs", ".zgroup"],
+            None => &["zarr.json", ".zattrs", ".zgroup"],
+        };
+        docs.iter().map(|d| join(group, d)).collect()
+    }
+
+    /// The documents that may hold the metadata of the array at `path`: `zarr.json` in
+    /// Zarr v3, `.zarray` in Zarr v2.
+    pub fn array_docs(&self, path: &str) -> Vec<String> {
+        let docs: &[&str] = match self.format() {
+            Some(ZarrFormat::V3) => &["zarr.json"],
+            Some(ZarrFormat::V2) => &[".zarray"],
+            None => &["zarr.json", ".zarray"],
+        };
+        docs.iter().map(|d| join(path, d)).collect()
+    }
+
+    /// Ask about the metadata of the arrays at `paths` (the levels of a pyramid) without
+    /// reading it.
+    pub fn ask_about_arrays<'a>(&self, paths: impl IntoIterator<Item = &'a str>) {
         for p in paths {
-            let _ = self.size(&join(p, "zarr.json"));
+            self.ask_about(self.array_docs(p));
+        }
+    }
+
+    /// Ask about the metadata of the groups at `paths` (the wells of a plate) without
+    /// reading it. In Zarr v2 only `.zattrs` is asked for: a `.zgroup` is looked up when a
+    /// group has no attributes, which an OME-Zarr group always has.
+    pub fn ask_about_groups<'a>(&self, paths: impl IntoIterator<Item = &'a str>) {
+        for p in paths {
+            let docs = self.group_docs(p);
+            let n = if self.format() == Some(ZarrFormat::V2) {
+                1
+            } else {
+                docs.len()
+            };
+            self.ask_about(docs.into_iter().take(n));
         }
     }
 

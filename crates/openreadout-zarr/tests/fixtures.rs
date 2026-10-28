@@ -337,3 +337,114 @@ fn one_byte_types_with_a_byte_order_read() {
     let plane = ds.read_plane(0, PlaneIndex::default()).unwrap();
     assert_eq!(plane.data, [1u8, 2, 3, 4, 5, 6]);
 }
+
+/// A namespace that records every path looked up or opened.
+#[derive(Debug)]
+struct Recorded {
+    inner: openreadout_core::source::MemFs,
+    seen: std::sync::Mutex<Vec<String>>,
+}
+
+impl Recorded {
+    fn note(&self, p: &Path) {
+        self.seen.lock().unwrap().push(p.display().to_string());
+    }
+}
+
+impl openreadout_core::source::DirSource for Recorded {
+    fn open(
+        &self,
+        path: &Path,
+    ) -> std::io::Result<std::sync::Arc<dyn openreadout_core::source::ByteSource>> {
+        self.note(path);
+        self.inner.open(path)
+    }
+    fn metadata(&self, path: &Path) -> std::io::Result<openreadout_core::source::EntryMeta> {
+        self.note(path);
+        self.inner.metadata(path)
+    }
+    fn list(&self, dir: &Path) -> std::io::Result<Vec<openreadout_core::source::DirEntry>> {
+        self.inner.list(dir)
+    }
+}
+
+#[test]
+fn plates_read_over_a_network_read_their_fields_when_used() {
+    use openreadout_core::source::{DirSource, Fs, Input, MemFs, MemSource};
+    use std::sync::Arc;
+    let z = ZipIndex::open(
+        &Fs::local(),
+        &fixtures().join("ngff04-v2-plate.zip"),
+        "ome-zarr",
+    )
+    .unwrap();
+    let mut mem = MemFs::new();
+    for m in &z.members {
+        let p = format!("plate.zarr/{}", m.name);
+        mem.insert(&p, Arc::new(MemSource::new(p.clone(), z.read(m).unwrap())));
+    }
+    let fs = Arc::new(Recorded {
+        inner: mem,
+        seen: std::sync::Mutex::new(Vec::new()),
+    });
+    assert!(!fs.is_local());
+    let input = Input::new("plate.zarr", Fs::new(fs.clone()));
+    let mut ds = ZarrReader.open_input(&input).unwrap();
+    let info = ds.info().unwrap();
+    let names: Vec<_> = info
+        .images
+        .iter()
+        .map(|i| i.name.clone().unwrap())
+        .collect();
+    assert_eq!(names, ["A/1/0", "A/1/1", "A/2/0", "A/2/1"]);
+    assert_eq!(info.images[3].extra["group"], "A/2/1");
+    assert_eq!(info.images[3].size_x, info.images[0].size_x);
+    assert!(info.notes.iter().any(|n| n.contains("over a network")));
+    let seen = fs.seen.lock().unwrap().clone();
+    // the first field is read; the others wait, and no Zarr v3 document is looked up
+    assert!(seen.iter().any(|p| p == "plate.zarr/A/1/0/0/.zarray"));
+    assert!(!seen.iter().any(|p| p.starts_with("plate.zarr/A/2/1/")));
+    assert!(
+        !seen
+            .iter()
+            .any(|p| p.ends_with("zarr.json") && p != "plate.zarr/zarr.json")
+    );
+    // a headers-only check covers the fields read so far and says so
+    let r = ds.check_headers().unwrap();
+    assert!(r.ok);
+    assert!(
+        r.checks_performed
+            .iter()
+            .any(|c| c.contains("3 of the plate's 4 fields were not read"))
+    );
+    assert!(
+        !fs.seen
+            .lock()
+            .unwrap()
+            .iter()
+            .any(|p| p.starts_with("plate.zarr/A/2/1/"))
+    );
+    // reading a field reads its metadata, and its pixels match the same field read locally
+    let plane = ds.read_plane(3, PlaneIndex::default()).unwrap();
+    assert!(
+        fs.seen
+            .lock()
+            .unwrap()
+            .iter()
+            .any(|p| p == "plate.zarr/A/2/1/0/.zarray")
+    );
+    let mut local = ZarrReader
+        .open(&fixtures().join("ngff04-v2-plate.zip"))
+        .unwrap();
+    assert_eq!(
+        plane.data,
+        local.read_plane(3, PlaneIndex::default()).unwrap().data
+    );
+    assert!(
+        ds.check()
+            .unwrap()
+            .findings
+            .iter()
+            .all(|f| !f.message.contains("differs"))
+    );
+}

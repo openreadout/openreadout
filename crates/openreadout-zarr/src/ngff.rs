@@ -34,9 +34,17 @@ pub struct GroupAttrs {
     pub raw: Value,
 }
 
-/// Read a group's attributes (`zarr.json` first, then `.zattrs`/`.zgroup`).
+/// Read a group's attributes (`zarr.json` first, then `.zattrs`/`.zgroup`; once the store's
+/// Zarr version is known, only that version's documents).
 pub fn group_attrs(store: &Store, group: &str) -> Result<Option<GroupAttrs>> {
-    if let Some(doc) = store.json(&join(group, "zarr.json"))? {
+    let format = store.format();
+    if format.is_none() {
+        // the root: both versions' documents are looked up together
+        store.ask_about(store.group_docs(group));
+    }
+    if format != Some(ZarrFormat::V2)
+        && let Some(doc) = store.json(&join(group, "zarr.json"))?
+    {
         let attrs = doc.get("attributes").cloned().unwrap_or(Value::Null);
         let ngff = match attrs.get("ome") {
             Some(o) if o.is_object() => o.clone(),
@@ -47,6 +55,9 @@ pub fn group_attrs(store: &Store, group: &str) -> Result<Option<GroupAttrs>> {
             ngff,
             raw: attrs,
         }));
+    }
+    if format == Some(ZarrFormat::V3) {
+        return Ok(None);
     }
     let attrs = store.json(&join(group, ".zattrs"))?;
     if attrs.is_none() && !store.exists(&join(group, ".zgroup")) {

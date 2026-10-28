@@ -15,7 +15,9 @@ use openreadout_core::region::{Region, ResolutionLevel};
 use openreadout_core::{Error, PixelType, Plane, Result};
 use openreadout_tiff::{OmeDocument, OmeImage, parse_ome_xml};
 use serde_json::{Value, json};
-use zarrs::array::{Array, ArrayBytes, ArrayMetadata, ArrayMetadataV2, ArraySubset};
+use zarrs::array::{
+    Array, ArrayBytes, ArrayMetadata, ArrayMetadataV2, ArrayMetadataV3, ArraySubset,
+};
 use zarrs::storage::ReadableStorageTraits;
 
 use crate::ngff::{self, GroupAttrs, Multiscale, ZarrFormat};
@@ -24,30 +26,44 @@ use crate::{FORMAT_ID, ZarrReader};
 
 /// Largest plane read into memory.
 const MAX_PLANE_BYTES: u64 = 4 << 30;
+/// The note on a plate whose fields after the first are given its layout.
+const ASSUMED_FIELDS: &str = "the plate is read over a network: the fields after the first are taken to have its layout until they are read, and their label images are not listed";
 /// Chunks whose presence `check` verifies per array (beyond this it samples evenly).
 const MAX_CHUNKS_CHECKED: u64 = 100_000;
 
 type ZArray = Array<dyn ReadableStorageTraits>;
 
-/// Open the array at `path`. zarrs knows the one-byte Zarr 2 data types only as `|u1`, `|i1`
-/// and `|b1`, but some writers give them a byte order (`>u1`), which means nothing for a
-/// single byte. Those arrays are opened with the byte order dropped.
+/// Open the array at `path` from its metadata document, so that zarrs does not look up the
+/// documents of both Zarr versions again. zarrs knows the one-byte Zarr 2 data types only as
+/// `|u1`, `|i1` and `|b1`, but some writers give them a byte order (`>u1`), which means nothing
+/// for a single byte. Those arrays are opened with the byte order dropped.
 fn open_array(store: &Store, path: &str) -> std::result::Result<ZArray, String> {
     let node = format!("/{path}");
-    if let Some(mut doc) = store
+    if store.format() != Some(ZarrFormat::V2)
+        && let Some(doc) = store
+            .json(&join(path, "zarr.json"))
+            .map_err(|e| e.to_string())?
+    {
+        let meta: ArrayMetadataV3 = serde_json::from_value(doc).map_err(|e| e.to_string())?;
+        return Array::new_with_metadata(store.storage.clone(), &node, ArrayMetadata::V3(meta))
+            .map_err(|e| e.to_string());
+    }
+    let Some(mut doc) = store
         .json(&join(path, ".zarray"))
         .map_err(|e| e.to_string())?
-        && let Some(Value::String(d)) = doc.get_mut("dtype")
+    else {
+        return Err("no array metadata".into());
+    };
+    if let Some(Value::String(d)) = doc.get_mut("dtype")
         && d.len() == 3
         && d.starts_with(['<', '>', '='])
         && d.ends_with('1')
     {
         d.replace_range(..1, "|");
-        let meta: ArrayMetadataV2 = serde_json::from_value(doc).map_err(|e| e.to_string())?;
-        return Array::new_with_metadata(store.storage.clone(), &node, ArrayMetadata::V2(meta))
-            .map_err(|e| e.to_string());
     }
-    Array::open(store.storage.clone(), &node).map_err(|e| e.to_string())
+    let meta: ArrayMetadataV2 = serde_json::from_value(doc).map_err(|e| e.to_string())?;
+    Array::new_with_metadata(store.storage.clone(), &node, ArrayMetadata::V2(meta))
+        .map_err(|e| e.to_string())
 }
 
 /// What each array dimension of an image is.
@@ -90,6 +106,66 @@ pub struct ZarrImage {
     /// Label images listed under `<group>/labels`.
     pub labels: Vec<String>,
     pub info: ImageInfo,
+    /// For a plate field given the first field's layout: what reading its own metadata needs.
+    pub(crate) pending: Option<PendingField>,
+}
+
+/// A plate field whose metadata has not been read yet.
+#[derive(Debug, Clone)]
+pub(crate) struct PendingField {
+    name: Option<String>,
+    extra: BTreeMap<String, Value>,
+    series_index: usize,
+}
+
+/// The plate field at `group`, described with the layout of the field `t` (pixel type,
+/// shape, axes, scale, channels) until its own metadata is read.
+fn assumed_field(
+    t: &ZarrImage,
+    group: &str,
+    name: Option<String>,
+    extra: BTreeMap<String, Value>,
+    series_index: usize,
+    index: u32,
+) -> ZarrImage {
+    let rebase = |p: &str| match p.strip_prefix(t.multiscale.group.as_str()) {
+        Some(rest) => format!("{group}{rest}"),
+        None => p.to_string(),
+    };
+    let mut m = t.multiscale.clone();
+    m.group = group.to_string();
+    for l in &mut m.levels {
+        l.path = rebase(&l.path);
+    }
+    let levels: Vec<ArrayMeta> = t
+        .levels
+        .iter()
+        .map(|l| ArrayMeta {
+            path: rebase(&l.path),
+            ..l.clone()
+        })
+        .collect();
+    let mut info = image_info(index, &m, &t.roles, &levels, t.omero.as_ref());
+    info.name.clone_from(&name);
+    for (k, v) in &extra {
+        info.extra.insert(k.clone(), v.clone());
+    }
+    if let Some(d) = t.info.extra.get("unsupported_dtype") {
+        info.extra.insert("unsupported_dtype".into(), d.clone());
+    }
+    ZarrImage {
+        multiscale: m,
+        roles: t.roles.clone(),
+        levels,
+        omero: t.omero.clone(),
+        labels: Vec::new(),
+        info,
+        pending: Some(PendingField {
+            name,
+            extra,
+            series_index,
+        }),
+    }
 }
 
 /// An opened OME-Zarr store.
@@ -158,7 +234,13 @@ fn u64_list(v: Option<&Value>) -> Vec<u64> {
 
 /// Read an array's metadata document (`zarr.json` with `node_type: array`, or `.zarray`).
 pub fn array_meta(store: &Store, path: &str) -> Result<Option<ArrayMeta>> {
-    if let Some(doc) = store.json(&join(path, "zarr.json"))? {
+    let format = store.format();
+    if format.is_none() {
+        store.ask_about(store.array_docs(path));
+    }
+    if format != Some(ZarrFormat::V2)
+        && let Some(doc) = store.json(&join(path, "zarr.json"))?
+    {
         if doc.get("node_type").and_then(Value::as_str) != Some("array") {
             return Ok(None);
         }
@@ -208,6 +290,9 @@ pub fn array_meta(store: &Store, path: &str) -> Result<Option<ArrayMeta>> {
             codecs,
             format: ZarrFormat::V3,
         }));
+    }
+    if format == Some(ZarrFormat::V3) {
+        return Ok(None);
     }
     let Some(doc) = store.json(&join(path, ".zarray"))? else {
         return Ok(None);
@@ -587,6 +672,7 @@ impl ZarrDataset {
                 Error::corrupt(FORMAT_ID, "no zarr.json, .zgroup or .zattrs at the store root")
             }
         })?;
+        store.set_format(root.format);
         let mut ds = ZarrDataset {
             path: path.to_path_buf(),
             zarr_format: root.format,
@@ -622,12 +708,18 @@ impl ZarrDataset {
                 .flatten()
                 .filter_map(|r| r.get("name").and_then(Value::as_str).map(str::to_string))
                 .collect();
-            for w in plate
+            let wells: Vec<&Value> = plate
                 .get("wells")
                 .and_then(Value::as_array)
                 .into_iter()
                 .flatten()
-            {
+                .collect();
+            ds.store.ask_about_groups(
+                wells
+                    .iter()
+                    .filter_map(|w| w.get("path").and_then(Value::as_str)),
+            );
+            for w in wells {
                 let Some(wp) = w.get("path").and_then(Value::as_str) else {
                     continue;
                 };
@@ -702,122 +794,27 @@ impl ZarrDataset {
             ));
         }
         ds.labels = label_names(&ds.store, "")?;
+        // Over a network, looking up every field of a large plate takes minutes, so the fields
+        // after the first take its layout until they are read (`read_field`).
+        let assume_fields = ds.layout == "plate" && !ds.store.fs.is_local();
+        let mut template: Option<ZarrImage> = None;
         for (series_index, (group, name, extra)) in groups.into_iter().enumerate() {
-            let attrs = if group.is_empty() {
-                Some(ds.root.clone())
-            } else {
-                ngff::group_attrs(&ds.store, &group)?
-            };
-            let Some(attrs) = attrs else {
-                ds.notes.push(format!("image group {group} is missing"));
-                continue;
-            };
-            let omero = attrs.ngff.get("omero").cloned();
-            let labels = if group.is_empty() {
-                Vec::new()
-            } else {
-                label_names(&ds.store, &group)?
-            };
-            let ms = ngff::multiscales(&group, &attrs.ngff);
-            if ms.is_empty() {
-                ds.notes
-                    .push(format!("group {group} has no multiscales metadata"));
+            let index = ds.images.len() as u32;
+            if assume_fields && let Some(t) = &template {
+                let im = assumed_field(t, &group, name, extra, series_index, index);
+                ds.images.push(im);
                 continue;
             }
-            if ds.ngff_version.is_none() {
-                ds.ngff_version = ms[0].version.clone();
+            let found = ds.group_images(series_index, &group, name.as_ref(), &extra, index)?;
+            if assume_fields && template.is_none() {
+                template = found.first().cloned();
             }
-            for m in ms {
-                if m.levels.is_empty() {
-                    return Err(Error::corrupt(
-                        FORMAT_ID,
-                        format!("multiscales of {group:?} lists no datasets"),
-                    ));
-                }
-                ds.store
-                    .ask_about_nodes(m.levels.iter().map(|l| l.path.as_str()));
-                let mut levels = Vec::new();
-                for l in &m.levels {
-                    let meta = array_meta(&ds.store, &l.path)?.ok_or_else(|| {
-                        Error::corrupt(
-                            FORMAT_ID,
-                            format!(
-                                "dataset {} is listed but its array metadata is missing",
-                                l.path
-                            ),
-                        )
-                    })?;
-                    levels.push(meta);
-                }
-                let mut roles = axis_roles(&m.axes);
-                let rank = levels[0].shape.len();
-                if m.implied_axes && rank < roles.len() {
-                    // NGFF 0.1/0.2 arrays are 5-D; tolerate lower ranks as trailing axes.
-                    roles = roles[roles.len() - rank..].to_vec();
-                }
-                if roles.len() != rank {
-                    return Err(Error::corrupt(
-                        FORMAT_ID,
-                        format!(
-                            "{}: {} axes in the metadata but the array has {rank} dimensions",
-                            levels[0].path,
-                            roles.len()
-                        ),
-                    ));
-                }
-                if !roles.contains(&AxisRole::X) || !roles.contains(&AxisRole::Y) {
-                    return Err(Error::unsupported(
-                        FORMAT_ID,
-                        format!(
-                            "an image without x and y axes ({:?})",
-                            m.axes.iter().map(|a| &a.name).collect::<Vec<_>>()
-                        ),
-                        "Planes are read along the x and y axes; this multiscales names neither.",
-                    ));
-                }
-                let index = ds.images.len() as u32;
-                let mut info = image_info(index, &m, &roles, &levels, omero.as_ref());
-                if let Some(n) = &name
-                    && info.name.is_none()
-                {
-                    info.name = Some(n.clone());
-                }
-                if ds.layout == "plate"
-                    && let Some(n) = &name
-                {
-                    info.name = Some(n.clone());
-                }
-                for (k, v) in &extra {
-                    info.extra.insert(k.clone(), v.clone());
-                }
-                if !labels.is_empty() {
-                    info.extra.insert("labels".into(), json!(labels));
-                }
-                // bioformats2raw series `N` is OME `Image` N of the metadata document
-                let ome_index = extra
-                    .get("series")
-                    .and_then(Value::as_str)
-                    .and_then(|s| s.parse::<usize>().ok())
-                    .unwrap_or(series_index);
-                if let Some((doc, _)) = &ds.ome_xml
-                    && let Some(oi) = doc.images.get(ome_index)
-                {
-                    apply_ome(&mut info, oi, doc);
-                }
-                if levels[0].pixel_type.is_none() {
-                    info.extra
-                        .insert("unsupported_dtype".into(), json!(levels[0].dtype));
-                }
-                ds.images.push(ZarrImage {
-                    multiscale: m,
-                    roles,
-                    levels,
-                    omero: omero.clone(),
-                    labels: labels.clone(),
-                    info,
-                });
-            }
+            ds.images.extend(found);
         }
+        if ds.images.iter().any(|i| i.pending.is_some()) {
+            ds.notes.push(ASSUMED_FIELDS.into());
+        }
+
         if ds.images.is_empty() {
             return Err(Error::corrupt(
                 FORMAT_ID,
@@ -851,6 +848,168 @@ impl ZarrDataset {
         Ok(ds)
     }
 
+    /// The images of the group at `group` (one per multiscales entry), numbered from
+    /// `first_index`.
+    fn group_images(
+        &mut self,
+        series_index: usize,
+        group: &str,
+        name: Option<&String>,
+        extra: &BTreeMap<String, Value>,
+        first_index: u32,
+    ) -> Result<Vec<ZarrImage>> {
+        let mut out = Vec::new();
+        let attrs = if group.is_empty() {
+            Some(self.root.clone())
+        } else {
+            ngff::group_attrs(&self.store, group)?
+        };
+        let Some(attrs) = attrs else {
+            self.notes.push(format!("image group {group} is missing"));
+            return Ok(out);
+        };
+        let omero = attrs.ngff.get("omero").cloned();
+        let labels = if group.is_empty() {
+            Vec::new()
+        } else {
+            label_names(&self.store, group)?
+        };
+        let ms = ngff::multiscales(group, &attrs.ngff);
+        if ms.is_empty() {
+            self.notes
+                .push(format!("group {group} has no multiscales metadata"));
+            return Ok(out);
+        }
+        if self.ngff_version.is_none() {
+            self.ngff_version = ms[0].version.clone();
+        }
+        for m in ms {
+            if m.levels.is_empty() {
+                return Err(Error::corrupt(
+                    FORMAT_ID,
+                    format!("multiscales of {group:?} lists no datasets"),
+                ));
+            }
+            self.store
+                .ask_about_arrays(m.levels.iter().map(|l| l.path.as_str()));
+            let mut levels = Vec::new();
+            for l in &m.levels {
+                let meta = array_meta(&self.store, &l.path)?.ok_or_else(|| {
+                    Error::corrupt(
+                        FORMAT_ID,
+                        format!(
+                            "dataset {} is listed but its array metadata is missing",
+                            l.path
+                        ),
+                    )
+                })?;
+                levels.push(meta);
+            }
+            let mut roles = axis_roles(&m.axes);
+            let rank = levels[0].shape.len();
+            if m.implied_axes && rank < roles.len() {
+                // NGFF 0.1/0.2 arrays are 5-D; tolerate lower ranks as trailing axes.
+                roles = roles[roles.len() - rank..].to_vec();
+            }
+            if roles.len() != rank {
+                return Err(Error::corrupt(
+                    FORMAT_ID,
+                    format!(
+                        "{}: {} axes in the metadata but the array has {rank} dimensions",
+                        levels[0].path,
+                        roles.len()
+                    ),
+                ));
+            }
+            if !roles.contains(&AxisRole::X) || !roles.contains(&AxisRole::Y) {
+                return Err(Error::unsupported(
+                    FORMAT_ID,
+                    format!(
+                        "an image without x and y axes ({:?})",
+                        m.axes.iter().map(|a| &a.name).collect::<Vec<_>>()
+                    ),
+                    "Planes are read along the x and y axes; this multiscales names neither.",
+                ));
+            }
+            let index = first_index + out.len() as u32;
+            let mut info = image_info(index, &m, &roles, &levels, omero.as_ref());
+            if let Some(n) = name
+                && info.name.is_none()
+            {
+                info.name = Some(n.clone());
+            }
+            if self.layout == "plate"
+                && let Some(n) = name
+            {
+                info.name = Some(n.clone());
+            }
+            for (k, v) in extra {
+                info.extra.insert(k.clone(), v.clone());
+            }
+            if !labels.is_empty() {
+                info.extra.insert("labels".into(), json!(labels));
+            }
+            // bioformats2raw series `N` is OME `Image` N of the metadata document
+            let ome_index = extra
+                .get("series")
+                .and_then(Value::as_str)
+                .and_then(|s| s.parse::<usize>().ok())
+                .unwrap_or(series_index);
+            if let Some((doc, _)) = &self.ome_xml
+                && let Some(oi) = doc.images.get(ome_index)
+            {
+                apply_ome(&mut info, oi, doc);
+            }
+            if levels[0].pixel_type.is_none() {
+                info.extra
+                    .insert("unsupported_dtype".into(), json!(levels[0].dtype));
+            }
+            out.push(ZarrImage {
+                multiscale: m,
+                roles,
+                levels,
+                omero: omero.clone(),
+                labels: labels.clone(),
+                info,
+                pending: None,
+            });
+        }
+        Ok(out)
+    }
+
+    /// Read the metadata of a plate field that was given the first field's layout, and replace
+    /// the assumed image with it.
+    fn read_field(&mut self, i: u32) -> Result<()> {
+        let Some(im) = self.images.get(i as usize) else {
+            return Ok(());
+        };
+        let Some(p) = im.pending.clone() else {
+            return Ok(());
+        };
+        let group = im.multiscale.group.clone();
+        let found = self.group_images(p.series_index, &group, p.name.as_ref(), &p.extra, i)?;
+        let Some(real) = found.into_iter().next() else {
+            return Err(Error::corrupt(
+                FORMAT_ID,
+                format!("plate field {group} holds no readable image"),
+            ));
+        };
+        let im = &self.images[i as usize];
+        if real
+            .levels
+            .iter()
+            .map(|l| (&l.shape, &l.dtype))
+            .ne(im.levels.iter().map(|l| (&l.shape, &l.dtype)))
+            || real.roles != im.roles
+        {
+            self.notes.push(format!(
+                "plate field {group} differs from the first field; its image was described again when it was read"
+            ));
+        }
+        self.images[i as usize] = real;
+        Ok(())
+    }
+
     /// Label images (`<group>/labels/<name>`, NGFF `image-label`) as images after the others:
     /// one per label multiscales, named `<group>/labels/<name>`, `extra.label_of` = the image
     /// index they annotate (absent for root-level labels of a plate or collection).
@@ -880,7 +1039,7 @@ impl ZarrDataset {
             };
             for m in ngff::multiscales(&group, &attrs.ngff) {
                 self.store
-                    .ask_about_nodes(m.levels.iter().map(|l| l.path.as_str()));
+                    .ask_about_arrays(m.levels.iter().map(|l| l.path.as_str()));
                 let mut levels = Vec::new();
                 for l in &m.levels {
                     match array_meta(&self.store, &l.path)? {
@@ -921,6 +1080,7 @@ impl ZarrDataset {
                     omero: None,
                     labels: Vec::new(),
                     info,
+                    pending: None,
                 });
             }
         }
@@ -959,6 +1119,7 @@ impl ZarrDataset {
         level: u32,
         region: Option<Region>,
     ) -> Result<Plane> {
+        self.read_field(image)?;
         let im = self.image(image)?;
         let meta = im.levels.get(level as usize).cloned().ok_or_else(|| {
             Error::Usage(format!(
@@ -1619,10 +1780,31 @@ impl ZarrDataset {
                 "stored chunks are counted (up to {MAX_CHUNKS_CHECKED} per array, evenly sampled beyond) and the first and last stored chunk of every array decodes"
             ));
         }
-        for n in &self.notes {
+        // A headers-only check of a plate read over a network leaves the fields not yet read:
+        // looking them all up would take minutes.
+        if chunks || self.store.fs.is_local() {
+            for i in 0..self.images.len() as u32 {
+                if let Err(e) = self.read_field(i) {
+                    r.push(Finding::error("metadata", e.to_string()));
+                }
+            }
+        }
+        let unread = self.images.iter().filter(|i| i.pending.is_some()).count();
+        if unread > 0 {
+            r.performed(format!(
+                "the store is read over a network: {unread} of the plate's {} fields were not read and are checked when they are",
+                self.images.len()
+            ));
+        }
+        for n in self.notes.iter().filter(|n| *n != ASSUMED_FIELDS) {
             r.push(Finding::warning("metadata", n.clone()));
         }
-        let images = self.images.clone();
+        let images: Vec<ZarrImage> = self
+            .images
+            .iter()
+            .filter(|i| i.pending.is_none())
+            .cloned()
+            .collect();
         for im in &images {
             let xi = role_index(&im.roles, AxisRole::X).unwrap_or(0);
             let yi = role_index(&im.roles, AxisRole::Y).unwrap_or(0);
