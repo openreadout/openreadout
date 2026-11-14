@@ -309,6 +309,8 @@ pub struct Nmr2dReport {
     pub maxima_count: usize,
     /// Maxima left out because they do not stand out from the noise of their row or column.
     pub ridge_suppressed: usize,
+    /// Cross peaks left out for a footprint smaller than `min_footprint_points`.
+    pub small_footprint_suppressed: usize,
     /// The tallest positive cross peak (the tallest negative one when there is none).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub main_peak: Option<CrossPeak>,
@@ -409,6 +411,7 @@ pub fn analyze_2d(ds: &mut dyn Dataset, info: &FileInfo, req: &Nmr2dRequest) -> 
         peak_count: pick.peaks.len(),
         maxima_count: pick.maxima_count,
         ridge_suppressed: pick.ridge_suppressed,
+        small_footprint_suppressed: pick.small_footprint_suppressed,
         main_peak,
         peaks: pick.peaks,
         maxima: pick.maxima,

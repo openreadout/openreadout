@@ -50,7 +50,10 @@
 //! members by flooding outwards, highest point first, through face neighbours of the same sign
 //! whose height is ≥ `footprint_snr` × their local noise; where two floods meet the first to
 //! arrive keeps the point (a watershed). The volume is the sum of the footprint's values times
-//! the cell size (the product of the point spacings in ppm): intensity·ppmᴺ.
+//! the cell size (the product of the point spacings in ppm): intensity·ppmᴺ. Cross peaks with
+//! fewer than `min_footprint_points` footprint points are isolated spikes (artefacts of
+//! non-uniform-sampling reconstruction): they are left out and counted. `max_peaks` then keeps
+//! the tallest.
 //! [`integrate_regions`] sums boxes given in ppm, normalised to a reference box as the 1D
 //! integrals are.
 //!
@@ -119,6 +122,8 @@ pub struct CrossPeakOptions {
     /// `None` or a missing entry = the whole dimension).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub ranges_ppm: Vec<Option<(f64, f64)>>,
+    /// Leave out cross peaks whose footprint has fewer points (isolated spikes).
+    pub min_footprint_points: usize,
     /// Keep at most this many cross peaks (the tallest).
     pub max_peaks: usize,
     /// Maxima closer than this in every dimension belong to one cross peak, Hz.
@@ -152,6 +157,7 @@ impl Default for CrossPeakOptions {
             min_prominence_snr: 5.0,
             include_negative: true,
             ranges_ppm: Vec::new(),
+            min_footprint_points: 3,
             max_peaks: 1000,
             group_gap_hz: 15.0,
             group_gap_points: 1.5,
@@ -277,6 +283,8 @@ pub struct CrossPeakPick {
     pub maxima_noise_sd: f64,
     /// Maxima left out because they did not stand out from the noise of their line.
     pub ridge_suppressed: usize,
+    /// Cross peaks left out for a footprint smaller than `min_footprint_points`.
+    pub small_footprint_suppressed: usize,
     /// Remarks.
     pub notes: Vec<String>,
 }
@@ -918,14 +926,7 @@ pub fn pick_cross_peaks(
         gr.sort_by(|&a, &b| raw[b].height.abs().total_cmp(&raw[a].height.abs()));
     }
     groups.sort_by(|a, b| raw[b[0]].height.abs().total_cmp(&raw[a[0]].height.abs()));
-    if groups.len() > opts.max_peaks {
-        out.notes.push(format!(
-            "{} cross peaks found, the {} tallest kept (max_peaks)",
-            groups.len(),
-            opts.max_peaks
-        ));
-        groups.truncate(opts.max_peaks);
-    }
+    let maxima_total_groups = groups.len();
     // footprints: watershed flood per sign from the members
     let mut label: HashMap<usize, u32> = HashMap::new();
     for sign in [1.0, -1.0] {
@@ -1002,6 +1003,29 @@ pub fn pick_cross_peaks(
         }
     }
     drop(label);
+    // single-point spikes (reconstruction artefacts) cannot be a resolved line
+    let mut kept: Vec<(Vec<usize>, Acc)> = groups
+        .into_iter()
+        .zip(acc)
+        .filter(|(_, a)| a.n >= opts.min_footprint_points)
+        .collect();
+    let small = maxima_total_groups - kept.len();
+    if small > 0 {
+        out.small_footprint_suppressed = small;
+        out.notes.push(format!(
+            "{small} cross peaks with fewer than {} footprint points (isolated spikes) were left out (min_footprint_points)",
+            opts.min_footprint_points
+        ));
+    }
+    if kept.len() > opts.max_peaks {
+        out.notes.push(format!(
+            "{} cross peaks found, the {} tallest kept (max_peaks)",
+            kept.len(),
+            opts.max_peaks
+        ));
+        kept.truncate(opts.max_peaks);
+    }
+    let (groups, acc): (Vec<Vec<usize>>, Vec<Acc>) = kept.into_iter().unzip();
     // assemble
     let mut peaks: Vec<(CrossPeak, Vec<usize>)> = Vec::with_capacity(groups.len());
     for (gi, gr) in groups.iter().enumerate() {
@@ -1723,5 +1747,11 @@ mod tests {
         nan[700] = f64::INFINITY;
         let p = pick_cross_peaks(&nan, &[64, 64], &ax, &o).unwrap();
         assert_eq!(p.peaks.len(), 1, "{:?}", p.peaks);
+        // a single-point spike is not a line
+        let mut spike = spectrum([64, 64], &[], 1.0);
+        spike[32 * 64 + 20] = 100.0;
+        let p = pick_cross_peaks(&spike, &[64, 64], &ax, &o).unwrap();
+        assert!(p.peaks.is_empty(), "{:?}", p.peaks);
+        assert_eq!(p.small_footprint_suppressed, 1);
     }
 }

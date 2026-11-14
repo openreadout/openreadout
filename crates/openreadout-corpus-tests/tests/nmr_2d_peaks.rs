@@ -203,7 +203,7 @@ struct Row {
     secs: f64,
     ng: Option<NgStats>,
     sym: Option<(usize, usize)>,            // with partner, off-diagonal
-    hsqc: Option<(usize, usize, usize, usize)>, // on 1H line, on 13C line, checked, 13C lines seen
+    hsqc: Option<OneBond>,
 }
 
 /// `OPENREADOUT_NMR2D_OPTIONS='{"min_snr": 8}'` overrides options while tuning.
@@ -326,37 +326,58 @@ fn symmetry(r: &Nmr2dReport) -> Option<(usize, usize)> {
     ))
 }
 
+/// One-bond 1H–13C spectrum against the sample's 1D lists.
+#[derive(Debug, Clone, Copy)]
+struct OneBond {
+    /// Cross peaks (not ridge or axial) on a 1H line and a 13C line.
+    on_both: usize,
+    /// Cross peaks checked.
+    checked: usize,
+    /// Of the ten tallest, on both lines.
+    top_on_both: usize,
+    top: usize,
+    /// F1 referencing offset against the 13C list (median over the 12 tallest), ppm.
+    offset: f64,
+}
+
 /// HSQC: cross peaks (not ridge/axial) on a 1H list line (≤ 0.03 ppm or the F2 half width) and a
-/// 13C list line (≤ 1.5 F1 points); and how many 13C lines carry a cross peak.
-fn one_bond(r: &Nmr2dReport, h: &[(f64, f64)], c: &[(f64, f64)]) -> (usize, usize, usize, usize) {
-    let peaks: Vec<&CrossPeak> = r
+/// 13C list line (≤ max(1.5 F1 points, 0.3 ppm) after removing the referencing offset between
+/// the two experiments). `None` when the offset is over 2 ppm (the lists belong to another
+/// compound or the F1 window folds).
+fn one_bond(r: &Nmr2dReport, h: &[(f64, f64)], c: &[(f64, f64)]) -> Option<OneBond> {
+    let mut peaks: Vec<&CrossPeak> = r
         .peaks
         .iter()
         .filter(|p| !p.has(PeakFlag::Ridge) && !p.has(PeakFlag::Axial))
         .collect();
-    let f1_tol = 1.5 * r.axes[0].step_ppm.abs();
-    let mut on_h = 0;
-    let mut on_c = 0;
-    for p in &peaks {
-        let tol_h = 0.03_f64.max(p.width_ppm[1].unwrap_or(0.0));
-        if h.iter().any(|l| (l.0 - p.ppm[1]).abs() <= tol_h) {
-            on_h += 1;
-        }
-        if c.iter().any(|l| (l.0 - p.ppm[0]).abs() <= f1_tol) {
-            on_c += 1;
-        }
-    }
-    let (lo, hi) = {
-        let a = &r.axes[0];
-        let (x, y) = (a.first_ppm, a.last_ppm());
-        (x.min(y), x.max(y))
-    };
-    let c_seen = c
+    peaks.sort_by(|a, b| b.height.abs().total_cmp(&a.height.abs()));
+    let mut d: Vec<f64> = peaks
         .iter()
-        .filter(|l| l.0 > lo && l.0 < hi)
-        .filter(|l| peaks.iter().any(|p| (l.0 - p.ppm[0]).abs() <= f1_tol))
-        .count();
-    (on_h, on_c, peaks.len(), c_seen)
+        .take(12)
+        .filter_map(|p| {
+            c.iter()
+                .map(|l| p.ppm[0] - l.0)
+                .min_by(|a, b| a.abs().total_cmp(&b.abs()))
+        })
+        .collect();
+    d.sort_by(f64::total_cmp);
+    let offset = *d.get(d.len() / 2)?;
+    if offset.abs() > 2.0 {
+        return None;
+    }
+    let f1_tol = (1.5 * r.axes[0].step_ppm.abs()).max(0.3);
+    let on = |p: &CrossPeak| {
+        let tol_h = 0.03_f64.max(p.width_ppm[1].unwrap_or(0.0));
+        h.iter().any(|l| (l.0 - p.ppm[1]).abs() <= tol_h)
+            && c.iter().any(|l| (l.0 - p.ppm[0] + offset).abs() <= f1_tol)
+    };
+    Some(OneBond {
+        on_both: peaks.iter().filter(|p| on(p)).count(),
+        checked: peaks.len(),
+        top_on_both: peaks.iter().take(10).filter(|p| on(p)).count(),
+        top: peaks.len().min(10),
+        offset,
+    })
 }
 
 #[test]
@@ -393,7 +414,7 @@ fn bruker_2d_spectra() {
                     .filter(|x| !x.0.to_ascii_lowercase().contains("dept"))
                     .flat_map(|x| x.1)
                     .collect();
-                (!h.is_empty() && !c.is_empty()).then(|| one_bond(&r, &h, &c))
+                (!h.is_empty() && !c.is_empty()).then(|| one_bond(&r, &h, &c)).flatten()
             })
             .flatten();
         rows.push(Row {
@@ -427,8 +448,11 @@ fn bruker_2d_spectra() {
         let sym = r
             .sym
             .map_or("–".to_string(), |(a, b)| format!("{a}/{b}"));
-        let hs = r.hsqc.map_or("–".to_string(), |(h, c, n, cs)| {
-            format!("{h}/{n}, {c}/{n}; 13C lines {cs}")
+        let hs = r.hsqc.map_or("–".to_string(), |o| {
+            format!(
+                "{}/{} (tallest {}/{}), F1 offset {:+.2}",
+                o.on_both, o.checked, o.top_on_both, o.top, o.offset
+            )
         });
         eprintln!(
             "{:<42} {:<9} {:>3} {:>11} {:>5} {:>6} {:>5} {:>6.2}  {:<26} {:<12} {}",
@@ -470,6 +494,48 @@ fn bruker_2d_spectra() {
             g.max_offset
         );
     }
+    // nmrglue: every maximum we report above nmrglue's list floor is one of nmrglue's maxima
+    for r in &rows {
+        if let Some(g) = r.ng
+            && g.ours > 0
+            && ratio(g.matched_ours, g.ours) < 0.98
+        {
+            failures.push(format!("{}: maxima precision against nmrglue {}/{}", r.id, g.matched_ours, g.ours));
+        }
+    }
+    // homonuclear spectra that are not symmetrized: most off-diagonal cross peaks have a partner
+    let homo: Vec<&Row> = rows
+        .iter()
+        .filter(|r| r.sym.is_some_and(|(a, b)| b > 0 && a < b))
+        .collect();
+    for tune in [true, false] {
+        let (a, b) = homo
+            .iter()
+            .filter(|r| r.tuning == tune)
+            .fold((0, 0), |acc, r| {
+                let (x, y) = r.sym.unwrap();
+                (acc.0 + x, acc.1 + y)
+            });
+        eprintln!(
+            "symmetric partners ({}, {} spectra): {a}/{b} = {:.3}",
+            if tune { "tune" } else { "test" },
+            homo.iter().filter(|r| r.tuning == tune).count(),
+            ratio(a, b)
+        );
+        if ratio(a, b) < 0.75 {
+            failures.push(format!("symmetric partners {a}/{b}"));
+        }
+    }
+    // HSQC: the tallest cross peaks sit on lines of the 1D lists
+    for r in &rows {
+        if let Some(o) = r.hsqc {
+            if o.top_on_both + 2 < o.top {
+                failures.push(format!("{}: tallest HSQC peaks on 1D lines {}/{}", r.id, o.top_on_both, o.top));
+            }
+        }
+    }
+    let slowest = rows.iter().map(|r| r.secs).fold(0.0, f64::max);
+    eprintln!("slowest spectrum: {slowest:.2} s");
     assert!(failures.is_empty(), "{failures:#?}");
 }
 
