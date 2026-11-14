@@ -11,6 +11,11 @@
 //! noise. Runs that are exactly constant (blanked regions) are skipped. Data without negative
 //! values are magnitude-mode spectra: their noise floor is Rayleigh-distributed, and the noise
 //! SD is multiplied by [`MAGNITUDE_NOISE_SCALE`] so it describes the noise on a line.
+//! **Noise from the maxima**: processed 2D spectra often have noise with heavier tails than
+//! Gaussian (non-uniform sampling, t1 noise, truncation wiggles). The 90th percentile of the
+//! heights of all local maxima of |value| (nearly all of them noise) divided by its value for
+//! Gaussian noise ([`MAXIMA_P90_RATIO`]) gives a second estimate; the larger of the two is the
+//! noise SD the thresholds use.
 //! **Line noise**: for every line of the matrix along each dimension (every column and every row
 //! of a 2D spectrum), `1.4826 · MAD` about the line's median. The local noise of a point is the
 //! largest of the noise SD and the noise of the lines through it, so a column of t1 noise under
@@ -75,6 +80,16 @@ pub const NOISE_P25_SCALE: f64 = 1.12;
 /// Magnitude-mode data (no negative values): the noise floor is Rayleigh-distributed and its
 /// robust spread is 0.66 of the noise riding on a signal, so the noise SD is scaled by 1/0.66.
 pub const MAGNITUDE_NOISE_SCALE: f64 = 1.52;
+/// 90th percentile of the heights of the local maxima of |noise| (3ᴺ − 1 neighbours) in units of
+/// the noise SD, 2D Gaussian noise (2.39 to 2.53 from white to strongly correlated noise,
+/// measured by simulation); per extra dimension add [`MAXIMA_P90_PER_DIMENSION`].
+pub const MAXIMA_P90_RATIO: f64 = 2.5;
+/// Increase of [`MAXIMA_P90_RATIO`] per dimension beyond two (2.88 measured in 3D).
+pub const MAXIMA_P90_PER_DIMENSION: f64 = 0.4;
+/// The same percentile for magnitude-mode noise, in units of the scaled noise SD (2.95).
+pub const MAXIMA_P90_MAGNITUDE: f64 = 2.95;
+/// Most points [`maxima_p90`] examines (whole rows, spread evenly).
+const MAXIMA_SAMPLE_POINTS: usize = 1 << 22;
 /// Most runs sampled by [`matrix_noise_sd`].
 const NOISE_RUNS_MAX: usize = 16384;
 /// Most points all footprints together may hold (a guard against floods through broad signal).
@@ -253,8 +268,13 @@ pub struct CrossPeakPick {
     pub maxima: Vec<Maximum>,
     /// Number of maxima kept.
     pub maxima_count: usize,
-    /// Robust noise SD (module docs).
+    /// Noise SD the thresholds and `snr` use: the larger of `run_noise_sd` and
+    /// `maxima_noise_sd` (module docs).
     pub noise_sd: f64,
+    /// Noise SD from runs along the direct dimension ([`matrix_noise_sd`]).
+    pub run_noise_sd: f64,
+    /// Noise SD implied by the 90th percentile of the local maxima's heights.
+    pub maxima_noise_sd: f64,
     /// Maxima left out because they did not stand out from the noise of their line.
     pub ridge_suppressed: usize,
     /// Remarks.
@@ -628,6 +648,57 @@ impl Ord for Flood {
     }
 }
 
+/// 90th percentile of |value| over the local maxima of |value| (3ᴺ − 1 neighbours, off the
+/// edges), on rows spread evenly so at most [`MAXIMA_SAMPLE_POINTS`] points are examined.
+/// `None` with fewer than 100 maxima.
+fn maxima_p90(data: &[f64], shape: &[usize], st: &[usize]) -> Option<f64> {
+    let dims = shape.len();
+    let row_len = shape[dims - 1];
+    let rows = data.len() / row_len.max(1);
+    let step = (data.len() / MAXIMA_SAMPLE_POINTS).max(1);
+    let steps = neighbour_steps(dims);
+    let offsets: Vec<isize> = steps
+        .iter()
+        .map(|s| s.iter().zip(st).map(|(a, &b)| a * b as isize).sum())
+        .collect();
+    let mut c = vec![0usize; dims];
+    let mut h = Vec::new();
+    let mut r = 0;
+    while r < rows {
+        let base = r * row_len;
+        coords(base, shape, &mut c);
+        r += step;
+        if c[..dims - 1]
+            .iter()
+            .zip(shape)
+            .any(|(&x, &n)| x == 0 || x + 1 >= n)
+        {
+            continue;
+        }
+        for k in 1..row_len.saturating_sub(1) {
+            let i = base + k;
+            let Some(v) = data.get(i).map(|x| x.abs()) else {
+                continue;
+            };
+            if !(v > 0.0 && v.is_finite()) {
+                continue;
+            }
+            if offsets.iter().all(|&o| {
+                data.get((i as isize + o) as usize)
+                    .is_none_or(|w| !(w.abs() > v))
+            }) {
+                h.push(v);
+            }
+        }
+    }
+    if h.len() < 100 {
+        return None;
+    }
+    let k = h.len() * 9 / 10;
+    let (_, x, _) = h.select_nth_unstable_by(k, f64::total_cmp);
+    Some(*x)
+}
+
 /// Footprint sums of one cross peak.
 struct Acc {
     vol: f64,
@@ -660,6 +731,7 @@ pub fn pick_cross_peaks(
             "no negative values: treated as magnitude-mode data, noise SD scaled by {MAGNITUDE_NOISE_SCALE} (the noise on a line is that much larger than the spread of the noise floor)"
         ));
     }
+    out.run_noise_sd = sd;
     out.noise_sd = sd;
     if shape.iter().any(|&n| n < 3) {
         out.notes
@@ -667,6 +739,23 @@ pub fn pick_cross_peaks(
         return Ok(out);
     }
     let st = strides(shape);
+    let ratio = if magnitude {
+        MAXIMA_P90_MAGNITUDE
+    } else {
+        MAXIMA_P90_RATIO + MAXIMA_P90_PER_DIMENSION * (dims as f64 - 2.0)
+    };
+    if let Some(p90) = maxima_p90(data, shape, &st) {
+        let from_maxima = p90 / ratio;
+        out.maxima_noise_sd = from_maxima;
+        if from_maxima > sd {
+            out.notes.push(format!(
+                "the local maxima of the noise are {:.1} times higher than Gaussian noise of the measured SD gives (non-uniform sampling, t1 noise, truncation): thresholds use the noise level from the maxima",
+                from_maxima / sd
+            ));
+            sd = from_maxima;
+            out.noise_sd = sd;
+        }
+    }
     let lines = line_noise(data, shape, &st);
     let g = Grid {
         data,
@@ -1307,6 +1396,14 @@ mod tests {
         let pure = spectrum([512, 512], &[], 1.0);
         let sd = matrix_noise_sd(&pure, 512);
         assert!((sd - 1.0).abs() < 0.03, "{sd}");
+        // the maxima give the same level on Gaussian noise
+        let p = pick_cross_peaks(&pure, &[512, 512], &[axis(10.0, 512, 10.0, 400.0); 2], &CrossPeakOptions::default()).unwrap();
+        assert!((p.maxima_noise_sd / p.run_noise_sd - 1.0).abs() < 0.1, "{p:?}");
+        // heavy-tailed noise raises the noise level the thresholds use
+        let heavy: Vec<f64> = pure.iter().enumerate().map(|(i, x)| x * if i % 7 == 0 { 4.0 } else { 1.0 }).collect();
+        let p = pick_cross_peaks(&heavy, &[512, 512], &[axis(10.0, 512, 10.0, 400.0); 2], &CrossPeakOptions::default()).unwrap();
+        assert!(p.noise_sd > 1.3 * p.run_noise_sd, "{} {}", p.noise_sd, p.run_noise_sd);
+        assert!(p.peaks.is_empty());
         // blanked (exactly zero) rows are ignored
         let mut w = v.clone();
         w[..512 * 128].fill(0.0);

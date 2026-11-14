@@ -294,8 +294,13 @@ pub struct Nmr2dReport {
     /// The two dimensions that observe the same nucleus (diagonal and symmetry annotations).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub homonuclear_dimensions: Option<(usize, usize)>,
-    /// Robust noise standard deviation (same units as `height`).
+    /// Noise standard deviation the thresholds and `snr` use (same units as `height`): the
+    /// larger of `run_noise_sd` and `maxima_noise_sd`.
     pub noise_sd: f64,
+    /// Noise SD from runs along the direct dimension.
+    pub run_noise_sd: f64,
+    /// Noise SD implied by the heights of the local maxima (heavy-tailed noise).
+    pub maxima_noise_sd: f64,
     /// Thresholds used.
     pub peak_options: CrossPeakOptions,
     /// Number of cross peaks found.
@@ -398,6 +403,8 @@ pub fn analyze_2d(ds: &mut dyn Dataset, info: &FileInfo, req: &Nmr2dRequest) -> 
         axes,
         homonuclear_dimensions: pair,
         noise_sd: pick.noise_sd,
+        run_noise_sd: pick.run_noise_sd,
+        maxima_noise_sd: pick.maxima_noise_sd,
         peak_options: req.peaks.clone(),
         peak_count: pick.peaks.len(),
         maxima_count: pick.maxima_count,
