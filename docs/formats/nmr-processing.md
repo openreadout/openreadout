@@ -13,8 +13,9 @@ OpenReadout can turn NMR FIDs into spectra, pick peaks and integrate regions. Th
   (same trace index; channels `real`, `imag`, or `magnitude`; `extra.kind = processed_spectrum`,
   `extra.axis` in ppm), so `export --process --format jcamp|csv|parquet` writes the spectrum.
 
-Only 1-D processing is done: a `ser` or arrayed FID is processed row by row (`--sweep`), the
-indirect dimension of 2-D data is not transformed.
+The commands above process one row at a time: a `ser` or arrayed FID row by row (`--sweep`).
+The library also transforms the indirect dimensions of 2D and 3D data and stacks pseudo-2D
+series (`process_nd`, `load_processed_nd`, below); the commands do not use it yet.
 
 ## FID processing (`process_fid`)
 
