@@ -10,9 +10,11 @@ noise SD, both signs):
 - `connected`: `peakpick.pick(algorithm="connected")`, one peak per connected region above the
   threshold: a grouped view.
 
-Edge points are dropped (our picker does not report them). Writes `<id>.json` next to this
-script: {id, threshold, shape, peaks: [{index: [i, j], height}], connected: [...],
-scale_ratio}. Run from the repository root:
+Edge points are dropped (our picker does not report them), and only the TOP tallest of each
+list are kept, so the files stay small. Writes `<id>.json` next to this script: {id, threshold,
+shape, scale_ratio, peaks_total, connected_total, peaks: [[i, j, height], ...],
+connected: [...]}, tallest first. DOSY spectra (pulse programs ledbp*, stebp*) are skipped.
+Run from the repository root:
 
     oracle/.venv/bin/python -I crates/openreadout-corpus-tests/tests/corpus/nmr2d_oracle/nmrglue_peaks.py DIR
 """
@@ -25,6 +27,7 @@ import nmrglue as ng
 import numpy as np
 
 HERE = pathlib.Path(__file__).resolve().parent
+TOP = 300
 
 
 def pick(data, thres, algorithm):
@@ -38,7 +41,8 @@ def pick(data, thres, algorithm):
     for loc in locs:
         i, j = int(loc[0]), int(loc[1])
         if 0 < i < n0 - 1 and 0 < j < n1 - 1:
-            out.append({"index": [i, j], "height": float(data[i, j])})
+            out.append([i, j, float("%.6g" % data[i, j])])
+    out.sort(key=lambda p: -abs(p[2]))
     return out
 
 
@@ -46,7 +50,7 @@ def main(src):
     for f in sorted(pathlib.Path(src).glob("*.json")):
         ours = json.loads(f.read_text())
         rep = ours["report"]
-        if len(rep["shape"]) != 2:
+        if len(rep["shape"]) != 2 or ours["kind"] == "Dosy":
             continue
         thres = rep["peak_options"]["min_snr"] * rep["noise_sd"]
         if not thres > 0:
@@ -61,16 +65,20 @@ def main(src):
         if mp:
             i, j = mp["index"]
             ratio = float(data[i, j]) / mp["height"] if mp["height"] else None
+        peaks = pick(data, thres, "thres-fast")
+        connected = pick(data, thres, "connected")
         res = {
             "id": ours["id"],
             "threshold": thres,
             "shape": list(data.shape),
             "scale_ratio": ratio,
-            "peaks": pick(data, thres, "thres-fast"),
-            "connected": pick(data, thres, "connected"),
+            "peaks_total": len(peaks),
+            "connected_total": len(connected),
+            "peaks": peaks[:TOP],
+            "connected": connected[:TOP],
         }
         (HERE / f"{ours['id']}.json").write_text(json.dumps(res, separators=(",", ":")) + "\n")
-        print(ours["id"], len(res["peaks"]), len(res["connected"]), ratio)
+        print(ours["id"], len(peaks), len(connected), ratio)
 
 
 if __name__ == "__main__":

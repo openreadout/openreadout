@@ -8,7 +8,9 @@
 //! 16384 of them spread evenly over the matrix; in each, a least-squares line is removed and
 //! `1.4826 · MAD` of the residual taken; the noise SD is the 25th percentile over runs (as the
 //! 1D [`crate::nmr::noise_sd`]) times [`NOISE_P25_SCALE`], which makes it unbiased on Gaussian
-//! noise. Runs that are exactly constant (blanked regions) are skipped.
+//! noise. Runs that are exactly constant (blanked regions) are skipped. Data without negative
+//! values are magnitude-mode spectra: their noise floor is Rayleigh-distributed, and the noise
+//! SD is multiplied by [`MAGNITUDE_NOISE_SCALE`] so it describes the noise on a line.
 //! **Line noise**: for every line of the matrix along each dimension (every column and every row
 //! of a 2D spectrum), `1.4826 · MAD` about the line's median. The local noise of a point is the
 //! largest of the noise SD and the noise of the lines through it, so a column of t1 noise under
@@ -21,9 +23,11 @@
 //! along each dimension (height above the higher of the two lowest points reached walking along
 //! that dimension to a higher point or the edge, as in 1D) must be ≥ `min_prominence_snr` × the
 //! noise SD: this rejects ripples riding on a larger line. With `include_negative` the same is
-//! done on the negated matrix. A maximum that passes these tests but not the same tests against
-//! its local noise sits on a noise ridge: it is left out and counted (`ridge_suppressed`), or
-//! kept and flagged with `keep_ridge_peaks`.
+//! done on the negated matrix. A maximum that passes these tests but is below `min_local_snr` ×
+//! its local noise (or its prominence below the prominence test scaled the same way) sits on a
+//! noise ridge: it is left out and counted (`ridge_suppressed`), or kept and flagged with
+//! `keep_ridge_peaks`. Kept maxima on a line whose noise is ≥ `ridge_factor` × the noise SD and
+//! less than 2 × `min_snr` × their local noise are flagged `ridge` too.
 //!
 //! **Position, height, width.** Per dimension, the parabola through the maximum and its two
 //! neighbours along that dimension gives the sub-point position; the height is the maximum
@@ -68,6 +72,9 @@ const NOISE_RUN: usize = 64;
 /// The 25th percentile of the run estimates is this much below the noise SD on Gaussian noise
 /// (measured with 64-point runs: `noise_estimate_is_close_to_the_true_sd`).
 pub const NOISE_P25_SCALE: f64 = 1.12;
+/// Magnitude-mode data (no negative values): the noise floor is Rayleigh-distributed and its
+/// robust spread is 0.66 of the noise riding on a signal, so the noise SD is scaled by 1/0.66.
+pub const MAGNITUDE_NOISE_SCALE: f64 = 1.52;
 /// Most runs sampled by [`matrix_noise_sd`].
 const NOISE_RUNS_MAX: usize = 16384;
 /// Most points all footprints together may hold (a guard against floods through broad signal).
@@ -79,8 +86,12 @@ pub const MAX_DIMENSIONS: usize = 4;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 #[serde(default)]
 pub struct CrossPeakOptions {
-    /// Minimum height as a multiple of the noise SD (and of the local noise).
+    /// Minimum height as a multiple of the noise SD.
     pub min_snr: f64,
+    /// Minimum height as a multiple of the local noise (the noise of the lines through the
+    /// maximum, when larger than the noise SD); the local prominence test scales by
+    /// `min_local_snr / min_snr`.
+    pub min_local_snr: f64,
     /// Minimum height as a fraction of the largest absolute value in the searched range
     /// (0 = off).
     pub min_height_fraction: f64,
@@ -121,6 +132,7 @@ impl Default for CrossPeakOptions {
     fn default() -> Self {
         Self {
             min_snr: 10.0,
+            min_local_snr: 6.0,
             min_height_fraction: 0.0,
             min_prominence_snr: 5.0,
             include_negative: true,
@@ -640,7 +652,14 @@ pub fn pick_cross_peaks(
     let dims = shape.len();
     let mut out = CrossPeakPick::default();
     let row_len = shape[dims - 1];
-    let sd = matrix_noise_sd(data, row_len);
+    let mut sd = matrix_noise_sd(data, row_len);
+    let magnitude = data.iter().any(|v| *v > 0.0) && !data.iter().any(|v| *v < 0.0);
+    if magnitude {
+        sd *= MAGNITUDE_NOISE_SCALE;
+        out.notes.push(format!(
+            "no negative values: treated as magnitude-mode data, noise SD scaled by {MAGNITUDE_NOISE_SCALE} (the noise on a line is that much larger than the spread of the noise floor)"
+        ));
+    }
     out.noise_sd = sd;
     if shape.iter().any(|&n| n < 3) {
         out.notes
@@ -705,7 +724,12 @@ pub fn pick_cross_peaks(
             let ridge = local >= opts.ridge_factor * sd
                 && local > sd
                 && v < 2.0 * opts.min_snr * local;
-            if v < opts.min_snr * local || prom < opts.min_prominence_snr * local {
+            let scale = if opts.min_snr > 0.0 {
+                opts.min_local_snr / opts.min_snr
+            } else {
+                1.0
+            };
+            if v < opts.min_local_snr * local || prom < opts.min_prominence_snr * scale * local {
                 out.ridge_suppressed += 1;
                 if !opts.keep_ridge_peaks {
                     return;
