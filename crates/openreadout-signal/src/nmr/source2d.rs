@@ -220,19 +220,40 @@ pub fn matrix_layout(t: &TraceInfo, vendor: &Value) -> Option<MatrixLayout> {
         return None;
     }
     let n1 = values.len();
-    let step = (values[n1 - 1] - values[0]) / (n1 - 1) as f64;
-    if step == 0.0
-        || values
+    let mut notes = Vec::new();
+    // the declared F1 range (first `##FIRST=`/`##LAST=` entries, `##VAR_DIM=`) when it has as
+    // many points as there are pages; else the page values, which must be regular
+    let num = |k: &str| jcamp_list(vendor, k).first().and_then(|x| x.parse::<f64>().ok());
+    let declared = match (num("FIRST"), num("LAST"), num("VAR_DIM")) {
+        (Some(a), Some(b), Some(n)) if n as usize == n1 && a != b => Some((a, (b - a) / (n1 - 1) as f64)),
+        _ => None,
+    };
+    let from_pages = (values[0], (values[n1 - 1] - values[0]) / (n1 - 1) as f64);
+    let regular = from_pages.1 != 0.0
+        && values
             .iter()
             .enumerate()
-            .any(|(k, v)| (v - (values[0] + k as f64 * step)).abs() > 0.05 * step.abs())
-    {
-        return None;
-    }
+            .all(|(k, v)| (v - (from_pages.0 + k as f64 * from_pages.1)).abs() <= 0.05 * from_pages.1.abs());
+    let (first, step) = match declared {
+        Some(d) => {
+            if !regular
+                || (d.0 - from_pages.0).abs() > d.1.abs()
+                || (d.1 - from_pages.1).abs() > 0.01 * d.1.abs()
+            {
+                notes.push(format!(
+                    "the F1 axis is the declared range (##FIRST= {:.4}, step {:.4}); the page values (first {:.4}, step {:.4}) disagree with it",
+                    d.0, d.1, from_pages.0, from_pages.1
+                ));
+            }
+            d
+        }
+        None if regular => from_pages,
+        None => return None,
+    };
+    let values = [first, first + step * (n1 - 1) as f64];
     let unit = sa.get("unit").and_then(Value::as_str).unwrap_or_default();
     let jcamp_nuclei = jcamp_nuclei(vendor);
     let f1_nucleus = jcamp_nuclei.first().cloned().flatten();
-    let mut notes = Vec::new();
     let f1_axis = if unit.eq_ignore_ascii_case("ppm") {
         PpmAxis {
             first_ppm: values[0],
@@ -274,8 +295,16 @@ pub fn matrix_layout(t: &TraceInfo, vendor: &Value) -> Option<MatrixLayout> {
     })
 }
 
-/// `##.NUCLEUS=` of the JCAMP-DX vendor tree, in symbol order (F1 first).
-fn jcamp_nuclei(vendor: &Value) -> Vec<Option<String>> {
+/// The first `##<key>=` record of the JCAMP-DX vendor tree (key compared without `#`, `=`,
+/// spaces and underscores, case-insensitively), split at commas.
+fn jcamp_list(vendor: &Value, key: &str) -> Vec<String> {
+    let norm = |l: &str| -> String {
+        l.chars()
+            .filter(|c| c.is_ascii_alphanumeric() || *c == '.')
+            .collect::<String>()
+            .to_ascii_uppercase()
+    };
+    let want = norm(key);
     let Some(blocks) = vendor.get("blocks").and_then(Value::as_array) else {
         return Vec::new();
     };
@@ -290,17 +319,20 @@ fn jcamp_nuclei(vendor: &Value) -> Vec<Option<String>> {
             ) else {
                 continue;
             };
-            let key: String = label
-                .chars()
-                .filter(|c| c.is_ascii_alphanumeric() || *c == '.')
-                .collect::<String>()
-                .to_ascii_uppercase();
-            if key == ".NUCLEUS" {
-                return value.split(',').map(normalize_nucleus).collect();
+            if norm(label) == want {
+                return value.split(',').map(|x| x.trim().to_string()).collect();
             }
         }
     }
     Vec::new()
+}
+
+/// `##.NUCLEUS=` of the JCAMP-DX vendor tree, in symbol order (F1 first).
+fn jcamp_nuclei(vendor: &Value) -> Vec<Option<String>> {
+    jcamp_list(vendor, ".NUCLEUS")
+        .iter()
+        .map(|s| normalize_nucleus(s))
+        .collect()
 }
 
 /// Index of the trace to use: `requested` if given (checked), else the first stored spectrum
@@ -603,5 +635,14 @@ mod tests {
         assert!((l.axes[0].first_ppm - 17000.0 / mhz).abs() < 1e-9);
         assert!((l.axes[1].first_ppm - 10.0).abs() < 1e-12);
         assert_eq!(l.notes.len(), 1);
+        // a declared range that the page values contradict wins, with a note
+        let vendor = serde_json::json!({"blocks": [{"records": [
+            ["##.NUCLEUS=", "13C,\t1H"], ["##VAR_DIM=", "4, 8, 32"],
+            ["##FIRST=", "17000, 4000, 0"], ["##LAST=", "5, -70, 0"],
+        ]}]});
+        let l = matrix_layout(&t, &vendor).unwrap();
+        assert!((l.axes[0].first_ppm - 17000.0 / mhz).abs() < 1e-9);
+        assert!((l.axes[0].last_ppm() - 5.0 / mhz).abs() < 1e-9);
+        assert_eq!(l.notes.len(), 2);
     }
 }

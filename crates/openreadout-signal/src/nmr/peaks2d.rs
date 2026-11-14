@@ -7,7 +7,8 @@
 //! **Noise.** [`matrix_noise_sd`]: runs of 64 points along the direct (last) dimension, at most
 //! 16384 of them spread evenly over the matrix; in each, a least-squares line is removed and
 //! `1.4826 · MAD` of the residual taken; the noise SD is the 25th percentile over runs (as the
-//! 1D [`crate::nmr::noise_sd`]). Runs that are exactly constant (blanked regions) are skipped.
+//! 1D [`crate::nmr::noise_sd`]) times [`NOISE_P25_SCALE`], which makes it unbiased on Gaussian
+//! noise. Runs that are exactly constant (blanked regions) are skipped.
 //! **Line noise**: for every line of the matrix along each dimension (every column and every row
 //! of a 2D spectrum), `1.4826 · MAD` about the line's median. The local noise of a point is the
 //! largest of the noise SD and the noise of the lines through it, so a column of t1 noise under
@@ -64,6 +65,9 @@ use crate::nmr::process::PpmAxis;
 
 /// Length of the runs used by [`matrix_noise_sd`].
 const NOISE_RUN: usize = 64;
+/// The 25th percentile of the run estimates is this much below the noise SD on Gaussian noise
+/// (measured with 64-point runs: `noise_estimate_is_close_to_the_true_sd`).
+pub const NOISE_P25_SCALE: f64 = 1.12;
 /// Most runs sampled by [`matrix_noise_sd`].
 const NOISE_RUNS_MAX: usize = 16384;
 /// Most points all footprints together may hold (a guard against floods through broad signal).
@@ -99,6 +103,10 @@ pub struct CrossPeakOptions {
     pub footprint_snr: f64,
     /// A line whose noise is at least this multiple of the noise SD is a noise ridge.
     pub ridge_factor: f64,
+    /// A cross peak on the indirect-dimension line of one this many times taller is flagged
+    /// `ridge` (t1 noise, truncation wiggles), unless a homonuclear spectrum gives it a
+    /// symmetric partner.
+    pub ridge_ratio: f64,
     /// Keep maxima that pass the global threshold but not the local one (flagged `ridge`).
     pub keep_ridge_peaks: bool,
     /// Homonuclear spectra: cross peaks this close to the diagonal are diagonal peaks, Hz.
@@ -122,6 +130,7 @@ impl Default for CrossPeakOptions {
             group_gap_points: 1.5,
             footprint_snr: 3.0,
             ridge_factor: 3.0,
+            ridge_ratio: 20.0,
             keep_ridge_peaks: false,
             diagonal_tolerance_hz: 15.0,
             symmetry_tolerance_hz: 25.0,
@@ -359,7 +368,7 @@ pub fn matrix_noise_sd(data: &[f64], row_len: usize) -> f64 {
         return 0.0;
     }
     sds.sort_by(f64::total_cmp);
-    sds[(sds.len() - 1) / 4]
+    sds[(sds.len() - 1) / 4] * NOISE_P25_SCALE
 }
 
 /// Noise of every line along each dimension: `out[d][line]`, where the line of a point along
@@ -461,6 +470,9 @@ impl Grid<'_> {
         let nd = self.shape[d];
         let (pos, v) = self.walk(idx, d, sign);
         let half = h / 2.0;
+        if !(v(pos) >= half) {
+            return None;
+        }
         let mut k = pos;
         let left = loop {
             if k == 0 {
@@ -689,7 +701,10 @@ pub fn pick_cross_peaks(
             if prom < opts.min_prominence_snr * sd {
                 return;
             }
-            let ridge = local >= opts.ridge_factor * sd && local > sd;
+            // on a noisy line and less than twice the threshold above its noise
+            let ridge = local >= opts.ridge_factor * sd
+                && local > sd
+                && v < 2.0 * opts.min_snr * local;
             if v < opts.min_snr * local || prom < opts.min_prominence_snr * local {
                 out.ridge_suppressed += 1;
                 if !opts.keep_ridge_peaks {
@@ -700,7 +715,10 @@ pub fn pick_cross_peaks(
             let mut h = v;
             let mut pos = Vec::with_capacity(dims);
             for d in 0..dims {
-                let (a, b) = (g.at(i - g.st[d], sign), g.at(i + g.st[d], sign));
+                // a neighbour of the other sign (a dispersive lobe, an antiphase partner) counts
+                // as 0: the parabola would otherwise overshoot far above the maximum
+                let a = g.at(i - g.st[d], sign).max(0.0);
+                let b = g.at(i + g.st[d], sign).max(0.0);
                 let den = a - 2.0 * v + b;
                 let off = if den < 0.0 {
                     (0.5 * (a - b) / den).clamp(-0.5, 0.5)
@@ -1030,7 +1048,10 @@ pub fn annotate(
             p.flags.push(PeakFlag::Axial);
         }
     }
-    let pair = homonuclear_pair(axes, &ctx.nuclei)?;
+    let Some(pair) = homonuclear_pair(axes, &ctx.nuclei) else {
+        streaks(peaks, axes, opts, false);
+        return None;
+    };
     let (i, j) = pair;
     let tol = |hz: f64, pts: f64| {
         [i, j]
@@ -1059,25 +1080,29 @@ pub fn annotate(
         }
     }
     let n = peaks.len();
+    let inside = |r: (f64, f64), x: f64| x <= r.0 + sym && x >= r.1 - sym;
     for a in 0..n {
         if peaks[a].has(PeakFlag::Diagonal) {
             continue;
         }
-        let (x, y) = (peaks[a].ppm[i], peaks[a].ppm[j]);
+        let pa = &peaks[a];
         let mut best: Option<(usize, f64)> = None;
-        for b in 0..n {
-            if b == a || peaks[b].has(PeakFlag::Diagonal) {
+        for (b, q) in peaks.iter().enumerate() {
+            if b == a || q.has(PeakFlag::Diagonal) {
                 continue;
             }
-            let q = &peaks[b];
-            if others
-                .iter()
-                .any(|&(d, t)| (q.ppm[d] - peaks[a].ppm[d]).abs() > t)
-            {
+            if others.iter().any(|&(d, t)| (q.ppm[d] - pa.ppm[d]).abs() > t) {
                 continue;
             }
-            let dist = (q.ppm[i] - y).abs().max((q.ppm[j] - x).abs());
-            if dist <= sym && best.is_none_or(|(_, bd)| dist < bd) {
+            // the mirror image of one centre lies in the other's footprint (or within the
+            // tolerance of it): multiplets split into maxima differently on the two sides
+            let a_in_b = inside(q.footprint_ppm[i], pa.ppm[j]) && inside(q.footprint_ppm[j], pa.ppm[i]);
+            let b_in_a = inside(pa.footprint_ppm[j], q.ppm[i]) && inside(pa.footprint_ppm[i], q.ppm[j]);
+            if !(a_in_b || b_in_a) {
+                continue;
+            }
+            let dist = (q.ppm[i] - pa.ppm[j]).abs().max((q.ppm[j] - pa.ppm[i]).abs());
+            if best.is_none_or(|(_, bd)| dist < bd) {
                 best = Some((b, dist));
             }
         }
@@ -1094,7 +1119,38 @@ pub fn annotate(
             }
         }
     }
+    streaks(peaks, axes, opts, true);
     Some(pair)
+}
+
+/// Flag `ridge` on cross peaks that lie on an indirect-dimension line (same direct-dimension
+/// position within the stronger peak's half width, at least a point) of a cross peak at least
+/// `ridge_ratio` times taller: t1 noise and truncation wiggles. On homonuclear spectra
+/// (`homonuclear`) a cross peak with a symmetric partner is kept unflagged.
+fn streaks(peaks: &mut [CrossPeak], axes: &[PpmAxis], opts: &CrossPeakOptions, homonuclear: bool) {
+    let dims = axes.len();
+    if dims < 2 || !(opts.ridge_ratio > 1.0) {
+        return;
+    }
+    let last = dims - 1;
+    let step = axes[last].step_ppm.abs();
+    let mut flag = vec![false; peaks.len()];
+    for (a, p) in peaks.iter().enumerate() {
+        if p.has(PeakFlag::Ridge) || p.has(PeakFlag::Diagonal) || (homonuclear && p.symmetric_partner.is_some()) {
+            continue;
+        }
+        flag[a] = peaks.iter().any(|q| {
+            let tol = (q.width_ppm[last].unwrap_or(0.0) / 2.0).max(step);
+            q.height.abs() >= opts.ridge_ratio * p.height.abs()
+                && (q.apex_ppm[last] - p.apex_ppm[last]).abs() <= tol
+                && (0..last).all(|d| (0..last).filter(|&e| e != d).all(|e| (q.ppm[e] - p.ppm[e]).abs() <= 2.0 * axes[e].step_ppm.abs()))
+        });
+    }
+    for (p, f) in peaks.iter_mut().zip(flag) {
+        if f {
+            p.flags.push(PeakFlag::Ridge);
+        }
+    }
 }
 
 /// One volume integral over a box.
@@ -1223,7 +1279,10 @@ mod tests {
     fn noise_estimate_is_close_to_the_true_sd() {
         let v = spectrum([256, 512], &[(100.0, 200.0, 500.0, 3.0, 4.0)], 2.0);
         let sd = matrix_noise_sd(&v, 512);
-        assert!((sd - 2.0).abs() < 0.25, "{sd}");
+        assert!((sd - 2.0).abs() < 0.1, "{sd}");
+        let pure = spectrum([512, 512], &[], 1.0);
+        let sd = matrix_noise_sd(&pure, 512);
+        assert!((sd - 1.0).abs() < 0.03, "{sd}");
         // blanked (exactly zero) rows are ignored
         let mut w = v.clone();
         w[..512 * 128].fill(0.0);
@@ -1325,7 +1384,8 @@ mod tests {
         }
         let p = pick_cross_peaks(&v, &shape, &ax, &CrossPeakOptions::default()).unwrap();
         assert_eq!(p.peaks.len(), 1, "{:?}", p.peaks);
-        assert!(p.peaks[0].has(PeakFlag::Ridge));
+        // the strong line stands far above the noise of its column: not flagged
+        assert!(!p.peaks[0].has(PeakFlag::Ridge));
         assert!(p.ridge_suppressed > 3, "{}", p.ridge_suppressed);
         assert!(p.notes.iter().any(|n| n.contains("keep_ridge_peaks")));
         let keep = CrossPeakOptions {
@@ -1334,7 +1394,7 @@ mod tests {
         };
         let q = pick_cross_peaks(&v, &shape, &ax, &keep).unwrap();
         assert!(q.peaks.len() > 3);
-        assert!(q.peaks.iter().all(|x| x.has(PeakFlag::Ridge)));
+        assert!(q.peaks.iter().filter(|x| x.has(PeakFlag::Ridge)).count() == q.peaks.len() - 1);
         // the footprint of the strong line does not run along the ridge
         let fp = p.peaks[0].footprint_ppm[0];
         assert!((fp.0 - fp.1) / ax[0].step_ppm.abs() < 120.0, "{fp:?}");
@@ -1497,6 +1557,35 @@ mod tests {
             ..CrossPeakOptions::default()
         };
         assert!(pick_cross_peaks(&v, &shape, &ax, &opts).unwrap().peaks.is_empty());
+    }
+
+    #[test]
+    fn weak_peaks_on_a_strong_column_are_flagged() {
+        // a 100x weaker maximum on the F1 line of a strong peak (t1 noise, truncation wiggle)
+        let shape = [256, 512];
+        let ax = hetero();
+        let v = spectrum(
+            shape,
+            &[(60.0, 200.0, 10000.0, 2.0, 3.0), (180.0, 200.0, 100.0, 2.0, 3.0), (180.0, 400.0, 100.0, 2.0, 3.0)],
+            1.0,
+        );
+        let opts = CrossPeakOptions::default();
+        let mut p = pick_cross_peaks(&v, &shape, &ax, &opts).unwrap();
+        assert_eq!(p.peaks.len(), 3);
+        let ctx = SpectrumContext {
+            nuclei: vec![Some("13C".into()), Some("1H".into())],
+            carrier_points: vec![None, None],
+        };
+        annotate(&mut p.peaks, &ax, &ctx, &opts);
+        let flagged: Vec<usize> = p
+            .peaks
+            .iter()
+            .filter(|x| x.has(PeakFlag::Ridge))
+            .map(|x| x.index[1])
+            .collect();
+        assert_eq!(flagged.len(), 1, "{:?}", p.peaks);
+        let weak = p.peaks.iter().find(|x| x.has(PeakFlag::Ridge)).unwrap();
+        assert_eq!(weak.index, vec![180, 200]);
     }
 
     #[test]
