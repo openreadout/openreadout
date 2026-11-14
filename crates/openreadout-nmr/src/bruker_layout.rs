@@ -231,6 +231,8 @@ pub struct Experiment {
     pub nuslist: Option<Vec<Vec<u32>>>,
     /// Why `nuslist` could not be read as a table (too large, not integers, ragged rows).
     pub nuslist_issue: Option<String>,
+    /// List files the experiment used (`vdlist`, `lists/vp/<VPLIST>`, `fq1list`, …).
+    pub lists: Vec<ExperimentList>,
     pub processing: Vec<Processing>,
     /// Every file under the directory (relative path, size), up to a limit.
     pub files: Vec<(String, u64)>,
@@ -264,10 +266,176 @@ fn file_len(fs: &Fs, p: &Path) -> Option<u64> {
         .map(|m| m.len())
 }
 
-const PROCESSED_NAMES: &[&str] = &[
-    "1r", "1i", "2rr", "2ri", "2ir", "2ii", "3rrr", "3irr", "3rir", "3iir", "3rri", "3iri", "3rii",
-    "3iii",
+/// Most processed dimensions decoded (`8rrrrrrrr`); TopSpin parameter files go up to `proc8s`.
+pub const MAX_PROCESSED_DIMS: u32 = 8;
+
+/// Dimensions of a processed data file name: `<N>` followed by N letters `r`/`i` (`1r`, `2ri`,
+/// `3rrr`, `4rrri`, …), N from 1 to [`MAX_PROCESSED_DIMS`].
+pub fn processed_dims(name: &str) -> Option<u32> {
+    let mut chars = name.chars();
+    let n = chars.next()?.to_digit(10)?;
+    let rest = chars.as_str();
+    ((1..=MAX_PROCESSED_DIMS).contains(&n)
+        && rest.len() == n as usize
+        && rest.chars().all(|c| c == 'r' || c == 'i'))
+    .then_some(n)
+}
+
+/// The component files of an N-dimensional processed spectrum, as (channel name, file name):
+/// every combination of `r`/`i`, the first letter for the direct dimension and the last letter
+/// changing fastest (`3rrr`, `3rri`, `3rir`, …). The all-real file is channel `real`; in 1D the
+/// imaginary file is `imag`; other channels are named by their letters (`ri`, `rri`).
+pub fn processed_components(dims: u32) -> Vec<(String, String)> {
+    let n = dims.clamp(1, MAX_PROCESSED_DIMS);
+    (0..1u32 << n)
+        .map(|mask| {
+            let letters: String = (0..n)
+                .map(|k| if mask & (1 << (n - 1 - k)) != 0 { 'i' } else { 'r' })
+                .collect();
+            let channel = match (mask, n) {
+                (0, _) => "real".to_string(),
+                (_, 1) => "imag".to_string(),
+                _ => letters.clone(),
+            };
+            (channel, format!("{n}{letters}"))
+        })
+        .collect()
+}
+
+/// One list file an experiment used (`vdlist`, `vplist`, `fq1list`, …): values one per line.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ExperimentList {
+    /// The list kind: `vdlist`, `vclist`, `vplist`, `valist`, `vtlist`, `fq1list` … `fq8list`,
+    /// `difflist`.
+    pub kind: String,
+    /// The `acqus` parameter naming it (`VDLIST`, `FQ1LIST`), when it has one.
+    pub parameter: Option<String>,
+    /// Path of the file relative to the experiment directory.
+    pub file: String,
+    /// A first line that is not a value (`dB`, `O 114.530000`), as written.
+    pub header: Option<String>,
+    /// The values in file order, with a unit letter (`100u`, `5m`) applied.
+    pub values: Vec<f64>,
+    /// Unit of the values when the kind or the header says it (`s`, `dB`, `ppm`, `Hz`).
+    pub unit: Option<String>,
+    /// Lines that are not values.
+    pub issues: Vec<String>,
+}
+
+/// List kinds, the `acqus` parameter naming the file, and its folder under `lists/`.
+const LIST_KINDS: &[(&str, Option<&str>, &str)] = &[
+    ("vdlist", Some("VDLIST"), "vd"),
+    ("vclist", Some("VCLIST"), "vc"),
+    ("vplist", Some("VPLIST"), "vp"),
+    ("valist", Some("VALIST"), "va"),
+    ("vtlist", Some("VTLIST"), "vt"),
+    ("fq1list", Some("FQ1LIST"), "f1"),
+    ("fq2list", Some("FQ2LIST"), "f1"),
+    ("fq3list", Some("FQ3LIST"), "f1"),
+    ("fq4list", Some("FQ4LIST"), "f1"),
+    ("fq5list", Some("FQ5LIST"), "f1"),
+    ("fq6list", Some("FQ6LIST"), "f1"),
+    ("fq7list", Some("FQ7LIST"), "f1"),
+    ("fq8list", Some("FQ8LIST"), "f1"),
+    ("difflist", None, "diff"),
 ];
+
+/// Most values read from one list file.
+const MAX_LIST_VALUES: usize = 1 << 20;
+
+/// Parse a list file. Time lists (`vdlist`, `vplist`) take a unit letter after the number
+/// (`n`, `u`, `m`, `s`); values are then in seconds.
+pub fn parse_experiment_list(kind: &str, file: &str, bytes: &[u8]) -> ExperimentList {
+    let (text, _) = crate::text::decode_text(bytes);
+    let timed = matches!(kind, "vdlist" | "vplist");
+    let mut out = ExperimentList {
+        kind: kind.to_string(),
+        parameter: None,
+        file: file.to_string(),
+        header: None,
+        values: Vec::new(),
+        unit: None,
+        issues: Vec::new(),
+    };
+    for (n, line) in text.lines().enumerate() {
+        let t = line.trim();
+        if t.is_empty() {
+            continue;
+        }
+        if out.values.len() >= MAX_LIST_VALUES {
+            out.issues.push(format!("more than {MAX_LIST_VALUES} values: the rest is not read"));
+            break;
+        }
+        let split = t
+            .find(|c: char| c.is_ascii_alphabetic() && c != 'e' && c != 'E')
+            .unwrap_or(t.len());
+        let (num, suffix) = t.split_at(split);
+        // divisor of the value for its unit letter (a division keeps 100u exactly 1e-4)
+        let divisor = match (timed, suffix.trim()) {
+            (_, "") => Some(1.0),
+            (true, "s") => Some(1.0),
+            (true, "m") => Some(1e3),
+            (true, "u") => Some(1e6),
+            (true, "n") => Some(1e9),
+            _ => None,
+        };
+        match (num.trim().parse::<f64>(), divisor) {
+            (Ok(v), Some(d)) if v.is_finite() => out.values.push(v / d),
+            _ if out.values.is_empty() && out.header.is_none() => out.header = Some(t.to_string()),
+            _ => out.issues.push(format!("line {}: {t:?} is not a value", n + 1)),
+        }
+    }
+    let header = out.header.as_deref().map(str::to_ascii_lowercase);
+    out.unit = match kind {
+        "vdlist" | "vplist" => Some("s".into()),
+        _ if header.as_deref().is_some_and(|h| h.split_whitespace().any(|w| w == "ppm")) => {
+            Some("ppm".into())
+        }
+        _ if header.as_deref().is_some_and(|h| h.split_whitespace().any(|w| w == "hz")) => {
+            Some("Hz".into())
+        }
+        "valist" if header.as_deref() == Some("db") => Some("dB".into()),
+        _ => None,
+    };
+    out
+}
+
+fn read_lists(fs: &Fs, dir: &Path, acqus: &ParamFile) -> Vec<ExperimentList> {
+    let mut out = Vec::new();
+    for &(kind, param, folder) in LIST_KINDS {
+        let named = param.and_then(|p| acqus.text(p)).filter(|n| {
+            !n.contains(['/', '\\']) && *n != ".." && *n != "."
+        });
+        let mut candidates = vec![kind.to_string()];
+        if let Some(n) = named {
+            candidates.push(format!("lists/{folder}/{n}"));
+        }
+        for rel in candidates {
+            let p = dir.join(&rel);
+            let Some(len) = file_len(fs, &p) else { continue };
+            let mut l = if len > MAX_PARAM_FILE {
+                ExperimentList {
+                    kind: kind.to_string(),
+                    parameter: None,
+                    file: rel.clone(),
+                    header: None,
+                    values: Vec::new(),
+                    unit: None,
+                    issues: vec![format!("{rel} is {len} bytes: not read")],
+                }
+            } else {
+                match fs.read(&p) {
+                    Ok(b) => parse_experiment_list(kind, &rel, &b),
+                    Err(_) => continue,
+                }
+            };
+            l.parameter = param.map(str::to_string);
+            out.push(l);
+            break;
+        }
+    }
+    out
+}
 
 fn list_files(
     fs: &Fs,
@@ -376,10 +544,20 @@ impl Experiment {
                         }
                     }
                 }
-                let data_files = PROCESSED_NAMES
-                    .iter()
-                    .filter_map(|n| file_len(fs, &pdir.join(n)).map(|l| ((*n).to_string(), l)))
-                    .collect();
+                let mut data_files: Vec<(String, u64)> = fs
+                    .read_dir(&pdir)
+                    .map(|rd| {
+                        rd.filter_map(std::result::Result::ok)
+                            .filter_map(|e| {
+                                let name = e.file_name().to_str()?.to_string();
+                                processed_dims(&name)?;
+                                file_len(fs, &pdir.join(&name)).map(|l| (name, l))
+                            })
+                            .take(1 << 12)
+                            .collect()
+                    })
+                    .unwrap_or_default();
+                data_files.sort();
                 processing.push(Processing {
                     procno,
                     dir: pdir,
@@ -391,6 +569,7 @@ impl Experiment {
         let mut files = Vec::new();
         let mut total_size = 0u64;
         let files_truncated = list_files(fs, dir, Path::new(""), 0, &mut files, &mut total_size);
+        let lists = read_lists(fs, dir, &acqus);
         Ok(Experiment {
             fs: fs.clone(),
             dir: dir.to_path_buf(),
@@ -400,6 +579,7 @@ impl Experiment {
             nuslist_len,
             nuslist,
             nuslist_issue,
+            lists,
             processing,
             files,
             total_size,
@@ -556,12 +736,14 @@ impl RawLayout {
 #[derive(Debug, Clone, PartialEq)]
 pub struct ProcLayout {
     pub procno: u32,
-    /// One, two or three processed dimensions.
+    /// Processed dimensions (1 to [`MAX_PROCESSED_DIMS`]).
     pub dims: u32,
     /// `SI` per dimension, direct dimension first.
     pub si: Vec<u64>,
     /// Submatrix edge (`XDIM`) per dimension, direct dimension first (equal to `si` when untiled).
     pub xdim: Vec<u64>,
+    /// Rows of direct-dimension points: the product of the indirect `SI` (1 for 1D).
+    pub rows: u64,
     pub sample_type: SampleType,
     pub byte_order: ByteOrder,
     /// Channel files in order: (`real`|`imag`, file name, size).
@@ -573,30 +755,9 @@ impl ProcLayout {
     pub fn from_processing(p: &Processing) -> Option<std::result::Result<Self, Error>> {
         let procs = p.procs.first()?;
         let has = |n: &str| p.data_files.iter().find(|(f, _)| f == n).map(|(_, l)| *l);
-        let (dims, comps): (u32, Vec<(&str, &str)>) = if has("1r").is_some() {
-            (1, vec![("real", "1r"), ("imag", "1i")])
-        } else if has("2rr").is_some() {
-            (
-                2,
-                vec![("real", "2rr"), ("ri", "2ri"), ("ir", "2ir"), ("ii", "2ii")],
-            )
-        } else if has("3rrr").is_some() {
-            (
-                3,
-                vec![
-                    ("real", "3rrr"),
-                    ("rri", "3rri"),
-                    ("rir", "3rir"),
-                    ("rii", "3rii"),
-                    ("irr", "3irr"),
-                    ("iri", "3iri"),
-                    ("iir", "3iir"),
-                    ("iii", "3iii"),
-                ],
-            )
-        } else {
-            return None;
-        };
+        // the lowest dimension whose all-real file is present
+        let dims = (1..=MAX_PROCESSED_DIMS).find(|&n| has(&format!("{n}{}", "r".repeat(n as usize))).is_some())?;
+        let comps = processed_components(dims);
         Some((|| {
             let sample_type = SampleType::from_code(procs.int("DTYPP")).map_err(|c| {
                 Error::unsupported(
@@ -646,27 +807,35 @@ impl ProcLayout {
                     }
                 }
             }
+            let si_text = si.iter().map(u64::to_string).collect::<Vec<_>>().join(" × ");
             let total = si
                 .iter()
                 .try_fold(1u64, |a, &b| a.checked_mul(b))
                 .and_then(|v| v.checked_mul(sample_type.width()))
-                .ok_or_else(|| Error::corrupt(BRUKER_FORMAT_ID, "processed dimensions overflow"))?;
-            if total / sample_type.width() / si[0] > u64::from(u32::MAX) {
+                .ok_or_else(|| {
+                    Error::corrupt(
+                        BRUKER_FORMAT_ID,
+                        format!("pdata/{}: SI {si_text} overflows the file size", p.procno),
+                    )
+                })?;
+            let rows = total / sample_type.width() / si[0];
+            if rows > u64::from(u32::MAX) {
                 return Err(Error::unsupported(
                     BRUKER_FORMAT_ID,
-                    "more than u32::MAX processed sweeps",
+                    format!("more than u32::MAX processed rows (SI {si_text})"),
                     "Use a smaller processed dataset.",
                 ));
             }
             let components = comps
                 .into_iter()
-                .filter_map(|(c, f)| has(f).map(|l| (c.to_string(), f.to_string(), l)))
+                .filter_map(|(c, f)| has(&f).map(|l| (c, f, l)))
                 .collect();
             Ok(ProcLayout {
                 procno: p.procno,
                 dims,
                 si,
                 xdim,
+                rows,
                 sample_type,
                 byte_order,
                 components,
@@ -674,14 +843,22 @@ impl ProcLayout {
         })())
     }
 
-    /// True for processed data file names (`1r`, `2rr`, `3rrr`, …).
+    /// True for processed data file names (`1r`, `2rr`, `3rrr`, `4rrrr`, …).
     pub fn is_data_name(name: &str) -> bool {
-        PROCESSED_NAMES.contains(&name)
+        processed_dims(name).is_some()
     }
 
-    /// Values per component file.
+    /// Values per component file (`SI` multiplied; it fits in u64, `from_processing` checks).
     pub fn values(&self) -> u64 {
         self.si.iter().fold(1u64, |a, &b| a.saturating_mul(b))
+    }
+
+    /// Bytes per component file, `None` when the product overflows.
+    pub fn file_bytes(&self) -> Option<u64> {
+        self.si
+            .iter()
+            .try_fold(1u64, |a, &b| a.checked_mul(b))?
+            .checked_mul(self.sample_type.width())
     }
 
     /// Byte ranges `(offset, values)` holding samples `[first, first+count)` of row `row`,
@@ -829,7 +1006,7 @@ pub(crate) fn resolve_experiment_dir_in(fs: &Fs, path: &Path) -> Option<PathBuf>
         && (name == "procs"
             || name == "proc"
             || name[4..].trim_end_matches('s').parse::<u32>().is_ok());
-    if proc_n || PROCESSED_NAMES.contains(&name) {
+    if proc_n || processed_dims(name).is_some() {
         let pdata = parent.parent()?;
         if pdata.file_name().is_some_and(|n| n == "pdata") {
             let exp = pdata.parent()?;
@@ -899,6 +1076,7 @@ mod tests {
             dims: 2,
             si: vec![4, 4],
             xdim: vec![2, 2],
+            rows: 4,
             sample_type: SampleType::Int32,
             byte_order: ByteOrder::Little,
             components: vec![],
@@ -907,5 +1085,110 @@ mod tests {
         assert_eq!(l.row_ranges(1, 0, 4), vec![(8, 2), (24, 2)]);
         // row 2 starts the second band of submatrices (subs 2, 3)
         assert_eq!(l.row_ranges(2, 1, 2), vec![(36, 1), (48, 1)]);
+    }
+
+    #[test]
+    fn processed_names_of_any_dimension() {
+        assert_eq!(processed_dims("1r"), Some(1));
+        assert_eq!(processed_dims("4rrir"), Some(4));
+        assert_eq!(processed_dims("8iiiiiiii"), Some(8));
+        assert_eq!(processed_dims("4rrr"), None);
+        assert_eq!(processed_dims("9rrrrrrrrr"), None);
+        assert_eq!(processed_dims("2rx"), None);
+        assert_eq!(processed_dims("title"), None);
+        let c = processed_components(1);
+        assert_eq!(c[1], ("imag".to_string(), "1i".to_string()));
+        let c = processed_components(3);
+        let files: Vec<&str> = c.iter().map(|(_, f)| f.as_str()).collect();
+        assert_eq!(
+            files,
+            ["3rrr", "3rri", "3rir", "3rii", "3irr", "3iri", "3iir", "3iii"]
+        );
+        let c = processed_components(4);
+        assert_eq!(c.len(), 16);
+        assert_eq!(c[0].0, "real");
+        assert_eq!(c[1], ("rrri".to_string(), "4rrri".to_string()));
+        assert_eq!(c[15].1, "4iiii");
+    }
+
+    fn processing(dims: &[(u64, u64)], files: &[(&str, u64)]) -> Processing {
+        let procs = dims
+            .iter()
+            .enumerate()
+            .map(|(k, (si, xdim))| {
+                let name = if k == 0 {
+                    "procs".to_string()
+                } else {
+                    format!("proc{}s", k + 1)
+                };
+                let text = format!("##$SI= {si}\n##$XDIM= {xdim}\n##END=\n");
+                parse_param_file(&name, text.as_bytes())
+            })
+            .collect();
+        Processing {
+            procno: 1,
+            dir: PathBuf::from("pdata/1"),
+            procs,
+            data_files: files.iter().map(|(n, l)| ((*n).to_string(), *l)).collect(),
+        }
+    }
+
+    #[test]
+    fn four_dimensional_layout() {
+        // 4 × 4 × 4 × 8 values in 2 × 2 × 2 × 4 submatrices
+        let p = processing(
+            &[(8, 4), (4, 2), (4, 2), (4, 2)],
+            &[("4rrrr", 2048), ("4iiii", 2048)],
+        );
+        let l = ProcLayout::from_processing(&p).unwrap().unwrap();
+        assert_eq!((l.dims, l.rows, l.values()), (4, 64, 512));
+        assert_eq!(l.file_bytes(), Some(2048));
+        let names: Vec<&str> = l.components.iter().map(|c| c.0.as_str()).collect();
+        assert_eq!(names, ["real", "iiii"]);
+        // the 64 rows × 8 points cover every value exactly once
+        let mut seen = vec![0u32; 512];
+        for row in 0..64 {
+            for (off, n) in l.row_ranges(row, 0, 8) {
+                for v in off / 4..off / 4 + n {
+                    seen[v as usize] += 1;
+                }
+            }
+        }
+        assert!(seen.iter().all(|&c| c == 1));
+    }
+
+    #[test]
+    fn inconsistent_si_and_xdim_are_errors() {
+        let p = processing(&[(8, 4), (6, 4), (4, 2)], &[("3rrr", 768)]);
+        let e = ProcLayout::from_processing(&p).unwrap().unwrap_err();
+        assert!(e.to_string().contains("not a multiple of XDIM"), "{e}");
+        let big = u64::from(u32::MAX);
+        let p = processing(&[(big, big), (big, big), (big, big)], &[("3rrr", 8)]);
+        let e = ProcLayout::from_processing(&p).unwrap().unwrap_err();
+        assert!(e.to_string().contains("overflows"), "{e}");
+        // a missing procNs file for a declared dimension
+        let p = processing(&[(8, 8), (4, 4)], &[("3rrr", 8)]);
+        let e = ProcLayout::from_processing(&p).unwrap().unwrap_err();
+        assert!(e.to_string().contains("proc3s is missing"), "{e}");
+    }
+
+    #[test]
+    fn list_files() {
+        let l = parse_experiment_list("vplist", "lists/vp/x", b"100u\n5m\n\n10m\n");
+        assert_eq!(l.values, vec![1e-4, 5e-3, 1e-2]);
+        assert_eq!((l.header, l.unit.as_deref()), (None, Some("s")));
+        let l = parse_experiment_list("valist", "lists/va/x", b"dB\n36.82\n-0.08\n");
+        assert_eq!(l.values, vec![36.82, -0.08]);
+        assert_eq!((l.header.as_deref(), l.unit.as_deref()), (Some("dB"), Some("dB")));
+        let l = parse_experiment_list("fq1list", "fq1list", b"O 114.530000\n-2000000\n-1992172\n");
+        assert_eq!(l.values, vec![-2_000_000.0, -1_992_172.0]);
+        assert_eq!(l.header.as_deref(), Some("O 114.530000"));
+        assert_eq!(l.unit, None);
+        let l = parse_experiment_list("vclist", "vclist", b"1\n2\nthree\n4\n");
+        assert_eq!(l.values, vec![1.0, 2.0, 4.0]);
+        assert_eq!(l.issues.len(), 1);
+        // unit letters apply to time lists only
+        let l = parse_experiment_list("vclist", "vclist", b"2m\n");
+        assert_eq!(l.header.as_deref(), Some("2m"));
     }
 }

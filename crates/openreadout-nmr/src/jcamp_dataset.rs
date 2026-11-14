@@ -610,6 +610,7 @@ impl JcampDataset {
             }
             let mut tables =
                 vec![vec![(usize::MAX, usize::MAX); chan_syms.len()]; sweep_keys.len()];
+            let mut repeated = None;
             for k in &keyed {
                 let VarList::Increment(_, d) = &k.2 else {
                     continue;
@@ -620,9 +621,16 @@ impl JcampDataset {
                 } else {
                     sweep_keys.iter().position(|s| s == &k.1).unwrap_or(0)
                 };
+                if tables[s][c].0 != usize::MAX {
+                    repeated.get_or_insert_with(|| format!("{}={} holds {d} twice", k.0, k.1));
+                }
                 tables[s][c] = (b, k.3);
             }
-            let complete = tables.iter().flatten().all(|t| t.0 != usize::MAX);
+            let complete =
+                repeated.is_none() && tables.iter().flatten().all(|t| t.0 != usize::MAX);
+            if let Some(r) = &repeated {
+                problems.push(format!("NTUPLES pages repeat a page value and symbol ({r})"));
+            }
             let ix = idx(&ind);
             let first = ix.and_then(|i| num_at(&firsts, i));
             let last = ix.and_then(|i| num_at(&lasts, i));
@@ -676,6 +684,62 @@ impl JcampDataset {
                     "sweep_axis".into(),
                     json!({"variable": pvar, "unit": unit, "values": values}),
                 );
+                // a 2D data set (nD NMR, ##NUM DIM= 2): the page variable is the indirect
+                // dimension; its axis when the page values are evenly spaced and start at the
+                // variable's ##FIRST=
+                let nd = field("NUMDIM").is_some()
+                    || lookup(&self.file, b, "NUMDIM").is_some()
+                    || blk.ldrs[nt].head().to_ascii_uppercase().replace(' ', "").starts_with("NDNMR");
+                if nd {
+                    let pi = idx(&pvar);
+                    let nuclei = field(".NUCLEUS");
+                    let nucleus = csv_field(nuclei.as_deref(), pi.unwrap_or(0))
+                        .map(|n| n.trim_start_matches('^').to_string())
+                        .filter(|n| !n.is_empty());
+                    let direct_nucleus = csv_field(nuclei.as_deref(), ix.unwrap_or(1))
+                        .map(|n| n.trim_start_matches('^').to_string())
+                        .filter(|n| !n.is_empty());
+                    let nums: Vec<f64> = sweep_keys.iter().filter_map(|v| parse_affn(v)).collect();
+                    let npages = sweep_keys.len();
+                    let declared = pi.and_then(|i| {
+                        let (f, l) = (num_at(&firsts, i)?, num_at(&lasts, i)?);
+                        let n = num_at(&dims, i)?;
+                        (n == npages as f64).then_some((f, l))
+                    });
+                    let mut d = BTreeMap::new();
+                    d.insert("dimension".to_string(), json!(2));
+                    d.insert("variable".to_string(), json!(pvar));
+                    put(&mut d, "nucleus", nucleus.map(|n| json!(n)));
+                    put(&mut d, "unit", unit.as_ref().map(|u| json!(u)));
+                    d.insert("points".to_string(), json!(npages));
+                    // the page values, when every one is a number and they are evenly spaced
+                    let paged = (nums.len() == npages && npages >= 2)
+                        .then(|| {
+                            let step = (nums[npages - 1] - nums[0]) / (npages - 1) as f64;
+                            let tol = 1e-6 * step.abs().max(f64::MIN_POSITIVE);
+                            nums.windows(2)
+                                .all(|w| ((w[1] - w[0]) - step).abs() <= tol)
+                                .then_some((nums[0], nums[npages - 1]))
+                        })
+                        .flatten();
+                    // the axis: ##FIRST=/##LAST= of the page variable over ##VAR_DIM= points,
+                    // else the page values (MestReNova and Oxford files write page values that
+                    // do not match the declared range)
+                    if let (Some((df, dl)), Some((pf, pl))) = (declared, paged) {
+                        let scale = (dl - df).abs().max(df.abs()).max(f64::MIN_POSITIVE);
+                        let agree = (df - pf).abs() <= 1e-6 * scale && (dl - pl).abs() <= 1e-6 * scale;
+                        d.insert("page_values_agree".to_string(), json!(agree));
+                    }
+                    if let Some((f, l)) = declared.or(paged).filter(|(f, l)| f != l) {
+                        let mut a = increment_axis(f, l, npages as u64, unit.as_deref());
+                        if let (Some(o), Some(n)) = (a.as_object_mut(), d.get("nucleus")) {
+                            o.insert("nucleus".into(), n.clone());
+                        }
+                        d.insert("axis".to_string(), a);
+                    }
+                    e.insert("indirect_dimensions".into(), json!([d]));
+                    put(&mut e, "direct_nucleus", direct_nucleus.map(|n| json!(n)));
+                }
             }
             let sweeps = sweep_keys.len() as u32;
             (channels, layout, n, sweeps)

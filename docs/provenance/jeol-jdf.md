@@ -68,6 +68,12 @@ check sample values; they were not used for validation.
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: the JDF version, data format and axis types. The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
 
+## 2026-11-14 — indirect-dimension details, sweep order, processing list
+
+**Corpus files:** `dataverse-egt2ih-gallic-cosy-jdf` (a float32 2D COSY FID, `real_complex` axes; its MestReNova JCAMP-DX export `dataverse-egt2ih-gallic-cosy-jdx`), `nmrxiv-s200-{cosy,hsqc,hmbc}-jdf`, `figshare29098781-hmbc`, `zenodo19692590-discomycin-hsqc`, and the 1D development files for the context text. No held-out file.
+**Prior art consulted:** none new (nmrglue `fileio/jeol.py`, BSD-3-Clause, as before).
+**What was inferred from what.** The context sections of the development files have a line `process => "…";` (or `=`). Most name the processing list the experiment ran (`2d_cosy_abs.list`, `2d_inverse_phase.list`, `proton_autophase.list`); `figshare26331607-50-dmso-13c` wraps it in a command (`process_interactive_global 'std_carbon_autophase.list':`), and the two `zenodo5223412` files hold a `tell MESSAGE` command with no list. The value is reported as written, with the `.list` name taken out when there is one; the list's steps are not stored in the file. The second dimension's unit, stored points, valid range and `Y_OFFSET` come from the header and parameters already decoded. No public processed 2D `.jdf` was found, so processed 2D files remain covered only by the layout rules above.
+
 ## 2026-09-26 — FID axis from the sampling rate when the header range disagrees
 
 **Corpus files:** `zenodo10621204-compound3-1h-jdf` (the case), and the other thirteen development `.jdf` files (unchanged: their header range steps by 1/X_SWEEP). **Prior art:** none new. **What was inferred from what.** In this file the header's `axis_stop` (1.99480 s over 14,993 valid points) implies a step 0.047 % shorter than 1/X_SWEEP, while `X_ACQ_DURATION` (1.99587 s) = `X_POINTS` / `X_SWEEP` exactly; the trace's `sample_rate_hz` (X_SWEEP) and its axis therefore disagreed (the `trace_clock` corpus test). The acquisition parameters agree with each other, so the time axis now follows them; the header range is reported, not dropped. nmrglue's values (the oracle) are unaffected.

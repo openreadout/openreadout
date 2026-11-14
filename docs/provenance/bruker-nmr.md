@@ -65,6 +65,17 @@ of the same name (every Bruker oracle regenerated since then failed); renamed `_
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: the writer (TopSpin / XWIN-NMR), data file, byte order, sample type, AQ_mod, dimensions, encodings, NUS, and the digital-filter group delay (available, removed only when processing). The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
 
+## 2026-11-14 — processed data of any dimension, indirect-dimension metadata, list files
+
+**Corpus files:** `nmrtools-19f-r1rho-ts4` (TopSpin 4.2.0 pseudo-3D with `3rrr`/`3iii`, `acqu3s`, `lists/va`, `lists/vp`), `nmrtools-15n-trosy-ts3`, `zakary-rbnb2o5f-93nb-3qmas-255`, `zakary-rbnb2o5f-87rb-3qmas-60` (FnMODE 4 with all four 2D components), `desperate-rbno3-mqmas-20` and `-30` (a fully sampled set and its NUS twin, `fq1list`), `bmrb27037-chsqc-850`, and the 2D sets already in the corpus (proc2s of 84 experiments). No held-out file.
+**Prior art consulted:** nmrglue (BSD-3-Clause, https://github.com/jjhelmus/nmrglue), `fileio/bruker.py` read as documentation: `read_pdata` / `reorder_submatrix` (the submatrix order is the same loop for any number of dimensions). nmrglue does not read list files; their syntax below comes from the files.
+**What was inferred from what.**
+- Processed file names: `<N>` followed by N letters `r`/`i`, the first letter for the direct dimension (as for `2ri`/`2ir` in the 2D sets). A set may hold only some components (`3rrr` and `3iii` in `nmrtools-19f-r1rho-ts4`). The reader now builds the names, the channel order and the `XDIM` addressing for any N up to 8, with checked products; 4D and higher have no public example and are pinned by a synthetic fixture that nmrglue `write_pdata` wrote (`oracle/make_nmr_fixtures.py`).
+- `MC2` of `procNs` equals `FnMODE` of `acquNs` minus one in every corpus set that has both (84 sets: FnMODE 1–6 ↔ MC2 0–5), so MC2 is named with the FnMODE names shifted by one (inferred).
+- `PARMODE` of `acqus` is the number of dimensions minus one in the TopSpin sets (1 with `acqu2s`, 2 with `acqu3s`); the XWIN-NMR `nmrglue-bruker-3d` set has `PARMODE` 1 and no `acqu3s`, so its rows are described as one indirect dimension of 14848 rows and nothing more is claimed.
+- List files: the TopSpin 4.2 set keeps the lists it used under `lists/<folder>/<name>` (`lists/va`, `lists/vp`; the reader also looks in `vd`, `vc`, `vt`, `f1` and `diff`, a guess from the same pattern that no corpus file confirms), where `<name>` is the value of `VDLIST`, `VCLIST`, `VPLIST`, `VALIST` or `FQ1LIST`…`FQ8LIST` in `acqus` (`R1p_onres_vp.sh` = `VPLIST`); `desperate-rbno3-mqmas-20` keeps its `fq1list` beside `acqus` (with `FQ1LIST` empty), so a file named after its kind beside `acqus` is read first. One value per line, an optional first line that is not a number (`dB`, `O 114.530000`), and an optional unit letter after numbers (`100u`, `5m`: µ and milli seconds, as the R1rho delays show). They become tables, values as written with the letter applied.
+- NUS: `NusTD` of each `acquNs` is the full grid size, `TD` the acquired values, `NusAMOUNT` the percentage (59.69 % = 77/129 in `desperate-rbno3-mqmas-30`), `NUSLIST` the schedule name (`automatic`).
+
 ## 2026-10-19 — Bruker flex directories are not NMR experiments
 
 **Corpus files:** the `flex-*` entries (Bruker flex MALDI-TOF spots).

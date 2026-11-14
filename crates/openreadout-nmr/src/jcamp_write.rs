@@ -452,6 +452,82 @@ fn symbols(t: &TraceInfo) -> Vec<String> {
     (1..=names.len()).map(|i| format!("Y{i}")).collect()
 }
 
+/// The two frequency axes of a 2D spectrum, in Hz: the direct one along each sweep (F2) and the
+/// indirect one across the sweeps (F1).
+#[derive(Debug, Clone, PartialEq)]
+struct TwoDAxes {
+    f2_first: f64,
+    f2_step: f64,
+    f1_first: f64,
+    f1_step: f64,
+    nuclei: (Option<String>, Option<String>),
+}
+
+/// A frequency axis object (`{first, step, unit: ppm|Hz, spectrometer_frequency_mhz}`) in Hz.
+fn axis_hz(a: &Value, fallback_mhz: Option<f64>) -> Option<(f64, f64)> {
+    let first = a.get("first").and_then(Value::as_f64)?;
+    let step = a.get("step").and_then(Value::as_f64)?;
+    let unit = a.get("unit").and_then(Value::as_str)?.to_ascii_lowercase();
+    let mhz = a
+        .get("spectrometer_frequency_mhz")
+        .and_then(Value::as_f64)
+        .or(fallback_mhz)
+        .filter(|f| f.is_finite() && *f > 0.0);
+    let (first, step) = match unit.as_str() {
+        "ppm" => (first * mhz?, step * mhz?),
+        "hz" => (first, step),
+        _ => return None,
+    };
+    (first.is_finite() && step.is_finite() && step != 0.0).then_some((first, step))
+}
+
+/// The axes of a trace that is a 2D frequency-domain spectrum with `sweep_count` rows: a ppm or
+/// Hz axis along the sweeps, and one indirect axis (`extra.indirect_dimensions[0].axis`,
+/// `extra.sweep_axis.axis` or `extra.indirect_axes[0]`) of that many points across them.
+fn two_d_axes(t: &TraceInfo) -> Option<TwoDAxes> {
+    if t.sweep_count < 2 || t.extra.get("kind").and_then(Value::as_str) == Some("time_domain") {
+        return None;
+    }
+    let sf2 = number(t, &["spectrometer_frequency_mhz", "observe_frequency_mhz"]);
+    let (f2_first, f2_step) = axis_hz(t.extra.get("axis")?, sf2)?;
+    let dims = t.extra.get("indirect_dimensions").and_then(Value::as_array);
+    if dims.is_some_and(|d| d.len() != 1) {
+        return None;
+    }
+    let first_dim = dims.and_then(|d| d.first());
+    let f1 = first_dim
+        .and_then(|d| d.get("axis"))
+        .or_else(|| t.extra.get("sweep_axis").and_then(|s| s.get("axis")))
+        .or_else(|| {
+            t.extra
+                .get("indirect_axes")
+                .and_then(Value::as_array)
+                .filter(|a| a.len() == 1)
+                .and_then(|a| a.first())
+        })?;
+    if f1.get("size").and_then(Value::as_u64) != Some(u64::from(t.sweep_count)) {
+        return None;
+    }
+    let sf1 = first_dim
+        .and_then(|d| d.get("spectrometer_frequency_mhz"))
+        .and_then(Value::as_f64);
+    let (f1_first, f1_step) = axis_hz(f1, sf1)?;
+    let nuc1 = f1
+        .get("nucleus")
+        .or_else(|| first_dim.and_then(|d| d.get("nucleus")))
+        .or_else(|| t.extra.get("sweep_axis").and_then(|s| s.get("nucleus")))
+        .and_then(Value::as_str)
+        .map(str::to_string);
+    let nuc2 = text(t, &["nucleus"]).map(str::to_string);
+    Some(TwoDAxes {
+        f2_first,
+        f2_step,
+        f1_first,
+        f1_step,
+        nuclei: (nuc1, nuc2),
+    })
+}
+
 /// Shortest text that reads back to the same f64 (never in exponent form).
 fn num(v: f64) -> String {
     if v == 0.0 { "0".into() } else { format!("{v}") }
@@ -487,13 +563,18 @@ fn write_header(
         .or_else(|| text(t, &["title"]).map(str::to_string))
         .unwrap_or_else(|| source_name.to_string());
     let _ = writeln!(out, "##TITLE= {}", one_line(&title));
+    // nD NMR spectra are written the way the 6.0 files in the corpus write them
+    let version = if dtype.starts_with("nD ") { "6.0" } else { "5.01" };
     let _ = writeln!(
         out,
-        "##JCAMP-DX= 5.01  $$ openreadout {}",
+        "##JCAMP-DX= {version}  $$ openreadout {}",
         env!("CARGO_PKG_VERSION")
     );
     let _ = writeln!(out, "##DATA TYPE= {dtype}");
     let _ = writeln!(out, "##DATA CLASS= {data_class}");
+    if dtype.starts_with("nD ") {
+        let _ = writeln!(out, "##NUM DIM= 2");
+    }
     let from_exp = ins.and_then(|i| {
         let parts: Vec<&str> = [i.vendor.as_deref(), i.model.as_deref()]
             .into_iter()
@@ -627,7 +708,18 @@ pub fn export_jcamp(
     }
     let end = last.map_or(total, |l| l.saturating_add(1).min(total));
     let n = end - first;
-    let nch = t.channels.len();
+    // a whole 2D spectrum becomes an nD NMR SPECTRUM: its real part, one page per F1 point
+    let two_d = opts
+        .sweep
+        .is_none()
+        .then(|| two_d_axes(&t))
+        .flatten()
+        .filter(|_| t.channels.len() == 1 || t.channels[0].name == "real");
+    let nch = if two_d.is_some() {
+        1
+    } else {
+        t.channels.len()
+    };
     let values = n
         .saturating_mul(nch as u64)
         .saturating_mul(sweeps.len() as u64);
@@ -649,10 +741,13 @@ pub fn export_jcamp(
         while pos < end {
             let k = CHUNK.min(end - pos);
             let tr = ds.read_trace(ti, s, pos, k)?;
-            if tr.channels.len() != nch || tr.channels.iter().any(|c| c.len() as u64 != k) {
+            if tr.channels.len() != t.channels.len()
+                || tr.channels.iter().any(|c| c.len() as u64 != k)
+            {
                 return Err(Error::Other(format!(
-                    "reader returned {} channels for a request of {k} samples x {nch} channels",
-                    tr.channels.len()
+                    "reader returned {} channels for a request of {k} samples x {} channels",
+                    tr.channels.len(),
+                    t.channels.len()
                 )));
             }
             for (d, c) in data.iter_mut().zip(tr.channels) {
@@ -676,7 +771,11 @@ pub fn export_jcamp(
         || input.display().to_string(),
         |n| n.to_string_lossy().to_string(),
     );
-    let dtype = data_type(&info, &t);
+    let dtype = if two_d.is_some() {
+        "nD NMR SPECTRUM".to_string()
+    } else {
+        data_type(&info, &t)
+    };
     let irregular = t
         .extra
         .get("axis")
@@ -710,7 +809,10 @@ pub fn export_jcamp(
     drop(data);
 
     // ------------------------------------------------------------------ text
-    let (x0, step, xunit) = abscissa(&t);
+    let (x0, step, xunit) = match &two_d {
+        Some(a) => (a.f2_first, a.f2_step, "HZ".to_string()),
+        None => abscissa(&t),
+    };
     let x_first = x0 + step * first as f64;
     let x_last = x0 + step * (end - 1) as f64;
     let x_factor = if step != 0.0 && step.is_finite() {
@@ -737,7 +839,85 @@ pub fn export_jcamp(
     };
     let n_us = n as usize;
     let mut pages = 0u32;
-    if ntuples {
+    if let Some(ax) = &two_d {
+        // nD NMR SPECTRUM: F1 pages of (F2++(Y..Y)) tables, as TopSpin and MestReNova write them
+        let n1 = sweeps.len();
+        let f1_at = |k: u32| ax.f1_first + ax.f1_step * f64::from(k);
+        let f1_first = f1_at(sweeps[0]);
+        let f1_last = f1_at(*sweeps.last().unwrap_or(&0));
+        let f1_factor = ax.f1_step.abs();
+        let y = &ints[0];
+        let (y_min, y_max) = y
+            .iter()
+            .fold((i64::MAX, i64::MIN), |(lo, hi), v| (lo.min(*v), hi.max(*v)));
+        let fy = factors[0];
+        let nuc = |n: &Option<String>| {
+            n.as_deref()
+                .map_or_else(String::new, |s| one_line(s).trim_start_matches('^').to_string())
+        };
+        let _ = writeln!(out, "##NTUPLES= {dtype}");
+        let _ = writeln!(out, "##VAR_NAME= FREQUENCY1, FREQUENCY2, SPECTRUM");
+        let _ = writeln!(out, "##SYMBOL= F1, F2, Y");
+        let _ = writeln!(
+            out,
+            "##.NUCLEUS= {}, {}",
+            nuc(&ax.nuclei.0),
+            nuc(&ax.nuclei.1)
+        );
+        let _ = writeln!(out, "##VAR_TYPE= INDEPENDENT, INDEPENDENT, DEPENDENT");
+        let form = match opts.encoding {
+            JcampEncoding::Difdup => "ASDF",
+            JcampEncoding::Affn => "AFFN",
+        };
+        let _ = writeln!(out, "##VAR_FORM= AFFN, AFFN, {form}");
+        let _ = writeln!(out, "##VAR_DIM= {n1}, {n}, {n}");
+        let _ = writeln!(out, "##UNITS= HZ, HZ, ARBITRARY UNITS");
+        let _ = writeln!(
+            out,
+            "##FACTOR= {}, {}, {}",
+            hnum(f1_factor),
+            hnum(x_factor),
+            hnum(fy)
+        );
+        let _ = writeln!(
+            out,
+            "##FIRST= {}, {}, {}",
+            hnum(f1_first),
+            hnum(x_first),
+            hnum(y.first().map_or(0.0, |v| *v as f64 * fy))
+        );
+        let _ = writeln!(
+            out,
+            "##LAST= {}, {}, {}",
+            hnum(f1_last),
+            hnum(x_last),
+            hnum(y.last().map_or(0.0, |v| *v as f64 * fy))
+        );
+        if !y.is_empty() {
+            let _ = writeln!(
+                out,
+                "##MIN= {}, {}, {}",
+                hnum(f1_first.min(f1_last)),
+                hnum(x_first.min(x_last)),
+                hnum(y_min as f64 * fy)
+            );
+            let _ = writeln!(
+                out,
+                "##MAX= {}, {}, {}",
+                hnum(f1_first.max(f1_last)),
+                hnum(x_first.max(x_last)),
+                hnum(y_max as f64 * fy)
+            );
+        }
+        for (si, &s) in sweeps.iter().enumerate() {
+            let _ = writeln!(out, "##PAGE= F1={}", hnum(f1_at(s)));
+            let _ = writeln!(out, "##NPOINTS= {n}");
+            let _ = writeln!(out, "##DATA TABLE= (F2++(Y..Y)), PROFILE");
+            write_table(&mut out, &y[si * n_us..(si + 1) * n_us]);
+            pages += 1;
+        }
+        let _ = writeln!(out, "##END NTUPLES= {dtype}");
+    } else if ntuples {
         let names: Vec<String> = t
             .channels
             .iter()
@@ -911,7 +1091,7 @@ pub fn export_jcamp(
         input: input.display().to_string(),
         output: output.display().to_string(),
         format: crate::JCAMP_FORMAT_ID.into(),
-        jcamp_version: "5.01".into(),
+        jcamp_version: if two_d.is_some() { "6.0" } else { "5.01" }.into(),
         data_type: dtype,
         data_class: if ntuples { "NTUPLES" } else { "XYDATA" }.into(),
         trace: ti,
