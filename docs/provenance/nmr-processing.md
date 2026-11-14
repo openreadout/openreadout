@@ -90,3 +90,45 @@ DIGMOD 1 and 3, FCOR 0/0.5/1, forward and backward linear prediction.
 
 **Corpus files used:** every Bruker experiment on disk with `pdata/1/procs` (nmrXiv and the two Zenodo bundles, about 290), comparing `procs` SF with `acqus` BF1. **Prior art consulted:** none.
 **What was measured:** the referencing correction (SF − BF1)/SF is within 0.2 ppm of 0 in most experiments and 0.44 to 1.41 ppm (either sign) in 20. An FID processed without `procs` can only take BF1 as 0 ppm, so its shifts are off by that much. The FID processing now says so in a note when no `procs` gives SF.
+
+## 2026-11-14 — 2D and nD peak picking and volume integration (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** the processed 2D spectra (`pdata/<n>/2rr`) of the development corpus:
+`bmrb-bmse000008-cosy-topspin21-500`, `bmrb-bmse001104-hsqc-topspin32-500`,
+`bmrb-bmse001250-hmbc-topspin35-500`, `bmrb-bmse000797-jres-topspin21-700` (BMRB, public
+domain), and the COSY, TOCSY, NOESY, ROESY, HSQC (edited and plain), HMQC and HMBC experiments
+of nmrXiv `s38`, `s49`, `s279`, `s314`, `s501`, `s572`, `s736`, `s740`, `s753`, `s853`,
+`s1247`, `s1407`, `s1517`, `s1617`, `s2331` (CC-BY-4.0, CC0, CC-BY-SA-4.0); the 1H, 13C and
+DEPT-135 spectra and TopSpin peak lists (`pdata/1/peaklist.xml`) of the same samples; the
+MestReNova JCAMP-DX export of the `nmrxiv-s200` limonene HSQC (`nD NMR SPECTRUM`).
+
+**Prior art consulted:**
+- nmrglue (BSD-3-Clause, https://github.com/jjhelmus/nmrglue): the documentation of
+  `analysis.peakpick.pick` (thresholds, `msep`, the `connected` and `thres` segmentations) and
+  `analysis.linesh`, read as documentation; `peakpick.pick` is also run as a black box on the
+  same spectra for comparison.
+- Harris, Becker, Cabral de Menezes, Goodfellow, Granger, *NMR nomenclature: nuclear spin
+  properties and conventions for chemical shifts*, Pure Appl. Chem. 73 (2001) 1795–1818: the
+  frequency ratios Ξ that convert an indirect axis given in Hz to ppm when a file gives only the
+  observe frequency.
+- Rousseeuw and Croux, *Alternatives to the median absolute deviation*, J. Am. Stat. Assoc. 88
+  (1993) 1273–1283 (MAD scale estimate, as in the 1D picker).
+- Vincent and Soille, *Watersheds in digital spaces*, IEEE Trans. Pattern Anal. Mach. Intell. 13
+  (1991) 583–598 (flooding from the maxima down to assign each point to one peak).
+
+**What was inferred from what:**
+- TopSpin's `peaklist.xml` is a plain XML file in the public data sets (data, not vendor code).
+  Its fields were read from the 1D lists of the development corpus: `PeakList1D`/`Peak1D` with
+  attributes `F1` (the shift in ppm), `intensity` and `type`. None of the development data sets
+  with a processed 2D spectrum stores a 2D list, so the 2D picks are compared with nmrglue's
+  picker and with chemistry: the 1D lists of the same sample give the 1H and 13C shifts that
+  HSQC cross peaks must land on.
+- Matrix layout: the Bruker reader returns one sweep per F1 row (3D: row j of plane k is sweep
+  j + n·k), so sweeps in order form a row-major matrix with the indirect dimensions slowest;
+  the axes come from `extra.indirect_axes` and `extra.axis`. JCAMP-DX `nD NMR SPECTRUM` pages
+  are rows keyed by F1 in Hz (`extra.sweep_axis`); `##.NUCLEUS=` names the nucleus of each
+  dimension and the F1 frequency follows from the observe frequency and the ratio Ξ.
+- The carrier of a quadrature (States, echo-antiecho) indirect dimension sits at point n/2 of
+  the processed axis, the same convention as the direct dimension (checked on `nmrxiv-s279-23`:
+  the axis at point 512 is 82.0 ppm, the carrier computed from `SFO1` of `acqu2s` and `SF` of
+  `proc2s`). Axial peaks sit there.
