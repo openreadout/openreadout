@@ -76,6 +76,7 @@ mod kinetic;
 mod lanes;
 mod marks;
 mod nmr;
+pub mod nmr2d;
 mod objects;
 mod options;
 mod overlay;
@@ -493,6 +494,13 @@ pub struct PreviewRequest {
     pub channels: Vec<u32>,
     /// Trace preview: only this window of the x axis, `[a, b]` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
     pub x_range: Option<[f64; 2]>,
+    /// 2D NMR: only this window of F1 (the vertical axis), `[a, b]` in its unit (ppm; Hz for a
+    /// J-resolved spectrum). `x_range` is the F2 window.
+    pub y_range: Option<[f64; 2]>,
+    /// 2D NMR: the lowest contour, in noise SDs (default [`nmr2d::DEFAULT_CONTOUR_FLOOR`]).
+    pub contour_floor: Option<f64>,
+    /// 2D NMR: contour levels of each sign (default [`nmr2d::DEFAULT_CONTOUR_LEVELS`]).
+    pub contour_levels: Option<u32>,
     /// Spectrum preview: run index (default 0).
     pub run: Option<u32>,
     /// Spectrum preview: zero-based spectrum index (default 0).
@@ -555,6 +563,9 @@ impl Default for PreviewRequest {
             sweep: None,
             channels: Vec::new(),
             x_range: None,
+            y_range: None,
+            contour_floor: None,
+            contour_levels: None,
             run: None,
             spectrum: None,
             scan: None,
@@ -1095,7 +1106,8 @@ pub struct PreviewOutput {
     pub path: String,
     /// Format id of the input file.
     pub format: String,
-    /// `image`, `trace`, `chromatogram`, `spectrum`, `plate` or `events`.
+    /// `image`, `trace`, `chromatogram`, `spectrum`, `plate`, `events` or `nmr_2d` (a 2D NMR
+    /// contour plot).
     pub kind: String,
     /// The written file (CLI); absent when the preview is returned inline (MCP image content).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1130,6 +1142,9 @@ pub struct PreviewOutput {
     /// Present for event previews.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub events: Option<EventsPreview>,
+    /// Present for 2D NMR contour plots.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub nmr_2d: Option<nmr2d::Nmr2dPreview>,
     /// Plot panels (traces, spectra, plate curves, events): where each sits in the picture and
     /// the data range it shows.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -1448,12 +1463,14 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         .then(|| objects::show_counted_channel(info, req, &mut out.notes))
         .flatten();
     let req = objects_req.as_ref().unwrap_or(req);
-    // An NMR data set shows its spectrum unless the caller picked a trace, sweep or channel.
-    let nmr_default = k == "trace"
-        && info.format.family == "nmr"
-        && req.trace.is_none()
-        && req.sweep.is_none()
-        && req.channels.is_empty();
+    // An NMR data set shows its spectrum: a 2D one as contours, a row or slice of it (or a 1D
+    // spectrum) as the spectrum a chemist reads. An FID picked by trace, or channels, are drawn
+    // as stored.
+    let nmr_view = if k == "trace" && info.format.family == "nmr" && req.channels.is_empty() {
+        nmr_view_of(ds, info, req)
+    } else {
+        NmrView::None
+    };
     // A sequencing data set shows its own view (run quality, a read's squiggle, read lengths)
     // unless the caller picked a table, a trace other than a nanopore read, or channels.
     let seq_default = info.format.family == "sequencing"
@@ -1461,7 +1478,9 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         && req.columns.is_empty()
         && req.channels.is_empty()
         && req.trace.is_none_or(|t| t == 0);
-    let mut drawn = if nmr_default {
+    let mut drawn = if let NmrView::Contours(t) = nmr_view {
+        Some(nmr2d::render(ds, info, req, t, &mut out)?)
+    } else if nmr_view == NmrView::Spectrum {
         nmr::render(ds, info, req, &mut out)
     } else if seq_default {
         sequencing::render(ds, info, req, &mut out)
@@ -1541,6 +1560,52 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         figure,
         output: out,
     })
+}
+
+/// How an NMR data set is drawn.
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum NmrView {
+    /// As any trace.
+    None,
+    /// A 1D spectrum (or a row or slice of a 2D one).
+    Spectrum,
+    /// A 2D spectrum as contours (its trace, or the first one).
+    Contours(Option<u32>),
+}
+
+fn nmr_view_of(ds: &dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> NmrView {
+    use openreadout_signal::nmr::source::{is_fid, spectrum_axis};
+    use openreadout_signal::nmr::source2d::matrix_layout;
+    let vendor = ds.vendor_metadata().unwrap_or(serde_json::Value::Null);
+    let matrix = |t: &openreadout_core::model::TraceInfo| matrix_layout(t, &vendor).is_some();
+    match (req.trace, req.sweep) {
+        (None, None) if info.traces.iter().any(matrix) => NmrView::Contours(None),
+        (None, _) => NmrView::Spectrum,
+        (Some(i), sweep) => match info.traces.iter().find(|t| t.index == i) {
+            Some(t) if sweep.is_none() && matrix(t) => NmrView::Contours(Some(i)),
+            Some(t) if !is_fid(t) && spectrum_axis(t).is_some() => NmrView::Spectrum,
+            _ => NmrView::None,
+        },
+    }
+}
+
+/// The picture `analyze nmr-peaks --plot` draws: the spectrum with its peaks labelled, or the
+/// contour plot of a 2D spectrum with its cross peaks marked and numbered (as `peaks[]`
+/// counts them), `width` px wide.
+pub fn nmr_peaks_figure(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    report: &openreadout_signal::nmr::NmrPeaksReport,
+    width: u32,
+) -> Result<Figure> {
+    match report {
+        openreadout_signal::nmr::NmrPeaksReport::CrossPeaks(r) => {
+            nmr2d::report_figure(ds, info, r, width, false)
+        }
+        openreadout_signal::nmr::NmrPeaksReport::Spectrum(r) => {
+            nmr::report_figure(ds, info, r, width)
+        }
+    }
 }
 
 /// A one-line description of the picture (the SVG title).

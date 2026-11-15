@@ -110,6 +110,8 @@ pub struct ExportArgs {
     pub run: u32,
     #[command(flatten)]
     pub process: nmr::ProcessArgs,
+    #[command(flatten)]
+    pub slice: nmr::SliceArgs,
     #[arg(long)]
     pub json: bool,
 }
@@ -268,6 +270,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
         plate,
         run,
         process,
+        slice,
         json,
     } = a;
     let req = ExportRequest {
@@ -296,6 +299,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
         run,
         spectra,
         process,
+        slice,
         plate,
     };
     batch::run(
@@ -312,6 +316,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
 }
 
 /// Arguments of `export` after parsing.
+#[derive(Clone)]
 struct ExportRequest {
     /// `None`: the default for the file's kind (see `--format`).
     to: Option<ExportFormat>,
@@ -339,6 +344,8 @@ struct ExportRequest {
     spectra: bool,
     /// NMR: FID traces exported as processed spectra.
     process: nmr::ProcessArgs,
+    /// NMR: a slice or projection of a 2D spectrum exported as a trace.
+    slice: nmr::SliceArgs,
     /// Multi-well plates: wells, partial copies, one OME-TIFF per field.
     plate: plate::PlateExportArgs,
 }
@@ -742,7 +749,16 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         return openreadout_qpcr::export_rdml(&qds, &output, req.overwrite).map(ExportOutput::Rdml);
     }
     let (det, ds) = reg.open(file)?;
-    let mut ds = req.process.wrap(ds)?;
+    let ds = req.process.wrap(ds)?;
+    let (mut ds, view) = nmr_view(ds, req, requested)?;
+    let adjusted;
+    let req = match view {
+        Some(r) => {
+            adjusted = r;
+            &adjusted
+        }
+        None => req,
+    };
     if requested == Some(ExportFormat::Asm) {
         if det.format_id != openreadout_plate::FORMAT_ID {
             return Err(Error::unsupported(
@@ -967,6 +983,70 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Nifti => unreachable!("handled above"),
     }
     .map(ExportOutput::Image)
+}
+
+/// NMR: what replaces the stored trace in a trace export. `--slice` exports that slice of a
+/// 2D spectrum as a trace; a CSV, Parquet or Arrow export of a stored 2D/3D spectrum (named
+/// with `--trace`, or the data set's first one when no trace, table or sweep is named) writes
+/// its matrix in long form, one row per point with both shift axes (`f1_ppm`, `f2_ppm`,
+/// `intensity`).
+fn nmr_view(
+    ds: Box<dyn openreadout_core::Dataset>,
+    req: &ExportRequest,
+    to: Option<ExportFormat>,
+) -> Result<(Box<dyn openreadout_core::Dataset>, Option<ExportRequest>)> {
+    if req.slice.slice.is_some() {
+        let (ds, t) = req.slice.wrap(ds, req.csv.trace)?;
+        let mut r = req.clone();
+        r.csv.trace = t;
+        r.csv.sweep = None;
+        return Ok((ds, Some(r)));
+    }
+    let info = ds.info()?;
+    if info.format.family != "nmr"
+        || req.csv.table.is_some()
+        || req.csv.sweep.is_some()
+        || req.process.process
+        || !matches!(
+            to,
+            None | Some(
+                ExportFormat::Csv
+                    | ExportFormat::Parquet
+                    | ExportFormat::Arrow
+                    | ExportFormat::Jcamp
+            )
+        )
+    {
+        return Ok((ds, None));
+    }
+    let vendor = ds.vendor_metadata().unwrap_or(serde_json::Value::Null);
+    let is_matrix = |t: &&openreadout_core::model::TraceInfo| {
+        openreadout_signal::nmr::source2d::matrix_layout(t, &vendor).is_some()
+    };
+    let matrix = match req.csv.trace {
+        Some(i) => info.traces.iter().filter(|t| t.index == i).find(is_matrix),
+        None => info.traces.iter().find(is_matrix),
+    };
+    let Some(t) = matrix.map(|t| t.index) else {
+        return Ok((ds, None));
+    };
+    if to == Some(ExportFormat::Jcamp) {
+        // SEAM (JCAMP-DX nD writer): an `nD NMR SPECTRUM` NTUPLES writer belongs with the
+        // JCAMP-DX reader in openreadout-nmr (`export_jcamp`); until it exists the matrix goes
+        // to the tabular formats only.
+        return Err(Error::unsupported(
+            "export",
+            format!("JCAMP-DX export of the 2D spectrum (trace {t})"),
+            "Writing JCAMP-DX nD NMR SPECTRUM files is not available yet. Export the matrix with `--format parquet` or `--format csv` (one row per point, both shift axes), or one row as a 1-D JCAMP-DX spectrum with `--trace N --sweep M --format jcamp`.",
+        ));
+    }
+    let w =
+        openreadout_signal::nmr::NmrMatrixDataset::new(ds, Some(t), &[])?.with_matrix_table()?;
+    let mut r = req.clone();
+    r.csv.table = w.matrix_table();
+    r.csv.trace = None;
+    r.csv.sweep = None;
+    Ok((Box::new(w), Some(r)))
 }
 
 /// `--rows A-B` parsed, when given.
