@@ -331,7 +331,8 @@ interferograms (64 complex points) predicted with 32–60 coefficients. Differen
 all-point correlation of the 15N and some HSQC spectra are in the noise: TopSpin's `abs1`/`abs2`
 baseline corrections after the transform are not reproduced.
 
-Reported, not asserted: J-resolved `bmse000797` (`tilt` and `symj` after the transform),
+Reported, not asserted: J-resolved `bmse000797` (with `tilt`: 0.938; TopSpin's `abs1` in F1
+after `tilt` and `symj` is not reproduced),
 non-uniformly sampled sets (s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15: the
 zero-filled grid correlates 0.30–0.97 with TopSpin's reconstruction), solvent-filtered sets
 (`BC_mod` qfil: s314/20, /200, `nmrtools/15n-trosy-ts3`) and solid-state MQMAS
@@ -339,11 +340,16 @@ zero-filled grid correlates 0.30–0.97 with TopSpin's reconstruction), solvent-
 is the diffusion-transformed spectrum, so the first F2 row processed here is compared with its sum
 over F1.
 
-Other vendors (no vendor-processed 2D data are public in the corpus): Varian `nmrglue-agilent-2d`
-(States) and `-2d-tppi` (TPPI), JEOL `nmrxiv-s200` COSY/HSQC/HMBC, figshare HMBC, Zenodo HSQC,
-13 Spinsolve `data.2d` series; checked for finite values, the encoding, the series list and (COSY)
-a diagonal. Bruker 3D `nmrglue-bruker-3d` (no `acqu3s`; dimensions given by hand) is processed
-as a smoke test.
+Other vendors (no vendor-processed 2D data are public in the corpus):
+
+| data set | encoding | against | result |
+| --- | --- | --- | --- |
+| `nmrglue-agilent-2d` | States (`phase` = 1,2) | nmrglue pipeline after the NMRPipe script of the test data (black box), magnitudes binned to 64 × 256 | correlation 0.83 with both axes the same way round (0.57 with F1 reversed); the windows differ |
+| `nmrglue-agilent-2d-tppi` | TPPI (`phase` = 3) | the same, with the script's `REV` after the F1 transform | 0.86 (0.05 reversed) |
+| `nmrxiv-s200` COSY (JEOL, `real_complex`) | `Complex`, magnitude | the diagonal | 44 % of the intensity within 2 % of the width of the diagonal (3 % with F1 conjugated) |
+| JEOL `nmrxiv-s200` HSQC/HMBC, `figshare29098781-hmbc`, `zenodo19692590-discomycin-hsqc` | States / `Complex` | – | finite, axes 170…0 ppm (13C) and 225…−25 ppm; the s200 HSQC/HMBC are NUS (processed as measured, with a note) |
+| 13 Spinsolve `data.2d` (T1, T2, SLIC, PGSTE) | `Series` | – | every row kept; delays from `minDelay`/`maxDelay`/`nrSteps` where present (9 of 13) |
+| `nmrglue-bruker-3d` (HNCA, no `acqu3s`) | States × States, dimensions from the test data's conversion script | – | 128 × 128 × 2048 spectrum, finite, 64 s (corpus build) |
 
 ## Known gaps
 
