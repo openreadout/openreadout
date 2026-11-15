@@ -132,3 +132,37 @@ MestReNova JCAMP-DX export of the `nmrxiv-s200` limonene HSQC (`nD NMR SPECTRUM`
   the processed axis, the same convention as the direct dimension (checked on `nmrxiv-s279-23`:
   the axis at point 512 is 82.0 ppm, the carrier computed from `SFO1` of `acqu2s` and `SF` of
   `proc2s`). Axial peaks sit there.
+- Noise. The run estimate (25th percentile of per-run MADs, as in 1D) is 0.89 of the true SD
+  on simulated Gaussian noise, hence the factor 1.12. On the corpus 2D spectra, 1.4826 · MAD
+  of whole rows and columns is 1.1–1.4 times the run estimate, and the local maxima of the
+  noise reach far higher than Gaussian noise of that SD would give: the 90th percentile of
+  the maxima's heights is 2.6–2.7 noise SDs on conventionally sampled HSQCs (`s49-6`,
+  `s736-4`, `s1247-13`; 2.4–2.5 by simulation) but 4.7–9 on non-uniformly sampled ones
+  (`s279-23`, `s853-5`, `s853-6`), where a fixed 10 SD threshold returned 1000 or more cross
+  peaks scattered over empty regions. The noise level from the maxima (90th percentile / its
+  Gaussian value, simulated for white and correlated noise, 2D, 3D and magnitude data) fixes
+  this; `s853-5` went from 2972 cross peaks to 46.
+- Magnitude data (no negative values, e.g. `cosygpppqf`): the Rayleigh noise floor's robust
+  spread is 0.66 of the noise on a line (simulation), hence the factor 1.52.
+- Isolated single-point maxima 13–40 noise SDs high, all with the same shape, cover the
+  non-uniformly sampled `s753-21` HSQC (855 of 1000 cross peaks had a footprint of one or two
+  points); a resolved line always has neighbours above the footprint floor, so cross peaks need
+  `min_footprint_points` (3) footprint points. Elsewhere the rule removed under 1 % of the
+  symmetric or list-matched cross peaks.
+- t1 streaks: in COSY spectra with dynamic range above 10⁵ (`s853-7`, `s1407-COSY`), maxima on
+  the F1 line of a much taller peak, without a mirror image, are t1 noise or truncation
+  wiggles; on the JCAMP-DX limonene HSQC the F1 lines of the strong peaks carry alternating
+  lobes 1.6 ppm apart. Flagged `ridge` when 20 times weaker than the peak on their line.
+- Symmetric partners: COSY multiplets split into maxima differently on the two sides of the
+  diagonal (F1 has coarser digital resolution), so centre-to-mirror distances reached 30–130
+  Hz; pairing a cross peak with the one whose footprint holds its mirror image raised the
+  partner rate of the non-symmetrized homonuclear spectra from 0.6 to above 0.8.
+- JCAMP-DX `nD NMR SPECTRUM` (`nmrxiv-s200` HSQC, MestReNova 14): the `##PAGE= F1=` values
+  run from 17094.6 to −17105.1 Hz in steps of 33.43 Hz, twice the step of the declared range
+  (`##FIRST=` 17094.6, `##LAST=` −5.28 Hz over `##VAR_DIM=` 1024). The declared range puts the
+  limonene methyl, methylene and olefinic cross peaks on the 13C lines of the same sample's
+  13C spectrum (within 0.45 ppm, the referencing difference); the page values put them 150 ppm
+  off. The declared range is used, and a note says when the pages disagree.
+- Tuning: experiments were split in two halves by a hash of their id; thresholds were chosen
+  on the first half (symmetric partners of non-symmetrized homonuclear spectra, HSQC cross
+  peaks on 1D-list lines) and the tables report both halves.
