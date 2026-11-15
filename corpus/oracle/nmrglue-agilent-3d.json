@@ -32027,7 +32027,13 @@
      "solvent": "none",
      "scans": 2
     }
-   }
+   },
+   "nmrglue_find_shape": [
+    128,
+    88,
+    1250
+   ],
+   "nmrglue_torder": "o"
   }
  ],
  "file_header": {

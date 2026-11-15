@@ -87,7 +87,9 @@ One trace, `name` `fid` (time domain) or `spectrum`; `sample_rate_hz` = `X_SWEEP
 | `acquired_at` | `ACTUAL_START_TIME` | seconds since 1990-01-01T00:00:00Z (inferred: agrees with the `sample.last shimmed` local times of three sites in three time zones after the zone offset) |
 | `created_on`, `revised_on` | header dates | |
 | `data_format`, `axis_types`, `stored_points`, `sample_type`, `byte_order` | header | |
-| `indirect_dimensions[]` | `Y_DOMAIN`, `Y_POINTS`, `Y_SWEEP`, `Y_FREQ`, header | `{dimension, nucleus, domain, points, spectral_width_hz, spectrometer_frequency_mhz, encoding, axis}` |
+| `indirect_dimensions[]` | `Y_DOMAIN`, `Y_POINTS`, `Y_SWEEP`, `Y_FREQ`, `Y_OFFSET`, header | `{dimension, nucleus, domain, points, spectral_width_hz, spectrometer_frequency_mhz, offset_ppm, encoding (the axis type: real, complex, real_complex, …), stored_points, valid_range [start, stop], unit (s, ms, ppm, Hz as the header's unit gives it), time_domain, axis}` |
+| `sweep_order` | layout | 2D only: `{rows, sweeps_per_row, sections, rule}`: rows of the indirect dimension (valid range), one sweep per row (`real`, `real_complex`) or two (`complex`/`complex`: sweep 2*k* holds sections 0 and 1 of row *k*, sweep 2*k* + 1 sections 2 and 3, the indirect imaginary part) |
+| `processing_command`, `processing_list` | context section `process => "…";` | the processing the experiment ran, as written (`2d_cosy_abs.list`, `process_interactive_global 'std_carbon_autophase.list':`), and the `.list` name in it; the list's steps are not stored in the file |
 
 ## Experiment facts (`Dataset::experiment`)
 
@@ -106,6 +108,9 @@ One trace, `name` `fid` (time domain) or `spectrum`; `sample_rate_hz` = `X_SWEEP
 | `nmrxiv-s200-hsqc-jdf`, `-hmbc-jdf` | 5.3.1 | `two_d` complex/complex, 1024 × 32, 2048 × 64 | NUS, listed Y axis |
 | `nmrxiv-s1243-esinica` | 5.3.3 | `one_d` complex, 35000 | 500 MHz |
 | `nmrxiv-s908-zgig30`, `-aihe0` | 6.0 | `one_d` complex, 131072 stored, 104858 valid | processed 29Si spectra in ppm |
+| `dataverse-egt2ih-gallic-cosy-jdf` | 5.1.2 | `two_d` float32 real_complex/real_complex, 5120 × 512 | 2D COSY FID, `2d_cosy_abs.list`; its MestReNova JCAMP-DX spectrum is `dataverse-egt2ih-gallic-cosy-jdx` (Harvard Dataverse, CC0) |
+
+No public processed 2D `.jdf` (a 2D spectrum saved by Delta) was found, alone or beside its FID; processed 2D files follow the same layout rules, unconfirmed by a file.
 
 ## Vocabulary (every public identifier in `crates/openreadout-nmr/src/jeol_*.rs` must appear here)
 
