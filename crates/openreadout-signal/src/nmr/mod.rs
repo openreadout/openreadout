@@ -8,9 +8,11 @@
 pub mod baseline;
 mod dataset;
 pub mod peaks;
+pub mod peaks2d;
 pub mod phase;
 pub mod process;
 pub mod source;
+pub mod source2d;
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -21,11 +23,16 @@ use openreadout_core::{Dataset, Result};
 pub use baseline::BaselineMode;
 pub use dataset::ProcessedNmrDataset;
 pub use peaks::{Integral, Peak, PeakOptions, integrate, noise_sd, pick_peaks};
+pub use peaks2d::{
+    CrossPeak, CrossPeakOptions, CrossPeakPick, Maximum, PeakFlag, PeakSign, SpectrumContext,
+    VolumeIntegral, annotate, integrate_regions, matrix_noise_sd, pick_cross_peaks,
+};
 pub use process::{
     Apodization, FidParameters, PhaseMode, PpmAxis, ProcessOptions, ProcessingRecord, Spectrum,
     StoredProcessing, process_fid,
 };
 pub use source::SpectrumSource;
+pub use source2d::{MatrixRequest, StoredMatrix, load_matrix};
 
 /// What [`analyze`] should do.
 #[derive(Debug, Clone, Default)]
@@ -246,6 +253,174 @@ pub fn analyze(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Resul
         peaks,
         integrals,
         notes: chosen.notes,
+    })
+}
+
+/// What [`analyze_2d`] should do.
+#[derive(Debug, Clone, Default)]
+pub struct Nmr2dRequest {
+    /// Trace to use (default: the first stored 2D/3D spectrum).
+    pub trace: Option<u32>,
+    /// Peak-picking thresholds; `ranges_ppm` also limits what is read.
+    pub peaks: CrossPeakOptions,
+    /// Integration boxes, one ppm pair per dimension (slowest first).
+    pub integrals: Vec<Vec<(f64, f64)>>,
+    /// Normalisation of the integrals: (box index, value).
+    pub integral_reference: Option<(usize, f64)>,
+    /// Refuse to read more points than this (default [`source2d::DEFAULT_MAX_POINTS`]).
+    pub max_points: Option<usize>,
+}
+
+/// Output of 2D/3D peak picking on a stored spectrum.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct Nmr2dReport {
+    /// The input path.
+    pub path: String,
+    /// Format id.
+    pub format: String,
+    /// `processed` (a spectrum the vendor software stored).
+    pub source: String,
+    /// Trace used (see `info` → `traces[]`).
+    pub trace: u32,
+    /// Its name.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub trace_name: Option<String>,
+    /// Nucleus per dimension, slowest first (F1, F2), when known.
+    pub nuclei: Vec<Option<String>>,
+    /// Points per dimension of the whole spectrum.
+    pub shape: Vec<usize>,
+    /// Chemical-shift axis per dimension of the whole spectrum, slowest first.
+    pub axes: Vec<PpmAxis>,
+    /// The two dimensions that observe the same nucleus (diagonal and symmetry annotations).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub homonuclear_dimensions: Option<(usize, usize)>,
+    /// Noise standard deviation the thresholds and `snr` use (same units as `height`): the
+    /// larger of `run_noise_sd` and `maxima_noise_sd`.
+    pub noise_sd: f64,
+    /// Noise SD from runs along the direct dimension.
+    pub run_noise_sd: f64,
+    /// Noise SD implied by the heights of the local maxima (heavy-tailed noise).
+    pub maxima_noise_sd: f64,
+    /// Thresholds used.
+    pub peak_options: CrossPeakOptions,
+    /// Number of cross peaks found.
+    pub peak_count: usize,
+    /// Number of maxima in them.
+    pub maxima_count: usize,
+    /// Maxima left out because they do not stand out from the noise of their row or column.
+    pub ridge_suppressed: usize,
+    /// Cross peaks left out for a footprint smaller than `min_footprint_points`.
+    pub small_footprint_suppressed: usize,
+    /// The tallest positive cross peak (the tallest negative one when there is none).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub main_peak: Option<CrossPeak>,
+    /// Cross peaks, high direct-dimension shift first; `index` is the apex point in the whole
+    /// spectrum.
+    pub peaks: Vec<CrossPeak>,
+    /// Every maximum (with `list_maxima`).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub maxima: Vec<Maximum>,
+    /// Volume integrals of the requested boxes.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub integrals: Vec<VolumeIntegral>,
+    /// Remarks.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub notes: Vec<String>,
+}
+
+/// Pick cross peaks and integrate boxes on a stored 2D/3D spectrum (module docs of
+/// [`peaks2d`] and [`source2d`]).
+pub fn analyze_2d(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &Nmr2dRequest,
+) -> Result<Nmr2dReport> {
+    let m = load_matrix(
+        ds,
+        info,
+        &MatrixRequest {
+            trace: req.trace,
+            ranges_ppm: req.peaks.ranges_ppm.clone(),
+            max_points: req.max_points.unwrap_or(source2d::DEFAULT_MAX_POINTS),
+            ..MatrixRequest::default()
+        },
+    )?;
+    let mut pick = pick_cross_peaks(&m.data, &m.shape, &m.axes, &req.peaks)?;
+    let ctx = SpectrumContext {
+        nuclei: m.nuclei.clone(),
+        carrier_points: m.carrier_points.clone(),
+    };
+    let pair = annotate(&mut pick.peaks, &m.axes, &ctx, &req.peaks);
+    let integrals = integrate_regions(
+        &m.data,
+        &m.shape,
+        &m.axes,
+        &req.integrals,
+        req.integral_reference,
+    )?;
+    let shift = |idx: &mut Vec<usize>| {
+        for (i, o) in idx.iter_mut().zip(&m.offsets) {
+            *i += o;
+        }
+    };
+    for p in &mut pick.peaks {
+        shift(&mut p.index);
+    }
+    for x in &mut pick.maxima {
+        shift(&mut x.index);
+    }
+    let main_peak = pick
+        .peaks
+        .iter()
+        .filter(|p| p.height > 0.0)
+        .max_by(|a, b| a.height.total_cmp(&b.height))
+        .or_else(|| {
+            pick.peaks
+                .iter()
+                .max_by(|a, b| a.height.abs().total_cmp(&b.height.abs()))
+        })
+        .cloned();
+    let axes = m
+        .axes
+        .iter()
+        .zip(&m.offsets)
+        .zip(&m.full_shape)
+        .map(|((a, &o), &n)| PpmAxis {
+            first_ppm: a.ppm(-(o as f64)),
+            size: n,
+            ..*a
+        })
+        .collect();
+    let trace_name = info
+        .traces
+        .iter()
+        .find(|t| t.index == m.trace)
+        .and_then(|t| t.name.clone());
+    let mut notes = m.notes;
+    notes.append(&mut pick.notes);
+    Ok(Nmr2dReport {
+        path: info.path.clone(),
+        format: info.format.id.clone(),
+        source: "processed".into(),
+        trace: m.trace,
+        trace_name,
+        nuclei: m.nuclei,
+        shape: m.full_shape,
+        axes,
+        homonuclear_dimensions: pair,
+        noise_sd: pick.noise_sd,
+        run_noise_sd: pick.run_noise_sd,
+        maxima_noise_sd: pick.maxima_noise_sd,
+        peak_options: req.peaks.clone(),
+        peak_count: pick.peaks.len(),
+        maxima_count: pick.maxima_count,
+        ridge_suppressed: pick.ridge_suppressed,
+        small_footprint_suppressed: pick.small_footprint_suppressed,
+        main_peak,
+        peaks: pick.peaks,
+        maxima: pick.maxima,
+        integrals,
+        notes,
     })
 }
 

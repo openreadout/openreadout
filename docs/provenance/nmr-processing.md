@@ -90,3 +90,79 @@ DIGMOD 1 and 3, FCOR 0/0.5/1, forward and backward linear prediction.
 
 **Corpus files used:** every Bruker experiment on disk with `pdata/1/procs` (nmrXiv and the two Zenodo bundles, about 290), comparing `procs` SF with `acqus` BF1. **Prior art consulted:** none.
 **What was measured:** the referencing correction (SF − BF1)/SF is within 0.2 ppm of 0 in most experiments and 0.44 to 1.41 ppm (either sign) in 20. An FID processed without `procs` can only take BF1 as 0 ppm, so its shifts are off by that much. The FID processing now says so in a note when no `procs` gives SF.
+
+## 2026-11-14 — 2D and nD peak picking and volume integration (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** the processed 2D spectra (`pdata/<n>/2rr`) of the development corpus:
+`bmrb-bmse000008-cosy-topspin21-500`, `bmrb-bmse001104-hsqc-topspin32-500`,
+`bmrb-bmse001250-hmbc-topspin35-500`, `bmrb-bmse000797-jres-topspin21-700` (BMRB, public
+domain), and the COSY, TOCSY, NOESY, ROESY, HSQC (edited and plain), HMQC and HMBC experiments
+of nmrXiv `s38`, `s49`, `s279`, `s314`, `s501`, `s572`, `s736`, `s740`, `s753`, `s853`,
+`s1247`, `s1407`, `s1517`, `s1617`, `s2331` (CC-BY-4.0, CC0, CC-BY-SA-4.0); the 1H, 13C and
+DEPT-135 spectra and TopSpin peak lists (`pdata/1/peaklist.xml`) of the same samples; the
+MestReNova JCAMP-DX export of the `nmrxiv-s200` limonene HSQC (`nD NMR SPECTRUM`).
+
+**Prior art consulted:**
+- nmrglue (BSD-3-Clause, https://github.com/jjhelmus/nmrglue): the documentation of
+  `analysis.peakpick.pick` (thresholds, `msep`, the `connected` and `thres` segmentations) and
+  `analysis.linesh`, read as documentation; `peakpick.pick` is also run as a black box on the
+  same spectra for comparison.
+- Harris, Becker, Cabral de Menezes, Goodfellow, Granger, *NMR nomenclature: nuclear spin
+  properties and conventions for chemical shifts*, Pure Appl. Chem. 73 (2001) 1795–1818: the
+  frequency ratios Ξ that convert an indirect axis given in Hz to ppm when a file gives only the
+  observe frequency.
+- Rousseeuw and Croux, *Alternatives to the median absolute deviation*, J. Am. Stat. Assoc. 88
+  (1993) 1273–1283 (MAD scale estimate, as in the 1D picker).
+- Vincent and Soille, *Watersheds in digital spaces*, IEEE Trans. Pattern Anal. Mach. Intell. 13
+  (1991) 583–598 (flooding from the maxima down to assign each point to one peak).
+
+**What was inferred from what:**
+- TopSpin's `peaklist.xml` is a plain XML file in the public data sets (data, not vendor code).
+  Its fields were read from the 1D lists of the development corpus: `PeakList1D`/`Peak1D` with
+  attributes `F1` (the shift in ppm), `intensity` and `type`. None of the development data sets
+  with a processed 2D spectrum stores a 2D list, so the 2D picks are compared with nmrglue's
+  picker and with chemistry: the 1D lists of the same sample give the 1H and 13C shifts that
+  HSQC cross peaks must land on.
+- Matrix layout: the Bruker reader returns one sweep per F1 row (3D: row j of plane k is sweep
+  j + n·k), so sweeps in order form a row-major matrix with the indirect dimensions slowest;
+  the axes come from `extra.indirect_axes` and `extra.axis`. JCAMP-DX `nD NMR SPECTRUM` pages
+  are rows keyed by F1 in Hz (`extra.sweep_axis`); `##.NUCLEUS=` names the nucleus of each
+  dimension and the F1 frequency follows from the observe frequency and the ratio Ξ.
+- The carrier of a quadrature (States, echo-antiecho) indirect dimension sits at point n/2 of
+  the processed axis, the same convention as the direct dimension (checked on `nmrxiv-s279-23`:
+  the axis at point 512 is 82.0 ppm, the carrier computed from `SFO1` of `acqu2s` and `SF` of
+  `proc2s`). Axial peaks sit there.
+- Noise. The run estimate (25th percentile of per-run MADs, as in 1D) is 0.89 of the true SD
+  on simulated Gaussian noise, hence the factor 1.12. On the corpus 2D spectra, 1.4826 · MAD
+  of whole rows and columns is 1.1–1.4 times the run estimate, and the local maxima of the
+  noise reach far higher than Gaussian noise of that SD would give: the 90th percentile of
+  the maxima's heights is 2.6–2.7 noise SDs on conventionally sampled HSQCs (`s49-6`,
+  `s736-4`, `s1247-13`; 2.4–2.5 by simulation) but 4.7–9 on non-uniformly sampled ones
+  (`s279-23`, `s853-5`, `s853-6`), where a fixed 10 SD threshold returned 1000 or more cross
+  peaks scattered over empty regions. The noise level from the maxima (90th percentile / its
+  Gaussian value, simulated for white and correlated noise, 2D, 3D and magnitude data) fixes
+  this; `s853-5` went from 2972 cross peaks to 46.
+- Magnitude data (no negative values, e.g. `cosygpppqf`): the Rayleigh noise floor's robust
+  spread is 0.66 of the noise on a line (simulation), hence the factor 1.52.
+- Isolated single-point maxima 13–40 noise SDs high, all with the same shape, cover the
+  non-uniformly sampled `s753-21` HSQC (855 of 1000 cross peaks had a footprint of one or two
+  points); a resolved line always has neighbours above the footprint floor, so cross peaks need
+  `min_footprint_points` (3) footprint points. Elsewhere the rule removed under 1 % of the
+  symmetric or list-matched cross peaks.
+- t1 streaks: in COSY spectra with dynamic range above 10⁵ (`s853-7`, `s1407-COSY`), maxima on
+  the F1 line of a much taller peak, without a mirror image, are t1 noise or truncation
+  wiggles; on the JCAMP-DX limonene HSQC the F1 lines of the strong peaks carry alternating
+  lobes 1.6 ppm apart. Flagged `ridge` when 20 times weaker than the peak on their line.
+- Symmetric partners: COSY multiplets split into maxima differently on the two sides of the
+  diagonal (F1 has coarser digital resolution), so centre-to-mirror distances reached 30–130
+  Hz; pairing a cross peak with the one whose footprint holds its mirror image raised the
+  partner rate of the non-symmetrized homonuclear spectra from 0.6 to above 0.8.
+- JCAMP-DX `nD NMR SPECTRUM` (`nmrxiv-s200` HSQC, MestReNova 14): the `##PAGE= F1=` values
+  run from 17094.6 to −17105.1 Hz in steps of 33.43 Hz, twice the step of the declared range
+  (`##FIRST=` 17094.6, `##LAST=` −5.28 Hz over `##VAR_DIM=` 1024). The declared range puts the
+  limonene methyl, methylene and olefinic cross peaks on the 13C lines of the same sample's
+  13C spectrum (within 0.45 ppm, the referencing difference); the page values put them 150 ppm
+  off. The declared range is used, and a note says when the pages disagree.
+- Tuning: experiments were split in two halves by a hash of their id; thresholds were chosen
+  on the first half (symmetric partners of non-symmetrized homonuclear spectra, HSQC cross
+  peaks on 1D-list lines) and the tables report both halves.

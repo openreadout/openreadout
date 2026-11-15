@@ -238,3 +238,171 @@ CARBON_01: `proc='lp'`, `ddrtc` 364 µs) need a first-order phase beyond the aut
 | `NmrReport`, `path`, `format`, `trace_name`, `processing`, `noise_sd`, `peak_options`, `peak_count`, `main_peak` | `analyze nmr-peaks` output |
 | `ChosenSpectrum`, `spectrum`, `load`, `analyze` | the spectrum used and the analysis entry points |
 | `ProcessedNmrDataset`, `record` | dataset wrapper behind `--process` |
+
+## 2D and nD peak picking and volume integration (`peaks2d`, `source2d`, `analyze_2d`)
+
+`analyze_2d` reads a stored 2D or 3D spectrum and returns its cross peaks, their volumes and
+the integrals of boxes the caller gives. The picker itself (`pick_cross_peaks`) takes a
+row-major matrix, its shape and one `PpmAxis` per dimension (slowest first: F1, F2), so it
+works on any matrix, including spectra transformed here later.
+
+### Reading the matrix (`load_matrix`)
+
+| reader | trace | axes and nuclei |
+| --- | --- | --- |
+| Bruker | `pdata/<n>` with `extra.shape` (`2rr`, `3rrr`) | `extra.indirect_axes`, `extra.axis`; `AXNUC` of `procs`, `proc2s`, `proc3s` |
+| JEOL | processed spectrum with `extra.indirect_dimensions[]` | `indirect_dimensions[0].axis`; with twice as many sweeps as F1 points the even (real) rows |
+| JCAMP-DX | `nD NMR SPECTRUM` NTUPLES, pages keyed by F1 | F1 page values in Hz, converted with the observe frequency × Ξ(F1)/Ξ(F2) (IUPAC 2001 frequency ratios, `FREQUENCY_RATIOS`; a note says so); nuclei from `##.NUCLEUS=` |
+
+Rows are read one at a time with a column window, and only the rows and columns inside
+`ranges_ppm` (plus 8 points of margin) are read. The matrix is one `Vec<f64>`, the only full
+copy: picking keeps the maxima and the footprint points (a hash map of the points above the
+footprint floor that are connected to a peak). A crop larger than `max_points` (default 2²⁸,
+2 GiB) is refused with exit 6 and a hint to narrow the ranges. The carrier of each indirect
+dimension is at point n/2 of its full axis.
+
+### Method (`pick_cross_peaks`, `annotate`, `integrate_regions`)
+
+- **Noise SD** (`matrix_noise_sd`): runs of 64 points along the direct dimension (at most
+  16384, spread evenly), a least-squares line removed from each, 1.4826 · MAD of the residual,
+  25th percentile over runs (as in 1D) × 1.12 (`NOISE_P25_SCALE`, which makes it unbiased on
+  Gaussian noise); exactly constant runs are skipped. Data with no negative values are treated
+  as magnitude mode: the Rayleigh noise floor spreads 0.66 times as much as the noise on a line,
+  so the SD is multiplied by 1.52 (`MAGNITUDE_NOISE_SCALE`, a note says so). **Noise from the
+  maxima**: the 90th percentile of the heights of all local maxima of |value| (nearly all of
+  them noise), divided by its value for Gaussian noise (`MAXIMA_P90_RATIO` 2.5 in 2D, +0.4
+  per extra dimension, `MAXIMA_P90_MAGNITUDE` 2.95), gives `maxima_noise_sd`. Spectra with
+  non-uniform sampling, t1 noise or truncation have noise with heavier tails than Gaussian
+  (up to 3.9 times the run estimate in the corpus); `noise_sd`, which the thresholds and `snr`
+  use, is the larger of `run_noise_sd` and `maxima_noise_sd`. **Line noise**:
+  1.4826 · MAD of every line along each dimension (each column and row of a 2D spectrum). The
+  local noise of a point is the largest of the noise SD and the noise of its lines.
+- **Maxima**: at least as high as all 3ᴺ − 1 neighbours, off the edge, height ≥ `min_snr` ×
+  noise SD and ≥ `min_height_fraction` × the largest |value| in range, prominence along every
+  dimension ≥ `min_prominence_snr` × noise SD (the 1D rule along each line). Negative maxima the
+  same way on the negated data (`include_negative`). Maxima below `min_local_snr` × their local
+  noise (prominence scaled the same way) are on a noise ridge (t1 noise, a solvent column):
+  counted in `ridge_suppressed` and left out, or kept and flagged `ridge` with
+  `keep_ridge_peaks`. Kept maxima on a noisy line (≥ `ridge_factor` × the noise SD) that stand
+  less than 2 × `min_snr` above its noise are flagged `ridge`.
+- **Position and width**: per dimension, a parabola through the maximum and its two
+  neighbours; full width at half height per dimension by walking along that dimension (`None`
+  when an overlapping line keeps the signal from reaching half height).
+- **Cross peaks**: maxima of either sign within `group_gap_hz` (or `group_gap_points`) of each
+  other in every dimension are one cross peak (single linkage). `ppm` is the |height|-weighted
+  mean of the members, `apex_ppm` the tallest member's position, `maxima` the member count,
+  `sign` positive, negative or mixed (antiphase). `list_maxima` also returns every member
+  (`maxima[]`, each with the index of its cross peak).
+- **Footprint and volume**: flooding from the members, highest point first, through face
+  neighbours of the same sign at ≥ `footprint_snr` × local noise; where two floods meet the
+  first to arrive keeps the point. `volume` = Σ values × Π |step_ppm| (intensity·ppmᴺ),
+  `absolute_volume` the same with |values| (antiphase cross peaks have volume near 0),
+  `footprint_points`, `footprint_ppm` (extent per dimension). Cross peaks with fewer than
+  `min_footprint_points` footprint points are isolated spikes (reconstruction artefacts of
+  non-uniformly sampled data): left out and counted in `small_footprint_suppressed`.
+- **Annotations**: when two dimensions observe the same nucleus over overlapping ranges
+  (`homonuclear_pair`), cross peaks within `diagonal_tolerance_hz` (at least 1.5 points) of the
+  diagonal are `diagonal`; each other cross peak is paired with the nearest cross peak at its
+  mirror image within `symmetry_tolerance_hz` (at least 2 points): `symmetric_partner` (index
+  in `peaks`) and `partner_height_ratio`, else `partner_missing`. `axial`: within one point of
+  an indirect dimension's carrier. `ridge` also marks a cross peak on the indirect-dimension
+  line (same direct position within the stronger peak's half width) of a cross peak
+  `ridge_ratio` times taller: t1 noise and truncation wiggles; on homonuclear spectra a cross
+  peak with a symmetric partner is not marked. Flags never remove a peak.
+- **Integrals** (`integrate_regions`): Σ values in a ppm box per dimension × the cell size;
+  `normalized` rescales to the reference box (default box 0 = 1), as the 1D integrals.
+
+Defaults (`CrossPeakOptions`):
+
+| option | default | meaning |
+| --- | --- | --- |
+| `min_snr` | 10 | height in noise SDs |
+| `min_local_snr` | 6 | height in local-noise units (row and column noise) |
+| `min_height_fraction` | 0 | fraction of the largest value |
+| `min_prominence_snr` | 5 | prominence along each dimension in noise SDs |
+| `include_negative` | true | negative peaks too |
+| `ranges_ppm` | whole spectrum | one optional ppm range per dimension |
+| `min_footprint_points` | 3 | smallest footprint of a cross peak |
+| `max_peaks` | 1000 | tallest cross peaks kept |
+| `group_gap_hz`, `group_gap_points` | 15 Hz, 1.5 points | maxima closer than this in every dimension form one cross peak |
+| `footprint_snr` | 3 | footprint floor in local-noise units |
+| `ridge_factor` | 3 | a line with noise ≥ 3 × the noise SD is a ridge |
+| `ridge_ratio` | 20 | a cross peak on the F1 line of one 20 × taller is flagged `ridge` |
+| `keep_ridge_peaks` | false | list maxima on ridges (flagged) |
+| `diagonal_tolerance_hz`, `symmetry_tolerance_hz` | 15 Hz, 25 Hz | homonuclear annotations |
+| `list_maxima` | false | return the member maxima too |
+
+### Validation (2026-11-14, `crates/openreadout-corpus-tests/tests/nmr_2d_peaks.rs`)
+
+Every processed Bruker 2D spectrum of the development corpus (74 `pdata/<n>/2rr`;
+the 12 DOSY spectra are read and picked but not scored), split in two halves
+by a hash of the id: the defaults were chosen on the `tune` half. None of these data sets
+stores a TopSpin 2D peak list, so the picks are compared with nmrglue and with chemistry:
+
+- **nmrglue** (`analysis.peakpick.pick`, run as a black box at the same absolute threshold,
+  `tests/corpus/nmr2d_oracle/`): *maxima precision*, our maxima that are nmrglue maxima
+  (within 1.5 points); *maxima recall*, nmrglue's 300 tallest maxima that we report (we leave
+  out maxima without prominence and maxima on t1 ridges on purpose, so this is below 1 where
+  ridges are strong); *regions*, nmrglue's `connected` regions that hold one of our maxima or
+  footprints. The largest distance between a matched pair is 0.5 point (our interpolated
+  position against nmrglue's grid point) on most spectra and 1.44 points at most.
+- **Symmetry** (COSY, TOCSY, NOESY, ROESY not symmetrized in processing): off-diagonal cross
+  peaks with a symmetric partner.
+- **HSQC/HMQC against 1D lists** (5 data sets whose 1H and 13C spectra carry TopSpin peak
+  lists): of the 10 tallest cross peaks, those on a 1H line and a 13C line after removing the
+  referencing offset between the experiments (the median distance of the 12 tallest to their
+  nearest 13C line).
+
+| experiment type | set | spectra | cross peaks | nmrglue maxima recall | maxima precision | nmrglue regions | symmetric partners | tallest HSQC peaks on 1D lines |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| COSY | test | 6 | 1169 | 898/1800 = 0.50 | 829/829 = 1.00 | 520/1677 = 0.31 | 391/486 = 0.80 | – |
+| COSY | tune | 7 | 3010 | 1470/1910 = 0.77 | 1347/1347 = 1.00 | 1031/1746 = 0.59 | 250/328 = 0.76 | – |
+| J-resolved | test | 1 | 25 | 122/300 = 0.41 | 111/111 = 1.00 | 237/300 = 0.79 | – | – |
+| HMBC | test | 5 | 406 | 708/740 = 0.96 | 642/642 = 1.00 | 704/709 = 0.99 | – | – |
+| HMBC | tune | 10 | 1756 | 1214/1455 = 0.83 | 1089/1089 = 1.00 | 1056/1138 = 0.93 | – | – |
+| NOESY | test | 3 | 1295 | 640/900 = 0.71 | 592/592 = 1.00 | 569/900 = 0.63 | 624/656 = 0.95 | – |
+| NOESY | tune | 4 | 905 | 565/1200 = 0.47 | 532/532 = 1.00 | 448/836 = 0.54 | 353/371 = 0.95 | – |
+| HSQC, HMQC | test | 11 | 803 | 793/1350 = 0.59 | 727/727 = 1.00 | 817/906 = 0.90 | – | 20/20 = 1.00 |
+| HSQC, HMQC | tune | 5 | 365 | 338/574 = 0.59 | 315/315 = 1.00 | 293/494 = 0.59 | – | 26/30 = 0.87 |
+| other (solid state, no pulse program) | test | 2 | 41 | 53/94 = 0.56 | 49/49 = 1.00 | 43/45 = 0.96 | – | – |
+| other (solid state, no pulse program) | tune | 2 | 62 | 86/282 = 0.30 | 85/85 = 1.00 | 49/127 = 0.39 | – | – |
+| ROESY | tune | 4 | 1037 | 650/1200 = 0.54 | 603/603 = 1.00 | 499/988 = 0.51 | 440/461 = 0.95 | – |
+| TOCSY | test | 1 | 161 | 71/300 = 0.24 | 63/63 = 1.00 | 113/300 = 0.38 | 70/76 = 0.92 | – |
+| TOCSY | tune | 1 | 161 | 71/300 = 0.24 | 63/63 = 1.00 | 113/300 = 0.38 | 70/76 = 0.92 | – |
+
+Further checks: the JCAMP-DX `nD NMR SPECTRUM` export of the `nmrxiv-s200` limonene HSQC
+gives a cross peak for each of limonene's 8 protonated carbons, and 10 of its 11 cross peaks
+with S/N ≥ 100 lie on a line of the same sample's 1H and 13C spectra (both JCAMP-DX, picked
+with the 1D picker). On non-uniformly sampled HSQCs the noise level from the maxima is 2 to
+3.9 times the run estimate; without it `nmrxiv-s853-5` gave 2972 cross peaks scattered over
+empty regions, with it 46. Synthetic spectra (unit tests) cover Lorentzian and Gaussian lines,
+negative and antiphase peaks, overlapping multiplets, t1 ridges, single-point spikes,
+magnitude-mode noise, diagonal symmetry, axial peaks, volumes and 3D.
+
+**Performance** (corpus profile, Apple M-series): 0.02–2.1 s per spectrum (1024 × 1024: about
+0.1–0.4 s; 2048 × 2048: 0.7–2.1 s; 1024 × 32768 DOSY: about 5 s), the matrix plus footprints in
+memory.
+
+**Known gaps (2D):** J-resolved and DOSY spectra are picked as any other 2D spectrum (F1 is
+not a chemical shift: J-resolved F1 is in Hz around 0, the DOSY F1 axis is a diffusion axis
+the reader labels in ppm). Spectra processed with symmetrization (TopSpin `syma`) are trivially
+symmetric. The streak and ridge flags mark likely artefacts but can mark a real weak cross peak
+on the line of a strong one. Cross peaks closer than `group_gap_hz` in every dimension are
+merged, so distinct correlations of nearly degenerate protons can come out as one cross peak
+with several maxima.
+
+### Vocabulary of the 2D code (`nmr/peaks2d.rs`, `nmr/source2d.rs`, `nmr/mod.rs`)
+
+| identifier | meaning |
+| --- | --- |
+| `CrossPeakOptions`, `min_snr`, `min_local_snr`, `ridge_ratio`, `min_footprint_points`, `min_height_fraction`, `min_prominence_snr`, `include_negative`, `ranges_ppm`, `max_peaks`, `group_gap_hz`, `group_gap_points`, `footprint_snr`, `ridge_factor`, `keep_ridge_peaks`, `diagonal_tolerance_hz`, `symmetry_tolerance_hz`, `list_maxima` | 2D picking options |
+| `CrossPeak`, `ppm`, `hz`, `apex_ppm`, `index`, `height`, `sign`, `snr`, `local_snr`, `width_hz`, `width_ppm`, `maxima`, `volume`, `absolute_volume`, `footprint_points`, `footprint_ppm`, `flags`, `symmetric_partner`, `partner_height_ratio`, `has` | one cross peak |
+| `PeakSign` { `Positive`, `Negative`, `Mixed` } | sign of a cross peak's members |
+| `PeakFlag` { `Diagonal`, `PartnerMissing`, `Ridge`, `Axial` } | annotations |
+| `Maximum`, `peak` | one member maximum |
+| `CrossPeakPick`, `maxima_count`, `ridge_suppressed`, `small_footprint_suppressed`, `run_noise_sd`, `maxima_noise_sd`, `MAXIMA_P90_RATIO`, `MAXIMA_P90_PER_DIMENSION`, `MAXIMA_P90_MAGNITUDE`, `pick_cross_peaks`, `matrix_noise_sd`, `NOISE_P25_SCALE`, `MAGNITUDE_NOISE_SCALE`, `MAX_FOOTPRINT_POINTS`, `MAX_DIMENSIONS` | picking result, entry point and limits |
+| `SpectrumContext`, `nuclei`, `carrier_points`, `homonuclear_pair`, `annotate` | annotations |
+| `VolumeIntegral`, `integrate_regions` | box integrals (`ranges_ppm`, `value`, `normalized`, `points`) |
+| `MatrixLayout`, `sweep_stride`, `matrix_layout`, `choose_matrix_trace`, `MatrixRequest`, `margin_points`, `max_points`, `DEFAULT_MAX_POINTS`, `StoredMatrix`, `data`, `full_shape`, `offsets`, `load_matrix` | reading a stored 2D/3D spectrum |
+| `FREQUENCY_RATIOS`, `frequency_ratio`, `normalize_nucleus` | nuclei and their frequency ratios Ξ |
+| `Nmr2dRequest`, `Nmr2dReport`, `homonuclear_dimensions`, `analyze_2d` | the 2D analysis entry point and its report (`path`, `format`, `source`, `trace`, `trace_name`, `nuclei`, `shape`, `axes`, `noise_sd`, `peak_options`, `peak_count`, `main_peak`, `peaks`, `integrals`, `notes`) |
