@@ -6,6 +6,22 @@
 //! [`SpectrumNd`]. [`crate::nmr::indirect::load_processed_nd`] does all of that from a
 //! `Dataset`, with the parameters and stored processing the vendor software kept.
 //!
+//! ```no_run
+//! use openreadout_core::Dataset;
+//! use openreadout_signal::nmr::{self, NdOptions, Projection};
+//!
+//! /// `ds`: an opened NMR data set (e.g. a Bruker experiment), trace 0 its `ser`.
+//! fn hsqc(ds: &mut dyn Dataset) -> openreadout_core::Result<()> {
+//!     let info = ds.info()?;
+//!     let s = nmr::load_processed_nd(ds, &info, 0, &NdOptions::default())?;
+//!     let (n1, n2) = (s.shape[0], s.shape[1]); // F1 rows, F2 columns
+//!     let f2_projection = s.projection(1, Projection::Skyline);
+//!     let row = s.trace_at_ppm(1, &[120.0]); // the F2 trace at F1 = 120 ppm
+//!     let _ = (n1, n2, f2_projection, row, &s.record.notes);
+//!     Ok(())
+//! }
+//! ```
+//!
 //! **Layout.** Indirect dimensions are listed fastest-varying first, as the readers list them
 //! (`extra.indirect_dimensions`: Bruker `acqu2s` then `acqu3s`): row `r` of the input is at
 //! `r = i₁ + R₁·(i₂ + R₂·…)` with `iₖ` the row index along indirect dimension `k` and `Rₖ` its
@@ -1025,6 +1041,33 @@ pub fn process_nd(
             p0: 0.0,
             p1: 0.0,
         };
+    }
+    if dopt.phase == PhaseMode::Default
+        && pc.mode == "stored"
+        && first_enc == Some(Encoding::Series)
+    {
+        // the rows of a series are 1D spectra: stored phases that leave much of the strongest
+        // row negative do not fit the data (as for 1D, `PhaseMode::Default` of process_fid)
+        let v = direct_reference(&cube, first_enc);
+        let neg = phase::negative_fraction(&v, pc.p0, pc.p1);
+        if neg > crate::nmr::process::STORED_PHASE_MAX_NEGATIVE {
+            let (a, b) = phase::autophase(&v);
+            let neg_auto = phase::negative_fraction(&v, a, b);
+            if neg_auto < neg / 2.0 {
+                rec.notes.push(format!(
+                    "stored phases {:.2}/{:.2} deg leave {:.0} % of the strongest row negative; automatic phases ({:.0} %) used instead",
+                    pc.p0,
+                    pc.p1,
+                    100.0 * neg,
+                    100.0 * neg_auto
+                ));
+                pc = PhaseChoice {
+                    mode: "auto",
+                    p0: a,
+                    p1: b,
+                };
+            }
+        }
     }
     let mut magnitude_bits: usize = 0;
     let mut power = false;

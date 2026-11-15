@@ -330,8 +330,12 @@ baseline corrections after the transform are not reproduced.
 Reported, not asserted: non-uniformly sampled sets (s279/23, /24, s753/21, s853/5–7, s1407
 HSQC/HMBC, s1517/13–15: the zero-filled grid correlates 0.30–0.97 with TopSpin's
 reconstruction) and solvent-filtered sets (`BC_mod` qfil: s314/20, /200: 0.78). DOSY
-(`nmrxiv-s519/310–321`): TopSpin's `2rr` is the diffusion-transformed spectrum, so the first F2
-row processed here is compared with its sum over F1. No J-resolved experiment of the manifest has
+(`nmrxiv-s519/310–321`, 12 series of 64 rows with `difflist`): TopSpin's `2rr` there is the
+diffusion-transformed display (F1 in log D, fitted lines only), so its sum over F1 is only a
+rough reference (signal correlation with the first row 0.30–0.99); the test asserts that the
+tallest line of the first row is positive and weaker in the last row. On 11 of the 12 the stored
+F2 phase (−17.4°) leaves the rows inverted; as in 1D, the default then uses automatic phases
+(with a note). No J-resolved experiment of the manifest has
 TopSpin's spectrum, so the direction of `tilt` is not verified.
 
 Other vendors (no vendor-processed 2D data are public in the corpus):

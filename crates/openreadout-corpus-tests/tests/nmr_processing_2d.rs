@@ -262,6 +262,23 @@ fn bruker_2d_matches_topspin() {
                 }
             }
             theirs = sum;
+            // TopSpin's DOSY spectrum holds fitted lines, not the F2 rows, so the comparison
+            // is reported; asserted: the tallest line of the first row is positive (phased) and
+            // weaker in the last row (attenuated by the gradient)
+            let w = s.shape[1];
+            let tall = (0..w)
+                .max_by(|&a, &b| s.real[a].abs().total_cmp(&s.real[b].abs()))
+                .unwrap_or(0);
+            let (first, last) = (s.real[tall], s.real[(s.shape[0] - 1) * w + tall]);
+            println!(
+                "{id}: series {:?}, tallest line row 0 {first:.3e}, last row {last:.3e}",
+                s.series.as_ref().map(|x| (&x.name, x.values.len()))
+            );
+            if !(first > 0.0 && last.abs() < first) {
+                failures.push(format!(
+                    "{id}: series rows not attenuated ({first} → {last})"
+                ));
+            }
         } else {
             for i in 0..n1 {
                 ours.extend_from_slice(&s.real[i * s.shape[1]..i * s.shape[1] + n2]);
@@ -366,7 +383,6 @@ fn bruker_2d_matches_topspin() {
     for r in &rows {
         let mut need = match r.category {
             "plain" => 0.999,
-            "series" => 0.99,
             "lp" => 0.99,
             _ => continue,
         };
