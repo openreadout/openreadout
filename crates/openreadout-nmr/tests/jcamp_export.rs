@@ -251,3 +251,95 @@ fn peak_tables_and_arbitrary_floats() {
     }
     assert!(r.max_abs_error <= r.factors[0] / 2.0);
 }
+
+/// A Bruker experiment with a processed 2D spectrum: `2rr` and `2ii` of 8 × 6 int32 values
+/// (row k, point i = 100k + i − 50), untiled.
+fn bruker_2d(dir: &Path) -> std::path::PathBuf {
+    let exp = dir.join("2");
+    let pdata = exp.join("pdata/1");
+    std::fs::create_dir_all(&pdata).unwrap();
+    let p = |pairs: &[(&str, &str)]| {
+        let mut s = String::from("##TITLE= Parameter file, TopSpin 4.1.0\n");
+        for (k, v) in pairs {
+            s.push_str(&format!("##${k}= {v}\n"));
+        }
+        s + "##END=\n"
+    };
+    std::fs::write(
+        exp.join("acqus"),
+        p(&[("TD", "16"), ("AQ_mod", "3"), ("SW_h", "4000"), ("NUC1", "<1H>"), ("SFO1", "400.13")]),
+    )
+    .unwrap();
+    std::fs::write(exp.join("acqu2s"), p(&[("TD", "6"), ("NUC1", "<13C>"), ("FnMODE", "6")])).unwrap();
+    std::fs::write(exp.join("ser"), vec![0u8; 6 * 1024]).unwrap();
+    let procs = [
+        ("procs", "8", "10", "4000", "400.13", "<1H>"),
+        ("proc2s", "6", "150", "12000", "100.6", "<13C>"),
+    ];
+    for (name, si, off, sw, sf, nuc) in procs {
+        std::fs::write(
+            pdata.join(name),
+            p(&[("SI", si), ("XDIM", si), ("OFFSET", off), ("SW_p", sw), ("SF", sf), ("AXNUC", nuc), ("NC_proc", "0")]),
+        )
+        .unwrap();
+    }
+    let mut rr = Vec::new();
+    for k in 0..6i32 {
+        for i in 0..8i32 {
+            rr.extend_from_slice(&(100 * k + i - 50).to_le_bytes());
+        }
+    }
+    std::fs::write(pdata.join("2rr"), &rr).unwrap();
+    std::fs::write(pdata.join("2ii"), &rr).unwrap();
+    exp
+}
+
+#[test]
+fn bruker_2d_spectrum_is_an_nd_nmr_spectrum() {
+    let dir = tempfile::tempdir().unwrap();
+    let exp = bruker_2d(dir.path());
+    let mut ds = openreadout_nmr::BrukerDataset::open(&exp).unwrap();
+    let out = dir.path().join("hsqc.jdx");
+    let r = export_jcamp(&mut ds, &exp, &out, &opts(1)).unwrap();
+    assert_eq!(r.data_type, "nD NMR SPECTRUM");
+    assert_eq!(r.jcamp_version, "6.0");
+    assert_eq!((r.pages, r.channels_written), (6, 1));
+    assert!(r.exact && r.verified);
+    let text = std::fs::read_to_string(&out).unwrap();
+    assert!(text.contains("##NUM DIM= 2"));
+    assert!(text.contains("##.NUCLEUS= 13C, 1H"));
+    assert!(text.contains("##DATA TABLE= (F2++(Y..Y)), PROFILE"));
+    // F1 pages in Hz: OFFSET 150 ppm × 100.6 MHz, then steps of −12000/6 Hz
+    let pages: Vec<f64> = text
+        .lines()
+        .filter_map(|l| l.strip_prefix("##PAGE= F1="))
+        .map(|v| v.parse().unwrap())
+        .collect();
+    assert_eq!(pages.len(), 6);
+    let close = |a: f64, b: f64| (a - b).abs() <= 1e-9 * b.abs();
+    assert!(close(pages[0], 15090.0) && close(pages[1], 13090.0), "{pages:?}");
+    let mut back = JcampReader.open(&out).unwrap();
+    let info = back.info().unwrap();
+    let t = &info.traces[0];
+    assert_eq!((t.sample_count, t.sweep_count), (8, 6));
+    let d = &t.extra["indirect_dimensions"][0];
+    assert_eq!(d["nucleus"], "13C");
+    assert!(close(d["axis"]["first"].as_f64().unwrap(), 15090.0));
+    assert_eq!(d["page_values_agree"], true);
+    assert!(close(t.extra["axis"]["first"].as_f64().unwrap(), 4001.3));
+    for k in 0..6u32 {
+        let tr = back.read_trace(0, k, 0, 8).unwrap();
+        let want: Vec<f64> = (0..8).map(|i| f64::from(100 * k as i32 + i - 50)).collect();
+        assert_eq!(tr.channels[0], want);
+    }
+    // the re-read 2D file exports as nD again
+    let again = dir.path().join("again.jdx");
+    let r2 = export_jcamp(back.as_mut(), &out, &again, &opts(0)).unwrap();
+    assert_eq!((r2.data_type.as_str(), r2.pages), ("nD NMR SPECTRUM", 6));
+    // one row alone stays a 1D spectrum
+    let mut o = opts(1);
+    o.sweep = Some(2);
+    let one = dir.path().join("row.jdx");
+    let r3 = export_jcamp(&mut ds, &exp, &one, &o).unwrap();
+    assert_eq!(r3.data_type, "NMR SPECTRUM");
+}

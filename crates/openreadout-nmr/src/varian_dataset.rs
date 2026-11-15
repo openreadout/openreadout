@@ -1108,6 +1108,27 @@ impl Dataset for VarianDataset {
                 }
             }
         }
+        if let Some(pf) = &self.phasefile {
+            match &pf.sample_type {
+                Err(e) => r.push(Finding::error(
+                    "bad_header",
+                    format!("{} header: {e}", pf.name),
+                )),
+                Ok(_) if pf.len < pf.header.declared_len() => r.push(
+                    Finding::error(
+                        "truncated",
+                        format!(
+                            "{} has {} bytes; its header declares {}",
+                            pf.name,
+                            pf.len,
+                            pf.header.declared_len()
+                        ),
+                    )
+                    .at(pf.len),
+                ),
+                Ok(_) => {}
+            }
+        }
         if h.points % 2 != 0 {
             r.push(Finding::error(
                 "odd_points",
@@ -1124,6 +1145,33 @@ impl Dataset for VarianDataset {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn sweep_loops_follow_the_array_order() {
+        let pp = parse_procpar(
+            b"ni 7 1 1e9 0 1 2 1 0 1 64\n1 160\n0\n\
+ni2 7 1 1e9 0 1 2 1 0 1 64\n1 32\n0\n\
+ni3 7 1 1e9 0 1 2 1 0 1 64\n1 1\n0\n\
+phase 7 1 9 0 1 2 1 0 1 64\n2 1 2\n0\n\
+phase2 7 1 9 0 1 2 1 0 1 64\n2 1 2\n0\n\
+nt 7 1 9 0 1 2 1 0 1 64\n3 4 8 16\n0\n\
+array 4 2 256 0 0 2 1 0 1 64\n1 \"phase2,phase,nt\"\n0\n",
+        );
+        let loops = sweep_loops(&pp);
+        let names: Vec<&str> = loops.iter().map(|l| l.parameter.as_str()).collect();
+        assert_eq!(names, ["ni2", "ni", "phase2", "phase", "nt"]);
+        let sizes: Vec<u64> = loops.iter().map(|l| l.size).collect();
+        assert_eq!(sizes, [32, 160, 2, 2, 3]);
+        assert_eq!(loops[2].dimension, Some(3));
+        assert_eq!((loops[4].kind, loops[4].dimension), ("array", None));
+        // a one-value phase parameter is no loop
+        let pp = parse_procpar(
+            b"ni 7 1 1e9 0 1 2 1 0 1 64\n1 600\n0\nphase 7 1 9 0 1 2 1 0 1 64\n1 3\n0\narray 4 2 256 0 0 2 1 0 1 64\n1 \"phase\"\n0\n",
+        );
+        let loops = sweep_loops(&pp);
+        assert_eq!(loops.len(), 1);
+        assert_eq!(loops[0].size, 600);
+    }
 
     #[test]
     fn names_and_times() {

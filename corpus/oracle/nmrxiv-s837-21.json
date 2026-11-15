@@ -1110,6 +1110,18 @@
    ],
    "xxh3": "598a2b5955f80bd3aef90a08843a3789",
    "reader": "nmrglue 0.12 bruker.read_nuslist"
+  },
+  {
+   "index": 1,
+   "event_count": 512,
+   "parameter_names": [
+    "value"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "ebe0f3f6a31bc25ec46f8fc819be4dbd",
+   "reader": "oracle/gen.py text parse of the list file"
   }
  ]
 }

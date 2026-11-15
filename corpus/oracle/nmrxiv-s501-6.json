@@ -62233,5 +62233,19 @@
    "ppm_first": 9.339314,
    "ppm_last": -2.666978609921731
   }
+ ],
+ "tables": [
+  {
+   "index": 0,
+   "event_count": 512,
+   "parameter_names": [
+    "value"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "ebe0f3f6a31bc25ec46f8fc819be4dbd",
+   "reader": "oracle/gen.py text parse of the list file"
+  }
  ]
 }

@@ -3587,6 +3587,13 @@ def bruker(p: Path) -> dict:
     arr = np.asarray(data)
     rows = arr.reshape(-1, arr.shape[-1]) if arr.ndim > 1 else arr.reshape(1, -1)
     scale = 2.0 ** int(ac.get("NC", 0))
+    # nmrglue shapes ser by its size; when the file holds more rows than the acquNs TD declare
+    # and not a whole multiple of them, the declared rows are the data (the reader's rule)
+    tds = [int(dic[f]["TD"]) for f in ("acqu2s", "acqu3s", "acqu4s") if f in dic and int(dic[f].get("TD", 0)) > 0]
+    declared = int(np.prod(tds)) if tds else 0
+    if declared and len(rows) > declared and len(rows) % declared != 0:
+        notes.append(f"nmrglue read {len(rows)} rows from the file size; the acquNs TD declare {declared}, which are compared")
+        rows = rows[:declared]
     sweeps = []
     for r in rows:
         r = r[:n]
@@ -3668,8 +3675,51 @@ def bruker(p: Path) -> dict:
                           "dtypes": ["uint32"] * cols.shape[1],
                           "xxh3": xxhash.xxh3_128_hexdigest(np.ascontiguousarray(cols.T).tobytes()),
                           "reader": f"nmrglue {ng.__version__} bruker.read_nuslist"}]
+    # list files (vdlist, lists/vp/<VPLIST>, fq1list, ...): nmrglue does not read them, so this is a
+    # plain parse of the text (one value per line, a first line that is not a number is a header,
+    # n/u/m/s after the numbers of time lists), the rule docs/formats/bruker-nmr.md states
+    tables = out.get("tables", [])
+    for l in _bruker_lists(p, ac):
+        cols = np.asarray(l, dtype="<f8")
+        tables.append({"index": len(tables), "event_count": int(cols.size), "parameter_names": ["value"],
+                       "dtypes": ["float64"], "xxh3": xxhash.xxh3_128_hexdigest(cols.tobytes()),
+                       "reader": "oracle/gen.py text parse of the list file"})
+    if tables:
+        out["tables"] = tables
     if notes:
         out["notes"] = notes
+    return out
+
+_BRUKER_LISTS = [("vdlist", "VDLIST", "vd"), ("vclist", "VCLIST", "vc"), ("vplist", "VPLIST", "vp"),
+                 ("valist", "VALIST", "va"), ("vtlist", "VTLIST", "vt")] + \
+                [(f"fq{k}list", f"FQ{k}LIST", "f1") for k in range(1, 9)] + [("difflist", None, "diff")]
+
+def _bruker_lists(p: Path, acqus: dict) -> list:
+    """The values of each list file of an experiment, in the reader's order."""
+    out = []
+    for kind, param, folder in _BRUKER_LISTS:
+        named = str(acqus.get(param, "") if param else "").strip().strip("<>").strip()
+        cands = [p / kind] + ([p / "lists" / folder / named] if named and "/" not in named and named not in (".", "..") else [])
+        f = next((c for c in cands if c.is_file()), None)
+        if f is None:
+            continue
+        vals, header = [], None
+        timed = kind in ("vdlist", "vplist")
+        for line in f.read_bytes().decode("latin-1").splitlines():
+            t = line.strip()
+            if not t:
+                continue
+            m = re.fullmatch(r"([-+0-9.eE]+)\s*([a-zA-Z]*)", t)
+            div = {"": 1.0, "s": 1.0, "m": 1e3, "u": 1e6, "n": 1e9}.get(m.group(2)) if m else None
+            if m and (m.group(2) == "" or timed) and div is not None:
+                try:
+                    vals.append(float(m.group(1)) / div)
+                    continue
+                except ValueError:
+                    pass
+            if not vals and header is None:
+                header = t
+        out.append(vals)
     return out
 
 def _is_varian_dir(p: Path) -> bool:
