@@ -410,8 +410,7 @@ impl SpectrumNd {
 
     /// The value at `index` (one entry per axis), if inside.
     pub fn get(&self, index: &[usize]) -> Option<f64> {
-        if index.len() != self.shape.len() || index.iter().zip(&self.shape).any(|(i, n)| i >= n)
-        {
+        if index.len() != self.shape.len() || index.iter().zip(&self.shape).any(|(i, n)| i >= n) {
             return None;
         }
         let off: usize = index.iter().zip(self.strides()).map(|(i, s)| i * s).sum();
@@ -598,7 +597,11 @@ fn fft_ordered(x: &[Complex], n: usize) -> Result<Vec<Complex>> {
 }
 
 fn phase_lane(re: &mut [f64], im: &mut [f64], p0: f64, p1: f64) {
-    let mut s: Vec<Complex> = re.iter().zip(im.iter()).map(|(a, b)| Complex::new(*a, *b)).collect();
+    let mut s: Vec<Complex> = re
+        .iter()
+        .zip(im.iter())
+        .map(|(a, b)| Complex::new(*a, *b))
+        .collect();
     phase::apply_phase(&mut s, p0, p1);
     for ((a, b), v) in re.iter_mut().zip(im.iter_mut()).zip(s) {
         *a = v.re;
@@ -620,7 +623,9 @@ fn choose_phase(
     label: &str,
     auto: &mut dyn FnMut() -> (f64, f64),
 ) -> Result<PhaseChoice> {
-    let stored_phases = stored.phase0_deg.map(|p0| (p0, stored.phase1_deg.unwrap_or(0.0)));
+    let stored_phases = stored
+        .phase0_deg
+        .map(|p0| (p0, stored.phase1_deg.unwrap_or(0.0)));
     let usable = stored_phases.filter(|(a, b)| {
         a.is_finite() && b.is_finite() && (stored.spectrum_stored || *a != 0.0 || *b != 0.0)
     });
@@ -813,7 +818,9 @@ fn direct_reference(cube: &Cube, enc: Option<Encoding>) -> Vec<Complex> {
                 .max_by(|&a, &b| {
                     let e = |r: usize| -> f64 {
                         (0..n2)
-                            .map(|j| cube.comps[0][r * n2 + j].abs() + cube.comps[1][r * n2 + j].abs())
+                            .map(|j| {
+                                cube.comps[0][r * n2 + j].abs() + cube.comps[1][r * n2 + j].abs()
+                            })
                             .sum()
                     };
                     e(a).total_cmp(&e(b))
@@ -868,9 +875,7 @@ pub fn process_nd(
         if d.rows == 0 {
             return Err(bad(format!("indirect dimension {} has no rows", k + 1)));
         }
-        if enc[k].is_fourier()
-            && !(d.spectral_width_hz.is_finite() && d.spectral_width_hz > 0.0)
-        {
+        if enc[k].is_fourier() && !(d.spectral_width_hz.is_finite() && d.spectral_width_hz > 0.0) {
             return Err(bad(format!(
                 "indirect dimension {} has no spectral width",
                 k + 1
@@ -1005,10 +1010,14 @@ pub fn process_nd(
         let v = direct_reference(&cube, first_enc);
         phase::autophase(&v)
     };
-    let mut pc = choose_phase(dopt, direct_stored, default_mag_d, "the direct dimension", &mut auto_d)?;
-    if dopt.phase == PhaseMode::Default
-        && pc.mode == "auto"
-        && first_enc == Some(Encoding::Complex)
+    let mut pc = choose_phase(
+        dopt,
+        direct_stored,
+        default_mag_d,
+        "the direct dimension",
+        &mut auto_d,
+    )?;
+    if dopt.phase == PhaseMode::Default && pc.mode == "auto" && first_enc == Some(Encoding::Complex)
     {
         // a magnitude F1 makes the F2 phase irrelevant; skip the search
         pc = PhaseChoice {
@@ -1055,7 +1064,11 @@ pub fn process_nd(
             stored: st.clone(),
             ..DimensionRecord::default()
         };
-        let lp = if e.is_fourier() { lp_choice(o, st) } else { None };
+        let lp = if e.is_fourier() {
+            lp_choice(o, st)
+        } else {
+            None
+        };
         let rows_k = d.rows;
         let used_rows = match lp {
             Some(_) => rows_k,
@@ -1110,7 +1123,9 @@ pub fn process_nd(
             _ => m,
         };
         let n = pow2_size(
-            o.size.or(st.size).unwrap_or_else(|| points.saturating_mul(2)),
+            o.size
+                .or(st.size)
+                .unwrap_or_else(|| points.saturating_mul(2)),
             &drk.label,
             &mut rec.notes,
         )?;
@@ -1293,7 +1308,11 @@ pub fn process_nd(
     // ---- result: magnitude over the flagged dimensions
     let Cube { shape, comps } = cube;
     let mut real = if magnitude_bits != 0 {
-        rec.steps.push(if power { "power".into() } else { "magnitude".into() });
+        rec.steps.push(if power {
+            "power".into()
+        } else {
+            "magnitude".into()
+        });
         let subs: Vec<usize> = (0..ncomp).filter(|m| m & !magnitude_bits == 0).collect();
         (0..comps[0].len())
             .map(|i| {
@@ -1406,7 +1425,8 @@ pub fn process_nd(
             rec.steps.push("symmetrize_j".into());
             components.clear();
         } else {
-            rec.notes.push("tilt needs a 2D Fourier spectrum; not done".into());
+            rec.notes
+                .push("tilt needs a 2D Fourier spectrum; not done".into());
         }
     }
     if opts.symmetrize {
@@ -1520,7 +1540,9 @@ fn strip_last(v: &mut Vec<f64>, shape: &[usize], start: usize, len: usize) {
     *v = out;
 }
 
-const TILT_SIGN: f64 = 1.0;
+/// A line at F1 offset +f (Hz) sits f Hz higher in F2 (towards index 0); the shear moves it
+/// back. Not verified on a vendor spectrum.
+const TILT_SIGN: f64 = -1.0;
 
 /// Shift each F1 row along F2 by its F1 offset from the centre (Hz), by linear interpolation.
 fn tilt(real: &mut [f64], shape: &[usize], axes: &[PpmAxis]) {

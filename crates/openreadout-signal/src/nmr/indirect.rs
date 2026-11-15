@@ -43,8 +43,8 @@ use crate::fft::Complex;
 use crate::nmr::lp::{LinearPrediction, LpDirection};
 use crate::nmr::process::FidParameters;
 use crate::nmr::processnd::{
-    DimensionParameters, Encoding, NdOptions, Series, SpectrumNd, StoredDimension,
-    StoredPhaseMode, process_nd,
+    DimensionParameters, Encoding, NdOptions, Series, SpectrumNd, StoredDimension, StoredPhaseMode,
+    process_nd,
 };
 use crate::nmr::source;
 use crate::nmr::window::Window;
@@ -99,7 +99,10 @@ pub fn bruker_encoding(code: i64) -> Option<Encoding> {
 }
 
 /// A Bruker window from `WDW` and its parameters (`p`: a `procs`-like map).
-pub fn bruker_window(p: &serde_json::Map<String, Value>, notes: &mut Vec<String>) -> Option<Window> {
+pub fn bruker_window(
+    p: &serde_json::Map<String, Value>,
+    notes: &mut Vec<String>,
+) -> Option<Window> {
     let g = |k: &str| num(p.get(k));
     let wdw = g("WDW")? as i64;
     let ssb = g("SSB").unwrap_or(0.0);
@@ -303,12 +306,7 @@ fn extra_dims(t: &TraceInfo) -> Vec<serde_json::Map<String, Value>> {
         .unwrap_or_default()
 }
 
-fn bruker(
-    t: &TraceInfo,
-    vendor: &Value,
-    info: &FileInfo,
-    out: &mut NdParameters,
-) -> Result<()> {
+fn bruker(t: &TraceInfo, vendor: &Value, info: &FileInfo, out: &mut NdParameters) -> Result<()> {
     let acq = vendor.get("acquisition").and_then(Value::as_object);
     let param = |file: &str| -> Option<serde_json::Map<String, Value>> {
         acq?.get(file)?.get("parameters")?.as_object().cloned()
@@ -316,10 +314,17 @@ fn bruker(
     let acqus = param("acqus").unwrap_or_default();
     // the lowest procno with proc2s (else the lowest with procs)
     let pdata = vendor.get("pdata").and_then(Value::as_object);
-    let mut procnos: Vec<String> = pdata.map(|p| p.keys().cloned().collect()).unwrap_or_default();
+    let mut procnos: Vec<String> = pdata
+        .map(|p| p.keys().cloned().collect())
+        .unwrap_or_default();
     procnos.sort_by_key(|k| k.parse::<u64>().unwrap_or(u64::MAX));
     let proc_file = |no: &str, f: &str| -> Option<serde_json::Map<String, Value>> {
-        pdata?.get(no)?.get(f)?.get("parameters")?.as_object().cloned()
+        pdata?
+            .get(no)?
+            .get(f)?
+            .get("parameters")?
+            .as_object()
+            .cloned()
     };
     let procno = procnos
         .iter()
@@ -327,9 +332,11 @@ fn bruker(
         .or_else(|| procnos.first())
         .cloned();
     let stored_name = procno.as_ref().map(|n| format!("pdata/{n}"));
-    let spectrum_stored = stored_name
-        .as_ref()
-        .is_some_and(|s| info.traces.iter().any(|x| x.name.as_deref() == Some(s.as_str())));
+    let spectrum_stored = stored_name.as_ref().is_some_and(|s| {
+        info.traces
+            .iter()
+            .any(|x| x.name.as_deref() == Some(s.as_str()))
+    });
     if let Some(no) = &procno
         && let Some(p) = proc_file(no, "procs")
     {
@@ -378,8 +385,10 @@ fn bruker(
         let mut encoding = fnmode
             .and_then(|f| bruker_encoding(f - 1))
             .or_else(|| mc2.and_then(bruker_encoding));
-        if let (Some(m), Some(f)) = (mc2.and_then(bruker_encoding), fnmode.and_then(|f| bruker_encoding(f - 1)))
-            && m != f
+        if let (Some(m), Some(f)) = (
+            mc2.and_then(bruker_encoding),
+            fnmode.and_then(|f| bruker_encoding(f - 1)),
+        ) && m != f
         {
             // the stored spectrum was made with MC2
             out.notes.push(format!(
@@ -402,10 +411,7 @@ fn bruker(
             e
         });
         let mut dim = DimensionParameters {
-            nucleus: d
-                .get("nucleus")
-                .and_then(Value::as_str)
-                .map(str::to_string),
+            nucleus: d.get("nucleus").and_then(Value::as_str).map(str::to_string),
             spectral_width_hz: num(d.get("spectral_width_hz"))
                 .or_else(|| num(a.get("SW_h")))
                 .unwrap_or(0.0),
@@ -448,7 +454,11 @@ fn bruker(
                 }));
                 out.notes.push(format!(
                     "pseudo-2D series ({}): F2 transformed, F1 kept as rows",
-                    if pulprog.is_empty() { "variable list" } else { pulprog.as_str() }
+                    if pulprog.is_empty() {
+                        "variable list"
+                    } else {
+                        pulprog.as_str()
+                    }
                 ));
             }
         }
@@ -481,9 +491,11 @@ fn varian(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
         size: get("fn").filter(|v| *v >= 2.0).map(|v| (v / 2.0) as usize),
         phase0_deg: get("rp").map(|v| -v),
         phase1_deg: get("lp").map(|v| -v),
-        window: get("lb").filter(|v| *v != 0.0).map(|lb| Window::Exponential {
-            line_broadening_hz: lb,
-        }),
+        window: get("lb")
+            .filter(|v| *v != 0.0)
+            .map(|lb| Window::Exponential {
+                line_broadening_hz: lb,
+            }),
         ..StoredDimension::default()
     };
     let array = pp
@@ -523,9 +535,8 @@ fn varian(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
         let sw = num(d.get("spectral_width_hz")).unwrap_or(0.0);
         let rf = |k: &str| get(&format!("{k}{s}"));
         let reference = rf("reffrq").filter(|v| *v > 0.0);
-        let carrier = reference.map(|r| {
-            r + ((rf("rfp").unwrap_or(0.0) - rf("rfl").unwrap_or(0.0)) + sw / 2.0) * 1e-6
-        });
+        let carrier = reference
+            .map(|r| r + ((rf("rfp").unwrap_or(0.0) - rf("rfl").unwrap_or(0.0)) + sw / 2.0) * 1e-6);
         if reference.is_none() {
             out.notes.push(format!(
                 "{label}: no reffrq{s}; the ppm axis of this dimension is not referenced"
@@ -573,8 +584,9 @@ fn varian(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
             }),
             ..DimensionParameters::default()
         });
-        out.notes
-            .push(format!("arrayed experiment ({array}): each row processed as a spectrum"));
+        out.notes.push(format!(
+            "arrayed experiment ({array}): each row processed as a spectrum"
+        ));
     }
     if dims.len() > 1 {
         out.notes.push("Varian data with more than one indirect dimension: rows are taken in the order phase, phase2, …, then increments, as for Bruker; not verified on vendor spectra".into());
@@ -642,7 +654,11 @@ fn spinsolve(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
             .is_some_and(|s| s.eq_ignore_ascii_case("log"));
         let vals: Vec<f64> = (0..n)
             .map(|i| {
-                let f = if n > 1 { i as f64 / (n - 1) as f64 } else { 0.0 };
+                let f = if n > 1 {
+                    i as f64 / (n - 1) as f64
+                } else {
+                    0.0
+                };
                 if log && lo > 0.0 && hi > 0.0 {
                     lo * (hi / lo).powf(f)
                 } else {
@@ -732,7 +748,10 @@ pub fn place_on_grid(
             "place_on_grid: one full size per indirect dimension is needed".into(),
         ));
     }
-    let rpp: Vec<usize> = indirect.iter().map(|d| d.encoding.rows_per_point()).collect();
+    let rpp: Vec<usize> = indirect
+        .iter()
+        .map(|d| d.encoding.rows_per_point())
+        .collect();
     let block: usize = rpp.iter().product();
     let dims_rows: Vec<usize> = full.iter().zip(&rpp).map(|(f, r)| f * r).collect();
     let total: usize = dims_rows
@@ -780,7 +799,13 @@ fn read_schedule(ds: &mut dyn Dataset, info: &FileInfo) -> Option<Vec<Vec<usize>
             tab.columns
                 .iter()
                 .filter_map(|c| c.get(r))
-                .map(|v| if v.is_finite() { v.max(0.0) as usize } else { 0 })
+                .map(|v| {
+                    if v.is_finite() {
+                        v.max(0.0) as usize
+                    } else {
+                        0
+                    }
+                })
                 .collect()
         })
         .collect();

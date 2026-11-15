@@ -278,10 +278,6 @@ tallest point within one point in both dimensions, both ppm axes equal to TopSpi
 
 | experiment | pulse program, encoding | F1 linear prediction | signal (all) correlation | notes |
 | --- | --- | --- | --- | --- |
-| `bmrb-bmse000008-cosy` | cosyqf45, QF magnitude | – | 0.999995 | |
-| `bmrb-bmse001104-hsqc` | hsqcdietgpsisp.2, EA | LPfc 32 | 0.999805 | |
-| `bmrb-bmse001250-hmbc` | hmbcetgpl3nd, EA | LPfc 32 | 0.999857 | |
-| `bmrb27037 …Chsqc…` | hsqcetgpsp, EA | LPfc 32 | 0.998967 | stored F1 width edited (SW_p ≠ SW_h): F1 axis not compared |
 | `nmrxiv-s1247/12` | cosygpppqf, QF | – | 0.999928 | |
 | `nmrxiv-s1247/13` | hsqcetgpsi, EA | – | 0.999982 (0.994338) | |
 | `nmrxiv-s1247/14` | impact-hmbc, EA, F2 magnitude | – | 0.999983 | `TDeff` 104 of 256 rows |
@@ -311,7 +307,7 @@ tallest point within one point in both dimensions, both ppm axes equal to TopSpi
 | `nmrxiv-s572/5` | hsqcedetgpsp, EA (DSPFVS 12) | – | 0.999995 | |
 | `nmrxiv-s572/6` | hmbcgpl2ndqf, QF | – | 0.999191 | |
 | `nmrxiv-s73/4` | cosygpppqf, QF | LPfc 32 | 0.999311 | |
-| `nmrxiv-s73/5` | hsqcedetgpsisp2.3, EA | LPfc 32 | 0.999980 | |
+| `nmrxiv-s73/5` | hsqcedetgpsisp2.3, EA | LPfc 32 | 0.999980 (0.998407) | |
 | `nmrxiv-s73/6` | hmbcgplpndqf, QF | LPfc 32 | 0.979348 | prediction of a short magnitude HMBC |
 | `nmrxiv-s736/3` | cosygpppqf, QF | – | 0.999989 | |
 | `nmrxiv-s736/4` | hsqcedetgpsisp.2, EA | – | 0.999995 | |
@@ -324,21 +320,19 @@ tallest point within one point in both dimensions, both ppm axes equal to TopSpi
 | `nmrxiv-s740/5` | roesyphpp, TPPI | – | 0.999988 | |
 | `nmrxiv-s853/8` | noesygpphpp, States-TPPI | – | 0.999980 | |
 
-Summary: 30 of the 31 experiments TopSpin made without linear prediction reach a signal
-correlation ≥ 0.9991 (24 at ≥ 0.9999); the exception is s572/4 (0.9978). With Burg linear
-prediction in F1, 14 of 21 reach ≥ 0.999 and all but three ≥ 0.994; the three below are short
+Summary: 20 of the 21 experiments TopSpin made without linear prediction reach a signal
+correlation ≥ 0.9991 (18 at ≥ 0.9999); the exception is s572/4 (0.9978). With Burg linear
+prediction in F1, 11 of 20 reach ≥ 0.999 and all but three ≥ 0.994; the three below are short
 interferograms (64 complex points) predicted with 32–60 coefficients. Differences in the
 all-point correlation of the 15N and some HSQC spectra are in the noise: TopSpin's `abs1`/`abs2`
 baseline corrections after the transform are not reproduced.
 
-Reported, not asserted: J-resolved `bmse000797` (with `tilt`: 0.938; TopSpin's `abs1` in F1
-after `tilt` and `symj` is not reproduced),
-non-uniformly sampled sets (s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15: the
-zero-filled grid correlates 0.30–0.97 with TopSpin's reconstruction), solvent-filtered sets
-(`BC_mod` qfil: s314/20, /200, `nmrtools/15n-trosy-ts3`) and solid-state MQMAS
-(`desperate/RbNO3_MQMAS`, which TopSpin shears). DOSY (`nmrxiv-s519/310–321`): TopSpin's `2rr`
-is the diffusion-transformed spectrum, so the first F2 row processed here is compared with its sum
-over F1.
+Reported, not asserted: non-uniformly sampled sets (s279/23, /24, s753/21, s853/5–7, s1407
+HSQC/HMBC, s1517/13–15: the zero-filled grid correlates 0.30–0.97 with TopSpin's
+reconstruction) and solvent-filtered sets (`BC_mod` qfil: s314/20, /200: 0.78). DOSY
+(`nmrxiv-s519/310–321`): TopSpin's `2rr` is the diffusion-transformed spectrum, so the first F2
+row processed here is compared with its sum over F1. No J-resolved experiment of the manifest has
+TopSpin's spectrum, so the direction of `tilt` is not verified.
 
 Other vendors (no vendor-processed 2D data are public in the corpus):
 

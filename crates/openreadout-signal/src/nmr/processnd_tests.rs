@@ -74,8 +74,18 @@ fn rows_for(enc: Encoding, m: usize) -> Vec<Vec<Complex>> {
                 let d = scaled(&s, (w1 * t).sin() * a * sg);
                 if enc == Encoding::EchoAntiecho {
                     let ic = mul(&c, i);
-                    out.push(ic.iter().zip(&d).map(|(p, q)| (-*p - *q).scale(0.5)).collect());
-                    out.push(ic.iter().zip(&d).map(|(p, q)| (-*p + *q).scale(0.5)).collect());
+                    out.push(
+                        ic.iter()
+                            .zip(&d)
+                            .map(|(p, q)| (-*p - *q).scale(0.5))
+                            .collect(),
+                    );
+                    out.push(
+                        ic.iter()
+                            .zip(&d)
+                            .map(|(p, q)| (-*p + *q).scale(0.5))
+                            .collect(),
+                    );
                 } else {
                     out.push(c);
                     out.push(d);
@@ -83,17 +93,17 @@ fn rows_for(enc: Encoding, m: usize) -> Vec<Vec<Complex>> {
             }
             Encoding::Complex => {
                 let t = k as f64 / SW1;
-                out.push(mul(&s, Complex::from_phase(-w1 * t).scale((-t / 0.03).exp())));
+                out.push(mul(
+                    &s,
+                    Complex::from_phase(-w1 * t).scale((-t / 0.03).exp()),
+                ));
             }
             Encoding::Tppi | Encoding::Sequential => {
                 // real points at twice the rate, frequency counted from the low edge
                 let nu = SW1 / 2.0 - F1;
                 let t = k as f64 / (2.0 * SW1);
                 let a = (-t / 0.03).exp();
-                out.push(scaled(
-                    &s,
-                    (2.0 * std::f64::consts::PI * nu * t).cos() * a,
-                ));
+                out.push(scaled(&s, (2.0 * std::f64::consts::PI * nu * t).cos() * a));
             }
             Encoding::Series => out.push(scaled(&s, 1.0 - 0.1 * k as f64)),
         }
@@ -225,8 +235,16 @@ fn three_dimensions_states_states() {
             for k2 in 0..m1 {
                 let t2 = k2 as f64 / SW1;
                 for p2 in 0..2 {
-                    let a = if p2 == 0 { (w2 * t2).cos() } else { (w2 * t2).sin() };
-                    let b = if p1 == 0 { (w1 * t1).cos() } else { (w1 * t1).sin() };
+                    let a = if p2 == 0 {
+                        (w2 * t2).cos()
+                    } else {
+                        (w2 * t2).sin()
+                    };
+                    let b = if p1 == 0 {
+                        (w1 * t1).cos()
+                    } else {
+                        (w1 * t1).sin()
+                    };
                     rows.push(scaled(&s, a * b));
                 }
             }

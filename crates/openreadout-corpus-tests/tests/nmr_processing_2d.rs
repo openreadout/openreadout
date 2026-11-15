@@ -78,7 +78,11 @@ fn corr(a: &[f64], b: &[f64], mask: Option<&[bool]>) -> f64 {
 }
 
 fn robust_sd(v: &[f64]) -> f64 {
-    let mut s: Vec<f64> = v.iter().step_by((v.len() / 200_000).max(1)).copied().collect();
+    let mut s: Vec<f64> = v
+        .iter()
+        .step_by((v.len() / 200_000).max(1))
+        .copied()
+        .collect();
     s.sort_by(f64::total_cmp);
     let med = s[s.len() / 2];
     let mut d: Vec<f64> = s.iter().map(|x| (x - med).abs()).collect();
@@ -136,6 +140,16 @@ fn bruker_2d_matches_topspin() {
     let mut list = Vec::new();
     find_2rr(&dir, 6, &mut list);
     list.sort();
+    // only data sets listed in the manifest (docs/legal/clean-room-policy.md rule 1)
+    let manifest = std::fs::read_to_string(root().join("corpus/manifest.toml")).unwrap_or_default();
+    list.retain(|p| {
+        let rel = p.strip_prefix(&dir).unwrap_or(p);
+        let top = rel
+            .components()
+            .next()
+            .map(|c| c.as_os_str().to_string_lossy().to_string());
+        top.is_some_and(|t| manifest.contains(&format!("filename = \"{t}")))
+    });
     if list.is_empty() {
         eprintln!("no 2rr in the corpus; skipped");
         return;
@@ -146,12 +160,8 @@ fn bruker_2d_matches_topspin() {
         let pdata = rr.parent().unwrap();
         let exp = pdata.parent().unwrap().parent().unwrap();
         let procno = pdata.file_name().unwrap().to_string_lossy().to_string();
-        let id = exp
-            .strip_prefix(&dir)
-            .unwrap_or(exp)
-            .display()
-            .to_string()
-            + &format!("/{procno}");
+        let id =
+            exp.strip_prefix(&dir).unwrap_or(exp).display().to_string() + &format!("/{procno}");
         if !exp.join("ser").exists() || !pdata.join("proc2s").exists() {
             continue;
         }
@@ -189,7 +199,11 @@ fn bruker_2d_matches_topspin() {
         }
         let fid_index = fid.index;
         let name = format!("pdata/{procno}");
-        let Some(pt) = info.traces.iter().find(|t| t.name.as_deref() == Some(&name)) else {
+        let Some(pt) = info
+            .traces
+            .iter()
+            .find(|t| t.name.as_deref() == Some(&name))
+        else {
             continue;
         };
         let (pi, n1s, n2s) = (pt.index, pt.sweep_count as usize, pt.sample_count as usize);
@@ -203,7 +217,11 @@ fn bruker_2d_matches_topspin() {
             let t = ds.read_trace(pi, s, 0, pt.sample_count).unwrap();
             stored.extend_from_slice(&t.channels[ch]);
         }
-        let sweep_axis = pt.extra.get("sweep_axis").and_then(|a| a.get("axis")).cloned();
+        let sweep_axis = pt
+            .extra
+            .get("sweep_axis")
+            .and_then(|a| a.get("axis"))
+            .cloned();
         let axis2 = pt.extra.get("axis").cloned();
         let cmds = audit_after_xfb(pdata);
         let pulprog = param(&exp.join("acqus"), "PULPROG").unwrap_or_default();
@@ -272,15 +290,17 @@ fn bruker_2d_matches_topspin() {
                 .map_or(0, |x| x.0)
         };
         let (ka, kb) = (amax(&ours), amax(&theirs));
-        let peak_ok =
-            (ka / n2).abs_diff(kb / n2) <= 1 && (ka % n2).abs_diff(kb % n2) <= 1;
+        let peak_ok = (ka / n2).abs_diff(kb / n2) <= 1 && (ka % n2).abs_diff(kb % n2) <= 1;
         let f = |v: &Option<serde_json::Value>, k: &str| {
-            v.as_ref().and_then(|a| a.get(k)).and_then(serde_json::Value::as_f64)
+            v.as_ref()
+                .and_then(|a| a.get(k))
+                .and_then(serde_json::Value::as_f64)
         };
         // a stored F1 width that differs from the acquired one (an edited proc2s) cannot match
         let sw_stored = param(&pdata.join("proc2s"), "SW_p").and_then(|v| v.parse::<f64>().ok());
         let sw_acq = param(&exp.join("acqu2s"), "SW_h").and_then(|v| v.parse::<f64>().ok());
-        let f1_edited = matches!((sw_stored, sw_acq), (Some(a), Some(b)) if (a / b - 1.0).abs() > 0.01);
+        let f1_edited =
+            matches!((sw_stored, sw_acq), (Some(a), Some(b)) if (a / b - 1.0).abs() > 0.01);
         let axes_ok = (f(&axis2, "first").unwrap_or(f64::NAN) - s.axes[1].first_ppm).abs() < 2e-3
             && (series
                 || f1_edited
@@ -334,8 +354,6 @@ fn bruker_2d_matches_topspin() {
     }
     // shortfalls with their reasons (docs/formats/nmr-processing.md), asserted at a lower bound
     let known: &[(&str, f64)] = &[
-        // tilt and symj on a J-resolved spectrum, then TopSpin's baseline correction in F1
-        ("bmrb-bmse000797-jres", 0.9),
         // linear prediction with nearly as many coefficients as points (NCOEF 60, 64 points)
         ("nmrxiv-s1617-bundle/HSQC", 0.98),
         ("nmrxiv-s1617-bundle/HMBC", 0.98),
@@ -355,7 +373,11 @@ fn bruker_2d_matches_topspin() {
         if let Some((_, k)) = known.iter().find(|(id, _)| r.id.starts_with(id)) {
             need = *k;
         }
-        let got = if r.c_sig.is_finite() { r.c_sig } else { r.c_all };
+        let got = if r.c_sig.is_finite() {
+            r.c_sig
+        } else {
+            r.c_all
+        };
         checked += 1;
         if !(got >= need) || !r.axes_ok || !(r.scale > 0.0) {
             failures.push(format!(
@@ -429,7 +451,11 @@ fn other_vendors_2d() {
     let mut failures = Vec::new();
     // Varian/Agilent (nmrglue test data): States and TPPI
     for (id, rel, want) in [
-        ("nmrglue-agilent-2d", "nmrglue-test-data/agilent_2d", Encoding::States),
+        (
+            "nmrglue-agilent-2d",
+            "nmrglue-test-data/agilent_2d",
+            Encoding::States,
+        ),
         (
             "nmrglue-agilent-2d-tppi",
             "nmrglue-test-data/agilent_2d_tppi",
@@ -484,10 +510,7 @@ fn other_vendors_2d() {
         let idx = fid.index;
         match nmr::load_processed_nd(ds.as_mut(), &info, idx, &NdOptions::default()) {
             Ok(s) => {
-                dump(
-                    &Path::new(rel).file_stem().unwrap().to_string_lossy(),
-                    &s,
-                );
+                dump(&Path::new(rel).file_stem().unwrap().to_string_lossy(), &s);
                 let diag = diagonal_share(&s);
                 println!(
                     "{rel}: shape {:?}, F1 {:?} {}, diagonal share {diag:.3}, F1 axis {:.2}..{:.2} ppm, notes {:?}",
