@@ -487,14 +487,7 @@ pub fn load_matrix(
         .try_fold(1usize, |a, &b| a.checked_mul(b))
         .unwrap_or(usize::MAX);
     if total > req.max_points {
-        return Err(Error::unsupported(
-            "nmr-processing",
-            format!(
-                "the spectrum (or the requested part) has {total} points, more than the {} allowed in memory",
-                req.max_points
-            ),
-            "Narrow the shift ranges per dimension (ranges_ppm) to read part of the spectrum.",
-        ));
+        return Err(crate::nmr::slices2d::too_many(total, req.max_points));
     }
     let mut data = Vec::new();
     data.try_reserve_exact(total).map_err(|_| {

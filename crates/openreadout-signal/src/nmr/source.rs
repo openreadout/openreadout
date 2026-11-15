@@ -143,7 +143,24 @@ pub fn load_spectrum(
     info: &FileInfo,
     index: u32,
 ) -> Result<(Vec<f64>, PpmAxis)> {
+    load_spectrum_row(ds, info, index, 0)
+}
+
+/// [`load_spectrum`] for one sweep (row) of a stored spectrum: a row of a 2D spectrum is the
+/// direct-dimension spectrum at one indirect-dimension point.
+pub fn load_spectrum_row(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    index: u32,
+    sweep: u32,
+) -> Result<(Vec<f64>, PpmAxis)> {
     let t = trace(info, index)?;
+    if sweep >= t.sweep_count.max(1) {
+        return Err(Error::Usage(format!(
+            "sweep {sweep} out of range: trace {index} has {} sweeps (rows)",
+            t.sweep_count
+        )));
+    }
     let axis = spectrum_axis(t).ok_or_else(|| {
         Error::unsupported(
             "nmr-processing",
@@ -151,7 +168,7 @@ pub fn load_spectrum(
             "Pick a processed spectrum trace (see `openreadout info`).",
         )
     })?;
-    let mut ch = read_all(ds, t, 0)?;
+    let mut ch = read_all(ds, t, sweep)?;
     if ch.is_empty() {
         return Err(Error::corrupt(
             "nmr-processing",
