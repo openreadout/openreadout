@@ -24,7 +24,9 @@ use std::path::{Path, PathBuf};
 use std::time::Instant;
 
 use openreadout_core::FormatReader;
-use openreadout_signal::nmr::{self, CrossPeak, CrossPeakOptions, Nmr2dReport, Nmr2dRequest, PeakFlag};
+use openreadout_signal::nmr::{
+    self, CrossPeak, CrossPeakOptions, Nmr2dReport, Nmr2dRequest, PeakFlag,
+};
 use serde::Deserialize;
 
 fn root() -> PathBuf {
@@ -77,9 +79,9 @@ fn id_of(pdata: &Path) -> String {
 
 /// Split by a hash of the id: about half the experiments tune the defaults.
 fn tuning_set(id: &str) -> bool {
-    let h = id
-        .bytes()
-        .fold(0xcbf2_9ce4_8422_2325_u64, |h, b| (h ^ u64::from(b)).wrapping_mul(0x100_0000_01b3));
+    let h = id.bytes().fold(0xcbf2_9ce4_8422_2325_u64, |h, b| {
+        (h ^ u64::from(b)).wrapping_mul(0x100_0000_01b3)
+    });
     h % 2 == 0
 }
 
@@ -202,7 +204,7 @@ struct Row {
     ridge: usize,
     secs: f64,
     ng: Option<NgStats>,
-    sym: Option<(usize, usize)>,            // with partner, off-diagonal
+    sym: Option<(usize, usize)>, // with partner, off-diagonal
     hsqc: Option<OneBond>,
 }
 
@@ -223,10 +225,7 @@ fn analyze(pdata: &Path) -> (Nmr2dReport, f64) {
     let exp = pdata.parent().and_then(Path::parent).unwrap();
     let mut ds = openreadout_nmr::BrukerReader.open(exp).unwrap();
     let info = ds.info().unwrap();
-    let name = format!(
-        "pdata/{}",
-        pdata.file_name().unwrap().to_string_lossy()
-    );
+    let name = format!("pdata/{}", pdata.file_name().unwrap().to_string_lossy());
     let trace = info
         .traces
         .iter()
@@ -271,10 +270,18 @@ fn compare_ng(r: &Nmr2dReport, ng: &NgOracle) -> NgStats {
         })
         .collect();
     let near = |a: (f64, f64), b: (f64, f64)| (a.0 - b.0).abs().max((a.1 - b.1).abs());
-    let theirs: Vec<(f64, f64)> = ng.peaks.iter().filter(|p| p[2].abs() >= cut).map(|p| (p[0], p[1])).collect();
+    let theirs: Vec<(f64, f64)> = ng
+        .peaks
+        .iter()
+        .filter(|p| p[2].abs() >= cut)
+        .map(|p| (p[0], p[1]))
+        .collect();
     let mut st = NgStats::default();
     for t in &theirs {
-        let best = ours.iter().map(|o| near((o.0, o.1), *t)).fold(f64::INFINITY, f64::min);
+        let best = ours
+            .iter()
+            .map(|o| near((o.0, o.1), *t))
+            .fold(f64::INFINITY, f64::min);
         st.theirs += 1;
         if best <= 1.5 {
             st.matched_theirs += 1;
@@ -318,7 +325,9 @@ fn symmetry(r: &Nmr2dReport) -> Option<(usize, usize)> {
     let off: Vec<&CrossPeak> = r
         .peaks
         .iter()
-        .filter(|p| !p.has(PeakFlag::Diagonal) && !p.has(PeakFlag::Ridge) && !p.has(PeakFlag::Axial))
+        .filter(|p| {
+            !p.has(PeakFlag::Diagonal) && !p.has(PeakFlag::Ridge) && !p.has(PeakFlag::Axial)
+        })
         .collect();
     Some((
         off.iter().filter(|p| p.symmetric_partner.is_some()).count(),
@@ -381,6 +390,7 @@ fn one_bond(r: &Nmr2dReport, h: &[(f64, f64)], c: &[(f64, f64)]) -> Option<OneBo
 }
 
 #[test]
+#[allow(clippy::print_literal)] // the table header is aligned like its rows
 fn bruker_2d_spectra() {
     let list = processed_2d();
     if list.is_empty() {
@@ -406,17 +416,23 @@ fn bruker_2d_spectra() {
         }
         let ng = ng_oracle(&id).map(|o| compare_ng(&r, &o));
         let sym = symmetry(&r);
-        let hsqc = (kind == Kind::OneBond && r.nuclei.get(0).cloned().flatten().as_deref() == Some("13C"))
-            .then(|| {
-                let h: Vec<(f64, f64)> = sibling_lists(exp, "1H").into_iter().flat_map(|x| x.1).collect();
-                let c: Vec<(f64, f64)> = sibling_lists(exp, "13C")
-                    .into_iter()
-                    .filter(|x| !x.0.to_ascii_lowercase().contains("dept"))
-                    .flat_map(|x| x.1)
-                    .collect();
-                (!h.is_empty() && !c.is_empty()).then(|| one_bond(&r, &h, &c)).flatten()
-            })
-            .flatten();
+        let hsqc = (kind == Kind::OneBond
+            && r.nuclei.first().cloned().flatten().as_deref() == Some("13C"))
+        .then(|| {
+            let h: Vec<(f64, f64)> = sibling_lists(exp, "1H")
+                .into_iter()
+                .flat_map(|x| x.1)
+                .collect();
+            let c: Vec<(f64, f64)> = sibling_lists(exp, "13C")
+                .into_iter()
+                .filter(|x| !x.0.to_ascii_lowercase().contains("dept"))
+                .flat_map(|x| x.1)
+                .collect();
+            (!h.is_empty() && !c.is_empty())
+                .then(|| one_bond(&r, &h, &c))
+                .flatten()
+        })
+        .flatten();
         rows.push(Row {
             id: id.clone(),
             kind,
@@ -436,18 +452,32 @@ fn bruker_2d_spectra() {
     }
     eprintln!(
         "{:<42} {:<9} {:>3} {:>11} {:>5} {:>6} {:>5} {:>6}  {:<26} {:<12} {}",
-        "experiment", "kind", "set", "shape", "peaks", "maxima", "ridge", "s", "nmrglue (rec/prec/off)", "symmetric", "HSQC on 1H/13C lines"
+        "experiment",
+        "kind",
+        "set",
+        "shape",
+        "peaks",
+        "maxima",
+        "ridge",
+        "s",
+        "nmrglue (rec/prec/off)",
+        "symmetric",
+        "HSQC on 1H/13C lines",
     );
     for r in &rows {
         let ng = r.ng.map_or("–".to_string(), |g| {
             format!(
                 "{}/{} {}/{} {}/{} {:.2}",
-                g.matched_theirs, g.theirs, g.matched_ours, g.ours, g.connected_found, g.connected, g.max_offset
+                g.matched_theirs,
+                g.theirs,
+                g.matched_ours,
+                g.ours,
+                g.connected_found,
+                g.connected,
+                g.max_offset
             )
         });
-        let sym = r
-            .sym
-            .map_or("–".to_string(), |(a, b)| format!("{a}/{b}"));
+        let sym = r.sym.map_or("–".to_string(), |(a, b)| format!("{a}/{b}"));
         let hs = r.hsqc.map_or("–".to_string(), |o| {
             format!(
                 "{}/{} (tallest {}/{}), F1 offset {:+.2}",
@@ -500,7 +530,10 @@ fn bruker_2d_spectra() {
             && g.ours > 0
             && ratio(g.matched_ours, g.ours) < 0.98
         {
-            failures.push(format!("{}: maxima precision against nmrglue {}/{}", r.id, g.matched_ours, g.ours));
+            failures.push(format!(
+                "{}: maxima precision against nmrglue {}/{}",
+                r.id, g.matched_ours, g.ours
+            ));
         }
     }
     // homonuclear spectra that are not symmetrized: most off-diagonal cross peaks have a partner
@@ -528,10 +561,13 @@ fn bruker_2d_spectra() {
     }
     // HSQC: the tallest cross peaks sit on lines of the 1D lists
     for r in &rows {
-        if let Some(o) = r.hsqc {
-            if o.top_on_both + 2 < o.top {
-                failures.push(format!("{}: tallest HSQC peaks on 1D lines {}/{}", r.id, o.top_on_both, o.top));
-            }
+        if let Some(o) = r.hsqc
+            && o.top_on_both + 2 < o.top
+        {
+            failures.push(format!(
+                "{}: tallest HSQC peaks on 1D lines {}/{}",
+                r.id, o.top_on_both, o.top
+            ));
         }
     }
     let slowest = rows.iter().map(|r| r.secs).fold(0.0, f64::max);
@@ -565,7 +601,10 @@ fn jcamp_hsqc_limonene() {
     let mut ds = openreadout_nmr::JcampReader.open(&hsqc).unwrap();
     let info = ds.info().unwrap();
     let r = nmr::analyze_2d(ds.as_mut(), &info, &Nmr2dRequest::default()).unwrap();
-    assert_eq!(r.nuclei, vec![Some("13C".to_string()), Some("1H".to_string())]);
+    assert_eq!(
+        r.nuclei,
+        vec![Some("13C".to_string()), Some("1H".to_string())]
+    );
     let f1_tol = 1.5 * r.axes[0].step_ppm.abs();
     let real: Vec<&CrossPeak> = r
         .peaks
@@ -591,10 +630,14 @@ fn jcamp_hsqc_limonene() {
         let th = 0.03_f64.max(p.width_ppm[1].unwrap_or(0.0));
         (
             h.iter().any(|l| (l.ppm - p.ppm[1]).abs() <= th),
-            c.iter().any(|l| (l.ppm - p.ppm[0] + offset).abs() <= f1_tol),
+            c.iter()
+                .any(|l| (l.ppm - p.ppm[0] + offset).abs() <= f1_tol),
         )
     };
-    let strong: Vec<&&CrossPeak> = real.iter().filter(|p| p.snr.unwrap_or(0.0) >= 100.0).collect();
+    let strong: Vec<&&CrossPeak> = real
+        .iter()
+        .filter(|p| p.snr.unwrap_or(0.0) >= 100.0)
+        .collect();
     let both = strong.iter().filter(|p| on(p) == (true, true)).count();
     // protonated carbons of limonene (CDCl3): =CH 120.7, =CH2 108.4, CH 41.1, CH2 30.9, 30.6,
     // 27.9, CH3 23.5, 20.8
@@ -605,7 +648,11 @@ fn jcamp_hsqc_limonene() {
         .count();
     eprintln!(
         "limonene JCAMP HSQC: {} cross peaks ({} maxima, noise SD {:.3e}), F1 offset {offset:+.2} ppm, {both}/{} with S/N >= 100 on a 1H and a 13C line, protonated carbons with a cross peak {seen}/8; notes {:?}",
-        r.peak_count, r.maxima_count, r.noise_sd, strong.len(), r.notes
+        r.peak_count,
+        r.maxima_count,
+        r.noise_sd,
+        strong.len(),
+        r.notes
     );
     for p in &r.peaks {
         eprintln!(
@@ -620,5 +667,9 @@ fn jcamp_hsqc_limonene() {
         );
     }
     assert_eq!(seen, 8);
-    assert!(both as f64 >= 0.6 * strong.len() as f64, "{both}/{}", strong.len());
+    assert!(
+        both as f64 >= 0.6 * strong.len() as f64,
+        "{both}/{}",
+        strong.len()
+    );
 }

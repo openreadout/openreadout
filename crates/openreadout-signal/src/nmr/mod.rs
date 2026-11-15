@@ -23,13 +23,13 @@ use openreadout_core::{Dataset, Result};
 pub use baseline::BaselineMode;
 pub use dataset::ProcessedNmrDataset;
 pub use peaks::{Integral, Peak, PeakOptions, integrate, noise_sd, pick_peaks};
-pub use process::{
-    Apodization, FidParameters, PhaseMode, PpmAxis, ProcessOptions, ProcessingRecord, Spectrum,
-    StoredProcessing, process_fid,
-};
 pub use peaks2d::{
     CrossPeak, CrossPeakOptions, CrossPeakPick, Maximum, PeakFlag, PeakSign, SpectrumContext,
     VolumeIntegral, annotate, integrate_regions, matrix_noise_sd, pick_cross_peaks,
+};
+pub use process::{
+    Apodization, FidParameters, PhaseMode, PpmAxis, ProcessOptions, ProcessingRecord, Spectrum,
+    StoredProcessing, process_fid,
 };
 pub use source::SpectrumSource;
 pub use source2d::{MatrixRequest, StoredMatrix, load_matrix};
@@ -330,7 +330,11 @@ pub struct Nmr2dReport {
 
 /// Pick cross peaks and integrate boxes on a stored 2D/3D spectrum (module docs of
 /// [`peaks2d`] and [`source2d`]).
-pub fn analyze_2d(ds: &mut dyn Dataset, info: &FileInfo, req: &Nmr2dRequest) -> Result<Nmr2dReport> {
+pub fn analyze_2d(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &Nmr2dRequest,
+) -> Result<Nmr2dReport> {
     let m = load_matrix(
         ds,
         info,

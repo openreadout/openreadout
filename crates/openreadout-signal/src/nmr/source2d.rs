@@ -127,7 +127,10 @@ pub fn matrix_layout(t: &TraceInfo, vendor: &Value) -> Option<MatrixLayout> {
     let sweeps = t.sweep_count as usize;
     // Bruker: shape + indirect_axes
     if let Some(shape) = t.extra.get("shape").and_then(Value::as_array) {
-        let shape: Option<Vec<usize>> = shape.iter().map(|v| v.as_u64().map(|x| x as usize)).collect();
+        let shape: Option<Vec<usize>> = shape
+            .iter()
+            .map(|v| v.as_u64().map(|x| x as usize))
+            .collect();
         let shape = shape?;
         let ind = t.extra.get("indirect_axes").and_then(Value::as_array)?;
         if shape.len() < 2 || ind.len() + 1 != shape.len() {
@@ -151,7 +154,8 @@ pub fn matrix_layout(t: &TraceInfo, vendor: &Value) -> Option<MatrixLayout> {
             let k = dims - 2 - d; // proc2s for k = 0
             let file = format!("proc{}s", k + 2);
             let from_tree = procno.as_ref().and_then(|p| {
-                text(vendor, &format!("/pdata/{p}/{file}/parameters/AXNUC")).and_then(normalize_nucleus)
+                text(vendor, &format!("/pdata/{p}/{file}/parameters/AXNUC"))
+                    .and_then(normalize_nucleus)
             });
             let from_sweep = (dims == 2)
                 .then(|| {
@@ -223,17 +227,22 @@ pub fn matrix_layout(t: &TraceInfo, vendor: &Value) -> Option<MatrixLayout> {
     let mut notes = Vec::new();
     // the declared F1 range (first `##FIRST=`/`##LAST=` entries, `##VAR_DIM=`) when it has as
     // many points as there are pages; else the page values, which must be regular
-    let num = |k: &str| jcamp_list(vendor, k).first().and_then(|x| x.parse::<f64>().ok());
+    let num = |k: &str| {
+        jcamp_list(vendor, k)
+            .first()
+            .and_then(|x| x.parse::<f64>().ok())
+    };
     let declared = match (num("FIRST"), num("LAST"), num("VAR_DIM")) {
-        (Some(a), Some(b), Some(n)) if n as usize == n1 && a != b => Some((a, (b - a) / (n1 - 1) as f64)),
+        (Some(a), Some(b), Some(n)) if n as usize == n1 && (a - b).abs() > 0.0 => {
+            Some((a, (b - a) / (n1 - 1) as f64))
+        }
         _ => None,
     };
     let from_pages = (values[0], (values[n1 - 1] - values[0]) / (n1 - 1) as f64);
     let regular = from_pages.1 != 0.0
-        && values
-            .iter()
-            .enumerate()
-            .all(|(k, v)| (v - (from_pages.0 + k as f64 * from_pages.1)).abs() <= 0.05 * from_pages.1.abs());
+        && values.iter().enumerate().all(|(k, v)| {
+            (v - (from_pages.0 + k as f64 * from_pages.1)).abs() <= 0.05 * from_pages.1.abs()
+        });
     let (first, step) = match declared {
         Some(d) => {
             if !regular
@@ -262,7 +271,9 @@ pub fn matrix_layout(t: &TraceInfo, vendor: &Value) -> Option<MatrixLayout> {
             reference_frequency_mhz: 0.0,
         }
     } else if unit.eq_ignore_ascii_case("hz") {
-        let f2 = direct_nucleus.clone().or_else(|| jcamp_nuclei.last().cloned().flatten());
+        let f2 = direct_nucleus
+            .clone()
+            .or_else(|| jcamp_nuclei.last().cloned().flatten());
         let (Some(a), Some(b)) = (
             f1_nucleus.as_deref().and_then(frequency_ratio),
             f2.as_deref().and_then(frequency_ratio),
@@ -337,11 +348,7 @@ fn jcamp_nuclei(vendor: &Value) -> Vec<Option<String>> {
 
 /// Index of the trace to use: `requested` if given (checked), else the first stored spectrum
 /// with two or more dimensions.
-pub fn choose_matrix_trace(
-    info: &FileInfo,
-    vendor: &Value,
-    requested: Option<u32>,
-) -> Result<u32> {
+pub fn choose_matrix_trace(info: &FileInfo, vendor: &Value, requested: Option<u32>) -> Result<u32> {
     if let Some(i) = requested {
         let t = info.traces.iter().find(|t| t.index == i).ok_or_else(|| {
             Error::Usage(format!(
@@ -352,7 +359,9 @@ pub fn choose_matrix_trace(
         if matrix_layout(t, vendor).is_none() {
             return Err(Error::unsupported(
                 "nmr-processing",
-                format!("trace {i} is not a stored 2D or 3D spectrum with a ppm axis per dimension"),
+                format!(
+                    "trace {i} is not a stored 2D or 3D spectrum with a ppm axis per dimension"
+                ),
                 "Run `openreadout info <file>` and pick a processed spectrum whose extra has shape and indirect_axes (Bruker pdata/<n> with 2rr or 3rrr), a JEOL processed 2D spectrum or a JCAMP-DX nD NMR SPECTRUM.",
             ));
         }
@@ -428,7 +437,11 @@ pub struct StoredMatrix {
 }
 
 /// Read the matrix `req` asks for (module docs).
-pub fn load_matrix(ds: &mut dyn Dataset, info: &FileInfo, req: &MatrixRequest) -> Result<StoredMatrix> {
+pub fn load_matrix(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &MatrixRequest,
+) -> Result<StoredMatrix> {
     let vendor = ds.vendor_metadata().unwrap_or(Value::Null);
     let index = choose_matrix_trace(info, &vendor, req.trace)?;
     let t = info
@@ -509,7 +522,10 @@ pub fn load_matrix(ds: &mut dyn Dataset, info: &FileInfo, req: &MatrixRequest) -
         if ch.len() < ncol {
             return Err(Error::corrupt(
                 "nmr-processing",
-                format!("trace {index} row {row}: {} values, expected {ncol}", ch.len()),
+                format!(
+                    "trace {index} row {row}: {} values, expected {ncol}",
+                    ch.len()
+                ),
             ));
         }
         data.extend_from_slice(&ch[..ncol]);

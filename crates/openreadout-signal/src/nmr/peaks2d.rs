@@ -436,7 +436,11 @@ fn line_noise(data: &[f64], shape: &[usize], st: &[usize]) -> Vec<Vec<f64>> {
                     .filter_map(|k| data.get(base + k * sd))
                     .filter(|x| x.is_finite()),
             );
-            v.push(if buf.len() >= 8 { mad_sd(&mut buf) } else { 0.0 });
+            v.push(if buf.len() >= 8 {
+                mad_sd(&mut buf)
+            } else {
+                0.0
+            });
         }
         out.push(v);
     }
@@ -572,7 +576,11 @@ fn neighbour_steps(dims: usize) -> Vec<Vec<isize>> {
 }
 
 /// Index window per dimension `[lo, hi]` (inclusive, off the edges) from `ranges_ppm`.
-fn windows(shape: &[usize], axes: &[PpmAxis], ranges: &[Option<(f64, f64)>]) -> Vec<(usize, usize)> {
+fn windows(
+    shape: &[usize],
+    axes: &[PpmAxis],
+    ranges: &[Option<(f64, f64)>],
+) -> Vec<(usize, usize)> {
     shape
         .iter()
         .enumerate()
@@ -818,9 +826,8 @@ pub fn pick_cross_peaks(
                 return;
             }
             // on a noisy line and less than twice the threshold above its noise
-            let ridge = local >= opts.ridge_factor * sd
-                && local > sd
-                && v < 2.0 * opts.min_snr * local;
+            let ridge =
+                local >= opts.ridge_factor * sd && local > sd && v < 2.0 * opts.min_snr * local;
             let scale = if opts.min_snr > 0.0 {
                 opts.min_local_snr / opts.min_snr
             } else {
@@ -1033,7 +1040,12 @@ pub fn pick_cross_peaks(
         let sign = if apex.height >= 0.0 { 1.0 } else { -1.0 };
         let wsum: f64 = gr.iter().map(|&m| raw[m].height.abs()).sum();
         let centre: Vec<f64> = (0..dims)
-            .map(|d| gr.iter().map(|&m| raw[m].pos[d] * raw[m].height.abs()).sum::<f64>() / wsum)
+            .map(|d| {
+                gr.iter()
+                    .map(|&m| raw[m].pos[d] * raw[m].height.abs())
+                    .sum::<f64>()
+                    / wsum
+            })
             .collect();
         let pos_n = gr.iter().filter(|&&m| raw[m].height > 0.0).count();
         let peak_sign = match (pos_n, gr.len() - pos_n) {
@@ -1060,7 +1072,12 @@ pub fn pick_cross_peaks(
                     .map(|(p, ax)| p * ax.reference_frequency_mhz)
                     .collect(),
                 ppm,
-                apex_ppm: apex.pos.iter().zip(axes).map(|(p, ax)| ax.ppm(*p)).collect(),
+                apex_ppm: apex
+                    .pos
+                    .iter()
+                    .zip(axes)
+                    .map(|(p, ax)| ax.ppm(*p))
+                    .collect(),
                 index: c.clone(),
                 height: apex.height,
                 sign: peak_sign,
@@ -1146,7 +1163,10 @@ pub fn homonuclear_pair(axes: &[PpmAxis], nuclei: &[Option<String>]) -> Option<(
     };
     for i in 0..axes.len() {
         for j in i + 1..axes.len() {
-            let (Some(a), Some(b)) = (nuclei.get(i).cloned().flatten(), nuclei.get(j).cloned().flatten()) else {
+            let (Some(a), Some(b)) = (
+                nuclei.get(i).cloned().flatten(),
+                nuclei.get(j).cloned().flatten(),
+            ) else {
                 continue;
             };
             if !a.eq_ignore_ascii_case(&b) {
@@ -1228,17 +1248,24 @@ pub fn annotate(
             if b == a || q.has(PeakFlag::Diagonal) {
                 continue;
             }
-            if others.iter().any(|&(d, t)| (q.ppm[d] - pa.ppm[d]).abs() > t) {
+            if others
+                .iter()
+                .any(|&(d, t)| (q.ppm[d] - pa.ppm[d]).abs() > t)
+            {
                 continue;
             }
             // the mirror image of one centre lies in the other's footprint (or within the
             // tolerance of it): multiplets split into maxima differently on the two sides
-            let a_in_b = inside(q.footprint_ppm[i], pa.ppm[j]) && inside(q.footprint_ppm[j], pa.ppm[i]);
-            let b_in_a = inside(pa.footprint_ppm[j], q.ppm[i]) && inside(pa.footprint_ppm[i], q.ppm[j]);
+            let a_in_b =
+                inside(q.footprint_ppm[i], pa.ppm[j]) && inside(q.footprint_ppm[j], pa.ppm[i]);
+            let b_in_a =
+                inside(pa.footprint_ppm[j], q.ppm[i]) && inside(pa.footprint_ppm[i], q.ppm[j]);
             if !(a_in_b || b_in_a) {
                 continue;
             }
-            let dist = (q.ppm[i] - pa.ppm[j]).abs().max((q.ppm[j] - pa.ppm[i]).abs());
+            let dist = (q.ppm[i] - pa.ppm[j])
+                .abs()
+                .max((q.ppm[j] - pa.ppm[i]).abs());
             if best.is_none_or(|(_, bd)| dist < bd) {
                 best = Some((b, dist));
             }
@@ -1273,14 +1300,21 @@ fn streaks(peaks: &mut [CrossPeak], axes: &[PpmAxis], opts: &CrossPeakOptions, h
     let step = axes[last].step_ppm.abs();
     let mut flag = vec![false; peaks.len()];
     for (a, p) in peaks.iter().enumerate() {
-        if p.has(PeakFlag::Ridge) || p.has(PeakFlag::Diagonal) || (homonuclear && p.symmetric_partner.is_some()) {
+        if p.has(PeakFlag::Ridge)
+            || p.has(PeakFlag::Diagonal)
+            || (homonuclear && p.symmetric_partner.is_some())
+        {
             continue;
         }
         flag[a] = peaks.iter().any(|q| {
             let tol = (q.width_ppm[last].unwrap_or(0.0) / 2.0).max(step);
             q.height.abs() >= opts.ridge_ratio * p.height.abs()
                 && (q.apex_ppm[last] - p.apex_ppm[last]).abs() <= tol
-                && (0..last).all(|d| (0..last).filter(|&e| e != d).all(|e| (q.ppm[e] - p.ppm[e]).abs() <= 2.0 * axes[e].step_ppm.abs()))
+                && (0..last).all(|d| {
+                    (0..last)
+                        .filter(|&e| e != d)
+                        .all(|e| (q.ppm[e] - p.ppm[e]).abs() <= 2.0 * axes[e].step_ppm.abs())
+                })
         });
     }
     for (p, f) in peaks.iter_mut().zip(flag) {
@@ -1421,12 +1455,36 @@ mod tests {
         let sd = matrix_noise_sd(&pure, 512);
         assert!((sd - 1.0).abs() < 0.03, "{sd}");
         // the maxima give the same level on Gaussian noise
-        let p = pick_cross_peaks(&pure, &[512, 512], &[axis(10.0, 512, 10.0, 400.0); 2], &CrossPeakOptions::default()).unwrap();
-        assert!((p.maxima_noise_sd / p.run_noise_sd - 1.0).abs() < 0.1, "{p:?}");
+        let p = pick_cross_peaks(
+            &pure,
+            &[512, 512],
+            &[axis(10.0, 512, 10.0, 400.0); 2],
+            &CrossPeakOptions::default(),
+        )
+        .unwrap();
+        assert!(
+            (p.maxima_noise_sd / p.run_noise_sd - 1.0).abs() < 0.1,
+            "{p:?}"
+        );
         // heavy-tailed noise raises the noise level the thresholds use
-        let heavy: Vec<f64> = pure.iter().enumerate().map(|(i, x)| x * if i % 7 == 0 { 4.0 } else { 1.0 }).collect();
-        let p = pick_cross_peaks(&heavy, &[512, 512], &[axis(10.0, 512, 10.0, 400.0); 2], &CrossPeakOptions::default()).unwrap();
-        assert!(p.noise_sd > 1.3 * p.run_noise_sd, "{} {}", p.noise_sd, p.run_noise_sd);
+        let heavy: Vec<f64> = pure
+            .iter()
+            .enumerate()
+            .map(|(i, x)| x * if i % 7 == 0 { 4.0 } else { 1.0 })
+            .collect();
+        let p = pick_cross_peaks(
+            &heavy,
+            &[512, 512],
+            &[axis(10.0, 512, 10.0, 400.0); 2],
+            &CrossPeakOptions::default(),
+        )
+        .unwrap();
+        assert!(
+            p.noise_sd > 1.3 * p.run_noise_sd,
+            "{} {}",
+            p.noise_sd,
+            p.run_noise_sd
+        );
         assert!(p.peaks.is_empty());
         // blanked (exactly zero) rows are ignored
         let mut w = v.clone();
@@ -1455,7 +1513,10 @@ mod tests {
         assert_eq!(a.index, vec![100, 201]);
         let w0 = a.width_ppm[0].unwrap() / ax[0].step_ppm.abs();
         let w1 = a.width_hz[1].unwrap() / ax[1].hz_per_point();
-        assert!((w0 - 3.0).abs() < 0.5 && (w1 - 5.0).abs() < 0.5, "{w0} {w1}");
+        assert!(
+            (w0 - 3.0).abs() < 0.5 && (w1 - 5.0).abs() < 0.5,
+            "{w0} {w1}"
+        );
         assert!(a.snr.unwrap() > 80.0);
         assert_eq!(a.sign, PeakSign::Positive);
         let b = p.peaks.iter().find(|x| x.height < 0.0).unwrap();
@@ -1491,7 +1552,12 @@ mod tests {
         let j = 7.0 / ax[0].hz_per_point();
         let (r, c) = (600.0, 1400.0);
         let mut pk = Vec::new();
-        for (dr, dc, s) in [(-1.0, -1.0, 1.0), (-1.0, 1.0, -1.0), (1.0, -1.0, -1.0), (1.0, 1.0, 1.0)] {
+        for (dr, dc, s) in [
+            (-1.0, -1.0, 1.0),
+            (-1.0, 1.0, -1.0),
+            (1.0, -1.0, -1.0),
+            (1.0, 1.0, 1.0),
+        ] {
             pk.push((r + dr * j / 2.0, c + dc * j / 2.0, 80.0 * s, 1.5, 1.5));
         }
         // and a separate singlet 100 Hz away
@@ -1504,7 +1570,11 @@ mod tests {
         };
         let p = pick_cross_peaks(&v, &shape, &ax, &opts).unwrap();
         assert_eq!(p.peaks.len(), 2, "{:?}", p.peaks);
-        let m = p.peaks.iter().find(|x| x.maxima == 4).expect("the multiplet");
+        let m = p
+            .peaks
+            .iter()
+            .find(|x| x.maxima == 4)
+            .expect("the multiplet");
         assert_eq!(m.sign, PeakSign::Mixed);
         assert!((ax[0].index_of(m.ppm[0]) - r).abs() < 0.3);
         assert!((ax[1].index_of(m.ppm[1]) - c).abs() < 0.3);
@@ -1539,7 +1609,10 @@ mod tests {
         };
         let q = pick_cross_peaks(&v, &shape, &ax, &keep).unwrap();
         assert!(q.peaks.len() > 3);
-        assert!(q.peaks.iter().filter(|x| x.has(PeakFlag::Ridge)).count() == q.peaks.len() - 1);
+        assert_eq!(
+            q.peaks.iter().filter(|x| x.has(PeakFlag::Ridge)).count(),
+            q.peaks.len() - 1
+        );
         // the footprint of the strong line does not run along the ridge
         let fp = p.peaks[0].footprint_ppm[0];
         assert!((fp.0 - fp.1) / ax[0].step_ppm.abs() < 120.0, "{fp:?}");
@@ -1552,7 +1625,10 @@ mod tests {
         // same height, twice the width in F2: twice the volume
         let v = spectrum(
             shape,
-            &[(60.0, 100.0, 200.0, 3.0, 4.0), (180.0, 400.0, 200.0, 3.0, 8.0)],
+            &[
+                (60.0, 100.0, 200.0, 3.0, 4.0),
+                (180.0, 400.0, 200.0, 3.0, 8.0),
+            ],
             0.5,
         );
         let opts = CrossPeakOptions {
@@ -1562,12 +1638,22 @@ mod tests {
         let p = pick_cross_peaks(&v, &shape, &ax, &opts).unwrap();
         assert_eq!(p.peaks.len(), 2);
         let (a, b) = (&p.peaks[0], &p.peaks[1]);
-        let (a, b) = if a.index[1] < b.index[1] { (a, b) } else { (b, a) };
+        let (a, b) = if a.index[1] < b.index[1] {
+            (a, b)
+        } else {
+            (b, a)
+        };
         let ratio = b.volume / a.volume;
         assert!((ratio - 2.0).abs() < 0.35, "{ratio}");
         let boxes = vec![
-            vec![(ax[0].ppm(30.0), ax[0].ppm(90.0)), (ax[1].ppm(40.0), ax[1].ppm(160.0))],
-            vec![(ax[0].ppm(150.0), ax[0].ppm(210.0)), (ax[1].ppm(280.0), ax[1].ppm(511.0))],
+            vec![
+                (ax[0].ppm(30.0), ax[0].ppm(90.0)),
+                (ax[1].ppm(40.0), ax[1].ppm(160.0)),
+            ],
+            vec![
+                (ax[0].ppm(150.0), ax[0].ppm(210.0)),
+                (ax[1].ppm(280.0), ax[1].ppm(511.0)),
+            ],
             vec![(500.0, 400.0), (50.0, 40.0)],
         ];
         let r = integrate_regions(&v, &shape, &ax, &boxes, None).unwrap();
@@ -1636,7 +1722,10 @@ mod tests {
         let ax = hetero();
         let v = spectrum(
             shape,
-            &[(128.0, 100.0, 100.0, 2.0, 3.0), (60.0, 300.0, 100.0, 2.0, 3.0)],
+            &[
+                (128.0, 100.0, 100.0, 2.0, 3.0),
+                (60.0, 300.0, 100.0, 2.0, 3.0),
+            ],
             1.0,
         );
         let opts = CrossPeakOptions::default();
@@ -1658,7 +1747,10 @@ mod tests {
         let ax = hetero();
         let clean = spectrum(
             shape,
-            &[(80.0, 120.0, 200.0, 6.0, 8.0), (200.0, 300.0, 120.0, 6.0, 8.0)],
+            &[
+                (80.0, 120.0, 200.0, 6.0, 8.0),
+                (200.0, 300.0, 120.0, 6.0, 8.0),
+            ],
             0.0,
         );
         let v: Vec<f64> = clean
@@ -1693,7 +1785,10 @@ mod tests {
         let p = pick_cross_peaks(&v, &shape, &ax, &CrossPeakOptions::default()).unwrap();
         assert_eq!(p.peaks.len(), 1, "{:?}", p.peaks);
         for (d, a) in ax.iter().enumerate() {
-            assert!((a.index_of(p.peaks[0].ppm[d]) - pc[d]).abs() < 0.15, "dim {d}");
+            assert!(
+                (a.index_of(p.peaks[0].ppm[d]) - pc[d]).abs() < 0.15,
+                "dim {d}"
+            );
         }
         assert_eq!(p.peaks[0].ppm.len(), 3);
         // a range in the slowest dimension that excludes the peak
@@ -1701,7 +1796,12 @@ mod tests {
             ranges_ppm: vec![Some((ax[0].ppm(20.0), ax[0].ppm(30.0)))],
             ..CrossPeakOptions::default()
         };
-        assert!(pick_cross_peaks(&v, &shape, &ax, &opts).unwrap().peaks.is_empty());
+        assert!(
+            pick_cross_peaks(&v, &shape, &ax, &opts)
+                .unwrap()
+                .peaks
+                .is_empty()
+        );
     }
 
     #[test]
@@ -1711,7 +1811,11 @@ mod tests {
         let ax = hetero();
         let v = spectrum(
             shape,
-            &[(60.0, 200.0, 10000.0, 2.0, 3.0), (180.0, 200.0, 100.0, 2.0, 3.0), (180.0, 400.0, 100.0, 2.0, 3.0)],
+            &[
+                (60.0, 200.0, 10000.0, 2.0, 3.0),
+                (180.0, 200.0, 100.0, 2.0, 3.0),
+                (180.0, 400.0, 100.0, 2.0, 3.0),
+            ],
             1.0,
         );
         let opts = CrossPeakOptions::default();
@@ -1739,9 +1843,19 @@ mod tests {
         let o = CrossPeakOptions::default();
         assert!(pick_cross_peaks(&[0.0; 10], &[2, 4], &ax, &o).is_err());
         assert!(pick_cross_peaks(&[0.0; 8], &[2, 4], &ax[..1], &o).is_err());
-        assert!(pick_cross_peaks(&[1.0; 8], &[2, 4], &ax, &o).unwrap().peaks.is_empty());
+        assert!(
+            pick_cross_peaks(&[1.0; 8], &[2, 4], &ax, &o)
+                .unwrap()
+                .peaks
+                .is_empty()
+        );
         let flat = vec![0.0; 64 * 64];
-        assert!(pick_cross_peaks(&flat, &[64, 64], &ax, &o).unwrap().peaks.is_empty());
+        assert!(
+            pick_cross_peaks(&flat, &[64, 64], &ax, &o)
+                .unwrap()
+                .peaks
+                .is_empty()
+        );
         let mut nan = spectrum([64, 64], &[(30.0, 30.0, 100.0, 2.0, 2.0)], 1.0);
         nan[5] = f64::NAN;
         nan[700] = f64::INFINITY;
