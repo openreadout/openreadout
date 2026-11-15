@@ -11,13 +11,19 @@
 pub mod analysis;
 pub mod baseline;
 mod dataset;
+pub mod indirect;
+pub mod lp;
 pub mod peaks;
 pub mod peaks2d;
 pub mod phase;
 pub mod process;
+pub mod processnd;
+#[cfg(test)]
+mod processnd_tests;
 pub mod slices2d;
 pub mod source;
 pub mod source2d;
+pub mod window;
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -43,6 +49,14 @@ pub use slices2d::{
 };
 pub use source::SpectrumSource;
 pub use source2d::{MatrixRequest, StoredMatrix, load_matrix};
+
+pub use indirect::{NdParameters, load_processed_nd, nd_parameters, place_on_grid};
+pub use lp::{LinearPrediction, LpDirection};
+pub use processnd::{
+    DimensionOptions, DimensionParameters, Encoding, LpMode, NdOptions, Projection, Series,
+    SpectrumNd, StoredDimension, StoredPhaseMode, process_nd,
+};
+pub use window::Window;
 
 /// What [`analyze`] should do.
 #[derive(Debug, Clone, Default)]
