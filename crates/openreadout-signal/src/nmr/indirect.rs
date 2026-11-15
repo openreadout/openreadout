@@ -551,7 +551,9 @@ fn varian(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
             reference_frequency_mhz: reference.unwrap_or(0.0),
             rows,
             encoding,
-            conjugate: false,
+            // VnmrJ's F1 runs the other way from Bruker's (the NMRPipe conversion of the
+            // nmrglue test sets: no reversal for States, `REV` after the TPPI transform)
+            conjugate: true,
             series: None,
             stored,
         });
@@ -580,9 +582,13 @@ fn varian(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
 }
 
 fn jeol(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
-    let pr = vendor.get("parameters");
+    let pr = vendor.get("parameters").and_then(Value::as_object);
+    // parameter names are case-insensitive in JEOL files
     let base = |k: &str| -> Option<f64> {
-        let p = pr?.get(k)?;
+        let p = pr?
+            .iter()
+            .find(|(name, _)| name.eq_ignore_ascii_case(k))
+            .map(|(_, v)| v)?;
         let v = num(p.get("value"))?;
         let e = p.get("power_of_ten").and_then(Value::as_i64).unwrap_or(0);
         Some(v * 10f64.powi(e.clamp(-30, 30) as i32))
@@ -604,7 +610,8 @@ fn jeol(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
             reference_frequency_mhz: carrier / (1.0 + off * 1e-6),
             rows: points * encoding.rows_per_point(),
             encoding,
-            conjugate: true,
+            // the COSY diagonal of nmrxiv-s200 runs high-high to low-low without conjugation
+            conjugate: false,
             series: None,
             stored: StoredDimension::default(),
         });

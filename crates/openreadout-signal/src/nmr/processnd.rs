@@ -1200,8 +1200,9 @@ pub fn process_nd(
                         err = Some(Error::Other(x));
                         return;
                     }
-                    for (i, v) in buf.iter().take(n).enumerate() {
-                        let v = if conj { *v } else { v.conj() };
+                    for i in 0..n {
+                        // conjugate: the frequency axis mirrored (ν → SW − ν)
+                        let v = if conj { buf[n - i] } else { buf[i] }.conj();
                         lout[c][i] = v.re;
                         lout[c | bit][i] = v.im;
                     }
@@ -1519,6 +1520,8 @@ fn strip_last(v: &mut Vec<f64>, shape: &[usize], start: usize, len: usize) {
     *v = out;
 }
 
+const TILT_SIGN: f64 = 1.0;
+
 /// Shift each F1 row along F2 by its F1 offset from the centre (Hz), by linear interpolation.
 fn tilt(real: &mut [f64], shape: &[usize], axes: &[PpmAxis]) {
     let (n1, n2) = (shape[0], shape[1]);
@@ -1531,10 +1534,10 @@ fn tilt(real: &mut [f64], shape: &[usize], axes: &[PpmAxis]) {
     for i in 0..n1 {
         // F1 offset from the centre, Hz (index 0 = highest frequency)
         let f1 = (n1 as f64 / 2.0 - i as f64) * hz1;
-        let shift = f1 / hz2; // points: a line at +f1 sits f1 Hz higher in F2 (to the left)
+        let shift = f1 / hz2;
         row.copy_from_slice(&real[i * n2..(i + 1) * n2]);
         for j in 0..n2 {
-            let x = j as f64 - shift;
+            let x = j as f64 + TILT_SIGN * shift;
             let x0 = x.floor();
             let t = x - x0;
             let at = |k: f64| -> f64 {

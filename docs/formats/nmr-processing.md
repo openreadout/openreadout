@@ -199,11 +199,162 @@ CARBON_01: `proc='lp'`, `ddrtc` 364 µs) need a first-order phase beyond the aut
 0.54 s with automatic phasing, 23 MB peak memory. The largest transform is 2²² points
 (`MAX_TRANSFORM_SIZE`).
 
+## Multidimensional processing (`process_nd`, `load_processed_nd`)
+
+Code: `processnd.rs` (pipeline), `indirect.rs` (parameters per format, loader), `window.rs`,
+`lp.rs`. `load_processed_nd(ds, info, trace, &NdOptions)` reads every row of an FID trace and
+the parameters of every dimension and returns a `SpectrumNd`: `shape` and `axes` slowest
+dimension first (2D: `[F1, F2]`), `real` row-major, optional hypercomplex `components`, the
+`series` list of a pseudo-2D data set, and a `record` of what was done per dimension.
+
+1. Direct dimension, each row: the 1D steps above (stored `TDeff`, group delay, window from the
+   true time zero, `FCOR`, transform, fractional group-delay term), optional linear prediction,
+   then the phase.
+2. Each indirect dimension, fastest first: rows combined into complex interferograms by the
+   encoding, optional linear prediction, window, first point × `FCOR` (default 0.5), zero filling,
+   transform in the same order as F2 (index 0 = high frequency), phase.
+3. Magnitude or power over the dimensions that ask for it, `REVERSE`, the direct strip
+   (`STSR`/`STSI`), optional `tilt` (J-resolved, with symmetrisation about F1 = 0) and
+   `symmetrize` (TopSpin `sym`), baseline per dimension (default none), ppm axes.
+
+Encodings (rows `2k` = u, `2k+1` = v; i₂ = the F2 imaginary unit):
+
+| `Encoding` | Bruker `MC2` (FnMODE − 1) | Varian | JEOL | interferogram point k |
+| --- | --- | --- | --- | --- |
+| `Complex` | 0 QF | `phase` = 1 | `real_complex` | conj(row k) |
+| `Sequential` | 1 QSEQ | – | – | as `Tppi` (not verified) |
+| `Tppi` | 2 TPPI | `phase` = 3 | `tppi` | real points at 2·SW: 2N real points transformed, first N bins conjugated |
+| `States` | 3 States | `phase` = 1,2 | `complex` | Re₂(u) + i·Re₂(v) |
+| `StatesTppi` | 4 States-TPPI | – | – | as `States`, × (−1)^k |
+| `EchoAntiecho` | 5 echo/antiecho | `f1coef` with 8 values | – | Re₂(C) − i·Re₂(S), C = i₂(u + v), S = u − v |
+| `Series` | pseudo-2D (below) | arrays other than `phase` | – | not transformed |
+
+FnMODE 0 (undefined) uses the stored `MC2`, else a guess from the pulse program (`qf` →
+`Complex`, `et`/`ea` → `EchoAntiecho`, else `StatesTppi`, with a note).
+
+Defaults per dimension (`DimensionOptions`, `None`/`Default` fields): the stored transform size,
+window, phases, phase mode (Bruker `PH_mod` 2 = magnitude, 3 = power; phases stored with
+`PH_mod` 0 are applied, since TopSpin's later `apk`/`apkm` store them there), first-point factor,
+points used (`TDeff`), linear prediction (`ME_mod`, `NCOEF`, `LPBIN`) and `REVERSE`. Without
+stored values: cosine-squared window (sine power 2, offset 0.5) in every dimension of 2D data and
+the 1D exponential for the F2 of a series; a size of the next power of two ≥ 2 × the points;
+magnitude for `Complex` dimensions and automatic phasing for the others (F2 on the first
+increment, F1 on the column through the strongest point). `NdOptions` adds `ignore_group_delay`,
+`symmetrize`, `tilt` and `keep_components`. Windows: `Window` { `None`, `Exponential`,
+`Gaussian`, `LorentzToGauss`, `Sine` (offset, power), `Trapezoid`, `Sinc`, `Traficante` }, mapped
+from Bruker `WDW` 0–10 (`window.rs` module docs; sine and exponential windows were checked against
+TopSpin, the others follow their published definitions).
+
+Linear prediction (`LinearPrediction` { `direction`, `coefficients`, `points` }): Burg
+coefficients, `Forward` to `points` rows (Bruker `LPBIN`), `Backward` (replaces the first points),
+`MirrorForward` (`ME_mod` 5/6: the series mirrored to negative time by conjugation before the
+fit). Burg's coefficients stay stable when `NCOEF` approaches the number of points; they are
+biased towards weaker damping, which shows on short, fast-decaying interferograms.
+
+Pseudo-2D series: a Bruker experiment whose directory holds `difflist`, `vdlist`, `vclist`,
+`vplist`, `vtlist` or `valist` and whose F1 is not hypercomplex, or whose pulse program is a
+diffusion or relaxation sequence (`ledbp`, `stebp`, `dstebp`, `dosy`, `diff`; `t1ir`, `t1rho`,
+`cpmg`, `t2` at the start), every Spinsolve `data.2d` (delays from `minDelay`, `maxDelay`,
+`delaySpacing`, `nrSteps`, in ms) and Varian arrays: F2 transformed row by row, the rows kept, the
+varied values in `SpectrumNd::series` (`name`, `values`, `unit`, `source`).
+
+Non-uniform sampling: `place_on_grid(rows, schedule, dims, full)` puts the measured rows of a
+`nuslist` on the full grid with zeros elsewhere; `load_processed_nd` does that for Bruker NUS
+data (with a note) and processes the zero-filled grid. A reconstruction step fills the same grid
+and calls `process_nd`.
+
+Projections and slices: `SpectrumNd::projection(axis, Projection::{Skyline, NegativeSkyline,
+Sum})`, `trace(axis, &indices)`, `trace_at_ppm(axis, &ppm)` (2D: `trace_at_ppm(1, &[f1])` is the
+row at F1 shift f1, `trace_at_ppm(0, &[f2])` the column at F2 shift f2), `point_of`, `get`.
+
+Bruker DSPFVS 11/12 firmware (table group delay with a fraction): 180° is added to the stored F2
+phase; without it TopSpin's `1r` and `2rr` come out inverted (s572, 1D and 2D).
+
+### Parity with TopSpin's `2rr` (2026-11-14; `tests/nmr_processing_2d.rs`)
+
+The `ser` processed with the stored parameters against TopSpin's `pdata/1/2rr`: signal
+correlation over |2rr| > 10 × noise SD (all-point correlation in brackets when it differs), the
+tallest point within one point in both dimensions, both ppm axes equal to TopSpin's `OFFSET`.
+
+| experiment | pulse program, encoding | F1 linear prediction | signal (all) correlation | notes |
+| --- | --- | --- | --- | --- |
+| `bmrb-bmse000008-cosy` | cosyqf45, QF magnitude | – | 0.999995 | |
+| `bmrb-bmse001104-hsqc` | hsqcdietgpsisp.2, EA | LPfc 32 | 0.999805 | |
+| `bmrb-bmse001250-hmbc` | hmbcetgpl3nd, EA | LPfc 32 | 0.999857 | |
+| `bmrb27037 …Chsqc…` | hsqcetgpsp, EA | LPfc 32 | 0.998967 | stored F1 width edited (SW_p ≠ SW_h): F1 axis not compared |
+| `nmrxiv-s1247/12` | cosygpppqf, QF | – | 0.999928 | |
+| `nmrxiv-s1247/13` | hsqcetgpsi, EA | – | 0.999982 (0.994338) | |
+| `nmrxiv-s1247/14` | impact-hmbc, EA, F2 magnitude | – | 0.999983 | `TDeff` 104 of 256 rows |
+| `nmrxiv-s1407/COSY` | cosygpppqf, QF | LPfc 32 | 0.998039 | |
+| `nmrxiv-s1517/16` | noesygpphpp, States-TPPI | – | 0.999992 | |
+| `nmrxiv-s1608/RPDLF` | NEA_RPDLF (solid state), FnMODE 0 → MC2 QF | – | 0.999918 | |
+| `nmrxiv-s1617/COSY` | cosygpppqf, QF | LPfc 32 | 0.999948 | |
+| `nmrxiv-s1617/HMBC` | hmbcetgpl3nd, EA, F2 magnitude | LPfc 60 of 64 points | 0.990955 (0.954147) | prediction order near the number of points |
+| `nmrxiv-s1617/HSQC` | hsqcedetgpsisp2.3, EA | LPfc 60 of 64 points | 0.987163 | same |
+| `nmrxiv-s1617/TOCSY` | mlevphpp, States-TPPI | LPfc 32 | 0.999981 | |
+| `nmrxiv-s2331/11` | cosygpppqf, QF | LPfc 32 | 0.994912 | |
+| `nmrxiv-s2331/12` | hsqcedetgp, EA | LPfc 32 | 0.999765 | |
+| `nmrxiv-s2331/13` | hmbcetgpl3nd, EA | LPfc 32 | 0.999550 | |
+| `nmrxiv-s2331/15` | noesygpphzs, States-TPPI | LPfc 32 | 0.999933 | |
+| `nmrxiv-s279/22` | cosygpmfqf, QF | – | 0.999995 | |
+| `nmrxiv-s314/202` | noesygpph, TPPI | – | 0.999999 | |
+| `nmrxiv-s38/12` | cosygpqf, QF + `sym` | LPfc 16 | 0.999775 | |
+| `nmrxiv-s38/15` | hsqcetgp, EA | LPfc 16 | 0.998650 | |
+| `nmrxiv-s38/16` | hmbcgplpndqf, QF | LPmifc 90 | 0.995837 | mirror-image prediction |
+| `nmrxiv-s38/17` | noesyetgp, EA | LPfc 16 | 0.996670 | |
+| `nmrxiv-s49/5` | cosygpppqf, QF + `sym` | LPfc 32 | 0.997659 | |
+| `nmrxiv-s49/6` | hsqcedetgpsisp2.3, EA | LPfc 32 | 0.999884 | |
+| `nmrxiv-s49/7` | hmbcetgpl3nd, EA | LPfc 32 | 0.999764 | |
+| `nmrxiv-s501/6` | roesyphpr.2, States-TPPI | LPfc 32 | 0.999977 | |
+| `nmrxiv-s572/3` | cosygpmfph, States-TPPI (DSPFVS 12) | – | 0.999103 | |
+| `nmrxiv-s572/4` | noesygpph, States-TPPI (DSPFVS 12) | – | 0.997785 | F2 EM 5 Hz; the residual is not explained |
+| `nmrxiv-s572/5` | hsqcedetgpsp, EA (DSPFVS 12) | – | 0.999995 | |
+| `nmrxiv-s572/6` | hmbcgpl2ndqf, QF | – | 0.999191 | |
+| `nmrxiv-s73/4` | cosygpppqf, QF | LPfc 32 | 0.999311 | |
+| `nmrxiv-s73/5` | hsqcedetgpsisp2.3, EA | LPfc 32 | 0.999980 | |
+| `nmrxiv-s73/6` | hmbcgplpndqf, QF | LPfc 32 | 0.979348 | prediction of a short magnitude HMBC |
+| `nmrxiv-s736/3` | cosygpppqf, QF | – | 0.999989 | |
+| `nmrxiv-s736/4` | hsqcedetgpsisp.2, EA | – | 0.999995 | |
+| `nmrxiv-s736/5` | hmbcgplpndqf, QF | – | 0.999996 | |
+| `nmrxiv-s736/6` | noesygpphpp, TPPI | – | 0.999985 | |
+| `nmrxiv-s736/7` | hsqcetgpsi (15N), EA | – | 0.999917 (0.986998) | |
+| `nmrxiv-s736/8` | hmbcgpndqf (15N), QF | – | 0.999915 (0.978266) | |
+| `nmrxiv-s740/2` | hsqcetgpsi, EA | – | 0.999996 | |
+| `nmrxiv-s740/3` | hmbcgplpndqf, QF | – | 0.999998 | |
+| `nmrxiv-s740/5` | roesyphpp, TPPI | – | 0.999988 | |
+| `nmrxiv-s853/8` | noesygpphpp, States-TPPI | – | 0.999980 | |
+
+Summary: 30 of the 31 experiments TopSpin made without linear prediction reach a signal
+correlation ≥ 0.9991 (24 at ≥ 0.9999); the exception is s572/4 (0.9978). With Burg linear
+prediction in F1, 14 of 21 reach ≥ 0.999 and all but three ≥ 0.994; the three below are short
+interferograms (64 complex points) predicted with 32–60 coefficients. Differences in the
+all-point correlation of the 15N and some HSQC spectra are in the noise: TopSpin's `abs1`/`abs2`
+baseline corrections after the transform are not reproduced.
+
+Reported, not asserted: J-resolved `bmse000797` (`tilt` and `symj` after the transform),
+non-uniformly sampled sets (s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15: the
+zero-filled grid correlates 0.30–0.97 with TopSpin's reconstruction), solvent-filtered sets
+(`BC_mod` qfil: s314/20, /200, `nmrtools/15n-trosy-ts3`) and solid-state MQMAS
+(`desperate/RbNO3_MQMAS`, which TopSpin shears). DOSY (`nmrxiv-s519/310–321`): TopSpin's `2rr`
+is the diffusion-transformed spectrum, so the first F2 row processed here is compared with its sum
+over F1.
+
+Other vendors (no vendor-processed 2D data are public in the corpus): Varian `nmrglue-agilent-2d`
+(States) and `-2d-tppi` (TPPI), JEOL `nmrxiv-s200` COSY/HSQC/HMBC, figshare HMBC, Zenodo HSQC,
+13 Spinsolve `data.2d` series; checked for finite values, the encoding, the series list and (COSY)
+a diagonal. Bruker 3D `nmrglue-bruker-3d` (no `acqu3s`; dimensions given by hand) is processed
+as a smoke test.
+
 ## Known gaps
 
-- 1-D only; no second-dimension transform, NUS reconstruction or linear prediction.
-- Linear prediction (Bruker `ME_mod`, VnmrJ `proc='lp'`) is not done: spectra the vendor processed
-  with it differ at the start of the FID (a note says so). Varian `lp` is not reproduced.
+- The commands (`analyze nmr-peaks`, `--process`) use the 1D path; the multidimensional API is
+  library-only until it is wired in.
+- No NUS reconstruction (zero-filled grid only), no solvent filter (`BC_mod` 5/6), no shearing
+  (MQMAS), no TopSpin `abs1`/`abs2` baseline; `tilt`/`symmetrize` run only when asked.
+- Linear prediction in F1 is Burg's: it falls short of TopSpin when `NCOEF` is close to the
+  number of points. Varian `lp` (1D) is not reproduced; VnmrJ `proc1='lp'` is not read.
+- Varian windows other than `lb1`, VnmrJ 3D row order, JEOL NUS and Spinsolve delay spacing are
+  taken as documented in `indirect.rs` and not verified on vendor spectra.
 - Real-only (`AQ_mod` 0/2) FIDs are refused (exit 6).
 - Bruker DIGMOD 3 FIDs processed here sit on a baseline about 0.3 % of the tallest line away
   from TopSpin's `1r` (water-suppressed metabolomics spectra, 2026-10-11). Weak lines of nearly
@@ -239,3 +390,18 @@ CARBON_01: `proc='lp'`, `ddrtc` 364 µs) need a first-order phase beyond the aut
 | `NmrReport`, `path`, `format`, `trace_name`, `processing`, `noise_sd`, `peak_options`, `peak_count`, `main_peak` | `analyze nmr-peaks` output |
 | `ChosenSpectrum`, `spectrum`, `load`, `analyze` | the spectrum used and the analysis entry points |
 | `ProcessedNmrDataset`, `record` | dataset wrapper behind `--process` |
+| `process_nd`, `MAX_ND_POINTS`, `SpectrumNd`, `shape`, `components`, `axes`, `series`, `ndim`, `get`, `point_of`, `trace_at_ppm`, `projection` | multidimensional processing entry point, limit and result |
+| `Component`, `mask`, `values` | one hypercomplex component of a result |
+| `Projection` { `Skyline`, `NegativeSkyline`, `Sum` } | how a projection combines points |
+| `Encoding` { `Complex`, `Sequential`, `Tppi`, `States`, `StatesTppi`, `EchoAntiecho`, `Series` }, `rows_per_point`, `is_fourier` | sampling of an indirect dimension |
+| `Series`, `name`, `unit` | the varied parameter of a pseudo-2D series |
+| `DimensionParameters`, `rows`, `encoding` | acquisition parameters of an indirect dimension |
+| `StoredDimension`, `window`, `phase_mode`, `linear_prediction`, `reverse`, `strip` | stored processing of one dimension |
+| `StoredPhaseMode` { `Phased`, `Magnitude`, `Power` } | stored phase mode (Bruker `PH_mod`) |
+| `DimensionOptions`, `power`, `first_point_factor` | per-dimension options |
+| `LpMode` { `Default`, `None`, `Manual` }, `prediction` | linear prediction choice |
+| `NdOptions`, `direct`, `indirect`, `symmetrize`, `tilt`, `keep_components` | multidimensional options |
+| `DimensionRecord`, `label`, `encoding`, `points`, `window_source`, `reversed`, `NdRecord`, `dimensions` | what was done per dimension |
+| `Window` { `None`, `Exponential`, `Gaussian`, `LorentzToGauss`, `Sine`, `Trapezoid`, `Sinc`, `Traficante` }, `gaussian_position`, `offset`, `power`, `rise`, `fall`, `center`, `width`, `weights` | window functions |
+| `LinearPrediction`, `direction`, `coefficients`, `points`, `LpDirection` { `Forward`, `Backward`, `MirrorForward` }, `burg_coefficients`, `predict` | linear prediction |
+| `NdParameters`, `direct_stored`, `schedule`, `nd_parameters`, `read_rows`, `place_on_grid`, `load_processed_nd`, `bruker_encoding`, `bruker_window`, `parse_list` | parameters of every dimension per format and the loader |
