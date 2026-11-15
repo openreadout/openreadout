@@ -21,7 +21,8 @@
 //! Run: `cargo test -p openreadout-corpus-tests --features corpus --profile corpus --test
 //! nmr_processing_2d -- --nocapture` (`OPENREADOUT_CORPUS_DIR` overrides `corpus/files`).
 #![cfg(feature = "corpus")]
-#![allow(clippy::many_single_char_names)]
+// `!(x >= t)` is the deliberate NaN-rejecting form of a threshold test
+#![allow(clippy::many_single_char_names, clippy::neg_cmp_op_on_partial_ord)]
 
 use std::path::{Path, PathBuf};
 
