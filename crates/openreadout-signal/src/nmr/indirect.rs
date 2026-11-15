@@ -306,7 +306,7 @@ fn extra_dims(t: &TraceInfo) -> Vec<serde_json::Map<String, Value>> {
         .unwrap_or_default()
 }
 
-fn bruker(t: &TraceInfo, vendor: &Value, info: &FileInfo, out: &mut NdParameters) -> Result<()> {
+fn bruker(t: &TraceInfo, vendor: &Value, info: &FileInfo, out: &mut NdParameters) {
     let acq = vendor.get("acquisition").and_then(Value::as_object);
     let param = |file: &str| -> Option<serde_json::Map<String, Value>> {
         acq?.get(file)?.get("parameters")?.as_object().cloned()
@@ -353,11 +353,13 @@ fn bruker(t: &TraceInfo, vendor: &Value, info: &FileInfo, out: &mut NdParameters
     let fv = num(acqus.get("DSPFVS")).unwrap_or(0.0) as i64;
     let grp = num(acqus.get("GRPDLY")).unwrap_or(-1.0);
     let g = out.direct.group_delay_points;
-    if matches!(fv, 11 | 12) && grp < 0.0 && g.fract() > 0.0 {
-        if let Some(p0) = out.direct_stored.phase0_deg.as_mut() {
-            *p0 += 180.0;
-            out.notes.push(format!("DSPFVS {fv} firmware: 180° added to the stored direct-dimension phase (the convention measured on such data sets)"));
-        }
+    if matches!(fv, 11 | 12)
+        && grp < 0.0
+        && g.fract() > 0.0
+        && let Some(p0) = out.direct_stored.phase0_deg.as_mut()
+    {
+        *p0 += 180.0;
+        out.notes.push(format!("DSPFVS {fv} firmware: 180° added to the stored direct-dimension phase (the convention measured on such data sets)"));
     }
     let pulprog = text(acqus.get("PULPROG")).unwrap_or_default();
     let dir = vendor
@@ -473,7 +475,6 @@ fn bruker(t: &TraceInfo, vendor: &Value, info: &FileInfo, out: &mut NdParameters
             full.unwrap_or(0.0)
         ));
     }
-    Ok(())
 }
 
 fn varian(t: &TraceInfo, vendor: &Value, out: &mut NdParameters) {
@@ -712,7 +713,7 @@ pub fn nd_parameters(ds: &dyn Dataset, info: &FileInfo, index: u32) -> Result<Nd
     };
     let vendor = ds.vendor_metadata().unwrap_or(Value::Null);
     match info.format.id.as_str() {
-        "bruker-nmr" => bruker(&t, &vendor, info, &mut out)?,
+        "bruker-nmr" => bruker(&t, &vendor, info, &mut out),
         "varian-nmr" => varian(&t, &vendor, &mut out),
         "jeol-jdf" => jeol(&t, &vendor, &mut out),
         "magritek-spinsolve" => spinsolve(&t, &vendor, &mut out),

@@ -442,15 +442,15 @@ impl SpectrumNd {
         let strides = self.strides();
         let mut base = 0;
         let mut it = at.iter();
-        for a in 0..nd {
+        for (a, (&n, &s)) in self.shape.iter().zip(&strides).enumerate() {
             if a == axis {
                 continue;
             }
             let i = *it.next()?;
-            if i >= self.shape[a] {
+            if i >= n {
                 return None;
             }
-            base += i * strides[a];
+            base += i * s;
         }
         Some(
             (0..self.shape[axis])
@@ -544,7 +544,7 @@ impl Cube {
                     }
                 }
                 for l in &mut lout {
-                    l.iter_mut().for_each(|v| *v = 0.0);
+                    l.fill(0.0);
                 }
                 f(&lin, &mut lout);
                 for (c, l) in lout.iter().enumerate() {
@@ -1328,7 +1328,7 @@ pub fn process_nd(
             .into_iter()
             .enumerate()
             .skip(1)
-            .filter(|(m, v)| !(enc.contains(&Encoding::Complex) && m & 1 != 0) && !v.is_empty())
+            .filter(|(m, v)| (!enc.contains(&Encoding::Complex) || m & 1 == 0) && !v.is_empty())
             .map(|(m, values)| Component {
                 mask: m as u32,
                 values,
@@ -1491,17 +1491,17 @@ pub fn process_nd(
         .rev()
         .find(|(_, e)| **e == Encoding::Series)
         .and_then(|(d, _)| d.series.clone());
-    if series_any && nd == 2 {
-        if let Some(s) = &series
-            && s.values.len() < shape[0]
-        {
-            rec.notes.push(format!(
-                "the {} list has {} values for {} rows",
-                s.name,
-                s.values.len(),
-                shape[0]
-            ));
-        }
+    if series_any
+        && nd == 2
+        && let Some(s) = &series
+        && s.values.len() < shape[0]
+    {
+        rec.notes.push(format!(
+            "the {} list has {} values for {} rows",
+            s.name,
+            s.values.len(),
+            shape[0]
+        ));
     }
     rec.dimensions = records;
     Ok(SpectrumNd {

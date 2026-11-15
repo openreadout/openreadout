@@ -155,7 +155,11 @@ impl Window {
                     } else {
                         (pi * y).sin() / (pi * y)
                     };
-                    if power == 1.0 { s } else { s.abs().powf(power) }
+                    if (power - 1.0).abs() < f64::EPSILON {
+                        s
+                    } else {
+                        s.abs().powf(power)
+                    }
                 })
                 .collect(),
             Window::Traficante { line_broadening_hz } => {
@@ -206,7 +210,9 @@ mod tests {
             fall: 0.8,
         }
         .weights(n, 1e-3);
-        assert!((t[5] - 0.5).abs() < 1e-12 && t[50] == 1.0 && (t[90] - 0.5).abs() < 1e-9);
+        assert!(
+            (t[5] - 0.5).abs() < 1e-12 && (t[50] - 1.0).abs() < 1e-12 && (t[90] - 0.5).abs() < 1e-9
+        );
         let g = Window::LorentzToGauss {
             line_broadening_hz: -2.0,
             gaussian_position: 0.3,
