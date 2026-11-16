@@ -80,6 +80,20 @@ enum Route {
     Fid(u32),
 }
 
+/// Is the stored spectrum `t` a series of spectra in more than one varied parameter (a
+/// pseudo-3D relaxation set stored as planes)? None of its indirect axes is a chemical shift or
+/// a coupling, so it has rows to pick peaks in, not cross peaks.
+fn is_stored_series(info: &FileInfo, t: &TraceInfo, vendor: &Value) -> bool {
+    let Some(lay) = matrix_layout(t, vendor) else {
+        return false;
+    };
+    let axes = crate::nmr::slices2d::dimension_axes(info, t, vendor, &lay);
+    axes.len() >= 3
+        && axes[..axes.len() - 1]
+            .iter()
+            .all(|a| !a.is_shift() && a.quantity != "coupling")
+}
+
 fn route(ds: &dyn Dataset, info: &FileInfo, req: &NmrPeaksRequest) -> Route {
     if req.sweep_given {
         return Route::Spectrum;
@@ -88,6 +102,7 @@ fn route(ds: &dyn Dataset, info: &FileInfo, req: &NmrPeaksRequest) -> Route {
     let source = req.spectrum.source;
     if let Some(i) = req.spectrum.trace {
         return match info.traces.iter().find(|t| t.index == i) {
+            Some(t) if is_stored_series(info, t, &vendor) => Route::Spectrum,
             Some(t) if matrix_layout(t, &vendor).is_some() => Route::Stored(Some(i)),
             Some(t) if is_fid_nd(t) && !crate::nmr::fid2d::is_series(ds, info, i) => Route::Fid(i),
             _ => Route::Spectrum,
@@ -96,7 +111,7 @@ fn route(ds: &dyn Dataset, info: &FileInfo, req: &NmrPeaksRequest) -> Route {
     let matrix = info
         .traces
         .iter()
-        .find(|t| matrix_layout(t, &vendor).is_some());
+        .find(|t| matrix_layout(t, &vendor).is_some() && !is_stored_series(info, t, &vendor));
     // a pseudo-2D series is analysed row by row
     let fid_nd = info
         .traces
@@ -106,6 +121,15 @@ fn route(ds: &dyn Dataset, info: &FileInfo, req: &NmrPeaksRequest) -> Route {
         .traces
         .iter()
         .any(|t| !is_fid(t) && t.sweep_count <= 1 && t.extra.contains_key("axis"));
+    // a stored series is read row by row, and its `ser` is not a spectrum to transform in F1
+    if source != SpectrumSource::Fid
+        && info
+            .traces
+            .iter()
+            .any(|t| is_stored_series(info, t, &vendor))
+    {
+        return Route::Spectrum;
+    }
     match (source, matrix, fid_nd) {
         (SpectrumSource::Fid, _, Some(f)) => Route::Fid(f.index),
         (SpectrumSource::Fid, _, None) => Route::Spectrum,
@@ -133,17 +157,18 @@ pub fn analyze_peaks(
         Route::Spectrum => {
             let one = one_d(req)?;
             let mut r = analyze(ds, info, &one)?;
+            let vendor = ds.vendor_metadata().unwrap_or(Value::Null);
             let rows = info
                 .traces
                 .iter()
                 .find(|t| t.index == r.trace)
-                .filter(|t| is_fid_nd(t))
+                .filter(|t| is_fid_nd(t) || is_stored_series(info, t, &vendor))
                 .map(|t| t.sweep_count);
             if let Some(n) = rows
                 && !req.sweep_given
             {
                 r.notes.push(format!(
-                    "a pseudo-2D series of {n} rows: these are the peaks of row 0; pick another row with --sweep N (MCP sweep)"
+                    "a series of {n} rows: these are the peaks of row 0; pick another row with --sweep N (MCP sweep)"
                 ));
             }
             Ok(NmrPeaksReport::Spectrum(r))
