@@ -70,6 +70,7 @@ use openreadout_core::{Error, Result};
 use crate::fft::{Complex, fft_in_place, next_pow2};
 use crate::nmr::baseline::{self, BaselineMode};
 use crate::nmr::lp::{LinearPrediction, predict};
+use crate::nmr::nus::{NusMode, NusRecord};
 use crate::nmr::phase;
 use crate::nmr::process::{FidParameters, PhaseMode, PpmAxis, ppm_axis};
 use crate::nmr::window::Window;
@@ -309,6 +310,10 @@ pub struct NdOptions {
     /// Keep the imaginary (hypercomplex) components in the result.
     #[serde(default)]
     pub keep_components: bool,
+    /// How [`crate::nmr::indirect::load_processed_nd`] fills the increments a non-uniformly
+    /// sampled data set did not measure (default: reconstruction, [`crate::nmr::nus`]).
+    #[serde(default)]
+    pub nus: NusMode,
 }
 
 /// One hypercomplex component of a result.
@@ -376,6 +381,9 @@ pub struct NdRecord {
     /// Remarks (fallbacks, conventions not verified, clamping).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub notes: Vec<String>,
+    /// Non-uniformly sampled data: how the missing increments were filled.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub nus: Option<NusRecord>,
 }
 
 /// A processed multidimensional spectrum (or pseudo-2D stack of spectra).

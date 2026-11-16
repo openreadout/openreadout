@@ -27,9 +27,11 @@
 //! other than `phase` are series of the arrayed parameter.
 //!
 //! **Non-uniform sampling.** Bruker data with `FnTYPE` 2 list the sampled increments in
-//! `nuslist`; [`load_processed_nd`] places the measured rows on the full grid
-//! ([`place_on_grid`]) with zeros elsewhere and says so in a note. A reconstruction step can
-//! fill the grid and call [`process_nd`] on it.
+//! `nuslist` and the full sizes in `NusTD`; [`load_processed_nd`] places the measured rows on
+//! the full grid ([`place_on_grid`]), fills the missing increments as `NdOptions::nus` says
+//! (default: reconstruction, [`crate::nmr::nus`]) and records what it did in `record.nus`.
+//! When the `ser` holds fewer increments than the `nuslist` lists, the acquisition stopped
+//! early and only the first entries count as measured.
 
 use std::path::Path;
 
@@ -41,6 +43,7 @@ use openreadout_core::{Dataset, Error, Result};
 
 use crate::fft::Complex;
 use crate::nmr::lp::{LinearPrediction, LpDirection};
+use crate::nmr::nus::{self, NusMode, NusRecord};
 use crate::nmr::process::FidParameters;
 use crate::nmr::processnd::{
     DimensionParameters, Encoding, NdOptions, Series, SpectrumNd, StoredDimension, StoredPhaseMode,
@@ -348,18 +351,17 @@ fn bruker(t: &TraceInfo, vendor: &Value, info: &FileInfo, out: &mut NdParameters
             &mut out.notes,
             "direct dimension",
         );
-    }
-    // DSPFVS 11/12: stored phases 180° away (provenance log 2026-11-14)
-    let fv = num(acqus.get("DSPFVS")).unwrap_or(0.0) as i64;
-    let grp = num(acqus.get("GRPDLY")).unwrap_or(-1.0);
-    let g = out.direct.group_delay_points;
-    if matches!(fv, 11 | 12)
-        && grp < 0.0
-        && g.fract() > 0.0
-        && let Some(p0) = out.direct_stored.phase0_deg.as_mut()
-    {
-        *p0 += 180.0;
-        out.notes.push(format!("DSPFVS {fv} firmware: 180° added to the stored direct-dimension phase (the convention measured on such data sets)"));
+        // the 1D parameters had the DSPFVS rule; these were read again from procs
+        let acq_json = Value::Object(acqus.clone());
+        if let Some(fv) = source::dspfvs_phase_flip(Some(&acq_json), out.direct.group_delay_points)
+            && let Some(p0) = out.direct_stored.phase0_deg.as_mut()
+        {
+            *p0 += 180.0;
+            let note = source::dspfvs_note(fv);
+            if !out.notes.contains(&note) {
+                out.notes.push(note);
+            }
+        }
     }
     let pulprog = text(acqus.get("PULPROG")).unwrap_or_default();
     let dir = vendor
@@ -465,15 +467,6 @@ fn bruker(t: &TraceInfo, vendor: &Value, info: &FileInfo, out: &mut NdParameters
             }
         }
         out.indirect.push(dim);
-    }
-    // non-uniform sampling
-    if let Some(nus) = t.extra.get("non_uniform_sampling") {
-        let full = num(nus.get("full_time_domain_size"));
-        out.notes.push(format!(
-            "non-uniformly sampled ({} increments of {}): missing increments are zero, no reconstruction",
-            num(nus.get("nuslist_entries")).unwrap_or(0.0),
-            full.unwrap_or(0.0)
-        ));
     }
 }
 
@@ -736,7 +729,9 @@ pub fn read_rows(ds: &mut dyn Dataset, info: &FileInfo, index: u32) -> Result<Ve
 /// dimension (fastest first, as Bruker `nuslist` lists them); `rows` holds, for each increment
 /// in schedule order, `Π rows_per_point` rows (both parts of each hypercomplex pair, fastest
 /// dimension's pair fastest). `full[k]` is the full number of complex points of indirect
-/// dimension `k`. Grid points that were not measured are zero. The result can be passed to
+/// dimension `k`. Grid points that were not measured are zero; a grid point listed more than
+/// once (nmrXiv s279/24) takes the mean of its measurements. A schedule entry with the wrong
+/// number of indices or an index beyond the full size is an error ([`nus::check_schedule`]). The result can be filled by [`nus::reconstruct`] and passed to
 /// [`process_nd`] with `indirect[k].rows = full[k] · rows_per_point`.
 pub fn place_on_grid(
     rows: &[Vec<Complex>],
@@ -764,10 +759,9 @@ pub fn place_on_grid(
     }
     let len = rows.iter().map(Vec::len).max().unwrap_or(0);
     let mut grid = vec![vec![Complex::default(); len]; total];
+    nus::check_schedule(schedule, full)?;
+    let mut counts = vec![0u32; total];
     for (j, inc) in schedule.iter().enumerate() {
-        if inc.len() != indirect.len() || inc.iter().zip(full).any(|(i, f)| i >= f) {
-            continue;
-        }
         for b in 0..block {
             // part index along each dimension
             let mut rem = b;
@@ -780,7 +774,19 @@ pub fn place_on_grid(
                 stride *= dims_rows[k];
             }
             if let Some(src) = rows.get(j * block + b) {
-                grid[target][..src.len()].copy_from_slice(src);
+                for (d, v) in grid[target].iter_mut().zip(src) {
+                    *d += *v;
+                }
+                counts[target] += 1;
+            }
+        }
+    }
+    // an increment measured more than once: the mean of its measurements
+    for (row, &c) in grid.iter_mut().zip(&counts) {
+        if c > 1 {
+            let k = 1.0 / f64::from(c);
+            for v in row.iter_mut() {
+                *v = v.scale(k);
             }
         }
     }
@@ -831,26 +837,142 @@ pub fn load_processed_nd(
         ));
     }
     let mut rows = read_rows(ds, info, trace_index)?;
-    let t = trace(info, trace_index)?;
-    if let Some(nus) = t.extra.get("non_uniform_sampling")
-        && let Some(schedule) = read_schedule(ds, info)
-    {
-        let full_rows = num(nus.get("full_time_domain_size")).unwrap_or(0.0) as usize;
-        if p.indirect.len() == 1 && full_rows > 0 {
-            let rpp = p.indirect[0].encoding.rows_per_point();
-            let full = vec![full_rows / rpp];
-            rows = place_on_grid(&rows, &schedule, &p.indirect, &full)?;
-            p.indirect[0].rows = full_rows;
-            p.schedule = Some((schedule, full));
-        } else {
-            p.notes.push("non-uniform sampling of more than one indirect dimension: rows processed as measured".into());
+    let t = trace(info, trace_index)?.clone();
+    let mut nus_rec = None;
+    if let Some(nus_info) = t.extra.get("non_uniform_sampling") {
+        match read_schedule(ds, info) {
+            Some(schedule) => {
+                let (r, rec) = nus_grid(rows, schedule, nus_info, &mut p, opts.nus)?;
+                rows = r;
+                nus_rec = Some(rec);
+            }
+            None => p.notes.push(
+                "non-uniformly sampled, but no nuslist could be read: rows processed as measured"
+                    .into(),
+            ),
         }
     }
     let mut s = process_nd(&rows, &p.direct, &p.direct_stored, &p.indirect, opts)?;
     let mut notes = p.notes;
     notes.append(&mut s.record.notes);
     s.record.notes = notes;
+    s.record.nus = nus_rec;
     Ok(s)
+}
+
+/// Put the measured rows of non-uniformly sampled data on the full grid and fill it as `mode`
+/// says. Sets the full row counts and the schedule in `p`.
+fn nus_grid(
+    rows: Vec<Vec<Complex>>,
+    mut schedule: Vec<Vec<usize>>,
+    nus_info: &Value,
+    p: &mut NdParameters,
+    mode: NusMode,
+) -> Result<(Vec<Vec<Complex>>, NusRecord)> {
+    let nd = p.indirect.len();
+    let mut sizes: Vec<usize> = nus_info
+        .get("full_time_domain_sizes")
+        .and_then(Value::as_array)
+        .map(|a| {
+            a.iter()
+                .map(|v| num(Some(v)).unwrap_or(0.0).max(0.0) as usize)
+                .collect()
+        })
+        .unwrap_or_default();
+    if sizes.len() != nd && nd == 1 {
+        sizes = num(nus_info.get("full_time_domain_size"))
+            .map(|v| vec![v.max(0.0) as usize])
+            .unwrap_or_default();
+    }
+    let rpp: Vec<usize> = p
+        .indirect
+        .iter()
+        .map(|d| d.encoding.rows_per_point())
+        .collect();
+    let full: Vec<usize> = sizes.iter().zip(&rpp).map(|(s, r)| s / r).collect();
+    if full.len() != nd || full.contains(&0) {
+        return Err(Error::unsupported(
+            "nmr-processing",
+            "non-uniform sampling: the full size of an indirect dimension (NusTD) is missing",
+            "Each acquNs file of a non-uniformly sampled Bruker data set should give NusTD; run `openreadout info <experiment>` (traces[].extra.non_uniform_sampling) to see what was read, or process the rows as measured with `--sweep`.",
+        ));
+    }
+    let block: usize = rpp.iter().product();
+    let measured = rows.len() / block;
+    if schedule.len() > measured {
+        p.notes.push(format!(
+            "the nuslist has {} entries and the ser {measured} increments: the acquisition stopped early, so only the first {measured} entries were measured",
+            schedule.len()
+        ));
+        schedule.truncate(measured);
+    } else if schedule.len() < measured {
+        p.notes.push(format!(
+            "the ser has {measured} increments and the nuslist {} entries: the rows after the last entry are ignored",
+            schedule.len()
+        ));
+    }
+    let repeats = nus::check_schedule(&schedule, &full)?;
+    if repeats > 0 {
+        p.notes.push(format!(
+            "the nuslist lists {repeats} increments more than once; their measurements are averaged"
+        ));
+    }
+    let mut grid = place_on_grid(&rows, &schedule, &p.indirect, &full)?;
+    for (d, (f, r)) in p.indirect.iter_mut().zip(full.iter().zip(&rpp)) {
+        d.rows = f * r;
+    }
+    let grid_points: usize = full.iter().product();
+    let all_supported = p.indirect.iter().all(|d| nus::reconstructable(d.encoding));
+    let ist = match mode {
+        NusMode::ZeroFill => None,
+        NusMode::Default if !all_supported => {
+            p.notes.push(format!(
+                "non-uniformly sampled {:?} data are not reconstructed; the missing increments are zero",
+                p.indirect.iter().map(|d| d.encoding).collect::<Vec<_>>()
+            ));
+            None
+        }
+        NusMode::Default => Some((nus::DEFAULT_ITERATIONS, nus::DEFAULT_CONVERGENCE)),
+        NusMode::IterativeSoftThreshold {
+            iterations,
+            convergence,
+        } => Some((iterations, convergence)),
+    };
+    let rec = if let Some((iterations, convergence)) = ist {
+        let rec = nus::reconstruct(
+            &mut grid,
+            &schedule,
+            &p.indirect,
+            &full,
+            iterations,
+            convergence,
+        )?;
+        p.notes.push(format!(
+                "non-uniformly sampled: {} of {grid_points} increments measured ({:.0} %); the others reconstructed by iterative soft thresholding ({} of {} columns, at most {} of {iterations} iterations, convergence {convergence:e})",
+                rec.sampled_points,
+                100.0 * rec.sampled_fraction,
+                rec.columns_reconstructed,
+                rec.columns,
+                rec.iterations_used,
+            ));
+        rec
+    } else {
+        let sampled = schedule.len();
+        if mode == NusMode::ZeroFill {
+            p.notes.push(format!(
+                    "non-uniformly sampled: {sampled} of {grid_points} increments measured; the others are zero (no reconstruction)"
+                ));
+        }
+        NusRecord {
+            method: "zero_fill".into(),
+            sampled_points: sampled,
+            grid_points,
+            sampled_fraction: sampled as f64 / grid_points as f64,
+            ..NusRecord::default()
+        }
+    };
+    p.schedule = Some((schedule, full));
+    Ok((grid, rec))
 }
 
 #[cfg(test)]
@@ -898,5 +1020,18 @@ mod tests {
         assert_eq!(g[2][0].re, 0.0);
         assert_eq!(g[4][0].re, 3.0);
         assert_eq!(g[5][0].re, 4.0);
+        // increment 2 measured twice: the mean; an index beyond the grid is refused
+        let rows: Vec<Vec<Complex>> = (0..6)
+            .map(|i| vec![Complex::new(i as f64 + 1.0, 0.0); 2])
+            .collect();
+        let d = [DimensionParameters {
+            rows: 8,
+            encoding: Encoding::States,
+            ..DimensionParameters::default()
+        }];
+        let g = place_on_grid(&rows, &[vec![0], vec![2], vec![2]], &d, &[4]).unwrap();
+        assert_eq!(g[4][0].re, 4.0);
+        assert_eq!(g[5][0].re, 5.0);
+        assert!(place_on_grid(&rows, &[vec![0], vec![4]], &d, &[4]).is_err());
     }
 }
