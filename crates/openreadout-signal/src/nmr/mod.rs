@@ -14,6 +14,7 @@ mod dataset;
 pub mod fid2d;
 pub mod indirect;
 pub mod lp;
+pub mod nus;
 pub mod peaks;
 pub mod peaks2d;
 pub mod phase;
@@ -56,6 +57,7 @@ pub use source2d::{MatrixRequest, StoredMatrix, load_matrix};
 
 pub use indirect::{NdParameters, load_processed_nd, nd_parameters, place_on_grid};
 pub use lp::{LinearPrediction, LpDirection};
+pub use nus::{NusMode, NusRecord};
 pub use processnd::{
     DimensionOptions, DimensionParameters, Encoding, LpMode, NdOptions, Projection, Series,
     SpectrumNd, StoredDimension, StoredPhaseMode, process_nd,

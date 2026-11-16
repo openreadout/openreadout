@@ -259,16 +259,18 @@ diffusion or relaxation sequence (`ledbp`, `stebp`, `dstebp`, `dosy`, `diff`; `t
 varied values in `SpectrumNd::series` (`name`, `values`, `unit`, `source`).
 
 Non-uniform sampling: `place_on_grid(rows, schedule, dims, full)` puts the measured rows of a
-`nuslist` on the full grid with zeros elsewhere; `load_processed_nd` does that for Bruker NUS
-data (with a note) and processes the zero-filled grid. A reconstruction step fills the same grid
-and calls `process_nd`.
+`nuslist` on the full grid (`NusTD` per indirect dimension) with zeros elsewhere, and
+`nus::reconstruct` fills the missing increments before `process_nd` runs; `load_processed_nd`
+does both for Bruker NUS data. See "Non-uniform sampling" below.
 
 Projections and slices: `SpectrumNd::projection(axis, Projection::{Skyline, NegativeSkyline,
 Sum})`, `trace(axis, &indices)`, `trace_at_ppm(axis, &ppm)` (2D: `trace_at_ppm(1, &[f1])` is the
 row at F1 shift f1, `trace_at_ppm(0, &[f2])` the column at F2 shift f2), `point_of`, `get`.
 
 Bruker DSPFVS 11/12 firmware (table group delay with a fraction): 180° is added to the stored F2
-phase; without it TopSpin's `1r` and `2rr` come out inverted (s572, 1D and 2D).
+phase, in 1D (`process_fid` through `source::fid_parameters`) and nD alike; without it TopSpin's
+`1r` and `2rr` come out inverted (s572, 1D and 2D; `tests/nmr_processing.rs`
+`bruker_dspfvs_11_12_stored_phase`: s572/1 signal correlation 1.000000 with `1r`).
 
 ### Parity with TopSpin's `2rr` (2026-11-14; `tests/nmr_processing_2d.rs`)
 
@@ -328,8 +330,9 @@ all-point correlation of the 15N and some HSQC spectra are in the noise: TopSpin
 baseline corrections after the transform are not reproduced.
 
 Reported, not asserted: non-uniformly sampled sets (s279/23, /24, s753/21, s853/5–7, s1407
-HSQC/HMBC, s1517/13–15: the zero-filled grid correlates 0.30–0.97 with TopSpin's
-reconstruction) and solvent-filtered sets (`BC_mod` qfil: s314/20, /200: 0.78). DOSY
+HSQC/HMBC, s1517/13–15: compared in "Non-uniform sampling" below), the MQMAS sets
+(`desperate-rbno3-mqmas-20`, `-30`, `zakary-rbnb2o5f-93nb-3qmas-255`, `-87rb-3qmas-60`: TopSpin
+sheared them, which is not done here: signal correlation −0.98 for `desperate-rbno3-mqmas-20`, whose F1 axis also differs, and 0.10 and 0.76 for the `zakary` sets) and solvent-filtered sets (`BC_mod` qfil: s314/20, /200: 0.78). DOSY
 (`nmrxiv-s519/310–321`, 12 series of 64 rows with `difflist`): TopSpin's `2rr` there is the
 diffusion-transformed display (F1 in log D, fitted lines only), so its sum over F1 is only a
 rough reference (signal correlation with the first row 0.30–0.99); the test asserts that the
@@ -349,11 +352,115 @@ Other vendors (no vendor-processed 2D data are public in the corpus):
 | 13 Spinsolve `data.2d` (T1, T2, SLIC, PGSTE) | `Series` | – | every row kept; delays from `minDelay`/`maxDelay`/`nrSteps` where present (9 of 13) |
 | `nmrglue-bruker-3d` (HNCA, no `acqu3s`) | States × States, dimensions from the test data's conversion script | – | 128 × 128 × 2048 spectrum, finite, 64 s (corpus build) |
 
+### Non-uniform sampling (`nus.rs`)
+
+`load_processed_nd` reads the `nuslist` (complex-point indices, one column per indirect
+dimension, in acquisition order) and `NusTD` of each `acquNs`, puts the measured rows on the
+full grid (`place_on_grid`) and fills the rest as `NdOptions::nus` says:
+
+| `NusMode` | what happens |
+| --- | --- |
+| `Default` | `IterativeSoftThreshold` with `iterations` 1000 (`DEFAULT_ITERATIONS`) and `convergence` 10⁻⁴ (`DEFAULT_CONVERGENCE`); zeros, with a note, for `Tppi`, `Sequential` or `Series` dimensions |
+| `ZeroFill` | zeros (the spectrum keeps its sampling artefacts) |
+| `IterativeSoftThreshold { iterations, convergence }` | reconstruction with this iteration cap per column and convergence threshold |
+
+`record.nus` (`NusRecord`) gives the `method` (`iterative_soft_threshold` or `zero_fill`),
+`sampled_points` of `grid_points` and `sampled_fraction`, `max_iterations` and `convergence`,
+`iterations_used` (most any column took) and `columns_reconstructed` of `columns`.
+
+Method (Stern, Donoho, Hoch 2007; Hyberts et al. 2012; module docs of `nus.rs`): the direct
+dimension of the measured rows is transformed without a window; each direct-dimension point
+(column) is reconstructed on its own. The rows of one increment become complex sequences with
+one exponential per line (QF rows as they are, echo and antiecho rows each, a States or
+States-TPPI pair (u, v) as u ± i·v), so hypercomplex pairs stay together. Each sequence: soft
+thresholding of the spectrum (transform size twice the grid, rounded up to a power of two)
+after a step that restores the measured points, the threshold starting at the tallest point and
+falling by 0.93 (`THRESHOLD_DECAY`) per iteration to the noise level (the 25th percentile of the
+columns' tallest zero-filled points), then until the spectrum changes by less than `convergence`
+or the cap is reached. Columns below twice the noise level (`SIGNAL_FACTOR`) are left with
+zeros. The measured rows are kept exactly; the result does not depend on the number of threads
+(up to 8). The same code takes two jointly sampled indirect dimensions (3D; unit-tested on
+synthetic data, no 3D NUS set is in the corpus).
+
+- Linear prediction stored for the dimension (`ME_mod`) still runs after the reconstruction:
+  TopSpin's `proc2s` of the NUS sets keep it (`LPBIN` up to twice `NusTD`), and its audit trails
+  show it ran after `mdd`/`cs`.
+- When the `ser` holds fewer increments than the `nuslist` lists (s1407 HMBC: 28 of 102), the
+  acquisition stopped early: only the first entries count. An increment listed more than once
+  (s279/24: 192 entries, 131 increments) takes the mean of its measurements.
+- Errors (exit 6, with a hint): an entry with the wrong number of indices, an index beyond
+  `NusTD`, `NusTD` missing, or reconstruction asked for a `Tppi`/`Sequential` dimension.
+- Soft thresholding shrinks weak lines a little: in crowded spectra cross peaks within a few
+  times the noise come out lower than in the fully sampled spectrum.
+
+#### Validation (2026-11-15; `tests/nmr_nus.rs`)
+
+Simulated sampling: fully sampled experiments of the parity table (≥ 0.999 against TopSpin, no
+linear prediction) with 25 % and 50 % of the increments kept on a Poisson-gap schedule (seed
+2026), processed with the stored parameters and compared with the fully sampled result. Signal
+correlation over |full| > 10 × noise SD; cross peaks: those `pick_cross_peaks` finds on the full
+spectrum at ≥ 20 noise SDs, found when the sparse spectrum's tallest point within one point has
+the same sign and at least half the height (height error against the full spectrum's tallest
+point there); false cross peaks: picked on the sparse spectrum at ≥ 20 noise SDs (of the full
+spectrum) where the full spectrum is below 5 noise SDs with no cross peak within two points.
+Zero-filled values in brackets; times on 8 cores (test profile).
+
+| experiment | encoding, F1 points | kept | correlation | strong cross peaks found | height error median / max | false cross peaks | time |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `nmrxiv-s736/3` COSY | QF, 256 | 25 % | 0.9997 (0.4941) | 100/126 (24) | 0.10 / 2.97 | 25 (0) | 0.3 s |
+| | | 50 % | 0.9999 (0.7350) | 113/126 (38) | 0.12 / 1.20 | 7 (11) | 0.2 s |
+| `nmrxiv-s736/4` HSQC | EA, 128 | 25 % | 0.9999 (0.8888) | 54/54 (8) | 0.08 / 0.45 | 0 (0) | 0.2 s |
+| | | 50 % | 1.0000 (0.9450) | 54/54 (39) | 0.03 / 0.16 | 0 (0) | 0.1 s |
+| `nmrxiv-s736/5` HMBC | QF, 256 | 25 % | 0.9995 (0.9143) | 54/55 (6) | 0.05 / 0.48 | 0 (0) | 0.2 s |
+| | | 50 % | 0.9999 (0.9658) | 55/55 (23) | 0.02 / 0.18 | 0 (5) | 0.1 s |
+| `nmrxiv-s740/2` HSQC | EA, 128 | 25 % | 0.9849 (0.9486) | 19/19 (0) | 0.12 / 0.39 | 0 (0) | 0.1 s |
+| | | 50 % | 0.9974 (0.9784) | 19/19 (19) | 0.04 / 0.17 | 0 (0) | < 0.1 s |
+| `nmrxiv-s1247/13` HSQC | EA, 128 | 25 % | 0.9993 (0.9347) | 13/13 (0) | 0.04 / 0.23 | 0 (0) | 0.1 s |
+| | | 50 % | 0.9999 (0.9775) | 13/13 (13) | 0.01 / 0.07 | 0 (0) | < 0.1 s |
+| `nmrxiv-s1517/16` NOESY | States-TPPI, 128 | 25 % | 0.9999 (0.6445) | 236/354 (107) | 0.17 / 1.93 | 7 (0) | 0.3 s |
+| | | 50 % | 1.0000 (0.8361) | 321/354 (226) | 0.16 / 1.87 | 1 (0) | 0.2 s |
+| `nmrxiv-s853/8` NOESY | States-TPPI, 64 | 25 % | 0.9994 (0.6730) | 94/100 (20) | 0.09 / 0.50 | 1 (0) | 0.2 s |
+| | | 50 % | 0.9999 (0.8673) | 100/100 (56) | 0.03 / 0.30 | 0 (0) | 0.1 s |
+| `nmrxiv-s572/5` HSQC | EA, 128 | 25 % | 0.9999 (0.9015) | 29/29 (6) | 0.07 / 0.41 | 0 (0) | 0.1 s |
+| | | 50 % | 1.0000 (0.9600) | 29/29 (18) | 0.03 / 0.20 | 0 (0) | 0.1 s |
+| `nmrxiv-s279/22` COSY | QF, 256 | 25 % | 0.9988 (0.9717) | 19/19 (2) | 0.07 / 0.25 | 1 (0) | 0.1 s |
+| | | 50 % | 0.9998 (0.9903) | 19/19 (6) | 0.02 / 0.11 | 0 (3) | 0.1 s |
+
+Asserted: correlation ≥ 0.97 (25 %) and ≥ 0.99 (50 %) and above zero filling; at least 60 %
+(25 %) and 85 % (50 %) of the strong cross peaks found; at 50 %, false cross peaks at most a
+tenth of the strong ones. The zero-filled spectra find few cross peaks and few false ones
+because their sampling artefacts raise the picker's noise estimate. The magnitude COSY s736/3
+at 25 % keeps false cross peaks next to the diagonal.
+
+Measured NUS sets: TopSpin's own reconstruction (`pdata/1/2rr`, `Mdd_mod = cs`, IST; s753/21:
+IRLS with virtual echo) against the `ser` processed here with the stored parameters, signal
+correlation, reconstructed (zero filled); time of `load_processed_nd`:
+
+| experiment | encoding | sampled | correlation | time |
+| --- | --- | --- | --- | --- |
+| `nmrxiv-s279/23` HSQC | EA | 64 of 128 (50 %) | 0.9997 (0.9982) | 0.2 s |
+| `nmrxiv-s279/24` HMBC | EA | 131 of 256 (51 %) | 0.9986 (0.9935) | 0.2 s |
+| `nmrxiv-s753/21` HSQC | EA | 102 of 2048 (5 %) | 0.9582 (0.2950) | 9.9 s |
+| `nmrxiv-s853/5` HSQC | EA | 16 of 64 (25 %) | 0.9922 (0.8809) | 0.6 s |
+| `nmrxiv-s853/6` HMBC | EA | 16 of 64 (25 %) | 0.9912 (0.7904) | 0.4 s |
+| `nmrxiv-s853/7` COSY | QF | 32 of 128 (25 %) | 0.9972 (0.5144) | 0.3 s |
+| `nmrxiv-s1407/HSQC` (2048 × 600 rows) | EA | 75 of 300 (25 %) | 0.9991 (0.8526) | 3.2 s |
+| `nmrxiv-s1407/HMBC` | EA | 28 of 256 (11 %) | 0.9808 (0.4562) | 1.7 s |
+| `nmrxiv-s1517/13` COSY | QF | 128 of 256 (50 %) | 0.9173 (0.8206) | 0.3 s |
+| `nmrxiv-s1517/14` HMQC | QF | 128 of 256 (50 %) | 0.9986 (0.9631) | 0.2 s |
+| `nmrxiv-s1517/15` HMBC | QF | 128 of 256 (50 %) | 0.9969 (0.9666) | 0.5 s |
+| `desperate-rbno3-mqmas-30` (MQMAS) against its fully sampled twin `-20`, both processed here | QF | 77 of 129 (60 %) | 0.9839 (0.9810) | – |
+
+Asserted: reconstruction above zero filling on every set. The MQMAS pair is not sheared
+(a known gap), so both spectra carry the same distortion. s1517/13 is a magnitude COSY with
+linear prediction where TopSpin's and our prediction differ.
+
 ## Known gaps
 
 - The commands (`analyze nmr-peaks`, `--process`) use the 1D path; the multidimensional API is
   library-only until it is wired in.
-- No NUS reconstruction (zero-filled grid only), no solvent filter (`BC_mod` 5/6), no shearing
+- NUS reconstruction is iterative soft thresholding only (no virtual echo, IRLS or maximum
+  entropy); `Tppi`/`Sequential` NUS dimensions and JEOL NUS data are zero filled. No solvent filter (`BC_mod` 5/6), no shearing
   (MQMAS), no TopSpin `abs1`/`abs2` baseline; `tilt`/`symmetrize` run only when asked.
 - Linear prediction in F1 is Burg's: it falls short of TopSpin when `NCOEF` is close to the
   number of points. Varian `lp` (1D) is not reproduced; VnmrJ `proc1='lp'` is not read.
@@ -409,6 +516,9 @@ Other vendors (no vendor-processed 2D data are public in the corpus):
 | `Window` { `None`, `Exponential`, `Gaussian`, `LorentzToGauss`, `Sine`, `Trapezoid`, `Sinc`, `Traficante` }, `gaussian_position`, `offset`, `power`, `rise`, `fall`, `center`, `width`, `weights` | window functions |
 | `LinearPrediction`, `direction`, `coefficients`, `points`, `LpDirection` { `Forward`, `Backward`, `MirrorForward` }, `burg_coefficients`, `predict` | linear prediction |
 | `NdParameters`, `direct_stored`, `schedule`, `nd_parameters`, `read_rows`, `place_on_grid`, `load_processed_nd`, `bruker_encoding`, `bruker_window`, `parse_list` | parameters of every dimension per format and the loader |
+| `nus`, `NusMode` { `Default`, `ZeroFill`, `IterativeSoftThreshold` }, `iterations`, `convergence` | how the missing increments of non-uniformly sampled data are filled |
+| `NusRecord`, `method`, `sampled_points`, `grid_points`, `sampled_fraction`, `max_iterations`, `iterations_used`, `columns_reconstructed`, `columns` | what the reconstruction did (`NdRecord::nus`) |
+| `reconstruct`, `reconstructable`, `check_schedule`, `poisson_gap_schedule`, `DEFAULT_ITERATIONS`, `DEFAULT_CONVERGENCE`, `THRESHOLD_DECAY`, `SIGNAL_FACTOR` | reconstruction by iterative soft thresholding, schedule checks, Poisson-gap schedules |
 
 ## 2D and nD peak picking and volume integration (`peaks2d`, `source2d`, `analyze_2d`)
 

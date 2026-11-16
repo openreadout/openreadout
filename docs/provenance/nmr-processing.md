@@ -190,3 +190,58 @@ MestReNova JCAMP-DX export of the `nmrxiv-s200` limonene HSQC (`nD NMR SPECTRUM`
 **Files:** nmrxiv-s1407 (COSY, HSQC, HMBC), nmrxiv-s572/4 (NOESY), bmrb-bmse000797 (J-resolved), nmrxiv-s519/310 (DOSY), nmrxiv-s200 limonene HSQC (JCAMP-DX), and our own JCAMP-DX export of s1407 HSQC.
 **Prior art:** none beyond the 2D picker and the transform above.
 **Inferred:** a JCAMP-DX 2D trace now lists its F1 under `indirect_dimensions[0].axis` in Hz, which made `matrix_layout` stop at the JEOL branch; the JEOL branch now applies only when that axis is in ppm, and the F1 of a JCAMP-DX file comes from its pages as before (our export of s1407 HSQC read back gives the same 287 cross peaks as the `2rr`). Axis meaning: Bruker `AXUNIT` of `proc2s` names a DOSY F1 (`log(m2/s)`, s519); a J-resolved F1 is the same nucleus as F2 over less than 500 Hz (50 Hz in bmse000797) or a `jres` pulse program.
+
+## 2026-11-15 — reconstruction of non-uniformly sampled data, DSPFVS 11/12 phase in 1D (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** the non-uniformly sampled Bruker experiments with a `nuslist` and TopSpin's
+reconstructed `pdata/1/2rr` in bundles the manifest lists outside the held-out tier: nmrXiv
+s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15 (CC-BY-4.0, CC0), and the MQMAS
+pair `desperate-rbno3-mqmas-30` (NUS) and `-20` (its fully sampled twin; DESPERATE, MIT). The fully sampled
+experiments of the 2026-11-14 parity table that match TopSpin at ≥ 0.999 without linear
+prediction, with increments removed here to simulate sampling. For the 1D phase: the 1D Bruker
+experiments of the manifest with DSPFVS 11 or 12 and a stored `1r` (nmrXiv s572/1).
+
+**Prior art consulted (papers, read for the method; no reconstruction package's source):**
+- A. S. Stern, D. L. Donoho, J. C. Hoch, *NMR data processing using iterative thresholding and
+  minimum l1-norm reconstruction*, J. Magn. Reson. 188 (2007) 295–300: iterative soft
+  thresholding (a gradient step that restores consistency with the measured points, then soft
+  thresholding of the spectrum, `S ← S·max(0, 1 − τ/|S|)`), its equivalence to minimum
+  l1-norm reconstruction as the threshold goes down, and the measured points kept as measured.
+- S. G. Hyberts, A. G. Milbradt, A. B. Wagner, H. Arthanari, G. Wagner, *Application of
+  iterative soft thresholding for fast reconstruction of NMR data non-uniformly sampled with
+  multidimensional Poisson Gap scheduling*, J. Biomol. NMR 52 (2012) 315–327: reconstruction
+  column by column after the direct dimension is transformed, the threshold lowered from the
+  tallest point step by step over the iterations, and hypercomplex data handled as
+  complex sequences in each indirect dimension.
+- S. G. Hyberts, K. Takeuchi, G. Wagner, *Poisson-gap sampling and forward maximum entropy
+  reconstruction for enhancing the resolution and sensitivity of protein NMR data*, J. Am. Chem.
+  Soc. 132 (2010) 2145–2147: sine-weighted Poisson-distributed gaps between sampled increments
+  (used to simulate sampling on fully sampled data).
+
+**What was inferred from what:**
+- The `nuslist` of every set above lists complex-point indices in acquisition order (not
+  sorted, `0` first), and the `ser` holds `Π rows_per_point` rows per entry in that order
+  (`TD` of `acqu2s` = entries × 2 for echo/antiecho, × 1 for QF). Where `TD` is smaller than
+  that (s1407 HMBC: 102 entries, 56 rows), the acquisition stopped early: only the first
+  `TD / rows_per_point` entries were measured.
+- TopSpin's audit trails (`auditp.txt`) name the method of each stored spectrum
+  (`Mdd_mod = cs`, `CsALG = ist`, s753/21: `IRLS` with virtual echo) and its `proc2s` keep the
+  linear prediction (`ME_mod` 2, `LPBIN` up to twice `NusTD`) run after the reconstruction. So
+  the stored linear prediction still runs after ours.
+- Hypercomplex pairs: a States pair (u, v) = (cos, sin)-modulated rows gives two complex
+  sequences u + i·v and u − i·v, each one exponential per line; echo/antiecho rows are such
+  sequences already. Each is reconstructed on its own and the pair recombined (from the
+  published description of hypercomplex sampling, States et al. 1982, already in this log).
+- s279/24 lists 192 entries for 131 distinct increments: TopSpin schedules can measure an
+  increment more than once. Such increments take the mean of their measurements.
+- Tuning on the simulated sampling of the fully sampled sets (`tests/nmr_nus.rs`): a floor at
+  half the noise level and reconstructing three quarters of the columns gave correlations within
+  0.001 and two to three times the run time, so the floor stays at the noise level; raising the
+  iteration cap from 400 to 1000 found a few more weak COSY and NOESY cross peaks. Results in
+  docs/formats/nmr-processing.md.
+- DSPFVS 11/12 in 1D: the rule now sits in `source::fid_parameters`, which both the 1D and the
+  nD path use. s572/1 (`zg`, DSPFVS 12, table delay 72.125) with the stored phase plus 180°:
+  signal correlation 1.000000 with `1r`. It is the only manifest-listed 1D experiment with that
+  firmware and a stored `1r`; the 1D parity test (49 experiments) is unchanged.
+- J-resolved: no manifest-listed experiment has a tilted `2rr`, so the sign of `tilt` stays
+  unverified.
