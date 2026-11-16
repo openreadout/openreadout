@@ -64,6 +64,15 @@ channel blocks.
 **Prior art consulted:** none.
 **What was done.** No parsing logic changed. The reader declares an assurance profile (docs/assurance.md) that fingerprints each file from this reader's own normalized output: the procpar version, sample type, dimensions and the block scale factors (available, not applied). The table of validated feature values and the confidence level are generated from the development corpus by `cargo xtask assurance-audit`.
 
+## 2026-11-14 — sweep order, indirect-dimension parameters, experiment workspaces, `phasefile`
+
+**Corpus files:** `bmrb18352-exp1949` (a VnmrJ experiment workspace: `acqfil/fid`, `curpar`, `datdir/phasefile`, `datdir/data`; 3D, `array` `phase2,phase`), `bmrb27037-chsqc-600v` (2D, `f1coef`), and the earlier development directories (`nmrglue-agilent-2d`, `-2d-tppi`, `-3d`, `nmrxiv-s501-ghsqcad`).
+**Prior art consulted:** nmrglue 0.12 (BSD-3-Clause), `fileio/varian.py` read as documentation: `find_shape` (the direct dimension is `np`/2; each `niN` gives `niN` × the number of `phaseN` values traces; a non-phase arrayed parameter adds a dimension inside the increments; the last name in `array` is the innermost loop), `find_torder` with `fileiobase.index2trace_reg`/`index2trace_opp` (with `array` `phase2,phase` the phase of F1 changes fastest, then the phase of F2, then the F1 increment, then the F2 increment; `phase,phase2` swaps the two phase loops), and `get_fileheader`/`get_nblocks` (the same 32-byte header and blocks are used by other VnmrJ data files).
+**What was inferred from what.**
+- In all six multidimensional directories the product of the `niN` (those above 1) and the lengths of the arrayed parameters equals the number of traces in `fid`, so the sweep order is reported as nested loops, slowest first: `niN` … `ni`, then the arrayed parameters in the order `array` names them. nmrglue's two torders and its "innermost array" rule are this order; it is reported, not applied (sweeps stay in disk order).
+- `f1coef`/`f2coef` are 8 numbers in `bmrb27037-chsqc-600v` (`1 0 -1 0 0 -1 0 -1`) and empty elsewhere; they are reported as numbers, not used.
+- A workspace (`curpar`, `acqfil/`, `datdir/`) holds the FID in `acqfil`; `datdir/phasefile` has the 32-byte header with status 0x490b (data, spectrum, float32, no complex bit) and two block headers per block: 512 traces of 512 real float32 values, a processed 2D plane (`procdim` 2). It is decoded with the same block layout, values as stored. `datdir/data` (status 0x4b3b, complex and hypercomplex bits, 2048 values per trace) is listed, not decoded: the order of its four hypercomplex parts is not documented by any source used here.
+
 ## 2026-10-11 — scans in the data versus scans requested
 
 **Corpus files:** every development input (13 directories). **Prior art consulted:** none new.

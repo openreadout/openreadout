@@ -1,6 +1,6 @@
 # Varian / Agilent VnmrJ NMR data directories
 
-Varian and Agilent NMR spectrometers (VNMRS and INOVA consoles, VNMR and VnmrJ software) store an experiment as a `.fid` directory. OpenReadout returns the FID as a trace with one sweep per stored trace, and the acquisition parameters from `procpar`. Processed data in `datdir` is listed, not decoded.
+Varian and Agilent NMR spectrometers (VNMRS and INOVA consoles, VNMR and VnmrJ software) store an experiment as a `.fid` directory. OpenReadout returns the FID as a trace with one sweep per stored trace, the acquisition parameters from `procpar`, the order of the sweeps (increments, phase cycles, arrays) and each indirect dimension's parameters, and the phased spectrum `datdir/phasefile` when the directory has one.
 
 Derived from nmrglue's documentation and source (BSD-3-Clause, read as prior art and run as a reference reader) and public data directories. Provenance: `docs/provenance/varian-nmr.md`. Format id `varian-nmr`, family `nmr`.
 
@@ -12,8 +12,11 @@ A data set is a **directory** `<name>.fid/`, not a file. OpenReadout opens the d
     procpar    parameter text (optional: without it only the layout is known)
     text       free-text title (sample description)
     log        acquisition log (listed, not interpreted)
-    datdir/phasefile, datdir/data   processed data, when present (listed, not decoded)
+    datdir/phasefile   the phased spectrum, when present (trace 1)
+    datdir/data        processed hypercomplex data (listed, not decoded)
 ```
+
+An **experiment workspace** (`curpar`, `procpar`, `text`, `acqfil/`, `datdir/`, as `bmrb18352-exp1949` holds it) keeps the FID in `acqfil/`: the workspace, `acqfil`, `curpar`, `datdir` or a file in it resolves to `acqfil`, the listing covers the whole workspace, `curpar` (the current parameters, processing included) is in the vendor tree, and `datdir/phasefile` is read from the workspace.
 
 ## The `fid` file (`FidHeader`, `BlockHeader`)
 
@@ -41,7 +44,20 @@ Sample type (`VarianSampleType`, `sample_type`): `Float32` when 0x8 is set, else
 
 Block header (`BLOCK_HEADER_BYTES` = 28; four 16-bit, one 32-bit, four float32): `scale`, `status`, `index` (1-based block number), `mode`, `completed_scans` (the scan count of that block), `left_phase`, `right_phase`, `level`, `tilt` (drift correction). With two block headers per block the second is a hypercomplex header (nmrglue `get_hyperheader`); it is skipped. Block `scale` is 0 in every corpus file and, as in nmrglue, never applied; `check` reports blocks with a non-zero scale (`block_scale`). The INOVA int32 file carries non-zero `level`/`tilt`; they are reported in `info --view full` (first block), not applied.
 
-Traces: each trace holds `points` / 2 complex points, real and imaginary interleaved (nmrglue `uninterleave_data`). **Sweeps are the traces in disk order**: sweep *s* is trace *s* mod `traces_per_block` of block ⌊*s* / `traces_per_block`⌋ — nmrglue's `as_2d=True` order. Arrayed (`array`) and multidimensional (`ni`, `ni2`, phase arrays) data are **not reordered**; `extra.arrayed_parameters`, `array_size` and `indirect_dimensions` say how the sweeps are organised. In every corpus file `arraydim` equals the number of traces (`check`: `array_mismatch` otherwise) and the block numbers run 1, 2, 3… (`block_index`).
+Traces: each trace holds `points` / 2 complex points, real and imaginary interleaved (nmrglue `uninterleave_data`). **Sweeps are the traces in disk order**: sweep *s* is trace *s* mod `traces_per_block` of block ⌊*s* / `traces_per_block`⌋ — nmrglue's `as_2d=True` order. Arrayed (`array`) and multidimensional (`ni`, `ni2`, phase arrays) data are **not reordered**; `extra.sweep_order` says how the sweeps are organised (below). In every corpus file `arraydim` equals the number of traces (`check`: `array_mismatch` otherwise) and the block numbers run 1, 2, 3… (`block_index`).
+
+**Sweep order** (`extra.sweep_order`). The traces are produced by nested loops, slowest first: the increments `ni3`, `ni2`, `ni` (those above 1), then each parameter `array` names, in that order, the last one changing fastest (nmrglue `find_shape` and `find_torder`). Each loop is `{parameter, size, kind (increment, phase or array), dimension}` (`phase` belongs to dimension 2, `phase2` to 3, `phase3` to 4). Sweep *s* = Σ index(loop) × Π size(faster loops). `matches_sweeps` is true when the sizes multiply to the number of traces. Examples:
+
+| directory | `array` | loops, slowest first | sweep of (F2 increment *k*, F1 increment *j*, F2 phase *q*, F1 phase *p*) |
+| --- | --- | --- | --- |
+| `bmrb27037-chsqc-600v` (2D) | `phase` | `ni` 256, `phase` 2 | 2*j* + *p* |
+| `nmrglue-agilent-3d` | `phase,phase2` | `ni2` 64, `ni` 44, `phase` 2, `phase2` 2 | 4(44*k* + *j*) + 2*p* + *q* (nmrglue torder `o`) |
+| `bmrb18352-exp1949` | `phase2,phase` | `ni2` 32, `ni` 160, `phase2` 2, `phase` 2 | 4(160*k* + *j*) + 2*q* + *p* (nmrglue torder `r`) |
+| `nmrglue-agilent-2d-tppi` | (none) | `ni` 600 | *j* |
+
+To de-interleave a States data set, take the sweeps of one increment (one value of the increment loops) and split them by the phase loops: in 2D, sweeps 2*j* and 2*j* + 1 are the two phase-cycled FIDs of increment *j*. How the two are combined into a complex point is set by `phase_values` and, when given, the `coefficients` (`f1coef`); OpenReadout reports both and does not combine them. The corpus test `nmr_dimensions` checks the loops against nmrglue's `find_shape` and `find_torder`.
+
+**Processed spectrum** (`datdir/phasefile`, trace 1). The file has the same 32-byte header and blocks as `fid` (two block headers per block in the corpus). Its traces are the sweeps, values as stored: real values (`points` per trace) when the header's complex bit 0x10 is clear, as in `bmrb18352-exp1949` (status 0x490b: 512 traces of 512 float32), else real/imaginary pairs. `extra`: `kind` `processed_spectrum`, `file`, the header fields, `processed_dimensions` (`procdim`) and `trace_direction` (`trace`) from `curpar` (else `procpar`). No axis is given: the file header does not record which dimensions the plane holds. `datdir/data` (hypercomplex: status bits 0x10 and 0x20) is listed only: the order of its four parts is not documented by any source used here.
 
 A file shorter than `declared_len` is truncated: `info` notes it, `read_trace` of a missing block is a corrupt-file error (exit 4) and `check` reports `truncated` at the first incomplete block.
 
@@ -82,7 +98,9 @@ Problems (short value lists, non-numeric reals, missing lines) go to `issues`; `
 | `sample_name`, `comment`, `title` | `samplename`, `comment`, the `text` file | |
 | `software`, `software_version` | `parver` | `VnmrJ VERSION 4.2 REVISION A` → `VnmrJ`, `4.2 REVISION A`; `format_version` is `parver` as written (else `procpar version <parversion>`) |
 | `arrayed_parameters`, `array_size` | `array`, `arraydim` | |
-| `indirect_dimensions[]` | `ni`/`ni2`/`ni3`, `sw1`/`sw2`/`sw3`, `phase`/`phase2`/`phase3`, `dn`/`dn2`/`dn3` | `{dimension, increments, spectral_width_hz, phase_values, nucleus}` for each `niN` ≥ 1 |
+| `indirect_dimensions[]` | `ni`/`ni2`/`ni3`, `sw1`/`sw2`/`sw3`, `phase`/`phase2`/`phase3`, `dn`/`dn2`/`dn3`, `dfrq`/`dfrq2`/`dfrq3`, `f1coef`/`f2coef`/`f3coef` | `{dimension, increments, spectral_width_hz, spectral_width_ppm (swN/dfrqN), phase_parameter, phase_values, nucleus, nucleus_parameter, spectrometer_frequency_mhz (dfrqN), coefficients, coefficients_parameter, stored_processing}` for each `niN` ≥ 1; the nucleus of dimension N is the decoupler channel's (`dn` for `ni`, inferred) |
+| `indirect_dimensions[].stored_processing` | `fnN`, `lbN`, `gfN`, `gfsN`, `sbN`, `sbsN`, `rpN`, `lpN`, `rflN`, `rfpN`, `reffrqN`, `procN` (N = 1, 2, 3) | `{transform_size, line_broadening_hz, gaussian_s, gaussian_shift_s, sine_bell_s, sine_bell_shift_s, phase0_deg, phase1_deg, reference_line_hz, reference_frequency_hz, reference_frequency_mhz, transform}`, as written |
+| `sweep_order` | `ni`…, `array`, the arrayed parameters | `{loops[], slowest_first, matches_sweeps, rule}` (see Sweep order) |
 | `block_count`, `traces_per_block`, `block_headers_per_block`, `status_code`, `status_flags`, `sample_type`, `byte_order` | file header | |
 | `block_scale`, `block_completed_scans` | first block header | |
 
@@ -114,6 +132,8 @@ The derived model adds vendor (format), model (`console`), software and version 
 | `nmrxiv-s325-1h` | vnmrs, VnmrJ 4.0 | 1 × 32768 float32 | `samplename`, `text` |
 | `nmrxiv-s501-carbon` | vnmrs, VnmrJ 4.2 | 1 × 65536 float32 | |
 | `nmrxiv-s501-ghsqcad` | vnmrs, VnmrJ 4.2 | 200 × 3232 float32 | `ni` 100, `array` phase |
+| `bmrb27037-chsqc-600v` | 600 MHz VnmrJ | 512 × 1024 float32 | `ni` 256, `array` phase, `f1coef` `1 0 -1 0 0 -1 0 -1`; the depositor's nmrPipe spectrum `Chsqc_ct.ft2` beside it (BMRB 27037, CC0) |
+| `bmrb18352-exp1949` | inova 750 MHz, workspace | 20480 × 1024 float32 in `acqfil/`; `datdir/phasefile` 512 × 512 float32 | 3D, `ni` 160, `ni2` 32, `array` phase2,phase, `procdim` 2 (BMRB 18352, CC0) |
 
 ## Vocabulary (every public identifier in `crates/openreadout-nmr/src/varian_*.rs` must appear here)
 

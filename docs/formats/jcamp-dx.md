@@ -66,7 +66,9 @@ Each line: an abscissa (AFFN), then ordinates. Tokens (`YToken`):
 | `ms_spectrometer_type`, `ms_inlet`, `ms_ionization_mode` | `.SPECTROMETER TYPE`, `.INLET`, `.IONIZATION MODE` | MS protocol §5.2 |
 | `resolution`, `min_y`, `max_y`, `first_y` | `RESOLUTION`, `MINY`, `MAXY`, `FIRSTY` | numbers |
 | `axis` | `XUNITS`/`FIRSTX`/`LASTX`/`NPOINTS` or NTUPLES `UNITS`/`FIRST`/`LAST`/`VAR_DIM` | `{quantity, unit, first, last, step, size}`; quantity from the unit: `frequency` (HZ), `chemical_shift` (PPM), `time`, `wavenumber` (1/CM), `wavelength` (NANOMETERS, MICROMETERS), `mass_to_charge` (M/Z), else `x` |
-| `sweep_axis` | NTUPLES `PAGE=` | `{variable, unit, values}` |
+| `sweep_axis` | NTUPLES `PAGE=` | `{variable, unit, values}` (the page values as written) |
+| `indirect_dimensions[]` | `NUM DIM`, NTUPLES `.NUCLEUS`, `FIRST`, `LAST`, `VAR_DIM`, `UNITS` of the page variable | 2D files (`##NUM DIM= 2` or an nD data type) only: `{dimension (2), variable (F1, T1), nucleus, unit, points, axis, page_values_agree}`; `axis` is the page variable's `##FIRST=`/`##LAST=` over its `##VAR_DIM=` points (else the page values when they are evenly spaced), with `nucleus`; `page_values_agree` says whether the page values lie on that axis |
+| `direct_nucleus` | NTUPLES `.NUCLEUS` | 2D files: the nucleus of the direct dimension (F2, T2) |
 | `sweep_sample_counts` | – | points per page when NTUPLES pages differ in length |
 | `ntuples`, `symbols`, `variables` | `NTUPLES`, `SYMBOL`, `VAR_NAME` | |
 | `undecodable`, `problems`, `note` | – | why a table cannot be read |
@@ -91,16 +93,23 @@ Records of the enclosing LINK block apply to its children (a compound file's sha
 | `jcamp-lancashire-pktab1`, `-mactab2` | UWI Mona | MS PEAK TABLE | mactab2: CR line ends and a trailing 0xFF byte |
 | `nmrxiv-s200-qhnmr` | MestReNova 14.0.1 (JCAMP-DX 6.0) | LINK + XYDATA 104858 points | X written in whole Hz |
 | `nmrxiv-s200-hsqc` | MestReNova 14.0.1 | nD NMR SPECTRUM NTUPLES, 1024 pages `F1=` × 820 points `(F2++(Y..Y))` | `##FIRST=` repeated in every page |
+| `jcamptest-cytisine-hsqc`, `jcamptest-indometacin-cosy` | Bruker NMR JCAMP-DX V2.0 (TopSpin 3.5 `tojdx`) | nD NMR SPECTRUM, 1024 `F1=` pages × 1024 points | page values on the declared F1 axis |
+| `jcamptest-cytisine-hmbc-fid` | Bruker NMR JCAMP-DX V2.0 | nD NMR FID, 512 `T1=` values × (R, I) pages × 1024 points | a 2D FID: channels `FID/REAL`, `FID/IMAG`, one sweep per T1 |
+| `jcamptest-rutin-cosy`, `dataverse-egt2ih-gallic-cosy-jdx` | MestReNova 14.0.1, 11.0.3 | nD NMR SPECTRUM, 512 pages × 6554 points | page values step twice the declared F1 step (`page_values_agree` false) |
+| `jcamptest-oxford-cosy` | OxfordInstruments NMR JCAMP-DX v1.1 | `NMR FID` with `##NUMDIM= 2`, 128 `T1=` values × (R, I) | page values in µs, `##UNITS=` SECONDS (`page_values_agree` false) |
+
+Every pair (page value, symbol) occurs once in the 2D files; a file that repeats one is reported (`problems`) and its table is not decoded, so that no page silently replaces another.
 
 ## Writing (`export --format jcamp`; `export_jcamp`, `jcamp_write.rs`)
 
-One trace per file, JCAMP-DX 5.01 (the NMR protocol's layout, readable by the IR/MS protocol readers):
+One trace per file, JCAMP-DX 5.01 (the NMR protocol's layout, readable by the IR/MS protocol readers), 6.0 for a 2D spectrum:
 
 | trace | written as |
 | --- | --- |
 | one channel, one sweep, regular axis | `##DATA CLASS= XYDATA`, `##XYDATA= (X++(Y..Y))` with `XUNITS`/`YUNITS`, `XFACTOR`, `YFACTOR`, `FIRSTX`, `LASTX`, `DELTAX`, `NPOINTS`, `FIRSTY` |
 | several channels or sweeps | `##DATA CLASS= NTUPLES`: `##NTUPLES=`, `VAR_NAME`, `SYMBOL` (`X`, then `R`/`I` for a `real`/`imag` pair, `Y` for one channel, `Y1`, `Y2`, … otherwise, and `N`), `VAR_TYPE`, `VAR_FORM`, `VAR_DIM`, `UNITS`, `FIRST`, `LAST`, `FACTOR`; one `##PAGE= N=k` + `##DATA TABLE= (X++(R..R)), XYDATA` per channel and sweep (one sweep: `N` numbers the channels, as NMR FIDs do; several sweeps: `N` numbers the sweeps and every sweep has one page per channel) |
 | irregular abscissa (`extra.axis.irregular`: peak tables, point lists), two columns, one sweep | `##PEAK TABLE= (XY..XY)` (or `##XYPOINTS=`) with AFFN `x,y` pairs in their shortest exact decimal form, factors 1 |
+| a 2D spectrum, every sweep (a frequency-domain trace whose `extra.axis` is in ppm or Hz and whose one indirect axis, `indirect_dimensions[0].axis`, `sweep_axis.axis` or `indirect_axes[0]`, has `sweep_count` points: Bruker `2rr`, a JCAMP-DX 2D spectrum) | `##JCAMP-DX= 6.0`, `##DATA TYPE= nD NMR SPECTRUM`, `##NUM DIM= 2`, `##NTUPLES=` with `VAR_NAME= FREQUENCY1, FREQUENCY2, SPECTRUM`, `SYMBOL= F1, F2, Y`, `.NUCLEUS` (indirect, direct), `VAR_DIM`, `UNITS= HZ, HZ, ARBITRARY UNITS`, `FACTOR`, `FIRST`, `LAST`, `MIN`, `MAX`; one `##PAGE= F1=<Hz>` + `##DATA TABLE= (F2++(Y..Y)), PROFILE` per row, as the TopSpin and MestReNova files write it. Only the `real` channel (`2rr`) is written; ppm axes become Hz with each axis's spectrometer frequency. `--sweep` writes one row as before |
 
 Header: `TITLE` (trace name), `JCAMP-DX= 5.01`, `DATA TYPE` (the source's own for JCAMP-DX input; `NMR FID`/`NMR SPECTRUM` for Bruker time-domain/processed traces; `CHROMATOGRAM` for chromatography; `UNKNOWN` otherwise), `DATA CLASS`, `ORIGIN`, `OWNER` (source or experiment model; `(not recorded)` when unknown), `LONGDATE` (`YYYY/MM/DD HH:MM:SS` from the acquisition start), `SPECTROMETER/DATA SYSTEM`, `.OBSERVE FREQUENCY`, `.OBSERVE NUCLEUS` (`^1H`), `.SOLVENT NAME`, `.PULSE SEQUENCE`, and `##$OPENREADOUT SOURCE=` (format id, file name, trace).
 
