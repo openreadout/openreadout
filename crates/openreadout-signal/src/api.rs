@@ -572,3 +572,28 @@ impl SpikesQuery {
         })
     }
 }
+
+#[cfg(test)]
+mod arg_tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn nmr_regions_parse_in_every_documented_form() {
+        let q: NmrQuery = serde_json::from_value(json!({
+            "integrate": [[7.4, 7.1], [1.4, 1.1]],
+            "range_ppm": [10, 0],
+        }))
+        .unwrap();
+        assert_eq!(q.integrate.len(), 2);
+        assert_eq!(q.integrate[0], IntegrateArg::Pair((7.4, 7.1)));
+        assert_eq!(q.range_ppm, Some(RangeArg::Pair((10.0, 0.0))));
+        let q: NmrQuery = serde_json::from_value(json!({
+            "integrate": [[[41, 39], [2.6, 2.4]], {"f1": [41, 39], "f2": [2.6, 2.4]}],
+            "range_ppm": {"f1": [100, 10]},
+        }))
+        .unwrap();
+        assert!(matches!(q.integrate[0], IntegrateArg::Box(_)));
+        assert!(matches!(q.integrate[1], IntegrateArg::PerDimension(_)));
+    }
+}
