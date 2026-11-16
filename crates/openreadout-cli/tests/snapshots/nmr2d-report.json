@@ -1,0 +1,246 @@
+{
+  "path": "hsqc/7",
+  "format": "bruker-nmr",
+  "source": "processed",
+  "trace": 0,
+  "trace_name": "pdata/1",
+  "nuclei": [
+    "13C",
+    "1H"
+  ],
+  "dimensions": [
+    {
+      "quantity": "chemical_shift",
+      "unit": "ppm",
+      "nucleus": "13C",
+      "scale": 1.0
+    },
+    {
+      "quantity": "chemical_shift",
+      "unit": "ppm",
+      "nucleus": "1H",
+      "scale": 1.0
+    }
+  ],
+  "shape": [
+    32,
+    64
+  ],
+  "axes": [
+    {
+      "first_ppm": 160.0,
+      "step_ppm": -5.0,
+      "size": 32,
+      "reference_frequency_mhz": 100.0
+    },
+    {
+      "first_ppm": 10.0,
+      "step_ppm": -0.15625,
+      "size": 64,
+      "reference_frequency_mhz": 400.0
+    }
+  ],
+  "noise_sd": 215.425,
+  "run_noise_sd": 215.425,
+  "maxima_noise_sd": 186.0,
+  "peak_options": {
+    "min_snr": 10.0,
+    "min_local_snr": 6.0,
+    "min_height_fraction": 0.0,
+    "min_prominence_snr": 5.0,
+    "include_negative": true,
+    "min_footprint_points": 3,
+    "max_peaks": 1000,
+    "group_gap_hz": 15.0,
+    "group_gap_points": 1.5,
+    "footprint_snr": 3.0,
+    "ridge_factor": 3.0,
+    "ridge_ratio": 20.0,
+    "keep_ridge_peaks": false,
+    "diagonal_tolerance_hz": 15.0,
+    "symmetry_tolerance_hz": 25.0,
+    "list_maxima": false
+  },
+  "peak_count": 3,
+  "maxima_count": 3,
+  "ridge_suppressed": 0,
+  "small_footprint_suppressed": 0,
+  "main_peak": {
+    "ppm": [
+      109.997,
+      6.87501
+    ],
+    "hz": [
+      10999.7,
+      2750.0
+    ],
+    "apex_ppm": [
+      109.997,
+      6.87501
+    ],
+    "index": [
+      10,
+      20
+    ],
+    "height": 99916.0,
+    "sign": "positive",
+    "snr": 463.809,
+    "local_snr": 375.445,
+    "width_hz": [
+      1030.43,
+      153.61
+    ],
+    "width_ppm": [
+      10.3043,
+      0.384025
+    ],
+    "maxima": 1,
+    "volume": 422923.0,
+    "absolute_volume": 422923.0,
+    "footprint_points": 28,
+    "footprint_ppm": [
+      [
+        120.0,
+        100.0
+      ],
+      [
+        7.34375,
+        6.40625
+      ]
+    ]
+  },
+  "peaks": [
+    {
+      "ppm": [
+        109.997,
+        6.87501
+      ],
+      "hz": [
+        10999.7,
+        2750.0
+      ],
+      "apex_ppm": [
+        109.997,
+        6.87501
+      ],
+      "index": [
+        10,
+        20
+      ],
+      "height": 99916.0,
+      "sign": "positive",
+      "snr": 463.809,
+      "local_snr": 375.445,
+      "width_hz": [
+        1030.43,
+        153.61
+      ],
+      "width_ppm": [
+        10.3043,
+        0.384025
+      ],
+      "maxima": 1,
+      "volume": 422923.0,
+      "absolute_volume": 422923.0,
+      "footprint_points": 28,
+      "footprint_ppm": [
+        [
+          120.0,
+          100.0
+        ],
+        [
+          7.34375,
+          6.40625
+        ]
+      ]
+    },
+    {
+      "ppm": [
+        50.0058,
+        3.75002
+      ],
+      "hz": [
+        5000.58,
+        1500.01
+      ],
+      "apex_ppm": [
+        50.0058,
+        3.75002
+      ],
+      "index": [
+        22,
+        40
+      ],
+      "height": -59987.0,
+      "sign": "negative",
+      "snr": 278.459,
+      "local_snr": 161.843,
+      "width_hz": [
+        1024.56,
+        153.73
+      ],
+      "width_ppm": [
+        10.2456,
+        0.384324
+      ],
+      "maxima": 1,
+      "volume": -251521.0,
+      "absolute_volume": 251521.0,
+      "footprint_points": 23,
+      "footprint_ppm": [
+        [
+          60.0,
+          40.0
+        ],
+        [
+          4.0625,
+          3.28125
+        ]
+      ]
+    },
+    {
+      "ppm": [
+        135.0,
+        2.18677
+      ],
+      "hz": [
+        13500.0,
+        874.706
+      ],
+      "apex_ppm": [
+        135.0,
+        2.18677
+      ],
+      "index": [
+        5,
+        50
+      ],
+      "height": 40027.3,
+      "sign": "positive",
+      "snr": 185.807,
+      "local_snr": 157.423,
+      "width_hz": [
+        1022.51,
+        153.669
+      ],
+      "width_ppm": [
+        10.2251,
+        0.384173
+      ],
+      "maxima": 1,
+      "volume": 167238.0,
+      "absolute_volume": 167238.0,
+      "footprint_points": 21,
+      "footprint_ppm": [
+        [
+          145.0,
+          125.0
+        ],
+        [
+          2.5,
+          1.875
+        ]
+      ]
+    }
+  ]
+}

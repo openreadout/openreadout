@@ -13,7 +13,7 @@
       "type": "string"
     },
     "kind": {
-      "description": "`image`, `trace`, `chromatogram`, `spectrum`, `plate` or `events`.",
+      "description": "`image`, `trace`, `chromatogram`, `spectrum`, `plate`, `events` or `nmr_2d` (a 2D NMR\ncontour plot).",
       "type": "string"
     },
     "output": {
@@ -113,6 +113,17 @@
       "anyOf": [
         {
           "$ref": "#/$defs/EventsPreview"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nmr_2d": {
+      "description": "Present for 2D NMR contour plots.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Nmr2dPreview"
         },
         {
           "type": "null"
@@ -992,6 +1003,126 @@
         "events",
         "total_events",
         "scales"
+      ]
+    },
+    "Nmr2dPreview": {
+      "description": "What a 2D NMR preview drew.",
+      "type": "object",
+      "properties": {
+        "trace": {
+          "description": "The 2D spectrum drawn (see `info` → `traces[]`).",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "shape": {
+          "description": "Points per dimension of the whole spectrum, slowest first.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint",
+            "minimum": 0
+          }
+        },
+        "axes": {
+          "description": "F1 then F2: what each axis shows and its window.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Nmr2dAxis"
+          }
+        },
+        "levels": {
+          "description": "Contour levels drawn (positive; the negative ones are the same below zero).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "floor_snr": {
+          "description": "Lowest level in noise SDs.",
+          "type": "number",
+          "format": "double"
+        },
+        "noise_sd": {
+          "description": "The noise SD the levels are based on.",
+          "type": "number",
+          "format": "double"
+        },
+        "points_per_cell": {
+          "description": "Spectrum points per cell along F1 and F2 (max and min pooling).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "negative": {
+          "description": "Negative contours were drawn (in the accent colour).",
+          "type": "boolean"
+        },
+        "cross_peaks": {
+          "description": "Cross peaks marked.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "trace",
+        "shape",
+        "axes",
+        "levels",
+        "floor_snr",
+        "noise_sd",
+        "points_per_cell",
+        "negative",
+        "cross_peaks"
+      ]
+    },
+    "Nmr2dAxis": {
+      "description": "One axis of a 2D NMR preview.",
+      "type": "object",
+      "properties": {
+        "dimension": {
+          "description": "`f1` or `f2`.",
+          "type": "string"
+        },
+        "nucleus": {
+          "description": "Nucleus, when known.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quantity": {
+          "description": "`chemical_shift`, `coupling` or `other`.",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Unit of `first` and `last`.",
+          "type": "string"
+        },
+        "first": {
+          "description": "Value at the left (F2) or bottom (F1) edge of the plot.",
+          "type": "number",
+          "format": "double"
+        },
+        "last": {
+          "description": "Value at the right (F2) or top (F1) edge.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "dimension",
+        "quantity",
+        "unit",
+        "first",
+        "last"
       ]
     },
     "PlotPanel": {

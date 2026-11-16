@@ -9,6 +9,7 @@ openreadout preview [OPTIONS] <FILE>
 The kind of picture follows the file: images first, then traces, spectra and tables. The trace, spectrum and table flags pick another. Some files get the picture people read them by:
 
 - an NMR data set shows its spectrum on a chemical-shift axis, with each multiplet labelled: the processed spectrum the vendor software stored, or else the FID processed as [`analyze nmr-peaks`](analyze.md#nmr-peaks) does. `--trace 0` shows the raw FID.
+- a 2D NMR spectrum shows as a contour plot: F2 along the bottom and F1 up the right side, both from high to low shift, with the skyline projections along the top and the left; negative contours (edited HSQC CH₂, NOESY) in the accent colour. A row (`--sweep N`) or a slice (`--slice`) shows as a 1-D spectrum, and a pseudo-2D series (DOSY, relaxation, with `--process`) as a stack of its rows. See [2D NMR](../../guides/nmr-2d.md).
 - a mass-spectrometry run shows its total-ion chromatogram from the scan headers, with the apex and the other prominent peaks labelled in minutes. `--spectrum` or `--scan` shows a spectrum.
 - cyclic and linear sweep voltammetry shows current against potential, one loop per cycle from faint (first) to dark (last). `--channel` draws channels against time instead.
 - flow cytometry events show FSC-A against SSC-A.
@@ -65,7 +66,12 @@ An SVG preview is layered for editing, like one from [`plot`](plot.md): the imag
 ### NMR
 
 - `--process`: draw FIDs as spectra processed by OpenReadout.
-- `--process-phase MODE`, `--process-lb HZ`, `--process-size N`, `--process-baseline MODE`: processing settings. See [`analyze nmr-peaks`](analyze.md#nmr-peaks).
+- `--process-phase MODE`, `--process-lb HZ`, `--process-gb HZ`, `--process-size N`, `--process-baseline MODE`: processing settings. See [`analyze nmr-peaks`](analyze.md#nmr-peaks). A 2D FID (`ser`) is transformed in every dimension; give a value for one dimension with `f1=` (`--process-lb f1=2`), a value without a dimension is the direct one.
+- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured rows on the full grid).
+- `--slice SPEC`: 2D NMR spectra: read a slice as a 1-D spectrum: `row:PPM` (the F2 trace at an F1 shift), `column:PPM` (the F1 trace at an F2 shift), or a projection `skyline:f1|f2`, `min:f1|f2`, `sum:f1|f2`. `--trace` picks the 2D spectrum.
+- `--y-range A:B`: 2D NMR: only this window of F1 (ppm; Hz for a J-resolved spectrum). `--x-range` is the F2 window.
+- `--contour-floor X`: 2D NMR: the lowest contour in noise SDs. Default 6.
+- `--contour-levels N`: 2D NMR: contour levels of each sign. Default 12.
 
 ## Examples
 

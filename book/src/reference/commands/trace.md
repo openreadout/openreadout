@@ -19,7 +19,9 @@ openreadout trace [OPTIONS] [FILE]...
 - `--x-range A:B`: a window on the trace's own axis instead of `--first-sample`/`--count`: cm⁻¹, nm, ppm, or a chromatogram's retention time. Seconds for signals without an axis.
 - `--max-samples N`: samples returned per channel, at most 100000. Default 1000. The statistics always cover the whole window.
 - `--process`: NMR: read FIDs as spectra processed by OpenReadout.
-- `--process-phase MODE`, `--process-lb HZ`, `--process-size N`, `--process-baseline MODE`: processing settings. See [`analyze nmr-peaks`](analyze.md#nmr-peaks).
+- `--process-phase MODE`, `--process-lb HZ`, `--process-gb HZ`, `--process-size N`, `--process-baseline MODE`: processing settings. See [`analyze nmr-peaks`](analyze.md#nmr-peaks). A 2D FID (`ser`) is transformed in every dimension; give a value for one dimension with `f1=` (`--process-lb f1=2`), a value without a dimension is the direct one.
+- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured rows on the full grid).
+- `--slice SPEC`: 2D NMR spectra: read a slice as a 1-D spectrum: `row:PPM` (the F2 trace at an F1 shift), `column:PPM` (the F1 trace at an F2 shift), or a projection `skyline:f1|f2`, `min:f1|f2`, `sum:f1|f2`. `--trace` picks the 2D spectrum.
 
 Several files, a directory or a glob give one table with a row per file, trace, sweep and channel. `trace` takes the flags in [Several inputs](index.md#several-inputs) and the [batch table flags](batch.md#batch-table-flags).
 

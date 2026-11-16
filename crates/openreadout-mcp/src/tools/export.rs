@@ -14,7 +14,7 @@ use serde::Deserialize;
 use crate::{InstrumentServer, mcp_err, progress, to_value, with_strict};
 
 /// Arguments for `openreadout_export`.
-#[derive(Debug, Deserialize, schemars::JsonSchema)]
+#[derive(Debug, Clone, Deserialize, schemars::JsonSchema)]
 pub struct ExportArgs {
     /// Path to the file (not with plot or preview).
     pub file: Option<String>,
@@ -79,6 +79,10 @@ pub struct ExportArgs {
     /// CSV, Parquet, Arrow, NWB, JCAMP-DX: rows (samples of each sweep for traces) `A-B`, `A-`
     /// or `A`, zero-based and inclusive.
     pub rows: Option<String>,
+    /// NMR 2D spectra: export a slice as a trace: `row:PPM`, `column:PPM`, or a projection
+    /// `skyline:f1|f2`, `min:f1|f2`, `sum:f1|f2` (trace picks the 2D spectrum). Without it, CSV,
+    /// Parquet and Arrow write a 2D spectrum's matrix, one row per point with both shift axes.
+    pub slice: Option<String>,
     /// CSV: add a second header line with column labels (FCS `$PnS`).
     #[serde(default)]
     pub labels: bool,
@@ -345,6 +349,9 @@ fn check_name(
 /// `format = "csv"`: one table, or one sweep of a trace.
 fn export_csv(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpError> {
     let input = input_path(a)?;
+    let (_, ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
+    let (mut ds, a) = nmr_view(ds, a, "csv")?;
+    let a = &a;
     let opts = openreadout_batch::csv::CsvOptions {
         table: a.table,
         rows: a.rows.clone(),
@@ -362,10 +369,40 @@ fn export_csv(reg: &Registry, a: &ExportArgs) -> Result<serde_json::Value, McpEr
         || openreadout_batch::csv::default_output(&input, &opts),
         PathBuf::from,
     );
-    let (_, mut ds) = reg.open(&input).map_err(|e| mcp_err(&e))?;
     let r = openreadout_batch::csv::export(ds.as_mut(), &input, &output, &opts)
         .map_err(|e| mcp_err(&e))?;
     to_value(&r)
+}
+
+/// NMR: a slice of a 2D spectrum, or its matrix, in place of what `a` names
+/// (`openreadout_signal::nmr::slices2d::export_view`).
+fn nmr_view(
+    ds: Box<dyn openreadout_core::reader::Dataset>,
+    a: &ExportArgs,
+    format: &str,
+) -> Result<(Box<dyn openreadout_core::reader::Dataset>, ExportArgs), McpError> {
+    let (ds, sel) = openreadout_signal::nmr::slices2d::export_view(
+        ds,
+        a.trace,
+        a.table,
+        a.sweep,
+        a.slice.as_deref(),
+        Some(format),
+    )
+    .map_err(|e| mcp_err(&e))?;
+    let mut a = a.clone();
+    if let Some(sel) = sel {
+        if sel.trace.is_some() {
+            a.trace = sel.trace;
+            a.sweep = None;
+        }
+        if sel.table.is_some() {
+            a.table = sel.table;
+            a.trace = None;
+            a.sweep = None;
+        }
+    }
+    Ok((ds, a))
 }
 
 /// `format = "rdml"`: a qPCR file to RDML 1.3.
@@ -490,7 +527,9 @@ fn export_open(
     progress: Option<progress::ProgressFn>,
 ) -> Result<serde_json::Value, McpError> {
     let input = input_path(a)?;
-    let (_, mut ds) = registry().open(&input).map_err(|e| mcp_err(&e))?;
+    let (_, ds) = registry().open(&input).map_err(|e| mcp_err(&e))?;
+    let (mut ds, a) = nmr_view(ds, a, format)?;
+    let a = &a;
     let rows = a.rows.as_deref().map(parse_rows).transpose()?;
     let output = a.output.as_ref().map(PathBuf::from);
     let usage = |m: &str| mcp_err(&Error::Usage(m.to_string()));

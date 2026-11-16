@@ -2817,6 +2817,7 @@ dependencies = [
  "openreadout-core",
  "openreadout-fcs",
  "openreadout-figure",
+ "openreadout-preview",
  "openreadout-qpcr",
  "openreadout-quant",
  "openreadout-signal",

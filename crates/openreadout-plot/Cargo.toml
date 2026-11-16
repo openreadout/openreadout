@@ -23,6 +23,7 @@ openreadout-fcs = { workspace = true }
 openreadout-quant = { workspace = true }
 openreadout-signal = { workspace = true }
 openreadout-qpcr = { workspace = true }
+openreadout-preview = { workspace = true }
 miniz_oxide = { workspace = true }
 png = { workspace = true }
 tiff = { workspace = true }

@@ -34,9 +34,14 @@ pub struct TraceArgs {
     /// Samples returned per channel. Default 200, capped at 10000.
     pub max_samples: Option<u64>,
     /// NMR: return FID traces as spectra processed by OpenReadout (group delay, apodization,
-    /// zero filling, FT, stored or automatic phase, baseline, ppm axis).
+    /// zero filling, FT, stored or automatic phase, baseline, ppm axis); a 2D FID in every
+    /// dimension.
     #[serde(default)]
     pub process: bool,
+    /// NMR 2D spectra: a slice instead of a stored row: `row:PPM` (the F2 trace at an F1
+    /// shift), `column:PPM`, or a projection `skyline:f1|f2`, `min:f1|f2`, `sum:f1|f2`; `trace`
+    /// then picks the 2D spectrum.
+    pub slice: Option<String>,
     /// Refuse values the file's assurance does not validate (exit_code 6). Default: the server's.
     #[serde(default)]
     pub strict: Option<bool>,
@@ -51,7 +56,7 @@ impl InstrumentServer {
         name = "openreadout_trace",
         annotations(title = "Read a signal", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
         output_schema = crate::tools::output_schema::<openreadout_core::trace::TraceSlice>(),
-        description = "One window of one sweep of a sampled signal or 1-D spectrum in physical units: electrophysiology sweeps, chromatography detector traces, ÄKTA curves, ITC thermograms, SPR sensorgrams, NMR FIDs and spectra (process=true turns an FID into a spectrum), IR/Raman/UV-Vis/CD spectra (each spectrum of a map is a sweep), qPCR curves, EPR, XRD, electrochemistry, thermal analysis. Per channel: min, max, mean, std and argmax_axis_value (the maximum's position on the axis: retention time, ppm, cm⁻¹, °2θ) over the window, plus the first max_samples values."
+        description = "One window of one sweep of a sampled signal or 1-D spectrum in physical units: electrophysiology sweeps, chromatography detector traces, ÄKTA curves, ITC thermograms, SPR sensorgrams, NMR FIDs and spectra (process=true turns an FID into a spectrum; slice cuts rows, columns and projections out of a 2D spectrum), IR/Raman/UV-Vis/CD spectra (each spectrum of a map is a sweep), qPCR curves, EPR, XRD, electrochemistry, thermal analysis. Per channel: min, max, mean, std and argmax_axis_value (the maximum's position on the axis: retention time, ppm, cm⁻¹, °2θ) over the window, plus the first max_samples values."
     )]
     pub(crate) fn trace(
         &self,
@@ -59,21 +64,31 @@ impl InstrumentServer {
     ) -> Result<CallToolResult, McpError> {
         let reg = self.reg_for(a.strict);
         let (_, ds) = reg.open(Path::new(&a.file)).map_err(|e| mcp_err(&e))?;
-        let mut ds: Box<dyn openreadout_core::Dataset> = if a.process {
-            Box::new(
-                openreadout_signal::nmr::ProcessedNmrDataset::new(
-                    ds,
-                    openreadout_signal::nmr::ProcessOptions::default(),
-                )
-                .map_err(|e| mcp_err(&e))?,
+        let ds: Box<dyn openreadout_core::Dataset> = if a.process {
+            openreadout_signal::nmr::process_any(
+                ds,
+                openreadout_signal::nmr::NdChoices::default(),
+                openreadout_signal::nmr::ProcessOptions::default(),
             )
+            .map_err(|e| mcp_err(&e))?
         } else {
             ds
+        };
+        let (mut ds, trace): (Box<dyn openreadout_core::Dataset>, u32) = match &a.slice {
+            Some(s) => {
+                let spec = openreadout_signal::nmr::SliceSpec::parse(s).map_err(|e| mcp_err(&e))?;
+                let source = (a.trace != 0).then_some(a.trace);
+                let w = openreadout_signal::nmr::NmrMatrixDataset::new(ds, source, &[spec])
+                    .map_err(|e| mcp_err(&e))?;
+                let t = w.slice_trace(0).unwrap_or(0);
+                (Box::new(w), t)
+            }
+            None => (ds, a.trace),
         };
         let info = ds.info().map_err(|e| mcp_err(&e))?;
         let slice = openreadout_core::trace::slice_trace(ds.as_mut(), &info, &{
             let mut trace_request = openreadout_core::trace::TraceRequest::default();
-            trace_request.trace = a.trace;
+            trace_request.trace = trace;
             trace_request.sweep = a.sweep;
             trace_request.channels = a.channels;
             trace_request.first_sample = a.first_sample;

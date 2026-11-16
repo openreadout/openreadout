@@ -1,12 +1,17 @@
 //! NMR: FID processing, peak picking and integration.
 //!
-//! [`analyze`] is what `openreadout analyze nmr-peaks` and the `openreadout_nmr_peaks` MCP tool
-//! run: choose a spectrum (the vendor's processed one, or the FID processed here), pick peaks,
-//! integrate regions. [`ProcessedNmrDataset`] wraps any NMR dataset so that its FID traces read
-//! as processed spectra (`trace --process`, `export --process`, `preview --process`).
+//! [`analysis::analyze_peaks`] is what `openreadout analyze nmr-peaks` and the
+//! `openreadout_nmr_peaks` MCP tool run: it picks 1D peaks ([`analyze`]: the vendor's
+//! processed spectrum, or the FID processed here) or, on a 2D/3D spectrum, cross peaks
+//! ([`analyze_2d`]). [`ProcessedNmrDataset`] wraps any NMR dataset so that its FID traces read
+//! as processed spectra (`trace --process`, `export --process`, `preview --process`);
+//! [`slices2d::NmrMatrixDataset`] adds the rows, columns and projections of a 2D spectrum as
+//! traces (`--slice`).
 
+pub mod analysis;
 pub mod baseline;
 mod dataset;
+pub mod fid2d;
 pub mod indirect;
 pub mod lp;
 pub mod peaks;
@@ -16,6 +21,7 @@ pub mod process;
 pub mod processnd;
 #[cfg(test)]
 mod processnd_tests;
+pub mod slices2d;
 pub mod source;
 pub mod source2d;
 pub mod window;
@@ -26,8 +32,12 @@ use serde::{Deserialize, Serialize};
 use openreadout_core::model::FileInfo;
 use openreadout_core::{Dataset, Result};
 
+pub use analysis::{NmrPeaksReport, NmrPeaksRequest, analyze_peaks};
 pub use baseline::BaselineMode;
 pub use dataset::ProcessedNmrDataset;
+pub use fid2d::{
+    DimensionChoice, NdChoices, ProcessedNdDataset, fid_matrix, process_any, process_nd_dataset,
+};
 pub use peaks::{Integral, Peak, PeakOptions, integrate, noise_sd, pick_peaks};
 pub use peaks2d::{
     CrossPeak, CrossPeakOptions, CrossPeakPick, Maximum, PeakFlag, PeakSign, SpectrumContext,
@@ -36,6 +46,10 @@ pub use peaks2d::{
 pub use process::{
     Apodization, FidParameters, PhaseMode, PpmAxis, ProcessOptions, ProcessingRecord, Spectrum,
     StoredProcessing, process_fid,
+};
+pub use slices2d::{
+    DimensionAxis, NmrMatrixDataset, PooledRequest, PooledView, ProjectionMethod, SliceSpec,
+    read_pooled, read_slice,
 };
 pub use source::SpectrumSource;
 pub use source2d::{MatrixRequest, StoredMatrix, load_matrix};
@@ -89,6 +103,10 @@ pub struct NmrReport {
     pub trace_name: Option<String>,
     /// Sweep (row) used.
     pub sweep: u32,
+    /// The slice of a 2D spectrum the peaks were picked on (`row:PPM`, `column:PPM`,
+    /// `skyline:f2`, ...), when one was asked for; `trace` is the 2D spectrum.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub slice: Option<String>,
     /// Observed nucleus, when known.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub nucleus: Option<String>,
@@ -161,15 +179,18 @@ pub fn load(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Result<C
             notes,
         })
     } else {
-        let (mut real, axis) = source::load_spectrum(ds, info, index)?;
+        let (mut real, axis) = source::load_spectrum_row(ds, info, index, req.sweep)?;
         let mut notes = Vec::new();
         if req.baseline_on_stored
             && let Some(step) = baseline::correct(&mut real, req.process.baseline)
         {
             notes.push(format!("stored spectrum corrected: {step}"));
         }
-        if req.sweep != 0 {
-            notes.push("stored spectra: the first row is used".into());
+        if t.sweep_count > 1 {
+            notes.push(format!(
+                "row {} of {} of the stored spectrum (its direct-dimension spectrum at one indirect point)",
+                req.sweep, t.sweep_count
+            ));
         }
         Ok(ChosenSpectrum {
             spectrum: Spectrum {
@@ -232,6 +253,11 @@ pub fn multiplet_regions(peaks: &[Peak], axis: &PpmAxis) -> Vec<(f64, f64)> {
 /// Pick peaks and integrate (module docs).
 pub fn analyze(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Result<NmrReport> {
     let chosen = load(ds, info, req)?;
+    Ok(report_1d(info, chosen, req))
+}
+
+/// Pick peaks and integrate on a spectrum already chosen (or cut from a 2D spectrum).
+pub fn report_1d(info: &FileInfo, chosen: ChosenSpectrum, req: &NmrRequest) -> NmrReport {
     let s = &chosen.spectrum;
     let (peaks, sd) = pick_peaks(&s.real, &s.axis, &req.peaks);
     let largest = peaks
@@ -250,13 +276,14 @@ pub fn analyze(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Resul
         .iter()
         .find(|t| t.index == chosen.trace)
         .and_then(|t| t.name.clone());
-    Ok(NmrReport {
+    NmrReport {
         path: info.path.clone(),
         format: info.format.id.clone(),
         source: chosen.source.into(),
         trace: chosen.trace,
         trace_name,
         sweep: req.sweep,
+        slice: None,
         nucleus: chosen.nucleus,
         processing: chosen.processing,
         axis: s.axis,
@@ -267,7 +294,7 @@ pub fn analyze(ds: &mut dyn Dataset, info: &FileInfo, req: &NmrRequest) -> Resul
         peaks,
         integrals,
         notes: chosen.notes,
-    })
+    }
 }
 
 /// What [`analyze_2d`] should do.
@@ -299,8 +326,20 @@ pub struct Nmr2dReport {
     /// Its name.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub trace_name: Option<String>,
+    /// The pulse program of the data set's acquisition, when the reader reports one
+    /// (`hsqcedetgpsisp2.3`, `cosygpppqf`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub pulse_program: Option<String>,
     /// Nucleus per dimension, slowest first (F1, F2), when known.
     pub nuclei: Vec<Option<String>>,
+    /// How the FID was transformed in every dimension (`source` = `fid` only).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub processing: Option<processnd::NdRecord>,
+    /// What each dimension measures, slowest first: a chemical shift in ppm for most; the F1
+    /// axis of a J-resolved spectrum is a coupling (shown in Hz), and a DOSY F1 axis has the
+    /// unit the file names. `axes` are in ppm either way.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub dimensions: Vec<slices2d::DimensionAxis>,
     /// Points per dimension of the whole spectrum.
     pub shape: Vec<usize>,
     /// Chemical-shift axis per dimension of the whole spectrum, slowest first.
@@ -349,16 +388,54 @@ pub fn analyze_2d(
     info: &FileInfo,
     req: &Nmr2dRequest,
 ) -> Result<Nmr2dReport> {
+    // read the picking ranges and every integration box
+    let mut ranges = req.peaks.ranges_ppm.clone();
+    if !ranges.is_empty() {
+        for b in &req.integrals {
+            for (d, &(a, z)) in b.iter().enumerate() {
+                if ranges.len() <= d {
+                    ranges.resize(d + 1, None);
+                }
+                if let Some(r) = &mut ranges[d] {
+                    let (lo, hi) = (r.0.min(r.1).min(a.min(z)), r.0.max(r.1).max(a.max(z)));
+                    *r = (hi, lo);
+                }
+            }
+        }
+    }
     let m = load_matrix(
         ds,
         info,
         &MatrixRequest {
             trace: req.trace,
-            ranges_ppm: req.peaks.ranges_ppm.clone(),
+            ranges_ppm: ranges,
             max_points: req.max_points.unwrap_or(source2d::DEFAULT_MAX_POINTS),
             ..MatrixRequest::default()
         },
     )?;
+    let vendor = ds.vendor_metadata().unwrap_or(serde_json::Value::Null);
+    let dimensions = info
+        .traces
+        .iter()
+        .find(|t| t.index == m.trace)
+        .and_then(|t| {
+            source2d::matrix_layout(t, &vendor)
+                .map(|lay| slices2d::dimension_axes(info, t, &vendor, &lay))
+        })
+        .unwrap_or_default();
+    let mut r = analyze_matrix(info, m, "processed", req)?;
+    r.dimensions = dimensions;
+    Ok(r)
+}
+
+/// Pick cross peaks and integrate boxes on a matrix already read: a stored spectrum
+/// ([`load_matrix`]) or one transformed from the FID (`source` names which, as in the report).
+pub fn analyze_matrix(
+    info: &FileInfo,
+    m: StoredMatrix,
+    source: &str,
+    req: &Nmr2dRequest,
+) -> Result<Nmr2dReport> {
     let mut pick = pick_cross_peaks(&m.data, &m.shape, &m.axes, &req.peaks)?;
     let ctx = SpectrumContext {
         nuclei: m.nuclei.clone(),
@@ -415,10 +492,13 @@ pub fn analyze_2d(
     Ok(Nmr2dReport {
         path: info.path.clone(),
         format: info.format.id.clone(),
-        source: "processed".into(),
+        source: source.into(),
         trace: m.trace,
         trace_name,
+        pulse_program: slices2d::pulse_program(info),
         nuclei: m.nuclei,
+        processing: None,
+        dimensions: Vec::new(),
         shape: m.full_shape,
         axes,
         homonuclear_dimensions: pair,

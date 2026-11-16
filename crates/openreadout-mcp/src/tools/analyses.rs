@@ -246,8 +246,8 @@ impl InstrumentServer {
     #[tool(
         name = "openreadout_nmr_peaks",
         annotations(title = "Find NMR peaks and integrals", read_only_hint = true, destructive_hint = false, idempotent_hint = true, open_world_hint = false),
-        output_schema = output_schema::<openreadout_signal::nmr::NmrReport>(),
-        description = "NMR peak list (ppm, height, width, S/N) and integrals of given regions or of every multiplet (auto_integrate), from the vendor's processed spectrum or a spectrum processed from the FID (from=fid: group delay, apodization, zero filling, FT, phase, baseline)."
+        output_schema = output_schema::<openreadout_signal::nmr::NmrPeaksReport>(),
+        description = "NMR peak list (ppm, height, width, S/N) and integrals of given regions or of every multiplet (auto_integrate), from the vendor's processed spectrum or a spectrum processed from the FID (from=fid: group delay, apodization, zero filling, FT, phase, baseline). A 2D/3D spectrum (stored, or a ser transformed in every dimension) gives cross peaks instead: shift per dimension, height, sign, volume and flags (diagonal, partner_missing, ridge, axial); range_ppm and integrate then take one range per dimension (f1, f2), and sweep or slice gives 1D peaks of one row, column or projection."
     )]
     pub(crate) async fn nmr_peaks(
         &self,

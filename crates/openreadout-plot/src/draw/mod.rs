@@ -28,6 +28,64 @@ pub(crate) struct PanelIn {
     /// The figure's `share` when this is its only panel: `y` or `both` keep its facets on one
     /// y range, `x` or `none` give each its own.
     pub share: Option<Share>,
+    /// A 2D NMR contour plot in place of the series.
+    pub contour: Option<ContourIn>,
+}
+
+/// A 2D NMR spectrum to draw as contours.
+pub(crate) struct ContourIn {
+    pub ds: Box<dyn openreadout_core::Dataset>,
+    pub info: openreadout_core::FileInfo,
+    pub file: String,
+    pub view: openreadout_preview::nmr2d::Nmr2dView,
+}
+
+/// Draw a contour panel into `area`.
+pub(crate) fn draw_contour(
+    fig: &mut Figure,
+    theme: &Theme,
+    area: Rect,
+    title: Option<&str>,
+    mut c: ContourIn,
+) -> Result<PanelDrawn> {
+    let mut area = area;
+    if let Some(t) = title {
+        let st = TextStyle::new(theme.font_size * 1.05, theme.ink).face(Face::SansMedium);
+        fig.group(Layer::Title, t, |fig| {
+            fig.text(area.x, area.y + theme.font_size * 0.95, t, &st);
+        });
+        area = area.inset_sides(0.0, theme.font_size * 1.7, 0.0, 0.0);
+    }
+    let d =
+        openreadout_preview::nmr2d::draw(fig, area, theme, c.ds.as_mut(), &c.info, &c.view, None)?;
+    let axis = |a: &openreadout_preview::nmr2d::Nmr2dAxis| AxisOutput {
+        label: format!(
+            "{} {}",
+            a.dimension.to_uppercase(),
+            a.nucleus.clone().unwrap_or_default()
+        )
+        .trim()
+        .to_string(),
+        unit: Some(a.unit.clone()),
+        range: Some([a.last.min(a.first), a.last.max(a.first)]),
+        ..AxisOutput::default()
+    };
+    let (f1, f2) = (&d.summary.axes[0], &d.summary.axes[1]);
+    Ok(PanelDrawn {
+        summary: PanelOutput {
+            title: title.map(str::to_string),
+            layout: "contour".into(),
+            facets: None,
+            x: axis(f2),
+            y: axis(f1),
+            series: vec![SeriesOutput {
+                name: c.file.clone(),
+                ..SeriesOutput::default()
+            }],
+            annotations: d.notes,
+        },
+        hover: Vec::new(),
+    })
 }
 
 /// What drawing a panel returns: its summary and the data the viewer needs for hover.
@@ -82,6 +140,9 @@ fn cell_height(cell_w: f32, cols: usize) -> f32 {
 
 /// The height a panel would like at `width`.
 pub(crate) fn preferred_height(p: &PanelIn, width: f32, columns: Option<u32>, fs: f32) -> f32 {
+    if p.contour.is_some() {
+        return width.min(1600.0);
+    }
     match p.spec.facet {
         Some(Facet::Plate) => {
             let (r, c) = p

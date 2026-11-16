@@ -42,6 +42,8 @@ pub struct TraceArgs {
     pub max_samples: u64,
     #[command(flatten)]
     pub process: nmr::ProcessArgs,
+    #[command(flatten)]
+    pub slice: nmr::SliceArgs,
     #[arg(long)]
     pub json: bool,
 }
@@ -70,10 +72,11 @@ pub fn run(reg: &Registry, a: &TraceArgs) -> i32 {
                 .first()
                 .ok_or_else(|| Error::Usage("no input given".into()))?;
             let (_, ds) = reg.open(file)?;
-            let mut ds = a.process.wrap(ds)?;
+            let ds = a.process.wrap(ds)?;
+            let (mut ds, trace) = a.slice.wrap(ds, a.trace)?;
             let info = ds.info()?;
             let mut request = TraceRequest::default();
-            request.trace = a.trace.unwrap_or(0);
+            request.trace = trace.unwrap_or(0);
             request.sweep = a.sweep.unwrap_or(0);
             request.channels = a.channels.clone();
             request.first_sample = a.first_sample;

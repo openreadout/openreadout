@@ -577,3 +577,40 @@ with several maxima.
 | `MatrixLayout`, `sweep_stride`, `matrix_layout`, `choose_matrix_trace`, `MatrixRequest`, `margin_points`, `max_points`, `DEFAULT_MAX_POINTS`, `StoredMatrix`, `data`, `full_shape`, `offsets`, `load_matrix` | reading a stored 2D/3D spectrum |
 | `FREQUENCY_RATIOS`, `frequency_ratio`, `normalize_nucleus` | nuclei and their frequency ratios Ξ |
 | `Nmr2dRequest`, `Nmr2dReport`, `homonuclear_dimensions`, `analyze_2d` | the 2D analysis entry point and its report (`path`, `format`, `source`, `trace`, `trace_name`, `nuclei`, `shape`, `axes`, `noise_sd`, `peak_options`, `peak_count`, `main_peak`, `peaks`, `integrals`, `notes`) |
+
+## 2D on the command line, MCP and previews (`analysis`, `slices2d`, `fid2d`)
+
+`analyze_peaks` (CLI `analyze nmr-peaks`, MCP `openreadout_nmr_peaks`, batch `nmr-peaks`)
+chooses the analysis from the data: a stored 2D/3D spectrum gives cross peaks (`analyze_2d`);
+`--sweep N` or `--slice SPEC` gives 1D peaks of one row, column or projection; a 2D FID with no
+stored spectrum, or `--from fid`, is transformed in every dimension (`fid_matrix`, which calls
+`load_processed_nd` with the per-dimension choices of `NdChoices`) and picked the same way
+(`source` `fid`, the `NdRecord` under `processing`). Pseudo-2D series (DOSY, relaxation) get 1D
+peaks of one row, with a note. The 2D request takes one range per dimension (`f1=A:B`; a range
+without a dimension is the direct one) and integration boxes with one range per dimension;
+negative peaks are on by default in 2D. `max_points` refusals name the flags that narrow the
+read (`too_many`). `NmrPeaksReport` is the report of either kind; `cross_peak_rows` and
+`integral_rows` flatten it for tables (`-o FILE`, batch).
+
+`NmrMatrixDataset` adds slices of a stored or processed 2D spectrum as traces (`SliceSpec`:
+`row:PPM`, `column:PPM`, `skyline|min|sum:f1|f2`) and its matrix as a long-form table
+(`f1_ppm`, `f2_ppm`, `intensity`; a J-resolved F1 is `f1_hz`), so `trace`, `export` and `plot`
+take them unchanged (`export_view` picks the matrix for CSV, Parquet and Arrow exports).
+`ProcessedNdDataset` (`--process`, `process_any`) shows a 2D FID as its processed matrix, or a
+series as one spectrum per row with `extra.series`. `read_pooled` reads a window of the plane
+row by row into cells that keep their largest and smallest value (max and min pooling, so a
+one-point line survives), with full-resolution skyline projections and a run noise estimate:
+the input of the contour previews. `dimension_axes` says what each axis measures: a chemical
+shift, a J-resolved coupling (same nucleus, F1 under 500 Hz wide, or a `jres` pulse program;
+shown in Hz) or the unit Bruker `AXUNIT` names (DOSY `log(m2/s)`). The stored-matrix slices
+here and `SpectrumNd::trace_at_ppm`/`projection` do the same arithmetic; the first reads rows
+lazily from a reader, the second works on a matrix already in memory.
+
+| identifier | meaning |
+| --- | --- |
+| `NmrPeaksReport`, `NmrPeaksRequest`, `sweep_given`, `direct_range`, `analyze_peaks`, `is_fid_nd`, `analyze_matrix`, `report_1d`, `cross_peak_rows`, `integral_rows`, `peak_rows`, `load_spectrum_row`, `pulse_program` | choosing and running the 1D or 2D analysis, and its rows |
+| `RangeArg`, `IntegrateArg`, `DimensionQuery`, `no_group_delay`, `peaks_request` | the query fields of `openreadout_nmr_peaks` |
+| `SliceSpec`, `SLICE_FORMS`, `ProjectionMethod`, `Slice`, `read_slice`, `source_trace`, `NmrMatrixDataset`, `slice_trace`, `with_matrix_table`, `matrix_table`, `ExportSelection`, `export_view`, `too_many` | slices, projections and the matrix table |
+| `PooledRequest`, `PooledView`, `cells`, `cols`, `cell_ppm`, `f1_projection`, `f2_projection`, `read_pooled` | the reduced view for drawing |
+| `DimensionAxis`, `quantity`, `is_shift`, `slug`, `unshow`, `dimension_axes` | what an axis measures |
+| `NdChoices`, `DimensionChoice`, `by_dimension`, `NUS_MODES`, `fid_matrix`, `ProcessedNdDataset`, `process_all`, `process_nd_dataset`, `process_any`, `has_fid_nd`, `is_series` | multidimensional FIDs on the 2D surface |

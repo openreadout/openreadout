@@ -365,6 +365,33 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
         if items.is_empty() {
             return Err(Error::Usage(format!("panel {i}: no `data`")));
         }
+        // a 2D NMR spectrum: the panel is its contour plot
+        let mut contours = Vec::new();
+        for item in &items {
+            if load::is_contour(&ctx, item).map_err(|e| prefix(e, i, items.len() > 1))? {
+                contours.push(item);
+            }
+        }
+        if let Some(item) = contours.first() {
+            if items.len() > 1 {
+                return Err(Error::Usage(format!(
+                    "panel {i}: a contour plot (2D NMR) is a panel of its own; put the other series in other panels"
+                )));
+            }
+            let c = load::contour(&ctx, item).map_err(|e| prefix(e, i, false))?;
+            if !files.contains(&c.file) {
+                files.push(c.file.clone());
+            }
+            ins.push(draw::PanelIn {
+                title,
+                spec: ps,
+                series: Vec::new(),
+                plate: None,
+                share: None,
+                contour: Some(c),
+            });
+            continue;
+        }
         let mut series = Vec::new();
         for item in &items {
             let mut s = load::load(&mut ctx, item).map_err(|e| prefix(e, i, items.len() > 1))?;
@@ -413,6 +440,7 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
             series,
             plate: ctx.plate.take(),
             share: None,
+            contour: None,
         });
     }
     if let [only] = ins.as_mut_slice() {
@@ -506,7 +534,11 @@ pub fn plot(reg: &Registry, spec: &PlotSpec) -> Result<Plotted> {
                 .clone()
                 .unwrap_or_else(|| format!("panel {}", index + 1));
             let drawn = fig.group(Layer::Panel, &name, |fig| {
-                draw::draw_panel(fig, &theme, Rect::new(x, y, col_w, rh), p, facet_cols)
+                let area = Rect::new(x, y, col_w, rh);
+                match p.contour {
+                    Some(c) => draw::draw_contour(fig, &theme, area, p.title.as_deref(), c),
+                    None => draw::draw_panel(fig, &theme, area, p, facet_cols),
+                }
             })?;
             out.panels.push(drawn.summary);
             // which spec panel each hover panel (a facet, a well) belongs to, for the viewer's zoom

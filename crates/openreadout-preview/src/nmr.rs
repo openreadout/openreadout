@@ -3,13 +3,14 @@
 //! `analyze nmr-peaks`), drawn on a chemical-shift axis running high to low, with each
 //! multiplet labelled once at its tallest line.
 
+use openreadout_core::Result;
 use openreadout_core::model::FileInfo;
 use openreadout_core::reader::Dataset;
 use openreadout_figure::{
     Anchor, AxesSpec, Baseline, Domain, Figure, GridLines, LabelPlacer, Layer, Panel, Rect, Stroke,
     TextStyle, superscript,
 };
-use openreadout_signal::nmr::{self, NmrRequest, PeakOptions};
+use openreadout_signal::nmr::{self, ChosenSpectrum, NmrReport, NmrRequest, PeakOptions};
 
 use crate::color::to_hex;
 use crate::marks::{self, Col};
@@ -32,6 +33,54 @@ fn nucleus_label(n: &str) -> String {
     }
 }
 
+/// The figure `analyze nmr-peaks --plot` draws for a 1D report: the spectrum it was picked on
+/// (a stored or processed spectrum, a row, or a slice of a 2D spectrum) with its peaks
+/// labelled.
+pub(crate) fn report_figure(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    r: &NmrReport,
+    width: u32,
+) -> Result<Figure> {
+    let chosen = match r.slice.as_deref() {
+        Some(spec) => {
+            let spec = nmr::SliceSpec::parse(spec)?;
+            let s = nmr::read_slice(ds, info, Some(r.trace), spec)?;
+            ChosenSpectrum {
+                spectrum: nmr::Spectrum {
+                    real: s.values,
+                    imag: Vec::new(),
+                    axis: s.axis,
+                },
+                source: "processed",
+                trace: s.source_trace,
+                processing: None,
+                nucleus: s.dimension.nucleus.clone(),
+                notes: vec![s.name],
+            }
+        }
+        None => nmr::load(
+            ds,
+            info,
+            &NmrRequest {
+                trace: Some(r.trace),
+                sweep: r.sweep,
+                ..NmrRequest::default()
+            },
+        )?,
+    };
+    let req = PreviewRequest {
+        max_size: width,
+        ..PreviewRequest::default()
+    };
+    let mut out = PreviewOutput::default();
+    draw(info, &chosen, Some(&r.peaks), &req, &mut out)
+        .map(|(f, _)| f)
+        .ok_or_else(|| {
+            openreadout_core::Error::Usage("the spectrum has too few points to draw".into())
+        })
+}
+
 /// The spectrum of an NMR data set; `None` when there is none to draw (the caller then draws
 /// the trace as stored).
 pub(crate) fn render(
@@ -40,9 +89,26 @@ pub(crate) fn render(
     req: &PreviewRequest,
     out: &mut PreviewOutput,
 ) -> Option<(Figure, Frame)> {
-    let Ok(chosen) = nmr::load(ds, info, &NmrRequest::default()) else {
+    let one = NmrRequest {
+        trace: req.trace,
+        sweep: req.sweep.unwrap_or(0),
+        ..NmrRequest::default()
+    };
+    let Ok(chosen) = nmr::load(ds, info, &one) else {
         return None;
     };
+    draw(info, &chosen, None, req, out)
+}
+
+/// Draw `chosen` with its multiplets labelled: from `peaks` when given, else picked with the
+/// default thresholds.
+fn draw(
+    info: &FileInfo,
+    chosen: &ChosenSpectrum,
+    peaks: Option<&[nmr::Peak]>,
+    req: &PreviewRequest,
+    out: &mut PreviewOutput,
+) -> Option<(Figure, Frame)> {
     let s = &chosen.spectrum;
     let n = s.real.len().min(s.axis.size);
     if n < 8 {
@@ -159,7 +225,10 @@ pub(crate) fn render(
     });
 
     // peaks: one label per multiplet, at its tallest line, tallest multiplets first
-    let (peaks, _sd) = nmr::pick_peaks(&s.real[..n], &ax, &PeakOptions::default());
+    let peaks = match peaks {
+        Some(p) => p.to_vec(),
+        None => nmr::pick_peaks(&s.real[..n], &ax, &PeakOptions::default()).0,
+    };
     let regions = nmr::multiplet_regions(&peaks, &ax);
     let mut tops: Vec<&nmr::Peak> = regions
         .iter()
@@ -203,7 +272,7 @@ pub(crate) fn render(
     };
     out.trace = Some(TracePreview {
         trace: chosen.trace,
-        sweep: 0,
+        sweep: req.sweep.unwrap_or(0),
         sample_rate_hz: 0.0,
         sweep_sample_count: n as u64,
         sample_count: n as u64,
