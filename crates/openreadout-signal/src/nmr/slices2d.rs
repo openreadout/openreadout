@@ -1127,7 +1127,7 @@ pub fn export_view(
     }
     let info = ds.info()?;
     let tabular = matches!(format, None | Some("csv" | "parquet" | "arrow"));
-    if info.format.family != "nmr" || table.is_some() || sweep.is_some() || !tabular {
+    if table.is_some() || sweep.is_some() || !tabular {
         return Ok((ds, None));
     }
     let vendor = ds.vendor_metadata().unwrap_or(Value::Null);

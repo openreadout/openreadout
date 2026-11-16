@@ -184,14 +184,15 @@ pub fn matrix_layout(t: &TraceInfo, vendor: &Value) -> Option<MatrixLayout> {
             notes: Vec::new(),
         });
     }
-    // JEOL: indirect_dimensions[0].axis in ppm
+    // JEOL: indirect_dimensions[0].axis in ppm (JCAMP-DX lists its F1 there in Hz; that one is
+    // read from the pages below)
     if let Some(ind) = t
         .extra
         .get("indirect_dimensions")
         .and_then(Value::as_array)
         .and_then(|a| a.first())
+        && let Some(ax) = ind.get("axis").and_then(|a| axis_from(a, 0))
     {
-        let ax = ind.get("axis").and_then(|a| axis_from(a, 0))?;
         let n1 = if ax.size > 0 { ax.size } else { sweeps };
         let stride = if n1 * 2 == sweeps {
             2

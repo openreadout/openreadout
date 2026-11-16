@@ -1466,8 +1466,16 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
     // An NMR data set shows its spectrum: a 2D one as contours, a row or slice of it (or a 1D
     // spectrum) as the spectrum a chemist reads. An FID picked by trace, or channels, are drawn
     // as stored.
-    let nmr_view = if k == "trace" && info.format.family == "nmr" && req.channels.is_empty() {
-        nmr_view_of(ds, info, req)
+    let nmr_view = if k == "trace" && req.channels.is_empty() {
+        if info.format.family == "nmr" {
+            nmr_view_of(ds, info, req)
+        } else {
+            // a 2D NMR spectrum in a general format (JCAMP-DX)
+            match nmr_view_of(ds, info, req) {
+                v @ NmrView::Contours(_) => v,
+                _ => NmrView::None,
+            }
+        }
     } else {
         NmrView::None
     };
