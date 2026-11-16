@@ -35,6 +35,13 @@
       "format": "uint32",
       "minimum": 0
     },
+    "slice": {
+      "description": "The slice of a 2D spectrum the peaks were picked on (`row:PPM`, `column:PPM`,\n`skyline:f2`, ...), when one was asked for; `trace` is the 2D spectrum.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "nucleus": {
       "description": "Observed nucleus, when known.",
       "type": [
