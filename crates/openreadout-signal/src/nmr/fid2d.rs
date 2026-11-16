@@ -463,6 +463,25 @@ pub fn process_nd_dataset(inner: Box<dyn Dataset>, choices: NdChoices) -> Result
     Ok(Box::new(w))
 }
 
+/// `--process` (MCP `process`) on any NMR data set: a multidimensional FID is transformed in
+/// every dimension with `nd`; otherwise each 1D FID is processed row by row with `one`.
+pub fn process_any(
+    ds: Box<dyn Dataset>,
+    nd: NdChoices,
+    one: crate::nmr::ProcessOptions,
+) -> Result<Box<dyn Dataset>> {
+    if has_fid_nd(&ds.info()?) {
+        return process_nd_dataset(ds, nd);
+    }
+    if !nd.by_dimension.is_empty() {
+        return Err(Error::Usage(
+            "options for one dimension (fN=) apply to 2D FIDs; this data set has 1D FIDs only"
+                .into(),
+        ));
+    }
+    Ok(Box::new(crate::nmr::ProcessedNmrDataset::new(ds, one)?))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

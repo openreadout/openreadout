@@ -35,7 +35,9 @@ use openreadout_core::{Dataset, Result};
 pub use analysis::{NmrPeaksReport, NmrPeaksRequest, analyze_peaks};
 pub use baseline::BaselineMode;
 pub use dataset::ProcessedNmrDataset;
-pub use fid2d::{DimensionChoice, NdChoices, ProcessedNdDataset, fid_matrix, process_nd_dataset};
+pub use fid2d::{
+    DimensionChoice, NdChoices, ProcessedNdDataset, fid_matrix, process_any, process_nd_dataset,
+};
 pub use peaks::{Integral, Peak, PeakOptions, integrate, noise_sd, pick_peaks};
 pub use peaks2d::{
     CrossPeak, CrossPeakOptions, CrossPeakPick, Maximum, PeakFlag, PeakSign, SpectrumContext,

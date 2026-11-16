@@ -243,12 +243,13 @@ pub(super) fn trace(
 ) -> Result<Vec<Series>> {
     let (_, ds, info) = ctx.open(file)?;
     let (mut ds, info): (Box<dyn Dataset>, _) = if spec.process {
-        let p = openreadout_signal::nmr::ProcessedNmrDataset::new(
+        let p = openreadout_signal::nmr::process_any(
             ds,
+            openreadout_signal::nmr::NdChoices::default(),
             openreadout_signal::nmr::ProcessOptions::default(),
         )?;
         let i = p.info()?;
-        (Box::new(p), i)
+        (p, i)
     } else {
         (ds, info)
     };

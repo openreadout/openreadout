@@ -8,7 +8,7 @@ use std::path::{Path, PathBuf};
 use openreadout_core::{Dataset, Error, Registry, Result};
 use openreadout_signal::api::NmrQuery;
 use openreadout_signal::nmr::{
-    Nmr2dReport, NmrMatrixDataset, NmrPeaksReport, NmrReport, ProcessedNmrDataset, SliceSpec,
+    Nmr2dReport, NmrMatrixDataset, NmrPeaksReport, NmrReport, SliceSpec,
 };
 
 use crate::output::{emit, fail};
@@ -182,19 +182,7 @@ impl ProcessArgs {
             return Ok(ds);
         }
         let req = self.request()?;
-        if openreadout_signal::nmr::fid2d::has_fid_nd(&ds.info()?) {
-            return openreadout_signal::nmr::process_nd_dataset(ds, req.nd);
-        }
-        if !req.nd.by_dimension.is_empty() {
-            return Err(Error::Usage(
-                "options for one dimension (fN=) apply to 2D FIDs; this data set has 1D FIDs only"
-                    .into(),
-            ));
-        }
-        Ok(Box::new(ProcessedNmrDataset::new(
-            ds,
-            req.spectrum.process,
-        )?))
+        openreadout_signal::nmr::process_any(ds, req.nd, req.spectrum.process)
     }
 }
 
@@ -721,7 +709,7 @@ fn render_2d(r: &Nmr2dReport) -> String {
     );
     if r.ridge_suppressed > 0 || r.small_footprint_suppressed > 0 {
         s.push_str(&format!(
-            " ({} maxima on noise ridges and {} spikes left out)",
+            " (left out: {} maxima on noise ridges, {} isolated spikes)",
             r.ridge_suppressed, r.small_footprint_suppressed
         ));
     }

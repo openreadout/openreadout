@@ -10,11 +10,13 @@
 //!   at most 2) from `floor` × the noise SD to the largest value. The noise SD is the cross-peak
 //!   picker's (the larger of the run and maxima estimates) when cross peaks are marked, else the
 //!   run estimate of the rows read. Negative contours are drawn at the same levels below zero in
-//!   the accent colour; positive ones in ink. Lower levels are lighter.
+//!   the accent colour; positive ones in ink. Lower levels are lighter. The lowest level is also
+//!   at least twice the 90th percentile of the cells' magnitude, so noise lifted by pooling, t1
+//!   ridges and magnitude-mode wings do not fill the plot.
 //! - **Contours**: marching squares on the cell grid, saddles resolved by the cell's mean,
 //!   segments joined into polylines (one path per level and sign).
-//! - **Marks**: the picker's cross peaks as small open circles (`marks: auto`), numbered by
-//!   their index in the `analyze nmr-peaks` list with `marks: peaks`.
+//! - **Marks**: with `marks: peaks`, the picker's cross peaks as small open circles, the
+//!   tallest numbered by their index in the `analyze nmr-peaks` list.
 //! - **Axes**: the nucleus on each axis label; a J-resolved F1 axis is drawn in Hz and an axis
 //!   whose unit the file names (DOSY) in that unit.
 
@@ -40,6 +42,8 @@ use crate::{DataMark, Frame, FramePanel, Marks, PreviewOutput, PreviewRequest};
 pub const DEFAULT_CONTOUR_FLOOR: f64 = 6.0;
 /// Default number of contour levels of each sign.
 pub const DEFAULT_CONTOUR_LEVELS: u32 = 12;
+/// The lowest contour is at least this many times the 90th percentile of the cells' magnitude.
+const BULK_FACTOR: f64 = 2.0;
 /// Most cross peaks marked.
 const MAX_MARKED: usize = 300;
 /// Most cross peaks numbered.
@@ -431,7 +435,22 @@ pub fn draw(
         .map(|r| r.noise_sd)
         .filter(|n| *n > 0.0)
         .unwrap_or(pooled.noise_sd);
-    let base = view.floor.max(0.1) * noise;
+    // the floor also clears the bulk of the cells: max pooling lifts the noise, and t1 ridges
+    // and magnitude-mode wings would otherwise fill the plot with noise contours
+    let mut mags: Vec<f64> = pooled
+        .max
+        .iter()
+        .zip(&pooled.min)
+        .map(|(a, b)| a.abs().max(b.abs()))
+        .collect();
+    let bulk = if mags.is_empty() {
+        0.0
+    } else {
+        let k = (mags.len() * 9 / 10).min(mags.len() - 1);
+        let (_, v, _) = mags.select_nth_unstable_by(k, f64::total_cmp);
+        *v
+    };
+    let base = (view.floor.max(0.1) * noise).max(BULK_FACTOR * bulk);
     let largest_pos = pooled.max.iter().copied().fold(0.0f64, f64::max);
     let largest_neg = -pooled.min.iter().copied().fold(0.0f64, f64::min);
     let top = largest_pos.max(largest_neg);
@@ -490,7 +509,7 @@ pub fn draw(
                 .unwrap_or(f32::NAN)
         })
         .collect();
-    let width = (theme.line_width * 0.55).max(0.6);
+    let width = (theme.line_width * 0.6).max(0.7);
     let n = levels.len().max(1);
     let shade = |c: Color, k: usize| -> Color {
         let t = if n > 1 {
@@ -498,7 +517,7 @@ pub fn draw(
         } else {
             1.0
         };
-        c.mix(theme.paper, 0.55 * (1.0 - t))
+        c.mix(theme.paper, 0.35 * (1.0 - t))
     };
     fig.group(Layer::Series, "contours positive", |fig| {
         for (k, &l) in levels.iter().enumerate() {
@@ -660,7 +679,7 @@ pub fn draw(
                 if !rect.contains(px, py) {
                     continue;
                 }
-                let rad = (fs * 0.32).max(2.5);
+                let rad = (fs * 0.26).max(2.5);
                 fig.stroke(Path::circle(px, py, rad), ring.clone());
                 placer.reserve(Rect::new(px - rad, py - rad, rad * 2.0, rad * 2.0));
                 let text = format!("{i}");
@@ -668,7 +687,7 @@ pub fn draw(
                 if view.numbers && rank < MAX_NUMBERED {
                     // the first free spot beside the mark; none free, no number
                     let (w, h) = (label.width(&text), theme.small_size() * 1.1);
-                    let g = rad * 0.9;
+                    let g = rad * 1.25;
                     let spots = [
                         (px + g, py - h - g * 0.2),
                         (px + g, py + g * 0.2),
@@ -885,7 +904,8 @@ pub(crate) fn view_of(req: &PreviewRequest, trace: Option<u32>) -> Nmr2dView {
         y_range: req.y_range,
         floor: req.contour_floor.unwrap_or(DEFAULT_CONTOUR_FLOOR),
         levels: req.contour_levels.unwrap_or(DEFAULT_CONTOUR_LEVELS),
-        markers: !matches!(req.marks, Marks::None),
+        // contours alone by default; `marks: peaks` marks and numbers the picked cross peaks
+        markers: matches!(req.marks, Marks::Peaks),
         numbers: matches!(req.marks, Marks::Peaks),
     }
 }
@@ -1104,7 +1124,7 @@ pub(crate) fn render_stack(
             "{} rows{}",
             rows,
             if step > 1 {
-                format!(", every {step}th drawn")
+                format!(", one in {step} drawn")
             } else {
                 String::new()
             }

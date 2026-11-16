@@ -1585,6 +1585,19 @@ fn nmr_view_of(ds: &dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> NmrVi
     let series = |t: &openreadout_core::model::TraceInfo| {
         t.extra.contains_key("series") && t.sweep_count > 1 && spectrum_axis(t).is_some()
     };
+    // spectra processed here (`--process`) come before the stored ones
+    let processed = |t: &&openreadout_core::model::TraceInfo| t.extra.contains_key("processing_nd");
+    if req.trace.is_none()
+        && req.sweep.is_none()
+        && let Some(t) = info.traces.iter().find(processed)
+    {
+        if series(t) {
+            return NmrView::Stack(t.index);
+        }
+        if matrix(t) {
+            return NmrView::Contours(Some(t.index));
+        }
+    }
     match (req.trace, req.sweep) {
         (None, None) if !info.traces.iter().any(matrix) => {
             if let Some(t) = info.traces.iter().find(|t| series(t)) {

@@ -410,6 +410,16 @@ pub fn call(
             out.insert("plot".into(), plot);
             s
         }
+        // a 2D spectrum: the contour plot the preview draws, as a picture
+        ViewKind::Nmr if a.sweep.is_none() && has_matrix(ds.as_ref(), &info, a.trace) => {
+            let (bytes, mime, summary) = nmr_contours(ds.as_mut(), &info, a.trace)?;
+            out.insert("nmr_2d".into(), summary);
+            picture = Some((bytes, mime));
+            notes.model.push(
+                "a 2D spectrum as contours; openreadout_preview zooms (x_range F2, y_range F1), openreadout_trace slice cuts rows, columns and projections".into(),
+            );
+            "2D NMR spectrum (contours)".into()
+        }
         ViewKind::Nmr => {
             let plot = nmr(ds.as_mut(), &info, a, &mut notes, &mut limits)?;
             let s = format!(
@@ -768,6 +778,42 @@ fn samples_picture(
             "image/png"
         },
     ))
+}
+
+/// Is trace `trace` (or, without one, any trace) a stored 2D/3D spectrum?
+fn has_matrix(ds: &dyn openreadout_core::Dataset, info: &FileInfo, trace: Option<u32>) -> bool {
+    let vendor = ds.vendor_metadata().unwrap_or(Value::Null);
+    info.traces
+        .iter()
+        .filter(|t| trace.is_none_or(|i| t.index == i))
+        .any(|t| openreadout_signal::nmr::source2d::matrix_layout(t, &vendor).is_some())
+}
+
+/// The contour plot of a 2D spectrum, within the preview byte budget.
+fn nmr_contours(
+    ds: &mut dyn openreadout_core::Dataset,
+    info: &FileInfo,
+    trace: Option<u32>,
+) -> Result<(Vec<u8>, &'static str, Value), McpError> {
+    use openreadout_preview as pv;
+    let mut req = pv::PreviewRequest::default();
+    req.max_size = DEFAULT_IMAGE_SIZE.clamp(64, MAX_IMAGE_SIZE);
+    req.trace = trace;
+    let r = pv::render(ds, info, &req).map_err(|e| err(&e))?;
+    let summary = serde_json::to_value(&r.output.nmr_2d).unwrap_or(Value::Null);
+    let (out, bytes) = pv::finish_within(
+        &r,
+        pv::Encoding::Png,
+        pv::DEFAULT_JPEG_QUALITY,
+        crate::resources::PREVIEW_BUDGET,
+    )
+    .map_err(|e| err(&e))?;
+    let mime = if out.encoding == "jpeg" {
+        "image/jpeg"
+    } else {
+        "image/png"
+    };
+    Ok((bytes, mime, summary))
 }
 
 /// The view for [`ViewKind::Auto`].
