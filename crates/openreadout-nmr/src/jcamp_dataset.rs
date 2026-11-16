@@ -626,10 +626,11 @@ impl JcampDataset {
                 }
                 tables[s][c] = (b, k.3);
             }
-            let complete =
-                repeated.is_none() && tables.iter().flatten().all(|t| t.0 != usize::MAX);
+            let complete = repeated.is_none() && tables.iter().flatten().all(|t| t.0 != usize::MAX);
             if let Some(r) = &repeated {
-                problems.push(format!("NTUPLES pages repeat a page value and symbol ({r})"));
+                problems.push(format!(
+                    "NTUPLES pages repeat a page value and symbol ({r})"
+                ));
             }
             let ix = idx(&ind);
             let first = ix.and_then(|i| num_at(&firsts, i));
@@ -689,7 +690,11 @@ impl JcampDataset {
                 // variable's ##FIRST=
                 let nd = field("NUMDIM").is_some()
                     || lookup(&self.file, b, "NUMDIM").is_some()
-                    || blk.ldrs[nt].head().to_ascii_uppercase().replace(' ', "").starts_with("NDNMR");
+                    || blk.ldrs[nt]
+                        .head()
+                        .to_ascii_uppercase()
+                        .replace(' ', "")
+                        .starts_with("NDNMR");
                 if nd {
                     let pi = idx(&pvar);
                     let nuclei = field(".NUCLEUS");
@@ -704,7 +709,7 @@ impl JcampDataset {
                     let declared = pi.and_then(|i| {
                         let (f, l) = (num_at(&firsts, i)?, num_at(&lasts, i)?);
                         let n = num_at(&dims, i)?;
-                        (n == npages as f64).then_some((f, l))
+                        ((n - npages as f64).abs() < 0.5).then_some((f, l))
                     });
                     let mut d = BTreeMap::new();
                     d.insert("dimension".to_string(), json!(2));
@@ -727,10 +732,11 @@ impl JcampDataset {
                     // do not match the declared range)
                     if let (Some((df, dl)), Some((pf, pl))) = (declared, paged) {
                         let scale = (dl - df).abs().max(df.abs()).max(f64::MIN_POSITIVE);
-                        let agree = (df - pf).abs() <= 1e-6 * scale && (dl - pl).abs() <= 1e-6 * scale;
+                        let agree =
+                            (df - pf).abs() <= 1e-6 * scale && (dl - pl).abs() <= 1e-6 * scale;
                         d.insert("page_values_agree".to_string(), json!(agree));
                     }
-                    if let Some((f, l)) = declared.or(paged).filter(|(f, l)| f != l) {
+                    if let Some((f, l)) = declared.or(paged).filter(|(f, l)| (f - l).abs() > 0.0) {
                         let mut a = increment_axis(f, l, npages as u64, unit.as_deref());
                         if let (Some(o), Some(n)) = (a.as_object_mut(), d.get("nucleus")) {
                             o.insert("nucleus".into(), n.clone());

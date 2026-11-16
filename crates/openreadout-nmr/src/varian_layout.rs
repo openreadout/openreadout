@@ -348,10 +348,7 @@ pub(crate) fn find_varian_experiments_in(fs: &Fs, dir: &Path) -> Vec<PathBuf> {
         .filter(|e| e.file_type().is_ok_and(|t| t.is_dir()))
         .map(|e| e.path())
         .take(10_000)
-        .filter(|p| {
-            resolve_varian_dir_in(fs, p)
-                .is_some_and(|r| r == *p || r == p.join("acqfil"))
-        })
+        .filter(|p| resolve_varian_dir_in(fs, p).is_some_and(|r| r == *p || r == p.join("acqfil")))
         .collect();
     out.sort();
     out

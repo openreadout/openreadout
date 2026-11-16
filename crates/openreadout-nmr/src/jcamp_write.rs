@@ -564,7 +564,11 @@ fn write_header(
         .unwrap_or_else(|| source_name.to_string());
     let _ = writeln!(out, "##TITLE= {}", one_line(&title));
     // nD NMR spectra are written the way the 6.0 files in the corpus write them
-    let version = if dtype.starts_with("nD ") { "6.0" } else { "5.01" };
+    let version = if dtype.starts_with("nD ") {
+        "6.0"
+    } else {
+        "5.01"
+    };
     let _ = writeln!(
         out,
         "##JCAMP-DX= {version}  $$ openreadout {}",
@@ -715,11 +719,7 @@ pub fn export_jcamp(
         .then(|| two_d_axes(&t))
         .flatten()
         .filter(|_| t.channels.len() == 1 || t.channels[0].name == "real");
-    let nch = if two_d.is_some() {
-        1
-    } else {
-        t.channels.len()
-    };
+    let nch = if two_d.is_some() { 1 } else { t.channels.len() };
     let values = n
         .saturating_mul(nch as u64)
         .saturating_mul(sweeps.len() as u64);
@@ -852,8 +852,9 @@ pub fn export_jcamp(
             .fold((i64::MAX, i64::MIN), |(lo, hi), v| (lo.min(*v), hi.max(*v)));
         let fy = factors[0];
         let nuc = |n: &Option<String>| {
-            n.as_deref()
-                .map_or_else(String::new, |s| one_line(s).trim_start_matches('^').to_string())
+            n.as_deref().map_or_else(String::new, |s| {
+                one_line(s).trim_start_matches('^').to_string()
+            })
         };
         let _ = writeln!(out, "##NTUPLES= {dtype}");
         let _ = writeln!(out, "##VAR_NAME= FREQUENCY1, FREQUENCY2, SPECTRUM");

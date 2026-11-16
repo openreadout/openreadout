@@ -28,7 +28,8 @@ fn root() -> PathBuf {
 }
 
 fn corpus_dir() -> PathBuf {
-    std::env::var_os("OPENREADOUT_CORPUS_DIR").map_or_else(|| root().join("corpus/files"), PathBuf::from)
+    std::env::var_os("OPENREADOUT_CORPUS_DIR")
+        .map_or_else(|| root().join("corpus/files"), PathBuf::from)
 }
 
 #[derive(Deserialize)]
@@ -51,30 +52,37 @@ struct Entry {
 /// brackets removed.
 fn same(ours: Option<&Value>, oracle: &Value) -> bool {
     let Some(o) = ours else { return false };
-    match (o.as_f64(), oracle.as_f64()) {
-        (Some(a), Some(b)) => (a - b).abs() <= 1e-9 * b.abs().max(1.0),
-        _ => {
-            let t = |v: &Value| {
-                v.as_str()
-                    .map_or_else(|| v.to_string(), str::to_string)
-                    .trim()
-                    .trim_start_matches('<')
-                    .trim_end_matches('>')
-                    .to_string()
-            };
-            t(o) == t(oracle)
-        }
+    if let (Some(a), Some(b)) = (o.as_f64(), oracle.as_f64()) {
+        return (a - b).abs() <= 1e-9 * b.abs().max(1.0);
     }
+    let t = |v: &Value| {
+        v.as_str()
+            .map_or_else(|| v.to_string(), str::to_string)
+            .trim()
+            .trim_start_matches('<')
+            .trim_end_matches('>')
+            .to_string()
+    };
+    t(o) == t(oracle)
 }
 
 /// Compare one parameter file's values with our object, `(parameter, our key)` pairs.
-fn compare(what: &str, ours: &Value, oracle: &Value, map: &[(&str, &str)], problems: &mut Vec<String>) -> usize {
+fn compare(
+    what: &str,
+    ours: &Value,
+    oracle: &Value,
+    map: &[(&str, &str)],
+    problems: &mut Vec<String>,
+) -> usize {
     let mut n = 0;
     for (param, key) in map {
         if let Some(v) = oracle.get(*param) {
             n += 1;
             if !same(ours.get(*key), v) {
-                problems.push(format!("{what}: {key} {:?} != nmrglue {param} {v}", ours.get(*key)));
+                problems.push(format!(
+                    "{what}: {key} {:?} != nmrglue {param} {v}",
+                    ours.get(*key)
+                ));
             }
         }
     }
@@ -113,14 +121,20 @@ const PROC: &[(&str, &str)] = &[
 #[test]
 fn indirect_dimensions_match_nmrglue() {
     let root = root();
-    let manifest: Manifest = toml::from_str(&std::fs::read_to_string(root.join("corpus/manifest.toml")).unwrap()).unwrap();
+    let manifest: Manifest =
+        toml::from_str(&std::fs::read_to_string(root.join("corpus/manifest.toml")).unwrap())
+            .unwrap();
     let reg = registry::registry();
     let (mut files, mut checked) = (0usize, 0usize);
     let mut problems = Vec::new();
     for e in manifest.file.iter().filter(|e| {
-        e.role == "input" && e.tier != "heldout" && matches!(e.format.as_str(), "bruker-nmr" | "varian-nmr")
+        e.role == "input"
+            && e.tier != "heldout"
+            && matches!(e.format.as_str(), "bruker-nmr" | "varian-nmr")
     }) {
-        let Ok(text) = oracle_json::read_to_string(&root.join("corpus/oracle").join(format!("{}.json", e.id))) else {
+        let Ok(text) =
+            oracle_json::read_to_string(&root.join("corpus/oracle").join(format!("{}.json", e.id)))
+        else {
             continue;
         };
         let oracle: Value = serde_json::from_str(&text).unwrap();
@@ -142,7 +156,9 @@ fn indirect_dimensions_match_nmrglue() {
         let info = ds.info().unwrap();
         files += 1;
         for o in &traces {
-            let Some(index) = o["index"].as_u64() else { continue };
+            let Some(index) = o["index"].as_u64() else {
+                continue;
+            };
             let Some(t) = info.traces.iter().find(|t| u64::from(t.index) == index) else {
                 problems.push(format!("{}: trace {index} missing", e.id));
                 continue;
@@ -166,7 +182,13 @@ fn indirect_dimensions_match_nmrglue() {
                         if k > 0 {
                             map.push(("MC2", "quadrature_mode_code"));
                         }
-                        checked += compare(&format!("{} trace {index} dimension {}", e.id, k + 1), &mine, d, &map, &mut problems);
+                        checked += compare(
+                            &format!("{} trace {index} dimension {}", e.id, k + 1),
+                            &mine,
+                            d,
+                            &map,
+                            &mut problems,
+                        );
                     }
                 }
             }
@@ -203,5 +225,10 @@ fn indirect_dimensions_match_nmrglue() {
         }
     }
     println!("nmr dimensions: {files} data sets, {checked} values compared with nmrglue");
-    assert!(problems.is_empty(), "{} problems:\n{}", problems.len(), problems.join("\n"));
+    assert!(
+        problems.is_empty(),
+        "{} problems:\n{}",
+        problems.len(),
+        problems.join("\n")
+    );
 }

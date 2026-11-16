@@ -172,7 +172,8 @@ fn proc_dimension(pf: &ParamFile, dimension: usize) -> BTreeMap<String, Value> {
     put(
         &mut d,
         "reversed",
-        pf.text("REVERSE").map(|v| json!(v.eq_ignore_ascii_case("yes"))),
+        pf.text("REVERSE")
+            .map(|v| json!(v.eq_ignore_ascii_case("yes"))),
     );
     put(&mut d, "strip_start", num(pf, "STSR"));
     put(&mut d, "strip_size", num(pf, "STSI"));
@@ -384,9 +385,12 @@ impl BrukerDataset {
                     put(&mut d, "encoding_code", num(p, "FnMODE"));
                     // the stored processing of this dimension: proc{k+2}s of the first pdata
                     // directory that has one
-                    if let Some((procno, pf)) = self.exp.processing.iter().find_map(|pr| {
-                        pr.procs.get(k + 1).map(|pf| (pr.procno, pf))
-                    }) {
+                    if let Some((procno, pf)) = self
+                        .exp
+                        .processing
+                        .iter()
+                        .find_map(|pr| pr.procs.get(k + 1).map(|pf| (pr.procno, pf)))
+                    {
                         let mut s = proc_dimension(pf, k + 2);
                         s.insert("procno".into(), json!(procno));
                         d.insert("stored_processing".to_string(), json!(s));
@@ -623,7 +627,11 @@ impl BrukerDataset {
                 ("list".to_string(), json!(l.kind)),
                 ("file".to_string(), json!(l.file)),
             ]);
-            put(&mut extra, "parameter", l.parameter.as_ref().map(|p| json!(p)));
+            put(
+                &mut extra,
+                "parameter",
+                l.parameter.as_ref().map(|p| json!(p)),
+            );
             put(&mut extra, "header", l.header.as_ref().map(|h| json!(h)));
             if !l.issues.is_empty() {
                 extra.insert("problems".into(), json!(l.issues));

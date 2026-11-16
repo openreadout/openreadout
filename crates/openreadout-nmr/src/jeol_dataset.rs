@@ -123,7 +123,7 @@ fn context_sample_id(text: &str) -> Option<String> {
 fn processing_list_name(process: &str) -> Option<String> {
     process
         .split(|c: char| c.is_whitespace() || c == '\'' || c == ':')
-        .find(|w| w.len() > 5 && w.ends_with(".list"))
+        .find(|w| w.len() > 5 && w.to_ascii_lowercase().ends_with(".list"))
         .map(str::to_string)
 }
 
@@ -378,9 +378,7 @@ impl JeolDataset {
             None
         };
         let context_sample_id = context.as_deref().and_then(context_sample_id);
-        let context_process = context
-            .as_deref()
-            .and_then(|t| context_value(t, "process"));
+        let context_process = context.as_deref().and_then(|t| context_value(t, "process"));
         Ok(JeolDataset {
             path: path.to_path_buf(),
             fs: fs.clone(),

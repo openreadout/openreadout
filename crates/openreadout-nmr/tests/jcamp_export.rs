@@ -267,10 +267,20 @@ fn bruker_2d(dir: &Path) -> std::path::PathBuf {
     };
     std::fs::write(
         exp.join("acqus"),
-        p(&[("TD", "16"), ("AQ_mod", "3"), ("SW_h", "4000"), ("NUC1", "<1H>"), ("SFO1", "400.13")]),
+        p(&[
+            ("TD", "16"),
+            ("AQ_mod", "3"),
+            ("SW_h", "4000"),
+            ("NUC1", "<1H>"),
+            ("SFO1", "400.13"),
+        ]),
     )
     .unwrap();
-    std::fs::write(exp.join("acqu2s"), p(&[("TD", "6"), ("NUC1", "<13C>"), ("FnMODE", "6")])).unwrap();
+    std::fs::write(
+        exp.join("acqu2s"),
+        p(&[("TD", "6"), ("NUC1", "<13C>"), ("FnMODE", "6")]),
+    )
+    .unwrap();
     std::fs::write(exp.join("ser"), vec![0u8; 6 * 1024]).unwrap();
     let procs = [
         ("procs", "8", "10", "4000", "400.13", "<1H>"),
@@ -279,7 +289,15 @@ fn bruker_2d(dir: &Path) -> std::path::PathBuf {
     for (name, si, off, sw, sf, nuc) in procs {
         std::fs::write(
             pdata.join(name),
-            p(&[("SI", si), ("XDIM", si), ("OFFSET", off), ("SW_p", sw), ("SF", sf), ("AXNUC", nuc), ("NC_proc", "0")]),
+            p(&[
+                ("SI", si),
+                ("XDIM", si),
+                ("OFFSET", off),
+                ("SW_p", sw),
+                ("SF", sf),
+                ("AXNUC", nuc),
+                ("NC_proc", "0"),
+            ]),
         )
         .unwrap();
     }
@@ -317,7 +335,10 @@ fn bruker_2d_spectrum_is_an_nd_nmr_spectrum() {
         .collect();
     assert_eq!(pages.len(), 6);
     let close = |a: f64, b: f64| (a - b).abs() <= 1e-9 * b.abs();
-    assert!(close(pages[0], 15090.0) && close(pages[1], 13090.0), "{pages:?}");
+    assert!(
+        close(pages[0], 15090.0) && close(pages[1], 13090.0),
+        "{pages:?}"
+    );
     let mut back = JcampReader.open(&out).unwrap();
     let info = back.info().unwrap();
     let t = &info.traces[0];

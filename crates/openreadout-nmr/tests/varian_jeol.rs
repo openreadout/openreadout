@@ -554,7 +554,10 @@ fn bruker_4d_processed_components_written_by_nmrglue() {
     assert_eq!(t.extra["submatrix"], serde_json::json!([1, 2, 2, 4]));
     assert_eq!(t.extra["sweep_dimensions"], serde_json::json!([2, 3, 4]));
     let dims = t.extra["indirect_dimensions"].as_array().unwrap();
-    let nuclei: Vec<&str> = dims.iter().map(|d| d["nucleus"].as_str().unwrap()).collect();
+    let nuclei: Vec<&str> = dims
+        .iter()
+        .map(|d| d["nucleus"].as_str().unwrap())
+        .collect();
     assert_eq!(nuclei, ["15N", "13C", "31P"]);
     assert_eq!(dims[0]["quadrature_mode"], "Echo-Antiecho");
     assert_eq!(dims[1]["quadrature_mode"], "States-TPPI");
@@ -575,7 +578,11 @@ fn bruker_4d_processed_components_written_by_nmrglue() {
         }
     }
     // the raw trace describes the three indirect dimensions and their stored processing
-    let raw = info.traces.iter().find(|t| t.name.as_deref() == Some("ser")).unwrap();
+    let raw = info
+        .traces
+        .iter()
+        .find(|t| t.name.as_deref() == Some("ser"))
+        .unwrap();
     assert_eq!(raw.extra["acquisition_dimensions"], 4);
     let rd = raw.extra["indirect_dimensions"].as_array().unwrap();
     assert_eq!(rd.len(), 3);
@@ -590,8 +597,17 @@ fn damaged_4d(edit: &dyn Fn(&Path)) -> tempfile::TempDir {
     let dir = tempfile::tempdir().unwrap();
     let dst = dir.path().join("1");
     for rel in [
-        "acqus", "acqu2s", "acqu3s", "acqu4s", "ser", "pdata/1/procs", "pdata/1/proc2s",
-        "pdata/1/proc3s", "pdata/1/proc4s", "pdata/1/4rrrr", "pdata/1/4iiii",
+        "acqus",
+        "acqu2s",
+        "acqu3s",
+        "acqu4s",
+        "ser",
+        "pdata/1/procs",
+        "pdata/1/proc2s",
+        "pdata/1/proc3s",
+        "pdata/1/proc4s",
+        "pdata/1/4rrrr",
+        "pdata/1/4iiii",
     ] {
         let to = dst.join(rel);
         fs::create_dir_all(to.parent().unwrap()).unwrap();
@@ -626,7 +642,14 @@ fn bruker_4d_malformed_files_give_clean_errors() {
         fs::write(&f, &b[..b.len() / 2]).unwrap();
     });
     let (_, mut ds) = reg.open(&d.path().join("1")).unwrap();
-    let idx = ds.info().unwrap().traces.iter().find(|t| t.name.as_deref() == Some("pdata/1")).unwrap().index;
+    let idx = ds
+        .info()
+        .unwrap()
+        .traces
+        .iter()
+        .find(|t| t.name.as_deref() == Some("pdata/1"))
+        .unwrap()
+        .index;
     assert!(ds.read_trace(idx, 0, 0, 8).is_ok());
     let e = ds.read_trace(idx, 15, 0, 8).unwrap_err();
     assert_eq!(e.exit_code(), 4, "{e}");
@@ -636,10 +659,27 @@ fn bruker_4d_malformed_files_give_clean_errors() {
     let d = damaged_4d(&|e| set_param(&e.join("pdata/1/proc3s"), "XDIM", "3"));
     let (_, mut ds) = reg.open(&d.path().join("1")).unwrap();
     let info = ds.info().unwrap();
-    assert!(info.notes.iter().any(|n| n.contains("not a multiple of XDIM")), "{:?}", info.notes);
-    let idx = info.traces.iter().find(|t| t.name.as_deref() == Some("pdata/1")).unwrap().index;
+    assert!(
+        info.notes
+            .iter()
+            .any(|n| n.contains("not a multiple of XDIM")),
+        "{:?}",
+        info.notes
+    );
+    let idx = info
+        .traces
+        .iter()
+        .find(|t| t.name.as_deref() == Some("pdata/1"))
+        .unwrap()
+        .index;
     assert_eq!(ds.read_trace(idx, 0, 0, 8).unwrap_err().exit_code(), 4);
-    assert!(ds.check().unwrap().findings.iter().any(|f| f.code == "bad_processed_data"));
+    assert!(
+        ds.check()
+            .unwrap()
+            .findings
+            .iter()
+            .any(|f| f.code == "bad_processed_data")
+    );
     // SI whose product overflows
     let d = damaged_4d(&|e| {
         for p in ["procs", "proc2s", "proc3s", "proc4s"] {
@@ -649,14 +689,27 @@ fn bruker_4d_malformed_files_give_clean_errors() {
     });
     let (_, mut ds) = reg.open(&d.path().join("1")).unwrap();
     let info = ds.info().unwrap();
-    assert!(info.notes.iter().any(|n| n.contains("overflows")), "{:?}", info.notes);
-    let idx = info.traces.iter().find(|t| t.name.as_deref() == Some("pdata/1")).unwrap().index;
+    assert!(
+        info.notes.iter().any(|n| n.contains("overflows")),
+        "{:?}",
+        info.notes
+    );
+    let idx = info
+        .traces
+        .iter()
+        .find(|t| t.name.as_deref() == Some("pdata/1"))
+        .unwrap()
+        .index;
     assert_eq!(ds.read_trace(idx, 0, 0, 8).unwrap_err().exit_code(), 4);
     // a dimension's procNs file missing
     let d = damaged_4d(&|e| fs::remove_file(e.join("pdata/1/proc3s")).unwrap());
     let (_, ds) = reg.open(&d.path().join("1")).unwrap();
     let info = ds.info().unwrap();
-    assert!(info.notes.iter().any(|n| n.contains("proc3s is missing")), "{:?}", info.notes);
+    assert!(
+        info.notes.iter().any(|n| n.contains("proc3s is missing")),
+        "{:?}",
+        info.notes
+    );
 }
 
 #[test]
@@ -676,7 +729,11 @@ fn bruker_list_files_are_tables() {
     let reg = registry();
     let (_, mut ds) = reg.open(&exp).unwrap();
     let info = ds.info().unwrap();
-    let names: Vec<&str> = info.tables.iter().filter_map(|t| t.name.as_deref()).collect();
+    let names: Vec<&str> = info
+        .tables
+        .iter()
+        .filter_map(|t| t.name.as_deref())
+        .collect();
     assert_eq!(names, ["vclist", "vplist"]);
     assert_eq!(info.tables[1].columns[0].unit.as_deref(), Some("s"));
     let t = ds.read_table(1, 0, 10).unwrap();

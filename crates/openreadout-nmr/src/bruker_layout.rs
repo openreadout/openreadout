@@ -290,7 +290,13 @@ pub fn processed_components(dims: u32) -> Vec<(String, String)> {
     (0..1u32 << n)
         .map(|mask| {
             let letters: String = (0..n)
-                .map(|k| if mask & (1 << (n - 1 - k)) != 0 { 'i' } else { 'r' })
+                .map(|k| {
+                    if mask & (1 << (n - 1 - k)) != 0 {
+                        'i'
+                    } else {
+                        'r'
+                    }
+                })
                 .collect();
             let channel = match (mask, n) {
                 (0, _) => "real".to_string(),
@@ -363,7 +369,9 @@ pub fn parse_experiment_list(kind: &str, file: &str, bytes: &[u8]) -> Experiment
             continue;
         }
         if out.values.len() >= MAX_LIST_VALUES {
-            out.issues.push(format!("more than {MAX_LIST_VALUES} values: the rest is not read"));
+            out.issues.push(format!(
+                "more than {MAX_LIST_VALUES} values: the rest is not read"
+            ));
             break;
         }
         let split = t
@@ -382,16 +390,24 @@ pub fn parse_experiment_list(kind: &str, file: &str, bytes: &[u8]) -> Experiment
         match (num.trim().parse::<f64>(), divisor) {
             (Ok(v), Some(d)) if v.is_finite() => out.values.push(v / d),
             _ if out.values.is_empty() && out.header.is_none() => out.header = Some(t.to_string()),
-            _ => out.issues.push(format!("line {}: {t:?} is not a value", n + 1)),
+            _ => out
+                .issues
+                .push(format!("line {}: {t:?} is not a value", n + 1)),
         }
     }
     let header = out.header.as_deref().map(str::to_ascii_lowercase);
     out.unit = match kind {
         "vdlist" | "vplist" => Some("s".into()),
-        _ if header.as_deref().is_some_and(|h| h.split_whitespace().any(|w| w == "ppm")) => {
+        _ if header
+            .as_deref()
+            .is_some_and(|h| h.split_whitespace().any(|w| w == "ppm")) =>
+        {
             Some("ppm".into())
         }
-        _ if header.as_deref().is_some_and(|h| h.split_whitespace().any(|w| w == "hz")) => {
+        _ if header
+            .as_deref()
+            .is_some_and(|h| h.split_whitespace().any(|w| w == "hz")) =>
+        {
             Some("Hz".into())
         }
         "valist" if header.as_deref() == Some("db") => Some("dB".into()),
@@ -403,16 +419,18 @@ pub fn parse_experiment_list(kind: &str, file: &str, bytes: &[u8]) -> Experiment
 fn read_lists(fs: &Fs, dir: &Path, acqus: &ParamFile) -> Vec<ExperimentList> {
     let mut out = Vec::new();
     for &(kind, param, folder) in LIST_KINDS {
-        let named = param.and_then(|p| acqus.text(p)).filter(|n| {
-            !n.contains(['/', '\\']) && *n != ".." && *n != "."
-        });
+        let named = param
+            .and_then(|p| acqus.text(p))
+            .filter(|n| !n.contains(['/', '\\']) && *n != ".." && *n != ".");
         let mut candidates = vec![kind.to_string()];
         if let Some(n) = named {
             candidates.push(format!("lists/{folder}/{n}"));
         }
         for rel in candidates {
             let p = dir.join(&rel);
-            let Some(len) = file_len(fs, &p) else { continue };
+            let Some(len) = file_len(fs, &p) else {
+                continue;
+            };
             let mut l = if len > MAX_PARAM_FILE {
                 ExperimentList {
                     kind: kind.to_string(),
@@ -756,7 +774,8 @@ impl ProcLayout {
         let procs = p.procs.first()?;
         let has = |n: &str| p.data_files.iter().find(|(f, _)| f == n).map(|(_, l)| *l);
         // the lowest dimension whose all-real file is present
-        let dims = (1..=MAX_PROCESSED_DIMS).find(|&n| has(&format!("{n}{}", "r".repeat(n as usize))).is_some())?;
+        let dims = (1..=MAX_PROCESSED_DIMS)
+            .find(|&n| has(&format!("{n}{}", "r".repeat(n as usize))).is_some())?;
         let comps = processed_components(dims);
         Some((|| {
             let sample_type = SampleType::from_code(procs.int("DTYPP")).map_err(|c| {
@@ -807,7 +826,11 @@ impl ProcLayout {
                     }
                 }
             }
-            let si_text = si.iter().map(u64::to_string).collect::<Vec<_>>().join(" × ");
+            let si_text = si
+                .iter()
+                .map(u64::to_string)
+                .collect::<Vec<_>>()
+                .join(" × ");
             let total = si
                 .iter()
                 .try_fold(1u64, |a, &b| a.checked_mul(b))
@@ -1102,7 +1125,9 @@ mod tests {
         let files: Vec<&str> = c.iter().map(|(_, f)| f.as_str()).collect();
         assert_eq!(
             files,
-            ["3rrr", "3rri", "3rir", "3rii", "3irr", "3iri", "3iir", "3iii"]
+            [
+                "3rrr", "3rri", "3rir", "3rii", "3irr", "3iri", "3iir", "3iii"
+            ]
         );
         let c = processed_components(4);
         assert_eq!(c.len(), 16);
@@ -1179,7 +1204,10 @@ mod tests {
         assert_eq!((l.header, l.unit.as_deref()), (None, Some("s")));
         let l = parse_experiment_list("valist", "lists/va/x", b"dB\n36.82\n-0.08\n");
         assert_eq!(l.values, vec![36.82, -0.08]);
-        assert_eq!((l.header.as_deref(), l.unit.as_deref()), (Some("dB"), Some("dB")));
+        assert_eq!(
+            (l.header.as_deref(), l.unit.as_deref()),
+            (Some("dB"), Some("dB"))
+        );
         let l = parse_experiment_list("fq1list", "fq1list", b"O 114.530000\n-2000000\n-1992172\n");
         assert_eq!(l.values, vec![-2_000_000.0, -1_992_172.0]);
         assert_eq!(l.header.as_deref(), Some("O 114.530000"));

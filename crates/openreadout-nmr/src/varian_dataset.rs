@@ -114,7 +114,9 @@ fn read_block_trace(
     max: u64,
 ) -> Result<Vec<Vec<f64>>> {
     let ntr = u64::try_from(h.traces_per_block).unwrap_or(1).max(1);
-    let sweeps = u64::try_from(h.block_count).unwrap_or(0).saturating_mul(ntr);
+    let sweeps = u64::try_from(h.block_count)
+        .unwrap_or(0)
+        .saturating_mul(ntr);
     if u64::from(sweep) >= sweeps {
         return Err(Error::Usage(format!(
             "sweep {sweep} out of range ({sweeps} sweeps)"
@@ -156,7 +158,9 @@ fn read_block_trace(
         return Err(Error::corrupt_at(
             VARIAN_FORMAT_ID,
             offset,
-            format!("{file} needs bytes up to {end} for sweep {sweep} but has {file_len} (truncated)"),
+            format!(
+                "{file} needs bytes up to {end} for sweep {sweep} but has {file_len} (truncated)"
+            ),
         ));
     }
     let mut f = fs.open(path).map_err(|e| Error::io(path, e))?;
@@ -164,7 +168,8 @@ fn read_block_trace(
         .map_err(|e| Error::io(path, e))?;
     let mut buf = vec![
         0u8;
-        usize::try_from(len).map_err(|_| Error::corrupt(VARIAN_FORMAT_ID, "read too large"))?
+        usize::try_from(len)
+            .map_err(|_| Error::corrupt(VARIAN_FORMAT_ID, "read too large"))?
     ];
     f.read_exact(&mut buf).map_err(|e| Error::io(path, e))?;
     let vals = decode_varian(&buf, ty);
@@ -195,7 +200,10 @@ struct SweepLoop {
 fn sweep_loops(pp: &Procpar) -> Vec<SweepLoop> {
     let mut out = Vec::new();
     for (k, ni) in [(4u32, "ni3"), (3, "ni2"), (2, "ni")] {
-        if let Some(n) = pp.real(ni).filter(|v| *v > 1.0 && v.fract() == 0.0 && *v < 1e12) {
+        if let Some(n) = pp
+            .real(ni)
+            .filter(|v| *v > 1.0 && v.fract() == 0.0 && *v < 1e12)
+        {
             out.push(SweepLoop {
                 parameter: ni.into(),
                 size: n as u64,
@@ -223,7 +231,11 @@ fn sweep_loops(pp: &Procpar) -> Vec<SweepLoop> {
                 parameter: name.to_string(),
                 size,
                 dimension,
-                kind: if dimension.is_some() { "phase" } else { "array" },
+                kind: if dimension.is_some() {
+                    "phase"
+                } else {
+                    "array"
+                },
             });
         }
     }
@@ -529,16 +541,17 @@ impl VarianDataset {
             let Some(n) = self.pp_real(ni).filter(|v| *v >= 1.0) else {
                 continue;
             };
-            let p = |name: &str| self.pp_real(&format!("{name}{n_suffix}")).map(|v| json!(v));
+            let suffixed =
+                |name: &str| self.pp_real(&format!("{name}{n_suffix}")).map(|v| json!(v));
             let mut d = BTreeMap::new();
             d.insert("dimension".to_string(), json!(k + 2));
             d.insert("increments".to_string(), json!(n as i64));
-            put(&mut d, "spectral_width_hz", p("sw"));
-            if let (Some(sw), Some(f)) = (
+            put(&mut d, "spectral_width_hz", suffixed("sw"));
+            if let (Some(sw), Some(freq)) = (
                 self.pp_real(&format!("sw{n_suffix}")),
                 self.pp_real(dfrq).filter(|v| *v > 0.0),
             ) {
-                d.insert("spectral_width_ppm".to_string(), json!(sw / f));
+                d.insert("spectral_width_ppm".to_string(), json!(sw / freq));
             }
             d.insert("phase_parameter".to_string(), json!(phase));
             if let Some(ProcparValues::Real(v)) = self
@@ -554,7 +567,11 @@ impl VarianDataset {
                 "nucleus",
                 self.pp_text(dn).map(|t| json!(nucleus(t))),
             );
-            put(&mut d, "nucleus_parameter", self.pp_text(dn).map(|_| json!(dn)));
+            put(
+                &mut d,
+                "nucleus_parameter",
+                self.pp_text(dn).map(|_| json!(dn)),
+            );
             put(
                 &mut d,
                 "spectrometer_frequency_mhz",
@@ -569,25 +586,25 @@ impl VarianDataset {
                 d.insert("coefficients".to_string(), json!(nums));
                 d.insert("coefficients_parameter".to_string(), json!(coef));
             }
-            let mut s = BTreeMap::new();
-            put(&mut s, "transform_size", p("fn"));
-            put(&mut s, "line_broadening_hz", p("lb"));
-            put(&mut s, "gaussian_s", p("gf"));
-            put(&mut s, "gaussian_shift_s", p("gfs"));
-            put(&mut s, "sine_bell_s", p("sb"));
-            put(&mut s, "sine_bell_shift_s", p("sbs"));
-            put(&mut s, "phase0_deg", p("rp"));
-            put(&mut s, "phase1_deg", p("lp"));
-            put(&mut s, "reference_line_hz", p("rfl"));
-            put(&mut s, "reference_frequency_hz", p("rfp"));
-            put(&mut s, "reference_frequency_mhz", p("reffrq"));
+            let mut stored = BTreeMap::new();
+            put(&mut stored, "transform_size", suffixed("fn"));
+            put(&mut stored, "line_broadening_hz", suffixed("lb"));
+            put(&mut stored, "gaussian_s", suffixed("gf"));
+            put(&mut stored, "gaussian_shift_s", suffixed("gfs"));
+            put(&mut stored, "sine_bell_s", suffixed("sb"));
+            put(&mut stored, "sine_bell_shift_s", suffixed("sbs"));
+            put(&mut stored, "phase0_deg", suffixed("rp"));
+            put(&mut stored, "phase1_deg", suffixed("lp"));
+            put(&mut stored, "reference_line_hz", suffixed("rfl"));
+            put(&mut stored, "reference_frequency_hz", suffixed("rfp"));
+            put(&mut stored, "reference_frequency_mhz", suffixed("reffrq"));
             put(
-                &mut s,
+                &mut stored,
                 "transform",
                 self.pp_text(&format!("proc{n_suffix}")).map(|v| json!(v)),
             );
-            if !s.is_empty() {
-                d.insert("stored_processing".to_string(), json!(s));
+            if !stored.is_empty() {
+                d.insert("stored_processing".to_string(), json!(stored));
             }
             dims.push(json!(d));
         }
@@ -597,9 +614,7 @@ impl VarianDataset {
         if let Some(pp) = &self.procpar {
             let loops = sweep_loops(pp);
             if !loops.is_empty() {
-                let product = loops
-                    .iter()
-                    .try_fold(1u64, |a, l| a.checked_mul(l.size));
+                let product = loops.iter().try_fold(1u64, |a, l| a.checked_mul(l.size));
                 let consistent = product == Some(self.sweeps());
                 e.insert(
                     "sweep_order".into(),
@@ -669,7 +684,11 @@ impl VarianDataset {
         let h = &pf.header;
         let complex = pf.complex();
         let dtype = pf.sample_type.as_ref().map_or("float32", |t| t.dtype());
-        let names: &[&str] = if complex { &["real", "imag"] } else { &["real"] };
+        let names: &[&str] = if complex {
+            &["real", "imag"]
+        } else {
+            &["real"]
+        };
         let channels = names
             .iter()
             .enumerate()
@@ -814,7 +833,11 @@ impl Dataset for VarianDataset {
             tables: Vec::new(),
             spectra: Vec::new(),
             traces: std::iter::once(self.trace_info())
-                .chain(self.phasefile.as_ref().map(|p| self.phasefile_trace_info(p)))
+                .chain(
+                    self.phasefile
+                        .as_ref()
+                        .map(|p| self.phasefile_trace_info(p)),
+                )
                 .collect(),
             plane_count: 0,
             notes,
@@ -913,7 +936,9 @@ impl Dataset for VarianDataset {
                     "parameters": self.procpar.as_ref().map_or(0, |p| p.params.len()),
                     "issues": self.procpar.as_ref().map_or(0, |p| p.issues.len()),
                 }),
-                "processed-data" => json!({"decoded": self.phasefile.as_ref().is_some_and(|p| p.name == *name)}),
+                "processed-data" => {
+                    json!({"decoded": self.phasefile.as_ref().is_some_and(|p| p.name == *name)})
+                }
                 _ => Value::Null,
             };
             out.push(LsEntry {
@@ -957,7 +982,10 @@ impl Dataset for VarianDataset {
             }
             (1, Some(pf)) => {
                 let ty = pf.sample_type.clone().map_err(|e| {
-                    Error::corrupt(VARIAN_FORMAT_ID, format!("{} header not usable: {e}", pf.name))
+                    Error::corrupt(
+                        VARIAN_FORMAT_ID,
+                        format!("{} header not usable: {e}", pf.name),
+                    )
                 })?;
                 read_block_trace(
                     &self.fs,
