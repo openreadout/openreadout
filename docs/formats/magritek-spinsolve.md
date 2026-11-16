@@ -64,7 +64,9 @@ nmrglue takes the first third of every `.1d` file as the x axis; that holds for 
 
 One trace per decodable data file (`DataFile`), named by the file: the FID first (`FID_NAMES` in order: `data.1d`, `fid.1d`, `data.2d`, `data.3d`, `data.4d`, when complex and x size = `nrPnts`), then the others by name.
 
-- **FID**: `kind` `time_domain`, channels `real`, `imag` (float32 as stored), `sweep_count` = rows (the `nrSteps` series of relaxation, SLIC and diffusion protocols, in file order), `sample_rate_hz` = width, `axis` time in s stepping 1/width, and the parameters above. `data_type`, `dimensions`, `file` on every trace.
+- **FID**: `kind` `time_domain`, channels `real`, `imag` (float32 as stored), `sweep_count` = rows (the `nrSteps` series of relaxation, SLIC and diffusion protocols, in file order), `sample_rate_hz` = width, `axis` time in s stepping 1/width, and the parameters above. `data_type`, `dimensions`, `file` on every trace. `series_parameters` holds, as written, the `acqu.par` parameters that set what changes from row to row (`minDelay`, `maxDelay`, `delaySpacing`, `ieTime`, `minTau`, `maxTau`, `tauSteps`, `logspace`, `nrEchoes`, `echoTime`, `echoesperstep`, `gradMax`, `gradSpacing`, `gradRamp`, `bDelta`, `lDelta`, `x_steps`/`x_minimum`/`x_maximum`, `y_steps`/`y_minimum`/`y_maximum`, those present); the row values are not computed from them.
+
+Every public `data.2d` is such a series of 1D FIDs. No public Spinsolve 2D NMR experiment (COSY, HSQC, HMBC, JRES on a Spinsolve Carbon or Ultra) or processed 2D file was found, so their indirect-dimension parameters are not named here; such a `data.2d` is read as rows like the series above.
 - **ppm spectra** (`spectrum.1d`, `DiffusionSpectrumStacked.1d`): `kind` `spectrum`, `axis` `{quantity: chemical_shift, unit: ppm, first, last, step, size, spectrometer_frequency_mhz}` (= `b1Freq`), channels `real`, `imag`.
 - **Other arrays**: channels `x` (when not an axis), `real`/`imag` or `y`.
 

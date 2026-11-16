@@ -3561,6 +3561,11 @@ _BRUKER_KEYS = ["TD", "NS", "DS", "NUC1", "SFO1", "BF1", "SW_h", "SW", "DTYPA", 
                 "DECIM", "DSPFVS", "GRPDLY", "PULPROG", "SOLVENT", "TE", "DATE", "INSTRUM", "PROBHD",
                 "FnTYPE", "FnMODE", "NusTD", "RG"]
 _PROC_KEYS = ["SI", "XDIM", "NC_proc", "OFFSET", "SW_p", "SF", "AXNUC", "BYTORDP", "DTYPP", "FTSIZE"]
+# per-dimension processing parameters compared with extra.processing / indirect_dimensions[]
+_PROC_DIM_KEYS = ["SI", "XDIM", "AXNUC", "SW_p", "SF", "OFFSET", "WDW", "LB", "SSB", "PHC0", "PHC1",
+                  "MC2", "FT_mod", "TDeff", "ME_mod", "NCOEF"]
+# per-dimension acquisition parameters compared with extra.indirect_dimensions[]
+_ACQU_DIM_KEYS = ["TD", "NUC1", "SW_h", "SW", "SFO1", "BF1", "O1", "FnMODE", "NusTD"]
 
 def _pick_keys(d, keys):
     return {k: _jsonable(d[k]) for k in keys if k in d}
@@ -3582,6 +3587,13 @@ def bruker(p: Path) -> dict:
     arr = np.asarray(data)
     rows = arr.reshape(-1, arr.shape[-1]) if arr.ndim > 1 else arr.reshape(1, -1)
     scale = 2.0 ** int(ac.get("NC", 0))
+    # nmrglue shapes ser by its size; when the file holds more rows than the acquNs TD declare
+    # and not a whole multiple of them, the declared rows are the data (the reader's rule)
+    tds = [int(dic[f]["TD"]) for f in ("acqu2s", "acqu3s", "acqu4s") if f in dic and int(dic[f].get("TD", 0)) > 0]
+    declared = int(np.prod(tds)) if tds else 0
+    if declared and len(rows) > declared and len(rows) % declared != 0:
+        notes.append(f"nmrglue read {len(rows)} rows from the file size; the acquNs TD declare {declared}, which are compared")
+        rows = rows[:declared]
     sweeps = []
     for r in rows:
         r = r[:n]
@@ -3599,16 +3611,28 @@ def bruker(p: Path) -> dict:
         "nmrglue_shape": list(arr.shape), "nmrglue_dtype": str(arr.dtype),
         "reader": f"nmrglue {ng.__version__} bruker.read",
         "parameters": {"acqus": _pick_keys(ac, _BRUKER_KEYS), **dims},
+        # each indirect dimension's acquisition parameters as nmrglue read them (acqu2s first)
+        "dimensions": [_pick_keys(dic[f], _ACQU_DIM_KEYS) for f in
+                       ("acqu2s", "acqu3s", "acqu4s", "acqu5s", "acqu6s", "acqu7s", "acqu8s") if f in dic],
         "sweeps": _sweeps(sweeps),
     })
     pdata = p / "pdata"
     procnos = sorted((int(d.name), d) for d in pdata.iterdir() if d.is_dir() and d.name.isdigit()) if pdata.is_dir() else []
     for procno, d in procnos:
-        if not any((d / f).exists() for f in ("1r", "2rr", "3rrr")) or not (d / "procs").exists():
+        # the lowest dimension N whose all-real file N r…r is present (1r, 2rr, 3rrr, 4rrrr, …)
+        ndim = next((k for k in range(1, 9) if (d / f"{k}{'r' * k}").exists()), None)
+        if ndim is None or not (d / "procs").exists():
             continue
         entry = {"index": len(traces), "name": f"pdata/{procno}"}
         try:
-            pdic, pd = ng.bruker.read_pdata(str(d), all_components=True, scale_data=True)
+            # nmrglue finds 1r/2rr/3rrr itself; for 4D and above it is given the component files
+            # (every r/i combination present, last letter fastest) and reads proc4s for the shape
+            bins = None
+            if ndim >= 4:
+                import itertools
+                bins = [f"{ndim}{''.join(c)}" for c in itertools.product("ri", repeat=ndim)
+                        if (d / f"{ndim}{''.join(c)}").exists()]
+            pdic, pd = ng.bruker.read_pdata(str(d), bin_files=bins, all_components=True, scale_data=True)
             comps = pd if isinstance(pd, list) else [pd]
             comps = [np.asarray(c, dtype="<f8") for c in comps]
             if comps[0].ndim == 1:
@@ -3623,6 +3647,9 @@ def bruker(p: Path) -> dict:
             entry["sweeps"] = _sweeps(sweeps)
             entry["reader"] = f"nmrglue {ng.__version__} bruker.read_pdata(scale_data=True)"
             entry["parameters"] = {"procs": _pick_keys(pdic["procs"], _PROC_KEYS)}
+            # every processed dimension's parameters as nmrglue read them (procs first)
+            entry["dimensions"] = [_pick_keys(pdic[f], _PROC_DIM_KEYS)
+                                   for f in ("procs", "proc2s", "proc3s", "proc4s") if f in pdic]
             # ppm axis from procs alone (OFFSET, SW_p, SF, SI), as unit_conversion computes it
             adic, adata = ng.bruker.read_pdata(str(d), read_acqus=False, scale_data=False)
             udic = ng.bruker.guess_udic(adic, adata)
@@ -3648,11 +3675,56 @@ def bruker(p: Path) -> dict:
                           "dtypes": ["uint32"] * cols.shape[1],
                           "xxh3": xxhash.xxh3_128_hexdigest(np.ascontiguousarray(cols.T).tobytes()),
                           "reader": f"nmrglue {ng.__version__} bruker.read_nuslist"}]
+    # list files (vdlist, lists/vp/<VPLIST>, fq1list, ...): nmrglue does not read them, so this is a
+    # plain parse of the text (one value per line, a first line that is not a number is a header,
+    # n/u/m/s after the numbers of time lists), the rule docs/formats/bruker-nmr.md states
+    tables = out.get("tables", [])
+    for l in _bruker_lists(p, ac):
+        cols = np.asarray(l, dtype="<f8")
+        tables.append({"index": len(tables), "event_count": int(cols.size), "parameter_names": ["value"],
+                       "dtypes": ["float64"], "xxh3": xxhash.xxh3_128_hexdigest(cols.tobytes()),
+                       "reader": "oracle/gen.py text parse of the list file"})
+    if tables:
+        out["tables"] = tables
     if notes:
         out["notes"] = notes
     return out
 
+_BRUKER_LISTS = [("vdlist", "VDLIST", "vd"), ("vclist", "VCLIST", "vc"), ("vplist", "VPLIST", "vp"),
+                 ("valist", "VALIST", "va"), ("vtlist", "VTLIST", "vt")] + \
+                [(f"fq{k}list", f"FQ{k}LIST", "f1") for k in range(1, 9)] + [("difflist", None, "diff")]
+
+def _bruker_lists(p: Path, acqus: dict) -> list:
+    """The values of each list file of an experiment, in the reader's order."""
+    out = []
+    for kind, param, folder in _BRUKER_LISTS:
+        named = str(acqus.get(param, "") if param else "").strip().strip("<>").strip()
+        cands = [p / kind] + ([p / "lists" / folder / named] if named and "/" not in named and named not in (".", "..") else [])
+        f = next((c for c in cands if c.is_file()), None)
+        if f is None:
+            continue
+        vals, header = [], None
+        timed = kind in ("vdlist", "vplist")
+        for line in f.read_bytes().decode("latin-1").splitlines():
+            t = line.strip()
+            if not t:
+                continue
+            m = re.fullmatch(r"([-+0-9.eE]+)\s*([a-zA-Z]*)", t)
+            div = {"": 1.0, "s": 1.0, "m": 1e3, "u": 1e6, "n": 1e9}.get(m.group(2)) if m else None
+            if m and (m.group(2) == "" or timed) and div is not None:
+                try:
+                    vals.append(float(m.group(1)) / div)
+                    continue
+                except ValueError:
+                    pass
+            if not vals and header is None:
+                header = t
+        out.append(vals)
+    return out
+
 def _is_varian_dir(p: Path) -> bool:
+    if p.is_dir() and not (p / "fid").exists() and (p / "acqfil" / "fid").is_file():
+        return True  # a VnmrJ experiment workspace: the FID is in acqfil/
     return p.is_dir() and (p / "fid").is_file() and not (p / "acqus").exists() and not (p / "acqu").exists()
 
 def _varian_nucleus(tn: str) -> str:
@@ -3666,6 +3738,9 @@ def varian(p: Path) -> dict:
     import nmrglue as ng
     import warnings
     warnings.simplefilter("ignore")
+    workspace = None
+    if not (p / "fid").exists() and (p / "acqfil" / "fid").is_file():
+        workspace, p = p, p / "acqfil"
     if (p / "procpar").exists():
         dic, data = ng.varian.read(str(p), as_2d=True)
         pp = dic["procpar"]
@@ -3695,7 +3770,30 @@ def varian(p: Path) -> dict:
         entry["sample_rate_hz"] = float(v("sw"))
     if extra:
         entry["parameters"] = {"extra": extra}
-    return {"reader": f"nmrglue {ng.__version__}", "traces": [entry],
+    if pp:
+        # how nmrglue would shape and order the traces (find_shape, find_torder); compared with
+        # extra.sweep_order, which reports the same loops without reordering
+        shape = ng.varian.find_shape(pp)
+        entry["nmrglue_find_shape"] = [int(s) for s in shape] if shape else None
+        entry["nmrglue_torder"] = ng.varian.find_torder(pp, shape) if shape else None
+    traces = [entry]
+    root = workspace or p
+    phasefile = root / "datdir" / "phasefile"
+    if phasefile.is_file():
+        # nmrglue reads the file with the fid layout (read_fid) and pairs the values into complex
+        # numbers; the reader returns the stored real values, so the pairs are put back in order
+        pdic, pdata = ng.varian.read_fid(str(phasefile), as_2d=True)
+        parr = np.atleast_2d(np.asarray(pdata))
+        rows = []
+        for row in parr:
+            flat = np.empty(row.size * 2, dtype="<f8")
+            flat[0::2], flat[1::2] = row.real, row.imag
+            rows.append([flat])
+        traces.append({"index": 1, "name": "datdir/phasefile", "sample_count": int(parr.shape[1] * 2),
+                       "sweep_count": int(parr.shape[0]), "channel_count": 1,
+                       "reader": f"nmrglue {ng.__version__} varian.read_fid(as_2d=True), pairs re-interleaved",
+                       "sweeps": _sweeps(rows)})
+    return {"reader": f"nmrglue {ng.__version__}", "traces": traces,
             "file_header": {k: dic[k] for k in ("nblocks", "ntraces", "np", "ebytes", "tbytes", "bbytes", "status", "nbheaders")}}
 
 _JEOL_NUCLEI = {"proton": "1H", "carbon13": "13C", "silicon29": "29Si", "nitrogen15": "15N", "fluorine19": "19F",
@@ -3842,6 +3940,39 @@ def jcampdx(p: Path) -> dict:
                 notes.append(f"nmrglue decoded block {title!r} ({dtype}) but no table block matched it")
     except Exception as e:
         notes.append(f"nmrglue: {type(e).__name__}: {e}")
+    # 2D NTUPLES (nD NMR SPECTRUM / nD NMR FID): nmrglue's page decoder (jcampdx._parse_data, run
+    # as a black box on each ##DATA TABLE=) gives every page; pages with the same ##PAGE= value
+    # form one sweep, their symbols (R, I or Y) the channels, scaled by that symbol's ##FACTOR=
+    # (an Oxford Instruments 2D FID says `NMR FID` with ##NUMDIM= 2; nmrglue.read returns its
+    # first page only, which this replaces)
+    two_d = re.search(rb"^##NUM ?DIM=\s*2", p.read_bytes()[:1 << 20], re.M) is not None
+    nd = [t for t in traces if t["kind"] == "ntuples"
+          and ((t["data_type"] or "").replace(" ", "").upper().startswith("NDNMR") or two_d)]
+    if nd:
+        try:
+            from nmrglue.fileio import jcampdx as njd
+            blocks = njd._parsejcampdx(str(p))
+            dics = [b for b in (blocks if isinstance(blocks, list) else [blocks]) if isinstance(b, dict)]
+            for t, dic in zip(nd, [d for d in dics if d.get("DATATABLE")]):
+                syms = [s.strip().upper() for s in dic["SYMBOL"][0].split(",")]
+                facs = [float(f) for f in dic["FACTOR"][0].split(",")]
+                order, rows = [], {}
+                for page, table in zip(dic["PAGE"], dic["DATATABLE"]):
+                    key = page.strip().split("=", 1)[-1].strip()
+                    head = table.split("\n", 1)[0]
+                    sym = re.search(r"\+\+\s*\(\s*(\w+)\s*\.\.", head).group(1).upper()
+                    vals, _ = njd._parse_data(table)
+                    vals = np.asarray(vals, dtype="<f8") * facs[syms.index(sym)]
+                    if key not in rows:
+                        order.append(key)
+                        rows[key] = []
+                    rows[key].append(vals)
+                sweeps = [rows[k] for k in order]
+                t.update(sweeps=_sweeps(sweeps), sweep_count=len(sweeps), sample_count=int(len(sweeps[0][0])),
+                         channel_count=len(sweeps[0]),
+                         reader=f"nmrglue {ng.__version__} jcampdx._parse_data per page, ##FACTOR= applied")
+        except Exception as e:
+            notes.append(f"nmrglue nD pages: {type(e).__name__}: {e}")
     out = {"reader": "nmrglue jcampdx + jcamp (second opinion)", "traces": traces}
     if notes:
         out["notes"] = notes

@@ -275,9 +275,29 @@ pub(crate) fn resolve_varian_dir_in(fs: &Fs, path: &Path) -> Option<PathBuf> {
             && fs.is_file(&d.join("fid"))
             && read_fid_header_in(fs, &d.join("fid")).is_some()
     };
+    // an experiment workspace (`curpar`, `acqfil/`, `datdir/`) keeps its FID in `acqfil`
+    let in_workspace = |d: &Path| {
+        let a = d.join("acqfil");
+        is_dir(&a).then_some(a)
+    };
     let meta = fs.metadata(path).ok()?;
     if meta.is_dir() {
-        return is_dir(path).then(|| path.to_path_buf());
+        if is_dir(path) {
+            return Some(path.to_path_buf());
+        }
+        if let Some(a) = in_workspace(path) {
+            return Some(a);
+        }
+        // the workspace's datdir
+        if path.file_name().is_some_and(|n| n == "datdir") {
+            let up = path.parent()?;
+            return if is_dir(up) {
+                Some(up.to_path_buf())
+            } else {
+                in_workspace(up)
+            };
+        }
+        return None;
     }
     let name = path.file_name()?.to_str()?;
     let parent = path.parent()?;
@@ -286,8 +306,30 @@ pub(crate) fn resolve_varian_dir_in(fs: &Fs, path: &Path) -> Option<PathBuf> {
     } else {
         parent
     };
-    (["fid", "procpar", "text", "log"].contains(&name) && is_dir(parent))
-        .then(|| parent.to_path_buf())
+    if ["fid", "procpar", "text", "log"].contains(&name) && is_dir(parent) {
+        return Some(parent.to_path_buf());
+    }
+    if ["curpar", "procpar", "text"].contains(&name) {
+        return in_workspace(parent);
+    }
+    if ["phasefile", "data"].contains(&name) && parent.file_name().is_some_and(|n| n == "datdir") {
+        let up = parent.parent()?;
+        return if is_dir(up) {
+            Some(up.to_path_buf())
+        } else {
+            in_workspace(up)
+        };
+    }
+    None
+}
+
+/// The workspace above an `acqfil` data directory (holding `curpar` or `datdir`), if any.
+pub(crate) fn varian_workspace_in(fs: &Fs, dir: &Path) -> Option<PathBuf> {
+    if dir.file_name()? != "acqfil" {
+        return None;
+    }
+    let up = dir.parent()?;
+    (fs.is_file(&up.join("curpar")) || fs.is_dir(&up.join("datdir"))).then(|| up.to_path_buf())
 }
 
 /// Data directories directly inside `dir` (a study folder of `*.fid` directories), sorted by
@@ -306,7 +348,7 @@ pub(crate) fn find_varian_experiments_in(fs: &Fs, dir: &Path) -> Vec<PathBuf> {
         .filter(|e| e.file_type().is_ok_and(|t| t.is_dir()))
         .map(|e| e.path())
         .take(10_000)
-        .filter(|p| resolve_varian_dir_in(fs, p).as_deref() == Some(p.as_path()))
+        .filter(|p| resolve_varian_dir_in(fs, p).is_some_and(|r| r == *p || r == p.join("acqfil")))
         .collect();
     out.sort();
     out

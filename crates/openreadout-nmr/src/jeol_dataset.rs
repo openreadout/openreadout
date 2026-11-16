@@ -102,6 +102,8 @@ pub struct JeolDataset {
     axis_lists: Vec<Option<Vec<f64>>>,
     /// `sample_id` as the context section writes it, uncut.
     context_sample_id: Option<String>,
+    /// The `process` line of the context section: the processing list the experiment named.
+    context_process: Option<String>,
 }
 
 /// Largest axis list read (a list holds one float64 per stored point).
@@ -113,8 +115,25 @@ const TEXT_PARAM_CHARS: usize = 16;
 
 /// The value of the first `sample_id => "…";` (or `=`) line of the context text.
 fn context_sample_id(text: &str) -> Option<String> {
+    context_value(text, "sample_id")
+}
+
+/// The `*.list` name inside a context `process` value (`2d_cosy_abs.list`,
+/// `process_interactive_global 'std_carbon_autophase.list':`).
+fn processing_list_name(process: &str) -> Option<String> {
+    process
+        .split(|c: char| c.is_whitespace() || c == '\'' || c == ':')
+        .find(|w| w.len() > 5 && w.to_ascii_lowercase().ends_with(".list"))
+        .map(str::to_string)
+}
+
+/// The quoted value of the first `<key> => "…";` (or `=`) line of the context text.
+fn context_value(text: &str, key: &str) -> Option<String> {
     text.lines().find_map(|line| {
-        let rest = line.trim_start().strip_prefix("sample_id")?;
+        let rest = line.trim_start().strip_prefix(key)?;
+        if rest.starts_with(|c: char| c.is_ascii_alphanumeric() || c == '_') {
+            return None;
+        }
         let rest = rest.trim_start();
         let rest = rest
             .strip_prefix("=>")
@@ -344,7 +363,7 @@ impl JeolDataset {
         }
         // The context section (experiment text) keeps strings the 16-byte text parameters cut.
         let (cs, cl) = (header.context_start, header.context_length);
-        let context_sample_id = if cl > 0
+        let context = if cl > 0
             && cl <= MAX_CONTEXT_BYTES
             && cs
                 .checked_add(u64::from(cl))
@@ -354,10 +373,12 @@ impl JeolDataset {
             f.seek(SeekFrom::Start(cs))
                 .and_then(|_| f.read_exact(&mut buf))
                 .ok()
-                .and_then(|()| context_sample_id(&crate::text::decode_text(&buf).0))
+                .map(|()| crate::text::decode_text(&buf).0)
         } else {
             None
         };
+        let context_sample_id = context.as_deref().and_then(context_sample_id);
+        let context_process = context.as_deref().and_then(|t| context_value(t, "process"));
         Ok(JeolDataset {
             path: path.to_path_buf(),
             fs: fs.clone(),
@@ -369,6 +390,7 @@ impl JeolDataset {
             layout,
             axis_lists,
             context_sample_id,
+            context_process,
         })
     }
 
@@ -693,11 +715,52 @@ impl JeolDataset {
                 "encoding",
                 h.axis_types.get(1).map(|t| json!(t.name())),
             );
+            put(
+                &mut d,
+                "offset_ppm",
+                self.param("y_offset")
+                    .and_then(JdfParam::number)
+                    .map(|v| json!(v)),
+            );
+            put(&mut d, "stored_points", h.points.get(1).map(|v| json!(v)));
+            if let (Some(a), Some(b)) = (h.valid_start.get(1), h.valid_stop.get(1)) {
+                d.insert("valid_range".to_string(), json!([a, b]));
+            }
+            if let Some(u) = h.units.get(1).filter(|u| u.base != 0) {
+                put(&mut d, "unit", u.symbol().map(|s| json!(s)));
+                d.insert("time_domain".to_string(), json!(u.base == 28));
+            }
             if let Some(l) = l {
                 put(&mut d, "axis", self.axis(1, l.y0, l.rows()));
             }
             e.insert("indirect_dimensions".into(), json!([d]));
+            if let Some(l) = l {
+                // how sweeps map onto rows and sections (docs/formats/jeol-jdf.md)
+                let rule = if l.per_row() == 2 {
+                    "sweep 2k holds sections 0 (real) and 1 (imag) of indirect point k; sweep 2k+1 holds sections 2 and 3 (the indirect imaginary part)"
+                } else {
+                    "sweep k is indirect point k, from the first valid row"
+                };
+                e.insert(
+                    "sweep_order".into(),
+                    json!({"rows": l.rows(), "sweeps_per_row": l.per_row(),
+                           "sections": l.sections, "rule": rule}),
+                );
+            }
         }
+        put(
+            &mut e,
+            "processing_command",
+            self.context_process.as_ref().map(|p| json!(p)),
+        );
+        put(
+            &mut e,
+            "processing_list",
+            self.context_process
+                .as_deref()
+                .and_then(processing_list_name)
+                .map(|p| json!(p)),
+        );
         TraceInfo {
             index: 0,
             name: Some(if time { "fid" } else { "spectrum" }.into()),
