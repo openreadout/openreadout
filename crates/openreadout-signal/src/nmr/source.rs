@@ -119,9 +119,9 @@ pub fn choose_trace(
     };
     pick.ok_or_else(|| {
         let what = match source {
-            SpectrumSource::Fid => "an FID (time-domain trace)",
-            SpectrumSource::Processed => "a processed spectrum",
-            SpectrumSource::Auto => "an FID or a processed spectrum",
+            SpectrumSource::Fid => "FID (time-domain trace)",
+            SpectrumSource::Processed => "processed spectrum",
+            SpectrumSource::Auto => "FID or processed spectrum",
         };
         Error::unsupported(
             "nmr-processing",
