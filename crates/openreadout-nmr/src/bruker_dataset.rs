@@ -130,6 +130,56 @@ fn fn_mode_name(code: Option<i64>) -> Option<&'static str> {
     })
 }
 
+/// `MC2` of a `procNs` file: the quadrature mode the processing assumed. In every corpus set
+/// with both files it is `FnMODE` − 1 (inferred), so it takes the `FnMODE` names shifted by one.
+fn mc2_name(code: Option<i64>) -> Option<&'static str> {
+    fn_mode_name(code?.checked_add(1)).filter(|n| *n != "undefined")
+}
+
+/// The stored processing of one dimension from its `procs`/`procNs` file (`dimension` 1 is the
+/// direct dimension, as in the parameter file names).
+fn proc_dimension(pf: &ParamFile, dimension: usize) -> BTreeMap<String, Value> {
+    let mut d = BTreeMap::new();
+    d.insert("dimension".into(), json!(dimension));
+    d.insert("parameter_file".into(), json!(pf.name));
+    put(&mut d, "nucleus", text(pf, "AXNUC"));
+    put(&mut d, "size", num(pf, "SI"));
+    put(&mut d, "submatrix", num(pf, "XDIM"));
+    put(&mut d, "spectral_width_hz", num(pf, "SW_p"));
+    put(&mut d, "spectrometer_frequency_mhz", num(pf, "SF"));
+    put(&mut d, "offset_ppm", num(pf, "OFFSET"));
+    put(&mut d, "window_function_code", num(pf, "WDW"));
+    put(&mut d, "line_broadening_hz", num(pf, "LB"));
+    put(&mut d, "gaussian_broadening", num(pf, "GB"));
+    put(&mut d, "sine_bell_shift", num(pf, "SSB"));
+    put(&mut d, "phase0_deg", num(pf, "PHC0"));
+    put(&mut d, "phase1_deg", num(pf, "PHC1"));
+    put(&mut d, "transform_mode_code", num(pf, "FT_mod"));
+    // MC2 describes how an indirect dimension was acquired; `procs` carries one too (0)
+    if dimension > 1 {
+        put(&mut d, "quadrature_mode_code", num(pf, "MC2"));
+        put(
+            &mut d,
+            "quadrature_mode",
+            mc2_name(pf.int("MC2")).map(|s| json!(s)),
+        );
+    }
+    put(&mut d, "effective_time_domain_size", num(pf, "TDeff"));
+    put(&mut d, "transform_size", num(pf, "FTSIZE"));
+    put(&mut d, "linear_prediction_mode_code", num(pf, "ME_mod"));
+    put(&mut d, "linear_prediction_coefficients", num(pf, "NCOEF"));
+    put(&mut d, "linear_prediction_size", num(pf, "LPBIN"));
+    put(
+        &mut d,
+        "reversed",
+        pf.text("REVERSE")
+            .map(|v| json!(v.eq_ignore_ascii_case("yes"))),
+    );
+    put(&mut d, "strip_start", num(pf, "STSR"));
+    put(&mut d, "strip_size", num(pf, "STSI"));
+    d
+}
+
 fn pow2(e: i64) -> f64 {
     let e = e.clamp(-1000, 1000) as i32;
     2f64.powi(e)
@@ -298,6 +348,15 @@ impl BrukerDataset {
         e.insert("group_delay_source".into(), json!(gd_src));
         put(&mut e, "decimation", num(a, "DECIM"));
         put(&mut e, "dsp_firmware", num(a, "DSPFVS"));
+        put(&mut e, "parameter_mode_code", num(a, "PARMODE"));
+        put(
+            &mut e,
+            "acquisition_dimensions",
+            a.int("PARMODE")
+                .filter(|m| (0..8).contains(m))
+                .map(|m| json!(m + 1)),
+        );
+        let nus = a.int("FnTYPE") == Some(2);
         if !self.exp.acqu_n.is_empty() {
             let dims: Vec<Value> = self
                 .exp
@@ -310,20 +369,45 @@ impl BrukerDataset {
                     d.insert("parameter_file".to_string(), json!(p.name));
                     put(&mut d, "nucleus", text(p, "NUC1"));
                     put(&mut d, "time_domain_size", num(p, "TD"));
+                    if nus {
+                        put(&mut d, "full_time_domain_size", num(p, "NusTD"));
+                    }
                     put(&mut d, "spectral_width_hz", num(p, "SW_h"));
                     put(&mut d, "spectral_width_ppm", num(p, "SW"));
                     put(&mut d, "spectrometer_frequency_mhz", num(p, "SFO1"));
+                    put(&mut d, "base_frequency_mhz", num(p, "BF1"));
+                    put(&mut d, "carrier_offset_hz", num(p, "O1"));
                     put(
                         &mut d,
                         "encoding",
                         fn_mode_name(p.int("FnMODE")).map(|s| json!(s)),
                     );
+                    put(&mut d, "encoding_code", num(p, "FnMODE"));
+                    // the stored processing of this dimension: proc{k+2}s of the first pdata
+                    // directory that has one
+                    if let Some((procno, pf)) = self
+                        .exp
+                        .processing
+                        .iter()
+                        .find_map(|pr| pr.procs.get(k + 1).map(|pf| (pr.procno, pf)))
+                    {
+                        let mut s = proc_dimension(pf, k + 2);
+                        s.insert("procno".into(), json!(procno));
+                        d.insert("stored_processing".to_string(), json!(s));
+                    }
                     json!(d)
                 })
                 .collect();
             e.insert("indirect_dimensions".into(), json!(dims));
+            // ser rows: the first indirect dimension (acqu2s) changes fastest
+            if layout.is_some_and(|l| l.file_name == "ser") {
+                e.insert(
+                    "sweep_dimensions".into(),
+                    json!((2..self.exp.acqu_n.len() + 2).collect::<Vec<_>>()),
+                );
+            }
         }
-        if a.int("FnTYPE") == Some(2) {
+        if nus {
             let mut nus = BTreeMap::new();
             put(
                 &mut nus,
@@ -331,12 +415,59 @@ impl BrukerDataset {
                 self.exp.nuslist_len.map(|n| json!(n)),
             );
             put(&mut nus, "amount_percent", num(a, "NusAMOUNT"));
+            put(&mut nus, "schedule", text(a, "NUSLIST"));
             put(
                 &mut nus,
                 "full_time_domain_size",
                 self.exp.acqu_n.first().and_then(|p| num(p, "NusTD")),
             );
+            nus.insert(
+                "full_time_domain_sizes".into(),
+                json!(
+                    self.exp
+                        .acqu_n
+                        .iter()
+                        .map(|p| num(p, "NusTD").unwrap_or(Value::Null))
+                        .collect::<Vec<_>>()
+                ),
+            );
+            nus.insert(
+                "acquired_time_domain_sizes".into(),
+                json!(
+                    self.exp
+                        .acqu_n
+                        .iter()
+                        .map(|p| num(p, "TD").unwrap_or(Value::Null))
+                        .collect::<Vec<_>>()
+                ),
+            );
+            put(
+                &mut nus,
+                "table",
+                self.exp.nuslist.as_ref().map(|_| json!(0)),
+            );
             e.insert("non_uniform_sampling".into(), json!(nus));
+        }
+        if !self.exp.lists.is_empty() {
+            let first = u32::from(self.exp.nuslist.is_some());
+            let lists: Vec<Value> = self
+                .exp
+                .lists
+                .iter()
+                .enumerate()
+                .map(|(i, l)| {
+                    let mut m = BTreeMap::new();
+                    m.insert("kind".to_string(), json!(l.kind));
+                    m.insert("file".to_string(), json!(l.file));
+                    put(&mut m, "parameter", l.parameter.as_ref().map(|p| json!(p)));
+                    m.insert("entries".to_string(), json!(l.values.len()));
+                    put(&mut m, "unit", l.unit.as_ref().map(|u| json!(u)));
+                    put(&mut m, "header", l.header.as_ref().map(|h| json!(h)));
+                    m.insert("table".to_string(), json!(first + i as u32));
+                    json!(m)
+                })
+                .collect();
+            e.insert("experiment_lists".into(), json!(lists));
         }
         TraceInfo {
             index,
@@ -381,9 +512,7 @@ impl BrukerDataset {
         let (mut samples, mut sweeps) = (0u64, 1u32);
         if let Some(l) = l {
             samples = l.si[0];
-            if l.dims >= 2 {
-                sweeps = u32::try_from(l.si[1..].iter().product::<u64>()).unwrap_or(u32::MAX);
-            }
+            sweeps = u32::try_from(l.rows).unwrap_or(u32::MAX);
             for (i, (name, file, _)) in l.components.iter().enumerate() {
                 let mut ce = BTreeMap::new();
                 ce.insert("file".to_string(), json!(file));
@@ -409,6 +538,14 @@ impl BrukerDataset {
                     json!(l.xdim.iter().rev().collect::<Vec<_>>()),
                 );
                 e.insert("shape".into(), json!(l.si.iter().rev().collect::<Vec<_>>()));
+                let with_nucleus = |pf: &ParamFile, size: u64| {
+                    axis(pf, size).map(|mut a| {
+                        if let (Some(o), Some(n)) = (a.as_object_mut(), pf.text("AXNUC")) {
+                            o.insert("nucleus".into(), json!(n));
+                        }
+                        a
+                    })
+                };
                 e.insert(
                     "indirect_axes".into(),
                     json!(
@@ -416,10 +553,32 @@ impl BrukerDataset {
                             .iter()
                             .zip(&l.si)
                             .skip(1)
-                            .map(|(pf, &size)| axis(pf, size))
+                            .map(|(pf, &size)| with_nucleus(pf, size))
                             .collect::<Vec<_>>()
                     ),
                 );
+                // one entry per indirect dimension: its axis and stored processing
+                let dims: Vec<Value> = p
+                    .procs
+                    .iter()
+                    .zip(&l.si)
+                    .enumerate()
+                    .skip(1)
+                    .map(|(k, (pf, &size))| {
+                        let mut d = proc_dimension(pf, k + 1);
+                        put(&mut d, "axis", with_nucleus(pf, size));
+                        json!(d)
+                    })
+                    .collect();
+                e.insert("indirect_dimensions".into(), json!(dims));
+                // sweep j holds the coordinates of the indirect dimensions, proc2s fastest
+                e.insert(
+                    "sweep_dimensions".into(),
+                    json!((2..=l.dims as usize).collect::<Vec<_>>()),
+                );
+            }
+            if let Some(pf) = procs {
+                e.insert("processing".into(), json!(proc_dimension(pf, 1)));
             }
         }
         if let Some(pf) = procs {
@@ -459,6 +618,41 @@ impl BrukerDataset {
 
     /// The `nuslist` as a table: one row per sampled increment, one column per indirect
     /// dimension (`index_1` for F1, …), in file order.
+    /// Every table: the `nuslist` (index 0, when present), then each list file.
+    fn tables(&self) -> Vec<TableInfo> {
+        let mut out: Vec<TableInfo> = self.nuslist_table().into_iter().collect();
+        for l in &self.exp.lists {
+            let mut extra = BTreeMap::from([
+                ("kind".to_string(), json!("experiment_list")),
+                ("list".to_string(), json!(l.kind)),
+                ("file".to_string(), json!(l.file)),
+            ]);
+            put(
+                &mut extra,
+                "parameter",
+                l.parameter.as_ref().map(|p| json!(p)),
+            );
+            put(&mut extra, "header", l.header.as_ref().map(|h| json!(h)));
+            if !l.issues.is_empty() {
+                extra.insert("problems".into(), json!(l.issues));
+            }
+            out.push(TableInfo {
+                index: out.len() as u32,
+                name: Some(l.kind.clone()),
+                row_count: l.values.len() as u64,
+                columns: vec![ColumnInfo {
+                    index: 0,
+                    name: "value".into(),
+                    dtype: "float64".into(),
+                    unit: l.unit.clone(),
+                    ..ColumnInfo::default()
+                }],
+                extra,
+            });
+        }
+        out
+    }
+
     fn nuslist_table(&self) -> Option<TableInfo> {
         let rows = self.exp.nuslist.as_ref()?;
         let width = rows.first().map_or(0, Vec::len);
@@ -583,7 +777,7 @@ impl BrukerDataset {
         first: u64,
         max: u64,
     ) -> Result<Trace> {
-        let rows = l.si[1..].iter().product::<u64>();
+        let rows = l.rows;
         if u64::from(sweep) >= rows {
             return Err(Error::Usage(format!(
                 "sweep {sweep} out of range ({rows} rows)"
@@ -686,7 +880,7 @@ impl Dataset for BrukerDataset {
                 None => n,
             }),
             images: Vec::new(),
-            tables: self.nuslist_table().into_iter().collect(),
+            tables: self.tables(),
             spectra: Vec::new(),
             traces: self.trace_infos(),
             plane_count: 0,
@@ -695,6 +889,24 @@ impl Dataset for BrukerDataset {
     }
 
     fn read_table(&mut self, index: u32, first: u64, max: u64) -> Result<Table> {
+        let list_base = u32::from(self.exp.nuslist.is_some());
+        if let Some(l) = index
+            .checked_sub(list_base)
+            .and_then(|k| self.exp.lists.get(k as usize))
+        {
+            let n = l.values.len() as u64;
+            if first > n {
+                return Err(Error::Usage(format!(
+                    "first row {first} is past the end ({n} rows)"
+                )));
+            }
+            let (lo, hi) = (first as usize, first.saturating_add(max).min(n) as usize);
+            return Ok(Table {
+                table: index,
+                first_row: first,
+                columns: vec![l.values[lo..hi].to_vec()],
+            });
+        }
         let rows = self
             .exp
             .nuslist
@@ -733,10 +945,19 @@ impl Dataset for BrukerDataset {
             }
             pdata.insert(p.procno.to_string(), Value::Object(m));
         }
+        let mut lists = serde_json::Map::new();
+        for l in &self.exp.lists {
+            lists.insert(
+                l.kind.clone(),
+                json!({"file": l.file, "parameter": l.parameter, "header": l.header,
+                       "unit": l.unit, "values": l.values}),
+            );
+        }
         Ok(json!({
             "directory": self.exp.dir.display().to_string(),
             "acquisition": acq,
             "pdata": pdata,
+            "lists": lists,
         }))
     }
 
@@ -820,6 +1041,30 @@ impl Dataset for BrukerDataset {
                 "traces[kind=processed_spectrum].extra.submatrix",
                 Source::PriorArt,
             ),
+            (
+                "traces[kind=processed_spectrum].extra.indirect_dimensions",
+                Source::PriorArt,
+            ),
+            (
+                "traces[kind=processed_spectrum].extra.indirect_dimensions[].quadrature_mode",
+                Source::Inferred,
+            ),
+            (
+                "traces[kind=time_domain].extra.indirect_dimensions[].stored_processing",
+                Source::PriorArt,
+            ),
+            (
+                "traces[kind=time_domain].extra.acquisition_dimensions",
+                Source::Inferred,
+            ),
+            (
+                "traces[kind=time_domain].extra.sweep_dimensions",
+                Source::PriorArt,
+            ),
+            (
+                "traces[kind=time_domain].extra.experiment_lists",
+                Source::Inferred,
+            ),
         ] {
             p.insert(k.into(), s);
         }
@@ -836,6 +1081,8 @@ impl Dataset for BrukerDataset {
                 "time-domain"
             } else if in_pdata && crate::bruker_layout::ProcLayout::is_data_name(leaf) {
                 "processed-data"
+            } else if self.exp.lists.iter().any(|l| l.file == *name) {
+                "list"
             } else if leaf.starts_with("acqu") || leaf.starts_with("proc") {
                 "parameters"
             } else {
@@ -1018,6 +1265,14 @@ impl Dataset for BrukerDataset {
                 if let Some(m) = &self.exp.nuslist_issue {
                     r.push(Finding::warning("nuslist_unreadable", m.clone()));
                 }
+                for l in &self.exp.lists {
+                    for m in &l.issues {
+                        r.push(Finding::warning(
+                            "list_unreadable",
+                            format!("{}: {m}", l.file),
+                        ));
+                    }
+                }
                 if self.exp.acqus.int("FnTYPE") == Some(2) {
                     match (
                         self.exp.nuslist_len,
@@ -1083,7 +1338,13 @@ impl Dataset for BrukerDataset {
                     format!("pdata/{procno}: {}", f.message()),
                 )),
                 Ok(l) => {
-                    let need = l.values() * l.sample_type.width();
+                    let Some(need) = l.file_bytes() else {
+                        r.push(Finding::error(
+                            "bad_processed_data",
+                            format!("pdata/{procno}: SI multiplied overflows"),
+                        ));
+                        continue;
+                    };
                     for (_, file, size) in &l.components {
                         if *size < need {
                             r.push(

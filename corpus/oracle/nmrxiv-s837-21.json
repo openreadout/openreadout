@@ -57,6 +57,19 @@
      "NusTD": 128
     }
    },
+   "dimensions": [
+    {
+     "TD": 32,
+     "NUC1": "13C",
+     "SW_h": 20746.887966805,
+     "SW": 164.962602395549,
+     "SFO1": 125.767220361,
+     "BF1": 125.757788526,
+     "O1": 9431.835,
+     "FnMODE": 6,
+     "NusTD": 128
+    }
+   ],
    "sweeps": [
     {
      "sweep": 0,
@@ -1097,6 +1110,18 @@
    ],
    "xxh3": "598a2b5955f80bd3aef90a08843a3789",
    "reader": "nmrglue 0.12 bruker.read_nuslist"
+  },
+  {
+   "index": 1,
+   "event_count": 512,
+   "parameter_names": [
+    "value"
+   ],
+   "dtypes": [
+    "float64"
+   ],
+   "xxh3": "ebe0f3f6a31bc25ec46f8fc819be4dbd",
+   "reader": "oracle/gen.py text parse of the list file"
   }
  ]
 }

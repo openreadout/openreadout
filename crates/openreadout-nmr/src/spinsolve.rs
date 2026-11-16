@@ -472,6 +472,33 @@ fn list_files(fs: &Fs, dir: &Path) -> Vec<(String, u64)> {
     out
 }
 
+/// `acqu.par` parameters of the series protocols (relaxation, SLIC, diffusion) that describe
+/// the rows of a `data.2d`: delays, their spacing, gradients, echoes. Names as the files write them.
+const SERIES_PARAMETERS: &[&str] = &[
+    "minDelay",
+    "maxDelay",
+    "delaySpacing",
+    "ieTime",
+    "minTau",
+    "maxTau",
+    "tauSteps",
+    "logspace",
+    "nrEchoes",
+    "echoTime",
+    "echoesperstep",
+    "gradMax",
+    "gradSpacing",
+    "gradRamp",
+    "bDelta",
+    "lDelta",
+    "x_steps",
+    "x_minimum",
+    "x_maximum",
+    "y_steps",
+    "y_minimum",
+    "y_maximum",
+];
+
 fn put(m: &mut BTreeMap<String, Value>, k: &str, v: Option<Value>) {
     if let Some(v) = v {
         m.insert(k.into(), v);
@@ -734,6 +761,17 @@ impl SpinsolveDataset {
         put(e, "time_domain_size", int("nrPnts"));
         put(e, "scans", int("nrScans"));
         put(e, "steps", int("nrSteps"));
+        // the parameters that set what changes from row to row of a series, as written
+        let series: serde_json::Map<String, Value> = SERIES_PARAMETERS
+            .iter()
+            .filter_map(|k| {
+                let v = self.acqu.as_ref()?.get(k)?;
+                Some(((*k).to_string(), v.clone()))
+            })
+            .collect();
+        if !series.is_empty() {
+            e.insert("series_parameters".into(), Value::Object(series));
+        }
         put(e, "receiver_gain", num("rxGain"));
         put(e, "receiver_phase_deg", num("rxPhase"));
         put(e, "dwell_time_us", num("dwellTime"));

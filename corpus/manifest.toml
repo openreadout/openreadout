@@ -90712,3 +90712,360 @@ license = "CC-BY-4.0"
 source = "Zenodo record 15919154 (license cc-by-4.0)"
 attribution = "Salinas Luypaert, Catalina, 'IMAGES || DNA methylation influences human centromere positioning and function' (Zenodo 15919154)"
 notes = "1 image(s), first 1040x1040 c=3 uint16; DeltaVision 1040 × 1040 × 3 sections (3 wavelength(s) × 1 Z × 1 time point(s), order ZWT), little-endian"
+
+# --- multidimensional NMR (2D/3D processed, States, NUS twins, 2D JCAMP-DX), added 2026-11-14 ---
+
+[[file]]
+id = "nmrtools-19f-r1rho-ts4"
+format = "bruker-nmr"
+role = "input"
+tier = "standard"
+filename = "nmrtools/19f-r1rho-onres-ts4"
+url = ""
+license = "MIT"
+source = "NMRTools.jl test data (github.com/waudbylab/NMRTools.jl, commit 04d24bbc50f2, test/test-data/19f-r1rho-onres-ts4; repository licence MIT)"
+attribution = "Chris Waudby and NMRTools.jl contributors"
+notes = "TopSpin 4.2.0 pseudo-3D 19F on-resonance R1rho series: float64 ser, acqu2s and acqu3s (FnMODE 1), pdata/1 with 3rrr and 3iii only, lists/va and lists/vp"
+parts_url = "https://raw.githubusercontent.com/waudbylab/NMRTools.jl/04d24bbc50f21ec7dfc593fea475fec03c063fcc/test/test-data/19f-r1rho-onres-ts4/"
+parts = [
+  "acqus  a6c39130b6e88916bd48233280e93dadd0ab4fda84df9d393c2622840e109b7e",
+  "acqu2s  94573eeb6ca168ced56913c407e7ab2a865db5d83e1fa7efe2fe1797474111fc",
+  "acqu3s  f5acd68834544b98bed993f63a28a96a01742cdba646893e509d42232609839a",
+  "acqu  53cd18474816e687728f7f5388b4c51692783d36370cc85dc14b5ff439bb9c2e",
+  "acqu2  69d55d2885fb568fc8f026d2d056c2b125d2e78f5edc37dcb98b5976b8cf4906",
+  "acqu3  2a3a6d8911ad8175fb0d1dd44fc86f501408d8dc2e7e78254541474d106d7a83",
+  "ser  92207b8f8cbf1c2384353021513aa27a3396e54c8ef419997b9898a76e738c44",
+  "pulseprogram.precomp  5360482b748e952863671e01be81315074a737fc09e5c6d255412d1c4f7b672d",
+  "lists/va/R1p_onres.sh  c934fb31b0c5f7a72a4161b1258a619663c0184211ffd2edfdbf908916892c11",
+  "lists/vp/R1p_onres_vp.sh  b92ff69d86cb1a28d2559648fae2868a2e08beee45c2e577bb28e15bef6420aa",
+  "pdata/1/procs  6166231efb1b0c36b194b55408ce5852711004dd5a270624c99bba6f6b4515c9",
+  "pdata/1/proc2s  dbce6d0b59bfde03ab7ce29729c8876259ab5173f4dc74874c6cbeb8b53e9d2a",
+  "pdata/1/proc3s  2a1e3ca9ebe7fa011af62c3c162a3974fbfbf7a1dd0d4fc91d73c7b0f542f75a",
+  "pdata/1/proc  92427b97bb5ceab9614391a5adf977b1143545d5c48437ab7d23f8be87d917aa",
+  "pdata/1/proc2  b0437ff583c1f10fffd0275063f7ac29a9a803ddd45106b35be6210e1b360ed4",
+  "pdata/1/proc3  92dd6098d48b3f67ea816cd752d61130a4661389133d61824a1891ae7fd0e747",
+  "pdata/1/title  7ee84b6c1f103b16c6bb84273ffbac0b8aeabd952249ae42e1542a55b4106df5",
+  "pdata/1/3rrr  3b71571de415034f460144b4399df789c4366131e809c4731148869b8e7ed026",
+  "pdata/1/3iii  eb9a75286f820a2fa3d78168c95cb3e47ad5a8e6a5e7a19a9836ec25de95e6c1",
+]
+
+[[file]]
+id = "nmrtools-15n-trosy-ts3"
+format = "bruker-nmr"
+role = "input"
+tier = "standard"
+filename = "nmrtools/15n-trosy-ts3"
+url = ""
+license = "MIT"
+source = "NMRTools.jl test data (github.com/waudbylab/NMRTools.jl, commit 04d24bbc50f2, test/test-data/15n-trosy-ts3; repository licence MIT)"
+attribution = "Chris Waudby and NMRTools.jl contributors"
+notes = "TopSpin 3.6.2 2D 15N TROSY (b_trosyetf3gpsi.3.cw, 700 MHz): ser, acqu2s FnMODE 6, pdata/1 with 2rr, 2ri, 2ir and 2ii"
+parts_url = "https://raw.githubusercontent.com/waudbylab/NMRTools.jl/04d24bbc50f21ec7dfc593fea475fec03c063fcc/test/test-data/15n-trosy-ts3/"
+parts = [
+  "acqus  9db491a7c0719f8d25905038155e915d37d27e387016d1bbeedf2b96a827ff31",
+  "acqu2s  4745c3b147299515d97d3746a8a570ac5923a00295614f69f4292751aca080a6",
+  "acqu  1c44f88b717ec12cc2313773e9025a7a6da100b15ddd63043fee9f5eef246668",
+  "acqu2  1f4cbfb580004543e75c0ecf55ecc1170ef4f961a7e8d61f9c85696bcc77eecc",
+  "ser  3b6a1c052c4dc014145a06e6fbb6fdda29b13472211a703ccea1e2f660a15e1a",
+  "pulseprogram  c067ba953cf110f9a60b9b3480d0876ccabb997a1f2dbf155e21660a7c12511b",
+  "pdata/1/procs  4517935d78795d4a47787968d4f7a1dec457550a5d38f261d489febc2e4a234a",
+  "pdata/1/proc2s  01785a808ed557d1454d5e4530e4a3e394645c61fda3b29df16b4e0ec27aeed4",
+  "pdata/1/proc  dbc751e12256422b5aa6a91f0ad454770b504729e1f8ccdff2c9cc39c196a3d4",
+  "pdata/1/proc2  4f65d0bde061630618027f2d85881dad332040d2137207c84892923e65c8e64f",
+  "pdata/1/title  efd2b77c0f32a441efa94c0c7e8a955faf16fc84afac5e02d73f494931d615c4",
+  "pdata/1/2rr  bc3121cdda6f0809dbfe5ab38db08433489bb8455a5215a39262c8b796bb912f",
+  "pdata/1/2ri  31cb1ac594cde89280760bb154e02e8cc2f712263346606314535db8e19beae8",
+  "pdata/1/2ir  f175555a0a78584fcd696b448653cb548af2602d7bdba4171c61e53a4e80c322",
+  "pdata/1/2ii  82ade48152d5902e23808e4c914f15b3463f540132a0f122782b22b08186beeb",
+]
+
+[[file]]
+id = "zakary-rbnb2o5f-93nb-3qmas-255"
+format = "bruker-nmr"
+role = "input"
+tier = "smoke"
+filename = "zakary-rbm2o5f/RbNb2O5F/93Nb/3qmas/255"
+url = ""
+license = "MIT"
+source = "Data repository for doi:10.1021/acs.inorgchem.5c00615 (github.com/ozakary/data-RbM2O5F, commit f43194a8590c, ssNMR_spectra_exp_&_fit/RbNb2O5F/93Nb/3qmas/255; repository licence MIT)"
+attribution = "Ouail Zakary and co-authors (data-RbM2O5F)"
+notes = "TopSpin 4.1.4 solid-state 93Nb 3QMAS (3Qzf_850.vsk, Avance NEO 850): acqu2s FnMODE 4 (States), TD 1024 x 40, pdata/1 with 2rr, 2ri, 2ir, 2ii; pdata/101 a 1D row"
+parts_url = "https://raw.githubusercontent.com/ozakary/data-RbM2O5F/f43194a8590cf11e7c2b120f4af62fa998e3543c/ssNMR_spectra_exp_&_fit/RbNb2O5F/93Nb/3qmas/255/"
+parts = [
+  "acqus  409b661387a9b61a352d2768b9a2a8049d8361fc30c45381ce444276e2e69fb0",
+  "acqu2s  1d258ceada9d9ecd8202eb3f1ac84dc92737b41d0063792df2ba2da02abc3497",
+  "acqu  4815c6c437ee7967f7355deffc696cd9b1e3a9533093b379b4f97d162deeefbb",
+  "acqu2  8f3f0a7c5ee93cfc048ec1b2a70e7d6614f903e90cd18592c51a4ab4d43ae08f",
+  "ser  51a231bfc210619b2f628937518892e537aca52da5dbad285f8d12392d4ec227",
+  "pulseprogram.precomp  c64d74d28be807132ee8fcf2ed26abfceddc4df33a2e4d12480bea66ff99eb20",
+  "pdata/1/procs  1c7f5e7d1605c0192da7ed63f00e9a38054af392507994e9a9e78531ecfe2db8",
+  "pdata/1/proc2s  402df9ed1523e2c5748516fe43a0739fc671067789a96b81528f907b8981cb9d",
+  "pdata/1/proc  99f7173f11dbbd30a6c6d422de918da873275e69c05cb7fd84301a13a0c18e06",
+  "pdata/1/proc2  709c638306924dc1bfc4529a47cf0bfcc98a7b57c5fa041009b7b8efd4c444d6",
+  "pdata/1/title  ad98e985e4ab7dc6ab2de3d1c561cf960ecf1764e255343382551991f1c7df2e",
+  "pdata/1/2rr  9dfbd6f7db8b59455ad62336eb46b4a3f12c90ef86459f8eaa9537f2f223fc87",
+  "pdata/1/2ri  82e7e660edd25a6b56a1c9330ba332f562f732ce2e8fe3a5d0d2e8ee56bb9554",
+  "pdata/1/2ir  00a7335c07f7e1bb9330b4ac190a3a6d85e2e253ce8606e5b993af12bc731b4f",
+  "pdata/1/2ii  f272faf925e0b144235f8ed77e644c03adaa7c9a70afccf2acc889ee74cad97d",
+  "pdata/101/procs  57ed50633e1f446a675ce41fab0f70a967868709a5b4d36ba673b36751e34209",
+  "pdata/101/proc  cdf5c2ffac0c714b3136e5dc84f055c7eee8a84a4235158380ac5a5a2a9d8726",
+  "pdata/101/1r  4e3a63351cf9e782187ea64451d264094a6f55acf2c1bf7445c5d8bf44029cc3",
+  "pdata/101/1i  6512e55a6ff5d164f1c3bd4545a8fa142fdcd727c84285abd30b22dc4534ecc8",
+]
+
+[[file]]
+id = "zakary-rbnb2o5f-87rb-3qmas-60"
+format = "bruker-nmr"
+role = "input"
+tier = "standard"
+filename = "zakary-rbm2o5f/RbNb2O5F/87Rb/3qmas/60"
+url = ""
+license = "MIT"
+source = "Data repository for doi:10.1021/acs.inorgchem.5c00615 (github.com/ozakary/data-RbM2O5F, commit f43194a8590c, ssNMR_spectra_exp_&_fit/RbNb2O5F/87Rb/3qmas/60; repository licence MIT)"
+attribution = "Ouail Zakary and co-authors (data-RbM2O5F)"
+notes = "TopSpin 4.1.4 solid-state 87Rb 3QMAS (pf_3Qzf): acqu2s FnMODE 4 (States), TD 800 x 128, pdata/1 SI 128 x 128 with 2rr, 2ri, 2ir, 2ii"
+parts_url = "https://raw.githubusercontent.com/ozakary/data-RbM2O5F/f43194a8590cf11e7c2b120f4af62fa998e3543c/ssNMR_spectra_exp_&_fit/RbNb2O5F/87Rb/3qmas/60/"
+parts = [
+  "acqus  0ada3fff1bcbc33677aaaaf54c0432c65ff94b41c023c0408d2c84be3256e036",
+  "acqu2s  527994dfd7d70daf3a1e1832e7bb1a0f348677b00ab7b72ab17356acf3cc3e3a",
+  "acqu  cb2822b2a774192c7cd767c636cf1233467a1e170285e5358a7a6b1ecbf99bc7",
+  "acqu2  02ce2f9f3e47636e638223639b0c0c5779abef987f2602376ce04a2acc618f32",
+  "ser  21a35459cc184bc665ba6e503d40028a13c6814966ab1c8b58134ce519a5d582",
+  "pulseprogram.precomp  f0a2effbea38b875e30a5a70c303e76478f2fa2c117be8258a347081f8c834fc",
+  "pdata/1/procs  344b0af405f68e0108ff1327ca91878432ee0d33a59f7562eee090258e8011a1",
+  "pdata/1/proc2s  f130f159511a1a40b5e8f2c02f6ece279d17eed101bae18de201bfa98e418b82",
+  "pdata/1/proc  2ef3d92e4cca63bda6a40fbc08048f60d74afd7d88a7b349e33ad4f48381f3aa",
+  "pdata/1/proc2  63abe0ece09f7ad41bd95c1f34209855b562e93786ce6d459492fed4986dad20",
+  "pdata/1/title  ba83ff3aad8a4c871c21bf0e5b033be13ec852203d6ef3f53eca0f5a98fd407c",
+  "pdata/1/2rr  ef4002e62ff65542dc57027486d2f3f1b26bae10bb7dfad72f21a98e503e47d5",
+  "pdata/1/2ri  da4c5464515cfd9d964a436a40fc6b9019d69542ca649b8cb823b5195ef0bc24",
+  "pdata/1/2ir  acfe3bc2ea88efb63a2e528a18f82b63cff07dd2904f046ef6a268f4fecab4f6",
+  "pdata/1/2ii  ded54da7e6379a5124e93cf70ed1134a9bddfe71b88a4461e0eb186414530cd9",
+]
+
+[[file]]
+id = "desperate-rbno3-mqmas-20"
+format = "bruker-nmr"
+role = "input"
+tier = "standard"
+filename = "desperate/RbNO3_MQMAS_Nov9_2021/20"
+url = ""
+license = "MIT"
+source = "DESPERATE experimental data sets (github.com/rschurko/DESPERATE, commit 5cf3a6d71566, Experimental Datasets/RbNO3_MQMAS_Nov9_2021/20; repository licence MIT)"
+attribution = "Schurko group (DESPERATE)"
+notes = "TopSpin 4.1.1 87Rb MQMAS (mp3q3h.ih), fully sampled twin of desperate-rbno3-mqmas-30: acqu2s TD 129, fq1list, pdata/1 with 2rr and 2ii"
+parts_url = "https://raw.githubusercontent.com/rschurko/DESPERATE/5cf3a6d71566de5fe72fdbdb7b7c8fb3ad3713d0/Experimental%20Datasets/RbNO3_MQMAS_Nov9_2021/20/"
+parts = [
+  "acqus  9db8e6a16a62c789e206405d7c77c2de1bddea72cff1e34d9227c8938dec829b",
+  "acqu2s  8f23799e838317661669e4d3a7823fd5c19f929245aba0a0be6744016169de06",
+  "acqu  c7705dd8285c4d4466dfe75b054185ac6b54b422f84036ba7a0c74d0cbcb4c0f",
+  "acqu2  3ac515c24a340bbfcf88aa6bc7641283c2ddec0ebd2614779d8e5d8845f9e9d1",
+  "ser  5464efbb98adc12eb26f471bebaf6c269da458c7207ccf0807896d823fecacd4",
+  "fq1list  73cb54fca9549066664059408da1fc29af15771b01a73e51c9e45e9824f6c92e",
+  "pulseprogram  40ecfc8ee882e08050cf50f84e6ab4a83f1cde9898780e6b1fc0f81f8e5f5ce8",
+  "pdata/1/procs  43a8de2cec5b74e53410169992895c2b8f1f8625920b5580866e7b29eca0fc05",
+  "pdata/1/proc2s  2fee1c650f8a509610ab3acb1f27a095965f1ccd520688c2bd9fdde27b686ff2",
+  "pdata/1/proc  89ac7c746d8f4312b02cfbd3bc1abea639020a1c500a26281ed76aeae7e91116",
+  "pdata/1/proc2  67ea0da16dc25c0a435af141f827afd85e8bb0a85fa2e57f45d6afa345884aac",
+  "pdata/1/title  5353e24b45a69d5167818d7e29f2d7172f9d4f3ff5b307efa0c71c2d18e41061",
+  "pdata/1/2rr  e5d42f2327f71b73a8a6bac2879412044030266229604cd51897bbb431552f74",
+  "pdata/1/2ii  690ffc3f125a41d2e145760daa030c20f9fbcbfd3d748d62bab8655bbd0ccd76",
+]
+
+[[file]]
+id = "desperate-rbno3-mqmas-30"
+format = "bruker-nmr"
+role = "input"
+tier = "standard"
+filename = "desperate/RbNO3_MQMAS_Nov9_2021/30"
+url = ""
+license = "MIT"
+source = "DESPERATE experimental data sets (github.com/rschurko/DESPERATE, commit 5cf3a6d71566, Experimental Datasets/RbNO3_MQMAS_Nov9_2021/30; repository licence MIT)"
+attribution = "Schurko group (DESPERATE)"
+notes = "TopSpin 4.1.1 87Rb MQMAS with non-uniform sampling (mp3q3h.nus2, FnTYPE 2, NusTD 129, TD 77), nuslist, fq1list, pdata/1 with 2rr and 2ii; fully sampled twin desperate-rbno3-mqmas-20"
+parts_url = "https://raw.githubusercontent.com/rschurko/DESPERATE/5cf3a6d71566de5fe72fdbdb7b7c8fb3ad3713d0/Experimental%20Datasets/RbNO3_MQMAS_Nov9_2021/30/"
+parts = [
+  "acqus  de52b21e3043b72c138a84115bcb830ba85db3db235aeb6a7ba87d2a55b6a85c",
+  "acqu2s  38798fe9dbf9ddc79184f277933285101f260cb91f3f1ecc0120dea77bbc6710",
+  "acqu  4a35180a40f74a2fc142d4c2a1e6bb106ca41b3725f2fd9c6a2898f455e8eb1d",
+  "acqu2  cc4d8442c3c5d227fbae824b65da27c973a41b40fa7f34b9399f399898f80e65",
+  "ser  c2753c8d9586c210de4f153e36399ef1d87e95abe4d4a22fcf9dd70236af75d3",
+  "nuslist  0ce2e05c2a02f0187e7c5605e2decdb9dde9d69985efd2a641c68577f0ff5b6a",
+  "fq1list  73cb54fca9549066664059408da1fc29af15771b01a73e51c9e45e9824f6c92e",
+  "pulseprogram  04d72fbe77f9084015a3ecee0c17f2b353f13af3b82b77efb28f828782a46f01",
+  "pdata/1/procs  5d6ae0466f397f3aa1f928ee5b63a4eb315bbbe34d999cb146d384db7451fd09",
+  "pdata/1/proc2s  857313cc97a6f6183dc05e7dae190b6eda09c07e49d4ba05a5f454c3512ebe3a",
+  "pdata/1/proc  a0bb20d6fa28adcd0da4237e698f88a3b955cb41bfbce0c0dfbf800e087a28da",
+  "pdata/1/proc2  b2197b10782f2f5a69562f6189626db23b11e3befeb15a8c1c0faba7bc050677",
+  "pdata/1/title  7a5ac915bedd9a7591e88483187b150446744329bdeedad5b214686f16e88d0b",
+  "pdata/1/2rr  f18749196015f593103ef840ce1f8e19ea05a5aa463fd6fe91e147c429eb8bef",
+  "pdata/1/2ii  29db76d9db0ae8e44213ff1f573bf4d92ea7213917dd1a02bd6618be7cb71ce5",
+]
+
+[[file]]
+id = "bmrb27037-chsqc-850"
+format = "bruker-nmr"
+role = "input"
+tier = "standard"
+filename = "bmrb27037/ER697A_10_Chsqc_3_7_15_850MHz"
+url = ""
+license = "CC0-1.0"
+source = "BMRB entry 27037 time-domain data (bmrb.io/ftp/pub/bmrb/entry_directories/bmr27037/timedomain_data/bmr27037td/ER697A_10_Chsqc_3_7_15_850MHz); BMRB archival data are CC0-1.0 under the wwPDB usage policy (wwpdb.org/about/usage-policies)"
+attribution = "Ramelot, Pederson, Wang, Montelione, Kennedy et al. (NESG target ER697A), BMRB entry 27037"
+notes = "TopSpin 2.1 13C HSQC (hsqcetgpsp, 850 MHz): ser, acqu2s FnMODE 6, pdata/1 with 2rr, 2ri, 2ir, 2ii"
+parts_url = "https://bmrb.io/ftp/pub/bmrb/entry_directories/bmr27037/timedomain_data/bmr27037td/ER697A_10_Chsqc_3_7_15_850MHz/"
+parts = [
+  "acqus  b24c31d41177dd978ab2abf82c6306308895db27870016f8827b330293eb58f4",
+  "acqu2s  5d419ed25deed2b757b3c3a8a5dfc8b19b668051c3dc0c83c55f4abb5d4ffbd4",
+  "ser  d6827823d480cfbd460c75ce5ac530d37ea54aa1238e4310b2b45c639d79d58c",
+  "pdata/1/procs  ecb598706aea71388324b5d09da1ba27ec3389818a693c35d3557f196ca0a46a",
+  "pdata/1/proc2s  1d7cd355aaa84d1b103b695bbd9e4c53bba3b3bc3c487130ed4ae973858339f3",
+  "pdata/1/2rr  b00501e8cae50cd6191e44d203f0bddef0c7609544348322acaa7846b3049ffe",
+  "pdata/1/2ri  3cca6e8396e2fa196e4c2545e393d6d5e30a76351b34a5dc5753bddfe319cc8e",
+  "pdata/1/2ir  c34371595e5688e0fe31b25a48eedd962191ca77fb92f2f3bd700ab524cabbff",
+  "pdata/1/2ii  56dce23aa856b10dbf9313f35c00ede545f7d251a98c41c4703c781ecf8de2fc",
+]
+
+[[file]]
+id = "bmrb27037-chsqc-600v"
+format = "varian-nmr"
+role = "input"
+tier = "standard"
+filename = "bmrb27037/ER697A_Chsqc_ct_4_13_15_600v.fid"
+url = ""
+license = "CC0-1.0"
+source = "BMRB entry 27037 time-domain data (bmrb.io/ftp/pub/bmrb/entry_directories/bmr27037/timedomain_data/bmr27037td/ER697A_Chsqc_ct_4_13_15_600v.fid); BMRB archival data are CC0-1.0 under the wwPDB usage policy (wwpdb.org/about/usage-policies)"
+attribution = "Ramelot, Pederson, Wang, Montelione, Kennedy et al. (NESG target ER697A), BMRB entry 27037"
+notes = "VnmrJ 600 MHz constant-time 13C HSQC .fid directory with the depositor's nmrPipe scripts and processed spectrum Chsqc_ct.ft2"
+parts_url = "https://bmrb.io/ftp/pub/bmrb/entry_directories/bmr27037/timedomain_data/bmr27037td/ER697A_Chsqc_ct_4_13_15_600v.fid/"
+parts = [
+  "fid  142401ed1d55eaa129b332d5524c628418f3e5b366421be1e26a49fc85ab52c6",
+  "procpar  4ccb47b1f3fccdfb339dace6331232e88138f2fce996d7b5e1748f042c76f40d",
+  "text  ebbfe4315956ba055ac8319d26cd7935dded09b5ba7a136e1ff06742eeacb168",
+  "log  f0b4a1ad7a5689fa1a43fbf6fa264ef6b201eb30ba2e583cf71c99f3d70fac72",
+  "fid.com  7afad19f244e6ed2ffc443b23ef5065b721ff75a295a812d4d0c9e99d8159b70",
+  "proc.com  d74df4413ab6f81ab44c92f2c48af9f937b619ff3e3bd4db5d12b89882354b6d",
+  "Chsqc_ct.ft2  50da38a32b0a85264bcb86f9dfd2f996ac84c0506e6240346472251adcb8bea5",
+]
+
+[[file]]
+id = "bmrb18352-exp1949"
+format = "varian-nmr"
+role = "input"
+tier = "standard"
+filename = "bmrb18352/exp1949"
+url = ""
+license = "CC0-1.0"
+source = "BMRB entry 18352 time-domain data (bmrb.io/ftp/pub/bmrb/entry_directories/bmr18352/timedomain_data/exp1949); BMRB archival data are CC0-1.0 under the wwPDB usage policy (wwpdb.org/about/usage-policies)"
+attribution = "Pulavarti, Sathyamoorthy, Eletsky, Montelione, Szyperski et al. (NESG target HR8150A), BMRB entry 18352"
+notes = "VnmrJ experiment workspace (INOVA 750 MHz, 3D gnoesyCaliCaroNhsqc, ni 160, ni2 32): acqfil/fid and procpar, curpar, and datdir/phasefile and datdir/data holding a processed 2D plane (procdim 2)"
+parts_url = "https://bmrb.io/ftp/pub/bmrb/entry_directories/bmr18352/timedomain_data/exp1949/"
+parts = [
+  "curpar  a2689cfce1005139f458f806aea2b15a57186f18223bf9f7a1072651db9f6b4b",
+  "procpar  2838e5523e3b3c0efda3502ef611ad1c01e9a1d8602cb2ce7ab1354b6249863f",
+  "text  ebbfe4315956ba055ac8319d26cd7935dded09b5ba7a136e1ff06742eeacb168",
+  "acqfil/fid  423c4aa94ba4c8b732d019d431b9d56cf8bc2c3f7ebd70d0afdae35044790335",
+  "acqfil/procpar  17a9be2331c6208f4e9fd034d369f4aeba7cb87ae04c0f3e6aec49cfe3313600",
+  "acqfil/text  ebbfe4315956ba055ac8319d26cd7935dded09b5ba7a136e1ff06742eeacb168",
+  "acqfil/log  7a41ae52de7676e118a12a1b3a0ccfb42c036816d865591b58b739442ecdb424",
+  "datdir/data  e6f2f9cb554104c738b7b9ffdddaf9b9bdfa9677b22a73860ddb96885c0371a4",
+  "datdir/phasefile  1c68c2c57f2df1c2b0da69665663812284a703ceae28a42c7fe493f37218ef54",
+]
+
+[[file]]
+id = "jcamptest-cytisine-hsqc"
+format = "jcamp-dx"
+role = "input"
+tier = "standard"
+filename = "jcamp-data-test/cytisine/hsqc.jdx"
+url = "https://raw.githubusercontent.com/cheminfo/jcamp-data-test/22da30867a3baec74a2c2c887382b87d0ba048dd/data/nmr/cytisine/hsqc.jdx"
+sha256 = "e88e4b09b23cb5bdff39cabbf7c265c2270714b1b07af7b2044beafa2a45243c"
+size = 6400086
+license = "MIT"
+source = "cheminfo jcamp-data-test (github.com/cheminfo/jcamp-data-test, commit 22da30867a3b, data/nmr/cytisine/hsqc.jdx; repository licence MIT)"
+attribution = "cheminfo contributors (jcamp-data-test)"
+notes = "Bruker TopSpin JCAMP-DX 6.0 export of a processed 2D HSQC: nD NMR SPECTRUM, NTUPLES, 1024 pages (F1=...) of 1024 points"
+
+[[file]]
+id = "jcamptest-cytisine-hmbc-fid"
+format = "jcamp-dx"
+role = "input"
+tier = "standard"
+filename = "jcamp-data-test/cytisine/hmbc.fid.jdx"
+url = "https://raw.githubusercontent.com/cheminfo/jcamp-data-test/22da30867a3baec74a2c2c887382b87d0ba048dd/data/nmr/cytisine/hmbc.fid.jdx"
+sha256 = "03adcc8d28622685353207296c3012381b9675480a017e6f631468bc38f2fb4a"
+size = 5750793
+license = "MIT"
+source = "cheminfo jcamp-data-test (github.com/cheminfo/jcamp-data-test, commit 22da30867a3b, data/nmr/cytisine/hmbc.fid.jdx; repository licence MIT)"
+attribution = "cheminfo contributors (jcamp-data-test)"
+notes = "Bruker TopSpin 3.5 JCAMP-DX 6.0 export of a 2D HMBC FID (hmbcgplpndqf): nD NMR FID, NTUPLES pages T1=..."
+
+[[file]]
+id = "jcamptest-rutin-cosy"
+format = "jcamp-dx"
+role = "input"
+tier = "standard"
+filename = "jcamp-data-test/rutin/cosy.jdx"
+url = "https://raw.githubusercontent.com/cheminfo/jcamp-data-test/22da30867a3baec74a2c2c887382b87d0ba048dd/data/nmr/rutin/cosy.jdx"
+sha256 = "41301beb97e5d23437b2c765ec3da7c9d7cbc3d8f32b386ec61ab9c3f789fc95"
+size = 7467743
+license = "MIT"
+source = "cheminfo jcamp-data-test (github.com/cheminfo/jcamp-data-test, commit 22da30867a3b, data/nmr/rutin/cosy.jdx; repository licence MIT)"
+attribution = "cheminfo contributors (jcamp-data-test)"
+notes = "2D COSY JCAMP-DX of the rutin data set (Harvard Dataverse doi:10.7910/DVN/ZAZDNM)"
+
+[[file]]
+id = "jcamptest-indometacin-cosy"
+format = "jcamp-dx"
+role = "input"
+tier = "standard"
+filename = "jcamp-data-test/indometacin/cosy.dx"
+url = "https://raw.githubusercontent.com/cheminfo/jcamp-data-test/22da30867a3baec74a2c2c887382b87d0ba048dd/data/nmr/indometacin/cosy.dx"
+sha256 = "74e0b67dee7286372b094a9209ffd54f06388cd8abd45681138af76eb3637230"
+size = 4876206
+license = "MIT"
+source = "cheminfo jcamp-data-test (github.com/cheminfo/jcamp-data-test, commit 22da30867a3b, data/nmr/indometacin/cosy.dx; repository licence MIT)"
+attribution = "cheminfo contributors (jcamp-data-test)"
+notes = "2D COSY JCAMP-DX spectrum"
+
+[[file]]
+id = "jcamptest-oxford-cosy"
+format = "jcamp-dx"
+role = "input"
+tier = "standard"
+filename = "jcamp-data-test/oxfordInstruments/cosy.jdx"
+url = "https://raw.githubusercontent.com/cheminfo/jcamp-data-test/22da30867a3baec74a2c2c887382b87d0ba048dd/data/nmr/oxfordInstruments/cosy.jdx"
+sha256 = "7ad2bbb0188ae1a30948dd63f50ff9cc2bd62653a391b42125e4dbd6b97f8673"
+size = 13135184
+license = "MIT"
+source = "cheminfo jcamp-data-test (github.com/cheminfo/jcamp-data-test, commit 22da30867a3b, data/nmr/oxfordInstruments/cosy.jdx; repository licence MIT)"
+attribution = "cheminfo contributors (jcamp-data-test)"
+notes = "2D COSY JCAMP-DX from an Oxford Instruments benchtop spectrometer"
+
+[[file]]
+id = "dataverse-egt2ih-gallic-cosy-jdf"
+format = "jeol-jdf"
+role = "input"
+tier = "standard"
+filename = "dataverse-egt2ih/COSY.jdf"
+url = "https://dataverse.harvard.edu/api/access/datafile/3044185"
+sha256 = "6894e3d0075cfd94dd8c5ceea998b65f19eaced588f5d85c32f60f4326fd578b"
+size = 20998848
+license = "CC0-1.0"
+source = "Harvard Dataverse doi:10.7910/DVN/EGT2IH (gallic acid, 400 MHz, DMSO-d6; licence CC0 1.0 from the dataset API), file RAW/jdf/COSY.jdf"
+attribution = "Pauli group (CENAPT), Harvard Dataverse doi:10.7910/DVN/EGT2IH"
+notes = "JEOL Delta 2D COSY .jdf; its JCAMP-DX export is dataverse-egt2ih-gallic-cosy-jdx"
+
+[[file]]
+id = "dataverse-egt2ih-gallic-cosy-jdx"
+format = "jcamp-dx"
+role = "input"
+tier = "standard"
+filename = "dataverse-egt2ih/COSY.jdx"
+url = "https://dataverse.harvard.edu/api/access/datafile/3044186"
+sha256 = "bcb4c30d07ad27315579519282099549288c3de761cee550021bd3a8470b50ea"
+size = 3853865
+license = "CC0-1.0"
+source = "Harvard Dataverse doi:10.7910/DVN/EGT2IH (gallic acid, 400 MHz, DMSO-d6; licence CC0 1.0 from the dataset API), file RAW/jdx/COSY.jdx"
+attribution = "Pauli group (CENAPT), Harvard Dataverse doi:10.7910/DVN/EGT2IH"
+notes = "JCAMP-DX export of the JEOL 2D COSY dataverse-egt2ih-gallic-cosy-jdf"
