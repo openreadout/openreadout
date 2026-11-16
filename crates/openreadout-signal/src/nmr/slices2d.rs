@@ -772,6 +772,7 @@ impl std::fmt::Debug for NmrMatrixDataset {
 impl NmrMatrixDataset {
     /// Wrap `inner` with one derived trace per entry of `slices`, cut from the stored 2D
     /// spectrum `trace` (default: the first one). Errors (exit 6) when there is none.
+    #[allow(clippy::explicit_counter_loop)]
     pub fn new(inner: Box<dyn Dataset>, trace: Option<u32>, slices: &[SliceSpec]) -> Result<Self> {
         let info = inner.info()?;
         let vendor = inner.vendor_metadata().unwrap_or(Value::Null);
@@ -1000,6 +1001,7 @@ impl Dataset for NmrMatrixDataset {
     fn member_files(&self) -> Vec<std::path::PathBuf> {
         self.inner.member_files()
     }
+    #[allow(clippy::needless_range_loop)]
     fn read_table(&mut self, index: u32, first_row: u64, max_rows: u64) -> Result<Table> {
         let Some((ti, mt)) = self.table.as_mut().filter(|t| t.0 == index) else {
             return self.inner.read_table(index, first_row, max_rows);

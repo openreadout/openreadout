@@ -312,7 +312,7 @@ impl NmrQuery {
             (_, Some(gb)) => Some(Apodization::Gaussian {
                 line_broadening_hz: gb,
             }),
-            (Some(lb), None) if lb == 0.0 => Some(Apodization::None),
+            (Some(0.0), None) => Some(Apodization::None),
             (Some(lb), None) => Some(Apodization::Exponential {
                 line_broadening_hz: lb,
             }),
@@ -436,7 +436,7 @@ impl NmrQuery {
                     (_, Some(g)) if g.is_finite() => Some(Apodization::Gaussian {
                         line_broadening_hz: g,
                     }),
-                    (Some(l), None) if l == 0.0 => Some(Apodization::None),
+                    (Some(0.0), None) => Some(Apodization::None),
                     (Some(l), None) if l.is_finite() => Some(Apodization::Exponential {
                         line_broadening_hz: l,
                     }),

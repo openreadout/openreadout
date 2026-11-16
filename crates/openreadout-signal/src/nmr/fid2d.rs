@@ -335,27 +335,24 @@ fn describe(mut t: TraceInfo, s: &SpectrumNd) -> TraceInfo {
         "processing_nd".into(),
         serde_json::to_value(&s.record).unwrap_or(Value::Null),
     );
-    match &s.series {
-        Some(series) => {
-            // a stack of 1D spectra, one per row
-            t.extra.insert(
-                "series".into(),
-                serde_json::to_value(series).unwrap_or(Value::Null),
-            );
-        }
-        None => {
-            t.extra.insert("shape".into(), json!(s.shape));
-            // indirect axes fastest first, as the Bruker reader lists them
-            let ind: Vec<Value> = (0..dims - 1)
-                .rev()
-                .map(|d| axis_json(&s.axes[d], "chemical_shift"))
-                .collect();
-            t.extra.insert("indirect_axes".into(), json!(ind));
-            if dims == 2
-                && let Some(n) = nuclei.first().cloned().flatten()
-            {
-                t.extra.insert("sweep_axis".into(), json!({ "nucleus": n }));
-            }
+    if let Some(series) = &s.series {
+        // a stack of 1D spectra, one per row
+        t.extra.insert(
+            "series".into(),
+            serde_json::to_value(series).unwrap_or(Value::Null),
+        );
+    } else {
+        t.extra.insert("shape".into(), json!(s.shape));
+        // indirect axes fastest first, as the Bruker reader lists them
+        let ind: Vec<Value> = (0..dims - 1)
+            .rev()
+            .map(|d| axis_json(&s.axes[d], "chemical_shift"))
+            .collect();
+        t.extra.insert("indirect_axes".into(), json!(ind));
+        if dims == 2
+            && let Some(n) = nuclei.first().cloned().flatten()
+        {
+            t.extra.insert("sweep_axis".into(), json!({ "nucleus": n }));
         }
     }
     t

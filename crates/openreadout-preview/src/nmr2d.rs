@@ -216,7 +216,7 @@ pub fn contour_path(
     let point = |e: usize| -> (f32, f32) {
         let k = e / 2;
         let (r, c) = (k / cols, k % cols);
-        let (a, b, (x0, y0), (x1, y1)) = if e % 2 == 0 {
+        let (a, b, (x0, y0), (x1, y1)) = if e.is_multiple_of(2) {
             (at(r, c), at(r, c + 1), (xs[c], ys[r]), (xs[c + 1], ys[r]))
         } else {
             (at(r, c), at(r + 1, c), (xs[c], ys[r]), (xs[c], ys[r + 1]))
@@ -1106,13 +1106,13 @@ pub(crate) fn render_stack(
             }
         }
     });
-    let what = series
-        .as_ref()
-        .map(|s| match &s.unit {
+    let what = series.as_ref().map_or_else(
+        || "row".into(),
+        |s| match &s.unit {
             Some(u) => format!("{} ({u})", s.name),
             None => s.name.clone(),
-        })
-        .unwrap_or_else(|| "row".into());
+        },
+    );
     let program = slices2d::pulse_program(info);
     let caption = [
         program
@@ -1159,7 +1159,7 @@ mod tests {
         let l = contour_levels(10.0, 10_000.0, 12);
         assert!(l.len() <= 12 && l.len() >= 10);
         let f = l[1] / l[0];
-        assert!(f >= 1.25 && f <= 2.0);
+        assert!((1.25..=2.0).contains(&f));
         assert!((l[2] / l[1] - f).abs() < 1e-9);
         assert!(*l.last().unwrap() < 10_000.0);
         // a small dynamic range still gives a few levels, 1.25 apart

@@ -514,6 +514,6 @@ fn corpus_cosy_stored_and_from_the_fid() {
         .unwrap();
     let f = &json(&out)["data"];
     assert_eq!(f["source"], "fid");
-    assert!(f["processing"]["dimensions"].as_array().unwrap().len() == 2);
+    assert_eq!(f["processing"]["dimensions"].as_array().unwrap().len(), 2);
     assert!(f["peak_count"].as_u64().unwrap() > 20);
 }

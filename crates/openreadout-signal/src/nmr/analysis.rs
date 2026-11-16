@@ -28,6 +28,9 @@ use crate::nmr::{
     analyze_2d, analyze_matrix, report_1d,
 };
 
+/// Flat table rows (`cross_peak_rows`, `peak_rows`, `integral_rows`).
+pub type Rows = Vec<Map<String, Value>>;
+
 /// Output of `analyze nmr-peaks`: a 1D peak list, or the cross peaks of a 2D/3D spectrum
 /// (tell them apart by `axis` against `axes`).
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -398,7 +401,7 @@ impl NmrReport {
 
 impl NmrPeaksReport {
     /// The peak (or cross-peak) rows, then the integral rows, of either kind of report.
-    pub fn rows(&self) -> (Vec<Map<String, Value>>, Vec<Map<String, Value>>) {
+    pub fn rows(&self) -> (Rows, Rows) {
         match self {
             NmrPeaksReport::Spectrum(r) => (r.peak_rows(), r.integral_rows()),
             NmrPeaksReport::CrossPeaks(r) => (r.cross_peak_rows(), r.integral_rows()),

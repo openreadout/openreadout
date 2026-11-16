@@ -57,10 +57,11 @@ impl ProcessFlags<'_> {
                 ))
             })
         };
-        let mut seen: BTreeMap<(String, &str), ()> = BTreeMap::new();
+        let mut seen: std::collections::BTreeSet<(String, &str)> =
+            std::collections::BTreeSet::new();
         let mut once = |dim: &Option<String>, flag: &'static str| -> Result<()> {
             let key = (dim.clone().unwrap_or_default(), flag);
-            if seen.insert(key, ()).is_some() {
+            if !seen.insert(key) {
                 return Err(Error::Usage(format!(
                     "{prefix}{flag} is given twice for {}",
                     dim.as_deref().unwrap_or("the direct dimension")
