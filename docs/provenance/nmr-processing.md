@@ -184,3 +184,44 @@ MestReNova JCAMP-DX export of the `nmrxiv-s200` limonene HSQC (`nD NMR SPECTRUM`
 - `auditp.txt` shows later commands that `procs` do not record: `sym` (s38/12, s49/5: replacing each point and its mirror about the diagonal by the smaller one reproduces `2rr` from 0.85 to 0.998), `abs1`/`abs2` baseline corrections, and `apkm` phase corrections (whose result is the stored PHC0/PHC1, so phases stored with `PH_mod` 0 are applied).
 - Pseudo-2D (DOSY `ledbpgp2s` with `difflist`, s519): F1 is not Fourier transformed; TopSpin's `2rr` there is the diffusion-transformed spectrum (F1 in log D, fitted lines only), which does not reproduce the F2 rows, so the rows are checked for phase and gradient attenuation instead.
 - In Rust, on every corpus set (`tests/nmr_processing_2d.rs`): the numpy conventions held. Two further findings. JEOL `real_complex` rows (nmrXiv s200 COSY) need no conjugation in F1: the diagonal then runs from high to high shift (44 % of the intensity on it, 3 % conjugated). VnmrJ F1 runs the other way from Bruker's: matching nmrglue run as a black box after the NMRPipe scripts of the nmrglue test data (no reversal for States, `REV` after the TPPI transform) needs the F1 interferogram conjugated (States 0.83 against 0.57; TPPI 0.86 against 0.05, magnitudes binned). The `tilt` option (J-resolved spectra) follows the textbook shear; no manifest file checks its direction.
+
+## 2026-11-15 — reconstruction of non-uniformly sampled data, DSPFVS 11/12 phase in 1D (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** the non-uniformly sampled Bruker experiments with a `nuslist` and TopSpin's
+reconstructed `pdata/1/2rr` in bundles the manifest lists outside the held-out tier: nmrXiv
+s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15 (CC-BY-4.0, CC0). The fully sampled
+experiments of the 2026-11-14 parity table that match TopSpin at ≥ 0.999 without linear
+prediction, with increments removed here to simulate sampling. For the 1D phase: the 1D Bruker
+experiments of the manifest with DSPFVS 11 or 12 and a stored `1r` (nmrXiv s572/1).
+
+**Prior art consulted (papers, read for the method; no reconstruction package's source):**
+- A. S. Stern, D. L. Donoho, J. C. Hoch, *NMR data processing using iterative thresholding and
+  minimum l1-norm reconstruction*, J. Magn. Reson. 188 (2007) 295–300: iterative soft
+  thresholding (a gradient step that restores consistency with the measured points, then soft
+  thresholding of the spectrum, `S ← S·max(0, 1 − τ/|S|)`), its equivalence to minimum
+  l1-norm reconstruction as the threshold goes down, and the measured points kept as measured.
+- S. G. Hyberts, A. G. Milbradt, A. B. Wagner, H. Arthanari, G. Wagner, *Application of
+  iterative soft thresholding for fast reconstruction of NMR data non-uniformly sampled with
+  multidimensional Poisson Gap scheduling*, J. Biomol. NMR 52 (2012) 315–327: reconstruction
+  column by column after the direct dimension is transformed, the threshold lowered from the
+  tallest point step by step over the iterations, and hypercomplex data handled as
+  complex sequences in each indirect dimension.
+- S. G. Hyberts, K. Takeuchi, G. Wagner, *Poisson-gap sampling and forward maximum entropy
+  reconstruction for enhancing the resolution and sensitivity of protein NMR data*, J. Am. Chem.
+  Soc. 132 (2010) 2145–2147: sine-weighted Poisson-distributed gaps between sampled increments
+  (used to simulate sampling on fully sampled data).
+
+**What was inferred from what:**
+- The `nuslist` of every set above lists complex-point indices in acquisition order (not
+  sorted, `0` first), and the `ser` holds `Π rows_per_point` rows per entry in that order
+  (`TD` of `acqu2s` = entries × 2 for echo/antiecho, × 1 for QF). Where `TD` is smaller than
+  that (s1407 HMBC: 102 entries, 56 rows), the acquisition stopped early: only the first
+  `TD / rows_per_point` entries were measured.
+- TopSpin's audit trails (`auditp.txt`) name the method of each stored spectrum
+  (`Mdd_mod = cs`, `CsALG = ist`, s753/21: `IRLS` with virtual echo) and its `proc2s` keep the
+  linear prediction (`ME_mod` 2, `LPBIN` up to twice `NusTD`) run after the reconstruction. So
+  the stored linear prediction still runs after ours.
+- Hypercomplex pairs: a States pair (u, v) = (cos, sin)-modulated rows gives two complex
+  sequences u + i·v and u − i·v, each one exponential per line; echo/antiecho rows are such
+  sequences already. Each is reconstructed on its own and the pair recombined (from the
+  published description of hypercomplex sampling, States et al. 1982, already in this log).
