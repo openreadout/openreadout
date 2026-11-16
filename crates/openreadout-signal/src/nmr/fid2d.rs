@@ -549,9 +549,17 @@ mod tests {
         assert_eq!(o.direct.size, Some(1024));
         assert!(c.check().is_ok());
         let bad = NdChoices {
-            nus: Some("ist".into()),
+            nus: Some("unknown-mode".into()),
             ..NdChoices::default()
         };
         assert_eq!(bad.check().unwrap_err().exit_code(), 6);
+        let ist = NdChoices {
+            nus: Some("ist:50".into()),
+            ..NdChoices::default()
+        };
+        assert!(matches!(
+            ist.nus_mode(),
+            Ok(NusMode::IterativeSoftThreshold { iterations: 50, .. })
+        ));
     }
 }
