@@ -18,6 +18,8 @@ pub struct PreviewArgs {
     pub file: PathBuf,
     #[command(flatten)]
     pub process: crate::commands::nmr::ProcessArgs,
+    #[command(flatten)]
+    pub slice: crate::commands::nmr::SliceArgs,
     /// Output file (`.png`, `.jpg`, `.svg`, or `.tiff` and `.pdf` for print); `-` writes the
     /// image to stdout. Default: `<input stem>.preview.png` next to the input.
     #[arg(short, long)]
@@ -100,6 +102,16 @@ pub struct PreviewArgs {
     /// Trace preview: only this window of the x axis, `A:B` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
     #[arg(long = "x-range", value_name = "A:B", allow_hyphen_values = true)]
     pub x_range: Option<String>,
+    /// 2D NMR contour plot: only this window of F1 (the vertical axis), `A:B` in ppm (Hz for a
+    /// J-resolved F1). `--x-range` is the F2 window.
+    #[arg(long = "y-range", value_name = "A:B", allow_hyphen_values = true)]
+    pub y_range: Option<String>,
+    /// 2D NMR: the lowest contour in noise SDs (default 6).
+    #[arg(long, value_name = "X")]
+    pub contour_floor: Option<f64>,
+    /// 2D NMR: contour levels of each sign (default 12).
+    #[arg(long, value_name = "N")]
+    pub contour_levels: Option<u32>,
     /// Spectrum preview: run index.
     #[arg(long)]
     pub run: Option<u32>,
@@ -195,6 +207,21 @@ impl PreviewArgs {
                 .as_deref()
                 .map(crate::commands::peaks::parse_x_range)
                 .transpose()?;
+            preview_request.y_range = self
+                .y_range
+                .as_deref()
+                .map(crate::commands::peaks::parse_x_range)
+                .transpose()?;
+            if let Some(f) = self.contour_floor
+                && !(f.is_finite() && f > 0.0)
+            {
+                return Err(Error::Usage("--contour-floor must be a number > 0".into()));
+            }
+            if self.contour_levels == Some(0) {
+                return Err(Error::Usage("--contour-levels must be at least 1".into()));
+            }
+            preview_request.contour_floor = self.contour_floor;
+            preview_request.contour_levels = self.contour_levels;
             preview_request.run = self.run;
             preview_request.spectrum = self.spectrum;
             preview_request.scan = self.scan;
@@ -292,7 +319,14 @@ fn run_preview(reg: &Registry, a: &PreviewArgs) -> Result<(PreviewOutput, Option
         openreadout_plot::FileFormat::from_path(o)?;
     }
     let (_, ds) = reg.open(&a.file)?;
-    let mut ds = a.process.wrap(ds)?;
+    let ds = a.process.wrap(ds)?;
+    let (mut ds, slice) = a.slice.wrap(ds, a.trace)?;
+    let mut req = req;
+    if a.slice.slice.is_some() {
+        req.trace = slice;
+        req.sweep = None;
+    }
+    let req = req;
     let info = ds.info()?;
     let rendered = render(ds.as_mut(), &info, &req)?;
     if figure_file {

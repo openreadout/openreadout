@@ -955,6 +955,181 @@ pub fn report_figure(
     Ok(fig)
 }
 
+/// Most rows a stack draws (spread evenly over the series).
+const MAX_STACK_ROWS: usize = 48;
+
+/// A pseudo-2D series (DOSY, T1/T2, kinetics) as a stack of 1D spectra, one per row, each
+/// lifted by the same step and labelled with the value that was varied (`extra.series`).
+pub(crate) fn render_stack(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    req: &PreviewRequest,
+    trace: u32,
+    out: &mut PreviewOutput,
+) -> Result<(Figure, Frame)> {
+    use openreadout_signal::nmr::source::spectrum_axis;
+    let t = info
+        .traces
+        .iter()
+        .find(|t| t.index == trace)
+        .ok_or_else(|| Error::Usage(format!("trace {trace} out of range")))?
+        .clone();
+    let axis = spectrum_axis(&t).ok_or_else(|| {
+        Error::unsupported(
+            "preview",
+            format!("trace {trace} has no shift axis"),
+            "Pick a processed spectrum (see `openreadout info`).",
+        )
+    })?;
+    let series: Option<openreadout_signal::nmr::Series> = t
+        .extra
+        .get("series")
+        .and_then(|v| serde_json::from_value(v.clone()).ok());
+    let rows = t.sweep_count.max(1) as usize;
+    let step = rows.div_ceil(MAX_STACK_ROWS).max(1);
+    let picked: Vec<usize> = (0..rows).step_by(step).collect();
+    let theme = crate::theme(req);
+    let fs = theme.font_size;
+    let w = req.max_size.max(64) as f32;
+    let h = (w * 0.75).min(req.max_size as f32);
+    let n = (t.sample_count as usize).min(axis.size);
+    let (x0, x1) = (axis.ppm(0.0), axis.last_ppm());
+    let (mut lo, mut hi) = (x0.min(x1), x0.max(x1));
+    if let Some([a, b]) = req.x_range {
+        lo = a.min(b).max(lo);
+        hi = a.max(b).min(hi);
+    }
+    let x_dom = Domain::linear(lo, hi.max(lo + 1e-9)).reversed();
+    let ncols = (w as usize).max(16);
+    // per row: one (min, max) per pixel column
+    let mut stacks: Vec<Vec<Option<(f64, f64)>>> = Vec::new();
+    let mut top = 0.0f64;
+    for &r in &picked {
+        let tr = ds.read_trace(trace, r as u32, 0, n as u64)?;
+        let v = tr.channels.into_iter().next().unwrap_or_default();
+        let mut cols: Vec<Option<(f64, f64)>> = vec![None; ncols];
+        for (k, &y) in v.iter().enumerate() {
+            let x = axis.ppm(k as f64);
+            if !(y.is_finite() && x >= lo && x <= hi) {
+                continue;
+            }
+            let c = (((hi - x) / (hi - lo).max(1e-12)) * (ncols - 1) as f64) as usize;
+            let e = cols[c.min(ncols - 1)].get_or_insert((y, y));
+            e.0 = e.0.min(y);
+            e.1 = e.1.max(y);
+            top = top.max(y.abs());
+        }
+        stacks.push(cols);
+    }
+    let header = fs * 2.0;
+    let left = fs * 6.5;
+    let rect = Rect::new(
+        left,
+        header + fs * 0.6,
+        w - left - fs * 1.6,
+        h - header - fs * 4.4,
+    );
+    let m = picked.len().max(1) as f64;
+    // each row gets one step; its tallest line reaches three steps
+    let y_dom = Domain::linear(-0.3, m + 2.2);
+    let panel = Panel::new(rect, x_dom, y_dom);
+    let mut fig = Figure::new(w, h, Some(theme.paper));
+    let spec = AxesSpec {
+        x_label: Some(match t.extra.get("nucleus").and_then(|v| v.as_str()) {
+            Some(nu) => format!("{} (ppm)", nucleus_label(nu)),
+            None => "chemical shift (ppm)".into(),
+        }),
+        show_y: false,
+        grid: GridLines::None,
+        x_ticks: 10,
+        ..AxesSpec::default()
+    };
+    panel.axes(&mut fig, &theme, &spec);
+    let scale = if top > 0.0 { 3.0 / top } else { 1.0 };
+    let label =
+        TextStyle::new(theme.small_size(), theme.muted).align(Anchor::End, Baseline::Middle);
+    let value_of = |r: usize| -> String {
+        match series.as_ref().and_then(|s| s.values.get(r)) {
+            Some(v) => openreadout_figure::format_value(*v),
+            None => format!("row {r}"),
+        }
+    };
+    let every = (picked.len() / 12).max(1);
+    fig.group(Layer::Series, "stack", |fig| {
+        for (i, (cols, &r)) in stacks.iter().zip(&picked).enumerate().rev() {
+            let base = i as f64;
+            let mut pts = Vec::new();
+            for (c, v) in cols.iter().enumerate() {
+                let Some((a, b)) = v else { continue };
+                let x = hi - (c as f64 + 0.5) / ncols as f64 * (hi - lo);
+                for y in [*a, *b] {
+                    if let Some(p) = panel.pt(x, base + y * scale) {
+                        pts.push(p);
+                    }
+                }
+            }
+            let t = if picked.len() > 1 {
+                i as f32 / (picked.len() - 1) as f32
+            } else {
+                0.0
+            };
+            let color = theme.ink.mix(theme.series(2), t);
+            panel.line_px(
+                fig,
+                pts,
+                Stroke::new(color, (theme.line_width * 0.6).max(0.7)),
+            );
+            if i % every == 0
+                && let Some((_, py)) = panel.pt(hi, base)
+            {
+                fig.text(rect.x - fs * 0.4, py, &value_of(r), &label);
+            }
+        }
+    });
+    let what = series
+        .as_ref()
+        .map(|s| match &s.unit {
+            Some(u) => format!("{} ({u})", s.name),
+            None => s.name.clone(),
+        })
+        .unwrap_or_else(|| "row".into());
+    let program = slices2d::pulse_program(info);
+    let caption = [
+        program
+            .as_deref()
+            .and_then(experiment_name)
+            .unwrap_or("pseudo-2D series")
+            .to_string(),
+        format!(
+            "{} rows{}",
+            rows,
+            if step > 1 {
+                format!(", every {step}th drawn")
+            } else {
+                String::new()
+            }
+        ),
+        format!("left: {what}"),
+    ]
+    .join(" · ");
+    fig.group(Layer::Caption, "caption", |fig| {
+        fig.text(
+            fs * 0.6,
+            fs * 1.3,
+            &caption,
+            &TextStyle::new(fs, theme.ink).align(Anchor::Start, Baseline::Alphabetic),
+        );
+    });
+    out.kind = "trace".into();
+    out.notes.push(format!(
+        "a pseudo-2D series: one spectrum per row, lifted by row and labelled with {what}; pick 1D peaks of a row with openreadout_nmr_peaks sweep"
+    ));
+    Ok((
+        fig,
+        Frame::plots_labelled(vec![FramePanel::new(panel)], &[]),
+    ))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

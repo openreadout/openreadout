@@ -1478,7 +1478,9 @@ pub fn render(ds: &mut dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> Re
         && req.columns.is_empty()
         && req.channels.is_empty()
         && req.trace.is_none_or(|t| t == 0);
-    let mut drawn = if let NmrView::Contours(t) = nmr_view {
+    let mut drawn = if let NmrView::Stack(t) = nmr_view {
+        Some(nmr2d::render_stack(ds, info, req, t, &mut out)?)
+    } else if let NmrView::Contours(t) = nmr_view {
         Some(nmr2d::render(ds, info, req, t, &mut out)?)
     } else if nmr_view == NmrView::Spectrum {
         nmr::render(ds, info, req, &mut out)
@@ -1571,6 +1573,8 @@ enum NmrView {
     Spectrum,
     /// A 2D spectrum as contours (its trace, or the first one).
     Contours(Option<u32>),
+    /// A pseudo-2D series as a stack of rows.
+    Stack(u32),
 }
 
 fn nmr_view_of(ds: &dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> NmrView {
@@ -1578,7 +1582,19 @@ fn nmr_view_of(ds: &dyn Dataset, info: &FileInfo, req: &PreviewRequest) -> NmrVi
     use openreadout_signal::nmr::source2d::matrix_layout;
     let vendor = ds.vendor_metadata().unwrap_or(serde_json::Value::Null);
     let matrix = |t: &openreadout_core::model::TraceInfo| matrix_layout(t, &vendor).is_some();
+    let series = |t: &openreadout_core::model::TraceInfo| {
+        t.extra.contains_key("series") && t.sweep_count > 1 && spectrum_axis(t).is_some()
+    };
     match (req.trace, req.sweep) {
+        (None, None) if !info.traces.iter().any(matrix) => {
+            if let Some(t) = info.traces.iter().find(|t| series(t)) {
+                return NmrView::Stack(t.index);
+            }
+            NmrView::Spectrum
+        }
+        (Some(i), None) if info.traces.iter().any(|t| t.index == i && series(t)) => {
+            NmrView::Stack(i)
+        }
         (None, None) if info.traces.iter().any(matrix) => NmrView::Contours(None),
         (None, _) => NmrView::Spectrum,
         (Some(i), sweep) => match info.traces.iter().find(|t| t.index == i) {

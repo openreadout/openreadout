@@ -11,6 +11,7 @@
 pub mod analysis;
 pub mod baseline;
 mod dataset;
+pub mod fid2d;
 pub mod indirect;
 pub mod lp;
 pub mod peaks;
@@ -34,6 +35,7 @@ use openreadout_core::{Dataset, Result};
 pub use analysis::{NmrPeaksReport, NmrPeaksRequest, analyze_peaks};
 pub use baseline::BaselineMode;
 pub use dataset::ProcessedNmrDataset;
+pub use fid2d::{DimensionChoice, NdChoices, ProcessedNdDataset, fid_matrix, process_nd_dataset};
 pub use peaks::{Integral, Peak, PeakOptions, integrate, noise_sd, pick_peaks};
 pub use peaks2d::{
     CrossPeak, CrossPeakOptions, CrossPeakPick, Maximum, PeakFlag, PeakSign, SpectrumContext,
@@ -328,6 +330,9 @@ pub struct Nmr2dReport {
     pub pulse_program: Option<String>,
     /// Nucleus per dimension, slowest first (F1, F2), when known.
     pub nuclei: Vec<Option<String>>,
+    /// How the FID was transformed in every dimension (`source` = `fid` only).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub processing: Option<processnd::NdRecord>,
     /// What each dimension measures, slowest first: a chemical shift in ppm for most; the F1
     /// axis of a J-resolved spectrum is a coupling (shown in Hz), and a DOSY F1 axis has the
     /// unit the file names. `axes` are in ppm either way.
@@ -490,6 +495,7 @@ pub fn analyze_matrix(
         trace_name,
         pulse_program: slices2d::pulse_program(info),
         nuclei: m.nuclei,
+        processing: None,
         dimensions: Vec::new(),
         shape: m.full_shape,
         axes,

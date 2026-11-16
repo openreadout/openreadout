@@ -8,162 +8,194 @@ use std::path::{Path, PathBuf};
 use openreadout_core::{Dataset, Error, Registry, Result};
 use openreadout_signal::api::NmrQuery;
 use openreadout_signal::nmr::{
-    Apodization, BaselineMode, Nmr2dReport, NmrMatrixDataset, NmrPeaksReport, NmrReport, PhaseMode,
-    ProcessOptions, ProcessedNmrDataset, SliceSpec,
+    Nmr2dReport, NmrMatrixDataset, NmrPeaksReport, NmrReport, ProcessedNmrDataset, SliceSpec,
 };
 
 use crate::output::{emit, fail};
 
-/// FID processing choices shared by `nmr-peaks` (unprefixed) and `--process` (prefixed).
-#[derive(Debug, Clone, Default)]
-pub struct ProcessChoice {
-    pub phase: Option<String>,
-    pub lb: Option<f64>,
-    pub gb: Option<f64>,
-    pub size: Option<usize>,
-    pub baseline: Option<String>,
-    pub no_group_delay: bool,
+/// A processing flag value with an optional dimension: `fN=VALUE` or `VALUE` (the direct
+/// dimension, or the only one of a 1D FID).
+fn split_dimension(s: &str) -> (Option<String>, &str) {
+    match s.split_once('=') {
+        Some((d, v)) if d.trim().to_ascii_lowercase().starts_with('f') => {
+            (Some(d.trim().to_ascii_lowercase()), v.trim())
+        }
+        _ => (None, s.trim()),
+    }
 }
 
-/// `--process` and its options on `trace`, `export` and `preview`.
+/// The processing flags (`--phase`, `--lb`, `--gb`, `--size`, `--baseline`, each repeatable
+/// with `fN=` for one dimension of a 2D FID) as the fields of an [`NmrQuery`].
+#[derive(Debug, Clone, Default)]
+pub struct ProcessFlags<'a> {
+    pub phase: &'a [String],
+    pub lb: &'a [String],
+    pub gb: &'a [String],
+    pub size: &'a [String],
+    pub baseline: &'a [String],
+    pub no_group_delay: bool,
+    pub nus: Option<String>,
+}
+
+impl ProcessFlags<'_> {
+    /// Fill the processing fields of `q`; `prefix` names the flags in errors (`--` or
+    /// `--process-`).
+    pub fn apply(&self, q: &mut NmrQuery, prefix: &str) -> Result<()> {
+        use openreadout_signal::api::DimensionQuery;
+        let num = |flag: &str, v: &str| -> Result<f64> {
+            v.parse::<f64>()
+                .ok()
+                .filter(|x| x.is_finite())
+                .ok_or_else(|| {
+                    Error::Usage(format!("{prefix}{flag} {v:?}: expected a number of Hz"))
+                })
+        };
+        let count = |flag: &str, v: &str| -> Result<usize> {
+            v.parse::<usize>().map_err(|_| {
+                Error::Usage(format!(
+                    "{prefix}{flag} {v:?}: expected a whole number of points"
+                ))
+            })
+        };
+        let mut seen: BTreeMap<(String, &str), ()> = BTreeMap::new();
+        let mut once = |dim: &Option<String>, flag: &'static str| -> Result<()> {
+            let key = (dim.clone().unwrap_or_default(), flag);
+            if seen.insert(key, ()).is_some() {
+                return Err(Error::Usage(format!(
+                    "{prefix}{flag} is given twice for {}",
+                    dim.as_deref().unwrap_or("the direct dimension")
+                )));
+            }
+            Ok(())
+        };
+        let mut dims: BTreeMap<String, DimensionQuery> = BTreeMap::new();
+        for s in self.phase {
+            let (d, v) = split_dimension(s);
+            once(&d, "phase")?;
+            match d {
+                Some(d) => dims.entry(d).or_default().phase = Some(v.into()),
+                None => q.phase = Some(v.into()),
+            }
+        }
+        for s in self.lb {
+            let (d, v) = split_dimension(s);
+            once(&d, "lb")?;
+            let x = num("lb", v)?;
+            match d {
+                Some(d) => dims.entry(d).or_default().lb = Some(x),
+                None => q.lb = Some(x),
+            }
+        }
+        for s in self.gb {
+            let (d, v) = split_dimension(s);
+            once(&d, "gb")?;
+            let x = num("gb", v)?;
+            match d {
+                Some(d) => dims.entry(d).or_default().gb = Some(x),
+                None => q.gb = Some(x),
+            }
+        }
+        for s in self.size {
+            let (d, v) = split_dimension(s);
+            once(&d, "size")?;
+            let n = count("size", v)?;
+            match d {
+                Some(d) => dims.entry(d).or_default().size = Some(n),
+                None => q.size = Some(n),
+            }
+        }
+        for s in self.baseline {
+            let (d, v) = split_dimension(s);
+            once(&d, "baseline")?;
+            match d {
+                Some(d) => dims.entry(d).or_default().baseline = Some(v.into()),
+                None => q.baseline = Some(v.into()),
+            }
+        }
+        q.dimensions = dims;
+        q.no_group_delay = self.no_group_delay;
+        q.nus.clone_from(&self.nus);
+        Ok(())
+    }
+}
+
+/// `--process` and its options on `trace`, `export`, `preview` and `plot`.
 #[derive(Debug, Clone, Default, clap::Args)]
 pub struct ProcessArgs {
     /// NMR: read FID traces as spectra processed by OpenReadout (group-delay removal,
-    /// apodization, zero filling, FT, phasing, baseline, ppm axis). Stored spectra are unchanged.
+    /// apodization, zero filling, FT, phasing, baseline, ppm axis); a 2D/3D FID becomes its
+    /// spectrum in every dimension (a matrix, or one spectrum per row of a pseudo-2D series).
+    /// Stored spectra are unchanged.
     #[arg(long)]
     pub process: bool,
     /// With `--process`: `default` (stored phases, else automatic), `stored`, `auto`,
-    /// `magnitude`, `none`, or `P0,P1` in degrees.
-    #[arg(long, value_name = "MODE", requires = "process")]
-    pub process_phase: Option<String>,
+    /// `magnitude`, `none`, or `P0,P1` in degrees. 2D: `f1=MODE` for one dimension
+    /// (repeatable); a bare value is the direct dimension.
+    #[arg(long, value_name = "[fN=]MODE", requires = "process")]
+    pub process_phase: Vec<String>,
     /// With `--process`: exponential line broadening, Hz (default: stored, else 0.3 Hz for 1H
-    /// and 1 Hz otherwise).
+    /// and 1 Hz otherwise). 2D: `f1=HZ` for one dimension.
     #[arg(
         long,
-        value_name = "HZ",
+        value_name = "[fN=]HZ",
         requires = "process",
-        allow_negative_numbers = true
+        allow_hyphen_values = true
     )]
-    pub process_lb: Option<f64>,
-    /// With `--process`: transform size in complex points (power of two).
-    #[arg(long, value_name = "N", requires = "process")]
-    pub process_size: Option<usize>,
+    pub process_lb: Vec<String>,
+    /// With `--process`: Gaussian broadening instead, Hz. 2D: `f1=HZ` for one dimension.
+    #[arg(long, value_name = "[fN=]HZ", requires = "process")]
+    pub process_gb: Vec<String>,
+    /// With `--process`: transform size in complex points (power of two). 2D: `f1=N`.
+    #[arg(long, value_name = "[fN=]N", requires = "process")]
+    pub process_size: Vec<String>,
     /// With `--process`: baseline correction `default` (polynomial order 1), `none`, or
-    /// `poly:N`.
+    /// `poly:N`. 2D: `f2=MODE` for one dimension (default none in 2D).
+    #[arg(long, value_name = "[fN=]MODE", requires = "process")]
+    pub process_baseline: Vec<String>,
+    /// With `--process`, 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured
+    /// rows on the full grid, zeros elsewhere).
     #[arg(long, value_name = "MODE", requires = "process")]
-    pub process_baseline: Option<String>,
+    pub nus: Option<String>,
 }
 
 impl ProcessArgs {
-    fn choice(&self) -> ProcessChoice {
-        ProcessChoice {
-            phase: self.process_phase.clone(),
-            lb: self.process_lb,
-            size: self.process_size,
-            baseline: self.process_baseline.clone(),
-            ..ProcessChoice::default()
+    /// The processing request these flags describe.
+    fn request(&self) -> Result<openreadout_signal::nmr::NmrPeaksRequest> {
+        let mut q = NmrQuery::default();
+        ProcessFlags {
+            phase: &self.process_phase,
+            lb: &self.process_lb,
+            gb: &self.process_gb,
+            size: &self.process_size,
+            baseline: &self.process_baseline,
+            no_group_delay: false,
+            nus: self.nus.clone(),
         }
+        .apply(&mut q, "--process-")?;
+        q.peaks_request()
     }
 
-    /// Wrap `ds` when `--process` was given.
+    /// Wrap `ds` when `--process` was given: a 2D/3D FID is transformed in every dimension,
+    /// 1D FIDs row by row.
     pub fn wrap(&self, ds: Box<dyn Dataset>) -> Result<Box<dyn Dataset>> {
         if !self.process {
             return Ok(ds);
         }
-        let opts = process_options(&self.choice())?;
-        Ok(Box::new(ProcessedNmrDataset::new(ds, opts)?))
-    }
-}
-
-fn parse_phase(s: &str) -> Result<PhaseMode> {
-    Ok(match s.trim().to_ascii_lowercase().as_str() {
-        "default" => PhaseMode::Default,
-        "stored" => PhaseMode::Stored,
-        "auto" | "automatic" => PhaseMode::Auto,
-        "magnitude" | "mc" => PhaseMode::Magnitude,
-        "none" => PhaseMode::None,
-        other => {
-            let parts: Vec<&str> = other.split(',').map(str::trim).collect();
-            let nums: Option<Vec<f64>> = parts.iter().map(|p| p.parse::<f64>().ok()).collect();
-            match nums.as_deref() {
-                Some([p0]) if p0.is_finite() => PhaseMode::Manual {
-                    phase0_deg: *p0,
-                    phase1_deg: 0.0,
-                },
-                Some([p0, p1]) if p0.is_finite() && p1.is_finite() => PhaseMode::Manual {
-                    phase0_deg: *p0,
-                    phase1_deg: *p1,
-                },
-                _ => {
-                    return Err(Error::Usage(format!(
-                        "--phase {s:?}: expected default, stored, auto, magnitude, none or P0,P1 (degrees)"
-                    )));
-                }
-            }
+        let req = self.request()?;
+        if openreadout_signal::nmr::fid2d::has_fid_nd(&ds.info()?) {
+            return openreadout_signal::nmr::process_nd_dataset(ds, req.nd);
         }
-    })
-}
-
-fn parse_baseline(s: &str) -> Result<BaselineMode> {
-    let t = s.trim().to_ascii_lowercase();
-    Ok(match t.as_str() {
-        "default" => BaselineMode::Default,
-        "none" | "off" => BaselineMode::None,
-        _ => match t
-            .strip_prefix("poly:")
-            .or_else(|| t.strip_prefix("polynomial:"))
-        {
-            Some(n) => match n.parse::<u32>() {
-                Ok(order) if order <= 8 => BaselineMode::Polynomial { order },
-                _ => {
-                    return Err(Error::Usage(format!(
-                        "--baseline {s:?}: the polynomial order must be 0 to 8"
-                    )));
-                }
-            },
-            None => {
-                return Err(Error::Usage(format!(
-                    "--baseline {s:?}: expected default, none or poly:N"
-                )));
-            }
-        },
-    })
-}
-
-/// Turn CLI choices into [`ProcessOptions`].
-pub fn process_options(c: &ProcessChoice) -> Result<ProcessOptions> {
-    let mut o = ProcessOptions::default();
-    if let Some(p) = &c.phase {
-        o.phase = parse_phase(p)?;
-    }
-    if let Some(b) = &c.baseline {
-        o.baseline = parse_baseline(b)?;
-    }
-    if let Some(n) = c.size {
-        if n < 2 {
-            return Err(Error::Usage("--size must be at least 2".into()));
+        if !req.nd.by_dimension.is_empty() {
+            return Err(Error::Usage(
+                "options for one dimension (fN=) apply to 2D FIDs; this data set has 1D FIDs only"
+                    .into(),
+            ));
         }
-        o.size = Some(n);
+        Ok(Box::new(ProcessedNmrDataset::new(
+            ds,
+            req.spectrum.process,
+        )?))
     }
-    for (name, v) in [("--lb", c.lb), ("--gb", c.gb)] {
-        if v.is_some_and(|v| !v.is_finite()) {
-            return Err(Error::Usage(format!(
-                "{name} must be a finite number of Hz"
-            )));
-        }
-    }
-    o.apodization = match (c.lb, c.gb) {
-        (_, Some(gb)) => Some(Apodization::Gaussian {
-            line_broadening_hz: gb,
-        }),
-        (Some(0.0), None) => Some(Apodization::None),
-        (Some(lb), None) => Some(Apodization::Exponential {
-            line_broadening_hz: lb,
-        }),
-        (None, None) => None,
-    };
-    o.ignore_group_delay = c.no_group_delay;
-    Ok(o)
 }
 
 /// `nmr-peaks`.
@@ -189,25 +221,32 @@ pub struct NmrPeaksArgs {
     pub slice: Option<String>,
     /// Phase: `default` (stored phases, else automatic), `stored`, `auto`, `magnitude`, `none`,
     /// or `P0,P1` in degrees (correction `e^{-i(P0 + P1*k/N)}`, k from the high-ppm edge).
-    #[arg(long, value_name = "MODE")]
-    pub phase: Option<String>,
+    /// 2D FIDs: `f1=MODE` for one dimension (repeatable); a bare value is the direct dimension.
+    #[arg(long, value_name = "[fN=]MODE")]
+    pub phase: Vec<String>,
     /// Exponential line broadening, Hz (0 = no window; default: stored, else 0.3 Hz for 1H and
-    /// 1 Hz otherwise).
-    #[arg(long, value_name = "HZ", allow_negative_numbers = true)]
-    pub lb: Option<f64>,
-    /// Gaussian window instead: Gaussian line width, Hz.
-    #[arg(long, value_name = "HZ", conflicts_with = "lb")]
-    pub gb: Option<f64>,
+    /// 1 Hz otherwise). 2D FIDs: `f1=HZ`.
+    #[arg(long, value_name = "[fN=]HZ", allow_hyphen_values = true)]
+    pub lb: Vec<String>,
+    /// Gaussian window instead: Gaussian line width, Hz. 2D FIDs: `f1=HZ`.
+    #[arg(long, value_name = "[fN=]HZ")]
+    pub gb: Vec<String>,
     /// Transform size in complex points (power of two; default: stored, else 2 × the FID).
-    #[arg(long, value_name = "N")]
-    pub size: Option<usize>,
+    /// 2D FIDs: `f1=N`.
+    #[arg(long, value_name = "[fN=]N")]
+    pub size: Vec<String>,
     /// Baseline correction: `default` (polynomial order 1 through automatically found baseline
     /// blocks), `none`, `poly:N`. Stored spectra are used as stored unless `--baseline` is given.
-    #[arg(long, value_name = "MODE")]
-    pub baseline: Option<String>,
+    /// 2D FIDs: `f2=MODE` (default none).
+    #[arg(long, value_name = "[fN=]MODE")]
+    pub baseline: Vec<String>,
     /// Do not remove the digital-filter group delay.
     #[arg(long)]
     pub no_group_delay: bool,
+    /// 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured rows on the full
+    /// grid, zeros elsewhere).
+    #[arg(long, value_name = "MODE")]
+    pub nus: Option<String>,
     /// Minimum peak height as a multiple of the noise SD.
     #[arg(long, value_name = "X", default_value_t = 10.0)]
     pub min_snr: f64,
@@ -413,7 +452,7 @@ pub fn query(a: &NmrPeaksArgs) -> Result<NmrQuery> {
         }
     };
     let c = &a.cross;
-    Ok(NmrQuery {
+    let mut q = NmrQuery {
         from: Some(
             match a.from {
                 FromArg::Auto => "auto",
@@ -425,12 +464,6 @@ pub fn query(a: &NmrPeaksArgs) -> Result<NmrQuery> {
         trace: a.trace,
         sweep: a.sweep,
         slice: a.slice.clone(),
-        phase: a.phase.clone(),
-        lb: a.lb,
-        gb: a.gb,
-        size: a.size,
-        baseline: a.baseline.clone(),
-        no_group_delay: a.no_group_delay,
         min_snr: Some(a.min_snr),
         min_prominence: Some(a.min_prominence),
         min_height_fraction: Some(a.min_height_fraction),
@@ -458,7 +491,19 @@ pub fn query(a: &NmrPeaksArgs) -> Result<NmrQuery> {
         symmetry_tolerance_hz: c.symmetry_tolerance_hz,
         list_maxima: c.list_maxima,
         max_points: c.max_points,
-    })
+        ..NmrQuery::default()
+    };
+    ProcessFlags {
+        phase: &a.phase,
+        lb: &a.lb,
+        gb: &a.gb,
+        size: &a.size,
+        baseline: &a.baseline,
+        no_group_delay: a.no_group_delay,
+        nus: a.nus.clone(),
+    }
+    .apply(&mut q, "--")?;
+    Ok(q)
 }
 
 /// Run `nmr-peaks` on one file.

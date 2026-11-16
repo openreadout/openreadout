@@ -14,8 +14,9 @@ use serde::Deserialize;
 
 use crate::ephys::{ApSettings, CellRequest, DetectSettings, PeakSign, SpikesRequest};
 use crate::nmr::{
-    Apodization, BaselineMode, CrossPeakOptions, Nmr2dRequest, NmrPeaksReport, NmrPeaksRequest,
-    NmrRequest, PeakOptions, PhaseMode, ProcessOptions, SpectrumSource,
+    Apodization, BaselineMode, CrossPeakOptions, DimensionChoice, NdChoices, Nmr2dRequest,
+    NmrPeaksReport, NmrPeaksRequest, NmrRequest, PeakOptions, PhaseMode, ProcessOptions,
+    SpectrumSource,
 };
 
 /// A shift range: `[a, b]` ppm (a 1D spectrum, or the direct dimension of a 2D one), or one
@@ -40,6 +41,23 @@ pub enum IntegrateArg {
     Box(Vec<(f64, f64)>),
     /// `{"f1": [a, b], "f2": [c, d]}`.
     PerDimension(BTreeMap<String, (f64, f64)>),
+}
+
+/// Processing of one dimension of a multidimensional FID (each field as the top-level option of
+/// the same name, which applies to the direct dimension).
+#[derive(Debug, Default, Clone, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct DimensionQuery {
+    /// `default`, `stored`, `auto`, `magnitude`, `none` or `"P0,P1"` degrees.
+    pub phase: Option<String>,
+    /// Exponential line broadening, Hz (0 = no window).
+    pub lb: Option<f64>,
+    /// Gaussian broadening, Hz.
+    pub gb: Option<f64>,
+    /// Transform size, complex points.
+    pub size: Option<usize>,
+    /// `default`, `none` or `poly:N`.
+    pub baseline: Option<String>,
 }
 
 /// NMR peaks: a 1D peak list and integrals, or the cross peaks of a 2D/3D spectrum (picked
@@ -71,6 +89,13 @@ pub struct NmrQuery {
     /// Keep the digital-filter group delay (do not remove it).
     #[serde(default)]
     pub no_group_delay: bool,
+    /// 2D/3D FIDs: processing per dimension, `{"f1": {"lb": 2, "size": 1024}}` (phase, lb, gb,
+    /// size, baseline); the top-level options are the direct dimension's.
+    #[serde(default)]
+    pub dimensions: BTreeMap<String, DimensionQuery>,
+    /// 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured rows on the full
+    /// grid).
+    pub nus: Option<String>,
     /// Minimum peak height in noise SDs (default 10).
     pub min_snr: Option<f64>,
     /// Minimum prominence in noise SDs (default 5).
@@ -391,6 +416,50 @@ impl NmrQuery {
                 .unwrap_or(d.symmetry_tolerance_hz),
             list_maxima: self.list_maxima,
         };
+        let choice = |phase: &Option<String>,
+                      lb: Option<f64>,
+                      gb: Option<f64>,
+                      size: Option<usize>,
+                      baseline: &Option<String>|
+         -> Result<DimensionChoice> {
+            if let Some(n) = size
+                && n < 2
+            {
+                return Err(usage("size must be at least 2".into()));
+            }
+            Ok(DimensionChoice {
+                size,
+                apodization: match (lb, gb) {
+                    (Some(_), Some(_)) => {
+                        return Err(usage("lb and gb are two windows: give one".into()));
+                    }
+                    (_, Some(g)) if g.is_finite() => Some(Apodization::Gaussian {
+                        line_broadening_hz: g,
+                    }),
+                    (Some(l), None) if l == 0.0 => Some(Apodization::None),
+                    (Some(l), None) if l.is_finite() => Some(Apodization::Exponential {
+                        line_broadening_hz: l,
+                    }),
+                    (None, None) => None,
+                    _ => return Err(usage("lb and gb must be finite numbers of Hz".into())),
+                },
+                phase: phase.as_deref().map(phase_mode).transpose()?,
+                baseline: baseline.as_deref().map(baseline_mode).transpose()?,
+            })
+        };
+        let mut nd = NdChoices {
+            direct: choice(&self.phase, self.lb, self.gb, self.size, &self.baseline)?,
+            ignore_group_delay: self.no_group_delay,
+            nus: self.nus.clone(),
+            ..NdChoices::default()
+        };
+        for (k, d) in &self.dimensions {
+            nd.by_dimension.insert(
+                dimension(k)?,
+                choice(&d.phase, d.lb, d.gb, d.size, &d.baseline)?,
+            );
+        }
+        nd.check()?;
         Ok(NmrPeaksRequest {
             spectrum: NmrRequest {
                 trace: self.trace,
@@ -421,6 +490,7 @@ impl NmrQuery {
             },
             direct_range,
             negative: self.negative,
+            nd,
         })
     }
 

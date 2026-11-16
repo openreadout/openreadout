@@ -189,8 +189,14 @@ fn text<'a>(v: &'a Value, ptr: &str) -> Option<&'a str> {
 pub fn pulse_program(info: &FileInfo) -> Option<String> {
     info.traces
         .iter()
-        .filter(|t| is_fid(t))
-        .find_map(|t| t.extra.get("pulse_program").and_then(Value::as_str))
+        .find_map(|t| {
+            let key = if is_fid(t) {
+                "pulse_program"
+            } else {
+                "pulse_program_of_fid"
+            };
+            t.extra.get(key).and_then(Value::as_str)
+        })
         .map(str::to_string)
 }
 

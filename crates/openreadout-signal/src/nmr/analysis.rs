@@ -6,9 +6,10 @@
 //!   spectrum).
 //! - Otherwise, when the chosen trace is a stored 2D/3D spectrum (or the data set has one and no
 //!   trace is named): cross peaks ([`crate::nmr::analyze_2d`]).
-//! - A 2D FID with no stored spectrum, or `from: fid` on a 2D data set: the FID would have to be
-//!   transformed in every dimension. That goes through [`fid_matrix`], the one place where a 2D
-//!   transform plugs in; today it refuses with exit 6 and a hint.
+//! - A 2D FID with no stored spectrum, or `from: fid` on a 2D data set: the FID is transformed
+//!   in every dimension ([`crate::nmr::fid2d::fid_matrix`], with the per-dimension choices of
+//!   [`NmrPeaksRequest::nd`]) and its cross peaks picked as on a stored spectrum. A pseudo-2D
+//!   series (DOSY, relaxation) gets 1D peaks of one row instead.
 //! - Everything else: 1D peaks ([`crate::nmr::analyze`]).
 
 use schemars::JsonSchema;
@@ -21,7 +22,7 @@ use openreadout_core::{Dataset, Error, Result};
 use crate::nmr::peaks2d::PeakFlag;
 use crate::nmr::slices2d::{SliceSpec, read_slice};
 use crate::nmr::source::{SpectrumSource, is_fid};
-use crate::nmr::source2d::{MatrixRequest, StoredMatrix, matrix_layout};
+use crate::nmr::source2d::{MatrixRequest, matrix_layout};
 use crate::nmr::{
     ChosenSpectrum, Nmr2dReport, Nmr2dRequest, NmrReport, NmrRequest, Spectrum, analyze,
     analyze_2d, analyze_matrix, report_1d,
@@ -55,6 +56,8 @@ pub struct NmrPeaksRequest {
     pub direct_range: Option<(f64, f64)>,
     /// Negative peaks asked for or refused (`None`: 1D leaves them out, 2D keeps them).
     pub negative: Option<bool>,
+    /// How a multidimensional FID is processed (per dimension).
+    pub nd: crate::nmr::fid2d::NdChoices,
 }
 
 /// Is `t` a multi-dimensional FID (a `ser` with indirect dimensions)?
@@ -65,36 +68,6 @@ pub fn is_fid_nd(t: &TraceInfo) -> bool {
             .get("indirect_dimensions")
             .and_then(Value::as_array)
             .is_some_and(|a| !a.is_empty())
-}
-
-/// SEAM for the 2D FID transform: the matrix of the multi-dimensional FID `trace`, transformed
-/// in every dimension, with one `PpmAxis` and nucleus per dimension (slowest first), as
-/// [`StoredMatrix`] holds a stored spectrum (`offsets` all 0 and `full_shape` = `shape` unless
-/// `req.ranges_ppm` crops it; `carrier_points` at the centre of each indirect axis). The cross
-/// peaks are then picked by [`analyze_matrix`] with `source` `fid`. Until the transform lands
-/// this refuses with exit 6.
-pub fn fid_matrix(
-    ds: &mut dyn Dataset,
-    info: &FileInfo,
-    trace: u32,
-    _req: &MatrixRequest,
-) -> Result<StoredMatrix> {
-    let vendor = ds.vendor_metadata().unwrap_or(Value::Null);
-    let stored = info
-        .traces
-        .iter()
-        .find(|t| matrix_layout(t, &vendor).is_some());
-    Err(Error::unsupported(
-        "nmr-processing",
-        format!("transforming the 2D FID (trace {trace}) in every dimension"),
-        match stored {
-            Some(t) => format!(
-                "Pick cross peaks on the processed spectrum the data set stores: drop `--from fid` (MCP from) or pass `--trace {}`. For 1D peaks of one FID row, add `--sweep N`.",
-                t.index
-            ),
-            None => "This data set has a 2D FID but no processed 2D spectrum. Process it in the vendor software (e.g. TopSpin xfb) and run again, or pick 1D peaks of one FID row with `--sweep N` (MCP sweep).".into(),
-        },
-    ))
 }
 
 /// Where the 2D path takes its matrix from.
@@ -113,7 +86,7 @@ fn route(ds: &dyn Dataset, info: &FileInfo, req: &NmrPeaksRequest) -> Route {
     if let Some(i) = req.spectrum.trace {
         return match info.traces.iter().find(|t| t.index == i) {
             Some(t) if matrix_layout(t, &vendor).is_some() => Route::Stored(Some(i)),
-            Some(t) if is_fid_nd(t) => Route::Fid(i),
+            Some(t) if is_fid_nd(t) && !crate::nmr::fid2d::is_series(ds, info, i) => Route::Fid(i),
             _ => Route::Spectrum,
         };
     }
@@ -121,7 +94,11 @@ fn route(ds: &dyn Dataset, info: &FileInfo, req: &NmrPeaksRequest) -> Route {
         .traces
         .iter()
         .find(|t| matrix_layout(t, &vendor).is_some());
-    let fid_nd = info.traces.iter().find(|t| is_fid_nd(t));
+    // a pseudo-2D series is analysed row by row
+    let fid_nd = info
+        .traces
+        .iter()
+        .find(|t| is_fid_nd(t) && !crate::nmr::fid2d::is_series(ds, info, t.index));
     let spectrum_1d = info
         .traces
         .iter()
@@ -152,7 +129,21 @@ pub fn analyze_peaks(
     match route(ds, info, req) {
         Route::Spectrum => {
             let one = one_d(req)?;
-            analyze(ds, info, &one).map(NmrPeaksReport::Spectrum)
+            let mut r = analyze(ds, info, &one)?;
+            let rows = info
+                .traces
+                .iter()
+                .find(|t| t.index == r.trace)
+                .filter(|t| is_fid_nd(t))
+                .map(|t| t.sweep_count);
+            if let Some(n) = rows
+                && !req.sweep_given
+            {
+                r.notes.push(format!(
+                    "a pseudo-2D series of {n} rows: these are the peaks of row 0; pick another row with --sweep N (MCP sweep)"
+                ));
+            }
+            Ok(NmrPeaksReport::Spectrum(r))
         }
         Route::Stored(trace) => {
             let two = two_d(ds, info, req, trace)?;
@@ -160,7 +151,7 @@ pub fn analyze_peaks(
         }
         Route::Fid(trace) => {
             let two = two_d(ds, info, req, Some(trace))?;
-            let m = fid_matrix(
+            let (m, record) = crate::nmr::fid2d::fid_matrix(
                 ds,
                 info,
                 trace,
@@ -172,8 +163,27 @@ pub fn analyze_peaks(
                         .unwrap_or(crate::nmr::source2d::DEFAULT_MAX_POINTS),
                     ..MatrixRequest::default()
                 },
+                &req.nd,
             )?;
-            analyze_matrix(info, m, "fid", &two).map(NmrPeaksReport::CrossPeaks)
+            let vendor = ds.vendor_metadata().unwrap_or(Value::Null);
+            let lay = crate::nmr::source2d::MatrixLayout {
+                shape: m.shape.clone(),
+                axes: m.axes.clone(),
+                nuclei: m.nuclei.clone(),
+                sweep_stride: 1,
+                notes: Vec::new(),
+            };
+            let t = info
+                .traces
+                .iter()
+                .find(|t| t.index == trace)
+                .cloned()
+                .unwrap_or_default();
+            let dimensions = crate::nmr::slices2d::dimension_axes(info, &t, &vendor, &lay);
+            let mut r = analyze_matrix(info, m, "fid", &two)?;
+            r.dimensions = dimensions;
+            r.processing = Some(record);
+            Ok(NmrPeaksReport::CrossPeaks(r))
         }
     }
 }
