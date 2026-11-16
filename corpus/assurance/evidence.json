@@ -37277,6 +37277,313 @@
       ]
     },
     {
+      "id": "bmrb27037-chsqc-850",
+      "format": "bruker-nmr",
+      "source": "bmrb entry 27037 time-domain data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding Echo-Antiecho",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 2",
+          []
+        ],
+        [
+          "layout",
+          "ser",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        32
+      ]
+    },
+    {
+      "id": "desperate-rbno3-mqmas-20",
+      "format": "bruker-nmr",
+      "source": "github:rschurko/desperate",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding QF",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 4",
+          []
+        ],
+        [
+          "layout",
+          "ser",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        32
+      ]
+    },
+    {
+      "id": "desperate-rbno3-mqmas-30",
+      "format": "bruker-nmr",
+      "source": "github:rschurko/desperate",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding QF",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "non-uniform sampling",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 4",
+          []
+        ],
+        [
+          "layout",
+          "ser",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        32
+      ]
+    },
+    {
       "id": "nmrglue-bruker-1d",
       "format": "bruker-nmr",
       "source": "nmrglue test data archive",
@@ -37350,8 +37657,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -37442,8 +37749,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -37534,8 +37841,213 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
+      ]
+    },
+    {
+      "id": "nmrtools-15n-trosy-ts3",
+      "format": "bruker-nmr",
+      "source": "github:waudbylab/nmrtools.jl",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding Echo-Antiecho",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 3",
+          []
+        ],
+        [
+          "layout",
+          "ser",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        32
+      ]
+    },
+    {
+      "id": "nmrtools-19f-r1rho-ts4",
+      "format": "bruker-nmr",
+      "source": "github:waudbylab/nmrtools.jl",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces",
+        "tables"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float64",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "3D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding QF",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 4",
+          []
+        ],
+        [
+          "layout",
+          "ser",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        32
       ]
     },
     {
@@ -37616,8 +38128,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -37698,8 +38210,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -37780,8 +38292,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -37869,8 +38381,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -37951,8 +38463,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38033,8 +38545,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38115,8 +38627,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38197,8 +38709,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38279,8 +38791,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38361,8 +38873,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38443,8 +38955,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38525,8 +39037,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38607,8 +39119,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38716,8 +39228,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38803,8 +39315,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38890,8 +39402,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -38977,8 +39489,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39064,8 +39576,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39173,8 +39685,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39255,8 +39767,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39351,8 +39863,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39459,8 +39971,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39567,8 +40079,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39664,8 +40176,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39761,8 +40273,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39843,8 +40355,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -39925,8 +40437,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40026,8 +40538,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40101,8 +40613,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40183,8 +40695,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40195,7 +40707,8 @@
       "independent": true,
       "compared": [
         "metadata",
-        "traces"
+        "traces",
+        "tables"
       ],
       "fields": [
         "experiment.acquisition.started_at"
@@ -40282,8 +40795,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40378,8 +40891,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40481,8 +40994,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40573,8 +41086,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40662,8 +41175,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40744,8 +41257,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40826,8 +41339,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -40920,8 +41433,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41014,8 +41527,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41107,8 +41620,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41201,8 +41714,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41288,8 +41801,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41370,8 +41883,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41452,8 +41965,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41546,8 +42059,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41640,8 +42153,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41734,8 +42247,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41812,8 +42325,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -41912,8 +42425,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42004,8 +42517,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42089,8 +42602,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42171,8 +42684,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42253,8 +42766,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42335,8 +42848,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42417,8 +42930,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42499,8 +43012,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42581,8 +43094,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42663,8 +43176,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42745,8 +43258,210 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
+      ]
+    },
+    {
+      "id": "zakary-rbnb2o5f-87rb-3qmas-60",
+      "format": "bruker-nmr",
+      "source": "github:ozakary/data-rbm2o5f",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding States",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 4",
+          []
+        ],
+        [
+          "layout",
+          "ser",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        32
+      ]
+    },
+    {
+      "id": "zakary-rbnb2o5f-93nb-3qmas-255",
+      "format": "bruker-nmr",
+      "source": "github:ozakary/data-rbm2o5f",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding States",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "writer",
+          "TopSpin",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "TopSpin 4",
+          []
+        ],
+        [
+          "layout",
+          "ser",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "little-endian",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "AQ_mod 3",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "group delay from GRPDLY",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        32
       ]
     },
     {
@@ -42827,8 +43542,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -42909,8 +43624,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -43003,8 +43718,8 @@
         ]
       ],
       "inferred": [
-        8,
-        26
+        11,
+        32
       ]
     },
     {
@@ -100297,6 +101012,50 @@
       ]
     },
     {
+      "id": "dataverse-egt2ih-gallic-cosy-jdx",
+      "format": "jcamp-dx",
+      "source": "dataverse:10.7910/dvn/egt2ih",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "NDNMRSPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "ntuples",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        14
+      ]
+    },
+    {
       "id": "figshare31378627-11b-jdx",
       "format": "jcamp-dx",
       "source": "figshare 31378627 '<b>all-metal aromaticity of </b><b><i>cyclo</i></b><b>-bi</b><sub><strong>3</strong></sub><sup><strong>3</stro'",
@@ -101261,13 +102020,219 @@
       ]
     },
     {
+      "id": "jcamptest-cytisine-hmbc-fid",
+      "format": "jcamp-dx",
+      "source": "github:cheminfo/jcamp-data-test",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "ND NMR FID",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "ntuples",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        14
+      ]
+    },
+    {
+      "id": "jcamptest-cytisine-hsqc",
+      "format": "jcamp-dx",
+      "source": "github:cheminfo/jcamp-data-test",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "ND NMR SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "ntuples",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        14
+      ]
+    },
+    {
+      "id": "jcamptest-indometacin-cosy",
+      "format": "jcamp-dx",
+      "source": "github:cheminfo/jcamp-data-test",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "ND NMR SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "ntuples",
+          [
+            "traces"
+          ]
+        ]
+      ],
+      "inferred": [
+        4,
+        14
+      ]
+    },
+    {
+      "id": "jcamptest-oxford-cosy",
+      "format": "jcamp-dx",
+      "source": "github:cheminfo/jcamp-data-test",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "NMR FID",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "ntuples",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        14
+      ]
+    },
+    {
+      "id": "jcamptest-rutin-cosy",
+      "format": "jcamp-dx",
+      "source": "github:cheminfo/jcamp-data-test",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "6.0",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "ND NMR SPECTRUM",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "ntuples",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ]
+      ],
+      "inferred": [
+        4,
+        14
+      ]
+    },
+    {
       "id": "nmrxiv-s1-cosy-dx",
       "format": "jcamp-dx",
       "source": "nmrxiv:S1",
       "oracle": "pass",
       "independent": true,
       "compared": [
-        "metadata"
+        "metadata",
+        "traces"
       ],
       "features": [
         [
@@ -101363,7 +102328,8 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
-        "metadata"
+        "metadata",
+        "traces"
       ],
       "fields": [
         "experiment.acquisition.started_at"
@@ -101456,7 +102422,8 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
-        "metadata"
+        "metadata",
+        "traces"
       ],
       "features": [
         [
@@ -101533,7 +102500,8 @@
       "oracle": "pass",
       "independent": true,
       "compared": [
-        "metadata"
+        "metadata",
+        "traces"
       ],
       "features": [
         [
@@ -101777,6 +102745,93 @@
       "inferred": [
         4,
         14
+      ]
+    },
+    {
+      "id": "dataverse-egt2ih-gallic-cosy-jdf",
+      "format": "jeol-jdf",
+      "source": "dataverse:10.7910/dvn/egt2ih",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "features": [
+        [
+          "format_version",
+          "JDF 1.2",
+          [
+            "metadata",
+            "traces"
+          ]
+        ],
+        [
+          "writer_version",
+          "Delta 5",
+          []
+        ],
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "encoding real_complex",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "layout",
+          "two_d",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "axis real_complex",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "JNM-ECZ400S/L1",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        10,
+        18
       ]
     },
     {
@@ -189394,6 +190449,139 @@
       "inferred": [
         0,
         10
+      ]
+    },
+    {
+      "id": "bmrb18352-exp1949",
+      "format": "varian-nmr",
+      "source": "bmrb entry 18352 time-domain data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "assumed": [
+        "traces[].sweeps order"
+      ],
+      "features": [
+        [
+          "format_version",
+          "procpar version 5.1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "float32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "3D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "record",
+          "processed_spectrum",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "inova",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        20
+      ]
+    },
+    {
+      "id": "bmrb27037-chsqc-600v",
+      "format": "varian-nmr",
+      "source": "bmrb entry 27037 time-domain data",
+      "oracle": "pass",
+      "independent": true,
+      "compared": [
+        "metadata",
+        "traces"
+      ],
+      "assumed": [
+        "traces[].sweeps order"
+      ],
+      "features": [
+        [
+          "format_version",
+          "procpar version 5.1",
+          [
+            "metadata"
+          ]
+        ],
+        [
+          "record",
+          "time_domain",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "sample_layout",
+          "int32",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "acquisition",
+          "2D",
+          [
+            "traces"
+          ]
+        ],
+        [
+          "instrument",
+          "inova",
+          []
+        ],
+        [
+          "field",
+          "experiment.acquisition.started_at",
+          []
+        ],
+        [
+          "field",
+          "experiment.instrument.model",
+          []
+        ]
+      ],
+      "inferred": [
+        11,
+        20
       ]
     },
     {
