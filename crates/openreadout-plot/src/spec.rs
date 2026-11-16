@@ -243,6 +243,10 @@ pub enum Show {
     /// bases above and each call's quality below. x_range or the x range is in bases (default
     /// about 80 bases where the quality turns good).
     Sanger,
+    /// A 2D NMR spectrum as contours: F2 along x, F1 along y, both high to low, with skyline
+    /// projections (x and y ranges in ppm; process=true transforms a 2D FID). The panel's only
+    /// series.
+    Contour,
 }
 
 #[allow(missing_docs)]
@@ -293,7 +297,7 @@ pub struct SeriesSpec {
     /// by cycle, one sweep per lane), chromatogram (mass spectrometry; spectrum with rt or scan),
     /// wells (plates), events (FCS with x and y; histogram with x only), amplification (qPCR),
     /// histogram (FASTQ and BAM read lengths), frames (movies and image series), sanger (ABI
-    /// Sanger reads).
+    /// Sanger reads), contour (2D NMR spectra).
     pub show: Option<Show>,
     /// How to draw it (default from what it shows).
     pub mark: Option<MarkKind>,
@@ -310,9 +314,12 @@ pub struct SeriesSpec {
     pub channel: Option<u32>,
     /// Only this window of the x axis, `[a, b]` in the axis' units.
     pub x_range: Option<[f64; 2]>,
-    /// NMR: process FIDs into spectra.
+    /// NMR: process FIDs into spectra (a 2D FID in every dimension).
     #[serde(default)]
     pub process: bool,
+    /// NMR 2D spectra: draw a slice as the trace: `row:PPM` (the F2 trace at an F1 shift),
+    /// `column:PPM`, or a projection `skyline:f1|f2`, `min:f1|f2`, `sum:f1|f2`.
+    pub slice: Option<String>,
 
     /// Chromatogram: `tic` (default) or `bpc`; ignored when mz is given.
     pub chromatogram: Option<String>,

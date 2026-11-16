@@ -14,6 +14,8 @@ mod table;
 use std::collections::HashMap;
 use std::path::Path;
 
+use crate::OneOrMany;
+
 use openreadout_core::{Dataset, Error, FileInfo, Registry, Result};
 
 use crate::model::Series;
@@ -75,6 +77,61 @@ impl<'a> Ctx<'a> {
         let info = ds.info()?;
         Ok((det.format_id.to_string(), ds, info))
     }
+}
+
+/// Is `spec` a 2D NMR contour plot (asked for, or the default view of its file)?
+pub(crate) fn is_contour(ctx: &Ctx<'_>, spec: &SeriesSpec) -> Result<bool> {
+    if let Some(s) = spec.show {
+        return Ok(s == Show::Contour);
+    }
+    match spec.file.as_ref().map(OneOrMany::to_vec).as_deref() {
+        Some([f]) if spec.table.is_none() && spec.values.is_none() => {
+            Ok(default_show(ctx, spec, f)? == Show::Contour)
+        }
+        _ => Ok(false),
+    }
+}
+
+/// Open the 2D spectrum a contour series names (processed when it asks).
+pub(crate) fn contour(ctx: &Ctx<'_>, spec: &SeriesSpec) -> Result<crate::draw::ContourIn> {
+    let file = match spec.file.as_ref().map(OneOrMany::to_vec).as_deref() {
+        Some([f]) => f.clone(),
+        _ => return Err(usage("show=contour draws one file: give one `file`")),
+    };
+    let (_, ds, _) = ctx.open(&file)?;
+    let mut ds = if spec.process {
+        openreadout_signal::nmr::process_any(
+            ds,
+            openreadout_signal::nmr::NdChoices::default(),
+            openreadout_signal::nmr::ProcessOptions::default(),
+        )?
+    } else {
+        ds
+    };
+    let info = ds.info()?;
+    // a processed spectrum before the stored one
+    let trace = spec.trace.or_else(|| {
+        info.traces
+            .iter()
+            .find(|t| t.extra.contains_key("processing_nd") && t.extra.contains_key("shape"))
+            .map(|t| t.index)
+    });
+    let vendor = ds.vendor_metadata().unwrap_or(serde_json::Value::Null);
+    openreadout_signal::nmr::source2d::choose_matrix_trace(&info, &vendor, trace)?;
+    let _ = &mut ds;
+    Ok(crate::draw::ContourIn {
+        ds,
+        info,
+        file,
+        view: openreadout_preview::nmr2d::Nmr2dView {
+            trace,
+            x_range: spec.x_range.or(ctx.x_range),
+            y_range: None,
+            markers: spec.peaks.is_some(),
+            numbers: spec.peaks.is_some(),
+            ..openreadout_preview::nmr2d::Nmr2dView::default()
+        },
+    })
 }
 
 /// A usage error.
@@ -172,6 +229,11 @@ fn load_file(ctx: &mut Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Vec<Ser
             signal::trace(ctx, spec, file, show)?
         }
         Show::Chromatogram => signal::chromatogram(ctx, spec, file)?,
+        Show::Contour => {
+            return Err(usage(
+                "show=contour is a panel of its own: give it as the panel's only data item",
+            ));
+        }
         Show::Spectrum => signal::spectrum(ctx, spec, file)?,
         Show::Fi => signal::fi(ctx, spec, file)?,
         Show::Wells => plate::wells(ctx, spec, file)?,
@@ -224,7 +286,17 @@ fn default_show(ctx: &Ctx<'_>, spec: &SeriesSpec, file: &str) -> Result<Show> {
     {
         return Ok(Show::Wells);
     }
-    let (format, _ds, info) = ctx.open(file)?;
+    let (format, ds, info) = ctx.open(file)?;
+    if spec.trace.is_none() && spec.sweep.is_none() && spec.slice.is_none() && !spec.process {
+        let vendor = ds.vendor_metadata().unwrap_or(serde_json::Value::Null);
+        if info
+            .traces
+            .iter()
+            .any(|t| openreadout_signal::nmr::source2d::matrix_layout(t, &vendor).is_some())
+        {
+            return Ok(Show::Contour);
+        }
+    }
     if format == "fcs" {
         return Ok(if spec.y.is_some() {
             Show::Events

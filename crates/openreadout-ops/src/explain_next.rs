@@ -48,9 +48,32 @@ pub fn analysis_commands(info: &FileInfo, file: &str) -> Vec<String> {
                     "openreadout trace {file} --tidy --json   # min, max, mean and time of the maximum for every sweep and channel"
                 ));
             }
-            "nmr" => out.push(format!(
-                "openreadout analyze nmr-peaks {file} --json   # peak list and the tallest peak (ppm); --integrate A:B for integrals"
-            )),
+            "nmr" => {
+                // a stored 2D/3D spectrum, or a FID with indirect dimensions
+                let two_d = info.traces.iter().any(|t| {
+                    t.extra.contains_key("shape")
+                        || t
+                            .extra
+                            .get("indirect_dimensions")
+                            .and_then(|v| v.as_array())
+                            .is_some_and(|a| !a.is_empty())
+                });
+                if two_d {
+                    out.push(format!(
+                        "openreadout analyze nmr-peaks {file} --json   # 2D cross peaks: shift per dimension, height, volume, flags; --from fid transforms the ser"
+                    ));
+                    out.push(format!(
+                        "openreadout preview {file}   # contour plot; --x-range (F2) and --y-range (F1) zoom, --marks peaks numbers the cross peaks"
+                    ));
+                    out.push(format!(
+                        "openreadout trace {file} --slice skyline:f2 --json   # a projection, row:PPM or column:PPM as a 1-D spectrum"
+                    ));
+                } else {
+                    out.push(format!(
+                        "openreadout analyze nmr-peaks {file} --json   # peak list and the tallest peak (ppm); --integrate A:B for integrals"
+                    ));
+                }
+            }
             "chromatography" => {
                 out.push(format!(
                     "openreadout analyze peaks {file} --json   # integrated peaks (RT, area, height, area %, S/N)"
