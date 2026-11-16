@@ -1090,6 +1090,61 @@ impl Dataset for NmrMatrixDataset {
     }
 }
 
+/// What an export of an NMR data set reads instead of what was named.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ExportSelection {
+    /// The trace to export (a slice's derived trace), if it changed.
+    pub trace: Option<u32>,
+    /// The table to export (the matrix table), if it changed.
+    pub table: Option<u32>,
+}
+
+/// The export of an NMR data set (`export`, MCP `openreadout_export`): with `slice`, that slice
+/// of the 2D spectrum `trace` as a trace; else a `csv`, `parquet` or `arrow` export (`format`
+/// `None` = the default) of a stored or processed 2D/3D spectrum, named by `trace` or the
+/// first one when no trace, table or sweep is named, writes the matrix in long form (one row
+/// per point, a column per dimension, `intensity`); JCAMP-DX writes 2D spectra itself.
+/// `None` when nothing changes.
+pub fn export_view(
+    ds: Box<dyn Dataset>,
+    trace: Option<u32>,
+    table: Option<u32>,
+    sweep: Option<u32>,
+    slice: Option<&str>,
+    format: Option<&str>,
+) -> Result<(Box<dyn Dataset>, Option<ExportSelection>)> {
+    if let Some(s) = slice {
+        let spec = SliceSpec::parse(s)?;
+        let w = NmrMatrixDataset::new(ds, trace, &[spec])?;
+        let t = w.slice_trace(0);
+        return Ok((
+            Box::new(w),
+            Some(ExportSelection {
+                trace: t,
+                table: None,
+            }),
+        ));
+    }
+    let info = ds.info()?;
+    let tabular = matches!(format, None | Some("csv" | "parquet" | "arrow"));
+    if info.format.family != "nmr" || table.is_some() || sweep.is_some() || !tabular {
+        return Ok((ds, None));
+    }
+    let vendor = ds.vendor_metadata().unwrap_or(Value::Null);
+    let matrix = info
+        .traces
+        .iter()
+        .filter(|t| trace.is_none_or(|i| t.index == i))
+        .find(|t| matrix_layout(t, &vendor).is_some())
+        .map(|t| t.index);
+    let Some(t) = matrix else {
+        return Ok((ds, None));
+    };
+    let w = NmrMatrixDataset::new(ds, Some(t), &[])?.with_matrix_table()?;
+    let table = w.matrix_table();
+    Ok((Box::new(w), Some(ExportSelection { trace: None, table })))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

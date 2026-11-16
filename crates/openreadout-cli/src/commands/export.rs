@@ -995,58 +995,28 @@ fn nmr_view(
     req: &ExportRequest,
     to: Option<ExportFormat>,
 ) -> Result<(Box<dyn openreadout_core::Dataset>, Option<ExportRequest>)> {
-    if req.slice.slice.is_some() {
-        let (ds, t) = req.slice.wrap(ds, req.csv.trace)?;
-        let mut r = req.clone();
-        r.csv.trace = t;
-        r.csv.sweep = None;
-        return Ok((ds, Some(r)));
-    }
-    let info = ds.info()?;
-    if info.format.family != "nmr"
-        || req.csv.table.is_some()
-        || req.csv.sweep.is_some()
-        || req.process.process
-        || !matches!(
-            to,
-            None | Some(
-                ExportFormat::Csv
-                    | ExportFormat::Parquet
-                    | ExportFormat::Arrow
-                    | ExportFormat::Jcamp
-            )
-        )
-    {
-        return Ok((ds, None));
-    }
-    let vendor = ds.vendor_metadata().unwrap_or(serde_json::Value::Null);
-    let is_matrix = |t: &&openreadout_core::model::TraceInfo| {
-        openreadout_signal::nmr::source2d::matrix_layout(t, &vendor).is_some()
-    };
-    let matrix = match req.csv.trace {
-        Some(i) => info.traces.iter().filter(|t| t.index == i).find(is_matrix),
-        None => info.traces.iter().find(is_matrix),
-    };
-    let Some(t) = matrix.map(|t| t.index) else {
+    let (ds, sel) = openreadout_signal::nmr::slices2d::export_view(
+        ds,
+        req.csv.trace,
+        req.csv.table,
+        req.csv.sweep,
+        req.slice.slice.as_deref(),
+        to.map(ExportFormat::name),
+    )?;
+    let Some(sel) = sel else {
         return Ok((ds, None));
     };
-    if to == Some(ExportFormat::Jcamp) {
-        // SEAM (JCAMP-DX nD writer): an `nD NMR SPECTRUM` NTUPLES writer belongs with the
-        // JCAMP-DX reader in openreadout-nmr (`export_jcamp`); until it exists the matrix goes
-        // to the tabular formats only.
-        return Err(Error::unsupported(
-            "export",
-            format!("JCAMP-DX export of the 2D spectrum (trace {t})"),
-            "Writing JCAMP-DX nD NMR SPECTRUM files is not available yet. Export the matrix with `--format parquet` or `--format csv` (one row per point, both shift axes), or one row as a 1-D JCAMP-DX spectrum with `--trace N --sweep M --format jcamp`.",
-        ));
-    }
-    let w =
-        openreadout_signal::nmr::NmrMatrixDataset::new(ds, Some(t), &[])?.with_matrix_table()?;
     let mut r = req.clone();
-    r.csv.table = w.matrix_table();
-    r.csv.trace = None;
-    r.csv.sweep = None;
-    Ok((Box::new(w), Some(r)))
+    if sel.trace.is_some() {
+        r.csv.trace = sel.trace;
+        r.csv.sweep = None;
+    }
+    if sel.table.is_some() {
+        r.csv.table = sel.table;
+        r.csv.trace = None;
+        r.csv.sweep = None;
+    }
+    Ok((ds, Some(r)))
 }
 
 /// `--rows A-B` parsed, when given.
