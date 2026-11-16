@@ -11,8 +11,8 @@
 //!   so contours, slices, projections and the matrix export work on it; a series as one 1-D
 //!   spectrum per row with `extra.series` (what was varied, its values and unit).
 //! - [`NdChoices`]: the per-dimension processing flags (`--lb f1=0.3`, MCP `dimensions`) as
-//!   [`NdOptions`]. `--nus` is accepted for the reconstruction choice; the only mode today is
-//!   the zero-filled grid `load_processed_nd` builds.
+//!   [`NdOptions`]. `--nus` chooses how non-uniformly sampled data are reconstructed
+//!   ([`NdChoices::nus_mode`]).
 
 use std::collections::BTreeMap;
 use std::sync::Mutex;
@@ -26,6 +26,7 @@ use openreadout_core::{Dataset, Error, Plane, PlaneIndex, Result};
 use crate::nmr::analysis::is_fid_nd;
 use crate::nmr::baseline::BaselineMode;
 use crate::nmr::indirect::{load_processed_nd, nd_parameters};
+use crate::nmr::nus::{self, NusMode};
 use crate::nmr::process::{Apodization, PhaseMode};
 use crate::nmr::processnd::{DimensionOptions, Encoding, NdOptions, NdRecord, SpectrumNd};
 use crate::nmr::source2d::{MatrixRequest, StoredMatrix, normalize_nucleus};
@@ -45,7 +46,8 @@ pub struct DimensionChoice {
 }
 
 /// The NUS reconstruction modes accepted by `--nus` (MCP `nus`).
-pub const NUS_MODES: &str = "default or zero-fill";
+pub const NUS_MODES: &str =
+    "default (reconstruct), zero-fill, or ist[:ITERATIONS] (iterative soft thresholding)";
 
 /// Processing choices for a multidimensional FID.
 #[derive(Debug, Clone, Default, PartialEq)]
@@ -57,23 +59,44 @@ pub struct NdChoices {
     pub by_dimension: BTreeMap<usize, DimensionChoice>,
     /// Ignore the digital-filter group delay.
     pub ignore_group_delay: bool,
-    /// Non-uniform sampling: `default` or `zero-fill` (the zero-filled grid; reconstruction
-    /// modes plug in here).
+    /// Non-uniform sampling: `default` (reconstruct), `zero-fill` or `ist[:ITERATIONS]`.
     pub nus: Option<String>,
 }
 
 impl NdChoices {
     /// Check the choices that do not depend on the data set.
     pub fn check(&self) -> Result<()> {
-        match self.nus.as_deref().map(str::to_ascii_lowercase).as_deref() {
-            None | Some("default" | "zero-fill" | "zero_fill" | "zerofill") => Ok(()),
-            Some(other) => Err(Error::unsupported(
+        self.nus_mode().map(|_| ())
+    }
+
+    /// The reconstruction `nus` names: `default`, `zero-fill`, or `ist` (iterative soft
+    /// thresholding) with an optional iteration cap, `ist:N`.
+    pub fn nus_mode(&self) -> Result<NusMode> {
+        let Some(text) = self.nus.as_deref() else {
+            return Ok(NusMode::Default);
+        };
+        let text = text.trim().to_ascii_lowercase();
+        let unknown = || {
+            Error::unsupported(
                 "nmr-processing",
-                format!("NUS reconstruction {other:?}"),
-                format!(
-                    "The NUS modes available are {NUS_MODES} (the measured rows on the full grid, zeros elsewhere); other reconstructions are not available yet."
-                ),
-            )),
+                format!("NUS reconstruction {text:?}"),
+                format!("The NUS modes available are {NUS_MODES}."),
+            )
+        };
+        match text.as_str() {
+            "default" => Ok(NusMode::Default),
+            "zero-fill" | "zero_fill" | "zerofill" => Ok(NusMode::ZeroFill),
+            "ist" => Ok(NusMode::IterativeSoftThreshold {
+                iterations: nus::DEFAULT_ITERATIONS,
+                convergence: nus::DEFAULT_CONVERGENCE,
+            }),
+            other => match other.strip_prefix("ist:").map(str::parse::<usize>) {
+                Some(Ok(iterations)) if iterations > 0 => Ok(NusMode::IterativeSoftThreshold {
+                    iterations,
+                    convergence: nus::DEFAULT_CONVERGENCE,
+                }),
+                _ => Err(unknown()),
+            },
         }
     }
 
@@ -103,6 +126,7 @@ impl NdChoices {
         };
         let mut opts = NdOptions {
             ignore_group_delay: self.ignore_group_delay,
+            nus: self.nus_mode().unwrap_or_default(),
             ..NdOptions::default()
         };
         apply(&mut opts.direct, &self.direct);

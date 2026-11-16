@@ -153,8 +153,8 @@ pub struct ProcessArgs {
     /// `poly:N`. 2D: `f2=MODE` for one dimension (default none in 2D).
     #[arg(long, value_name = "[fN=]MODE", requires = "process")]
     pub process_baseline: Vec<String>,
-    /// With `--process`, 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured
-    /// rows on the full grid, zeros elsewhere).
+    /// With `--process`, 2D FIDs sampled non-uniformly: `default` (reconstruct the missing
+    /// increments), `zero-fill` or `ist[:ITERATIONS]`.
     #[arg(long, value_name = "MODE", requires = "process")]
     pub nus: Option<String>,
 }
@@ -232,8 +232,8 @@ pub struct NmrPeaksArgs {
     /// Do not remove the digital-filter group delay.
     #[arg(long)]
     pub no_group_delay: bool,
-    /// 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured rows on the full
-    /// grid, zeros elsewhere).
+    /// 2D FIDs sampled non-uniformly: `default` (reconstruct the missing increments),
+    /// `zero-fill` or `ist[:ITERATIONS]`.
     #[arg(long, value_name = "MODE")]
     pub nus: Option<String>,
     /// Minimum peak height as a multiple of the noise SD.

@@ -412,7 +412,14 @@ fn refusals_carry_hints() {
         .unwrap();
     assert_eq!(out.status.code(), Some(6));
     let out = bin()
-        .args(["analyze", "nmr-peaks", "--json", "--nus", "ist", s(&exp)])
+        .args([
+            "analyze",
+            "nmr-peaks",
+            "--json",
+            "--nus",
+            "unknown-mode",
+            s(&exp),
+        ])
         .output()
         .unwrap();
     assert_eq!(out.status.code(), Some(6));

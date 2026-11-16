@@ -723,4 +723,4 @@ lazily from a reader, the second works on a matrix already in memory.
 | `SliceSpec`, `SLICE_FORMS`, `ProjectionMethod`, `Slice`, `read_slice`, `source_trace`, `NmrMatrixDataset`, `slice_trace`, `with_matrix_table`, `matrix_table`, `ExportSelection`, `export_view`, `too_many` | slices, projections and the matrix table |
 | `PooledRequest`, `PooledView`, `cells`, `cols`, `cell_ppm`, `f1_projection`, `f2_projection`, `read_pooled` | the reduced view for drawing |
 | `DimensionAxis`, `quantity`, `is_shift`, `slug`, `unshow`, `dimension_axes` | what an axis measures |
-| `NdChoices`, `DimensionChoice`, `by_dimension`, `NUS_MODES`, `fid_matrix`, `ProcessedNdDataset`, `process_all`, `process_nd_dataset`, `process_any`, `has_fid_nd`, `is_series` | multidimensional FIDs on the 2D surface |
+| `NdChoices`, `DimensionChoice`, `by_dimension`, `NUS_MODES`, `nus_mode`, `fid_matrix`, `ProcessedNdDataset`, `process_all`, `process_nd_dataset`, `process_any`, `has_fid_nd`, `is_series` | multidimensional FIDs on the 2D surface |

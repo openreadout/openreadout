@@ -52,7 +52,7 @@ Each export is written under a temporary name, read back and compared with the s
 - `--centroid`: mzML: write the instrument's centroid lists instead of profiles where a scan has both.
 - `--process`: NMR: export FIDs as spectra processed by OpenReadout. Stored spectra are unchanged.
 - `--process-phase MODE`, `--process-lb HZ`, `--process-gb HZ`, `--process-size N`, `--process-baseline MODE`: processing settings. See [`analyze nmr-peaks`](analyze.md#nmr-peaks). A 2D FID (`ser`) is transformed in every dimension; give a value for one dimension with `f1=` (`--process-lb f1=2`), a value without a dimension is the direct one.
-- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured rows on the full grid).
+- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` (reconstruct the missing increments), `zero-fill` or `ist[:ITERATIONS]`.
 - `--slice SPEC`: 2D NMR spectra: read a slice as a 1-D spectrum: `row:PPM` (the F2 trace at an F1 shift), `column:PPM` (the F1 trace at an F2 shift), or a projection `skyline:f1|f2`, `min:f1|f2`, `sum:f1|f2`. `--trace` picks the 2D spectrum.
 
 A CSV, Parquet or Arrow export of a 2D NMR spectrum (stored, or processed with `--process`) writes its matrix in long form: one row per point, with `f1_ppm`, `f2_ppm` and `intensity` (a J-resolved F1 is `f1_hz`). `--trace` picks the spectrum; `--sweep` exports one row instead. `--format jcamp --trace N` writes a 2D spectrum as a JCAMP-DX `nD NMR SPECTRUM`.

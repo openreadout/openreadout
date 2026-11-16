@@ -67,7 +67,7 @@ An SVG preview is layered for editing, like one from [`plot`](plot.md): the imag
 
 - `--process`: draw FIDs as spectra processed by OpenReadout.
 - `--process-phase MODE`, `--process-lb HZ`, `--process-gb HZ`, `--process-size N`, `--process-baseline MODE`: processing settings. See [`analyze nmr-peaks`](analyze.md#nmr-peaks). A 2D FID (`ser`) is transformed in every dimension; give a value for one dimension with `f1=` (`--process-lb f1=2`), a value without a dimension is the direct one.
-- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` or `zero-fill` (the measured rows on the full grid).
+- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` (reconstruct the missing increments), `zero-fill` or `ist[:ITERATIONS]`.
 - `--slice SPEC`: 2D NMR spectra: read a slice as a 1-D spectrum: `row:PPM` (the F2 trace at an F1 shift), `column:PPM` (the F1 trace at an F2 shift), or a projection `skyline:f1|f2`, `min:f1|f2`, `sum:f1|f2`. `--trace` picks the 2D spectrum.
 - `--y-range A:B`: 2D NMR: only this window of F1 (ppm; Hz for a J-resolved spectrum). `--x-range` is the F2 window.
 - `--contour-floor X`: 2D NMR: the lowest contour in noise SDs. Default 6.

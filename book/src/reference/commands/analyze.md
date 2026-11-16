@@ -111,7 +111,7 @@ The input is a Bruker experiment directory, a Varian `.fid` directory, a JEOL `.
 - `--size N`: transform size in complex points (a power of two).
 - `--baseline MODE`: `default`, `none` or `poly:N`.
 - `--no-group-delay`: keep the digital-filter group delay.
-- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` or `zero-fill`.
+- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` (reconstruct the missing increments), `zero-fill` or `ist[:ITERATIONS]`.
 - `--min-snr X`: minimum peak height in noise SDs. Default 10.
 - `--min-prominence X`: minimum prominence in noise SDs. Default 5.
 - `--min-height-fraction F`: minimum height as a fraction of the tallest point. Default 0.
