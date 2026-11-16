@@ -139,7 +139,7 @@ struct Row {
 fn bruker_2d_matches_topspin() {
     let dir = files_dir();
     let mut list = Vec::new();
-    find_2rr(&dir, 6, &mut list);
+    find_2rr(&dir, 8, &mut list);
     list.sort();
     // only data sets listed in the manifest (docs/legal/clean-room-policy.md rule 1)
     let manifest = std::fs::read_to_string(root().join("corpus/manifest.toml")).unwrap_or_default();
@@ -330,7 +330,7 @@ fn bruker_2d_matches_topspin() {
             "nus"
         } else if bc >= 5 {
             "solvent filter"
-        } else if pp.contains("mp3q") || pp.contains("mqmas") {
+        } else if pp.contains("mp3q") || pp.contains("mqmas") || pp.contains("3q") {
             // solid-state multiple-quantum MAS: needs a shearing transformation
             "mqmas"
         } else if series {
