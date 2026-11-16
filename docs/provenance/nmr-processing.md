@@ -189,7 +189,8 @@ MestReNova JCAMP-DX export of the `nmrxiv-s200` limonene HSQC (`nD NMR SPECTRUM`
 
 **Corpus files used:** the non-uniformly sampled Bruker experiments with a `nuslist` and TopSpin's
 reconstructed `pdata/1/2rr` in bundles the manifest lists outside the held-out tier: nmrXiv
-s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15 (CC-BY-4.0, CC0). The fully sampled
+s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15 (CC-BY-4.0, CC0), and the MQMAS
+pair `desperate-rbno3-mqmas-30` (NUS) and `-20` (its fully sampled twin; DESPERATE, MIT). The fully sampled
 experiments of the 2026-11-14 parity table that match TopSpin at ≥ 0.999 without linear
 prediction, with increments removed here to simulate sampling. For the 1D phase: the 1D Bruker
 experiments of the manifest with DSPFVS 11 or 12 and a stored `1r` (nmrXiv s572/1).
@@ -225,3 +226,16 @@ experiments of the manifest with DSPFVS 11 or 12 and a stored `1r` (nmrXiv s572/
   sequences u + i·v and u − i·v, each one exponential per line; echo/antiecho rows are such
   sequences already. Each is reconstructed on its own and the pair recombined (from the
   published description of hypercomplex sampling, States et al. 1982, already in this log).
+- s279/24 lists 192 entries for 131 distinct increments: TopSpin schedules can measure an
+  increment more than once. Such increments take the mean of their measurements.
+- Tuning on the simulated sampling of the fully sampled sets (`tests/nmr_nus.rs`): a floor at
+  half the noise level and reconstructing three quarters of the columns gave correlations within
+  0.001 and two to three times the run time, so the floor stays at the noise level; raising the
+  iteration cap from 400 to 1000 found a few more weak COSY and NOESY cross peaks. Results in
+  docs/formats/nmr-processing.md.
+- DSPFVS 11/12 in 1D: the rule now sits in `source::fid_parameters`, which both the 1D and the
+  nD path use. s572/1 (`zg`, DSPFVS 12, table delay 72.125) with the stored phase plus 180°:
+  signal correlation 1.000000 with `1r`. It is the only manifest-listed 1D experiment with that
+  firmware and a stored `1r`; the 1D parity test (49 experiments) is unchanged.
+- J-resolved: no manifest-listed experiment has a tilted `2rr`, so the sign of `tilt` stays
+  unverified.
