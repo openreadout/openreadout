@@ -503,8 +503,8 @@ impl Dataset for ItcDataset {
             .into_iter()
             .map(|(c, _, _)| self.itc.columns[c][a..b].to_vec())
             .collect();
-        for c in 3..self.itc.columns.len() {
-            channels.push(self.itc.columns[c][a..b].to_vec());
+        for column in self.itc.columns.iter().skip(3) {
+            channels.push(column[a..b].to_vec());
         }
         Ok(Trace {
             trace: 0,

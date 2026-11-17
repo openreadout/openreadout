@@ -162,8 +162,7 @@ fn prune_vendor(vendor: &Path) -> Result<()> {
         // Makevars build sets WINAPI_NO_BUNDLED_LIBRARIES so the crate links against those.
         let name = dir
             .file_name()
-            .map(|n| n.to_string_lossy().to_string())
-            .unwrap_or_default();
+            .map_or_default(|n| n.to_string_lossy().to_string());
         if name.starts_with("winapi-")
             && name.contains("-pc-windows-gnu-")
             && dir.join("lib").is_dir()

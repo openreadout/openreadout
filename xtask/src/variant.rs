@@ -399,31 +399,27 @@ struct Seen {
 
 fn seen(report: &serde_json::Value) -> Seen {
     let a = &report["assurance"];
-    let unvalidated = a["variant"]
-        .as_array()
-        .map(|v| {
-            v.iter()
-                .filter(|f| f["status"] != "validated")
-                .map(|f| {
-                    let scope: Vec<&str> = f["scope"]
-                        .as_array()
-                        .map(|s| s.iter().filter_map(|x| x.as_str()).collect())
-                        .unwrap_or_default();
-                    format!(
-                        "{}={} ({}; {})",
-                        f["kind"].as_str().unwrap_or_default(),
-                        f["value"].as_str().unwrap_or_default(),
-                        f["status"].as_str().unwrap_or_default(),
-                        if scope.is_empty() {
-                            "descriptive".to_string()
-                        } else {
-                            scope.join(",")
-                        }
-                    )
-                })
-                .collect()
-        })
-        .unwrap_or_default();
+    let unvalidated = a["variant"].as_array().map_or_default(|v| {
+        v.iter()
+            .filter(|f| f["status"] != "validated")
+            .map(|f| {
+                let scope: Vec<&str> = f["scope"]
+                    .as_array()
+                    .map_or_default(|s| s.iter().filter_map(|x| x.as_str()).collect());
+                format!(
+                    "{}={} ({}; {})",
+                    f["kind"].as_str().unwrap_or_default(),
+                    f["value"].as_str().unwrap_or_default(),
+                    f["status"].as_str().unwrap_or_default(),
+                    if scope.is_empty() {
+                        "descriptive".to_string()
+                    } else {
+                        scope.join(",")
+                    }
+                )
+            })
+            .collect()
+    });
     let mut unvalidated: Vec<String> = unvalidated;
     for u in a["undecoded"].as_array().into_iter().flatten() {
         unvalidated.push(format!(
@@ -432,22 +428,19 @@ fn seen(report: &serde_json::Value) -> Seen {
             u["detail"].as_str().unwrap_or_default()
         ));
     }
-    let failing = report["stages"]
-        .as_array()
-        .map(|v| {
-            v.iter()
-                .filter(|s| s["status"] == "error" || s["status"] == "panic")
-                .map(|s| {
-                    format!(
-                        "{}: {}: {}",
-                        s["stage"].as_str().unwrap_or_default(),
-                        s["error"]["code"].as_str().unwrap_or_default(),
-                        s["error"]["message"].as_str().unwrap_or_default()
-                    )
-                })
-                .collect()
-        })
-        .unwrap_or_default();
+    let failing = report["stages"].as_array().map_or_default(|v| {
+        v.iter()
+            .filter(|s| s["status"] == "error" || s["status"] == "panic")
+            .map(|s| {
+                format!(
+                    "{}: {}: {}",
+                    s["stage"].as_str().unwrap_or_default(),
+                    s["error"]["code"].as_str().unwrap_or_default(),
+                    s["error"]["message"].as_str().unwrap_or_default()
+                )
+            })
+            .collect()
+    });
     let info_ok = report["stages"].as_array().is_some_and(|v| {
         v.iter()
             .any(|s| s["stage"] == "info" && s["status"] == "ok")
@@ -570,10 +563,7 @@ fn intake_with(root: &Path, corpus: &Path, a: &IntakeArgs, cli: Cli<'_>) -> Resu
     if manifest.iter().any(|e| e.id == id) {
         bail!("corpus id `{id}` is taken; pass --id");
     }
-    let mut record = existing
-        .as_ref()
-        .map(|(_, r)| r.clone())
-        .unwrap_or_default();
+    let mut record = existing.as_ref().map_or_default(|(_, r)| r.clone());
     record.id.clone_from(&id);
     record.format.clone_from(&format);
     if record.opened.is_empty() {
@@ -838,8 +828,7 @@ fn export_entry(
         .map_or_else(
             || {
                 ex.extension()
-                    .map(|e| e.to_string_lossy().to_ascii_lowercase())
-                    .unwrap_or_default()
+                    .map_or_default(|e| e.to_string_lossy().to_ascii_lowercase())
             },
             str::to_string,
         );
@@ -939,8 +928,7 @@ fn next_steps(
     let export = r
         .exports
         .first()
-        .map(|e| format!("--export ../corpus/files/{e} "))
-        .unwrap_or_default();
+        .map_or_default(|e| format!("--export ../corpus/files/{e} "));
     step(format!(
         "Ground truth: cd oracle && uv run python gen.py {export}--id {id} {path}{}",
         if r.exports.is_empty() {

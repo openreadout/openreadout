@@ -201,12 +201,12 @@ impl NiftiDataset {
                 1
             }
         };
-        for i in 1..=n as usize {
-            if hdr.dim[i] < 0 {
+        for (i, &size) in hdr.dim.iter().enumerate().take(n as usize + 1).skip(1) {
+            if size < 0 {
                 return Err(Error::corrupt_at(
                     FORMAT_ID,
                     40,
-                    format!("dim[{i}] = {} is negative", hdr.dim[i]),
+                    format!("dim[{i}] = {size} is negative"),
                 ));
             }
         }

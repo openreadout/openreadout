@@ -186,19 +186,17 @@ fn profile_calls(text: &str) -> Vec<(String, String)> {
                         .split("K::")
                         .nth(1)
                         .or_else(|| args.split("FeatureKind::").nth(1))
-                        .map(|k| {
+                        .map_or_default(|k| {
                             k.chars()
                                 .take_while(char::is_ascii_alphanumeric)
                                 .collect::<String>()
-                        })
-                        .unwrap_or_default();
+                        });
                     if kind.is_empty() {
                         continue; // the definition in core, or a helper forwarding a kind
                     }
-                    let value = args
-                        .split_once(',')
-                        .map(|(_, v)| v.rsplit_once(", &[").map_or(v, |(x, _)| x).trim())
-                        .unwrap_or_default();
+                    let value = args.split_once(',').map_or_default(|(_, v)| {
+                        v.rsplit_once(", &[").map_or(v, |(x, _)| x).trim()
+                    });
                     format!(
                         "{} `{}`{}",
                         snake(&kind),

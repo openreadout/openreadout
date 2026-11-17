@@ -33,8 +33,7 @@ pub fn parse_sums(text: &str) -> Result<BTreeMap<String, String>> {
         let sha = parts.next().unwrap_or_default().to_ascii_lowercase();
         let name = parts
             .next()
-            .map(|n| n.trim_start().trim_start_matches('*'))
-            .unwrap_or_default();
+            .map_or_default(|n| n.trim_start().trim_start_matches('*'));
         if sha.len() != 64 || !sha.bytes().all(|b| b.is_ascii_hexdigit()) || name.is_empty() {
             bail!(
                 "SHA256SUMS line {}: expected `<64 hex digits>  <file>`",
