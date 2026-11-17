@@ -484,7 +484,10 @@ fn report_snapshot() {
         std::fs::write(&path, &text).unwrap();
         return;
     }
-    let want = std::fs::read_to_string(&path).unwrap();
+    // a Windows checkout may store the snapshot with CRLF line endings
+    let want = std::fs::read_to_string(&path)
+        .unwrap()
+        .replace("\r\n", "\n");
     assert_eq!(
         text, want,
         "the 2D report changed; review, then rerun with SNAPSHOT_ACCEPT=1"
