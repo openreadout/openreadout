@@ -165,7 +165,14 @@ fn root() -> PathBuf {
 /// The CLI binary next to this test executable, (re)built first (as in `malformed.rs`).
 fn cli_binary() -> PathBuf {
     let exe = std::env::current_exe().unwrap();
-    let profile_dir = exe.parent().and_then(Path::parent).unwrap().to_path_buf();
+    // The profile directory (`target/debug`, `target/corpus`) is above `deps/`, where cargo
+    // put test binaries up to 1.99, or above `build/<package>/<hash>/out/`, where 1.100 puts them.
+    let profile_dir = exe
+        .ancestors()
+        .find(|a| a.file_name().is_some_and(|n| n == "deps" || n == "build"))
+        .and_then(Path::parent)
+        .unwrap()
+        .to_path_buf();
     let bin = profile_dir.join(format!("openreadout{}", std::env::consts::EXE_SUFFIX));
     let cargo = std::env::var_os("CARGO").unwrap_or_else(|| "cargo".into());
     let mut cmd = Command::new(cargo);
