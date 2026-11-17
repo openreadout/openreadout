@@ -12,7 +12,7 @@
 //! | `field<v`, `<=`, `>`, `>=` | compare numbers (with units: `size>1GB`, `rate>=20kHz`, `pixel<0.2um`, `duration>30min`) or dates (`acquired<2020`, `acquired>=2021-06`) |
 //! | `field:value` | has the term: `technique:FBbi_00000246` (`_` or `:`), or a label word (`technique:confocal`); on other fields, contains |
 //! | `-term` | negation of any term |
-//! | `a|b` | alternatives within one term: `format=czi|nd2|lif` |
+//! | `a\|b` | alternatives within one term: `format=czi\|nd2\|lif` |
 //! | `word` | a bare word matches if the path, sample, method, measurement, channels, instrument, technique, format or operator contains it |
 //! | `"a b"` | quotes keep spaces in a value: `sample~"plate 3"` |
 //!
