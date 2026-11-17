@@ -18,7 +18,7 @@ use serde_json::{Value, json};
 
 use crate::varian_layout::{
     BLOCK_HEADER_BYTES, BlockHeader, FILE_HEADER_BYTES, FidHeader, VarianSampleType, decode_varian,
-    find_varian_experiments_in, resolve_varian_dir_in,
+    find_varian_experiments_in, resolve_varian_dir_in, varian_workspace_in,
 };
 use crate::varian_procpar::{Procpar, ProcparValues, parse_procpar};
 use crate::{VARIAN_FORMAT_ID, VarianReader};
@@ -49,6 +49,197 @@ pub struct VarianDataset {
     text: Option<String>,
     first_block: Option<BlockHeader>,
     files: Vec<(String, u64)>,
+    /// The experiment workspace above an `acqfil` directory (`curpar`, `datdir/`).
+    workspace: Option<PathBuf>,
+    /// `datdir/phasefile`, the processed (phased) spectrum, when present and readable.
+    phasefile: Option<BlockFile>,
+    /// The workspace's `curpar` (current parameters, processing included).
+    curpar: Option<Procpar>,
+}
+
+/// A VnmrJ data file other than `fid` laid out as header + blocks (`datdir/phasefile`).
+#[derive(Debug, Clone)]
+struct BlockFile {
+    /// Path relative to the directory listing (`datdir/phasefile`).
+    name: String,
+    path: PathBuf,
+    header: FidHeader,
+    len: u64,
+    sample_type: std::result::Result<VarianSampleType, String>,
+}
+
+impl BlockFile {
+    fn open(fs: &Fs, path: &Path, name: String) -> Option<Self> {
+        let mut f = fs.open(path).ok()?;
+        let len = f.metadata().ok()?.len();
+        let mut head = [0u8; 32];
+        f.read_exact(&mut head).ok()?;
+        let header = FidHeader::parse(&head)?;
+        let sample_type = if header.problems().is_empty() {
+            header.sample_type()
+        } else {
+            Err(header.problems().join("; "))
+        };
+        Some(BlockFile {
+            name,
+            path: path.to_path_buf(),
+            header,
+            len,
+            sample_type,
+        })
+    }
+    /// Status bit 0x10: values are real/imaginary pairs.
+    fn complex(&self) -> bool {
+        (self.header.status as u16) & 0x10 != 0
+    }
+    fn traces(&self) -> u64 {
+        u64::try_from(self.header.block_count)
+            .unwrap_or(0)
+            .saturating_mul(u64::try_from(self.header.traces_per_block).unwrap_or(0))
+    }
+}
+
+/// Read samples `[first, first + max)` of trace `sweep` of a header + blocks file: real/imaginary
+/// pairs when `complex`, else one real channel.
+#[allow(clippy::too_many_arguments)]
+fn read_block_trace(
+    fs: &Fs,
+    path: &Path,
+    h: &FidHeader,
+    file_len: u64,
+    ty: VarianSampleType,
+    complex: bool,
+    sweep: u32,
+    first: u64,
+    max: u64,
+) -> Result<Vec<Vec<f64>>> {
+    let ntr = u64::try_from(h.traces_per_block).unwrap_or(1).max(1);
+    let sweeps = u64::try_from(h.block_count)
+        .unwrap_or(0)
+        .saturating_mul(ntr);
+    if u64::from(sweep) >= sweeps {
+        return Err(Error::Usage(format!(
+            "sweep {sweep} out of range ({sweeps} sweeps)"
+        )));
+    }
+    let per = if complex { 2 } else { 1 };
+    let n = u64::try_from(h.points).unwrap_or(0) / per;
+    if first > n {
+        return Err(Error::Usage(format!(
+            "first sample {first} is past the end ({n} samples)"
+        )));
+    }
+    let count = max.min(n - first).min(MAX_READ_VALUES);
+    let (block, tr) = (u64::from(sweep) / ntr, u64::from(sweep) % ntr);
+    let w = ty.width();
+    let overflow = || Error::corrupt(VARIAN_FORMAT_ID, "offset overflows");
+    let offset = block
+        .checked_mul(u64::try_from(h.block_bytes).unwrap_or(0))
+        .and_then(|o| o.checked_add(FILE_HEADER_BYTES))
+        .and_then(|o| {
+            o.checked_add(
+                u64::try_from(h.block_headers)
+                    .unwrap_or(0)
+                    .checked_mul(BLOCK_HEADER_BYTES)?,
+            )
+        })
+        .and_then(|o| o.checked_add(tr.checked_mul(u64::try_from(h.trace_bytes).unwrap_or(0))?))
+        .and_then(|o| o.checked_add(first.checked_mul(per)?.checked_mul(w)?))
+        .ok_or_else(overflow)?;
+    let len = count
+        .checked_mul(per)
+        .and_then(|v| v.checked_mul(w))
+        .ok_or_else(overflow)?;
+    let end = offset.checked_add(len).ok_or_else(overflow)?;
+    let file = path
+        .file_name()
+        .map_or_else(String::new, |n| n.to_string_lossy().to_string());
+    if end > file_len {
+        return Err(Error::corrupt_at(
+            VARIAN_FORMAT_ID,
+            offset,
+            format!(
+                "{file} needs bytes up to {end} for sweep {sweep} but has {file_len} (truncated)"
+            ),
+        ));
+    }
+    let mut f = fs.open(path).map_err(|e| Error::io(path, e))?;
+    f.seek(SeekFrom::Start(offset))
+        .map_err(|e| Error::io(path, e))?;
+    let mut buf = vec![
+        0u8;
+        usize::try_from(len)
+            .map_err(|_| Error::corrupt(VARIAN_FORMAT_ID, "read too large"))?
+    ];
+    f.read_exact(&mut buf).map_err(|e| Error::io(path, e))?;
+    let vals = decode_varian(&buf, ty);
+    if !complex {
+        return Ok(vec![vals]);
+    }
+    let mut re = Vec::with_capacity(count as usize);
+    let mut im = Vec::with_capacity(count as usize);
+    for pair in vals.as_chunks::<2>().0 {
+        re.push(pair[0]);
+        im.push(pair[1]);
+    }
+    Ok(vec![re, im])
+}
+
+/// One loop of the acquisition, as `extra.sweep_order` reports it.
+#[derive(Debug, Clone, PartialEq)]
+struct SweepLoop {
+    parameter: String,
+    size: u64,
+    dimension: Option<u32>,
+    kind: &'static str,
+}
+
+/// The loops that produce the FID's traces, slowest first: the increments `niN` … `ni` (those
+/// above 1), then the arrayed parameters in the order `array` names them (the last one changes
+/// fastest). This is the order nmrglue's `find_shape`/`find_torder` assume.
+fn sweep_loops(pp: &Procpar) -> Vec<SweepLoop> {
+    let mut out = Vec::new();
+    for (k, ni) in [(4u32, "ni3"), (3, "ni2"), (2, "ni")] {
+        if let Some(n) = pp
+            .real(ni)
+            .filter(|v| *v > 1.0 && v.fract() == 0.0 && *v < 1e12)
+        {
+            out.push(SweepLoop {
+                parameter: ni.into(),
+                size: n as u64,
+                dimension: Some(k),
+                kind: "increment",
+            });
+        }
+    }
+    for name in pp
+        .text("array")
+        .unwrap_or("")
+        .split(',')
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
+        let size = pp.get(name).map_or(0, |p| p.len() as u64);
+        let dimension = match name {
+            "phase" => Some(2),
+            "phase2" => Some(3),
+            "phase3" => Some(4),
+            _ => None,
+        };
+        if size > 1 || dimension.is_none() {
+            out.push(SweepLoop {
+                parameter: name.to_string(),
+                size,
+                dimension,
+                kind: if dimension.is_some() {
+                    "phase"
+                } else {
+                    "array"
+                },
+            });
+        }
+    }
+    out
 }
 
 fn read_limited(fs: &Fs, path: &Path, limit: u64) -> Option<Vec<u8>> {
@@ -185,10 +376,21 @@ impl VarianDataset {
         } else {
             Err(header.problems().join("; "))
         };
+        let workspace = varian_workspace_in(fs, &dir);
+        let root = workspace.clone().unwrap_or_else(|| dir.clone());
+        let phasefile = BlockFile::open(
+            fs,
+            &root.join("datdir").join("phasefile"),
+            "datdir/phasefile".into(),
+        );
+        let curpar = workspace
+            .as_ref()
+            .and_then(|w| read_limited(fs, &w.join("curpar"), MAX_PROCPAR))
+            .map(|b| parse_procpar(&b));
         Ok(VarianDataset {
             path: path.to_path_buf(),
             fs: fs.clone(),
-            files: list_files(fs, &dir),
+            files: list_files(fs, &root),
             dir,
             header,
             sample_type,
@@ -196,6 +398,9 @@ impl VarianDataset {
             procpar,
             text,
             first_block,
+            workspace,
+            phasefile,
+            curpar,
         })
     }
 
@@ -325,10 +530,10 @@ impl VarianDataset {
         }
         put(&mut e, "array_size", int("arraydim"));
         let mut dims = Vec::new();
-        for (k, (ni, sw_n, phase, dn)) in [
-            ("ni", "sw1", "phase", "dn"),
-            ("ni2", "sw2", "phase2", "dn2"),
-            ("ni3", "sw3", "phase3", "dn3"),
+        for (k, (ni, n_suffix, phase, dn, dfrq, coef)) in [
+            ("ni", "1", "phase", "dn", "dfrq", "f1coef"),
+            ("ni2", "2", "phase2", "dn2", "dfrq2", "f2coef"),
+            ("ni3", "3", "phase3", "dn3", "dfrq3", "f3coef"),
         ]
         .iter()
         .enumerate()
@@ -336,14 +541,19 @@ impl VarianDataset {
             let Some(n) = self.pp_real(ni).filter(|v| *v >= 1.0) else {
                 continue;
             };
+            let suffixed =
+                |name: &str| self.pp_real(&format!("{name}{n_suffix}")).map(|v| json!(v));
             let mut d = BTreeMap::new();
             d.insert("dimension".to_string(), json!(k + 2));
             d.insert("increments".to_string(), json!(n as i64));
-            put(
-                &mut d,
-                "spectral_width_hz",
-                self.pp_real(sw_n).map(|v| json!(v)),
-            );
+            put(&mut d, "spectral_width_hz", suffixed("sw"));
+            if let (Some(sw), Some(freq)) = (
+                self.pp_real(&format!("sw{n_suffix}")),
+                self.pp_real(dfrq).filter(|v| *v > 0.0),
+            ) {
+                d.insert("spectral_width_ppm".to_string(), json!(sw / freq));
+            }
+            d.insert("phase_parameter".to_string(), json!(phase));
             if let Some(ProcparValues::Real(v)) = self
                 .procpar
                 .as_ref()
@@ -357,10 +567,72 @@ impl VarianDataset {
                 "nucleus",
                 self.pp_text(dn).map(|t| json!(nucleus(t))),
             );
+            put(
+                &mut d,
+                "nucleus_parameter",
+                self.pp_text(dn).map(|_| json!(dn)),
+            );
+            put(
+                &mut d,
+                "spectrometer_frequency_mhz",
+                self.pp_real(dfrq).map(|v| json!(v)),
+            );
+            if let Some(c) = self.pp_text(coef) {
+                let nums: Vec<f64> = c
+                    .split_whitespace()
+                    .filter_map(|x| x.parse::<f64>().ok())
+                    .filter(|x| x.is_finite())
+                    .collect();
+                d.insert("coefficients".to_string(), json!(nums));
+                d.insert("coefficients_parameter".to_string(), json!(coef));
+            }
+            let mut stored = BTreeMap::new();
+            put(&mut stored, "transform_size", suffixed("fn"));
+            put(&mut stored, "line_broadening_hz", suffixed("lb"));
+            put(&mut stored, "gaussian_s", suffixed("gf"));
+            put(&mut stored, "gaussian_shift_s", suffixed("gfs"));
+            put(&mut stored, "sine_bell_s", suffixed("sb"));
+            put(&mut stored, "sine_bell_shift_s", suffixed("sbs"));
+            put(&mut stored, "phase0_deg", suffixed("rp"));
+            put(&mut stored, "phase1_deg", suffixed("lp"));
+            put(&mut stored, "reference_line_hz", suffixed("rfl"));
+            put(&mut stored, "reference_frequency_hz", suffixed("rfp"));
+            put(&mut stored, "reference_frequency_mhz", suffixed("reffrq"));
+            put(
+                &mut stored,
+                "transform",
+                self.pp_text(&format!("proc{n_suffix}")).map(|v| json!(v)),
+            );
+            if !stored.is_empty() {
+                d.insert("stored_processing".to_string(), json!(stored));
+            }
             dims.push(json!(d));
         }
         if !dims.is_empty() {
             e.insert("indirect_dimensions".into(), json!(dims));
+        }
+        if let Some(pp) = &self.procpar {
+            let loops = sweep_loops(pp);
+            if !loops.is_empty() {
+                let product = loops.iter().try_fold(1u64, |a, l| a.checked_mul(l.size));
+                let consistent = product == Some(self.sweeps());
+                e.insert(
+                    "sweep_order".into(),
+                    json!({
+                        "loops": loops.iter().map(|l| {
+                            let mut m = BTreeMap::new();
+                            m.insert("parameter".to_string(), json!(l.parameter));
+                            m.insert("size".to_string(), json!(l.size));
+                            m.insert("kind".to_string(), json!(l.kind));
+                            put(&mut m, "dimension", l.dimension.map(|d| json!(d)));
+                            json!(m)
+                        }).collect::<Vec<_>>(),
+                        "slowest_first": true,
+                        "matches_sweeps": consistent,
+                        "rule": "sweep s = Σ index(loop) × Π size(faster loops); the increments niN … ni change slowest, then the arrayed parameters in the order `array` names them (the last name fastest)",
+                    }),
+                );
+            }
         }
         e.insert("block_count".into(), json!(self.header.block_count));
         e.insert(
@@ -395,14 +667,77 @@ impl VarianDataset {
 
     /// Other processed or companion data in the directory (listed, not decoded).
     fn processed_files(&self) -> Vec<&str> {
+        let decoded = self.phasefile.as_ref().map(|p| p.name.as_str());
         self.files
             .iter()
             .map(|(n, _)| n.as_str())
             .filter(|n| {
                 let leaf = n.rsplit('/').next().unwrap_or(n);
-                matches!(leaf, "phasefile" | "data") || n.starts_with("datdir/")
+                (matches!(leaf, "phasefile" | "data") || n.starts_with("datdir/"))
+                    && Some(*n) != decoded
             })
             .collect()
+    }
+
+    /// `datdir/phasefile` as a trace: one sweep per stored trace, values as stored.
+    fn phasefile_trace_info(&self, pf: &BlockFile) -> TraceInfo {
+        let h = &pf.header;
+        let complex = pf.complex();
+        let dtype = pf.sample_type.as_ref().map_or("float32", |t| t.dtype());
+        let names: &[&str] = if complex {
+            &["real", "imag"]
+        } else {
+            &["real"]
+        };
+        let channels = names
+            .iter()
+            .enumerate()
+            .map(|(i, n)| SignalChannelInfo {
+                index: i as u32,
+                name: (*n).into(),
+                unit: None,
+                dtype: dtype.into(),
+                scale: 1.0,
+                offset: 0.0,
+                extra: BTreeMap::new(),
+            })
+            .collect();
+        let per = if complex { 2 } else { 1 };
+        let samples = u64::try_from(h.points).unwrap_or(0) / per;
+        let mut e = BTreeMap::new();
+        e.insert("kind".into(), json!("processed_spectrum"));
+        e.insert("file".into(), json!(pf.name));
+        e.insert("block_count".into(), json!(h.block_count));
+        e.insert("traces_per_block".into(), json!(h.traces_per_block));
+        e.insert("block_headers_per_block".into(), json!(h.block_headers));
+        e.insert("status_code".into(), json!(h.status as u16));
+        e.insert("status_flags".into(), json!(h.status_names()));
+        e.insert("byte_order".into(), json!("big-endian"));
+        if let Ok(t) = &pf.sample_type {
+            e.insert("sample_type".into(), json!(t.dtype()));
+        }
+        let pars = self.curpar.as_ref().or(self.procpar.as_ref());
+        let real = |k: &str| pars.and_then(|p| p.real(k)).map(|v| json!(v));
+        put(&mut e, "processed_dimensions", real("procdim"));
+        put(
+            &mut e,
+            "trace_direction",
+            pars.and_then(|p| p.text("trace")).map(|v| json!(v)),
+        );
+        e.insert(
+            "note".into(),
+            json!("the phased spectrum VnmrJ last displayed, as stored; its axes are not given here (which dimensions the plane holds is not recorded in the file header)"),
+        );
+        TraceInfo {
+            index: 1,
+            name: Some(pf.name.clone()),
+            sample_rate_hz: 0.0,
+            sample_count: samples,
+            sweep_count: u32::try_from(pf.traces()).unwrap_or(u32::MAX),
+            channels,
+            start_s: None,
+            extra: e,
+        }
     }
 }
 
@@ -497,7 +832,13 @@ impl Dataset for VarianDataset {
             images: Vec::new(),
             tables: Vec::new(),
             spectra: Vec::new(),
-            traces: vec![self.trace_info()],
+            traces: std::iter::once(self.trace_info())
+                .chain(
+                    self.phasefile
+                        .as_ref()
+                        .map(|p| self.phasefile_trace_info(p)),
+                )
+                .collect(),
             plane_count: 0,
             notes,
         })
@@ -520,6 +861,15 @@ impl Dataset for VarianDataset {
                 "right_phase": b.right_phase, "level": b.level, "tilt": b.tilt,
             })),
             "procpar": self.procpar.as_ref().map(Procpar::to_json),
+            "curpar": self.curpar.as_ref().map(Procpar::to_json),
+            "workspace": self.workspace.as_ref().map(|w| w.display().to_string()),
+            "phasefile_header": self.phasefile.as_ref().map(|p| json!({
+                "block_count": p.header.block_count, "traces_per_block": p.header.traces_per_block,
+                "points": p.header.points, "element_bytes": p.header.element_bytes,
+                "trace_bytes": p.header.trace_bytes, "block_bytes": p.header.block_bytes,
+                "version_code": p.header.version_code, "status": p.header.status as u16,
+                "status_flags": p.header.status_names(), "block_headers": p.header.block_headers,
+            })),
             "text": self.text,
         }))
     }
@@ -558,9 +908,15 @@ impl Dataset for VarianDataset {
 
     fn entries(&self) -> Result<Vec<LsEntry>> {
         let mut out = Vec::new();
+        let prefix = if self.workspace.is_some() {
+            "acqfil/"
+        } else {
+            ""
+        };
         for (name, size) in &self.files {
             let leaf = name.rsplit('/').next().unwrap_or(name);
-            let kind = match name.as_str() {
+            let own = name.strip_prefix(prefix).unwrap_or("");
+            let kind = match own {
                 "fid" => "time-domain",
                 "procpar" => "parameters",
                 "text" => "title",
@@ -580,7 +936,9 @@ impl Dataset for VarianDataset {
                     "parameters": self.procpar.as_ref().map_or(0, |p| p.params.len()),
                     "issues": self.procpar.as_ref().map_or(0, |p| p.issues.len()),
                 }),
-                "processed-data" => json!({"decoded": false}),
+                "processed-data" => {
+                    json!({"decoded": self.phasefile.as_ref().is_some_and(|p| p.name == *name)})
+                }
                 _ => Value::Null,
             };
             out.push(LsEntry {
@@ -604,81 +962,55 @@ impl Dataset for VarianDataset {
     }
 
     fn read_trace(&mut self, index: u32, sweep: u32, first: u64, max: u64) -> Result<Trace> {
-        if index != 0 {
-            return Err(Error::Usage(format!(
-                "trace index {index} out of range (0..1)"
-            )));
-        }
-        let ty = self
-            .sample_type
-            .clone()
-            .map_err(|e| Error::corrupt(VARIAN_FORMAT_ID, format!("fid header not usable: {e}")))?;
-        let sweeps = self.sweeps();
-        if u64::from(sweep) >= sweeps {
-            return Err(Error::Usage(format!(
-                "sweep {sweep} out of range ({sweeps} sweeps)"
-            )));
-        }
-        let n = u64::try_from(self.header.points).unwrap_or(0) / 2;
-        if first > n {
-            return Err(Error::Usage(format!(
-                "first sample {first} is past the end ({n} samples)"
-            )));
-        }
-        let count = max.min(n - first).min(MAX_READ_VALUES);
-        let ntr = u64::try_from(self.header.traces_per_block)
-            .unwrap_or(1)
-            .max(1);
-        let (block, tr) = (u64::from(sweep) / ntr, u64::from(sweep) % ntr);
-        let w = ty.width();
-        let offset = FILE_HEADER_BYTES
-            .checked_add(
-                block
-                    .checked_mul(u64::try_from(self.header.block_bytes).unwrap_or(0))
-                    .ok_or_else(|| Error::corrupt(VARIAN_FORMAT_ID, "offset overflows"))?,
-            )
-            .and_then(|o| {
-                o.checked_add(
-                    u64::try_from(self.header.block_headers).unwrap_or(0) * BLOCK_HEADER_BYTES,
-                )
-            })
-            .and_then(|o| o.checked_add(tr * u64::try_from(self.header.trace_bytes).unwrap_or(0)))
-            .and_then(|o| o.checked_add(first * 2 * w))
-            .ok_or_else(|| Error::corrupt(VARIAN_FORMAT_ID, "offset overflows"))?;
-        let len = count * 2 * w;
-        let end = offset.saturating_add(len);
-        if end > self.fid_len {
-            return Err(Error::corrupt_at(
-                VARIAN_FORMAT_ID,
-                offset,
-                format!(
-                    "fid needs bytes up to {end} for sweep {sweep} but has {} (truncated)",
-                    self.fid_len
-                ),
-            ));
-        }
-        let fid = self.dir.join("fid");
-        let mut f = self.fs.open(&fid).map_err(|e| Error::io(&fid, e))?;
-        f.seek(SeekFrom::Start(offset))
-            .map_err(|e| Error::io(&fid, e))?;
-        let mut buf = vec![
-            0u8;
-            usize::try_from(len)
-                .map_err(|_| Error::corrupt(VARIAN_FORMAT_ID, "read too large"))?
-        ];
-        f.read_exact(&mut buf).map_err(|e| Error::io(&fid, e))?;
-        let vals = decode_varian(&buf, ty);
-        let mut re = Vec::with_capacity(count as usize);
-        let mut im = Vec::with_capacity(count as usize);
-        for pair in vals.as_chunks::<2>().0 {
-            re.push(pair[0]);
-            im.push(pair[1]);
-        }
+        let channels = match (index, &self.phasefile) {
+            (0, _) => {
+                let ty = self.sample_type.clone().map_err(|e| {
+                    Error::corrupt(VARIAN_FORMAT_ID, format!("fid header not usable: {e}"))
+                })?;
+                // fid traces are always read as real/imaginary pairs (as nmrglue reads them)
+                read_block_trace(
+                    &self.fs,
+                    &self.dir.join("fid"),
+                    &self.header,
+                    self.fid_len,
+                    ty,
+                    true,
+                    sweep,
+                    first,
+                    max,
+                )?
+            }
+            (1, Some(pf)) => {
+                let ty = pf.sample_type.clone().map_err(|e| {
+                    Error::corrupt(
+                        VARIAN_FORMAT_ID,
+                        format!("{} header not usable: {e}", pf.name),
+                    )
+                })?;
+                read_block_trace(
+                    &self.fs,
+                    &pf.path,
+                    &pf.header,
+                    pf.len,
+                    ty,
+                    pf.complex(),
+                    sweep,
+                    first,
+                    max,
+                )?
+            }
+            _ => {
+                return Err(Error::Usage(format!(
+                    "trace index {index} out of range (0..{})",
+                    1 + usize::from(self.phasefile.is_some())
+                )));
+            }
+        };
         Ok(Trace {
-            trace: 0,
+            trace: index,
             sweep,
             first_sample: first,
-            channels: vec![re, im],
+            channels,
         })
     }
 
@@ -804,6 +1136,27 @@ impl Dataset for VarianDataset {
                 }
             }
         }
+        if let Some(pf) = &self.phasefile {
+            match &pf.sample_type {
+                Err(e) => r.push(Finding::error(
+                    "bad_header",
+                    format!("{} header: {e}", pf.name),
+                )),
+                Ok(_) if pf.len < pf.header.declared_len() => r.push(
+                    Finding::error(
+                        "truncated",
+                        format!(
+                            "{} has {} bytes; its header declares {}",
+                            pf.name,
+                            pf.len,
+                            pf.header.declared_len()
+                        ),
+                    )
+                    .at(pf.len),
+                ),
+                Ok(_) => {}
+            }
+        }
         if h.points % 2 != 0 {
             r.push(Finding::error(
                 "odd_points",
@@ -820,6 +1173,33 @@ impl Dataset for VarianDataset {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn sweep_loops_follow_the_array_order() {
+        let pp = parse_procpar(
+            b"ni 7 1 1e9 0 1 2 1 0 1 64\n1 160\n0\n\
+ni2 7 1 1e9 0 1 2 1 0 1 64\n1 32\n0\n\
+ni3 7 1 1e9 0 1 2 1 0 1 64\n1 1\n0\n\
+phase 7 1 9 0 1 2 1 0 1 64\n2 1 2\n0\n\
+phase2 7 1 9 0 1 2 1 0 1 64\n2 1 2\n0\n\
+nt 7 1 9 0 1 2 1 0 1 64\n3 4 8 16\n0\n\
+array 4 2 256 0 0 2 1 0 1 64\n1 \"phase2,phase,nt\"\n0\n",
+        );
+        let loops = sweep_loops(&pp);
+        let names: Vec<&str> = loops.iter().map(|l| l.parameter.as_str()).collect();
+        assert_eq!(names, ["ni2", "ni", "phase2", "phase", "nt"]);
+        let sizes: Vec<u64> = loops.iter().map(|l| l.size).collect();
+        assert_eq!(sizes, [32, 160, 2, 2, 3]);
+        assert_eq!(loops[2].dimension, Some(3));
+        assert_eq!((loops[4].kind, loops[4].dimension), ("array", None));
+        // a one-value phase parameter is no loop
+        let pp = parse_procpar(
+            b"ni 7 1 1e9 0 1 2 1 0 1 64\n1 600\n0\nphase 7 1 9 0 1 2 1 0 1 64\n1 3\n0\narray 4 2 256 0 0 2 1 0 1 64\n1 \"phase\"\n0\n",
+        );
+        let loops = sweep_loops(&pp);
+        assert_eq!(loops.len(), 1);
+        assert_eq!(loops[0].size, 600);
+    }
 
     #[test]
     fn names_and_times() {

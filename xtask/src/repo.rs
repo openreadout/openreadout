@@ -141,7 +141,7 @@ pub fn reader_crates(root: &Path) -> Result<Vec<ReaderCrate>> {
         let docs = crate::VOCAB
             .iter()
             .find(|(k, _)| *k == name)
-            .map(|(_, d)| {
+            .map_or_default(|(_, d)| {
                 let mut v: Vec<String> = Vec::new();
                 for (_, doc) in *d {
                     if !v.iter().any(|x| x == doc) {
@@ -149,8 +149,7 @@ pub fn reader_crates(root: &Path) -> Result<Vec<ReaderCrate>> {
                     }
                 }
                 v
-            })
-            .unwrap_or_default();
+            });
         out.push(ReaderCrate {
             name,
             dir,

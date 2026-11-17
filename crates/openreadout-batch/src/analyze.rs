@@ -175,7 +175,7 @@ pub enum AnalyzeOutput {
     /// kind=chromatogram.
     Chromatogram(openreadout_quant::extract::ChromatogramOutput),
     /// kind=nmr-peaks.
-    NmrPeaks(openreadout_signal::nmr::NmrReport),
+    NmrPeaks(openreadout_signal::nmr::NmrPeaksReport),
     /// kind=ephys-features.
     EphysFeatures(openreadout_signal::ephys::CellReport),
     /// kind=spikes.
@@ -301,7 +301,7 @@ pub fn run_dataset(
         }
         AnalyzeKind::NmrPeaks => {
             let q: openreadout_signal::api::NmrQuery = parse(kind, o)?;
-            AnalyzeOutput::NmrPeaks(openreadout_signal::nmr::analyze(ds, info, &q.request()?)?)
+            AnalyzeOutput::NmrPeaks(q.run(ds, info)?)
         }
         AnalyzeKind::EphysFeatures => {
             let q: openreadout_signal::api::EphysQuery = parse(kind, o)?;

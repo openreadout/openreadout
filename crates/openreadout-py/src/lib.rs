@@ -13,6 +13,8 @@
 // c, z, t, x, y, w, h are the natural names of plane indices and rectangles; the NumPy return
 // tuples are what the Python side unpacks.
 #![allow(clippy::many_single_char_names, clippy::type_complexity)]
+// The extension module is `openreadout._native`, so the function pyo3 expands is named `_native`.
+#![allow(clippy::used_underscore_items)]
 
 use std::path::Path;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};

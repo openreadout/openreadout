@@ -88,6 +88,14 @@ pub struct PreviewOptions {
     pub channels: Vec<u32>,
     /// Trace preview: only this window of the x axis, `[a, b]` in its units (bp of a sized electropherogram, base positions of a Sanger read, minutes, ppm, …).
     pub x_range: Option<[f64; 2]>,
+    /// 2D NMR contour plot: only this F1 window (vertical axis), `[a, b]` ppm (Hz for a
+    /// J-resolved F1); x_range is the F2 window.
+    pub y_range: Option<[f64; 2]>,
+    /// 2D NMR: the lowest contour in noise SDs (default 6; raise it to hide noise, lower it for
+    /// weak cross peaks).
+    pub contour_floor: Option<f64>,
+    /// 2D NMR: contour levels of each sign (default 12).
+    pub contour_levels: Option<u32>,
     /// Spectrum preview: run index.
     pub run: Option<u32>,
     /// Spectrum preview: zero-based spectrum index.
@@ -153,6 +161,9 @@ impl PreviewOptions {
             sweep: self.sweep,
             channels: self.channels.clone(),
             x_range: self.x_range,
+            y_range: self.y_range,
+            contour_floor: self.contour_floor,
+            contour_levels: self.contour_levels,
             run: self.run,
             spectrum: self.spectrum,
             scan: self.scan,

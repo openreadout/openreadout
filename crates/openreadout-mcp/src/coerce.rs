@@ -148,7 +148,19 @@ fn value(root: &Value, schema: &Value, v: &mut Value, depth: usize) {
             }
         }
         Value::Array(items) => {
-            if let Some(item_schema) = alts.iter().find_map(|s| s.get("items")) {
+            // With several list shapes to choose from (`[a, b]` or `[[a, b], [c, d]]`), the
+            // items are left as sent: fixing them against one shape would break the other.
+            let lists = alts
+                .iter()
+                .filter(|s| {
+                    s.get("items").is_some()
+                        || s.get("prefixItems").is_some()
+                        || s.get("type").and_then(Value::as_str) == Some("array")
+                })
+                .count();
+            if lists == 1
+                && let Some(item_schema) = alts.iter().find_map(|s| s.get("items"))
+            {
                 for x in items {
                     value(root, item_schema, x, depth + 1);
                 }
@@ -233,6 +245,19 @@ mod tests {
     fn fixed(schema: Value, mut a: Value) -> Value {
         args(schema.as_object().unwrap(), a.as_object_mut().unwrap());
         a
+    }
+
+    #[test]
+    fn a_choice_of_list_shapes_is_left_as_sent() {
+        let pair =
+            json!({"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}]});
+        let schema = json!({"properties": {"integrate": {"type": "array", "items": {"anyOf": [
+            pair.clone(),
+            {"type": "array", "items": pair},
+            {"type": "object", "additionalProperties": true},
+        ]}}}});
+        let before = json!({"integrate": [[7.4, 7.1], [[41, 39], [2.6, 2.4]]]});
+        assert_eq!(fixed(schema, before.clone()), before);
     }
 
     #[test]

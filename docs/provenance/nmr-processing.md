@@ -90,3 +90,158 @@ DIGMOD 1 and 3, FCOR 0/0.5/1, forward and backward linear prediction.
 
 **Corpus files used:** every Bruker experiment on disk with `pdata/1/procs` (nmrXiv and the two Zenodo bundles, about 290), comparing `procs` SF with `acqus` BF1. **Prior art consulted:** none.
 **What was measured:** the referencing correction (SF − BF1)/SF is within 0.2 ppm of 0 in most experiments and 0.44 to 1.41 ppm (either sign) in 20. An FID processed without `procs` can only take BF1 as 0 ppm, so its shifts are off by that much. The FID processing now says so in a note when no `procs` gives SF.
+
+## 2026-11-14 — 2D and nD peak picking and volume integration (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** the processed 2D spectra (`pdata/<n>/2rr`) of the development corpus:
+`bmrb-bmse000008-cosy-topspin21-500`, `bmrb-bmse001104-hsqc-topspin32-500`,
+`bmrb-bmse001250-hmbc-topspin35-500`, `bmrb-bmse000797-jres-topspin21-700` (BMRB, public
+domain), and the COSY, TOCSY, NOESY, ROESY, HSQC (edited and plain), HMQC and HMBC experiments
+of nmrXiv `s38`, `s49`, `s279`, `s314`, `s501`, `s572`, `s736`, `s740`, `s753`, `s853`,
+`s1247`, `s1407`, `s1517`, `s1617`, `s2331` (CC-BY-4.0, CC0, CC-BY-SA-4.0); the 1H, 13C and
+DEPT-135 spectra and TopSpin peak lists (`pdata/1/peaklist.xml`) of the same samples; the
+MestReNova JCAMP-DX export of the `nmrxiv-s200` limonene HSQC (`nD NMR SPECTRUM`).
+
+**Prior art consulted:**
+- nmrglue (BSD-3-Clause, https://github.com/jjhelmus/nmrglue): the documentation of
+  `analysis.peakpick.pick` (thresholds, `msep`, the `connected` and `thres` segmentations) and
+  `analysis.linesh`, read as documentation; `peakpick.pick` is also run as a black box on the
+  same spectra for comparison.
+- Harris, Becker, Cabral de Menezes, Goodfellow, Granger, *NMR nomenclature: nuclear spin
+  properties and conventions for chemical shifts*, Pure Appl. Chem. 73 (2001) 1795–1818: the
+  frequency ratios Ξ that convert an indirect axis given in Hz to ppm when a file gives only the
+  observe frequency.
+- Rousseeuw and Croux, *Alternatives to the median absolute deviation*, J. Am. Stat. Assoc. 88
+  (1993) 1273–1283 (MAD scale estimate, as in the 1D picker).
+- Vincent and Soille, *Watersheds in digital spaces*, IEEE Trans. Pattern Anal. Mach. Intell. 13
+  (1991) 583–598 (flooding from the maxima down to assign each point to one peak).
+
+**What was inferred from what:**
+- TopSpin's `peaklist.xml` is a plain XML file in the public data sets (data, not vendor code).
+  Its fields were read from the 1D lists of the development corpus: `PeakList1D`/`Peak1D` with
+  attributes `F1` (the shift in ppm), `intensity` and `type`. None of the development data sets
+  with a processed 2D spectrum stores a 2D list, so the 2D picks are compared with nmrglue's
+  picker and with chemistry: the 1D lists of the same sample give the 1H and 13C shifts that
+  HSQC cross peaks must land on.
+- Matrix layout: the Bruker reader returns one sweep per F1 row (3D: row j of plane k is sweep
+  j + n·k), so sweeps in order form a row-major matrix with the indirect dimensions slowest;
+  the axes come from `extra.indirect_axes` and `extra.axis`. JCAMP-DX `nD NMR SPECTRUM` pages
+  are rows keyed by F1 in Hz (`extra.sweep_axis`); `##.NUCLEUS=` names the nucleus of each
+  dimension and the F1 frequency follows from the observe frequency and the ratio Ξ.
+- The carrier of a quadrature (States, echo-antiecho) indirect dimension sits at point n/2 of
+  the processed axis, the same convention as the direct dimension (checked on `nmrxiv-s279-23`:
+  the axis at point 512 is 82.0 ppm, the carrier computed from `SFO1` of `acqu2s` and `SF` of
+  `proc2s`). Axial peaks sit there.
+- Noise. The run estimate (25th percentile of per-run MADs, as in 1D) is 0.89 of the true SD
+  on simulated Gaussian noise, hence the factor 1.12. On the corpus 2D spectra, 1.4826 · MAD
+  of whole rows and columns is 1.1–1.4 times the run estimate, and the local maxima of the
+  noise reach far higher than Gaussian noise of that SD would give: the 90th percentile of
+  the maxima's heights is 2.6–2.7 noise SDs on conventionally sampled HSQCs (`s49-6`,
+  `s736-4`, `s1247-13`; 2.4–2.5 by simulation) but 4.7–9 on non-uniformly sampled ones
+  (`s279-23`, `s853-5`, `s853-6`), where a fixed 10 SD threshold returned 1000 or more cross
+  peaks scattered over empty regions. The noise level from the maxima (90th percentile / its
+  Gaussian value, simulated for white and correlated noise, 2D, 3D and magnitude data) fixes
+  this; `s853-5` went from 2972 cross peaks to 46.
+- Magnitude data (no negative values, e.g. `cosygpppqf`): the Rayleigh noise floor's robust
+  spread is 0.66 of the noise on a line (simulation), hence the factor 1.52.
+- Isolated single-point maxima 13–40 noise SDs high, all with the same shape, cover the
+  non-uniformly sampled `s753-21` HSQC (855 of 1000 cross peaks had a footprint of one or two
+  points); a resolved line always has neighbours above the footprint floor, so cross peaks need
+  `min_footprint_points` (3) footprint points. Elsewhere the rule removed under 1 % of the
+  symmetric or list-matched cross peaks.
+- t1 streaks: in COSY spectra with dynamic range above 10⁵ (`s853-7`, `s1407-COSY`), maxima on
+  the F1 line of a much taller peak, without a mirror image, are t1 noise or truncation
+  wiggles; on the JCAMP-DX limonene HSQC the F1 lines of the strong peaks carry alternating
+  lobes 1.6 ppm apart. Flagged `ridge` when 20 times weaker than the peak on their line.
+- Symmetric partners: COSY multiplets split into maxima differently on the two sides of the
+  diagonal (F1 has coarser digital resolution), so centre-to-mirror distances reached 30–130
+  Hz; pairing a cross peak with the one whose footprint holds its mirror image raised the
+  partner rate of the non-symmetrized homonuclear spectra from 0.6 to above 0.8.
+- JCAMP-DX `nD NMR SPECTRUM` (`nmrxiv-s200` HSQC, MestReNova 14): the `##PAGE= F1=` values
+  run from 17094.6 to −17105.1 Hz in steps of 33.43 Hz, twice the step of the declared range
+  (`##FIRST=` 17094.6, `##LAST=` −5.28 Hz over `##VAR_DIM=` 1024). The declared range puts the
+  limonene methyl, methylene and olefinic cross peaks on the 13C lines of the same sample's
+  13C spectrum (within 0.45 ppm, the referencing difference); the page values put them 150 ppm
+  off. The declared range is used, and a note says when the pages disagree.
+- Tuning: experiments were split in two halves by a hash of their id; thresholds were chosen
+  on the first half (symmetric partners of non-symmetrized homonuclear spectra, HSQC cross
+  peaks on 1D-list lines) and the tables report both halves.
+
+## 2026-11-14 — multidimensional processing (indirect dimensions, pseudo-2D series)
+
+**Corpus files used:** the Bruker experiments with TopSpin's own `pdata/<n>/2rr` (and `2ri`, `2ir`, `2ii`) listed in the manifest outside the held-out tier: the nmrXiv bundles s38, s49, s73, s279, s314, s501, s519 (DOSY), s572, s736, s740, s753, s853, s1247, s1407, s1517, s1608, s1617, s2331 (CC-BY-4.0/CC0), `nmrglue-bruker-3d`, `nmrglue-agilent-2d`, `nmrglue-agilent-2d-tppi` (nmrglue test data, BSD-3-Clause), the JEOL 2D `.jdf` files of nmrXiv s200 and figshare, and the Spinsolve `data.2d` series of `spinsolveproc` and `spinsolve-zenodo20597567`. TopSpin's `auditp.txt` in each `pdata/<n>` (the command history with the parameters each command used) was read alongside `procs`/`proc2s`.
+
+**Prior art consulted (read as documentation, run as a comparison):**
+- nmrglue 0.12 (BSD-3-Clause, https://github.com/jjhelmus/nmrglue): `process/proc_base.py` (window shapes `sp`, `em`, `gm`, `tm`), `process/proc_lp.py` (forward linear prediction with root reflection, run to compare), `fileio/bruker.py` (`bruker_dsp_table`), the NMRPipe conversion scripts shipped with the nmrglue test data (`conversion_scripts/*.com`: acquisition modes and parameters of the test sets). nmrglue was run as a black-box pipeline on the Varian and JEOL sets.
+- J. P. Burg's maximum-entropy method as described in textbooks (e.g. Press et al., *Numerical Recipes*, §13.6) for the prediction coefficients.
+- D. J. States, R. A. Haberkorn, D. J. Ruben, J. Magn. Reson. 48 (1982) 286 (hypercomplex States data); D. Marion, M. Ikura, R. Tschudin, A. Bax, J. Magn. Reson. 85 (1989) 393 (States-TPPI); J. Keeler, D. Neuhaus, J. Magn. Reson. 63 (1985) 454 and A. L. Davis et al., J. Magn. Reson. 98 (1992) 207 (echo/antiecho selection); J. C. Traficante, D. Ziessow, J. Magn. Reson. 66 (1986) 182 (Traficante window).
+
+**What was inferred from what (numpy reproductions of `2rr` from `ser` with the 1D conventions for F2 and the stored `procs`/`proc2s`, before writing the Rust code):**
+- F2: the 1D pipeline unchanged (group delay, window over the points after the group delay, `FCOR`, `TDeff`, `PHC0`/`PHC1`); sine windows `sin((π − φ)·i/n + φ)`, φ = π/`SSB` (`SSB` < 2: φ = 0), `n` the window's points, squared for QSINE (WDW 4). Correlation with `2rr` 0.9999 on the experiments without linear prediction.
+- F1, by `MC2` (= FnMODE − 1), searched over sign, order and conjugation on s736 and s572 and then confirmed on every other set: QF (0): each column of the F2 spectrum, conjugated, is the complex F1 interferogram; TPPI (2): the real parts are a real interferogram at twice the rate, transformed as `2·SI1` real points, of which the first `SI1` bins conjugated are the spectrum; States (3) and States-TPPI (4): `Re(row 2k) + i·Re(row 2k+1)` (and the same of the imaginary parts), States-TPPI with (−1)^k; echo/antiecho (5): with E, A the rows of a pair, `C = i₂·(E + A)` and `S = E − A` (i₂ the F2 imaginary unit) and the interferogram `Re C − i·Re S`. Then the same window, first-point factor, transform, order and phase convention as F2. `PH_mod` 2 in a dimension is the magnitude over that dimension's imaginary parts (`mc2 F2` after `xfb`: √(rr² + ir²), s1247/14).
+- DSPFVS 12 (table group delay 72.125, s572 2D and its 1D `zg`): the stored phases give the spectrum inverted; adding 180° to PHC0 reproduces `1r` (0.9994) and `2rr` (0.9999). Applied to DSPFVS 11 and 12 with a fractional table delay.
+- Linear prediction (`ME_mod` 2, `NCOEF`, `LPBIN`): forward prediction of each F1 interferogram to `LPBIN` rows (`LPBIN`/2 complex points for hypercomplex data) before the window. Burg coefficients reproduce `2rr` as well as nmrglue's least-squares prediction where both are stable (0.9999 on s1617 TOCSY) and stay stable where `NCOEF` approaches the number of points (s314: least squares diverges). `ME_mod` 6 (mirror image): the interferogram extended to negative time by complex conjugation about point 0 before prediction (s38/16, 0.996).
+- `auditp.txt` shows later commands that `procs` do not record: `sym` (s38/12, s49/5: replacing each point and its mirror about the diagonal by the smaller one reproduces `2rr` from 0.85 to 0.998), `abs1`/`abs2` baseline corrections, and `apkm` phase corrections (whose result is the stored PHC0/PHC1, so phases stored with `PH_mod` 0 are applied).
+- Pseudo-2D (DOSY `ledbpgp2s` with `difflist`, s519): F1 is not Fourier transformed; TopSpin's `2rr` there is the diffusion-transformed spectrum (F1 in log D, fitted lines only), which does not reproduce the F2 rows, so the rows are checked for phase and gradient attenuation instead.
+- In Rust, on every corpus set (`tests/nmr_processing_2d.rs`): the numpy conventions held. Two further findings. JEOL `real_complex` rows (nmrXiv s200 COSY) need no conjugation in F1: the diagonal then runs from high to high shift (44 % of the intensity on it, 3 % conjugated). VnmrJ F1 runs the other way from Bruker's: matching nmrglue run as a black box after the NMRPipe scripts of the nmrglue test data (no reversal for States, `REV` after the TPPI transform) needs the F1 interferogram conjugated (States 0.83 against 0.57; TPPI 0.86 against 0.05, magnitudes binned). The `tilt` option (J-resolved spectra) follows the textbook shear; no manifest file checks its direction.
+
+## 2026-11-15: the 2D surface (`analysis.rs`, `slices2d.rs`, `fid2d.rs`)
+
+**Files:** nmrxiv-s1407 (COSY, HSQC, HMBC), nmrxiv-s572/4 (NOESY), bmrb-bmse000797 (J-resolved), nmrxiv-s519/310 (DOSY), nmrxiv-s200 limonene HSQC (JCAMP-DX), and our own JCAMP-DX export of s1407 HSQC.
+**Prior art:** none beyond the 2D picker and the transform above.
+**Inferred:** a JCAMP-DX 2D trace now lists its F1 under `indirect_dimensions[0].axis` in Hz, which made `matrix_layout` stop at the JEOL branch; the JEOL branch now applies only when that axis is in ppm, and the F1 of a JCAMP-DX file comes from its pages as before (our export of s1407 HSQC read back gives the same 287 cross peaks as the `2rr`). Axis meaning: Bruker `AXUNIT` of `proc2s` names a DOSY F1 (`log(m2/s)`, s519); a J-resolved F1 is the same nucleus as F2 over less than 500 Hz (50 Hz in bmse000797) or a `jres` pulse program.
+
+## 2026-11-15 — reconstruction of non-uniformly sampled data, DSPFVS 11/12 phase in 1D (Richard Zimring with Claude as assistant)
+
+**Corpus files used:** the non-uniformly sampled Bruker experiments with a `nuslist` and TopSpin's
+reconstructed `pdata/1/2rr` in bundles the manifest lists outside the held-out tier: nmrXiv
+s279/23, /24, s753/21, s853/5–7, s1407 HSQC/HMBC, s1517/13–15 (CC-BY-4.0, CC0), and the MQMAS
+pair `desperate-rbno3-mqmas-30` (NUS) and `-20` (its fully sampled twin; DESPERATE, MIT). The fully sampled
+experiments of the 2026-11-14 parity table that match TopSpin at ≥ 0.999 without linear
+prediction, with increments removed here to simulate sampling. For the 1D phase: the 1D Bruker
+experiments of the manifest with DSPFVS 11 or 12 and a stored `1r` (nmrXiv s572/1).
+
+**Prior art consulted (papers, read for the method; no reconstruction package's source):**
+- A. S. Stern, D. L. Donoho, J. C. Hoch, *NMR data processing using iterative thresholding and
+  minimum l1-norm reconstruction*, J. Magn. Reson. 188 (2007) 295–300: iterative soft
+  thresholding (a gradient step that restores consistency with the measured points, then soft
+  thresholding of the spectrum, `S ← S·max(0, 1 − τ/|S|)`), its equivalence to minimum
+  l1-norm reconstruction as the threshold goes down, and the measured points kept as measured.
+- S. G. Hyberts, A. G. Milbradt, A. B. Wagner, H. Arthanari, G. Wagner, *Application of
+  iterative soft thresholding for fast reconstruction of NMR data non-uniformly sampled with
+  multidimensional Poisson Gap scheduling*, J. Biomol. NMR 52 (2012) 315–327: reconstruction
+  column by column after the direct dimension is transformed, the threshold lowered from the
+  tallest point step by step over the iterations, and hypercomplex data handled as
+  complex sequences in each indirect dimension.
+- S. G. Hyberts, K. Takeuchi, G. Wagner, *Poisson-gap sampling and forward maximum entropy
+  reconstruction for enhancing the resolution and sensitivity of protein NMR data*, J. Am. Chem.
+  Soc. 132 (2010) 2145–2147: sine-weighted Poisson-distributed gaps between sampled increments
+  (used to simulate sampling on fully sampled data).
+
+**What was inferred from what:**
+- The `nuslist` of every set above lists complex-point indices in acquisition order (not
+  sorted, `0` first), and the `ser` holds `Π rows_per_point` rows per entry in that order
+  (`TD` of `acqu2s` = entries × 2 for echo/antiecho, × 1 for QF). Where `TD` is smaller than
+  that (s1407 HMBC: 102 entries, 56 rows), the acquisition stopped early: only the first
+  `TD / rows_per_point` entries were measured.
+- TopSpin's audit trails (`auditp.txt`) name the method of each stored spectrum
+  (`Mdd_mod = cs`, `CsALG = ist`, s753/21: `IRLS` with virtual echo) and its `proc2s` keep the
+  linear prediction (`ME_mod` 2, `LPBIN` up to twice `NusTD`) run after the reconstruction. So
+  the stored linear prediction still runs after ours.
+- Hypercomplex pairs: a States pair (u, v) = (cos, sin)-modulated rows gives two complex
+  sequences u + i·v and u − i·v, each one exponential per line; echo/antiecho rows are such
+  sequences already. Each is reconstructed on its own and the pair recombined (from the
+  published description of hypercomplex sampling, States et al. 1982, already in this log).
+- s279/24 lists 192 entries for 131 distinct increments: TopSpin schedules can measure an
+  increment more than once. Such increments take the mean of their measurements.
+- Tuning on the simulated sampling of the fully sampled sets (`tests/nmr_nus.rs`): a floor at
+  half the noise level and reconstructing three quarters of the columns gave correlations within
+  0.001 and two to three times the run time, so the floor stays at the noise level; raising the
+  iteration cap from 400 to 1000 found a few more weak COSY and NOESY cross peaks. Results in
+  docs/formats/nmr-processing.md.
+- DSPFVS 11/12 in 1D: the rule now sits in `source::fid_parameters`, which both the 1D and the
+  nD path use. s572/1 (`zg`, DSPFVS 12, table delay 72.125) with the stored phase plus 180°:
+  signal correlation 1.000000 with `1r`. It is the only manifest-listed 1D experiment with that
+  firmware and a stored `1r`; the 1D parity test (49 experiments) is unchanged.
+- J-resolved: no manifest-listed experiment has a tilted `2rr`, so the sign of `tilt` stays
+  unverified.

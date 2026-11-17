@@ -120,6 +120,9 @@ fn entry_files(e: &Entry) -> Result<Vec<MirrorFile<'_>>> {
         }]);
     }
     let parts = parts_of(e)?;
+    if let Some((rel, _)) = parts.iter().find(|(_, sha)| sha.is_empty()) {
+        bail!("{}: part {rel:?} lacks a sha256", e.id);
+    }
     if parts.iter().any(|(_, sha)| !is_sha256(sha)) {
         return Ok(Vec::new());
     }

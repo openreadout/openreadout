@@ -649,3 +649,90 @@ fn spinsolve_fid_processing_matches_the_software() {
     println!("{rows} Spinsolve rows checked");
     assert!(failures.is_empty(), "{failures:#?}");
 }
+
+/// Bruker DSPFVS 11/12 firmware with a fractional table group delay: the stored phase plus
+/// 180° reproduces TopSpin's `1r` (docs/formats/nmr-processing.md). Every manifest-listed 1D
+/// experiment with such firmware and a stored `pdata/1/1r`; none has an oracle file, so they
+/// are found on disk.
+#[test]
+fn bruker_dspfvs_11_12_stored_phase() {
+    fn find(dir: &Path, depth: usize, out: &mut Vec<PathBuf>) {
+        let Ok(rd) = std::fs::read_dir(dir) else {
+            return;
+        };
+        for e in rd.flatten() {
+            let p = e.path();
+            let name = e.file_name().to_string_lossy().to_string();
+            if name.starts_with("ho-") || name == "heldout" || name.starts_with('_') {
+                continue;
+            }
+            if p.is_dir() && depth > 0 {
+                find(&p, depth - 1, out);
+            } else if name == "acqus" {
+                out.push(dir.to_path_buf());
+            }
+        }
+    }
+    let dir = files_dir();
+    let manifest = std::fs::read_to_string(root().join("corpus/manifest.toml")).unwrap_or_default();
+    let mut exps = Vec::new();
+    find(&dir, 6, &mut exps);
+    exps.sort();
+    let param = |p: &Path, k: &str| {
+        let t = String::from_utf8_lossy(&std::fs::read(p).unwrap_or_default()).into_owned();
+        let tag = format!("##${k}=");
+        t.lines()
+            .find_map(|l| l.strip_prefix(&tag).map(|v| v.trim().to_string()))
+    };
+    let mut failures = Vec::new();
+    let mut checked = 0;
+    for exp in exps {
+        let rel = exp.strip_prefix(&dir).unwrap_or(&exp).display().to_string();
+        let top = rel.split('/').next().unwrap_or_default().to_string();
+        if !manifest.contains(&format!("filename = \"{top}"))
+            || exp.join("acqu2s").exists()
+            || !exp.join("pdata/1/1r").exists()
+            || !matches!(
+                param(&exp.join("acqus"), "DSPFVS").as_deref(),
+                Some("11" | "12")
+            )
+        {
+            continue;
+        }
+        let mut ds = openreadout_nmr::BrukerReader.open(&exp).unwrap();
+        let info = ds.info().unwrap();
+        let pdata = info
+            .traces
+            .iter()
+            .find(|t| t.name.as_deref() == Some("pdata/1"))
+            .unwrap()
+            .index;
+        let (topspin, _) = nmr::source::load_spectrum(ds.as_mut(), &info, pdata).unwrap();
+        let (ours, rec) = process(ds.as_mut(), PhaseMode::Stored, BaselineMode::None);
+        let mut s: Vec<f64> = topspin.iter().map(|v| v.abs()).collect();
+        s.sort_by(f64::total_cmp);
+        let sd = 1.4826 * s[s.len() / 2];
+        let mask: Vec<bool> = topspin.iter().map(|v| v.abs() > 10.0 * sd).collect();
+        let c = corr(&ours.real, &topspin, Some(&mask));
+        let fid = info
+            .traces
+            .iter()
+            .find(|t| nmr::source::is_fid(t))
+            .unwrap()
+            .index;
+        let (_, _, notes) = nmr::source::fid_parameters(ds.as_ref(), &info, fid).unwrap();
+        let flipped = notes.iter().any(|n| n.starts_with("DSPFVS"));
+        println!(
+            "{rel}: DSPFVS {:?}, group delay {:.3}, stored phase {:.2}, 180° added {flipped}, signal correlation {c:.6}",
+            param(&exp.join("acqus"), "DSPFVS"),
+            rec.group_delay_points,
+            rec.phase0_deg,
+        );
+        checked += 1;
+        if rec.group_delay_points.fract() > 0.0 && !(c >= 0.999) {
+            failures.push(format!("{rel}: signal correlation {c}"));
+        }
+    }
+    println!("{checked} DSPFVS 11/12 experiments checked");
+    assert!(failures.is_empty(), "{failures:#?}");
+}

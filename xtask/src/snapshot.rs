@@ -229,7 +229,7 @@ fn review(root: &Path, only: Option<&str>, lines: usize) -> Result<()> {
     }
     println!(
         "\n{changed} changed, {added} new, {gone} gone. Accept with `cargo xtask snapshot accept`{}.",
-        only.map(|o| format!(" --only {o}")).unwrap_or_default()
+        only.map_or_default(|o| format!(" --only {o}"))
     );
     Ok(())
 }

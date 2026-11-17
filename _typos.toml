@@ -37,6 +37,7 @@ extend-ignore-re = [
 ]
 
 [default.extend-words]
+ist = "ist"  # iterative soft thresholding, the NUS reconstruction (`--nus ist`, TopSpin `CsALG = ist`)
 transfered = "transfered"  # verbatim in a path stored in an Igor corpus file (Graph1_3transfered.pxp)
 tre = "tre"  # P-TRE, a sample folder name in the OME DeltaVision downloads (dv-ome-p-tre-*)
 mose = "mose"  # MoSe2, molybdenum diselenide, in an Andor SIF corpus file id (sif-figshare28054061-mose2-633-pl-1-3na-10uw)

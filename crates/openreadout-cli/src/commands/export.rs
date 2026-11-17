@@ -110,6 +110,8 @@ pub struct ExportArgs {
     pub run: u32,
     #[command(flatten)]
     pub process: nmr::ProcessArgs,
+    #[command(flatten)]
+    pub slice: nmr::SliceArgs,
     #[arg(long)]
     pub json: bool,
 }
@@ -268,6 +270,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
         plate,
         run,
         process,
+        slice,
         json,
     } = a;
     let req = ExportRequest {
@@ -296,6 +299,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
         run,
         spectra,
         process,
+        slice,
         plate,
     };
     batch::run(
@@ -312,6 +316,7 @@ pub fn run(reg: &Registry, a: ExportArgs) -> i32 {
 }
 
 /// Arguments of `export` after parsing.
+#[derive(Clone)]
 struct ExportRequest {
     /// `None`: the default for the file's kind (see `--format`).
     to: Option<ExportFormat>,
@@ -339,6 +344,8 @@ struct ExportRequest {
     spectra: bool,
     /// NMR: FID traces exported as processed spectra.
     process: nmr::ProcessArgs,
+    /// NMR: a slice or projection of a 2D spectrum exported as a trace.
+    slice: nmr::SliceArgs,
     /// Multi-well plates: wells, partial copies, one OME-TIFF per field.
     plate: plate::PlateExportArgs,
 }
@@ -742,7 +749,16 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         return openreadout_qpcr::export_rdml(&qds, &output, req.overwrite).map(ExportOutput::Rdml);
     }
     let (det, ds) = reg.open(file)?;
-    let mut ds = req.process.wrap(ds)?;
+    let ds = req.process.wrap(ds)?;
+    let (mut ds, view) = nmr_view(ds, req, requested)?;
+    let adjusted;
+    let req = match view {
+        Some(r) => {
+            adjusted = r;
+            &adjusted
+        }
+        None => req,
+    };
     if requested == Some(ExportFormat::Asm) {
         if det.format_id != openreadout_plate::FORMAT_ID {
             return Err(Error::unsupported(
@@ -967,6 +983,40 @@ fn export(reg: &Registry, input: &batch::Input<'_>, req: &ExportRequest) -> Resu
         | ExportFormat::Nifti => unreachable!("handled above"),
     }
     .map(ExportOutput::Image)
+}
+
+/// NMR: what replaces the stored trace in a trace export. `--slice` exports that slice of a
+/// 2D spectrum as a trace; a CSV, Parquet or Arrow export of a stored 2D/3D spectrum (named
+/// with `--trace`, or the data set's first one when no trace, table or sweep is named) writes
+/// its matrix in long form, one row per point with both shift axes (`f1_ppm`, `f2_ppm`,
+/// `intensity`).
+fn nmr_view(
+    ds: Box<dyn openreadout_core::Dataset>,
+    req: &ExportRequest,
+    to: Option<ExportFormat>,
+) -> Result<(Box<dyn openreadout_core::Dataset>, Option<ExportRequest>)> {
+    let (ds, sel) = openreadout_signal::nmr::slices2d::export_view(
+        ds,
+        req.csv.trace,
+        req.csv.table,
+        req.csv.sweep,
+        req.slice.slice.as_deref(),
+        to.map(ExportFormat::name),
+    )?;
+    let Some(sel) = sel else {
+        return Ok((ds, None));
+    };
+    let mut r = req.clone();
+    if sel.trace.is_some() {
+        r.csv.trace = sel.trace;
+        r.csv.sweep = None;
+    }
+    if sel.table.is_some() {
+        r.csv.table = sel.table;
+        r.csv.trace = None;
+        r.csv.sweep = None;
+    }
+    Ok((ds, Some(r)))
 }
 
 /// `--rows A-B` parsed, when given.

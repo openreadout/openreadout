@@ -34,7 +34,7 @@ The server has 28 tools.
 | `openreadout_spectrum` | one mass spectrum, with its most intense peaks and their charges | [spectrum](commands/spectrum.md) |
 | `openreadout_peaks` | chromatographic peaks; bands and regions of spectra | [analyze peaks](commands/analyze.md#peaks-and-chromatogram) |
 | `openreadout_chromatogram` | TIC, BPC, XIC, SRM and detector chromatograms | [analyze chromatogram](commands/analyze.md#peaks-and-chromatogram) |
-| `openreadout_nmr_peaks` | NMR peaks and integrals | [analyze nmr-peaks](commands/analyze.md#nmr-peaks) |
+| `openreadout_nmr_peaks` | NMR peaks and integrals; cross peaks of 2D spectra | [analyze nmr-peaks](commands/analyze.md#nmr-peaks) |
 | `openreadout_ephys_features` | patch-clamp features | [analyze ephys-features](commands/analyze.md#ephys-features) |
 | `openreadout_spikes` | extracellular spikes | [analyze spikes](commands/analyze.md#spikes) |
 | `openreadout_qpcr` | qPCR Cq, Tm, ΔΔCq and standard curves | [analyze qpcr](commands/analyze.md#qpcr) |

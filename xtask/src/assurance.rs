@@ -443,36 +443,28 @@ fn observe(
             inferred: (0, 0),
         });
     }
-    let features = data["assurance"]["variant"]
-        .as_array()
-        .map(|a| {
-            a.iter()
-                .map(|f| {
-                    (
-                        f["kind"].as_str().unwrap_or_default().to_string(),
-                        f["value"].as_str().unwrap_or_default().to_string(),
-                        f["scope"]
-                            .as_array()
-                            .map(|s| {
-                                s.iter()
-                                    .filter_map(|x| x.as_str().map(str::to_string))
-                                    .collect()
-                            })
-                            .unwrap_or_default(),
-                    )
-                })
-                .collect()
-        })
-        .unwrap_or_default();
+    let features = data["assurance"]["variant"].as_array().map_or_default(|a| {
+        a.iter()
+            .map(|f| {
+                (
+                    f["kind"].as_str().unwrap_or_default().to_string(),
+                    f["value"].as_str().unwrap_or_default().to_string(),
+                    f["scope"].as_array().map_or_default(|s| {
+                        s.iter()
+                            .filter_map(|x| x.as_str().map(str::to_string))
+                            .collect()
+                    }),
+                )
+            })
+            .collect()
+    });
     let inf = &data["assurance"]["inferred_fields"];
     let strs = |v: &serde_json::Value| -> Vec<String> {
-        v.as_array()
-            .map(|a| {
-                a.iter()
-                    .filter_map(|x| x.as_str().map(str::to_string))
-                    .collect()
-            })
-            .unwrap_or_default()
+        v.as_array().map_or_default(|a| {
+            a.iter()
+                .filter_map(|x| x.as_str().map(str::to_string))
+                .collect()
+        })
     };
     let mut fixed_refuses: Vec<String> = Vec::new();
     let undecoded = data["assurance"]["undecoded"]
@@ -495,14 +487,11 @@ fn observe(
         }
     }
     fixed_refuses.sort();
-    let assumed: Vec<String> = data["assurance"]["assumed"]
-        .as_array()
-        .map(|a| {
-            a.iter()
-                .filter_map(|x| x["field"].as_str().map(str::to_string))
-                .collect()
-        })
-        .unwrap_or_default();
+    let assumed: Vec<String> = data["assurance"]["assumed"].as_array().map_or_default(|a| {
+        a.iter()
+            .filter_map(|x| x["field"].as_str().map(str::to_string))
+            .collect()
+    });
     Ok(FileEvidence {
         id: e.id.clone(),
         format: data["format"]["id"]
@@ -725,8 +714,7 @@ fn kind_variant(kind: &str) -> String {
         .map(|w| {
             let mut c = w.chars();
             c.next()
-                .map(|f| f.to_ascii_uppercase().to_string() + c.as_str())
-                .unwrap_or_default()
+                .map_or_default(|f| f.to_ascii_uppercase().to_string() + c.as_str())
         })
         .collect()
 }
@@ -740,8 +728,7 @@ fn block(format: &str, fe: Option<&FormatEvidence>, level: &str) -> String {
     let mut s = format!(
         "// BEGIN GENERATED {format} (cargo xtask assurance-audit --write; do not edit)\nconst {id}_CONFIDENCE: Confidence = Confidence::{level};\n"
     );
-    let rows: Vec<(&(String, String), &Row)> =
-        fe.map(|f| f.rows.iter().collect()).unwrap_or_default();
+    let rows: Vec<(&(String, String), &Row)> = fe.map_or_default(|f| f.rows.iter().collect());
     if rows.is_empty() {
         let _ = writeln!(s, "const {id}_VALIDATED: &[Validated] = &[];");
     } else {

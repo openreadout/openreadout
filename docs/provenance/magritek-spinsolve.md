@@ -2,6 +2,12 @@
 
 Rules: `docs/legal/clean-room-policy.md`. Each entry: date, who, corpus files, prior art (URL + license), what was inferred.
 
+## 2026-11-14 — series parameters of `data.2d`
+
+**Corpus files:** the development experiments whose `acqu.par` has `nrSteps` (`spinsolveproc-t1`, `-t2`, `-t2bulk`, `-pgste`, the `spinsolve-zenodo20597567-*` T1 and SLIC series). No held-out file.
+**Prior art consulted:** none new.
+**What was inferred from what.** Every public `data.2d` holds a series of 1D FIDs (relaxation, SLIC, diffusion); no public Spinsolve 2D NMR experiment (COSY, HSQC, JRES) or processed 2D file was found, so 2D NMR parameters cannot be named from a file. What changes from row to row is set by protocol parameters in `acqu.par`: `minDelay`, `maxDelay`, `delaySpacing` (`lin`) in T1 protocols, `ieTime` in the T1ieTime and SLIC ones, `gradMax`, `gradSpacing`, `bDelta`, `lDelta` in PGSTE, `nrEchoes`, `echoTime` in CPMG. They are reported as written (`series_parameters`); the row values are not computed from them, because the spacing rule is not stored.
+
 ## 2026-09-26 — first reader (Richard Zimring with Claude as assistant)
 
 **Prior art consulted** (permissively licensed; documentation and source read, no code copied):

@@ -115,14 +115,14 @@ pub(crate) struct Entry {
     parts: Vec<String>,
 }
 
-/// The `(relative path, sha256)` of each `parts` line.
+/// The `(relative path, sha256)` of each `parts` line. A line holding only a path has an empty
+/// SHA-256: `fetch --record` downloads that part and writes its SHA-256 into the manifest.
 fn parts_of(e: &Entry) -> Result<Vec<(String, String)>> {
     e.parts
         .iter()
         .map(|l| {
-            let (rel, sha) = l
-                .rsplit_once(char::is_whitespace)
-                .with_context(|| format!("{}: part line {l:?} lacks a sha256", e.id))?;
+            let l = l.trim();
+            let (rel, sha) = l.rsplit_once(char::is_whitespace).unwrap_or((l, ""));
             let rel = rel.trim();
             if rel.is_empty() || rel.starts_with('/') || rel.split('/').any(|c| c == "..") {
                 bail!("{}: part path {rel:?} must be relative", e.id);
@@ -149,12 +149,33 @@ fn url_path(rel: &str) -> String {
 
 /// Fetch every part of a directory entry that is missing, checking each file's SHA-256.
 /// Returns how many parts were downloaded and how many came from the mirror.
-fn fetch_parts(e: &Entry, dir: &Path, stage: Option<&Path>) -> Result<(usize, usize)> {
+/// Parts without a SHA-256 are downloaded and recorded into `recorded` with `--record`, else refused.
+fn fetch_parts(
+    e: &Entry,
+    dir: &Path,
+    stage: Option<&Path>,
+    record: bool,
+    recorded: &mut Vec<(String, String, String)>,
+) -> Result<(usize, usize)> {
     let root_dir = dir.join(&e.filename);
     let mut n = 0;
     let mut mirrored = 0;
     for (rel, sha) in parts_of(e)? {
         let dst = root_dir.join(&rel);
+        if sha.is_empty() {
+            if !record {
+                bail!("{} part {rel} has no SHA-256: fetch it with --record", e.id);
+            }
+            if let Some(parent) = dst.parent() {
+                fs::create_dir_all(parent)?;
+            }
+            fs::remove_file(&dst).ok();
+            let got = download(&format!("{}{}", e.parts_url, url_path(&rel)), &dst)
+                .with_context(|| format!("download {} part {rel}", e.id))?;
+            recorded.push((e.id.clone(), rel, got));
+            n += 1;
+            continue;
+        }
         if dst.is_file() && sha256_file(&dst)?.0 == sha {
             continue;
         }
@@ -355,7 +376,11 @@ fn fetch_entry(
             return Ok(());
         }
         println!("fetch    {}  ({} files)", e.id, e.parts.len());
-        let (n, mirrored) = fetch_parts(e, dir, stage)?;
+        let mut parts_recorded = Vec::new();
+        let (n, mirrored) = fetch_parts(e, dir, stage, record, &mut parts_recorded)?;
+        if !parts_recorded.is_empty() {
+            record_part_sha256(&parts_recorded)?;
+        }
         write_receipt(
             &ok_marker,
             format!("{{\"id\":\"{}\",\"parts\":{}}}\n", e.id, e.parts.len()),
@@ -517,6 +542,31 @@ fn check_bundle_member(
 
 /// `--record`: write each `(filename, sha256)` into its manifest entry. Keyed by filename
 /// because a paired oracle export shares its input's id.
+/// Write the SHA-256 of parts fetched with `--record` into their entries' `parts` lines.
+fn record_part_sha256(recorded: &[(String, String, String)]) -> Result<()> {
+    let p = root().join("corpus/manifest.toml");
+    let mut text = fs::read_to_string(&p)?;
+    for (id, rel, sha) in recorded {
+        let Some(start) = text.find(&format!("id = \"{id}\"\n")) else {
+            bail!("{id}: entry not found in the manifest");
+        };
+        let end = text[start..]
+            .find("\n[[file]]")
+            .map_or(text.len(), |i| start + i);
+        let needle = format!("\"{rel}\"");
+        let Some(at) = text[start..end].find(&needle).map(|i| start + i) else {
+            bail!("{id}: part line {rel:?} not found in the manifest");
+        };
+        text.replace_range(at..at + needle.len(), &format!("\"{rel}  {sha}\""));
+    }
+    fs::write(&p, text)?;
+    println!(
+        "recorded {} part SHA-256 values into the manifest",
+        recorded.len()
+    );
+    Ok(())
+}
+
 fn record_sha256(recorded: &[(String, String)]) -> Result<()> {
     let p = root().join("corpus/manifest.toml");
     let mut text = fs::read_to_string(&p)?;

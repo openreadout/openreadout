@@ -136,13 +136,11 @@ pub fn summary(files: &BTreeMap<String, FileCov>, root: &Path, regions: usize) -
             e.functions.1 += f.functions.1;
         }
     }
-    let readers: Vec<String> = crate::repo::reader_crates(root)
-        .map(|v| {
-            v.into_iter()
-                .map(|c| format!("openreadout-{}", c.name))
-                .collect()
-        })
-        .unwrap_or_default();
+    let readers: Vec<String> = crate::repo::reader_crates(root).map_or_default(|v| {
+        v.into_iter()
+            .map(|c| format!("openreadout-{}", c.name))
+            .collect()
+    });
     let mut s = String::from(
         "# Coverage per crate\n\n| crate | lines | covered | functions | covered |\n| --- | --- | --- | --- | --- |\n",
     );

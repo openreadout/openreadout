@@ -13,8 +13,9 @@ OpenReadout can turn NMR FIDs into spectra, pick peaks and integrate regions. Th
   (same trace index; channels `real`, `imag`, or `magnitude`; `extra.kind = processed_spectrum`,
   `extra.axis` in ppm), so `export --process --format jcamp|csv|parquet` writes the spectrum.
 
-Only 1-D processing is done: a `ser` or arrayed FID is processed row by row (`--sweep`), the
-indirect dimension of 2-D data is not transformed.
+The commands above process one row at a time: a `ser` or arrayed FID row by row (`--sweep`).
+The library also transforms the indirect dimensions of 2D and 3D data and stacks pseudo-2D
+series (`process_nd`, `load_processed_nd`, below); the commands do not use it yet.
 
 ## FID processing (`process_fid`)
 
@@ -198,11 +199,273 @@ CARBON_01: `proc='lp'`, `ddrtc` 364 µs) need a first-order phase beyond the aut
 0.54 s with automatic phasing, 23 MB peak memory. The largest transform is 2²² points
 (`MAX_TRANSFORM_SIZE`).
 
+## Multidimensional processing (`process_nd`, `load_processed_nd`)
+
+Code: `processnd.rs` (pipeline), `indirect.rs` (parameters per format, loader), `window.rs`,
+`lp.rs`. `load_processed_nd(ds, info, trace, &NdOptions)` reads every row of an FID trace and
+the parameters of every dimension and returns a `SpectrumNd`: `shape` and `axes` slowest
+dimension first (2D: `[F1, F2]`), `real` row-major, optional hypercomplex `components`, the
+`series` list of a pseudo-2D data set, and a `record` of what was done per dimension.
+
+1. Direct dimension, each row: the 1D steps above (stored `TDeff`, group delay, window from the
+   true time zero, `FCOR`, transform, fractional group-delay term), optional linear prediction,
+   then the phase.
+2. Each indirect dimension, fastest first: rows combined into complex interferograms by the
+   encoding, optional linear prediction, window, first point × `FCOR` (default 0.5), zero filling,
+   transform in the same order as F2 (index 0 = high frequency), phase.
+3. Magnitude or power over the dimensions that ask for it, `REVERSE`, the direct strip
+   (`STSR`/`STSI`), optional `tilt` (J-resolved, with symmetrisation about F1 = 0) and
+   `symmetrize` (TopSpin `sym`), baseline per dimension (default none), ppm axes.
+
+Encodings (rows `2k` = u, `2k+1` = v; i₂ = the F2 imaginary unit):
+
+| `Encoding` | Bruker `MC2` (FnMODE − 1) | Varian | JEOL | interferogram point k |
+| --- | --- | --- | --- | --- |
+| `Complex` | 0 QF | `phase` = 1 | `real_complex` | conj(row k) |
+| `Sequential` | 1 QSEQ | – | – | as `Tppi` (not verified) |
+| `Tppi` | 2 TPPI | `phase` = 3 | `tppi` | real points at 2·SW: 2N real points transformed, first N bins conjugated |
+| `States` | 3 States | `phase` = 1,2 | `complex` | Re₂(u) + i·Re₂(v) |
+| `StatesTppi` | 4 States-TPPI | – | – | as `States`, × (−1)^k |
+| `EchoAntiecho` | 5 echo/antiecho | `f1coef` with 8 values | – | Re₂(C) − i·Re₂(S), C = i₂(u + v), S = u − v |
+| `Series` | pseudo-2D (below) | arrays other than `phase` | – | not transformed |
+
+FnMODE 0 (undefined) uses the stored `MC2`, else a guess from the pulse program (`qf` →
+`Complex`, `et`/`ea` → `EchoAntiecho`, else `StatesTppi`, with a note).
+
+Defaults per dimension (`DimensionOptions`, `None`/`Default` fields): the stored transform size,
+window, phases, phase mode (Bruker `PH_mod` 2 = magnitude, 3 = power; phases stored with
+`PH_mod` 0 are applied, since TopSpin's later `apk`/`apkm` store them there), first-point factor,
+points used (`TDeff`), linear prediction (`ME_mod`, `NCOEF`, `LPBIN`) and `REVERSE`. Without
+stored values: cosine-squared window (sine power 2, offset 0.5) in every dimension of 2D data and
+the 1D exponential for the F2 of a series; a size of the next power of two ≥ 2 × the points;
+magnitude for `Complex` dimensions and automatic phasing for the others (F2 on the first
+increment, F1 on the column through the strongest point). `NdOptions` adds `ignore_group_delay`,
+`symmetrize`, `tilt` and `keep_components`. Windows: `Window` { `None`, `Exponential`,
+`Gaussian`, `LorentzToGauss`, `Sine` (offset, power), `Trapezoid`, `Sinc`, `Traficante` }, mapped
+from Bruker `WDW` 0–10 (`window.rs` module docs; sine and exponential windows were checked against
+TopSpin, the others follow their published definitions).
+
+Linear prediction (`LinearPrediction` { `direction`, `coefficients`, `points` }): Burg
+coefficients, `Forward` to `points` rows (Bruker `LPBIN`), `Backward` (replaces the first points),
+`MirrorForward` (`ME_mod` 5/6: the series mirrored to negative time by conjugation before the
+fit). Burg's coefficients stay stable when `NCOEF` approaches the number of points; they are
+biased towards weaker damping, which shows on short, fast-decaying interferograms.
+
+Pseudo-2D series: a Bruker experiment whose directory holds `difflist`, `vdlist`, `vclist`,
+`vplist`, `vtlist` or `valist` and whose F1 is not hypercomplex, or whose pulse program is a
+diffusion or relaxation sequence (`ledbp`, `stebp`, `dstebp`, `dosy`, `diff`; `t1ir`, `t1rho`,
+`cpmg`, `t2` at the start), every Spinsolve `data.2d` (delays from `minDelay`, `maxDelay`,
+`delaySpacing`, `nrSteps`, in ms) and Varian arrays: F2 transformed row by row, the rows kept, the
+varied values in `SpectrumNd::series` (`name`, `values`, `unit`, `source`).
+
+Non-uniform sampling: `place_on_grid(rows, schedule, dims, full)` puts the measured rows of a
+`nuslist` on the full grid (`NusTD` per indirect dimension) with zeros elsewhere, and
+`nus::reconstruct` fills the missing increments before `process_nd` runs; `load_processed_nd`
+does both for Bruker NUS data. See "Non-uniform sampling" below.
+
+Projections and slices: `SpectrumNd::projection(axis, Projection::{Skyline, NegativeSkyline,
+Sum})`, `trace(axis, &indices)`, `trace_at_ppm(axis, &ppm)` (2D: `trace_at_ppm(1, &[f1])` is the
+row at F1 shift f1, `trace_at_ppm(0, &[f2])` the column at F2 shift f2), `point_of`, `get`.
+
+Bruker DSPFVS 11/12 firmware (table group delay with a fraction): 180° is added to the stored F2
+phase, in 1D (`process_fid` through `source::fid_parameters`) and nD alike; without it TopSpin's
+`1r` and `2rr` come out inverted (s572, 1D and 2D; `tests/nmr_processing.rs`
+`bruker_dspfvs_11_12_stored_phase`: s572/1 signal correlation 1.000000 with `1r`).
+
+### Parity with TopSpin's `2rr` (2026-11-14; `tests/nmr_processing_2d.rs`)
+
+The `ser` processed with the stored parameters against TopSpin's `pdata/1/2rr`: signal
+correlation over |2rr| > 10 × noise SD (all-point correlation in brackets when it differs), the
+tallest point within one point in both dimensions, both ppm axes equal to TopSpin's `OFFSET`.
+
+| experiment | pulse program, encoding | F1 linear prediction | signal (all) correlation | notes |
+| --- | --- | --- | --- | --- |
+| `nmrxiv-s1247/12` | cosygpppqf, QF | – | 0.999928 | |
+| `nmrxiv-s1247/13` | hsqcetgpsi, EA | – | 0.999982 (0.994338) | |
+| `nmrxiv-s1247/14` | impact-hmbc, EA, F2 magnitude | – | 0.999983 | `TDeff` 104 of 256 rows |
+| `nmrxiv-s1407/COSY` | cosygpppqf, QF | LPfc 32 | 0.998039 | |
+| `nmrxiv-s1517/16` | noesygpphpp, States-TPPI | – | 0.999992 | |
+| `nmrxiv-s1608/RPDLF` | NEA_RPDLF (solid state), FnMODE 0 → MC2 QF | – | 0.999918 | |
+| `nmrxiv-s1617/COSY` | cosygpppqf, QF | LPfc 32 | 0.999948 | |
+| `nmrxiv-s1617/HMBC` | hmbcetgpl3nd, EA, F2 magnitude | LPfc 60 of 64 points | 0.990955 (0.954147) | prediction order near the number of points |
+| `nmrxiv-s1617/HSQC` | hsqcedetgpsisp2.3, EA | LPfc 60 of 64 points | 0.987163 | same |
+| `nmrxiv-s1617/TOCSY` | mlevphpp, States-TPPI | LPfc 32 | 0.999981 | |
+| `nmrxiv-s2331/11` | cosygpppqf, QF | LPfc 32 | 0.994912 | |
+| `nmrxiv-s2331/12` | hsqcedetgp, EA | LPfc 32 | 0.999765 | |
+| `nmrxiv-s2331/13` | hmbcetgpl3nd, EA | LPfc 32 | 0.999550 | |
+| `nmrxiv-s2331/15` | noesygpphzs, States-TPPI | LPfc 32 | 0.999933 | |
+| `nmrxiv-s279/22` | cosygpmfqf, QF | – | 0.999995 | |
+| `nmrxiv-s314/202` | noesygpph, TPPI | – | 0.999999 | |
+| `nmrxiv-s38/12` | cosygpqf, QF + `sym` | LPfc 16 | 0.999775 | |
+| `nmrxiv-s38/15` | hsqcetgp, EA | LPfc 16 | 0.998650 | |
+| `nmrxiv-s38/16` | hmbcgplpndqf, QF | LPmifc 90 | 0.995837 | mirror-image prediction |
+| `nmrxiv-s38/17` | noesyetgp, EA | LPfc 16 | 0.996670 | |
+| `nmrxiv-s49/5` | cosygpppqf, QF + `sym` | LPfc 32 | 0.997659 | |
+| `nmrxiv-s49/6` | hsqcedetgpsisp2.3, EA | LPfc 32 | 0.999884 | |
+| `nmrxiv-s49/7` | hmbcetgpl3nd, EA | LPfc 32 | 0.999764 | |
+| `nmrxiv-s501/6` | roesyphpr.2, States-TPPI | LPfc 32 | 0.999977 | |
+| `nmrxiv-s572/3` | cosygpmfph, States-TPPI (DSPFVS 12) | – | 0.999103 | |
+| `nmrxiv-s572/4` | noesygpph, States-TPPI (DSPFVS 12) | – | 0.997785 | F2 EM 5 Hz; the residual is not explained |
+| `nmrxiv-s572/5` | hsqcedetgpsp, EA (DSPFVS 12) | – | 0.999995 | |
+| `nmrxiv-s572/6` | hmbcgpl2ndqf, QF | – | 0.999191 | |
+| `nmrxiv-s73/4` | cosygpppqf, QF | LPfc 32 | 0.999311 | |
+| `nmrxiv-s73/5` | hsqcedetgpsisp2.3, EA | LPfc 32 | 0.999980 (0.998407) | |
+| `nmrxiv-s73/6` | hmbcgplpndqf, QF | LPfc 32 | 0.979348 | prediction of a short magnitude HMBC |
+| `nmrxiv-s736/3` | cosygpppqf, QF | – | 0.999989 | |
+| `nmrxiv-s736/4` | hsqcedetgpsisp.2, EA | – | 0.999995 | |
+| `nmrxiv-s736/5` | hmbcgplpndqf, QF | – | 0.999996 | |
+| `nmrxiv-s736/6` | noesygpphpp, TPPI | – | 0.999985 | |
+| `nmrxiv-s736/7` | hsqcetgpsi (15N), EA | – | 0.999917 (0.986998) | |
+| `nmrxiv-s736/8` | hmbcgpndqf (15N), QF | – | 0.999915 (0.978266) | |
+| `nmrxiv-s740/2` | hsqcetgpsi, EA | – | 0.999996 | |
+| `nmrxiv-s740/3` | hmbcgplpndqf, QF | – | 0.999998 | |
+| `nmrxiv-s740/5` | roesyphpp, TPPI | – | 0.999988 | |
+| `nmrxiv-s853/8` | noesygpphpp, States-TPPI | – | 0.999980 | |
+
+Summary: 20 of the 21 experiments TopSpin made without linear prediction reach a signal
+correlation ≥ 0.9991 (18 at ≥ 0.9999); the exception is s572/4 (0.9978). With Burg linear
+prediction in F1, 11 of 20 reach ≥ 0.999 and all but three ≥ 0.994; the three below are short
+interferograms (64 complex points) predicted with 32–60 coefficients. Differences in the
+all-point correlation of the 15N and some HSQC spectra are in the noise: TopSpin's `abs1`/`abs2`
+baseline corrections after the transform are not reproduced.
+
+Reported, not asserted: non-uniformly sampled sets (s279/23, /24, s753/21, s853/5–7, s1407
+HSQC/HMBC, s1517/13–15: compared in "Non-uniform sampling" below), the MQMAS sets
+(`desperate-rbno3-mqmas-20`, `-30`, `zakary-rbnb2o5f-93nb-3qmas-255`, `-87rb-3qmas-60`: TopSpin
+sheared them, which is not done here: signal correlation −0.98 for `desperate-rbno3-mqmas-20`, whose F1 axis also differs, and 0.10 and 0.76 for the `zakary` sets) and solvent-filtered sets (`BC_mod` qfil: s314/20, /200: 0.78). DOSY
+(`nmrxiv-s519/310–321`, 12 series of 64 rows with `difflist`): TopSpin's `2rr` there is the
+diffusion-transformed display (F1 in log D, fitted lines only), so its sum over F1 is only a
+rough reference (signal correlation with the first row 0.30–0.99); the test asserts that the
+tallest line of the first row is positive and weaker in the last row. On 11 of the 12 the stored
+F2 phase (−17.4°) leaves the rows inverted; as in 1D, the default then uses automatic phases
+(with a note). No J-resolved experiment of the manifest has
+TopSpin's spectrum, so the direction of `tilt` is not verified.
+
+Other vendors (no vendor-processed 2D data are public in the corpus):
+
+| data set | encoding | against | result |
+| --- | --- | --- | --- |
+| `nmrglue-agilent-2d` | States (`phase` = 1,2) | nmrglue pipeline after the NMRPipe script of the test data (black box), magnitudes binned to 64 × 256 | correlation 0.83 with both axes the same way round (0.57 with F1 reversed); the windows differ |
+| `nmrglue-agilent-2d-tppi` | TPPI (`phase` = 3) | the same, with the script's `REV` after the F1 transform | 0.86 (0.05 reversed) |
+| `nmrxiv-s200` COSY (JEOL, `real_complex`) | `Complex`, magnitude | the diagonal | 44 % of the intensity within 2 % of the width of the diagonal (3 % with F1 conjugated) |
+| JEOL `nmrxiv-s200` HSQC/HMBC, `figshare29098781-hmbc`, `zenodo19692590-discomycin-hsqc` | States / `Complex` | – | finite, axes 170…0 ppm (13C) and 225…−25 ppm; the s200 HSQC/HMBC are NUS (processed as measured, with a note) |
+| 13 Spinsolve `data.2d` (T1, T2, SLIC, PGSTE) | `Series` | – | every row kept; delays from `minDelay`/`maxDelay`/`nrSteps` where present (9 of 13) |
+| `nmrglue-bruker-3d` (HNCA, no `acqu3s`) | States × States, dimensions from the test data's conversion script | – | 128 × 128 × 2048 spectrum, finite, 64 s (corpus build) |
+
+### Non-uniform sampling (`nus.rs`)
+
+`load_processed_nd` reads the `nuslist` (complex-point indices, one column per indirect
+dimension, in acquisition order) and `NusTD` of each `acquNs`, puts the measured rows on the
+full grid (`place_on_grid`) and fills the rest as `NdOptions::nus` says:
+
+| `NusMode` | what happens |
+| --- | --- |
+| `Default` | `IterativeSoftThreshold` with `iterations` 1000 (`DEFAULT_ITERATIONS`) and `convergence` 10⁻⁴ (`DEFAULT_CONVERGENCE`); zeros, with a note, for `Tppi`, `Sequential` or `Series` dimensions |
+| `ZeroFill` | zeros (the spectrum keeps its sampling artefacts) |
+| `IterativeSoftThreshold { iterations, convergence }` | reconstruction with this iteration cap per column and convergence threshold |
+
+`record.nus` (`NusRecord`) gives the `method` (`iterative_soft_threshold` or `zero_fill`),
+`sampled_points` of `grid_points` and `sampled_fraction`, `max_iterations` and `convergence`,
+`iterations_used` (most any column took) and `columns_reconstructed` of `columns`.
+
+Method (Stern, Donoho, Hoch 2007; Hyberts et al. 2012; module docs of `nus.rs`): the direct
+dimension of the measured rows is transformed without a window; each direct-dimension point
+(column) is reconstructed on its own. The rows of one increment become complex sequences with
+one exponential per line (QF rows as they are, echo and antiecho rows each, a States or
+States-TPPI pair (u, v) as u ± i·v), so hypercomplex pairs stay together. Each sequence: soft
+thresholding of the spectrum (transform size twice the grid, rounded up to a power of two)
+after a step that restores the measured points, the threshold starting at the tallest point and
+falling by 0.93 (`THRESHOLD_DECAY`) per iteration to the noise level (the 25th percentile of the
+columns' tallest zero-filled points), then until the spectrum changes by less than `convergence`
+or the cap is reached. Columns below twice the noise level (`SIGNAL_FACTOR`) are left with
+zeros. The measured rows are kept exactly; the result does not depend on the number of threads
+(up to 8). The same code takes two jointly sampled indirect dimensions (3D; unit-tested on
+synthetic data, no 3D NUS set is in the corpus).
+
+- Linear prediction stored for the dimension (`ME_mod`) still runs after the reconstruction:
+  TopSpin's `proc2s` of the NUS sets keep it (`LPBIN` up to twice `NusTD`), and its audit trails
+  show it ran after `mdd`/`cs`.
+- When the `ser` holds fewer increments than the `nuslist` lists (s1407 HMBC: 28 of 102), the
+  acquisition stopped early: only the first entries count. An increment listed more than once
+  (s279/24: 192 entries, 131 increments) takes the mean of its measurements.
+- Errors (exit 6, with a hint): an entry with the wrong number of indices, an index beyond
+  `NusTD`, `NusTD` missing, or reconstruction asked for a `Tppi`/`Sequential` dimension.
+- Soft thresholding shrinks weak lines a little: in crowded spectra cross peaks within a few
+  times the noise come out lower than in the fully sampled spectrum.
+
+#### Validation (2026-11-15; `tests/nmr_nus.rs`)
+
+Simulated sampling: fully sampled experiments of the parity table (≥ 0.999 against TopSpin, no
+linear prediction) with 25 % and 50 % of the increments kept on a Poisson-gap schedule (seed
+2026), processed with the stored parameters and compared with the fully sampled result. Signal
+correlation over |full| > 10 × noise SD; cross peaks: those `pick_cross_peaks` finds on the full
+spectrum at ≥ 20 noise SDs, found when the sparse spectrum's tallest point within one point has
+the same sign and at least half the height (height error against the full spectrum's tallest
+point there); false cross peaks: picked on the sparse spectrum at ≥ 20 noise SDs (of the full
+spectrum) where the full spectrum is below 5 noise SDs with no cross peak within two points.
+Zero-filled values in brackets; times on 8 cores (test profile).
+
+| experiment | encoding, F1 points | kept | correlation | strong cross peaks found | height error median / max | false cross peaks | time |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `nmrxiv-s736/3` COSY | QF, 256 | 25 % | 0.9997 (0.4941) | 100/126 (24) | 0.10 / 2.97 | 25 (0) | 0.3 s |
+| | | 50 % | 0.9999 (0.7350) | 113/126 (38) | 0.12 / 1.20 | 7 (11) | 0.2 s |
+| `nmrxiv-s736/4` HSQC | EA, 128 | 25 % | 0.9999 (0.8888) | 54/54 (8) | 0.08 / 0.45 | 0 (0) | 0.2 s |
+| | | 50 % | 1.0000 (0.9450) | 54/54 (39) | 0.03 / 0.16 | 0 (0) | 0.1 s |
+| `nmrxiv-s736/5` HMBC | QF, 256 | 25 % | 0.9995 (0.9143) | 54/55 (6) | 0.05 / 0.48 | 0 (0) | 0.2 s |
+| | | 50 % | 0.9999 (0.9658) | 55/55 (23) | 0.02 / 0.18 | 0 (5) | 0.1 s |
+| `nmrxiv-s740/2` HSQC | EA, 128 | 25 % | 0.9849 (0.9486) | 19/19 (0) | 0.12 / 0.39 | 0 (0) | 0.1 s |
+| | | 50 % | 0.9974 (0.9784) | 19/19 (19) | 0.04 / 0.17 | 0 (0) | < 0.1 s |
+| `nmrxiv-s1247/13` HSQC | EA, 128 | 25 % | 0.9993 (0.9347) | 13/13 (0) | 0.04 / 0.23 | 0 (0) | 0.1 s |
+| | | 50 % | 0.9999 (0.9775) | 13/13 (13) | 0.01 / 0.07 | 0 (0) | < 0.1 s |
+| `nmrxiv-s1517/16` NOESY | States-TPPI, 128 | 25 % | 0.9999 (0.6445) | 236/354 (107) | 0.17 / 1.93 | 7 (0) | 0.3 s |
+| | | 50 % | 1.0000 (0.8361) | 321/354 (226) | 0.16 / 1.87 | 1 (0) | 0.2 s |
+| `nmrxiv-s853/8` NOESY | States-TPPI, 64 | 25 % | 0.9994 (0.6730) | 94/100 (20) | 0.09 / 0.50 | 1 (0) | 0.2 s |
+| | | 50 % | 0.9999 (0.8673) | 100/100 (56) | 0.03 / 0.30 | 0 (0) | 0.1 s |
+| `nmrxiv-s572/5` HSQC | EA, 128 | 25 % | 0.9999 (0.9015) | 29/29 (6) | 0.07 / 0.41 | 0 (0) | 0.1 s |
+| | | 50 % | 1.0000 (0.9600) | 29/29 (18) | 0.03 / 0.20 | 0 (0) | 0.1 s |
+| `nmrxiv-s279/22` COSY | QF, 256 | 25 % | 0.9988 (0.9717) | 19/19 (2) | 0.07 / 0.25 | 1 (0) | 0.1 s |
+| | | 50 % | 0.9998 (0.9903) | 19/19 (6) | 0.02 / 0.11 | 0 (3) | 0.1 s |
+
+Asserted: correlation ≥ 0.97 (25 %) and ≥ 0.99 (50 %) and above zero filling; at least 60 %
+(25 %) and 85 % (50 %) of the strong cross peaks found; at 50 %, false cross peaks at most a
+tenth of the strong ones. The zero-filled spectra find few cross peaks and few false ones
+because their sampling artefacts raise the picker's noise estimate. The magnitude COSY s736/3
+at 25 % keeps false cross peaks next to the diagonal.
+
+Measured NUS sets: TopSpin's own reconstruction (`pdata/1/2rr`, `Mdd_mod = cs`, IST; s753/21:
+IRLS with virtual echo) against the `ser` processed here with the stored parameters, signal
+correlation, reconstructed (zero filled); time of `load_processed_nd`:
+
+| experiment | encoding | sampled | correlation | time |
+| --- | --- | --- | --- | --- |
+| `nmrxiv-s279/23` HSQC | EA | 64 of 128 (50 %) | 0.9997 (0.9982) | 0.2 s |
+| `nmrxiv-s279/24` HMBC | EA | 131 of 256 (51 %) | 0.9986 (0.9935) | 0.2 s |
+| `nmrxiv-s753/21` HSQC | EA | 102 of 2048 (5 %) | 0.9582 (0.2950) | 9.9 s |
+| `nmrxiv-s853/5` HSQC | EA | 16 of 64 (25 %) | 0.9922 (0.8809) | 0.6 s |
+| `nmrxiv-s853/6` HMBC | EA | 16 of 64 (25 %) | 0.9912 (0.7904) | 0.4 s |
+| `nmrxiv-s853/7` COSY | QF | 32 of 128 (25 %) | 0.9972 (0.5144) | 0.3 s |
+| `nmrxiv-s1407/HSQC` (2048 × 600 rows) | EA | 75 of 300 (25 %) | 0.9991 (0.8526) | 3.2 s |
+| `nmrxiv-s1407/HMBC` | EA | 28 of 256 (11 %) | 0.9808 (0.4562) | 1.7 s |
+| `nmrxiv-s1517/13` COSY | QF | 128 of 256 (50 %) | 0.9173 (0.8206) | 0.3 s |
+| `nmrxiv-s1517/14` HMQC | QF | 128 of 256 (50 %) | 0.9986 (0.9631) | 0.2 s |
+| `nmrxiv-s1517/15` HMBC | QF | 128 of 256 (50 %) | 0.9969 (0.9666) | 0.5 s |
+| `desperate-rbno3-mqmas-30` (MQMAS) against its fully sampled twin `-20`, both processed here | QF | 77 of 129 (60 %) | 0.9839 (0.9810) | – |
+
+Asserted: reconstruction above zero filling on every set. The MQMAS pair is not sheared
+(a known gap), so both spectra carry the same distortion. s1517/13 is a magnitude COSY with
+linear prediction where TopSpin's and our prediction differ.
+
 ## Known gaps
 
-- 1-D only; no second-dimension transform, NUS reconstruction or linear prediction.
-- Linear prediction (Bruker `ME_mod`, VnmrJ `proc='lp'`) is not done: spectra the vendor processed
-  with it differ at the start of the FID (a note says so). Varian `lp` is not reproduced.
+- The commands (`analyze nmr-peaks`, `--process`) use the 1D path; the multidimensional API is
+  library-only until it is wired in.
+- NUS reconstruction is iterative soft thresholding only (no virtual echo, IRLS or maximum
+  entropy); `Tppi`/`Sequential` NUS dimensions and JEOL NUS data are zero filled. No solvent filter (`BC_mod` 5/6), no shearing
+  (MQMAS), no TopSpin `abs1`/`abs2` baseline; `tilt`/`symmetrize` run only when asked.
+- Linear prediction in F1 is Burg's: it falls short of TopSpin when `NCOEF` is close to the
+  number of points. Varian `lp` (1D) is not reproduced; VnmrJ `proc1='lp'` is not read.
+- Varian windows other than `lb1`, VnmrJ 3D row order, JEOL NUS and Spinsolve delay spacing are
+  taken as documented in `indirect.rs` and not verified on vendor spectra.
 - Real-only (`AQ_mod` 0/2) FIDs are refused (exit 6).
 - Bruker DIGMOD 3 FIDs processed here sit on a baseline about 0.3 % of the tallest line away
   from TopSpin's `1r` (water-suppressed metabolomics spectra, 2026-10-11). Weak lines of nearly
@@ -238,3 +501,226 @@ CARBON_01: `proc='lp'`, `ddrtc` 364 µs) need a first-order phase beyond the aut
 | `NmrReport`, `path`, `format`, `trace_name`, `processing`, `noise_sd`, `peak_options`, `peak_count`, `main_peak` | `analyze nmr-peaks` output |
 | `ChosenSpectrum`, `spectrum`, `load`, `analyze` | the spectrum used and the analysis entry points |
 | `ProcessedNmrDataset`, `record` | dataset wrapper behind `--process` |
+| `process_nd`, `MAX_ND_POINTS`, `SpectrumNd`, `shape`, `components`, `axes`, `series`, `ndim`, `get`, `point_of`, `trace_at_ppm`, `projection` | multidimensional processing entry point, limit and result |
+| `Component`, `mask`, `values` | one hypercomplex component of a result |
+| `Projection` { `Skyline`, `NegativeSkyline`, `Sum` } | how a projection combines points |
+| `Encoding` { `Complex`, `Sequential`, `Tppi`, `States`, `StatesTppi`, `EchoAntiecho`, `Series` }, `rows_per_point`, `is_fourier` | sampling of an indirect dimension |
+| `Series`, `name`, `unit` | the varied parameter of a pseudo-2D series |
+| `DimensionParameters`, `rows`, `encoding` | acquisition parameters of an indirect dimension |
+| `StoredDimension`, `window`, `phase_mode`, `linear_prediction`, `reverse`, `strip` | stored processing of one dimension |
+| `StoredPhaseMode` { `Phased`, `Magnitude`, `Power` } | stored phase mode (Bruker `PH_mod`) |
+| `DimensionOptions`, `power`, `first_point_factor` | per-dimension options |
+| `LpMode` { `Default`, `None`, `Manual` }, `prediction` | linear prediction choice |
+| `NdOptions`, `direct`, `indirect`, `symmetrize`, `tilt`, `keep_components` | multidimensional options |
+| `DimensionRecord`, `label`, `encoding`, `points`, `window_source`, `reversed`, `NdRecord`, `dimensions` | what was done per dimension |
+| `Window` { `None`, `Exponential`, `Gaussian`, `LorentzToGauss`, `Sine`, `Trapezoid`, `Sinc`, `Traficante` }, `gaussian_position`, `offset`, `power`, `rise`, `fall`, `center`, `width`, `weights` | window functions |
+| `LinearPrediction`, `direction`, `coefficients`, `points`, `LpDirection` { `Forward`, `Backward`, `MirrorForward` }, `burg_coefficients`, `predict` | linear prediction |
+| `NdParameters`, `direct_stored`, `schedule`, `nd_parameters`, `read_rows`, `place_on_grid`, `load_processed_nd`, `bruker_encoding`, `bruker_window`, `parse_list` | parameters of every dimension per format and the loader |
+| `nus`, `NusMode` { `Default`, `ZeroFill`, `IterativeSoftThreshold` }, `iterations`, `convergence` | how the missing increments of non-uniformly sampled data are filled |
+| `NusRecord`, `method`, `sampled_points`, `grid_points`, `sampled_fraction`, `max_iterations`, `iterations_used`, `columns_reconstructed`, `columns` | what the reconstruction did (`NdRecord::nus`) |
+| `reconstruct`, `reconstructable`, `check_schedule`, `poisson_gap_schedule`, `DEFAULT_ITERATIONS`, `DEFAULT_CONVERGENCE`, `THRESHOLD_DECAY`, `SIGNAL_FACTOR` | reconstruction by iterative soft thresholding, schedule checks, Poisson-gap schedules |
+
+## 2D and nD peak picking and volume integration (`peaks2d`, `source2d`, `analyze_2d`)
+
+`analyze_2d` reads a stored 2D or 3D spectrum and returns its cross peaks, their volumes and
+the integrals of boxes the caller gives. The picker itself (`pick_cross_peaks`) takes a
+row-major matrix, its shape and one `PpmAxis` per dimension (slowest first: F1, F2), so it
+works on any matrix, including spectra transformed here later.
+
+### Reading the matrix (`load_matrix`)
+
+| reader | trace | axes and nuclei |
+| --- | --- | --- |
+| Bruker | `pdata/<n>` with `extra.shape` (`2rr`, `3rrr`) | `extra.indirect_axes`, `extra.axis`; `AXNUC` of `procs`, `proc2s`, `proc3s` |
+| JEOL | processed spectrum with `extra.indirect_dimensions[]` | `indirect_dimensions[0].axis`; with twice as many sweeps as F1 points the even (real) rows |
+| JCAMP-DX | `nD NMR SPECTRUM` NTUPLES, pages keyed by F1 | F1 page values in Hz, converted with the observe frequency × Ξ(F1)/Ξ(F2) (IUPAC 2001 frequency ratios, `FREQUENCY_RATIOS`; a note says so); nuclei from `##.NUCLEUS=` |
+
+Rows are read one at a time with a column window, and only the rows and columns inside
+`ranges_ppm` (plus 8 points of margin) are read. The matrix is one `Vec<f64>`, the only full
+copy: picking keeps the maxima and the footprint points (a hash map of the points above the
+footprint floor that are connected to a peak). A crop larger than `max_points` (default 2²⁸,
+2 GiB) is refused with exit 6 and a hint to narrow the ranges. The carrier of each indirect
+dimension is at point n/2 of its full axis.
+
+### Method (`pick_cross_peaks`, `annotate`, `integrate_regions`)
+
+- **Noise SD** (`matrix_noise_sd`): runs of 64 points along the direct dimension (at most
+  16384, spread evenly), a least-squares line removed from each, 1.4826 · MAD of the residual,
+  25th percentile over runs (as in 1D) × 1.12 (`NOISE_P25_SCALE`, which makes it unbiased on
+  Gaussian noise); exactly constant runs are skipped. Data with no negative values are treated
+  as magnitude mode: the Rayleigh noise floor spreads 0.66 times as much as the noise on a line,
+  so the SD is multiplied by 1.52 (`MAGNITUDE_NOISE_SCALE`, a note says so). **Noise from the
+  maxima**: the 90th percentile of the heights of all local maxima of |value| (nearly all of
+  them noise), divided by its value for Gaussian noise (`MAXIMA_P90_RATIO` 2.5 in 2D, +0.4
+  per extra dimension, `MAXIMA_P90_MAGNITUDE` 2.95), gives `maxima_noise_sd`. Spectra with
+  non-uniform sampling, t1 noise or truncation have noise with heavier tails than Gaussian
+  (up to 3.9 times the run estimate in the corpus); `noise_sd`, which the thresholds and `snr`
+  use, is the larger of `run_noise_sd` and `maxima_noise_sd`. **Line noise**:
+  1.4826 · MAD of every line along each dimension (each column and row of a 2D spectrum). The
+  local noise of a point is the largest of the noise SD and the noise of its lines.
+- **Maxima**: at least as high as all 3ᴺ − 1 neighbours, off the edge, height ≥ `min_snr` ×
+  noise SD and ≥ `min_height_fraction` × the largest |value| in range, prominence along every
+  dimension ≥ `min_prominence_snr` × noise SD (the 1D rule along each line). Negative maxima the
+  same way on the negated data (`include_negative`). Maxima below `min_local_snr` × their local
+  noise (prominence scaled the same way) are on a noise ridge (t1 noise, a solvent column):
+  counted in `ridge_suppressed` and left out, or kept and flagged `ridge` with
+  `keep_ridge_peaks`. Kept maxima on a noisy line (≥ `ridge_factor` × the noise SD) that stand
+  less than 2 × `min_snr` above its noise are flagged `ridge`.
+- **Position and width**: per dimension, a parabola through the maximum and its two
+  neighbours; full width at half height per dimension by walking along that dimension (`None`
+  when an overlapping line keeps the signal from reaching half height).
+- **Cross peaks**: maxima of either sign within `group_gap_hz` (or `group_gap_points`) of each
+  other in every dimension are one cross peak (single linkage). `ppm` is the |height|-weighted
+  mean of the members, `apex_ppm` the tallest member's position, `maxima` the member count,
+  `sign` positive, negative or mixed (antiphase). `list_maxima` also returns every member
+  (`maxima[]`, each with the index of its cross peak).
+- **Footprint and volume**: flooding from the members, highest point first, through face
+  neighbours of the same sign at ≥ `footprint_snr` × local noise; where two floods meet the
+  first to arrive keeps the point. `volume` = Σ values × Π |step_ppm| (intensity·ppmᴺ),
+  `absolute_volume` the same with |values| (antiphase cross peaks have volume near 0),
+  `footprint_points`, `footprint_ppm` (extent per dimension). Cross peaks with fewer than
+  `min_footprint_points` footprint points are isolated spikes (reconstruction artefacts of
+  non-uniformly sampled data): left out and counted in `small_footprint_suppressed`.
+- **Annotations**: when two dimensions observe the same nucleus over overlapping ranges
+  (`homonuclear_pair`), cross peaks within `diagonal_tolerance_hz` (at least 1.5 points) of the
+  diagonal are `diagonal`; each other cross peak is paired with the nearest cross peak at its
+  mirror image within `symmetry_tolerance_hz` (at least 2 points): `symmetric_partner` (index
+  in `peaks`) and `partner_height_ratio`, else `partner_missing`. `axial`: within one point of
+  an indirect dimension's carrier. `ridge` also marks a cross peak on the indirect-dimension
+  line (same direct position within the stronger peak's half width) of a cross peak
+  `ridge_ratio` times taller: t1 noise and truncation wiggles; on homonuclear spectra a cross
+  peak with a symmetric partner is not marked. Flags never remove a peak.
+- **Integrals** (`integrate_regions`): Σ values in a ppm box per dimension × the cell size;
+  `normalized` rescales to the reference box (default box 0 = 1), as the 1D integrals.
+
+Defaults (`CrossPeakOptions`):
+
+| option | default | meaning |
+| --- | --- | --- |
+| `min_snr` | 10 | height in noise SDs |
+| `min_local_snr` | 6 | height in local-noise units (row and column noise) |
+| `min_height_fraction` | 0 | fraction of the largest value |
+| `min_prominence_snr` | 5 | prominence along each dimension in noise SDs |
+| `include_negative` | true | negative peaks too |
+| `ranges_ppm` | whole spectrum | one optional ppm range per dimension |
+| `min_footprint_points` | 3 | smallest footprint of a cross peak |
+| `max_peaks` | 1000 | tallest cross peaks kept |
+| `group_gap_hz`, `group_gap_points` | 15 Hz, 1.5 points | maxima closer than this in every dimension form one cross peak |
+| `footprint_snr` | 3 | footprint floor in local-noise units |
+| `ridge_factor` | 3 | a line with noise ≥ 3 × the noise SD is a ridge |
+| `ridge_ratio` | 20 | a cross peak on the F1 line of one 20 × taller is flagged `ridge` |
+| `keep_ridge_peaks` | false | list maxima on ridges (flagged) |
+| `diagonal_tolerance_hz`, `symmetry_tolerance_hz` | 15 Hz, 25 Hz | homonuclear annotations |
+| `list_maxima` | false | return the member maxima too |
+
+### Validation (2026-11-14, `crates/openreadout-corpus-tests/tests/nmr_2d_peaks.rs`)
+
+Every processed Bruker 2D spectrum of the development corpus (74 `pdata/<n>/2rr`;
+the 12 DOSY spectra are read and picked but not scored), split in two halves
+by a hash of the id: the defaults were chosen on the `tune` half. None of these data sets
+stores a TopSpin 2D peak list, so the picks are compared with nmrglue and with chemistry:
+
+- **nmrglue** (`analysis.peakpick.pick`, run as a black box at the same absolute threshold,
+  `tests/corpus/nmr2d_oracle/`): *maxima precision*, our maxima that are nmrglue maxima
+  (within 1.5 points); *maxima recall*, nmrglue's 300 tallest maxima that we report (we leave
+  out maxima without prominence and maxima on t1 ridges on purpose, so this is below 1 where
+  ridges are strong); *regions*, nmrglue's `connected` regions that hold one of our maxima or
+  footprints. The largest distance between a matched pair is 0.5 point (our interpolated
+  position against nmrglue's grid point) on most spectra and 1.44 points at most.
+- **Symmetry** (COSY, TOCSY, NOESY, ROESY not symmetrized in processing): off-diagonal cross
+  peaks with a symmetric partner.
+- **HSQC/HMQC against 1D lists** (5 data sets whose 1H and 13C spectra carry TopSpin peak
+  lists): of the 10 tallest cross peaks, those on a 1H line and a 13C line after removing the
+  referencing offset between the experiments (the median distance of the 12 tallest to their
+  nearest 13C line).
+
+| experiment type | set | spectra | cross peaks | nmrglue maxima recall | maxima precision | nmrglue regions | symmetric partners | tallest HSQC peaks on 1D lines |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| COSY | test | 6 | 1169 | 898/1800 = 0.50 | 829/829 = 1.00 | 520/1677 = 0.31 | 391/486 = 0.80 | – |
+| COSY | tune | 7 | 3010 | 1470/1910 = 0.77 | 1347/1347 = 1.00 | 1031/1746 = 0.59 | 250/328 = 0.76 | – |
+| J-resolved | test | 1 | 25 | 122/300 = 0.41 | 111/111 = 1.00 | 237/300 = 0.79 | – | – |
+| HMBC | test | 5 | 406 | 708/740 = 0.96 | 642/642 = 1.00 | 704/709 = 0.99 | – | – |
+| HMBC | tune | 10 | 1756 | 1214/1455 = 0.83 | 1089/1089 = 1.00 | 1056/1138 = 0.93 | – | – |
+| NOESY | test | 3 | 1295 | 640/900 = 0.71 | 592/592 = 1.00 | 569/900 = 0.63 | 624/656 = 0.95 | – |
+| NOESY | tune | 4 | 905 | 565/1200 = 0.47 | 532/532 = 1.00 | 448/836 = 0.54 | 353/371 = 0.95 | – |
+| HSQC, HMQC | test | 11 | 803 | 793/1350 = 0.59 | 727/727 = 1.00 | 817/906 = 0.90 | – | 20/20 = 1.00 |
+| HSQC, HMQC | tune | 5 | 365 | 338/574 = 0.59 | 315/315 = 1.00 | 293/494 = 0.59 | – | 26/30 = 0.87 |
+| other (solid state, no pulse program) | test | 2 | 41 | 53/94 = 0.56 | 49/49 = 1.00 | 43/45 = 0.96 | – | – |
+| other (solid state, no pulse program) | tune | 2 | 62 | 86/282 = 0.30 | 85/85 = 1.00 | 49/127 = 0.39 | – | – |
+| ROESY | tune | 4 | 1037 | 650/1200 = 0.54 | 603/603 = 1.00 | 499/988 = 0.51 | 440/461 = 0.95 | – |
+| TOCSY | test | 1 | 161 | 71/300 = 0.24 | 63/63 = 1.00 | 113/300 = 0.38 | 70/76 = 0.92 | – |
+| TOCSY | tune | 1 | 161 | 71/300 = 0.24 | 63/63 = 1.00 | 113/300 = 0.38 | 70/76 = 0.92 | – |
+
+Further checks: the JCAMP-DX `nD NMR SPECTRUM` export of the `nmrxiv-s200` limonene HSQC
+gives a cross peak for each of limonene's 8 protonated carbons, and 10 of its 11 cross peaks
+with S/N ≥ 100 lie on a line of the same sample's 1H and 13C spectra (both JCAMP-DX, picked
+with the 1D picker). On non-uniformly sampled HSQCs the noise level from the maxima is 2 to
+3.9 times the run estimate; without it `nmrxiv-s853-5` gave 2972 cross peaks scattered over
+empty regions, with it 46. Synthetic spectra (unit tests) cover Lorentzian and Gaussian lines,
+negative and antiphase peaks, overlapping multiplets, t1 ridges, single-point spikes,
+magnitude-mode noise, diagonal symmetry, axial peaks, volumes and 3D.
+
+**Performance** (corpus profile, Apple M-series): 0.02–2.1 s per spectrum (1024 × 1024: about
+0.1–0.4 s; 2048 × 2048: 0.7–2.1 s; 1024 × 32768 DOSY: about 5 s), the matrix plus footprints in
+memory.
+
+**Known gaps (2D):** J-resolved and DOSY spectra are picked as any other 2D spectrum (F1 is
+not a chemical shift: J-resolved F1 is in Hz around 0, the DOSY F1 axis is a diffusion axis
+the reader labels in ppm). Spectra processed with symmetrization (TopSpin `syma`) are trivially
+symmetric. The streak and ridge flags mark likely artefacts but can mark a real weak cross peak
+on the line of a strong one. Cross peaks closer than `group_gap_hz` in every dimension are
+merged, so distinct correlations of nearly degenerate protons can come out as one cross peak
+with several maxima.
+
+### Vocabulary of the 2D code (`nmr/peaks2d.rs`, `nmr/source2d.rs`, `nmr/mod.rs`)
+
+| identifier | meaning |
+| --- | --- |
+| `CrossPeakOptions`, `min_snr`, `min_local_snr`, `ridge_ratio`, `min_footprint_points`, `min_height_fraction`, `min_prominence_snr`, `include_negative`, `ranges_ppm`, `max_peaks`, `group_gap_hz`, `group_gap_points`, `footprint_snr`, `ridge_factor`, `keep_ridge_peaks`, `diagonal_tolerance_hz`, `symmetry_tolerance_hz`, `list_maxima` | 2D picking options |
+| `CrossPeak`, `ppm`, `hz`, `apex_ppm`, `index`, `height`, `sign`, `snr`, `local_snr`, `width_hz`, `width_ppm`, `maxima`, `volume`, `absolute_volume`, `footprint_points`, `footprint_ppm`, `flags`, `symmetric_partner`, `partner_height_ratio`, `has` | one cross peak |
+| `PeakSign` { `Positive`, `Negative`, `Mixed` } | sign of a cross peak's members |
+| `PeakFlag` { `Diagonal`, `PartnerMissing`, `Ridge`, `Axial` } | annotations |
+| `Maximum`, `peak` | one member maximum |
+| `CrossPeakPick`, `maxima_count`, `ridge_suppressed`, `small_footprint_suppressed`, `run_noise_sd`, `maxima_noise_sd`, `MAXIMA_P90_RATIO`, `MAXIMA_P90_PER_DIMENSION`, `MAXIMA_P90_MAGNITUDE`, `pick_cross_peaks`, `matrix_noise_sd`, `NOISE_P25_SCALE`, `MAGNITUDE_NOISE_SCALE`, `MAX_FOOTPRINT_POINTS`, `MAX_DIMENSIONS` | picking result, entry point and limits |
+| `SpectrumContext`, `nuclei`, `carrier_points`, `homonuclear_pair`, `annotate` | annotations |
+| `VolumeIntegral`, `integrate_regions` | box integrals (`ranges_ppm`, `value`, `normalized`, `points`) |
+| `MatrixLayout`, `sweep_stride`, `matrix_layout`, `choose_matrix_trace`, `MatrixRequest`, `margin_points`, `max_points`, `DEFAULT_MAX_POINTS`, `StoredMatrix`, `data`, `full_shape`, `offsets`, `load_matrix` | reading a stored 2D/3D spectrum |
+| `FREQUENCY_RATIOS`, `frequency_ratio`, `normalize_nucleus` | nuclei and their frequency ratios Ξ |
+| `Nmr2dRequest`, `Nmr2dReport`, `homonuclear_dimensions`, `analyze_2d` | the 2D analysis entry point and its report (`path`, `format`, `source`, `trace`, `trace_name`, `nuclei`, `shape`, `axes`, `noise_sd`, `peak_options`, `peak_count`, `main_peak`, `peaks`, `integrals`, `notes`) |
+
+## 2D on the command line, MCP and previews (`analysis`, `slices2d`, `fid2d`)
+
+`analyze_peaks` (CLI `analyze nmr-peaks`, MCP `openreadout_nmr_peaks`, batch `nmr-peaks`)
+chooses the analysis from the data: a stored 2D/3D spectrum gives cross peaks (`analyze_2d`);
+`--sweep N` or `--slice SPEC` gives 1D peaks of one row, column or projection; a 2D FID with no
+stored spectrum, or `--from fid`, is transformed in every dimension (`fid_matrix`, which calls
+`load_processed_nd` with the per-dimension choices of `NdChoices`) and picked the same way
+(`source` `fid`, the `NdRecord` under `processing`). Pseudo-2D series (DOSY, relaxation) get 1D
+peaks of one row, with a note. The 2D request takes one range per dimension (`f1=A:B`; a range
+without a dimension is the direct one) and integration boxes with one range per dimension;
+negative peaks are on by default in 2D. `max_points` refusals name the flags that narrow the
+read (`too_many`). `NmrPeaksReport` is the report of either kind; `cross_peak_rows` and
+`integral_rows` flatten it for tables (`-o FILE`, batch).
+
+`NmrMatrixDataset` adds slices of a stored or processed 2D spectrum as traces (`SliceSpec`:
+`row:PPM`, `column:PPM`, `skyline|min|sum:f1|f2`) and its matrix as a long-form table
+(`f1_ppm`, `f2_ppm`, `intensity`; a J-resolved F1 is `f1_hz`), so `trace`, `export` and `plot`
+take them unchanged (`export_view` picks the matrix for CSV, Parquet and Arrow exports).
+`ProcessedNdDataset` (`--process`, `process_any`) shows a 2D FID as its processed matrix, or a
+series as one spectrum per row with `extra.series`. `read_pooled` reads a window of the plane
+row by row into cells that keep their largest and smallest value (max and min pooling, so a
+one-point line survives), with full-resolution skyline projections and a run noise estimate:
+the input of the contour previews. `dimension_axes` says what each axis measures: a chemical
+shift, a J-resolved coupling (same nucleus, F1 under 500 Hz wide, or a `jres` pulse program;
+shown in Hz) or the unit Bruker `AXUNIT` names (DOSY `log(m2/s)`). The stored-matrix slices
+here and `SpectrumNd::trace_at_ppm`/`projection` do the same arithmetic; the first reads rows
+lazily from a reader, the second works on a matrix already in memory.
+
+| identifier | meaning |
+| --- | --- |
+| `NmrPeaksReport`, `NmrPeaksRequest`, `sweep_given`, `direct_range`, `analyze_peaks`, `is_fid_nd`, `analyze_matrix`, `report_1d`, `cross_peak_rows`, `integral_rows`, `peak_rows`, `load_spectrum_row`, `pulse_program` | choosing and running the 1D or 2D analysis, and its rows |
+| `RangeArg`, `IntegrateArg`, `DimensionQuery`, `no_group_delay`, `peaks_request` | the query fields of `openreadout_nmr_peaks` |
+| `SliceSpec`, `SLICE_FORMS`, `ProjectionMethod`, `Slice`, `read_slice`, `source_trace`, `NmrMatrixDataset`, `slice_trace`, `with_matrix_table`, `matrix_table`, `ExportSelection`, `export_view`, `too_many` | slices, projections and the matrix table |
+| `PooledRequest`, `PooledView`, `cells`, `cols`, `cell_ppm`, `f1_projection`, `f2_projection`, `read_pooled` | the reduced view for drawing |
+| `DimensionAxis`, `quantity`, `is_shift`, `slug`, `unshow`, `dimension_axes` | what an axis measures |
+| `NdChoices`, `DimensionChoice`, `by_dimension`, `NUS_MODES`, `nus_mode`, `fid_matrix`, `ProcessedNdDataset`, `process_all`, `process_nd_dataset`, `process_any`, `has_fid_nd`, `is_series` | multidimensional FIDs on the 2D surface |

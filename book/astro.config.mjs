@@ -97,6 +97,7 @@ export default defineConfig({
             { label: "Chromatograms and peaks", slug: "guides/quantitation" },
             { label: "Plate-reader assays", slug: "guides/plate-analysis" },
             { label: "NMR processing", slug: "guides/nmr" },
+            { label: "2D NMR", slug: "guides/nmr-2d" },
             { label: "Electrophysiology", slug: "guides/ephys" },
             { label: "Batch tables and sample sheets", slug: "guides/batch" },
             { label: "Lab shares, indexes and live acquisitions", slug: "guides/lab-shares" },

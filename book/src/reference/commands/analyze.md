@@ -10,7 +10,7 @@ openreadout analyze <SUBCOMMAND> [OPTIONS] <FILE>...
 | --- | --- | --- | --- |
 | `peaks` | `openreadout_peaks` | detected and integrated peaks; bands and regions of spectra | [Quantitation](../../guides/quantitation.md) |
 | `chromatogram` | `openreadout_chromatogram` | TIC, BPC, XIC, SRM/MRM and stored detector traces | [Quantitation](../../guides/quantitation.md) |
-| `nmr-peaks` | `openreadout_nmr_peaks` | NMR peak list and integrals | [NMR](../../guides/nmr.md) |
+| `nmr-peaks` | `openreadout_nmr_peaks` | NMR peak list and integrals; cross peaks of 2D spectra | [NMR](../../guides/nmr.md), [2D NMR](../../guides/nmr-2d.md) |
 | `ephys-features` | `openreadout_ephys_features` | action potentials, rheobase, f–I curve, passive properties | [Electrophysiology](../../guides/ephys.md) |
 | `spikes` | `openreadout_spikes` | extracellular spike counts, rates and times | [Electrophysiology](../../guides/ephys.md) |
 | `qpcr` | `openreadout_qpcr` | Cq, Tm, ΔΔCq, standard curves | [qPCR formats](../../formats/qpcr.md) |
@@ -99,26 +99,33 @@ openreadout analyze peaks spectrum.0 --x-range 980:1060 --x-range 1350:1525
 openreadout analyze nmr-peaks [OPTIONS] <FILE>
 ```
 
-The input is a Bruker experiment directory, a Varian `.fid` directory, a JEOL `.jdf` or a JCAMP-DX NMR spectrum.
+The input is a Bruker experiment directory, a Varian `.fid` directory, a JEOL `.jdf` or a JCAMP-DX NMR spectrum. On a 2D or 3D spectrum it picks cross peaks instead of 1D peaks (see [2D NMR](../../guides/nmr-2d.md)); a 2D FID without a stored spectrum is transformed in every dimension first.
 
 - `--from auto|fid|processed`: use the vendor's processed spectrum, or process the FID here. `auto` prefers the stored spectrum.
 - `--trace N`: trace index. Default: chosen by `--from`.
-- `--sweep N`: row of a `ser` or arrayed FID to process. Default 0.
-- `--phase MODE`: `default`, `stored`, `auto`, `magnitude`, `none`, or `P0,P1` in degrees.
+- `--sweep N`: 1D peaks of one row: of a `ser` or arrayed FID (processed as a 1-D FID), or of a stored 2D spectrum.
+- `--slice SPEC`: 2D spectra: 1D peaks of a slice: `row:PPM`, `column:PPM`, `skyline:f1|f2`, `min:f1|f2` or `sum:f1|f2`.
+- `--phase MODE`: `default`, `stored`, `auto`, `magnitude`, `none`, or `P0,P1` in degrees. This and the next four take `fN=VALUE` for one dimension of a 2D FID (repeat the flag); a value without a dimension is the direct one.
 - `--lb HZ`: exponential line broadening. Default: stored, else 0.3 Hz for 1H and 1 Hz otherwise.
 - `--gb HZ`: Gaussian line width instead.
 - `--size N`: transform size in complex points (a power of two).
 - `--baseline MODE`: `default`, `none` or `poly:N`.
 - `--no-group-delay`: keep the digital-filter group delay.
+- `--nus MODE`: 2D FIDs sampled non-uniformly: `default` (reconstruct the missing increments), `zero-fill` or `ist[:ITERATIONS]`.
 - `--min-snr X`: minimum peak height in noise SDs. Default 10.
 - `--min-prominence X`: minimum prominence in noise SDs. Default 5.
 - `--min-height-fraction F`: minimum height as a fraction of the tallest point. Default 0.
-- `--negative`: also report negative peaks (DEPT, APT).
-- `--range-ppm A:B`: only pick peaks between two shifts, in ppm.
+- `--negative`: also report negative peaks (DEPT, APT). 2D spectra report them by default.
+- `--no-negative`: leave negative peaks out (2D).
+- `--range-ppm A:B`: only pick peaks between two shifts, in ppm. 2D: one per dimension, `--range-ppm f1=140:100 --range-ppm f2=8:6` (a bare `A:B` is F2); only that part of the spectrum is read.
 - `--max-peaks N`: keep at most this many peaks. Default 1000.
-- `--integrate A:B`: integrate a region in ppm. Repeatable.
+- `--integrate A:B`: integrate a region in ppm. Repeatable. 2D: a box, `f1=130:120,f2=7.5:7`.
 - `--auto-integrate`: without `--integrate`, integrate every multiplet (peaks closer than 15 Hz, with 10 Hz on each side).
 - `--integral-reference I=V`: normalize integrals so that region I equals V. Default `0=1`.
+- `-o FILE`, `--output FILE`: write the peak rows (2D: one row per cross peak, a column per dimension) to `.csv`, `.tsv`, `.jsonl` or `.parquet`; with `--integrate`, the integral rows.
+- `--plot FILE`: draw the spectrum with its peaks (`.png`, `.jpg`, `.svg`); a 2D spectrum as contours with the cross peaks numbered as `peaks[]` lists them. `--width N` sets its width (default 1200), `--overwrite` replaces existing files.
+
+2D picking options (defaults in [the method](../../guides/nmr.md#2d-and-nd-peak-picking-and-volume-integration-peaks2d-source2d-analyze_2d)): `--min-local-snr X`, `--min-footprint-points N`, `--group-gap-hz HZ`, `--group-gap-points N`, `--footprint-snr X`, `--ridge-factor X`, `--ridge-ratio X`, `--keep-ridge-peaks`, `--diagonal-tolerance-hz HZ`, `--symmetry-tolerance-hz HZ`, `--list-maxima`, and `--max-points N` (refuse to read more points; narrow the read with `--range-ppm` instead where you can).
 
 The `--process-*` flags of `trace`, `export` and `preview` take the same values as `--phase`, `--lb`, `--size` and `--baseline`.
 

@@ -242,22 +242,34 @@ pub(super) fn trace(
     show: Show,
 ) -> Result<Vec<Series>> {
     let (_, ds, info) = ctx.open(file)?;
-    let (mut ds, info): (Box<dyn Dataset>, _) = if spec.process {
-        let p = openreadout_signal::nmr::ProcessedNmrDataset::new(
+    let (ds, info): (Box<dyn Dataset>, _) = if spec.process {
+        let p = openreadout_signal::nmr::process_any(
             ds,
+            openreadout_signal::nmr::NdChoices::default(),
             openreadout_signal::nmr::ProcessOptions::default(),
         )?;
         let i = p.info()?;
-        (Box::new(p), i)
+        (p, i)
     } else {
         (ds, info)
+    };
+    // a slice of a 2D NMR spectrum reads as a trace of its own
+    let (mut ds, info, slice_trace) = match &spec.slice {
+        Some(s) => {
+            let sl = openreadout_signal::nmr::SliceSpec::parse(s)?;
+            let w = openreadout_signal::nmr::NmrMatrixDataset::new(ds, spec.trace, &[sl])?;
+            let t = w.slice_trace(0);
+            let i = w.info()?;
+            (Box::new(w) as Box<dyn Dataset>, i, t)
+        }
+        None => (ds, info, None),
     };
     if info.traces.is_empty() {
         return Err(usage(format!(
             "{file}: no traces (signals or 1-D spectra) to plot; mass spectra use show=chromatogram or spectrum, plates show=wells"
         )));
     }
-    let ti = match (spec.trace, show) {
+    let ti = match (slice_trace.or(spec.trace), show) {
         (Some(t), _) => t,
         (None, Show::Amplification) => pick_kind(
             &info,

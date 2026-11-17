@@ -354,6 +354,18 @@ fn numbered<T: Serialize>(key: &str, items: &[T], skip: &[&str]) -> Vec<Row> {
         .collect()
 }
 
+/// Rows from flat JSON objects, in order.
+fn maps(items: &[serde_json::Map<String, J>]) -> Vec<Row> {
+    items
+        .iter()
+        .map(|m| {
+            let mut r = Row::new();
+            flatten(&mut r, "", &J::Object(m.clone()), &[], 0);
+            r
+        })
+        .collect()
+}
+
 /// One row from one object.
 fn single<T: Serialize>(x: &T, skip: &[&str]) -> Row {
     records(std::slice::from_ref(x), skip)
@@ -443,6 +455,8 @@ impl Measure for AnalysisMeasure {
                 ColumnDoc::key("peak", "peak number, tallest-first as reported, from 0"),
                 ColumnDoc::key("region", "integration region, in the order given, from 0"),
                 ColumnDoc::unit("ppm", "ppm", "chemical shift"),
+                ColumnDoc::unit("f1_ppm", "ppm", "2D: cross-peak shift in F1 (f2_ppm in F2)"),
+                ColumnDoc::value("volume", "2D: cross-peak volume, intensity·ppm²"),
             ],
             "ephys-features" => vec![ColumnDoc::key("sweep", "sweep index, from 0")],
             "spikes" => vec![
@@ -540,10 +554,8 @@ impl Measure for AnalysisMeasure {
                     _ => records(&out.wells, &[]),
                 }
             }
-            Kind::Nmr(q) => {
-                let req = q.request()?;
-                let out = openreadout_signal::nmr::analyze(it.dataset, it.info, &req)?;
-                match rows {
+            Kind::Nmr(q) => match q.run(it.dataset, it.info)? {
+                openreadout_signal::nmr::NmrPeaksReport::Spectrum(out) => match rows {
                     "integral" => numbered("region", &out.integrals, &[]),
                     "spectrum" => vec![single(
                         &out,
@@ -559,8 +571,28 @@ impl Measure for AnalysisMeasure {
                         ],
                     )],
                     _ => numbered("peak", &out.peaks, &[]),
-                }
-            }
+                },
+                // a 2D/3D spectrum: one row per cross peak, with its position per dimension
+                openreadout_signal::nmr::NmrPeaksReport::CrossPeaks(out) => match rows {
+                    "integral" => maps(&out.integral_rows()),
+                    "spectrum" => vec![single(
+                        &out,
+                        &[
+                            "path",
+                            "format",
+                            "axes",
+                            "dimensions",
+                            "peak_options",
+                            "peaks",
+                            "maxima",
+                            "integrals",
+                            "notes",
+                            "main_peak",
+                        ],
+                    )],
+                    _ => maps(&out.cross_peak_rows()),
+                },
+            },
             Kind::Ephys(q) => {
                 let mut req = q.request()?;
                 if rows == "spike" && q.max_spikes.is_none() {

@@ -8,4 +8,5 @@ mod edge_cases;
 mod flow;
 mod mass_spec;
 mod microscopy;
+mod nmr2d;
 mod signals;

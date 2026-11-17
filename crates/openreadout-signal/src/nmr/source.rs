@@ -119,9 +119,9 @@ pub fn choose_trace(
     };
     pick.ok_or_else(|| {
         let what = match source {
-            SpectrumSource::Fid => "an FID (time-domain trace)",
-            SpectrumSource::Processed => "a processed spectrum",
-            SpectrumSource::Auto => "an FID or a processed spectrum",
+            SpectrumSource::Fid => "FID (time-domain trace)",
+            SpectrumSource::Processed => "processed spectrum",
+            SpectrumSource::Auto => "FID or processed spectrum",
         };
         Error::unsupported(
             "nmr-processing",
@@ -143,7 +143,24 @@ pub fn load_spectrum(
     info: &FileInfo,
     index: u32,
 ) -> Result<(Vec<f64>, PpmAxis)> {
+    load_spectrum_row(ds, info, index, 0)
+}
+
+/// [`load_spectrum`] for one sweep (row) of a stored spectrum: a row of a 2D spectrum is the
+/// direct-dimension spectrum at one indirect-dimension point.
+pub fn load_spectrum_row(
+    ds: &mut dyn Dataset,
+    info: &FileInfo,
+    index: u32,
+    sweep: u32,
+) -> Result<(Vec<f64>, PpmAxis)> {
     let t = trace(info, index)?;
+    if sweep >= t.sweep_count.max(1) {
+        return Err(Error::Usage(format!(
+            "sweep {sweep} out of range: trace {index} has {} sweeps (rows)",
+            t.sweep_count
+        )));
+    }
     let axis = spectrum_axis(t).ok_or_else(|| {
         Error::unsupported(
             "nmr-processing",
@@ -151,7 +168,7 @@ pub fn load_spectrum(
             "Pick a processed spectrum trace (see `openreadout info`).",
         )
     })?;
-    let mut ch = read_all(ds, t, 0)?;
+    let mut ch = read_all(ds, t, sweep)?;
     if ch.is_empty() {
         return Err(Error::corrupt(
             "nmr-processing",
@@ -229,6 +246,24 @@ pub fn jeol_group_delay(orders: &str, factors: &str) -> Option<f64> {
     Some(delay)
 }
 
+/// Bruker DSPFVS 11/12 firmware with a fractional group delay from the firmware's table (no
+/// `GRPDLY`): TopSpin's stored zero-order phase refers to a spectrum 180° away from the one
+/// processed here, so 180° is added to it (measured on nmrXiv s572 1D and 2D,
+/// docs/provenance/nmr-processing.md). Returns the firmware version when the rule applies.
+pub(crate) fn dspfvs_phase_flip(acqus: Option<&Value>, group_delay_points: f64) -> Option<i64> {
+    let acq = acqus?;
+    let fv = num(acq.get("DSPFVS")).unwrap_or(0.0) as i64;
+    let grp = num(acq.get("GRPDLY")).unwrap_or(-1.0);
+    (matches!(fv, 11 | 12) && grp < 0.0 && group_delay_points.fract() > 0.0).then_some(fv)
+}
+
+/// The note that goes with [`dspfvs_phase_flip`].
+pub(crate) fn dspfvs_note(fv: i64) -> String {
+    format!(
+        "DSPFVS {fv} firmware: 180° added to the stored direct-dimension phase (the convention measured on such data sets)"
+    )
+}
+
 /// Processing parameters of the FID trace `index`, from headers only (trace `extra` and the
 /// vendor parameter tree), plus notes about conventions that may not hold.
 pub fn fid_parameters(
@@ -304,11 +339,14 @@ pub fn fid_parameters(
             if me_mod != 0.0 {
                 notes.push(format!("the stored processing used linear prediction (ME_mod {me_mod}); it is not done here, so the spectrum differs from the vendor's at the start of the FID (broad baseline, first-point artefacts)"));
             }
-            (
-                sf.or(bf1),
-                extra_f64(&t, "group_delay_points").unwrap_or(0.0),
-                false,
-            )
+            let gd = extra_f64(&t, "group_delay_points").unwrap_or(0.0);
+            if let Some(fv) = dspfvs_phase_flip(acq, gd)
+                && let Some(p0) = stored.phase0_deg.as_mut()
+            {
+                *p0 += 180.0;
+                notes.push(dspfvs_note(fv));
+            }
+            (sf.or(bf1), gd, false)
         }
         "varian-nmr" => {
             let pp = vendor.get("procpar");
