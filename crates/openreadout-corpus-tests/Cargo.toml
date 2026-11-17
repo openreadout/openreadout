@@ -3,6 +3,7 @@ name = "openreadout-corpus-tests"
 description = "Tests that compare every OpenReadout reader with reference readers on the test corpus (not published)"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 publish = false
 license.workspace = true
 

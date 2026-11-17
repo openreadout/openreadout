@@ -30,7 +30,7 @@ pub fn export_excludes_flagged_peaks(export_software: &[Vec<String>]) -> bool {
             })
     });
     trfp || export_software.iter().any(|s| {
-        let name = s.first().map_or_default(String::as_str);
+        let name = s.first().map(String::as_str).unwrap_or_default();
         let pwiz = s
             .iter()
             .any(|x| x == "pwiz" || x == "ProteoWizard" || x == "ProteoWizard software")
